@@ -81,18 +81,16 @@ Firecrow.ASTHelper =
         try
         {
             if(this.isStatement(astElement)
-            || this.isFunctionDeclaration(astElement))
+            || this.isFunctionDeclaration(astElement)
+            || this.isVariableDeclaration(astElement))
             {
                 processSourceElementFunction(astElement);
             }
 
-            if(this.isProgram(astElement))
+            if(this.isProgram(astElement)
+            || this.isBlockStatement(astElement))
             {
-                this.traverseArrayOfDirectStatements(astElement.elements, processSourceElementFunction);
-            }
-            else if (this.isBlockStatement(astElement))
-            {
-                this.traverseArrayOfDirectStatements(astElement.body, processSourceElementFunction);
+                this.traverseArrayOfDirectStatements(astElement.body, astElement, processSourceElementFunction);
             }
             else if (this.isIfStatement(astElement))
             {
@@ -114,7 +112,7 @@ Firecrow.ASTHelper =
             {
                 astElement.cases.forEach(function(switchCase)
                 {
-                    this.traverseArrayOfDirectStatements(switchCase.consequent, processSourceElementFunction);
+                    this.traverseArrayOfDirectStatements(switchCase.consequent, astElement, processSourceElementFunction);
                 }, this);
             }
             else if(this.isTryStatement(astElement))
@@ -138,17 +136,16 @@ Firecrow.ASTHelper =
         catch(e) { alert("Error while traversing direct source elements in ASTHelper: " + e); }
     },
 
-    traverseArrayOfDirectStatements: function(statements, processStatementFunction)
+    traverseArrayOfDirectStatements: function(statements, parentElement, processSourceElementFunction )
     {
         try
         {
             statements.forEach(function(statement)
             {
-                processSourceElementFunction(statement);
-                this.traverseDirectSourceElements(statement, processStatementFunction);
+                this.traverseDirectSourceElements(statement, processSourceElementFunction);
             }, this);
         }
-        catch(e) { alert("Error while traversing direct statements: " + e);}
+        catch(e) { alert("Error while traversing direct statements: " + e + " for " + JSON.stringify(parentElement));}
     },
 
     isElementOfType: function(element, type)
@@ -164,32 +161,32 @@ Firecrow.ASTHelper =
                                : false;
     },
 
-    isProgram: function(element) { return this.isElementOfType(element, CONST.Program); },
-    isFunctionDeclaration: function(element) { return this.isElementOfType(element, CONST.FunctionDeclaration); },
-    isVariableDeclaration: function(element) { return this.isElementOfType(element, CONST.VariableDeclaration); },
-    isVariableDeclarator: function(element) { return this.isElementOfType(element, CONST.VariableDeclarator); },
-    isSwitchCase: function(element) { return this.isElementOfType(element, CONST.SwitchCase); },
-    isCatchCase: function(element) { return this.isElementOfType(element, CONST.CatchClause); },
-    isIdentifier: function(element) { return this.isElementOfType(element, CONST.Identifier); },
-    isLiteral: function(element) { return this.isElementOfType(element, CONST.Literal); },
+    isProgram: function(element) { return this.isElementOfType(element, this.CONST.Program); },
+    isFunctionDeclaration: function(element) { return this.isElementOfType(element, this.CONST.FunctionDeclaration); },
+    isVariableDeclaration: function(element) { return this.isElementOfType(element, this.CONST.VariableDeclaration); },
+    isVariableDeclarator: function(element) { return this.isElementOfType(element, this.CONST.VariableDeclarator); },
+    isSwitchCase: function(element) { return this.isElementOfType(element, this.CONST.SwitchCase); },
+    isCatchCase: function(element) { return this.isElementOfType(element, this.CONST.CatchClause); },
+    isIdentifier: function(element) { return this.isElementOfType(element, this.CONST.Identifier); },
+    isLiteral: function(element) { return this.isElementOfType(element, this.CONST.Literal); },
 
     isStatement: function(element)
     {
         return element != null ? this.CONST.STATEMENT[element.type] != null
             : false;
     },
-    isEmptyStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.EmptyStatement); },
-    isBlockStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.BlockStatement); },
-    isExpressionStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ExpressionStatement); },
-    isIfStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.IfStatement); },
-    isLabeledStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.LabeledStatement); },
-    isBreakStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.BreakStatement); },
-    isContinueStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ContinueStatement); },
-    isWithStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.WithStatement); },
-    isSwitchStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.SwitchStatement); },
-    isReturnStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ReturnStatement); },
-    isThrowStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ThrowStatement); },
-    isTryStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.TryStatement); },
+    isEmptyStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.EmptyStatement); },
+    isBlockStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.BlockStatement); },
+    isExpressionStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.ExpressionStatement); },
+    isIfStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.IfStatement); },
+    isLabeledStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.LabeledStatement); },
+    isBreakStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.BreakStatement); },
+    isContinueStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.ContinueStatement); },
+    isWithStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.WithStatement); },
+    isSwitchStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.SwitchStatement); },
+    isReturnStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.ReturnStatement); },
+    isThrowStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.ThrowStatement); },
+    isTryStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.TryStatement); },
 
     isLoopStatement: function(element)
     {
@@ -199,37 +196,37 @@ Firecrow.ASTHelper =
             || this.isForInStatement(element);
     },
 
-    isWhileStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.WhileStatement); },
-    isDoWhileStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.DoWhileStatement); },
-    isForStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ForStatement); },
-    isForInStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ForInStatement); },
-    isLetStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.LetStatement); },
-    isDebuggerStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.DebuggerStatement); },
+    isWhileStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.WhileStatement); },
+    isDoWhileStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.DoWhileStatement); },
+    isForStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.ForStatement); },
+    isForInStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.ForInStatement); },
+    isLetStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.LetStatement); },
+    isDebuggerStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.DebuggerStatement); },
 
-    isThisExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ThisExpression); },
-    isArrayExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ArrayExpression); },
-    isObjectExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ObjectExpression); },
-    isFunctionExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.FunctionExpression); },
-    isSequenceExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.SequenceExpression); },
-    isUnaryExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.UnaryExpression); },
-    isBinaryExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.BinaryExpression); },
-    isAssignmentExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.AssignmentExpression); },
-    isUpdateExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.UpdateExpression); },
-    isLogicalExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.LogicalExpression); },
-    isConditionalExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ConditionalExpression); },
-    isNewExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.NewExpression); },
-    isCallExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.CallExpression); },
-    isMemberExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.MemberExpression); },
-    isYieldExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.YieldExpression); },
-    isComprehensionExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ComprehensionExpression); },
-    isGeneratorExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.GeneratorExpression); },
-    isLetExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.LetExpression); },
+    isThisExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.ThisExpression); },
+    isArrayExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.ArrayExpression); },
+    isObjectExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.ObjectExpression); },
+    isFunctionExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.FunctionExpression); },
+    isSequenceExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.SequenceExpression); },
+    isUnaryExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.UnaryExpression); },
+    isBinaryExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.BinaryExpression); },
+    isAssignmentExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.AssignmentExpression); },
+    isUpdateExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.UpdateExpression); },
+    isLogicalExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.LogicalExpression); },
+    isConditionalExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.ConditionalExpression); },
+    isNewExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.NewExpression); },
+    isCallExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.CallExpression); },
+    isMemberExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.MemberExpression); },
+    isYieldExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.YieldExpression); },
+    isComprehensionExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.ComprehensionExpression); },
+    isGeneratorExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.GeneratorExpression); },
+    isLetExpression: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.LetExpression); },
 
-    isUnaryOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.UnaryOperator); },
-    isBinaryOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.BinaryOperator); },
-    isAssignmentOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.AssignmentOperator); },
-    isUpdateOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.UpdateOperator); },
-    isLogicalOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.LogicalOperator); },
+    isUnaryOperator: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.UnaryOperator); },
+    isBinaryOperator: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.BinaryOperator); },
+    isAssignmentOperator: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.AssignmentOperator); },
+    isUpdateOperator: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.UpdateOperator); },
+    isLogicalOperator: function(element) { return this.isElementOfType(element, this.CONST.EXPRESSION.LogicalOperator); },
 
     CONST :
     {
