@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="chrome://Firecrow/content/initFBL.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/helpers/valueTypeHelper.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/helpers/java/LiveConnectUtils.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/helpers/java/JavaInvoker.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/helpers/ASTHelper.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/helpers/fileHelper.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/helpers/htmlHelper.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/helpers/fbHelper.js" type="application/x-javascript"/>
+
+  <script src="chrome://Firecrow/content/interpreter/CommandGenerator.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/jsRecorder/jsRecorder.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/Firecrow.js" type="application/x-javascript"/>
+  
+  <commandset id="mainCommandSet">
+	<command id="cmd_FirecrowButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowButtonPress()"/>
+  </commandset>
+  
+  
+  <toolbar id="fbToolbar" align="center">
+    <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center">
+       <hbox id="fbHTMLButtons" collapsed="false">
+         <toolbarbutton id="fiButton" class="toolbar-text-button" label="Record" tooltiptext="Start execution recording process" command="cmd_FirecrowButtonPress"/>
+      </hbox>
+    </hbox>
+  </toolbar>
+  
+  <vbox hidden="false" height="0">
+		<iframe type="content" src="" name="fdHiddenIFrame" hidden="false" id="fdHiddenIFrame" height="0"/>
+  </vbox>
+</overlay>
