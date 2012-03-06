@@ -1,0 +1,1 @@
+interface Node { type: string; loc: SourceLocation | null; }
