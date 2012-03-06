@@ -76,6 +76,81 @@ Firecrow.ASTHelper =
 		catch(e) { alert("Error while traversing AST in ASTHelper: " + e); }
 	},
 
+    traverseDirectSourceElements: function(astElement, processSourceElementFunction)
+    {
+        try
+        {
+            if(this.isStatement(astElement)
+            || this.isFunctionDeclaration(astElement))
+            {
+                processSourceElementFunction(astElement);
+            }
+
+            if(this.isProgram(astElement))
+            {
+                this.traverseArrayOfDirectStatements(astElement.elements, processSourceElementFunction);
+            }
+            else if (this.isBlockStatement(astElement))
+            {
+                this.traverseArrayOfDirectStatements(astElement.body, processSourceElementFunction);
+            }
+            else if (this.isIfStatement(astElement))
+            {
+                this.traverseDirectSourceElements(astElement.consequent, processSourceElementFunction);
+
+                if(astElement.alternate != null)
+                {
+                    this.traverseDirectSourceElements(astElement.alternate, processSourceElementFunction);
+                }
+            }
+            else if (this.isLabeledStatement(astElement)
+                  || this.isWithStatement(astElement)
+                  || this.isLoopStatement(astElement)
+                  || this.isLetStatement(astElement))
+            {
+                this.traverseDirectSourceElements(astElement.body, processSourceElementFunction);
+            }
+            else if (this.isSwitchStatement(astElement))
+            {
+                astElement.cases.forEach(function(switchCase)
+                {
+                    this.traverseArrayOfDirectStatements(switchCase.consequent, processSourceElementFunction);
+                }, this);
+            }
+            else if(this.isTryStatement(astElement))
+            {
+                this.traverseDirectSourceElements(astElement.block, processSourceElementFunction);
+                astElement.handlers.forEach(function(catchClause)
+                {
+                    this.traverseDirectSourceElements(catchClause.body, processSourceElementFunction);
+                }, this);
+                if(astElement.finalizer != null)
+                {
+                    this.traverseDirectSourceElements(astElement.finalizer, processSourceElementFunction);
+                }
+            }
+            else if (this.isBreakStatement(astElement)
+                  || this.isContinueStatement(astElement)
+                  || this.isReturnStatement(astElement)
+                  || this.isThrowStatement(astElement)
+                  || this.isDebuggerStatement(astElement)) { }
+        }
+        catch(e) { alert("Error while traversing direct source elements in ASTHelper: " + e); }
+    },
+
+    traverseArrayOfDirectStatements: function(statements, processStatementFunction)
+    {
+        try
+        {
+            statements.forEach(function(statement)
+            {
+                processSourceElementFunction(statement);
+                this.traverseDirectSourceElements(statement, processStatementFunction);
+            }, this);
+        }
+        catch(e) { alert("Error while traversing direct statements: " + e);}
+    },
+
     isElementOfType: function(element, type)
     {
         if(element == null) { return false; }
@@ -115,6 +190,15 @@ Firecrow.ASTHelper =
     isReturnStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ReturnStatement); },
     isThrowStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ThrowStatement); },
     isTryStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.TryStatement); },
+
+    isLoopStatement: function(element)
+    {
+        return this.isWhileStatement(element)
+            || this.isDoWhileStatement(element)
+            || this.isForStatement(element)
+            || this.isForInStatement(element);
+    },
+
     isWhileStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.WhileStatement); },
     isDoWhileStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.DoWhileStatement); },
     isForStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ForStatement); },
@@ -122,6 +206,30 @@ Firecrow.ASTHelper =
     isLetStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.LetStatement); },
     isDebuggerStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.DebuggerStatement); },
 
+    isThisExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ThisExpression); },
+    isArrayExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ArrayExpression); },
+    isObjectExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ObjectExpression); },
+    isFunctionExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.FunctionExpression); },
+    isSequenceExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.SequenceExpression); },
+    isUnaryExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.UnaryExpression); },
+    isBinaryExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.BinaryExpression); },
+    isAssignmentExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.AssignmentExpression); },
+    isUpdateExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.UpdateExpression); },
+    isLogicalExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.LogicalExpression); },
+    isConditionalExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ConditionalExpression); },
+    isNewExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.NewExpression); },
+    isCallExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.CallExpression); },
+    isMemberExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.MemberExpression); },
+    isYieldExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.YieldExpression); },
+    isComprehensionExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.ComprehensionExpression); },
+    isGeneratorExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.GeneratorExpression); },
+    isLetExpression: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.LetExpression); },
+
+    isUnaryOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.UnaryOperator); },
+    isBinaryOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.BinaryOperator); },
+    isAssignmentOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.AssignmentOperator); },
+    isUpdateOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.UpdateOperator); },
+    isLogicalOperator: function(element) { return this.isElementOfType(element, CONST.EXPRESSION.LogicalOperator); },
 
     CONST :
     {
