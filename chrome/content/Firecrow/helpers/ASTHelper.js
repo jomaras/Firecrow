@@ -74,7 +74,116 @@ Firecrow.ASTHelper =
 		    }
 		}
 		catch(e) { alert("Error while traversing AST in ASTHelper: " + e); }
-	}
+	},
+
+    isElementOfType: function(element, type)
+    {
+        if(element == null) { return false; }
+
+        return element.type === type;
+    },
+
+    isExpression: function(element)
+    {
+        return element != null ? this.CONST.EXPRESSION[element.type] != null
+                               : false;
+    },
+
+    isProgram: function(element) { return this.isElementOfType(element, CONST.Program); },
+    isFunctionDeclaration: function(element) { return this.isElementOfType(element, CONST.FunctionDeclaration); },
+    isVariableDeclaration: function(element) { return this.isElementOfType(element, CONST.VariableDeclaration); },
+    isVariableDeclarator: function(element) { return this.isElementOfType(element, CONST.VariableDeclarator); },
+    isSwitchCase: function(element) { return this.isElementOfType(element, CONST.SwitchCase); },
+    isCatchCase: function(element) { return this.isElementOfType(element, CONST.CatchClause); },
+    isIdentifier: function(element) { return this.isElementOfType(element, CONST.Identifier); },
+    isLiteral: function(element) { return this.isElementOfType(element, CONST.Literal); },
+
+    isStatement: function(element)
+    {
+        return element != null ? this.CONST.STATEMENT[element.type] != null
+            : false;
+    },
+    isEmptyStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.EmptyStatement); },
+    isBlockStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.BlockStatement); },
+    isExpressionStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ExpressionStatement); },
+    isIfStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.IfStatement); },
+    isLabeledStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.LabeledStatement); },
+    isBreakStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.BreakStatement); },
+    isContinueStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ContinueStatement); },
+    isWithStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.WithStatement); },
+    isSwitchStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.SwitchStatement); },
+    isReturnStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ReturnStatement); },
+    isThrowStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ThrowStatement); },
+    isTryStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.TryStatement); },
+    isWhileStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.WhileStatement); },
+    isDoWhileStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.DoWhileStatement); },
+    isForStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ForStatement); },
+    isForInStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.ForInStatement); },
+    isLetStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.LetStatement); },
+    isDebuggerStatement: function(element) { return this.isElementOfType(element, CONST.STATEMENT.DebuggerStatement); },
+
+
+    CONST :
+    {
+        Program: "Program",
+        FunctionDeclaration: "FunctionDeclaration",
+        VariableDeclaration: "VariableDeclaration",
+        VariableDeclarator: "VariableDeclarator",
+        SwitchCase: "SwitchCase",
+        CatchClause: "CatchClause",
+        Identifier: "Identifier",
+        Literal: "Literal",
+        STATEMENT:
+        {
+            EmptyStatement: "EmptyStatement",
+            BlockStatement: "BlockStatement",
+            ExpressionStatement : "ExpressionStatement",
+            IfStatement: "IfStatement",
+            LabeledStatement: "LabeledStatement",
+            BreakStatement: "BreakStatement",
+            ContinueStatement: "ContinueStatement",
+            WithStatement: "WithStatement",
+            SwitchStatement: "SwitchStatement",
+            ReturnStatement: "ReturnStatement",
+            ThrowStatement: "ThrowStatement",
+            TryStatement: "TryStatement",
+            WhileStatement: "WhileStatement",
+            DoWhileStatement: "DoWhileStatement",
+            ForStatement: "ForStatement",
+            ForInStatement: "ForInStatement",
+            LetStatement: "LetStatement",
+            DebuggerStatement: "DebuggerStatement"
+        },
+        EXPRESSION:
+        {
+            ThisExpression : "ThisExpression",
+            ArrayExpression: "ArrayExpression",
+            ObjectExpression: "ObjectExpression",
+            FunctionExpression: "FunctionExpression",
+            SequenceExpression: "SequenceExpression",
+            UnaryExpression: "UnaryExpression",
+            BinaryExpression: "BinaryExpression",
+            AssignmentExpression: "AssignmentExpression",
+            UpdateExpression: "UpdateExpression",
+            LogicalExpression: "LogicalExpression",
+            ConditionalExpression: "ConditionalExpression",
+            NewExpression: "NewExpression",
+            CallExpression: "CallExpression",
+            MemberExpression: "MemberExpression",
+            YieldExpression: "YieldExpression",
+            ComprehensionExpression: "ComprehensionExpression",
+            GeneratorExpression: "GeneratorExpression",
+            LetExpression: "LetExpression"
+        },
+        OPERATOR:
+        {
+            UnaryOperator : "UnaryOperator",
+            BinaryOperator: "BinaryOperator",
+            AssignmentOperator: "AssignmentOperator",
+            UpdateOperator: "UpdateOperator",
+            LogicalOperator: "LogicalOperator"
+        }
+    }
 };
 
 /******/
