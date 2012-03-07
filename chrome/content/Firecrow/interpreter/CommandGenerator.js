@@ -915,7 +915,609 @@ Firecrow.CommandGenerator =
 
     generateExpressionCommands: function(sourceElement, parentFunctionCommand)
     {
+        if(astHelper.isThisExpression(sourceElement))
+        {
+            return this.generateThisCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isIdentifier(sourceElement))
+        {
+            return this.generateIdentifierCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isLiteral(sourceElement))
+        {
+            return this.generateLiteralCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isArrayExpression(sourceElement))
+        {
+            return this.generateArrayExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isObjectExpression(sourceElement))
+        {
+            return this.generateObjectExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isFunctionExpression(sourceElement))
+        {
+            return this.generateFunctionExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isSequenceExpression(sourceElement))
+        {
+            return this.generateSequenceExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isUnaryExpression(sourceElement))
+        {
+            return this.generateUnaryExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isBinaryExpression(sourceElement))
+        {
+            return this.generateBinaryExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isAssignmentExpression(sourceElement))
+        {
+            return this.generateAssignmentExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isUpdateExpression(sourceElement))
+        {
+            return this.generateUpdateExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if(astHelper.isLogicalExpression(sourceElement))
+        {
+            return this.generateLogicalExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isConditionalExpression(sourceElement))
+        {
+            return this.generateConditionalExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isNewExpression(sourceElement))
+        {
+            return this.generateNewExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isCallExpression(sourceElement))
+        {
+            return this.generateCallExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if (astHelper.isMemberExpression(sourceElement))
+        {
+            return this.generateMemberExpressionCommands(sourceElement, parentFunctionCommand);
+        }
+        else if(astHelper.isYieldExpression(sourceElement)
+            ||  astHelper.isComprehensionExpression(sourceElement)
+            ||  astHelper.isGeneratorExpression(sourceElement)
+            ||  astHelper.isLetExpression(sourceElement))
+        {
+            alert("Yield, Comprehnsion, Generator and Let not yet implemented!");
+        }
+    },
+
+    generateThisCommands: function(sourceElement, parentFunctionCommand)
+    {
         var commands = [];
+
+        try
+        {
+            if(!astHelper.isThisExpression(sourceElement))
+            {
+                alert("Source element is not a this expression!");
+                return commands;
+            }
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.ThisExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating this commands:" + e);}
+
+        return commands;
+    },
+
+    generateIdentifierCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isIdentifier(sourceElement))
+            {
+                alert("Source element is not an identifier!");
+                return commands;
+            }
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalIdentifier,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating identifier commands:" + e);}
+
+        return commands;
+    },
+
+    generateLiteralCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isLiteral(sourceElement))
+            {
+                alert("Source element is not a literal!");
+                return commands;
+            }
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalLiteral,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating identifier commands:" + e);}
+
+        return commands;
+    },
+
+    generateArrayExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isArrayExpression(sourceElement))
+            {
+                alert("Source element is not an array expression!");
+                return commands;
+            }
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.StartArrayExpression,
+                parentFunctionCommand
+            ));
+
+            sourceElement.elements.forEach(function(item)
+            {
+                if(item != null)
+                {
+                    ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(item, parentFunctionCommand));
+                }
+
+                commands.push(new Firecrow.Command
+                (
+                    item,
+                    Firecrow.Command.COMMAND_TYPE.ArrayExpressionItemCreation,
+                    parentFunctionCommand
+                ));
+            }, this);
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EndArrayExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating array expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateObjectExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isObjectExpression(sourceElement))
+            {
+                alert("Source element is not an object expression!");
+                return commands;
+            }
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.StartObjectExpression,
+                parentFunctionCommand
+            ));
+
+            sourceElement.properties.forEach(function(property)
+            {
+                ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(property.value));
+
+                if(property.kind == "get" || property.kind == "set") { alert("Getters and setters not supported!"); }
+
+                commands.push(new Firecrow.Command
+                (
+                    property,
+                    Firecrow.Command.COMMAND_TYPE.ObjectPropertyCreation,
+                    parentFunctionCommand
+                ));
+            }, this);
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EndObjectExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating object expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateFunctionExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isFunctionExpression(sourceElement))
+            {
+                alert("Source element is not a function expression!");
+                return commands;
+            }
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.FunctionExpressionCreation,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating function expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateSequenceExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isSequenceExpression(sourceElement))
+            {
+                alert("Source element is not a sequence expression!");
+                return commands;
+            }
+
+            sourceElement.expressions.forEach(function(expression)
+            {
+                ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(expression, parentFunctionCommand));
+            }, this);
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.SequenceExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating sequence expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateUnaryExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isUnaryExpression(sourceElement))
+            {
+                alert("Source element is not a unary expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.argument, parentFunctionCommand));
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalUnaryExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating unary expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateBinaryExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isBinaryExpression(sourceElement))
+            {
+                alert("Source element is not a binary expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalBinaryExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating binary expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateAssignmentExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isAssignmentExpression(sourceElement))
+            {
+                alert("Source element is not an assignment expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
+
+            commands.push(Firecrow.Command.CreateAssignmentCommand
+            (
+                sourceElement,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating assignment expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateUpdateExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isUpdateExpression(sourceElement))
+            {
+                alert("Source element is not an update expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.argument, parentFunctionCommand));
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalUpdateExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating update expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateLogicalExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isLogicalExpression(sourceElement))
+            {
+                alert("Source element is not a logical expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalLogicalExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating logical expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateConditionalExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isConditionalExpression(sourceElement))
+            {
+                alert("Source element is not a conditional expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.ExecuteConditionalExpressionBody,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating conditional expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateConditionalExpressionExecuteBodyCommands: function(executeConditionalExpressionBodyCommand, willConsequentBeExecuted)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!executeConditionalExpressionBodyCommand.isExecuteConditionalExpressionBodyCommand(executeConditionalExpressionBodyCommand))
+            {
+                alert("Source element is not an execute conditional expression body command!");
+                return commands;
+            }
+
+            var evalConditionalExpressionCommand = new Firecrow.Command
+            (
+                executeConditionalExpressionBodyCommand.codeConstruct,
+                Firecrow.Command.COMMAND_TYPE.EvalConditionalExpression,
+                executeConditionalExpressionBodyCommand.codeConstruct.parentFunctionCommand
+            );
+
+            if(willConsequentBeExecuted)
+            {
+                ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+                (
+                    executeConditionalExpressionBodyCommand.codeConstruct.consequent,
+                    executeConditionalExpressionBodyCommand.parentFunctionCommand
+                ));
+                evalConditionalExpressionCommand.body = executeConditionalExpressionBodyCommand.codeConstruct.consequent;
+            }
+            else
+            {
+                ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+                (
+                    executeConditionalExpressionBodyCommand.codeConstruct.alternate,
+                    executeConditionalExpressionBodyCommand.parentFunctionCommand
+                ));
+
+                evalConditionalExpressionCommand.body = executeConditionalExpressionBodyCommand.codeConstruct.alternate;
+            }
+
+            commands.push(evalConditionalExpressionCommand);
+        }
+        catch(e) { alert("Error while generating conditional expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateNewExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isNewExpression(sourceElement))
+            {
+                alert("Source element is not a new expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+            (
+                sourceElement.constructor,
+                parentFunctionCommand
+            ));
+
+            if(sourceElement.arguments != null)
+            {
+                sourceElement.arguments.forEach(function(argument)
+                {
+                    ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+                    (
+                        argument,
+                        parentFunctionCommand
+                    ));
+                }, this);
+            }
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalNewExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating new expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateCallExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isCallExpression(sourceElement))
+            {
+                alert("Source element is not a call expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+            (
+                sourceElement.callee,
+                parentFunctionCommand
+            ));
+
+            if(sourceElement.arguments != null)
+            {
+                sourceElement.arguments.forEach(function(argument)
+                {
+                    ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+                    (
+                        argument,
+                        parentFunctionCommand
+                    ));
+                }, this);
+            }
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalCallExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating call expression commands:" + e);}
+
+        return commands;
+    },
+
+    generateMemberExpressionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(!astHelper.isMemberExpression(sourceElement))
+            {
+                alert("Source element is not a member expression!");
+                return commands;
+            }
+
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+            (
+                sourceElement.object,
+                parentFunctionCommand
+            ));
+
+            commands.push(new Firecrow.Command
+            (
+                sourceElement,
+                Firecrow.Command.COMMAND_TYPE.EvalMemberExpression,
+                parentFunctionCommand
+            ));
+        }
+        catch(e) { alert("Error while generating member expression commands:" + e);}
 
         return commands;
     },
@@ -974,6 +1576,8 @@ Firecrow.Command.prototype =
     isDoWhileStatementCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.DoWhileStatement; },
     isForStatementCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.ForStatement; },
     isForInWhereCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalForInWhere; },
+
+    isExecuteConditionalExpressionBodyCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.ExecuteConditionalExpressionBody; },
     toString: function() { return this.id + ":" + this.type + "@" + this.codeConstruct.loc.start.line; }
 };
 
@@ -1032,7 +1636,9 @@ Firecrow.Command.COMMAND_TYPE =
 
     StartForInStatement: "StartForInStatement",
     EndForInStatement: "EndForInStatement",
-    EvalForInWhere: "EvalForInWhere"
+    EvalForInWhere: "EvalForInWhere",
+
+    ExecuteConditionalExpressionBody: "ExecuteConditionalExpressionBody"
 };
 
 /*************************************************************************************/
