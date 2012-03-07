@@ -164,6 +164,18 @@ Firecrow.ValueTypeHelper =
     	
     	return array;
     },
+
+    pushAll: function(baseArray, arrayWithItems)
+    {
+        try
+        {
+            arrayWithItems.forEach(function (item)
+            {
+                baseArray.push(item);
+            });
+        }
+        catch(e) { alert("Error while pushing all in ValueTypeHelper:" + e); }
+    },
     
     trim: function(str, chars) 
     {

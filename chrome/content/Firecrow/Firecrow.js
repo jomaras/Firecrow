@@ -57,9 +57,16 @@ FBL.ns(function() { with (FBL) {
 //												  : this.stopRecording());
 //			}
 //			catch(e) { alert("Record button clicking error " + e);
-			//var scriptPaths = fbHelper.getScriptsPathsAndModels();
-            alert(JSON.stringify(CommandGenerator.generateCommands(ASTHelper.parseSourceCodeToAST("var a = 3;\n a = 4; a++; function test(){ var a = 3;} test();\n for(var i = 0, j = 0; i < 10; i++) \n{\n var c = 3;\n}", "", 1))));
+			var scriptsPathAndModels = fbHelper.getScriptsPathsAndModels();
+            alert(CommandGenerator.toString(CommandGenerator.generateCommands(scriptsPathAndModels[0].model)));
 		},
+
+        onFirecrowASTButtonPress: function()
+        {
+            var code = prompt("Enter source code");
+
+            alert(JSON.stringify(ASTHelper.parseSourceCodeToAST(code).body));
+        },
 		
 		scheduleRecording: function()
 		{

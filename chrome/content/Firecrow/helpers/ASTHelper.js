@@ -54,21 +54,29 @@ Firecrow.ASTHelper =
 
 			for(var propName in astElement)
 		    {
-		        var propertyValue = astElement[propName];
-		        
-		        processElementFunction(propertyValue, propName, astElement);
-		        
+                //Do not traverse the source code location properties
+                //and parents!
+                if(propName == "loc"
+                || propName == "parent") { continue; }
+
+                var propertyValue = astElement[propName];
+
 		        if(propertyValue == null) { continue; }
-		        
+
 		        if(ValueTypeHelper.isArray(propertyValue))
 		        {
 		            for(var i = 0; i < propertyValue.length; i++)
 		            {
-		            	this.traverseAst(propertyValue[i], processElementFunction);
+                        if(ValueTypeHelper.isObject(propertyValue[i]))
+                        {
+                            processElementFunction(propertyValue[i], propName, astElement);
+                            this.traverseAst(propertyValue[i], processElementFunction);
+                        }
 		            }
 		        }
 		        else if (ValueTypeHelper.isObject(propertyValue))
 		        {
+                    processElementFunction(propertyValue, propName, astElement);
 		        	this.traverseAst(propertyValue, processElementFunction);
 		        }
 		    }
@@ -76,7 +84,7 @@ Firecrow.ASTHelper =
 		catch(e) { alert("Error while traversing AST in ASTHelper: " + e); }
 	},
 
-    traverseDirectSourceElements: function(astElement, processSourceElementFunction)
+    traverseDirectSourceElements: function(astElement, processSourceElementFunction, enterBranchAndLoops)
     {
         try
         {
@@ -90,41 +98,58 @@ Firecrow.ASTHelper =
             if(this.isProgram(astElement)
             || this.isBlockStatement(astElement))
             {
-                this.traverseArrayOfDirectStatements(astElement.body, astElement, processSourceElementFunction);
+                this.traverseArrayOfDirectStatements(astElement.body, astElement, processSourceElementFunction, enterBranchAndLoops);
             }
             else if (this.isIfStatement(astElement))
             {
-                this.traverseDirectSourceElements(astElement.consequent, processSourceElementFunction);
-
-                if(astElement.alternate != null)
+                if(enterBranchAndLoops)
                 {
-                    this.traverseDirectSourceElements(astElement.alternate, processSourceElementFunction);
+                    this.traverseDirectSourceElements(astElement.consequent, processSourceElementFunction, enterBranchAndLoops);
+
+                    if(astElement.alternate != null)
+                    {
+                        this.traverseDirectSourceElements(astElement.alternate, processSourceElementFunction, enterBranchAndLoops);
+                    }
                 }
             }
             else if (this.isLabeledStatement(astElement)
-                  || this.isWithStatement(astElement)
-                  || this.isLoopStatement(astElement)
                   || this.isLetStatement(astElement))
             {
-                this.traverseDirectSourceElements(astElement.body, processSourceElementFunction);
+                this.traverseDirectSourceElements(astElement.body, processSourceElementFunction, enterBranchAndLoops);
+            }
+            else if (this.isLoopStatement(astElement)
+                  || this.isWithStatement(astElement))
+            {
+                if(enterBranchAndLoops)
+                {
+                    this.traverseDirectSourceElements(astElement.body, processSourceElementFunction, enterBranchAndLoops);
+                }
             }
             else if (this.isSwitchStatement(astElement))
             {
-                astElement.cases.forEach(function(switchCase)
+                if(enterBranchAndLoops)
                 {
-                    this.traverseArrayOfDirectStatements(switchCase.consequent, astElement, processSourceElementFunction);
-                }, this);
+                    astElement.cases.forEach(function(switchCase)
+                    {
+                        this.traverseArrayOfDirectStatements(switchCase.consequent, astElement, processSourceElementFunction, enterBranchAndLoops);
+                    }, this);
+                }
             }
             else if(this.isTryStatement(astElement))
             {
-                this.traverseDirectSourceElements(astElement.block, processSourceElementFunction);
-                astElement.handlers.forEach(function(catchClause)
+                if(enterBranchAndLoops)
                 {
-                    this.traverseDirectSourceElements(catchClause.body, processSourceElementFunction);
-                }, this);
+                    this.traverseDirectSourceElements(astElement.block, processSourceElementFunction, enterBranchAndLoops);
+
+                    astElement.handlers.forEach(function(catchClause)
+                    {
+                        this.traverseDirectSourceElements(catchClause.body, processSourceElementFunction, enterBranchAndLoops);
+                    }, this);
+                }
+
                 if(astElement.finalizer != null)
                 {
-                    this.traverseDirectSourceElements(astElement.finalizer, processSourceElementFunction);
+                    this.traverseDirectSourceElements(astElement.finalizer, processSourceElementFunction, enterBranchAndLoops);
                 }
             }
             else if (this.isBreakStatement(astElement)
@@ -136,13 +161,13 @@ Firecrow.ASTHelper =
         catch(e) { alert("Error while traversing direct source elements in ASTHelper: " + e); }
     },
 
-    traverseArrayOfDirectStatements: function(statements, parentElement, processSourceElementFunction )
+    traverseArrayOfDirectStatements: function(statements, parentElement, processSourceElementFunction, enterBranchAndLoops)
     {
         try
         {
             statements.forEach(function(statement)
             {
-                this.traverseDirectSourceElements(statement, processSourceElementFunction);
+                this.traverseDirectSourceElements(statement, processSourceElementFunction, enterBranchAndLoops);
             }, this);
         }
         catch(e) { alert("Error while traversing direct statements: " + e + " for " + JSON.stringify(parentElement));}

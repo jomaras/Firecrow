@@ -15,6 +15,7 @@
   
   <commandset id="mainCommandSet">
 	<command id="cmd_FirecrowButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowButtonPress()"/>
+    <command id="cmd_FirecrowASTButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowASTButtonPress()"/>
   </commandset>
   
   
@@ -22,6 +23,7 @@
     <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center">
        <hbox id="fbHTMLButtons" collapsed="false">
          <toolbarbutton id="fiButton" class="toolbar-text-button" label="Record" tooltiptext="Start execution recording process" command="cmd_FirecrowButtonPress"/>
+         <toolbarbutton id="modelButton" class="toolbar-text-button" label="AST" tooltiptext="Get code AST" command="cmd_FirecrowASTButtonPress"/>
       </hbox>
     </hbox>
   </toolbar>

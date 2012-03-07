@@ -4,7 +4,10 @@
     <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/CommandGenerator.js" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -45,28 +48,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommandGenerator.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Firecrow.xul" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="82" selection-start="1309" selection-end="1309" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CommandGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/CommandGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="0" selection-start="1187" selection-end="1187" vertical-scroll-proportion="0.0">
+            <state line="9" column="0" selection-start="245" selection-end="245" vertical-scroll-proportion="0.17832167">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Firecrow.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
+      <file leaf-file-name="fbHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="37" selection-start="1962" selection-end="1962" vertical-scroll-proportion="0.47262773">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="13" selection-start="4758" selection-end="4758" vertical-scroll-proportion="0.0">
+            <state line="97" column="17" selection-start="2751" selection-end="2751" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -89,10 +92,12 @@
     <option name="UPDATE_CHANGES_POLICY" value="STASH" />
     <option name="LINE_SEPARATORS_CONVERSION" value="ASK" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome.manifest" />
         <option value="$PROJECT_DIR$/chrome/content/FireInspector/initFBL.js" />
         <option value="$PROJECT_DIR$/chrome/content/FireInspector/Firecrow.xul" />
         <option value="$PROJECT_DIR$/chrome/content/FireInspector/Firecrow.js" />
@@ -101,22 +106,39 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js" />
         <option value="$PROJECT_DIR$/General notes/Firefox AST syntax.txt" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/CommandGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="x" value="1358" />
+    <option name="y" value="-290" />
+    <option name="width" value="1696" />
+    <option name="height" value="1066" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>CSS</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -176,6 +198,54 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -183,9 +253,9 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="fileTemplates" />
-    <property name="options.searchVisible" value="true" />
+    <property name="options.lastSelected" value="preferences.editor" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
@@ -245,14 +315,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="1358" y="-290" width="1696" height="1066" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15629742" sideWeight="0.67070484" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.118872546" sideWeight="0.67070484" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -302,7 +372,7 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Statement traversal complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="Generating declaration commands" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -320,6 +390,7 @@
     <MESSAGE value="Started creating a file with interfaces to the AST generated by the Firefox&#10;" />
     <MESSAGE value="Adding Node recognition to ASTHelper" />
     <MESSAGE value="Statement traversal complete" />
+    <MESSAGE value="Generating declaration commands" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -350,16 +421,6 @@
         <state line="33" column="50" selection-start="874" selection-end="874" vertical-scroll-proportion="-1.1541096" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="17" selection-start="333" selection-end="333" vertical-scroll-proportion="0.26198632" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="53" selection-start="473" selection-end="473" vertical-scroll-proportion="0.61130136" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="91" column="0" selection-start="2838" selection-end="2838" vertical-scroll-proportion="0.0" />
@@ -370,21 +431,42 @@
         <state line="32" column="53" selection-start="1530" selection-end="1530" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="96" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0" />
+        <state line="1" column="0" selection-start="30" selection-end="103" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/CommandGenerator.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1187" selection-end="1187" vertical-scroll-proportion="0.0">
+        <state line="97" column="17" selection-start="2751" selection-end="2751" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="9" selection-start="686" selection-end="686" vertical-scroll-proportion="-1.3103058">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="69" selection-start="3976" selection-end="3976" vertical-scroll-proportion="0.52548134">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="13" selection-start="4758" selection-end="4758" vertical-scroll-proportion="0.0">
+        <state line="270" column="12" selection-start="13297" selection-end="13297" vertical-scroll-proportion="0.33295584">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/ECMAScript.js2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="200" column="25" selection-start="8772" selection-end="8772" vertical-scroll-proportion="0.33295584">
           <folding />
         </state>
       </provider>
@@ -394,14 +476,16 @@
         <state line="29" column="12" selection-start="854" selection-end="854" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="30" selection-end="103" vertical-scroll-proportion="0.0" />
+        <state line="16" column="82" selection-start="1309" selection-end="1309" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/CommandGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="37" selection-start="1962" selection-end="1962" vertical-scroll-proportion="0.47262773">
+        <state line="9" column="0" selection-start="245" selection-end="245" vertical-scroll-proportion="0.17832167">
           <folding />
         </state>
       </provider>

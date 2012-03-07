@@ -65,8 +65,8 @@ Firecrow.fbHelper =
 	    	var currentPageUrl = document.baseURI;
 	    	var currentPageContent = fileHelper.getFileContentFromUrl(currentPageUrl);
 	    	var currentScriptIndex = 0;
-	    	
-	    	valueTypeHelper.convertToArray(document.querySelectorAll("script")).forEach(function(scriptElement)
+
+            valueTypeHelper.convertToArray(document.querySelectorAll("script")).forEach(function(scriptElement)
 	    	{
 	    		if(scriptElement.src == "")
 	    		{
@@ -108,7 +108,19 @@ Firecrow.fbHelper =
 	        		});
 	    		}
 	    	});
-	    	
+
+            //Set parent child relationship for each element
+            returnValue.forEach(function(scriptModel)
+            {
+                astHelper.traverseAst(scriptModel, function(currentElement, elementName, parentElement)
+                {
+                    if(valueTypeHelper.isObject(currentElement))
+                    {
+                        currentElement.parent = parentElement;
+                    }
+                });
+            });
+
 	    	return returnValue;
     	}
     	catch(e) { alert("An error has occured while trying to get script paths and models: " + e);}
