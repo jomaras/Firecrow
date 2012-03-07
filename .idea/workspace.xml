@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/CommandGenerator.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -376,7 +375,7 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs when generating command for statements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished with generating expression commands" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -397,6 +396,7 @@
     <MESSAGE value="Generating declaration commands" />
     <MESSAGE value="Generating statement execution commands" />
     <MESSAGE value="Fixed bugs when generating command for statements" />
+    <MESSAGE value="Finished with generating expression commands" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
