@@ -131,7 +131,13 @@ Firecrow.ASTHelper =
                 {
                     astElement.cases.forEach(function(switchCase)
                     {
-                        this.traverseArrayOfDirectStatements(switchCase.consequent, astElement, processSourceElementFunction, enterBranchAndLoops);
+                        this.traverseArrayOfDirectStatements
+                        (
+                            switchCase.consequent,
+                            astElement,
+                            processSourceElementFunction,
+                            enterBranchAndLoops
+                        );
                     }, this);
                 }
             }
