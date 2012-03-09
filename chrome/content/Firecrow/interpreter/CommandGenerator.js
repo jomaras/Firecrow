@@ -25,7 +25,11 @@ Firecrow.CommandGenerator =
                 program,
                 function(sourceElement)
                 {
-                    ValueTypeHelper.pushAll(declarationCommands, Firecrow.CommandGenerator.generateDeclarationCommands(sourceElement));
+                    ValueTypeHelper.pushAll
+                    (
+                        declarationCommands,
+                        Firecrow.CommandGenerator.generateDeclarationCommands(sourceElement)
+                    );
                 },
                 true
             );
@@ -35,7 +39,11 @@ Firecrow.CommandGenerator =
                 program,
                 function(sourceElement)
                 {
-                    ValueTypeHelper.pushAll(executionCommands, Firecrow.CommandGenerator.generateExecutionCommands(sourceElement, null));
+                    ValueTypeHelper.pushAll
+                    (
+                        executionCommands,
+                        Firecrow.CommandGenerator.generateExecutionCommands(sourceElement, null)
+                    );
                 },
                 false
             );
@@ -246,13 +254,13 @@ Firecrow.CommandGenerator =
         return commands;
     },
 
-    generateIfStatementBodyCommands: function(sourceElement, conditionEvaluationResult, parentFunctionCommand)
+    generateIfStatementBodyCommands: function(ifStatementCommand, conditionEvaluationResult, parentFunctionCommand)
     {
         var commands = [];
 
         try
         {
-            if(!astHelper.isIfStatement(sourceElement))
+            if(!ifStatementCommand.isIfStatementCommand())
             {
                 alert("Source element is not if statement when generating commands");
                 return [];
@@ -262,7 +270,7 @@ Firecrow.CommandGenerator =
             {
                 astHelper.traverseDirectSourceElements
                 (
-                    sourceElement.consequent,
+                    ifStatementCommand.codeConstruct.consequent,
                     function(sourceElement)
                     {
                         ValueTypeHelper.pushAll(commands, Firecrow.CommandGenerator.generateExecutionCommands(sourceElement, parentFunctionCommand));
@@ -276,7 +284,7 @@ Firecrow.CommandGenerator =
                 {
                     astHelper.traverseDirectSourceElements
                     (
-                        sourceElement.alternate,
+                        ifStatementCommand.codeConstruct.alternate,
                         function(sourceElement)
                         {
                             ValueTypeHelper.pushAll(commands, Firecrow.CommandGenerator.generateExecutionCommands(sourceElement, parentFunctionCommand));
@@ -324,7 +332,7 @@ Firecrow.CommandGenerator =
 
             if(sourceElement.label != null) { alert("Not handling break with labels!"); return commands; }
 
-            commands.push(new Firecrow.Command(sourceElement, Firecrow.Command.COMMAND_TYPE.BreakStatement, parentFunctionCommand));
+            commands.push(new Firecrow.Command(sourceElement, Firecrow.Command.COMMAND_TYPE.EvalBreak, parentFunctionCommand));
         }
         catch(e) { alert("Error when generating break statement commands:" + e);}
 
@@ -345,7 +353,7 @@ Firecrow.CommandGenerator =
 
             if(sourceElement.label != null) { alert("Not handling continue with labels!"); return commands; }
 
-            commands.push(new Firecrow.Command(sourceElement, Firecrow.Command.COMMAND_TYPE.ContinueStatement, parentFunctionCommand));
+            commands.push(new Firecrow.Command(sourceElement, Firecrow.Command.COMMAND_TYPE.EvalContinue, parentFunctionCommand));
         }
         catch(e) { alert("Error when generating continue statement commands:" + e);}
 
@@ -553,11 +561,7 @@ Firecrow.CommandGenerator =
 
         try
         {
-            if(!astHelper.isTryStatement(sourceElement))
-            {
-                alert("Source element is not a try statement when generating commands");
-                return;
-            }
+            if(!astHelper.isTryStatement(sourceElement)) { alert("Source element is not a try statement when generating commands"); return commands; }
 
             var startTryCommand = new Firecrow.Command(sourceElement, Firecrow.Command.COMMAND_TYPE.StartTryStatement, parentFunctionCommand);
             commands.push(startTryCommand);
@@ -567,9 +571,7 @@ Firecrow.CommandGenerator =
                 sourceElement.block,
                 function(sourceElement)
                 {
-                    var blockCommands = Firecrow.CommandGenerator.generateExecutionCommands(sourceElement, parentFunctionCommand);
-                    blockCommands.forEach(function(command) { command.tryBlock = startTryCommand; })
-                    ValueTypeHelper.pushAll(commands, blockCommands);
+                    ValueTypeHelper.pushAll(commands, Firecrow.CommandGenerator.generateExecutionCommands(sourceElement, parentFunctionCommand));
                 },
                 false
             );
@@ -580,6 +582,70 @@ Firecrow.CommandGenerator =
             commands.push(endTryCommand);
         }
         catch(e) { alert("Error when generating try statement commands:" + e);}
+
+        return commands;
+    },
+
+    generateCatchStatementExecutionCommands: function(tryCommand)
+    {
+        var commands = [];
+
+        try
+        {
+            if(tryCommand.isTryStatementCommand()) { alert("Command is not a try command"); return commands; }
+
+            var tryStatement = tryCommand.codeConstruct;
+
+            if(tryStatement.handlers.length > 1) { alert("Not handling more than "); return commands; }
+
+            var catchElement = tryStatement.handlers[0];
+
+            commands.push(new Firecrow.Command
+            (
+                catchElement,
+                Firecrow.Command.COMMAND_TYPE.StartCatchStatement,
+                tryCommand.parentFunctionCommand
+            ));
+
+            astHelper.traverseDirectSourceElements
+            (
+                catchElement,
+                function(sourceElement)
+                {
+                    ValueTypeHelper.pushAll(commands, Firecrow.CommandGenerator.generateExecutionCommands
+                    (
+                        sourceElement,
+                        tryCommand.parentFunctionCommand
+                    ));
+                },
+                false
+            );
+
+            commands.push(new Firecrow.Command
+            (
+                catchElement,
+                Firecrow.Command.COMMAND_TYPE.EndCatchStatement,
+                tryCommand.parentFunctionCommand
+            ));
+
+            if(tryStatement.finalizer != null)
+            {
+                astHelper.traverseDirectSourceElements
+                (
+                    tryStatement.finalizer,
+                    function(sourceElement)
+                    {
+                        ValueTypeHelper.pushAll(commands, Firecrow.CommandGenerator.generateExecutionCommands
+                        (
+                            sourceElement,
+                            tryCommand.parentFunctionCommand
+                        ));
+                    },
+                    false
+                );
+            }
+        }
+        catch(e) { alert("Error when generating catch statement commands: " + e); }
 
         return commands;
     },
@@ -792,9 +858,23 @@ Firecrow.CommandGenerator =
 
                 if(forStatementCommand.codeConstruct.update != null)
                 {
+                    commands.push(new Firecrow.Command
+                    (
+                        forStatementCommand.codeConstruct.update,
+                        Firecrow.Command.COMMAND_TYPE.StartForStatementUpdate,
+                        forStatementCommand.parentFunctionCommand
+                    ));
+
                     ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
                     (
                         forStatementCommand.codeConstruct.update,
+                        forStatementCommand.parentFunctionCommand
+                    ));
+
+                    commands.push(new Firecrow.Command
+                    (
+                        forStatementCommand.codeConstruct.update,
+                        Firecrow.Command.COMMAND_TYPE.EndForStatementUpdate,
                         forStatementCommand.parentFunctionCommand
                     ));
                 }
@@ -1322,7 +1402,10 @@ Firecrow.CommandGenerator =
             }
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
+            commands.push(new Firecrow.Command(sourceElement.left, Firecrow.Command.COMMAND_TYPE.EvalLogicalExpressionItem, parentFunctionCommand));
+
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
+            commands.push(new Firecrow.Command(sourceElement.right, Firecrow.Command.COMMAND_TYPE.EvalLogicalExpressionItem, parentFunctionCommand));
 
             commands.push(new Firecrow.Command
             (
@@ -1368,7 +1451,7 @@ Firecrow.CommandGenerator =
 
         try
         {
-            if(!executeConditionalExpressionBodyCommand.isExecuteConditionalExpressionBodyCommand(executeConditionalExpressionBodyCommand))
+            if(!executeConditionalExpressionBodyCommand.isConditionalExpressionBodyCommand(executeConditionalExpressionBodyCommand))
             {
                 alert("Source element is not an execute conditional expression body command!");
                 return commands;
@@ -1534,6 +1617,16 @@ Firecrow.Command = function(codeConstruct, type, parentFunctionCommand)
     this.codeConstruct = codeConstruct;
     this.type = type;
     this.parentFunctionCommand = parentFunctionCommand;
+
+    this.removesCommands = this.isEvalReturnExpressionCommand()
+                        || this.isBreakCommand() || this.isContinueCommand()
+                        || this.isEvalThrowCommand() || this.isEvalLogicalExpressionItemCommand()
+                        || this.isCaseCommand();
+
+    this.generatesNewCommands = this.isEvalThrowCommand() || this.isEvalCallbackFunctionCommand()
+                            ||  this.isEvalNewExpression() || this.isEvalCallExpression()
+                            ||  this.isLoopStatementCommand() || this.isIfStatementCommand()
+                            ||  this.isConditionalExpressionBodyCommand() || this.isCaseCommand();
 };
 
 Firecrow.Command.CreateAssignmentCommand = function(codeConstruct, parentFunctionCommand)
@@ -1572,12 +1665,45 @@ Firecrow.Command.LAST_COMMAND_ID = 0;
 Firecrow.Command.prototype =
 {
     isCaseCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.Case; },
+
+    isIfStatementCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.IfStatement; },
+
+    isLoopStatementCommand: function()
+    {
+        return this.isWhileStatement() || this.isDoWhileStatement()
+            || this.isForStatementCommand() || this.isForInWhereCommand();
+    },
+
     isWhileStatementCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.WhileStatement; },
     isDoWhileStatementCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.DoWhileStatement; },
+
     isForStatementCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.ForStatement; },
+    isForStatementStartUpdateCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.StartForStatementUpdate; },
     isForInWhereCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalForInWhere; },
 
-    isExecuteConditionalExpressionBodyCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.ExecuteConditionalExpressionBody; },
+    isStartTryStatementCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.StartTryStatement; },
+    isEndTryStatementCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EndTryStatement; },
+    isTryStatementCommand: function() { return this.isStartTryStatementCommand() || this.isEndTryStatementCommand();},
+
+    isConditionalExpressionBodyCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.ExecuteConditionalExpressionBody; },
+
+    isEvalReturnExpressionCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalReturnExpression; },
+    isReturnFromFunctionCallCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.ReturnFromFunctionCall; },
+    isEvalLogicalExpressionItemCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalLogicalExpressionItem; },
+
+    isEvalCallbackFunctionCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalCallbackFunctionCommand; },
+
+    isEvalNewExpression: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalNewExpression; },
+    isEvalCallExpression: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalCallExpression; },
+
+    isBreakCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalBreak; },
+    isContinueCommand: function() { return this.type == Firecrow.Command.COMMAND_TYPE.EvalContinue; },
+    isEvalThrowCommand: function() { return this.type = Firecrow.Command.COMMAND_TYPE.EvalThrowExpression; },
+
+    getLineNo: function()
+    {
+        return this.codeConstruct != null && this.codeConstruct.loc != null ? this.codeConstruct.loc.start.line : -1;
+    },
     toString: function() { return this.id + ":" + this.type + "@" + this.codeConstruct.loc.start.line; }
 };
 
@@ -1617,13 +1743,22 @@ Firecrow.Command.COMMAND_TYPE =
     EvalBinaryExpression: "EvalBinaryExpression",
     EvalAssignmentExpression: "EvalAssignmentExpression",
     EvalUpdateExpression: "EvalUpdateExpression",
+
+    EvalBreak: "EvalBreak",
+    EvalContinue: "EvalContinue",
+
+    EvalCallbackFunctionCommand: "EvalCallbackFunctionCommand",
+
     EvalLogicalExpression: "EvalLogicalExpression",
+    EvalLogicalExpressionItem: "EvalLogicalExpressionItem",
+
     EvalConditionalExpression: "EvalConditionalExpression",
     EvalNewExpression: "EvalNewExpression",
     EvalCallExpression: "EvalCallExpression",
     EvalMemberExpression: "EvalMemberExpression",
 
     EvalReturnExpression: "EvalReturnExpression",
+    ReturnFromFunctionCall: "ReturnFromFunctionCall",
     EvalThrowExpression: "EvalThrowExpression",
 
     EvalIdentifier: "EvalIdentifier",
@@ -1632,7 +1767,11 @@ Firecrow.Command.COMMAND_TYPE =
     IfStatement: "IfStatement",
     WhileStatement: "WhileStatement",
     DoWhileStatement: "DoWhileStatement",
+
     ForStatement: "ForStatement",
+
+    StartForStatementUpdate: "StartForStatementUpdate",
+    EndForStatementUpdate: "EndForStatementUpdate",
 
     StartForInStatement: "StartForInStatement",
     EndForInStatement: "EndForInStatement",

@@ -9,7 +9,10 @@
   <script src="chrome://Firecrow/content/helpers/htmlHelper.js" type="application/x-javascript"/>
   <script src="chrome://Firecrow/content/helpers/fbHelper.js" type="application/x-javascript"/>
 
+  <script src="chrome://Firecrow/content/interpreter/model/PrototypeInitializer.js" type="application/x-javascript"/>
   <script src="chrome://Firecrow/content/interpreter/CommandGenerator.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/interpreter/ExecutionContextStack.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/interpreter/InterpreterSimulator.js" type="application/x-javascript"/>
   <script src="chrome://Firecrow/content/jsRecorder/jsRecorder.js" type="application/x-javascript"/>
   <script src="chrome://Firecrow/content/Firecrow.js" type="application/x-javascript"/>
   

@@ -179,6 +179,70 @@ Firecrow.ASTHelper =
         catch(e) { alert("Error while traversing direct statements: " + e + " for " + JSON.stringify(parentElement));}
     },
 
+    getParentOfTypes: function(codeConstruct, types)
+    {
+        var parent = codeConstruct.parent;
+
+        while(parent != null)
+        {
+            for(var i = 0; i < types.length; i++)
+            {
+                if(parent.type === types[i]) { return parent; }
+            }
+
+            parent = parent.parent;
+        }
+
+        return parent;
+    },
+
+    getFunctionParent: function(codeConstruct)
+    {
+        return this.getParentOfTypes
+        (
+            codeConstruct,
+            [ Firecrow.Command.COMMAND_TYPE.FunctionDeclaration, Firecrow.Command.COMMAND_TYPE.FunctionExpression ]
+        );
+    },
+
+    getLoopOrSwitchParent: function(codeConstruct)
+    {
+        return this.getParentOfTypes
+        (
+            codeConstruct,
+            [
+                Firecrow.Command.COMMAND_TYPE.ForStatement,
+                Firecrow.Command.COMMAND_TYPE.ForInStatement,
+                Firecrow.Command.COMMAND_TYPE.WhileStatement,
+                Firecrow.Command.COMMAND_TYPE.DoWhileStatement,
+                Firecrow.Command.COMMAND_TYPE.SwitchStatement
+            ]
+        );
+    },
+
+    getLoopParent: function(codeConstruct)
+    {
+        return this.getParentOfTypes
+        (
+            codeConstruct,
+            [
+                Firecrow.Command.COMMAND_TYPE.ForStatement,
+                Firecrow.Command.COMMAND_TYPE.ForInStatement,
+                Firecrow.Command.COMMAND_TYPE.WhileStatement,
+                Firecrow.Command.COMMAND_TYPE.DoWhileStatement,
+            ]
+        );
+    },
+
+    getSwitchParent: function(codeConstruct)
+    {
+        return this.getParentOfTypes
+        (
+            codeConstruct,
+            [ Firecrow.Command.COMMAND_TYPE.SwitchStatement ]
+        );
+    },
+
     isElementOfType: function(element, type)
     {
         if(element == null) { return false; }

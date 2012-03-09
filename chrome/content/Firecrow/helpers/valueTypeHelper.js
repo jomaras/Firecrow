@@ -165,6 +165,48 @@ Firecrow.ValueTypeHelper =
     	return array;
     },
 
+    removeFromArrayByElement:function(array, element)
+    {
+        try
+        {
+            var elementIndex = array.indexOf(element);
+            return this.removeFromArrayByIndex(array, elementIndex);
+        }
+        catch(e) { alert("Error while removing elements from array by element: " + e);}
+    },
+
+    removeFromArrayByIndex:function(array, index)
+    {
+        try
+        {
+            if(index < 0 || index >= array.length) { alert("Index out of range when removing array in ValueTypeHelper"); return; }
+
+            return array.splice(index, 1);
+        }
+        catch(e) { alert("Error while removing elements from array by index: " + e);}
+    },
+
+    insertIntoArrayAtIndex: function(array, element, index)
+    {
+      try
+      {
+          array.splice(index, 0, element);
+      }
+      catch(e) { alert("Error occured when inserting into array in ValueTypeHelper:" + e); }
+    },
+
+    insertElementsIntoArrayAtIndex: function(array, elements, index)
+    {
+        try
+        {
+            elements.forEach(function(element)
+            {
+                this.insertIntoArrayAtIndex(array, element, index++);
+            });
+        }
+        catch(e) { alert("Error when inserting elements into array: " + e);}
+    },
+
     pushAll: function(baseArray, arrayWithItems)
     {
         try
