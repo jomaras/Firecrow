@@ -4,5 +4,15 @@ if(FBL == undefined) { FBL = {}; FBL.ns = function(namespaceFunction){};}
 
 FBL.ns(function () { with (FBL)
 {
-    Firecrow = {};
+    Firecrow = {
+        Interpreter:
+        {
+            Commands : null,
+            Simulator: null,
+            Model: {
+                Internals: null
+            },
+            Internals: null
+        }
+    };
 }});

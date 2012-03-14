@@ -207,6 +207,15 @@ Firecrow.ValueTypeHelper =
         catch(e) { alert("Error when inserting elements into array: " + e);}
     },
 
+    createArrayCopy: function(array)
+    {
+        try
+        {
+            return array.slice();
+        }
+        catch(e) { alert("Error when Creating array copy - ValueTypeHelper:" + e);}
+    },
+
     pushAll: function(baseArray, arrayWithItems)
     {
         try
@@ -217,6 +226,25 @@ Firecrow.ValueTypeHelper =
             });
         }
         catch(e) { alert("Error while pushing all in ValueTypeHelper:" + e); }
+    },
+
+    findInArray: function(array, searchForItem, checkFunction)
+    {
+        try
+        {
+            for(var i = 0; i < array.length; i++)
+            {
+                var currentItem = array[i];
+
+                if(checkFunction(currentItem, searchForItem))
+                {
+                    return currentItem;
+                }
+            }
+
+            return null;
+        }
+        catch(e) { alert("Error while finding in array: " + e); }
     },
     
     trim: function(str, chars) 
