@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/General notes/Firefox AST syntax.txt" afterPath="$PROJECT_DIR$/General notes/Firefox AST syntax.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,7 +27,7 @@
       <file leaf-file-name="data.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/data.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="0" selection-start="26663" selection-end="26663" vertical-scroll-proportion="0.7246544">
+            <state line="13" column="60" selection-start="170" selection-end="170" vertical-scroll-proportion="0.2546083">
               <folding />
             </state>
           </provider>
@@ -57,7 +54,7 @@
       <file leaf-file-name="valueTypeHelper.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="218" column="11" selection-start="5150" selection-end="5157" vertical-scroll-proportion="0.0">
+            <state line="24" column="4" selection-start="508" selection-end="517" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -66,7 +63,7 @@
       <file leaf-file-name="Firefox AST syntax.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/General notes/Firefox AST syntax.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="182" column="16" selection-start="7363" selection-end="7369" vertical-scroll-proportion="-16.84">
+            <state line="182" column="16" selection-start="7363" selection-end="7369" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -75,7 +72,7 @@
       <file leaf-file-name="jsonParse.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jsonVisualizer/jsonParse.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="180" selection-start="3335" selection-end="3335" vertical-scroll-proportion="-17.68">
+            <state line="101" column="180" selection-start="3335" selection-end="3335" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -184,20 +181,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Firecrow">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -356,6 +339,20 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Firecrow">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -421,7 +418,11 @@
       <created>1335952779724</created>
       <updated>1335952779724</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added more tests">
+      <created>1335956845651</created>
+      <updated>1335956845651</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -461,23 +462,23 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32764506" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27111384" sideWeight="0.67108166" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27036813" sideWeight="0.67108166" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32764506" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -518,7 +519,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementing InterpreterSimulator - working on removing and adding command depending on need." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more tests" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -542,6 +543,7 @@
     <MESSAGE value="Fixed bugs when generating command for statements" />
     <MESSAGE value="Finished with generating expression commands" />
     <MESSAGE value="Implementing InterpreterSimulator - working on removing and adding command depending on need." />
+    <MESSAGE value="Added more tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -564,16 +566,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="114" selection-start="144" selection-end="144" vertical-scroll-proportion="0.019296255">
-          <folding />
-        </state>
+        <state line="1" column="114" selection-start="144" selection-end="144" vertical-scroll-proportion="0.019296255" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jsonVisualizer/json-min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="46" selection-start="1860" selection-end="1860" vertical-scroll-proportion="0.39170507">
-          <folding />
-        </state>
+        <state line="20" column="46" selection-start="1860" selection-end="1860" vertical-scroll-proportion="0.39170507" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jsonVisualizer/images/min.gif">
@@ -583,72 +581,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="206" column="50" selection-start="10556" selection-end="10556" vertical-scroll-proportion="-140.08">
-          <folding />
-        </state>
+        <state line="206" column="50" selection-start="10556" selection-end="10556" vertical-scroll-proportion="-140.08" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jsonVisualizer/BubbleTooltips.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="21" selection-start="1856" selection-end="1857" vertical-scroll-proportion="0.44392523">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
+        <state line="68" column="21" selection-start="1856" selection-end="1857" vertical-scroll-proportion="0.44392523" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jsonVisualizer/bt.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="32" selection-start="158" selection-end="158" vertical-scroll-proportion="0.03859251">
-          <folding />
-        </state>
+        <state line="2" column="32" selection-start="158" selection-end="158" vertical-scroll-proportion="0.03859251" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debugCommands.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="4" selection-start="660" selection-end="660" vertical-scroll-proportion="-0.25263157">
+        <state line="33" column="4" selection-start="660" selection-end="660" vertical-scroll-proportion="-0.25263157" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1606" column="68" selection-start="55572" selection-end="55572" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="36" selection-start="369" selection-end="369" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="4" selection-start="508" selection-end="517" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/General notes/Firefox AST syntax.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="16" selection-start="7363" selection-end="7369" vertical-scroll-proportion="-16.84">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="218" column="11" selection-start="5150" selection-end="5157" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="182" column="16" selection-start="7363" selection-end="7369" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jsonVisualizer/jsonParse.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="180" selection-start="3335" selection-end="3335" vertical-scroll-proportion="-17.68">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="36" selection-start="369" selection-end="369" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1606" column="68" selection-start="55572" selection-end="55572" vertical-scroll-proportion="0.0">
+        <state line="101" column="180" selection-start="3335" selection-end="3335" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/data.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="0" selection-start="26663" selection-end="26663" vertical-scroll-proportion="0.7246544">
+        <state line="13" column="60" selection-start="170" selection-end="170" vertical-scroll-proportion="0.2546083">
           <folding />
         </state>
       </provider>
