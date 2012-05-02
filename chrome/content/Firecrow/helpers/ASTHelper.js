@@ -12,10 +12,10 @@ FBL.ns(function () { with (FBL) {
                 Components.utils.import("resource://gre/modules/reflect.jsm");
 
                 return Reflect.parse
-                    (
-                        sourceCode,
-                        { loc:true, source: sourceCodePath, line: startLine }
-                    );
+                (
+                    sourceCode,
+                    { loc:true, source: sourceCodePath, line: startLine }
+                );
             }
             catch(e) { alert("Error while getting AST from source code@" + sourceCodePath + "; error: " + sourceCodePath); }
         },

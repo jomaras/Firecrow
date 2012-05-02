@@ -758,7 +758,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             if(!astHelper.isDoWhileStatement(sourceElement)) { alert("Source element is not a dowhile statement when generating commands"); return; }
 
-
             ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands(sourceElement.body, parentFunctionCommand));
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
@@ -1525,7 +1524,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
             (
-                sourceElement.constructor,
+                sourceElement.callee,
                 parentFunctionCommand
             ));
 
@@ -1610,6 +1609,29 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
             (
                 sourceElement.object,
+                parentFunctionCommand
+            ));
+
+            commands.push(new fcCommands.Command
+            (
+                sourceElement,
+                fcCommands.Command.COMMAND_TYPE.StartEvalMemberExpressionProperty,
+                parentFunctionCommand
+            ));
+
+            if(sourceElement.computed)
+            {
+                ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+                (
+                    sourceElement.property,
+                    parentFunctionCommand
+                ));
+            }
+
+            commands.push(new fcCommands.Command
+            (
+                sourceElement,
+                fcCommands.Command.COMMAND_TYPE.EndEvalMemberExpressionProperty,
                 parentFunctionCommand
             ));
 
@@ -1776,6 +1798,9 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EvalNewExpression: "EvalNewExpression",
     EvalCallExpression: "EvalCallExpression",
     EvalMemberExpression: "EvalMemberExpression",
+
+    StartEvalMemberExpressionProperty: "StartEvalMemberExpressionProperty",
+    EndEvalMemberExpressionProperty: "EndEvalMemberExpressionProperty",
 
     EvalReturnExpression: "EvalReturnExpression",
     ReturnFromFunctionCall: "ReturnFromFunctionCall",

@@ -174,7 +174,7 @@ interface ConditionalExpression <: Expression
 
 interface NewExpression <: Expression
 {
-    type: "NewExpression"; constructor: Expression; arguments: [ Expression ] | null;
+    type: "NewExpression"; callee: Expression; arguments: [ Expression ] | null;
 }
 interface CallExpression <: Expression { type: "CallExpression"; callee: Expression; arguments: [ Expression ]; }
 
