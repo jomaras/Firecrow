@@ -96,7 +96,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 }
             }
         }
-        catch(e) { alert("Error while appending declaration commands at CommandGenerator: " + e);}
+        catch(e)
+        {
+            alert("Error while appending declaration commands at CommandGenerator: " + e);
+        }
 
         return declarationCommands;
     },
@@ -169,10 +172,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             {
                 return this.generateLetStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if(astHelper.isFunctionDeclaration(sourceElement))
+            else if (astHelper.isBlockStatement(sourceElement))
             {
-                return [];
+                return this.generateBlockStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
+            else if(astHelper.isFunctionDeclaration(sourceElement)) { return []; }
+            else if (astHelper.isEmptyStatement(sourceElement)) { return []; }
             else
             {
                 alert("Unhandled source element when generating execution command: " + sourceElement.type);
@@ -212,6 +217,31 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         catch(e) { alert("Error when generating variable declaration commands:" + e);}
 
         return commands;
+    },
+
+    generateBlockStatementExecutionCommands: function(sourceElement, parentFunctionCommand)
+    {
+        try
+        {
+            if(!astHelper.isBlockStatement(sourceElement))
+            {
+                alert("Source element is not block statement when generating commands");
+                return;
+            }
+
+            var commands = [];
+
+            sourceElement.body.forEach(function(statement)
+            {
+                ValueTypeHelper.pushAll(commands, this.generateExecutionCommands(statement, parentFunctionCommand))
+            }, this);
+
+
+            return commands;
+        }
+        catch(e) { alert("Error when generating expression statement commands:" + e);}
+
+        return [];
     },
 
     generateExpressionStatementExecutionCommands: function (sourceElement, parentFunctionCommand)
@@ -726,22 +756,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isDoWhileStatement(sourceElement))
-            {
-                alert("Source element is not a dowhile statement when generating commands");
-                return;
-            }
+            if(!astHelper.isDoWhileStatement(sourceElement)) { alert("Source element is not a dowhile statement when generating commands"); return; }
 
-            astHelper.traverseDirectSourceElements
-            (
-                sourceElement.body,
-                function(sourceElement)
-                {
-                    ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands(sourceElement, parentFunctionCommand));
-                },
-                false
-            );
 
+            ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands(sourceElement.body, parentFunctionCommand));
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.DoWhileStatement, parentFunctionCommand));
@@ -1672,7 +1690,7 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isLoopStatementCommand: function()
     {
-        return this.isWhileStatement() || this.isDoWhileStatement()
+        return this.isWhileStatementCommand() || this.isDoWhileStatementCommand()
             || this.isForStatementCommand() || this.isForInWhereCommand();
     },
 
@@ -1700,7 +1718,7 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isBreakCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalBreak; },
     isContinueCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalContinue; },
-    isEvalThrowCommand: function() { return this.type = fcCommands.Command.COMMAND_TYPE.EvalThrowExpression; },
+    isEvalThrowCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalThrowExpression; },
 
     getLineNo: function()
     {
