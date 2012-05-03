@@ -57,8 +57,11 @@ FBL.ns(function() { with (FBL) {
 //												  : this.stopRecording());
 //			}
 //			catch(e) { alert("Record button clicking error " + e);
-			var scriptsPathAndModels = fbHelper.getScriptsPathsAndModels();
-            alert(CommandGenerator.toString(CommandGenerator.generateCommands(scriptsPathAndModels[0].model)));
+
+            this.loadHtmlInHiddenIFrame(function(htmlJson)
+            {
+               alert(JSON.stringify(htmlJson));
+            });
 		},
 
         onFirecrowASTButtonPress: function()
@@ -109,7 +112,7 @@ FBL.ns(function() { with (FBL) {
 			catch(e) { alert("Stopping analysis error:" + e); }
 		},
 		
-		loadHtmlInHiddenIFrame: function()
+		loadHtmlInHiddenIFrame: function(callbackFunction)
 		{
 			try
 			{
@@ -127,6 +130,7 @@ FBL.ns(function() { with (FBL) {
 					try
 					{
 						Firebug.FirecrowModule.htmlJson = htmlHelper.serializeToHtmlJSON(e.originalTarget.wrappedJSObject);
+                        callbackFunction(Firebug.FirecrowModule.htmlJson);
 					}
 					catch(e) { alert("Error while serializing html code" + e);}
 				}, true);

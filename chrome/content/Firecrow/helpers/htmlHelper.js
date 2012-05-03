@@ -1,7 +1,5 @@
 FBL.ns(function () { with (FBL) {
 /******/
-const CC = Components.classes;
-const CI = Components.interfaces;
 
 Firecrow.htmlHelper = 
 {
