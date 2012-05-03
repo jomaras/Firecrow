@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firecrow - Debugging Doppel Browser</title>
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="htmlModelMapping.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+
+    <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+
+    <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+    <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
+    <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+
+    <script type="text/javascript" src="../graphLibrary/js/jquery-1.4.2.min.js"></script>
+    <!--  The Raphael JavaScript library for vector graphics display  -->
+    <script type="text/javascript" src="../graphLibrary/js/raphael.js"></script>
+    <!--  Dracula  -->
+    <!--  An extension of Raphael for connecting shapes -->
+    <script type="text/javascript" src="../graphLibrary/js/dracula_graffle.js"></script>
+    <!--  Graphs  -->
+    <script type="text/javascript" src="../graphLibrary/js/dracula_graph.js"></script>
+    <script type="text/javascript" src="../graphLibrary/js/dracula_algorithms.js"></script>
+
+    <script>
+        var Firecrow = FBL.Firecrow;
+        var WebFile = Firecrow.DoppelBrowser.WebFile;
+        var Browser = Firecrow.DoppelBrowser.Browser;
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/02/index.html");
+
+        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
+        var browser = new Browser(webFile, []);
+
+        browser.registerNodeCreatedCallback(dependencyGraph.handleDomNodeCreated, dependencyGraph);
+        browser.registerNodeInsertedCallback(dependencyGraph.handleDomNodeInserted, dependencyGraph);
+
+        browser._asyncBuildPage(function(){});
+    </script>
+</head>
+<body>
+    <h1>Firecrow - Debugging Doppel Browser</h1>
+    <div id="canvas" style='height: 500; width: 1300'></div>
+    <button id="redraw" onclick="redraw();">redraw</button>!<br>
+    <script>
+        var redraw;
+
+        window.onload = function() {
+            var width  = 1300;//$('#canvas').width();
+            var height = 500;//$('#canvas').height() - 100;
+
+            var render = function(r, n) {
+                frame = r.rect(n.point[0] - 30, n.point[1] - 13, 60, 44);
+                frame.attr({
+                    'fill': '#aaa'/*, r : '12px'*/,
+                    'stroke-width' : (n.distance === 0 ? '3px' : '1px')
+                });
+                /* the Raphael set is obligatory, containing all you want to display */
+                var set = r.set()
+                        .push(
+                        frame,
+                        /* custom objects go here */
+                        r.text(n.point[0], n.point[1] + 10, (n.label || n.id)
+                                + "\n(" + (n.distance === undefined ? 'Infinity' : n.distance) + ')')
+                );
+                return set;
+            };
+
+            var g = new Graph();
+
+            /* modify the edge creation to attach random weights */
+            g.edgeFactory.build = function(source, target) {
+                var e = jQuery.extend(true, {}, this.template);
+                e.source = source;
+                e.target = target;
+                //e.style.label = "w";
+                return e;
+            }
+
+            dependencyGraph.nodes.forEach(function(node)
+            {
+                g.addNode(node.generateId(), { render : render });
+            });
+
+            dependencyGraph.nodes.forEach(function(node)
+            {
+                node.structuralDependencies.forEach(function(edge)
+                {
+                    g.addEdge(edge.sourceNode.generateId(), edge.destinationNode.generateId(), {weight:9, directed: true, stroke : " #000000"});
+                });
+
+            });
+
+            var layouter = new Graph.Layout.Spring(g);
+
+            var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+
+            redraw = function() {
+                layouter.layout();
+                renderer.draw();
+            };
+
+        };
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+- https://developer.mozilla.org/en/Setting_up_extension_development_environment
+
+- Right click on FF icon -> properties -> shortcut -> enclose path in "" and add:  -no-remote -P dev
+- Start Firefox, create new developer profile, save it on some location, remember it!
+- type about:config in address bar, and add:
+    - javascript.options.showInConsole = true
+    - nglayout.debug.disable_xul_cache = true
+    - browser.dom.window.dump.enabled = true
+    - devtools.chrome.enabled = true
+    - extensions.logging.enabled = true
+    - dom.report_all_js_exceptions = true
+    - devtools.errorconsole.enabled = true
