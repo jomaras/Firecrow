@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple HTML with CSS</title>
+    <style>
+        p { color: red; }
+        h1 { font-weight: bold; }
+        .firstCell { color: green; }
+        #secondCell { color: blue; }
+        td > .thirdCell { color: yellow;}
+    </style>
+    <script>
+        var internalHeadScript = "";
+        var anotherVariable = 3;
+    </script>
+    <script src="externalScript1.js"></script>
+</head>
+<body>
+<h1>First Test File - simple html file</h1>
+<p>One paragraph</p>
+<table>
+    <tr>
+        <td><span class="firstCell">First Cell</span></td>
+        <td><span id="secondCell">Second Cell</span></td>
+        <td><span class="thirdCell">Third Cell</span></td>
+    </tr>
+</table>
+<script src="externalScript2.js"></script>
+<script>
+    var internalBodyScript = 4;
+</script>
+</body>
+</html>
