@@ -19,15 +19,15 @@
     <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
 
-    <script type="text/javascript" src="../graphLibrary/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="graphLibrary/js/jquery-1.4.2.min.js"></script>
     <!--  The Raphael JavaScript library for vector graphics display  -->
-    <script type="text/javascript" src="../graphLibrary/js/raphael.js"></script>
+    <script type="text/javascript" src="graphLibrary/js/raphael.js"></script>
     <!--  Dracula  -->
     <!--  An extension of Raphael for connecting shapes -->
-    <script type="text/javascript" src="../graphLibrary/js/dracula_graffle.js"></script>
+    <script type="text/javascript" src="graphLibrary/js/dracula_graffle.js"></script>
     <!--  Graphs  -->
-    <script type="text/javascript" src="../graphLibrary/js/dracula_graph.js"></script>
-    <script type="text/javascript" src="../graphLibrary/js/dracula_algorithms.js"></script>
+    <script type="text/javascript" src="graphLibrary/js/dracula_graph.js"></script>
+    <script type="text/javascript" src="graphLibrary/js/dracula_algorithms.js"></script>
 
     <script>
         var Firecrow = FBL.Firecrow;
@@ -59,15 +59,14 @@
                 frame = r.rect(n.point[0] - 30, n.point[1] - 13, 60, 44);
                 frame.attr({
                     'fill': '#aaa'/*, r : '12px'*/,
-                    'stroke-width' : (n.distance === 0 ? '3px' : '1px')
+                    'stroke-width' : (n.distance === 0 ? '1px' : '1px')
                 });
                 /* the Raphael set is obligatory, containing all you want to display */
                 var set = r.set()
                         .push(
                         frame,
                         /* custom objects go here */
-                        r.text(n.point[0], n.point[1] + 10, (n.label || n.id)
-                                + "\n(" + (n.distance === undefined ? 'Infinity' : n.distance) + ')')
+                        r.text(n.point[0], n.point[1] + 10, (n.label || n.id))
                 );
                 return set;
             };
@@ -83,9 +82,12 @@
                 return e;
             }
 
+
             dependencyGraph.nodes.forEach(function(node)
             {
-                g.addNode(node.generateId(), { render : render });
+                var nodeId = node.generateId();
+
+                g.addNode(nodeId, { render : render, label: nodeId });
             });
 
             dependencyGraph.nodes.forEach(function(node)
@@ -94,18 +96,17 @@
                 {
                     g.addEdge(edge.sourceNode.generateId(), edge.destinationNode.generateId(), {weight:9, directed: true, stroke : " #000000"});
                 });
-
             });
 
             var layouter = new Graph.Layout.Spring(g);
 
             var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
 
-            redraw = function() {
+            redraw = function()
+            {
                 layouter.layout();
                 renderer.draw();
             };
-
         };
 
     </script>

@@ -53,7 +53,27 @@ Firecrow.fbHelper =
     	}
     	catch(e) { alert("Getting script paths error " + e); }
     },
-    
+
+    getStylesPathsAndModels: function()
+    {
+        try
+        {
+            var returnValue = [];
+
+            var document = this.getCurrentPageDocument();
+
+            var currentPageUrl = document.baseURI;
+
+            var stylesAndLinks = document.querySelectorAll("style, link");
+
+            for(var i = 0; i < stylesAndLinks.length; i++)
+            {
+
+            }
+        }
+        catch(e) { alert("fbHelper: an error has occurred when trying to get styles path and model!"); }
+    },
+
     getScriptsPathsAndModels: function()
     {
     	try
@@ -80,10 +100,10 @@ Firecrow.fbHelper =
 	        				(function()
 	        				{
 	        					var scriptStringIndex = currentPageContent.indexOf(scriptElement.textContent, currentScriptIndex);
-	        					
-	        					if(scriptStringIndex == null || scriptStringIndex == -1) 
+
+	        					if(scriptStringIndex == null || scriptStringIndex == -1)
 	        					{
-	        						return -1; 
+	        						return -1;
 	        					}
 	        					else
 	        					{
@@ -110,7 +130,7 @@ Firecrow.fbHelper =
 	    	});
 
             //Set parent child relationship for each element
-            returnValue.forEach(function(scriptModel)
+/*            returnValue.forEach(function(scriptModel)
             {
                 astHelper.traverseAst(scriptModel, function(currentElement, elementName, parentElement)
                 {
@@ -119,7 +139,7 @@ Firecrow.fbHelper =
                         currentElement.parent = parentElement;
                     }
                 });
-            });
+            });*/
 
 	    	return returnValue;
     	}
