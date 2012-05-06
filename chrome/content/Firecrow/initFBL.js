@@ -20,7 +20,7 @@ FBL.ns(function () { with (FBL)
         Interpreter:
         {
             Commands : {},
-            Simulator: {},
+            InterpreterSimulator: {},
             Model:
             {
                 Internals: {}

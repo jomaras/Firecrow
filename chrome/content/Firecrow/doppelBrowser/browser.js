@@ -27,6 +27,7 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
 
         this.nodeCreatedCallbacks = [];
         this.nodeInsertedCallbacks = [];
+        this.interpretJsCallbacks = [];
     }
     catch(e) { alert("Error when initialising Doppel Browser.Browser: " + e); }
 };
@@ -60,6 +61,21 @@ Browser.prototype._callNodeInsertedCallbacks = function(nodeModelObject, parentN
     this.nodeInsertedCallbacks.forEach(function(callbackObject)
     {
         callbackObject.callback.call(callbackObject.thisObject, nodeModelObject, parentNodeModelObject, isDynamic);
+    });
+};
+
+Browser.prototype.registerInterpretJsCallback = function(callback, thisObject)
+{
+    if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
+
+    this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject});
+};
+
+Browser.prototype._callInterpretJsCallbacks = function(programModel)
+{
+    this.interpretJsCallbacks.forEach(function(callbackObject)
+    {
+        callbackObject.callback.call(callbackObject.thisObject, programModel);
     });
 };
 
@@ -124,6 +140,7 @@ Browser.prototype._createStaticHtmlNode = function(htmlModelNode)
     if(htmlModelNode.type == "script")
     {
         this._buildJavaScriptNodes(htmlModelNode);
+        this._callInterpretJsCallbacks(htmlModelNode.pathAndModel.model);
     }
     else if(htmlModelNode.type == "style")
     {
