@@ -56,22 +56,54 @@ Firecrow.fbHelper =
 
     getStylesPathsAndModels: function()
     {
+        var returnValue = [];
+
         try
         {
-            var returnValue = [];
-
             var document = this.getCurrentPageDocument();
 
             var currentPageUrl = document.baseURI;
 
-            var stylesAndLinks = document.querySelectorAll("style, link");
+            var stylesheets = document.styleSheets;
 
-            for(var i = 0; i < stylesAndLinks.length; i++)
+            for(var i = 0; i < stylesheets.length; i++)
             {
-
+                var styleSheet = stylesheets[i];
+                returnValue.push
+                (
+                    {
+                        path : styleSheet.href != null ? styleSheet.href : document.baseURI,
+                        model:  this.getStyleSheetModel(styleSheet)
+                    }
+                );
             }
         }
         catch(e) { alert("fbHelper: an error has occurred when trying to get styles path and model!"); }
+
+        return returnValue;
+    },
+
+    getStyleSheetModel: function(styleSheet)
+    {
+        if(styleSheet == null) { return {}; }
+
+        var model = { rules: [] };
+
+        var cssRules = styleSheet.cssRules;
+
+        for(var i = 0; i < cssRules.length; i++)
+        {
+            var cssRule = cssRules[i];
+            model.rules.push
+            (
+                {
+                    selector: cssRule.selectorText,
+                    cssText: cssRule.cssText
+                }
+            );
+        }
+
+        return model;
     },
 
     getScriptsPathsAndModels: function()

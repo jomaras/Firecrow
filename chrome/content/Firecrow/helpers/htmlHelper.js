@@ -14,7 +14,8 @@ Firecrow.htmlHelper =
         var stylesPathsAndModels = Firecrow.fbHelper.getStylesPathsAndModels();
 
 		serialized.docType = docType != null ? docType.systemId :"";
-		serialized.htmlElement = htmlElement != null ? this.getSimplifiedElement(htmlElement, scriptPathsAndModels) : "null";
+		serialized.htmlElement = htmlElement != null ? this.getSimplifiedElement(htmlElement, scriptPathsAndModels, stylesPathsAndModels)
+                                                     : "null";
 
 		return serialized;
 	},
@@ -39,7 +40,7 @@ Firecrow.htmlHelper =
 		return null;
 	},
 
-	getSimplifiedElement: function(rootElement, scriptPathsAndModels)
+	getSimplifiedElement: function(rootElement, scriptPathsAndModels, stylesPathsAndModels)
 	{
         try
         {
@@ -47,7 +48,7 @@ Firecrow.htmlHelper =
             {
                 type: !(rootElement instanceof Text) ? rootElement.localName : "textNode",
                 attributes: this.getAttributes(rootElement),
-                children: this.getChildren(rootElement, scriptPathsAndModels)
+                children: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels)
             };
 
             if(rootElement instanceof Text
@@ -62,11 +63,11 @@ Firecrow.htmlHelper =
             }
             else if (rootElement instanceof HTMLStyleElement)
             {
-
+                elem.pathAndModel = stylesPathsAndModels.splice(0,1)[0];
             }
             else if (rootElement instanceof HTMLLinkElement)
             {
-
+                elem.pathAndModel = stylesPathsAndModels.splice(0,1)[0];
             }
 
             return elem;
@@ -149,7 +150,7 @@ Firecrow.htmlHelper =
 		return attributes;
 	},
 
-	getChildren: function(rootElement, scriptPathsAndModels)
+	getChildren: function(rootElement, scriptPathsAndModels, stylesPathsAndModels)
 	{
 		var allNodes = [];
 
@@ -159,7 +160,7 @@ Firecrow.htmlHelper =
 		{
 			for(var i = 0; i < rootElement.childNodes.length;i++)
 			{
-				allNodes.push(this.getSimplifiedElement(rootElement.childNodes[i], scriptPathsAndModels));
+				allNodes.push(this.getSimplifiedElement(rootElement.childNodes[i], scriptPathsAndModels, stylesPathsAndModels));
 			}
 		}
 		catch(e) {alert("Children:" + e);}

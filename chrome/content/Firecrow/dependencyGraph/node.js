@@ -16,9 +16,14 @@ FBL.ns(function() { with (FBL) {
         this.controlDependencies = [];
 
         this.model.graphNode = this;
+
+        this.idNum = Node.ID++;
+        this.idString = this.generateId();
     };
 
     var Node = Firecrow.DependencyGraph.Node;
+
+    Node.ID = 0;
 
     Node.prototype.isNodeOfType = function(type) { return this.type === type; };
     Node.prototype.isHtmlNode = function() { return this.isNodeOfType("html"); };
@@ -38,22 +43,27 @@ FBL.ns(function() { with (FBL) {
     Node.prototype.generateId = function()
     {
         if(this.isHtmlNode()) { return this.generateIdForHtmlNode(); }
+        else if (this.isCssNode()) { return this.generateIdForCssNode(); }
+        else if (this.isJsNode()) { return this.generateIdForJsNode(); }
+        else { alert("Node.generateId - unknown node type!"); return ""; }
     };
 
     Node.prototype.generateIdForHtmlNode = function()
     {
         if(!this.isHtmlNode()) { return this.generateId(); }
 
-        var id = "";
+        return this.idNum + ":" +  this.model.type;
+    };
 
-        var node = this;
+    Node.prototype.generateIdForCssNode = function()
+    {
+        if(!this.isCssNode()) { return this.generateId(); }
 
-        while(node != null)
-        {
-            id = node.model.type + " > " + id;
-            node = node.structuralDependencies[0] != null ? node.structuralDependencies[0].destrinationNode : null;
-        }
+        return this.idNum + ":" + this.model.selector ;
+    };
 
-        return id;
+    Node.prototype.generateIdForJsNode = function()
+    {
+
     };
 }});

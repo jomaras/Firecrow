@@ -103,9 +103,6 @@ Browser.prototype._buildSubtree = function(htmlModelElement, parentDomElement)
         {
             element.type == "textNode" ? htmlDomElement.appendChild(this.hostDocument.createTextNode(element.textContent))
                                        : this._buildSubtree(element, htmlDomElement);
-
-            htmlModelElement.type == "style"  ? this._processCssRules(htmlDomElement, element.textContent)
-                                         : "";
         }, this);
     }
     catch(e)
@@ -123,7 +120,43 @@ Browser.prototype._createStaticHtmlNode = function(htmlModelNode)
 
     this._callNodeCreatedCallbacks(htmlModelNode, "html", false);
 
+    if(htmlModelNode.type == "script")
+    {
+        this._buildJavaScriptNodes(htmlModelNode);
+    }
+    else if(htmlModelNode.type == "style")
+    {
+        this._buildCssNodes(htmlModelNode);
+    }
+    else if (htmlModelNode.type == "link")
+    {
+        this._buildCssNodes(htmlModelNode);
+    }
+
     return htmlDomElement;
+};
+
+Browser.prototype._buildJavaScriptNodes = function(scriptHtmlElementModelNode)
+{
+    //TODO - Build JavaScript nodes!
+};
+
+Browser.prototype._buildCssNodes = function(cssHtmlElementModelNode)
+{
+    var cssRulesGraphNodes = [];
+
+    try
+    {
+        cssHtmlElementModelNode.pathAndModel.model.rules.forEach(function(cssRule)
+        {
+            this._callNodeCreatedCallbacks(cssRule, "css", false);
+            this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
+        }, this);
+
+        //TODO - add to stylesheets in document
+    }
+    catch(e) { alert("DoppelBrowser.browser error when building css nodes: " + e);}
+
 };
 
 Browser.prototype._insertIntoDom = function(htmlDomElement, parentDomElement)
@@ -140,10 +173,6 @@ Browser.prototype._insertIntoDom = function(htmlDomElement, parentDomElement)
     this._callNodeInsertedCallbacks(htmlDomElement.modelElement, parentDomElement != null ? parentDomElement.modelElement : null);
 };
 
-Browser.prototype._processCssRules = function(cssElement, cssCode)
-{
-    //TODO - add CSS parsing and node building!
-};
 
 Browser.prototype._asyncGetHtmlModel = function(callback)
 {
