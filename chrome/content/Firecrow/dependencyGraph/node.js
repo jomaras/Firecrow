@@ -64,6 +64,8 @@ FBL.ns(function() { with (FBL) {
 
     Node.prototype.generateIdForJsNode = function()
     {
+        if(!this.isJsNode()) { return this.generateId(); }
 
+        return this.idNum + ":@" + this.model.loc.start.line +  "-" + this.model.type;
     };
 }});

@@ -22,12 +22,12 @@ FBL.ns(function() { with (FBL) {
         this.nodes.push(node);
     };
 
-    DependencyGraph.prototype.handleDomNodeCreated = function(nodeModelObject, type, isDynamic)
+    DependencyGraph.prototype.handleNodeCreated = function(nodeModelObject, type, isDynamic)
     {
         this.addNode(new Node(nodeModelObject, type, isDynamic));
     };
 
-    DependencyGraph.prototype.handleDomNodeInserted = function(nodeModelObject, parentNodeModelObject, isDynamic)
+    DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentNodeModelObject, isDynamic)
     {
         if(nodeModelObject == null) { alert("DependencyGraph.DependencyGraph nodeModelObject must not be null!"); return; }
 

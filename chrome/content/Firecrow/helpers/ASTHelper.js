@@ -54,10 +54,10 @@ FBL.ns(function () { with (FBL) {
 
                 for(var propName in astElement)
                 {
-                    //Do not traverse the source code location properties
-                    //and parents!
+                    //Do not traverse the source code location properties and parents and graphNodes!
                     if(propName == "loc"
-                        || propName == "parent") { continue; }
+                        || propName == "parent"
+                        || propName == "graphNode") { continue; }
 
                     var propertyValue = astElement[propName];
 

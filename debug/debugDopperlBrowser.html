@@ -33,13 +33,13 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/05/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/04/index.html");
 
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
         var browser = new Browser(webFile, []);
 
-        browser.registerNodeCreatedCallback(dependencyGraph.handleDomNodeCreated, dependencyGraph);
-        browser.registerNodeInsertedCallback(dependencyGraph.handleDomNodeInserted, dependencyGraph);
+        browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
+        browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
 
         browser._asyncBuildPage(function(){});
     </script>
@@ -55,25 +55,31 @@
             var width  = 1300;//$('#canvas').width();
             var height = 500;//$('#canvas').height() - 100;
 
-            var render = function(r, n) {
-                frame = r.rect(n.point[0] - 30, n.point[1] - 13, 60, 44);
-                frame.attr({
-                    'fill': '#aaa'/*, r : '12px'*/,
-                    'stroke-width' : (n.distance === 0 ? '1px' : '1px')
-                });
-                /* the Raphael set is obligatory, containing all you want to display */
-                var set = r.set()
-                        .push(
-                        frame,
-                        /* custom objects go here */
-                        r.text(n.point[0], n.point[1] + 10, (n.label || n.id))
-                );
-                return set;
+            var renderHtml = function(r, n)
+            {
+                var textLength = n.id.length*7;
+                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+                frame.attr({'fill': '#0747CF','stroke-width' : '1px'});
+                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+            };
+
+            var renderCss = function(r, n) {
+                var textLength = n.id.length*7;
+                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+                frame.attr({'fill': '#CF0707','stroke-width' : '1px'});
+                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+            };
+
+            var renderJs = function(r, n)
+            {
+                var textLength = n.id.length*7;
+                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+                frame.attr({'fill': '#06E606','stroke-width' : '1px'});
+                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
             };
 
             var g = new Graph();
 
-            /* modify the edge creation to attach random weights */
             g.edgeFactory.build = function(source, target) {
                 var e = jQuery.extend(true, {}, this.template);
                 e.source = source;
@@ -86,6 +92,12 @@
             dependencyGraph.nodes.forEach(function(node)
             {
                 var nodeId = node.generateId();
+
+                var render = null;
+
+                if(node.isHtmlNode()) { render = renderHtml; }
+                else if(node.isCssNode()) { render = renderCss; }
+                else if(node.isJsNode()) { render = renderJs;}
 
                 g.addNode(nodeId, { render : render, label: nodeId });
             });

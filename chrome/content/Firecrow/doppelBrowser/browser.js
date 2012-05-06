@@ -7,6 +7,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 const ValueTypeHelper = Firecrow.ValueTypeHelper;
+const ASTHelper = Firecrow.ASTHelper;
 const WebFile = Firecrow.DoppelBrowser.WebFile;
 const Node = Firecrow.DependencyGraph.Node;
 const HtmlHelper = Firecrow.htmlHelper;
@@ -138,13 +139,20 @@ Browser.prototype._createStaticHtmlNode = function(htmlModelNode)
 
 Browser.prototype._buildJavaScriptNodes = function(scriptHtmlElementModelNode)
 {
-    //TODO - Build JavaScript nodes!
+    try
+    {
+        var that = this;
+        ASTHelper.traverseAst(scriptHtmlElementModelNode.pathAndModel.model, function(currentNode, nodeName, parentNode)
+        {
+            that._callNodeCreatedCallbacks(currentNode, "js", false);
+            that._callNodeInsertedCallbacks(currentNode, ASTHelper.isProgram(parentNode) ? scriptHtmlElementModelNode : parentNode);
+        });
+    }
+    catch(e) { alert("DoppelBrowser.browser error when building js nodes: " + e); }
 };
 
 Browser.prototype._buildCssNodes = function(cssHtmlElementModelNode)
 {
-    var cssRulesGraphNodes = [];
-
     try
     {
         cssHtmlElementModelNode.pathAndModel.model.rules.forEach(function(cssRule)
@@ -153,10 +161,9 @@ Browser.prototype._buildCssNodes = function(cssHtmlElementModelNode)
             this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
         }, this);
 
-        //TODO - add to stylesheets in document
+        //TODO - add to document.stylesheets
     }
     catch(e) { alert("DoppelBrowser.browser error when building css nodes: " + e);}
-
 };
 
 Browser.prototype._insertIntoDom = function(htmlDomElement, parentDomElement)
