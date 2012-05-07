@@ -25,7 +25,8 @@ FBL.ns(function () { with (FBL)
             {
                 Internals: {}
             },
-            Internals: {}
+            Internals: {},
+            Simulator: {}
         },
         IsDebugMode: true
     };

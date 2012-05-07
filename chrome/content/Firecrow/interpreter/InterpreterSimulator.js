@@ -1,21 +1,315 @@
 /**
- * User: Jomaras
- * Date: 06.05.12.
- * Time: 18:20
+ * Created by Jomaras.
+ * Date: 07.03.12.@21:41
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
-const CommandGenerator = Firecrow.CommandGenerator;
+const ExecutionContextStack = Firecrow.Interpreter.Simulator.ExecutionContextStack;
+const CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 
-Firecrow.Interpreter.InterpreterSimulator = function(globalObject, programAST)
+const ValueTypeHelper = Firecrow.ValueTypeHelper;
+const ASTHelper = Firecrow.ASTHelper;
+
+Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject)
 {
+    this.programAst = programAst;
     this.globalObject = globalObject;
-    this.programAST = programAST;
+
+    this.contextStack = new ExecutionContextStack(globalObject);
+
+    this.commands = CommandGenerator.generateCommands(programAst);
+    this.tryStack = [];
+
+    this.messageGeneratedCallbacks = [];
 };
 
-var InterpreterSimulator = Firecrow.Interpreter.InterpreterSimulator;
+Firecrow.Interpreter.InterpreterSimulator.prototype =
+{
+    run: function()
+    {
+        try
+        {
+            var previousCommand = null;
+            for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
+            {
+                var command = this.commands[this.currentCommandIndex];
 
+                this.processCommand(command);
 
+                if(previousCommand == null || previousCommand.getLineNo() != command.getLineNo())
+                {
+                    this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
+                }
 
+                previousCommand = command;
+            }
+        }
+        catch(e) { alert("Error while running the InterpreterSimulator: " + e); }
+    },
+
+    processCommand: function(command)
+    {
+        try
+        {
+            if(command.isTryStatementCommand()) { this.processTryCommand(command); return; }
+
+            this.contextStack.executeCommand(command);
+
+            if(command.removesCommands) { this.processRemovingCommandsCommand(command); }
+            if (command.generatesNewCommands) { this.processGeneratingNewCommandsCommand(command); }
+        }
+        catch(e) { alert("Error while processing commands in InterpreterSimulator: " + e);}
+    },
+
+    processTryCommand: function(command)
+    {
+        try
+        {
+            if(command.isTryStatementCommand()) { alert("The command is not a try command in InterpreterSimulator!"); return; }
+            if(command.isStartTryStatementCommand()) { this.tryStack.push(command); return; }
+
+            var topCommand = this.tryStack[this.tryStack.length - 1];
+
+            if(topCommand == null || topCommand.codeConstruct != command.codeConstruct)
+            {
+                alert("Error while popping try command from Stack");
+                return;
+            }
+
+            this.tryStack.pop();
+        }
+        catch(e) { alert("Error while processing try command in InterpreterSimulator: " + e); }
+    },
+
+    processRemovingCommandsCommand: function(command)
+    {
+        try
+        {
+            if(command.isEvalReturnExpressionCommand()) { this.removeCommandsAfterReturnStatement(command); }
+            else if (command.isBreakCommand()) { this.removeCommandsAfterBreak(command); }
+            else if (command.isContinueCommand()) { this.removeCommandsAfterContinue(command); }
+            else if (command.isEvalThrowCommand()) { this.removeCommandsAfterThrow(command); }
+            else if (command.isEvalLogicalExpressionItemCommand()) { this.removeCommandsAfterLogicalExpressionItem(command); }
+            else if (command.isCaseCommand()) { this.removeCommandsAfterCase(command); }
+            else { alert("Unknown removing commands command: " + command.type); }
+        }
+        catch(e) { alert("Error while removing commands: " + e); }
+    },
+
+    removeCommandsAfterReturnStatement: function(returnCommand)
+    {
+        try
+        {
+            var returnFunctionParent = ASTHelper.getFunctionParent(returnCommand.codeConstruct);
+
+            for(var i = this.currentCommandIndex + 1; i < this.commands.length;)
+            {
+                var command = this.commands[i];
+
+                var currentCommandFunctionParent = ASTHelper.getFunctionParent(command.codeConstruct);
+
+                if(currentCommandFunctionParent != null && currentCommandFunctionParent == returnFunctionParent
+               && (command.parentFunctionCommand == null || command.parentFunctionCommand == returnCommand.parentFunctionCommand))
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+                }
+                else { break; }
+            }
+        }
+        catch(e) { alert("Error while removing commands after return statment:" + e);}
+    },
+
+    removeCommandsAfterBreak: function(breakCommand)
+    {
+        try
+        {
+            var breakParentStatement = ASTHelper.getLoopOrSwitchParent(breakCommand.codeConstruct);
+
+            for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
+            {
+                var command = this.commands[i];
+
+                var parent = ASTHelper.isSwitchStatement(breakParentStatement) ? ASTHelper.getSwitchParent(command.codeConstruct)
+                                                                               : ASTHelper.getLoopParent(command.codeConstruct);
+
+                if(parent == breakParentStatement) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
+                else { break; }
+            }
+        }
+        catch(e) { alert("Error when removing commands after a break command:" + e); }
+    },
+
+    removeCommandsAfterContinue: function(continueCommand)
+    {
+        try
+        {
+            var continueParentStatement = ASTHelper.getLoopParent(continueCommand.codeConstruct);
+
+            for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
+            {
+                var command = this.commands[i];
+                var parent = ASTHelper.getLoopParent(command.codeConstruct);
+
+                if(parent != null && parent == continueParentStatement)
+                {
+                    if(command.isForStatementCommand() || command.isDoWhileStatementCommand()
+                    || command.isForInWhereCommand() || command.isWhileStatementCommand()
+                    || command.isForStatementStartUpdateCommand())
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+                    }
+                }
+                else { break; }
+            }
+        }
+        catch(e) { alert("Error when removing commands after continue: " + e); }
+    },
+
+    removeCommandsAfterThrow: function(throwCommand)
+    {
+        try
+        {
+            for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
+            {
+                var command = this.commands[i];
+
+                if(command.isEndTryStatementCommand()) { break; }
+                if(command.isReturnFromFunctionCallCommand()) { i++; continue;}
+
+                ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+            }
+        }
+        catch(e) { alert("Error when removing commands after throw: " + e);}
+    },
+
+    removeCommandsAfterLogicalExpressionItem: function(evalLogicalExpressionItemCommand)
+    {
+        alert("TODO command removal after logical expression items");
+    },
+
+    removeCommandsAfterCase: function(caseCommand)
+    {
+        alert("TODO command removal after case commands!");
+    },
+
+    processGeneratingNewCommandsCommand: function(command)
+    {
+        try
+        {
+            if(command.isEvalThrowCommand()) { this.generateCommandsAfterThrow(command); }
+            else if (command.isEvalCallbackFunctionCommand()) { this.generateCommandsAfterCallbackFunctionCommand(command); }
+            else if (command.isEvalNewExpression()) { this.generateCommandsAfterNewExpressionCommand(command); }
+            else if (command.isEvalCallExpression()) { this.generateCommandsAfterCallFunctionCommand(command); }
+            else if (command.isLoopStatementCommand()) { this.generateCommandsAfterLoopCommand(command); }
+            else if (command.isIfStatementCommand()) { this.generateCommandsAfterIfCommand(command); }
+            else if (command.isConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
+            else if (command.isCaseCommand()) { this.generateCommandsAfterCaseCommand(command); }
+            else { alert("Unknown generating new commands command!"); }
+        }
+        catch(e) { alert("An error occured while processing generate new commands command:" + e);}
+    },
+
+    generateCommandsAfterThrow: function(throwCommand)
+    {
+        alert("TODO: When generating commands after throw - not sure about this - should at least skip return from function commands!?")
+
+        try
+        {
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateCatchStatementExecutionCommands(this.tryStack.pop()),
+                this.currentCommandIndex + 1
+            );
+        }
+        catch(e) { alert("Error while generating commands after throw command: " + e);}
+    },
+
+    generateCommandsAfterCallbackFunctionCommand: function(throwCommand)
+    {
+        try
+        {
+            alert("Still not handling callback commands!");
+        }
+        catch(e) { alert("Error while generating commands after callback function command: " + e);}
+    },
+
+    generateCommandsAfterNewExpressionCommand: function(throwCommand)
+    {
+        try
+        {
+            alert("Evaluating new expression command not yet completed!");
+        }
+        catch(e) { alert("Error while generating commands after new expression command: " + e);}
+    },
+
+    generateCommandsAfterCallFunctionCommand: function(throwCommand)
+    {
+        try
+        {
+            alert("Evaluating call expression command not yet completed!");
+        }
+        catch(e) { alert("Error while generating commands after call function command: " + e);}
+    },
+
+    generateCommandsAfterLoopCommand: function(throwCommand)
+    {
+        try
+        {
+            alert("Evaluating loop commands not yet completed!");
+        }
+        catch(e) { alert("Error while generating commands after loop command: " + e);}
+    },
+
+    generateCommandsAfterIfCommand: function(throwCommand)
+    {
+        try
+        {
+            alert("Evaluating if statement commands not yet completed!");
+        }
+        catch(e) { alert("Error while generating commands after if command: " + e);}
+    },
+
+    generateCommandsAfterConditionalCommand: function(throwCommand)
+    {
+        try
+        {
+            alert("Evaluating conditional commands not yet completed!");
+        }
+        catch(e) { alert("Error while generating commands after conditional command: " + e);}
+    },
+
+    generateCommandsAfterCaseCommand: function(throwCommand)
+    {
+        try
+        {
+            alert("Evaluating case commands not yet completed!");
+        }
+        catch(e) { alert("Error while generating commands after case command: " + e);}
+    },
+
+    registerMessageGeneratedCallback: function(callbackFunction, thisValue)
+    {
+        this.messageGeneratedCallbacks.push
+        (
+            {
+                callback: callbackFunction,
+                thisValue: thisValue || this
+            }
+        );
+    },
+
+    callMessageGeneratedCallbacks: function(message)
+    {
+        this.messageGeneratedCallbacks.forEach(function(callbackDescription)
+        {
+            callbackDescription.callback.call(callbackDescription.thisValue, message);
+        });
+    }
+};
+/******************************************************************************************/
 }});

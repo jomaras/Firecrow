@@ -15,11 +15,24 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
 
-    <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/Object.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/GlobalObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Boolean.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Number.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/simulator/VariableObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
+
     <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
 
-    <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
 
     <script type="text/javascript" src="graphLibrary/js/jquery-1.4.2.min.js"></script>
     <!--  The Raphael JavaScript library for vector graphics display  -->
@@ -30,6 +43,11 @@
     <!--  Graphs  -->
     <script type="text/javascript" src="graphLibrary/js/dracula_graph.js"></script>
     <script type="text/javascript" src="graphLibrary/js/dracula_algorithms.js"></script>
+</head>
+<body>
+    <h1>Firecrow - Debugging Doppel Browser</h1>
+    <div id="canvas" style='height: 500; width: 1300'></div>
+    <div id="messageContainer"></div>
 
     <script>
         var Firecrow = FBL.Firecrow;
@@ -37,19 +55,21 @@
         var Browser = Firecrow.DoppelBrowser.Browser;
         var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/04/index.html");
 
+        var messageContainer = document.getElementById("messageContainer");
+
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
         var browser = new Browser(webFile, []);
 
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
         browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
+        browser.registerInterpreterMessageGeneratedCallback(function(message)
+        {
+            messageContainer.innerHTML += "<br/>" + message;
+        });
 
-        browser._asyncBuildPage(function(){});
+        browser.asyncBuildPage(function(){});
     </script>
-</head>
-<body>
-    <h1>Firecrow - Debugging Doppel Browser</h1>
-    <div id="canvas" style='height: 500; width: 1300'></div>
-    <button id="redraw" onclick="redraw();">redraw</button>!<br>
+
     <script>
         var redraw;
 
