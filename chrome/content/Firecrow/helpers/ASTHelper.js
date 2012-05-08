@@ -81,7 +81,10 @@ FBL.ns(function () { with (FBL) {
                     }
                 }
             }
-            catch(e) { alert("Error while traversing AST in ASTHelper: " + e); }
+            catch(e)
+            {
+                alert("Error while traversing AST in ASTHelper: " + e);
+            }
         },
 
         traverseDirectSourceElements: function(astElement, processSourceElementFunction, enterBranchAndLoops)

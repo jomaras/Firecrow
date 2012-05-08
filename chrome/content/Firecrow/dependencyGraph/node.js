@@ -50,22 +50,34 @@ FBL.ns(function() { with (FBL) {
 
     Node.prototype.generateIdForHtmlNode = function()
     {
-        if(!this.isHtmlNode()) { return this.generateId(); }
+        try
+        {
+            if(!this.isHtmlNode()) { return this.generateId(); }
 
-        return this.idNum + ":" +  this.model.type;
+            return this.idNum + ":" +  this.model.type;
+        }
+        catch(e){ alert("Node - error when generating id for html node: " + e); }
     };
 
     Node.prototype.generateIdForCssNode = function()
     {
-        if(!this.isCssNode()) { return this.generateId(); }
+        try
+        {
+            if(!this.isCssNode()) { return this.generateId(); }
 
-        return this.idNum + ":" + this.model.selector ;
+            return this.idNum + ":" + this.model.selector ;
+        }
+        catch(e) { alert("Node - error when generating id for css node: " + e); }
     };
 
     Node.prototype.generateIdForJsNode = function()
     {
-        if(!this.isJsNode()) { return this.generateId(); }
+        try
+        {
+            if(!this.isJsNode()) { return this.generateId(); }
 
-        return this.idNum + ":@" + this.model.loc.start.line +  "-" + this.model.type;
+            return this.idNum + ":@" + (this.model.loc != null ? this.model.loc.start.line : '?' )+  "-" + this.model.type;
+        }
+        catch(e) { alert("Node - error when generating id for js nodes: " + e); }
     };
 }});

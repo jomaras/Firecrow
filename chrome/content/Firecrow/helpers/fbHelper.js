@@ -113,10 +113,13 @@ Firecrow.fbHelper =
 	    	var returnValue = [];
 	    	
 	    	var document = this.getCurrentPageDocument();
-	    	
+
 	    	var currentPageUrl = document.baseURI;
 	    	var currentPageContent = fileHelper.getFileContentFromUrl(currentPageUrl);
+            currentPageContent = currentPageContent.replace(/(\r)?\n/g, "\n");
 	    	var currentScriptIndex = 0;
+
+            this._MY_CONTENT = currentPageContent;
 
             valueTypeHelper.convertToArray(document.querySelectorAll("script")).forEach(function(scriptElement)
 	    	{
@@ -131,15 +134,13 @@ Firecrow.fbHelper =
 	        				currentPageUrl,
 	        				(function()
 	        				{
-	        					var scriptStringIndex = currentPageContent.indexOf(scriptElement.textContent, currentScriptIndex);
+                                var code = scriptElement.textContent.replace(/(\r)?\n/g, "\n");
+	        					var scriptStringIndex = currentPageContent.indexOf(code, currentScriptIndex);
 
-	        					if(scriptStringIndex == null || scriptStringIndex == -1)
-	        					{
-	        						return -1;
-	        					}
+	        					if(scriptStringIndex == null || scriptStringIndex == -1) { return -1; }
 	        					else
 	        					{
-	        						currentScriptIndex = scriptStringIndex + scriptElement.textContent.length;
+	        						currentScriptIndex = scriptStringIndex + code.length;
 	        						return currentPageContent.substring(0, scriptStringIndex).split("\n").length;
 	        					}
 	        				})()

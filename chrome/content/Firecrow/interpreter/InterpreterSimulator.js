@@ -29,19 +29,11 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            var previousCommand = null;
             for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
             {
                 var command = this.commands[this.currentCommandIndex];
-
                 this.processCommand(command);
-
-                if(previousCommand == null || previousCommand.getLineNo() != command.getLineNo())
-                {
-                    this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
-                }
-
-                previousCommand = command;
+                this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
             }
         }
         catch(e) { alert("Error while running the InterpreterSimulator: " + e); }
@@ -200,13 +192,13 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            if(command.isEvalThrowCommand()) { this.generateCommandsAfterThrow(command); }
+            if(command.isEvalThrowExpressionCommand()) { this.generateCommandsAfterThrow(command); }
             else if (command.isEvalCallbackFunctionCommand()) { this.generateCommandsAfterCallbackFunctionCommand(command); }
-            else if (command.isEvalNewExpression()) { this.generateCommandsAfterNewExpressionCommand(command); }
-            else if (command.isEvalCallExpression()) { this.generateCommandsAfterCallFunctionCommand(command); }
+            else if (command.isEvalNewExpressionCommand()) { this.generateCommandsAfterNewExpressionCommand(command); }
+            else if (command.isEvalCallExpressionCommand()) { this.generateCommandsAfterCallFunctionCommand(command); }
             else if (command.isLoopStatementCommand()) { this.generateCommandsAfterLoopCommand(command); }
             else if (command.isIfStatementCommand()) { this.generateCommandsAfterIfCommand(command); }
-            else if (command.isConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
+            else if (command.isEvalConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
             else if (command.isCaseCommand()) { this.generateCommandsAfterCaseCommand(command); }
             else { alert("Unknown generating new commands command!"); }
         }
@@ -229,7 +221,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("Error while generating commands after throw command: " + e);}
     },
 
-    generateCommandsAfterCallbackFunctionCommand: function(throwCommand)
+    generateCommandsAfterCallbackFunctionCommand: function(callbackCommand)
     {
         try
         {
@@ -238,7 +230,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("Error while generating commands after callback function command: " + e);}
     },
 
-    generateCommandsAfterNewExpressionCommand: function(throwCommand)
+    generateCommandsAfterNewExpressionCommand: function(newExpressionCommand)
     {
         try
         {
@@ -247,16 +239,18 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("Error while generating commands after new expression command: " + e);}
     },
 
-    generateCommandsAfterCallFunctionCommand: function(throwCommand)
+    generateCommandsAfterCallFunctionCommand: function(callFunctionCommand)
     {
         try
         {
-            alert("Evaluating call expression command not yet completed!");
+            if(callFunctionCommand == null) { alert("InterpreterSimulator: callFunctionCommand can not be null!"); return; }
+
+
         }
         catch(e) { alert("Error while generating commands after call function command: " + e);}
     },
 
-    generateCommandsAfterLoopCommand: function(throwCommand)
+    generateCommandsAfterLoopCommand: function(loopCommand)
     {
         try
         {
@@ -265,7 +259,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("Error while generating commands after loop command: " + e);}
     },
 
-    generateCommandsAfterIfCommand: function(throwCommand)
+    generateCommandsAfterIfCommand: function(ifCommand)
     {
         try
         {
@@ -274,7 +268,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("Error while generating commands after if command: " + e);}
     },
 
-    generateCommandsAfterConditionalCommand: function(throwCommand)
+    generateCommandsAfterConditionalCommand: function(conditionalCommand)
     {
         try
         {
@@ -283,7 +277,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("Error while generating commands after conditional command: " + e);}
     },
 
-    generateCommandsAfterCaseCommand: function(throwCommand)
+    generateCommandsAfterCaseCommand: function(caseCommand)
     {
         try
         {

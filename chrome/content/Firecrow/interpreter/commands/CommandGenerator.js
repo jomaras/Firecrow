@@ -19,7 +19,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             var executionCommands = [];
             var declarationCommands = [];
-            var Command = fcCommands.Command;
             var commandType = fcCommands.Command.COMMAND_TYPE;
 
             astHelper.traverseDirectSourceElements
@@ -52,7 +51,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             return declarationCommands.concat(executionCommands);
         }
-        catch(e) { alert("Error while generating commmands in CommandGenerator: " + e);}
+        catch(e) { alert("Error while generating commands in CommandGenerator: " + e);}
     },
 
     generateDeclarationCommands: function(sourceElement)
@@ -957,7 +956,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!forInCommand.isForInWhereCommand()) { alert("Should be a forin statement command!"); return commands; }
+            if(!forInCommand.isEvalForInWhereCommand()) { alert("Should be a for-in statement command!"); return commands; }
 
             if(hasNextProperty)
             {
@@ -992,7 +991,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 ));
             }
         }
-        catch(e) { alert("Error when genereting for in commands: " + e); }
+        catch(e) { alert("Error when generating for in commands: " + e); }
     },
 
     generateLetStatementExecutionCommands: function (sourceElement, parentFunctionCommand)
@@ -1464,13 +1463,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         return commands;
     },
 
-    generateConditionalExpressionExecuteBodyCommands: function(executeConditionalExpressionBodyCommand, willConsequentBeExecuted)
+    generateConditionalExpressionEvalBodyCommands: function(executeConditionalExpressionBodyCommand, willConsequentBeExecuted)
     {
         var commands = [];
 
         try
         {
-            if(!executeConditionalExpressionBodyCommand.isConditionalExpressionBodyCommand(executeConditionalExpressionBodyCommand))
+            if(!executeConditionalExpressionBodyCommand.isEvalConditionalExpressionBodyCommand(executeConditionalExpressionBodyCommand))
             {
                 alert("Source element is not an execute conditional expression body command!");
                 return commands;
@@ -1661,14 +1660,14 @@ Firecrow.Interpreter.Commands.Command = function(codeConstruct, type, parentFunc
     this.parentFunctionCommand = parentFunctionCommand;
 
     this.removesCommands = this.isEvalReturnExpressionCommand()
-                        || this.isBreakCommand() || this.isContinueCommand()
-                        || this.isEvalThrowCommand() || this.isEvalLogicalExpressionItemCommand()
+                        || this.isEvalBreakCommand() || this.isEvalContinueCommand()
+                        || this.isEvalThrowExpressionCommand() || this.isEvalLogicalExpressionItemCommand()
                         || this.isCaseCommand();
 
-    this.generatesNewCommands = this.isEvalThrowCommand() || this.isEvalCallbackFunctionCommand()
-                            ||  this.isEvalNewExpression() || this.isEvalCallExpression()
+    this.generatesNewCommands = this.isEvalThrowExpressionCommand() || this.isEvalCallbackFunctionCommand()
+                            ||  this.isEvalNewExpressionCommand() || this.isEvalCallExpressionCommand()
                             ||  this.isLoopStatementCommand() || this.isIfStatementCommand()
-                            ||  this.isConditionalExpressionBodyCommand() || this.isCaseCommand();
+                            ||  this.isEvalConditionalExpressionBodyCommand() || this.isCaseCommand();
 };
 
 Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeConstruct, parentFunctionCommand)
@@ -1706,41 +1705,83 @@ Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
 
 Firecrow.Interpreter.Commands.Command.prototype =
 {
+    isDeclareVariableCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.DeclareVariable; },
+    isDeclareFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.DeclareFunction; },
+    isThisExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ThisExpression; },
+
+    isStartArrayExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartArrayExpression; },
+    isArrayExpressionItemCreationCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ArrayExpressionItemCreation; },
+    isEndArrayExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndArrayExpression; },
+
+    isStartObjectExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartObjectExpression; },
+    isObjectPropertyCreationCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ObjectPropertyCreation; },
+    isEndObjectExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndObjectExpression; },
+
+    isStartWithStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartWithStatement; },
+    isEndWithStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndWithStatement; },
+
+    isStartTryStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartTryStatement; },
+    isEndTryStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndTryStatement; },
+    isTryStatementCommand: function() { return this.isStartTryStatementCommand() || this.isEndTryStatementCommand();},
+
+    isStartCatchStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartCatchStatement; },
+    isEndCatchStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndCatchStatement; },
+
+    isStartSwitchStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartSwitchStatement; },
     isCaseCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.Case; },
+    isEndSwitchStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndSwitchStatement; },
+
+    isFunctionExpressionCreationCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.FunctionExpressionCreation; },
+
+    isEvalSequenceExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalSequenceExpression; },
+
+    isEvalUnaryExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalUnaryExpression; },
+    isEvalBinaryExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalBinaryExpression; },
+    isEvalLogicalExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalLogicalExpression; },
+    isEvalLogicalExpressionItemCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalLogicalExpressionItem; },
+
+    isEvalAssignmentExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalAssignmentExpression; },
+    isEvalUpdateExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalUpdateExpression; },
+
+    isEvalBreakCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalBreak; },
+    isEvalContinueCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalContinue; },
+
+    isEvalConditionalExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalConditionalExpression; },
+    isEvalConditionalExpressionBodyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalConditionalExpressionBody; },
+
+    isEvalNewExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalNewExpression; },
+
+    isEvalCallExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallExpression; },
+    isEvalCallbackFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallbackFunction; },
+
+    isStartEvalMemberExpressionPropertyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartEvalMemberExpressionProperty; },
+    isEvalMemberExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalMemberExpression; },
+    isEndEvalMemberExpressionPropertyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndEvalMemberExpressionProperty; },
+
+    isEvalReturnExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalReturnExpression; },
+    isReturnFromFunctionCallCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ReturnFromFunctionCall; },
+
+    isEvalThrowExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalThrowExpression; },
+
+    isEvalIdentifierCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalIdentifier; },
+    isEvalLiteralCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalLiteral; },
 
     isIfStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.IfStatement; },
 
     isLoopStatementCommand: function()
     {
         return this.isWhileStatementCommand() || this.isDoWhileStatementCommand()
-            || this.isForStatementCommand() || this.isForInWhereCommand();
+            || this.isForStatementCommand() || this.isEvalForInWhereCommand();
     },
 
     isWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.WhileStatement; },
     isDoWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.DoWhileStatement; },
-
     isForStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForStatement; },
-    isForStatementStartUpdateCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartForStatementUpdate; },
-    isForInWhereCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalForInWhere; },
-
-    isStartTryStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartTryStatement; },
-    isEndTryStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndTryStatement; },
-    isTryStatementCommand: function() { return this.isStartTryStatementCommand() || this.isEndTryStatementCommand();},
-
-    isConditionalExpressionBodyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ExecuteConditionalExpressionBody; },
-
-    isEvalReturnExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalReturnExpression; },
-    isReturnFromFunctionCallCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ReturnFromFunctionCall; },
-    isEvalLogicalExpressionItemCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalLogicalExpressionItem; },
-
-    isEvalCallbackFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallbackFunctionCommand; },
-
-    isEvalNewExpression: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalNewExpression; },
-    isEvalCallExpression: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallExpression; },
-
-    isBreakCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalBreak; },
-    isContinueCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalContinue; },
-    isEvalThrowCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalThrowExpression; },
+    isStartForStatementUpdateCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartForStatementUpdate; },
+    isEndForStatementUpdateCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndForStatementUpdate; },
+    isStartForInStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartForInStatement; },
+    isEndForInStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndForInStatement; },
+    isEvalForInWhereCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalForInWhere; },
 
     getLineNo: function()
     {
@@ -1789,7 +1830,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EvalBreak: "EvalBreak",
     EvalContinue: "EvalContinue",
 
-    EvalCallbackFunctionCommand: "EvalCallbackFunctionCommand",
+    EvalCallbackFunctionCommand: "EvalCallbackFunction",
 
     EvalLogicalExpression: "EvalLogicalExpression",
     EvalLogicalExpressionItem: "EvalLogicalExpressionItem",
@@ -1822,7 +1863,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EndForInStatement: "EndForInStatement",
     EvalForInWhere: "EvalForInWhere",
 
-    ExecuteConditionalExpressionBody: "ExecuteConditionalExpressionBody"
+    EvalConditionalExpressionBody: "EvalConditionalExpressionBody"
 };
 
 /*************************************************************************************/

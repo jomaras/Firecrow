@@ -19,6 +19,8 @@ Firecrow.Interpreter.Simulator.VariableObject.prototype =
     {
         try
         {
+            if(!ValueTypeHelper.isOfType(identifier, Firecrow.Interpreter.Model.Identifier)) { alert("VariableObject - when registering an identifier has to be passed"); return; }
+
             var existingIdentifier = this.getIdentifier(identifier.name);
 
             if(existingIdentifier == null) { this.identifiers.add(identifier); }

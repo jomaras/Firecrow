@@ -21,7 +21,7 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct)
             this.modificationConstructs.push(codeConstruct);
         }
     }
-    catch(e) { alert("Error when creating an identifier Indetifier.js: " + e ); }
+    catch(e) { alert("Identifier - Error when constructing: " + e ); }
 };
 
 Firecrow.Interpreter.Model.Identifier.prototype =
@@ -29,7 +29,7 @@ Firecrow.Interpreter.Model.Identifier.prototype =
     setValue: function(newValue, modificationConstruct)
     {
         this.value = newValue;
-        this.lastModificationConstruct = modificationConstructs;
+        this.lastModificationConstruct = modificationConstruct;
 
         if(modificationConstruct != null)
         {
