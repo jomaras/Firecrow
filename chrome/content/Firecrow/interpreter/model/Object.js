@@ -117,7 +117,7 @@ Firecrow.Interpreter.Model.Object.prototype =
             if(property != null) { return property; }
             if(this.proto == null) { return null; }
 
-            this.addDependecyToPrototypeDefinition();
+            this.addDependencyToPrototypeDefinition();
 
             return proto.getProperty(name);
         }

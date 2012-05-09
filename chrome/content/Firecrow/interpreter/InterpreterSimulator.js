@@ -231,7 +231,25 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            alert("Evaluating new expression command not yet completed!");
+            if(!ValueTypeHelper.isOfType(newExpressionCommand, Command) || !newExpressionCommand.isEvalNewExpressionCommand()) { alert("InterpreterSimulator: argument is not newExpressionCommand"); return; }
+
+            var callConstruct = newExpressionCommand.codeConstruct;
+            var callee = this.contextStack.getExpressionValue(callConstruct.callee);
+            var newObject = this.contextStack.createObjectInCurrentContext(callee, newExpressionCommand.codeConstruct);
+
+            this.contextStack.setExpressionValue(newExpressionCommand.codeConstruct, newObject);
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateFunctionExecutionCommands
+                (
+                    newExpressionCommand,
+                    callee,
+                    newObject
+                ),
+                this.currentCommandIndex + 1
+            );
         }
         catch(e) { alert("Error while generating commands after new expression command: " + e);}
     },

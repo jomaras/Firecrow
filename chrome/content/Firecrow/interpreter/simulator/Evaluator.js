@@ -32,6 +32,9 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEvalBinaryExpressionCommand()) { this._evaluateBinaryExpressionCommand(command); }
                 else if (command.isEvalCallExpressionCommand()) { this._evaluateCallExpressionCommand(command); }
                 else if (command.isEvalReturnExpressionCommand()) { this._evaluateReturnExpressionCommand(command); }
+                else if (command.isThisExpressionCommand()) { this._evaluateThisExpressionCommand(command); }
+                else if (command.isEvalMemberExpressionCommand()) { this._evaluateMemberExpressionCommand(command); }
+                else if (command.isEvalMemberExpressionPropertyCommand()) { this._evaluateMemberExpressionPropertyCommand(command); }
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -120,7 +123,13 @@ FBL.ns(function() { with (FBL) {
                 }
                 else
                 {
-                    alert("Still not handling assigning values to member expressions!");
+                    var object = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.leftSide.object);
+                    var property = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.leftSide.property);
+
+                    if(object == null) { alert("Can not write to a property of null object!"); return; }
+
+                    object[property] = finalValue;
+                    object.__FIRECROW_INTERNAL__.object.addProperty(property, finalValue, evalAssignmentExpressionCommand.codeConstruct, true);
                 }
 
                 this.executionContextStack.setExpressionValue
@@ -217,11 +226,7 @@ FBL.ns(function() { with (FBL) {
                 else if (operator == "instanceof") { result = leftExpressionValue instanceof rightExpressionValue; }
                 else { alert("Evaluator - unknown operator"); return; }
 
-                this.executionContextStack.setExpressionValue
-                (
-                    binaryExpression,
-                    result
-                );
+                this.executionContextStack.setExpressionValue(binaryExpression, result);
             }
             catch(e) { alert("Evaluator - error when evaluating binary expression: " + e);}
         },
@@ -246,7 +251,59 @@ FBL.ns(function() { with (FBL) {
                     evalReturnExpressionCommand.parentFunctionCommand.codeConstruct,
                     evalReturnExpressionCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(evalReturnExpressionCommand.codeConstruct.argument)
                                                                                : undefined
-                )
+                );
+            }
+            catch(e) { alert("Evaluator - error when evaluating return expression: " + e); }
+        },
+
+        _evaluateThisExpressionCommand: function(thisExpressionCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(thisExpressionCommand, Firecrow.Interpreter.Commands.Command) || !thisExpressionCommand.isThisExpressionCommand()) { alert("Evaluator: is not a ThisExpressionCommand"); return; }
+
+                this.executionContextStack.setExpressionValue
+                (
+                    thisExpressionCommand.codeConstruct,
+                    this.executionContextStack.activeContext.thisObject
+                );
+            }
+            catch(e) { alert("Evaluator - error when evaluating return expression: " + e); }
+        },
+
+        _evaluateMemberExpressionCommand: function(evalMemberExpressionCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(evalMemberExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { alert("Evaluator: is not an EvalMemberExpressionCommand"); return; }
+
+                var object = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.object);
+
+                if(object == null) { alert("Object can not be null when evaluating member expression!"); return; }
+
+                var property = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.property);
+
+                this.executionContextStack.setExpressionValue
+                (
+                    evalMemberExpressionCommand.codeConstruct,
+                    object[property]
+                );
+            }
+            catch(e) { alert("Evaluator - error when evaluating return expression: " + e); }
+        },
+
+        _evaluateMemberExpressionPropertyCommand: function(evalMemberExpressionPropertyCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(evalMemberExpressionPropertyCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionPropertyCommand.isEvalMemberExpressionPropertyCommand()) { alert("Evaluator: is not an EvalMemberExpressionPropertyCommand"); return; }
+
+                this.executionContextStack.setExpressionValue
+                (
+                    evalMemberExpressionPropertyCommand.codeConstruct.property,
+                    evalMemberExpressionPropertyCommand.codeConstruct.computed ? this.executionContextStack.getExpressionValue(evalMemberExpressionPropertyCommand.codeConstruct.property)
+                                                                               : evalMemberExpressionPropertyCommand.codeConstruct.property.name
+                );
             }
             catch(e) { alert("Evaluator - error when evaluating return expression: " + e); }
         }

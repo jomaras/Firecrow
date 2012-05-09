@@ -193,7 +193,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             var commands = [];
 
             if(callExpressionCommand == null) { alert("CommandGenerator: callExpressionCommand can not be null when generating function execution commands!"); return commands; }
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || !callExpressionCommand.isEvalCallExpressionCommand()) { alert("CommandGenerator: an argument is not EvalCallExpressionCommand"); return commands; }
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand())) { alert("CommandGenerator: an argument is not EvalCallExpressionCommand"); return commands; }
 
             if(functionObject == null) { alert("CommandGenerator: the function object must not be null!"); return commands; }
 
@@ -1657,13 +1657,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
 
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.StartEvalMemberExpressionProperty,
-                parentFunctionCommand
-            ));
-
             if(sourceElement.computed)
             {
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
@@ -1676,7 +1669,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             commands.push(new fcCommands.Command
             (
                 sourceElement,
-                fcCommands.Command.COMMAND_TYPE.EndEvalMemberExpressionProperty,
+                fcCommands.Command.COMMAND_TYPE.EvalMemberExpressionProperty,
                 parentFunctionCommand
             ));
 
@@ -1819,9 +1812,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isEvalCallbackFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallbackFunction; },
 
-    isStartEvalMemberExpressionPropertyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartEvalMemberExpressionProperty; },
     isEvalMemberExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalMemberExpression; },
-    isEndEvalMemberExpressionPropertyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndEvalMemberExpressionProperty; },
+    isEvalMemberExpressionPropertyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalMemberExpressionProperty; },
 
     isEvalReturnExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalReturnExpression; },
     isReturnFromFunctionCallCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ReturnFromFunctionCall; },
@@ -1906,8 +1898,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     ExitFunctionContext: "ExitFunctionContext",
 
     EvalMemberExpression: "EvalMemberExpression",
-    StartEvalMemberExpressionProperty: "StartEvalMemberExpressionProperty",
-    EndEvalMemberExpressionProperty: "EndEvalMemberExpressionProperty",
+    EvalMemberExpressionProperty: "EvalMemberExpressionProperty",
 
     EvalReturnExpression: "EvalReturnExpression",
     ReturnFromFunctionCall: "ReturnFromFunctionCall",

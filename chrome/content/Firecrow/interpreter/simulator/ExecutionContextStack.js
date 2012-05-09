@@ -10,10 +10,10 @@ const fcSimulator = Firecrow.Interpreter.Simulator;
 const fcCommands = Firecrow.Interpreter.Commands;
 const fcModel = Firecrow.Interpreter.Model;
 
-Firecrow.Interpreter.Simulator.ExecutionContext = function(variableObject, scopeChain, thisValue, globalObject, contextCreationCommand)
+Firecrow.Interpreter.Simulator.ExecutionContext = function(variableObject, scopeChain, thisObject, globalObject, contextCreationCommand)
 {
     this.variableObject = variableObject || globalObject.globalVariableObject;
-    this.thisValue = thisValue || globalObject;
+    this.thisObject = thisObject || globalObject;
 
     this.globalObject = globalObject;
 
@@ -127,6 +127,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isExitFunctionContextCommand()) { this._exitFunctionContext(command); }
             else if (command.isForStatementCommand() || command.isWhileStatementCommand()
                  ||  command.isDoWhileStatementCommand()) {}
+            else if (command.isEvalNewExpressionCommand()) {}
             else
             {
                 this.evaluator.evaluateCommand(command);
@@ -184,7 +185,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
         try
         {
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || !callExpressionCommand.isEvalCallExpressionCommand()) { alert("ExecutionContextStack - argument must be a callExpression command"); return; }
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand())) { alert("ExecutionContextStack - argument must be a call or new Expression command"); return; }
 
             if(callExpressionCommand.codeConstruct.arguments != null)
             {
@@ -399,6 +400,27 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         );
 
         return value;
+    },
+
+    createObjectInCurrentContext: function(constructorFunction, creationCodeConstruct)
+    {
+        var newObject = constructorFunction != null ? new constructorFunction()
+                                                    : {};
+
+        Object.defineProperty
+        (
+            newObject,
+            "__FIRECROW_INTERNAL__",
+            {
+                value:
+                {
+                    codeConstruct: creationCodeConstruct,
+                    object: new Firecrow.Interpreter.Model.Object(this.globalObject, creationCodeConstruct)
+                }
+            }
+        );
+
+        return newObject;
     }
 };
 }});
