@@ -91,9 +91,10 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(this.isStatement(astElement)
+                if((this.isStatement(astElement)
                     || this.isFunctionDeclaration(astElement)
                     || this.isVariableDeclaration(astElement))
+                   && !this.isBlockStatement(astElement))
                 {
                     processSourceElementFunction(astElement);
                 }

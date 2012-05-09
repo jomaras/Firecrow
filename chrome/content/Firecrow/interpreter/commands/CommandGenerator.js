@@ -731,6 +731,20 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         return commands;
     },
 
+    generateLoopExecutionCommands: function(loopStatementCommand, evaldCondition)
+    {
+        try
+        {
+            if(!loopStatementCommand.isLoopStatementCommand()) { alert("CommandGenerator: should be a loop statement command"); return;}
+
+            if(loopStatementCommand.isForStatementCommand()) { return this.generateForBodyExecutionCommands(loopStatementCommand, evaldCondition); }
+            else if (loopStatementCommand.isDoWhileStatementCommand()) { return this.generateDoWhileBodyExecutionCommands(loopStatementCommand, evaldCondition); }
+            else if (loopStatementCommand.isWhileStatementCommand()) { return this.generateWhileBodyExecutionCommands(loopStatementCommand, evaldCondition); }
+            else { alert("CommandGenerator - Unknown loop statement!"); }
+        }
+        catch(e) { alert("Error when generating loop execution commands: " + e); }
+    },
+
     generateWhileStatementExecutionCommands: function (sourceElement, parentFunctionCommand)
     {
         var commands = [];
@@ -866,11 +880,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isForStatement(sourceElement))
-            {
-                alert("Source element is not a for statement when generating commands");
-                return;
-            }
+            if(!astHelper.isForStatement(sourceElement)) { alert("Source element is not a for statement when generating commands"); return; }
 
             if(sourceElement.init != null)
             {
@@ -906,7 +916,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!forStatementCommand.isForStatementCommand()) { alert("Should be a for statment command!"); return commands; }
+            if(!forStatementCommand.isForStatementCommand()) { alert("Should be a for statement command!"); return commands; }
 
             if(evaldCondition)
             {
@@ -926,23 +936,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
                 if(forStatementCommand.codeConstruct.update != null)
                 {
-                    commands.push(new fcCommands.Command
-                    (
-                        forStatementCommand.codeConstruct.update,
-                        fcCommands.Command.COMMAND_TYPE.StartForStatementUpdate,
-                        forStatementCommand.parentFunctionCommand
-                    ));
-
                     ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
                     (
                         forStatementCommand.codeConstruct.update,
-                        forStatementCommand.parentFunctionCommand
-                    ));
-
-                    commands.push(new fcCommands.Command
-                    (
-                        forStatementCommand.codeConstruct.update,
-                        fcCommands.Command.COMMAND_TYPE.EndForStatementUpdate,
                         forStatementCommand.parentFunctionCommand
                     ));
                 }
@@ -1846,8 +1842,6 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.WhileStatement; },
     isDoWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.DoWhileStatement; },
     isForStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForStatement; },
-    isStartForStatementUpdateCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartForStatementUpdate; },
-    isEndForStatementUpdateCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndForStatementUpdate; },
     isStartForInStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartForInStatement; },
     isEndForInStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndForInStatement; },
     isEvalForInWhereCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalForInWhere; },

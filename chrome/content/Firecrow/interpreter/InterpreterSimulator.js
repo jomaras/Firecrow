@@ -199,7 +199,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             else if (command.isCaseCommand()) { this.generateCommandsAfterCaseCommand(command); }
             else { alert("Unknown generating new commands command!"); }
         }
-        catch(e) { alert("An error occured while processing generate new commands command:" + e);}
+        catch(e) { alert("An error occurred while processing generate new commands command:" + e);}
     },
 
     generateCommandsAfterThrow: function(throwCommand)
@@ -240,7 +240,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            if(callExpressionCommand == null) { alert("InterpreterSimulator: callFunctionCommand can not be null!"); return; }
             if(!ValueTypeHelper.isOfType(callExpressionCommand, Command) || !callExpressionCommand.isEvalCallExpressionCommand()) { alert("InterpreterSimulator: argument is not callExpressionCommand"); return; }
 
             var callConstruct = callExpressionCommand.codeConstruct;
@@ -256,7 +255,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 ),
                 this.currentCommandIndex + 1
             );
-
         }
         catch(e) { alert("Error while generating commands after call function command: " + e);}
     },
@@ -265,9 +263,20 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            alert("Evaluating loop commands not yet completed!");
+            if(!ValueTypeHelper.isOfType(loopCommand, Command) || !loopCommand.isLoopStatementCommand()) { alert("InterpreterSimulator - argument has to be a loop command!"); return; }
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateLoopExecutionCommands
+                (
+                    loopCommand,
+                    this.contextStack.getExpressionValue(loopCommand.codeConstruct.test)
+                ),
+                this.currentCommandIndex + 1
+            );
         }
-        catch(e) { alert("Error while generating commands after loop command: " + e);}
+        catch(e) { alert("InterpreterSimulator - Error while generating commands after loop command: " + e);}
     },
 
     generateCommandsAfterIfCommand: function(ifCommand)

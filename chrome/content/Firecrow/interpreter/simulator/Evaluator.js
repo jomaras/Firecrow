@@ -28,6 +28,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEvalIdentifierCommand()) { this._evaluateIdentifierCommand(command); }
                 else if (command.isEvalLiteralCommand()) { this._evaluateLiteralCommand(command); }
                 else if (command.isEvalAssignmentExpressionCommand()) { this._evaluateAssignmentExpressionCommand(command); }
+                else if (command.isEvalUpdateExpressionCommand()) { this._evaluateUpdateExpressionCommand(command); }
                 else if (command.isEvalBinaryExpressionCommand()) { this._evaluateBinaryExpressionCommand(command); }
                 else if (command.isEvalCallExpressionCommand()) { this._evaluateCallExpressionCommand(command); }
                 else if (command.isEvalReturnExpressionCommand()) { this._evaluateReturnExpressionCommand(command); }
@@ -129,6 +130,37 @@ FBL.ns(function() { with (FBL) {
                 );
             }
             catch(e) { alert("Evaluator - error when evaluating assignment expression " + e);}
+        },
+
+        _evaluateUpdateExpressionCommand: function(evalUpdateExpressionCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(evalUpdateExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalUpdateExpressionCommand.isEvalUpdateExpressionCommand()) { alert("Evaluator: is not an UpdateExpressionCommand"); return; }
+
+                var codeConstruct = evalUpdateExpressionCommand.codeConstruct;
+                var currentValue = this.executionContextStack.getExpressionValue(codeConstruct.argument);
+
+                if(ASTHelper.isIdentifier(codeConstruct.argument))
+                {
+                    this.executionContextStack.setIdentifierValue
+                    (
+                        codeConstruct.argument.name,
+                        codeConstruct.operator == "++" ? currentValue + 1 : currentValue - 1
+                    );
+                }
+                else
+                {
+                    alert("Still not handling updates non-identifier expressions!");
+                }
+
+                this.executionContextStack.setExpressionValue
+                (
+                    codeConstruct.argument,
+                    codeConstruct.prefix ? (codeConstruct.operator == "++" ? ++currentValue : --currentValue) : (codeConstruct.operator == "++" ? currentValue++ : currentValue--)
+                )
+            }
+            catch(e) { alert("Evaluator: An error has occurred when updating an expression:" + e); }
         },
 
         _evaluateIdentifierCommand: function(evalIdentifierCommand)
