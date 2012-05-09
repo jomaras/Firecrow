@@ -5,6 +5,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 const ExecutionContextStack = Firecrow.Interpreter.Simulator.ExecutionContextStack;
+const Command = Firecrow.Interpreter.Commands.Command;
 const CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 
 const ValueTypeHelper = Firecrow.ValueTypeHelper;
@@ -32,7 +33,9 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
             {
                 var command = this.commands[this.currentCommandIndex];
+
                 this.processCommand(command);
+
                 this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
             }
         }
@@ -78,9 +81,9 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         try
         {
             if(command.isEvalReturnExpressionCommand()) { this.removeCommandsAfterReturnStatement(command); }
-            else if (command.isBreakCommand()) { this.removeCommandsAfterBreak(command); }
-            else if (command.isContinueCommand()) { this.removeCommandsAfterContinue(command); }
-            else if (command.isEvalThrowCommand()) { this.removeCommandsAfterThrow(command); }
+            else if (command.isEvalBreakCommand()) { this.removeCommandsAfterBreak(command); }
+            else if (command.isEvalContinueCommand()) { this.removeCommandsAfterContinue(command); }
+            else if (command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterThrow(command); }
             else if (command.isEvalLogicalExpressionItemCommand()) { this.removeCommandsAfterLogicalExpressionItem(command); }
             else if (command.isCaseCommand()) { this.removeCommandsAfterCase(command); }
             else { alert("Unknown removing commands command: " + command.type); }
@@ -92,23 +95,17 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            var returnFunctionParent = ASTHelper.getFunctionParent(returnCommand.codeConstruct);
+            var callExpressionCommand = returnCommand.parentFunctionCommand;
 
             for(var i = this.currentCommandIndex + 1; i < this.commands.length;)
             {
                 var command = this.commands[i];
 
-                var currentCommandFunctionParent = ASTHelper.getFunctionParent(command.codeConstruct);
-
-                if(currentCommandFunctionParent != null && currentCommandFunctionParent == returnFunctionParent
-               && (command.parentFunctionCommand == null || command.parentFunctionCommand == returnCommand.parentFunctionCommand))
-                {
-                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
-                }
+                if(!command.isExitFunctionContextCommand() && command.parentFunctionCommand == callExpressionCommand) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
                 else { break; }
             }
         }
-        catch(e) { alert("Error while removing commands after return statment:" + e);}
+        catch(e) { alert("Error while removing commands after return statement:" + e);}
     },
 
     removeCommandsAfterBreak: function(breakCommand)
@@ -145,8 +142,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 if(parent != null && parent == continueParentStatement)
                 {
                     if(command.isForStatementCommand() || command.isDoWhileStatementCommand()
-                    || command.isForInWhereCommand() || command.isWhileStatementCommand()
-                    || command.isForStatementStartUpdateCommand())
+                    || command.isStartForInStatementCommand() || command.isWhileStatementCommand()
+                    || command.isStartForStatementUpdateCommand())
                     {
                         break;
                     }
@@ -239,12 +236,26 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("Error while generating commands after new expression command: " + e);}
     },
 
-    generateCommandsAfterCallFunctionCommand: function(callFunctionCommand)
+    generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)
     {
         try
         {
-            if(callFunctionCommand == null) { alert("InterpreterSimulator: callFunctionCommand can not be null!"); return; }
+            if(callExpressionCommand == null) { alert("InterpreterSimulator: callFunctionCommand can not be null!"); return; }
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, Command) || !callExpressionCommand.isEvalCallExpressionCommand()) { alert("InterpreterSimulator: argument is not callExpressionCommand"); return; }
 
+            var callConstruct = callExpressionCommand.codeConstruct;
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateFunctionExecutionCommands
+                (
+                    callExpressionCommand,
+                    this.contextStack.getExpressionValue(callConstruct.callee),
+                    this.contextStack.getBaseObject(callConstruct.callee)
+                ),
+                this.currentCommandIndex + 1
+            );
 
         }
         catch(e) { alert("Error while generating commands after call function command: " + e);}

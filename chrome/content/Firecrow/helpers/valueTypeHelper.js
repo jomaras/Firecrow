@@ -202,7 +202,7 @@ Firecrow.ValueTypeHelper =
             elements.forEach(function(element)
             {
                 this.insertIntoArrayAtIndex(array, element, index++);
-            });
+            }, this);
         }
         catch(e) { alert("Error when inserting elements into array: " + e);}
     },

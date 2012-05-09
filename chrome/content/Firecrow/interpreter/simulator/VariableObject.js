@@ -5,7 +5,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 const ValueTypeHelper = Firecrow.ValueTypeHelper;
-const fcSimulator = Firecrow.Interpreter.InterpreterSimulator;
+const fcSimulator = Firecrow.Interpreter.Simulator;
 
 Firecrow.Interpreter.Simulator.VariableObject = function(executionContext)
 {
@@ -23,7 +23,7 @@ Firecrow.Interpreter.Simulator.VariableObject.prototype =
 
             var existingIdentifier = this.getIdentifier(identifier.name);
 
-            if(existingIdentifier == null) { this.identifiers.add(identifier); }
+            if(existingIdentifier == null) { this.identifiers.push(identifier); }
             else { existingIdentifier.setValue(identifier.value, identifier.lastModificationConstruct); }
         }
         catch(e) { alert("Error when registering identifier in VariableObject:" + e);}
@@ -78,7 +78,7 @@ Firecrow.Interpreter.Simulator.VariableObject.prototype =
     }
 };
 
-Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = function(functionIdentifier, formalParameters, calleeFunction, sentArguments)
+Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = function(functionIdentifier, formalParameters, calleeFunction, sentArguments, callExpressionCommand)
 {
     try
     {
@@ -86,8 +86,11 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
 
         functionVariableObject.functionIdentifier = functionIdentifier;
         functionVariableObject.formalParameters = formalParameters;
-        functionVariableObject.caleeFunction = caleeFunction;
+        functionVariableObject.calleeFunction = calleeFunction;
         functionVariableObject.sentArguments = sentArguments;
+
+        //TODO - there might be a problem, since these should be shared variables
+        functionVariableObject.registerIdentifier(new Firecrow.Interpreter.Model.Identifier("arguments", sentArguments, callExpressionCommand.codeConstruct.arguments));
 
         if(functionIdentifier != null) { functionVariableObject.registerIdentifier(functionIdentifier); }
         if(formalParameters != null)
@@ -98,7 +101,7 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
             });
         }
 
-        alert("TODO: create arguments object as an interal array!");
+        return functionVariableObject;
     }
     catch(e) { alert("Error while creating function variable object: " + e);}
 };

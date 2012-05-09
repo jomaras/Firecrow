@@ -54,7 +54,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         catch(e) { alert("Error while generating commands in CommandGenerator: " + e);}
     },
 
-    generateDeclarationCommands: function(sourceElement)
+    generateDeclarationCommands: function(sourceElement, parentFunctionCommand)
     {
         var declarationCommands = [];
 
@@ -67,12 +67,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             {
                 sourceElement.declarations.forEach(function(variableDeclarator)
                 {
-                    declarationCommands.push(new Command(variableDeclarator, commandType.DeclareVariable));
+                    declarationCommands.push(new Command(variableDeclarator, commandType.DeclareVariable, parentFunctionCommand));
                 });
             }
             else if (astHelper.isFunctionDeclaration(sourceElement))
             {
-                declarationCommands.push(new Command(sourceElement, commandType.DeclareFunction));
+                declarationCommands.push(new Command(sourceElement, commandType.DeclareFunction, parentFunctionCommand));
             }
             else if (astHelper.isForStatement(sourceElement))
             {
@@ -80,7 +80,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 {
                     sourceElement.init.declarations.forEach(function(variableDeclarator)
                     {
-                        declarationCommands.push(new Command(variableDeclarator, commandType.DeclareVariable));
+                        declarationCommands.push(new Command(variableDeclarator, commandType.DeclareVariable, parentFunctionCommand));
                     });
                 }
             }
@@ -90,7 +90,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 {
                     sourceElement.left.declarations.forEach(function(variableDeclarator)
                     {
-                        declarationCommands.push(new Command(variableDeclarator, commandType.DeclareVariable));
+                        declarationCommands.push(new Command(variableDeclarator, commandType.DeclareVariable, parentFunctionCommand));
                     });
                 }
             }
@@ -184,6 +184,29 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             }
         }
         catch(e) { alert("Error while generating execution commands in CommandGenerator:" + e); }
+    },
+
+    generateFunctionExecutionCommands: function(callExpressionCommand, functionObject, thisObject)
+    {
+        try
+        {
+            var commands = [];
+
+            if(callExpressionCommand == null) { alert("CommandGenerator: callExpressionCommand can not be null when generating function execution commands!"); return commands; }
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || !callExpressionCommand.isEvalCallExpressionCommand()) { alert("CommandGenerator: an argument is not EvalCallExpressionCommand"); return commands; }
+
+            if(functionObject == null) { alert("CommandGenerator: the function object must not be null!"); return commands; }
+
+            commands.push(fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand));
+
+            ValueTypeHelper.pushAll(commands, this.generateDeclarationCommands(functionObject.__FIRCROW_INTERNAL__.codeConstruct.body, callExpressionCommand));
+            ValueTypeHelper.pushAll(commands, this.generateExecutionCommands(functionObject.__FIRCROW_INTERNAL__.codeConstruct.body, callExpressionCommand));
+
+            commands.push(fcCommands.Command.createExitFunctionContextCommand(functionObject, callExpressionCommand));
+
+            return commands;
+        }
+        catch (e) { alert("CommandGenerator: An error occurred when generating function execution commands: " + e); }
     },
 
     generateVariableDeclarationExecutionCommands: function (sourceElement, parentFunctionCommand)
@@ -311,7 +334,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             }
             else
             {
-                if(sourceElement.alternate != null)
+                if(ifStatementCommand.codeConstruct.alternate != null)
                 {
                     astHelper.traverseDirectSourceElements
                     (
@@ -1454,7 +1477,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             commands.push(new fcCommands.Command
             (
                 sourceElement,
-                fcCommands.Command.COMMAND_TYPE.ExecuteConditionalExpressionBody,
+                fcCommands.Command.COMMAND_TYPE.EvalConditionalExpressionBody,
                 parentFunctionCommand
             ));
         }
@@ -1693,12 +1716,27 @@ Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeCon
         {
             command.leftSide = codeConstruct.left;
             command.rightSide = codeConstruct.right;
-            command.operator = codeConstruct.operator.token;
+            command.operator = codeConstruct.operator;
         }
 
         return command;
     }
     catch(e) { alert("Error while creating assignment command: " + e);}
+};
+
+Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = function(functionObject, thisObject, parentFunctionCommand)
+{
+    var command = new fcCommands.Command(functionObject.__FIRCROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
+
+    command.callee = functionObject;
+    command.thisObject = thisObject;
+
+    return command;
+};
+
+Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = function(functionObject, parentFunctionCommand)
+{
+    return new fcCommands.Command(functionObject.__FIRCROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
 };
 
 Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
@@ -1752,6 +1790,10 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isEvalNewExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalNewExpression; },
 
     isEvalCallExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallExpression; },
+
+    isEnterFunctionContextCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EnterFunctionContext; },
+    isExitFunctionContextCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ExitFunctionContext; },
+
     isEvalCallbackFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallbackFunction; },
 
     isStartEvalMemberExpressionPropertyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartEvalMemberExpressionProperty; },
@@ -1830,7 +1872,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EvalBreak: "EvalBreak",
     EvalContinue: "EvalContinue",
 
-    EvalCallbackFunctionCommand: "EvalCallbackFunction",
+    EvalCallbackFunction: "EvalCallbackFunction",
 
     EvalLogicalExpression: "EvalLogicalExpression",
     EvalLogicalExpressionItem: "EvalLogicalExpressionItem",
@@ -1838,8 +1880,11 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EvalConditionalExpression: "EvalConditionalExpression",
     EvalNewExpression: "EvalNewExpression",
     EvalCallExpression: "EvalCallExpression",
-    EvalMemberExpression: "EvalMemberExpression",
 
+    EnterFunctionContext: "EnterFunctionContext",
+    ExitFunctionContext: "ExitFunctionContext",
+
+    EvalMemberExpression: "EvalMemberExpression",
     StartEvalMemberExpressionProperty: "StartEvalMemberExpressionProperty",
     EndEvalMemberExpressionProperty: "EndEvalMemberExpressionProperty",
 

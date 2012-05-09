@@ -7,6 +7,7 @@ FBL.ns(function() { with (FBL) {
 const ValueTypeHelper = Firecrow.ValueTypeHelper;
 const ASTHelper = Firecrow.ASTHelper;
 const fcSimulator = Firecrow.Interpreter.Simulator;
+const fcCommands = Firecrow.Interpreter.Commands;
 const fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.Interpreter.Simulator.ExecutionContext = function(variableObject, scopeChain, thisValue, globalObject, contextCreationCommand)
@@ -118,7 +119,93 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
     executeCommand: function(command)
     {
-         this.evaluator.evaluateCommand(command);
+        try
+        {
+            if(!ValueTypeHelper.isOfType(command, fcCommands.Command)) { alert("ExecutionContextStack - argument must be a command"); return; }
+
+            if(command.isEnterFunctionContextCommand()) { this._enterFunctionContext(command); }
+            else if (command.isExitFunctionContextCommand()) { this._exitFunctionContext(command); }
+            else
+            {
+                this.evaluator.evaluateCommand(command);
+            }
+        }
+        catch(e) { alert("ExecutionContextStack - error when executing command: " + e); }
+    },
+
+    _enterFunctionContext: function(enterFunctionContextCommand)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(enterFunctionContextCommand, fcCommands.Command) || !enterFunctionContextCommand.isEnterFunctionContextCommand()) { alert("ExecutionContextStack - argument must be a enterFunctionContext command"); return; }
+
+            var functionConstruct = enterFunctionContextCommand.callee.__FIRCROW_INTERNAL__.codeConstruct;
+
+            this.push
+            (
+                new fcSimulator.ExecutionContext
+                (
+                    fcSimulator.VariableObject.createFunctionVariableObject
+                    (
+                        functionConstruct.id != null ? new fcModel.Identifier(functionConstruct.id.name, enterFunctionContextCommand.callee, functionConstruct)
+                                                     : null,
+                        this._getFormalParameters(functionConstruct),
+                        enterFunctionContextCommand.callee,
+                        this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand),
+                        enterFunctionContextCommand.parentFunctionCommand
+                    ),
+                    enterFunctionContextCommand.callee.__FIRCROW_INTERNAL__.scopeChain,
+                    enterFunctionContextCommand.thisObject,
+                    this.globalObject,
+                    enterFunctionContextCommand
+                )
+            );
+        }
+        catch(e) { alert("ExecutionContextStack - Error when entering function context: " + e); }
+    },
+
+    _getFormalParameters: function(functionConstruct)
+    {
+        try
+        {
+            return functionConstruct.params.map(function(param)
+            {
+                return new fcModel.Identifier(param.name, undefined, param);
+            });
+        }
+        catch(e) { alert("ExecutionContextStack - error when getting formal function parameters: " + e); }
+    },
+
+    _getSentArgumentValues: function(callExpressionCommand)
+    {
+        var values = [];
+
+        try
+        {
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || !callExpressionCommand.isEvalCallExpressionCommand()) { alert("ExecutionContextStack - argument must be a callExpression command"); return; }
+
+            if(callExpressionCommand.codeConstruct.arguments != null)
+            {
+                callExpressionCommand.codeConstruct.arguments.forEach(function(argument)
+                {
+                    values.push(this.getExpressionValue(argument));
+                }, this);
+            }
+        }
+        catch(e) { alert("ExecutionContextStack - Error when getting sent arguments"); }
+
+        return values;
+    },
+
+    _exitFunctionContext: function(exitFunctionContextCommand)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(exitFunctionContextCommand, fcCommands.Command) || !exitFunctionContextCommand.isExitFunctionContextCommand()) { alert("ExecutionContextStack - argument must be a exitFunctionContext command"); return; }
+
+            this.pop();
+        }
+        catch(e) { alert("ExecutionContextStack - Error when exiting function context: " + e); }
     },
 
     push: function(executionContext)
@@ -166,10 +253,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             if(!ASTHelper.isFunctionDeclaration(functionDeclaration)) { alert("ExecutionContextStack: When registering a function, the argument has to be a function declaration"); }
             if(this.activeContext == null) { alert("ExecutionContextStack: ActiveContext must not be null when registering function declaration"); return; }
 
-            var value = function(){ };
-            value.codeConstruct = functionDeclaration;
-
-            this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, value, functionDeclaration));
+            this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this._createFunctionInCurrentContext(functionDeclaration), functionDeclaration));
         }
         catch(e) { alert("ExecutionContextStack - error when registering identifier: " + e); }
     },
@@ -225,8 +309,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             if(globalExecutionContext == null) { alert("ExecutionContextStack: global execution context can not be null!"); return; }
 
             globalExecutionContext.registerIdentifier(new fcModel.Identifier(identifierName, value, setCodeConstruct));
-
-            return;
         }
         catch(e) { alert("ExecutionContextStack: Error when setting Identifier value: " + e); }
     },
@@ -263,6 +345,19 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { alert("ExecutionContextStack - error when setting expression value: " + e); }
     },
 
+    setExpressionValueInPreviousContext: function(codeConstruct, value)
+    {
+        try
+        {
+            var previousExecutionContext = this.stack[this.stack.length - 2];
+
+            if(previousExecutionContext == null) { alert("ExecutionContextStack - There is no previous context!"); return; }
+
+            previousExecutionContext.setCodeConstructValue(codeConstruct, value);
+        }
+        catch(e) { alert("ExecutionContextStack - error when setting expression value in previous context: " + e); }
+    },
+
     getExpressionValue: function(codeConstruct)
     {
         try
@@ -272,6 +367,36 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             return this.activeContext.getCodeConstructValue(codeConstruct);
         }
         catch(e) { alert("ExecutionContextStack - error when setting expression value: " + e); }
+    },
+
+    getBaseObject: function(codeConstruct)
+    {
+        if(ASTHelper.isIdentifier(codeConstruct)) { return this.globalObject; }
+        else
+        {
+            alert("ExecutionContextStack - not handling getting base object on other expressions");
+            return this.globalObject;
+        }
+    },
+
+    _createFunctionInCurrentContext: function(functionCodeConstruct)
+    {
+        var value = function(){ };
+
+        Object.defineProperty
+        (
+            value,
+            "__FIRCROW_INTERNAL__",
+            {
+                value:
+                {
+                    codeConstruct: functionCodeConstruct,
+                    scopeChain: this.activeContext.scopeChain
+                }
+            }
+        );
+
+        return value;
     }
 };
 }});

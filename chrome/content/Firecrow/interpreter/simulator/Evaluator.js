@@ -30,6 +30,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEvalAssignmentExpressionCommand()) { this._evaluateAssignmentExpressionCommand(command); }
                 else if (command.isEvalBinaryExpressionCommand()) { this._evaluateBinaryExpressionCommand(command); }
                 else if (command.isEvalCallExpressionCommand()) { this._evaluateCallExpressionCommand(command); }
+                else if (command.isEvalReturnExpressionCommand()) { this._evaluateReturnExpressionCommand(command); }
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -43,7 +44,6 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(declareVariableCommand == null) { alert("Evaluator: DeclareVariableCommand is null!"); return;}
                 if(!ValueTypeHelper.isOfType(declareVariableCommand, Firecrow.Interpreter.Commands.Command) || !declareVariableCommand.isDeclareVariableCommand()) { alert("Evaluator: is not an DeclareVariableCommand"); return; }
 
                 this.executionContextStack.registerIdentifier(declareVariableCommand.codeConstruct);
@@ -55,7 +55,6 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(declareFunctionCommand == null) { alert("Evaluator: DeclareFunctionCommand is null!"); return;}
                 if(!ValueTypeHelper.isOfType(declareFunctionCommand, Firecrow.Interpreter.Commands.Command) || !declareFunctionCommand.isDeclareFunctionCommand()) { alert("Evaluator: is not an DeclareFunctionCommand"); return; }
 
                 this.executionContextStack.registerFunctionDeclaration(declareFunctionCommand.codeConstruct);
@@ -67,7 +66,6 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(evalLiteralCommand == null) { alert("Evaluator - evalLiteralCommand is null!"); return; }
                 if(!ValueTypeHelper.isOfType(evalLiteralCommand, Firecrow.Interpreter.Commands.Command) || !evalLiteralCommand.isEvalLiteralCommand()) { alert("Evaluator: is not an EvalLiteralCommand"); return; }
 
                 this.executionContextStack.setExpressionValue(evalLiteralCommand.codeConstruct, evalLiteralCommand.codeConstruct.value);
@@ -79,25 +77,56 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(evalAssignmentExpressionCommand == null) { alert("Evaluator - evalAssignmentExpressionCommand is null!"); return; }
                 if(!ValueTypeHelper.isOfType(evalAssignmentExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalAssignmentExpressionCommand.isEvalAssignmentExpressionCommand()) { alert("Evaluator: is not an EvalAssignmentExpressionCommand"); return; }
 
-                var assignmentConstruct = evalAssignmentExpressionCommand.codeConstruct;
+                var operator = evalAssignmentExpressionCommand.operator;
+                var finalValue = undefined;
 
-                if(ASTHelper.isVariableDeclarator(assignmentConstruct))
+                if(operator == "=")
+                {
+                    if(evalAssignmentExpressionCommand.rightSide != null)
+                    {
+                        finalValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.rightSide);
+                    }
+                }
+                else
+                {
+                    var leftValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.leftSide);
+                    var rightValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.rightSide);
+
+                    if(operator == "+=") { finalValue = leftValue + rightValue; }
+                    else if (operator == "-=") { finalValue = leftValue - rightValue; }
+                    else if (operator == "*=") { finalValue = leftValue * rightValue; }
+                    else if (operator == "/=") { finalValue = leftValue / rightValue; }
+                    else if (operator == "%=") { finalValue = leftValue % rightValue; }
+                    else if (operator == "<<=") { finalValue = leftValue << rightValue; }
+                    else if (operator == ">>=") { finalValue = leftValue >> rightValue; }
+                    else if (operator == ">>>=") { finalValue = leftValue >>> rightValue; }
+                    else if (operator == "|=") { finalValue = leftValue | rightValue; }
+                    else if (operator == "^=") { finalValue = leftValue ^ rightValue; }
+                    else if (operator == "&=") { finalValue = leftValue & rightValue; }
+                    else { alert("Evaluator: Unknown assignment operator!"); return; }
+                }
+
+                if(ASTHelper.isIdentifier(evalAssignmentExpressionCommand.leftSide))
                 {
                     this.executionContextStack.setIdentifierValue
                     (
-                        assignmentConstruct.id.name,
-                        assignmentConstruct.init != null ? this.executionContextStack.getExpressionValue(assignmentConstruct.init)
-                                                         : undefined,
-                        assignmentConstruct.init
+                        evalAssignmentExpressionCommand.leftSide.name,
+                        finalValue,
+                        evalAssignmentExpressionCommand.codeConstruct
                     );
                 }
                 else
                 {
-                    alert("Evaluator: Not handling assignment expressions");
+                    alert("Still not handling assigning values to member expressions!");
                 }
+
+                this.executionContextStack.setExpressionValue
+                (
+                    evalAssignmentExpressionCommand.codeConstruct,
+                    finalValue
+                );
             }
             catch(e) { alert("Evaluator - error when evaluating assignment expression " + e);}
         },
@@ -106,7 +135,6 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(evalIdentifierCommand == null) { alert("Evaluator - evalIdentifierCommand is null!"); return; }
                 if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { alert("Evaluator: is not an EvalIdentifierExpressionCommand"); return; }
 
                 this.executionContextStack.setExpressionValue
@@ -122,7 +150,6 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(evalBinaryExpressionCommand == null) { alert("Evaluator - evalBinaryExpressionCommand is null!"); return; }
                 if(!ValueTypeHelper.isOfType(evalBinaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalBinaryExpressionCommand.isEvalBinaryExpressionCommand()) { alert("Evaluator: is not an EvalBinaryExpressionCommand"); return;}
 
                 var binaryExpression = evalBinaryExpressionCommand.codeConstruct;
@@ -171,20 +198,25 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(evalCallExpressionCommand == null) { alert("Evaluator - evalCallExpressionCommand is null!"); return; }
                 if(!ValueTypeHelper.isOfType(evalCallExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalCallExpressionCommand.isEvalCallExpressionCommand()) { alert("Evaluator: is not an EvalCallExpressionCommand"); return; }
-
-                var argumentsValues = [];
-                var arguments = evalCallExpressionCommand.codeConstruct.arguments || [];
-
-                arguments.forEach(function(argument)
-                {
-                   argumentsValues.push(this.executionContextStack.getExpressionValue(argument));
-                }, this);
-
-                var caleeValue = this.executionContextStack.getExpressionValue(evalCallExpressionCommand.codeConstruct.callee);
             }
             catch(e) { alert("Evaluator - error when evaluating callExpression: " + e);}
+        },
+
+        _evaluateReturnExpressionCommand: function(evalReturnExpressionCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(evalReturnExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { alert("Evaluator: is not an EvalReturnExpressionCommand"); return; }
+
+                this.executionContextStack.setExpressionValueInPreviousContext
+                (
+                    evalReturnExpressionCommand.parentFunctionCommand.codeConstruct,
+                    evalReturnExpressionCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(evalReturnExpressionCommand.codeConstruct.argument)
+                                                                               : undefined
+                )
+            }
+            catch(e) { alert("Evaluator - error when evaluating return expression: " + e); }
         }
     };
 }});
