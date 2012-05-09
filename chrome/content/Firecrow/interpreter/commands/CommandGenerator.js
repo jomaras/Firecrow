@@ -199,8 +199,35 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             commands.push(fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand));
 
-            ValueTypeHelper.pushAll(commands, this.generateDeclarationCommands(functionObject.__FIRCROW_INTERNAL__.codeConstruct.body, callExpressionCommand));
-            ValueTypeHelper.pushAll(commands, this.generateExecutionCommands(functionObject.__FIRCROW_INTERNAL__.codeConstruct.body, callExpressionCommand));
+            var functionConstruct = functionObject.__FIRECROW_INTERNAL__.codeConstruct;
+
+            astHelper.traverseDirectSourceElements
+            (
+                functionConstruct.body,
+                function(sourceElement)
+                {
+                    ValueTypeHelper.pushAll
+                    (
+                        commands,
+                        fcCommands.CommandGenerator.generateDeclarationCommands(sourceElement, callExpressionCommand)
+                    );
+                },
+                true
+            );
+
+            astHelper.traverseDirectSourceElements
+            (
+                functionConstruct.body,
+                function(sourceElement)
+                {
+                    ValueTypeHelper.pushAll
+                    (
+                        commands,
+                        fcCommands.CommandGenerator.generateExecutionCommands(sourceElement, callExpressionCommand)
+                    );
+                },
+                false
+            );
 
             commands.push(fcCommands.Command.createExitFunctionContextCommand(functionObject, callExpressionCommand));
 
@@ -1726,7 +1753,7 @@ Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeCon
 
 Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = function(functionObject, thisObject, parentFunctionCommand)
 {
-    var command = new fcCommands.Command(functionObject.__FIRCROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
+    var command = new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
 
     command.callee = functionObject;
     command.thisObject = thisObject;
@@ -1736,7 +1763,7 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
 
 Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = function(functionObject, parentFunctionCommand)
 {
-    return new fcCommands.Command(functionObject.__FIRCROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
+    return new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
 };
 
 Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;

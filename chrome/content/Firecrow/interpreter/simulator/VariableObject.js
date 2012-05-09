@@ -92,12 +92,15 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
         //TODO - there might be a problem, since these should be shared variables
         functionVariableObject.registerIdentifier(new Firecrow.Interpreter.Model.Identifier("arguments", sentArguments, callExpressionCommand.codeConstruct.arguments));
 
+        var argumentsConstructs = callExpressionCommand.codeConstruct.arguments || [];
+
         if(functionIdentifier != null) { functionVariableObject.registerIdentifier(functionIdentifier); }
         if(formalParameters != null)
         {
-            formalParameters.forEach(function(formalParameter)
+            formalParameters.forEach(function(formalParameter, index)
             {
                 functionVariableObject.registerIdentifier(formalParameter);
+                formalParameter.setValue(sentArguments[index], argumentsConstructs[index]);
             });
         }
 

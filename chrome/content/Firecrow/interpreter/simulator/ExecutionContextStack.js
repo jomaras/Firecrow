@@ -139,7 +139,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ValueTypeHelper.isOfType(enterFunctionContextCommand, fcCommands.Command) || !enterFunctionContextCommand.isEnterFunctionContextCommand()) { alert("ExecutionContextStack - argument must be a enterFunctionContext command"); return; }
 
-            var functionConstruct = enterFunctionContextCommand.callee.__FIRCROW_INTERNAL__.codeConstruct;
+            var functionConstruct = enterFunctionContextCommand.callee.__FIRECROW_INTERNAL__.codeConstruct;
 
             this.push
             (
@@ -154,7 +154,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand),
                         enterFunctionContextCommand.parentFunctionCommand
                     ),
-                    enterFunctionContextCommand.callee.__FIRCROW_INTERNAL__.scopeChain,
+                    enterFunctionContextCommand.callee.__FIRECROW_INTERNAL__.scopeChain,
                     enterFunctionContextCommand.thisObject,
                     this.globalObject,
                     enterFunctionContextCommand
@@ -386,7 +386,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         Object.defineProperty
         (
             value,
-            "__FIRCROW_INTERNAL__",
+            "__FIRECROW_INTERNAL__",
             {
                 value:
                 {
