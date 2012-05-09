@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/10/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/11/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/htmlModelMapping.js" afterPath="$PROJECT_DIR$/debug/htmlModelMapping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/testFiles/11/index.html" afterPath="$PROJECT_DIR$/debug/testFiles/11/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,7 +64,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/testFiles/11/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="22" selection-start="292" selection-end="292" vertical-scroll-proportion="0.35814607">
+            <state line="10" column="4" selection-start="220" selection-end="317" vertical-scroll-proportion="0.23876405">
               <folding />
             </state>
           </provider>
@@ -303,6 +299,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="testFiles" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="11" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="chrome" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -485,7 +503,11 @@
       <created>1336575091795</created>
       <updated>1336575091795</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Added DoWhile, While">
+      <created>1336576982169</created>
+      <updated>1336576982169</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -522,10 +544,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15783665" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15783665" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14232999" sideWeight="0.21901709" order="1" side_tool="true" content_ui="tabs" />
@@ -582,7 +604,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ForStatement processing;&#10;Fixed a bug when traversing direct source elements - the block statement does not call the callback function now" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added DoWhile, While" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -619,6 +641,7 @@
     <MESSAGE value="FIRCROW -&gt; FIRECROW;&#10;Fixed a bug when setting function variable values&#10;Added a new test - function definition and function call within a function" />
     <MESSAGE value="Adding a new test, minor changes in test html display" />
     <MESSAGE value="Added ForStatement processing;&#10;Fixed a bug when traversing direct source elements - the block statement does not call the callback function now" />
+    <MESSAGE value="Added DoWhile, While" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -731,7 +754,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/11/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="22" selection-start="292" selection-end="292" vertical-scroll-proportion="0.35814607">
+        <state line="10" column="4" selection-start="220" selection-end="317" vertical-scroll-proportion="0.23876405">
           <folding />
         </state>
       </provider>
