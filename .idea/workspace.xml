@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/08/index.html" />
+    <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="Adding a new test">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/09/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/htmlModelMapping.js" afterPath="$PROJECT_DIR$/debug/htmlModelMapping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/testFiles/07/index.html" afterPath="$PROJECT_DIR$/debug/testFiles/07/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/testFiles/08/index.html" afterPath="$PROJECT_DIR$/debug/testFiles/08/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,24 +27,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/07/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="10" selection-start="0" selection-end="332" vertical-scroll-proportion="-4.576923">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/08/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="21" selection-start="221" selection-end="221" vertical-scroll-proportion="-7.1923075">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="htmlModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -102,10 +81,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VariableObject.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="VariableObject.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="100" selection-start="3848" selection-end="3848" vertical-scroll-proportion="0.56368566">
+            <state line="102" column="100" selection-start="3848" selection-end="3848" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/debug/testFiles/09/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="34" selection-start="210" selection-end="210" vertical-scroll-proportion="0.21488763">
               <folding />
             </state>
           </provider>
@@ -132,8 +120,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" />
-        <option value="$PROJECT_DIR$/debug/testFiles/07/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Function.js" />
@@ -142,12 +128,14 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-        <option value="$PROJECT_DIR$/debug/testFiles/08/index.html" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" />
+        <option value="$PROJECT_DIR$/debug/testFiles/08/index.html" />
+        <option value="$PROJECT_DIR$/debug/testFiles/07/index.html" />
+        <option value="$PROJECT_DIR$/debug/testFiles/09/index.html" />
       </list>
     </option>
   </component>
@@ -294,7 +282,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="08" />
+              <option name="myItemId" value="09" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -350,6 +338,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\09" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\08" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\05" />
     </key>
@@ -494,7 +483,11 @@
       <created>1336566216477</created>
       <updated>1336566216477</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="FIRCROW -&gt; FIRECROW;&#10;Fixed a bug when setting function variable values&#10;Added a new test - function definition and function call within a function">
+      <created>1336569473977</created>
+      <updated>1336569473977</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -591,7 +584,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="working with functions - entering and exiting functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="FIRCROW -&gt; FIRECROW;&#10;Fixed a bug when setting function variable values&#10;Added a new test - function definition and function call within a function" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -625,18 +618,12 @@
     <MESSAGE value="Added correct source code lines detection when building js models" />
     <MESSAGE value="VariableDeclaration evaluation, FunctionDeclaration, started working on call expressions" />
     <MESSAGE value="working with functions - entering and exiting functions" />
+    <MESSAGE value="FIRCROW -&gt; FIRECROW;&#10;Fixed a bug when setting function variable values&#10;Added a new test - function definition and function call within a function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="8" selection-start="1523" selection-end="1523" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="80" selection-start="2774" selection-end="2774" vertical-scroll-proportion="0.0" />
@@ -666,13 +653,6 @@
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="115" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/07/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="10" selection-start="0" selection-end="332" vertical-scroll-proportion="-4.576923">
           <folding />
         </state>
       </provider>
@@ -726,16 +706,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/08/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="21" selection-start="221" selection-end="221" vertical-scroll-proportion="-7.1923075">
+        <state line="102" column="100" selection-start="3848" selection-end="3848" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/08/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="100" selection-start="3848" selection-end="3848" vertical-scroll-proportion="0.56368566">
+        <state line="7" column="55" selection-start="159" selection-end="159" vertical-scroll-proportion="-4.576923">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/07/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="57" selection-start="161" selection-end="161" vertical-scroll-proportion="-4.576923">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/09/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="34" selection-start="210" selection-end="210" vertical-scroll-proportion="0.21488763">
           <folding />
         </state>
       </provider>
