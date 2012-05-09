@@ -125,7 +125,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             if(command.isEnterFunctionContextCommand()) { this._enterFunctionContext(command); }
             else if (command.isExitFunctionContextCommand()) { this._exitFunctionContext(command); }
-            else if (command.isForStatementCommand()) {}
+            else if (command.isForStatementCommand() || command.isWhileStatementCommand()
+                 ||  command.isDoWhileStatementCommand()) {}
             else
             {
                 this.evaluator.evaluateCommand(command);
