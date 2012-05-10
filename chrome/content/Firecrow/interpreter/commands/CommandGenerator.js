@@ -1262,12 +1262,14 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 return commands;
             }
 
-            commands.push(new fcCommands.Command
+            var objectExpressionCommand = new fcCommands.Command
             (
                 sourceElement,
-                fcCommands.Command.COMMAND_TYPE.StartObjectExpression,
+                fcCommands.Command.COMMAND_TYPE.ObjectExpression,
                 parentFunctionCommand
-            ));
+            );
+
+            commands.push(objectExpressionCommand);
 
             sourceElement.properties.forEach(function(property)
             {
@@ -1275,20 +1277,8 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
                 if(property.kind == "get" || property.kind == "set") { alert("Getters and setters not supported!"); }
 
-                commands.push(new fcCommands.Command
-                (
-                    property,
-                    fcCommands.Command.COMMAND_TYPE.ObjectPropertyCreation,
-                    parentFunctionCommand
-                ));
+                commands.push(fcCommands.Command.createObjectPropertyCommand(property, objectExpressionCommand, parentFunctionCommand));
             }, this);
-
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.EndObjectExpression,
-                parentFunctionCommand
-            ));
         }
         catch(e) { alert("Error while generating object expression commands:" + e);}
 
@@ -1755,6 +1745,20 @@ Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = functio
     return new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
 };
 
+Firecrow.Interpreter.Commands.Command.createObjectPropertyCommand = function(codeConstruct, objectExpressionCommand, parentFunctionCommand)
+{
+    var command = new fcCommands.Command
+    (
+        codeConstruct,
+        fcCommands.Command.COMMAND_TYPE.ObjectPropertyCreation,
+        parentFunctionCommand
+    );
+
+    command.objectExpressionCommand = objectExpressionCommand;
+
+    return command;
+}
+
 Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
 
 Firecrow.Interpreter.Commands.Command.prototype =
@@ -1767,9 +1771,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isArrayExpressionItemCreationCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ArrayExpressionItemCreation; },
     isEndArrayExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndArrayExpression; },
 
-    isStartObjectExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartObjectExpression; },
+    isObjectExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ObjectExpression; },
     isObjectPropertyCreationCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ObjectPropertyCreation; },
-    isEndObjectExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndObjectExpression; },
 
     isStartWithStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartWithStatement; },
     isEndWithStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndWithStatement; },
@@ -1856,9 +1859,8 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     ArrayExpressionItemCreation: "ArrayExpressionItemCreation",
     EndArrayExpression: "EndArrayExpression",
 
-    StartObjectExpression: "StartObjectExpression",
+    ObjectExpression: "ObjectExpression",
     ObjectPropertyCreation: "ObjectPropertyCreation",
-    EndObjectExpression: "EndObjectExpression",
 
     StartWithStatement: "StartWithStatement",
     EndWithStatement: "EndWithStatement",

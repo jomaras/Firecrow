@@ -256,7 +256,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             if(!ASTHelper.isFunctionDeclaration(functionDeclaration)) { alert("ExecutionContextStack: When registering a function, the argument has to be a function declaration"); }
             if(this.activeContext == null) { alert("ExecutionContextStack: ActiveContext must not be null when registering function declaration"); return; }
 
-            this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this._createFunctionInCurrentContext(functionDeclaration), functionDeclaration));
+            this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration));
         }
         catch(e) { alert("ExecutionContextStack - error when registering identifier: " + e); }
     },
@@ -382,7 +382,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         }
     },
 
-    _createFunctionInCurrentContext: function(functionCodeConstruct)
+    createFunctionInCurrentContext: function(functionCodeConstruct)
     {
         var value = function(){ };
 

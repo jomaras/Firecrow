@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Creating new objects with object literal</div>
+<div id="resultContainer"></div>
+<script>
+var obj = {
+    a: 3,
+    b: "4",
+    c: function()
+    {
+        return 3;
+    },
+    d: {
+        c : 'd'
+    }
+};
+
+var b = 3, c = 4;
+
+c = b;
+b = obj.a;
+</script>
+</body>
+</html>
