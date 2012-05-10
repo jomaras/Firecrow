@@ -137,7 +137,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isEvalConditionalExpressionBodyCommand()) {}
             else if (command.isEvalBreakCommand() || command.isEvalContinueCommand()){}
             else if (command.isStartSwitchStatementCommand() || command.isEndSwitchStatementCommand() || command.isCaseCommand()) {}
-            else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) {}
+            else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
             else if (command.isEvalNewExpressionCommand()) {}
             else
             {

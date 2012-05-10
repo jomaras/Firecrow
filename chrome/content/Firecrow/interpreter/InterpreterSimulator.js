@@ -48,6 +48,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         try
         {
             if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { this.processTryCommand(command); }
+            if(command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterException(command); }
 
             this.contextStack.executeCommand(command);
 
