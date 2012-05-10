@@ -415,7 +415,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 value:
                 {
                     codeConstruct: creationCodeConstruct,
-                    object: new Firecrow.Interpreter.Model.Object(this.globalObject, creationCodeConstruct)
+                    object: new Firecrow.Interpreter.Model.Object(this.globalObject, creationCodeConstruct, newObject)
                 }
             }
         );

@@ -289,7 +289,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 CommandGenerator.generateLoopExecutionCommands
                 (
                     loopCommand,
-                    this.contextStack.getExpressionValue(loopCommand.codeConstruct.test)
+                    !loopCommand.isEvalForInWhereCommand() ? this.contextStack.getExpressionValue(loopCommand.codeConstruct.test) : null
                 ),
                 this.currentCommandIndex + 1
             );

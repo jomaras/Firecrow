@@ -40,6 +40,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isArrayExpressionCommand()) { this._evaluateArrayExpressionCommand(command);}
                 else if (command.isArrayExpressionItemCreationCommand()) { this._evaluateArrayExpressionItemCreationCommand(command);}
                 else if (command.isFunctionExpressionCreationCommand()) { this._evaluateFunctionExpressionCreationCommand(command); }
+                else if (command.isEvalForInWhereCommand()) { this._evaluateForInWhereCommand(command); }
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -406,6 +407,55 @@ FBL.ns(function() { with (FBL) {
                 array.__FIRECROW_INTERNAL__.array.push(expressionItemValue, arrayItemCreationCommand.codeConstruct);
             }
             catch(e) { alert("Evaluator - error when evaluating array expression item creation: " + e); }
+        },
+
+        _evaluateForInWhereCommand: function(evalForInWhereCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(evalForInWhereCommand, Firecrow.Interpreter.Commands.Command) || !evalForInWhereCommand.isEvalForInWhereCommand()) { alert("Evaluator - argument has to be an eval for in where command!"); return; }
+
+                var forInWhereConstruct = evalForInWhereCommand.codeConstruct;
+
+                var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
+
+                if(whereObject == null) { alert("Evaluator - where object can not be null in for in statement: " + e); }
+
+                var currentPropertyIndex = evalForInWhereCommand.currentPropertyIndex;
+                var nextPropertyName = whereObject.__FIRECROW_INTERNAL__.object.getPropertyNameAtIndex(currentPropertyIndex + 1);
+
+                if(nextPropertyName)
+                {
+                    evalForInWhereCommand.willBodyBeExecuted = true;
+
+                    if(ASTHelper.isIdentifier(forInWhereConstruct.left))
+                    {
+                        this.executionContextStack.setIdentifierValue
+                        (
+                            forInWhereConstruct.left.name,
+                            nextPropertyName,
+                            forInWhereConstruct
+                        );
+                    }
+                    else if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
+                    {
+                        if(forInWhereConstruct.left.declarations.length != 1) { alert("Evaluator: invalid number of variable declarations in for in statement!"); return; }
+
+                        this.executionContextStack.setIdentifierValue
+                        (
+                            forInWhereConstruct.left.declarations[0].id.name,
+                            nextPropertyName,
+                            forInWhereConstruct
+                        );
+                    }
+                    else {alert("Evaluator: Unknown forIn left statement");}
+                }
+                else
+                {
+                    evalForInWhereCommand.willBodyBeExecuted = false;
+                }
+            }
+            catch(e) { alert("Evaluator - error when evaluating for in where command: " + e); }
         }
     };
 }});

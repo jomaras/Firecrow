@@ -12,13 +12,15 @@ FBL.ns(function() { with (FBL) {
 const fcModel = Firecrow.Interpreter.Model;
 const ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-Firecrow.Interpreter.Model.Object = function(globalObject, codeConstruct)
+Firecrow.Interpreter.Model.Object = function(globalObject, codeConstruct, implementationObject)
 {
     this.id = fcModel.Object.LAST_ID++;
     this.globalObject = globalObject;
 
     this.modifications = [];
     this.addModification(codeConstruct);
+
+    this.implementationObject = implementationObject;
 
     this.proto = null;
     this.properties = [];
@@ -122,6 +124,28 @@ Firecrow.Interpreter.Model.Object.prototype =
             return proto.getProperty(name);
         }
         catch(e) { alert("Error when getting property - Object:" + e); }
+    },
+
+    getPropertyNameAtIndex: function(index)
+    {
+        var propertyNames = this._getEnumeratedPropertiesFromImplementationObject();
+
+        return propertyNames[index];
+    },
+
+    _getEnumeratedPropertiesFromImplementationObject: function()
+    {
+        var properties = [];
+
+        if(this.implementationObject != null)
+        {
+            for(var property in this.implementationObject)
+            {
+                properties.push(property);
+            }
+        }
+
+        return properties;
     },
 
     getPropertyValue: function(propertyName)

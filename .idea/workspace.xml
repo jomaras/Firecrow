@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/14/index.html" />
+    <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="Array Expressions and tests!">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/15/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/htmlModelMapping.js" afterPath="$PROJECT_DIR$/debug/htmlModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/testFiles/13/index.html" afterPath="$PROJECT_DIR$/debug/testFiles/13/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,10 +32,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="89" selection-start="2665" selection-end="2665" vertical-scroll-proportion="-6.5384617">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="CommandGenerator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1786" column="4" selection-start="63312" selection-end="63336" vertical-scroll-proportion="-6.84">
+            <state line="733" column="4" selection-start="26013" selection-end="26013" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -44,7 +53,7 @@
       <file leaf-file-name="Evaluator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="405" column="74" selection-start="23114" selection-end="23114" vertical-scroll-proportion="-19.28">
+            <state line="443" column="49" selection-start="25126" selection-end="25126" vertical-scroll-proportion="-10.92">
               <folding />
             </state>
           </provider>
@@ -53,7 +62,16 @@
       <file leaf-file-name="ExecutionContextStack.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="442" column="23" selection-start="15924" selection-end="15924" vertical-scroll-proportion="0.0">
+            <state line="7" column="49" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InterpreterSimulator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="293" column="57" selection-start="11910" selection-end="11910" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -82,25 +100,16 @@
       <file leaf-file-name="Object.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="4" selection-start="1015" selection-end="1026" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/13/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="104" selection-end="179" vertical-scroll-proportion="-4.576923">
+            <state line="128" column="19" selection-start="3551" selection-end="3551" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/14/index.html">
+        <entry file="file://$PROJECT_DIR$/debug/testFiles/15/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="6" selection-start="255" selection-end="255" vertical-scroll-proportion="0.34343433">
+            <state line="20" column="28" selection-start="340" selection-end="340" vertical-scroll-proportion="0.4906205">
               <folding />
             </state>
           </provider>
@@ -109,16 +118,7 @@
       <file leaf-file-name="htmlModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="133" column="0" selection-start="75945" selection-end="75945" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="67" selection-start="987" selection-end="987" vertical-scroll-proportion="-13.076923">
+            <state line="143" column="2" selection-start="88965" selection-end="88965" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -145,21 +145,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/testFiles/07/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/09/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/debug/testFiles/10/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/11/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/12/index.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
         <option value="$PROJECT_DIR$/debug/testFiles/13/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/14/index.html" />
-        <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
+        <option value="$PROJECT_DIR$/debug/testFiles/15/index.html" />
+        <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       </list>
     </option>
@@ -293,51 +293,29 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="15" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="testFiles" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="14" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="testFiles" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="13" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="testFiles" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="12" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -453,11 +431,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\15" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\13" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\12" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\11" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\09" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\08" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\chrome\content\Firecrow\interpreter\simulator" />
@@ -632,7 +610,11 @@
       <created>1336634777091</created>
       <updated>1336634777091</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Array Expressions and tests!">
+      <created>1336637380072</created>
+      <updated>1336637380072</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -729,7 +711,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Object Expression Creation, Function Expression Creation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Array Expressions and tests!" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -742,7 +724,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Started creating a file with interfaces to the AST generated by the Firefox&#10;" />
     <MESSAGE value="Adding Node recognition to ASTHelper" />
     <MESSAGE value="Statement traversal complete" />
     <MESSAGE value="Generating declaration commands" />
@@ -767,16 +748,12 @@
     <MESSAGE value="Added DoWhile, While, tests" />
     <MESSAGE value="MemberExpressions, NewExpressions handled,&#10;Added new tests" />
     <MESSAGE value="Object Expression Creation, Function Expression Creation" />
+    <MESSAGE value="Array Expressions and tests!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/09/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="81" selection-start="201" selection-end="201" vertical-scroll-proportion="0.19101124" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/10/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="55" selection-start="203" selection-end="203" vertical-scroll-proportion="0.19101124" />
@@ -785,11 +762,6 @@
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="100" column="78" selection-start="3619" selection-end="3619" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="237" column="73" selection-start="9621" selection-end="9621" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/11/index.html">
@@ -813,16 +785,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/14/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="0" selection-start="75945" selection-end="75945" vertical-scroll-proportion="0.0">
+        <state line="14" column="6" selection-start="255" selection-end="255" vertical-scroll-proportion="-9.153846">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="4" selection-start="1015" selection-end="1026" vertical-scroll-proportion="0.0">
+        <state line="49" column="89" selection-start="2665" selection-end="2665" vertical-scroll-proportion="-6.5384617">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="143" column="2" selection-start="88965" selection-end="88965" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -843,37 +822,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="19" selection-start="3551" selection-end="3551" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="442" column="23" selection-start="15924" selection-end="15924" vertical-scroll-proportion="0.0">
+        <state line="7" column="49" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1786" column="4" selection-start="63312" selection-end="63336" vertical-scroll-proportion="-6.84">
+        <state line="733" column="4" selection-start="26013" selection-end="26013" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="67" selection-start="987" selection-end="987" vertical-scroll-proportion="-13.076923">
+        <state line="293" column="57" selection-start="11910" selection-end="11910" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="405" column="74" selection-start="23114" selection-end="23114" vertical-scroll-proportion="-19.28">
+        <state line="443" column="49" selection-start="25126" selection-end="25126" vertical-scroll-proportion="-10.92">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/14/index.html">
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/15/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="6" selection-start="255" selection-end="255" vertical-scroll-proportion="0.34343433">
+        <state line="20" column="28" selection-start="340" selection-end="340" vertical-scroll-proportion="0.4906205">
           <folding />
         </state>
       </provider>

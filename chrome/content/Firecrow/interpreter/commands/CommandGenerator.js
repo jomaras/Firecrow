@@ -740,6 +740,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             if(loopStatementCommand.isForStatementCommand()) { return this.generateForBodyExecutionCommands(loopStatementCommand, evaldCondition); }
             else if (loopStatementCommand.isDoWhileStatementCommand()) { return this.generateDoWhileBodyExecutionCommands(loopStatementCommand, evaldCondition); }
             else if (loopStatementCommand.isWhileStatementCommand()) { return this.generateWhileBodyExecutionCommands(loopStatementCommand, evaldCondition); }
+            else if (loopStatementCommand.isEvalForInWhereCommand()) { return this.generateForInBodyExecutionCommands(loopStatementCommand, evaldCondition); }
             else { alert("CommandGenerator - Unknown loop statement!"); }
         }
         catch(e) { alert("Error when generating loop execution commands: " + e); }
@@ -971,32 +972,18 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isForInStatement(sourceElement))
-            {
-                alert("Source element is not a for in statement when generating commands");
-                return;
-            }
+            if(!astHelper.isForInStatement(sourceElement)) { alert("Source element is not a for in statement when generating commands"); return; }
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.StartForInStatement,
-                parentFunctionCommand
-            ));
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.EvalForInWhere,
-                parentFunctionCommand
-            ));
+
+            commands.push(fcCommands.Command.createForInWhereCommand(sourceElement, -1, parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating forin statement commands:" + e); }
+        catch(e) { alert("Error when generating for-in statement commands:" + e); }
 
         return commands;
     },
 
-    generateForInBodyExecutionCommands: function(forInCommand, hasNextProperty)
+    generateForInBodyExecutionCommands: function(forInCommand)
     {
         var commands = [];
 
@@ -1004,7 +991,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             if(!forInCommand.isEvalForInWhereCommand()) { alert("Should be a for-in statement command!"); return commands; }
 
-            if(hasNextProperty)
+            if(forInCommand.willBodyBeExecuted)
             {
                 astHelper.traverseDirectSourceElements
                 (
@@ -1020,24 +1007,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     false
                 );
 
-                commands.push(new fcCommands.Command
-                (
-                    forInCommand.codeConstruct,
-                    fcCommands.Command.COMMAND_TYPE.EvalForInWhere,
-                    forInCommand.parentFunctionCommand
-                ));
-            }
-            else
-            {
-                commands.push(new fcCommands.Command
-                (
-                    forInCommand.codeConstruct,
-                    fcCommands.Command.COMMAND_TYPE.EndForInStatement,
-                    forInCommand.parentFunctionCommand
-                ));
+                commands.push(fcCommands.Command.createForInWhereCommand(forInCommand.codeConstruct, forInCommand.currentPropertyIndex + 1, forInCommand.parentFunctionCommand));
             }
         }
         catch(e) { alert("Error when generating for in commands: " + e); }
+
+        return commands;
     },
 
     generateLetStatementExecutionCommands: function (sourceElement, parentFunctionCommand)
@@ -1775,6 +1750,20 @@ Firecrow.Interpreter.Commands.Command.createArrayExpressionItemCommand = functio
     catch(e) { alert("CommandGenerator - an error has occurred when generating array expression item commands"); }
 };
 
+Firecrow.Interpreter.Commands.Command.createForInWhereCommand = function(codeConstruct, currentPropertyIndex, parentFunctionCommand)
+{
+    try
+    {
+        var newForInWhereCommand = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.EvalForInWhere, parentFunctionCommand);
+
+        newForInWhereCommand.currentPropertyIndex  = currentPropertyIndex;
+
+        return newForInWhereCommand;
+    }
+    catch(e) { alert("CommandGenerator - error when creating a new For In Where command: " + e);}
+};
+
+
 
 Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
 
@@ -1853,8 +1842,6 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.WhileStatement; },
     isDoWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.DoWhileStatement; },
     isForStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForStatement; },
-    isStartForInStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartForInStatement; },
-    isEndForInStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndForInStatement; },
     isEvalForInWhereCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalForInWhere; },
 
     getLineNo: function()
@@ -1930,11 +1917,6 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     ForStatement: "ForStatement",
 
-    StartForStatementUpdate: "StartForStatementUpdate",
-    EndForStatementUpdate: "EndForStatementUpdate",
-
-    StartForInStatement: "StartForInStatement",
-    EndForInStatement: "EndForInStatement",
     EvalForInWhere: "EvalForInWhere",
 
     EvalConditionalExpressionBody: "EvalConditionalExpressionBody"
