@@ -41,6 +41,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isArrayExpressionItemCreationCommand()) { this._evaluateArrayExpressionItemCreationCommand(command);}
                 else if (command.isFunctionExpressionCreationCommand()) { this._evaluateFunctionExpressionCreationCommand(command); }
                 else if (command.isEvalForInWhereCommand()) { this._evaluateForInWhereCommand(command); }
+                else if (command.isEvalConditionalExpressionCommand()) { this._evaluateConditionalExpressionCommand(command);}
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -456,6 +457,21 @@ FBL.ns(function() { with (FBL) {
                 }
             }
             catch(e) { alert("Evaluator - error when evaluating for in where command: " + e); }
+        },
+
+        _evaluateConditionalExpressionCommand: function(conditionalExpressionCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(conditionalExpressionCommand, Firecrow.Interpreter.Commands.Command) || !conditionalExpressionCommand.isEvalConditionalExpressionCommand()) { alert("Evaluator - argument has to be an eval conditional expression command!"); return; }
+
+                this.executionContextStack.setExpressionValue
+                (
+                    conditionalExpressionCommand.codeConstruct,
+                    this.executionContextStack.getExpressionValue(conditionalExpressionCommand.body)
+                );
+            }
+            catch(e) { alert("Evaluator - Error when evaluating conditional expression command: " + e); }
         }
     };
 }});

@@ -1440,11 +1440,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isConditionalExpression(sourceElement))
-            {
-                alert("Source element is not a conditional expression!");
-                return commands;
-            }
+            if(!astHelper.isConditionalExpression(sourceElement)) { alert("Source element is not a conditional expression!"); return commands; }
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 

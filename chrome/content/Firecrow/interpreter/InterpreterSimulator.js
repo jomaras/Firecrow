@@ -141,16 +141,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 if(parent != null && parent == continueParentStatement)
                 {
-                    if(command.isForStatementCommand() || command.isDoWhileStatementCommand()
-                    || command.isStartForInStatementCommand() || command.isWhileStatementCommand()
-                    || command.isStartForStatementUpdateCommand())
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
-                    }
+                    if(command.isLoopStatementCommand()){ break;}
+                    else { ValueTypeHelper.removeFromArrayByIndex(this.commands, i);}
                 }
                 else { break; }
             }
@@ -321,7 +313,18 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            alert("Evaluating conditional commands not yet completed!");
+            if(!ValueTypeHelper.isOfType(conditionalCommand, Command) || !conditionalCommand.isEvalConditionalExpressionBodyCommand()) { alert("InterpreterSimulator - argument has to be a conditional expression body command!"); return; }
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateConditionalExpressionEvalBodyCommands
+                (
+                    conditionalCommand,
+                    this.contextStack.getExpressionValue(conditionalCommand.codeConstruct.test)
+                ),
+                this.currentCommandIndex + 1
+            );
         }
         catch(e) { alert("Error while generating commands after conditional command: " + e);}
     },
