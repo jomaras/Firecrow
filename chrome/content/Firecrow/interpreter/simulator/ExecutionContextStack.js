@@ -421,6 +421,26 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         );
 
         return newObject;
+    },
+
+    createArrayInCurrentContext: function(creationCodeConstruct)
+    {
+        var newArray = [];
+
+        Object.defineProperty
+        (
+            newArray,
+            "__FIRECROW_INTERNAL__",
+            {
+                value:
+                {
+                    codeConstruct: creationCodeConstruct,
+                    array: new Firecrow.Interpreter.Model.Array(this.globalObject, creationCodeConstruct)
+                }
+            }
+        );
+
+        return newArray;
     }
 };
 }});

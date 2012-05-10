@@ -1210,18 +1210,16 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isArrayExpression(sourceElement))
-            {
-                alert("Source element is not an array expression!");
-                return commands;
-            }
+            if(!astHelper.isArrayExpression(sourceElement)) { alert("Source element is not an array expression!"); return commands; }
 
-            commands.push(new fcCommands.Command
+            var arrayExpressionCommand = new fcCommands.Command
             (
                 sourceElement,
-                fcCommands.Command.COMMAND_TYPE.StartArrayExpression,
+                fcCommands.Command.COMMAND_TYPE.ArrayExpression,
                 parentFunctionCommand
-            ));
+            );
+
+            commands.push(arrayExpressionCommand);
 
             sourceElement.elements.forEach(function(item)
             {
@@ -1230,20 +1228,8 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(item, parentFunctionCommand));
                 }
 
-                commands.push(new fcCommands.Command
-                (
-                    item,
-                    fcCommands.Command.COMMAND_TYPE.ArrayExpressionItemCreation,
-                    parentFunctionCommand
-                ));
+                commands.push(fcCommands.Command.createArrayExpressionItemCommand(item, arrayExpressionCommand, parentFunctionCommand));
             }, this);
-
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.EndArrayExpression,
-                parentFunctionCommand
-            ));
         }
         catch(e) { alert("Error while generating array expression commands:" + e);}
 
@@ -1732,32 +1718,63 @@ Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeCon
 
 Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = function(functionObject, thisObject, parentFunctionCommand)
 {
-    var command = new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
+    try
+    {
+        var command = new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
 
-    command.callee = functionObject;
-    command.thisObject = thisObject;
+        command.callee = functionObject;
+        command.thisObject = thisObject;
 
-    return command;
+        return command;
+    }
+    catch(e) { alert("CommandGenerator - an error has occurred when generating enter function context commands: " + e); }
 };
 
 Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = function(functionObject, parentFunctionCommand)
 {
-    return new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
+    try
+    {
+        return new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
+    }
+    catch(e) { alert("CommandGenerator - an error has occurred when generating exit function context command:" + e); }
 };
 
 Firecrow.Interpreter.Commands.Command.createObjectPropertyCommand = function(codeConstruct, objectExpressionCommand, parentFunctionCommand)
 {
-    var command = new fcCommands.Command
-    (
-        codeConstruct,
-        fcCommands.Command.COMMAND_TYPE.ObjectPropertyCreation,
-        parentFunctionCommand
-    );
+    try
+    {
+        var command = new fcCommands.Command
+        (
+            codeConstruct,
+            fcCommands.Command.COMMAND_TYPE.ObjectPropertyCreation,
+            parentFunctionCommand
+        );
 
-    command.objectExpressionCommand = objectExpressionCommand;
+        command.objectExpressionCommand = objectExpressionCommand;
 
-    return command;
-}
+        return command;
+    }
+    catch(e) { alert("CommandGenerator - an error has occurred when generating create object property commands:" + e); }
+};
+
+Firecrow.Interpreter.Commands.Command.createArrayExpressionItemCommand = function(codeConstruct, arrayExpressionCommand, parentFunctionCommand)
+{
+    try
+    {
+        var command = new fcCommands.Command
+        (
+            codeConstruct,
+            fcCommands.Command.COMMAND_TYPE.ArrayExpressionItemCreation,
+            parentFunctionCommand
+        );
+
+        command.arrayExpressionCommand = arrayExpressionCommand;
+
+        return command;
+    }
+    catch(e) { alert("CommandGenerator - an error has occurred when generating array expression item commands"); }
+};
+
 
 Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
 
@@ -1767,9 +1784,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isDeclareFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.DeclareFunction; },
     isThisExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ThisExpression; },
 
-    isStartArrayExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartArrayExpression; },
+    isArrayExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ArrayExpression; },
     isArrayExpressionItemCreationCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ArrayExpressionItemCreation; },
-    isEndArrayExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndArrayExpression; },
 
     isObjectExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ObjectExpression; },
     isObjectPropertyCreationCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ObjectPropertyCreation; },
@@ -1855,9 +1871,8 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     ThisExpression: "ThisExpression",
 
-    StartArrayExpression: "StartArrayExpression",
+    ArrayExpression: "ArrayExpression",
     ArrayExpressionItemCreation: "ArrayExpressionItemCreation",
-    EndArrayExpression: "EndArrayExpression",
 
     ObjectExpression: "ObjectExpression",
     ObjectPropertyCreation: "ObjectPropertyCreation",

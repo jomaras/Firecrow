@@ -23,7 +23,7 @@ FBL.ns(function() { with (FBL) {
             {
                 if(!ValueTypeHelper.isOfType(command, Firecrow.Interpreter.Commands.Command)) { alert("Evaluator: When evaluating the argument has to be of type command"); return; }
 
-                if(command.isDeclareVariableCommand()) { this._evaluateDeclareVariableCommand(command); }
+                     if (command.isDeclareVariableCommand()) { this._evaluateDeclareVariableCommand(command); }
                 else if (command.isDeclareFunctionCommand()) { this._evaluateDeclareFunctionCommand(command); }
                 else if (command.isEvalIdentifierCommand()) { this._evaluateIdentifierCommand(command); }
                 else if (command.isEvalLiteralCommand()) { this._evaluateLiteralCommand(command); }
@@ -37,6 +37,8 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEvalMemberExpressionPropertyCommand()) { this._evaluateMemberExpressionPropertyCommand(command); }
                 else if (command.isObjectExpressionCommand()) { this._evaluateObjectExpressionCommand(command); }
                 else if (command.isObjectPropertyCreationCommand()) { this._evaluateObjectPropertyCreationCommand(command);}
+                else if (command.isArrayExpressionCommand()) { this._evaluateArrayExpressionCommand(command);}
+                else if (command.isArrayExpressionItemCreationCommand()) { this._evaluateArrayExpressionItemCreationCommand(command);}
                 else if (command.isFunctionExpressionCreationCommand()) { this._evaluateFunctionExpressionCreationCommand(command); }
                 else
                 {
@@ -332,11 +334,11 @@ FBL.ns(function() { with (FBL) {
             {
                 if(!ValueTypeHelper.isOfType(objectExpressionCommand, Firecrow.Interpreter.Commands.Command) || !objectExpressionCommand.isObjectExpressionCommand()) { alert("Evaluator - argument has to be an object expression creation command!"); return; }
 
-                var newObject = this.executionContextStack.createObjectInCurrentContext(null, (objectExpressionCommand).codeConstruct);
+                var newObject = this.executionContextStack.createObjectInCurrentContext(null, objectExpressionCommand.codeConstruct);
 
-                this.executionContextStack.setExpressionValue((objectExpressionCommand).codeConstruct, newObject);
+                this.executionContextStack.setExpressionValue(objectExpressionCommand.codeConstruct, newObject);
 
-                (objectExpressionCommand).createdObject = newObject;
+                objectExpressionCommand.createdObject = newObject;
             }
             catch(e) { alert("Evaluator - An error has occurred when evaluating object expression command:" + e); }
         },
@@ -371,6 +373,39 @@ FBL.ns(function() { with (FBL) {
                 object.__FIRECROW_INTERNAL__.object.addProperty(propertyKey, propertyValue, objectPropertyCreationCommand.codeConstruct);
             }
             catch(e) { alert("Evaluator - error when evaluating object property creation: " + e); }
+        },
+
+        _evaluateArrayExpressionCommand: function(arrayExpressionCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(arrayExpressionCommand, Firecrow.Interpreter.Commands.Command) || !arrayExpressionCommand.isArrayExpressionCommand()) { alert("Evaluator - argument has to be an array expression creation command!"); return; }
+
+                var newArray = this.executionContextStack.createArrayInCurrentContext(arrayExpressionCommand.codeConstruct);
+
+                this.executionContextStack.setExpressionValue(arrayExpressionCommand.codeConstruct, newArray);
+
+                arrayExpressionCommand.createdArray = newArray;
+            }
+            catch(e) { alert("Evaluator - An error has occurred when evaluating array expression command:" + e); }
+        },
+
+        _evaluateArrayExpressionItemCreationCommand: function(arrayItemCreationCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(arrayItemCreationCommand, Firecrow.Interpreter.Commands.Command) || !arrayItemCreationCommand.isArrayExpressionItemCreationCommand()) { alert("Evaluator - argument has to be an array expression item creation command!"); return; }
+
+                var array = arrayItemCreationCommand.arrayExpressionCommand.createdArray;
+
+                if(array == null) { alert("When evaluating array expression item the array must not be null!");  return; }
+
+                var expressionItemValue = this.executionContextStack.getExpressionValue(arrayItemCreationCommand.codeConstruct);
+
+                array.push(expressionItemValue);
+                array.__FIRECROW_INTERNAL__.array.push(expressionItemValue, arrayItemCreationCommand.codeConstruct);
+            }
+            catch(e) { alert("Evaluator - error when evaluating array expression item creation: " + e); }
         }
     };
 }});
