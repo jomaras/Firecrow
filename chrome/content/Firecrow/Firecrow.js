@@ -60,7 +60,7 @@ FBL.ns(function() { with (FBL) {
 
             this.loadHtmlInHiddenIFrame(function(htmlJson)
             {
-               alert(JSON.stringify(htmlJson));
+               prompt("JSON", JSON.stringify(htmlJson));
             });
 		},
 
@@ -116,7 +116,9 @@ FBL.ns(function() { with (FBL) {
 		{
 			try
 			{
-				this.hiddenIFrame = fbHelper.getElementByID('fdHiddenIFrame');
+				var hiddenIFrame = fbHelper.getElementByID('fdHiddenIFrame');
+
+                this.hiddenIFrame = hiddenIFrame;
 				
 				this.hiddenIFrame.style.height = "0px";
 				this.hiddenIFrame.webNavigation.allowAuth = true;
@@ -125,12 +127,15 @@ FBL.ns(function() { with (FBL) {
 				this.hiddenIFrame.webNavigation.allowMetaRedirects = true;
 				this.hiddenIFrame.webNavigation.allowPlugins = false;
 				this.hiddenIFrame.webNavigation.allowSubframes = false;
-				this.hiddenIFrame.addEventListener("DOMContentLoaded", function (e) 
+
+				this.hiddenIFrame.addEventListener("DOMContentLoaded", function listener(e)
 				{ 
 					try
 					{
 						Firebug.FirecrowModule.htmlJson = htmlHelper.serializeToHtmlJSON(e.originalTarget.wrappedJSObject);
                         callbackFunction(Firebug.FirecrowModule.htmlJson);
+
+                        hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
 					}
 					catch(e) { alert("Error while serializing html code" + e);}
 				}, true);

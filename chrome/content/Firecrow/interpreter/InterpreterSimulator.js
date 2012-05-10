@@ -301,7 +301,18 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            alert("Evaluating if statement commands not yet completed!");
+            if(!ValueTypeHelper.isOfType(ifCommand, Command) || !ifCommand.isIfStatementCommand()) { alert("InterpreterSimulator - argument has to be a if command!"); return; }
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateIfStatementBodyCommands
+                (
+                    ifCommand,
+                    this.contextStack.getExpressionValue(ifCommand.codeConstruct.test)
+                ),
+                this.currentCommandIndex + 1
+            );
         }
         catch(e) { alert("Error while generating commands after if command: " + e);}
     },

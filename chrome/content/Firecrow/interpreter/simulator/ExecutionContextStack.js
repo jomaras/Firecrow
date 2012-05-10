@@ -123,10 +123,11 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ValueTypeHelper.isOfType(command, fcCommands.Command)) { alert("ExecutionContextStack - argument must be a command"); return; }
 
-            if(command.isEnterFunctionContextCommand()) { this._enterFunctionContext(command); }
+                 if (command.isEnterFunctionContextCommand()) { this._enterFunctionContext(command); }
             else if (command.isExitFunctionContextCommand()) { this._exitFunctionContext(command); }
             else if (command.isForStatementCommand() || command.isWhileStatementCommand()
                  ||  command.isDoWhileStatementCommand()) {}
+            else if (command.isIfStatementCommand()) {}
             else if (command.isEvalNewExpressionCommand()) {}
             else
             {
