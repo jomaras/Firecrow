@@ -17,6 +17,7 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject)
     this.globalObject = globalObject;
 
     this.contextStack = new ExecutionContextStack(globalObject);
+    this.contextStack.registerExceptionCallback(this.removeCommandsAfterException, this);
 
     this.commands = CommandGenerator.generateCommands(programAst);
     this.tryStack = [];
@@ -46,6 +47,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
+            if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { this.processTryCommand(command); }
+
             this.contextStack.executeCommand(command);
 
             if (command.removesCommands) { this.processRemovingCommandsCommand(command); }
@@ -58,7 +61,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { alert("The command is not a try command in InterpreterSimulator!"); return; }
+            if(!(command.isStartTryStatementCommand() || command.isEndTryStatementCommand())) { alert("The command is not a try command in InterpreterSimulator!"); return; }
 
             if(command.isStartTryStatementCommand())
             {
@@ -80,10 +83,10 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            if(command.isEvalReturnExpressionCommand()) { this.removeCommandsAfterReturnStatement(command); }
+                 if (command.isEvalReturnExpressionCommand()) { this.removeCommandsAfterReturnStatement(command); }
             else if (command.isEvalBreakCommand()) { this.removeCommandsAfterBreak(command); }
             else if (command.isEvalContinueCommand()) { this.removeCommandsAfterContinue(command); }
-            else if (command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterThrow(command); }
+            else if (command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterException(command); }
             else if (command.isEvalLogicalExpressionItemCommand()) { this.removeCommandsAfterLogicalExpressionItem(command); }
             else { alert("Unknown removing commands command: " + command.type); }
         }
@@ -141,7 +144,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("Error when removing commands after continue: " + e); }
     },
 
-    removeCommandsAfterThrow: function(throwCommand)
+    removeCommandsAfterException: function(exceptionGeneratingArgument)
     {
         try
         {
@@ -154,8 +157,23 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
             }
+
+            if(this.tryStack.length > 0)
+            {
+                ValueTypeHelper.insertElementsIntoArrayAtIndex
+                (
+                    this.commands,
+                    CommandGenerator.generateCatchStatementExecutionCommands
+                    (
+                        this.tryStack[this.tryStack.length - 1],
+                        ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) ? this.contextStack.getExpressionValue(exceptionGeneratingArgument.codeConstruct.argument)
+                                                                                                                     : exceptionGeneratingArgument
+                    ),
+                    i
+                );
+            }
         }
-        catch(e) { alert("Error when removing commands after throw: " + e);}
+        catch(e) { alert("Error when removing commands after Exception: " + e);}
     },
 
     removeCommandsAfterLogicalExpressionItem: function(evalLogicalExpressionItemCommand)
@@ -167,8 +185,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-                 if (command.isEvalThrowExpressionCommand()) { this.generateCommandsAfterThrow(command); }
-            else if (command.isEvalCallbackFunctionCommand()) { this.generateCommandsAfterCallbackFunctionCommand(command); }
+                 if (command.isEvalCallbackFunctionCommand()) { this.generateCommandsAfterCallbackFunctionCommand(command); }
             else if (command.isEvalNewExpressionCommand()) { this.generateCommandsAfterNewExpressionCommand(command); }
             else if (command.isEvalCallExpressionCommand()) { this.generateCommandsAfterCallFunctionCommand(command); }
             else if (command.isLoopStatementCommand()) { this.generateCommandsAfterLoopCommand(command); }
@@ -178,22 +195,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             else { alert("Unknown generating new commands command!"); }
         }
         catch(e) { alert("An error occurred while processing generate new commands command:" + e);}
-    },
-
-    generateCommandsAfterThrow: function(throwCommand)
-    {
-        alert("TODO: When generating commands after throw - not sure about this - should at least skip return from function commands!?")
-
-        try
-        {
-            ValueTypeHelper.insertElementsIntoArrayAtIndex
-            (
-                this.commands,
-                CommandGenerator.generateCatchStatementExecutionCommands(this.tryStack.pop()),
-                this.currentCommandIndex + 1
-            );
-        }
-        catch(e) { alert("Error while generating commands after throw command: " + e);}
     },
 
     generateCommandsAfterCallbackFunctionCommand: function(callbackCommand)

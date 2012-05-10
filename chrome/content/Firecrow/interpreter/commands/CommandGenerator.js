@@ -665,17 +665,17 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         return commands;
     },
 
-    generateCatchStatementExecutionCommands: function(tryCommand)
+    generateCatchStatementExecutionCommands: function(tryCommand, exceptionArgument)
     {
         var commands = [];
 
         try
         {
-            if(tryCommand.isStartTryStatementCommand() || tryCommand.isEndTryStatementCommand()) { alert("Command is not a try command"); return commands; }
+            if(!(tryCommand.isStartTryStatementCommand() || tryCommand.isEndTryStatementCommand())) { alert("Command is not a try command"); return commands; }
 
             var tryStatement = tryCommand.codeConstruct;
 
-            if(tryStatement.handlers.length > 1) { alert("Not handling more than "); return commands; }
+            if(tryStatement.handlers.length > 1) { alert("Not handling more than 1 catch"); return commands; }
 
             var catchElement = tryStatement.handlers[0];
 
@@ -686,9 +686,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 tryCommand.parentFunctionCommand
             ));
 
+            commands[0].exceptionArgument = exceptionArgument;
+
             astHelper.traverseDirectSourceElements
             (
-                catchElement,
+                catchElement.body,
                 function(sourceElement)
                 {
                     ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands
@@ -706,23 +708,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 fcCommands.Command.COMMAND_TYPE.EndCatchStatement,
                 tryCommand.parentFunctionCommand
             ));
-
-            if(tryStatement.finalizer != null)
-            {
-                astHelper.traverseDirectSourceElements
-                (
-                    tryStatement.finalizer,
-                    function(sourceElement)
-                    {
-                        ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands
-                        (
-                            sourceElement,
-                            tryCommand.parentFunctionCommand
-                        ));
-                    },
-                    false
-                );
-            }
         }
         catch(e) { alert("Error when generating catch statement commands: " + e); }
 
@@ -1654,7 +1639,7 @@ Firecrow.Interpreter.Commands.Command = function(codeConstruct, type, parentFunc
                         || this.isEvalBreakCommand() || this.isEvalContinueCommand()
                         || this.isEvalThrowExpressionCommand() || this.isEvalLogicalExpressionItemCommand();
 
-    this.generatesNewCommands = this.isEvalThrowExpressionCommand() || this.isEvalCallbackFunctionCommand()
+    this.generatesNewCommands = this.isEvalCallbackFunctionCommand()
                             ||  this.isEvalNewExpressionCommand() || this.isEvalCallExpressionCommand()
                             ||  this.isLoopStatementCommand() || this.isIfStatementCommand()
                             ||  this.isEvalConditionalExpressionBodyCommand() || this.isCaseCommand();

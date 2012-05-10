@@ -74,7 +74,7 @@ Firecrow.Interpreter.Model.Object.prototype =
         {
             for(var i = 0; i < this.properties.length; i++)
             {
-                if(properties[i].name == propertyName)
+                if(this.properties[i].name == propertyName)
                 {
                     ValueTypeHelper.removeFromArrayByIndex(this.properties, i);
                     break;
@@ -83,7 +83,7 @@ Firecrow.Interpreter.Model.Object.prototype =
 
             for(var i = 0; i < this.enumeratedProperties.length; i++)
             {
-                if(properties[i].name == propertyName)
+                if(this.properties[i].name == propertyName)
                 {
                     ValueTypeHelper.removeFromArrayByIndex(this.properties, i);
                     break;

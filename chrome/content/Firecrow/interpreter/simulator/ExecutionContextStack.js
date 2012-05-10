@@ -111,6 +111,12 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack = function(globalObject)
     this.stack = [];
     this.push(Firecrow.Interpreter.Simulator.ExecutionContext.createGlobalExecutionContext(globalObject));
     this.evaluator = new Firecrow.Interpreter.Simulator.Evaluator(this, globalObject);
+    this.evaluator.registerExceptionCallback(function(exceptionInfo)
+    {
+        this._callExceptionCallbacks(exceptionInfo);
+    }, this);
+
+    this.exceptionCallbacks = [];
 };
 
 Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
@@ -335,7 +341,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
                     var identifier = variableObject.getIdentifier(identifierName);
 
-                    if(identifier != null) { variableObject.deleteIdentifier(identifier); }
+                    if(identifier != null) { variableObject.deleteIdentifier(identifier.name); }
                 }
             }
         }
@@ -446,6 +452,21 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         );
 
         return newArray;
+    },
+
+    registerExceptionCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("ExecutionContextStack - exception callback has to be a function!"); return; }
+
+        this.exceptionCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
+    _callExceptionCallbacks: function(exceptionInfo)
+    {
+        this.exceptionCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, exceptionInfo);
+        });
     }
 };
 }});

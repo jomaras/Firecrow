@@ -13,6 +13,8 @@ FBL.ns(function() { with (FBL) {
     {
         this.executionContextStack = executionContextStack;
         this.globalObject = globalObject;
+
+        this.exceptionCallbacks = [];
     };
 
     Firecrow.Interpreter.Simulator.Evaluator.prototype =
@@ -42,6 +44,8 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isFunctionExpressionCreationCommand()) { this._evaluateFunctionExpressionCreationCommand(command); }
                 else if (command.isEvalForInWhereCommand()) { this._evaluateForInWhereCommand(command); }
                 else if (command.isEvalConditionalExpressionCommand()) { this._evaluateConditionalExpressionCommand(command);}
+                else if (command.isStartCatchStatementCommand()) { this._evaluateStartCatchStatementCommand(command);}
+                else if (command.isEndCatchStatementCommand()) { this._evaluateEndCatchStatementCommand(command);}
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -172,6 +176,8 @@ FBL.ns(function() { with (FBL) {
                 var codeConstruct = evalUpdateExpressionCommand.codeConstruct;
                 var currentValue = this.executionContextStack.getExpressionValue(codeConstruct.argument);
 
+                if(currentValue == undefined) { this._callExceptionCallbacks(); return; }
+
                 if(ASTHelper.isIdentifier(codeConstruct.argument))
                 {
                     this.executionContextStack.setIdentifierValue
@@ -219,6 +225,9 @@ FBL.ns(function() { with (FBL) {
 
                 var leftExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
                 var rightExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
+
+                if(leftExpressionValue == undefined || rightExpressionValue == undefined) { this._callExceptionCallbacks(); return; }
+
                 var operator = binaryExpression.operator;
 
                 token: "==" | "!=" | "===" | "!=="
@@ -301,7 +310,7 @@ FBL.ns(function() { with (FBL) {
 
                 var object = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.object);
 
-                if(object == null) { alert("Object can not be null when evaluating member expression!"); return; }
+                if(object == null) { _callExceptionCallbacks(); return; }
 
                 var property = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.property);
 
@@ -420,8 +429,6 @@ FBL.ns(function() { with (FBL) {
 
                 var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
 
-                if(whereObject == null) { alert("Evaluator - where object can not be null in for in statement: " + e); }
-
                 var currentPropertyIndex = evalForInWhereCommand.currentPropertyIndex;
                 var nextPropertyName = whereObject.__FIRECROW_INTERNAL__.object.getPropertyNameAtIndex(currentPropertyIndex + 1);
 
@@ -472,6 +479,51 @@ FBL.ns(function() { with (FBL) {
                 );
             }
             catch(e) { alert("Evaluator - Error when evaluating conditional expression command: " + e); }
+        },
+
+        _evaluateStartCatchStatementCommand: function(startCatchStatementCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(startCatchStatementCommand, Firecrow.Interpreter.Commands.Command) || !startCatchStatementCommand.isStartCatchStatementCommand()) { alert("Evaluator - argument has to be a start catch command!"); return; }
+
+                if(!ASTHelper.isIdentifier(startCatchStatementCommand.codeConstruct.param)) { alert("Catch parameter has to be an identifier!"); return; }
+
+                this.executionContextStack.setIdentifierValue
+                (
+                    startCatchStatementCommand.codeConstruct.param.name,
+                    startCatchStatementCommand.exceptionArgument
+                );
+            }
+            catch(e) { alert("Evaluator - Error when evaluating conditional expression command: " + e); }
+        },
+
+        _evaluateEndCatchStatementCommand: function(endCatchStatementCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(endCatchStatementCommand, Firecrow.Interpreter.Commands.Command) || !endCatchStatementCommand.isEndCatchStatementCommand()) { alert("Evaluator - argument has to be an end catch command!"); return; }
+
+                if(!ASTHelper.isIdentifier(endCatchStatementCommand.codeConstruct.param)) { alert("Catch parameter has to be an identifier!"); return; }
+
+                this.executionContextStack.deleteIdentifier(endCatchStatementCommand.codeConstruct.param.name);
+            }
+            catch(e) { alert("Evaluator - Error when evaluating conditional expression command: " + e); }
+        },
+
+        registerExceptionCallback: function(callback, thisObject)
+        {
+            if(!ValueTypeHelper.isOfType(callback, Function)) { alert("Evaluator - exception callback has to be a function!"); return; }
+
+            this.exceptionCallbacks.push({callback: callback, thisObject: thisObject || this});
+        },
+
+        _callExceptionCallbacks: function(exceptionInfo)
+        {
+            this.exceptionCallbacks.forEach(function(callbackObject)
+            {
+                callbackObject.callback.call(callbackObject.thisObject, exceptionInfo);
+            });
         }
     };
 }});
