@@ -112,17 +112,13 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            var breakParentStatement = ASTHelper.getLoopOrSwitchParent(breakCommand.codeConstruct);
-
             for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
             {
                 var command = this.commands[i];
 
-                var parent = ASTHelper.isSwitchStatement(breakParentStatement) ? ASTHelper.getSwitchParent(command.codeConstruct)
-                                                                               : ASTHelper.getLoopParent(command.codeConstruct);
+                ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
 
-                if(parent == breakParentStatement) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
-                else { break; }
+                if(command.isLoopStatementCommand()) { break;}
             }
         }
         catch(e) { alert("Error when removing commands after a break command:" + e); }

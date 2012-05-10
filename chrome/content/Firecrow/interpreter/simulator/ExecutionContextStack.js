@@ -129,6 +129,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                  ||  command.isDoWhileStatementCommand()) {}
             else if (command.isIfStatementCommand()) {}
             else if (command.isEvalConditionalExpressionBodyCommand()) {}
+            else if (command.isEvalBreakCommand()){}
             else if (command.isEvalNewExpressionCommand()) {}
             else
             {
