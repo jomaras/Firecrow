@@ -46,8 +46,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            if(command.isTryStatementCommand()) { this.processTryCommand(command); return; }
-
             this.contextStack.executeCommand(command);
 
             if (command.removesCommands) { this.processRemovingCommandsCommand(command); }
@@ -60,18 +58,20 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            if(command.isTryStatementCommand()) { alert("The command is not a try command in InterpreterSimulator!"); return; }
-            if(command.isStartTryStatementCommand()) { this.tryStack.push(command); return; }
+            if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { alert("The command is not a try command in InterpreterSimulator!"); return; }
 
-            var topCommand = this.tryStack[this.tryStack.length - 1];
-
-            if(topCommand == null || topCommand.codeConstruct != command.codeConstruct)
+            if(command.isStartTryStatementCommand())
             {
-                alert("Error while popping try command from Stack");
-                return;
+                this.tryStack.push(command); return;
             }
+            else if (command.isEndTryStatementCommand())
+            {
+                var topCommand = this.tryStack[this.tryStack.length - 1];
 
-            this.tryStack.pop();
+                if(topCommand == null || topCommand.codeConstruct != command.codeConstruct) { alert("Error while popping try command from Stack"); return; }
+
+                this.tryStack.pop();
+            }
         }
         catch(e) { alert("Error while processing try command in InterpreterSimulator: " + e); }
     },

@@ -671,7 +671,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(tryCommand.isTryStatementCommand()) { alert("Command is not a try command"); return commands; }
+            if(tryCommand.isStartTryStatementCommand() || tryCommand.isEndTryStatementCommand()) { alert("Command is not a try command"); return commands; }
 
             var tryStatement = tryCommand.codeConstruct;
 
@@ -1784,7 +1784,6 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isStartTryStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartTryStatement; },
     isEndTryStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndTryStatement; },
-    isTryStatementCommand: function() { return this.isStartTryStatementCommand() || this.isEndTryStatementCommand();},
 
     isStartCatchStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartCatchStatement; },
     isEndCatchStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndCatchStatement; },
