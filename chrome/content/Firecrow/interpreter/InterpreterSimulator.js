@@ -50,7 +50,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             this.contextStack.executeCommand(command);
 
-            if(command.removesCommands) { this.processRemovingCommandsCommand(command); }
+            if (command.removesCommands) { this.processRemovingCommandsCommand(command); }
             if (command.generatesNewCommands) { this.processGeneratingNewCommandsCommand(command); }
         }
         catch(e) { alert("Error while processing commands in InterpreterSimulator: " + e);}
@@ -85,7 +85,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             else if (command.isEvalContinueCommand()) { this.removeCommandsAfterContinue(command); }
             else if (command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterThrow(command); }
             else if (command.isEvalLogicalExpressionItemCommand()) { this.removeCommandsAfterLogicalExpressionItem(command); }
-            else if (command.isCaseCommand()) { this.removeCommandsAfterCase(command); }
             else { alert("Unknown removing commands command: " + command.type); }
         }
         catch(e) { alert("Error while removing commands: " + e); }
@@ -118,7 +117,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
 
-                if(command.isLoopStatementCommand()) { break;}
+                if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) { break;}
             }
         }
         catch(e) { alert("Error when removing commands after a break command:" + e); }
@@ -162,11 +161,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     removeCommandsAfterLogicalExpressionItem: function(evalLogicalExpressionItemCommand)
     {
         alert("TODO command removal after logical expression items");
-    },
-
-    removeCommandsAfterCase: function(caseCommand)
-    {
-        alert("TODO command removal after case commands!");
     },
 
     processGeneratingNewCommandsCommand: function(command)
@@ -325,7 +319,21 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            alert("Evaluating case commands not yet completed!");
+            if(!ValueTypeHelper.isOfType(caseCommand, Command) || !caseCommand.isCaseCommand()) { alert("InterpreterSimulator - argument has to be a case command!"); return; }
+
+            if(this.contextStack.getExpressionValue(caseCommand.codeConstruct.test) == this.contextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant)
+            || caseCommand.parent.hasBeenMatched
+            || caseCommand.codeConstruct.test == null)
+            {
+                caseCommand.parent.hasBeenMatched = true;
+
+                ValueTypeHelper.insertElementsIntoArrayAtIndex
+                (
+                    this.commands,
+                    CommandGenerator.generateCaseExecutionCommands(caseCommand),
+                    this.currentCommandIndex + 1
+                );
+            }
         }
         catch(e) { alert("Error while generating commands after case command: " + e);}
     },

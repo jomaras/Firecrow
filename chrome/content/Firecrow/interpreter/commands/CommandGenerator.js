@@ -493,11 +493,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isSwitchStatement(sourceElement))
-            {
-                alert("Source element is not a switch statement when generating commands");
-                return;
-            }
+            if(!astHelper.isSwitchStatement(sourceElement)) { alert("Source element is not a switch statement when generating commands"); return; }
 
             var startSwitchCommand = new fcCommands.Command
             (
@@ -507,6 +503,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             );
 
             startSwitchCommand.caseCommands = [];
+            startSwitchCommand.hasBeenMatched = false;
 
             commands.push(startSwitchCommand);
 
@@ -518,15 +515,18 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             sourceElement.cases.forEach(function(caseElement)
             {
-                ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
-                (
-                    caseElement.test,
-                    parentFunctionCommand
-                ));
+                if(caseElement.test != null)
+                {
+                    ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
+                    (
+                        caseElement.test,
+                        parentFunctionCommand
+                    ));
+                }
 
                 var caseCommand = new fcCommands.Command
                 (
-                    sourceElement,
+                    caseElement,
                     fcCommands.Command.COMMAND_TYPE.Case,
                     parentFunctionCommand
                 );
@@ -549,15 +549,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         return commands;
     },
 
-    generateCaseExecutionCommands: function(caseCommand, expressionMatches)
+    generateCaseExecutionCommands: function(caseCommand)
     {
         var commands = [];
 
         try
         {
             if(!caseCommand.isCaseCommand()){ alert("Should be case command!"); return commands; }
-
-            if(!expressionMatches) { return commands; }
 
             astHelper.traverseArrayOfDirectStatements
             (
@@ -570,7 +568,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 false
             );
         }
-        catch(e) { alert("Errow when generating case commands: " + e); }
+        catch(e) { alert("Error when generating case commands: " + e); }
 
         return commands;
     },
@@ -1654,8 +1652,7 @@ Firecrow.Interpreter.Commands.Command = function(codeConstruct, type, parentFunc
 
     this.removesCommands = this.isEvalReturnExpressionCommand()
                         || this.isEvalBreakCommand() || this.isEvalContinueCommand()
-                        || this.isEvalThrowExpressionCommand() || this.isEvalLogicalExpressionItemCommand()
-                        || this.isCaseCommand();
+                        || this.isEvalThrowExpressionCommand() || this.isEvalLogicalExpressionItemCommand();
 
     this.generatesNewCommands = this.isEvalThrowExpressionCommand() || this.isEvalCallbackFunctionCommand()
                             ||  this.isEvalNewExpressionCommand() || this.isEvalCallExpressionCommand()
