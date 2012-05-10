@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Break From nested for loop</div>
+<div id="resultContainer"></div>
+<script>
+    var sum = 0;
+
+    for(var i = 0; i < 10; i++)
+    {
+        for(var j = 0; j < 5; j++)
+        {
+            if(j == 4) { break; }
+
+            sum += j;
+        }
+
+        if(i == 9) { break; }
+    }
+
+    sum++;
+</script>
+</body>
+</html>
