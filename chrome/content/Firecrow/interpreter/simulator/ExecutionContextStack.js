@@ -126,10 +126,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                  if (command.isEnterFunctionContextCommand()) { this._enterFunctionContext(command); }
             else if (command.isExitFunctionContextCommand()) { this._exitFunctionContext(command); }
             else if (command.isForStatementCommand() || command.isWhileStatementCommand()
-                 ||  command.isDoWhileStatementCommand()) {}
+                 ||  command.isDoWhileStatementCommand() || command.isForUpdateStatementCommand()) {}
             else if (command.isIfStatementCommand()) {}
             else if (command.isEvalConditionalExpressionBodyCommand()) {}
-            else if (command.isEvalBreakCommand()){}
+            else if (command.isEvalBreakCommand() || command.isEvalContinueCommand()){}
             else if (command.isEvalNewExpressionCommand()) {}
             else
             {

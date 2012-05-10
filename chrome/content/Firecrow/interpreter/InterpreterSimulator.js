@@ -128,17 +128,13 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            var continueParentStatement = ASTHelper.getLoopParent(continueCommand.codeConstruct);
-
             for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
             {
                 var command = this.commands[i];
-                var parent = ASTHelper.getLoopParent(command.codeConstruct);
 
-                if(parent != null && parent == continueParentStatement)
+                if(!(command.isLoopStatementCommand() || command.isForUpdateStatementCommand()))
                 {
-                    if(command.isLoopStatementCommand()){ break;}
-                    else { ValueTypeHelper.removeFromArrayByIndex(this.commands, i);}
+                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
                 }
                 else { break; }
             }
@@ -177,7 +173,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            if(command.isEvalThrowExpressionCommand()) { this.generateCommandsAfterThrow(command); }
+                 if (command.isEvalThrowExpressionCommand()) { this.generateCommandsAfterThrow(command); }
             else if (command.isEvalCallbackFunctionCommand()) { this.generateCommandsAfterCallbackFunctionCommand(command); }
             else if (command.isEvalNewExpressionCommand()) { this.generateCommandsAfterNewExpressionCommand(command); }
             else if (command.isEvalCallExpressionCommand()) { this.generateCommandsAfterCallFunctionCommand(command); }

@@ -935,6 +935,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     false
                 );
 
+                commands.push(new fcCommands.Command
+                (
+                    forStatementCommand.codeConstruct,
+                    fcCommands.Command.COMMAND_TYPE.ForUpdateStatement,
+                    forStatementCommand.parentFunctionCommand
+                ));
+
                 if(forStatementCommand.codeConstruct.update != null)
                 {
                     ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
@@ -961,7 +968,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 ));
             }
         }
-        catch(e) { alert("Error has occured when genereting for body commands:" + e); }
+        catch(e) { alert("Error has occurred when generating for body commands:" + e); }
 
         return commands;
     },
@@ -1838,6 +1845,7 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.WhileStatement; },
     isDoWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.DoWhileStatement; },
     isForStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForStatement; },
+    isForUpdateStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForUpdateStatement; },
     isEvalForInWhereCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalForInWhere; },
 
     getLineNo: function()
@@ -1912,6 +1920,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     DoWhileStatement: "DoWhileStatement",
 
     ForStatement: "ForStatement",
+    ForUpdateStatement: "ForUpdateStatement",
 
     EvalForInWhere: "EvalForInWhere",
 
