@@ -11,7 +11,8 @@ Firecrow.Interpreter.Simulator.VariableObject = function(executionContext)
 {
     this.executionContext = executionContext;
     this.identifiers = [];
-    this.__FIRECROW_INTERNAL__ = {object : this};
+    this.__FIRECROW_INTERNAL__ = this;
+    this.__FIRECROW_INTERNAL__.object = this;
 };
 
 Firecrow.Interpreter.Simulator.VariableObject.prototype =

@@ -337,7 +337,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 }
             }
         }
-        catch(e) { alert("ExecutionContextStack: Error when getting Identifier value: " + e); }
+        catch(e)
+        {
+            alert("ExecutionContextStack: Error when getting Identifier value: " + e);
+        }
     },
 
     setIdentifierValue: function(identifierName, value, setCodeConstruct)
@@ -435,9 +438,11 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
     getBaseObject: function(codeConstruct)
     {
-        if(ASTHelper.isIdentifier(codeConstruct)) { return this.globalObject; }
+        if(ASTHelper.isIdentifier(codeConstruct)
+        || ASTHelper.isFunctionExpression(codeConstruct)) { return this.globalObject; }
         else
         {
+
             alert("ExecutionContextStack - not handling getting base object on other expressions");
             return this.globalObject;
         }
