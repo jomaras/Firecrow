@@ -17,8 +17,6 @@ Firecrow.Interpreter.Simulator.ExecutionContext = function(variableObject, scope
 
     this.globalObject = globalObject;
 
-    variableObject.setOwnerExecutionContext(this);
-
     this.scopeChain = ValueTypeHelper.createArrayCopy(scopeChain);
     this.scopeChain.push(this.variableObject);
 
@@ -86,9 +84,27 @@ Firecrow.Interpreter.Simulator.ExecutionContext.prototype =
        {
            if(!ValueTypeHelper.isOfType(identifier, fcModel.Identifier)) { alert("ExecutionContextStack - when registering identifier the argument has to be an identifier"); }
 
-           this.variableObject.registerIdentifier(identifier);
+           this.variableObject.__FIRECROW_INTERNAL__.registerIdentifier(identifier);
        }
-       catch(e) { alert("ExecutionContextStack - ExecutionContext error when registering identifier:" + e);}
+       catch(e) { alert("ExecutionContextStack - ExecutionContext error when registering identifier:" + e); }
+    },
+
+    pushToScopeChain: function(variableObject)
+    {
+        try
+        {
+            this.scopeChain.push(variableObject);
+        }
+        catch(e) { alert("ExecutionContext - error when pushing to scope chain: " + e); }
+    },
+
+    popFromScopeChain: function()
+    {
+        try
+        {
+            return this.scopeChain.pop();
+        }
+        catch(e) { alert("ExecutionContext - error when popping from scope chain: " + e); }
     }
 };
 
@@ -131,6 +147,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
                  if (command.isEnterFunctionContextCommand()) { this._enterFunctionContext(command); }
             else if (command.isExitFunctionContextCommand()) { this._exitFunctionContext(command); }
+            else if (command.isStartWithStatementCommand()) { this._evaluateStartWithCommand(command); }
+            else if (command.isEndWithStatementCommand()) { this._evaluateEndWithCommand(command); }
             else if (command.isForStatementCommand() || command.isWhileStatementCommand()
                  ||  command.isDoWhileStatementCommand() || command.isForUpdateStatementCommand()) {}
             else if (command.isIfStatementCommand()) {}
@@ -222,6 +240,32 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { alert("ExecutionContextStack - Error when exiting function context: " + e); }
     },
 
+    _evaluateStartWithCommand: function(startWithCommand)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(startWithCommand, fcCommands.Command) || !startWithCommand.isStartWithStatementCommand()) { alert("ExecutionContextStack - argument must be a start with command"); return; }
+
+            var withObject = this.getExpressionValue(startWithCommand.codeConstruct.object);
+
+            if(withObject == null) { alert("ExecutionContextStack - with hast to be an object!"); return; }
+
+            this.activeContext.pushToScopeChain(fcSimulator.VariableObject.liftToVariableObject(withObject));
+        }
+        catch(e) { alert("ExecutionContextStack - error when evaluating start with command: " + e); }
+    },
+
+    _evaluateEndWithCommand: function(endWithCommand)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(endWithCommand, fcCommands.Command) || !endWithCommand.isEndWithStatementCommand()) { alert("ExecutionContextStack - argument must be an end with command"); return; }
+
+            this.activeContext.popFromScopeChain();
+        }
+        catch(e) { alert("ExecutionContextStack - error when evaluating start with command: " + e); }
+    },
+
     push: function(executionContext)
     {
         try
@@ -284,7 +328,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 {
                     var variableObject = scopeChain[j];
 
-                    var identifier = variableObject.getIdentifier(identifierName);
+                    var identifier = variableObject.__FIRECROW_INTERNAL__.getIdentifier(identifierName);
 
                     if(identifier != null)
                     {
@@ -308,11 +352,17 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 {
                     var variableObject = scopeChain[j];
 
-                    var identifier = variableObject.getIdentifier(identifierName);
+                    var identifier = variableObject.__FIRECROW_INTERNAL__.getIdentifier(identifierName);
 
                     if(identifier != null)
                     {
                         identifier.setValue(value, setCodeConstruct);
+
+                        if(variableObject != this.globalObject && !ValueTypeHelper.isOfType(variableObject, fcSimulator.VariableObject))
+                        {
+                            variableObject[identifierName] = value;
+                        }
+
                         return;
                     }
                 }
@@ -339,7 +389,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 {
                     var variableObject = scopeChain[j];
 
-                    var identifier = variableObject.getIdentifier(identifierName);
+                    var identifier = variableObject.__FIRECROW_INTERNAL__.getIdentifier(identifierName);
 
                     if(identifier != null) { variableObject.deleteIdentifier(identifier.name); }
                 }

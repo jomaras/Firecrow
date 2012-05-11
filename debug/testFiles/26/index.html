@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>With</div>
+<div id="resultContainer"></div>
+<script>
+var a = { b: 3, c: 4};
+var b = 4;
+
+with(a)
+{
+    b++;
+}
+a.b += a.c;
+</script>
+</body>
+</html>

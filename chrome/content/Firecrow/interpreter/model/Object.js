@@ -68,7 +68,7 @@ Firecrow.Interpreter.Model.Object.prototype =
         catch(e) { alert("Error when adding property - Object:" + e);}
     },
 
-    deleteProperty: function(propertyName)
+    deleteProperty: function(propertyName, codeConstruct)
     {
         try
         {

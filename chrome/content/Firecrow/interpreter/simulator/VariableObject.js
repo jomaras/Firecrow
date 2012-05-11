@@ -11,6 +11,7 @@ Firecrow.Interpreter.Simulator.VariableObject = function(executionContext)
 {
     this.executionContext = executionContext;
     this.identifiers = [];
+    this.__FIRECROW_INTERNAL__ = {object : this};
 };
 
 Firecrow.Interpreter.Simulator.VariableObject.prototype =
@@ -57,7 +58,7 @@ Firecrow.Interpreter.Simulator.VariableObject.prototype =
         catch(e) { alert("Error when getting identifier - VariableObject:" + e);}
     },
 
-    deleteIdentifier: function(identifierName)
+    deleteIdentifier: function(identifierName, codeConstruct)
     {
         try
         {
@@ -70,11 +71,6 @@ Firecrow.Interpreter.Simulator.VariableObject.prototype =
             }
         }
         catch(e) { alert("Error when deleting identifier - VariableObject:" + e);}
-    },
-
-    setOwnerExecutionContext: function(executionContext)
-    {
-        this.executionContext = executionContext;
     }
 };
 
@@ -111,46 +107,56 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
 
 Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(object)
 {
-    object.getIdentifier = function(identifierName)
+    if(object.__FIRECROW_INTERNAL__ == null)
+    {
+        Object.defineProperty(object, "__FIRECROW_INTERNAL__", { value: { } });
+    }
+
+    if(object.__FIRECROW_INTERNAL__.object == null) { object.__FIRECROW_INTERNAL__.object = {}; }
+
+    object.__FIRECROW_INTERNAL__.getIdentifier = function(identifierName)
     {
         try
         {
-            return object.getProperty(identifierName);
+            return this.object.getProperty(identifierName);
         }
-        catch(e) { alert("Error when getting identifier in lifted variable object: " + e); }
+        catch(e)
+        {
+            alert("Error when getting identifier in lifted variable object: " + e);
+        }
     };
 
-    object.getIdentifierValue = function(identifierName, readConstruct, currentContex)
+    object.__FIRECROW_INTERNAL__.getIdentifierValue = function(identifierName, readConstruct, currentContext)
     {
         try
         {
-            return object.getPropertyValue(identifierName, readConstruct, currentContext);
+            return this.object.getPropertyValue(identifierName, readConstruct, currentContext);
         }
         catch(e) { alert("Error when getting identifier value in lifted variable object:" + e);}
     };
 
-    object.registerIdentifier = function(identifier)
+    object.__FIRECROW_INTERNAL__.registerIdentifier = function(identifier)
     {
         try
         {
-            object.addProperty(identifier.name, identifier.value, identifier.lastModificationConstruct);
+            this.object.addProperty(identifier.name, identifier.value, identifier.lastModificationConstruct);
         }
-        catch(e) { alert("Error when registering identifier");}
+        catch(e)
+        {
+            alert("Error when registering identifier:" + e);
+        }
     };
 
-    object.deleteIdentifier = function(identifierName, deleteConstruct)
+    object.__FIRECROW_INTERNAL__.deleteIdentifier = function(identifierName, deleteConstruct)
     {
         try
         {
-            object.deleteProperty(identifierName, deleteConstruct);
+            this.object.deleteProperty(identifierName, deleteConstruct);
         }
         catch(e) { alert("Error when deleting identifier");}
     };
 
-    object.setOwnerExecutionContext = function(executionContext)
-    {
-        this.executionContext = executionContext;
-    }
+    return object;
 };
 /***************************************************************************************/
 }});

@@ -12,6 +12,8 @@ Firecrow.Interpreter.Model.GlobalObject = function()
     this.__proto__ = new fcModel.Object(this);
 
     this.stringFunction = new fcInternals.StringFunction(this);
+    this.__FIRECROW_INTERNAL__ = {object:this};
+
     Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
 };
 

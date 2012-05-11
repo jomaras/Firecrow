@@ -183,7 +183,8 @@ FBL.ns(function() { with (FBL) {
                     this.executionContextStack.setIdentifierValue
                     (
                         codeConstruct.argument.name,
-                        codeConstruct.operator == "++" ? currentValue + 1 : currentValue - 1
+                        codeConstruct.operator == "++" ? currentValue + 1 : currentValue - 1,
+                        codeConstruct
                     );
                 }
                 else
