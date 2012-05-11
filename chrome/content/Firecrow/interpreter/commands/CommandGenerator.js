@@ -1808,7 +1808,6 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isEvalMemberExpressionPropertyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalMemberExpressionProperty; },
 
     isEvalReturnExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalReturnExpression; },
-    isReturnFromFunctionCallCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ReturnFromFunctionCall; },
 
     isEvalThrowExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalThrowExpression; },
 
@@ -1890,7 +1889,6 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EvalMemberExpressionProperty: "EvalMemberExpressionProperty",
 
     EvalReturnExpression: "EvalReturnExpression",
-    ReturnFromFunctionCall: "ReturnFromFunctionCall",
     EvalThrowExpression: "EvalThrowExpression",
 
     EvalIdentifier: "EvalIdentifier",

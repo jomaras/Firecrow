@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Try - catch - function raises error</div>
+<div id="resultContainer"></div>
+<script>
+    function throwExceptionFunction()
+    {
+        a++;
+        return a;
+    }
+
+    try
+    {
+        var b = 4;
+        b++;
+        throwExceptionFunction();
+        b = b+2;
+    }
+    catch(e)
+    {
+        b++;
+    }
+
+    b = b+1;
+</script>
+</body>
+</html>

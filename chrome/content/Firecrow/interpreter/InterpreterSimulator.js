@@ -154,7 +154,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 var command = this.commands[i];
 
                 if(command.isEndTryStatementCommand()) { break; }
-                if(command.isReturnFromFunctionCallCommand()) { i++; continue;}
+                if(command.isExitFunctionContextCommand()) { i++; continue;}
 
                 ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
             }
