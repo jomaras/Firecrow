@@ -440,12 +440,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         if(ASTHelper.isIdentifier(codeConstruct)
         || ASTHelper.isFunctionExpression(codeConstruct)) { return this.globalObject; }
-        else
-        {
-
-            alert("ExecutionContextStack - not handling getting base object on other expressions");
-            return this.globalObject;
-        }
+        else if (ASTHelper.isMemberExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.object); }
+        else { alert("ExecutionContextStack - not handling getting base object on other expressions"); return this.globalObject; }
     },
 
     createFunctionInCurrentContext: function(functionCodeConstruct)

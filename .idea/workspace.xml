@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="With statement">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/27/index.html" />
+    <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="Minor fixes in variable object;&#10;Minor fixes to support (function(){})()">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/28/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/htmlModelMapping.js" afterPath="$PROJECT_DIR$/debug/htmlModelMapping.js" />
     </list>
@@ -32,25 +31,25 @@
       <file leaf-file-name="ExecutionContextStack.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="330" column="75" selection-start="13159" selection-end="13159" vertical-scroll-proportion="0.0">
+            <state line="443" column="129" selection-start="17378" selection-end="17378" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VariableObject.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/debug/testFiles/28/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="38" selection-start="323" selection-end="323" vertical-scroll-proportion="0.4924138">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VariableObject.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="47" selection-start="578" selection-end="578" vertical-scroll-proportion="0.40745673">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/27/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="42" selection-start="146" selection-end="146" vertical-scroll-proportion="-4.576923">
+            <state line="18" column="47" selection-start="578" selection-end="578" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -59,25 +58,7 @@
       <file leaf-file-name="htmlModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="237" column="64" selection-start="208381" selection-end="208381" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GlobalObject.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="60" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/26/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="42" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0">
+            <state line="246" column="8" selection-start="213826" selection-end="213826" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -113,7 +94,7 @@
       <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="85" selection-start="3009" selection-end="3009" vertical-scroll-proportion="-7.1923075">
+            <state line="60" column="79" selection-start="3101" selection-end="3101" vertical-scroll-proportion="-9.153846">
               <folding />
             </state>
           </provider>
@@ -140,7 +121,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/testFiles/21/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/22/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/23/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/24/index.html" />
@@ -152,10 +132,11 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
         <option value="$PROJECT_DIR$/debug/testFiles/27/index.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" />
+        <option value="$PROJECT_DIR$/debug/testFiles/28/index.html" />
       </list>
     </option>
   </component>
@@ -288,7 +269,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="27" />
+              <option name="myItemId" value="28" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -310,7 +291,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="26" />
+              <option name="myItemId" value="27" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -370,11 +351,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\28" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\27" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\26" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\25" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\24" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\23" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\chrome\content\Firecrow\interpreter\simulator" />
@@ -605,7 +586,11 @@
       <created>1336721670842</created>
       <updated>1336721670842</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Minor fixes in variable object;&#10;Minor fixes to support (function(){})()">
+      <created>1336727063065</created>
+      <updated>1336727063065</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -644,6 +629,7 @@
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14348786" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14232999" sideWeight="0.21901709" order="1" side_tool="true" content_ui="tabs" />
@@ -659,7 +645,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -702,7 +687,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="With statement" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor fixes in variable object;&#10;Minor fixes to support (function(){})()" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -715,7 +700,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Started working on the interpreter" />
     <MESSAGE value="Simple interpretation infrastructure added!" />
     <MESSAGE value="Added correct source code lines detection when building js models" />
     <MESSAGE value="VariableDeclaration evaluation, FunctionDeclaration, started working on call expressions" />
@@ -740,16 +724,12 @@
     <MESSAGE value="Throw expression implemented" />
     <MESSAGE value="Minor bug fix when throw is not in the same context as try" />
     <MESSAGE value="With statement" />
+    <MESSAGE value="Minor fixes in variable object;&#10;Minor fixes to support (function(){})()" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/19/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="28" selection-start="341" selection-end="341" vertical-scroll-proportion="0.44155845" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/23/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="34" selection-start="341" selection-end="341" vertical-scroll-proportion="0.0" />
@@ -802,6 +782,13 @@
         <state line="1802" column="25" selection-start="66413" selection-end="66441" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="47" selection-start="578" selection-end="578" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/27/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="42" selection-start="146" selection-end="146" vertical-scroll-proportion="-4.576923">
@@ -811,28 +798,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="237" column="64" selection-start="208381" selection-end="208381" vertical-scroll-proportion="0.0">
+        <state line="246" column="8" selection-start="213826" selection-end="213826" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="85" selection-start="3009" selection-end="3009" vertical-scroll-proportion="-7.1923075">
+        <state line="60" column="79" selection-start="3101" selection-end="3101" vertical-scroll-proportion="-9.153846">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="330" column="75" selection-start="13159" selection-end="13159" vertical-scroll-proportion="0.0">
+        <state line="443" column="129" selection-start="17378" selection-end="17378" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/28/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="47" selection-start="578" selection-end="578" vertical-scroll-proportion="0.40745673">
+        <state line="21" column="38" selection-start="323" selection-end="323" vertical-scroll-proportion="0.4924138">
           <folding />
         </state>
       </provider>
