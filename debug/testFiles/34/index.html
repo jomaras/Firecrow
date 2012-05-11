@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Calculated property accessors</div>
+<div id="resultContainer"></div>
+<script>
+    var a = { test: function() { return 3; } };
+    var b = null;
+    var c = { test: function() { return 4; } };
+
+    var d = a && b && c;//d == null
+
+    var a1 = d;
+
+    d = false && a && b && c; //d == false;
+    var a3 = d;
+
+    d = 1 && a && false; //d == a
+
+    var a4 = d;
+
+    d = a && true && c; // d == c
+    var a5 = d.test();
+
+</script>
+</body>
+</html>

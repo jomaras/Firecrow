@@ -179,7 +179,25 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
     removeCommandsAfterLogicalExpressionItem: function(evalLogicalExpressionItemCommand)
     {
-        alert("TODO command removal after logical expression items");
+        try
+        {
+            if(!ValueTypeHelper.isOfType(evalLogicalExpressionItemCommand, Command) || !evalLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { alert("InterpreterSimulator: argument is not an eval logical expression item command"); return; }
+
+            if(evalLogicalExpressionItemCommand.shouldDeleteFollowingLogicalCommands)
+            {
+                var parentCommand = evalLogicalExpressionItemCommand.parentLogicalExpressionCommand;
+
+                for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
+                {
+                    var command = this.commands[i];
+
+                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+
+                    if(command.isEndLogicalExpressionCommand() && command.startCommand == parentCommand) { break;}
+                }
+            }
+        }
+        catch(e) { alert("InterpreterSimulator - error when removing commands after logical expression item!");}
     },
 
     processGeneratingNewCommandsCommand: function(command)

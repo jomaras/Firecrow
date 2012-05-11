@@ -46,6 +46,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEvalConditionalExpressionCommand()) { this._evaluateConditionalExpressionCommand(command);}
                 else if (command.isStartCatchStatementCommand()) { this._evaluateStartCatchStatementCommand(command);}
                 else if (command.isEndCatchStatementCommand()) { this._evaluateEndCatchStatementCommand(command);}
+                else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -510,6 +511,46 @@ FBL.ns(function() { with (FBL) {
                 this.executionContextStack.deleteIdentifier(endCatchStatementCommand.codeConstruct.param.name);
             }
             catch(e) { alert("Evaluator - Error when evaluating conditional expression command: " + e); }
+        },
+
+        _evaluateLogicalExpressionItemCommand: function(evaluateLogicalExpressionItemCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(evaluateLogicalExpressionItemCommand, Firecrow.Interpreter.Commands.Command) || !evaluateLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { alert("Evaluator - argument has to be an eval logical expression item command!"); return; }
+
+                var parentExpressionCommand = evaluateLogicalExpressionItemCommand.parentLogicalExpressionCommand;
+
+                var wholeLogicalExpression = parentExpressionCommand.codeConstruct;
+                var logicalExpressionItem = evaluateLogicalExpressionItemCommand.codeConstruct;
+
+                var value = this.executionContextStack.getExpressionValue(evaluateLogicalExpressionItemCommand.codeConstruct);
+
+                if(logicalExpressionItem == wholeLogicalExpression.left)
+                {
+                    this.executionContextStack.setExpressionValue(wholeLogicalExpression, value);
+
+                    if((value && wholeLogicalExpression.operator == "||")
+                     ||(!value && wholeLogicalExpression.operator == "&&"))
+                    {
+                        evaluateLogicalExpressionItemCommand.shouldDeleteFollowingLogicalCommands = true;
+                    }
+                }
+                else if(logicalExpressionItem == wholeLogicalExpression.right)
+                {
+                    var leftValue = this.executionContextStack.getExpressionValue(wholeLogicalExpression.left);
+                    var rightValue = this.executionContextStack.getExpressionValue(wholeLogicalExpression.right);
+
+                    this.executionContextStack.setExpressionValue
+                    (
+                        wholeLogicalExpression,
+                        wholeLogicalExpression.operator == "&&" ? leftValue && rightValue
+                                                                : leftValue || rightValue
+                    );
+                }
+                else { alert("Evaluator - The expression item is neither left nor right expression"); return; }
+            }
+            catch(e) { alert("Evaluator - error when evaluating logical expression item command: " + e); }
         },
 
         registerExceptionCallback: function(callback, thisObject)

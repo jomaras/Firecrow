@@ -1400,24 +1400,29 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isLogicalExpression(sourceElement))
-            {
-                alert("Source element is not a logical expression!");
-                return commands;
-            }
+            if(!astHelper.isLogicalExpression(sourceElement)) { alert("Source element is not a logical expression!"); return commands; }
+
+            var startLogicalExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.StartEvalLogicalExpression, parentFunctionCommand);
+
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
-            commands.push(new fcCommands.Command(sourceElement.left, fcCommands.Command.COMMAND_TYPE.EvalLogicalExpressionItem, parentFunctionCommand));
+
+            var evalLeft = new fcCommands.Command(sourceElement.left, fcCommands.Command.COMMAND_TYPE.EvalLogicalExpressionItem, parentFunctionCommand);
+            evalLeft.parentLogicalExpressionCommand = startLogicalExpressionCommand;
+            commands.push(evalLeft);
+            startLogicalExpressionCommand.evalLeftCommand = evalLeft;
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
-            commands.push(new fcCommands.Command(sourceElement.right, fcCommands.Command.COMMAND_TYPE.EvalLogicalExpressionItem, parentFunctionCommand));
 
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.EvalLogicalExpression,
-                parentFunctionCommand
-            ));
+            var evalRight = new fcCommands.Command(sourceElement.right, fcCommands.Command.COMMAND_TYPE.EvalLogicalExpressionItem, parentFunctionCommand);
+            evalRight.parentLogicalExpressionCommand = startLogicalExpressionCommand;
+            commands.push(evalRight);
+            startLogicalExpressionCommand.evalRightCommand = evalRight;
+
+            var endLogicalExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EndEvalLogicalExpression, parentFunctionCommand);
+            endLogicalExpressionCommand.startCommand = startLogicalExpressionCommand;
+
+            commands.push(endLogicalExpressionCommand);
         }
         catch(e) { alert("Error while generating logical expression commands:" + e);}
 
@@ -1783,8 +1788,10 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isEvalUnaryExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalUnaryExpression; },
     isEvalBinaryExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalBinaryExpression; },
-    isEvalLogicalExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalLogicalExpression; },
+
+    isStartLogicalExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartEvalLogicalExpression; },
     isEvalLogicalExpressionItemCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalLogicalExpressionItem; },
+    isEndLogicalExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndEvalLogicalExpression; },
 
     isEvalAssignmentExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalAssignmentExpression; },
     isEvalUpdateExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalUpdateExpression; },
@@ -1875,8 +1882,9 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     EvalCallbackFunction: "EvalCallbackFunction",
 
-    EvalLogicalExpression: "EvalLogicalExpression",
+    StartEvalLogicalExpression: "StartEvalLogicalExpression",
     EvalLogicalExpressionItem: "EvalLogicalExpressionItem",
+    EndEvalLogicalExpression: "EndEvalLogicalExpression",
 
     EvalConditionalExpression: "EvalConditionalExpression",
     EvalNewExpression: "EvalNewExpression",
