@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Accessing internal methods</div>
+<div id="resultContainer"></div>
+<script>
+    function test()
+    {
+        var b = 2 + 1;
+        return b;
+    }
+
+    var a = {
+        test: function()
+        {
+            var b = 3 + 1;
+            return b;
+        }
+    }
+
+    var c = "";
+
+    with(a)
+    {
+        c = test();
+    }
+
+    var d = test();
+</script>
+</body>
+</html>
