@@ -5,10 +5,22 @@
 </head>
 <body>
 <h2>Firecrow - simple Js Test</h2>
-<div>Calculated property accessors</div>
+<div>Chained method call expressions</div>
 <div id="resultContainer"></div>
 <script>
+    var a = {
+        test:function()
+        {
+            return {
+                other: function()
+                {
+                    return 3;
+                }
+            };
+        }
+    };
 
+    var b = a.test().other();
 </script>
 </body>
 </html>
