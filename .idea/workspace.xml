@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/31/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/32/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/htmlModelMapping.js" afterPath="$PROJECT_DIR$/debug/htmlModelMapping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/testFiles/31/index.html" afterPath="$PROJECT_DIR$/debug/testFiles/31/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,7 +49,7 @@
       <file leaf-file-name="htmlModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="272" column="0" selection-start="234813" selection-end="234813" vertical-scroll-proportion="0.0">
+            <state line="280" column="0" selection-start="245111" selection-end="245111" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -75,7 +76,16 @@
       <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="13" selection-start="3585" selection-end="3585" vertical-scroll-proportion="0.53931034">
+            <state line="57" column="85" selection-start="3009" selection-end="3009" vertical-scroll-proportion="0.25793102">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/testFiles/32/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="22" selection-start="419" selection-end="419" vertical-scroll-proportion="-17.0">
               <folding />
             </state>
           </provider>
@@ -102,7 +112,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/testFiles/25/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
         <option value="$PROJECT_DIR$/debug/testFiles/26/index.html" />
@@ -116,6 +125,7 @@
         <option value="$PROJECT_DIR$/debug/testFiles/29/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/30/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/31/index.html" />
+        <option value="$PROJECT_DIR$/debug/testFiles/32/index.html" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
       </list>
@@ -250,7 +260,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="31" />
+              <option name="myItemId" value="32" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -272,7 +282,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="30" />
+              <option name="myItemId" value="31" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -332,11 +342,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\32" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\31" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\30" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\29" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\28" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\27" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\chrome\content\Firecrow\interpreter\simulator" />
@@ -579,7 +589,11 @@
       <created>1336729915296</created>
       <updated>1336729915296</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="More tests for with resolve">
+      <created>1336730180858</created>
+      <updated>1336730180858</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -616,10 +630,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14348786" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14348786" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14232999" sideWeight="0.21901709" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15147857" sideWeight="0.8565121" order="0" side_tool="false" content_ui="combo" />
@@ -676,7 +690,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more tests related to object identifier resolving" />
+    <option name="LAST_COMMIT_MESSAGE" value="More tests for with resolve" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -689,7 +703,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="VariableDeclaration evaluation, FunctionDeclaration, started working on call expressions" />
     <MESSAGE value="working with functions - entering and exiting functions" />
     <MESSAGE value="FIRCROW -&gt; FIRECROW;&#10;Fixed a bug when setting function variable values&#10;Added a new test - function definition and function call within a function" />
     <MESSAGE value="Adding a new test, minor changes in test html display" />
@@ -714,16 +727,12 @@
     <MESSAGE value="Minor fixes in variable object;&#10;Minor fixes to support (function(){})()" />
     <MESSAGE value="Calling object methods" />
     <MESSAGE value="Added more tests related to object identifier resolving" />
+    <MESSAGE value="More tests for with resolve" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/25/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="40" selection-start="144" selection-end="144" vertical-scroll-proportion="-4.576923" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="56" selection-start="1966" selection-end="1966" vertical-scroll-proportion="0.0" />
@@ -800,21 +809,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/31/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="12" selection-start="447" selection-end="447" vertical-scroll-proportion="-20.26923">
+        <state line="7" column="45" selection-start="149" selection-end="149" vertical-scroll-proportion="0.16413793">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="272" column="0" selection-start="234813" selection-end="234813" vertical-scroll-proportion="0.0">
+        <state line="280" column="0" selection-start="245111" selection-end="245111" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/32/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="22" selection-start="419" selection-end="419" vertical-scroll-proportion="-17.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="13" selection-start="3585" selection-end="3585" vertical-scroll-proportion="0.53931034">
+        <state line="57" column="85" selection-start="3009" selection-end="3009" vertical-scroll-proportion="0.25793102">
           <folding />
         </state>
       </provider>
