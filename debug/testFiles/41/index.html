@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Method redirection</div>
+<div id="resultContainer"></div>
+<script>
+    var a = {
+        own: function() { return 4; },
+        test: function() { return this.own() + 3; }
+    };
+    var b = {
+        own: function() { return 5; }
+    };
+    b.test = a.test;
+    var d = b.test();
+</script>
+</body>
+</html>
