@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>A bit more complicated variable resolution, array accessors..</div>
+<div id="resultContainer"></div>
+<script>
+    var d;
+    var c;
+    (function()
+    {
+        var a = 1;
+        var obj1 = {
+            fun: function()
+            {
+                return 3;
+            }
+        };
+
+        var obj2 = {
+            fun: function()
+            {
+                return 4;
+            }
+        };
+
+        var array = [obj1, obj2];
+
+        (function()
+        {
+            var obj = array[a];
+            c = obj.fun();
+        })();
+
+        a++;
+        d = a;
+    })()
+</script>
+</body>
+</html>
