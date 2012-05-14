@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Function call returns function expression and is immediately called</div>
+<div id="resultContainer"></div>
+<script>
+    function test1()
+    {
+        return function()
+        {
+            return 3;
+        }
+    }
+    var a = test1()();
+</script>
+</body>
+</html>

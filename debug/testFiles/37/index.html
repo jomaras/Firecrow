@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>New Expression in call expression</div>
+<div id="resultContainer"></div>
+<script>
+function cons()
+{
+    this.a = function() { return 3; }
+}
+
+var d = (new cons()).a();
+</script>
+</body>
+</html>
