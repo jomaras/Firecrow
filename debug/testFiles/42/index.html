@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Prototypes</div>
+<div id="resultContainer"></div>
+<script>
+    x = {
+        a: function() { return 3; },
+        b: function() { return 4; }
+    };
+    y = {
+        a: function() { return 5; },
+        c: function() { return 6; }
+    };
+    y.__proto__ = x;
+
+    var a1 = y.a(); // own characteristic
+    var a2 = y.c(); // own characteristic
+    var a3 = y.b(); // gotten from the prototype x;
+
+    delete y.a; // removed own a
+    var a3 = y.a(); // a – is gotten from the prototype
+
+    z = {
+        a: function() { return 7; },
+        e: function() { return 8; }
+    };
+    y.__proto__ = z; // changed the prototype of the y to z
+    var a4 = y.a(); // is gotten from the prototype z
+    var a5 = y.e(); // also – is gotten from the prototype z
+
+    z.q = function() // added new property to the prototype
+    {
+        return 4;
+    };
+
+    var a6 = y.q(); // changes are available and on y
+</script>
+</body>
+</html>
