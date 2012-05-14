@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Closures</div>
+<div id="resultContainer"></div>
+<script>
+    function testFn()
+    {
+        var localVar = 1;
+        function innerFn(innerParam) { return innerParam + localVar; }
+        return innerFn;
+    }
+
+    var someFn = testFn();
+    var obj1 = {
+        a: function() { return 3; }
+    };
+
+    var obj2 = {
+        a: function() { return 4; }
+    };
+
+    var obj3 = {
+        a: function() { return 5; }
+    };
+
+    var array = [obj1, obj2, obj3];
+    var obj = array[someFn(1)];
+    var d = obj.a();
+</script>
+</body>
+</html>

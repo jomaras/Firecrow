@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/39/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/40/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/htmlModelMapping.js" afterPath="$PROJECT_DIR$/debug/htmlModelMapping.js" />
@@ -39,25 +39,7 @@
       <file leaf-file-name="htmlModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="340" column="5" selection-start="307313" selection-end="307313" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/38/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="45" selection-start="348" selection-end="348" vertical-scroll-proportion="-11.115385">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/39/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="66" selection-start="170" selection-end="170" vertical-scroll-proportion="-1.6538461">
+            <state line="344" column="0" selection-start="321927" selection-end="321927" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -81,10 +63,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="85" selection-start="3009" selection-end="3009" vertical-scroll-proportion="0.8634921">
+            <state line="57" column="85" selection-start="3009" selection-end="3009" vertical-scroll-proportion="-10.461538">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/debug/testFiles/40/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="44" selection-start="187" selection-end="187" vertical-scroll-proportion="-0.26984128">
               <folding />
             </state>
           </provider>
@@ -120,7 +111,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/testFiles/30/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/31/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/32/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/33/index.html" />
@@ -134,6 +124,7 @@
         <option value="$PROJECT_DIR$/debug/testFiles/38/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
         <option value="$PROJECT_DIR$/debug/testFiles/39/index.html" />
+        <option value="$PROJECT_DIR$/debug/testFiles/40/index.html" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
       </list>
@@ -268,6 +259,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="40" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="testFiles" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="39" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -342,11 +355,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\40" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\39" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\38" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\37" />
       <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\36" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\testFiles\35" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\chrome\content\Firecrow\interpreter\simulator" />
@@ -613,7 +626,11 @@
       <created>1336981434619</created>
       <updated>1336981434619</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Added more tests">
+      <created>1336981678574</created>
+      <updated>1336981678574</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -710,7 +727,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more tests; expanded getting base objects for call expressions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more tests" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -723,7 +740,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Added DoWhile, While, tests" />
     <MESSAGE value="MemberExpressions, NewExpressions handled,&#10;Added new tests" />
     <MESSAGE value="Object Expression Creation, Function Expression Creation" />
     <MESSAGE value="Array Expressions and tests!" />
@@ -748,16 +764,12 @@
     <MESSAGE value="Testing objects property assignment expression when object result of call expression" />
     <MESSAGE value="Chained method calls test" />
     <MESSAGE value="Added more tests; expanded getting base objects for call expressions" />
+    <MESSAGE value="Added more tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/data.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="47" selection-start="578" selection-end="578" vertical-scroll-proportion="0.0" />
@@ -839,14 +851,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="340" column="5" selection-start="307313" selection-end="307313" vertical-scroll-proportion="0.0">
+        <state line="344" column="0" selection-start="321927" selection-end="321927" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="85" selection-start="3009" selection-end="3009" vertical-scroll-proportion="0.8634921">
+        <state line="57" column="85" selection-start="3009" selection-end="3009" vertical-scroll-proportion="-10.461538">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/40/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="44" selection-start="187" selection-end="187" vertical-scroll-proportion="-0.26984128">
           <folding />
         </state>
       </provider>
