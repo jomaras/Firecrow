@@ -155,7 +155,7 @@ Firecrow.Interpreter.Model.Object.prototype =
             var property = this.getProperty(propertyName);
 
             return property != null ? property.value
-                : null;
+                                    : null;
         }
         catch(e) { alert("Error when getting property value - Object:" + e);}
     },

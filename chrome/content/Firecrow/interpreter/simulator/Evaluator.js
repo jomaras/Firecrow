@@ -47,6 +47,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isStartCatchStatementCommand()) { this._evaluateStartCatchStatementCommand(command);}
                 else if (command.isEndCatchStatementCommand()) { this._evaluateEndCatchStatementCommand(command);}
                 else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
+                else if (command.isEvalUnaryExpressionCommand()) { this._evaluateUnaryExpression(command); }
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -551,6 +552,50 @@ FBL.ns(function() { with (FBL) {
                 else { alert("Evaluator - The expression item is neither left nor right expression"); return; }
             }
             catch(e) { alert("Evaluator - error when evaluating logical expression item command: " + e); }
+        },
+
+        _evaluateUnaryExpression: function(evaluateUnaryExpressionCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(evaluateUnaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evaluateUnaryExpressionCommand.isEvalUnaryExpressionCommand()) { alert("Evaluator - argument has to be an eval unary item command!"); return; }
+
+                var unaryExpression = evaluateUnaryExpressionCommand.codeConstruct;
+                var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
+                var expressionValue = null;
+
+                     if (unaryExpression.operator == "-") { expressionValue = -argumentValue; }
+                else if (unaryExpression.operator == "+") { expressionValue = +argumentValue; }
+                else if (unaryExpression.operator == "!") { expressionValue = !argumentValue; }
+                else if (unaryExpression.operator == "~") { expressionValue = ~argumentValue; }
+                else if (unaryExpression.operator == "typeof") { expressionValue = typeof argumentValue; }
+                else if (unaryExpression.operator == "void") { expressionValue = void argumentValue;}
+                else if (unaryExpression.operator == "delete")
+                {
+                    if(ASTHelper.isIdentifier(unaryExpression.argument))
+                    {
+                        this.executionContextStack.deleteIdentifier(unaryExpression.argument.name);
+                    }
+                    else if(ASTHelper.isMemberExpression(unaryExpression.argument))
+                    {
+                        var object = this.executionContextStack.getExpressionValue(unaryExpression.argument.object);
+
+                        if(object == null) { alert("When deleting properties the base object can not be null!"); return; }
+
+                        var property = unaryExpression.argument.computed ? this.executionContextStack.getExpressionValue(unaryExpression.argument.property)
+                                                                         : unaryExpression.argument.property.name;
+
+                        delete object[property];
+                        object.__FIRECROW_INTERNAL__.object.deleteProperty(property, unaryExpression);
+                    }
+                    else  { alert("Evaluator - Unhandled expression when evaluating delete"); }
+
+                    expressionValue = true;
+                }
+
+                this.executionContextStack.setExpressionValue(unaryExpression, expressionValue);
+            }
+            catch(e) { alert("Evaluator - error when evaluating unary expression item command: " + e);}
         },
 
         registerExceptionCallback: function(callback, thisObject)

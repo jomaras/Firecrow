@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0d5268e-c3be-4582-811e-e019ef82c8c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/42/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/testFiles/43/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Jomaras.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Jomaras.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/htmlModelMapping.js" afterPath="$PROJECT_DIR$/debug/htmlModelMapping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/testFiles/42/index.html" afterPath="$PROJECT_DIR$/debug/testFiles/42/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,7 +32,7 @@
       <file leaf-file-name="ExecutionContextStack.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="439" column="131" selection-start="17095" selection-end="17095" vertical-scroll-proportion="0.0">
+            <state line="439" column="4" selection-start="17057" selection-end="17057" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -40,7 +41,7 @@
       <file leaf-file-name="htmlModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="374" column="25015" selection-start="385091" selection-end="385091" vertical-scroll-proportion="0.0">
+            <state line="366" column="19" selection-start="373556" selection-end="373556" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -64,19 +65,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="65" selection-start="2923" selection-end="2923" vertical-scroll-proportion="0.026687598">
+            <state line="57" column="88" selection-start="3012" selection-end="3012" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Evaluator.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/testFiles/42/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="38" selection-start="167" selection-end="167" vertical-scroll-proportion="-1.3076923">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Evaluator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="219" column="8" selection-start="12244" selection-end="12244" vertical-scroll-proportion="0.0">
+            <state line="558" column="56" selection-start="31327" selection-end="31327" vertical-scroll-proportion="0.09467456">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Object.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="59" selection-start="656" selection-end="656" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Firefox AST syntax.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/General notes/Firefox AST syntax.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="135" column="34" selection-start="5541" selection-end="5593" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -103,8 +131,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
         <option value="$PROJECT_DIR$/debug/testFiles/34/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/35/index.html" />
@@ -116,9 +142,11 @@
         <option value="$PROJECT_DIR$/debug/testFiles/40/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/41/index.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/43/index.html" />
+        <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
         <option value="$PROJECT_DIR$/debug/testFiles/42/index.html" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
-        <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       </list>
     </option>
   </component>
@@ -656,7 +684,11 @@
       <created>1336983298667</created>
       <updated>1336983298667</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="More tests added">
+      <created>1336999888410</created>
+      <updated>1336999888411</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -693,12 +725,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2406181" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21192053" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14232999" sideWeight="0.21901709" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09897405" sideWeight="0.7593819" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12673506" sideWeight="0.78807944" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32764506" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -753,7 +785,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="More tests added" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -766,7 +798,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="MemberExpressions, NewExpressions handled,&#10;Added new tests" />
     <MESSAGE value="Object Expression Creation, Function Expression Creation" />
     <MESSAGE value="Array Expressions and tests!" />
     <MESSAGE value="ForInCommand" />
@@ -791,89 +822,40 @@
     <MESSAGE value="Chained method calls test" />
     <MESSAGE value="Added more tests; expanded getting base objects for call expressions" />
     <MESSAGE value="Added more tests" />
+    <MESSAGE value="More tests added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/34/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="19" selection-start="123" selection-end="123" vertical-scroll-proportion="0.16643357" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/35/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="50" selection-start="265" selection-end="265" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/36/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="36" selection-start="140" selection-end="140" vertical-scroll-proportion="-1.3461539">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/37/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="8" selection-start="258" selection-end="258" vertical-scroll-proportion="-9.807693">
-          <folding />
-        </state>
+        <state line="15" column="8" selection-start="258" selection-end="258" vertical-scroll-proportion="-9.807693" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/38/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="45" selection-start="348" selection-end="348" vertical-scroll-proportion="-11.115385">
-          <folding />
-        </state>
+        <state line="17" column="45" selection-start="348" selection-end="348" vertical-scroll-proportion="-11.115385" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/39/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="66" selection-start="170" selection-end="170" vertical-scroll-proportion="-1.6538461">
-          <folding />
-        </state>
+        <state line="7" column="66" selection-start="170" selection-end="170" vertical-scroll-proportion="-1.6538461" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/43/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="7" selection-start="111" selection-end="111" vertical-scroll-proportion="-4.576923">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/42/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="5" selection-start="612" selection-end="612" vertical-scroll-proportion="0.8847458">
-          <folding />
-        </state>
+        <state line="7" column="7" selection-start="111" selection-end="111" vertical-scroll-proportion="-4.576923" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/testFiles/40/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="44" selection-start="187" selection-end="187" vertical-scroll-proportion="-6.5384617">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/41/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="12" selection-start="380" selection-end="380" vertical-scroll-proportion="0.5968254">
-          <folding />
-        </state>
+        <state line="10" column="44" selection-start="187" selection-end="187" vertical-scroll-proportion="-6.5384617" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="439" column="131" selection-start="17095" selection-end="17095" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="374" column="25015" selection-start="385091" selection-end="385091" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="439" column="4" selection-start="17057" selection-end="17057" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
@@ -886,16 +868,52 @@
         <state line="1419" column="61" selection-start="51279" selection-end="51279" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="8" selection-start="12244" selection-end="12244" vertical-scroll-proportion="0.0">
+        <state line="57" column="88" selection-start="3012" selection-end="3012" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/General notes/Firefox AST syntax.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="135" column="34" selection-start="5541" selection-end="5593" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/41/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="12" selection-start="380" selection-end="380" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="27" selection-start="302" selection-end="302" vertical-scroll-proportion="0.2467344">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="65" selection-start="2923" selection-end="2923" vertical-scroll-proportion="0.026687598">
+        <state line="24" column="59" selection-start="656" selection-end="656" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="366" column="19" selection-start="373556" selection-end="373556" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/testFiles/42/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="38" selection-start="167" selection-end="167" vertical-scroll-proportion="-1.3076923">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="558" column="56" selection-start="31327" selection-end="31327" vertical-scroll-proportion="0.09467456">
           <folding />
         </state>
       </provider>

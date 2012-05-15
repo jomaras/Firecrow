@@ -23,22 +23,22 @@
     var a3 = y.b(); // gotten from the prototype x;
 
     delete y.a; // removed own a
-    var a3 = y.a(); // a – is gotten from the prototype
+    var a4 = y.a(); // a – is gotten from the prototype
 
     z = {
         a: function() { return 7; },
         e: function() { return 8; }
     };
     y.__proto__ = z; // changed the prototype of the y to z
-    var a4 = y.a(); // is gotten from the prototype z
-    var a5 = y.e(); // also – is gotten from the prototype z
+    var a5 = y.a(); // is gotten from the prototype z
+    var a6 = y.e(); // also – is gotten from the prototype z
 
     z.q = function() // added new property to the prototype
     {
         return 4;
     };
 
-    var a6 = y.q(); // changes are available and on y
+    var a7 = y.q(); // changes are available and on y
 </script>
 </body>
 </html>
