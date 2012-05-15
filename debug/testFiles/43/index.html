@@ -8,7 +8,15 @@
 <div>??</div>
 <div id="resultContainer"></div>
 <script>
+x = { a: function() { return 3; } };
+y = { b: function() { return 4; } };
 
+y.__proto__ = x;
+
+z = { c: function() { return 30; } };
+z.__proto__ = y;
+
+var a1 = z.a();
 </script>
 </body>
 </html>
