@@ -158,6 +158,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
             else if (command.isEvalNewExpressionCommand()) {}
             else if (command.isStartLogicalExpressionCommand() || command.isEndLogicalExpressionCommand()) {}
+            else if (command.isCallInternalConstructorCommand()) { }
             else
             {
                 this.evaluator.evaluateCommand(command);
@@ -314,7 +315,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration));
         }
-        catch(e) { alert("ExecutionContextStack - error when registering identifier: " + e); }
+        catch(e)
+        {
+            alert("ExecutionContextStack - error when registering function declaration: " + e);
+        }
     },
 
     getIdentifierValue: function(identifierName)
@@ -455,11 +459,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             value,
             "__FIRECROW_INTERNAL__",
             {
-                value:
-                {
-                    codeConstruct: functionCodeConstruct,
-                    scopeChain: this.activeContext.scopeChain
-                }
+                value: new fcModel.Function(this.globalObject, this.activeContext.scopeChain, functionCodeConstruct)
             }
         );
 
@@ -468,43 +468,47 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
     createObjectInCurrentContext: function(constructorFunction, creationCodeConstruct)
     {
-        var newObject = constructorFunction != null ? new constructorFunction()
-                                                    : {};
+        try
+        {
+            var newObject = null;
 
-        Object.defineProperty
-        (
-            newObject,
-            "__FIRECROW_INTERNAL__",
+            if(constructorFunction == null && ASTHelper.isObjectExpression(creationCodeConstruct)) { newObject = {}; }
+            else if(ValueTypeHelper.isOfType(constructorFunction, Function)) { newObject = new constructorFunction();}
+            else if (constructorFunction != null && constructorFunction.isInternalFunction)
             {
-                value:
-                {
-                    codeConstruct: creationCodeConstruct,
-                    object: new Firecrow.Interpreter.Model.Object(this.globalObject, creationCodeConstruct, newObject)
-                }
+                newObject = fcSimulator.InternalExecutor.executeConstructor(this.globalObject, creationCodeConstruct, constructorFunction);
             }
-        );
+            else { alert("ExecutionContextStack - unknown state!"); }
 
-        return newObject;
+            if(newObject.__FIRECROW_INTERNAL__ == null)
+            {
+                Object.defineProperty
+                (
+                    newObject,
+                    "__FIRECROW_INTERNAL__",
+                    {
+                        value:
+                        {
+                            codeConstruct: creationCodeConstruct,
+                            object: new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)
+                        }
+                    }
+                );
+            }
+
+            return newObject;
+        }
+        catch(e) { alert("ExecutionContextStack - error when creating object:" + e); }
+
     },
 
     createArrayInCurrentContext: function(creationCodeConstruct)
     {
-        var newArray = [];
-
-        Object.defineProperty
-        (
-            newArray,
-            "__FIRECROW_INTERNAL__",
-            {
-                value:
-                {
-                    codeConstruct: creationCodeConstruct,
-                    array: new Firecrow.Interpreter.Model.Array(this.globalObject, creationCodeConstruct)
-                }
-            }
-        );
-
-        return newArray;
+        try
+        {
+            return fcSimulator.InternalExecutor.createArray(this.globalObject, creationCodeConstruct);
+        }
+        catch(e) { alert("ExecutionContextStack - error when creating array in current context: " + e); }
     },
 
     registerExceptionCallback: function(callback, thisObject)

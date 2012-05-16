@@ -197,6 +197,27 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(functionObject == null) { alert("CommandGenerator: the function object must not be null!"); return commands; }
 
+            if(functionObject.__FIRECROW_INTERNAL__.isInternalFunction)
+            {
+                var internalFunctionCommand = null;
+
+                if(callExpressionCommand.isEvalNewExpressionCommand())
+                {
+                    internalFunctionCommand = new fcCommands.Command(callExpressionCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.CallInternalConstructor, callExpressionCommand.parentFunctionCommand);
+                    internalFunctionCommand.functionObject = functionObject;
+                }
+                else if (callExpressionCommand.isEvalCallExpressionCommand())
+                {
+                    internalFunctionCommand = new fcCommands.Command(callExpressionCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.CallInternalFunction, callExpressionCommand.parentFunctionCommand);
+                    internalFunctionCommand.functionObject = functionObject;
+                    internalFunctionCommand.thisObject = thisObject;
+                }
+
+                commands.push(internalFunctionCommand);
+
+                return commands;
+            }
+
             commands.push(fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand));
 
             var functionConstruct = functionObject.__FIRECROW_INTERNAL__.codeConstruct;
@@ -233,7 +254,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             return commands;
         }
-        catch (e) { alert("CommandGenerator: An error occurred when generating function execution commands: " + e); }
+        catch (e)
+        {
+            alert("CommandGenerator: An error occurred when generating function execution commands: " + e);
+        }
     },
 
     generateVariableDeclarationExecutionCommands: function (sourceElement, parentFunctionCommand)
@@ -1692,7 +1716,10 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - an error has occurred when generating enter function context commands: " + e); }
+    catch(e)
+    {
+        alert("CommandGenerator - an error has occurred when generating enter function context commands: " + e);
+    }
 };
 
 Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = function(functionObject, parentFunctionCommand)
@@ -1835,6 +1862,9 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isForUpdateStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForUpdateStatement; },
     isEvalForInWhereCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalForInWhere; },
 
+    isCallInternalConstructorCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.CallInternalConstructor; },
+    isCallInternalFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.CallInternalFunction; },
+
     getLineNo: function()
     {
         return this.codeConstruct != null && this.codeConstruct.loc != null ? this.codeConstruct.loc.start.line : -1;
@@ -1911,7 +1941,10 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     EvalForInWhere: "EvalForInWhere",
 
-    EvalConditionalExpressionBody: "EvalConditionalExpressionBody"
+    EvalConditionalExpressionBody: "EvalConditionalExpressionBody",
+
+    CallInternalConstructor: "CallInternalConstructor",
+    CallInternalFunction: "CallInternalFunction"
 };
 
 /*************************************************************************************/

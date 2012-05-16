@@ -4,6 +4,7 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
+
 const ExecutionContextStack = Firecrow.Interpreter.Simulator.ExecutionContextStack;
 const Command = Firecrow.Interpreter.Commands.Command;
 const CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
@@ -249,7 +250,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 this.currentCommandIndex + 1
             );
         }
-        catch(e) { alert("Error while generating commands after new expression command: " + e);}
+        catch(e) { alert("InterpreterSimulator - Error while generating commands after new expression command: " + e);}
     },
 
     generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)

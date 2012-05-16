@@ -48,6 +48,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEndCatchStatementCommand()) { this._evaluateEndCatchStatementCommand(command);}
                 else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
                 else if (command.isEvalUnaryExpressionCommand()) { this._evaluateUnaryExpression(command); }
+                else if (command.isCallInternalFunctionCommand()) { this._evaluateCallInternalFunction(command); }
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -157,6 +158,12 @@ FBL.ns(function() { with (FBL) {
                     if(object == null) { alert("Can not write to a property of null object!"); return; }
 
                     object[property] = finalValue;
+
+                    if(object.__FIRECROW_INTERNAL__ == null)
+                    {
+                        var a = 3;
+                    }
+
                     object.__FIRECROW_INTERNAL__.object.addProperty(property, finalValue, evalAssignmentExpressionCommand.codeConstruct, true);
                 }
 
@@ -238,7 +245,7 @@ FBL.ns(function() { with (FBL) {
                     | "|" | "^" | "^" | "in" | "instanceof" | "..";
                 var result = null;
 
-                if(operator == "==") { result = leftExpressionValue == rightExpressionValue;}
+                     if (operator == "==") { result = leftExpressionValue == rightExpressionValue;}
                 else if (operator == "!=") { result = leftExpressionValue != rightExpressionValue; }
                 else if (operator == "===") { result = leftExpressionValue === rightExpressionValue; }
                 else if (operator == "!==") { result = leftExpressionValue !== rightExpressionValue; }
@@ -302,7 +309,7 @@ FBL.ns(function() { with (FBL) {
                     this.executionContextStack.activeContext.thisObject
                 );
             }
-            catch(e) { alert("Evaluator - error when evaluating return expression: " + e); }
+            catch(e) { alert("Evaluator - error when evaluating this expression: " + e); }
         },
 
         _evaluateMemberExpressionCommand: function(evalMemberExpressionCommand)
@@ -323,7 +330,10 @@ FBL.ns(function() { with (FBL) {
                     object[property]
                 );
             }
-            catch(e) { alert("Evaluator - error when evaluating return expression: " + e); }
+            catch(e)
+            {
+                alert("Evaluator - error when evaluating member expression: " + e);
+            }
         },
 
         _evaluateMemberExpressionPropertyCommand: function(evalMemberExpressionPropertyCommand)
@@ -339,7 +349,7 @@ FBL.ns(function() { with (FBL) {
                                                                                : evalMemberExpressionPropertyCommand.codeConstruct.property.name
                 );
             }
-            catch(e) { alert("Evaluator - error when evaluating return expression: " + e); }
+            catch(e) { alert("Evaluator - error when evaluating member expression property: " + e); }
         },
 
         _evaluateObjectExpressionCommand: function(objectExpressionCommand)
@@ -596,6 +606,37 @@ FBL.ns(function() { with (FBL) {
                 this.executionContextStack.setExpressionValue(unaryExpression, expressionValue);
             }
             catch(e) { alert("Evaluator - error when evaluating unary expression item command: " + e);}
+        },
+
+        _evaluateCallInternalFunction: function(callInternalFunctionCommand)
+        {
+            try
+            {
+                if(!ValueTypeHelper.isOfType(callInternalFunctionCommand, Firecrow.Interpreter.Commands.Command) || !callInternalFunctionCommand.isCallInternalFunctionCommand()) { alert("Evaluator - argument has to be a call internal function command!"); return; }
+
+                var args = [];
+                var callExpression = callInternalFunctionCommand.codeConstruct;
+
+                if(callExpression.arguments != null)
+                {
+                    callExpression.arguments.forEach(function(argument)
+                    {
+                        args.push(this.executionContextStack.getExpressionValue(argument));
+                    }, this);
+                }
+
+                this.executionContextStack.setExpressionValue
+                (
+                    callInternalFunctionCommand.codeConstruct,
+                    Firecrow.Interpreter.Simulator.InternalExecutor.executeFunction
+                    (
+                        callInternalFunctionCommand.thisObject,
+                        callInternalFunctionCommand.functionObject,
+                        args
+                    )
+                );
+            }
+            catch(e) { alert("Evaluator - Error has occurred when evaluating call internal function command:" + e); }
         },
 
         registerExceptionCallback: function(callback, thisObject)

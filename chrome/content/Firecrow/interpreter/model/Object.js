@@ -12,6 +12,16 @@ FBL.ns(function() { with (FBL) {
 const fcModel = Firecrow.Interpreter.Model;
 const ValueTypeHelper = Firecrow.ValueTypeHelper;
 
+Firecrow.Interpreter.Model.ObjectFunction = function()
+{
+
+};
+
+Firecrow.Interpreter.Model.ObjectPrototype = function()
+{
+
+};
+
 Firecrow.Interpreter.Model.Object = function(globalObject, codeConstruct, implementationObject)
 {
     this.id = fcModel.Object.LAST_ID++;
@@ -42,11 +52,21 @@ Firecrow.Interpreter.Model.Object.prototype =
         catch(e) { alert("Error when adding modification - Object:" + e);}
     },
 
+    setProto: function(proto, codeConstruct)
+    {
+        try
+        {
+            this.proto = proto;
+            this.addModification(codeConstruct);
+        }
+        catch(e) { alert("Object - error "); }
+    },
+
     addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
     {
         try
         {
-            if(propertyName == "__proto__") { this.proto = propertyValue; return; }
+            if(propertyName == "__proto__") { this.setProto(propertyValue, codeConstruct); return; }
 
             var existingProperty = this.getOwnProperty(propertyName);
 

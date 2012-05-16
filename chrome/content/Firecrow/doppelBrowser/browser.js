@@ -15,6 +15,8 @@ const HtmlHelper = Firecrow.htmlHelper;
 const Interpreter = Firecrow.Interpreter.InterpreterSimulator;
 const GlobalObject = Firecrow.Interpreter.Model.GlobalObject;
 
+const fcSimulator = Firecrow.Interpreter.Simulator;
+
 Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
 {
     try
@@ -29,6 +31,7 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.documentFragment = this.hostDocument.createDocumentFragment();
 
         this.globalObject = new GlobalObject();
+        fcSimulator.InternalExecutor.expandInternalFunctions(this.globalObject);
 
         this.nodeCreatedCallbacks = [];
         this.nodeInsertedCallbacks = [];

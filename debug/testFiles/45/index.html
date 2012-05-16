@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Array internal methods</div>
+<div id="resultContainer"></div>
+<script>
+    var array = new Array();
+
+    var a = { x: function() { return "a"; }};
+    var b = { x: function() { return "b"; }};
+    var c = { x: function() { return "c"; }};
+
+    array.push(a);
+    array.push(b);
+    array.push(c);
+
+    var a1 = array[0].x();
+    var a2 = array[1].x();
+    var a3 = array[2].x();
+
+    var a4 = array[array.length - 1].x();
+
+    array.pop();
+
+    var a5 = array[array.length - 1].x();
+
+    array.pop();
+
+    var a6 = array[array.length - 1].x();
+
+    array.push(a, b, c);
+
+    var a7 = array[0].x();
+    var a8 = array[1].x();
+    var a9 = array[2].x();
+
+    array.reverse();
+
+    var a10 = array[0].x();
+    var a11 = array[1].x();
+    var a12 = array[2].x();
+
+    var first = array.shift();
+    var a13 = first.x();
+
+    var a14 = array[0].x();
+    var a15 = array[1].x();
+
+    array.unshift(first, first);
+
+    var a16 = array[0].x();
+    var a17 = array[1].x();
+    var a18 = array[2].x();
+    var a19 = array[3].x();
+
+    array.splice(2, 0, first);
+
+    var a20 = array[0].x();
+    var a21 = array[1].x();
+    var a22 = array[2].x();
+    var a23 = array[3].x();
+    var a24 = array[4].x();
+
+    var removed = array.splice(3, 1);
+
+    var a25 = array[0].x();
+    var a26 = array[1].x();
+    var a27 = array[2].x();
+    var a28 = array[3].x();
+
+    var a29 = removed[0].x();
+</script>
+</body>
+</html>

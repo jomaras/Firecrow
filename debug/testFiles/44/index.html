@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Function prototypes</div>
+<div id="resultContainer"></div>
+<script>
+    function A() {}
+    A.prototype.x = function()
+    {
+        return 10;
+    };
+
+    var a = new A();
+    var a1 = a.x();
+
+    A.prototype = { y: function() { return 100; } };
+
+    var b = new A();
+
+    var a2 = b.y();
+    var a3 = a.x();
+</script>
+</body>
+</html>
