@@ -8,25 +8,29 @@ FBL.ns(function() { with (FBL) {
     const fcModel = Firecrow.Interpreter.Model;
     const ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-    Firecrow.Interpreter.Model.Function = function(globalObject, scopeChain, codeConstruct)
+    fcModel.Function = function(globalObject, scopeChain, codeConstruct)
     {
+        this.object = this;
         this.globalObject = globalObject;
         this.codeConstruct = codeConstruct;
         this.scopeChain = scopeChain;
 
-        this.addProperty("prototype", globalObject.emptyFunction);
+        this.addProperty("prototype", globalObject.functionPrototype);
+        this.addProperty("__proto__", globalObject.functionPrototype);
+
+        this.__FIRECROW_INTERNAL__ = this;
     };
 
-    Firecrow.Interpreter.Model.EmptyFunction = function(globalObject)
+    fcModel.EmptyFunction = function(globalObject)
     {
         this.globalObject = globalObject;
         this.name = "Empty";
     };
 
-    Firecrow.Interpreter.Model.EmptyFunction.prototype = new fcModel.Object(null);
-    Firecrow.Interpreter.Model.Function.prototype = new fcModel.EmptyFunction(null);
+    fcModel.EmptyFunction.prototype = new fcModel.Object(null);
+    fcModel.Function.prototype = new fcModel.EmptyFunction(null);
 
-    Firecrow.Interpreter.Model.Function.createInternalNamedFunction = function(globalObject, name)
+    fcModel.Function.createInternalNamedFunction = function(globalObject, name)
     {
         try
         {
@@ -38,5 +42,28 @@ FBL.ns(function() { with (FBL) {
             return functionObject;
         }
         catch(e) { alert("Function - Error when creating Internal Named Function: " + e); }
+    };
+
+    fcModel.FunctionPrototype = function(globalObject)
+    {
+        try
+        {
+            //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
+            fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(propertyName), null, false);
+            }, this);
+        }
+        catch(e) { alert("Array - error when creating array prototype:" + e); }
+    };
+
+    fcModel.FunctionPrototype.prototype = new fcModel.Object(null);
+
+    fcModel.FunctionPrototype.CONST =
+    {
+        INTERNAL_PROPERTIES :
+        {
+            METHODS: ["apply", "call", "toSource", "toString", "bind"]
+        }
     };
 }});

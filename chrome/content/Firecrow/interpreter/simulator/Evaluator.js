@@ -173,7 +173,10 @@ FBL.ns(function() { with (FBL) {
                     finalValue
                 );
             }
-            catch(e) { alert("Evaluator - error when evaluating assignment expression " + e);}
+            catch(e)
+            {
+                alert("Evaluator - error when evaluating assignment expression " + e);
+            }
         },
 
         _evaluateUpdateExpressionCommand: function(evalUpdateExpressionCommand)

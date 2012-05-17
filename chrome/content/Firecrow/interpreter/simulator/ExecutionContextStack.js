@@ -452,54 +452,20 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
     createFunctionInCurrentContext: function(functionCodeConstruct)
     {
-        var value = function(){ };
-
-        Object.defineProperty
-        (
-            value,
-            "__FIRECROW_INTERNAL__",
-            {
-                value: new fcModel.Function(this.globalObject, this.activeContext.scopeChain, functionCodeConstruct)
-            }
-        );
-
-        return value;
+        try
+        {
+            return fcSimulator.InternalExecutor.createFunction(this.globalObject, this.activeContext.scopeChain, functionCodeConstruct)
+        }
+        catch(e) { alert("ExecutionContextStack - error when creating function: " + e);}
     },
 
     createObjectInCurrentContext: function(constructorFunction, creationCodeConstruct)
     {
         try
         {
-            var newObject = null;
-
-            if(constructorFunction == null && ASTHelper.isObjectExpression(creationCodeConstruct)) { newObject = {}; }
-            else if(ValueTypeHelper.isOfType(constructorFunction, Function)) { newObject = new constructorFunction();}
-            else if (constructorFunction != null && constructorFunction.isInternalFunction)
-            {
-                newObject = fcSimulator.InternalExecutor.executeConstructor(this.globalObject, creationCodeConstruct, constructorFunction);
-            }
-            else { alert("ExecutionContextStack - unknown state!"); }
-
-            if(newObject.__FIRECROW_INTERNAL__ == null)
-            {
-                Object.defineProperty
-                (
-                    newObject,
-                    "__FIRECROW_INTERNAL__",
-                    {
-                        value:
-                        {
-                            codeConstruct: creationCodeConstruct,
-                            object: new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)
-                        }
-                    }
-                );
-            }
-
-            return newObject;
+            return fcSimulator.InternalExecutor.createObject(this.globalObject, constructorFunction, creationCodeConstruct);
         }
         catch(e) { alert("ExecutionContextStack - error when creating object:" + e); }
-
     },
 
     createArrayInCurrentContext: function(creationCodeConstruct)
