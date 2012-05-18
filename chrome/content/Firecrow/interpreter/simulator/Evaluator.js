@@ -50,7 +50,6 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
                 else if (command.isEvalUnaryExpressionCommand()) { this._evaluateUnaryExpression(command); }
                 else if (command.isCallInternalFunctionCommand()) { this._evaluateCallInternalFunction(command); }
-                else if (command.isEvalCallbackExecutionCommand()) { this._evaluateCallbackExecutionCommand(command); }
                 else
                 {
                     alert("Evaluator: Still not handling command of type: " +  command.type);
@@ -656,11 +655,13 @@ FBL.ns(function() { with (FBL) {
                 this.executionContextStack.setExpressionValue
                 (
                     callInternalFunctionCommand.codeConstruct,
-                    fcSimulator.InternalExecutor.executeFunction
+                    Firecrow.Interpreter.Simulator.InternalExecutor.executeFunction
                     (
                         callInternalFunctionCommand.thisObject,
                         callInternalFunctionCommand.functionObject,
-                        args
+                        args,
+                        callInternalFunctionCommand.thisObject.__FIRECROW_INTERNAL__.object.globalObject,
+                        callInternalFunctionCommand.codeConstruct
                     )
                 );
             }

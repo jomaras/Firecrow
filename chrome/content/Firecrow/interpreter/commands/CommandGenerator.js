@@ -193,7 +193,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             var commands = [];
 
             if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand() && !callExpressionCommand.isExecuteCallbackCommand())) { alert("CommandGenerator: an argument is not an EvalCallExpressionCommand"); return commands; }
-            if(functionObject == null) { alert("CommandGenerator: function object can not be null when generating commands for function execution!"); return commands; }
+            if(functionObject == null)
+            {
+                alert("CommandGenerator: function object can not be null when generating commands for function execution!"); return commands;
+            }
 
             if(functionObject.__FIRECROW_INTERNAL__.isInternalFunction) { return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject); }
 

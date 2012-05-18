@@ -13,22 +13,33 @@ FBL.ns(function() { with (FBL) {
     {
         createArray: function(globalObject, creationCodeConstruct)
         {
-            var newArray = [];
+            return this._expandArray([], globalObject, creationCodeConstruct);
+        },
+
+        _expandArray: function(array, globalObject, creationCodeConstruct)
+        {
+            var fcArray = new Firecrow.Interpreter.Model.Array(globalObject, creationCodeConstruct);
 
             Object.defineProperty
             (
-                newArray,
+                array,
                 "__FIRECROW_INTERNAL__",
                 {
                     value:
                     {
                         codeConstruct: creationCodeConstruct,
-                        array: new Firecrow.Interpreter.Model.Array(globalObject, creationCodeConstruct)
+                        array: fcArray,
+                        object: fcArray
                     }
                 }
             );
 
-            return newArray;
+            array.forEach(function(item)
+            {
+                array.__FIRECROW_INTERNAL__.array.push(item);
+            });
+
+            return array;
         },
 
         createObject: function(globalObject, constructorFunction, creationCodeConstruct)
@@ -119,16 +130,16 @@ FBL.ns(function() { with (FBL) {
             catch(e) { alert("InternalConstructorExecutor - execute error: " + e); }
         },
 
-        executeFunction: function(thisObject, functionObject, arguments)
+        executeFunction: function(thisObject, functionObject, arguments, globalObject, callExpression)
         {
             try
             {
-                if(ValueTypeHelper.isOfType(thisObject, Array)) { return this._executeInternalArrayMethod(thisObject, functionObject, arguments); }
+                if(ValueTypeHelper.isOfType(thisObject, Array)) { return this._executeInternalArrayMethod(thisObject, functionObject, arguments, globalObject, callExpression); }
             }
             catch(e) { alert("InternalExecutor - error when executing internal function: " + e); }
         },
 
-        _executeInternalArrayMethod: function(thisObject, functionObject, arguments)
+        _executeInternalArrayMethod: function(thisObject, functionObject, arguments, globalObject, callExpression)
         {
             try
             {
@@ -167,6 +178,10 @@ FBL.ns(function() { with (FBL) {
                 {
                     thisObject.__FIRECROW_INTERNAL__.array.shift();
                     return thisObject[functionObject.name]();
+                }
+                else if(functionObject.__FIRECROW_INTERNAL__.name == "concat")
+                {
+                    return this._expandArray(thisObject[functionObject.name].apply(thisObject, arguments), globalObject, callExpression);
                 }
                 else
                 {
