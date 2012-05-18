@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Array concat</div>
+<div id="resultContainer"></div>
+<script>
+    var ar0 = { value: 0, fun: function() { return this.value; } };
+    var ar1 = { value: 1, fun: function() { return this.value; } };
+    var ar2 = { value: 2, fun: function() { return this.value; } };
+    var ar3 = { value: 3, fun: function() { return this.value; } };
+    var ar4 = { value: 4, fun: function() { return this.value; } };
+    var ar5 = { value: 5, fun: function() { return this.value; } };
+
+    var firstArray = [ar0, ar1, ar2];
+    var secondArray = [ar3, ar4, ar5];
+
+    var joinedArray = firstArray.concat(secondArray);
+
+    //joinedArray: [ar0, ar1, ar2, ar3, ar4, ar5];
+    //firstArray: [ar0, ar1, ar2]; secondArray: [ar3, ar4, ar5];
+
+    var a1 = joinedArray[0].fun();
+    var a2 = joinedArray[1].fun();
+    var a3 = joinedArray[2].fun();
+    var a4 = joinedArray[3].fun();
+    var a5 = joinedArray[4].fun();
+    var a6 = joinedArray[5].fun();
+
+    var a7 = firstArray[0].fun();
+    var a8 = firstArray[1].fun();
+    var a9 = firstArray[2].fun();
+
+    var a10 = secondArray[0].fun();
+    var a11 = secondArray[1].fun();
+    var a12 = secondArray[2].fun();
+
+    //new test join two arrays!
+    var thirdArray = [a1, a3, a4];
+
+    joinedArray = firstArray.concat(secondArray, thirdArray);
+
+    //joinedArray: [a0, a1, a2, a3, a4, a5, a1, a3, a4];
+    //firstArray: [a0, a1, a2]; secondArray: [a3, a4, a5], thirdArray: [a1, a3, a4];
+
+    var a13 = joinedArray[0].fun();
+    var a14 = joinedArray[1].fun();
+    var a15 = joinedArray[2].fun();
+    var a16 = joinedArray[3].fun();
+    var a17 = joinedArray[4].fun();
+    var a18 = joinedArray[5].fun();
+    var a19 = joinedArray[6].fun();
+    var a20 = joinedArray[7].fun();
+    var a21 = joinedArray[8].fun();
+</script>
+</body>
+</html>

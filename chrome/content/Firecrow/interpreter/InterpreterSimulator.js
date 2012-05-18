@@ -32,14 +32,26 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
+            var that = this;
+            that.currentCommandIndex = 0
+
+            var loopThroughCommands = function()
             {
-                var command = this.commands[this.currentCommandIndex];
+                var command = that.commands[that.currentCommandIndex];
 
-                this.processCommand(command);
+                that.processCommand(command);
 
-                this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
+                that.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
+
+                that.currentCommandIndex++;
+
+                if(that.currentCommandIndex < that.commands.length)
+                {
+                    that.currentCommandIndex % 50 == 0 ? setTimeout(loopThroughCommands, 10) : loopThroughCommands();
+                }
             }
+
+            setTimeout(loopThroughCommands, 10);
         }
         catch(e) { alert("Error while running the InterpreterSimulator: " + e); }
     },
