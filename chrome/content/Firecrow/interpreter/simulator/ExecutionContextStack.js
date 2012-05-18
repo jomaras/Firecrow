@@ -159,6 +159,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isEvalNewExpressionCommand()) {}
             else if (command.isStartLogicalExpressionCommand() || command.isEndLogicalExpressionCommand()) {}
             else if (command.isCallInternalConstructorCommand()) { }
+            else if (command.isCallCallbackMethodCommand()) {}
+            else if (command.isExecuteCallbackCommand()) {}
             else
             {
                 this.evaluator.evaluateCommand(command);
@@ -216,15 +218,19 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
         try
         {
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand())) { alert("ExecutionContextStack - argument must be a call or new Expression command"); return; }
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand() && !callExpressionCommand.isExecuteCallbackCommand())) { alert("ExecutionContextStack - argument must be a call or new Expression command"); return; }
 
-            if(callExpressionCommand.codeConstruct.arguments != null)
+            if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
             {
-                callExpressionCommand.codeConstruct.arguments.forEach(function(argument)
+                if(callExpressionCommand.codeConstruct.arguments != null)
                 {
-                    values.push(this.getExpressionValue(argument));
-                }, this);
+                    callExpressionCommand.codeConstruct.arguments.forEach(function(argument)
+                    {
+                        values.push(this.getExpressionValue(argument));
+                    }, this);
+                }
             }
+            else if (callExpressionCommand.isExecuteCallbackCommand()) { values = callExpressionCommand.argumentValues; }
         }
         catch(e) { alert("ExecutionContextStack - Error when getting sent arguments"); }
 
@@ -443,8 +449,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
     getBaseObject: function(codeConstruct)
     {
-        if(ASTHelper.isIdentifier(codeConstruct)
-        || ASTHelper.isFunctionExpression(codeConstruct)) { return this.globalObject; }
+        if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)) { return this.globalObject; }
         else if (ASTHelper.isMemberExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.object); }
         else if (ASTHelper.isCallExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.callee); }
         else { alert("ExecutionContextStack - not handling getting base object on other expressions"); return this.globalObject; }

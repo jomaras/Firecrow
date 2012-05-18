@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Array internal methods</div>
+<div id="resultContainer"></div>
+<script>
+    //array sort test1
+    //sort
+    //filter - OK
+    //forEach  - OK
+    //every - nothing, useless and complicates things
+    //map -
+    //some
+    //reduce
+    //reduceRight
+    var a0 = { value: 0, fun: function() { return this.value; } };
+    var a1 = { value: 1, fun: function() { return this.value; } };
+    var a2 = { value: 2, fun: function() { return this.value; } };
+    var a3 = { value: 3, fun: function() { return this.value; } };
+    var a4 = { value: 4, fun: function() { return this.value; } };
+    var a5 = { value: 5, fun: function() { return this.value; } };
+    var a6 = { value: 6, fun: function() { return this.value; } };
+
+    var array = [a0, a1, a2, a3, a4];
+
+    var evenArray = array.filter(function(a)
+    {
+        return a.value % 2 == 0;
+    });
+
+    var b1 = 0;
+    for(var i = 0; i < evenArray.length; i++)
+    {
+        b1 += evenArray[i].fun();
+    }
+
+    array.forEach(function(element, index, array)
+    {
+        element.value++;
+    });
+
+    var b2 = array[array[2].value].fun(); // the array[2] is a0 - the new value should be 1 so the function from a2 should be called
+
+    array.forEach(function(element, index, array)
+    {
+        element.value--;
+    });
+
+    var mappedArray = array.map(function(element)
+    {
+        return element.value;
+    });
+
+    var b3 = 0;
+    for(var i = 0; i < mappedArray.length; i++)
+    {
+        if(mappedArray[i] != null)
+        {
+            b3 += array[mappedArray[i]].fun();
+        }
+    }
+</script>
+</body>
+</html>

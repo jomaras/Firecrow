@@ -123,7 +123,8 @@ fcModel.ArrayPrototype.CONST =
 {
     INTERNAL_PROPERTIES :
     {
-        METHODS: ["pop","push","reverse","shift","sort","splice","unshift","concat","join","slice","indexOf","lastIndexOf","filter","forEach","every","map","some","reduce","reduceRight"]
+        METHODS: ["pop","push","reverse","shift","sort","splice","unshift","concat","join","slice","indexOf","lastIndexOf","filter","forEach","every","map","some","reduce","reduceRight"],
+        CALLBACK_METHODS: ["sort", "filter", "forEach", "every", "map", "some", "reduce", "reduceRight"]
     }
 };
 
@@ -140,4 +141,40 @@ fcModel.ArrayFunction = function(globalObject)
 };
 
 fcModel.ArrayFunction.prototype = new fcModel.Object(null);
+
+fcModel.ArrayCallbackEvaluator =
+{
+    evaluateCallbackReturn: function(callbackCommand, arrayObject, callbackFunction, resultingObject, returnValue)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isArray(arrayObject)) { alert("Array - When evaluating callback return the argument has to be an array!"); return; }
+
+            if(callbackFunction.__FIRECROW_INTERNAL__.name == "filter")
+            {
+                if(!ValueTypeHelper.isArray(resultingObject)) { alert("Array - a new array should be created when calling filter: " + e); return; }
+                if(returnValue)
+                {
+                    resultingObject.__FIRECROW_INTERNAL__.array.push(callbackCommand.argumentValues[0]);
+                    resultingObject.push(callbackCommand.argumentValues[0]);
+                }
+            }
+            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "map")
+            {
+                if(!ValueTypeHelper.isArray(resultingObject)) { alert("Array - a new array should be created when calling filter: " + e); return; }
+
+                resultingObject.__FIRECROW_INTERNAL__.array.push(returnValue);
+                resultingObject.push(returnValue);
+            }
+            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "forEach") { }
+            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "sort") { alert("Array - still not handling evaluate return from sort!"); return; }
+            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "every") { alert("Array- still not handling evaluate return from every"); return; }
+
+            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "some") { alert("Array- still not handling evaluate return from some"); return; }
+            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "reduce") { alert("Array- still not handling evaluate return from reduce"); return; }
+            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "reduceRight") { alert("Array- still not handling evaluate return from reduceRight"); return; }
+        }
+        catch(e){ alert("Array - error when evaluating callback return!"); }
+    }
+};
 }});

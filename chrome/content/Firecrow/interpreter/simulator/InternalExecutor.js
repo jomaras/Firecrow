@@ -168,7 +168,10 @@ FBL.ns(function() { with (FBL) {
                     thisObject.__FIRECROW_INTERNAL__.array.shift();
                     return thisObject[functionObject.name]();
                 }
-                else { alert("InternalExecutor - unknown internal array method: " + functionObject.__FIRECROW_INTERNAL__.name); }
+                else
+                {
+                    alert("InternalExecutor - unknown internal array method: " + functionObject.__FIRECROW_INTERNAL__.name);
+                }
 
             }
             catch(e) { alert("InternalExecutor - error when executing internal array method: " + e); }
@@ -201,6 +204,11 @@ FBL.ns(function() { with (FBL) {
                         }
                     );
                 });
+
+                fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.CALLBACK_METHODS.forEach(function(propertyName)
+                {
+                    arrayPrototype[propertyName].__FIRECROW_INTERNAL__.isCallbackMethod = true;
+                });
             }
             catch(e) { alert("InternalExecutor - error when expanding array methods: " + e); }
         },
@@ -232,6 +240,7 @@ FBL.ns(function() { with (FBL) {
 
                 fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
                 {
+                    var a = 3;
                     Object.defineProperty
                     (
                         functionPrototype[propertyName],

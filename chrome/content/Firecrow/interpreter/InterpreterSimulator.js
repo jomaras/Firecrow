@@ -212,6 +212,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             else if (command.isIfStatementCommand()) { this.generateCommandsAfterIfCommand(command); }
             else if (command.isEvalConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
             else if (command.isCaseCommand()) { this.generateCommandsAfterCaseCommand(command); }
+            else if (command.isCallCallbackMethodCommand()) { this.generateCommandsAfterCallCallback(command); }
+            else if (command.isExecuteCallbackCommand()) { this.generateCommandsAfterExecuteCallbackCommand(command); }
             else { alert("Unknown generating new commands command!"); }
         }
         catch(e) { alert("An error occurred while processing generate new commands command:" + e);}
@@ -261,6 +263,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             var callConstruct = callExpressionCommand.codeConstruct;
 
+
             ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
                 this.commands,
@@ -273,7 +276,67 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 this.currentCommandIndex + 1
             );
         }
-        catch(e) { alert("Error while generating commands after call function command: " + e);}
+        catch(e) { alert("InterpreterSimulator - Error while generating commands after call function command: " + e);}
+    },
+
+    generateCommandsAfterCallCallback: function(callCallbackMethodCommand)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(callCallbackMethodCommand, Command) || !callCallbackMethodCommand.isCallCallbackMethodCommand()) { alert("InterpreterSimulator: argument is not callCallbackCommand"); return; }
+
+            var argumentValues = [];
+
+            if(callCallbackMethodCommand.codeConstruct.arguments != null)
+            {
+                callCallbackMethodCommand.codeConstruct.arguments.forEach(function(argument)
+                {
+                    argumentValues.push(this.contextStack.getExpressionValue(argument));
+                }, this);
+            }
+
+            var functionName = callCallbackMethodCommand.functionObject.name;
+            var resultingObject = functionName == "filter" || functionName == "map" ? Firecrow.Interpreter.Simulator.InternalExecutor.createArray(this.globalObject, callCallbackMethodCommand.codeConstruct)
+                                                                                    : null;
+            this.contextStack.setExpressionValue(callCallbackMethodCommand.codeConstruct, resultingObject);
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateCallbackExecutionCommands
+                (
+                    callCallbackMethodCommand,
+                    resultingObject,
+                    argumentValues,
+                    this.globalObject
+                ),
+                this.currentCommandIndex + 1
+            );
+        }
+        catch(e) { alert("InterpreterSimulator - Error when generating commands after callback");}
+    },
+
+    generateCommandsAfterExecuteCallbackCommand: function(executeCallbackCommand)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(executeCallbackCommand, Command) || !executeCallbackCommand.isExecuteCallbackCommand()) { alert("InterpreterSimulator: argument is not execute callback command"); return; }
+
+            var callConstruct = executeCallbackCommand.codeConstruct;
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateFunctionExecutionCommands
+                (
+                    executeCallbackCommand,
+                    executeCallbackCommand.callback,
+                    executeCallbackCommand.thisObject
+                ),
+                this.currentCommandIndex + 1
+            );
+        }
+        catch(e) { alert("InterpreterSimulator - error when generating commands after execute callback command: " + e);}
     },
 
     generateCommandsAfterLoopCommand: function(loopCommand)

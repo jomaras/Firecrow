@@ -63,7 +63,7 @@ FBL.ns(function() { with (FBL) {
     {
         INTERNAL_PROPERTIES :
         {
-            METHODS: ["apply", "call", "toSource", "toString", "bind"]
+            METHODS: ["apply", "call", "toString", "bind"]
         }
     };
 }});

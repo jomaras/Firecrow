@@ -192,31 +192,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             var commands = [];
 
-            if(callExpressionCommand == null) { alert("CommandGenerator: callExpressionCommand can not be null when generating function execution commands!"); return commands; }
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand())) { alert("CommandGenerator: an argument is not EvalCallExpressionCommand"); return commands; }
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand() && !callExpressionCommand.isExecuteCallbackCommand())) { alert("CommandGenerator: an argument is not an EvalCallExpressionCommand"); return commands; }
+            if(functionObject == null) { alert("CommandGenerator: function object can not be null when generating commands for function execution!"); return commands; }
 
-            if(functionObject == null) { alert("CommandGenerator: the function object must not be null!"); return commands; }
-
-            if(functionObject.__FIRECROW_INTERNAL__.isInternalFunction)
-            {
-                var internalFunctionCommand = null;
-
-                if(callExpressionCommand.isEvalNewExpressionCommand())
-                {
-                    internalFunctionCommand = new fcCommands.Command(callExpressionCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.CallInternalConstructor, callExpressionCommand.parentFunctionCommand);
-                    internalFunctionCommand.functionObject = functionObject;
-                }
-                else if (callExpressionCommand.isEvalCallExpressionCommand())
-                {
-                    internalFunctionCommand = new fcCommands.Command(callExpressionCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.CallInternalFunction, callExpressionCommand.parentFunctionCommand);
-                    internalFunctionCommand.functionObject = functionObject;
-                    internalFunctionCommand.thisObject = thisObject;
-                }
-
-                commands.push(internalFunctionCommand);
-
-                return commands;
-            }
+            if(functionObject.__FIRECROW_INTERNAL__.isInternalFunction) { return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject); }
 
             commands.push(fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand));
 
@@ -258,6 +237,105 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             alert("CommandGenerator: An error occurred when generating function execution commands: " + e);
         }
+    },
+
+    _generateInternalFunctionExecutionCommands: function(callExpressionCommand, functionObject, thisObject)
+    {
+        try
+        {
+            var commands = [];
+
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand())) { alert("CommandGenerator: an argument is not EvalCallExpressionCommand"); return commands; }
+            if(functionObject == null) { alert("CommandGenerator: function object can not be null when generating commands for internal function execution!"); return commands; }
+            if(!functionObject.__FIRECROW_INTERNAL__.isInternalFunction) { alert("CommandGenerator: function must be an internal function"); return commands; }
+
+            commands.push
+            (
+                functionObject.__FIRECROW_INTERNAL__.isCallbackMethod
+                    ? fcCommands.Command.createCallCallbackMethodCommand(callExpressionCommand.codeConstruct, functionObject, thisObject, callExpressionCommand.parentFunctionCommand)
+                    : callExpressionCommand.isEvalNewExpressionCommand()
+                        ?   fcCommands.Command.createCallInternalConstructorCommand(callExpressionCommand.codeConstruct, functionObject, callExpressionCommand.parentFunctionCommand)
+                        :   fcCommands.Command.createCallInternalFunctionCommand(callExpressionCommand.codeConstruct, functionObject, thisObject, callExpressionCommand.parentFunctionCommand)
+            );
+
+            return commands;
+        }
+        catch(e) { alert("CommandGenerator - error when generating internal function execution commands: " + e); }
+    },
+
+    generateCallbackExecutionCommands: function(callCallbackCommand, resultingObject, argumentValues, globalObject)
+    {
+        try
+        {
+            var commands = [];
+
+            if(!ValueTypeHelper.isOfType(callCallbackCommand, fcCommands.Command) || !callCallbackCommand.isCallCallbackMethodCommand()) { alert("CommandGenerator: an argument is not CallCallbackCommand"); return commands; }
+
+            if(ValueTypeHelper.isOfType(callCallbackCommand.thisObject, Array)) { commands = this._generateCallbackExecutionCommandsForArrayMethods(callCallbackCommand, resultingObject, argumentValues, globalObject); }
+            else
+            {
+                alert("CommandGenerator - error unknown callback main object");
+            }
+
+            return commands;
+        }
+        catch(e) { alert("CommandGenerator - error when generating callback execution commands: " + e);}
+    },
+
+    _generateCallbackExecutionCommandsForArrayMethods: function(callCallbackCommand, resultingObject, argumentValues, globalObject)
+    {
+        try
+        {
+            var commands = [];
+
+            if(!ValueTypeHelper.isOfType(callCallbackCommand, fcCommands.Command) || !callCallbackCommand.isCallCallbackMethodCommand()) { alert("CommandGenerator: an argument is not CallCallbackCommand"); return commands; }
+            if(!ValueTypeHelper.isOfType(callCallbackCommand.thisObject, Array)) { alert("CommandGenerator - thisObject is not an array!"); return commands; }
+
+            var functionName = callCallbackCommand.functionObject.__FIRECROW_INTERNAL__.name;
+
+            var callback = argumentValues[0];
+            var thisObject = argumentValues[1];
+
+            if(functionName === "sort")
+            {
+                alert("Sorting not yet implemented!");
+                return commands;
+            }
+            else if (functionName === "filter" ||  functionName === "forEach"
+                ||   functionName === "every"  || functionName === "map"
+                ||   functionName === "some")
+            {
+
+
+                callCallbackCommand.thisObject.forEach(function(arrayItem, index, array)
+                {
+                    commands.push
+                    (
+                        fcCommands.Command.createExecuteCallbackCommand
+                        (
+                            callCallbackCommand,
+                            callback,
+                            [arrayItem, index, array],
+                            callCallbackCommand.thisObject,
+                            thisObject || globalObject,
+                            resultingObject
+                        )
+                    );
+                }, this);
+            }
+            else if (functionName === "reduce")
+            {
+                alert("reduce not yet implemented");
+            }
+            else if (functionName === "reduceRight")
+            {
+                alert("reduceRight not yet implemented");
+            }
+            else { alert("CommandGenerator - unknown function name when generating array callbacks:" + functionName); }
+
+            return commands;
+        }
+        catch(e){ alert("CommandGenerator - error when generating array callbackExecution commands: " + e); }
     },
 
     generateVariableDeclarationExecutionCommands: function (sourceElement, parentFunctionCommand)
@@ -1671,7 +1749,8 @@ Firecrow.Interpreter.Commands.Command = function(codeConstruct, type, parentFunc
     this.generatesNewCommands = this.isEvalCallbackFunctionCommand()
                             ||  this.isEvalNewExpressionCommand() || this.isEvalCallExpressionCommand()
                             ||  this.isLoopStatementCommand() || this.isIfStatementCommand()
-                            ||  this.isEvalConditionalExpressionBodyCommand() || this.isCaseCommand();
+                            ||  this.isEvalConditionalExpressionBodyCommand() || this.isCaseCommand()
+                            ||  this.isCallCallbackMethodCommand() || this.isExecuteCallbackCommand();
 };
 
 Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeConstruct, parentFunctionCommand)
@@ -1716,10 +1795,7 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
 
         return command;
     }
-    catch(e)
-    {
-        alert("CommandGenerator - an error has occurred when generating enter function context commands: " + e);
-    }
+    catch(e) { alert("CommandGenerator - an error has occurred when generating enter function context commands: " + e); }
 };
 
 Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = function(functionObject, parentFunctionCommand)
@@ -1780,7 +1856,77 @@ Firecrow.Interpreter.Commands.Command.createForInWhereCommand = function(codeCon
     catch(e) { alert("CommandGenerator - error when creating a new For In Where command: " + e);}
 };
 
+Firecrow.Interpreter.Commands.Command.createCallInternalConstructorCommand = function(codeConstruct, functionObject, parentFunctionCommand)
+{
+    try
+    {
+        var command = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.CallInternalConstructor, parentFunctionCommand);
 
+        command.functionObject = functionObject;
+
+        return command;
+    }
+    catch(e) { alert("CommandGenerator - error when creating internal constructor command"); }
+};
+
+Firecrow.Interpreter.Commands.Command.createCallInternalConstructorCommand = function(codeConstruct, functionObject, parentFunctionCommand)
+{
+    try
+    {
+        var command = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.CallInternalConstructor, parentFunctionCommand);
+
+        command.functionObject = functionObject;
+
+        return command;
+    }
+    catch(e) { alert("CommandGenerator - error when creating internal constructor command"); }
+};
+
+Firecrow.Interpreter.Commands.Command.createCallInternalFunctionCommand = function(codeConstruct, functionObject, thisObject, parentFunctionCommand)
+{
+    try
+    {
+        var command = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.CallInternalFunction, parentFunctionCommand);
+
+        command.functionObject = functionObject;
+        command.thisObject = thisObject;
+
+        return command;
+    }
+    catch(e) { alert("CommandGenerator - error when creating call internal function command: " + e); }
+};
+
+Firecrow.Interpreter.Commands.Command.createCallCallbackMethodCommand = function(codeConstruct, functionObject, thisObject, parentFunctionCommand)
+{
+    try
+    {
+        var command = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.CallCallbackMethod, parentFunctionCommand);
+
+        command.functionObject = functionObject;
+        command.thisObject = thisObject;
+
+        return command;
+    }
+    catch(e) { alert("CommandGenerator - error when creating call callback method command: " + e); }
+};
+
+Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(callCallbackCommand, callbackFunctionObject, callbackArgumentValues, calledOnObject, thisObject, resultingObject)
+{
+    try
+    {
+        var command = new fcCommands.Command(callbackFunctionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExecuteCallback, callCallbackCommand.parentFunctionCommand);
+
+        command.calledOnObject = calledOnObject;
+        command.callback = callbackFunctionObject;
+        command.argumentValues = callbackArgumentValues;
+        command.thisObject = thisObject;
+        command.parentCallCallbackCommand = callCallbackCommand;
+        command.resultingObject = resultingObject;
+
+        return command;
+    }
+    catch(e) { alert("CommandGenerator - error when creating execute callback command: " + e); }
+};
 
 Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
 
@@ -1864,6 +2010,9 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isCallInternalConstructorCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.CallInternalConstructor; },
     isCallInternalFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.CallInternalFunction; },
+    isCallCallbackMethodCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.CallCallbackMethod; },
+
+    isExecuteCallbackCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ExecuteCallback; },
 
     getLineNo: function()
     {
@@ -1944,7 +2093,10 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EvalConditionalExpressionBody: "EvalConditionalExpressionBody",
 
     CallInternalConstructor: "CallInternalConstructor",
-    CallInternalFunction: "CallInternalFunction"
+    CallInternalFunction: "CallInternalFunction",
+    CallCallbackMethod: "CallCallbackMethod",
+
+    ExecuteCallback: "ExecuteCallback"
 };
 
 /*************************************************************************************/
