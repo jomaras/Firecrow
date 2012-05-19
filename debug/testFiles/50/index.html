@@ -10,25 +10,13 @@
 <script>
     function test()
     {
-        arguments[0].test();
-        arguments[1].test();
+        return arguments[0].test() + arguments[1].test();
     }
 
-    var a = {
-        test: function()
-        {
-            return 3;
-        }
-    };
+    var a = { test: function() { return 3; }};
+    var b = { test: function() { return 4; }};
 
-    var b = {
-        test:function()
-        {
-            return 4;
-        }
-    };
-
-    test(a,b);
+    var a1 = test(a,b);
 </script>
 </body>
 </html>
