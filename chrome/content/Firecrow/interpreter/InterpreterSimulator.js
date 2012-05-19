@@ -28,14 +28,30 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject)
 
 Firecrow.Interpreter.InterpreterSimulator.prototype =
 {
-    run: function()
+    runSync: function()
     {
         try
         {
-            var that = this;
-            that.currentCommandIndex = 0
+            for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
+            {
+                var command = this.commands[this.currentCommandIndex];
 
-            var loopThroughCommands = function()
+                this.processCommand(command);
+
+                this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
+            }
+        }
+        catch(e) { alert("Error while running the InterpreterSimulator: " + e); }
+    },
+
+    runAsync: function(callback)
+    {
+        try
+        {
+            this.currentCommandIndex = 0;
+            var that = this;
+
+            var asyncLoop = function()
             {
                 var command = that.commands[that.currentCommandIndex];
 
@@ -47,13 +63,17 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 if(that.currentCommandIndex < that.commands.length)
                 {
-                    that.currentCommandIndex % 50 == 0 ? setTimeout(loopThroughCommands, 10) : loopThroughCommands();
+                    that.currentCommandIndex % 20 == 0 ? setTimeout(asyncLoop, 10) : asyncLoop();
                 }
-            }
+                else
+                {
+                    callback();
+                }
+            };
 
-            setTimeout(loopThroughCommands, 10);
+            setTimeout(asyncLoop, 10)
         }
-        catch(e) { alert("Error while running the InterpreterSimulator: " + e); }
+        catch(e) { alert("InterpreterSimulator - error when executing async loop"); }
     },
 
     processCommand: function(command)

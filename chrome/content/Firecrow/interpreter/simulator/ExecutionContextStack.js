@@ -409,7 +409,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 }
             }
         }
-        catch(e) { alert("ExecutionContextStack: Error when deleting Identifier: " + e); }
+        catch(e)
+        {
+            alert("ExecutionContextStack: Error when deleting Identifier: " + e);
+        }
     },
 
     setExpressionValue: function(codeConstruct, value)

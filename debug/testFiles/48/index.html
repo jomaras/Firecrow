@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Array slice</div>
+<div id="resultContainer"></div>
+<script>
+    var a = { x: function() { return "a"; }};
+    var b = { x: function() { return "b"; }};
+    var c = { x: function() { return "c"; }};
+    var d = { x: function() { return "d"; }};
+    var e = { x: function() { return "e"; }};
+
+    var array = [a,b,c,d,e];
+
+    var sliced = array.slice(1, 4);
+
+    var a1 = sliced[0].x() + sliced[1].x() +sliced[2].x() + sliced[sliced.length -1].x();
+
+    sliced = array.slice(-1);
+
+    a1 += sliced[0].x();
+    a1 += sliced[sliced.length -1].x();
+
+    sliced = array.slice(-3, 4);
+
+    a1 += sliced[sliced.length - 2].x();
+    a1 += sliced[sliced.length - 1].x();
+</script>
+</body>
+</html>

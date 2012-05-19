@@ -49,7 +49,7 @@ var Browser = Firecrow.DoppelBrowser.Browser;
 
 Browser.prototype =
 {
-    asyncBuildPage: function(callback)
+    asyncBuildPage: function(callback, asyncInterpretCode)
     {
         this._asyncGetHtmlModel(function(htmlModel)
         {
@@ -58,7 +58,9 @@ Browser.prototype =
                 if(htmlModel == null) { alert("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
                 if(htmlModel.htmlElement == null) { alert("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
 
-                this._buildSubtree(htmlModel.htmlElement, null);
+                this.asyncInterpretCode = !!asyncInterpretCode;
+
+                this._buildSubtree(htmlModel.htmlElement, null, callback);
             }
             catch(e) { alert("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
         });
@@ -97,7 +99,7 @@ Browser.prototype =
         }
     },
 
-    _buildSubtree: function(htmlModelElement, parentDomElement)
+    _buildSubtree: function(htmlModelElement, parentDomElement, executionFinishedCallback)
     {
         try
         {
@@ -111,18 +113,15 @@ Browser.prototype =
             this._insertIntoDom(htmlDomElement, parentDomElement);
 
             htmlModelElement.type == "script" ? htmlDomElement.textContent = htmlModelElement.textContent
-                : "";
+                                              : "";
 
             htmlModelElement.children.forEach(function(element)
             {
                 element.type == "textNode" ? htmlDomElement.appendChild(this.hostDocument.createTextNode(element.textContent))
-                    : this._buildSubtree(element, htmlDomElement);
+                                           : this._buildSubtree(element, htmlDomElement);
             }, this);
         }
-        catch(e)
-        {
-            alert("Error when building a subtree of an html element in DoppelBrowser.browser: " + e);
-        }
+        catch(e) { alert("Error when building a subtree of an html element in DoppelBrowser.browser: " + e); }
     },
 
     _createStaticHtmlNode: function(htmlModelNode)
@@ -162,7 +161,7 @@ Browser.prototype =
                 this._callInterpreterMessageGeneratedCallbacks(message);
             }, this);
 
-            interpreter.run();
+            this.asyncInterpretCode ? interpreter.runAsync(function(){}) : interpreter.runSync();
         }
         catch(e)
         {

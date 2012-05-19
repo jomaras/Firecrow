@@ -58,7 +58,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/47/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/49/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -72,7 +72,7 @@
             messageContainer.innerHTML += "<br/>" + message;
         });
 
-        browser.asyncBuildPage(function(){});
+        browser.asyncBuildPage(function(){}, true);
     </script>
 
     <script>

@@ -152,6 +152,11 @@ FBL.ns(function() { with (FBL) {
                     thisObject.__FIRECROW_INTERNAL__.array.pop();
                     return thisObject[functionObject.name]();
                 }
+                else if (functionObject.__FIRECROW_INTERNAL__.name == "indexOf"
+                     ||  functionObject.__FIRECROW_INTERNAL__.name == "lastIndexOf")
+                {
+                    return thisObject[functionObject.name].apply(thisObject, arguments);
+                }
                 else if (functionObject.__FIRECROW_INTERNAL__.name == "push")
                 {
                     if(arguments.length == 0) { thisObject.__FIRECROW_INTERNAL__.array.push(); return thisObject[functionObject.name](); }
@@ -179,7 +184,8 @@ FBL.ns(function() { with (FBL) {
                     thisObject.__FIRECROW_INTERNAL__.array.shift();
                     return thisObject[functionObject.name]();
                 }
-                else if(functionObject.__FIRECROW_INTERNAL__.name == "concat")
+                else if(functionObject.__FIRECROW_INTERNAL__.name == "concat"
+                    ||  functionObject.__FIRECROW_INTERNAL__.name == "slice")
                 {
                     return this._expandArray(thisObject[functionObject.name].apply(thisObject, arguments), globalObject, callExpression);
                 }
@@ -187,7 +193,6 @@ FBL.ns(function() { with (FBL) {
                 {
                     alert("InternalExecutor - unknown internal array method: " + functionObject.__FIRECROW_INTERNAL__.name);
                 }
-
             }
             catch(e) { alert("InternalExecutor - error when executing internal array method: " + e); }
         },
@@ -210,14 +215,17 @@ FBL.ns(function() { with (FBL) {
 
                 fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
                 {
-                    Object.defineProperty
-                    (
-                        arrayPrototype[propertyName],
-                        "__FIRECROW_INTERNAL__",
-                        {
-                            value: fcModel.Function.createInternalNamedFunction(globalObject, propertyName)
-                        }
-                    );
+                    if(arrayPrototype[propertyName] != null && arrayPrototype[propertyName].__FIRECROW_INTERNAL__ == null)
+                    {
+                        Object.defineProperty
+                        (
+                            arrayPrototype[propertyName],
+                            "__FIRECROW_INTERNAL__",
+                            {
+                                value: fcModel.Function.createInternalNamedFunction(globalObject, propertyName)
+                            }
+                        );
+                    }
                 });
 
                 fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.CALLBACK_METHODS.forEach(function(propertyName)
@@ -235,35 +243,44 @@ FBL.ns(function() { with (FBL) {
                 var functionPrototype = Function.prototype;
                 var functionProto = Function.__proto__;
 
-                Object.defineProperty
-                (
-                    functionPrototype,
-                    "__FIRECROW_INTERNAL__",
-                    {
-                        value: globalObject.functionPrototype
-                    }
-                );
+                if(functionPrototype.__FIRECROW_INTERNAL__ == null)
+                {
+                    Object.defineProperty
+                    (
+                        functionPrototype,
+                        "__FIRECROW_INTERNAL__",
+                        {
+                            value: globalObject.functionPrototype
+                        }
+                    );
+                }
 
-                Object.defineProperty
-                (
-                    functionProto,
-                    "__FIRECROW_INTERNAL__",
-                    {
-                        value: globalObject.functionPrototype
-                    }
-                );
+
+                if(functionProto.__FIRECROW_INTERNAL__ == null)
+                {
+                    Object.defineProperty
+                    (
+                        functionProto,
+                        "__FIRECROW_INTERNAL__",
+                        {
+                            value: globalObject.functionPrototype
+                        }
+                    );
+                }
 
                 fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
                 {
-                    var a = 3;
-                    Object.defineProperty
-                    (
-                        functionPrototype[propertyName],
-                        "__FIRECROW_INTERNAL__",
-                        {
-                            value: fcModel.Function.createInternalNamedFunction(globalObject, propertyName)
-                        }
-                    );
+                    if(functionPrototype[propertyName] && functionPrototype[propertyName].__FIRECROW_INTERNAL__ == null)
+                    {
+                        Object.defineProperty
+                        (
+                            functionPrototype[propertyName],
+                            "__FIRECROW_INTERNAL__",
+                            {
+                                value: fcModel.Function.createInternalNamedFunction(globalObject, propertyName)
+                            }
+                        );
+                    }
                 });
 
             }

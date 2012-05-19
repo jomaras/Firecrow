@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Array indexOf - lastIndexOf</div>
+<div id="resultContainer"></div>
+<script>
+    var a = { x: function() { return "a"; }};
+    var b = { x: function() { return "b"; }};
+    var c = { x: function() { return "c"; }};
+    var d = { x: function() { return "d"; }};
+    var e = { x: function() { return "e"; }};
+
+    var array = [a,b,c,d,e,a];
+
+    var indexOfA = array.indexOf(a);
+
+    var t = array[indexOfA];
+
+    var a1 = "";
+
+    a1 += t.x();
+
+    a1 += array[array.indexOf(a)].x();
+    a1 += array[array.indexOf(a, 1)].x();
+    a1 += array[array.indexOf(b)].x();
+    a1 += array[array.indexOf(c)].x();
+
+    var noArray = [2, 3, 2, 5, 6, 7];
+
+    a1 += array[noArray.indexOf(2)].x();
+    a1 += array[noArray.indexOf(2,1)].x();
+
+    a1 += array[array.lastIndexOf(a)].x();
+</script>
+</body>
+</html>
