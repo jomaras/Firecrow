@@ -295,16 +295,26 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             var callConstruct = callExpressionCommand.codeConstruct;
 
+            var baseObject = this.contextStack.getBaseObject(callConstruct.callee);
+            var callFunctionValue = this.contextStack.getExpressionValue(callConstruct.callee);
+
+            if(ValueTypeHelper.isFunction(baseObject)
+            && ValueTypeHelper.isFunction(callFunctionValue))
+            {
+                if(callFunctionValue.name == "call" || callFunctionValue.name == "apply")
+                {
+                         if(callFunctionValue.name == "call") { callExpressionCommand.isCall = true; }
+                    else if(callFunctionValue.name == "apply") { callExpressionCommand.isApply = true; }
+
+                    callFunctionValue = baseObject;
+                    baseObject = this.contextStack.getExpressionValue(callConstruct.arguments != null ? callConstruct.arguments[0] : null);
+                }
+            }
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
                 this.commands,
-                CommandGenerator.generateFunctionExecutionCommands
-                (
-                    callExpressionCommand,
-                    this.contextStack.getExpressionValue(callConstruct.callee),
-                    this.contextStack.getBaseObject(callConstruct.callee)
-                ),
+                CommandGenerator.generateFunctionExecutionCommands(callExpressionCommand, callFunctionValue, baseObject),
                 this.currentCommandIndex + 1
             );
         }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Function - apply call</div>
+<div id="resultContainer"></div>
+<script>
+    var obj1 = { test: function() { return 4; }};
+    var obj2 = { test: function() { return 5; }};
+
+    var a =
+    {
+        test: function(a, b)
+        {
+            return a.test() + b.test();
+        },
+        returnSomething: function()
+        {
+            return this;
+        },
+        c: 3
+    }
+
+    function applyTest(a, b) { return this.test(a,b); }
+    function callTest(a,b) { return this.test(a,b);}
+
+    function callTwo() { return this.returnSomething(); }
+
+    var a1 = applyTest.apply(a, [obj1, obj2]);
+    var a2 = callTest.call(a, obj1, obj2);
+
+    var alias = callTwo.call(a);
+
+    var a3 = alias.returnSomething().c;
+</script>
+</body>
+</html>

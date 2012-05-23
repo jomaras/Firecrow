@@ -8,6 +8,11 @@ Firecrow.ValueTypeHelper =
         return variable instanceof className;
     },
 
+    isFunction: function(variable)
+    {
+        return this.isOfType(variable, Function);
+    },
+
     isBoolean: function(variable)
     {
         if (this.isNull(variable)) { return false; }

@@ -222,12 +222,41 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
             {
-                if(callExpressionCommand.codeConstruct.arguments != null)
+                var arguments = callExpressionCommand.codeConstruct.arguments;
+
+                if(arguments != null)
                 {
-                    callExpressionCommand.codeConstruct.arguments.forEach(function(argument)
+                    if(callExpressionCommand.isApply)
                     {
-                        values.push(this.getExpressionValue(argument));
-                    }, this);
+                        var secondArgument = callExpressionCommand.codeConstruct.arguments[1];
+
+                        if(secondArgument != null)
+                        {
+                            var secondArgValue = this.getExpressionValue(secondArgument);
+
+                            if(ValueTypeHelper.isArray(secondArgValue))
+                            {
+                                secondArgValue.forEach(function(item)
+                                {
+                                    values.push(item);
+                                }, this);
+                            }
+                        }
+                    }
+                    else if (callExpressionCommand.isCall)
+                    {
+                        for(var i = 1; i < arguments.length; i++)
+                        {
+                            values.push(this.getExpressionValue(arguments[i]));
+                        }
+                    }
+                    else
+                    {
+                        arguments.forEach(function(argument)
+                        {
+                            values.push(this.getExpressionValue(argument));
+                        }, this);
+                    }
                 }
             }
             else if (callExpressionCommand.isExecuteCallbackCommand()) { values = callExpressionCommand.argumentValues; }
