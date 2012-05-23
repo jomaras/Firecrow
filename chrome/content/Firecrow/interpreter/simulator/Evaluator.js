@@ -212,7 +212,7 @@ FBL.ns(function() { with (FBL) {
 
                 this.executionContextStack.setExpressionValue
                 (
-                    codeConstruct.argument,
+                    codeConstruct,
                     codeConstruct.prefix ? (codeConstruct.operator == "++" ? ++currentValue : --currentValue) : (codeConstruct.operator == "++" ? currentValue++ : currentValue--)
                 )
             }
