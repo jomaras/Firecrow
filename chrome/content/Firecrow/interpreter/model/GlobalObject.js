@@ -3,32 +3,31 @@
  * Date: 10.03.12.@20:02
  */
 FBL.ns(function() { with (FBL) {
-/*************************************************************************************/
-const fcModel = Firecrow.Interpreter.Model;
-const fcInternals = fcModel.Internals;
+    /*************************************************************************************/
+    const fcModel = Firecrow.Interpreter.Model;
+    const fcInternals = fcModel.Internals;
 
-fcModel.GlobalObject = function()
-{
-    try
+    fcModel.GlobalObject = function()
     {
-        this.__proto__ = new fcModel.Object(this);
+        try
+        {
+            this.__proto__ = new fcModel.Object(this);
 
-        this.stringFunction = new fcInternals.StringFunction(this);
-        this.__FIRECROW_INTERNAL__ = {object:this};
+            this.stringFunction = new fcInternals.StringFunction(this);
+            this.__FIRECROW_INTERNAL__ = {object:this};
 
-        Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
+            Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
 
-        this.arrayPrototype = new fcModel.ArrayPrototype(this);
-        this.stringPrototype = new fcModel.StringObjectPrototype(this);
-        this.functionPrototype = new fcModel.FunctionPrototype(this);
-        this.arrayFunction = new fcModel.ArrayFunction(this);
-        this.emptyFunction = new fcModel.EmptyFunction(this);
+            this.arrayPrototype = new fcModel.ArrayPrototype(this);
+            this.functionPrototype = new fcModel.FunctionPrototype(this);
+            this.arrayFunction = new fcModel.ArrayFunction(this);
+            this.emptyFunction = new fcModel.EmptyFunction(this);
 
-        this.addProperty("Array", this.arrayFunction, null);
-    }
-    catch(e) { }
-};
+            this.addProperty("Array", this.arrayFunction, null);
+        }
+        catch(e) { }
+    };
 
-fcModel.GlobalObject.prototype = new fcModel.Object(null);
-/*************************************************************************************/
+    fcModel.GlobalObject.prototype = new fcModel.Object(null);
+    /*************************************************************************************/
 }});
