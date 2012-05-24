@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Constructor - member expression</div>
+<div id="resultContainer"></div>
+<script>
+    var a = {
+        test: function()
+        {
+            this.b = function() { return 3; };
+        }
+    };
+
+    var b = new a.test();
+    var a1 = b.b();
+</script>
+</body>
+</html>

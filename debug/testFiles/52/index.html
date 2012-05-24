@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Function - call; complex loops; logical expressions</div>
+<div id="resultContainer"></div>
+<script>
+    var array = [{ a:4 }, { a:2 }, { a: 3 }];
+
+    function isEven() { return this.a % 2 == 0; }
+
+    if(array == null)
+    {
+        var a = 2;
+        a++;
+    }
+    else
+    {
+        var b = 0;
+        for(var value = array[0], i = 0; i < array.length && isEven.call(value) !== false; value = array[++i])
+        {
+              b += value.a;
+        }
+    }
+
+    var a = 3;
+    a++;
+</script>
+</body>
+</html>

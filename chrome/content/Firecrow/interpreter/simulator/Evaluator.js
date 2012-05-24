@@ -247,9 +247,6 @@ FBL.ns(function() { with (FBL) {
 
                 var operator = binaryExpression.operator;
 
-                token: "==" | "!=" | "===" | "!=="
-                    | "<" | "<=" | ">" | ">=" | "<<" | ">>" | ">>>" | "+" | "-" | "*" | "/" | "%"
-                    | "|" | "^" | "^" | "in" | "instanceof" | "..";
                 var result = null;
 
                      if (operator == "==") { result = leftExpressionValue == rightExpressionValue;}
