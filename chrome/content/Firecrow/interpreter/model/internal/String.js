@@ -10,7 +10,7 @@ const fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.Interpreter.Model.Internals.StringFunction = function(globalObject)
 {
-    //this.__proto__ = fcModel.createNativeFunction("String", globalObject, false);
+    this.addProperty("__proto__", globalObject.stringPrototype);
 
     this._prototype = new fcModelInternals.StringObjectPrototype(globalObject);
 
@@ -43,28 +43,11 @@ Firecrow.Interpreter.Model.Internals.StringObject = function(globalObject, codeC
     };
 };
 
-Firecrow.Interpreter.Model.Internals.StringObjectPrototype = function(globalObject)
+fcModelInternals.StringObjectPrototype = function(globalObject)
 {
     try
     {
         this.__proto__ = new fcModel.Object(globalObject);
-
-        this.methods =
-        [
-            "charAt","charCodeAt","concat","indexOf","lastIndexOf","localeCompare",
-            "match","replace","search","slice","split","substr","substring","toLocaleLowerCase",
-            "toLocaleUpperCase","toLowerCase","toString","toUpperCase","trim","trimLeft","trimRight","valueOf"
-        ];
-
-        this.internalMethods = this.methods.map(function(methodName)
-        {
-            //return fcModel.FunctionObject.createNativeFunction(methodName, globalObject);
-        });
-
-        this.internalMethods.forEach(function(internalMethod)
-        {
-            //this.addProperty(internalMethod.name, internalMethod, null, false);
-        });
 
         this.executeMethod = function(stringObject, method, arguments, callConstruct)
         {
@@ -76,7 +59,8 @@ Firecrow.Interpreter.Model.Internals.StringObjectPrototype = function(globalObje
                 {
                     if(method.name == "charAt"
                         || method.name == "charCodeAt"
-                        || method.name == "concat")
+                        || method.name == "concat"
+                        || method.name == "toLowerCase")
                     {
                         return new fcModel.StringObject
                         (
@@ -102,6 +86,15 @@ Firecrow.Interpreter.Model.Internals.StringObjectPrototype = function(globalObje
     catch(e)
     {
         alert("Interpreter.model.internal.String error in StringObjectPrototype: " + e);
+    }
+};
+
+fcModelInternals.StringObjectPrototype.prototype = new fcModel.Object(null);
+fcModelInternals.StringObjectPrototype.CONST =
+{
+    INTERNAL_PROPERTIES :
+    {
+        METHODS: ["charAt","charCodeAt","concat","indexOf","lastIndexOf","localeCompare", "match","replace","search","slice","split","substr","substring","toLocaleLowerCase", "toLocaleUpperCase","toLowerCase","toString","toUpperCase","trim","trimLeft","trimRight","valueOf"]
     }
 };
 /*************************************************************************************/

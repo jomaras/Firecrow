@@ -60,7 +60,14 @@ FBL.ns(function() { with (FBL) {
 
             this.loadHtmlInHiddenIFrame(function(htmlJson)
             {
-               prompt("JSON", JSON.stringify(htmlJson));
+               prompt("JSON", JSON.stringify(htmlJson, function(key, value)
+               {
+                   if(key=="value" && value.constructor != null && value.constructor.name === "RegExp")
+                   {
+                       return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
+                   }
+                   return value;
+               }));
             });
 		},
 
@@ -68,7 +75,7 @@ FBL.ns(function() { with (FBL) {
         {
             var code = prompt("Enter source code");
 
-            alert(JSON.stringify(ASTHelper.parseSourceCodeToAST(code).body));
+            alert(ASTHelper.parseSourceCodeToASTString(code));
         },
 		
 		scheduleRecording: function()

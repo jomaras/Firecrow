@@ -5,6 +5,11 @@ FBL.ns(function () { with (FBL) {
 
     Firecrow.ASTHelper =
     {
+        parseSourceCodeToASTString: function(sourceCode, sourceCodePath, startLine)
+        {
+
+        },
+
         parseSourceCodeToAST: function(sourceCode, sourceCodePath, startLine)
         {
             try

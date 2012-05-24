@@ -7,6 +7,7 @@ FBL.ns(function() { with (FBL) {
     /*************************************************************************************/
     const ValueTypeHelper = Firecrow.ValueTypeHelper;
     const fcModel = Firecrow.Interpreter.Model;
+    const fcModelInternals = Firecrow.Interpreter.Model.Internals;
     const ASTHelper = Firecrow.ASTHelper;
 
     Firecrow.Interpreter.Simulator.InternalExecutor =
@@ -202,6 +203,7 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 this._expandArrayMethods(globalObject);
+                this._expandStringMethods(globalObject);
                 this._expandFunctionPrototype(globalObject);
             }
             catch(e) { alert("Internal Executor - error when expanding internal functions: " + e);}
@@ -234,6 +236,30 @@ FBL.ns(function() { with (FBL) {
                 });
             }
             catch(e) { alert("InternalExecutor - error when expanding array methods: " + e); }
+        },
+
+        _expandStringMethods: function(globalObject)
+        {
+            try
+            {
+                var stringPrototype = String.prototype;
+
+                fcModelInternals.StringObjectPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+                {
+                    if(stringPrototype[propertyName] != null && stringPrototype[propertyName].__FIRECROW_INTERNAL__ == null)
+                    {
+                        Object.defineProperty
+                        (
+                            stringPrototype[propertyName],
+                            "__FIRECROW_INTERNAL__",
+                            {
+                                value: fcModel.Function.createInternalNamedFunction(globalObject, propertyName)
+                            }
+                        );
+                    }
+                });
+            }
+            catch(e) { alert("InternalExecutor - error when expanding string methods: " + e); }
         },
 
         _expandFunctionPrototype: function(globalObject)

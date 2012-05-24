@@ -1256,9 +1256,24 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isLiteral(sourceElement))
+            if(!astHelper.isLiteral(sourceElement)) { alert("Source element is not a literal!"); return commands; }
+
+            if(ValueTypeHelper.isObject(sourceElement.value))
             {
-                alert("Source element is not a literal!");
+                var regExCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalRegExLiteral, parentFunctionCommand);
+
+                //If it is directly gotten from mdc parser
+                if(sourceElement.value.constructor != null && sourceElement.value.constructor.name === "RegExp")
+                {
+                    regExCommand.regExLiteral = sourceElement.value.toString();
+                }
+                else //over JSON conversion
+                {
+                    regExCommand.regExLiteral = atob(sourceElement.value.RegExpBase64);
+                }
+
+                commands.push(regExCommand);
+
                 return commands;
             }
 
@@ -2083,6 +2098,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     EvalIdentifier: "EvalIdentifier",
     EvalLiteral: "EvalLiteral",
+    EvalRegExLiteral: "EvalRegExLiteral",
 
     IfStatement: "IfStatement",
     WhileStatement: "WhileStatement",

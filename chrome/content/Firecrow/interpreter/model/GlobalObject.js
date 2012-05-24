@@ -19,6 +19,7 @@ fcModel.GlobalObject = function()
         Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
 
         this.arrayPrototype = new fcModel.ArrayPrototype(this);
+        this.stringPrototype = new fcModel.StringObjectPrototype(this);
         this.functionPrototype = new fcModel.FunctionPrototype(this);
         this.arrayFunction = new fcModel.ArrayFunction(this);
         this.emptyFunction = new fcModel.EmptyFunction(this);
