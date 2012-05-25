@@ -37,6 +37,7 @@ fcModel.Array.prototype.pop = function(codeConstruct)
     try
     {
         this.deleteProperty(this.items.length - 1, codeConstruct);
+
         return this.items.pop();
     }
     catch(e) { alert("Array - error when popping item: " + e); }
@@ -104,10 +105,14 @@ fcModel.Array.prototype.splice = function(arguments, codeConstruct)
     catch(e) { alert("Array - error when popping item: " + e); }
 };
 
+fcModel.Array.prototype.notifyError = function(message) { alert("Array - " + message); }
+
+
 fcModel.ArrayPrototype = function(globalObject)
 {
     try
     {
+        this.globalObject = globalObject;
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
         fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
@@ -135,7 +140,7 @@ fcModel.ArrayFunction = function(globalObject)
         this.addProperty("prototype", globalObject.arrayPrototype);
         this.isInternalFunction = true;
         this.name = "Array";
-        this.__FIRECROW_INTERNAL__ = this;
+        this.fcInternal = this;
     }
     catch(e){ alert("Array - error when creating Array Function:" + e); }
 };
@@ -148,33 +153,40 @@ fcModel.ArrayCallbackEvaluator =
     {
         try
         {
-            if(!ValueTypeHelper.isArray(arrayObject)) { alert("Array - When evaluating callback return the argument has to be an array!"); return; }
+            if(!ValueTypeHelper.isArray(arrayObject.value)) { this.notifyError("When evaluating callback return the argument has to be an array!"); return; }
 
-            if(callbackFunction.__FIRECROW_INTERNAL__.name == "filter")
+            if(callbackFunction == null || callbackFunction.value == null) { this.notifyError("Callback function can not be null"); }
+
+            var callbackFunctionValue = callbackFunction.value;
+            var resultingObjectValue = resultingObject.value;
+
+            if(callbackFunctionValue.name == "filter")
             {
-                if(!ValueTypeHelper.isArray(resultingObject)) { alert("Array - a new array should be created when calling filter: " + e); return; }
+                if(!ValueTypeHelper.isArray(resultingObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
+
                 if(returnValue)
                 {
-                    resultingObject.__FIRECROW_INTERNAL__.array.push(callbackCommand.argumentValues[0]);
-                    resultingObject.push(callbackCommand.argumentValues[0]);
+                    resultingObject.fcInternal.array.push(callbackCommand.argumentValues[0]);
+                    resultingObjectValue.push(callbackCommand.argumentValues[0]);
                 }
             }
-            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "map")
+            else if(callbackFunctionValue.name == "map")
             {
-                if(!ValueTypeHelper.isArray(resultingObject)) { alert("Array - a new array should be created when calling filter: " + e); return; }
+                if(!ValueTypeHelper.isArray(resultingObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
 
-                resultingObject.__FIRECROW_INTERNAL__.array.push(returnValue);
-                resultingObject.push(returnValue);
+                resultingObject.fcInternal.array.push(returnValue);
+                resultingObjectValue.push(returnValue);
             }
-            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "forEach") { }
-            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "sort") { alert("Array - still not handling evaluate return from sort!"); return; }
-            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "every") { alert("Array- still not handling evaluate return from every"); return; }
-
-            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "some") { alert("Array- still not handling evaluate return from some"); return; }
-            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "reduce") { alert("Array- still not handling evaluate return from reduce"); return; }
-            else if(callbackFunction.__FIRECROW_INTERNAL__.name == "reduceRight") { alert("Array- still not handling evaluate return from reduceRight"); return; }
+            else if(callbackFunctionValue.name == "forEach") { }
+            else if(callbackFunctionValue.name == "sort") { this.notifyError("Still not handling evaluate return from sort!"); return; }
+            else if(callbackFunctionValue.name == "every") { this.notifyError("Still not handling evaluate return from every"); return; }
+            else if(callbackFunctionValue.name == "some") { this.notifyError("Still not handling evaluate return from some"); return; }
+            else if(callbackFunctionValue.name == "reduce") { this.notifyError("Still not handling evaluate return from reduce"); return; }
+            else if(callbackFunctionValue.name == "reduceRight") { this.notifyError("Still not handling evaluate return from reduceRight"); return; }
         }
-        catch(e){ alert("Array - error when evaluating callback return!"); }
-    }
+        catch(e){ this.notifyError("Error when evaluating callback return!"); }
+    },
+
+    notifyError: function(message) { alert("ArrayCallbackEvaluator - " + message); }
 };
 }});
