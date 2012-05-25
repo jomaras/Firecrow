@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Constructor - member expression</div>
+<div id="resultContainer"></div>
+<script>
+    var ua = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.204 Safari/534.16";
+
+    ua = ua.toLowerCase();
+
+    var rwebkit = /(webkit)[ \/]([\w.]+)/;
+    var ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/;
+    var rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/;
+
+    var match = rwebkit.exec(ua) || ropera.exec(ua) || ua.indexOf("compatible") < 0 && rmozilla.exec(ua) || [];
+
+    var a =
+    {
+        webkit: function()
+        {
+            return 1;
+        }
+    }
+
+    var a1 = a[match[1]]();
+</script>
+</body>
+</html>
