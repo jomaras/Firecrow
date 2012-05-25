@@ -19,28 +19,56 @@ FBL.ns(function() { with (FBL) {
 
         _expandArray: function(array, globalObject, creationCodeConstruct)
         {
-            var fcArray = new Firecrow.Interpreter.Model.Array(globalObject, creationCodeConstruct);
-
-            Object.defineProperty
-            (
-                array,
-                "__FIRECROW_INTERNAL__",
-                {
-                    value:
-                    {
-                        codeConstruct: creationCodeConstruct,
-                        array: fcArray,
-                        object: fcArray
-                    }
-                }
-            );
-
-            array.forEach(function(item)
+            try
             {
-                array.__FIRECROW_INTERNAL__.array.push(item);
-            });
+                var fcArray = new Firecrow.Interpreter.Model.Array(globalObject, creationCodeConstruct);
 
-            return array;
+                Object.defineProperty
+                (
+                    array,
+                    "__FIRECROW_INTERNAL__",
+                    {
+                        value:
+                        {
+                            codeConstruct: creationCodeConstruct,
+                            array: fcArray,
+                            object: fcArray
+                        }
+                    }
+                );
+
+                array.forEach(function(item)
+                {
+                    array.__FIRECROW_INTERNAL__.array.push(item);
+                });
+
+                return array;
+            }
+            catch(e) { alert("InternalExecutor - error when expanding array: " + e); }
+        },
+
+        expandPrimitive: function(string, creationCodeConstruct)
+        {
+            try
+            {
+                if(string.__FIRECROW_INTERNAL__ == null)
+                {
+                    Object.defineProperty
+                    (
+                        string,
+                        "__FIRECROW_INTERNAL__",
+                        {
+                            value:
+                            {
+                                codeConstruct:creationCodeConstruct,
+                                isLiteral: creationCodeConstruct != null && ASTHelper.isLiteral(creationCodeConstruct),
+                                object: string
+                            }
+                        }
+                    );
+                }
+            }
+            catch(e) { alert("InternalExecutor - error when expanding string: " + e); }
         },
 
         createObject: function(globalObject, constructorFunction, creationCodeConstruct)
@@ -136,6 +164,11 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 if(ValueTypeHelper.isOfType(thisObject, Array)) { return this._executeInternalArrayMethod(thisObject, functionObject, arguments, globalObject, callExpression); }
+                else if (ValueTypeHelper.isOfType(thisObject, String)) { return this._executeInternalStringMethod(thisObject, functionObject, arguments, globalObject, callExpression); }
+                else
+                {
+                    alert("InternalExecutor - unsupported internal function!");
+                }
             }
             catch(e) { alert("InternalExecutor - error when executing internal function: " + e); }
         },

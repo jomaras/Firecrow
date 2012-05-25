@@ -79,11 +79,11 @@ FBL.ns(function() { with (FBL) {
                             || method.name == "concat")
                         {
                             return new fcModel.StringObject
-                                (
-                                    stringObject.globalObject,
-                                    callConstruct,
-                                    stringObject.value[method.name](arguments[0].value)
-                                );
+                            (
+                                stringObject.globalObject,
+                                callConstruct,
+                                stringObject.value[method.name](arguments[0].value)
+                            );
                         }
                         else if (method.name == "indexOf"
                             || method.name == "lastIndexOf")
