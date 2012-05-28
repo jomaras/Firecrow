@@ -12,20 +12,19 @@
     var b = null;
     var c = { test: function() { return 4; } };
 
-    var d = a && b && c;//d == null
+    var d = a && b && c;
 
     var a1 = d;
 
-    d = false && a && b && c; //d == false;
+    d = false && a && b && c;
     var a3 = d;
 
-    d = 1 && a && false; //d == a
+    d = 1 && a && false;
 
     var a4 = d;
 
-    d = a && true && c; // d == c
+    d = a && true && c;
     var a5 = d.test();
-
 </script>
 </body>
 </html>

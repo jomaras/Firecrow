@@ -14,7 +14,7 @@ FBL.ns(function() { with (FBL) {
             this.__proto__ = new fcModel.Object(this);
 
             this.stringFunction = new fcInternals.StringFunction(this);
-            this.__FIRECROW_INTERNAL__ = {object:this};
+            this.fcInternal = {object:this};
 
             Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
 

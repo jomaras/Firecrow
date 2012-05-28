@@ -5,20 +5,28 @@ Firecrow.htmlHelper =
 {
 	serializeToHtmlJSON: function(htmlDocument)
 	{
-		var serialized = { };
+        try
+        {
+            var serialized = { };
 
-		var docType = this.getDocumentType(htmlDocument);
-		var htmlElement = this.getHtmlElement(htmlDocument);
+            var docType = this.getDocumentType(htmlDocument);
+            var htmlElement = this.getHtmlElement(htmlDocument);
 
-        var scriptPathsAndModels = Firecrow.fbHelper.getScriptsPathsAndModels();
-        var stylesPathsAndModels = Firecrow.fbHelper.getStylesPathsAndModels();
+            var scriptPathsAndModels = Firecrow.fbHelper.getScriptsPathsAndModels();
+            var stylesPathsAndModels = Firecrow.fbHelper.getStylesPathsAndModels();
 
-		serialized.docType = docType != null ? docType.systemId :"";
-		serialized.htmlElement = htmlElement != null ? this.getSimplifiedElement(htmlElement, scriptPathsAndModels, stylesPathsAndModels)
-                                                     : "null";
+            this._lastUsedId = 0;
 
-		return serialized;
+            serialized.docType = docType != null ? docType.systemId :"";
+            serialized.htmlElement = htmlElement != null ? this.getSimplifiedElement(htmlElement, scriptPathsAndModels, stylesPathsAndModels)
+                                                         : "null";
+
+            return serialized;
+        }
+        catch(e) { alert("Error when serializing to HTML JSON:" + e);}
 	},
+
+    _lastUsedId: 0,
 
 	getDocumentType: function(htmlDocument)
 	{
@@ -48,8 +56,10 @@ Firecrow.htmlHelper =
             {
                 type: !(rootElement instanceof Text) ? rootElement.localName : "textNode",
                 attributes: this.getAttributes(rootElement),
-                children: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels)
+                children: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels),
+                id: this._lastUsedId++
             };
+            var that = this;
 
             if(rootElement instanceof Text
             || rootElement instanceof HTMLScriptElement)
@@ -60,14 +70,24 @@ Firecrow.htmlHelper =
             if(rootElement instanceof HTMLScriptElement)
             {
                 elem.pathAndModel = scriptPathsAndModels.splice(0,1)[0];
+
+                Firecrow.ASTHelper.traverseAst(elem.pathAndModel.model, function (currentElement)
+                {
+                    currentElement.id =  that._lastUsedId++;
+                });
             }
-            else if (rootElement instanceof HTMLStyleElement)
+
+            else if (rootElement instanceof HTMLStyleElement
+                  || rootElement instanceof HTMLLinkElement)
             {
                 elem.pathAndModel = stylesPathsAndModels.splice(0,1)[0];
-            }
-            else if (rootElement instanceof HTMLLinkElement)
-            {
-                elem.pathAndModel = stylesPathsAndModels.splice(0,1)[0];
+
+                var model = elem.pathAndModel.model;
+
+                model.rules.forEach(function(rule)
+                {
+                    rule.id = that._lastUsedId++;
+                });
             }
 
             return elem;

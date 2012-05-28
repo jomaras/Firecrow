@@ -8,43 +8,67 @@ FBL.ns(function() { with (FBL) {
     const ValueTypeHelper = Firecrow.ValueTypeHelper;
     const fcModel = Firecrow.Interpreter.Model;
     const fcModelInternals = Firecrow.Interpreter.Model.Internals;
+    const fcSimulator = Firecrow.Interpreter.Simulator;
     const ASTHelper = Firecrow.ASTHelper;
-
-    Firecrow.Interpreter.Simulator.InternalExecutor =
+    //TODO - NOT YET FINISHED!
+    fcSimulator.InternalExecutor =
     {
-        createArray: function(globalObject, creationCodeConstruct)
-        {
-            return this._expandArray([], globalObject, creationCodeConstruct);
-        },
-
-        _expandArray: function(array, globalObject, creationCodeConstruct)
+        createObject: function(globalObject, constructorFunction, creationCodeConstruct)
         {
             try
             {
-                var fcArray = new Firecrow.Interpreter.Model.Array(globalObject, creationCodeConstruct);
+                var newObject = null;
 
-                Object.defineProperty
+                if(constructorFunction == null && (ASTHelper.isObjectExpression(creationCodeConstruct) || creationCodeConstruct == null))
+                {
+                    newObject = {};
+                }
+                else if(ValueTypeHelper.isOfType(constructorFunction.value, Function))
+                {
+                    newObject = new constructorFunction.value();
+                }
+                else if (constructorFunction != null && constructorFunction.isInternalFunction)
+                {
+                    newObject = this.executeConstructor(globalObject, creationCodeConstruct, constructorFunction);
+                }
+                else
+                {
+                    this.notifyError("Unknown state when creating object");
+                }
+
+                return new fcModel.JsValue(newObject, { codeConstruct: creationCodeConstruct, object: new fcModel.Object(globalObject, creationCodeConstruct, newObject)});
+            }
+            catch(e) { this.notifyError("Error when creating object:" + e); }
+        },
+
+        createFunction: function(globalObject, scopeChain, functionCodeConstruct)
+        {
+            try
+            {
+                return new fcModel.JsValue
                 (
-                    array,
-                    "__FIRECROW_INTERNAL__",
+                    function(){},
                     {
-                        value:
-                        {
-                            codeConstruct: creationCodeConstruct,
-                            array: fcArray,
-                            object: fcArray
-                        }
+                        codeConstruct:functionCodeConstruct,
+                        object: new fcModel.Function(globalObject, scopeChain, functionCodeConstruct)
                     }
                 );
-
-                array.forEach(function(item)
-                {
-                    array.__FIRECROW_INTERNAL__.array.push(item);
-                });
-
-                return array;
             }
-            catch(e) { alert("InternalExecutor - error when expanding array: " + e); }
+            catch(e) { this.notifyError("Error when creating function: " + e); }
+        },
+
+        createArray: function(globalObject, creationCodeConstruct, existingArray)
+        {
+            try
+            {
+                var array = existingArray || [];
+
+                var fcArray = new fcModel.Array(globalObject, creationCodeConstruct);
+                array.forEach(function(item) { fcArray.push(item);})
+
+                return new fcModel.JsValue(array, { codeConstruct:creationCodeConstruct, array: fcArray, object: fcArray});
+            }
+            catch(e) { this.notifyError("Error when creating array: " + e);}
         },
 
         expandPrimitive: function(string, creationCodeConstruct)
@@ -71,92 +95,16 @@ FBL.ns(function() { with (FBL) {
             catch(e) { alert("InternalExecutor - error when expanding string: " + e); }
         },
 
-        createObject: function(globalObject, constructorFunction, creationCodeConstruct)
-        {
-            try
-            {
-                var newObject = null;
-
-                if(constructorFunction == null && (ASTHelper.isObjectExpression(creationCodeConstruct) || creationCodeConstruct == null))
-                {
-                    newObject = {};
-                }
-                else if(ValueTypeHelper.isOfType(constructorFunction, Function))
-                {
-                    newObject = new constructorFunction();
-                }
-                else if (constructorFunction != null && constructorFunction.isInternalFunction)
-                {
-                    newObject = this.executeConstructor(globalObject, creationCodeConstruct, constructorFunction);
-                }
-                else { alert("InternalExecutor - unknown state!"); }
-
-                if(newObject.__FIRECROW_INTERNAL__ == null)
-                {
-                    Object.defineProperty
-                    (
-                        newObject,
-                        "__FIRECROW_INTERNAL__",
-                        {
-                            value:
-                            {
-                                codeConstruct: creationCodeConstruct,
-                                object: new fcModel.Object(globalObject, creationCodeConstruct, newObject)
-                            }
-                        }
-                    );
-                }
-
-                return newObject;
-            }
-            catch(e) { alert("InternalExecutor - error when creating object:" + e); }
-        },
-
-        createFunction: function(globalObject, scopeChain, functionCodeConstruct)
-        {
-            try
-            {
-                var value = function(){ };
-
-                if(value.prototype.__FIRECROW_INTERNAL__ == null)
-                {
-                    Object.defineProperty
-                    (
-                        value.prototype,
-                        "__FIRECROW_INTERNAL__",
-                        {
-                            value:
-                            {
-                                object: new fcModel.Object(globalObject)
-                            }
-                        }
-                    );
-                }
-
-                Object.defineProperty
-                (
-                    value,
-                    "__FIRECROW_INTERNAL__",
-                    {
-                        value: new fcModel.Function(globalObject, scopeChain, functionCodeConstruct)
-                    }
-                );
-
-                return value;
-            }
-            catch(e) { alert("InternalExecutor - error when creating function: " + e); }
-        },
-
         executeConstructor: function(globalObject, constructorConstruct, internalConstructor)
         {
             try
             {
-                if(internalConstructor == null) { alert("InternalConstructorExecutor - execute: internalConstructor can not be null!"); return; }
+                if(internalConstructor == null) { this.notifyError("InternalConstructor can not be null!"); return; }
 
                 if(internalConstructor.name == "Array") { return this.createArray(globalObject, constructorConstruct); }
-                else { alert("InternalConstructorExecutor: Unknown internal constructor"); return; }
+                else { this.notifyError("Unknown internal constructor"); return; }
             }
-            catch(e) { alert("InternalConstructorExecutor - execute error: " + e); }
+            catch(e) { this.notifyError("Execute error: " + e); }
         },
 
         executeFunction: function(thisObject, functionObject, arguments, globalObject, callExpression)
@@ -164,82 +112,78 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 if(ValueTypeHelper.isOfType(thisObject, Array)) { return this._executeInternalArrayMethod(thisObject, functionObject, arguments, globalObject, callExpression); }
-                else if (ValueTypeHelper.isOfType(thisObject, String)) { return this._executeInternalStringMethod(thisObject, functionObject, arguments, globalObject, callExpression); }
-                else
-                {
-                    alert("InternalExecutor - unsupported internal function!");
-                }
+                else { this.notifyError("Unsupported internal function!"); }
             }
-            catch(e) { alert("InternalExecutor - error when executing internal function: " + e); }
+            catch(e) { this.notifyError("Error when executing internal function: " + e); }
         },
 
         _executeInternalArrayMethod: function(thisObject, functionObject, arguments, globalObject, callExpression)
         {
             try
             {
-                //"pop","push","reverse","shift","sort","splice","unshift","concat","join","slice","indexOf","lastIndexOf"
-                if(!ValueTypeHelper.isOfType(thisObject, Array)) { alert("InternalExecutor - the called on object should be an array!"); return; }
-                if(!functionObject.__FIRECROW_INTERNAL__.isInternalFunction) { alert("InternalExecutor - the function should be internal!"); return; }
+                if(!ValueTypeHelper.isOfType(thisObject.value, Array)) { this.notifyError("The called on object should be an array!"); return; }
+                if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal!"); return; }
 
-                if(functionObject.__FIRECROW_INTERNAL__.name == "pop")
-                {
-                    thisObject.__FIRECROW_INTERNAL__.array.pop();
-                    return thisObject[functionObject.name]();
-                }
-                else if (functionObject.__FIRECROW_INTERNAL__.name == "indexOf"
-                     ||  functionObject.__FIRECROW_INTERNAL__.name == "lastIndexOf")
-                {
-                    return thisObject[functionObject.name].apply(thisObject, arguments);
-                }
-                else if (functionObject.__FIRECROW_INTERNAL__.name == "push")
-                {
-                    if(arguments.length == 0) { thisObject.__FIRECROW_INTERNAL__.array.push(); return thisObject[functionObject.name](); }
+                var functionObjectValue = functionObject.value;
+                var thisObjectValue = thisObject.value;
 
-                    return thisObject[functionObject.name].apply(thisObject, arguments);
-                }
-                else if(functionObject.__FIRECROW_INTERNAL__.name == "reverse")
+                if(functionObjectValue.name == "pop")
                 {
-                    thisObject.__FIRECROW_INTERNAL__.array.reverse();
-                    return thisObject[functionObject.name]();
+                    thisObject.fcInternal.array.pop();
+                    return thisObjectValue[functionObjectValue.name]();
                 }
-                else if(functionObject.__FIRECROW_INTERNAL__.name == "unshift")
+                else if (functionObjectValue.name == "indexOf" ||  functionObjectValue.name == "lastIndexOf")
                 {
-                    thisObject.__FIRECROW_INTERNAL__.array.unshift(arguments);
+                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
+                }
+                else if (functionObjectValue.name == "push")
+                {
+                    if(arguments.length == 0) { thisObject.fcInternal.array.push(); return thisObjectValue[functionObjectValue.name](); }
 
-                    return thisObject[functionObject.name].apply(thisObject, arguments);
+                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
                 }
-                else if(functionObject.__FIRECROW_INTERNAL__.name == "splice")
+                else if(functionObjectValue.name == "reverse")
                 {
-                    thisObject.__FIRECROW_INTERNAL__.array.splice(arguments);
-                    return thisObject[functionObject.name].apply(thisObject, arguments);
+                    thisObject.fcInternal.array.reverse();
+                    return thisObjectValue[functionObjectValue.name]();
                 }
-                else if(functionObject.__FIRECROW_INTERNAL__.name == "shift")
+                else if(functionObjectValue.name == "unshift")
                 {
-                    thisObject.__FIRECROW_INTERNAL__.array.shift();
-                    return thisObject[functionObject.name]();
+                    thisObject.fcInternal.array.unshift(arguments);
+
+                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
                 }
-                else if(functionObject.__FIRECROW_INTERNAL__.name == "concat"
-                    ||  functionObject.__FIRECROW_INTERNAL__.name == "slice")
+                else if(functionObjectValue.name == "splice")
                 {
-                    return this._expandArray(thisObject[functionObject.name].apply(thisObject, arguments), globalObject, callExpression);
+                    thisObject.fcInternal.array.splice(arguments);
+                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
+                }
+                else if(functionObjectValue.name == "shift")
+                {
+                    thisObject.fcInternal.array.shift();
+                    return thisObjectValue[functionObjectValue.name]();
+                }
+                else if(functionObjectValue.name == "concat" ||  functionObjectValue.name == "slice")
+                {
+                    return this.createArray(globalObject, callExpression, thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments));
                 }
                 else
                 {
-                    alert("InternalExecutor - unknown internal array method: " + functionObject.__FIRECROW_INTERNAL__.name);
+                    this.notifyError("Unknown internal array method: " + functionObjectValue.name);
                 }
             }
-            catch(e) { alert("InternalExecutor - error when executing internal array method: " + e); }
+            catch(e) { this.notifyError("Error when executing internal array method: " + e); }
         },
 
         expandInternalFunctions: function(globalObject)
         {
             try
             {
-                this._expandArrayMethods(globalObject);
-                this._expandStringMethods(globalObject);
-                this._expandFunctionPrototype(globalObject);
+                //this._expandArrayMethods(globalObject);
+                //this._expandStringMethods(globalObject);
+                //this._expandFunctionPrototype(globalObject);
             }
-            catch(e) { alert("Internal Executor - error when expanding internal functions: " + e);}
+            catch(e) { this.notifyError("Error when expanding internal functions: " + e);}
         },
 
         _expandArrayMethods: function(globalObject)
@@ -344,6 +288,8 @@ FBL.ns(function() { with (FBL) {
 
             }
             catch(e) { alert("InternalExecutor - error when expanding function prototype: " + e); }
-        }
+        },
+
+        notifyError: function(message) { alert("InternalExecutor - " + message);}
     }
 }});

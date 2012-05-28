@@ -20,6 +20,6 @@ FBL.ns(function() { with (FBL) {
 
     fcModel.JsValue.prototype =
     {
-
+         isFunction: function() { return ValueTypeHelper.isFunction(this.value); }
     };
 }});

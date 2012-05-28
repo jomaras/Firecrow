@@ -17,8 +17,8 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject)
     this.programAst = programAst;
     this.globalObject = globalObject;
 
-    this.contextStack = new ExecutionContextStack(globalObject);
-    this.contextStack.registerExceptionCallback(this.removeCommandsAfterException, this);
+    this.executionContextStack = new ExecutionContextStack(globalObject);
+    this.executionContextStack.registerExceptionCallback(this.removeCommandsAfterException, this);
 
     this.commands = CommandGenerator.generateCommands(programAst);
     this.tryStack = [];
@@ -83,7 +83,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { this.processTryCommand(command); }
             if(command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterException(command); }
 
-            this.contextStack.executeCommand(command);
+            this.executionContextStack.executeCommand(command);
 
             if (command.removesCommands) { this.processRemovingCommandsCommand(command); }
             if (command.generatesNewCommands) { this.processGeneratingNewCommandsCommand(command); }
@@ -200,7 +200,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                     CommandGenerator.generateCatchStatementExecutionCommands
                     (
                         this.tryStack[this.tryStack.length - 1],
-                        ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) ? this.contextStack.getExpressionValue(exceptionGeneratingArgument.codeConstruct.argument)
+                        ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) ? this.executionContextStack.getExpressionValue(exceptionGeneratingArgument.codeConstruct.argument)
                                                                                                                      : exceptionGeneratingArgument
                     ),
                     i
@@ -267,10 +267,10 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             if(!ValueTypeHelper.isOfType(newExpressionCommand, Command) || !newExpressionCommand.isEvalNewExpressionCommand()) { alert("InterpreterSimulator: argument is not newExpressionCommand"); return; }
 
             var callConstruct = newExpressionCommand.codeConstruct;
-            var callee = this.contextStack.getExpressionValue(callConstruct.callee);
-            var newObject = this.contextStack.createObjectInCurrentContext(callee, newExpressionCommand.codeConstruct);
+            var callee = this.executionContextStack.getExpressionValue(callConstruct.callee);
+            var newObject = this.executionContextStack.createObjectInCurrentContext(callee, newExpressionCommand.codeConstruct);
 
-            this.contextStack.setExpressionValue(newExpressionCommand.codeConstruct, newObject);
+            this.executionContextStack.setExpressionValue(newExpressionCommand.codeConstruct, newObject);
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
@@ -295,8 +295,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             var callConstruct = callExpressionCommand.codeConstruct;
 
-            var baseObject = this.contextStack.getBaseObject(callConstruct.callee);
-            var callFunctionValue = this.contextStack.getExpressionValue(callConstruct.callee);
+            var baseObject = this.executionContextStack.getBaseObject(callConstruct.callee);
+            var callFunctionValue = this.executionContextStack.getExpressionValue(callConstruct.callee);
 
             if(ValueTypeHelper.isFunction(baseObject)
             && ValueTypeHelper.isFunction(callFunctionValue))
@@ -307,7 +307,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                     else if(callFunctionValue.name == "apply") { callExpressionCommand.isApply = true; }
 
                     callFunctionValue = baseObject;
-                    baseObject = this.contextStack.getExpressionValue(callConstruct.arguments != null ? callConstruct.arguments[0] : null);
+                    baseObject = this.executionContextStack.getExpressionValue(callConstruct.arguments != null ? callConstruct.arguments[0] : null);
                 }
             }
 
@@ -333,14 +333,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             {
                 callCallbackMethodCommand.codeConstruct.arguments.forEach(function(argument)
                 {
-                    argumentValues.push(this.contextStack.getExpressionValue(argument));
+                    argumentValues.push(this.executionContextStack.getExpressionValue(argument));
                 }, this);
             }
 
             var functionName = callCallbackMethodCommand.functionObject.name;
             var resultingObject = functionName == "filter" || functionName == "map" ? Firecrow.Interpreter.Simulator.InternalExecutor.createArray(this.globalObject, callCallbackMethodCommand.codeConstruct)
                                                                                     : null;
-            this.contextStack.setExpressionValue(callCallbackMethodCommand.codeConstruct, resultingObject);
+            this.executionContextStack.setExpressionValue(callCallbackMethodCommand.codeConstruct, resultingObject);
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
@@ -393,7 +393,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 CommandGenerator.generateLoopExecutionCommands
                 (
                     loopCommand,
-                    !loopCommand.isEvalForInWhereCommand() ? this.contextStack.getExpressionValue(loopCommand.codeConstruct.test) : null
+                    !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).value : null
                 ),
                 this.currentCommandIndex + 1
             );
@@ -413,7 +413,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 CommandGenerator.generateIfStatementBodyCommands
                 (
                     ifCommand,
-                    this.contextStack.getExpressionValue(ifCommand.codeConstruct.test)
+                    this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test).value
                 ),
                 this.currentCommandIndex + 1
             );
@@ -433,7 +433,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 CommandGenerator.generateConditionalExpressionEvalBodyCommands
                 (
                     conditionalCommand,
-                    this.contextStack.getExpressionValue(conditionalCommand.codeConstruct.test)
+                    this.executionContextStack.getExpressionValue(conditionalCommand.codeConstruct.test).value
                 ),
                 this.currentCommandIndex + 1
             );
@@ -447,7 +447,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(!ValueTypeHelper.isOfType(caseCommand, Command) || !caseCommand.isCaseCommand()) { alert("InterpreterSimulator - argument has to be a case command!"); return; }
 
-            if(this.contextStack.getExpressionValue(caseCommand.codeConstruct.test) == this.contextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant)
+            if(this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).value == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).value
             || caseCommand.parent.hasBeenMatched
             || caseCommand.codeConstruct.test == null)
             {

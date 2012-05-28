@@ -18,7 +18,7 @@ FBL.ns(function() { with (FBL) {
         this.addProperty("prototype", globalObject.functionPrototype);
         this.addProperty("__proto__", globalObject.functionPrototype);
 
-        this.__FIRECROW_INTERNAL__ = this;
+        this.fcInternal = this;
     };
 
     fcModel.EmptyFunction = function(globalObject)
@@ -54,7 +54,7 @@ FBL.ns(function() { with (FBL) {
                 this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(propertyName), null, false);
             }, this);
         }
-        catch(e) { alert("Array - error when creating array prototype:" + e); }
+        catch(e) { alert("Function - error when creating function prototype:" + e); }
     };
 
     fcModel.FunctionPrototype.prototype = new fcModel.Object(null);

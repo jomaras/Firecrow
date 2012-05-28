@@ -18,6 +18,7 @@
 
     <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
 
+    <script src="../chrome/content/Firecrow/interpreter/model/JsValue.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/Object.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/GlobalObject.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/Array.js"></script>
@@ -58,7 +59,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/54/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/42/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -69,85 +70,123 @@
         browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
         browser.registerInterpreterMessageGeneratedCallback(function(message)
         {
-            messageContainer.innerHTML += "<br/>" + message;
+        messageContainer.innerHTML += "<br/>" + message;
         });
 
-        browser.asyncBuildPage(function(){});
-    </script>
+        browser.asyncBuildPage(function(){
+        var model = HtmlModelMapping.getWholeFileModel(webFile.url);
+        var globalObjectProperties = browser.globalObject.properties;
+        var errors = "";
+        model.results.forEach(function(result)
+        {
+        for(var propName in result)
+        {
+        var hasBeenFound = false;
+        for(var i = 0; i
+        < globalObjectProperties.length
+        ; i++)
+        {
+        var property = globalObjectProperties[i];
+        var propertyValue = property.value;
 
-    <script>
+        if(property.name == propName)
+        {
+        hasBeenFound = true;
+
+        if(propertyValue.value != result[propName])
+        {
+        errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
+        }
+
+        break;
+        }
+        }
+
+        if(!hasBeenFound)
+        {
+        errors += propName + " could not be found in global object!\n";
+        }
+        }
+        });
+
+        if(errors != "") { alert("Errors on validating result:\n" + errors); }
+        else { alert("Test OK!"); }
+        });
+
         /*var redraw;
 
         window.onload = function() {
-            var width  = 1300;//$('#canvas').width();
-            var height = 500;//$('#canvas').height() - 100;
+        var width = 1300;//$('#canvas').width();
+        var height = 500;//$('#canvas').height() - 100;
 
-            var renderHtml = function(r, n)
-            {
-                var textLength = n.id.length*7;
-                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
-                frame.attr({'fill': '#0747CF','stroke-width' : '1px'});
-                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
-            };
+        var renderHtml = function(r, n)
+        {
+        var textLength = n.id.length*7;
+        var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+        frame.attr({'fill': '#0747CF','stroke-width' : '1px'});
+        return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+        };
 
-            var renderCss = function(r, n) {
-                var textLength = n.id.length*7;
-                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
-                frame.attr({'fill': '#CF0707','stroke-width' : '1px'});
-                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
-            };
+        var renderCss = function(r, n) {
+        var textLength = n.id.length*7;
+        var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+        frame.attr({'fill': '#CF0707','stroke-width' : '1px'});
+        return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+        };
 
-            var renderJs = function(r, n)
-            {
-                var textLength = n.id.length*7;
-                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
-                frame.attr({'fill': '#06E606','stroke-width' : '1px'});
-                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
-            };
+        var renderJs = function(r, n)
+        {
+        var textLength = n.id.length*7;
+        var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+        frame.attr({'fill': '#06E606','stroke-width' : '1px'});
+        return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+        };
 
-            var g = new Graph();
+        var g = new Graph();
 
-            g.edgeFactory.build = function(source, target) {
-                var e = jQuery.extend(true, {}, this.template);
-                e.source = source;
-                e.target = target;
-                //e.style.label = "w";
-                return e;
-            }
+        g.edgeFactory.build = function(source, target) {
+        var e = jQuery.extend(true, {}, this.template);
+        e.source = source;
+        e.target = target;
+        //e.style.label = "w";
+        return e;
+        }
 
 
-            dependencyGraph.nodes.forEach(function(node)
-            {
-                var nodeId = node.generateId();
+        dependencyGraph.nodes.forEach(function(node)
+        {
+        var nodeId = node.generateId();
 
-                var render = null;
+        var render = null;
 
-                if(node.isHtmlNode()) { render = renderHtml; }
-                else if(node.isCssNode()) { render = renderCss; }
-                else if(node.isJsNode()) { render = renderJs;}
+        if(node.isHtmlNode()) { render = renderHtml; }
+        else if(node.isCssNode()) { render = renderCss; }
+        else if(node.isJsNode()) { render = renderJs;}
 
-                g.addNode(nodeId, { render : render, label: nodeId });
-            });
+        g.addNode(nodeId, { render : render, label: nodeId });
+        });
 
-            dependencyGraph.nodes.forEach(function(node)
-            {
-                node.structuralDependencies.forEach(function(edge)
-                {
-                    g.addEdge(edge.sourceNode.generateId(), edge.destinationNode.generateId(), {weight:9, directed: true, stroke : " #000000"});
-                });
-            });
+        dependencyGraph.nodes.forEach(function(node)
+        {
+        node.structuralDependencies.forEach(function(edge)
+        {
+        g.addEdge(edge.sourceNode.generateId(), edge.destinationNode.generateId(), {weight:9, directed: true, stroke : "
+        #000000"});
+        });
+        });
 
-            var layouter = new Graph.Layout.Spring(g);
+        var layouter = new Graph.Layout.Spring(g);
 
-            var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+        var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
 
-            redraw = function()
-            {
-                layouter.layout();
-                renderer.draw();
-            };
+        redraw = function()
+        {
+        layouter.layout();
+        renderer.draw();
+        };
         };*/
 
     </script>
+
 </body>
 </html>

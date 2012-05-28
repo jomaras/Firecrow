@@ -146,11 +146,9 @@ Firecrow.Interpreter.Model.Object.prototype =
         catch(e) { alert("Error when getting property - Object:" + e); }
     },
 
-    getPropertyNameAtIndex: function(index)
+    getPropertyNameAtIndex: function(index, codeConstruct)
     {
-        var propertyNames = this._getEnumeratedPropertiesFromImplementationObject();
-
-        return propertyNames[index];
+        return new fcModel.JsValue(this._getEnumeratedPropertiesFromImplementationObject()[index], codeConstruct);
     },
 
     _getEnumeratedPropertiesFromImplementationObject: function()

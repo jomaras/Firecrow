@@ -6,29 +6,30 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 const ValueTypeHelper = Firecrow.ValueTypeHelper;
 const fcSimulator = Firecrow.Interpreter.Simulator;
+const fcModel = Firecrow.Interpreter.Model;
 
-Firecrow.Interpreter.Simulator.VariableObject = function(executionContext)
+fcSimulator.VariableObject = function(executionContext)
 {
     this.executionContext = executionContext;
     this.identifiers = [];
-    this.__FIRECROW_INTERNAL__ = this;
-    this.__FIRECROW_INTERNAL__.object = this;
+    this.fcInternal = this;
+    this.fcInternal.object = this;
 };
 
-Firecrow.Interpreter.Simulator.VariableObject.prototype =
+fcSimulator.VariableObject.prototype =
 {
     registerIdentifier: function(identifier)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(identifier, Firecrow.Interpreter.Model.Identifier)) { alert("VariableObject - when registering an identifier has to be passed"); return; }
+            if(!ValueTypeHelper.isOfType(identifier, fcModel.Identifier)) { this.notifyError("When registering an identifier has to be passed"); return; }
 
             var existingIdentifier = this.getIdentifier(identifier.name);
 
             if(existingIdentifier == null) { this.identifiers.push(identifier); }
             else { existingIdentifier.setValue(identifier.value, identifier.lastModificationConstruct); }
         }
-        catch(e) { alert("Error when registering identifier in VariableObject:" + e);}
+        catch(e) { this.notifyError("Error when registering identifier:" + e);}
     },
 
     getIdentifierValue: function(identifierName)
@@ -39,7 +40,7 @@ Firecrow.Interpreter.Simulator.VariableObject.prototype =
 
             return identifier != null ? identifier.value : null;
         }
-        catch(e) { alert("Error when getting identifier value in VariableObject: " + e); }
+        catch(e) { this.notifyError("Error when getting identifier value: " + e); }
     },
 
     getIdentifier: function(identifierName)
@@ -56,7 +57,7 @@ Firecrow.Interpreter.Simulator.VariableObject.prototype =
                 }
             );
         }
-        catch(e) { alert("Error when getting identifier - VariableObject:" + e);}
+        catch(e) { this.notifyError("Error when getting identifier:" + e);}
     },
 
     deleteIdentifier: function(identifierName, codeConstruct)
@@ -67,12 +68,13 @@ Firecrow.Interpreter.Simulator.VariableObject.prototype =
 
             if(identifier != null)
             {
-                alert("Deleting identifier, maybe i didn't think it through: what if i delete an identifier and then test is it null..");
                 ValueTypeHelper.removeFromArrayByElement(this.identifiers, identifier);
             }
         }
-        catch(e) { alert("Error when deleting identifier - VariableObject:" + e);}
-    }
+        catch(e) { this.notifyError("Error when deleting identifier:" + e);}
+    },
+
+    notifyError: function(message) { alert("VariableObject - " + message); }
 };
 
 Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = function(functionIdentifier, formalParameters, calleeFunction, sentArguments, callExpressionCommand)
@@ -86,8 +88,7 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
         functionVariableObject.calleeFunction = calleeFunction;
         functionVariableObject.sentArguments = sentArguments;
 
-        //TODO - there might be a problem, since these should be shared variables
-        functionVariableObject.registerIdentifier(new Firecrow.Interpreter.Model.Identifier("arguments", sentArguments, callExpressionCommand.codeConstruct.arguments));
+        functionVariableObject.registerIdentifier(new fcModel.Identifier("arguments", sentArguments, callExpressionCommand.codeConstruct.arguments));
 
         var argumentsConstructs = callExpressionCommand.codeConstruct.arguments || [];
 
@@ -108,56 +109,50 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
 
 Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(object)
 {
-    if(object.__FIRECROW_INTERNAL__ == null)
+    try
     {
-        Object.defineProperty(object, "__FIRECROW_INTERNAL__", { value: { } });
+        if(object.fcInternal == null) { object.fcInternal = {}; }
+        if(object.fcInternal.object == null) { object.fcInternal.object = {}; }
+
+        object.fcInternal.getIdentifier = function(identifierName)
+        {
+            try
+            {
+                return this.object.getProperty(identifierName);
+            }
+            catch(e) { alert("Error when getting identifier in lifted variable object: " + e); }
+        };
+
+        object.fcInternal.getIdentifierValue = function(identifierName, readConstruct, currentContext)
+        {
+            try
+            {
+                return this.object.getPropertyValue(identifierName, readConstruct, currentContext);
+            }
+            catch(e) { alert("LifterVariableObject - Error when getting identifier value:" + e);}
+        };
+
+        object.fcInternal.registerIdentifier = function(identifier)
+        {
+            try
+            {
+                this.object.addProperty(identifier.name, identifier.value, identifier.lastModificationConstruct);
+            }
+            catch(e) { alert("LifterVariableObject -Error when registering identifier:" + e); }
+        };
+
+        object.fcInternal.deleteIdentifier = function(identifierName, deleteConstruct)
+        {
+            try
+            {
+                this.object.deleteProperty(identifierName, deleteConstruct);
+            }
+            catch(e) { alert("LiftedVariableObject - Error when deleting identifier: " + e);}
+        };
+
+        return object;
     }
-
-    if(object.__FIRECROW_INTERNAL__.object == null) { object.__FIRECROW_INTERNAL__.object = {}; }
-
-    object.__FIRECROW_INTERNAL__.getIdentifier = function(identifierName)
-    {
-        try
-        {
-            return this.object.getProperty(identifierName);
-        }
-        catch(e)
-        {
-            alert("Error when getting identifier in lifted variable object: " + e);
-        }
-    };
-
-    object.__FIRECROW_INTERNAL__.getIdentifierValue = function(identifierName, readConstruct, currentContext)
-    {
-        try
-        {
-            return this.object.getPropertyValue(identifierName, readConstruct, currentContext);
-        }
-        catch(e) { alert("Error when getting identifier value in lifted variable object:" + e);}
-    };
-
-    object.__FIRECROW_INTERNAL__.registerIdentifier = function(identifier)
-    {
-        try
-        {
-            this.object.addProperty(identifier.name, identifier.value, identifier.lastModificationConstruct);
-        }
-        catch(e)
-        {
-            alert("Error when registering identifier:" + e);
-        }
-    };
-
-    object.__FIRECROW_INTERNAL__.deleteIdentifier = function(identifierName, deleteConstruct)
-    {
-        try
-        {
-            this.object.deleteProperty(identifierName, deleteConstruct);
-        }
-        catch(e) { alert("Error when deleting identifier");}
-    };
-
-    return object;
+    catch(e) { alert("VariableObject - error when lifting to variableObject!"); }
 };
 /***************************************************************************************/
 }});

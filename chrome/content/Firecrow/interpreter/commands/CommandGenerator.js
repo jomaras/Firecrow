@@ -198,11 +198,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 alert("CommandGenerator: function object can not be null when generating commands for function execution!"); return commands;
             }
 
-            if(functionObject.__FIRECROW_INTERNAL__.isInternalFunction) { return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject); }
+            if(functionObject.fcInternal.isInternalFunction) { return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject); }
 
             commands.push(fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand));
 
-            var functionConstruct = functionObject.__FIRECROW_INTERNAL__.codeConstruct;
+            var functionConstruct = functionObject.fcInternal.codeConstruct;
 
             astHelper.traverseDirectSourceElements
             (
@@ -250,11 +250,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand())) { alert("CommandGenerator: an argument is not EvalCallExpressionCommand"); return commands; }
             if(functionObject == null) { alert("CommandGenerator: function object can not be null when generating commands for internal function execution!"); return commands; }
-            if(!functionObject.__FIRECROW_INTERNAL__.isInternalFunction) { alert("CommandGenerator: function must be an internal function"); return commands; }
+            if(!functionObject.fcInternal.isInternalFunction) { alert("CommandGenerator: function must be an internal function"); return commands; }
 
             commands.push
             (
-                functionObject.__FIRECROW_INTERNAL__.isCallbackMethod
+                functionObject.fcInternal.isCallbackMethod
                     ? fcCommands.Command.createCallCallbackMethodCommand(callExpressionCommand.codeConstruct, functionObject, thisObject, callExpressionCommand.parentFunctionCommand)
                     : callExpressionCommand.isEvalNewExpressionCommand()
                         ?   fcCommands.Command.createCallInternalConstructorCommand(callExpressionCommand.codeConstruct, functionObject, callExpressionCommand.parentFunctionCommand)
@@ -294,7 +294,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             if(!ValueTypeHelper.isOfType(callCallbackCommand, fcCommands.Command) || !callCallbackCommand.isCallCallbackMethodCommand()) { alert("CommandGenerator: an argument is not CallCallbackCommand"); return commands; }
             if(!ValueTypeHelper.isOfType(callCallbackCommand.thisObject, Array)) { alert("CommandGenerator - thisObject is not an array!"); return commands; }
 
-            var functionName = callCallbackCommand.functionObject.__FIRECROW_INTERNAL__.name;
+            var functionName = callCallbackCommand.functionObject.fcInternal.name;
 
             var callback = argumentValues[0];
             var thisObject = argumentValues[1];
@@ -1806,7 +1806,7 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
 {
     try
     {
-        var command = new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
+        var command = new fcCommands.Command(functionObject.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
 
         command.callee = functionObject;
         command.thisObject = thisObject;
@@ -1820,7 +1820,7 @@ Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = functio
 {
     try
     {
-        return new fcCommands.Command(functionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
+        return new fcCommands.Command(functionObject.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
     }
     catch(e) { alert("CommandGenerator - an error has occurred when generating exit function context command:" + e); }
 };
@@ -1932,7 +1932,7 @@ Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(ca
 {
     try
     {
-        var command = new fcCommands.Command(callbackFunctionObject.__FIRECROW_INTERNAL__.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExecuteCallback, callCallbackCommand.parentFunctionCommand);
+        var command = new fcCommands.Command(callbackFunctionObject.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExecuteCallback, callCallbackCommand.parentFunctionCommand);
 
         command.calledOnObject = calledOnObject;
         command.callback = callbackFunctionObject;

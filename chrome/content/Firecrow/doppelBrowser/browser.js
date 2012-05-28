@@ -61,6 +61,8 @@ Browser.prototype =
                 this.asyncInterpretCode = !!asyncInterpretCode;
 
                 this._buildSubtree(htmlModel.htmlElement, null, callback);
+
+                callback();
             }
             catch(e) { alert("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
         });

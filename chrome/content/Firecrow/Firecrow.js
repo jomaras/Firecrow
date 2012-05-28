@@ -60,14 +60,18 @@ FBL.ns(function() { with (FBL) {
 
             this.loadHtmlInHiddenIFrame(function(htmlJson)
             {
-               prompt("JSON", JSON.stringify(htmlJson, function(key, value)
-               {
-                   if(key=="value" && value.constructor != null && value.constructor.name === "RegExp")
-                   {
-                       return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
-                   }
-                   return value;
-               }));
+                try
+                {
+                    prompt("JSON", JSON.stringify(htmlJson, function(key, value)
+                    {
+                        if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+                        {
+                            return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
+                        }
+                        return value;
+                    }));
+                }
+                catch(e) { alert("Error when converting to JSON model:" + e)};
             });
 		},
 
@@ -144,7 +148,7 @@ FBL.ns(function() { with (FBL) {
 
                         hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
 					}
-					catch(e) { alert("Error while serializing html code" + e);}
+					catch(e) { alert("Error while serializing html code:" + e);}
 				}, true);
 				
 				this.hiddenIFrame.webNavigation.loadURI(fbHelper.getCurrentUrl(), CI.nsIWebNavigation, null, null, null);

@@ -10,23 +10,27 @@ const fcSimulator = Firecrow.Interpreter.Simulator;
 const fcCommands = Firecrow.Interpreter.Commands;
 const fcModel = Firecrow.Interpreter.Model;
 
-Firecrow.Interpreter.Simulator.ExecutionContext = function(variableObject, scopeChain, thisObject, globalObject, contextCreationCommand)
+fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, globalObject, contextCreationCommand)
 {
-    this.variableObject = variableObject || globalObject.globalVariableObject;
-    this.thisObject = thisObject || globalObject;
+    try
+    {
+        this.variableObject = variableObject || globalObject.globalVariableObject;
+        this.thisObject = thisObject || globalObject;
 
-    this.globalObject = globalObject;
+        this.globalObject = globalObject;
 
-    this.scopeChain = ValueTypeHelper.createArrayCopy(scopeChain);
-    this.scopeChain.push(this.variableObject);
+        this.scopeChain = ValueTypeHelper.createArrayCopy(scopeChain);
+        this.scopeChain.push(this.variableObject);
 
-    this.id = fcSimulator.ExecutionContext.LAST_INSTANCE_ID++;
-    this.contextCreationCommand = contextCreationCommand;
+        this.id = fcSimulator.ExecutionContext.LAST_INSTANCE_ID++;
+        this.contextCreationCommand = contextCreationCommand;
 
-    this.codeConstructValuesMapping = [];
+        this.codeConstructValuesMapping = [];
+    }
+    catch(e) { this.notifyError("Error when constructing execution context: " + e); }
 };
 
-Firecrow.Interpreter.Simulator.ExecutionContext.prototype =
+fcSimulator.ExecutionContext.prototype =
 {
     getCodeConstructValue: function(codeConstruct)
     {
@@ -45,7 +49,7 @@ Firecrow.Interpreter.Simulator.ExecutionContext.prototype =
             return codeConstructValueMapping != null ? codeConstructValueMapping.value
                                                      : null;
         }
-        catch(e) { alert("Error when getting codeConstruct value - ExecutionContextStack.js:" + e);}
+        catch(e) { this.notifyError("Error when getting codeConstruct value:" + e);}
     },
 
     setCodeConstructValue: function(codeConstruct, value)
@@ -62,31 +66,21 @@ Firecrow.Interpreter.Simulator.ExecutionContext.prototype =
                 }
             );
 
-            if(codeConstructValueMapping == null)
-            {
-                this.codeConstructValuesMapping.push
-                ({
-                    codeConstruct: codeConstruct,
-                    value : value
-                });
-            }
-            else
-            {
-                codeConstructValueMapping.value = value;
-            }
+            codeConstructValueMapping == null ? this.codeConstructValuesMapping.push({codeConstruct: codeConstruct, value : value})
+                                              : codeConstructValueMapping.value = value;
         }
-        catch(e) { alert("Error when setting codeConstruct value - ExecutionContextStack.js:" + e);}
+        catch(e) { this.notifyError("Error when setting codeConstruct value:" + e);}
     },
 
     registerIdentifier: function(identifier)
     {
        try
        {
-           if(!ValueTypeHelper.isOfType(identifier, fcModel.Identifier)) { alert("ExecutionContextStack - when registering identifier the argument has to be an identifier"); }
+           if(!ValueTypeHelper.isOfType(identifier, fcModel.Identifier)) { this.notifyError("When registering identifier the argument has to be an identifier"); }
 
-           this.variableObject.__FIRECROW_INTERNAL__.registerIdentifier(identifier);
+           this.variableObject.fcInternal.registerIdentifier(identifier);
        }
-       catch(e) { alert("ExecutionContextStack - ExecutionContext error when registering identifier:" + e); }
+       catch(e) { this.notifyError("Error when registering identifier:" + e); }
     },
 
     pushToScopeChain: function(variableObject)
@@ -95,7 +89,7 @@ Firecrow.Interpreter.Simulator.ExecutionContext.prototype =
         {
             this.scopeChain.push(variableObject);
         }
-        catch(e) { alert("ExecutionContext - error when pushing to scope chain: " + e); }
+        catch(e) { this.notifyError("Error when pushing to scope chain: " + e); }
     },
 
     popFromScopeChain: function()
@@ -104,35 +98,45 @@ Firecrow.Interpreter.Simulator.ExecutionContext.prototype =
         {
             return this.scopeChain.pop();
         }
-        catch(e) { alert("ExecutionContext - error when popping from scope chain: " + e); }
-    }
+        catch(e) { this.notifyError("Error when popping from scope chain: " + e); }
+    },
+
+    notifyError: function(message) { alert("ExecutionContext - " + e); }
 };
 
-Firecrow.Interpreter.Simulator.ExecutionContext.createGlobalExecutionContext = function(globalObject)
+fcSimulator.ExecutionContext.createGlobalExecutionContext = function(globalObject)
 {
-    return new Firecrow.Interpreter.Simulator.ExecutionContext
-    (
-        globalObject,
-        [],
-        globalObject,
-        globalObject
-    );
-};
-
-Firecrow.Interpreter.Simulator.ExecutionContext.LAST_INSTANCE_ID = 0;
-
-Firecrow.Interpreter.Simulator.ExecutionContextStack = function(globalObject)
-{
-    this.globalObject = globalObject;
-    this.stack = [];
-    this.push(Firecrow.Interpreter.Simulator.ExecutionContext.createGlobalExecutionContext(globalObject));
-    this.evaluator = new Firecrow.Interpreter.Simulator.Evaluator(this, globalObject);
-    this.evaluator.registerExceptionCallback(function(exceptionInfo)
+    try
     {
-        this._callExceptionCallbacks(exceptionInfo);
-    }, this);
+        return new fcSimulator.ExecutionContext
+        (
+            globalObject, [],
+            globalObject, globalObject
+        );
+    }
+    catch(e) { alert("Error when constructing the global execution context: " + e); }
+};
 
-    this.exceptionCallbacks = [];
+fcSimulator.ExecutionContext.LAST_INSTANCE_ID = 0;
+
+fcSimulator.ExecutionContextStack = function(globalObject)
+{
+    try
+    {
+        if(globalObject == null) { this.notifyError("GlobalObject can not be null when constructing execution context stack!"); return; }
+
+        this.globalObject = globalObject;
+        this.stack = [];
+        this.push(fcSimulator.ExecutionContext.createGlobalExecutionContext(globalObject));
+        this.evaluator = new fcSimulator.Evaluator(this, globalObject);
+        this.evaluator.registerExceptionCallback(function(exceptionInfo)
+        {
+            this._callExceptionCallbacks(exceptionInfo);
+        }, this);
+
+        this.exceptionCallbacks = [];
+    }
+    catch(e) { this.notifyError("Error when constructing executionContextStack: " + e); }
 };
 
 Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
@@ -143,7 +147,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(command, fcCommands.Command)) { alert("ExecutionContextStack - argument must be a command"); return; }
+            if(!ValueTypeHelper.isOfType(command, fcCommands.Command)) { this.notifyError("Argument must be a command when executing command"); return; }
 
                  if (command.isEnterFunctionContextCommand()) { this._enterFunctionContext(command); }
             else if (command.isExitFunctionContextCommand()) { this._exitFunctionContext(command); }
@@ -160,22 +164,24 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isStartLogicalExpressionCommand() || command.isEndLogicalExpressionCommand()) {}
             else if (command.isCallInternalConstructorCommand()) { }
             else if (command.isCallCallbackMethodCommand()) {}
+            else if (command.isEvalCallExpressionCommand()) {}
             else if (command.isExecuteCallbackCommand()) {}
             else
             {
                 this.evaluator.evaluateCommand(command);
             }
         }
-        catch(e) { alert("ExecutionContextStack - error when executing command: " + e); }
+        catch(e) { this.notifyError("Error when executing command: " + e); }
     },
 
     _enterFunctionContext: function(enterFunctionContextCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(enterFunctionContextCommand, fcCommands.Command) || !enterFunctionContextCommand.isEnterFunctionContextCommand()) { alert("ExecutionContextStack - argument must be a enterFunctionContext command"); return; }
+            if(!ValueTypeHelper.isOfType(enterFunctionContextCommand, fcCommands.Command) || !enterFunctionContextCommand.isEnterFunctionContextCommand()) { this.notifyError("Argument must be a enterFunctionContext command"); return; }
+            if(enterFunctionContextCommand.callee == null) { this.notifyError("When processing enter function context the callee can not be null!"); return; }
 
-            var functionConstruct = enterFunctionContextCommand.callee.__FIRECROW_INTERNAL__.codeConstruct;
+            var functionConstruct = enterFunctionContextCommand.callee.fcInternal.codeConstruct;
 
             this.push
             (
@@ -190,14 +196,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand),
                         enterFunctionContextCommand.parentFunctionCommand
                     ),
-                    enterFunctionContextCommand.callee.__FIRECROW_INTERNAL__.scopeChain,
+                    enterFunctionContextCommand.callee.fcInternal.object.scopeChain,
                     enterFunctionContextCommand.thisObject,
                     this.globalObject,
                     enterFunctionContextCommand
                 )
             );
         }
-        catch(e) { alert("ExecutionContextStack - Error when entering function context: " + e); }
+        catch(e) { this.notifyError("Error when entering function context: " + e); }
     },
 
     _getFormalParameters: function(functionConstruct)
@@ -206,10 +212,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             return functionConstruct.params.map(function(param)
             {
-                return new fcModel.Identifier(param.name, undefined, param);
+                return new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, { codeConstruct: param }), param);
             });
         }
-        catch(e) { alert("ExecutionContextStack - error when getting formal function parameters: " + e); }
+        catch(e) { this.notifyError("Error when getting formal function parameters: " + e); }
     },
 
     _getSentArgumentValues: function(callExpressionCommand)
@@ -218,7 +224,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
         try
         {
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand() && !callExpressionCommand.isExecuteCallbackCommand())) { alert("ExecutionContextStack - argument must be a call or new Expression command"); return; }
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand() && !callExpressionCommand.isExecuteCallbackCommand())) { this.notifyError("Argument must be a call or new Expression command"); return; }
 
             if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
             {
@@ -234,9 +240,9 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         {
                             var secondArgValue = this.getExpressionValue(secondArgument);
 
-                            if(ValueTypeHelper.isArray(secondArgValue))
+                            if(ValueTypeHelper.isArray(secondArgValue.value))
                             {
-                                secondArgValue.forEach(function(item)
+                                secondArgValue.value.forEach(function(item)
                                 {
                                     values.push(item);
                                 }, this);
@@ -261,7 +267,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             }
             else if (callExpressionCommand.isExecuteCallbackCommand()) { values = callExpressionCommand.argumentValues; }
         }
-        catch(e) { alert("ExecutionContextStack - Error when getting sent arguments"); }
+        catch(e) { this.notifyError("Error when getting sent arguments: " + e); }
 
         return values;
     },
@@ -270,90 +276,85 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(exitFunctionContextCommand, fcCommands.Command) || !exitFunctionContextCommand.isExitFunctionContextCommand()) { alert("ExecutionContextStack - argument must be a exitFunctionContext command"); return; }
+            if(!ValueTypeHelper.isOfType(exitFunctionContextCommand, fcCommands.Command) || !exitFunctionContextCommand.isExitFunctionContextCommand()) { this.notifyError("Argument must be a exitFunctionContext command"); return; }
 
             this.pop();
         }
-        catch(e) { alert("ExecutionContextStack - Error when exiting function context: " + e); }
+        catch(e) { this.notifyError("Error when exiting function context: " + e); }
     },
 
     _evaluateStartWithCommand: function(startWithCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(startWithCommand, fcCommands.Command) || !startWithCommand.isStartWithStatementCommand()) { alert("ExecutionContextStack - argument must be a start with command"); return; }
+            if(!ValueTypeHelper.isOfType(startWithCommand, fcCommands.Command) || !startWithCommand.isStartWithStatementCommand()) { this.notifyError("Argument must be a start with command"); return; }
 
             var withObject = this.getExpressionValue(startWithCommand.codeConstruct.object);
 
-            if(withObject == null) { alert("ExecutionContextStack - with hast to be an object!"); return; }
+            if(withObject == null) { this.notifyError("With object has to be an object!"); return; }
 
             this.activeContext.pushToScopeChain(fcSimulator.VariableObject.liftToVariableObject(withObject));
         }
-        catch(e) { alert("ExecutionContextStack - error when evaluating start with command: " + e); }
+        catch(e) { this.notifyError("Error when evaluating start with command: " + e); }
     },
 
     _evaluateEndWithCommand: function(endWithCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(endWithCommand, fcCommands.Command) || !endWithCommand.isEndWithStatementCommand()) { alert("ExecutionContextStack - argument must be an end with command"); return; }
+            if(!ValueTypeHelper.isOfType(endWithCommand, fcCommands.Command) || !endWithCommand.isEndWithStatementCommand()) { this.notifyError("Argument must be an end with command"); return; }
 
             this.activeContext.popFromScopeChain();
         }
-        catch(e) { alert("ExecutionContextStack - error when evaluating start with command: " + e); }
+        catch(e) { this.notifyError("Error when evaluating start with command: " + e); }
     },
 
     push: function(executionContext)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(executionContext, Firecrow.Interpreter.Simulator.ExecutionContext)) { alert("ExecutionContextStack: argument is not ExecutionContext!"); return; }
+            if(!ValueTypeHelper.isOfType(executionContext, fcSimulator.ExecutionContext)) { this.notifyError("Argument is not ExecutionContext!"); return; }
 
             this.stack.push(executionContext);
 
             this.activeContext = executionContext;
         }
-        catch(e) { alert("ExecutionContextStack: Error when pushing: " + e); }
+        catch(e) { this.notifyError("Error when pushing: " + e); }
     },
 
     pop: function()
     {
         try
         {
-            if(this.stack.length == 0) { alert("ExecutionContextStack: Can not pop an empty stack"); return; }
+            if(this.stack.length == 0) { this.notifyError("Can not pop an empty stack"); return; }
 
             this.stack.pop();
 
             this.activeContext = this.stack[this.stack.length - 1];
         }
-        catch(e) { alert("ExecutionContextStack: Error when popping:" + e);}
+        catch(e) { this.notifyError("Error when popping:" + e);}
     },
 
     registerIdentifier: function(variableDeclarator)
     {
         try
         {
-            if(!ASTHelper.isVariableDeclarator(variableDeclarator)) { alert("ExecutionContextStack: When registering an identifier, the argument has to be variable declarator"); }
-            if(this.activeContext == null) { alert("ExecutionContextStack: ActiveContext must not be null when registering identifier"); return; }
+            if(!ASTHelper.isVariableDeclarator(variableDeclarator)) { this.notifyError("ExecutionContextStack: When registering an identifier, the argument has to be variable declarator"); }
 
             this.activeContext.registerIdentifier(new fcModel.Identifier(variableDeclarator.id.name, undefined, variableDeclarator));
         }
-        catch(e) { alert("ExecutionContextStack - error when registering identifier: " + e); }
+        catch(e) { this.notifyError("ExecutionContextStack - error when registering identifier: " + e); }
     },
 
     registerFunctionDeclaration: function(functionDeclaration)
     {
         try
         {
-            if(!ASTHelper.isFunctionDeclaration(functionDeclaration)) { alert("ExecutionContextStack: When registering a function, the argument has to be a function declaration"); }
-            if(this.activeContext == null) { alert("ExecutionContextStack: ActiveContext must not be null when registering function declaration"); return; }
+            if(!ASTHelper.isFunctionDeclaration(functionDeclaration)) { this.notifyError("When registering a function, the argument has to be a function declaration"); return; }
 
             this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration));
         }
-        catch(e)
-        {
-            alert("ExecutionContextStack - error when registering function declaration: " + e);
-        }
+        catch(e) { this.notifyError("ExecutionContextStack - error when registering function declaration: " + e); }
     },
 
     getIdentifierValue: function(identifierName)
@@ -368,19 +369,13 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 {
                     var variableObject = scopeChain[j];
 
-                    var identifier = variableObject.__FIRECROW_INTERNAL__.getIdentifier(identifierName);
+                    var identifier = variableObject.fcInternal.getIdentifier(identifierName);
 
-                    if(identifier != null)
-                    {
-                        return identifier.value;
-                    }
+                    if(identifier != null) { return identifier.value; }
                 }
             }
         }
-        catch(e)
-        {
-            alert("ExecutionContextStack: Error when getting Identifier value: " + e);
-        }
+        catch(e) { this.notifyError("Error when getting Identifier value: " + e); }
     },
 
     setIdentifierValue: function(identifierName, value, setCodeConstruct)
@@ -395,7 +390,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 {
                     var variableObject = scopeChain[j];
 
-                    var identifier = variableObject.__FIRECROW_INTERNAL__.getIdentifier(identifierName);
+                    var identifier = variableObject.fcInternal.getIdentifier(identifierName);
 
                     if(identifier != null)
                     {
@@ -413,11 +408,11 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             var globalExecutionContext = this.stack[0];
 
-            if(globalExecutionContext == null) { alert("ExecutionContextStack: global execution context can not be null!"); return; }
+            if(globalExecutionContext == null) { this.notifyError("Global execution context can not be null!"); return; }
 
             globalExecutionContext.registerIdentifier(new fcModel.Identifier(identifierName, value, setCodeConstruct));
         }
-        catch(e) { alert("ExecutionContextStack: Error when setting Identifier value: " + e); }
+        catch(e) { this.notifyError("Error when setting Identifier value: " + e); }
     },
 
     deleteIdentifier: function(identifierName)
@@ -432,27 +427,25 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 {
                     var variableObject = scopeChain[j];
 
-                    var identifier = variableObject.__FIRECROW_INTERNAL__.getIdentifier(identifierName);
+                    var identifier = variableObject.fcInternal.getIdentifier(identifierName);
 
-                    if(identifier != null) { variableObject.deleteIdentifier(identifier.name); }
+                    if(identifier != null)
+                    {
+                        variableObject.fcInternal.deleteIdentifier(identifier.name); return;
+                    }
                 }
             }
         }
-        catch(e)
-        {
-            alert("ExecutionContextStack: Error when deleting Identifier: " + e);
-        }
+        catch(e) { this.notifyError("Error when deleting Identifier: " + e); }
     },
 
     setExpressionValue: function(codeConstruct, value)
     {
         try
         {
-            if(this.activeContext == null) { alert("ExecutionContextStack: ActiveContext must not be null when setting expression value"); return; }
-
             this.activeContext.setCodeConstructValue(codeConstruct, value);
         }
-        catch(e) { alert("ExecutionContextStack - error when setting expression value: " + e); }
+        catch(e) { this.notifyError("Error when setting expression value: " + e); }
     },
 
     setExpressionValueInPreviousContext: function(codeConstruct, value)
@@ -461,30 +454,32 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             var previousExecutionContext = this.stack[this.stack.length - 2];
 
-            if(previousExecutionContext == null) { alert("ExecutionContextStack - There is no previous context!"); return; }
+            if(previousExecutionContext == null) { this.notifyError("There is no previous context!"); return; }
 
             previousExecutionContext.setCodeConstructValue(codeConstruct, value);
         }
-        catch(e) { alert("ExecutionContextStack - error when setting expression value in previous context: " + e); }
+        catch(e) { this.notifyError("Error when setting expression value in previous context: " + e); }
     },
 
     getExpressionValue: function(codeConstruct)
     {
         try
         {
-            if(this.activeContext == null) { alert("ExecutionContextStack: ActiveContext must not be null when setting expression value"); return; }
-
             return this.activeContext.getCodeConstructValue(codeConstruct);
         }
-        catch(e) { alert("ExecutionContextStack - error when setting expression value: " + e); }
+        catch(e) { this.notifyError("Error when setting expression value: " + e); }
     },
 
     getBaseObject: function(codeConstruct)
     {
-        if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)) { return this.globalObject; }
-        else if (ASTHelper.isMemberExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.object); }
-        else if (ASTHelper.isCallExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.callee); }
-        else { alert("ExecutionContextStack - not handling getting base object on other expressions"); return this.globalObject; }
+        try
+        {
+            if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)) { return this.globalObject; }
+            else if (ASTHelper.isMemberExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.object); }
+            else if (ASTHelper.isCallExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.callee); }
+            else { this.notifyError("Not handling getting base object on other expressions"); return this.globalObject; }
+        }
+        catch(e) { this.notifyError("Error when getting base object: " + e); }
     },
 
     createFunctionInCurrentContext: function(functionCodeConstruct)
@@ -493,7 +488,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             return fcSimulator.InternalExecutor.createFunction(this.globalObject, this.activeContext.scopeChain, functionCodeConstruct)
         }
-        catch(e) { alert("ExecutionContextStack - error when creating function: " + e);}
+        catch(e) { this.notifyError("Error when creating function: " + e);}
     },
 
     createObjectInCurrentContext: function(constructorFunction, creationCodeConstruct)
@@ -502,7 +497,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             return fcSimulator.InternalExecutor.createObject(this.globalObject, constructorFunction, creationCodeConstruct);
         }
-        catch(e) { alert("ExecutionContextStack - error when creating object:" + e); }
+        catch(e) { this.notifyError("Error when creating object:" + e); }
     },
 
     createArrayInCurrentContext: function(creationCodeConstruct)
@@ -511,14 +506,18 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             return fcSimulator.InternalExecutor.createArray(this.globalObject, creationCodeConstruct);
         }
-        catch(e) { alert("ExecutionContextStack - error when creating array in current context: " + e); }
+        catch(e) { this.notifyError("Error when creating array in current context: " + e); }
     },
 
     registerExceptionCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("ExecutionContextStack - exception callback has to be a function!"); return; }
+        try
+        {
+            if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("Exception callback has to be a function!"); return; }
 
-        this.exceptionCallbacks.push({callback: callback, thisObject: thisObject || this});
+            this.exceptionCallbacks.push({callback: callback, thisObject: thisObject || this});
+        }
+        catch(e) { this.notifyError("Error when registering exception callback: " + e); }
     },
 
     _callExceptionCallbacks: function(exceptionInfo)
@@ -527,6 +526,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             callbackObject.callback.call(callbackObject.thisObject, exceptionInfo);
         });
-    }
+    },
+
+    notifyError: function(message) { alert("ExecutionContextStack - " + message); }
 };
 }});
