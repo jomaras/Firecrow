@@ -64,8 +64,28 @@ Browser.prototype =
 
                 callback();
             }
-            catch(e) { alert("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
+            catch(e)
+            {
+                alert("Exception when async getting html model at DoppelBrowser.Browser: " + e);
+            }
         });
+    },
+
+    syncBuildPage: function()
+    {
+        try
+        {
+            var htmlModel = HtmlModelMapping.getModel(this.htmlWebFile.url);
+
+            if(htmlModel == null) { alert("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
+            if(htmlModel.htmlElement == null) { alert("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
+
+            this._buildSubtree(htmlModel.htmlElement, null);
+        }
+        catch(e)
+        {
+            alert("Exception when async getting html model at DoppelBrowser.Browser: " + e);
+        }
     },
 
     _asyncGetHtmlModel: function(callback)

@@ -159,9 +159,9 @@ FBL.ns(function() { with (FBL) {
 
                     object.value[property.value] = finalValue;
 
-                    //TODO - PROBLEM WITH PROTOTYPES!! (prototypes should be object, maybe if i assign __FIRECROW_INTERNAL__ as a property, just in case
+                    //TODO - PROBLEM WITH PROTOTYPES!! (prototypes should be object, maybe if i assign fcInternal as a hidden property, just in case
                     //and then if it is missing fcInternal then it checks for __FIRECROW_INTERNAL__
-                    if(property.value == "__proto__")
+                    if(property.value == "__proto__" || property.value == "prototype")
                     {
                         object.value[property.value] = finalValue.value;
                     }
@@ -342,7 +342,7 @@ FBL.ns(function() { with (FBL) {
 
                 var object = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.object);
 
-                if(object == null || object.value == 0) { this._callExceptionCallbacks(); return; }
+                if(object == null || object.value == null) { this._callExceptionCallbacks(); return; }
 
                 var property = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.property);
 
