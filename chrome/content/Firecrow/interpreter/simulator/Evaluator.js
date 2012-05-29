@@ -159,6 +159,13 @@ FBL.ns(function() { with (FBL) {
 
                     object.value[property.value] = finalValue;
 
+                    //TODO - PROBLEM WITH PROTOTYPES!! (prototypes should be object, maybe if i assign __FIRECROW_INTERNAL__ as a property, just in case
+                    //and then if it is missing fcInternal then it checks for __FIRECROW_INTERNAL__
+                    if(property.value == "__proto__")
+                    {
+                        object.value[property.value] = finalValue.value;
+                    }
+
                     object.fcInternal.object.addProperty(property.value, finalValue, evalAssignmentExpressionCommand.codeConstruct, true);
                 }
 
@@ -585,7 +592,7 @@ FBL.ns(function() { with (FBL) {
                 var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
                 var expressionValue = null;
 
-                if(argument == null) { this._callExceptionCallbacks(); return; }
+                if(argumentValue == null) { this._callExceptionCallbacks(); return; }
 
                      if (unaryExpression.operator == "-") { expressionValue = -argumentValue.value; }
                 else if (unaryExpression.operator == "+") { expressionValue = +argumentValue.value; }

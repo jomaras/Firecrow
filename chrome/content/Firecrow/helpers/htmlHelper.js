@@ -57,7 +57,7 @@ Firecrow.htmlHelper =
                 type: !(rootElement instanceof Text) ? rootElement.localName : "textNode",
                 attributes: this.getAttributes(rootElement),
                 children: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels),
-                id: this._lastUsedId++
+                nodeId: this._lastUsedId++
             };
             var that = this;
 
@@ -73,7 +73,7 @@ Firecrow.htmlHelper =
 
                 Firecrow.ASTHelper.traverseAst(elem.pathAndModel.model, function (currentElement)
                 {
-                    currentElement.id =  that._lastUsedId++;
+                    currentElement.nodeId = that._lastUsedId++;
                 });
             }
 
@@ -86,7 +86,7 @@ Firecrow.htmlHelper =
 
                 model.rules.forEach(function(rule)
                 {
-                    rule.id = that._lastUsedId++;
+                    rule.nodeId = that._lastUsedId++;
                 });
             }
 
