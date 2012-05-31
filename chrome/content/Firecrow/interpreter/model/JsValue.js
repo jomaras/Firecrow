@@ -20,6 +20,20 @@ FBL.ns(function() { with (FBL) {
 
     fcModel.JsValue.prototype =
     {
-         isFunction: function() { return ValueTypeHelper.isFunction(this.value); }
+        isFunction: function() { return ValueTypeHelper.isFunction(this.value); },
+        getPropertyValue: function(propertyName)
+        {
+            if(propertyName == null || propertyName == "") { this.notifyError("When getting property value, the property name must not be empty!"); return; }
+
+            if(ValueTypeHelper.isPrimitive(this.value)) { this.notifyError("Still not handling getting properties from primitives"); return; }
+        },
+
+        notifyError: function(message) { alert("JsValue - Error: " + message); }
     };
+
+    fcModel.FcInternal = function(codeConstruct, object)
+    {
+        this.codeConstruct = codeConstruct;
+        this.object = object;
+    }
 }});

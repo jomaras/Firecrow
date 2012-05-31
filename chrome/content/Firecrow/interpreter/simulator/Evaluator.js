@@ -97,7 +97,7 @@ FBL.ns(function() { with (FBL) {
             {
                 if(!ValueTypeHelper.isOfType(evalLiteralCommand, Firecrow.Interpreter.Commands.Command) || !evalLiteralCommand.isEvalLiteralCommand()) { this.notifyError("Argument is not an EvalLiteralCommand"); return; }
 
-                this.executionContextStack.setExpressionValue(evalLiteralCommand.codeConstruct, new fcModel.JsValue(evalLiteralCommand.codeConstruct.value, evalLiteralCommand.codeConstruct));
+                this.executionContextStack.setExpressionValue(evalLiteralCommand.codeConstruct, new fcModel.JsValue(evalLiteralCommand.codeConstruct.value, new fcModel.FcInternal(evalLiteralCommand.codeConstruct)));
             }
             catch(e) { this.notifyError("Error when evaluating literal: " + e);}
         },
@@ -138,7 +138,7 @@ FBL.ns(function() { with (FBL) {
                     else if (operator == "&=") { result = leftValue.value & rightValue.value; }
                     else { this.notifyError("Unknown assignment operator!"); return; }
 
-                    finalValue = new fcModel.JsValue(result, { codeConstruct:evalAssignmentExpressionCommand.codeConstruct});
+                    finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(evalAssignmentExpressionCommand.codeConstruct));
                 }
 
                 if(ASTHelper.isIdentifier(evalAssignmentExpressionCommand.leftSide))
@@ -175,7 +175,10 @@ FBL.ns(function() { with (FBL) {
                     finalValue
                 );
             }
-            catch(e) { this.notifyError("Error when evaluating assignment expression " + e); }
+            catch(e)
+            {
+                this.notifyError("Error when evaluating assignment expression " + e);
+            }
         },
 
         _evaluateUpdateExpressionCommand: function(evalUpdateExpressionCommand)
@@ -194,7 +197,7 @@ FBL.ns(function() { with (FBL) {
                     this.executionContextStack.setIdentifierValue
                     (
                         codeConstruct.argument.name,
-                        new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, { codeConstruct: codeConstruct}),
+                        new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, new fcModel.FcInternal(codeConstruct)),
                         codeConstruct
                     );
                 }
@@ -206,7 +209,7 @@ FBL.ns(function() { with (FBL) {
 
                     if(object == null) { this.notifyError("Can not update a property of null object!"); return; }
 
-                    var newValue = new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, {codeConstruct: codeConstruct});
+                    var newValue = new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, new fcModel.FcInternal(codeConstruct));
 
                     object.value[property.value] = newValue;
                     object.fcInternal.object.addProperty(property.value, newValue, codeConstruct, true);
@@ -216,8 +219,8 @@ FBL.ns(function() { with (FBL) {
                 this.executionContextStack.setExpressionValue
                 (
                     codeConstruct,
-                    codeConstruct.prefix ? (new fcModel.JsValue(codeConstruct.operator == "++" ? ++currentValue.value : --currentValue.value, codeConstruct))
-                                         : (new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value++ : currentValue.value--, codeConstruct))
+                    codeConstruct.prefix ? (new fcModel.JsValue(codeConstruct.operator == "++" ? ++currentValue.value : --currentValue.value, new fcModel.FcInternal(codeConstruct)))
+                                         : (new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value++ : currentValue.value--, new fcModel.FcInternal(codeConstruct)))
                 )
             }
             catch(e) { this.notifyError("An error has occurred when updating an expression:" + e); }
@@ -278,7 +281,7 @@ FBL.ns(function() { with (FBL) {
                 else if (operator == "instanceof") { result = leftExpressionValue.value instanceof rightExpressionValue.value; }
                 else { this.notifyError("Unknown operator when evaluating binary expression"); return; }
 
-                this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.JsValue(result, binaryExpression));
+                this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.JsValue(result, new fcModel.FcInternal(binaryExpression)));
             }
             catch(e) { this.notifyError("Error when evaluating binary expression: " + e);}
         },
@@ -346,11 +349,21 @@ FBL.ns(function() { with (FBL) {
 
                 var property = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.property);
 
-                this.executionContextStack.setExpressionValue
-                (
-                    evalMemberExpressionCommand.codeConstruct,
-                    object.value[property.value]
-                );
+                var propertyValue = object.value[property.value];
+
+                if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue) && propertyValue != undefined )
+                {
+                    if(propertyValue != null && propertyValue.jsValue != null)
+                    {
+                        propertyValue = propertyValue.jsValue;
+                    }
+                    else
+                    {
+                        this.notifyError("The property value should be of type JsValue"); return;
+                    }
+                }
+
+                this.executionContextStack.setExpressionValue(evalMemberExpressionCommand.codeConstruct, propertyValue);
             }
             catch(e) { this.notifyError("Error when evaluating member expression: " + e); }
         },
@@ -365,7 +378,7 @@ FBL.ns(function() { with (FBL) {
                 (
                     evalMemberExpressionPropertyCommand.codeConstruct.property,
                     evalMemberExpressionPropertyCommand.codeConstruct.computed ? this.executionContextStack.getExpressionValue(evalMemberExpressionPropertyCommand.codeConstruct.property)
-                                                                               : new fcModel.JsValue(evalMemberExpressionPropertyCommand.codeConstruct.property.name, evalMemberExpressionPropertyCommand.codeConstruct.property)
+                                                                               : new fcModel.JsValue(evalMemberExpressionPropertyCommand.codeConstruct.property.name, new fcModel.FcInternal(evalMemberExpressionPropertyCommand.codeConstruct.property))
                 );
             }
             catch(e) { this.notifyError("Error when evaluating member expression property: " + e); }
@@ -573,7 +586,7 @@ FBL.ns(function() { with (FBL) {
                         (
                             wholeLogicalExpression.operator == "&&" ? leftValue.value && rightValue.value
                                                                     : leftValue.value || rightValue.value,
-                            wholeLogicalExpression
+                            new fcModel.FcInternal(wholeLogicalExpression)
                         )
                     );
                 }
@@ -632,7 +645,7 @@ FBL.ns(function() { with (FBL) {
                     expressionValue = true;
                 }
 
-                this.executionContextStack.setExpressionValue(unaryExpression, new fcModel.JsValue(expressionValue, unaryExpression));
+                this.executionContextStack.setExpressionValue(unaryExpression, new fcModel.JsValue(expressionValue, new fcModel.FcInternal(unaryExpression)));
             }
             catch(e) { this.notifyError("Error when evaluating unary expression item command: " + e);}
         },

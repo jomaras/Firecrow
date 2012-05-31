@@ -212,7 +212,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             return functionConstruct.params.map(function(param)
             {
-                return new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, { codeConstruct: param }), param);
+                return new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)));
             });
         }
         catch(e) { this.notifyError("Error when getting formal function parameters: " + e); }

@@ -12,17 +12,12 @@ FBL.ns(function() { with (FBL) {
 const fcModel = Firecrow.Interpreter.Model;
 const ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-Firecrow.Interpreter.Model.ObjectFunction = function()
+fcModel.ObjectFunction = function()
 {
 
 };
 
-Firecrow.Interpreter.Model.ObjectPrototype = function()
-{
-
-};
-
-Firecrow.Interpreter.Model.Object = function(globalObject, codeConstruct, implementationObject)
+fcModel.Object = function(globalObject, codeConstruct, implementationObject)
 {
     this.id = fcModel.Object.LAST_ID++;
     this.globalObject = globalObject;
@@ -37,9 +32,9 @@ Firecrow.Interpreter.Model.Object = function(globalObject, codeConstruct, implem
     this.enumeratedProperties = [];
 };
 
-Firecrow.Interpreter.Model.Object.LAST_ID = 0;
+fcModel.Object.LAST_ID = 0;
 
-Firecrow.Interpreter.Model.Object.prototype =
+fcModel.Object.prototype =
 {
     addModification: function(codeConstruct)
     {
@@ -148,7 +143,7 @@ Firecrow.Interpreter.Model.Object.prototype =
 
     getPropertyNameAtIndex: function(index, codeConstruct)
     {
-        return new fcModel.JsValue(this._getEnumeratedPropertiesFromImplementationObject()[index], codeConstruct);
+        return new fcModel.JsValue(this._getEnumeratedPropertiesFromImplementationObject()[index], new fcModel.FcInternal(codeConstruct));
     },
 
     _getEnumeratedPropertiesFromImplementationObject: function()
@@ -197,5 +192,12 @@ Firecrow.Interpreter.Model.Object.prototype =
         return this.getOwnProperty(propertyName) != null;
     }
 };
+
+fcModel.ObjectPrototype = function(globalObject)
+{
+    this.globalObject = globalObject;
+};
+
+fcModel.ObjectPrototype.prototype = new fcModel.Object(null);
 /*************************************************************************************/
 }});

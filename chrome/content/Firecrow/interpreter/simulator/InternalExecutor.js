@@ -10,7 +10,7 @@ FBL.ns(function() { with (FBL) {
     const fcModelInternals = Firecrow.Interpreter.Model.Internals;
     const fcSimulator = Firecrow.Interpreter.Simulator;
     const ASTHelper = Firecrow.ASTHelper;
-    //TODO - NOT YET FINISHED!
+
     fcSimulator.InternalExecutor =
     {
         createObject: function(globalObject, constructorFunction, creationCodeConstruct)
@@ -36,7 +36,7 @@ FBL.ns(function() { with (FBL) {
                     this.notifyError("Unknown state when creating object");
                 }
 
-                return new fcModel.JsValue(newObject, { codeConstruct: creationCodeConstruct, object: new fcModel.Object(globalObject, creationCodeConstruct, newObject)});
+                return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(globalObject, creationCodeConstruct, newObject)));
             }
             catch(e) { this.notifyError("Error when creating object:" + e); }
         },
@@ -45,13 +45,29 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
+                var newFunction = function(){};
+
+                Object.defineProperty
+                (
+                    newFunction.prototype,
+                    "jsValue",
+                    {
+                        value: new fcModel.JsValue
+                        (
+                            newFunction.prototype,
+                            new fcModel.FcInternal(null, globalObject.objectPrototype)
+                        )
+                    }
+                );
+
                 return new fcModel.JsValue
                 (
-                    function(){},
-                    {
-                        codeConstruct:functionCodeConstruct,
-                        object: new fcModel.Function(globalObject, scopeChain, functionCodeConstruct)
-                    }
+                    newFunction,
+                    new fcModel.FcInternal
+                    (
+                        functionCodeConstruct,
+                        new fcModel.Function(globalObject, scopeChain, functionCodeConstruct)
+                    )
                 );
             }
             catch(e) { this.notifyError("Error when creating function: " + e); }
@@ -66,33 +82,9 @@ FBL.ns(function() { with (FBL) {
                 var fcArray = new fcModel.Array(globalObject, creationCodeConstruct);
                 array.forEach(function(item) { fcArray.push(item);})
 
-                return new fcModel.JsValue(array, { codeConstruct:creationCodeConstruct, array: fcArray, object: fcArray});
+                return new fcModel.JsValue(array, new fcModel.FcInternal(creationCodeConstruct, fcArray));
             }
             catch(e) { this.notifyError("Error when creating array: " + e);}
-        },
-
-        expandPrimitive: function(string, creationCodeConstruct)
-        {
-            try
-            {
-                if(string.__FIRECROW_INTERNAL__ == null)
-                {
-                    Object.defineProperty
-                    (
-                        string,
-                        "__FIRECROW_INTERNAL__",
-                        {
-                            value:
-                            {
-                                codeConstruct:creationCodeConstruct,
-                                isLiteral: creationCodeConstruct != null && ASTHelper.isLiteral(creationCodeConstruct),
-                                object: string
-                            }
-                        }
-                    );
-                }
-            }
-            catch(e) { alert("InternalExecutor - error when expanding string: " + e); }
         },
 
         executeConstructor: function(globalObject, constructorConstruct, internalConstructor)
@@ -180,10 +172,83 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 //this._expandArrayMethods(globalObject);
+                this._expandFunctionPrototype(globalObject);
+                this._expandObjectPrototype(globalObject);
                 //this._expandStringMethods(globalObject);
-                //this._expandFunctionPrototype(globalObject);
+
             }
             catch(e) { this.notifyError("Error when expanding internal functions: " + e);}
+        },
+
+        _expandFunctionPrototype: function(globalObject)
+        {
+            try
+            {
+                var functionPrototype = Function.prototype;
+                var functionProto = Object.getPrototypeOf(Function);
+
+                if(functionPrototype.jsValue == null)
+                {
+                    Object.defineProperty
+                    (
+                        functionPrototype,
+                        "jsValue",
+                        {
+                            value:new fcModel.JsValue
+                            (
+                                functionPrototype,
+                                new fcModel.FcInternal(null, globalObject.functionPrototype)
+                            )
+                        }
+                    );
+                }
+
+                fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+                {
+                    if(functionPrototype[propertyName] && functionPrototype[propertyName].jsValue == null)
+                    {
+                        Object.defineProperty
+                        (
+                            functionPrototype[propertyName],
+                            "jsValue",
+                            {
+                                value: new fcModel.JsValue
+                                (
+                                    functionPrototype[propertyName],
+                                    new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(globalObject, propertyName))
+                                )
+                            }
+                        );
+                    }
+                });
+
+            }
+            catch(e) { alert("InternalExecutor - error when expanding function prototype: " + e); }
+        },
+
+        _expandObjectPrototype: function(globalObject)
+        {
+            try
+            {
+                var objectPrototype = Object.prototype;
+
+                if(objectPrototype.jsValue == null)
+                {
+                    Object.defineProperty
+                    (
+                        objectPrototype,
+                        "jsValue",
+                        {
+                            value: new fcModel.JsValue
+                            (
+                                objectPrototype,
+                                new fcModel.FcInternal(null, globalObject.objectPrototype)
+                            )
+                        }
+                    );
+                }
+            }
+            catch(e) { this.notifyError("Error when expanding Object prototype"); }
         },
 
         _expandArrayMethods: function(globalObject)
@@ -239,56 +304,7 @@ FBL.ns(function() { with (FBL) {
             catch(e) { alert("InternalExecutor - error when expanding string methods: " + e); }
         },
 
-        _expandFunctionPrototype: function(globalObject)
-        {
-            try
-            {
-                var functionPrototype = Function.prototype;
-                var functionProto = Function.__proto__;
 
-                if(functionPrototype.__FIRECROW_INTERNAL__ == null)
-                {
-                    Object.defineProperty
-                    (
-                        functionPrototype,
-                        "__FIRECROW_INTERNAL__",
-                        {
-                            value: globalObject.functionPrototype
-                        }
-                    );
-                }
-
-
-                if(functionProto.__FIRECROW_INTERNAL__ == null)
-                {
-                    Object.defineProperty
-                    (
-                        functionProto,
-                        "__FIRECROW_INTERNAL__",
-                        {
-                            value: globalObject.functionPrototype
-                        }
-                    );
-                }
-
-                fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
-                {
-                    if(functionPrototype[propertyName] && functionPrototype[propertyName].__FIRECROW_INTERNAL__ == null)
-                    {
-                        Object.defineProperty
-                        (
-                            functionPrototype[propertyName],
-                            "__FIRECROW_INTERNAL__",
-                            {
-                                value: fcModel.Function.createInternalNamedFunction(globalObject, propertyName)
-                            }
-                        );
-                    }
-                });
-
-            }
-            catch(e) { alert("InternalExecutor - error when expanding function prototype: " + e); }
-        },
 
         notifyError: function(message) { alert("InternalExecutor - " + message);}
     }

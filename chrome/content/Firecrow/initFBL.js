@@ -1,5 +1,6 @@
 /*Just for the intellisense*/
-FBL = {}; FBL.ns = function(namespaceFunction){ namespaceFunction(); };
+if(typeof FBL === "undefined") { FBL = {}; FBL.ns = function(namespaceFunction){ namespaceFunction(); }; }
+
 /*End just for intellisense*/
 
 FBL.ns(function () { with (FBL)
