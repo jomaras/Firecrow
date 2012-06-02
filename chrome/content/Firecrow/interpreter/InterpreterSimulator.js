@@ -337,7 +337,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 }, this);
             }
 
-            var functionName = callCallbackMethodCommand.functionObject.name;
+            var functionName = callCallbackMethodCommand.functionObject.value.name;
             var resultingObject = functionName == "filter" || functionName == "map" ? Firecrow.Interpreter.Simulator.InternalExecutor.createArray(this.globalObject, callCallbackMethodCommand.codeConstruct)
                                                                                     : null;
             this.executionContextStack.setExpressionValue(callCallbackMethodCommand.codeConstruct, resultingObject);

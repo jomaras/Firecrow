@@ -17,26 +17,28 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                var newObject = null;
+                var newObject;
 
                 if(constructorFunction == null && (ASTHelper.isObjectExpression(creationCodeConstruct) || creationCodeConstruct == null))
                 {
                     newObject = {};
+
+                    return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(globalObject, creationCodeConstruct, newObject)));
                 }
                 else if(ValueTypeHelper.isOfType(constructorFunction.value, Function))
                 {
                     newObject = new constructorFunction.value();
+
+                    return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(globalObject, creationCodeConstruct, newObject)));
                 }
                 else if (constructorFunction != null && constructorFunction.isInternalFunction)
                 {
-                    newObject = this.executeConstructor(globalObject, creationCodeConstruct, constructorFunction);
+                    return this.executeConstructor(globalObject, creationCodeConstruct, constructorFunction);
                 }
                 else
                 {
                     this.notifyError("Unknown state when creating object");
                 }
-
-                return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(globalObject, creationCodeConstruct, newObject)));
             }
             catch(e) { this.notifyError("Error when creating object:" + e); }
         },
@@ -103,7 +105,9 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(ValueTypeHelper.isOfType(thisObject, Array)) { return this._executeInternalArrayMethod(thisObject, functionObject, arguments, globalObject, callExpression); }
+                if(thisObject == null) { this.notifyError("This object can not be null when executing function!"); return; }
+
+                if(ValueTypeHelper.isOfType(thisObject.value, Array)) { return this._executeInternalArrayMethod(thisObject, functionObject, arguments, globalObject, callExpression); }
                 else { this.notifyError("Unsupported internal function!"); }
             }
             catch(e) { this.notifyError("Error when executing internal function: " + e); }
@@ -118,50 +122,30 @@ FBL.ns(function() { with (FBL) {
 
                 var functionObjectValue = functionObject.value;
                 var thisObjectValue = thisObject.value;
+                var functionName = functionObjectValue.name;
+                var fcThisValue =  thisObject.fcInternal.object;
 
-                if(functionObjectValue.name == "pop")
+                switch(functionName)
                 {
-                    thisObject.fcInternal.array.pop();
-                    return thisObjectValue[functionObjectValue.name]();
-                }
-                else if (functionObjectValue.name == "indexOf" ||  functionObjectValue.name == "lastIndexOf")
-                {
-                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
-                }
-                else if (functionObjectValue.name == "push")
-                {
-                    if(arguments.length == 0) { thisObject.fcInternal.array.push(); return thisObjectValue[functionObjectValue.name](); }
-
-                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
-                }
-                else if(functionObjectValue.name == "reverse")
-                {
-                    thisObject.fcInternal.array.reverse();
-                    return thisObjectValue[functionObjectValue.name]();
-                }
-                else if(functionObjectValue.name == "unshift")
-                {
-                    thisObject.fcInternal.array.unshift(arguments);
-
-                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
-                }
-                else if(functionObjectValue.name == "splice")
-                {
-                    thisObject.fcInternal.array.splice(arguments);
-                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
-                }
-                else if(functionObjectValue.name == "shift")
-                {
-                    thisObject.fcInternal.array.shift();
-                    return thisObjectValue[functionObjectValue.name]();
-                }
-                else if(functionObjectValue.name == "concat" ||  functionObjectValue.name == "slice")
-                {
-                    return this.createArray(globalObject, callExpression, thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments));
-                }
-                else
-                {
-                    this.notifyError("Unknown internal array method: " + functionObjectValue.name);
+                    case "pop":
+                    case "reverse":
+                    case "shift":
+                        fcThisValue[functionName].apply(fcThisValue, [callExpression])
+                    case "unshift":
+                    case "splice":
+                        fcThisValue[functionName].apply(fcThisValue, [arguments, callExpression]);
+                        return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
+                    case "indexOf":
+                    case "lastIndexOf":
+                        return fcModel.JsValue(thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments), callExpression) ;
+                    case "push":
+                        arguments.forEach(function(argument){fcThisValue.push(argument, callExpression);});
+                        return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
+                    case "concat":
+                    case "slice":
+                        return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression]);
+                    default:
+                        this.notifyError("Unknown internal array method: " + functionObjectValue.name);
                 }
             }
             catch(e) { this.notifyError("Error when executing internal array method: " + e); }
@@ -171,7 +155,7 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                //this._expandArrayMethods(globalObject);
+                this._expandArrayMethods(globalObject);
                 this._expandFunctionPrototype(globalObject);
                 this._expandObjectPrototype(globalObject);
                 //this._expandStringMethods(globalObject);
@@ -259,14 +243,18 @@ FBL.ns(function() { with (FBL) {
 
                 fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
                 {
-                    if(arrayPrototype[propertyName] != null && arrayPrototype[propertyName].__FIRECROW_INTERNAL__ == null)
+                    if(arrayPrototype[propertyName] != null && arrayPrototype[propertyName].jsValue == null)
                     {
                         Object.defineProperty
                         (
                             arrayPrototype[propertyName],
-                            "__FIRECROW_INTERNAL__",
+                            "jsValue",
                             {
-                                value: fcModel.Function.createInternalNamedFunction(globalObject, propertyName)
+                                value: new fcModel.JsValue
+                                (
+                                    arrayPrototype[propertyName],
+                                    new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(globalObject, propertyName))
+                                )
                             }
                         );
                     }
@@ -274,7 +262,7 @@ FBL.ns(function() { with (FBL) {
 
                 fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.CALLBACK_METHODS.forEach(function(propertyName)
                 {
-                    arrayPrototype[propertyName].__FIRECROW_INTERNAL__.isCallbackMethod = true;
+                    arrayPrototype[propertyName].jsValue.fcInternal.isCallbackMethod = true;
                 });
             }
             catch(e) { alert("InternalExecutor - error when expanding array methods: " + e); }

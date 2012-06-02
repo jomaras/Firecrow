@@ -236,10 +236,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             return commands;
         }
-        catch (e)
-        {
-            alert("CommandGenerator: An error occurred when generating function execution commands: " + e);
-        }
+        catch (e) { alert("CommandGenerator: An error occurred when generating function execution commands: " + e); }
     },
 
     _generateInternalFunctionExecutionCommands: function(callExpressionCommand, functionObject, thisObject)
@@ -274,7 +271,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(!ValueTypeHelper.isOfType(callCallbackCommand, fcCommands.Command) || !callCallbackCommand.isCallCallbackMethodCommand()) { alert("CommandGenerator: an argument is not CallCallbackCommand"); return commands; }
 
-            if(ValueTypeHelper.isOfType(callCallbackCommand.thisObject, Array)) { commands = this._generateCallbackExecutionCommandsForArrayMethods(callCallbackCommand, resultingObject, argumentValues, globalObject); }
+            if(callCallbackCommand.thisObject != null && ValueTypeHelper.isOfType(callCallbackCommand.thisObject.value, Array)) { commands = this._generateCallbackExecutionCommandsForArrayMethods(callCallbackCommand, resultingObject, argumentValues, globalObject); }
             else
             {
                 alert("CommandGenerator - error unknown callback main object");
@@ -292,9 +289,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             var commands = [];
 
             if(!ValueTypeHelper.isOfType(callCallbackCommand, fcCommands.Command) || !callCallbackCommand.isCallCallbackMethodCommand()) { alert("CommandGenerator: an argument is not CallCallbackCommand"); return commands; }
-            if(!ValueTypeHelper.isOfType(callCallbackCommand.thisObject, Array)) { alert("CommandGenerator - thisObject is not an array!"); return commands; }
+            if(callCallbackCommand.thisObject == null || !ValueTypeHelper.isOfType(callCallbackCommand.thisObject.value, Array)) { alert("CommandGenerator - thisObject is not an array!"); return commands; }
 
-            var functionName = callCallbackCommand.functionObject.fcInternal.name;
+            var functionName = callCallbackCommand.functionObject.value.name;
 
             var callback = argumentValues[0];
             var thisObject = argumentValues[1];
@@ -308,9 +305,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 ||   functionName === "every"  || functionName === "map"
                 ||   functionName === "some")
             {
-
-
-                callCallbackCommand.thisObject.forEach(function(arrayItem, index, array)
+                callCallbackCommand.thisObject.value.forEach(function(arrayItem, index, array)
                 {
                     commands.push
                     (
@@ -318,7 +313,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                         (
                             callCallbackCommand,
                             callback,
-                            [arrayItem, index, array],
+                            [arrayItem, new Firecrow.Interpreter.Model.JsValue(index, new Firecrow.Interpreter.Model.FcInternal(callCallbackCommand.codeConstruct, index)), callCallbackCommand.thisObject],
                             callCallbackCommand.thisObject,
                             thisObject || globalObject,
                             resultingObject

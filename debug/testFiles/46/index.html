@@ -43,7 +43,9 @@
         element.value++;
     });
 
-    var b2 = array[array[2].value].fun(); // the array[2] is a0 - the new value should be 1 so the function from a2 should be called
+    var tempVar = array[2];
+    var b12 = array[2].value;
+    var b2 = array[array[2].value].fun();
 
     array.forEach(function(element, index, array)
     {

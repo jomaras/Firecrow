@@ -105,6 +105,56 @@ fcModel.Array.prototype.splice = function(arguments, codeConstruct)
     catch(e) { alert("Array - error when popping item: " + e); }
 };
 
+fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression)
+{
+    try
+    {
+        var newArray = Firecrow.Interpreter.Simulator.InternalExecutor.createArray(this.globalObject, callExpression);
+
+        jsArray.forEach(function(item)
+        {
+            newArray.fcInternal.object.push(item);
+            newArray.value.push(item);
+        });
+
+        for(var i = 0; i < callArguments.length; i++)
+        {
+            var argument = callArguments[i];
+
+            if(ValueTypeHelper.isArray(argument.value))
+            {
+                for(var j = 0; j < argument.value.length; j++)
+                {
+                    var item = argument.value[j];
+                    newArray.fcInternal.object.push(item);
+                    newArray.value.push(item);
+                }
+            }
+            else
+            {
+                newArray.fcInternal.object.push(argument);
+                newArray.value.push(argument);
+            }
+        }
+        return newArray;
+    }
+    catch(e) { this.notifyError();}
+};
+
+fcModel.Array.prototype.slice = function(jsArray, callArguments, callExpression)
+{
+    try
+    {
+        return Firecrow.Interpreter.Simulator.InternalExecutor.createArray
+        (
+            this.globalObject,
+            callExpression,
+            jsArray.slice.apply(jsArray, callArguments.map(function(argument){ return argument.value}))
+        );
+    }
+    catch(e) { this.notifyError();}
+};
+
 fcModel.Array.prototype.notifyError = function(message) { alert("Array - " + message); }
 
 
@@ -164,9 +214,9 @@ fcModel.ArrayCallbackEvaluator =
             {
                 if(!ValueTypeHelper.isArray(resultingObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
 
-                if(returnValue)
+                if(returnValue != null && returnValue.value)
                 {
-                    resultingObject.fcInternal.array.push(callbackCommand.argumentValues[0]);
+                    resultingObject.fcInternal.object.push(callbackCommand.argumentValues[0]);
                     resultingObjectValue.push(callbackCommand.argumentValues[0]);
                 }
             }
@@ -174,7 +224,7 @@ fcModel.ArrayCallbackEvaluator =
             {
                 if(!ValueTypeHelper.isArray(resultingObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
 
-                resultingObject.fcInternal.array.push(returnValue);
+                resultingObject.fcInternal.object.push(returnValue);
                 resultingObjectValue.push(returnValue);
             }
             else if(callbackFunctionValue.name == "forEach") { }
@@ -183,8 +233,15 @@ fcModel.ArrayCallbackEvaluator =
             else if(callbackFunctionValue.name == "some") { this.notifyError("Still not handling evaluate return from some"); return; }
             else if(callbackFunctionValue.name == "reduce") { this.notifyError("Still not handling evaluate return from reduce"); return; }
             else if(callbackFunctionValue.name == "reduceRight") { this.notifyError("Still not handling evaluate return from reduceRight"); return; }
+            else
+            {
+                this.notifyError("Unknown callbackFunction!");
+            }
         }
-        catch(e){ this.notifyError("Error when evaluating callback return!"); }
+        catch(e)
+        {
+            this.notifyError("Error when evaluating callback return!");
+        }
     },
 
     notifyError: function(message) { alert("ArrayCallbackEvaluator - " + message); }

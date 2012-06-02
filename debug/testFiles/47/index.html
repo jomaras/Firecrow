@@ -20,9 +20,6 @@
 
     var joinedArray = firstArray.concat(secondArray);
 
-    //joinedArray: [ar0, ar1, ar2, ar3, ar4, ar5];
-    //firstArray: [ar0, ar1, ar2]; secondArray: [ar3, ar4, ar5];
-
     var a1 = joinedArray[0].fun();
     var a2 = joinedArray[1].fun();
     var a3 = joinedArray[2].fun();
@@ -38,13 +35,9 @@
     var a11 = secondArray[1].fun();
     var a12 = secondArray[2].fun();
 
-    //new test join two arrays!
     var thirdArray = [ar1, ar3, ar4];
 
     joinedArray = firstArray.concat(secondArray, thirdArray);
-
-    //joinedArray: [a0, a1, a2, a3, a4, a5, a1, a3, a4];
-    //firstArray: [a0, a1, a2]; secondArray: [a3, a4, a5], thirdArray: [a1, a3, a4];
 
     var a13 = joinedArray[0].fun();
     var a14 = joinedArray[1].fun();

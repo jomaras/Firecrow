@@ -141,6 +141,8 @@ FBL.ns(function() { with (FBL) {
                     finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(evalAssignmentExpressionCommand.codeConstruct));
                 }
 
+                finalValue = finalValue.isPrimitive() ? finalValue.createCopy(evalAssignmentExpressionCommand.rightSide) : finalValue
+
                 if(ASTHelper.isIdentifier(evalAssignmentExpressionCommand.leftSide))
                 {
                     this.executionContextStack.setIdentifierValue
@@ -159,8 +161,6 @@ FBL.ns(function() { with (FBL) {
 
                     object.value[property.value] = finalValue;
 
-                    //TODO - PROBLEM WITH PROTOTYPES!! (prototypes should be object, maybe if i assign fcInternal as a hidden property, just in case
-                    //and then if it is missing fcInternal then it checks for __FIRECROW_INTERNAL__
                     if(property.value == "__proto__" || property.value == "prototype")
                     {
                         object.value[property.value] = finalValue.value;
@@ -252,8 +252,8 @@ FBL.ns(function() { with (FBL) {
                 var leftExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
                 var rightExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
 
-                if(leftExpressionValue == null || leftExpressionValue.value == null) { this._callExceptionCallbacks(); return; }
-                if(rightExpressionValue == null || rightExpressionValue.value == null) { this._callExceptionCallbacks(); return; }
+                if(leftExpressionValue == null) { this._callExceptionCallbacks(); return; }
+                if(rightExpressionValue == null) { this._callExceptionCallbacks(); return; }
 
                 var operator = binaryExpression.operator;
 
@@ -296,7 +296,7 @@ FBL.ns(function() { with (FBL) {
                 {
                     var executeCallbackCommand = evalReturnExpressionCommand.parentFunctionCommand;
 
-                    if(ValueTypeHelper.isArray(executeCallbackCommand.calledOnObject))
+                    if(executeCallbackCommand.calledOnObject !=null && ValueTypeHelper.isArray(executeCallbackCommand.calledOnObject.value))
                     {
                         fcModel.ArrayCallbackEvaluator.evaluateCallbackReturn
                         (
@@ -353,7 +353,11 @@ FBL.ns(function() { with (FBL) {
 
                 if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue) && propertyValue != undefined )
                 {
-                    if(propertyValue != null && propertyValue.jsValue != null)
+                    if(propertyValue != null && ValueTypeHelper.isPrimitive(propertyValue))
+                    {
+                         propertyValue = new fcModel.JsValue(propertyValue, new fcModel.FcInternal(evalMemberExpressionCommand.codeConstruct));
+                    }
+                    else if(propertyValue != null && propertyValue.jsValue != null)
                     {
                         propertyValue = propertyValue.jsValue;
                     }
@@ -381,7 +385,10 @@ FBL.ns(function() { with (FBL) {
                                                                                : new fcModel.JsValue(evalMemberExpressionPropertyCommand.codeConstruct.property.name, new fcModel.FcInternal(evalMemberExpressionPropertyCommand.codeConstruct.property))
                 );
             }
-            catch(e) { this.notifyError("Error when evaluating member expression property: " + e); }
+            catch(e)
+            {
+                this.notifyError("Error when evaluating member expression property: " + e);
+            }
         },
 
         _evaluateObjectExpressionCommand: function(objectExpressionCommand)
@@ -450,7 +457,7 @@ FBL.ns(function() { with (FBL) {
                 var expressionItemValue = this.executionContextStack.getExpressionValue(arrayItemCreationCommand.codeConstruct);
 
                 array.value.push(expressionItemValue);
-                array.fcInternal.array.push(expressionItemValue, arrayItemCreationCommand.codeConstruct);
+                array.fcInternal.object.push(expressionItemValue, arrayItemCreationCommand.codeConstruct);
             }
             catch(e) { this.notifyError("Error when evaluating array expression item creation: " + e); }
         },
