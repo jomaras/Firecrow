@@ -152,7 +152,47 @@ fcModel.Array.prototype.slice = function(jsArray, callArguments, callExpression)
             jsArray.slice.apply(jsArray, callArguments.map(function(argument){ return argument.value}))
         );
     }
-    catch(e) { this.notifyError();}
+    catch(e) { this.notifyError("When slicing array");}
+};
+
+fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpression)
+{
+    try
+    {
+        var searchForItem = callArguments[0];
+        var fromIndex = callArguments[1] != null ? callArguments[1].value : 0;
+
+        for(var i = fromIndex; i < jsArray.length; i++)
+        {
+            if(jsArray[i].value === searchForItem.value)
+            {
+                return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
+            }
+        }
+
+        return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
+    }
+    catch(e) { this.notifyError("When indexOf array: " + e);}
+};
+
+fcModel.Array.prototype.lastIndexOf = function(jsArray, callArguments, callExpression)
+{
+    try
+    {
+        var searchForItem = callArguments[0];
+        var fromIndex = callArguments[1] != null ? callArguments[1].value : jsArray.length - 1;
+
+        for(var i = fromIndex; i >= 0; i--)
+        {
+            if(jsArray[i].value === searchForItem.value)
+            {
+                return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
+            }
+        }
+
+        return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
+    }
+    catch(e) { this.notifyError("When lastIndexOf array: " + e);}
 };
 
 fcModel.Array.prototype.notifyError = function(message) { alert("Array - " + message); }

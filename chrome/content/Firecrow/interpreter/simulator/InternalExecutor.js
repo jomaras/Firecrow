@@ -135,14 +135,13 @@ FBL.ns(function() { with (FBL) {
                     case "splice":
                         fcThisValue[functionName].apply(fcThisValue, [arguments, callExpression]);
                         return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
-                    case "indexOf":
-                    case "lastIndexOf":
-                        return fcModel.JsValue(thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments), callExpression) ;
                     case "push":
                         arguments.forEach(function(argument){fcThisValue.push(argument, callExpression);});
                         return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
                     case "concat":
                     case "slice":
+                    case "indexOf":
+                    case "lastIndexOf":
                         return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression]);
                     default:
                         this.notifyError("Unknown internal array method: " + functionObjectValue.name);
