@@ -5,7 +5,7 @@
  */
 FBL.ns(function() { with (FBL) {
     /*************************************************************************************/
-    const ValueTypeHelper = Firecrow.ValueTypeHelper;
+    var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
     Firecrow.DoppelBrowser.WebFile = function(url)
     {

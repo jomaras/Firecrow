@@ -4,9 +4,9 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
-const fcSimulator = Firecrow.Interpreter.Simulator;
-const fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var fcSimulator = Firecrow.Interpreter.Simulator;
+var fcModel = Firecrow.Interpreter.Model;
 
 fcSimulator.VariableObject = function(executionContext)
 {

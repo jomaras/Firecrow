@@ -4,9 +4,9 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
-const fcModelInternals = Firecrow.Interpreter.Model.Internals;
-const fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var fcModelInternals = Firecrow.Interpreter.Model.Internals;
+var fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.Interpreter.Model.Internals.BooleanFunction = function(globalObject)
 {

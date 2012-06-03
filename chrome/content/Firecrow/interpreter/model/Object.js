@@ -9,8 +9,8 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const fcModel = Firecrow.Interpreter.Model;
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
+var fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.ObjectFunction = function()
 {

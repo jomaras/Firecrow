@@ -1,7 +1,7 @@
 FBL.ns(function () { with (FBL) {
 /******/
-const CC = Components.classes;
-const CI = Components.interfaces;
+var CC = Components.classes;
+var CI = Components.interfaces;
 
 Firecrow.FileHelper = 
 {
@@ -28,11 +28,10 @@ Firecrow.FileHelper =
 
             cstream.init(stream, "UTF-8", 0, 0);
 
-            let(str = {})
-            {
-                cstream.readString(-1, str); // read the whole file and put it in str.value  
-                output = str.value;
-            }
+            var str = {}
+
+            cstream.readString(-1, str); // read the whole file and put it in str.value
+            output = str.value;
 
             cstream.close(); // this closes fstream  
 

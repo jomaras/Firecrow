@@ -5,12 +5,12 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 
-const ExecutionContextStack = Firecrow.Interpreter.Simulator.ExecutionContextStack;
-const Command = Firecrow.Interpreter.Commands.Command;
-const CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
+var ExecutionContextStack = Firecrow.Interpreter.Simulator.ExecutionContextStack;
+var Command = Firecrow.Interpreter.Commands.Command;
+var CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
-const ASTHelper = Firecrow.ASTHelper;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
 
 Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject)
 {

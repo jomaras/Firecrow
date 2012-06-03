@@ -4,11 +4,11 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
-const ASTHelper = Firecrow.ASTHelper;
-const fcSimulator = Firecrow.Interpreter.Simulator;
-const fcCommands = Firecrow.Interpreter.Commands;
-const fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
+var fcSimulator = Firecrow.Interpreter.Simulator;
+var fcCommands = Firecrow.Interpreter.Commands;
+var fcModel = Firecrow.Interpreter.Model;
 
 fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, globalObject, contextCreationCommand)
 {

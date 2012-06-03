@@ -6,10 +6,10 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const astHelper = Firecrow.ASTHelper;
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
+var astHelper = Firecrow.ASTHelper;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-const fcCommands = Firecrow.Interpreter.Commands;
+var fcCommands = Firecrow.Interpreter.Commands;
 
 Firecrow.Interpreter.Commands.CommandGenerator =
 {

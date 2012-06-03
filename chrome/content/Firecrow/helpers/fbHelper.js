@@ -1,11 +1,11 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const CC = Components.classes;
-const CI = Components.interfaces;
+var CC = Components.classes;
+var CI = Components.interfaces;
 
-const fileHelper = Firecrow.FileHelper;
-const valueTypeHelper = Firecrow.ValueTypeHelper;
-const astHelper = Firecrow.ASTHelper;
+var fileHelper = Firecrow.FileHelper;
+var valueTypeHelper = Firecrow.ValueTypeHelper;
+var astHelper = Firecrow.ASTHelper;
 
 Firecrow.fbHelper = 
 {

@@ -5,8 +5,8 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const fcModel = Firecrow.Interpreter.Model;
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
+var fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Array = function(globalObject, codeConstruct)
 {
@@ -88,6 +88,8 @@ fcModel.Array.prototype.unshift = function(elementsToAdd, codeConstruct)
         {
             this.addProperty(i, this.items[i], codeConstruct);
         }
+
+        return new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct));
     }
     catch(e) { alert("Array - error when unshifting items in array: " + e); }
 };
@@ -96,11 +98,19 @@ fcModel.Array.prototype.splice = function(arguments, codeConstruct)
 {
     try
     {
-        for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
+        var removed = [];
+        for(var i = 0; i < this.items.length; i++)
+        {
+            this.deleteProperty(i, codeConstruct);
+            removed.push(this.items[i]);
+        }
+        var removedItems = Firecrow.Interpreter.Simulator.InternalExecutor.createArray(this.globalObject, codeConstruct, removed);
 
         this.items.splice.apply(this.items, arguments);
 
         for(var i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
+
+        return removedItems;
     }
     catch(e) { alert("Array - error when popping item: " + e); }
 };

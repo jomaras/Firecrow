@@ -4,66 +4,66 @@
  * Time: 14:45
  */
 FBL.ns(function() { with (FBL) {
-    /*************************************************************************************/
-    const fcModel = Firecrow.Interpreter.Model;
-    const ValueTypeHelper = Firecrow.ValueTypeHelper;
+/*************************************************************************************/
+var fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-    fcModel.Function = function(globalObject, scopeChain, codeConstruct)
+fcModel.Function = function(globalObject, scopeChain, codeConstruct)
+{
+    this.object = this;
+    this.globalObject = globalObject;
+    this.codeConstruct = codeConstruct;
+    this.scopeChain = scopeChain;
+
+    this.addProperty("prototype", globalObject.functionPrototype);
+    this.addProperty("__proto__", globalObject.functionPrototype);
+
+    this.fcInternal = this;
+};
+
+fcModel.EmptyFunction = function(globalObject)
+{
+    this.globalObject = globalObject;
+    this.name = "Empty";
+};
+
+fcModel.EmptyFunction.prototype = new fcModel.Object(null);
+fcModel.Function.prototype = new fcModel.EmptyFunction(null);
+
+fcModel.Function.createInternalNamedFunction = function(globalObject, name)
+{
+    try
     {
-        this.object = this;
-        this.globalObject = globalObject;
-        this.codeConstruct = codeConstruct;
-        this.scopeChain = scopeChain;
+        var functionObject = new Firecrow.Interpreter.Model.Function(globalObject, [], null);
 
-        this.addProperty("prototype", globalObject.functionPrototype);
-        this.addProperty("__proto__", globalObject.functionPrototype);
+        functionObject.name = name;
+        functionObject.isInternalFunction = true;
 
-        this.fcInternal = this;
-    };
+        return functionObject;
+    }
+    catch(e) { alert("Function - Error when creating Internal Named Function: " + e); }
+};
 
-    fcModel.EmptyFunction = function(globalObject)
+fcModel.FunctionPrototype = function(globalObject)
+{
+    try
     {
-        this.globalObject = globalObject;
-        this.name = "Empty";
-    };
-
-    fcModel.EmptyFunction.prototype = new fcModel.Object(null);
-    fcModel.Function.prototype = new fcModel.EmptyFunction(null);
-
-    fcModel.Function.createInternalNamedFunction = function(globalObject, name)
-    {
-        try
+        //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
+        fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            var functionObject = new Firecrow.Interpreter.Model.Function(globalObject, [], null);
+            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(propertyName), null, false);
+        }, this);
+    }
+    catch(e) { alert("Function - error when creating function prototype:" + e); }
+};
 
-            functionObject.name = name;
-            functionObject.isInternalFunction = true;
+fcModel.FunctionPrototype.prototype = new fcModel.Object(null);
 
-            return functionObject;
-        }
-        catch(e) { alert("Function - Error when creating Internal Named Function: " + e); }
-    };
-
-    fcModel.FunctionPrototype = function(globalObject)
+fcModel.FunctionPrototype.CONST =
+{
+    INTERNAL_PROPERTIES :
     {
-        try
-        {
-            //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
-            fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
-            {
-                this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(propertyName), null, false);
-            }, this);
-        }
-        catch(e) { alert("Function - error when creating function prototype:" + e); }
-    };
-
-    fcModel.FunctionPrototype.prototype = new fcModel.Object(null);
-
-    fcModel.FunctionPrototype.CONST =
-    {
-        INTERNAL_PROPERTIES :
-        {
-            METHODS: ["apply", "call", "toString", "bind"]
-        }
-    };
+        METHODS: ["apply", "call", "toString", "bind"]
+    }
+};
 }});

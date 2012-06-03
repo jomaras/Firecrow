@@ -6,16 +6,16 @@
 
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const ValueTypeHelper = Firecrow.ValueTypeHelper;
-const ASTHelper = Firecrow.ASTHelper;
-const WebFile = Firecrow.DoppelBrowser.WebFile;
-const Node = Firecrow.DependencyGraph.Node;
-const HtmlHelper = Firecrow.htmlHelper;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
+var WebFile = Firecrow.DoppelBrowser.WebFile;
+var Node = Firecrow.DependencyGraph.Node;
+var HtmlHelper = Firecrow.htmlHelper;
 
-const Interpreter = Firecrow.Interpreter.InterpreterSimulator;
-const GlobalObject = Firecrow.Interpreter.Model.GlobalObject;
+var Interpreter = Firecrow.Interpreter.InterpreterSimulator;
+var GlobalObject = Firecrow.Interpreter.Model.GlobalObject;
 
-const fcSimulator = Firecrow.Interpreter.Simulator;
+var fcSimulator = Firecrow.Interpreter.Simulator;
 
 Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
 {

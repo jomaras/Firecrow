@@ -4,7 +4,7 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const fcModel = Firecrow.Interpreter.Model;
+var fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct)
 {

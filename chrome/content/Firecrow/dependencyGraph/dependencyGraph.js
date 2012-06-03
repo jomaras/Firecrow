@@ -5,8 +5,8 @@
  */
 FBL.ns(function() { with (FBL) {
     /*************************************************************************************/
-    const ValueTypeHelper = Firecrow.ValueTypeHelper;
-    const Node = Firecrow.DependencyGraph.Node;
+    var ValueTypeHelper = Firecrow.ValueTypeHelper;
+    var Node = Firecrow.DependencyGraph.Node;
 
     Firecrow.DependencyGraph.DependencyGraph = function()
     {

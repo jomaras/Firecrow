@@ -1,15 +1,15 @@
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
-	const CC = Components.classes;
-	const CI = Components.interfaces;
+	var CC = Components.classes;
+	var CI = Components.interfaces;
 	
-	const FileHelper = Firecrow.FileHelper;
-	const fbHelper = Firecrow.fbHelper;
-	const htmlHelper = Firecrow.htmlHelper;
-	const JsRecorder = Firecrow.JsRecorder;
-	const javaInvoker = Firecrow.JavaInvoker;
-    const CommandGenerator = Firecrow.CommandGenerator;
-    const ASTHelper = Firecrow.ASTHelper;
+	var FileHelper = Firecrow.FileHelper;
+	var fbHelper = Firecrow.fbHelper;
+	var htmlHelper = Firecrow.htmlHelper;
+	var JsRecorder = Firecrow.JsRecorder;
+	var javaInvoker = Firecrow.JavaInvoker;
+    var CommandGenerator = Firecrow.CommandGenerator;
+    var ASTHelper = Firecrow.ASTHelper;
 	
 	Firebug.FirecrowModule = extend(Firebug.Module,
 	{

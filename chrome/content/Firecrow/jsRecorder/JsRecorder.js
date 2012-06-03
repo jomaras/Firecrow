@@ -1,9 +1,9 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-const CC = Components.classes;
-const CI = Components.interfaces;
+var CC = Components.classes;
+var CI = Components.interfaces;
 
-const fbHelper = Firecrow.fbHelper;
+var fbHelper = Firecrow.fbHelper;
 
 Firecrow.JsRecorder = function ()
 {
@@ -12,10 +12,10 @@ Firecrow.JsRecorder = function ()
     this.executionTrace = [];
     this.helperVars = 
     {
-    	lastExecutedLine : -1,
-    	lastPc: -1,
-    	stackDepth: -1,
-    	frameHelper: null
+        lastExecutedLine : -1,
+        lastPc: -1,
+        stackDepth: -1,
+        frameHelper: null
     };
         
     var that = this;

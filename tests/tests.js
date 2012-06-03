@@ -3,54 +3,55 @@
  * Date: 29.05.12.
  * Time: 15:11
  */
-TestCase("InterpreterTest",
+
+var testObject = {};
+
+HtmlModelMapping.models.forEach(function(model, index)
 {
-    "test testAll": function()
+    testObject["test test" + index] = function()
     {
-        HtmlModelMapping.models.forEach(function(model)
+        var Firecrow = FBL.Firecrow;
+        var WebFile = Firecrow.DoppelBrowser.WebFile;
+        var Browser = Firecrow.DoppelBrowser.Browser;
+        var webFile = new WebFile(model.url);
+
+        var browser = new Browser(webFile, []);
+
+        browser.syncBuildPage();
+
+        var globalObjectProperties = browser.globalObject.properties;
+
+        var errors = "";
+        model.results.forEach(function(result)
         {
-            var Firecrow = FBL.Firecrow;
-            var WebFile = Firecrow.DoppelBrowser.WebFile;
-            var Browser = Firecrow.DoppelBrowser.Browser;
-            var webFile = new WebFile(model.url);
-
-            var browser = new Browser(webFile, []);
-
-            browser.syncBuildPage();
-
-            var globalObjectProperties = browser.globalObject.properties;
-
-            var errors = "";
-            model.results.forEach(function(result)
+            for(var propName in result)
             {
-                for(var propName in result)
+                var hasBeenFound = false;
+                for(var i = 0; i < globalObjectProperties.length; i++)
                 {
-                    var hasBeenFound = false;
-                    for(var i = 0; i < globalObjectProperties.length; i++)
+                    var property = globalObjectProperties[i];
+                    var propertyValue = property.value;
+
+                    if(property.name == propName)
                     {
-                        var property = globalObjectProperties[i];
-                        var propertyValue = property.value;
+                        hasBeenFound = true;
 
-                        if(property.name == propName)
+                        if(propertyValue == null)
                         {
-                            hasBeenFound = true;
-
-                            if(propertyValue == null)
-                            {
-                                assertFalse(webFile.url + " : Property value: " + propName + " is null, and should be: " + result[propName], true);
-                                break;
-                            }
-
-                            assertEquals(webFile.url + " : Property value: " + propName, propertyValue.value, result[propName]);
-
+                            assertFalse(webFile.url + " : Property value: " + propName + " is null, and should be: " + result[propName], true);
                             break;
                         }
+
+                        assertEquals(webFile.url + " : Property value: " + propName, propertyValue.value, result[propName]);
+
+                        break;
                     }
-
-                    if(!hasBeenFound) { assertFalse(webFile.url + " : Property value: " + propName + " has not been found",true); }
                 }
-            });
-        });
 
-    }
+                if(!hasBeenFound) { assertFalse(webFile.url + " : Property value: " + propName + " has not been found",true); }
+            }
+        });
+    };
 });
+
+TestCase("InterpreterTest", testObject);

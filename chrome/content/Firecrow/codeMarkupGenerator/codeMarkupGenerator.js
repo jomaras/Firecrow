@@ -5,8 +5,8 @@
 FBL.ns(function () { with (FBL) {
     /*******/
 
-    const astHelper = Firecrow.ASTHelper;
-    const valueTypeHelper = Firecrow.ValueTypeHelper;
+    var astHelper = Firecrow.ASTHelper;
+    var valueTypeHelper = Firecrow.ValueTypeHelper;
 
     Firecrow.CodeMarkupGenerator =
     {
