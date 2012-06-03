@@ -198,7 +198,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 alert("CommandGenerator: function object can not be null when generating commands for function execution!"); return commands;
             }
 
-            if(functionObject.fcInternal.isInternalFunction) { return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject); }
+            if(functionObject.fcInternal.isInternalFunction && !callExpressionCommand.isCall && !callExpressionCommand.isApply)
+            {
+                return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject);
+            }
 
             commands.push(fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand));
 
@@ -236,7 +239,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             return commands;
         }
-        catch (e) { alert("CommandGenerator: An error occurred when generating function execution commands: " + e); }
+        catch (e)
+        {
+            alert("CommandGenerator: An error occurred when generating function execution commands: " + e);
+        }
     },
 
     _generateInternalFunctionExecutionCommands: function(callExpressionCommand, functionObject, thisObject)

@@ -194,7 +194,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         this._getFormalParameters(functionConstruct),
                         enterFunctionContextCommand.callee,
                         this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand),
-                        enterFunctionContextCommand.parentFunctionCommand
+                        enterFunctionContextCommand.parentFunctionCommand,
+                        this.globalObject
                     ),
                     enterFunctionContextCommand.callee.fcInternal.object.scopeChain,
                     enterFunctionContextCommand.thisObject,

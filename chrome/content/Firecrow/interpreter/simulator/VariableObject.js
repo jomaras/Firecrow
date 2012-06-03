@@ -77,7 +77,7 @@ fcSimulator.VariableObject.prototype =
     notifyError: function(message) { alert("VariableObject - " + message); }
 };
 
-Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = function(functionIdentifier, formalParameters, calleeFunction, sentArguments, callExpressionCommand)
+Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = function(functionIdentifier, formalParameters, calleeFunction, sentArguments, callExpressionCommand, globalObject)
 {
     try
     {
@@ -88,7 +88,15 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
         functionVariableObject.calleeFunction = calleeFunction;
         functionVariableObject.sentArguments = sentArguments;
 
-        functionVariableObject.registerIdentifier(new fcModel.Identifier("arguments", sentArguments, callExpressionCommand.codeConstruct.arguments));
+        functionVariableObject.registerIdentifier
+        (
+            new fcModel.Identifier
+            (
+                "arguments",
+                fcSimulator.InternalExecutor.createArray(globalObject, callExpressionCommand.codeConstruct, sentArguments),
+                callExpressionCommand.codeConstruct.arguments
+            )
+        );
 
         var argumentsConstructs = callExpressionCommand.codeConstruct.arguments || [];
 

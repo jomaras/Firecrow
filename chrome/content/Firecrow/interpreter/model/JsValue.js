@@ -49,5 +49,14 @@ FBL.ns(function() { with (FBL) {
         {
             this.isInternalFunction = this.object.isInternalFunction;
         }
+
+        this.id = fcModel.FcInternal._lastUsedId++;
+
+        if(this.id == 19)
+        {
+            var a = 3;
+        }
     }
+
+    fcModel.FcInternal._lastUsedId = 0;
 }});

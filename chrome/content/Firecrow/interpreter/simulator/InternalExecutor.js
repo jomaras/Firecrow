@@ -188,7 +188,7 @@ FBL.ns(function() { with (FBL) {
 
                 fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
                 {
-                    if(functionPrototype[propertyName] && functionPrototype[propertyName].jsValue == null)
+                    if(functionPrototype[propertyName] && !functionPrototype[propertyName].hasOwnProperty("jsValue"))
                     {
                         Object.defineProperty
                         (
@@ -280,7 +280,7 @@ FBL.ns(function() { with (FBL) {
                         Object.defineProperty
                         (
                             stringPrototype[propertyName],
-                            "__FIRECROW_INTERNAL__",
+                            "jsValue",
                             {
                                 value: fcModel.Function.createInternalNamedFunction(globalObject, propertyName)
                             }
