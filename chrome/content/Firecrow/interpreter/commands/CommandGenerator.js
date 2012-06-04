@@ -2012,6 +2012,7 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isEvalIdentifierCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalIdentifier; },
     isEvalLiteralCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalLiteral; },
+    isEvalRegExCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalRegExLiteral; },
 
     isIfStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.IfStatement; },
 

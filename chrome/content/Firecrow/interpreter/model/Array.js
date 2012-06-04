@@ -8,12 +8,19 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcModel.Array = function(globalObject, codeConstruct)
+fcModel.Array = function(jsArray, globalObject, codeConstruct)
 {
     try
     {
+        this.jsArray = jsArray || [];
         this.globalObject = globalObject;
         this.items = [];
+
+        this.jsArray.forEach(function(item) { this.push(item, codeConstruct);}, this);
+
+        //For RegEx result arrays
+        if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", new fcModel.JsValue(this.jsArray.index, new fcModel.FcInternal(codeConstruct)), codeConstruct); }
+        if(this.jsArray.hasOwnProperty("input")) { this.addProperty("input", new fcModel.JsValue(this.jsArray.input, new fcModel.FcInternal(codeConstruct)), codeConstruct); }
 
         this.addProperty("__proto__", globalObject.arrayPrototype);
     }
@@ -206,7 +213,6 @@ fcModel.Array.prototype.lastIndexOf = function(jsArray, callArguments, callExpre
 };
 
 fcModel.Array.prototype.notifyError = function(message) { alert("Array - " + message); }
-
 
 fcModel.ArrayPrototype = function(globalObject)
 {

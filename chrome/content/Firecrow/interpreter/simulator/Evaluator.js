@@ -30,6 +30,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isDeclareFunctionCommand()) { this._evaluateDeclareFunctionCommand(command); }
             else if (command.isEvalIdentifierCommand()) { this._evaluateIdentifierCommand(command); }
             else if (command.isEvalLiteralCommand()) { this._evaluateLiteralCommand(command); }
+            else if (command.isEvalRegExCommand()) { this._evaluateRegExLiteralCommand(command);}
             else if (command.isEvalAssignmentExpressionCommand()) { this._evaluateAssignmentExpressionCommand(command); }
             else if (command.isEvalUpdateExpressionCommand()) { this._evaluateUpdateExpressionCommand(command); }
             else if (command.isEvalBinaryExpressionCommand()) { this._evaluateBinaryExpressionCommand(command); }
@@ -99,7 +100,24 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(evalLiteralCommand.codeConstruct, new fcModel.JsValue(evalLiteralCommand.codeConstruct.value, new fcModel.FcInternal(evalLiteralCommand.codeConstruct)));
         }
-        catch(e) { this.notifyError("Error when evaluating literal: " + e);}
+        catch(e) { this.notifyError("Error when evaluating literal: " + e); }
+    },
+
+    _evaluateRegExLiteralCommand: function(evalRegExCommand)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(evalRegExCommand, Firecrow.Interpreter.Commands.Command) || !evalRegExCommand.isEvalRegExCommand()) { this.notifyError("Argument is not an EvalRegExCommand"); return; }
+
+            var regEx = eval(evalRegExCommand.regExLiteral);
+
+            this.executionContextStack.setExpressionValue
+            (
+                evalRegExCommand.codeConstruct,
+                Firecrow.Interpreter.Simulator.InternalExecutor.createRegEx(this.globalObject, evalRegExCommand.codeConstruct, regEx)
+            );
+        }
+        catch(e) { this.notifyError("Error when evaluating literal: " + e); }
     },
 
     _evaluateAssignmentExpressionCommand: function(evalAssignmentExpressionCommand)
@@ -682,12 +700,15 @@ fcSimulator.Evaluator.prototype =
                     callInternalFunctionCommand.thisObject,
                     callInternalFunctionCommand.functionObject,
                     args,
-                    callInternalFunctionCommand.thisObject.fcInternal.object.globalObject,
+                    this.globalObject,
                     callInternalFunctionCommand.codeConstruct
                 )
             );
         }
-        catch(e) { this.notifyError("Error has occurred when evaluating call internal function command:" + e); }
+        catch(e)
+        {
+            this.notifyError("Error has occurred when evaluating call internal function command:" + e);
+        }
     },
 
     registerExceptionCallback: function(callback, thisObject)
