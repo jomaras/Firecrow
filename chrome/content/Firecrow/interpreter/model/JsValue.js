@@ -43,7 +43,7 @@ fcModel.JsValue.prototype =
 fcModel.FcInternal = function(codeConstruct, object)
 {
     this.codeConstruct = codeConstruct;
-    this.object = object;
+    if(object != null) { this.object = object; }
 
     if(this.object != null && this.object.isInternalFunction != undefined)
     {

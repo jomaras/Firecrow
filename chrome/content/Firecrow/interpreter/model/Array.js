@@ -305,4 +305,48 @@ fcModel.ArrayCallbackEvaluator =
 
     notifyError: function(message) { alert("ArrayCallbackEvaluator - " + message); }
 };
+
+fcModel.ArrayExecutor =
+{
+    executeInternalArrayMethod : function(thisObject, functionObject, arguments, callExpression)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(thisObject.value, Array)) { this.notifyError("The called on object should be an array!"); return; }
+            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing array method!"); return; }
+
+            var functionObjectValue = functionObject.value;
+            var thisObjectValue = thisObject.value;
+            var functionName = functionObjectValue.name;
+            var fcThisValue =  thisObject.fcInternal.object;
+
+            switch(functionName)
+            {
+                case "pop":
+                case "reverse":
+                case "shift":
+                    fcThisValue[functionName].apply(fcThisValue, [callExpression])
+                case "push":
+                    arguments.forEach(function(argument){fcThisValue.push(argument, callExpression);});
+                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
+                case "concat":
+                case "slice":
+                case "indexOf":
+                case "lastIndexOf":
+                case "unshift":
+                case "splice":
+                    thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
+                    return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression]);
+                default:
+                    this.notifyError("Unknown internal array method: " + functionObjectValue.name);
+            }
+        }
+        catch(e) { this.notifyError("Error when executing internal array method: " + e); }
+    },
+
+    notifyError: function(message)
+    {
+       alert("Array executor - " + message);
+    }
+};
 }});

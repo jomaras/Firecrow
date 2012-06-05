@@ -122,143 +122,15 @@ fcSimulator.InternalExecutor.prototype =
         {
             if(thisObject == null) { this.notifyError("This object can not be null when executing function!"); return; }
 
-            if(ValueTypeHelper.isOfType(thisObject.value, Array)) { return this._executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression); }
-            else if (ValueTypeHelper.isString(thisObject.value)) { return this._executeInternalStringMethod(thisObject, functionObject, arguments, callExpression); }
-            else if (ValueTypeHelper.isOfType(thisObject.value, RegExp)) { return this._executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
+            if(ValueTypeHelper.isOfType(thisObject.value, Array)) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isString(thisObject.value)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, RegExp)) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
             else
             {
                 this.notifyError("Unsupported internal function!");
             }
         }
         catch(e) { this.notifyError("Error when executing internal function: " + e); }
-    },
-
-    _executeInternalArrayMethod: function(thisObject, functionObject, arguments, callExpression)
-    {
-        try
-        {
-            if(!ValueTypeHelper.isOfType(thisObject.value, Array)) { this.notifyError("The called on object should be an array!"); return; }
-            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing array method!"); return; }
-
-            var functionObjectValue = functionObject.value;
-            var thisObjectValue = thisObject.value;
-            var functionName = functionObjectValue.name;
-            var fcThisValue =  thisObject.fcInternal.object;
-
-            switch(functionName)
-            {
-                case "pop":
-                case "reverse":
-                case "shift":
-                    fcThisValue[functionName].apply(fcThisValue, [callExpression])
-                case "push":
-                    arguments.forEach(function(argument){fcThisValue.push(argument, callExpression);});
-                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
-                case "concat":
-                case "slice":
-                case "indexOf":
-                case "lastIndexOf":
-                case "unshift":
-                case "splice":
-                    thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
-                    return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression]);
-                default:
-                    this.notifyError("Unknown internal array method: " + functionObjectValue.name);
-            }
-        }
-        catch(e) { this.notifyError("Error when executing internal array method: " + e); }
-    },
-
-    _executeInternalStringMethod: function(thisObject, functionObject, arguments, callExpression)
-    {
-        try
-        {
-            if(!ValueTypeHelper.isString(thisObject.value)) { this.notifyError("The called on object should be a string!"); return; }
-            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing string method!"); return; }
-
-            var functionObjectValue = functionObject.value;
-            var thisObjectValue = thisObject.value;
-            var functionName = functionObjectValue.name;
-            var fcThisValue =  thisObject.fcInternal.object;
-
-            switch(functionName)
-            {
-                case "charAt":
-                case "charCodeAt":
-                case "concat":
-                case "indexOf":
-                case "lastIndexOf":
-                case "localeCompare":
-                case "substr":
-                case "substring":
-                case "toLocaleLowerCase":
-                case "toLocaleUpperCase":
-                case "toLowerCase":
-                case "toString":
-                case "toUpperCase":
-                case "trim":
-                case "trimLeft":
-                case "trimRight":
-                case "valueOf":
-                case "search":
-                case "slice":
-                    return new fcModel.JsValue
-                    (
-                        thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.value;})),
-                        new fcModel.FcInternal(callExpression)
-                    );
-                case "match":
-                case "split":
-                    var result = thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.value;}));
-                    if(result == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
-                    else if (ValueTypeHelper.isArray(result)){ return this.createArray(callExpression, result);}
-                    else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
-                case "replace":
-                    this.notifyError("Still not handling string replace!");
-                    return null;
-                default:
-                    this.notifyError("Unknown method on string");
-            }
-        }
-        catch(e) {this.notifyError("Error when executing internal string method: " + e); }
-    },
-
-    _executeInternalRegExMethod: function(thisObject, functionObject, arguments, callExpression)
-    {
-        try
-        {
-            if(!ValueTypeHelper.isOfType(thisObject.value, RegExp)) { this.notifyError("The called on object should be a regexp!"); return; }
-            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing regexp method!"); return; }
-
-            var functionObjectValue = functionObject.value;
-            var thisObjectValue = thisObject.value;
-            var functionName = functionObjectValue.name;
-            var fcThisValue =  thisObject.fcInternal.object;
-
-            switch(functionName)
-            {
-                case "exec":
-                    var result = thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.value;}));
-
-                    fcThisValue.addProperty("lastIndex", new fcModel.JsValue(thisObjectValue.lastIndex, new fcModel.FcInternal(callExpression)),callExpression);
-
-                    if(result == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
-                    else if (ValueTypeHelper.isArray(result)){ return this.createArray(callExpression, result);}
-                    else { this.notifyError("Unknown result when exec regexp"); return null; }
-                case "test":
-                    return new fcModel.JsValue
-                    (
-                        thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.value;})),
-                        new fcModel.FcInternal(callExpression)
-                    );
-                case "toSource":
-                    this.notifyError("ToSource not supported on regExp!");
-                    return null;
-                default:
-                    this.notifyError("Unknown method on string");
-            }
-        }
-        catch(e) {this.notifyError("Error when executing internal string method: " + e); }
     },
 
     expandInternalFunctions: function()
