@@ -93,7 +93,7 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
             new fcModel.Identifier
             (
                 "arguments",
-                fcSimulator.InternalExecutor.createArray(globalObject, callExpressionCommand.codeConstruct, sentArguments),
+                globalObject.internalExecutor.createArray(callExpressionCommand.codeConstruct, sentArguments),
                 callExpressionCommand.codeConstruct.arguments
             )
         );
@@ -112,7 +112,10 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
 
         return functionVariableObject;
     }
-    catch(e) { alert("Error while creating function variable object: " + e);}
+    catch(e)
+    {
+        alert("Error while creating function variable object: " + e);
+    }
 };
 
 Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(object)

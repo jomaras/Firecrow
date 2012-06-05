@@ -41,7 +41,10 @@ fcModel.Function.createInternalNamedFunction = function(globalObject, name)
 
         return functionObject;
     }
-    catch(e) { alert("Function - Error when creating Internal Named Function: " + e); }
+    catch(e)
+    {
+        alert("Function - Error when creating Internal Named Function: " + e);
+    }
 };
 
 fcModel.FunctionPrototype = function(globalObject)
@@ -51,7 +54,7 @@ fcModel.FunctionPrototype = function(globalObject)
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
         fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(propertyName), null, false);
+            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
         }, this);
     }
     catch(e) { alert("Function - error when creating function prototype:" + e); }

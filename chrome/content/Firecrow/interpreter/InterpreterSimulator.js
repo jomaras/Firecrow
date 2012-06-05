@@ -182,6 +182,12 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
+            if(this.tryStack.length == 0)
+            {
+                alert("Removing commands and there is no enclosing try catch block!");
+                return;
+            }
+
             for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
             {
                 var command = this.commands[i];
@@ -341,7 +347,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             }
 
             var functionName = callCallbackMethodCommand.functionObject.value.name;
-            var resultingObject = functionName == "filter" || functionName == "map" ? Firecrow.Interpreter.Simulator.InternalExecutor.createArray(this.globalObject, callCallbackMethodCommand.codeConstruct)
+            var resultingObject = functionName == "filter" || functionName == "map" ? this.globalObject.internalExecutor.createArray(callCallbackMethodCommand.codeConstruct)
                                                                                     : null;
             this.executionContextStack.setExpressionValue(callCallbackMethodCommand.codeConstruct, resultingObject);
 

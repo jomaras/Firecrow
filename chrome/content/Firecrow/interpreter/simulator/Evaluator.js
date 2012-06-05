@@ -10,12 +10,16 @@ var ASTHelper = Firecrow.ASTHelper;
 var fcSimulator = Firecrow.Interpreter.Simulator;
 var fcModel = Firecrow.Interpreter.Model;
 
-fcSimulator.Evaluator = function(executionContextStack, globalObject)
+fcSimulator.Evaluator = function(executionContextStack)
 {
-    this.executionContextStack = executionContextStack;
-    this.globalObject = globalObject;
+    try
+    {
+        this.executionContextStack = executionContextStack;
+        this.globalObject = executionContextStack.globalObject;
 
-    this.exceptionCallbacks = [];
+        this.exceptionCallbacks = [];
+    }
+    catch(e) { alert("Evaluator - Error when constructing evaluator: " + e);}
 };
 
 fcSimulator.Evaluator.prototype =
@@ -114,7 +118,7 @@ fcSimulator.Evaluator.prototype =
             this.executionContextStack.setExpressionValue
             (
                 evalRegExCommand.codeConstruct,
-                Firecrow.Interpreter.Simulator.InternalExecutor.createRegEx(this.globalObject, evalRegExCommand.codeConstruct, regEx)
+                this.globalObject.internalExecutor.createRegEx(evalRegExCommand.codeConstruct, regEx)
             );
         }
         catch(e) { this.notifyError("Error when evaluating literal: " + e); }
@@ -695,12 +699,11 @@ fcSimulator.Evaluator.prototype =
             this.executionContextStack.setExpressionValue
             (
                 callInternalFunctionCommand.codeConstruct,
-                Firecrow.Interpreter.Simulator.InternalExecutor.executeFunction
+                this.globalObject.internalExecutor.executeFunction
                 (
                     callInternalFunctionCommand.thisObject,
                     callInternalFunctionCommand.functionObject,
                     args,
-                    this.globalObject,
                     callInternalFunctionCommand.codeConstruct
                 )
             );

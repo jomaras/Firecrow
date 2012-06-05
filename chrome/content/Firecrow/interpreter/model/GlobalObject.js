@@ -13,6 +13,7 @@ fcModel.GlobalObject = function(documentFragment)
         this.__proto__ = new fcModel.Object(this);
 
         this.fcInternal = new fcModel.FcInternal(null, this);
+        this.internalExecutor = new Firecrow.Interpreter.Simulator.InternalExecutor(this);
 
         Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
 
@@ -30,6 +31,8 @@ fcModel.GlobalObject = function(documentFragment)
         this.addProperty("Array", this.arrayFunction, null);
         this.addProperty("RegExp", this.regExFunction, null);
         this.addProperty("String", this.stringFunction, null);
+
+        this.internalExecutor.expandInternalFunctions();
     }
     catch(e) { alert("Error when initializing global object:" + e); }
 };

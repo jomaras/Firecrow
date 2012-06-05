@@ -20,9 +20,9 @@ load:
   - ../chrome/content/Firecrow/interpreter/model/internal/Number.js
   - ../chrome/content/Firecrow/interpreter/model/internal/String.js
   - ../chrome/content/Firecrow/interpreter/simulator/VariableObject.js
+  - ../chrome/content/Firecrow/interpreter/simulator/Evaluator.js
   - ../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js
   - ../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js
-  - ../chrome/content/Firecrow/interpreter/simulator/Evaluator.js
   - ../chrome/content/Firecrow/interpreter/InterpreterSimulator.js
   - ../chrome/content/Firecrow/doppelBrowser/webFile.js
   - ../chrome/content/Firecrow/doppelBrowser/browser.js

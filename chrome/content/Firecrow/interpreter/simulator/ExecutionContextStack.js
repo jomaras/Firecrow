@@ -80,7 +80,10 @@ fcSimulator.ExecutionContext.prototype =
 
            this.variableObject.fcInternal.registerIdentifier(identifier);
        }
-       catch(e) { this.notifyError("Error when registering identifier:" + e); }
+       catch(e)
+       {
+           this.notifyError("Error when registering identifier:" + e);
+       }
     },
 
     pushToScopeChain: function(variableObject)
@@ -124,19 +127,22 @@ fcSimulator.ExecutionContextStack = function(globalObject)
     try
     {
         if(globalObject == null) { this.notifyError("GlobalObject can not be null when constructing execution context stack!"); return; }
-
         this.globalObject = globalObject;
         this.stack = [];
         this.push(fcSimulator.ExecutionContext.createGlobalExecutionContext(globalObject));
-        this.evaluator = new fcSimulator.Evaluator(this, globalObject);
+
+        this.evaluator = new Firecrow.Interpreter.Simulator.Evaluator(this);
+
         this.evaluator.registerExceptionCallback(function(exceptionInfo)
         {
             this._callExceptionCallbacks(exceptionInfo);
         }, this);
-
         this.exceptionCallbacks = [];
     }
-    catch(e) { this.notifyError("Error when constructing executionContextStack: " + e); }
+    catch(e)
+    {
+        this.notifyError("Error when constructing executionContextStack: " + e);
+    }
 };
 
 Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
@@ -344,7 +350,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             this.activeContext.registerIdentifier(new fcModel.Identifier(variableDeclarator.id.name, undefined, variableDeclarator));
         }
-        catch(e) { this.notifyError("ExecutionContextStack - error when registering identifier: " + e); }
+        catch(e)
+        {
+            this.notifyError("ExecutionContextStack - error when registering identifier: " + e);
+        }
     },
 
     registerFunctionDeclaration: function(functionDeclaration)
@@ -487,7 +496,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            return fcSimulator.InternalExecutor.createFunction(this.globalObject, this.activeContext.scopeChain, functionCodeConstruct)
+            return this.globalObject.internalExecutor.createFunction(this.activeContext.scopeChain, functionCodeConstruct)
         }
         catch(e) { this.notifyError("Error when creating function: " + e);}
     },
@@ -496,7 +505,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            return fcSimulator.InternalExecutor.createObject(this.globalObject, constructorFunction, creationCodeConstruct);
+            return this.globalObject.internalExecutor.createObject(constructorFunction, creationCodeConstruct);
         }
         catch(e) { this.notifyError("Error when creating object:" + e); }
     },
@@ -505,7 +514,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            return fcSimulator.InternalExecutor.createArray(this.globalObject, creationCodeConstruct);
+            return this.globalObject.internalExecutor.createArray(creationCodeConstruct);
         }
         catch(e) { this.notifyError("Error when creating array in current context: " + e); }
     },

@@ -36,7 +36,7 @@ fcModel.RegExPrototype = function(globalObject)
 
         fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(propertyName), null, false);
+            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
         }, this);
     }
     catch(e) { alert("RegExPrototype - error when creating array prototype:" + e); }

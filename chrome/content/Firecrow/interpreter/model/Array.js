@@ -24,7 +24,10 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
         this.addProperty("__proto__", globalObject.arrayPrototype);
     }
-    catch(e) { alert("Array - error when creating array object: " + e); }
+    catch(e)
+    {
+        alert("Array - error when creating array object: " + e);
+    }
 };
 
 fcModel.Array.prototype = new fcModel.Object(null);
@@ -111,7 +114,8 @@ fcModel.Array.prototype.splice = function(arguments, codeConstruct)
             this.deleteProperty(i, codeConstruct);
             removed.push(this.items[i]);
         }
-        var removedItems = Firecrow.Interpreter.Simulator.InternalExecutor.createArray(this.globalObject, codeConstruct, removed);
+
+        var removedItems = this.globalObject.internalExecutor.createArray(codeConstruct, removed);
 
         this.items.splice.apply(this.items, arguments);
 
@@ -119,14 +123,14 @@ fcModel.Array.prototype.splice = function(arguments, codeConstruct)
 
         return removedItems;
     }
-    catch(e) { alert("Array - error when popping item: " + e); }
+    catch(e) { alert("Array - error when splicing item: " + e); }
 };
 
 fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression)
 {
     try
     {
-        var newArray = Firecrow.Interpreter.Simulator.InternalExecutor.createArray(this.globalObject, callExpression);
+        var newArray = this.globalObject.internalExecutor.createArray(callExpression);
 
         jsArray.forEach(function(item)
         {
@@ -155,21 +159,20 @@ fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression
         }
         return newArray;
     }
-    catch(e) { this.notifyError();}
+    catch(e) { this.notifyError("Error when concat array: " + e);}
 };
 
 fcModel.Array.prototype.slice = function(jsArray, callArguments, callExpression)
 {
     try
     {
-        return Firecrow.Interpreter.Simulator.InternalExecutor.createArray
+        return this.globalObject.internalExecutor.createArray
         (
-            this.globalObject,
             callExpression,
             jsArray.slice.apply(jsArray, callArguments.map(function(argument){ return argument.value}))
         );
     }
-    catch(e) { this.notifyError("When slicing array");}
+    catch(e) { this.notifyError("When slicing array: " + e);}
 };
 
 fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpression)
@@ -222,7 +225,7 @@ fcModel.ArrayPrototype = function(globalObject)
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
         fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(propertyName), null, false);
+            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
         }, this);
     }
     catch(e) { alert("Array - error when creating array prototype:" + e); }

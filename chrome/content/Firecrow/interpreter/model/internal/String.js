@@ -29,7 +29,7 @@ fcModel.StringPrototype = function(globalObject)
 
         fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(propertyName), null, false);
+            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
         }, this);
     }
     catch(e) { alert("StringPrototype - error when creating array prototype:" + e); }

@@ -27,6 +27,14 @@ HtmlModelMapping.models.forEach(function(model, index)
             for(var propName in result)
             {
                 var hasBeenFound = false;
+
+                var allPropsName = "";
+
+                for(var i = 0; i < globalObjectProperties.length; i++)
+                {
+                    allPropsName += globalObjectProperties[i].name;
+                }
+
                 for(var i = 0; i < globalObjectProperties.length; i++)
                 {
                     var property = globalObjectProperties[i];
@@ -38,7 +46,7 @@ HtmlModelMapping.models.forEach(function(model, index)
 
                         if(propertyValue == null)
                         {
-                            assertFalse(webFile.url + " : Property value: " + propName + " is null, and should be: " + result[propName], true);
+                            fail(webFile.url + " : Property value: " + propName + " is null, and should be: " + result[propName]);
                             break;
                         }
 
@@ -48,7 +56,7 @@ HtmlModelMapping.models.forEach(function(model, index)
                     }
                 }
 
-                if(!hasBeenFound) { assertFalse(webFile.url + " : Property value: " + propName + " has not been found",true); }
+                if(!hasBeenFound) { fail(webFile.url + " : Property value: " + propName + " has not been found; allProps: " + allPropsName); }
             }
         });
     };
