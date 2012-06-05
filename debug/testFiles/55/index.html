@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Constructor - member expression</div>
+<div id="resultContainer"></div>
+<script>
+    var div = document.createElement("div");
+    div.style.display = "none";
+    div.innerHTML = " <link/><table></table><a href='/a' style='color:red'>a</a><input type='checkbox'/>";
+    var a = div.getElementsByTagName("a")[0];
+
+    var obj = { color: function() { return 3;} };
+
+    var c = a.getAttribute("style");
+
+    var splitted = c.split(":");
+
+    var functionName = splitted[0];
+
+    var a1 = obj[functionName]();
+</script>
+</body>
+</html>

@@ -30,7 +30,7 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.hostDocument = this._getDocumentObject();
         this.documentFragment = this.hostDocument.createDocumentFragment();
 
-        this.globalObject = new GlobalObject();
+        this.globalObject = new GlobalObject(this.documentFragment);
         fcSimulator.InternalExecutor.expandInternalFunctions(this.globalObject);
 
         this.nodeCreatedCallbacks = [];

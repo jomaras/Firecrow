@@ -6,7 +6,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 
-fcModel.GlobalObject = function()
+fcModel.GlobalObject = function(documentFragment)
 {
     try
     {
