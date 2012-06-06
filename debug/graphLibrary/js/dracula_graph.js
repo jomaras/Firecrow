@@ -193,6 +193,7 @@ Graph.Renderer.Raphael = function(element, graph, width, height) {
         selfRef.isDrag && selfRef.isDrag.set.animate({"fill-opacity": .6}, 500);
         selfRef.isDrag = false;
     };
+
     this.draw();
 };
 

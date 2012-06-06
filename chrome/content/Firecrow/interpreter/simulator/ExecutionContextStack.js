@@ -189,6 +189,28 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             var functionConstruct = enterFunctionContextCommand.callee.fcInternal.codeConstruct;
 
+            var formalParameters = this._getFormalParameters(functionConstruct);
+            var sentArgumentsValues = this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand);
+            var arguments = enterFunctionContextCommand.parentFunctionCommand.codeConstruct.arguments;
+
+            for(var i = 0, length = formalParameters.length; i < length; i++)
+            {
+                var formalParameter = formalParameters[i];
+                var sentValue = sentArgumentsValues[i];
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    formalParameter.value.fcInternal.codeConstruct,
+                    sentValue != null ? sentValue.fcInternal.codeConstruct : null
+                );
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    formalParameter.value.fcInternal.codeConstruct,
+                    arguments[i]
+                );
+            }
+
             this.push
             (
                 new fcSimulator.ExecutionContext
@@ -197,9 +219,9 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                     (
                         functionConstruct.id != null ? new fcModel.Identifier(functionConstruct.id.name, enterFunctionContextCommand.callee, functionConstruct)
                                                      : null,
-                        this._getFormalParameters(functionConstruct),
+                        formalParameters,
                         enterFunctionContextCommand.callee,
-                        this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand),
+                        sentArgumentsValues,
                         enterFunctionContextCommand.parentFunctionCommand,
                         this.globalObject
                     ),
@@ -365,6 +387,27 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration));
         }
         catch(e) { this.notifyError("ExecutionContextStack - error when registering function declaration: " + e); }
+    },
+
+    getIdentifier: function(identifierName)
+    {
+        try
+        {
+            for(var i = this.stack.length - 1; i >= 0; i--)
+            {
+                var scopeChain = this.stack[i].scopeChain;
+
+                for(var j = scopeChain.length - 1; j >= 0; j--)
+                {
+                    var variableObject = scopeChain[j];
+
+                    var identifier = variableObject.fcInternal.getIdentifier(identifierName);
+
+                    if(identifier != null) { return identifier; }
+                }
+            }
+        }
+        catch(e) { this.notifyError("Error when getting Identifier value: " + e); }
     },
 
     getIdentifierValue: function(identifierName)

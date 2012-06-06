@@ -64,7 +64,7 @@ FBL.ns(function() { with (FBL) {
         {
             if(!this.isCssNode()) { return this.generateId(); }
 
-            return this.idNum + ":" + this.model.selector ;
+            return this.idNum + ":" + this.model.selector;
         }
         catch(e) { alert("Node - error when generating id for css node: " + e); }
     };
@@ -75,7 +75,12 @@ FBL.ns(function() { with (FBL) {
         {
             if(!this.isJsNode()) { return this.generateId(); }
 
-            return this.idNum + ":@" + (this.model.loc != null ? this.model.loc.start.line : '?' )+  "-" + this.model.type;
+            var additionalData = "";
+
+            if(this.model.type == "Identifier") { additionalData = "->" + this.model.name; }
+            else if (this.model.type == "Literal") { additionalData = "->" + this.model.value;}
+
+            return this.idNum + ":@" + (this.model.loc != null ? this.model.loc.start.line : '?' )+  "-" + this.model.type + additionalData;
         }
         catch(e) { alert("Node - error when generating id for js nodes: " + e); }
     };

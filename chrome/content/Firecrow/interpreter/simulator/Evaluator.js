@@ -282,15 +282,25 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError("Argument is not an EvalIdentifierExpressionCommand"); return; }
 
-            var identifierValue = this.executionContextStack.getIdentifierValue(evalIdentifierCommand.codeConstruct.name)
+            var identifier = this.executionContextStack.getIdentifier(evalIdentifierCommand.codeConstruct.name);
+            var identifierValue = identifier != null ? identifier.value : null;
 
             this.executionContextStack.setExpressionValue(evalIdentifierCommand.codeConstruct, identifierValue);
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                evalIdentifierCommand.codeConstruct,
-                identifierValue.fcInternal.codeConstruct
-            );
+            if(identifier != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    evalIdentifierCommand.codeConstruct,
+                    identifierValue.fcInternal.codeConstruct
+                );
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    evalIdentifierCommand.codeConstruct,
+                    identifier.lastModificationConstruct
+                );
+            }
         }
         catch(e) { this.notifyError("error when evaluating identifier: " + e);}
     },
@@ -371,6 +381,8 @@ fcSimulator.Evaluator.prototype =
             }
             else
             {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument);
+
                 this.executionContextStack.setExpressionValueInPreviousContext
                 (
                     evalReturnExpressionCommand.parentFunctionCommand.codeConstruct,
