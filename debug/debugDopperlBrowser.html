@@ -67,7 +67,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/54/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/06/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -76,6 +76,7 @@
 
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
         browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
+        browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
         browser.registerInterpreterMessageGeneratedCallback(function(message)
         {
             messageContainer.innerHTML += "<br/>" + message;
@@ -125,79 +126,84 @@
             else { alert("Test OK!"); }
         });
 
-        /*var redraw;
+        var redraw;
 
         window.onload = function() {
-        var width = 1300;//$('#canvas').width();
-        var height = 500;//$('#canvas').height() - 100;
+            var width = 1300;//$('#canvas').width();
+            var height = 500;//$('#canvas').height() - 100;
 
-        var renderHtml = function(r, n)
-        {
-        var textLength = n.id.length*7;
-        var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
-        frame.attr({'fill': '#0747CF','stroke-width' : '1px'});
-        return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+            var renderHtml = function(r, n)
+            {
+                var textLength = n.id.length*7;
+                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+                frame.attr({'fill': '#0747CF','stroke-width' : '1px'});
+                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+            };
+
+            var renderCss = function(r, n)
+            {
+                var textLength = n.id.length*7;
+                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+                frame.attr({'fill': '#CF0707','stroke-width' : '1px'});
+                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+            };
+
+            var renderJs = function(r, n)
+            {
+                var textLength = n.id.length*7;
+                var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
+                frame.attr({'fill': '#06E606','stroke-width' : '1px'});
+                return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
+            };
+
+            var g = new Graph();
+
+            g.edgeFactory.build = function(source, target)
+            {
+                var e = jQuery.extend(true, {}, this.template);
+                e.source = source;
+                e.target = target;
+                //e.style.label = "w";
+                return e;
+            }
+
+
+            dependencyGraph.nodes.forEach(function(node)
+            {
+                var nodeId = node.generateId();
+
+                var render = null;
+
+                if(node.isHtmlNode()) { render = renderHtml; }
+                else if(node.isCssNode()) { render = renderCss; }
+                else if(node.isJsNode()) { render = renderJs;}
+
+                g.addNode(nodeId, { render : render, label: nodeId });
+            });
+
+            dependencyGraph.nodes.forEach(function(node)
+            {
+                node.structuralDependencies.forEach(function(edge)
+                {
+                    g.addEdge(edge.sourceNode.generateId(), edge.destinationNode.generateId(), {weight:9, directed: true, stroke : "#000000"});
+                });
+
+                node.dataDependencies.forEach(function(edge)
+                {
+                    g.addEdge(edge.sourceNode.generateId(), edge.destinationNode.generateId(), {weight:9, directed: true, stroke : "#FF0000"});
+                });
+            });
+
+            var layouter = new Graph.Layout.Spring(g);
+
+            var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+
+            redraw = function()
+            {
+                layouter.layout();
+                renderer.draw();
+            };
         };
-
-        var renderCss = function(r, n) {
-        var textLength = n.id.length*7;
-        var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
-        frame.attr({'fill': '#CF0707','stroke-width' : '1px'});
-        return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
-        };
-
-        var renderJs = function(r, n)
-        {
-        var textLength = n.id.length*7;
-        var frame = r.rect(n.point[0] - 0.5*textLength, n.point[1] - 8, textLength, 24);
-        frame.attr({'fill': '#06E606','stroke-width' : '1px'});
-        return r.set().push(frame, r.text(n.point[0], n.point[1] + 4, n.id));
-        };
-
-        var g = new Graph();
-
-        g.edgeFactory.build = function(source, target) {
-        var e = jQuery.extend(true, {}, this.template);
-        e.source = source;
-        e.target = target;
-        //e.style.label = "w";
-        return e;
-        }
-
-
-        dependencyGraph.nodes.forEach(function(node)
-        {
-        var nodeId = node.generateId();
-
-        var render = null;
-
-        if(node.isHtmlNode()) { render = renderHtml; }
-        else if(node.isCssNode()) { render = renderCss; }
-        else if(node.isJsNode()) { render = renderJs;}
-
-        g.addNode(nodeId, { render : render, label: nodeId });
-        });
-
-        dependencyGraph.nodes.forEach(function(node)
-        {
-        node.structuralDependencies.forEach(function(edge)
-        {
-        g.addEdge(edge.sourceNode.generateId(), edge.destinationNode.generateId(), {weight:9, directed: true, stroke : "
-        #000000"});
-        });
-        });
-
-        var layouter = new Graph.Layout.Spring(g);
-
-        var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
-
-        redraw = function()
-        {
-        layouter.layout();
-        renderer.draw();
-        };
-        };*/
-
     </script>
 
 </body>

@@ -30,18 +30,15 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.hostDocument = this._getDocumentObject();
         this.documentFragment = this.hostDocument.createDocumentFragment();
 
-        this.globalObject = new GlobalObject(this.documentFragment);
+        this.globalObject = new GlobalObject(this, this.documentFragment);
 
         this.nodeCreatedCallbacks = [];
         this.nodeInsertedCallbacks = [];
         this.interpretJsCallbacks = [];
-
+        this.dataDependencyEstablishedCallbacks = [];
         this.interpreterMessageGeneratedCallbacks = [];
     }
-    catch(e)
-    {
-        alert("Error when initialising Doppel Browser.Browser: " + e);
-    }
+    catch(e) { alert("Error when initialising Doppel Browser.Browser: " + e); }
 };
 
 var Browser = Firecrow.DoppelBrowser.Browser;
@@ -63,10 +60,7 @@ Browser.prototype =
 
                 callback();
             }
-            catch(e)
-            {
-                alert("Exception when async getting html model at DoppelBrowser.Browser: " + e);
-            }
+            catch(e) { alert("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
         });
     },
 
@@ -81,10 +75,7 @@ Browser.prototype =
 
             this._buildSubtree(htmlModel.htmlElement, null);
         }
-        catch(e)
-        {
-            alert("Exception when async getting html model at DoppelBrowser.Browser: " + e);
-        }
+        catch(e) { alert("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
     },
 
     _asyncGetHtmlModel: function(callback)
@@ -114,10 +105,7 @@ Browser.prototype =
                 callback.call(this, HtmlModelMapping.getModel(this.htmlWebFile.url));
             }
         }
-        catch(e)
-        {
-            alert("Exception in creating main page iFrame: " + e);
-        }
+        catch(e) { alert("Exception in creating main page iFrame: " + e); }
     },
 
     _buildSubtree: function(htmlModelElement, parentDomElement, executionFinishedCallback)
@@ -262,6 +250,13 @@ Browser.prototype =
         this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerDataDependencyEstablishedCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - data dependency established callback has to be a function!"); return; }
+
+        this.dataDependencyEstablishedCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     _callNodeCreatedCallbacks: function(nodeModelObject, nodeType, isDynamic)
     {
         this.nodeCreatedCallbacks.forEach(function(callbackObject)
@@ -291,6 +286,14 @@ Browser.prototype =
         this.interpretJsCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, programModel);
+        });
+    },
+
+    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode)
+    {
+        this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode);
         });
     },
 

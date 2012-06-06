@@ -33,7 +33,15 @@ FBL.ns(function() { with (FBL) {
 
         if(parentNodeModelObject != null)
         {
-            nodeModelObject.graphNode.addStructuralDependency(parentNodeModelObject.graphNode);
+            nodeModelObject.graphNode.addStructuralDependency(parentNodeModelObject.graphNode, isDynamic);
         }
     };
+
+    DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject)
+    {
+        if(sourceNodeModelObject == null) { return; }
+        if(targetNodeModelObject == null) { return; }
+
+        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode);
+    }
 }});

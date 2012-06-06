@@ -6,7 +6,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 
-fcModel.GlobalObject = function(documentFragment)
+fcModel.GlobalObject = function(browser, documentFragment)
 {
     try
     {
@@ -28,6 +28,7 @@ fcModel.GlobalObject = function(documentFragment)
         this.regExFunction = new fcModel.RegExFunction(this);
         this.emptyFunction = new fcModel.EmptyFunction(this);
         this.document = new fcModel.Document(documentFragment, this);
+        this.browser = browser;
 
         this.addProperty("Array", this.arrayFunction , null);
         this.addProperty("RegExp", this.regExFunction, null);
