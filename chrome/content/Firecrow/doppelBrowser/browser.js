@@ -51,6 +51,7 @@ Browser.prototype =
         {
             try
             {
+                this.model = htmlModel;
                 if(htmlModel == null) { alert("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
                 if(htmlModel.htmlElement == null) { alert("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
 

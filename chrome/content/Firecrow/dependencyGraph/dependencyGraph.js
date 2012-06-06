@@ -4,44 +4,44 @@
  * Time: 13:44
  */
 FBL.ns(function() { with (FBL) {
-    /*************************************************************************************/
-    var ValueTypeHelper = Firecrow.ValueTypeHelper;
-    var Node = Firecrow.DependencyGraph.Node;
+/*************************************************************************************/
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var Node = Firecrow.DependencyGraph.Node;
 
-    Firecrow.DependencyGraph.DependencyGraph = function()
+Firecrow.DependencyGraph.DependencyGraph = function()
+{
+    this.nodes = [];
+};
+
+var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
+
+DependencyGraph.prototype.addNode = function(node)
+{
+    if(!ValueTypeHelper.isOfType(node, Node)) { alert("DependencyGraph.DependencyGraph: node is not of type DependencyGraph.Node!"); }
+
+    this.nodes.push(node);
+};
+
+DependencyGraph.prototype.handleNodeCreated = function(nodeModelObject, type, isDynamic)
+{
+    this.addNode(new Node(nodeModelObject, type, isDynamic));
+};
+
+DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentNodeModelObject, isDynamic)
+{
+    if(nodeModelObject == null) { alert("DependencyGraph.DependencyGraph nodeModelObject must not be null!"); return; }
+
+    if(parentNodeModelObject != null)
     {
-        this.nodes = [];
-    };
-
-    var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
-
-    DependencyGraph.prototype.addNode = function(node)
-    {
-        if(!ValueTypeHelper.isOfType(node, Node)) { alert("DependencyGraph.DependencyGraph: node is not of type DependencyGraph.Node!"); }
-
-        this.nodes.push(node);
-    };
-
-    DependencyGraph.prototype.handleNodeCreated = function(nodeModelObject, type, isDynamic)
-    {
-        this.addNode(new Node(nodeModelObject, type, isDynamic));
-    };
-
-    DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentNodeModelObject, isDynamic)
-    {
-        if(nodeModelObject == null) { alert("DependencyGraph.DependencyGraph nodeModelObject must not be null!"); return; }
-
-        if(parentNodeModelObject != null)
-        {
-            nodeModelObject.graphNode.addStructuralDependency(parentNodeModelObject.graphNode, isDynamic);
-        }
-    };
-
-    DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject)
-    {
-        if(sourceNodeModelObject == null) { return; }
-        if(targetNodeModelObject == null) { return; }
-
-        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode);
+        nodeModelObject.graphNode.addStructuralDependency(parentNodeModelObject.graphNode, isDynamic);
     }
+};
+
+DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject)
+{
+    if(sourceNodeModelObject == null) { return; }
+    if(targetNodeModelObject == null) { return; }
+
+    sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode);
+}
 }});

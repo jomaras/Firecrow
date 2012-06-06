@@ -46,6 +46,7 @@
 
     <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
 
 
     <script type="text/javascript" src="graphLibrary/js/jquery-1.4.2.min.js"></script>
@@ -67,9 +68,14 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/07/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/08/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
+
+        Firecrow.Interpreter.DependencyGenerator.generateDependencies(function(model)
+        {
+            var a = 3;
+        });
 
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
         var browser = new Browser(webFile, []);
@@ -165,7 +171,6 @@
                 //e.style.label = "w";
                 return e;
             }
-
 
             dependencyGraph.nodes.forEach(function(node)
             {
