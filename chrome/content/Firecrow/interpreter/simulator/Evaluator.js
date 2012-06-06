@@ -181,7 +181,14 @@ fcSimulator.Evaluator.prototype =
 
                 if(object == null || object.value == null) { this._callExceptionCallbacks(); return; }
 
-                object.value[property.value] = finalValue;
+                if(ValueTypeHelper.isOfType(object.value, HTMLElement))
+                {
+                    object.value[property.value] = finalValue.value;
+                }
+                else
+                {
+                    object.value[property.value] = finalValue;
+                }
 
                 if(property.value == "__proto__" || property.value == "prototype")
                 {
@@ -199,7 +206,7 @@ fcSimulator.Evaluator.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error when evaluating assignment expression " + e + evalAssignmentExpressionCommand.codeConstruct.loc.source);
+            this.notifyError("Error when evaluating assignment expression " + e);
         }
     },
 

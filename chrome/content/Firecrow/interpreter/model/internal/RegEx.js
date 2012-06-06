@@ -88,7 +88,7 @@ fcModel.RegExExecutor =
                     fcThisValue.addProperty("lastIndex", new fcModel.JsValue(thisObjectValue.lastIndex, new fcModel.FcInternal(callExpression)),callExpression);
 
                     if(result == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
-                    else if (ValueTypeHelper.isArray(result)){ return thisObject.fcInternal.object.globalObject.internalExecutor.createArray(callExpression, result);}
+                    else if (ValueTypeHelper.isArray(result)){ return fcThisValue.globalObject.internalExecutor.createArray(callExpression, result);}
                     else { this.notifyError("Unknown result when exec regexp"); return null; }
 
                 case "test":

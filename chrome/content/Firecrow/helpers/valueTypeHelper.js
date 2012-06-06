@@ -256,7 +256,10 @@ Firecrow.ValueTypeHelper =
 
             return null;
         }
-        catch(e) { alert("Error while finding in array: " + e); }
+        catch(e)
+        {
+            alert("ValueTypeHelper - Error while finding in array: " + e);
+        }
     },
     
     trim: function(str, chars) 

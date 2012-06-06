@@ -77,6 +77,8 @@ fcModel.StringExecutor =
             var thisObjectValue = thisObject.value;
             var functionName = functionObjectValue.name;
             var fcThisValue =  thisObject.fcInternal.object;
+            var globalObject = fcThisValue != null ? fcThisValue.globalObject
+                                                   : functionObjectValue.jsValue.fcInternal.object.globalObject;
 
             switch(functionName)
             {
@@ -108,7 +110,7 @@ fcModel.StringExecutor =
                 case "split":
                     var result = thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.value;}));
                     if(result == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
-                    else if (ValueTypeHelper.isArray(result)){ return thisObject.fcInternal.object.globalObject.internalExecutor.createArray(callExpression, result);}
+                    else if (ValueTypeHelper.isArray(result)){ return globalObject.internalExecutor.createArray(callExpression, result);}
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
                 case "replace":
                     this.notifyError("Still not handling string replace!");

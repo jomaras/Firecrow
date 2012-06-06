@@ -27,10 +27,12 @@ fcModel.GlobalObject = function(documentFragment)
         this.arrayFunction = new fcModel.ArrayFunction(this);
         this.regExFunction = new fcModel.RegExFunction(this);
         this.emptyFunction = new fcModel.EmptyFunction(this);
+        this.document = new fcModel.Document(documentFragment, this);
 
-        this.addProperty("Array", this.arrayFunction, null);
+        this.addProperty("Array", this.arrayFunction , null);
         this.addProperty("RegExp", this.regExFunction, null);
         this.addProperty("String", this.stringFunction, null);
+        this.addProperty("document", new fcModel.JsValue(this.document.documentFragment, new fcModel.FcInternal(null, this.document)), null);
 
         this.internalExecutor.expandInternalFunctions();
     }

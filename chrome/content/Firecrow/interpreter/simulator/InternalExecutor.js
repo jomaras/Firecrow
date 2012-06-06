@@ -86,9 +86,15 @@ fcSimulator.InternalExecutor.prototype =
         {
             var array = existingArray || [];
 
-            var fcArray = new fcModel.Array(array, this.globalObject, creationCodeConstruct);
-
-            return new fcModel.JsValue(array, new fcModel.FcInternal(creationCodeConstruct, fcArray));
+            return new fcModel.JsValue
+            (
+                array,
+                new fcModel.FcInternal
+                (
+                    creationCodeConstruct,
+                    new fcModel.Array(array, this.globalObject, creationCodeConstruct)
+                )
+            );
         }
         catch(e) { this.notifyError("Error when creating array: " + e);}
     },
@@ -97,11 +103,36 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            var fcRegEx = new fcModel.RegEx(regEx, this.globalObject, creationCodeConstruct);
-
-            return new fcModel.JsValue(regEx, new fcModel.FcInternal(creationCodeConstruct, fcRegEx));
+            return new fcModel.JsValue
+            (
+                regEx,
+                new fcModel.FcInternal
+                (
+                    creationCodeConstruct,
+                    new fcModel.RegEx(regEx, this.globalObject, creationCodeConstruct)
+                )
+            );
         }
         catch(e) { this.notifyError("Error when creating regEx: " + e);}
+    },
+
+    createHtmlElement: function(creationCodeConstruct, tagName)
+    {
+        try
+        {
+            var jsElement = document.createElement(tagName);
+
+            return new fcModel.JsValue
+            (
+                jsElement,
+                new fcModel.FcInternal
+                (
+                    creationCodeConstruct,
+                    new fcModel.HtmlElement(jsElement, this.globalObject, creationCodeConstruct)
+                )
+            );
+        }
+        catch(e) { this.notifyError("Error when creating html element: " + e);}
     },
 
     executeConstructor: function(constructorConstruct, internalConstructor)
@@ -125,6 +156,8 @@ fcSimulator.InternalExecutor.prototype =
             if(ValueTypeHelper.isOfType(thisObject.value, Array)) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isString(thisObject.value)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, RegExp)) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else
             {
                 this.notifyError("Unsupported internal function!");
@@ -142,8 +175,34 @@ fcSimulator.InternalExecutor.prototype =
             this._expandObjectPrototype();
             this._expandRegExMethods();
             this._expandStringMethods();
+            this._expandDocumentMethods();
         }
         catch(e) { this.notifyError("Error when expanding internal functions: " + e);}
+    },
+
+    expandWithInternalFunction: function(object, functionName)
+    {
+        try
+        {
+            if(object == null) { this.notifyError("Argument object can not be null when expanding with internal function")}
+
+            if(object[functionName] && !object[functionName].hasOwnProperty("jsValue"))
+            {
+                Object.defineProperty
+                (
+                    object[functionName],
+                    "jsValue",
+                    {
+                        value: new fcModel.JsValue
+                        (
+                            object[functionName],
+                            new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(this.globalObject, functionName))
+                        )
+                    }
+                );
+            }
+        }
+        catch(e) { this.notifyError("Error when expanding object with internal function:" + e); }
     },
 
     _expandFunctionPrototype: function()
@@ -171,21 +230,7 @@ fcSimulator.InternalExecutor.prototype =
 
             fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
             {
-                if(functionPrototype[propertyName] && !functionPrototype[propertyName].hasOwnProperty("jsValue"))
-                {
-                    Object.defineProperty
-                    (
-                        functionPrototype[propertyName],
-                        "jsValue",
-                        {
-                            value: new fcModel.JsValue
-                            (
-                                functionPrototype[propertyName],
-                                new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(this.globalObject, propertyName))
-                            )
-                        }
-                    );
-                }
+                this.expandWithInternalFunction(functionPrototype, propertyName);
             }, this);
 
         }
@@ -209,7 +254,8 @@ fcSimulator.InternalExecutor.prototype =
                         (
                             objectPrototype,
                             new fcModel.FcInternal(null, this.globalObject.objectPrototype)
-                        )
+                        ),
+                        writable: true
                     }
                 );
             }
@@ -225,21 +271,7 @@ fcSimulator.InternalExecutor.prototype =
 
             fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
             {
-                if(arrayPrototype[propertyName] != null && !arrayPrototype[propertyName].hasOwnProperty("jsValue"))
-                {
-                    Object.defineProperty
-                    (
-                        arrayPrototype[propertyName],
-                        "jsValue",
-                        {
-                            value: new fcModel.JsValue
-                            (
-                                arrayPrototype[propertyName],
-                                new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(this.globalObject, propertyName))
-                            )
-                        }
-                    );
-                }
+                this.expandWithInternalFunction(arrayPrototype, propertyName);
             }, this);
 
             fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.CALLBACK_METHODS.forEach(function(propertyName)
@@ -258,21 +290,7 @@ fcSimulator.InternalExecutor.prototype =
 
             fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
             {
-                if(regExPrototype[propertyName] != null && !regExPrototype[propertyName].hasOwnProperty("jsValue"))
-                {
-                    Object.defineProperty
-                    (
-                        regExPrototype[propertyName],
-                        "jsValue",
-                        {
-                            value: new fcModel.JsValue
-                            (
-                                regExPrototype[propertyName],
-                                new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(this.globalObject, propertyName))
-                            )
-                        }
-                    );
-                }
+                this.expandWithInternalFunction(regExPrototype, propertyName);
             }, this);
         }
         catch(e) { alert("InternalExecutor - error when expanding regEx methods: " + e); }
@@ -286,24 +304,22 @@ fcSimulator.InternalExecutor.prototype =
 
             fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
             {
-                if(stringPrototype[propertyName] != null && !stringPrototype[propertyName].hasOwnProperty("jsValue"))
-                {
-                    Object.defineProperty
-                    (
-                        stringPrototype[propertyName],
-                        "jsValue",
-                        {
-                            value: new fcModel.JsValue
-                            (
-                                stringPrototype[propertyName],
-                                new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(this.globalObject, propertyName))
-                            )
-                        }
-                    );
-                }
+                this.expandWithInternalFunction(stringPrototype, propertyName);
             }, this);
         }
         catch(e) { alert("InternalExecutor - error when expanding string methods: " + e); }
+    },
+
+    _expandDocumentMethods: function()
+    {
+        try
+        {
+            fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                this.expandWithInternalFunction(document, propertyName);
+            }, this);
+        }
+        catch(e) { alert("InternalExecutor - error when expanding document methods: " + e); }
     },
 
     notifyError: function(message) { alert("InternalExecutor - " + message);}
