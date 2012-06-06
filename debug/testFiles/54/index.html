@@ -18,15 +18,33 @@
 
     var match = rwebkit.exec(ua) || ropera.exec(ua) || ua.indexOf("compatible") < 0 && rmozilla.exec(ua) || [];
 
-    var a =
-    {
-        webkit: function()
-        {
-            return 1;
-        }
-    }
+    var a = { webkit: function() { return 1; } }
 
     var a1 = a[match[1]]();
+
+    var obj =
+    {
+        abb: function() { return 3; },
+        ab: function()  { return 4; },
+        "3": function() { return 5; },
+        "9": function() { return 6; }
+    };
+    var myRe = /ab*/g;
+    var str = "abbcdefabh";
+    var myArray = myRe.exec(str);
+    var resultArray = [];
+    while (myArray != null)
+    {
+        resultArray.push(obj[myArray[0]]());
+        resultArray.push(obj[myRe.lastIndex]());
+        myArray = myRe.exec(str);
+    }
+
+    var b = resultArray[0];
+    var c = resultArray[1];
+    var d = resultArray[2];
+    var e = resultArray[3];
+
 </script>
 </body>
 </html>
