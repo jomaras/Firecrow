@@ -15,6 +15,8 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
 
     <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
 
@@ -48,21 +50,36 @@
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
 
+    <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="graphLibrary/js/jquery-1.4.2.min.js"></script>
-    <!--  The Raphael JavaScript library for vector graphics display  -->
-    <script type="text/javascript" src="graphLibrary/js/raphael.js"></script>
-    <!--  Dracula  -->
-    <!--  An extension of Raphael for connecting shapes -->
-    <script type="text/javascript" src="graphLibrary/js/dracula_graffle.js"></script>
-    <!--  Graphs  -->
-    <script type="text/javascript" src="graphLibrary/js/dracula_graph.js"></script>
-    <script type="text/javascript" src="graphLibrary/js/dracula_algorithms.js"></script>
+    <style>
+        #codeContainer
+        {
+            float: left;
+            width: 700px;
+        }
+
+        #messageContainer
+        {
+            float:left;
+            width: 350px;
+        }
+
+    </style>
 </head>
 <body>
     <h1>Firecrow - Debugging Doppel Browser</h1>
-    <div id="canvas" style='height: 500; width: 1300'></div>
+    <div>
+        <a id="testIdContainer"></a>
+    </div>
+
+    <br/>
+    <span id="resultTitle">Result:</span>
+    <br>
+    <div id="lineNumberContainer"></div>
+    <div id="codeContainer"></div>
     <div id="messageContainer"></div>
+
 
     <script>
         var Firecrow = FBL.Firecrow;
@@ -72,11 +89,6 @@
 
         var messageContainer = document.getElementById("messageContainer");
 
-        Firecrow.Interpreter.DependencyGenerator.generateDependencies(function(model)
-        {
-            var a = 3;
-        });
-
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
         var browser = new Browser(webFile, []);
 
@@ -85,11 +97,31 @@
         browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
         browser.registerInterpreterMessageGeneratedCallback(function(message)
         {
-            messageContainer.innerHTML += "<br/>" + message;
+            var newDiv = document.createElement("div");
+            newDiv.textContent = message;
+            messageContainer.appendChild(newDiv);
         });
 
         browser.asyncBuildPage(function(){
             var model = HtmlModelMapping.getWholeFileModel(webFile.url);
+
+            var codeContainer = document.getElementById("codeContainer");
+            var testIdContainer = document.getElementById("testIdContainer");
+            var resultContainer = document.getElementById("resultTitle");
+            var lineNumberContainer = document.getElementById("lineNumberContainer");
+
+            codeContainer.innerHTML = FBL.Firecrow.CodeHtmlGenerator.generateHtmlRepresentation(model.model);
+            testIdContainer.textContent = webFile.url;
+            testIdContainer.href = webFile.url;
+
+            var noOfLines = codeContainer.offsetHeight / resultContainer.offsetHeight;
+            for(var i = 1; i <= noOfLines; i++)
+            {
+                var newDiv = document.createElement("div");
+                newDiv.textContent = i;
+                lineNumberContainer.appendChild(newDiv);
+            }
+
             var globalObjectProperties = browser.globalObject.properties;
             var errors = "";
             model.results.forEach(function(result)
@@ -129,12 +161,19 @@
             });
 
             if(errors != "") { alert("Errors on validating result:\n" + errors); }
+            else
+            {
+                var newDiv = document.createElement("div");
+                newDiv.style.color = "green";
+                newDiv.textContent = "Test successful";
+                messageContainer.appendChild(newDiv);
+            }
         });
 
         var redraw;
 
         window.onload = function() {
-            var width = 1300;//$('#canvas').width();
+           /* var width = 1300;//$('#canvas').width();
             var height = 500;//$('#canvas').height() - 100;
 
             var renderHtml = function(r, n)
@@ -206,7 +245,7 @@
             {
                 layouter.layout();
                 renderer.draw();
-            };
+            };*/
         };
     </script>
 
