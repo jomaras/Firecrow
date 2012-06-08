@@ -88,7 +88,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/17/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/09/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -179,14 +179,14 @@
                     {
                         var currentItem = dependencies[j];
 
-                        if(currentItem.dependencies != null)
-                        {
-                            currentItem.dependencies.forEach(function(item)
-                            {
-                                markAllDependencies(item);
-                            });
-                        }
+                        var allDependencies = {};
+                        getAllDependencies(currentItem, allDependencies);
 
+                        for(var nodeId in allDependencies)
+                        {
+                            var dep = allDependencies[nodeId];
+                            if(dep.htmlNode != null) { dep.htmlNode.classList.add("secondHandDependencies");}
+                        }
 
                         if(currentItem.htmlNode != null)
                         {
@@ -197,15 +197,40 @@
             }
         }
 
+        function getAllDependencies(item, result)
+        {
+            if(item == null) { return result; }
+
+            if(result[item.nodeId] != null) { return; }
+
+            var dependencies = item.dependencies;
+
+            for(var i = 0, length = dependencies.length; i < length; i++)
+            {
+                var currItem = dependencies[i];
+                if(result[currItem.nodeId] != null) { continue; }
+
+                result[currItem.nodeId] = currItem;
+
+                getAllDependencies(currItem, result);
+            }
+        }
+
         function markAllDependencies(item)
         {
             var dependencies = item.dependencies;
 
             if(dependencies == null) { return; }
 
+            if(item.htmlNode.classList.contains("secondHandDependencies")) { return; }
+            if(item.htmlNode.classList.contains("dependent")) { return; }
+
             for(var i = 0, length = dependencies.length; i < length; i++)
             {
                 var currentItem = dependencies[i];
+
+                if(currentItem.htmlNode.classList.contains("secondHandDependencies")) { return; }
+                if(currentItem.htmlNode.classList.contains("dependent")) { return; }
 
                 markAllDependencies(currentItem);
 

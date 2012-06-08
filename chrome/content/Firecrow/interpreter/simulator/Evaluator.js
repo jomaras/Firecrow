@@ -176,6 +176,12 @@ fcSimulator.Evaluator.prototype =
                     evalAssignmentExpressionCommand.leftSide,
                     rightValue.fcInternal.codeConstruct
                 );
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    evalAssignmentExpressionCommand.leftSide,
+                    leftValue.fcInternal.codeConstruct
+                );
             }
 
             finalValue = finalValue.isPrimitive() ? finalValue.createCopy(evalAssignmentExpressionCommand.rightSide) : finalValue
