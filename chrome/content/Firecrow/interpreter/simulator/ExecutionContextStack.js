@@ -191,7 +191,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             var formalParameters = this._getFormalParameters(functionConstruct);
             var sentArgumentsValues = this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand);
-            var arguments = enterFunctionContextCommand.parentFunctionCommand.codeConstruct.arguments;
+            var arguments = enterFunctionContextCommand.parentFunctionCommand.isExecuteCallbackCommand() ? []
+                                                                                                         : enterFunctionContextCommand.parentFunctionCommand.codeConstruct.arguments;
 
             for(var i = 0, length = formalParameters.length; i < length; i++)
             {
@@ -232,7 +233,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 )
             );
         }
-        catch(e) { this.notifyError("Error when entering function context: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when entering function context: " + e);
+        }
     },
 
     _getFormalParameters: function(functionConstruct)

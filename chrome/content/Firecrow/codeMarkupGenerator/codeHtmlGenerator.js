@@ -22,34 +22,34 @@ Firecrow.CodeHtmlGenerator =
             html += this.generateHtmlDocumentTypeTags(root.docType);
 
             // generate the <html> oppening tags
-            html += '<div class="html" id="' + root.htmlElement.nodeId + '">'
+            html += '<div class="node html" id="node' + FBL.Firecrow.CodeMarkupGenerator.formatId(root.htmlElement.nodeId) + '">'
                  + this.generateOpeningTags(root.htmlElement.type, root.htmlElement.attributes);
 
             // generate <head>
-            var htmlHeadNode = root.htmlElement.children[0];
+            var htmlHeadNode = root.htmlElement.childNodes[0];
 
-            html += '<div class="head indented" id="' + FBL.Firecrow.CodeMarkupGenerator.formatId(htmlHeadNode.nodeId) + '">'
+            html += '<div class="node head indented" id="node' + FBL.Firecrow.CodeMarkupGenerator.formatId(htmlHeadNode.nodeId) + '">'
                  + this.generateOpeningTags(htmlHeadNode.type, htmlHeadNode.attributes);
 
-            // generate <head> children
-            for (var i = 0; i < htmlHeadNode.children.length; i++)
+            // generate <head> childNodes
+            for (var i = 0; i < htmlHeadNode.childNodes.length; i++)
             {
-                html += this.generateHtmlElement(htmlHeadNode.children[i]);
+                html += this.generateHtmlElement(htmlHeadNode.childNodes[i]);
             }
 
             // generate </head>
             html += this.generateClosingTags(htmlHeadNode.type) + '</div>';
 
             // generate <body>
-            var htmlBodyNode = root.htmlElement.children[2];
-            html += '<div class="body indented" id="'
+            var htmlBodyNode = root.htmlElement.childNodes[2];
+            html += '<div class="node body indented" id="node'
                 + FBL.Firecrow.CodeMarkupGenerator.formatId(htmlBodyNode.nodeId) + '">'
                 + this.generateOpeningTags(htmlBodyNode.type, htmlBodyNode.attributes);
 
-            // generate <body> children
-            for (var i = 0; i < htmlBodyNode.children.length; i++)
+            // generate <body> childNodes
+            for (var i = 0; i < htmlBodyNode.childNodes.length; i++)
             {
-                html += this.generateHtmlElement(htmlBodyNode.children[i]);
+                html += this.generateHtmlElement(htmlBodyNode.childNodes[i]);
             }
             // generate </body>
             html += this.generateClosingTags(htmlBodyNode.type) + '</div>';
@@ -70,7 +70,7 @@ Firecrow.CodeHtmlGenerator =
 
     generateHtmlDocumentTypeTags: function(documentType)
     {
-        var docTypeHtml = '<div class="documentType">';
+        var docTypeHtml = '<div class="node documentType">';
 
         if (documentType == "") { docTypeHtml += '&#60;&#33;DOCTYPE html&#62;'; }
         else if (documentType === "http://www.w3.org/TR/html4/strict.dtd") { docTypeHtml += '&#60;&#33;DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&#62;';}
@@ -95,11 +95,11 @@ Firecrow.CodeHtmlGenerator =
 
         // generate <elementType attribute[0].name="attribute[0].value" ... attribute[N].name="attribute[N].value">
         // <elementType
-        html += '&#60;' + '<span class="htmlTag">' + elementType + '</span>';
+        html += '&#60;' + '<span class="node htmlTag">' + elementType + '</span>';
         for (var i = 0; i < elementAttributes.length; i++)
         {
-            html += " " + '<span class="htmlAttributeName">' + elementAttributes[i].name + '</span>=';
-            html += '"' + '<span class="htmlAttributeValue">' + elementAttributes[i].value + '"</span>';
+            html += " " + '<span class="node htmlAttributeName">' + elementAttributes[i].name + '</span>=';
+            html += '"' + '<span class="node htmlAttributeValue">' + elementAttributes[i].value + '"</span>';
         }
         // generate >
         html += '&#62;';
@@ -112,7 +112,7 @@ Firecrow.CodeHtmlGenerator =
         if(elementType === "textNode") { return "" };
 
         var html = "";
-        html += '&#60;<span class="htmlTag">&#47;' + elementType + "</span>&#62;";
+        html += '&#60;<span class="node htmlTag">&#47;' + elementType + "</span>&#62;";
         return html;
     },
 
@@ -122,7 +122,7 @@ Firecrow.CodeHtmlGenerator =
         {
             var html = "";
 
-            html += '<div class="' + element.type + " indented" + '" id="' + FBL.Firecrow.CodeMarkupGenerator.formatId(element.nodeId) + '">'
+            html += '<div class="node ' + element.type + " indented" + '" id="node' + FBL.Firecrow.CodeMarkupGenerator.formatId(element.nodeId) + '">'
                  + this.generateOpeningTags(element.type, element.attributes);
 
             if (element.type === "script")
@@ -217,8 +217,8 @@ Firecrow.CodeHtmlGenerator =
                 if(element.textContent != undefined)
                     html += element.textContent;
 
-                for(var i=0; i < element.children.length; i++)
-                    html += '<span class="htmlContent">' + this.generateHtmlElement(element.children[i]) + '</span>';
+                for(var i=0; i < element.childNodes.length; i++)
+                    html += '<span class="node htmlContent">' + this.generateHtmlElement(element.childNodes[i]) + '</span>';
 
             }
 
@@ -243,7 +243,7 @@ Firecrow.CodeHtmlGenerator =
                 // if rule is @charset
                 if (cssModel.rules[i].cssText[0] == "@")
                 {
-                    html += '<div class="cssCharset" id="' + cssModel.rules[i].nodeId + '">' + cssModel.rules[i].cssText + '</div>';
+                    html += '<div class="node cssCharset" id="node' + cssModel.rules[i].nodeId + '">' + cssModel.rules[i].cssText + '</div>';
                 }
                 else
                 {
@@ -254,9 +254,9 @@ Firecrow.CodeHtmlGenerator =
                     while(cssRules[0] === " ")
                         cssRules = cssRules.replace(" ", "");
 
-                    html += '<div class="cssRule" id="' + FBL.Firecrow.CodeMarkupGenerator.formatId(cssModel.rules[i].nodeId) +'">';
-                    //html += '<span class="cssSelector">' + cssModel.rules[i].selector + "</span><br>";
-                    html += '<span class="cssSelector">' + cssModel.rules[i].selector + '</span><br>';
+                    html += '<div class="node cssRule" id="node' + FBL.Firecrow.CodeMarkupGenerator.formatId(cssModel.rules[i].nodeId) +'">';
+                    //html += '<span class="node cssSelector">' + cssModel.rules[i].selector + "</span><br>";
+                    html += '<span class="node cssSelector">' + cssModel.rules[i].selector + '</span><br>';
                     html += "{ <br>";
 
                     rulesArray = cssRules.split("; ");

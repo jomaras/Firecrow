@@ -125,7 +125,7 @@ Browser.prototype =
             htmlModelElement.type == "script" ? htmlDomElement.textContent = htmlModelElement.textContent
                                               : "";
 
-            htmlModelElement.children.forEach(function(element)
+            htmlModelElement.childNodes.forEach(function(element)
             {
                 element.type == "textNode" ? htmlDomElement.appendChild(this.hostDocument.createTextNode(element.textContent))
                                            : this._buildSubtree(element, htmlDomElement);

@@ -65,6 +65,9 @@
             width: 350px;
         }
 
+        .selected { background-color: yellow; }
+        .dependent { background-color: green; }
+
     </style>
 </head>
 <body>
@@ -80,12 +83,11 @@
     <div id="codeContainer"></div>
     <div id="messageContainer"></div>
 
-
     <script>
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/08/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/46/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -102,17 +104,67 @@
             messageContainer.appendChild(newDiv);
         });
 
-        browser.asyncBuildPage(function(){
+        browser.asyncBuildPage(function()
+        {
             var model = HtmlModelMapping.getWholeFileModel(webFile.url);
 
             var codeContainer = document.getElementById("codeContainer");
-            var testIdContainer = document.getElementById("testIdContainer");
-            var resultContainer = document.getElementById("resultTitle");
-            var lineNumberContainer = document.getElementById("lineNumberContainer");
-
             codeContainer.innerHTML = FBL.Firecrow.CodeHtmlGenerator.generateHtmlRepresentation(model.model);
+
+            createLinksBetweenHtmlAndModel(model.model, codeContainer);
+
+            handleCodeSelectionEvents();
+
+            setTitle();
+
+            setCodeLineNumbers();
+
+            checkForErrors(model);
+        });
+
+        function createLinksBetweenHtmlAndModel(model, parentHtmlElement)
+        {
+
+        }
+
+        function handleCodeSelectionEvents()
+        {
+            var codeContainer = document.getElementById("codeContainer");
+            var codeNodes = codeContainer.querySelectorAll(".node");
+
+            for(var i = 0, length = codeNodes.length; i < length; i++)
+            {
+                codeNodes[i].onclick = function(eventArgs)
+                {
+                    eventArgs.cancelBubble = true;
+                    deselectAllCodeElements();
+                    this.classList.toggle("selected");
+                }
+            }
+        }
+
+        function deselectAllCodeElements()
+        {
+            var currentlySelected = document.querySelectorAll(".selected");
+
+            for(var i = 0, length = currentlySelected.length; i < length; i++)
+            {
+                currentlySelected[i].classList.remove("selected");
+            }
+        }
+
+        function setTitle()
+        {
+            var testIdContainer = document.getElementById("testIdContainer");
             testIdContainer.textContent = webFile.url;
             testIdContainer.href = webFile.url;
+        }
+
+        function setCodeLineNumbers()
+        {
+            var resultContainer = document.getElementById("resultTitle");
+            var codeContainer = document.getElementById("codeContainer");
+            var lineNumberContainer = document.getElementById("lineNumberContainer");
 
             var noOfLines = codeContainer.offsetHeight / resultContainer.offsetHeight;
             for(var i = 1; i <= noOfLines; i++)
@@ -121,7 +173,10 @@
                 newDiv.textContent = i;
                 lineNumberContainer.appendChild(newDiv);
             }
+        }
 
+        function checkForErrors(model)
+        {
             var globalObjectProperties = browser.globalObject.properties;
             var errors = "";
             model.results.forEach(function(result)
@@ -168,9 +223,7 @@
                 newDiv.textContent = "Test successful";
                 messageContainer.appendChild(newDiv);
             }
-        });
-
-        var redraw;
+        }
 
         window.onload = function() {
            /* var width = 1300;//$('#canvas').width();

@@ -56,7 +56,7 @@ Firecrow.htmlHelper =
             {
                 type: !(rootElement instanceof Text) ? rootElement.localName : "textNode",
                 attributes: this.getAttributes(rootElement),
-                children: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels),
+                childNodes: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels),
                 nodeId: this._lastUsedId++
             };
             var that = this;
