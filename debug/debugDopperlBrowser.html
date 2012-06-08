@@ -67,6 +67,7 @@
 
         .selected { background-color: green; }
         .dependent { background-color: yellow; }
+        .secondHandDependencies { background-color: #7FFF00;}
 
     </style>
 </head>
@@ -87,7 +88,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/06/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/07/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -151,11 +152,6 @@
                 var nodeId = "node" + FBL.Firecrow.CodeMarkupGenerator.formatId(modelElement.nodeId);
                 var htmlNode = document.getElementById(nodeId);
 
-                if(modelElement.nodeId == 18)
-                {
-                    var a = 3;
-                }
-
                 if(htmlNode != null)
                 {
                     modelElement.htmlNode = htmlNode;
@@ -178,17 +174,44 @@
                     this.classList.add("selected");
 
                     var dependencies = this.model.dependencies;
+
                     for(var j = 0, depLength = dependencies.length; j < depLength; j++)
                     {
-                        if(dependencies[j].htmlNode != null)
+                        var currentItem = dependencies[j];
+
+                        if(currentItem.dependencies != null)
                         {
-                            dependencies[j].htmlNode.classList.add("dependent");
+                            currentItem.dependencies.forEach(function(item)
+                            {
+                                markAllDependencies(item);
+                            });
                         }
-                        else
+
+
+                        if(currentItem.htmlNode != null)
                         {
-                            var a = 3;
+                            currentItem.htmlNode.classList.add("dependent");
                         }
                     }
+                }
+            }
+        }
+
+        function markAllDependencies(item)
+        {
+            var dependencies = item.dependencies;
+
+            if(dependencies == null) { return; }
+
+            for(var i = 0, length = dependencies.length; i < length; i++)
+            {
+                var currentItem = dependencies[i];
+
+                markAllDependencies(currentItem);
+
+                if(currentItem.htmlNode != null)
+                {
+                    currentItem.htmlNode.classList.add("secondHandDependencies");
                 }
             }
         }
@@ -197,6 +220,7 @@
         {
             var currentlySelected = document.querySelectorAll(".selected");
             var currentlyDependent = document.querySelectorAll(".dependent");
+            var currentlySecondDependent = document.querySelectorAll(".secondHandDependencies");
 
             for(var i = 0, length = currentlySelected.length; i < length; i++)
             {
@@ -206,6 +230,11 @@
             for(var i = 0, length = currentlyDependent.length; i < length; i++)
             {
                 currentlyDependent[i].classList.remove("dependent");
+            }
+
+            for(var i = 0, length = currentlySecondDependent.length; i < length; i++)
+            {
+                currentlySecondDependent[i].classList.remove("secondHandDependencies");
             }
         }
 

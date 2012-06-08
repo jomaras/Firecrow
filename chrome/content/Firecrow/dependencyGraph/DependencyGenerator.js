@@ -29,7 +29,7 @@ Firecrow.Interpreter.DependencyGenerator =
                 var node = allNodes[i];
                 var nodeModel = node.model;
 
-                if(nodeModel.dependancies == null) { nodeModel.dependancies = [];}
+                if(nodeModel.dependencies == null) { nodeModel.dependencies = [];}
 
                 var edges = node.dataDependencies;
 
@@ -38,7 +38,7 @@ Firecrow.Interpreter.DependencyGenerator =
                     var edge = edges[j];
                     var destinationModel = edge.destinationNode.model;
 
-                    nodeModel.dependancies.push(destinationModel.nodeId);
+                    nodeModel.dependencies.push(destinationModel.nodeId);
                 }
             }
 

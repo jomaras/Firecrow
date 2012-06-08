@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -33,10 +32,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="154" column="34" selection-start="6573" selection-end="6573" vertical-scroll-proportion="-13.038462">
+            <state line="216" column="72" selection-start="8622" selection-end="8622" vertical-scroll-proportion="0.60465115">
               <folding />
             </state>
           </provider>
@@ -69,10 +68,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="codeMarkupGenerator.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="codeMarkupGenerator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1092" column="76" selection-start="47003" selection-end="47003" vertical-scroll-proportion="0.60535717">
+            <state line="1089" column="96" selection-start="46898" selection-end="46898" vertical-scroll-proportion="-11.52">
               <folding />
             </state>
           </provider>
@@ -114,17 +113,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClassList.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/ClassList.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="68" selection-start="855" selection-end="855" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -142,7 +130,6 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js" />
         <option value="$PROJECT_DIR$/debug/style/codeColoring.css" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping1.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js" />
@@ -152,8 +139,9 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-        <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js" />
+        <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
       </list>
     </option>
   </component>
@@ -644,7 +632,11 @@
       <created>1339140201391</created>
       <updated>1339140201391</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Code visualization - first results">
+      <created>1339143863258</created>
+      <updated>1339143863258</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -729,7 +721,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on code visualization integration; Fixed a bug with tracking dependencies on callback expressions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code visualization - first results" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -757,6 +749,7 @@
     <MESSAGE value="Simple DependencyGenerator functionality added" />
     <MESSAGE value="Working on code visualization integration" />
     <MESSAGE value="Working on code visualization integration; Fixed a bug with tracking dependencies on callback expressions" />
+    <MESSAGE value="Code visualization - first results" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -795,13 +788,6 @@
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="141" column="22" selection-start="5596" selection-end="5596" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="22" selection-start="1017" selection-end="1660" vertical-scroll-proportion="0.5811966">
           <folding />
         </state>
       </provider>
@@ -855,13 +841,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="34" selection-start="6573" selection-end="6573" vertical-scroll-proportion="-13.038462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="106" selection-start="1479" selection-end="1479" vertical-scroll-proportion="-19.4">
@@ -871,7 +850,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1092" column="76" selection-start="47003" selection-end="47003" vertical-scroll-proportion="0.60535717">
+        <state line="1089" column="96" selection-start="46898" selection-end="46898" vertical-scroll-proportion="-11.52">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="42" selection-start="1611" selection-end="1611" vertical-scroll-proportion="0.6035398">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="216" column="72" selection-start="8622" selection-end="8622" vertical-scroll-proportion="0.60465115">
           <folding />
         </state>
       </provider>
