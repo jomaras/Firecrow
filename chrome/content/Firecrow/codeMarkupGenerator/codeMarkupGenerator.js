@@ -1084,7 +1084,9 @@ FBL.ns(function () { with (FBL) {
             {
                 if(!astHelper.isVariableDeclarator(variableDeclarator)) { alert("The element is not a variable declarator when generating html code!"); return ""; }
 
-                var html = this.generateFromPattern(variableDeclarator.id);
+                var html = this.getStartElementHtml("span", {class: astHelper.CONST.VariableDeclarator, id: "node" + this.formatId(variableDeclarator.nodeId)});
+
+                html += this.generateFromPattern(variableDeclarator.id);
 
                 if(variableDeclarator.init != null)
                 {
@@ -1092,7 +1094,7 @@ FBL.ns(function () { with (FBL) {
                     html += this.generateHtml(variableDeclarator.init);
                 }
 
-                return html;
+                return html + this.getEndElementHtml("span");
             }
             catch(e) { alert("Error when generating HTML code from variableDeclarator - CodeMarkupGenerator:" + e);}
         },

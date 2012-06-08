@@ -65,8 +65,8 @@
             width: 350px;
         }
 
-        .selected { background-color: yellow; }
-        .dependent { background-color: green; }
+        .selected { background-color: green; }
+        .dependent { background-color: yellow; }
 
     </style>
 </head>
@@ -87,7 +87,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/46/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/06/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -113,6 +113,8 @@
 
             createLinksBetweenHtmlAndModel(model.model, codeContainer);
 
+            establishDependencies(dependencyGraph);
+
             handleCodeSelectionEvents();
 
             setTitle();
@@ -122,9 +124,44 @@
             checkForErrors(model);
         });
 
+        function establishDependencies(dependencyGraph)
+        {
+            var allNodes = dependencyGraph.nodes;
+
+            for(var i = 0, length = allNodes.length; i < length; i++)
+            {
+                var node = allNodes[i];
+                var nodeModel = node.model;
+
+                if(nodeModel.dependencies == null) { nodeModel.dependencies = [];}
+
+                var edges = node.dataDependencies;
+
+                for(var j = 0, depLength = edges.length; j < depLength; j++)
+                {
+                    nodeModel.dependencies.push(edges[j].destinationNode.model);
+                }
+            }
+        }
+
         function createLinksBetweenHtmlAndModel(model, parentHtmlElement)
         {
+            FBL.Firecrow.ASTHelper.traverseAst(model, function(modelElement)
+            {
+                var nodeId = "node" + FBL.Firecrow.CodeMarkupGenerator.formatId(modelElement.nodeId);
+                var htmlNode = document.getElementById(nodeId);
 
+                if(modelElement.nodeId == 18)
+                {
+                    var a = 3;
+                }
+
+                if(htmlNode != null)
+                {
+                    modelElement.htmlNode = htmlNode;
+                    htmlNode.model = modelElement;
+                }
+            });
         }
 
         function handleCodeSelectionEvents()
@@ -138,7 +175,20 @@
                 {
                     eventArgs.cancelBubble = true;
                     deselectAllCodeElements();
-                    this.classList.toggle("selected");
+                    this.classList.add("selected");
+
+                    var dependencies = this.model.dependencies;
+                    for(var j = 0, depLength = dependencies.length; j < depLength; j++)
+                    {
+                        if(dependencies[j].htmlNode != null)
+                        {
+                            dependencies[j].htmlNode.classList.add("dependent");
+                        }
+                        else
+                        {
+                            var a = 3;
+                        }
+                    }
                 }
             }
         }
@@ -146,10 +196,16 @@
         function deselectAllCodeElements()
         {
             var currentlySelected = document.querySelectorAll(".selected");
+            var currentlyDependent = document.querySelectorAll(".dependent");
 
             for(var i = 0, length = currentlySelected.length; i < length; i++)
             {
                 currentlySelected[i].classList.remove("selected");
+            }
+
+            for(var i = 0, length = currentlyDependent.length; i < length; i++)
+            {
+                currentlyDependent[i].classList.remove("dependent");
             }
         }
 
