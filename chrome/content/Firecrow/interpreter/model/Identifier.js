@@ -15,6 +15,7 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct)
         this.value = value;
         this.modificationConstructs = [];
         this.lastModificationConstruct = codeConstruct;
+        this.declarationConstruct = codeConstruct;
 
         if(codeConstruct != null)
         {
@@ -35,17 +36,17 @@ Firecrow.Interpreter.Model.Identifier.prototype =
         {
             this.modificationConstructs.push(modificationConstruct);
         }
+    },
+    createObjectPropertyIdentifier: function(hostObject, propertyName, propertyValue, creationConstruct)
+    {
+        var identifier = new fcModel.Identifier(propertyName, propertyValue, creationConstruct);
+
+        identifier.hostObject = hostObject;
+
+        return identifier;
     }
 };
 
 Firecrow.Interpreter.Model.Identifier.LAST_IDENTIFIER_ID = 0;
-Firecrow.Interpreter.Model.Identifier.createObjectPropertyIdentifier = function(hostObject, propertyName, propertyValue, creationConstruct)
-{
-    var identifier = new fcModel.Identifier(propertyName, propertyValue, creationConstruct);
-
-    identifier.hostObject = hostObject;
-
-    return identifier;
-};
 /****************************************************************************/
 }});

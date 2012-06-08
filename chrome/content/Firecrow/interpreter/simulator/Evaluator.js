@@ -300,6 +300,12 @@ fcSimulator.Evaluator.prototype =
                     evalIdentifierCommand.codeConstruct,
                     identifier.lastModificationConstruct
                 );
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    evalIdentifierCommand.codeConstruct,
+                    identifier.declarationConstruct
+                );
             }
         }
         catch(e) { this.notifyError("error when evaluating identifier: " + e);}
