@@ -467,7 +467,7 @@ FBL.ns(function () { with (FBL) {
                 if(!astHelper.isThisExpression(thisExpression)) { alert("Invalid element when generating this expression html code!"); return ""; }
 
                 var _class = "keyword node";
-                var _id = "node" + this.formatId(thisExpression.astId);
+                var _id = "node" + this.formatId(thisExpression.nodeId);
 
                 return this.getElementHtml("span", { class: _class, id: _id}, "this");
             }
