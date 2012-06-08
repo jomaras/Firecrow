@@ -447,7 +447,10 @@ fcSimulator.Evaluator.prototype =
                 }
             }
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(propertyValue.fcInternal.codeConstruct, object.fcInternal.codeConstruct);
+            if(propertyValue != null && object != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(propertyValue.fcInternal.codeConstruct, object.fcInternal.codeConstruct);
+            }
 
             this.executionContextStack.setExpressionValue(evalMemberExpressionCommand.codeConstruct, propertyValue);
         }
