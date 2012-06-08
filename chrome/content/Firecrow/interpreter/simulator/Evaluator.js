@@ -28,7 +28,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(command, Firecrow.Interpreter.Commands.Command)) { this.notifyError("When evaluating the argument has to be of type command"); return; }
+            if(!ValueTypeHelper.isOfType(command, Firecrow.Interpreter.Commands.Command)) { this.notifyError(command, "When evaluating the argument has to be of type command"); return; }
 
                  if (command.isDeclareVariableCommand()) { this._evaluateDeclareVariableCommand(command); }
             else if (command.isDeclareFunctionCommand()) { this._evaluateDeclareFunctionCommand(command); }
@@ -54,38 +54,38 @@ fcSimulator.Evaluator.prototype =
             else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
             else if (command.isEvalUnaryExpressionCommand()) { this._evaluateUnaryExpression(command); }
             else if (command.isCallInternalFunctionCommand()) { this._evaluateCallInternalFunction(command); }
-            else { this.notifyError("Evaluator: Still not handling command of type: " +  command.type); return; }
+            else { this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return; }
         }
-        catch(e) { this.notifyError("An error occurred when evaluating command: " + e);}
+        catch(e) { this.notifyError(command, "An error occurred when evaluating command: " + e);}
     },
 
     _evaluateDeclareVariableCommand: function(declareVariableCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(declareVariableCommand, Firecrow.Interpreter.Commands.Command) || !declareVariableCommand.isDeclareVariableCommand()) { this.notifyError("Argument is not a DeclareVariableCommand"); return; }
+            if(!ValueTypeHelper.isOfType(declareVariableCommand, Firecrow.Interpreter.Commands.Command) || !declareVariableCommand.isDeclareVariableCommand()) { this.notifyError(declareVariableCommand, "Argument is not a DeclareVariableCommand"); return; }
 
             this.executionContextStack.registerIdentifier(declareVariableCommand.codeConstruct);
         }
-        catch(e) { this.notifyError("Error when evaluating declare variable: " + e); }
+        catch(e) { this.notifyError(declareVariableCommand, "Error when evaluating declare variable: " + e); }
     },
 
     _evaluateDeclareFunctionCommand: function(declareFunctionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(declareFunctionCommand, Firecrow.Interpreter.Commands.Command) || !declareFunctionCommand.isDeclareFunctionCommand()) { this.notifyError("Argument is not a DeclareFunctionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(declareFunctionCommand, Firecrow.Interpreter.Commands.Command) || !declareFunctionCommand.isDeclareFunctionCommand()) { this.notifyError(declareFunctionCommand, "Argument is not a DeclareFunctionCommand"); return; }
 
             this.executionContextStack.registerFunctionDeclaration(declareFunctionCommand.codeConstruct);
         }
-        catch(e) { this.notifyError("Error when evaluating declare function: " + e); }
+        catch(e) { this.notifyError(declareFunctionCommand, "Error when evaluating declare function: " + e); }
     },
 
     _evaluateFunctionExpressionCreationCommand: function(functionExpressionCreationCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(functionExpressionCreationCommand, Firecrow.Interpreter.Commands.Command) || !functionExpressionCreationCommand.isFunctionExpressionCreationCommand()) { this.notifyError("Argument is not a function expression creation command"); return; }
+            if(!ValueTypeHelper.isOfType(functionExpressionCreationCommand, Firecrow.Interpreter.Commands.Command) || !functionExpressionCreationCommand.isFunctionExpressionCreationCommand()) { this.notifyError(functionExpressionCreationCommand, "Argument is not a function expression creation command"); return; }
 
             this.executionContextStack.setExpressionValue
             (
@@ -93,25 +93,25 @@ fcSimulator.Evaluator.prototype =
                 this.executionContextStack.createFunctionInCurrentContext(functionExpressionCreationCommand.codeConstruct)
             );
         }
-        catch(e) { this.notifyError("Error when evaluating declare function: " + e); }
+        catch(e) { this.notifyError(functionExpressionCreationCommand, "Error when evaluating declare function: " + e); }
     },
 
     _evaluateLiteralCommand: function(evalLiteralCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalLiteralCommand, Firecrow.Interpreter.Commands.Command) || !evalLiteralCommand.isEvalLiteralCommand()) { this.notifyError("Argument is not an EvalLiteralCommand"); return; }
+            if(!ValueTypeHelper.isOfType(evalLiteralCommand, Firecrow.Interpreter.Commands.Command) || !evalLiteralCommand.isEvalLiteralCommand()) { this.notifyError(evalLiteralCommand, "Argument is not an EvalLiteralCommand"); return; }
 
             this.executionContextStack.setExpressionValue(evalLiteralCommand.codeConstruct, new fcModel.JsValue(evalLiteralCommand.codeConstruct.value, new fcModel.FcInternal(evalLiteralCommand.codeConstruct)));
         }
-        catch(e) { this.notifyError("Error when evaluating literal: " + e); }
+        catch(e) { this.notifyError(evalLiteralCommand, "Error when evaluating literal: " + e); }
     },
 
     _evaluateRegExLiteralCommand: function(evalRegExCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalRegExCommand, Firecrow.Interpreter.Commands.Command) || !evalRegExCommand.isEvalRegExCommand()) { this.notifyError("Argument is not an EvalRegExCommand"); return; }
+            if(!ValueTypeHelper.isOfType(evalRegExCommand, Firecrow.Interpreter.Commands.Command) || !evalRegExCommand.isEvalRegExCommand()) { this.notifyError(evalRegExCommand, "Argument is not an EvalRegExCommand"); return; }
 
             var regEx = eval(evalRegExCommand.regExLiteral);
 
@@ -121,14 +121,14 @@ fcSimulator.Evaluator.prototype =
                 this.globalObject.internalExecutor.createRegEx(evalRegExCommand.codeConstruct, regEx)
             );
         }
-        catch(e) { this.notifyError("Error when evaluating literal: " + e); }
+        catch(e) { this.notifyError(evalRegExCommand, "Error when evaluating literal: " + e); }
     },
 
     _evaluateAssignmentExpressionCommand: function(evalAssignmentExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalAssignmentExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalAssignmentExpressionCommand.isEvalAssignmentExpressionCommand()) { this.notifyError("Argument is not an EvalAssignmentExpressionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(evalAssignmentExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalAssignmentExpressionCommand.isEvalAssignmentExpressionCommand()) { this.notifyError(evalAssignmentExpressionCommand, "Argument is not an EvalAssignmentExpressionCommand"); return; }
 
             var operator = evalAssignmentExpressionCommand.operator;
             var finalValue = null;
@@ -167,7 +167,7 @@ fcSimulator.Evaluator.prototype =
                 else if (operator == "|=") { result = leftValue.value | rightValue.value; }
                 else if (operator == "^=") { result = leftValue.value ^ rightValue.value; }
                 else if (operator == "&=") { result = leftValue.value & rightValue.value; }
-                else { this.notifyError("Unknown assignment operator!"); return; }
+                else { this.notifyError(evalAssignmentExpressionCommand, "Unknown assignment operator!"); return; }
 
                 finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(evalAssignmentExpressionCommand.codeConstruct));
 
@@ -221,7 +221,7 @@ fcSimulator.Evaluator.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error when evaluating assignment expression " + e);
+            this.notifyError(evalAssignmentExpressionCommand, "Error when evaluating assignment expression " + e);
         }
     },
 
@@ -229,7 +229,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalUpdateExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalUpdateExpressionCommand.isEvalUpdateExpressionCommand()) { this.notifyError("Argument is not an UpdateExpressionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(evalUpdateExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalUpdateExpressionCommand.isEvalUpdateExpressionCommand()) { this.notifyError(evalUpdateExpressionCommand, "Argument is not an UpdateExpressionCommand"); return; }
 
             var codeConstruct = evalUpdateExpressionCommand.codeConstruct;
             var currentValue = this.executionContextStack.getExpressionValue(codeConstruct.argument);
@@ -257,14 +257,14 @@ fcSimulator.Evaluator.prototype =
                 var object = this.executionContextStack.getExpressionValue(memberExpression.object);
                 var property = this.executionContextStack.getExpressionValue(memberExpression.property);
 
-                if(object == null) { this.notifyError("Can not update a property of null object!"); return; }
+                if(object == null) { this.notifyError(evalUpdateExpressionCommand, "Can not update a property of null object!"); return; }
 
                 var newValue = new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, new fcModel.FcInternal(codeConstruct));
 
                 object.value[property.value] = newValue;
                 object.fcInternal.object.addProperty(property.value, newValue, codeConstruct, true);
             }
-            else { this.notifyError("Unknown code construct when updating expression!"); }
+            else { this.notifyError(evalUpdateExpressionCommand, "Unknown code construct when updating expression!"); }
 
             this.executionContextStack.setExpressionValue
             (
@@ -273,14 +273,14 @@ fcSimulator.Evaluator.prototype =
                                      : (new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value++ : currentValue.value--, new fcModel.FcInternal(codeConstruct)))
             )
         }
-        catch(e) { this.notifyError("An error has occurred when updating an expression:" + e); }
+        catch(e) { this.notifyError(evalUpdateExpressionCommand, "An error has occurred when updating an expression:" + e); }
     },
 
     _evaluateIdentifierCommand: function(evalIdentifierCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError("Argument is not an EvalIdentifierExpressionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
 
             var identifier = this.executionContextStack.getIdentifier(evalIdentifierCommand.codeConstruct.name);
             var identifierValue = identifier != null ? identifier.value : null;
@@ -289,11 +289,14 @@ fcSimulator.Evaluator.prototype =
 
             if(identifier != null)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    evalIdentifierCommand.codeConstruct,
-                    identifierValue.fcInternal.codeConstruct
-                );
+                if(identifierValue != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        evalIdentifierCommand.codeConstruct,
+                        identifierValue.fcInternal.codeConstruct
+                    );
+                }
 
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
@@ -308,14 +311,14 @@ fcSimulator.Evaluator.prototype =
                 );
             }
         }
-        catch(e) { this.notifyError("error when evaluating identifier: " + e);}
+        catch(e) { this.notifyError(evalIdentifierCommand, "Error when evaluating identifier: " + e);}
     },
 
     _evaluateBinaryExpressionCommand: function(evalBinaryExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalBinaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalBinaryExpressionCommand.isEvalBinaryExpressionCommand()) { this.notifyError("Argument is not an EvalBinaryExpressionCommand"); return;}
+            if(!ValueTypeHelper.isOfType(evalBinaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalBinaryExpressionCommand.isEvalBinaryExpressionCommand()) { this.notifyError(evalBinaryExpressionCommand, "Argument is not an EvalBinaryExpressionCommand"); return;}
 
             var binaryExpression = evalBinaryExpressionCommand.codeConstruct;
 
@@ -355,18 +358,18 @@ fcSimulator.Evaluator.prototype =
             else if (operator == "^") { result = leftExpressionValue.value ^ rightExpressionValue.value; }
             else if (operator == "in") { result = leftExpressionValue.value in rightExpressionValue.value; }
             else if (operator == "instanceof") { result = leftExpressionValue.value instanceof rightExpressionValue.value; }
-            else { this.notifyError("Unknown operator when evaluating binary expression"); return; }
+            else { this.notifyError(evalBinaryExpressionCommand, "Unknown operator when evaluating binary expression"); return; }
 
             this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.JsValue(result, new fcModel.FcInternal(binaryExpression)));
         }
-        catch(e) { this.notifyError("Error when evaluating binary expression: " + e);}
+        catch(e) { this.notifyError(evalBinaryExpressionCommand, "Error when evaluating binary expression: " + e);}
     },
 
     _evaluateReturnExpressionCommand: function(evalReturnExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalReturnExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError("Argument is not an EvalReturnExpressionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(evalReturnExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; }
 
             if(evalReturnExpressionCommand.parentFunctionCommand.isExecuteCallbackCommand())
             {
@@ -397,14 +400,14 @@ fcSimulator.Evaluator.prototype =
                 );
             }
         }
-        catch(e) { this.notifyError("Error when evaluating return expression: " + e); }
+        catch(e) { this.notifyError(evalReturnExpressionCommand, "Error when evaluating return expression: " + e); }
     },
 
     _evaluateThisExpressionCommand: function(thisExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(thisExpressionCommand, Firecrow.Interpreter.Commands.Command) || !thisExpressionCommand.isThisExpressionCommand()) { this.notifyError("Argument is not a ThisExpressionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(thisExpressionCommand, Firecrow.Interpreter.Commands.Command) || !thisExpressionCommand.isThisExpressionCommand()) { this.notifyError(thisExpressionCommand, "Argument is not a ThisExpressionCommand"); return; }
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(thisExpressionCommand.codeConstruct, this.executionContextStack.activeContext.thisObject.fcInternal.codeConstruct);
 
@@ -414,14 +417,14 @@ fcSimulator.Evaluator.prototype =
                 this.executionContextStack.activeContext.thisObject
             );
         }
-        catch(e) { this.notifyError("Error when evaluating this expression: " + e); }
+        catch(e) { this.notifyError(thisExpressionCommand, "Error when evaluating this expression: " + e); }
     },
 
     _evaluateMemberExpressionCommand: function(evalMemberExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalMemberExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { this.notifyError("Argument is not an EvalMemberExpressionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(evalMemberExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { this.notifyError(evalMemberExpressionCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
 
             var object = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.object);
 
@@ -443,7 +446,7 @@ fcSimulator.Evaluator.prototype =
                 }
                 else
                 {
-                    this.notifyError("The property value should be of type JsValue"); return;
+                    this.notifyError(evalMemberExpressionCommand, "The property value should be of type JsValue"); return;
                 }
             }
 
@@ -454,14 +457,14 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(evalMemberExpressionCommand.codeConstruct, propertyValue);
         }
-        catch(e) { this.notifyError("Error when evaluating member expression: " + e); }
+        catch(e) { this.notifyError(evalMemberExpressionCommand, "Error when evaluating member expression: " + e); }
     },
 
     _evaluateMemberExpressionPropertyCommand: function(evalMemberExpressionPropertyCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalMemberExpressionPropertyCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionPropertyCommand.isEvalMemberExpressionPropertyCommand()) { this.notifyError("Argument is not an EvalMemberExpressionPropertyCommand"); return; }
+            if(!ValueTypeHelper.isOfType(evalMemberExpressionPropertyCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionPropertyCommand.isEvalMemberExpressionPropertyCommand()) { this.notifyError(evalMemberExpressionPropertyCommand, "Argument is not an EvalMemberExpressionPropertyCommand"); return; }
 
             this.executionContextStack.setExpressionValue
             (
@@ -472,7 +475,7 @@ fcSimulator.Evaluator.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error when evaluating member expression property: " + e);
+            this.notifyError(evalMemberExpressionPropertyCommand, "Error when evaluating member expression property: " + e);
         }
     },
 
@@ -480,7 +483,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(objectExpressionCommand, Firecrow.Interpreter.Commands.Command) || !objectExpressionCommand.isObjectExpressionCommand()) { this.notifyError("Argument has to be an object expression creation command!"); return; }
+            if(!ValueTypeHelper.isOfType(objectExpressionCommand, Firecrow.Interpreter.Commands.Command) || !objectExpressionCommand.isObjectExpressionCommand()) { this.notifyError(objectExpressionCommand, "Argument has to be an object expression creation command!"); return; }
 
             var newObject = this.executionContextStack.createObjectInCurrentContext(null, objectExpressionCommand.codeConstruct);
 
@@ -488,18 +491,18 @@ fcSimulator.Evaluator.prototype =
 
             objectExpressionCommand.createdObject = newObject;
         }
-        catch(e) { this.notifyError("An error has occurred when evaluating object expression command:" + e); }
+        catch(e) { this.notifyError(objectExpressionCommand, "An error has occurred when evaluating object expression command:" + e); }
     },
 
     _evaluateObjectPropertyCreationCommand: function(objectPropertyCreationCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(objectPropertyCreationCommand, Firecrow.Interpreter.Commands.Command) || !objectPropertyCreationCommand.isObjectPropertyCreationCommand()) { this.notifyError("Argument has to be an object property creation command!"); return; }
+            if(!ValueTypeHelper.isOfType(objectPropertyCreationCommand, Firecrow.Interpreter.Commands.Command) || !objectPropertyCreationCommand.isObjectPropertyCreationCommand()) { this.notifyError(objectPropertyCreationCommand, "Argument has to be an object property creation command!"); return; }
 
             var object = objectPropertyCreationCommand.objectExpressionCommand.createdObject;
 
-            if(object == null || object.value == null) { this.notifyError("When evaluating object property the object must not be null!");  return; }
+            if(object == null || object.value == null) { this.notifyError(objectPropertyCreationCommand, "When evaluating object property the object must not be null!");  return; }
 
             var propertyCodeConstruct = objectPropertyCreationCommand.codeConstruct;
 
@@ -513,14 +516,14 @@ fcSimulator.Evaluator.prototype =
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(objectPropertyCreationCommand.codeConstruct, object.fcInternal.codeConstruct);
         }
-        catch(e) { this.notifyError("Error when evaluating object property creation: " + e); }
+        catch(e) { this.notifyError(objectPropertyCreationCommand, "Error when evaluating object property creation: " + e); }
     },
 
     _evaluateArrayExpressionCommand: function(arrayExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(arrayExpressionCommand, Firecrow.Interpreter.Commands.Command) || !arrayExpressionCommand.isArrayExpressionCommand()) { this.notifyError("Argument has to be an array expression creation command!"); return; }
+            if(!ValueTypeHelper.isOfType(arrayExpressionCommand, Firecrow.Interpreter.Commands.Command) || !arrayExpressionCommand.isArrayExpressionCommand()) { this.notifyError(arrayExpressionCommand, "Argument has to be an array expression creation command!"); return; }
 
             var newArray = this.executionContextStack.createArrayInCurrentContext(arrayExpressionCommand.codeConstruct);
 
@@ -528,18 +531,18 @@ fcSimulator.Evaluator.prototype =
 
             arrayExpressionCommand.createdArray = newArray;
         }
-        catch(e) { this.notifyError("Error when evaluating array expression command:" + e); }
+        catch(e) { this.notifyError(arrayExpressionCommand, "Error when evaluating array expression command:" + e); }
     },
 
     _evaluateArrayExpressionItemCreationCommand: function(arrayItemCreationCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(arrayItemCreationCommand, Firecrow.Interpreter.Commands.Command) || !arrayItemCreationCommand.isArrayExpressionItemCreationCommand()) { this.notifyError("Argument has to be an array expression item creation command!"); return; }
+            if(!ValueTypeHelper.isOfType(arrayItemCreationCommand, Firecrow.Interpreter.Commands.Command) || !arrayItemCreationCommand.isArrayExpressionItemCreationCommand()) { this.notifyError(arrayItemCreationCommand, "Argument has to be an array expression item creation command!"); return; }
 
             var array = arrayItemCreationCommand.arrayExpressionCommand.createdArray;
 
-            if(array == null || array.value == null) { this.notifyError("When evaluating array expression item the array must not be null!");  return; }
+            if(array == null || array.value == null) { this.notifyError(arrayItemCreationCommand, "When evaluating array expression item the array must not be null!");  return; }
 
             var expressionItemValue = this.executionContextStack.getExpressionValue(arrayItemCreationCommand.codeConstruct);
 
@@ -548,14 +551,14 @@ fcSimulator.Evaluator.prototype =
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(arrayItemCreationCommand.codeConstruct, array.fcInternal.codeConstruct);
         }
-        catch(e) { this.notifyError("Error when evaluating array expression item creation: " + e); }
+        catch(e) { this.notifyError(arrayItemCreationCommand, "Error when evaluating array expression item creation: " + e); }
     },
 
     _evaluateForInWhereCommand: function(evalForInWhereCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalForInWhereCommand, Firecrow.Interpreter.Commands.Command) || !evalForInWhereCommand.isEvalForInWhereCommand()) { this.notifyError("Argument has to be an eval for in where command!"); return; }
+            if(!ValueTypeHelper.isOfType(evalForInWhereCommand, Firecrow.Interpreter.Commands.Command) || !evalForInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(evalForInWhereCommand, "Argument has to be an eval for in where command!"); return; }
 
             var forInWhereConstruct = evalForInWhereCommand.codeConstruct;
 
@@ -579,7 +582,7 @@ fcSimulator.Evaluator.prototype =
                 }
                 else if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
                 {
-                    if(forInWhereConstruct.left.declarations.length != 1) { this.notifyError("Invalid number of variable declarations in for in statement!"); return; }
+                    if(forInWhereConstruct.left.declarations.length != 1) { this.notifyError(evalForInWhereCommand, "Invalid number of variable declarations in for in statement!"); return; }
 
                     this.executionContextStack.setIdentifierValue
                     (
@@ -588,21 +591,21 @@ fcSimulator.Evaluator.prototype =
                         forInWhereConstruct
                     );
                 }
-                else { this.notifyError("Unknown forIn left statement"); }
+                else { this.notifyError(evalForInWhereCommand, "Unknown forIn left statement"); }
             }
             else
             {
                 evalForInWhereCommand.willBodyBeExecuted = false;
             }
         }
-        catch(e) { this.notifyError("Error when evaluating for in where command: " + e); }
+        catch(e) { this.notifyError(evalForInWhereCommand, "Error when evaluating for in where command: " + e); }
     },
 
     _evaluateConditionalExpressionCommand: function(conditionalExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(conditionalExpressionCommand, Firecrow.Interpreter.Commands.Command) || !conditionalExpressionCommand.isEvalConditionalExpressionCommand()) { this.notifyError("Argument has to be an eval conditional expression command!"); return; }
+            if(!ValueTypeHelper.isOfType(conditionalExpressionCommand, Firecrow.Interpreter.Commands.Command) || !conditionalExpressionCommand.isEvalConditionalExpressionCommand()) { this.notifyError(conditionalExpressionCommand, "Argument has to be an eval conditional expression command!"); return; }
 
             var bodyExpressionValue = this.executionContextStack.getExpressionValue(conditionalExpressionCommand.body);
 
@@ -614,16 +617,16 @@ fcSimulator.Evaluator.prototype =
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalExpressionCommand.codeConstruct, bodyExpressionValue.fcInternal.codeConstruct);
         }
-        catch(e) { this.notifyError("Error when evaluating conditional expression command: " + e); }
+        catch(e) { this.notifyError(conditionalExpressionCommand, "Error when evaluating conditional expression command: " + e); }
     },
 
     _evaluateStartCatchStatementCommand: function(startCatchStatementCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(startCatchStatementCommand, Firecrow.Interpreter.Commands.Command) || !startCatchStatementCommand.isStartCatchStatementCommand()) { this.notifyError("Argument has to be a start catch command!"); return; }
+            if(!ValueTypeHelper.isOfType(startCatchStatementCommand, Firecrow.Interpreter.Commands.Command) || !startCatchStatementCommand.isStartCatchStatementCommand()) { this.notifyError(startCatchStatementCommand, "Argument has to be a start catch command!"); return; }
 
-            if(!ASTHelper.isIdentifier(startCatchStatementCommand.codeConstruct.param)) { this.notifyError("Catch parameter has to be an identifier!"); return; }
+            if(!ASTHelper.isIdentifier(startCatchStatementCommand.codeConstruct.param)) { this.notifyError(startCatchStatementCommand, "Catch parameter has to be an identifier!"); return; }
 
             this.executionContextStack.setIdentifierValue
             (
@@ -631,27 +634,27 @@ fcSimulator.Evaluator.prototype =
                 startCatchStatementCommand.exceptionArgument
             );
         }
-        catch(e) { this.notifyError("Error when evaluating conditional expression command: " + e); }
+        catch(e) { this.notifyError(startCatchStatementCommand, "Error when evaluating conditional expression command: " + e); }
     },
 
     _evaluateEndCatchStatementCommand: function(endCatchStatementCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(endCatchStatementCommand, Firecrow.Interpreter.Commands.Command) || !endCatchStatementCommand.isEndCatchStatementCommand()) { this.notifyError("Argument has to be an end catch command!"); return; }
+            if(!ValueTypeHelper.isOfType(endCatchStatementCommand, Firecrow.Interpreter.Commands.Command) || !endCatchStatementCommand.isEndCatchStatementCommand()) { this.notifyError(endCatchStatementCommand, "Argument has to be an end catch command!"); return; }
 
-            if(!ASTHelper.isIdentifier(endCatchStatementCommand.codeConstruct.param)) { this.notifyError("Catch parameter has to be an identifier!"); return; }
+            if(!ASTHelper.isIdentifier(endCatchStatementCommand.codeConstruct.param)) { this.notifyError(endCatchStatementCommand, "Catch parameter has to be an identifier!"); return; }
 
             this.executionContextStack.deleteIdentifier(endCatchStatementCommand.codeConstruct.param.name);
         }
-        catch(e) { this.notifyError("Error when evaluating conditional expression command: " + e); }
+        catch(e) { this.notifyError(endCatchStatementCommand, "Error when evaluating conditional expression command: " + e); }
     },
 
     _evaluateLogicalExpressionItemCommand: function(evaluateLogicalExpressionItemCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evaluateLogicalExpressionItemCommand, Firecrow.Interpreter.Commands.Command) || !evaluateLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError("Argument has to be an eval logical expression item command!"); return; }
+            if(!ValueTypeHelper.isOfType(evaluateLogicalExpressionItemCommand, Firecrow.Interpreter.Commands.Command) || !evaluateLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError(evaluateLogicalExpressionItemCommand, "Argument has to be an eval logical expression item command!"); return; }
 
             var parentExpressionCommand = evaluateLogicalExpressionItemCommand.parentLogicalExpressionCommand;
 
@@ -692,16 +695,16 @@ fcSimulator.Evaluator.prototype =
                     )
                 );
             }
-            else { this.notifyError("The expression item is neither left nor right expression"); return; }
+            else { this.notifyError(evaluateLogicalExpressionItemCommand, "The expression item is neither left nor right expression"); return; }
         }
-        catch(e) { this.notifyError("Error when evaluating logical expression item command: " + e); }
+        catch(e) { this.notifyError(evaluateLogicalExpressionItemCommand, "Error when evaluating logical expression item command: " + e); }
     },
 
     _evaluateUnaryExpression: function(evaluateUnaryExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evaluateUnaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evaluateUnaryExpressionCommand.isEvalUnaryExpressionCommand()) { this.notifyError("Argument has to be an eval unary item command!"); return; }
+            if(!ValueTypeHelper.isOfType(evaluateUnaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evaluateUnaryExpressionCommand.isEvalUnaryExpressionCommand()) { this.notifyError(evaluateUnaryExpressionCommand, "Argument has to be an eval unary item command!"); return; }
 
             var unaryExpression = evaluateUnaryExpressionCommand.codeConstruct;
             var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
@@ -744,21 +747,21 @@ fcSimulator.Evaluator.prototype =
                     delete object.value[propertyName];
                     object.fcInternal.object.deleteProperty(propertyName, unaryExpression);
                 }
-                else  { this.notifyError("Unhandled expression when evaluating delete"); }
+                else  { this.notifyError(evaluateUnaryExpressionCommand, "Unhandled expression when evaluating delete"); }
 
                 expressionValue = true;
             }
 
             this.executionContextStack.setExpressionValue(unaryExpression, new fcModel.JsValue(expressionValue, new fcModel.FcInternal(unaryExpression)));
         }
-        catch(e) { this.notifyError("Error when evaluating unary expression item command: " + e);}
+        catch(e) { this.notifyError(evaluateUnaryExpressionCommand, "Error when evaluating unary expression item command: " + e);}
     },
 
     _evaluateCallInternalFunction: function(callInternalFunctionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(callInternalFunctionCommand, Firecrow.Interpreter.Commands.Command) || !callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError("Argument has to be a call internal function command!"); return; }
+            if(!ValueTypeHelper.isOfType(callInternalFunctionCommand, Firecrow.Interpreter.Commands.Command) || !callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
 
             var args = [];
             var callExpression = callInternalFunctionCommand.codeConstruct;
@@ -785,7 +788,7 @@ fcSimulator.Evaluator.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error has occurred when evaluating call internal function command:" + e);
+            this.notifyError(callInternalFunctionCommand, "Error has occurred when evaluating call internal function command:" + e);
         }
     },
 
@@ -808,6 +811,9 @@ fcSimulator.Evaluator.prototype =
         });
     },
 
-    notifyError: function(message) { alert("Evaluator - " + message); }
+    notifyError: function(command, message)
+    {
+        alert("Evaluator - " + message + "@" + command.codeConstruct.loc.source + " - Ln:" + command.codeConstruct.loc.start.line);
+    }
 };
 }});
