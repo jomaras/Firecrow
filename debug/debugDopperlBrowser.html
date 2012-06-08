@@ -88,7 +88,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/09/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/12/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -175,6 +175,8 @@
 
                     var dependencies = this.model.dependencies;
 
+                    if(dependencies == null) { return; }
+
                     for(var j = 0, depLength = dependencies.length; j < depLength; j++)
                     {
                         var currentItem = dependencies[j];
@@ -200,8 +202,6 @@
         function getAllDependencies(item, result)
         {
             if(item == null) { return result; }
-
-            if(result[item.nodeId] != null) { return; }
 
             var dependencies = item.dependencies;
 

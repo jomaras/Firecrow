@@ -276,6 +276,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             var callee = this.executionContextStack.getExpressionValue(callConstruct.callee);
             var newObject = this.executionContextStack.createObjectInCurrentContext(callee, newExpressionCommand.codeConstruct);
 
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee);
+
             this.executionContextStack.setExpressionValue(newExpressionCommand.codeConstruct, newObject);
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex

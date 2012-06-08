@@ -248,6 +248,8 @@ fcSimulator.Evaluator.prototype =
                 currentValue.fcInternal.codeConstruct
             );
 
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, codeConstruct.argument);
+
             if(ASTHelper.isIdentifier(codeConstruct.argument))
             {
                 this.executionContextStack.setIdentifierValue
