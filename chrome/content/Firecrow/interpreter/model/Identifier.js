@@ -14,7 +14,7 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct)
         this.name = name;
         this.value = value;
         this.modificationConstructs = [];
-        this.lastModificationConstruct = codeConstruct;
+        this.lastModificationConstruct = null;
         this.declarationConstruct = codeConstruct;
 
         if(codeConstruct != null)

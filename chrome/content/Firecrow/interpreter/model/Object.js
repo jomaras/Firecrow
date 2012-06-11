@@ -136,7 +136,7 @@ fcModel.Object.prototype =
 
             this.addDependencyToPrototypeDefinition();
 
-            return proto.getProperty(name);
+            return this.proto.getProperty(name);
         }
         catch(e) { alert("Error when getting property - Object:" + e); }
     },
@@ -178,13 +178,17 @@ fcModel.Object.prototype =
         try
         {
             if(this.proto == null) { return; }
+            if(this.proto.modifications == null) { return; }
 
             this.proto.modifications.forEach(function(protoModificationConstruct)
             {
                 this.modifications.push(protoModificationConstruct);
             }, this);
         }
-        catch(e) { alert("Error when adding dependency to prototype definition - Object:" + e);}
+        catch(e)
+        {
+            alert("Error when adding dependency to prototype definition - Object:" + e);
+        }
     },
 
     isOwnProperty: function(propertyName)

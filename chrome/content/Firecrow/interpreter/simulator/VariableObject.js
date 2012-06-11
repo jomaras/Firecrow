@@ -147,7 +147,7 @@ Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(ob
         {
             try
             {
-                this.object.addProperty(identifier.name, identifier.value, identifier.lastModificationConstruct);
+                this.object.addProperty(identifier.name, identifier.value, identifier.declarationConstruct);
             }
             catch(e) { alert("LifterVariableObject -Error when registering identifier:" + e); }
         };

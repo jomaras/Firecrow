@@ -578,7 +578,6 @@ FBL.ns(function () { with (FBL) {
 
                 if (objectExpression.properties.length == 0)
                 {
-
                     _isEmptyObject = true;
                 }
                 else
@@ -589,16 +588,11 @@ FBL.ns(function () { with (FBL) {
                     }
                     for(var i = 0; i < objectExpression.properties.length; i++)
                     {
-
-                        console.log(objectExpression);
-
                         if (objectExpression.properties[i].kind == "get"
                             || objectExpression.properties[i].kind == "set")
                         {
                             _hasGettersOrSetters = true;
                         }
-
-                        console.log(objectExpression.properties[i].children);
 
                         for (var j = 0; j < objectExpression.properties[i].children.length; j++)
                         {
@@ -645,30 +639,29 @@ FBL.ns(function () { with (FBL) {
 
                     for (var i = 0; i < objectExpression.properties.length; i++)
                     {
-                        html += '<div class="objectProperty" style ="' + _propertyContainerStyle + '">';
+                        var property = objectExpression.properties[i];
 
+                        if(i != 0) { html += ", "; }
 
-                        if (objectExpression.properties[i].kind == "init")
+                        html += '<div class="objectProperty" id="node' + this.formatId(property.nodeId) +  '" style ="' + _propertyContainerStyle + '">';
+
+                        if (property.kind == "init")
                         {
-                            html += this.generateHtml(objectExpression.properties[i].key) + ': '
-                                + this.generateHtml(objectExpression.properties[i].value);
+                            html += this.generateHtml(property.key) + ': '
+                                 + this.generateHtml(property.value);
                         }
                         else
                         {
-                            html += this.getElementHtml("span", {class: "keyword"}, objectExpression.properties[i].kind)
-                                + " " + this.generateHtml(objectExpression.properties[i].key);
+                            html += this.getElementHtml("span", {class: "keyword"}, property.kind)
+                                + " " + this.generateHtml(property.key);
 
-                            if (astHelper.isFunctionExpression(objectExpression.properties[i].value))
-                                html += this.generateFromFunction(objectExpression.properties[i].value, false);
+                            if (astHelper.isFunctionExpression(property.value))
+                                html += this.generateFromFunction(property.value, false);
                             else
-                                html += this.generateExpression(objectExpression.properties[i].value);
+                                html += this.generateExpression(property.value);
                         }
 
-                        if (i != 0 && i < objectExpression.properties.length - 1
-                            || i == 0 && objectExpression.properties.length > 1)
-                        {
-                            html += ', ';
-                        }
+
 
 
                         html += '</div>';
@@ -1056,9 +1049,9 @@ FBL.ns(function () { with (FBL) {
 //                        //html += "<br/>";
 //                    }
 //
-//                    if (previousDeclarator != variableDeclaration) {
-//                        html += ", ";
-//                    }
+                    if (previousDeclarator != variableDeclaration) {
+                        html += ", ";
+                    }
 
                     html += this.generateFromVariableDeclarator(currentDeclarator);
                 }

@@ -133,21 +133,13 @@ fcSimulator.Evaluator.prototype =
             var operator = evalAssignmentExpressionCommand.operator;
             var finalValue = null;
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                evalAssignmentExpressionCommand.leftSide,
-                evalAssignmentExpressionCommand.rightSide
-            );
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.leftSide, evalAssignmentExpressionCommand.rightSide);
 
             if(operator == "=")
             {
                 finalValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.rightSide);
 
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    evalAssignmentExpressionCommand.leftSide,
-                    finalValue.fcInternal.codeConstruct
-                );
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.leftSide, finalValue.fcInternal.codeConstruct);
             }
             else
             {
@@ -242,12 +234,7 @@ fcSimulator.Evaluator.prototype =
 
             if(currentValue == null || currentValue.value == null) { this._callExceptionCallbacks(); return; }
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                codeConstruct,
-                currentValue.fcInternal.codeConstruct
-            );
-
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, currentValue.fcInternal.codeConstruct);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, codeConstruct.argument);
 
             if(ASTHelper.isIdentifier(codeConstruct.argument))
@@ -306,17 +293,21 @@ fcSimulator.Evaluator.prototype =
                     );
                 }
 
+                //TODO - add parent child nodes and then add this dependency only if it is not on the left-hand side of an assignment expression
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
                     evalIdentifierCommand.codeConstruct,
                     identifier.lastModificationConstruct
                 );
 
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    evalIdentifierCommand.codeConstruct,
-                    identifier.declarationConstruct
-                );
+                if(identifier.declarationConstruct != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        evalIdentifierCommand.codeConstruct,
+                        identifier.declarationConstruct.id
+                    );
+                }
             }
         }
         catch(e) { this.notifyError(evalIdentifierCommand, "Error when evaluating identifier: " + e);}
@@ -600,6 +591,8 @@ fcSimulator.Evaluator.prototype =
             var currentPropertyIndex = evalForInWhereCommand.currentPropertyIndex;
             var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(currentPropertyIndex + 1);
 
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right);
+
             if(nextPropertyName.value)
             {
                 evalForInWhereCommand.willBodyBeExecuted = true;
@@ -617,12 +610,11 @@ fcSimulator.Evaluator.prototype =
                 {
                     if(forInWhereConstruct.left.declarations.length != 1) { this.notifyError(evalForInWhereCommand, "Invalid number of variable declarations in for in statement!"); return; }
 
-                    this.executionContextStack.setIdentifierValue
-                    (
-                        forInWhereConstruct.left.declarations[0].id.name,
-                        nextPropertyName,
-                        forInWhereConstruct
-                    );
+                    var declarator = forInWhereConstruct.left.declarations[0];
+
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right);
+
+                    this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, forInWhereConstruct);
                 }
                 else { this.notifyError(evalForInWhereCommand, "Unknown forIn left statement"); }
             }
@@ -642,12 +634,9 @@ fcSimulator.Evaluator.prototype =
 
             var bodyExpressionValue = this.executionContextStack.getExpressionValue(conditionalExpressionCommand.body);
 
-            this.executionContextStack.setExpressionValue
-            (
-                conditionalExpressionCommand.codeConstruct,
-                bodyExpressionValue
-            );
+            this.executionContextStack.setExpressionValue(conditionalExpressionCommand.codeConstruct, bodyExpressionValue);
 
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalExpressionCommand.codeConstruct, conditionalExpressionCommand.codeConstruct.test);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalExpressionCommand.codeConstruct, bodyExpressionValue.fcInternal.codeConstruct);
         }
         catch(e) { this.notifyError(conditionalExpressionCommand, "Error when evaluating conditional expression command: " + e); }
