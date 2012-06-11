@@ -34,6 +34,13 @@ Firecrow.ValueTypeHelper =
         return (typeof variable) == "string" || variable instanceof String;
     },
 
+    ifNumber: function(variable)
+    {
+        if (this.isNull(variable)) { return false; }
+
+        return (typeof variable) == "number";
+    },
+
     isInteger: function (variable)
     {
         if (this.isNull(variable)) { return false; }
