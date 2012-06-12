@@ -28,12 +28,13 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.regExFunction = new fcModel.RegExFunction(this);
         this.emptyFunction = new fcModel.EmptyFunction(this);
         this.document = new fcModel.Document(documentFragment, this);
+        this.jsFcDocument = new fcModel.JsValue(this.document.documentFragment, new fcModel.FcInternal(null, this.document));
         this.browser = browser;
 
         this.addProperty("Array", this.arrayFunction , null);
         this.addProperty("RegExp", this.regExFunction, null);
         this.addProperty("String", this.stringFunction, null);
-        this.addProperty("document", new fcModel.JsValue(this.document.documentFragment, new fcModel.FcInternal(null, this.document)), null);
+        this.addProperty("document",this.jsFcDocument, null);
 
         this.internalExecutor.expandInternalFunctions();
     }

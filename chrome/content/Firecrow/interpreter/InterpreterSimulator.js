@@ -329,7 +329,10 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 this.currentCommandIndex + 1
             );
         }
-        catch(e) { alert("InterpreterSimulator - Error while generating commands after call function command: " + e);}
+        catch(e)
+        {
+            alert("InterpreterSimulator - Error while generating commands after call function command: " + e);
+        }
     },
 
     generateCommandsAfterCallCallback: function(callCallbackMethodCommand)

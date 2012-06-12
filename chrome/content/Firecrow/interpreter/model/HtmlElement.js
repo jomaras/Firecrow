@@ -23,6 +23,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
         this.proto.addProperty.call(this, "attributes", fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), codeConstruct);
         this.proto.addProperty.call(this, "classList", new fcModel.JsValue(htmlElement.classList, new fcModel.FcInternal(codeConstruct, new fcModel.ClassList(this.htmlElement, this.globalObject, codeConstruct))), codeConstruct);
+        this.proto.addProperty.call(this, "ownerDocument", this.globalObject.jsFcDocument, codeConstruct);
 
         var styleValue = new fcModel.JsValue(htmlElement.style, new fcModel.FcInternal(codeConstruct, new fcModel.CSSStyleDeclaration(htmlElement, htmlElement.style, globalObject, codeConstruct)));
         this.proto.addProperty.call(this, "style", styleValue, codeConstruct);

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Constructor - member expression</div>
+<div id="resultContainer"></div>
+<script>
+    var testSpan = document.getElementById("resultContainer");
+
+    function Vector(){}
+
+    Vector.prototype = {
+        test: function()
+        {
+            return 3;
+        },
+        test1: function()
+        {
+            return 4;
+        }
+    };
+
+    Vector.create = function(elements) {
+        var V = new Vector();
+        V.a = 3;
+        return V;
+    };
+
+    var $V = Vector.create;
+
+    var a = $V();
+
+    var b = a.a + a.test();
+
+    testSpan.textContent = b;
+</script>
+</body>
+</html>

@@ -157,6 +157,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (ValueTypeHelper.isString(thisObject.value)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, RegExp)) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject.fcInternal.globalObject.jsFcDocument, functionObject, arguments, callExpression);}
             else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else
             {
@@ -176,6 +177,7 @@ fcSimulator.InternalExecutor.prototype =
             this._expandRegExMethods();
             this._expandStringMethods();
             this._expandDocumentMethods();
+            this._expandDocument();
         }
         catch(e) { this.notifyError("Error when expanding internal functions: " + e);}
     },
@@ -320,6 +322,29 @@ fcSimulator.InternalExecutor.prototype =
             }, this);
         }
         catch(e) { alert("InternalExecutor - error when expanding document methods: " + e); }
+    },
+
+    _expandDocument: function()
+    {
+        try
+        {
+            if(!document.hasOwnProperty("jsValue"))
+            {
+                Object.defineProperty
+                (
+                    document,
+                    "jsValue",
+                    {
+                        value: new fcModel.JsValue
+                        (
+                            document,
+                            this.globalObject.document
+                        )
+                    }
+                );
+            }
+        }
+        catch(e) { alert("InternalExecutor - error when expanding document: " + e); }
     },
 
     notifyError: function(message) { alert("InternalExecutor - " + message);}

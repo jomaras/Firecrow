@@ -15,11 +15,6 @@ fcModel.JsValue = function(value, fcInternal)
         this.value = value;
         this.fcInternal = fcInternal;
         this.id = fcModel.JsValue._lastUsedId++;
-
-        if(this.id == 25)
-        {
-            var a = 3;
-        }
     }
     catch(e) { alert("JsValue - error when creating: " + e); }
 };

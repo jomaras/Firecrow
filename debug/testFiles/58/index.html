@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Constructor - member expression</div>
+<div id="resultContainer">5</div>
+<script>
+    var context = document.getElementById("resultContainer");
+
+    var origContext = context = context || document || false;
+
+    var a = (context.ownerDocument).getElementById("resultContainer");
+
+    var testSpan = document.getElementById("resultContainer");
+    var b = a.textContent;
+
+    testSpan.textContent = b;
+</script>
+</body>
+</html>

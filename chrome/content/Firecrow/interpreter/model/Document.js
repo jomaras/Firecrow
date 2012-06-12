@@ -77,16 +77,45 @@ fcModel.DocumentExecutor =
             case "createElement":
                 return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value);
             case "getElementsByTagName":
-                return this.wrapToFcElements(this);
-                return
+                return this.wrapToFcHtmlElements(thisObjectValue.querySelectorAll("." + arguments[0].value), callExpression, globalObject);
+            case "getElementById":
+                return this.wrapToFcHtmlElement(thisObjectValue.querySelector("#" + arguments[0].value), callExpression, globalObject);
             default:
-                this.notifyError("Unhandled internal method"); return;
+                this.notifyError("Unhandled internal method - " + functionName); return;
         }
     },
 
-    wrapToFcElements: function(items)
+    wrapToFcHtmlElements: function(items, callExpression, globalObject)
     {
+        try
+        {
+            var elements = [];
 
+            for(var i = 0, length = items.length; i < length; i++)
+            {
+                elements.push(this.wrapToFcHtmlElement(items[i], callExpression));
+            }
+
+            return globalObject.internalExecutor.createArray(callExpression, elements);
+        }
+        catch(e) { alert("Error when wrapping to htmlElements:" + e); }
+    },
+
+    wrapToFcHtmlElement: function(htmlElement, callExpression, globalObject)
+    {
+        try
+        {
+            return new fcModel.JsValue
+            (
+                htmlElement,
+                new fcModel.FcInternal
+                (
+                    callExpression,
+                    new fcModel.HtmlElement(htmlElement, globalObject, callExpression)
+                )
+            );
+        }
+        catch(e) { this.notifyError("Error when wrapping to fcHtmlElement:" + e); }
     },
 
     notifyError: function(message) { alert("DocumentExecutor - " + message);}

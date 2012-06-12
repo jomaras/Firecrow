@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Constructor - member expression</div>
+<div id="resultContainer"></div>
+<script>
+    var testSpan = document.getElementById("resultContainer");
+
+    var a5 = { value: 5, fun: function() { return this.value; }};
+    var a6 = { value: 6, fun: function() { return this.value; }};
+
+    var array = [a5, a6];
+
+    var evenArray = array.filter(function(a)
+    {
+        return a.value % 2 == 0;
+    });
+
+    var b = evenArray[0].value;
+
+    testSpan.textContent = b;
+</script>
+</body>
+</html>
