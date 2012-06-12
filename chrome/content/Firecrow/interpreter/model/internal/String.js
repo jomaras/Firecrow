@@ -31,6 +31,8 @@ fcModel.StringPrototype = function(globalObject)
         {
             this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
         }, this);
+
+        this.fcInternal = { object: this};
     }
     catch(e) { alert("StringPrototype - error when creating array prototype:" + e); }
 };

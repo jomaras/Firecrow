@@ -32,6 +32,11 @@ Firecrow.Interpreter.Model.Identifier.prototype =
         this.value = newValue;
         this.lastModificationConstruct = modificationConstruct;
 
+        if(this.lastModificationConstruct instanceof Array)
+        {
+            alert("array!");
+        }
+
         if(modificationConstruct != null)
         {
             this.modificationConstructs.push(modificationConstruct);

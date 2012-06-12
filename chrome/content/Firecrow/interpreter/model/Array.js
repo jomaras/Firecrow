@@ -104,7 +104,7 @@ fcModel.Array.prototype.unshift = function(elementsToAdd, codeConstruct)
     catch(e) { alert("Array - error when unshifting items in array: " + e); }
 };
 
-fcModel.Array.prototype.splice = function(arguments, codeConstruct)
+fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
 {
     try
     {
@@ -227,6 +227,8 @@ fcModel.ArrayPrototype = function(globalObject)
         {
             this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
         }, this);
+
+        this.fcInternal = { object: this };
     }
     catch(e) { alert("Array - error when creating array prototype:" + e); }
 };

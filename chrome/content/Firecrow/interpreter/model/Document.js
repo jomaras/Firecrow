@@ -21,7 +21,7 @@ fcModel.Document = function(documentFragment, globalObject)
         this.documentFragment.getElementsByClassName = document.getElementsByClassName;
         this.documentFragment.getElementsByTagName = document.getElementsByTagName;
 
-
+        this.fcInternal = { object: this };
         //this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
     }
     catch(e) { this.notifyError("Error when creating Document object: " + e); }

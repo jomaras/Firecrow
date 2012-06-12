@@ -204,8 +204,8 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return  this._FUNCTION_KEYWORD + " " + this.generateFromIdentifier(functionDecExp.id) + " "
-                 +  this.generateFunctionParametersHtml(functionDecExp)
+            return  this._FUNCTION_KEYWORD + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) + " " : "")
+                 +  this.generateFunctionParameters(functionDecExp)
                  +  this.generateFromFunctionBody(functionDecExp);
         }
         catch(e) { alert("Error when generating code from a function:" + e); }
@@ -387,7 +387,7 @@ Firecrow.CodeTextGenerator.prototype =
         try
         {
             return this.generateJsCode(callExpression.callee) + this._LEFT_PARENTHESIS
-                +  this.generateSequenceCode(callExpression.arguments)
+                +  this.getSequenceCode(callExpression.arguments)
                 +  this._RIGHT_PARENTHESIS;
         }
         catch(e) { this.notifyError("Error when generating code from call expression:" + e); }
@@ -544,7 +544,7 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this._RETURN_KEYWORD
+            return this._RETURN_KEYWORD + " " +
                 + (returnStatement.argument != null ? this.generateExpression(returnStatement.argument) : "");
         }
         catch(e) { this.notifyError("Error when generating code from return statement:" + e); }

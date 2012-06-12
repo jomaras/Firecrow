@@ -20,6 +20,11 @@ Firecrow.ValueTypeHelper =
         return this.isOfType(variable, Function);
     },
 
+    isRegExp: function(variable)
+    {
+        return this.isOfType(variable, RegExp);
+    },
+
     isBoolean: function(variable)
     {
         if (this.isNull(variable)) { return false; }

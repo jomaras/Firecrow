@@ -17,7 +17,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.globalObject = globalObject;
         this.htmlElement = htmlElement;
 
-        this.proto = fcModel.Object.prototype;
+        this.proto = new fcModel.Object(this.globalObject);
 
         this.setChildRelatedProperties(codeConstruct);
 
@@ -28,8 +28,6 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.proto.addProperty.call(this, "style", styleValue, codeConstruct);
 
         this.htmlElement.style.jsValue = styleValue;
-
-
 
         this.addPrimitiveProperties(htmlElement, codeConstruct);
         this.expandMethods();

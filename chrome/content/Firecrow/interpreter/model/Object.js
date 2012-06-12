@@ -134,11 +134,16 @@ fcModel.Object.prototype =
             if(property != null) { return property; }
             if(this.proto == null) { return null; }
 
+            if(this.proto.fcInternal == null) { return null; }
+
             this.addDependencyToPrototypeDefinition();
 
-            return this.proto.getProperty(name);
+            return this.proto.fcInternal.object.getProperty(name);
         }
-        catch(e) { alert("Error when getting property - Object:" + e); }
+        catch(e)
+        {
+            alert("Error when getting property - Object:" + e);
+        }
     },
 
     getPropertyNameAtIndex: function(index, codeConstruct)
