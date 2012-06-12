@@ -434,9 +434,9 @@ fcSimulator.Evaluator.prototype =
 
             var propertyValue = object.value[property.value];
 
-            if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue) && propertyValue != undefined )
+            if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue))
             {
-                if(propertyValue != null && ValueTypeHelper.isPrimitive(propertyValue))
+                if(ValueTypeHelper.isPrimitive(propertyValue))
                 {
                      propertyValue = new fcModel.JsValue(propertyValue, new fcModel.FcInternal(evalMemberExpressionCommand.codeConstruct));
                 }
