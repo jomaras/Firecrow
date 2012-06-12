@@ -32,7 +32,19 @@ fcSimulator.InternalExecutor.prototype =
             }
             else if(ValueTypeHelper.isOfType(constructorFunction.value, Function))
             {
+                var oldPrototype = constructorFunction.value.prototype;
+
+                if(oldPrototype != null)
+                {
+                    constructorFunction.value.prototype = oldPrototype.value;
+                }
+
                 newObject = new constructorFunction.value();
+
+                if(oldPrototype != null)
+                {
+                    constructorFunction.value.prototype = oldPrototype;
+                }
 
                 return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)));
             }
@@ -73,7 +85,7 @@ fcSimulator.InternalExecutor.prototype =
                 new fcModel.FcInternal
                 (
                     functionCodeConstruct,
-                    new fcModel.Function(this.globalObject, scopeChain, functionCodeConstruct)
+                    new fcModel.Function(this.globalObject, scopeChain, functionCodeConstruct, newFunction)
                 )
             );
         }
@@ -180,6 +192,31 @@ fcSimulator.InternalExecutor.prototype =
             this._expandDocument();
         }
         catch(e) { this.notifyError("Error when expanding internal functions: " + e);}
+    },
+
+    expandBasicObject: function(object)
+    {
+        try
+        {
+            if(object == null) { this.notifyError("Argument object can not be null when expanding basic object"); }
+
+            if(!object.hasOwnProperty("jsValue"))
+            {
+                Object.defineProperty
+                (
+                    object,
+                    "jsValue",
+                    {
+                        value: new fcModel.JsValue
+                        (
+                            object,
+                            new fcModel.Object(this.globalObject)
+                        )
+                    }
+                );
+            }
+        }
+        catch(e) { this.notifyError("Error when expanding basic object:" + e); }
     },
 
     expandWithInternalFunction: function(object, functionName)

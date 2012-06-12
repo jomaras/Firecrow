@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Constructor - member expression</div>
+<div id="resultContainer">5</div>
+<script>
+    function Vector(){};
+
+    Vector.prototype = {
+       multiply: function()
+       {
+            return 3;
+       }
+    };
+
+    Vector.prototype.x = Vector.prototype.multiply;
+
+    var a = new Vector();
+
+    var b = a.x();
+
+    var resultContainer = document.getElementById("resultContainer");
+
+    resultContainer.textContent = b;
+</script>
+</body>
+</html>

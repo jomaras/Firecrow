@@ -12,7 +12,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement)) { this.notifyError("When creating HTMLElement the htmlElement must be of type HTMLElement"); return; }
+        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement)) { this.notifyError("When creating HTMLElement the htmlElement must be of type HTMLElement: " + (typeof htmlElement)); return; }
 
         this.globalObject = globalObject;
         this.htmlElement = htmlElement;

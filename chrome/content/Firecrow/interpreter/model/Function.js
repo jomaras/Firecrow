@@ -8,18 +8,26 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcModel.Function = function(globalObject, scopeChain, codeConstruct)
+fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
 {
     this.object = this;
     this.globalObject = globalObject;
     this.codeConstruct = codeConstruct;
     this.scopeChain = scopeChain;
+    this.value = value;
 
-    this.addProperty("prototype", globalObject.functionPrototype);
+    if(this.value != null)
+    {
+        this.globalObject.internalExecutor.expandBasicObject(this.value.prototype);
+        this.addProperty("prototype", this.value.prototype.jsValue);
+    }
+
     this.addProperty("__proto__", globalObject.functionPrototype);
 
     this.fcInternal = this;
 };
+
+fcModel.Function._LAST_USED_ID = 0;
 
 fcModel.EmptyFunction = function(globalObject)
 {

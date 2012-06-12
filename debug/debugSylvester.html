@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firecrow - Debugging Doppel Browser</title>
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="sylvester/mappingInfrastructure.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+
+    <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/JsValue.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Object.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/GlobalObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Array.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/RegEx.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Function.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Boolean.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Number.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/Document.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/HtmlElement.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/TextNode.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Attribute.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/ClassList.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/CSSStyleDeclaration.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/simulator/VariableObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/Evaluator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
+
+    <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
+    <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
+
+    <script src="sylvester/01-empty/htmlMapping.js"></script>
+
+    <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
+
+    <style>
+        #codeContainer
+        {
+            float: left;
+            width: 700px;
+        }
+
+        #messageContainer
+        {
+            float:left;
+            width: 350px;
+        }
+
+        .selected { background-color: green; }
+        .dependent { background-color: yellow; }
+        .secondHandDependencies { background-color: #7FFF00;}
+
+    </style>
+</head>
+<body>
+    <h1>Firecrow - Debugging Doppel Browser</h1>
+    <div>
+        <a id="testIdContainer"></a>
+    </div>
+
+    <br/>
+    <span id="resultTitle">Result:</span>
+    <br>
+    <div id="lineNumberContainer"></div>
+    <div id="codeContainer"></div>
+    <div id="messageContainer"></div>
+    <div style="clear:both"/>
+    <pre id="sourceTextContainer">
+    </pre>
+
+    <script>
+        var Firecrow = FBL.Firecrow;
+        var WebFile = Firecrow.DoppelBrowser.WebFile;
+        var Browser = Firecrow.DoppelBrowser.Browser;
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/sylvester/01-empty/index.html");
+
+        var messageContainer = document.getElementById("messageContainer");
+
+        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
+        var browser = new Browser(webFile, []);
+
+        var testIdContainer = document.getElementById("testIdContainer");
+        testIdContainer.textContent = webFile.url;
+        testIdContainer.href = webFile.url;
+
+        browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
+        browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
+        browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
+        browser.registerInterpreterMessageGeneratedCallback(function(message)
+        {
+            var newDiv = document.createElement("div");
+            newDiv.textContent = message;
+            messageContainer.appendChild(newDiv);
+        });
+
+        browser.asyncBuildPage(function()
+        {
+            var model = HtmlModelMapping.getWholeFileModel(webFile.url);
+
+            var codeContainer = document.getElementById("codeContainer");
+
+            codeContainer.textContent = "Finished";
+        });
+    </script>
+
+</body>
+</html>

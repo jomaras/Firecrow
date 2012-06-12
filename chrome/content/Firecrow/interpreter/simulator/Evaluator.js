@@ -203,10 +203,7 @@ fcSimulator.Evaluator.prototype =
                     object.value[property.value] = finalValue;
                 }
 
-                if(property.value == "__proto__" || property.value == "prototype")
-                {
-                    object.value[property.value] = finalValue.value;
-                }
+                if(property.value == "__proto__") { object.value[property.value] = finalValue.value;}
 
                 object.fcInternal.object.addProperty(property.value, finalValue, evalAssignmentExpressionCommand.codeConstruct, true);
             }

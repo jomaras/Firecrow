@@ -184,7 +184,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(this.tryStack.length == 0)
             {
-                alert("Removing commands and there is no enclosing try catch block!");
+                alert("Removing commands and there is no enclosing try catch block @ " + this.commands[this.currentCommandIndex].codeConstruct.loc.source);
                 return;
             }
 
