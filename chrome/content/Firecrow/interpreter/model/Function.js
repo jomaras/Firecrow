@@ -16,12 +16,7 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
     this.scopeChain = scopeChain;
     this.value = value;
 
-    if(this.value != null)
-    {
-        this.globalObject.internalExecutor.expandBasicObject(this.value.prototype);
-        this.addProperty("prototype", this.value.prototype.jsValue);
-    }
-
+    this.addProperty("prototype", globalObject.functionPrototype);
     this.addProperty("__proto__", globalObject.functionPrototype);
 
     this.fcInternal = this;

@@ -34,14 +34,14 @@ fcSimulator.InternalExecutor.prototype =
             {
                 var oldPrototype = constructorFunction.value.prototype;
 
-                if(oldPrototype != null)
+                if(oldPrototype != null && oldPrototype.value != null)
                 {
                     constructorFunction.value.prototype = oldPrototype.value;
                 }
 
                 newObject = new constructorFunction.value();
 
-                if(oldPrototype != null)
+                if(oldPrototype != null && oldPrototype.value != null)
                 {
                     constructorFunction.value.prototype = oldPrototype;
                 }
