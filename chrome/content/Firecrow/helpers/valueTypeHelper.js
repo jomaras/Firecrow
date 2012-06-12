@@ -34,7 +34,7 @@ Firecrow.ValueTypeHelper =
         return (typeof variable) == "string" || variable instanceof String;
     },
 
-    ifNumber: function(variable)
+    isNumber: function(variable)
     {
         if (this.isNull(variable)) { return false; }
 
@@ -271,7 +271,7 @@ Firecrow.ValueTypeHelper =
     
     trim: function(str, chars) 
     {
-    	return this.trimLeft(trimRight(str, chars), chars);
+    	return this.trimLeft(this.trimRight(str, chars), chars);
     },
      
     trimLeft: function(str, chars) 

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" line="543" />
+    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" line="570" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Jomaras.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Jomaras.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
     </list>
@@ -49,7 +48,25 @@
       <file leaf-file-name="codeTextGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="535" column="36" selection-start="22277" selection-end="22277" vertical-scroll-proportion="-0.6577381">
+            <state line="484" column="53" selection-start="20316" selection-end="20325" vertical-scroll-proportion="0.4341637">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="valueTypeHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="273" column="34" selection-start="6507" selection-end="6507" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="130" column="128" selection-start="5877" selection-end="5877" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -59,11 +76,7 @@
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="1147" column="8" selection-start="49044" selection-end="49044" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#2618#4920#0" expanded="false" />
-                <element signature="e#4980#7278#0" expanded="false" />
-                <element signature="e#7364#8910#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -80,16 +93,7 @@
       <file leaf-file-name="htmlModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="851" selection-start="3547" selection-end="3547" vertical-scroll-proportion="-6.92">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InterpreterSimulator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="282" column="62" selection-start="11611" selection-end="11611" vertical-scroll-proportion="0.0">
+            <state line="49" column="851" selection-start="3547" selection-end="3547" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -129,18 +133,18 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping1.js" />
-        <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js" />
+        <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="x" value="1358" />
+    <option name="y" value="-140" />
+    <option name="width" value="1696" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -308,6 +312,58 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dependencyGraph" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="codeMarkupGenerator" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -319,12 +375,12 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="editor.preferences.smartKeys" />
+    <property name="recentsLimit" value="5" />
     <property name="DefaultHtmlFileTemplate" value="Html" />
-    <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="GoToClass.includeJavaFiles" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -487,7 +543,11 @@
       <created>1339414281139</created>
       <updated>1339414281139</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="codeTextGenerator">
+      <created>1339443577099</created>
+      <updated>1339443577099</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -511,14 +571,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21192053" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22189128" sideWeight="0.6746575" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17984308" sideWeight="0.6746575" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
@@ -528,6 +587,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -572,7 +632,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated test data with nodeId values" />
+    <option name="LAST_COMMIT_MESSAGE" value="codeTextGenerator" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -607,6 +667,7 @@
     <MESSAGE value="Minor fix when displaying dependencies" />
     <MESSAGE value="When determining dependencies of object properties" />
     <MESSAGE value="Updated test data with nodeId values" />
+    <MESSAGE value="codeTextGenerator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -627,95 +688,75 @@
         <state line="282" column="62" selection-start="11611" selection-end="11611" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="218" column="46" selection-start="8622" selection-end="8622" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="194" column="41" selection-start="7546" selection-end="8116" vertical-scroll-proportion="0.034">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping1.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="16205" selection-start="259462" selection-end="259462" vertical-scroll-proportion="0.7197802">
-          <folding />
-        </state>
+        <state line="82" column="16205" selection-start="259462" selection-end="259462" vertical-scroll-proportion="0.7197802" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="149" column="106" selection-start="5090" selection-end="5090" vertical-scroll-proportion="0.96886444">
-          <folding />
-        </state>
+        <state line="149" column="106" selection-start="5090" selection-end="5090" vertical-scroll-proportion="0.96886444" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="20" selection-start="396" selection-end="396" vertical-scroll-proportion="-7.4065933">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="851" selection-start="3547" selection-end="3547" vertical-scroll-proportion="-6.92">
-          <folding />
-        </state>
+        <state line="19" column="20" selection-start="396" selection-end="396" vertical-scroll-proportion="-7.4065933" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="32" selection-start="8667" selection-end="8667" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="45" selection-start="976" selection-end="976" vertical-scroll-proportion="0.5992579">
-          <folding />
-        </state>
+        <state line="148" column="32" selection-start="8667" selection-end="8667" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/graphLibrary/js/underscore.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="805" column="4" selection-start="28983" selection-end="28983" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
+        <state line="805" column="4" selection-start="28983" selection-end="28983" vertical-scroll-proportion="0.33333334" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="328" column="8" selection-start="15294" selection-end="15294" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1261" column="12" selection-start="47587" selection-end="48254" vertical-scroll-proportion="0.0">
+        <state line="130" column="128" selection-start="5877" selection-end="5877" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1147" column="8" selection-start="49044" selection-end="49044" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#2618#4920#0" expanded="false" />
-            <element signature="e#4980#7278#0" expanded="false" />
-            <element signature="e#7364#8910#0" expanded="false" />
-          </folding>
+        <state line="1147" column="8" selection-start="49044" selection-end="49044" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1261" column="12" selection-start="47587" selection-end="48254" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/htmlModelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="851" selection-start="3547" selection-end="3547" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="218" column="46" selection-start="8622" selection-end="8622" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="328" column="8" selection-start="15294" selection-end="15294" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="273" column="34" selection-start="6507" selection-end="6507" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="535" column="36" selection-start="22277" selection-end="22277" vertical-scroll-proportion="-0.6577381">
+        <state line="484" column="53" selection-start="20316" selection-end="20325" vertical-scroll-proportion="0.4341637">
           <folding />
         </state>
       </provider>

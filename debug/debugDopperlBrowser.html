@@ -17,6 +17,7 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
 
     <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
 
@@ -83,6 +84,9 @@
     <div id="lineNumberContainer"></div>
     <div id="codeContainer"></div>
     <div id="messageContainer"></div>
+    <div style="clear:both"/>
+    <pre id="sourceTextContainer">
+    </pre>
 
     <script>
         var Firecrow = FBL.Firecrow;
@@ -123,6 +127,8 @@
             setCodeLineNumbers();
 
             checkForErrors(model);
+
+            document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(model.model);
         });
 
         function establishDependencies(dependencyGraph)

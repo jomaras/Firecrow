@@ -8,15 +8,23 @@ FBL.ns(function () { with (FBL) {
 var astHelper = Firecrow.ASTHelper;
 var valueTypeHelper = Firecrow.ValueTypeHelper;
 
-Firecrow.CodeHtmlGenerator = function(){};
+Firecrow.CodeTextGenerator = function(){};
 
-Firecrow.CodeHtmlGenerator.prototype =
+Firecrow.CodeTextGenerator.generateCode = function(model)
+{
+    var codeGenerator = new Firecrow.CodeTextGenerator();
+
+    return codeGenerator.generateCode(model);
+};
+
+Firecrow.CodeTextGenerator.prototype =
 {
     generateCode: function(model)
     {
         try
         {
-            return this.generateDocumentType(model.docType) + this.generateCodeFromHtmlElement(model.htmlElement);
+            return this.generateDocumentType(model.docType) + this.newLine
+                 + this.generateCodeFromHtmlElement(model.htmlElement);
         }
         catch(e) { this.notifyError("Error when generating code: " + e); }
     },
@@ -32,7 +40,7 @@ Firecrow.CodeHtmlGenerator.prototype =
         else if (documentType === "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd") { docTypeHtml += ' PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"'; }
         else if (documentType === "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd") { docTypeHtml += ' PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"'; }
         else if (documentType === "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd") { docTypeHtml += ' PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"'; }
-        else { return "";}
+        else { docTypeHtml + ">"; }
 
         return docTypeHtml + ">";
     },
@@ -43,26 +51,52 @@ Firecrow.CodeHtmlGenerator.prototype =
         {
             var htmlElementContent = "";
 
-            if(htmlElement.type == "script") { htmlElementContent = this.generateCodeFromScriptElement(htmlElement); }
-            else if(htmlElement.type == "style") { htmlElementContent = this.generateCodeFromStyleElement(htmlElement); }
+            var code = this.whitespace + this.generateStartHtmlTagString(htmlElement.type)
+                     + this.generateHtmlElementAttributes(htmlElement) + ">";
+
+            var hasOnlyTextContent = false;
+
+            if(htmlElement.type == "script")
+            {
+                this.indent();
+                htmlElementContent = this.generateCodeFromScriptElement(htmlElement);
+                this.deIndent();
+            }
+            else if(htmlElement.type == "style")
+            {
+                this.indent();
+                htmlElementContent = this.generateCodeFromStyleElement(htmlElement);
+                this.deIndent();
+            }
+            else if (htmlElement.type == "textNode")
+            {
+                return valueTypeHelper.trim(htmlElement.textContent);
+            }
             else
             {
-                for(var i = 0, children = htmlElement.childNodes, length = children.length; i < length; i++)
+                var children = htmlElement.childNodes;
+
+                if(children.length == 1 && children[0].type == "textNode")
                 {
-                    htmlElementContent += this.generateCodeFromHtmlElement(children[i]);
+                    htmlElementContent = valueTypeHelper.trim(children[0].textContent);
+                    hasOnlyTextContent = true;
+                }
+                else
+                {
+                    htmlElementContent += this.newLine;
+                    this.indent();
+                    for(var i = 0, length = children.length; i < length; i++)
+                    {
+                        htmlElementContent += this.generateCodeFromHtmlElement(children[i]);
+                    }
+                    this.deIndent();
                 }
             }
 
-            var code = this.whitespace + this.generateStartHtmlTagString(htmlElement.type)
-                     + this.generateHtmlElementAttributes(htmlElement.attributes) + ">" + this.newLine;
-
-            this.indent();
-
             code += htmlElementContent;
+            code += (hasOnlyTextContent ? "" : this.whitespace) + this.generateEndHtmlTagString(htmlElement.type) + this.newLine;
 
-            this.deIndent();
-
-            return this.whitespace + this.generateEndHtmlTagString(htmlElement.type);
+            return code;
         }
         catch(e) { this.notifyError("Error when generating htmlElement: " + e); }
     },
@@ -71,7 +105,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-
+            return this.newLine + this.generateJsCode(scriptElement.pathAndModel.model);
         }
         catch(e) { this.notifyError("Error when generating code from script element: " + e); }
     },
@@ -81,16 +115,16 @@ Firecrow.CodeHtmlGenerator.prototype =
         try
         {
                  if (astHelper.isProgram(element)) { return this.generateProgram(element); }
-            else if (astHelper.isStatement(element)) { return this.whitespace + this.generateStatement(element) + this.newLine; }
+            else if (astHelper.isStatement(element)) { return this.whitespace + this.generateStatement(element) + this._SEMI_COLON + this.newLine; }
             else if (astHelper.isFunction(element)) { return this.whitespace + this.generateFromFunction(element) + this.newLine; }
             else if (astHelper.isExpression(element)) { return this.generateExpression(element); }
             else if (astHelper.isSwitchCase(element)) { return this.generateFromSwitchCase(element); }
             else if (astHelper.isCatchClause(element)) { return this.generateFromCatchClause(element); }
-            else if (astHelper.isVariableDeclaration(element)) { return this.generateFromVariableDeclaration(element); }
+            else if (astHelper.isVariableDeclaration(element)) { return this.whitespace + this.generateFromVariableDeclaration(element) + this._SEMI_COLON + this.newLine; }
             else if (astHelper.isVariableDeclarator(element)) { return this.generateFromVariableDeclarator(element); }
             else if (astHelper.isLiteral(element)) { return this.generateFromLiteral(element); }
             else if (astHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
-            else { this.notifyError("Error while generating code unidentified ast element."); return ""; }
+            else { this.notifyError("Error while generating code unidentified ast element: "); return ""; }
         }
         catch(e) { alert("Error while generating code: " + e); }
     },
@@ -200,7 +234,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(functionDeclExp.body);
+            return this.generateJsCode(functionDeclExp.body);
         }
         catch(e) { this.notifyError("Error when generating code from function body:" + e); }
     },
@@ -216,12 +250,12 @@ Firecrow.CodeHtmlGenerator.prototype =
             var body = blockStatement.body;
             for(var i = 0, length = body.length; i < length; i++)
             {
-                code += this.generateCode(body[i]);
+                code += this.generateJsCode(body[i]);
             }
 
             this.deIndent();
 
-            return code + this._RIGHT_BRACKET;
+            return code + this.whitespace + this._RIGHT_GULL_WING;
         }
         catch(e) { this.notifyError("Error when generating HTML from block statement:" + e);}
     },
@@ -239,7 +273,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(expressionStatement.expression);
+            return this.generateJsCode(expressionStatement.expression);
         }
         catch(e) { this.notifyError("Error when generating HTML from expression statement:" + e); }
     },
@@ -248,9 +282,9 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(assignmentExpression.left)
+            return this.generateJsCode(assignmentExpression.left)
                 + " " + assignmentExpression.operator + " "
-                + this.generateCode(assignmentExpression.right)
+                + this.generateJsCode(assignmentExpression.right)
         }
         catch(e) { this.notifyError("Error when generating code from assignment expression:" + e); }
     },
@@ -280,9 +314,9 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(binaryExpression.left)
+            return this.generateJsCode(binaryExpression.left)
                  + " " + binaryExpression.operator + " "
-                 + this.generateCode(binaryExpression.right);
+                 + this.generateJsCode(binaryExpression.right);
         }
         catch(e) { this.notifyError("Error when generating code from binary expression:" + e); }
     },
@@ -291,9 +325,9 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(logicalExpression.left)
+            return this.generateJsCode(logicalExpression.left)
                  + " " + logicalExpression.operator + " "
-                 + this.generateCode(logicalExpression.right);
+                 + this.generateJsCode(logicalExpression.right);
         }
         catch(e) { this.notifyError("Error when generating code from logical expression:" + e); }
     },
@@ -306,7 +340,7 @@ Firecrow.CodeHtmlGenerator.prototype =
             // if prefixed e.g.: ++i
             if(updateExpression.prefix) { code += updateExpression.operator;}
 
-            code += this.generateCode(updateExpression.argument);
+            code += this.generateJsCode(updateExpression.argument);
 
             // if postfixed e.g.: i++
             if(!updateExpression.prefix) code += updateExpression.operator;
@@ -320,7 +354,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(newExpression.callee) + this._LEFT_PARENTHESIS
+            return this.generateJsCode(newExpression.callee) + this._LEFT_PARENTHESIS
                 + this.getSequenceCode(newExpression.arguments)
                 + this._RIGHT_PARENTHESIS;
 
@@ -332,9 +366,9 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(conditionalExpression.test)
-                + " "+ this._QUESTION_MARK + " " + this.generateCode(conditionalExpression.consequent)
-                + " "+ this._COLON + " " + this.generateCode(conditionalExpression.alternate);
+            return this.generateJsCode(conditionalExpression.test)
+                + " "+ this._QUESTION_MARK + " " + this.generateJsCode(conditionalExpression.consequent)
+                + " "+ this._COLON + " " + this.generateJsCode(conditionalExpression.alternate);
         }
         catch(e) { this.notifyError("Error when generating code from conditional expression:" + e); }
     },
@@ -352,7 +386,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(callExpression.callee) + this._LEFT_PARENTHESIS
+            return this.generateJsCode(callExpression.callee) + this._LEFT_PARENTHESIS
                 +  this.generateSequenceCode(callExpression.arguments)
                 +  this._RIGHT_PARENTHESIS;
         }
@@ -363,9 +397,9 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this.generateCode(memberExpression.object)
-                + (memberExpression.computed ? this._LEFT_BRACKET + this.generateCode(memberExpression.property) + this._RIGHT_BRACKET
-                                             : this._DOT + this.generateCode(memberExpression.property));
+            return this.generateJsCode(memberExpression.object)
+                + (memberExpression.computed ? this._LEFT_BRACKET + this.generateJsCode(memberExpression.property) + this._RIGHT_BRACKET
+                                             : this._DOT + this.generateJsCode(memberExpression.property));
         }
         catch(e) { this.notifyError("Error when generating code from member expression:" + e); }
     },
@@ -394,7 +428,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            if (objectExpression.properties.length == 0) { return _LEFT_GULL_WING + _RIGHT_GULL_WING; }
+            if (objectExpression.properties.length == 0) { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
 
             var code = this._LEFT_GULL_WING;
 
@@ -407,12 +441,12 @@ Firecrow.CodeHtmlGenerator.prototype =
 
                 if (property.kind == "init")
                 {
-                    code += this.generateCode(property.key) + this._COLON + " "
-                         + this.generateCode(property.value);
+                    code += this.generateJsCode(property.key) + this._COLON + " "
+                         + this.generateJsCode(property.value);
                 }
                 else
                 {
-                    code += this.generateCode(property.key);
+                    code += this.generateJsCode(property.key);
 
                     if (astHelper.isFunctionExpression(property.value))
                         code += this.generateFromFunction(property.value);
@@ -432,11 +466,11 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + this.generateCode(ifStatement.test) + this._RIGHT_PARENTHESIS;
+            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(ifStatement.test) + this._RIGHT_PARENTHESIS;
 
-            code += this.generateCode(ifStatement.consequent);
+            code += this.generateJsCode(ifStatement.consequent);
 
-            if(ifStatement.alternate != null) { code += this._ELSE_KEYWORD + this.generateCode(ifStatement.alternate); }
+            if(ifStatement.alternate != null) { code += this._ELSE_KEYWORD + this.generateJsCode(ifStatement.alternate); }
 
             return code;
         }
@@ -447,8 +481,8 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + this.generateCode(whileStatement.test) + this._RIGHT_PARENTHESIS
-                +  this.generateCode(whileStatement.body);
+            return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(whileStatement.test) + this._RIGHT_PARENTHESIS
+                +  this.generateJsCode(whileStatement.body);
         }
         catch(e) { this.notifyError("Error when generating code from while statement:" + e); }
     },
@@ -457,8 +491,8 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            return this._DO_KEYWORD +  this.generateCode(doWhileStatement.body)
-                +  this.whitespace + _WHILE_KEYWORD + this._LEFT_PARENTHESIS + this.generateCode(doWhileStatement.test) + this._RIGHT_PARENTHESIS;
+            return this._DO_KEYWORD + this.newLine + this.generateJsCode(doWhileStatement.body)
+                +  this.whitespace + this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(doWhileStatement.test) + this._RIGHT_PARENTHESIS;
         }
         catch(e) { this.notifyError("Error when generating code from do while statement:" + e); }
     },
@@ -468,10 +502,10 @@ Firecrow.CodeHtmlGenerator.prototype =
         try
         {
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
-                +  this.generateCode(forStatement.init) + this._SEMI_COLON
-                +  this.generateCode(forStatement.test) + this._SEMI_COLON
-                +  this.generateCode(forStatement.update) + this._RIGHT_PARENTHESIS
-                +  this.generateCode(forStatement.body);
+                +  this.generateJsCode(forStatement.init) + this._SEMI_COLON
+                +  this.generateJsCode(forStatement.test) + this._SEMI_COLON
+                +  this.generateJsCode(forStatement.update) + this._RIGHT_PARENTHESIS
+                +  this.generateJsCode(forStatement.body);
         }
         catch(e) { this.notifyError("Error when generating code from for statement:" + e); }
     },
@@ -481,9 +515,9 @@ Firecrow.CodeHtmlGenerator.prototype =
         try
         {
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
-                +  this.generateCode(forInStatement.left) + " " +  this._IN_KEYWORD + " "
-                +  this.generateCode(forInStatement.right) + this._RIGHT_PARENTHESIS
-                +  this.generateCode(forInStatement.body);
+                +  this.generateJsCode(forInStatement.left) + " " +  this._IN_KEYWORD + " "
+                +  this.generateJsCode(forInStatement.right) + this._RIGHT_PARENTHESIS
+                +  this.generateJsCode(forInStatement.body);
         }
         catch(e) { this.notifyError("Error when generating code from for...in statement:" + e); }
     },
@@ -569,7 +603,7 @@ Firecrow.CodeHtmlGenerator.prototype =
             if(switchCase.test === null){ code += this._DEFAULT_KEYWORD + this._SEMI_COLON; }
             else
             {
-                code += _CASE_KEYWORD + this.generateExpression(switchCase.test) + this._SEMI_COLON + this.newLine;
+                code +=this._CASE_KEYWORD + this.generateExpression(switchCase.test) + this._SEMI_COLON + this.newLine;
             }
 
             for(var i = 0; i < switchCase.consequent.length; i++)
@@ -586,7 +620,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            var code = this._TRY_KEYWORD +  this.generateCode(tryStatement.block);
+            var code = this._TRY_KEYWORD +  this.generateJsCode(tryStatement.block);
 
             // catch clauses
             for(var i = 0; i < tryStatement.handlers.length; i++)
@@ -596,7 +630,7 @@ Firecrow.CodeHtmlGenerator.prototype =
 
             if(tryStatement.finalizer != null)
             {
-                code += this._FINALLY_KEYWORD + this.generateCode(tryStatement.finalizer);
+                code += this._FINALLY_KEYWORD + this.generateJsCode(tryStatement.finalizer);
             }
 
             return code;
@@ -618,7 +652,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     {
         try
         {
-            var code = _VAR_KEYWORD + " ";
+            var code = this._VAR_KEYWORD + " ";
 
             var declarators = variableDeclaration.declarations;
             for (var i = 0, length = declarators.length; i < length; i++)
@@ -640,7 +674,7 @@ Firecrow.CodeHtmlGenerator.prototype =
         try
         {
             return this.generateFromPattern(variableDeclarator.id)
-                +  (variableDeclarator.init != null ? " = " + this.generateCode(variableDeclarator.init) : "");
+                +  (variableDeclarator.init != null ? " = " + this.generateJsCode(variableDeclarator.init) : "");
         }
         catch(e) { alert("Error when generating code from variableDeclarator - CodeMarkupGenerator:" + e);}
     },
@@ -659,7 +693,7 @@ Firecrow.CodeHtmlGenerator.prototype =
         try
         {
 
-            return this._CATCH_KEYWORD + this._LEFT_PARENTHESIS + this.generatecode(catchClause.param) + this._RIGHT_PARENTHESIS
+            return this._CATCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(catchClause.param) + this._RIGHT_PARENTHESIS
                 +  this.generateStatement(catchClause.body)
         }
         catch(e) { this.notifyError("Error when generating code from catch clause:" + e);}
@@ -706,84 +740,12 @@ Firecrow.CodeHtmlGenerator.prototype =
             {
                 if(i != 0) { code += this._COMMA +  " "; }
 
-                code += this.generateCode(sequence[i]);
+                code += this.generateJsCode(sequence[i]);
             }
 
             return code;
         }
         catch(e) { this.notifyError("Error when generating sequence code:" + e); }
-    },
-
-    getElementHtml: function(elementType, attributes, content)
-    {
-        return this.getStartElementHtml(elementType, attributes) + content + this.getEndElementHtml(elementType);
-    },
-
-    getStartElementHtml: function(elementType, attributes)
-    {
-        try
-        {
-            var html = "<" + elementType + " ";
-
-            for(var propertyName in attributes)
-            {
-                html += propertyName + " = '" + attributes[propertyName] + "' ";
-            }
-
-            html += ">";
-
-            return html;
-        }
-        catch(e) { alert("Error when generating start element html: " + e);}
-    },
-
-    getEndElementHtml: function(elementType)
-    {
-        try
-        {
-            return "</" + elementType  + ">";
-        }
-        catch(e) { alert("Error when generating end element html: " + e); }
-    },
-
-    generateCodeContainer: function(content)
-    {
-        try
-        {
-            var html = "";
-
-            html += this.getElementHtml("div", {class: "lineContainer"}, this.lineNumber++);
-            html += this.getElementHtml("div", {class: "codeContainer"}, content);
-
-            return html;
-        }
-        catch(e) { alert("Error when generating code container: " + e)}
-    },
-
-    getStyle: function(currentElement)
-    {
-        if( currentElement.parent == "ForStatement"
-            || currentElement.parent == "ForInStatement"
-            || currentElement.parent == "WhileStatement"
-            || currentElement.parent == "DoWhileStatement"
-            || currentElement.parent == "IfStatement"
-            || currentElement.parent == "SwitchCase")
-        {
-            return "padding-left: 20px";
-        }
-        if (currentElement.type == "ObjectExpression")
-        {
-//                console.log(currentElement.parent);
-
-//                if(currentElement.parent == "VariableDeclarator" && currentElement.properties.length > 1)
-//                {
-//                    return "display: block"
-//                }
-//                else
-//                {
-//                    return "display: inline";
-//                }
-        }
     },
 
     generateCodeFromStyleElement: function(styleElement)
@@ -814,13 +776,13 @@ Firecrow.CodeHtmlGenerator.prototype =
         try
         {
             var attributes = htmlElement.attributes;
-            var attributesText = " ";
+            var attributesText = "";
 
             for(var i = 0, length = attributes.length; i < length; i++)
             {
                 var attribute = attributes[i];
 
-                attributesText += " " + attribute.name + ' = "' + attribute.value + '" ';
+                attributesText += " " + attribute.name + '="' + attribute.value + '"';
             }
 
             return attributesText;
@@ -836,7 +798,7 @@ Firecrow.CodeHtmlGenerator.prototype =
     whitespace: "",
     newLine: "\r\n",
     indent: function() { this.whitespace += "  "; },
-    deIndent: function()  { this.whitespace = this.whitespace.replace(/\s\s$/, this.whitespace);},
+    deIndent: function()  { this.whitespace = this.whitespace.replace(/\s\s$/, "");},
 
     notifyError: function(message) { alert("Error when generating code text: " + message); },
 
