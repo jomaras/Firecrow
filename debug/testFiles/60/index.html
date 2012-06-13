@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Constructor - member expression</div>
+<div id="resultContainer"></div>
+<script>
+    var Sylvester = { precision: 1e-6 };
+
+    Sylvester.Vector = function() {};
+
+    Sylvester.Vector.prototype =
+    {
+        setElements: function(els)
+        {
+            this.elements = (els.elements || els).slice();
+            return this;
+        }
+    };
+
+    Sylvester.Vector.create = function(elements)
+    {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+    };
+
+    var a = Sylvester.Vector.create([1,0,0]);
+    var b = a.elements[0];
+
+    document.getElementById("resultContainer").textContent = b;
+</script>
+</body>
+</html>

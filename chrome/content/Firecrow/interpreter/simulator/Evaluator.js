@@ -704,16 +704,21 @@ fcSimulator.Evaluator.prototype =
 
                 if(leftValue == null || rightValue == null) { this._callExceptionCallbacks(); return; }
 
-                this.executionContextStack.setExpressionValue
-                (
-                    wholeLogicalExpression,
-                    new fcModel.JsValue
-                    (
-                        wholeLogicalExpression.operator == "&&" ? leftValue.value && rightValue.value
-                                                                : leftValue.value || rightValue.value,
-                        new fcModel.FcInternal(wholeLogicalExpression)
-                    )
-                );
+                var result = wholeLogicalExpression.operator == "&&" ? leftValue.value && rightValue.value
+                                                                     : leftValue.value || rightValue.value;
+
+                var finalExpressionValue = null;
+
+                if(ValueTypeHelper.isPrimitive(result))
+                {
+                    finalExpressionValue = new fcModel.JsValue(result, new fcModel.FcInternal(wholeLogicalExpression))
+                }
+                else
+                {
+                    finalExpressionValue = result === leftValue.value ? leftValue : rightValue;
+                }
+
+                this.executionContextStack.setExpressionValue(wholeLogicalExpression, finalExpressionValue);
             }
             else { this.notifyError(evaluateLogicalExpressionItemCommand, "The expression item is neither left nor right expression"); return; }
         }

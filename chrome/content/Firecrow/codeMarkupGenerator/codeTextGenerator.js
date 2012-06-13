@@ -17,6 +17,13 @@ Firecrow.CodeTextGenerator.generateCode = function(model)
     return codeGenerator.generateCode(model);
 };
 
+Firecrow.CodeTextGenerator.generateJsCode = function(model)
+{
+    var codeGenerator = new Firecrow.CodeTextGenerator();
+
+    return codeGenerator.generateJsCode(model);
+};
+
 Firecrow.CodeTextGenerator.prototype =
 {
     generateCode: function(model)
