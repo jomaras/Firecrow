@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>
+       segment = Sylvester.Line.Segment.create([5,5,5], [10,10,10]);
+       segment2 = Sylvester.Line.Segment.create([1,1,0], [1,2,0]);
+
+       var a1 = segment.bisectingPlane().eql(Sylvester.Plane.create([7.5,7.5,7.5], [1,1,1])) ;
+   </script>
+</body>
+</html>

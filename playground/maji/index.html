@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <input type="text" id="numbersInput"/>
+    <input type="button" value="Generate" id="button"/>
+    <div id="resultContainer"></div>
+
+    <script>
+        var button = document.querySelector("#button");
+        var resultArray = [];
+
+        function generateAllBitCombinations(number)
+        {
+            var endNumber = Math.pow(2, number);
+            var combinations = [];
+
+            for(var i = 0; i < endNumber; i++)
+            {
+                combinations.push(i.toString(2));
+            }
+
+            return combinations;
+        }
+
+        button.onclick = function()
+        {
+            var numbersText = document.querySelector("#numbersInput").value;
+            var array;
+
+            try { array = eval(numbersText); }
+            catch(e){}
+
+            if(!(array instanceof Array)) { alert("Please enter an array expression in the format: [a,b,c]"); }
+            else
+            {
+                var allBitCombinations = generateAllBitCombinations(array.length);
+
+                var allCombinations = [];
+
+                for(var i = 0; i < allBitCombinations.length; i++)
+                {
+                    var combination = allBitCombinations[i];
+                    var currentResult = [];
+
+                    for(var j = 0; j < array.length; j++)
+                    {
+                        var bit = combination[j];
+                        if(bit == null || bit == "0") { currentResult.push(0); }
+                        else { currentResult.push(array[j]);}
+                    }
+
+                    allCombinations.push(currentResult);
+                }
+
+                var resultContainer = document.querySelector("#resultContainer");
+
+                var html = "";
+                for(var i = 0; i < allCombinations.length; i++)
+                {
+                    html += allCombinations[i] + "<br/>";
+                }
+
+                resultContainer.innerHTML = html;
+            }
+        };
+    </script>
+</body>
+</html>

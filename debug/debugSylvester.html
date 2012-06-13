@@ -51,8 +51,6 @@
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
 
-    <script src="sylvester/02-LineSegment-eql/htmlMapping.js"></script>
-
     <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
     <style>
@@ -87,6 +85,7 @@
     <div id="codeContainer"></div>
     <div id="messageContainer"></div>
     <div style="clear:both"/>
+    <script src="sylvester/15-Line-eql/htmlMapping.js"></script>
     <pre id="sourceTextContainer">
     </pre>
 
@@ -94,7 +93,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/sylvester/02-LineSegment-eql/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/sylvester/15-Line-eql/index.html");
 
         var messageContainer = document.getElementById("messageContainer");
 
@@ -122,6 +121,53 @@
             var codeContainer = document.getElementById("codeContainer");
 
             codeContainer.textContent = "Finished";
+
+            var globalObjectProperties = browser.globalObject.properties;
+            var errors = "";
+            model.results.forEach(function(result)
+            {
+                for(var propName in result)
+                {
+                    var hasBeenFound = false;
+                    for(var i = 0; i < globalObjectProperties.length; i++)
+                    {
+                        var property = globalObjectProperties[i];
+                        var propertyValue = property.value;
+
+                        if(property.name == propName)
+                        {
+                            hasBeenFound = true;
+
+                            if(propertyValue == null)
+                            {
+                                errors += propName + " is null, and should be: " + result[propName] + "\n";
+                                break;
+                            }
+
+                            if(propertyValue.value != result[propName])
+                            {
+                                errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
+                            }
+
+                            break;
+                        }
+                    }
+
+                    if(!hasBeenFound)
+                    {
+                        errors += propName + " could not be found in global object!\n";
+                    }
+                }
+            });
+
+            if(errors != "") { alert("Errors on validating result:\n" + errors); }
+            else
+            {
+                var newDiv = document.createElement("div");
+                newDiv.style.color = "green";
+                newDiv.textContent = "Test successful";
+                messageContainer.appendChild(newDiv);
+            }
         });
     </script>
 

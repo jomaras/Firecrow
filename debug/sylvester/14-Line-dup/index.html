@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+       var Line = Sylvester.Line;
+       
+    	var L = Line.X.dup()
+    	var a1 = L.eql(Line.X);
+    	L.anchor.setElements([8,2,5]);
+    	L.direction.setElements([2,5,6]);
+    	var a2 = Line.X.anchor.eql([0,0,0]);
+    	var a3 = Line.X.direction.eql(Sylvester.Vector.i);
+    	var a4 = !L.eql(Line.X);
+   </script>
+</body>
+</html>
