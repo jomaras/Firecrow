@@ -27,6 +27,8 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.arrayFunction = new fcModel.ArrayFunction(this);
         this.regExFunction = new fcModel.RegExFunction(this);
         this.emptyFunction = new fcModel.EmptyFunction(this);
+        this.fcMath = new fcModel.Math(this);
+        this.math = new fcModel.JsValue(this.fcMath, new fcModel.FcInternal(null, this.fcMath));
         this.document = new fcModel.Document(documentFragment, this);
         this.jsFcDocument = new fcModel.JsValue(this.document.documentFragment, new fcModel.FcInternal(null, this.document));
         this.browser = browser;
@@ -35,6 +37,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("RegExp", this.regExFunction, null);
         this.addProperty("String", this.stringFunction, null);
         this.addProperty("document",this.jsFcDocument, null);
+        this.addProperty("Math",this.math, null);
 
         this.internalExecutor.expandInternalFunctions();
     }

@@ -64,7 +64,7 @@ fcModel.DocumentExecutor =
 {
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
-        if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing string method!"); return; }
+        if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing document method!"); return; }
 
         var functionObjectValue = functionObject.value;
         var thisObjectValue = thisObject.value;

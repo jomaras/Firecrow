@@ -171,6 +171,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject.fcInternal.globalObject.jsFcDocument, functionObject, arguments, callExpression);}
             else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, fcModel.Math)) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else
             {
                 this.notifyError("Unsupported internal function!");
@@ -190,6 +191,7 @@ fcSimulator.InternalExecutor.prototype =
             this._expandStringMethods();
             this._expandDocumentMethods();
             this._expandDocument();
+            this._expandMathMethods();
         }
         catch(e) { this.notifyError("Error when expanding internal functions: " + e);}
     },
@@ -347,6 +349,18 @@ fcSimulator.InternalExecutor.prototype =
             }, this);
         }
         catch(e) { alert("InternalExecutor - error when expanding string methods: " + e); }
+    },
+
+    _expandMathMethods: function()
+    {
+        try
+        {
+            fcModel.Math.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                this.expandWithInternalFunction(Math, propertyName);
+            }, this);
+        }
+        catch(e) { alert("InternalExecutor - error when expanding math methods: " + e); }
     },
 
     _expandDocumentMethods: function()
