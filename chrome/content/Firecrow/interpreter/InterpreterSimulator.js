@@ -427,7 +427,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 CommandGenerator.generateIfStatementBodyCommands
                 (
                     ifCommand,
-                    this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test).value
+                    this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test).value,
+                    ifCommand.parentFunctionCommand
                 ),
                 this.currentCommandIndex + 1
             );

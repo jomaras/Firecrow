@@ -396,7 +396,10 @@ fcSimulator.Evaluator.prototype =
                 );
             }
         }
-        catch(e) { this.notifyError(evalReturnExpressionCommand, "Error when evaluating return expression: " + e); }
+        catch(e)
+        {
+            this.notifyError(evalReturnExpressionCommand, "Error when evaluating return expression: " + e);
+        }
     },
 
     _evaluateThisExpressionCommand: function(thisExpressionCommand)
