@@ -106,7 +106,12 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
             formalParameters.forEach(function(formalParameter, index)
             {
                 functionVariableObject.registerIdentifier(formalParameter);
-                formalParameter.setValue(sentArguments[index], argumentsConstructs[index]);
+
+                formalParameter.setValue
+                (
+                    sentArguments[index] || new fcModel.JsValue(undefined, new fcModel.FcInternal(formalParameter.declarationConstruct)),
+                    argumentsConstructs[index]
+                );
             });
         }
 

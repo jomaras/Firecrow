@@ -58,7 +58,7 @@ fcModel.MathExecutor =
         catch(e) { this.notifyError("Error when executing internal math method: " + e);}
     },
 
-    notifyError: function(message){ alert("Math Executor error -  " );}
+    notifyError: function(message){ alert("Math Executor error -  " + message);}
 }
 /*************************************************************************************/
 }});
