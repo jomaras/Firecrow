@@ -10,6 +10,13 @@
    <script>       
        var Line = Sylvester.Line;
        
+		var a1 = Line.Z.reflectionIn([28,0,-12]).eql($L([56,0,0], Sylvester.Vector.k.x(-1)));
+		var a2 = Line.X.reflectionIn($L([0,0,0],[1,0,1])).eql(Line.Z);
+    	var L1 = Line.X.dup();
+    	var L2 = $L([5,0,0], Sylvester.Vector.k);
+    	var a3 = L1.reflectionIn(Sylvester.Plane.create([5,0,0], [1,0,1])).eql(L2);
+    	var a4 = L2.reflectionIn(Sylvester.Plane.create([5,0,0], [1,0,1])).eql(L1);
+    	var a5 = $L([-4,3], [0,-1]).reflectionIn(Sylvester.Vector.create([0,0])).eql($L([4,100], [0,4]));
    </script>
 </body>
 </html>
