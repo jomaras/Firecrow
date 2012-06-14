@@ -215,6 +215,24 @@ fcModel.Array.prototype.lastIndexOf = function(jsArray, callArguments, callExpre
     catch(e) { this.notifyError("When lastIndexOf array: " + e);}
 };
 
+fcModel.Array.prototype.join = function(jsArray, callArguments, callExpression)
+{
+    try
+    {
+        var glue = callArguments[0] != null ? callArguments[0].value : ",";
+        var result = "";
+
+        var items = this.items;
+        for(var i = 0, length = items.length; i < length; i++)
+        {
+            result += (i!=0 ? glue : "") + items[i].value;
+        }
+
+        return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
+    }
+    catch(e) { this.notifyError("When indexOf array: " + e);}
+};
+
 fcModel.Array.prototype.notifyError = function(message) { alert("Array - " + message); }
 
 fcModel.ArrayPrototype = function(globalObject)
@@ -327,7 +345,8 @@ fcModel.ArrayExecutor =
                 case "pop":
                 case "reverse":
                 case "shift":
-                    fcThisValue[functionName].apply(fcThisValue, [callExpression])
+                    fcThisValue[functionName].apply(fcThisValue, [callExpression]);
+                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
                 case "push":
                     arguments.forEach(function(argument){fcThisValue.push(argument, callExpression);});
                     return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
@@ -337,6 +356,7 @@ fcModel.ArrayExecutor =
                 case "lastIndexOf":
                 case "unshift":
                 case "splice":
+                case "join":
                     thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
                     return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression]);
                 default:
