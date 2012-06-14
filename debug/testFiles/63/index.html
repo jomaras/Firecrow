@@ -5,12 +5,22 @@
 </head>
 <body>
 <h2>Firecrow - simple Js Test</h2>
-<div>Array - join</div>
+<div>Array - join; String matches</div>
 <div id="resultContainer"></div>
 <script>
     var a = [1,2,3];
     var a1 = a.join();
     var a2 = a.join(".");
+
+    str = "For more information, see Chapter 3.4.5.1";
+    re = /(chapter \d+(\.\d)*)/i;
+    found = str.match(re);
+
+    var a3 = found[0];
+    var a4 = found[1];
+    var a5 = found[2];
+    var a6 = found.index;
+    var a7 = found.input;
 </script>
 </body>
 </html>

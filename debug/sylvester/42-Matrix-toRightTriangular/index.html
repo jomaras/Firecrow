@@ -12,14 +12,13 @@
     	var $M = Matrix.create;
        
     	var a1 = true;
-    	var results =    
        for (var i = 0, M; i < 8; i++) 
        {
       		M = Matrix.Random(3,3);
       		
       		var string = M.toRightTriangular().inspect();
       		
-      		a1 = a1 & string.match(/^\[[0-9\-\.]+, [0-9\-\.]+, [0-9\-\.]+\]\n\[0, [0-9\-\.]+, [0-9\-\.]+\]\n\[0, 0, [0-9\-\.]+\]$/);
+      		a1 = a1 && (string.match(/^\[[0-9\-\.]+, [0-9\-\.]+, [0-9\-\.]+\]\n\[0, [0-9\-\.]+, [0-9\-\.]+\]\n\[0, 0, [0-9\-\.]+\]$/) != null);
     	}
    </script>
 </body>
