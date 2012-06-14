@@ -8,9 +8,12 @@
    <h2>Sylvester - test</h2>
    <div id="resultContainer"></div>
    <script>       
-		var Plane = Sylvester.Plane;
-    	var $P = Plane.create;
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
        
+		var a1 =  Matrix.Random(2,5).isSameSizeAs(Matrix.Zero(2,5));
+    	var a2 = !Matrix.Random(2,6).isSameSizeAs(Matrix.Zero(2,5));
+		var a3 = !Matrix.Random(1,5).isSameSizeAs(Matrix.Zero(2,5));
    </script>
 </body>
 </html>

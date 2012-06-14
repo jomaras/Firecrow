@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+
+    	var M = $M([[2,5,9,3],[9,2,8,5]]);
+    	var a1 = 9 == M.max();
+    	var a2 = M.indexOf(8).i == 2 && M.indexOf(8).j == 3;
+    	var a3 = M.indexOf(9).i == 1 && M.indexOf(9).j == 3;
+   </script>
+</body>
+</html>

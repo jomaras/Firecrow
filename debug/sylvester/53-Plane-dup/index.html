@@ -10,7 +10,13 @@
    <script>       
 		var Plane = Sylvester.Plane;
     	var $P = Plane.create;
-       
+		var P = Plane.XY.dup()
+    	
+    	P.anchor.setElements([3,4,5]);
+    	P.normal.setElements([0,2,6]);
+    	
+    	var a1 = Plane.XY.anchor.eql([0,0,0]);
+    	var a2 = Plane.XY.normal.eql(Sylvester.Vector.k);
    </script>
 </body>
 </html>

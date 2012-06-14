@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+
+    	var M = Matrix.Random(3,3).x(10)
+    	M.elements[0][0] = M.elements[1][0] = M.elements[2][0] = 0;
+    	
+    	var a1 = M.isSingular();
+    	var a2 = !Matrix.Zero(4,3).isSingular();
+   </script>
+</body>
+</html>

@@ -8,9 +8,11 @@
    <h2>Sylvester - test</h2>
    <div id="resultContainer"></div>
    <script>       
-		var Plane = Sylvester.Plane;
-    	var $P = Plane.create;
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
        
+		var a1 = '[0, 1, 7, 5]' === $V([0, 1, 7, 5]).inspect();
+		var a2 = '[0, 1.4, 7.034, 5.28638]' === $V([0, 1.4, 7.034, 5.28638]).inspect();
    </script>
 </body>
 </html>

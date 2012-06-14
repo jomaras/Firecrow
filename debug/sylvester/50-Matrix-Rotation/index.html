@@ -8,9 +8,11 @@
    <h2>Sylvester - test</h2>
    <div id="resultContainer"></div>
    <script>       
-		var Plane = Sylvester.Plane;
-    	var $P = Plane.create;
-       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+        
+        var a1 = Matrix.Rotation(Math.PI/2).eql([[0,-1], [1,0]]);
+    	var a2 = Matrix.Rotation(Math.PI/2, Sylvester.Vector.j).eql([[0,0,1],[0,1,0],[-1,0,0]]);
    </script>
 </body>
 </html>

@@ -8,9 +8,12 @@
    <h2>Sylvester - test</h2>
    <div id="resultContainer"></div>
    <script>       
-		var Plane = Sylvester.Plane;
-    	var $P = Plane.create;
-       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+
+    	var M = $M([[8,1,6], [0,1,7],[0,1,5]]);
+    	var a1 = 14 == M.tr();
+    	var a2 = Matrix.Random(4,5).tr() == null;
    </script>
 </body>
 </html>

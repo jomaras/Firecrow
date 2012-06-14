@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+       
+        var M = $M([
+      [2,3,8],
+      [7,0,2],
+      [6,3,0]
+    ])
+    var a1 = M.eql([[2,3,8],  [7,0,2],  [6,3,0]]);
+    var a2 = ! M.eql([[7,3,8],  [7,0,2],  [6,3,0]]);
+    var a3 = ! M.eql([[2,7,8],  [7,0,2],  [6,3,0]]);
+    var a4 = ! M.eql([[2,3,7],  [7,0,2],  [6,3,0]]);
+    var a5 = ! M.eql([[2,3,8],  [8,0,2],  [6,3,0]]);
+    var a6 = ! M.eql([[2,3,8],  [7,7,2],  [6,3,0]]);
+    var a7 = ! M.eql([[2,3,8],  [7,0,7],  [6,3,0]]);
+    var a8 = ! M.eql([[2,3,8],  [7,0,2],  [7,3,0]]);
+    var a9 = ! M.eql([[2,3,8],  [7,0,2],  [6,7,0]]);
+    var a10 = ! M.eql([[2,3,8],  [7,0,2],  [6,3,7]]);
+   </script>
+</body>
+</html>
