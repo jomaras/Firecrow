@@ -11,6 +11,7 @@ var Node = Firecrow.DependencyGraph.Node;
 Firecrow.DependencyGraph.DependencyGraph = function()
 {
     this.nodes = [];
+    this.controlFlow = [];
 };
 
 var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
@@ -39,9 +40,13 @@ DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentN
 
 DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject)
 {
-    if(sourceNodeModelObject == null) { return; }
-    if(targetNodeModelObject == null) { return; }
+    if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
 
     sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode);
-}
+};
+
+DependencyGraph.prototype.handleControlFlowConnection = function(sourceNode)
+{
+    this.controlFlow.push(sourceNode);
+};
 }});

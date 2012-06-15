@@ -35,8 +35,10 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.nodeCreatedCallbacks = [];
         this.nodeInsertedCallbacks = [];
         this.interpretJsCallbacks = [];
+
         this.dataDependencyEstablishedCallbacks = [];
         this.interpreterMessageGeneratedCallbacks = [];
+        this.controlFlowConnectionCallbacks = [];
     }
     catch(e) { alert("Error when initialising Doppel Browser.Browser: " + e); }
 };
@@ -70,6 +72,8 @@ Browser.prototype =
         try
         {
             var htmlModel = HtmlModelMapping.getModel(this.htmlWebFile.url);
+
+            ASTHelper.setParentsChildRelationships(htmlModel.model);
 
             if(htmlModel == null) { alert("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
             if(htmlModel.htmlElement == null) { alert("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
@@ -166,9 +170,15 @@ Browser.prototype =
         try
         {
             var interpreter = new Interpreter(scriptModelNode.pathAndModel.model, this.globalObject);
+
             interpreter.registerMessageGeneratedCallback(function(message)
             {
                 this._callInterpreterMessageGeneratedCallbacks(message);
+            }, this);
+
+            interpreter.registerControlFlowConnectionCallback(function(codeConstruct)
+            {
+                this._callControlFlowConnectionCallbacks(codeConstruct);
             }, this);
 
             this.asyncInterpretCode ? interpreter.runAsync(function(){}) : interpreter.runSync();
@@ -251,6 +261,13 @@ Browser.prototype =
         this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerControlFlowConnectionCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - control flow connection callback has to be a function!"); return; }
+
+        this.controlFlowConnectionCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     registerDataDependencyEstablishedCallback: function(callback, thisObject)
     {
         if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - data dependency established callback has to be a function!"); return; }
@@ -290,6 +307,14 @@ Browser.prototype =
         });
     },
 
+    _callControlFlowConnectionCallbacks: function(codeConstruct)
+    {
+        this.controlFlowConnectionCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
+        });
+    },
+
     callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode)
     {
         this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
@@ -303,5 +328,4 @@ Browser.prototype =
         return Firecrow.IsDebugMode ? document : Firecrow.fbHelper.getCurrentPageDocument();
     }
 };
-
 }});

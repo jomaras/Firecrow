@@ -24,6 +24,7 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject)
     this.tryStack = [];
 
     this.messageGeneratedCallbacks = [];
+    this.controlFlowConnectionCallbacks = [];
 };
 
 Firecrow.Interpreter.InterpreterSimulator.prototype =
@@ -38,7 +39,9 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 this.processCommand(command);
 
-                this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
+                this.callControlFlowConnectionCallbacks(command.codeConstruct);
+
+                //this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
             }
         }
         catch(e) { alert("Error while running the InterpreterSimulator: " + e); }
@@ -490,11 +493,30 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         );
     },
 
+    registerControlFlowConnectionCallback: function(calleeFunction, thisValue)
+    {
+        this.controlFlowConnectionCallbacks.push
+        (
+            {
+                callback: calleeFunction,
+                thisValue: thisValue || this
+            }
+        );
+    },
+
     callMessageGeneratedCallbacks: function(message)
     {
         this.messageGeneratedCallbacks.forEach(function(callbackDescription)
         {
             callbackDescription.callback.call(callbackDescription.thisValue, message);
+        });
+    },
+
+    callControlFlowConnectionCallbacks: function(codeConstruct)
+    {
+        this.controlFlowConnectionCallbacks.forEach(function(callbackDescription)
+        {
+            callbackDescription.callback.call(callbackDescription.thisValue, codeConstruct);
         });
     }
 };

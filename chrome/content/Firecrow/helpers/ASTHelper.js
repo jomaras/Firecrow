@@ -5,11 +5,6 @@ FBL.ns(function () { with (FBL) {
 
     Firecrow.ASTHelper =
     {
-        parseSourceCodeToASTString: function(sourceCode, sourceCodePath, startLine)
-        {
-
-        },
-
         parseSourceCodeToAST: function(sourceCode, sourceCodePath, startLine)
         {
             try
@@ -23,6 +18,28 @@ FBL.ns(function () { with (FBL) {
                 );
             }
             catch(e) { alert("Error while getting AST from source code@" + sourceCodePath + "; error: " + sourceCodePath); }
+        },
+
+        setParentsChildRelationships: function(rootElement)
+        {
+            try
+            {
+                this.traverseAst(rootElement, function(currentElement, propertyName, parentElement)
+                {
+                    if(parentElement != null)
+                    {
+                        if(parentElement.children == null) { parentElement.children = [];}
+
+                        if(currentElement != null) { parentElement.children.push(currentElement);}
+                    }
+
+                    if(currentElement != null)
+                    {
+                        currentElement.parent = parentElement;
+                    }
+                });
+            }
+            catch(e) { alert("Error when setting parent-child relationships:" + e); }
         },
 
         getTypeExpressionsFromProgram: function(program, types)
@@ -212,51 +229,51 @@ FBL.ns(function () { with (FBL) {
         getFunctionParent: function(codeConstruct)
         {
             return this.getParentOfTypes
-                (
-                    codeConstruct,
-                    [
-                        this.CONST.FunctionDeclaration,
-                        this.CONST.EXPRESSION.FunctionExpression
-                    ]
-                );
+            (
+                codeConstruct,
+                [
+                    this.CONST.FunctionDeclaration,
+                    this.CONST.EXPRESSION.FunctionExpression
+                ]
+            );
         },
 
         getLoopOrSwitchParent: function(codeConstruct)
         {
             return this.getParentOfTypes
-                (
-                    codeConstruct,
-                    [
-                        this.CONST.ForStatement,
-                        this.CONST.ForInStatement,
-                        this.CONST.WhileStatement,
-                        this.CONST.DoWhileStatement,
-                        this.CONST.SwitchStatement
-                    ]
-                );
+            (
+                codeConstruct,
+                [
+                    this.CONST.ForStatement,
+                    this.CONST.ForInStatement,
+                    this.CONST.WhileStatement,
+                    this.CONST.DoWhileStatement,
+                    this.CONST.SwitchStatement
+                ]
+            );
         },
 
         getLoopParent: function(codeConstruct)
         {
             return this.getParentOfTypes
-                (
-                    codeConstruct,
-                    [
-                        this.CONST.STATEMENT.ForStatement,
-                        this.CONST.STATEMENT.ForInStatement,
-                        this.CONST.STATEMENT.WhileStatement,
-                        this.CONST.STATEMENT.DoWhileStatement
-                    ]
-                );
+            (
+                codeConstruct,
+                [
+                    this.CONST.STATEMENT.ForStatement,
+                    this.CONST.STATEMENT.ForInStatement,
+                    this.CONST.STATEMENT.WhileStatement,
+                    this.CONST.STATEMENT.DoWhileStatement
+                ]
+            );
         },
 
         getSwitchParent: function(codeConstruct)
         {
             return this.getParentOfTypes
-                (
-                    codeConstruct,
-                    [ this.CONST.STATEMENT.SwitchStatement ]
-                );
+            (
+                codeConstruct,
+                [ this.CONST.STATEMENT.SwitchStatement ]
+            );
         },
 
         isElementOfType: function(element, type)
