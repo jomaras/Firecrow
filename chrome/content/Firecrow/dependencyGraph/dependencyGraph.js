@@ -12,6 +12,9 @@ Firecrow.DependencyGraph.DependencyGraph = function()
 {
     this.nodes = [];
     this.controlFlow = [];
+    this.importantConstructDependencyIndexMapping = [];
+
+    this.dataFlowEdgesCounter = 0;
 };
 
 var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
@@ -38,15 +41,71 @@ DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentN
     }
 };
 
-DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject)
+DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, generatingCommandId)
 {
     if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
 
-    sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode);
+    sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, generatingCommandId);
 };
 
 DependencyGraph.prototype.handleControlFlowConnection = function(sourceNode)
 {
     this.controlFlow.push(sourceNode);
 };
+
+DependencyGraph.prototype.handleImportantConstructReached = function(sourceNode)
+{
+    try
+    {
+        var dataDependencies = sourceNode.graphNode.dataDependencies;
+        this.importantConstructDependencyIndexMapping.push
+        (
+            {
+                codeConstruct: sourceNode,
+                dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
+            }
+        )
+    }
+    catch(e){ this.notifyError("Error when handling important construct reached:" + e);}
+};
+
+DependencyGraph.prototype.markGraph = function()
+{
+    try
+    {
+        var importantConstructDependencyIndexMapping = this.importantConstructDependencyIndexMapping;
+        for(var i = 0, length = importantConstructDependencyIndexMapping.length; i < length; i++)
+        {
+            var mapping = importantConstructDependencyIndexMapping[i];
+
+            this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex);
+        }
+    }
+    catch(e) { this.notifyError("Error occurred when marking graph");}
+};
+
+DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex)
+{
+    try
+    {
+        codeConstruct.shouldBeIncluded = true;
+
+        var dependencyEdgesToFollow = codeConstruct.graphNode.getDataDependencyEdgesIndexedLessOrEqualTo(maxDependencyIndex);
+
+        for(var i = 0, length = dependencyEdgesToFollow.length; i < length; i++)
+        {
+            var dependencyEdgeToFollow = dependencyEdgesToFollow[i];
+
+            //This is ok because the whole group is traversed together
+            if(dependencyEdgeToFollow.hasBeenTraversed) { return; }
+
+            this.traverseAndMark(dependencyEdgeToFollow.destinationNode.model, dependencyEdgeToFollow.index);
+
+            dependencyEdgeToFollow.hasBeenTraversed = true;
+        }
+    }
+    catch(e) { this.notifyError("Error occurred when traversing and marking the graph: " + e);}
+};
+
+DependencyGraph.prototype.notifyError = function(message) { alert("DependencyGraph - :" + message);}
 }});

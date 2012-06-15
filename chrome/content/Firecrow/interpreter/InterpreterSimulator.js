@@ -37,9 +37,9 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             {
                 var command = this.commands[this.currentCommandIndex];
 
-                this.processCommand(command);
-
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
+
+                this.processCommand(command);
 
                 //this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
             }
@@ -279,7 +279,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             var callee = this.executionContextStack.getExpressionValue(callConstruct.callee);
             var newObject = this.executionContextStack.createObjectInCurrentContext(callee, newExpressionCommand.codeConstruct);
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee, newExpressionCommand.id);
 
             this.executionContextStack.setExpressionValue(newExpressionCommand.codeConstruct, newObject);
 

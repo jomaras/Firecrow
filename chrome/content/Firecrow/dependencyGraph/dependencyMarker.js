@@ -5,7 +5,7 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-Firecrow.Interpreter.DependencyGenerator =
+Firecrow.DependencyGraph.DependencyGenerator =
 {
 
 }

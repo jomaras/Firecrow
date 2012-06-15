@@ -39,6 +39,8 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.dataDependencyEstablishedCallbacks = [];
         this.interpreterMessageGeneratedCallbacks = [];
         this.controlFlowConnectionCallbacks = [];
+        this.importantConstructReachedCallbacks = [];
+        this.slicingCriteria = [];
     }
     catch(e) { alert("Error when initialising Doppel Browser.Browser: " + e); }
 };
@@ -275,6 +277,13 @@ Browser.prototype =
         this.dataDependencyEstablishedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerImportantConstructReachedCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - important construct reached callback has to be a function!"); return; }
+
+        this.importantConstructReachedCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     _callNodeCreatedCallbacks: function(nodeModelObject, nodeType, isDynamic)
     {
         this.nodeCreatedCallbacks.forEach(function(callbackObject)
@@ -315,17 +324,30 @@ Browser.prototype =
         });
     },
 
-    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode)
+    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, generatingCommandId)
     {
         this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
         {
-            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode);
+            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, generatingCommandId);
+        });
+    },
+
+    callImportantConstructReachedCallbacks: function(importantNode)
+    {
+        this.importantConstructReachedCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, importantNode);
         });
     },
 
     _getDocumentObject: function()
     {
         return Firecrow.IsDebugMode ? document : Firecrow.fbHelper.getCurrentPageDocument();
+    },
+
+    registerSlicingCriteria: function(slicingCriteria)
+    {
+        this.globalObject.registerSlicingCriteria(slicingCriteria);
     }
 };
 }});

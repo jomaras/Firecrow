@@ -30,9 +30,42 @@ FBL.ns(function() { with (FBL) {
     Node.prototype.isJsNode = function() { return this.isNodeOfType("js"); };
     Node.prototype.isResourceNode = function() { return this.isNodeOfType("resource"); };
 
-    Node.prototype.addStructuralDependency = function(destinationNode, isDynamic) { this.structuralDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));};
-    Node.prototype.addDataDependency = function(destinationNode, isDynamic) { this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic)); };
-    Node.prototype.addControlDependency = function(destinationNode, isDynamic) { this.controlDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic)); };
+    Node.prototype.addStructuralDependency = function(destinationNode, isDynamic)
+    {
+        this.structuralDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
+    };
+    Node.prototype.addDataDependency = function(destinationNode, isDynamic, index, groupId)
+    {
+        this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, groupId));
+    };
+    Node.prototype.addControlDependency = function(destinationNode, isDynamic)
+    {
+        this.controlDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
+    };
+
+    Node.prototype.getDataDependencyEdgesIndexedLessOrEqualTo = function(maxIndex)
+    {
+        var edges = [];
+
+        for(var i = this.dataDependencies.length - 1; i >= 0; i--)
+        {
+            var dependency = this.dataDependencies[i];
+
+            if(dependency.index <= maxIndex)
+            {
+                edges.push(dependency);
+
+                for(var j = i - 1; j >= 0; j--)
+                {
+                    var followingDependency = this.dataDependencies[j];
+                    if(followingDependency.groupId == dependency.groupId) { edges.push(followingDependency); }
+                    else { return edges; }
+                }
+            }
+        }
+
+        return edges;
+    }
 
     Node.createHtmlNode = function(model, isDynamic) { return new Node(model, "html", isDynamic); };
     Node.createCssNode = function(model, isDynamic) { return new Node(model, "css", isDynamic); };

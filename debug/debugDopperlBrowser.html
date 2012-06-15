@@ -15,6 +15,7 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/slicingCriterion.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
@@ -94,16 +95,25 @@
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
         var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/63/index.html");
+        var model = HtmlModelMapping.getWholeFileModel(webFile.url);
 
         var messageContainer = document.getElementById("messageContainer");
 
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
         var browser = new Browser(webFile, []);
+        browser.registerSlicingCriteria(model.results.map(function(result)
+        {
+            for(var propName in result)
+            {
+                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(webFile.url, -1, propName)
+            }
+        }));
 
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
         browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
         browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
         browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
+        browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
         browser.registerInterpreterMessageGeneratedCallback(function(message)
         {
             var newDiv = document.createElement("div");
@@ -113,8 +123,6 @@
 
         browser.asyncBuildPage(function()
         {
-            var model = HtmlModelMapping.getWholeFileModel(webFile.url);
-
             var codeContainer = document.getElementById("codeContainer");
             codeContainer.innerHTML = FBL.Firecrow.CodeHtmlGenerator.generateHtmlRepresentation(model.model);
 

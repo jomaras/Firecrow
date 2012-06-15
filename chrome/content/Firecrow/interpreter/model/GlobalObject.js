@@ -40,6 +40,45 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("Math",this.math, null);
 
         this.internalExecutor.expandInternalFunctions();
+
+        this.identifierSlicingCriteria = [];
+
+        this.registerSlicingCriteria = function(slicingCriteria)
+        {
+            if(slicingCriteria == null) { return; }
+
+            this.identifierSlicingCriteria = [];
+
+            for(var i = 0; i < slicingCriteria.length; i++)
+            {
+                var criterion = slicingCriteria[i];
+
+                if(criterion.type == Firecrow.DependencyGraph.SlicingCriterion.TYPES.READ_IDENTIFIER)
+                {
+                    this.identifierSlicingCriteria.push(criterion);
+                }
+            }
+        };
+
+        this.checkIfSatisfiesIdentifierSlicingCriteria = function(codeConstruct)
+        {
+            if(codeConstruct == null) { return false; }
+            if(this.identifierSlicingCriteria.length == 0) { return false; }
+
+            for(var i = 0; i < this.identifierSlicingCriteria.length; i++)
+            {
+                var slicingCriterion = this.identifierSlicingCriteria[i];
+
+                if(slicingCriterion.fileName != codeConstruct.loc.source) { continue; }
+                //TODO - uncomment this!
+                //if(slicingCriterion.lineNumber != codeConstruct.loc.start.line) { continue; }
+                if(slicingCriterion.identifierName != codeConstruct.name) { continue; }
+
+                return true;
+            }
+
+            return false;
+        }
     }
     catch(e) { alert("Error when initializing global object:" + e); }
 };
