@@ -13,6 +13,13 @@ Firecrow.CodeTextGenerator = function(isSlicing)
     this.isSlicing = !!isSlicing;
 };
 
+Firecrow.CodeTextGenerator.generateSlicedCode = function(model)
+{
+    var codeGenerator = new Firecrow.CodeTextGenerator(true);
+
+    return codeGenerator.generateCode(model);
+}
+
 Firecrow.CodeTextGenerator.generateCode = function(model)
 {
     var codeGenerator = new Firecrow.CodeTextGenerator();
@@ -129,12 +136,16 @@ Firecrow.CodeTextGenerator.prototype =
             if(element == null || (this.isSlicing && !element.shouldBeIncluded)) { return "";}
 
                  if (astHelper.isProgram(element)) { return this.generateProgram(element); }
-            else if (astHelper.isStatement(element)) { return this.whitespace + this.generateStatement(element) + this._SEMI_COLON + this.newLine; }
+            else if (astHelper.isStatement(element)){ return this.whitespace + this.generateStatement(element) + this.newLine; }
             else if (astHelper.isFunction(element)) { return this.whitespace + this.generateFromFunction(element) + this.newLine; }
             else if (astHelper.isExpression(element)) { return this.generateExpression(element); }
             else if (astHelper.isSwitchCase(element)) { return this.generateFromSwitchCase(element); }
             else if (astHelper.isCatchClause(element)) { return this.generateFromCatchClause(element); }
-            else if (astHelper.isVariableDeclaration(element)) { return this.whitespace + this.generateFromVariableDeclaration(element) + this._SEMI_COLON + this.newLine; }
+            else if (astHelper.isVariableDeclaration(element))
+            {
+                var isForStatementInit = astHelper.isForStatementInit(element);
+                return (!isForStatementInit ? this.whitespace : "") + this.generateFromVariableDeclaration(element) + this._SEMI_COLON + ( !isForStatementInit ? this.newLine : "");
+            }
             else if (astHelper.isVariableDeclarator(element)) { return this.generateFromVariableDeclarator(element); }
             else if (astHelper.isLiteral(element)) { return this.generateFromLiteral(element); }
             else if (astHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
@@ -172,16 +183,16 @@ Firecrow.CodeTextGenerator.prototype =
 
                  if (astHelper.isEmptyStatement(statement))  { return this.generateFromEmptyStatement(statement); }
             else if (astHelper.isBlockStatement(statement)) { return this.generateFromBlockStatement(statement); }
-            else if (astHelper.isExpressionStatement(statement)) { return this.generateFromExpressionStatement(statement); }
+            else if (astHelper.isExpressionStatement(statement)) { return this.generateFromExpressionStatement(statement) + this._SEMI_COLON ; }
             else if (astHelper.isIfStatement(statement)) { return this.generateFromIfStatement(statement); }
             else if (astHelper.isWhileStatement(statement)) { return this.generateFromWhileStatement(statement); }
             else if (astHelper.isDoWhileStatement(statement)) { return this.generateFromDoWhileStatement(statement); }
             else if (astHelper.isForStatement(statement)) { return this.generateFromForStatement(statement); }
             else if (astHelper.isForInStatement(statement)) { return this.generateFromForInStatement(statement); }
-            else if (astHelper.isLabeledStatement(statement)) { return this.generateFromLabeledStatement(statement); }
-            else if (astHelper.isBreakStatement(statement)) { return this.generateFromBreakStatement(statement); }
-            else if (astHelper.isContinueStatement(statement)) { return this.generateFromContinueStatement(statement); }
-            else if (astHelper.isReturnStatement(statement)) { return this.generateFromReturnStatement(statement); }
+            else if (astHelper.isLabeledStatement(statement)) { return this.generateFromLabeledStatement(statement)  + this._SEMI_COLON ; }
+            else if (astHelper.isBreakStatement(statement)) { return this.generateFromBreakStatement(statement)  + this._SEMI_COLON ; }
+            else if (astHelper.isContinueStatement(statement)) { return this.generateFromContinueStatement(statement)  + this._SEMI_COLON ; }
+            else if (astHelper.isReturnStatement(statement)) { return this.generateFromReturnStatement(statement)  + this._SEMI_COLON ; }
             else if (astHelper.isWithStatement(statement)) { return this.generateFromWithStatement(statement); }
             else if (astHelper.isTryStatement(statement)) { return this.generateFromTryStatement(statement); }
             else if (astHelper.isThrowStatement(statement)) { return this.generateFromThrowStatement(statement); }
@@ -225,7 +236,7 @@ Firecrow.CodeTextGenerator.prototype =
             if(functionDecExp == null || (this.isSlicing && !functionDecExp.shouldBeIncluded)) { return "";}
 
             return  this._FUNCTION_KEYWORD + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) + " " : "")
-                 +  this.generateFunctionParameters(functionDecExp)
+                 +  this.generateFunctionParameters(functionDecExp) + this.newLine
                  +  this.generateFromFunctionBody(functionDecExp);
         }
         catch(e) { alert("Error when generating code from a function:" + e); }
@@ -554,11 +565,13 @@ Firecrow.CodeTextGenerator.prototype =
             var forBody = this.generateJsCode(forStatement.body);
 
             forBody = forBody.length != 0 ? forBody : this._SEMI_COLON;
+            var forInit = this.generateJsCode(forStatement.init);
 
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
-                +  this.generateJsCode(forStatement.init) + this._SEMI_COLON
+                +  forInit + (forInit != "" ? "" : this._SEMI_COLON)
                 +  this.generateJsCode(forStatement.test) + this._SEMI_COLON
                 +  this.generateJsCode(forStatement.update) + this._RIGHT_PARENTHESIS
+                +  this.newLine
                 +  forBody;
         }
         catch(e) { this.notifyError("Error when generating code from for statement:" + e); }
@@ -602,8 +615,7 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this._RETURN_KEYWORD + " " +
-                + (returnStatement.argument != null ? this.generateExpression(returnStatement.argument) : "");
+            return this._RETURN_KEYWORD + " " + (returnStatement.argument != null ? this.generateExpression(returnStatement.argument) : "");
         }
         catch(e) { this.notifyError("Error when generating code from return statement:" + e); }
     },
@@ -727,7 +739,7 @@ Firecrow.CodeTextGenerator.prototype =
 
                 if(this.isSlicing && !declarator.shouldBeIncluded) { continue; }
 
-                if(i != 0) { code += this._COMMA; }
+                if(i != 0) { code += this._COMMA + " "; }
 
                 code += this.generateFromVariableDeclarator(declarator);
             }

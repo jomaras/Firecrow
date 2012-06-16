@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Array - join; String matches</div>
+<div id="resultContainer"></div>
+<script>
+    var sum = 0, product = 1;
+    var resultContainer = document.getElementById("resultContainer");
+
+    for(var i = 1; i <= 3; i++)
+    {
+        sum += i;
+        product *= i;
+    }
+
+    resultContainer.textContent = sum;
+    resultContainer.textContent = product;
+
+    function testFunction(a, b)
+    {
+        return a + b;
+    }
+
+    var c = testFunction(2,3);
+    resultContainer.textContent = c;
+
+    function testFunction1(a, b, c)
+    {
+        return a * b;
+    }
+
+    var d = testFunction1(2, 3, 4);
+    resultContainer.textContent = d;
+</script>
+</body>
+</html>

@@ -294,7 +294,7 @@ fcSimulator.Evaluator.prototype =
 
                 if(this.globalObject.checkIfSatisfiesIdentifierSlicingCriteria(identifierConstruct))
                 {
-                    this.globalObject.browser.callImportantConstructReachedCallback(identifierConstruct);
+                    this.globalObject.browser.callImportantConstructReachedCallbacks(identifierConstruct);
                 }
             }
         }

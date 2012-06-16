@@ -13,8 +13,29 @@ Firecrow.DependencyGraph.DependencyPostprocessor = function()
     this.inclusionFinder = new InclusionFinder();
 };
 
-Firecrow.DependencyGraph.DependencyPostprocessor =
+Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 {
+    processHtmlElement: function(htmlElement)
+    {
+        if(!this.inclusionFinder.isIncludedHtmlElement(htmlElement)) { return; }
+
+        htmlElement.shouldBeIncluded = true;
+
+        if(htmlElement.type == "script")
+        {
+            this.processElement(htmlElement.pathAndModel.model);
+        }
+        else if(htmlElement.type == "style" || htmlElement.type == "textNode") {}
+        else
+        {
+            var childNodes = htmlElement.childNodes;
+            for(var i = 0, length = childNodes.length; i < length; i++)
+            {
+                this.processHtmlElement(childNodes[i]);
+            }
+        }
+    },
+
     processElement: function(element)
     {
         try
@@ -29,7 +50,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor =
             else if (astHelper.isVariableDeclarator(element)) { this.processVariableDeclarator(element); }
             else if (astHelper.isLiteral(element)) { this.processLiteral(element); }
             else if (astHelper.isIdentifier(element)) { this.processIdentifier(element); }
-            else { this.notifyError("Error while processing code unidentified ast element: "); }
+            else { this.notifyError("Error while processing code unidentified ast element"); }
         }
         catch(e) { alert("Error while processing code: " + e); }
     },
@@ -38,6 +59,10 @@ Firecrow.DependencyGraph.DependencyPostprocessor =
     {
         try
         {
+            if(!this.inclusionFinder.isIncludedProgram(programElement)) { return; }
+
+            programElement.shouldBeIncluded = true;
+
             if(programElement.body != null)
             {
                 var body = programElement.body;
@@ -573,7 +598,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor =
         {
             if(!this.inclusionFinder.isIncludedVariableDeclaration(variableDeclaration)) { return; }
 
-            variableDeclaration.shouldBeIncluded;
+            variableDeclaration.shouldBeIncluded = true;
 
             var declarators = variableDeclaration.declarations;
 

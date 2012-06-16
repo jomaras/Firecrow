@@ -76,7 +76,7 @@ DependencyGraph.prototype.handleImportantConstructReached = function(sourceNode)
     catch(e){ this.notifyError("Error when handling important construct reached:" + e);}
 };
 
-DependencyGraph.prototype.markGraph = function()
+DependencyGraph.prototype.markGraph = function(model)
 {
     try
     {
@@ -87,8 +87,11 @@ DependencyGraph.prototype.markGraph = function()
 
             this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex);
         }
+
+        var postProcessor = new Firecrow.DependencyGraph.DependencyPostprocessor();
+        postProcessor.processHtmlElement(model);
     }
-    catch(e) { this.notifyError("Error occurred when marking graph");}
+    catch(e) { this.notifyError("Error occurred when marking graph:" + e);}
 };
 
 DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex)

@@ -15,6 +15,46 @@ Firecrow.DependencyGraph.InclusionFinder = function(){};
 
 Firecrow.DependencyGraph.InclusionFinder.prototype =
 {
+    isIncludedHtmlElement: function(htmlElement)
+    {
+        try
+        {
+            if(htmlElement.shouldBeIncluded) { return true; }
+
+            if(htmlElement.type == "script")
+            {
+                return this.isIncludedElement(htmlElement.pathAndModel.model);
+            }
+            else if(htmlElement.type == "style")
+            {
+                var rules = htmlElement.cssRules;
+
+                for(var i = 0, length = rules.length; i < length; i++)
+                {
+                    if(rules[i].shouldBeIncluded) { return true; }
+                }
+            }
+            else if (htmlElement.type == "textNode")
+            {
+                return htmlElement.shouldBeIncluded;
+            }
+            else
+            {
+                var childNodes = htmlElement.childNodes;
+                for(var i = 0, length = childNodes.length; i < length; i++)
+                {
+                    if(this.isIncludedHtmlElement(childNodes[i])) { return true; }
+                }
+            }
+
+            return false;
+        }
+        catch(e)
+        {
+            this.notifyError("Error when finding inclusions in htmlElement: " + e);
+        }
+    },
+
     isIncludedElement: function(element)
     {
         try

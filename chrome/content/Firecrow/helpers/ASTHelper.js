@@ -226,6 +226,18 @@ FBL.ns(function () { with (FBL) {
             return parent;
         },
 
+        isForStatementInit: function(codeConstruct)
+        {
+            if(codeConstruct == null) { return false; }
+
+            var loopParent = this.getLoopParent(codeConstruct);
+
+            if(loopParent == null) { return false; }
+
+            return this.isForStatement(loopParent) ? loopParent.init == codeConstruct
+                                                   : false;
+        },
+
         getFunctionParent: function(codeConstruct)
         {
             return this.getParentOfTypes
@@ -244,11 +256,11 @@ FBL.ns(function () { with (FBL) {
             (
                 codeConstruct,
                 [
-                    this.CONST.ForStatement,
-                    this.CONST.ForInStatement,
-                    this.CONST.WhileStatement,
-                    this.CONST.DoWhileStatement,
-                    this.CONST.SwitchStatement
+                    this.CONST.STATEMENT.ForStatement,
+                    this.CONST.STATEMENT.ForInStatement,
+                    this.CONST.STATEMENT.WhileStatement,
+                    this.CONST.STATEMENT.DoWhileStatement,
+                    this.CONST.STATEMENT.SwitchStatement
                 ]
             );
         },

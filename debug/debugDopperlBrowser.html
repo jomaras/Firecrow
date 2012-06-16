@@ -130,7 +130,7 @@
             var codeContainer = document.getElementById("codeContainer");
             codeContainer.innerHTML = FBL.Firecrow.CodeHtmlGenerator.generateHtmlRepresentation(model.model);
 
-            dependencyGraph.markGraph();
+            dependencyGraph.markGraph(model.model.htmlElement);
 
             createLinksBetweenHtmlAndModel(model.model, codeContainer);
 
