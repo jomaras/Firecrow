@@ -208,7 +208,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         try
         {
-            this.isIncludedElement(expressionStatement.expression);
+            return this.isIncludedElement(expressionStatement.expression);
         }
         catch(e) { this.notifyError("Error when isIncluded HTML from expression statement:" + e); }
     },

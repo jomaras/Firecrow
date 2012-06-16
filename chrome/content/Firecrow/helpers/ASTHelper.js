@@ -83,7 +83,8 @@ FBL.ns(function () { with (FBL) {
                         || propName == "children"
                         || propName == "domElement"
                         || propName == "graphNode"
-                        || propName == "htmlNode") { continue; }
+                        || propName == "htmlNode"
+                        || propName == "attributes") { continue; }
 
                     var propertyValue = astElement[propName];
 

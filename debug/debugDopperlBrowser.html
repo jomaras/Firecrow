@@ -98,7 +98,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/10/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/07/index.html");
         var model = HtmlModelMapping.getWholeFileModel(webFile.url);
 
         var messageContainer = document.getElementById("messageContainer");
@@ -205,16 +205,22 @@
 
         function createLinksBetweenHtmlAndModel(model, parentHtmlElement)
         {
-            FBL.Firecrow.ASTHelper.traverseAst(model, function(modelElement)
+            FBL.Firecrow.ASTHelper.traverseAst(model, function(modelElement, propName)
             {
+                if(propName == "pathAndModel" || modelElement.type == "Program") { return; }
+
                 var nodeId = "node" + FBL.Firecrow.CodeMarkupGenerator.formatId(modelElement.nodeId);
                 var htmlNode = document.getElementById(nodeId);
 
-                if(htmlNode != null)
+                if(htmlNode == null && modelElement.type == "textNode") { return; }
+
+                if(htmlNode == null)
                 {
-                    modelElement.htmlNode = htmlNode;
-                    htmlNode.model = modelElement;
+                    alert("Node does not exist when linking model and htmlElement - id: " + modelElement.nodeId);
                 }
+
+                modelElement.htmlNode = htmlNode;
+                htmlNode.model = modelElement;
             });
         }
 
@@ -246,12 +252,14 @@
                         {
                             var dep = allDependencies[nodeId];
                             if(dep.htmlNode != null) { dep.htmlNode.classList.add("secondHandDependencies");}
+                            else { alert("Dependency does not exist: " + nodeId);}
                         }
 
                         if(currentItem.htmlNode != null)
                         {
                             currentItem.htmlNode.classList.add("dependent");
                         }
+                        else { alert("Dependency does not exist: " + currentItem.nodeId);}
                     }
                 }
             }

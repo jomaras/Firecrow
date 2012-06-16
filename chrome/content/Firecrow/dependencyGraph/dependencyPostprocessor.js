@@ -305,7 +305,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             callExpression.shouldBeIncluded = true;
 
             this.processElement(callExpression.callee);
-            this.getSequenceCode(callExpression.arguments);
+            this.processSequence(callExpression.arguments);
         }
         catch(e) { this.notifyError("Error when processing code from call expression:" + e); }
     },

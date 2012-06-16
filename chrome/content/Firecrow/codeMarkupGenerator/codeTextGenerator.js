@@ -320,9 +320,13 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.generateJsCode(assignmentExpression.left)
-                + " " + assignmentExpression.operator + " "
-                + this.generateJsCode(assignmentExpression.right)
+            var leftSide = this.generateJsCode(assignmentExpression.left);
+            var rightSide = this.generateJsCode(assignmentExpression.right);
+
+            if(leftSide.length == 0) { return rightSide;}
+            if(rightSide.length == 0) { return leftSide; }
+
+            return leftSide + " " + assignmentExpression.operator + " " + rightSide;
         }
         catch(e) { this.notifyError("Error when generating code from assignment expression:" + e); }
     },
@@ -733,13 +737,16 @@ Firecrow.CodeTextGenerator.prototype =
             var code = this._VAR_KEYWORD + " ";
 
             var declarators = variableDeclaration.declarations;
+            var generatedDeclarators = 0;
             for (var i = 0, length = declarators.length; i < length; i++)
             {
                 var declarator = declarators[i];
 
                 if(this.isSlicing && !declarator.shouldBeIncluded) { continue; }
 
-                if(i != 0) { code += this._COMMA + " "; }
+                if(generatedDeclarators != 0) { code += this._COMMA + " "; }
+
+                generatedDeclarators++;
 
                 code += this.generateFromVariableDeclarator(declarator);
             }

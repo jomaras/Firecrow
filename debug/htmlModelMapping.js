@@ -16,7 +16,7 @@ var HtmlModelMapping =
         {
             var model = this.models[i];
 
-            if(model.url == url) {return model.model; }
+            if(model.url == url) { return model.model; }
         }
 
         return null;
@@ -29,7 +29,6 @@ var HtmlModelMapping =
 
             if(model.url == url)
             {
-                Firecrow.ASTHelper.setParentsChildRelationships(model.model);
                 return model;
             }
         }

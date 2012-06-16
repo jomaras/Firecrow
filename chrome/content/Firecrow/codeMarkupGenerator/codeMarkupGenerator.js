@@ -480,13 +480,13 @@ FBL.ns(function () { with (FBL) {
             {
                 if(!astHelper.isCallExpression(callExpression)) { alert("Invalid element when generating call expression html code!"); return ""; }
 
-                var html = this.generateHtml(callExpression.callee) + "(";
+                var _class = astHelper.CONST.EXPRESSION.CallExpression + " node";
+                var _id = "node" + this.formatId(callExpression.nodeId);
 
-                html += this.getSequenceHtml(callExpression.arguments);
-
-                html += ")";
-
-                return html;
+                return this.getStartElementHtml("span", { class: _class, id: _id})
+                         + this.generateHtml(callExpression.callee) + "("
+                         + this.getSequenceHtml(callExpression.arguments)
+                         + ")" + this.getEndElementHtml("span");
             }
             catch(e) { alert("Error when generating HTML from call expression:" + e); }
         },

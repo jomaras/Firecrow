@@ -56,6 +56,9 @@ Browser.prototype =
             try
             {
                 this.model = htmlModel;
+
+                ASTHelper.setParentsChildRelationships(htmlModel);
+
                 if(htmlModel == null) { alert("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
                 if(htmlModel.htmlElement == null) { alert("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
 
@@ -75,7 +78,7 @@ Browser.prototype =
         {
             var htmlModel = HtmlModelMapping.getModel(this.htmlWebFile.url);
 
-            ASTHelper.setParentsChildRelationships(htmlModel.model);
+            ASTHelper.setParentsChildRelationships(htmlModel);
 
             if(htmlModel == null) { alert("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
             if(htmlModel.htmlElement == null) { alert("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }

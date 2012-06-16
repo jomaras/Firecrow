@@ -306,6 +306,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             var callConstruct = callExpressionCommand.codeConstruct;
 
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee, callExpressionCommand.id);
+
             var baseObject = this.executionContextStack.getBaseObject(callConstruct.callee);
             var callFunction = this.executionContextStack.getExpressionValue(callConstruct.callee);
 

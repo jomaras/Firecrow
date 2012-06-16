@@ -284,12 +284,13 @@ fcSimulator.Evaluator.prototype =
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifierValue.fcInternal.codeConstruct, evalIdentifierCommand.id);
                 }
 
-                //TODO - add parent child nodes and then add this dependency only if it is not on the left-hand side of an assignment expression
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifier.lastModificationConstruct, evalIdentifierCommand.id);
 
                 if(identifier.declarationConstruct != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifier.declarationConstruct.id, evalIdentifierCommand.id);
+                    var declarationConstruct = ASTHelper.isVariableDeclarator(identifier.declarationConstruct) ? identifier.declarationConstruct.id : identifier.declarationConstruct;
+
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, declarationConstruct, evalIdentifierCommand.id);
                 }
 
                 if(this.globalObject.checkIfSatisfiesIdentifierSlicingCriteria(identifierConstruct))
@@ -380,7 +381,8 @@ fcSimulator.Evaluator.prototype =
             }
             else
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, evalReturnExpressionCommand.id);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, evalReturnExpressionCommand.parentFunctionCommand.id);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, evalReturnExpressionCommand.parentFunctionCommand.id);
 
                 this.executionContextStack.setExpressionValueInPreviousContext
                 (

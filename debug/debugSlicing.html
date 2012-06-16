@@ -6,7 +6,6 @@
         var FBL = undefined;
     </script>
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
-    <script src="htmlModelMapping.js"></script>
     <script src="slicingModelMapping.js"></script>
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
@@ -165,7 +164,15 @@
     function checkForErrors(model)
     {
         var globalObjectProperties = browser.globalObject.properties;
+
         var errors = "";
+
+        if(FBL.Firecrow.CodeTextGenerator.generateSlicedCode(model.model) != atob(model.slicingResult))
+        {
+           errors += "Slicing does not match!";
+        }
+
+
         model.results.forEach(function(result)
         {
             for(var propName in result)

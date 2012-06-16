@@ -29,7 +29,6 @@ var HtmlModelMapping =
 
             if(model.url == url)
             {
-                Firecrow.ASTHelper.setParentsChildRelationships(model);
                 return model;
             }
         }
