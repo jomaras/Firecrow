@@ -41,7 +41,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 this.processCommand(command);
 
-                //this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
+                this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
             }
         }
         catch(e) { alert("Error while running the InterpreterSimulator: " + e); }

@@ -238,15 +238,18 @@ Firecrow.CodeTextGenerator.prototype =
             var code = this._LEFT_PARENTHESIS;
 
             var params = functionDecExp.params;
+            var generatedParams = 0;
             for(var i = 0, length = params.length; i < length; i++)
             {
                 var param = params[i];
 
                 if(this.isSlicing && !param.shouldBeIncluded) { continue; }
 
-                if(i != 0) { code += ", "; }
+                if(generatedParams != 0) { code += ", "; }
 
                 code += this.generateFromPattern(param);
+
+                generatedParams++;
             }
 
             return code + this._RIGHT_PARENTHESIS;
@@ -281,7 +284,7 @@ Firecrow.CodeTextGenerator.prototype =
 
             return code + this.whitespace + this._RIGHT_GULL_WING;
         }
-        catch(e) { this.notifyError("Error when generating HTML from block statement:" + e);}
+        catch(e) { this.notifyError("Error when generating from block statement:" + e);}
     },
 
     generateFromEmptyStatement: function(emptyStatement)
@@ -290,7 +293,7 @@ Firecrow.CodeTextGenerator.prototype =
         {
             return this._SEMI_COLON;
         }
-        catch(e) { this.notifyError("Error when generating HTML from empty statement:" + e); }
+        catch(e) { this.notifyError("Error when generating from empty statement:" + e); }
     },
 
     generateFromExpressionStatement: function(expressionStatement)
@@ -299,7 +302,7 @@ Firecrow.CodeTextGenerator.prototype =
         {
             return this.generateJsCode(expressionStatement.expression);
         }
-        catch(e) { this.notifyError("Error when generating HTML from expression statement:" + e); }
+        catch(e) { this.notifyError("Error when generating from expression statement:" + e); }
     },
 
     generateFromAssignmentExpression: function(assignmentExpression)
@@ -371,7 +374,7 @@ Firecrow.CodeTextGenerator.prototype =
 
             return code;
         }
-        catch(e) { this.notifyError("Error when generating HTML from update expression:" + e); }
+        catch(e) { this.notifyError("Error when generating from update expression:" + e); }
     },
 
     generateFromNewExpression: function(newExpression)
@@ -487,7 +490,7 @@ Firecrow.CodeTextGenerator.prototype =
 
             return code;
         }
-        catch(e) { this.notifyError("Error when generating HTML from object expression:" + e); }
+        catch(e) { this.notifyError("Error when generating from object expression:" + e); }
     },
 
     generateFromIfStatement: function(ifStatement)
@@ -804,7 +807,7 @@ Firecrow.CodeTextGenerator.prototype =
                 }
             }
         }
-        catch(e) { this.notifyError("Error when generating HTML from literal:" + e);}
+        catch(e) { this.notifyError("Error when generating from literal:" + e);}
     },
 
     getSequenceCode: function(sequence)

@@ -6,6 +6,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
 var Node = Firecrow.DependencyGraph.Node;
 
 Firecrow.DependencyGraph.DependencyGraph = function()
@@ -50,6 +51,12 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
 
 DependencyGraph.prototype.handleControlFlowConnection = function(sourceNode)
 {
+    /*if(ASTHelper.isVariableDeclarator(sourceNode))
+    {
+        sourceNode.id.hasBeenExecuted = true;
+    }*/
+
+    sourceNode.hasBeenExecuted = true;
     this.controlFlow.push(sourceNode);
 };
 
@@ -99,9 +106,9 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
             //This is ok because the whole group is traversed together
             if(dependencyEdgeToFollow.hasBeenTraversed) { return; }
 
-            this.traverseAndMark(dependencyEdgeToFollow.destinationNode.model, dependencyEdgeToFollow.index);
-
             dependencyEdgeToFollow.hasBeenTraversed = true;
+
+            this.traverseAndMark(dependencyEdgeToFollow.destinationNode.model, dependencyEdgeToFollow.index);
         }
     }
     catch(e) { this.notifyError("Error occurred when traversing and marking the graph: " + e);}

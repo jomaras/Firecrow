@@ -16,6 +16,8 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/slicingCriterion.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
@@ -71,6 +73,8 @@
         .selected { background-color: green; }
         .dependent { background-color: yellow; }
         .secondHandDependencies { background-color: #7FFF00;}
+        .unexecuted { color: gray;}
+        .executed { color: black;}
 
     </style>
 </head>
@@ -94,7 +98,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/63/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/10/index.html");
         var model = HtmlModelMapping.getWholeFileModel(webFile.url);
 
         var messageContainer = document.getElementById("messageContainer");
@@ -126,7 +130,11 @@
             var codeContainer = document.getElementById("codeContainer");
             codeContainer.innerHTML = FBL.Firecrow.CodeHtmlGenerator.generateHtmlRepresentation(model.model);
 
+            dependencyGraph.markGraph();
+
             createLinksBetweenHtmlAndModel(model.model, codeContainer);
+
+            markSliced();
 
             establishDependencies(dependencyGraph);
 
@@ -140,6 +148,40 @@
 
             document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(model.model);
         });
+
+        function markSliced()
+        {
+            var allNodes = dependencyGraph.nodes;
+
+            for(var i = 0, length = allNodes.length; i < length; i++)
+            {
+                var node = allNodes[i];
+                var nodeModel = node.model;
+
+                if(!nodeModel.hasBeenExecuted)
+                {
+                    if(nodeModel.htmlNode != null)
+                    {
+                        nodeModel.htmlNode.classList.add("unexecuted");
+                    }
+                }
+                else
+                {
+                    if(nodeModel.htmlNode != null)
+                    {
+                        nodeModel.htmlNode.classList.add("executed");
+                    }
+                }
+
+                if(nodeModel.shouldBeIncluded)
+                {
+                    if(nodeModel.htmlNode != null)
+                    {
+                        nodeModel.htmlNode.style.fontWeight=800;
+                    }
+                }
+            }
+        }
 
         function establishDependencies(dependencyGraph)
         {
