@@ -169,6 +169,58 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { this.notifyError("Error when popping function context commands from block stack: " + e); }
     },
 
+    getTopBlockCommandConstructs: function()
+    {
+        try
+        {
+
+
+            //Loop, With, and If constructs are repeating and constant - makes more sense to link the blockStackConstructs with
+            //them, then on commands (which get created for each execution
+            //on the other hand EnterFunctionContextCommand is linked to the call expression making the call, which differ
+            //makes more sense to link to a command
+            if(this.blockCommandStack.length == 0) { return []; }
+
+            var topCommand = this.blockCommandStack[this.blockCommandStack.length - 1];
+            var topConstruct = topCommand.codeConstruct;
+
+            if(topCommand.isEnterFunctionContextCommand() && topCommand.blockStackConstructs != null) { return topCommand.blockStackConstructs; }
+            if(topConstruct.blockStackConstructs != null) { return topConstruct.blockStackConstructs; }
+
+            if(ASTHelper.isForStatement(topConstruct)
+            || ASTHelper.isWhileStatement(topConstruct)
+            || ASTHelper.isDoWhileStatement(topConstruct)
+            || ASTHelper.isIfStatement(topConstruct))
+            {
+                topConstruct.blockStackConstructs = [topConstruct.test];
+                return topConstruct.blockStackConstructs;
+            }
+            else if(ASTHelper.isWithStatement(topConstruct))
+            {
+                topConstruct.blockStackConstructs = [topConstruct.object];
+                return topConstruct.blockStackConstructs;
+            }
+            else if(ASTHelper.isForInStatement(topConstruct))
+            {
+                //TODO - not sure what with this
+                topConstruct.blockStackConstructs = [];
+                return topConstruct.blockStackConstructs;
+            }
+
+            if(topCommand.isEnterFunctionContextCommand())
+            {
+                topCommand.blockStackConstructs = [];
+                topCommand.blockStackConstructs.push(topCommand.codeConstruct);
+                topCommand.blockStackConstructs.push(topCommand.parentFunctionCommand.codeConstruct);
+
+                return topCommand.blockStackConstructs;
+            }
+
+            this.notifyError("Should not be here when getting top block command @ " + topCommand.codeConstruct.loc.source);
+        }
+        catch(e) { this.notifyError("Error when getting top block constructs: " + e); }
+    },
+
     popTillLoopCommandFromBlockStack: function(loopCommand)
     {
         try
