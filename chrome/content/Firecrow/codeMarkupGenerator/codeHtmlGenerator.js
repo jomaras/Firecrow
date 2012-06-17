@@ -139,20 +139,6 @@ Firecrow.CodeHtmlGenerator =
                     }
                 }
 
-                // -------------------------------
-
-                FBL.Firecrow.ASTHelper.traverseAst(element.pathAndModel.model, function(currentElement, attributeName, parentElement)
-                {
-                    if (currentElement.type == undefined) { return; }
-                    if(parentElement.children == null) { parentElement.children = [];}
-
-                    parentElement.children.push(currentElement.type);
-
-                    currentElement.parent = parentElement.type;
-                });
-
-                // -------------------------------
-
                 if (isExternScript)
                 {
                     this.javascript.push(

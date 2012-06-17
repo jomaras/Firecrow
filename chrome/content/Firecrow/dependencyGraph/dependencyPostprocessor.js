@@ -272,7 +272,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             newExpression.shouldBeIncluded = true;
 
             this.processElement(newExpression.callee);
-            this.getSequenceCode(newExpression.arguments);
+            this.processSequence(newExpression.arguments);
         }
         catch(e) { this.notifyError("Error when processing code from new expression:" + e); }
     },
@@ -322,6 +322,9 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             if(!this.inclusionFinder.isIncludedMemberExpression(memberExpression)) { return; }
 
             memberExpression.shouldBeIncluded = true;
+
+            memberExpression.object.shouldBeIncluded = true;
+            memberExpression.property.shouldBeIncluded = true;
 
             this.processElement(memberExpression.object);
             this.processElement(memberExpression.property);

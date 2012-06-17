@@ -60,6 +60,8 @@ FBL.ns(function() { with (FBL) {
                     var followingDependency = this.dataDependencies[j];
                     if(followingDependency.groupId == dependency.groupId) { edges.push(followingDependency); }
                     else { return edges; }
+
+                    if(j == 0) { return edges;}
                 }
             }
         }

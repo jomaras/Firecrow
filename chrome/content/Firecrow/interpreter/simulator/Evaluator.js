@@ -133,7 +133,11 @@ fcSimulator.Evaluator.prototype =
             var operator = evalAssignmentExpressionCommand.operator;
             var finalValue = null;
 
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.leftSide, evalAssignmentExpressionCommand.id);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.rightSide, evalAssignmentExpressionCommand.id);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.leftSide, evalAssignmentExpressionCommand.rightSide, evalAssignmentExpressionCommand.id);
+
+            this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.id);
             this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.leftSide, evalAssignmentExpressionCommand.id);
 
             if(operator == "=")
@@ -427,11 +431,15 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(evalMemberExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { this.notifyError(evalMemberExpressionCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
 
-            var object = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.object);
+            var memberExpression = evalMemberExpressionCommand.codeConstruct;
+
+            this._addDependenciesToTopBlockConstructs(memberExpression, evalMemberExpressionCommand.id);
+
+            var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || object.value == null) { this._callExceptionCallbacks(); return; }
 
-            var property = this.executionContextStack.getExpressionValue(evalMemberExpressionCommand.codeConstruct.property);
+            var property = this.executionContextStack.getExpressionValue(memberExpression.property);
 
             var propertyValue = object.value[property.value];
 
@@ -439,7 +447,7 @@ fcSimulator.Evaluator.prototype =
             {
                 if(ValueTypeHelper.isPrimitive(propertyValue))
                 {
-                     propertyValue = new fcModel.JsValue(propertyValue, new fcModel.FcInternal(evalMemberExpressionCommand.codeConstruct));
+                     propertyValue = new fcModel.JsValue(propertyValue, new fcModel.FcInternal(memberExpression));
                 }
                 else if(propertyValue != null && propertyValue.jsValue != null)
                 {
@@ -462,12 +470,18 @@ fcSimulator.Evaluator.prototype =
 
                     if(fcProperty != null)
                     {
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression.property, fcProperty.declarationConstruct, evalMemberExpressionCommand.id);
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression.property, fcProperty.lastModificationConstruct, evalMemberExpressionCommand.id);
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(property.fcInternal.codeConstruct, fcProperty.declarationConstruct, evalMemberExpressionCommand.id);
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks(property.fcInternal.codeConstruct, fcProperty.lastModificationConstruct, evalMemberExpressionCommand.id);
                     }
                 }
             }
 
-            this.executionContextStack.setExpressionValue(evalMemberExpressionCommand.codeConstruct, propertyValue);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.object, evalMemberExpressionCommand.id);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evalMemberExpressionCommand.id);
+
+            this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
         }
         catch(e) { this.notifyError(evalMemberExpressionCommand, "Error when evaluating member expression: " + e); }
     },
@@ -481,14 +495,9 @@ fcSimulator.Evaluator.prototype =
             var value = evalMemberExpressionPropertyCommand.codeConstruct.computed ? this.executionContextStack.getExpressionValue(evalMemberExpressionPropertyCommand.codeConstruct.property)
                                                                                    : new fcModel.JsValue(evalMemberExpressionPropertyCommand.codeConstruct.property.name, new fcModel.FcInternal(evalMemberExpressionPropertyCommand.codeConstruct.property));
 
-            this._addDependenciesToTopBlockConstructs(evalMemberExpressionPropertyCommand.codeConstruct.property, evalMemberExpressionPropertyCommand.id);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalMemberExpressionPropertyCommand.codeConstruct.property, evalMemberExpressionPropertyCommand.codeConstruct.object, evalMemberExpressionPropertyCommand.id);
+            //this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalMemberExpressionPropertyCommand.codeConstruct.property, evalMemberExpressionPropertyCommand.codeConstruct, evalMemberExpressionPropertyCommand.parentMemberExpressionCommand.id);
 
-            this.executionContextStack.setExpressionValue
-            (
-                evalMemberExpressionPropertyCommand.codeConstruct.property,
-                value
-            );
+            this.executionContextStack.setExpressionValue(evalMemberExpressionPropertyCommand.codeConstruct.property, value);
         }
         catch(e)
         {

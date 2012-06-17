@@ -44,9 +44,16 @@ DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentN
 
 DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, generatingCommandId)
 {
-    if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
+    try
+    {
+        if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
 
-    sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, generatingCommandId);
+        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, generatingCommandId);
+    }
+    catch(e)
+    {
+        this.notifyError("Error when handling data dependency established!");
+    }
 };
 
 DependencyGraph.prototype.handleControlFlowConnection = function(sourceNode)

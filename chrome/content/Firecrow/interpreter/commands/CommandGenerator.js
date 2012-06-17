@@ -1729,19 +1729,24 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 ));
             }
 
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.EvalMemberExpressionProperty,
-                parentFunctionCommand
-            ));
-
-            commands.push(new fcCommands.Command
+            var evalMemberExpressionCommand = new fcCommands.Command
             (
                 sourceElement,
                 fcCommands.Command.COMMAND_TYPE.EvalMemberExpression,
                 parentFunctionCommand
-            ));
+            );
+
+            var evalMemberPropertyExpressionCommand = new fcCommands.Command
+            (
+                sourceElement,
+                fcCommands.Command.COMMAND_TYPE.EvalMemberExpressionProperty,
+                parentFunctionCommand
+            );
+
+            evalMemberPropertyExpressionCommand.parentMemberExpressionCommand = evalMemberExpressionCommand;
+
+            commands.push(evalMemberPropertyExpressionCommand);
+            commands.push(evalMemberExpressionCommand);
         }
         catch(e) { alert("Error while generating member expression commands:" + e);}
 

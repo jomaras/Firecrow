@@ -1056,8 +1056,8 @@ FBL.ns(function () { with (FBL) {
                     html += this.generateFromVariableDeclarator(currentDeclarator);
                 }
 
-                if (variableDeclaration.parent == "ForStatement"
-                    || variableDeclaration.parent == "ForInStatement")
+                if (astHelper.isForStatement(variableDeclaration.parent)
+                 || astHelper.isForInStatement(variableDeclaration.parent))
                 {
                     html += this.getEndElementHtml("span");
                 }
@@ -1265,27 +1265,14 @@ FBL.ns(function () { with (FBL) {
 
         getStyle: function(currentElement)
         {
-            if( currentElement.parent == "ForStatement"
-                || currentElement.parent == "ForInStatement"
-                || currentElement.parent == "WhileStatement"
-                || currentElement.parent == "DoWhileStatement"
-                || currentElement.parent == "IfStatement"
-                || currentElement.parent == "SwitchCase")
+            if( astHelper.isLoopStatement(currentElement.parent)
+             || astHelper.isIfStatement(currentElement.parent)
+             || astHelper.isSwitchCase(currentElement.parent))
             {
                 return "padding-left: 20px";
             }
             if (currentElement.type == "ObjectExpression")
             {
-//                console.log(currentElement.parent);
-
-//                if(currentElement.parent == "VariableDeclarator" && currentElement.properties.length > 1)
-//                {
-//                    return "display: block"
-//                }
-//                else
-//                {
-//                    return "display: inline";
-//                }
             }
         },
 
