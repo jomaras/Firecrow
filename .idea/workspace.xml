@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,10 +75,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExecutionContextStack.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ExecutionContextStack.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="204" column="48" selection-start="7196" selection-end="7196" vertical-scroll-proportion="0.4568528">
+            <state line="203" column="54" selection-start="7147" selection-end="7147" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -112,28 +111,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/testFiles/64/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="12" selection-start="673" selection-end="673" vertical-scroll-proportion="-22.23077">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugDopperlBrowser.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="105" column="69" selection-start="5046" selection-end="5046" vertical-scroll-proportion="-11.769231">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugSlicing.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="debugSlicing.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="84" selection-start="4783" selection-end="4783" vertical-scroll-proportion="-0.65384614">
+            <state line="103" column="84" selection-start="4783" selection-end="4783" vertical-scroll-proportion="0.11764706">
               <folding />
             </state>
           </provider>
@@ -142,7 +123,7 @@
       <file leaf-file-name="slicingModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="22" selection-start="85529" selection-end="85529" vertical-scroll-proportion="0.0">
+            <state line="59" column="8" selection-start="42758" selection-end="42758" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -167,16 +148,16 @@
         <option value="$PROJECT_DIR$/debug/sylvester/mappingInfrastructure.js" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/debug/testFiles/64/index.html" />
         <option value="$PROJECT_DIR$/debug/htmlModelMapping1.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
         <option value="$PROJECT_DIR$/debug/slicingTests/05/index.html" />
-        <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
+        <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
       </list>
     </option>
   </component>
@@ -241,68 +222,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="testFiles" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="64" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="testFiles" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="testFiles" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="15" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -667,7 +586,11 @@
       <created>1339918395373</created>
       <updated>1339918395373</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="test passing blockCommandStack implementation - added constructs to dependencies">
+      <created>1339920892270</created>
+      <updated>1339920892270</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -692,7 +615,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10363248" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -820,20 +743,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="22" selection-start="85529" selection-end="85529" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="84" selection-start="4783" selection-end="4783" vertical-scroll-proportion="-0.65384614">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/slicingTests/05/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="30" selection-start="221" selection-end="221" vertical-scroll-proportion="0.30203044">
@@ -892,7 +801,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="204" column="48" selection-start="7196" selection-end="7196" vertical-scroll-proportion="0.4568528">
+        <state line="203" column="54" selection-start="7147" selection-end="7147" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="8" selection-start="42758" selection-end="42758" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="84" selection-start="4783" selection-end="4783" vertical-scroll-proportion="0.11764706">
           <folding />
         </state>
       </provider>
