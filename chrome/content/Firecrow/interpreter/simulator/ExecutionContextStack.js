@@ -148,6 +148,71 @@ fcSimulator.ExecutionContextStack = function(globalObject)
 Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 {
     activeContext: null,
+    blockCommandStack: [],
+
+    _popTillEnterFunctionContextCommand: function(exitFunctionContextCommand)
+    {
+        try
+        {
+            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping function context commands from block stack - empty stack!"); return; }
+
+            var blockCommandStack = this.blockCommandStack;
+
+            for(var i = blockCommandStack.length - 1; i >= 0; i = blockCommandStack.length - 1)
+            {
+                var command = blockCommandStack[i];
+
+                if(command.codeConstruct == exitFunctionContextCommand.codeConstruct) { blockCommandStack.pop(); }
+                else { return; }
+            }
+        }
+        catch(e) { this.notifyError("Error when popping function context commands from block stack: " + e); }
+    },
+
+    popTillLoopCommandFromBlockStack: function(loopCommand)
+    {
+        try
+        {
+            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping loop commands from block stack - empty stack @" + loopCommand.codeConstruct.loc.source); return; }
+
+            var blockCommandStack = this.blockCommandStack;
+
+            for(var i = blockCommandStack.length - 1; i >= 0; i = blockCommandStack.length - 1)
+            {
+                var command = blockCommandStack[i];
+
+                if(command.codeConstruct == loopCommand.codeConstruct) { blockCommandStack.pop(); }
+                else { return; }
+            }
+        }
+        catch(e) { this.notifyError("Error when popping loop commands from block stack: " + e + "@" + loopCommand.codeConstruct.loc.source); }
+    },
+
+    popTillIfCommand: function(ifCommand)
+    {
+        try
+        {
+            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping if commands from block stack - empty stack!"); return; }
+
+            if(this.blockCommandStack[this.blockCommandStack.length-1].codeConstruct != ifCommand.codeConstruct) { this.notifyError("The top command has to be if command when popping commands from block stack"); return; }
+
+            this.blockCommandStack.pop();
+        }
+        catch(e) { this.notifyError("Error when popping if command from block stack: " + e);}
+    },
+
+    _popWithCommand: function(withCommand)
+    {
+        try
+        {
+            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping with commands from block stack - empty stack!"); return; }
+
+            if(this.blockCommandStack[this.blockCommandStack.length-1].codeConstruct != withCommand.codeConstruct) { this.notifyError("The top command has to be with command when popping commands from block stack"); return; }
+
+            this.blockCommandStack.pop();
+        }
+        catch(e) { this.notifyError("Error when popping with command from block stack: " + e);}
+    },
 
     executeCommand: function(command)
     {
@@ -155,13 +220,39 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ValueTypeHelper.isOfType(command, fcCommands.Command)) { this.notifyError("Argument must be a command when executing command"); return; }
 
-                 if (command.isEnterFunctionContextCommand()) { this._enterFunctionContext(command); }
-            else if (command.isExitFunctionContextCommand()) { this._exitFunctionContext(command); }
-            else if (command.isStartWithStatementCommand()) { this._evaluateStartWithCommand(command); }
-            else if (command.isEndWithStatementCommand()) { this._evaluateEndWithCommand(command); }
+            if (command.isEnterFunctionContextCommand())
+            {
+                this.blockCommandStack.push(command);
+                this._enterFunctionContext(command);
+            }
+            else if (command.isExitFunctionContextCommand())
+            {
+                this._popTillEnterFunctionContextCommand(command);
+                this._exitFunctionContext(command);
+            }
+            else if (command.isStartWithStatementCommand())
+            {
+                this.blockCommandStack.push(command);
+                this._evaluateStartWithCommand(command);
+            }
+            else if (command.isEndWithStatementCommand())
+            {
+                this._popWithCommand(command);
+                this._evaluateEndWithCommand(command);
+            }
             else if (command.isForStatementCommand() || command.isWhileStatementCommand()
-                 ||  command.isDoWhileStatementCommand() || command.isForUpdateStatementCommand()) {}
-            else if (command.isIfStatementCommand()) {}
+                 ||  command.isDoWhileStatementCommand())
+            {
+                this.blockCommandStack.push(command);
+            }
+            else if(command.isForUpdateStatementCommand())
+            {
+
+            }
+            else if (command.isIfStatementCommand())
+            {
+                this.blockCommandStack.push(command);
+            }
             else if (command.isEvalConditionalExpressionBodyCommand()) {}
             else if (command.isEvalBreakCommand() || command.isEvalContinueCommand()){}
             else if (command.isStartSwitchStatementCommand() || command.isEndSwitchStatementCommand() || command.isCaseCommand()) {}
@@ -174,6 +265,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isExecuteCallbackCommand()) {}
             else
             {
+                if(command.isEvalForInWhereCommand()) { this.blockCommandStack.push(command); }
                 this.evaluator.evaluateCommand(command);
             }
         }

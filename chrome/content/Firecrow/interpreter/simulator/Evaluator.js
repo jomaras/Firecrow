@@ -284,7 +284,10 @@ fcSimulator.Evaluator.prototype =
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifierValue.fcInternal.codeConstruct, evalIdentifierCommand.id);
                 }
 
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifier.lastModificationConstruct, evalIdentifierCommand.id);
+                if(!ASTHelper.isAssignmentExpression(identifierConstruct.parent) && identifierConstruct.parent.left != identifierConstruct)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifier.lastModificationConstruct, evalIdentifierCommand.id);
+                }
 
                 if(identifier.declarationConstruct != null)
                 {

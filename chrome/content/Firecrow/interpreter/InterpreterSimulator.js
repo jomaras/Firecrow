@@ -406,16 +406,15 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(!ValueTypeHelper.isOfType(loopCommand, Command) || !loopCommand.isLoopStatementCommand()) { alert("InterpreterSimulator - argument has to be a loop command!"); return; }
 
-            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            var generatedCommands = CommandGenerator.generateLoopExecutionCommands
             (
-                this.commands,
-                CommandGenerator.generateLoopExecutionCommands
-                (
-                    loopCommand,
-                    !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).value : null
-                ),
-                this.currentCommandIndex + 1
+                loopCommand,
+                !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).value : null
             );
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, generatedCommands, this.currentCommandIndex + 1);
+
+            if(generatedCommands.length == 0) { this.executionContextStack.popTillLoopCommandFromBlockStack(loopCommand);}
         }
         catch(e) { alert("InterpreterSimulator - Error while generating commands after loop command: " + e);}
     },
@@ -426,17 +425,16 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(!ValueTypeHelper.isOfType(ifCommand, Command) || !ifCommand.isIfStatementCommand()) { alert("InterpreterSimulator - argument has to be a if command!"); return; }
 
-            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            var generatedCommands = CommandGenerator.generateIfStatementBodyCommands
             (
-                this.commands,
-                CommandGenerator.generateIfStatementBodyCommands
-                (
-                    ifCommand,
-                    this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test).value,
-                    ifCommand.parentFunctionCommand
-                ),
-                this.currentCommandIndex + 1
+                ifCommand,
+                this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test).value,
+                ifCommand.parentFunctionCommand
             );
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, generatedCommands, this.currentCommandIndex + 1);
+
+            if(generatedCommands.length == 0) { this.executionContextStack.popTillIfCommand(ifCommand);}
         }
         catch(e) { alert("Error while generating commands after if command: " + e);}
     },

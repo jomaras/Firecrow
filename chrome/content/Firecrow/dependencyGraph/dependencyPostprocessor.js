@@ -196,6 +196,11 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         {
             if(!this.inclusionFinder.isIncludedAssignmentExpression(assignmentExpression)) { return; }
 
+            if(assignmentExpression.shouldBeIncluded)
+            {
+                assignmentExpression.left.shouldBeIncluded = true;
+            }
+
             assignmentExpression.shouldBeIncluded = true;
 
             this.processElement(assignmentExpression.left);
