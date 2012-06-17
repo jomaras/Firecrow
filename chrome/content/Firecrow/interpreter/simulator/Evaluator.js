@@ -139,6 +139,9 @@ fcSimulator.Evaluator.prototype =
 
             this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.id);
             this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.leftSide, evalAssignmentExpressionCommand.id);
+            this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.rightSide, evalAssignmentExpressionCommand.id);
+
+            //TODO - FIX PROBLEM WITH LINKS FROM LEFT TO RIGHT SIDE - SEE SLICING TEST 8 FOR DETAILS
 
             if(operator == "=")
             {
@@ -282,13 +285,14 @@ fcSimulator.Evaluator.prototype =
             if(identifier != null)
             {
                 this._addDependenciesToTopBlockConstructs(identifierConstruct, evalIdentifierCommand.id);
-                if(identifierValue != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifierValue.fcInternal.codeConstruct, evalIdentifierCommand.id);
-                }
 
                 if(!ASTHelper.isAssignmentExpression(identifierConstruct.parent) && identifierConstruct.parent.left != identifierConstruct)
                 {
+                    if(identifierValue != null)
+                    {
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifierValue.fcInternal.codeConstruct, evalIdentifierCommand.id);
+                    }
+
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks(identifierConstruct, identifier.lastModificationConstruct, evalIdentifierCommand.id);
                 }
 

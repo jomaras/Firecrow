@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div id="resultContainer"></div>
+<script>
+    var obj = {
+        a: 3,
+        b: "4",
+        c: function()
+        {
+            return 3;
+        },
+        d: {
+            c : 'd',
+            e : 3
+        }
+    };
+
+    var b = 3, c = 4, d = 5;
+
+    b += obj.a;
+    b++;
+
+    c += obj.c();
+    --c;
+
+    d += obj.d.e;
+    d++;
+</script>
+</body>
+</html>

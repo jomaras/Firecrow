@@ -239,6 +239,21 @@ FBL.ns(function () { with (FBL) {
                                                    : false;
         },
 
+        isObjectExpressionPropertyValue: function(element)
+        {
+            if(element == null) { return false; }
+
+            return this.isElementOfType(element, this.CONST.Property);
+        },
+
+        isFunctionExpressionBlockAsObjectProperty: function(element)
+        {
+            if(element == null) { return false; }
+            if(element.parent == null) { return false; }
+
+            return this.isFunctionExpression(element.parent) && this.isElementOfType(element.parent.parent, this.CONST.Property);
+        },
+
         getFunctionParent: function(codeConstruct)
         {
             return this.getParentOfTypes
@@ -416,6 +431,7 @@ FBL.ns(function () { with (FBL) {
             CatchClause: "CatchClause",
             Identifier: "Identifier",
             Literal: "Literal",
+            Property: "Property",
             STATEMENT:
             {
                 EmptyStatement: "EmptyStatement",

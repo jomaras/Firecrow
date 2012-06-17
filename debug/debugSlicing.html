@@ -101,7 +101,7 @@
     var Firecrow = FBL.Firecrow;
     var WebFile = Firecrow.DoppelBrowser.WebFile;
     var Browser = Firecrow.DoppelBrowser.Browser;
-    var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/slicingTests/05/index.html");
+    var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/slicingTests/10/index.html");
     var model = HtmlModelMapping.getWholeFileModel(webFile.url);
     var messageContainer = document.getElementById("messageContainer");
 
@@ -167,7 +167,10 @@
 
         var errors = "";
 
-        if(FBL.Firecrow.CodeTextGenerator.generateSlicedCode(model.model) != atob(model.slicingResult))
+        var generated = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(model.model);
+        var fromModel = atob(model.slicingResult);
+
+        if(generated != fromModel)
         {
            errors += "Slicing does not match!";
         }

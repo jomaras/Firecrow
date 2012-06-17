@@ -136,8 +136,18 @@ Firecrow.CodeTextGenerator.prototype =
             if(element == null || (this.isSlicing && !element.shouldBeIncluded)) { return "";}
 
                  if (astHelper.isProgram(element)) { return this.generateProgram(element); }
-            else if (astHelper.isStatement(element)){ return this.whitespace + this.generateStatement(element) + this.newLine; }
-            else if (astHelper.isFunction(element)) { return this.whitespace + this.generateFromFunction(element) + this.newLine; }
+            else if (astHelper.isStatement(element))
+            {
+                return this.whitespace
+                     + this.generateStatement(element)
+                     + (astHelper.isFunctionExpressionBlockAsObjectProperty(element) ? "": this.newLine);
+            }
+            else if (astHelper.isFunction(element))
+            {
+                var isObjectExpressionPropertyValue = astHelper.isObjectExpressionPropertyValue(element);
+                return (isObjectExpressionPropertyValue || astHelper.isFunctionDeclaration(element) ? this.whitespace : "")
+                     + this.generateFromFunction(element);
+            }
             else if (astHelper.isExpression(element)) { return this.generateExpression(element); }
             else if (astHelper.isSwitchCase(element)) { return this.generateFromSwitchCase(element); }
             else if (astHelper.isCatchClause(element)) { return this.generateFromCatchClause(element); }
@@ -472,15 +482,23 @@ Firecrow.CodeTextGenerator.prototype =
             if (objectExpression.properties.length == 0) { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
 
             var code = this._LEFT_GULL_WING;
+            var containsOnlySimpleProperties = this._objectExpressionContainsOnlySimpleProperties(objectExpression);
+
+            if(!containsOnlySimpleProperties)
+            {
+                this.indent();
+                code += this.newLine + this.whitespace;
+            }
 
             var properties = objectExpression.properties;
+            var generatedProperties = 0;
             for (var i = 0, length = properties.length; i < length; i++)
             {
                 var property = properties[i];
 
                 if(this.isSlicing && !property.shouldBeIncluded) { continue; }
 
-                if(i != 0) { code += ", "; }
+                if(generatedProperties != 0) { code += ", " + (containsOnlySimpleProperties ? "" : this.newLine + this.whitespace); }
 
                 if (property.kind == "init")
                 {
@@ -489,6 +507,7 @@ Firecrow.CodeTextGenerator.prototype =
                                 (this.isSlicing && !property.shouldBeIncluded) ? ""
                                                                                : this._COLON + " " + this.generateJsCode(property.value)
                            );
+                    if(astHelper.isObjectExpression(property.value)){ code += this.newLine; }
                 }
                 else
                 {
@@ -499,6 +518,20 @@ Firecrow.CodeTextGenerator.prototype =
                     else
                         code += this.generateExpression(property.value);
                 }
+
+                var lastGeneratedProperty = property;
+                generatedProperties++;
+            }
+
+            if(lastGeneratedProperty != null && lastGeneratedProperty.shouldBeIncluded && astHelper.isFunctionExpression(lastGeneratedProperty.value))
+            {
+                code += this.newLine;
+            }
+
+            if(!containsOnlySimpleProperties)
+            {
+                this.deIndent();
+                code += this.whitespace;
             }
 
             code += this._RIGHT_GULL_WING;
@@ -506,6 +539,29 @@ Firecrow.CodeTextGenerator.prototype =
             return code;
         }
         catch(e) { this.notifyError("Error when generating from object expression:" + e); }
+    },
+
+    _objectExpressionContainsOnlySimpleProperties: function(objectExpression)
+    {
+        try
+        {
+            var properties = objectExpression.properties;
+            var generatedProperties = 0;
+            for (var i = 0, length = properties.length; i < length; i++)
+            {
+                var property = properties[i];
+
+                if(this.isSlicing && !property.shouldBeIncluded) { continue; }
+
+                if(property.value != null && !astHelper.isLiteral(property.value))
+                {
+                    return false
+                }
+            }
+
+            return true;
+        }
+        catch(e) { this.notifyError("Error when checking if object expression contains simple properties:" + e); }
     },
 
     generateFromIfStatement: function(ifStatement)
@@ -543,7 +599,7 @@ Firecrow.CodeTextGenerator.prototype =
             whileBody = whileBody.length != 0 ? whileBody : this._SEMI_COLON;
 
             return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(whileStatement.test) + this._RIGHT_PARENTHESIS
-                +  whileBody;
+                + this.newLine + whileBody;
         }
         catch(e) { this.notifyError("Error when generating code from while statement:" + e); }
     },

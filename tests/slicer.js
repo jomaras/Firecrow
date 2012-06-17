@@ -7,7 +7,7 @@ var testObject = {};
 
 HtmlModelMapping.models.forEach(function(model, index)
 {
-    testObject["test test" + index] = function()
+    testObject["test test" + (index + 1)] = function()
     {
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;

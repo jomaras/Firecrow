@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div id="resultContainer"></div>
+<script>
+    function test()
+    {
+        var a = 3, b = 5;
+
+        function test1(b)
+        {
+            var c = a + b;
+            return c;
+        }
+
+        return test1(3);
+    }
+    var e = 4;
+    var d = test();
+    d++;
+
+    var i = 0, j = 1;
+    while(i < 3)
+    {
+        e += i;
+        i++;
+        j++;
+    }
+
+    e--;
+
+    var sum = 0;
+
+    i = 0;
+    do
+    {
+        sum += i;
+        i++;
+    }
+    while(i < 3);
+
+    sum++;
+</script>
+</body>
+</html>
