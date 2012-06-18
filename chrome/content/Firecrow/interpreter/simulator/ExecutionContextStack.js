@@ -173,8 +173,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-
-
             //Loop, With, and If constructs are repeating and constant - makes more sense to link the blockStackConstructs with
             //them, then on commands (which get created for each execution
             //on the other hand EnterFunctionContextCommand is linked to the call expression making the call, which differ
@@ -304,6 +302,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isIfStatementCommand())
             {
                 this.blockCommandStack.push(command);
+            }
+            else if (command.isEndIfCommand())
+            {
+                this.popTillIfCommand(command);
             }
             else if (command.isEvalConditionalExpressionBodyCommand()) {}
             else if (command.isEvalBreakCommand() || command.isEvalContinueCommand()){}

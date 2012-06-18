@@ -241,6 +241,13 @@ FBL.ns(function () { with (FBL) {
             return false;
         },
 
+        isElseIfStatement: function(codeConstruct)
+        {
+            if(!this.isIfStatement(codeConstruct)){ return false; }
+
+            return this.isIfStatement(codeConstruct.parent) && codeConstruct.parent.alternate == codeConstruct;
+        },
+
         isObjectExpressionPropertyValue: function(element)
         {
             if(element == null) { return false; }

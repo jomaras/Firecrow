@@ -138,7 +138,9 @@ Firecrow.CodeTextGenerator.prototype =
                  if (astHelper.isProgram(element)) { return this.generateProgram(element); }
             else if (astHelper.isStatement(element))
             {
-                return this.whitespace
+                var isElseIfStatement = astHelper.isElseIfStatement(element);
+
+                return (!isElseIfStatement ? this.whitespace : "")
                      + this.generateStatement(element)
                      + (astHelper.isFunctionExpressionBlockAsObjectProperty(element) ? "": this.newLine);
             }
@@ -371,9 +373,18 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.generateJsCode(binaryExpression.left)
-                 + " " + binaryExpression.operator + " "
-                 + this.generateJsCode(binaryExpression.right);
+            var leftCode = this.generateJsCode(binaryExpression.left);
+            var rightCode = this.generateJsCode(binaryExpression.right);
+
+            if(leftCode.length != 0 && rightCode.length != 0)
+            {
+                return leftCode + " " + binaryExpression.operator + " " + rightCode;
+            }
+
+            if(leftCode.length != 0) { return leftCode; }
+            if(rightCode.length != 0) { return rightCode; }
+
+            return "";
         }
         catch(e) { this.notifyError("Error when generating code from binary expression:" + e); }
     },
@@ -577,7 +588,7 @@ Firecrow.CodeTextGenerator.prototype =
 
             var ifBodyCode = this.generateJsCode(ifStatement.consequent);
 
-            code += ifBodyCode.length != 0 ? ifBodyCode : this._SEMI_COLON;
+            code += ifBodyCode.length != 0 ? this.newLine + ifBodyCode : this._SEMI_COLON + this.newLine;
 
             if(ifStatement.alternate != null)
             {
@@ -585,9 +596,9 @@ Firecrow.CodeTextGenerator.prototype =
 
                 var elseBodyCode = this.generateJsCode(ifStatement.alternate);
 
-                elseBodyCode = elseBodyCode.length != 0 ? elseBodyCode : this._SEMI_COLON;
+                elseBodyCode = elseBodyCode.length != 0 ? elseBodyCode : this._SEMI_COLON + this.newLine;
 
-                code += this._ELSE_KEYWORD + elseBodyCode;
+                code += this.whitespace + this._ELSE_KEYWORD + " " + (! astHelper.isIfStatement(ifStatement.alternate) ? this.newLine : "") + elseBodyCode;
             }
 
             return code;

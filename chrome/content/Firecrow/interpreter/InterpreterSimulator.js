@@ -435,8 +435,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             );
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, generatedCommands, this.currentCommandIndex + 1);
-
-            if(generatedCommands.length == 0) { this.executionContextStack.popTillIfCommand(ifCommand);}
         }
         catch(e) { alert("Error while generating commands after if command: " + e);}
     },

@@ -429,12 +429,15 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             }
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
-            commands.push(new fcCommands.Command
+            var ifStatementCommand = new fcCommands.Command
             (
                 sourceElement,
                 fcCommands.Command.COMMAND_TYPE.IfStatement,
                 parentFunctionCommand
-            ));
+            );
+
+            commands.push(ifStatementCommand);
+            commands.push(new fcCommands.Command(ifStatementCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.EndIf, parentFunctionCommand));
         }
         catch(e) { alert("Error when generating if statement commands:" + e);}
 
@@ -447,11 +450,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ifStatementCommand.isIfStatementCommand())
-            {
-                alert("Source element is not if statement when generating commands");
-                return [];
-            }
+            if(!ifStatementCommand.isIfStatementCommand()) { alert("Source element is not if statement when generating commands"); return []; }
 
             if(conditionEvaluationResult)
             {
@@ -2020,6 +2019,7 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isEvalRegExCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalRegExLiteral; },
 
     isIfStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.IfStatement; },
+    isEndIfCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndIf; },
 
     isLoopStatementCommand: function()
     {
@@ -2108,6 +2108,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EvalRegExLiteral: "EvalRegExLiteral",
 
     IfStatement: "IfStatement",
+    EndIf: "EndIf",
     WhileStatement: "WhileStatement",
     DoWhileStatement: "DoWhileStatement",
 
