@@ -5,17 +5,25 @@
 </head>
 <body>
 <h2>Firecrow - simple Js Test</h2>
-<div>Function call returns function expression and is immediately called</div>
+<div>New Expression in call expression</div>
 <div id="resultContainer"></div>
 <script>
-    function test1()
-    {
-        return function()
+function cons()
+{
+    this.a = function() { return 3; }
+}
+
+var d = (new cons()).a();
+
+function test1()
+{
+    return function()
     {
         return 3;
     }
-    }
-    var a = test1()();
+}
+d += test1()();
+d++;
 </script>
 </body>
 </html>

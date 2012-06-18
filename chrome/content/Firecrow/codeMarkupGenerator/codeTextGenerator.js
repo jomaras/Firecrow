@@ -142,12 +142,11 @@ Firecrow.CodeTextGenerator.prototype =
 
                 return (!isElseIfStatement ? this.whitespace : "")
                      + this.generateStatement(element)
-                     + (ASTHelper.isFunctionExpressionBlockAsObjectProperty(element) ? "": this.newLine);
+                     + (ASTHelper.isFunctionExpression(element.parent) ? "": this.newLine);
             }
             else if (ASTHelper.isFunction(element))
             {
-                var isObjectExpressionPropertyValue = ASTHelper.isObjectExpressionPropertyValue(element);
-                return (isObjectExpressionPropertyValue || ASTHelper.isFunctionDeclaration(element) ? this.whitespace : "")
+                return (ASTHelper.isFunctionDeclaration(element) ? this.whitespace : "")
                      + this.generateFromFunction(element);
             }
             else if (ASTHelper.isExpression(element)) { return this.generateExpression(element); }
@@ -431,7 +430,7 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.generateJsCode(newExpression.callee) + this._LEFT_PARENTHESIS
+            return "new " + this.generateJsCode(newExpression.callee) + this._LEFT_PARENTHESIS
                 + this.getSequenceCode(newExpression.arguments)
                 + this._RIGHT_PARENTHESIS;
         }
