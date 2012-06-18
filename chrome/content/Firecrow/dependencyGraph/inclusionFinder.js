@@ -10,7 +10,7 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-var astHelper = Firecrow.ASTHelper;
+var ASTHelper = Firecrow.ASTHelper;
 Firecrow.DependencyGraph.InclusionFinder = function(){};
 
 Firecrow.DependencyGraph.InclusionFinder.prototype =
@@ -59,16 +59,16 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         try
         {
-                 if (astHelper.isProgram(element)) { return this.isIncludedProgram(element); }
-            else if (astHelper.isStatement(element)) { return this.isIncludedStatement(element); }
-            else if (astHelper.isFunction(element)) { return this.isIncludedFunction(element); }
-            else if (astHelper.isExpression(element)) { return this.isIncludedExpression(element); }
-            else if (astHelper.isSwitchCase(element)) { return this.isIncludedSwitchCase(element); }
-            else if (astHelper.isCatchClause(element)) { return this.isIncludedCatchClause(element); }
-            else if (astHelper.isVariableDeclaration(element)) { return this.isIncludedVariableDeclaration(element); }
-            else if (astHelper.isVariableDeclarator(element)) { return this.isIncludedVariableDeclarator(element); }
-            else if (astHelper.isLiteral(element)) { return this.isIncludedLiteral(element); }
-            else if (astHelper.isIdentifier(element)) { return this.isIncludedIdentifier(element); }
+                 if (ASTHelper.isProgram(element)) { return this.isIncludedProgram(element); }
+            else if (ASTHelper.isStatement(element)) { return this.isIncludedStatement(element); }
+            else if (ASTHelper.isFunction(element)) { return this.isIncludedFunction(element); }
+            else if (ASTHelper.isExpression(element)) { return this.isIncludedExpression(element); }
+            else if (ASTHelper.isSwitchCase(element)) { return this.isIncludedSwitchCase(element); }
+            else if (ASTHelper.isCatchClause(element)) { return this.isIncludedCatchClause(element); }
+            else if (ASTHelper.isVariableDeclaration(element)) { return this.isIncludedVariableDeclaration(element); }
+            else if (ASTHelper.isVariableDeclarator(element)) { return this.isIncludedVariableDeclarator(element); }
+            else if (ASTHelper.isLiteral(element)) { return this.isIncludedLiteral(element); }
+            else if (ASTHelper.isIdentifier(element)) { return this.isIncludedIdentifier(element); }
             else { this.notifyError("Error while finding inclusions unidentified ast element: "); }
         }
         catch(e) { alert("Error while finding inclusions: " + e); }
@@ -97,22 +97,22 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         try
         {
-                 if (astHelper.isEmptyStatement(statement))  { return this.isIncludedEmptyStatement(statement); }
-            else if (astHelper.isBlockStatement(statement)) { return this.isIncludedBlockStatement(statement); }
-            else if (astHelper.isExpressionStatement(statement)) { return this.isIncludedExpressionStatement(statement); }
-            else if (astHelper.isIfStatement(statement)) { return this.isIncludedIfStatement(statement); }
-            else if (astHelper.isWhileStatement(statement)) { return this.isIncludedWhileStatement(statement); }
-            else if (astHelper.isDoWhileStatement(statement)) { return this.isIncludedDoWhileStatement(statement); }
-            else if (astHelper.isForStatement(statement)) { return this.isIncludedForStatement(statement); }
-            else if (astHelper.isForInStatement(statement)) { return this.isIncludedForInStatement(statement); }
-            else if (astHelper.isLabeledStatement(statement)) { return this.isIncludedLabeledStatement(statement); }
-            else if (astHelper.isBreakStatement(statement)) { return this.isIncludedBreakStatement(statement); }
-            else if (astHelper.isContinueStatement(statement)) { return this.isIncludedContinueStatement(statement); }
-            else if (astHelper.isReturnStatement(statement)) { return this.isIncludedReturnStatement(statement); }
-            else if (astHelper.isWithStatement(statement)) { return this.isIncludedWithStatement(statement); }
-            else if (astHelper.isTryStatement(statement)) { return this.isIncludedTryStatement(statement); }
-            else if (astHelper.isThrowStatement(statement)) { return this.isIncludedThrowStatement(statement); }
-            else if (astHelper.isSwitchStatement(statement)) { return this.isIncludedSwitchStatement(statement); }
+                 if (ASTHelper.isEmptyStatement(statement))  { return this.isIncludedEmptyStatement(statement); }
+            else if (ASTHelper.isBlockStatement(statement)) { return this.isIncludedBlockStatement(statement); }
+            else if (ASTHelper.isExpressionStatement(statement)) { return this.isIncludedExpressionStatement(statement); }
+            else if (ASTHelper.isIfStatement(statement)) { return this.isIncludedIfStatement(statement); }
+            else if (ASTHelper.isWhileStatement(statement)) { return this.isIncludedWhileStatement(statement); }
+            else if (ASTHelper.isDoWhileStatement(statement)) { return this.isIncludedDoWhileStatement(statement); }
+            else if (ASTHelper.isForStatement(statement)) { return this.isIncludedForStatement(statement); }
+            else if (ASTHelper.isForInStatement(statement)) { return this.isIncludedForInStatement(statement); }
+            else if (ASTHelper.isLabeledStatement(statement)) { return this.isIncludedLabeledStatement(statement); }
+            else if (ASTHelper.isBreakStatement(statement)) { return this.isIncludedBreakStatement(statement); }
+            else if (ASTHelper.isContinueStatement(statement)) { return this.isIncludedContinueStatement(statement); }
+            else if (ASTHelper.isReturnStatement(statement)) { return this.isIncludedReturnStatement(statement); }
+            else if (ASTHelper.isWithStatement(statement)) { return this.isIncludedWithStatement(statement); }
+            else if (ASTHelper.isTryStatement(statement)) { return this.isIncludedTryStatement(statement); }
+            else if (ASTHelper.isThrowStatement(statement)) { return this.isIncludedThrowStatement(statement); }
+            else if (ASTHelper.isSwitchStatement(statement)) { return this.isIncludedSwitchStatement(statement); }
             else { this.notifyError("Error: AST Statement element not defined: " + expression.type);}
         }
         catch(e) { this.notifyError("Error when finding inclusions from a statement: " + e); }
@@ -122,22 +122,22 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         try
         {
-                 if (astHelper.isAssignmentExpression(expression)) { return this.isIncludedAssignmentExpression(expression); }
-            else if (astHelper.isUnaryExpression(expression)) { return this.isIncludedUnaryExpression(expression); }
-            else if (astHelper.isBinaryExpression(expression)) { return this.isIncludedBinaryExpression(expression); }
-            else if (astHelper.isLogicalExpression(expression)) { return this.isIncludedLogicalExpression(expression); }
-            else if (astHelper.isLiteral(expression)) { return this.isIncludedLiteral(expression); }
-            else if (astHelper.isIdentifier(expression)) { return this.isIncludedIdentifier(expression); }
-            else if (astHelper.isUpdateExpression(expression)) { return this.isIncludedUpdateExpression(expression); }
-            else if (astHelper.isNewExpression(expression)) { return this.isIncludedNewExpression(expression); }
-            else if (astHelper.isConditionalExpression(expression)) { return this.isIncludedConditionalExpression(expression); }
-            else if (astHelper.isThisExpression(expression)) { return this.isIncludedThisExpression(expression); }
-            else if (astHelper.isCallExpression(expression)) { return this.isIncludedCallExpression(expression); }
-            else if (astHelper.isMemberExpression(expression)) { return this.isIncludedMemberExpression(expression); }
-            else if (astHelper.isSequenceExpression(expression)) { return this.isIncludedSequenceExpression(expression); }
-            else if (astHelper.isArrayExpression(expression)) { return this.isIncludedArrayExpression(expression); }
-            else if (astHelper.isObjectExpression(expression)) { return this.isIncludedObjectExpression(expression); }
-            else if (astHelper.isFunctionExpression(expression)) { return this.isIncludedFunction(expression); }
+                 if (ASTHelper.isAssignmentExpression(expression)) { return this.isIncludedAssignmentExpression(expression); }
+            else if (ASTHelper.isUnaryExpression(expression)) { return this.isIncludedUnaryExpression(expression); }
+            else if (ASTHelper.isBinaryExpression(expression)) { return this.isIncludedBinaryExpression(expression); }
+            else if (ASTHelper.isLogicalExpression(expression)) { return this.isIncludedLogicalExpression(expression); }
+            else if (ASTHelper.isLiteral(expression)) { return this.isIncludedLiteral(expression); }
+            else if (ASTHelper.isIdentifier(expression)) { return this.isIncludedIdentifier(expression); }
+            else if (ASTHelper.isUpdateExpression(expression)) { return this.isIncludedUpdateExpression(expression); }
+            else if (ASTHelper.isNewExpression(expression)) { return this.isIncludedNewExpression(expression); }
+            else if (ASTHelper.isConditionalExpression(expression)) { return this.isIncludedConditionalExpression(expression); }
+            else if (ASTHelper.isThisExpression(expression)) { return this.isIncludedThisExpression(expression); }
+            else if (ASTHelper.isCallExpression(expression)) { return this.isIncludedCallExpression(expression); }
+            else if (ASTHelper.isMemberExpression(expression)) { return this.isIncludedMemberExpression(expression); }
+            else if (ASTHelper.isSequenceExpression(expression)) { return this.isIncludedSequenceExpression(expression); }
+            else if (ASTHelper.isArrayExpression(expression)) { return this.isIncludedArrayExpression(expression); }
+            else if (ASTHelper.isObjectExpression(expression)) { return this.isIncludedObjectExpression(expression); }
+            else if (ASTHelper.isFunctionExpression(expression)) { return this.isIncludedFunction(expression); }
             else { this.notifyError("Error: AST Expression element not defined: " + expression.type);  return false;}
         }
         catch(e) { this.notifyError("Error when finding inclusions from an expression:" + e); }
@@ -580,7 +580,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         try
         {
-            if(astHelper.isIdentifier(pattern)) { return this.isIncludedIdentifier(pattern);}
+            if(ASTHelper.isIdentifier(pattern)) { return this.isIncludedIdentifier(pattern);}
 
             return false;
         }

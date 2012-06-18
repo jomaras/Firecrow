@@ -6,7 +6,7 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-var astHelper = Firecrow.ASTHelper;
+var ASTHelper = Firecrow.ASTHelper;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 var fcCommands = Firecrow.Interpreter.Commands;
@@ -21,7 +21,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             var declarationCommands = [];
             var commandType = fcCommands.Command.COMMAND_TYPE;
 
-            astHelper.traverseDirectSourceElements
+            ASTHelper.traverseDirectSourceElements
             (
                 program,
                 function(sourceElement)
@@ -35,7 +35,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 true
             );
 
-            astHelper.traverseDirectSourceElements
+            ASTHelper.traverseDirectSourceElements
             (
                 program,
                 function(sourceElement)
@@ -63,20 +63,20 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             var Command = fcCommands.Command;
             var commandType = fcCommands.Command.COMMAND_TYPE;
 
-            if(astHelper.isVariableDeclaration(sourceElement))
+            if(ASTHelper.isVariableDeclaration(sourceElement))
             {
                 sourceElement.declarations.forEach(function(variableDeclarator)
                 {
                     declarationCommands.push(new Command(variableDeclarator, commandType.DeclareVariable, parentFunctionCommand));
                 });
             }
-            else if (astHelper.isFunctionDeclaration(sourceElement))
+            else if (ASTHelper.isFunctionDeclaration(sourceElement))
             {
                 declarationCommands.push(new Command(sourceElement, commandType.DeclareFunction, parentFunctionCommand));
             }
-            else if (astHelper.isForStatement(sourceElement))
+            else if (ASTHelper.isForStatement(sourceElement))
             {
-                if(astHelper.isVariableDeclaration(sourceElement.init))
+                if(ASTHelper.isVariableDeclaration(sourceElement.init))
                 {
                     sourceElement.init.declarations.forEach(function(variableDeclarator)
                     {
@@ -84,9 +84,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     });
                 }
             }
-            else if(astHelper.isForInStatement(sourceElement))
+            else if(ASTHelper.isForInStatement(sourceElement))
             {
-                if(astHelper.isVariableDeclaration(sourceElement.left))
+                if(ASTHelper.isVariableDeclaration(sourceElement.left))
                 {
                     sourceElement.left.declarations.forEach(function(variableDeclarator)
                     {
@@ -107,76 +107,76 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         try
         {
-            if(astHelper.isVariableDeclaration(sourceElement))
+            if(ASTHelper.isVariableDeclaration(sourceElement))
             {
                 return this.generateVariableDeclarationExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            if(astHelper.isExpressionStatement(sourceElement))
+            if(ASTHelper.isExpressionStatement(sourceElement))
             {
                 return this.generateExpressionStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isIfStatement(sourceElement))
+            else if (ASTHelper.isIfStatement(sourceElement))
             {
                 return this.generateIfStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isLabeledStatement(sourceElement))
+            else if (ASTHelper.isLabeledStatement(sourceElement))
             {
                 return this.generateLabeledStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isBreakStatement(sourceElement))
+            else if (ASTHelper.isBreakStatement(sourceElement))
             {
                 return this.generateBreakStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isContinueStatement(sourceElement))
+            else if (ASTHelper.isContinueStatement(sourceElement))
             {
                 return this.generateContinueStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isWithStatement(sourceElement))
+            else if (ASTHelper.isWithStatement(sourceElement))
             {
                 return this.generateWithStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isSwitchStatement(sourceElement))
+            else if (ASTHelper.isSwitchStatement(sourceElement))
             {
                 return this.generateSwitchStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isReturnStatement(sourceElement))
+            else if (ASTHelper.isReturnStatement(sourceElement))
             {
                 return this.generateReturnStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isThrowStatement(sourceElement))
+            else if (ASTHelper.isThrowStatement(sourceElement))
             {
                 return this.generateThrowStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isTryStatement(sourceElement))
+            else if (ASTHelper.isTryStatement(sourceElement))
             {
                 return this.generateTryStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isWhileStatement(sourceElement))
+            else if (ASTHelper.isWhileStatement(sourceElement))
             {
                 return this.generateWhileStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isDoWhileStatement(sourceElement))
+            else if (ASTHelper.isDoWhileStatement(sourceElement))
             {
                 return this.generateDoWhileStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isForStatement(sourceElement))
+            else if (ASTHelper.isForStatement(sourceElement))
             {
                 return this.generateForStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isForInStatement(sourceElement))
+            else if (ASTHelper.isForInStatement(sourceElement))
             {
                 return this.generateForInStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isLetStatement(sourceElement))
+            else if (ASTHelper.isLetStatement(sourceElement))
             {
                 return this.generateLetStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if (astHelper.isBlockStatement(sourceElement))
+            else if (ASTHelper.isBlockStatement(sourceElement))
             {
                 return this.generateBlockStatementExecutionCommands(sourceElement, parentFunctionCommand);
             }
-            else if(astHelper.isFunctionDeclaration(sourceElement)) { return []; }
-            else if (astHelper.isEmptyStatement(sourceElement)) { return []; }
+            else if(ASTHelper.isFunctionDeclaration(sourceElement)) { return []; }
+            else if (ASTHelper.isEmptyStatement(sourceElement)) { return []; }
             else
             {
                 alert("Unhandled source element when generating execution command: " + sourceElement.type);
@@ -207,7 +207,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             var functionConstruct = functionObject.fcInternal.codeConstruct;
 
-            astHelper.traverseDirectSourceElements
+            ASTHelper.traverseDirectSourceElements
             (
                 functionConstruct.body,
                 function(sourceElement)
@@ -221,7 +221,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 true
             );
 
-            astHelper.traverseDirectSourceElements
+            ASTHelper.traverseDirectSourceElements
             (
                 functionConstruct.body,
                 function(sourceElement)
@@ -348,7 +348,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isVariableDeclaration(sourceElement))
+            if(!ASTHelper.isVariableDeclaration(sourceElement))
             {
                 alert("Source element is not a variable declaration when generating commands");
                 return;
@@ -356,7 +356,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             sourceElement.declarations.forEach(function(variableDeclarator)
             {
-                if(!astHelper.isIdentifier(variableDeclarator.id))
+                if(!ASTHelper.isIdentifier(variableDeclarator.id))
                 {
                     alert("Variable declarator is not an identifier!");
                     return;
@@ -378,7 +378,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         try
         {
-            if(!astHelper.isBlockStatement(sourceElement))
+            if(!ASTHelper.isBlockStatement(sourceElement))
             {
                 alert("Source element is not block statement when generating commands");
                 return;
@@ -403,7 +403,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         try
         {
-            if(!astHelper.isExpressionStatement(sourceElement))
+            if(!ASTHelper.isExpressionStatement(sourceElement))
             {
                 alert("Source element is not an expression statement when generating commands");
                 return;
@@ -422,7 +422,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isIfStatement(sourceElement))
+            if(!ASTHelper.isIfStatement(sourceElement))
             {
                 alert("Source element is not if statement when generating commands");
                 return;
@@ -454,7 +454,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(conditionEvaluationResult)
             {
-                astHelper.traverseDirectSourceElements
+                ASTHelper.traverseDirectSourceElements
                 (
                     ifStatementCommand.codeConstruct.consequent,
                     function(sourceElement)
@@ -468,7 +468,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             {
                 if(ifStatementCommand.codeConstruct.alternate != null)
                 {
-                    astHelper.traverseDirectSourceElements
+                    ASTHelper.traverseDirectSourceElements
                     (
                         ifStatementCommand.codeConstruct.alternate,
                         function(sourceElement)
@@ -491,7 +491,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isLabeledStatement(sourceElement))
+            if(!ASTHelper.isLabeledStatement(sourceElement))
             {
                 alert("Source element is not a labeled statement when generating commands");
                 return;
@@ -510,7 +510,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isBreakStatement(sourceElement))
+            if(!ASTHelper.isBreakStatement(sourceElement))
             {
                 alert("Source element is not a break statement when generating commands");
                 return commands;
@@ -531,7 +531,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isContinueStatement(sourceElement))
+            if(!ASTHelper.isContinueStatement(sourceElement))
             {
                 alert("Source element is not a continue statement when generating commands");
                 return commands;
@@ -552,7 +552,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isWithStatement(sourceElement))
+            if(!ASTHelper.isWithStatement(sourceElement))
             {
                 alert("Source element is not a with statement when generating commands");
                 return;
@@ -571,7 +571,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
 
-            astHelper.traverseDirectSourceElements
+            ASTHelper.traverseDirectSourceElements
             (
                 sourceElement.body,
                 function(sourceElement)
@@ -598,7 +598,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isSwitchStatement(sourceElement)) { alert("Source element is not a switch statement when generating commands"); return; }
+            if(!ASTHelper.isSwitchStatement(sourceElement)) { alert("Source element is not a switch statement when generating commands"); return; }
 
             var startSwitchCommand = new fcCommands.Command
             (
@@ -662,7 +662,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             if(!caseCommand.isCaseCommand()){ alert("Should be case command!"); return commands; }
 
-            astHelper.traverseArrayOfDirectStatements
+            ASTHelper.traverseArrayOfDirectStatements
             (
                 caseCommand.codeConstruct.consequent,
                 caseCommand.codeConstruct,
@@ -684,7 +684,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isReturnStatement(sourceElement))
+            if(!ASTHelper.isReturnStatement(sourceElement))
             {
                 alert("Source element is not a return statement when generating commands");
                 return;
@@ -717,7 +717,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isThrowStatement(sourceElement))
+            if(!ASTHelper.isThrowStatement(sourceElement))
             {
                 alert("Source element is not a throw statement when generating commands");
                 return;
@@ -745,12 +745,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isTryStatement(sourceElement)) { alert("Source element is not a try statement when generating commands"); return commands; }
+            if(!ASTHelper.isTryStatement(sourceElement)) { alert("Source element is not a try statement when generating commands"); return commands; }
 
             var startTryCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.StartTryStatement, parentFunctionCommand);
             commands.push(startTryCommand);
 
-            astHelper.traverseDirectSourceElements
+            ASTHelper.traverseDirectSourceElements
             (
                 sourceElement.block,
                 function(sourceElement)
@@ -793,7 +793,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             commands[0].exceptionArgument = exceptionArgument;
 
-            astHelper.traverseDirectSourceElements
+            ASTHelper.traverseDirectSourceElements
             (
                 catchElement.body,
                 function(sourceElement)
@@ -840,7 +840,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isWhileStatement(sourceElement))
+            if(!ASTHelper.isWhileStatement(sourceElement))
             {
                 alert("Source element is not a while statement when generating commands");
                 return;
@@ -877,7 +877,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(evaldCondition)
             {
-                astHelper.traverseDirectSourceElements
+                ASTHelper.traverseDirectSourceElements
                 (
                     whileStatementCommand.codeConstruct.body,
                     function(sourceElement)
@@ -923,7 +923,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isDoWhileStatement(sourceElement)) { alert("Source element is not a dowhile statement when generating commands"); return; }
+            if(!ASTHelper.isDoWhileStatement(sourceElement)) { alert("Source element is not a dowhile statement when generating commands"); return; }
 
             ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands(sourceElement.body, parentFunctionCommand));
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
@@ -946,7 +946,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(evaldCondition)
             {
-                astHelper.traverseDirectSourceElements
+                ASTHelper.traverseDirectSourceElements
                 (
                     doWhileStatementCommand.codeConstruct.body,
                     function(sourceElement)
@@ -992,11 +992,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isForStatement(sourceElement)) { alert("Source element is not a for statement when generating commands"); return; }
+            if(!ASTHelper.isForStatement(sourceElement)) { alert("Source element is not a for statement when generating commands"); return; }
 
             if(sourceElement.init != null)
             {
-                if(astHelper.isVariableDeclaration(sourceElement.init))
+                if(ASTHelper.isVariableDeclaration(sourceElement.init))
                 {
                     ValueTypeHelper.pushAll(commands, this.generateVariableDeclarationExecutionCommands
                     (
@@ -1004,7 +1004,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                         parentFunctionCommand
                     ));
                 }
-                else if (astHelper.isExpression(sourceElement.init))
+                else if (ASTHelper.isExpression(sourceElement.init))
                 {
                     ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.init, parentFunctionCommand));
                 }
@@ -1033,7 +1033,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(evaldCondition)
             {
-                astHelper.traverseDirectSourceElements
+                ASTHelper.traverseDirectSourceElements
                 (
                     forStatementCommand.codeConstruct.body,
                     function(sourceElement)
@@ -1097,7 +1097,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isForInStatement(sourceElement)) { alert("Source element is not a for in statement when generating commands"); return; }
+            if(!ASTHelper.isForInStatement(sourceElement)) { alert("Source element is not a for in statement when generating commands"); return; }
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
 
@@ -1119,7 +1119,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(forInCommand.willBodyBeExecuted)
             {
-                astHelper.traverseDirectSourceElements
+                ASTHelper.traverseDirectSourceElements
                 (
                     forInCommand.codeConstruct.body,
                     function(sourceElement)
@@ -1148,7 +1148,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isLetStatement(sourceElement))
+            if(!ASTHelper.isLetStatement(sourceElement))
             {
                 alert("Source element is not a let statement when generating commands");
                 return;
@@ -1161,74 +1161,74 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
     generateExpressionCommands: function(sourceElement, parentFunctionCommand)
     {
-        if(astHelper.isThisExpression(sourceElement))
+        if(ASTHelper.isThisExpression(sourceElement))
         {
             return this.generateThisCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isIdentifier(sourceElement))
+        else if (ASTHelper.isIdentifier(sourceElement))
         {
             return this.generateIdentifierCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isLiteral(sourceElement))
+        else if (ASTHelper.isLiteral(sourceElement))
         {
             return this.generateLiteralCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isArrayExpression(sourceElement))
+        else if (ASTHelper.isArrayExpression(sourceElement))
         {
             return this.generateArrayExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isObjectExpression(sourceElement))
+        else if (ASTHelper.isObjectExpression(sourceElement))
         {
             return this.generateObjectExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isFunctionExpression(sourceElement))
+        else if (ASTHelper.isFunctionExpression(sourceElement))
         {
             return this.generateFunctionExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isSequenceExpression(sourceElement))
+        else if (ASTHelper.isSequenceExpression(sourceElement))
         {
             return this.generateSequenceExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isUnaryExpression(sourceElement))
+        else if (ASTHelper.isUnaryExpression(sourceElement))
         {
             return this.generateUnaryExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isBinaryExpression(sourceElement))
+        else if (ASTHelper.isBinaryExpression(sourceElement))
         {
             return this.generateBinaryExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isAssignmentExpression(sourceElement))
+        else if (ASTHelper.isAssignmentExpression(sourceElement))
         {
             return this.generateAssignmentExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isUpdateExpression(sourceElement))
+        else if (ASTHelper.isUpdateExpression(sourceElement))
         {
             return this.generateUpdateExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if(astHelper.isLogicalExpression(sourceElement))
+        else if(ASTHelper.isLogicalExpression(sourceElement))
         {
             return this.generateLogicalExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isConditionalExpression(sourceElement))
+        else if (ASTHelper.isConditionalExpression(sourceElement))
         {
             return this.generateConditionalExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isNewExpression(sourceElement))
+        else if (ASTHelper.isNewExpression(sourceElement))
         {
             return this.generateNewExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isCallExpression(sourceElement))
+        else if (ASTHelper.isCallExpression(sourceElement))
         {
             return this.generateCallExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if (astHelper.isMemberExpression(sourceElement))
+        else if (ASTHelper.isMemberExpression(sourceElement))
         {
             return this.generateMemberExpressionCommands(sourceElement, parentFunctionCommand);
         }
-        else if(astHelper.isYieldExpression(sourceElement)
-            ||  astHelper.isComprehensionExpression(sourceElement)
-            ||  astHelper.isGeneratorExpression(sourceElement)
-            ||  astHelper.isLetExpression(sourceElement))
+        else if(ASTHelper.isYieldExpression(sourceElement)
+            ||  ASTHelper.isComprehensionExpression(sourceElement)
+            ||  ASTHelper.isGeneratorExpression(sourceElement)
+            ||  ASTHelper.isLetExpression(sourceElement))
         {
             alert("Yield, Comprehnsion, Generator and Let not yet implemented!");
         }
@@ -1240,7 +1240,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isThisExpression(sourceElement))
+            if(!ASTHelper.isThisExpression(sourceElement))
             {
                 alert("Source element is not a this expression!");
                 return commands;
@@ -1264,7 +1264,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isIdentifier(sourceElement))
+            if(!ASTHelper.isIdentifier(sourceElement))
             {
                 alert("Source element is not an identifier!");
                 return commands;
@@ -1288,7 +1288,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isLiteral(sourceElement)) { alert("Source element is not a literal!"); return commands; }
+            if(!ASTHelper.isLiteral(sourceElement)) { alert("Source element is not a literal!"); return commands; }
 
             if(ValueTypeHelper.isObject(sourceElement.value))
             {
@@ -1327,7 +1327,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isArrayExpression(sourceElement)) { alert("Source element is not an array expression!"); return commands; }
+            if(!ASTHelper.isArrayExpression(sourceElement)) { alert("Source element is not an array expression!"); return commands; }
 
             var arrayExpressionCommand = new fcCommands.Command
             (
@@ -1359,7 +1359,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isObjectExpression(sourceElement))
+            if(!ASTHelper.isObjectExpression(sourceElement))
             {
                 alert("Source element is not an object expression!");
                 return commands;
@@ -1394,7 +1394,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isFunctionExpression(sourceElement))
+            if(!ASTHelper.isFunctionExpression(sourceElement))
             {
                 alert("Source element is not a function expression!");
                 return commands;
@@ -1418,7 +1418,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isSequenceExpression(sourceElement))
+            if(!ASTHelper.isSequenceExpression(sourceElement))
             {
                 alert("Source element is not a sequence expression!");
                 return commands;
@@ -1447,7 +1447,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isUnaryExpression(sourceElement))
+            if(!ASTHelper.isUnaryExpression(sourceElement))
             {
                 alert("Source element is not a unary expression!");
                 return commands;
@@ -1473,7 +1473,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isBinaryExpression(sourceElement))
+            if(!ASTHelper.isBinaryExpression(sourceElement))
             {
                 alert("Source element is not a binary expression!");
                 return commands;
@@ -1500,7 +1500,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isAssignmentExpression(sourceElement))
+            if(!ASTHelper.isAssignmentExpression(sourceElement))
             {
                 alert("Source element is not an assignment expression!");
                 return commands;
@@ -1526,7 +1526,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isUpdateExpression(sourceElement))
+            if(!ASTHelper.isUpdateExpression(sourceElement))
             {
                 alert("Source element is not an update expression!");
                 return commands;
@@ -1552,7 +1552,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isLogicalExpression(sourceElement)) { alert("Source element is not a logical expression!"); return commands; }
+            if(!ASTHelper.isLogicalExpression(sourceElement)) { alert("Source element is not a logical expression!"); return commands; }
 
             var startLogicalExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.StartEvalLogicalExpression, parentFunctionCommand);
 
@@ -1587,7 +1587,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isConditionalExpression(sourceElement)) { alert("Source element is not a conditional expression!"); return commands; }
+            if(!ASTHelper.isConditionalExpression(sourceElement)) { alert("Source element is not a conditional expression!"); return commands; }
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
@@ -1655,7 +1655,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isNewExpression(sourceElement))
+            if(!ASTHelper.isNewExpression(sourceElement))
             {
                 alert("Source element is not a new expression!");
                 return commands;
@@ -1697,7 +1697,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isCallExpression(sourceElement))
+            if(!ASTHelper.isCallExpression(sourceElement))
             {
                 alert("Source element is not a call expression!");
                 return commands;
@@ -1739,7 +1739,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!astHelper.isMemberExpression(sourceElement))
+            if(!ASTHelper.isMemberExpression(sourceElement))
             {
                 alert("Source element is not a member expression!");
                 return commands;
@@ -1812,8 +1812,8 @@ Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeCon
 {
     try
     {
-        if(!astHelper.isVariableDeclarator(codeConstruct)
-        && !astHelper.isAssignmentExpression(codeConstruct))
+        if(!ASTHelper.isVariableDeclarator(codeConstruct)
+        && !ASTHelper.isAssignmentExpression(codeConstruct))
         {
             alert("Assignment command can only be created on variable declarators and assignement expressions!");
             return null;
@@ -1821,13 +1821,13 @@ Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeCon
 
         var command = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.EvalAssignmentExpression, parentFunctionCommand);
 
-        if (astHelper.isVariableDeclarator(codeConstruct))
+        if (ASTHelper.isVariableDeclarator(codeConstruct))
         {
             command.leftSide = codeConstruct.id;
             command.rightSide = codeConstruct.init;
             command.operator = "=";
         }
-        else if (astHelper.isAssignmentExpression(codeConstruct))
+        else if (ASTHelper.isAssignmentExpression(codeConstruct))
         {
             command.leftSide = codeConstruct.left;
             command.rightSide = codeConstruct.right;

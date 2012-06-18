@@ -5,7 +5,7 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
-var astHelper = Firecrow.ASTHelper;
+var ASTHelper = Firecrow.ASTHelper;
 var InclusionFinder = Firecrow.DependencyGraph.InclusionFinder;
 
 Firecrow.DependencyGraph.DependencyPostprocessor = function()
@@ -40,16 +40,16 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         try
         {
-                 if (astHelper.isProgram(element)) { this.processProgram(element); }
-            else if (astHelper.isStatement(element)) { this.processStatement(element); }
-            else if (astHelper.isFunction(element)) { this.processFunction(element); }
-            else if (astHelper.isExpression(element)) { this.processExpression(element); }
-            else if (astHelper.isSwitchCase(element)) { this.processSwitchCase(element); }
-            else if (astHelper.isCatchClause(element)) { this.processCatchClause(element); }
-            else if (astHelper.isVariableDeclaration(element)) { this.processVariableDeclaration(element); }
-            else if (astHelper.isVariableDeclarator(element)) { this.processVariableDeclarator(element); }
-            else if (astHelper.isLiteral(element)) { this.processLiteral(element); }
-            else if (astHelper.isIdentifier(element)) { this.processIdentifier(element); }
+                 if (ASTHelper.isProgram(element)) { this.processProgram(element); }
+            else if (ASTHelper.isStatement(element)) { this.processStatement(element); }
+            else if (ASTHelper.isFunction(element)) { this.processFunction(element); }
+            else if (ASTHelper.isExpression(element)) { this.processExpression(element); }
+            else if (ASTHelper.isSwitchCase(element)) { this.processSwitchCase(element); }
+            else if (ASTHelper.isCatchClause(element)) { this.processCatchClause(element); }
+            else if (ASTHelper.isVariableDeclaration(element)) { this.processVariableDeclaration(element); }
+            else if (ASTHelper.isVariableDeclarator(element)) { this.processVariableDeclarator(element); }
+            else if (ASTHelper.isLiteral(element)) { this.processLiteral(element); }
+            else if (ASTHelper.isIdentifier(element)) { this.processIdentifier(element); }
             else { this.notifyError("Error while processing code unidentified ast element"); }
         }
         catch(e) { alert("Error while processing code: " + e); }
@@ -80,22 +80,22 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         try
         {
-                 if (astHelper.isEmptyStatement(statement))  { this.processEmptyStatement(statement); }
-            else if (astHelper.isBlockStatement(statement)) { this.processBlockStatement(statement); }
-            else if (astHelper.isExpressionStatement(statement)) { this.processExpressionStatement(statement); }
-            else if (astHelper.isIfStatement(statement)) { this.processIfStatement(statement); }
-            else if (astHelper.isWhileStatement(statement)) { this.processWhileStatement(statement); }
-            else if (astHelper.isDoWhileStatement(statement)) { this.processDoWhileStatement(statement); }
-            else if (astHelper.isForStatement(statement)) { this.processForStatement(statement); }
-            else if (astHelper.isForInStatement(statement)) { this.processForInStatement(statement); }
-            else if (astHelper.isLabeledStatement(statement)) { this.processLabeledStatement(statement); }
-            else if (astHelper.isBreakStatement(statement)) { this.processBreakStatement(statement); }
-            else if (astHelper.isContinueStatement(statement)) { this.processContinueStatement(statement); }
-            else if (astHelper.isReturnStatement(statement)) { this.processReturnStatement(statement); }
-            else if (astHelper.isWithStatement(statement)) { this.processWithStatement(statement); }
-            else if (astHelper.isTryStatement(statement)) { this.processTryStatement(statement); }
-            else if (astHelper.isThrowStatement(statement)) { this.processThrowStatement(statement); }
-            else if (astHelper.isSwitchStatement(statement)) { this.processSwitchStatement(statement); }
+                 if (ASTHelper.isEmptyStatement(statement))  { this.processEmptyStatement(statement); }
+            else if (ASTHelper.isBlockStatement(statement)) { this.processBlockStatement(statement); }
+            else if (ASTHelper.isExpressionStatement(statement)) { this.processExpressionStatement(statement); }
+            else if (ASTHelper.isIfStatement(statement)) { this.processIfStatement(statement); }
+            else if (ASTHelper.isWhileStatement(statement)) { this.processWhileStatement(statement); }
+            else if (ASTHelper.isDoWhileStatement(statement)) { this.processDoWhileStatement(statement); }
+            else if (ASTHelper.isForStatement(statement)) { this.processForStatement(statement); }
+            else if (ASTHelper.isForInStatement(statement)) { this.processForInStatement(statement); }
+            else if (ASTHelper.isLabeledStatement(statement)) { this.processLabeledStatement(statement); }
+            else if (ASTHelper.isBreakStatement(statement)) { this.processBreakStatement(statement); }
+            else if (ASTHelper.isContinueStatement(statement)) { this.processContinueStatement(statement); }
+            else if (ASTHelper.isReturnStatement(statement)) { this.processReturnStatement(statement); }
+            else if (ASTHelper.isWithStatement(statement)) { this.processWithStatement(statement); }
+            else if (ASTHelper.isTryStatement(statement)) { this.processTryStatement(statement); }
+            else if (ASTHelper.isThrowStatement(statement)) { this.processThrowStatement(statement); }
+            else if (ASTHelper.isSwitchStatement(statement)) { this.processSwitchStatement(statement); }
             else { this.notifyError("Error: AST Statement element not defined: " + expression.type);}
         }
         catch(e) { this.notifyError("Error when processing code from a statement: " + e); }
@@ -105,22 +105,22 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         try
         {
-                 if (astHelper.isAssignmentExpression(expression)) { this.processAssignmentExpression(expression); }
-            else if (astHelper.isUnaryExpression(expression)) { this.processUnaryExpression(expression); }
-            else if (astHelper.isBinaryExpression(expression)) { this.processBinaryExpression(expression); }
-            else if (astHelper.isLogicalExpression(expression)) { this.processLogicalExpression(expression); }
-            else if (astHelper.isLiteral(expression)) { this.processLiteral(expression); }
-            else if (astHelper.isIdentifier(expression)) { this.processIdentifier(expression); }
-            else if (astHelper.isUpdateExpression(expression)) { this.processUpdateExpression(expression); }
-            else if (astHelper.isNewExpression(expression)) { this.processNewExpression(expression); }
-            else if (astHelper.isConditionalExpression(expression)) { this.processConditionalExpression(expression); }
-            else if (astHelper.isThisExpression(expression)) { this.processThisExpression(expression); }
-            else if (astHelper.isCallExpression(expression)) { this.processCallExpression(expression); }
-            else if (astHelper.isMemberExpression(expression)) { this.processMemberExpression(expression); }
-            else if (astHelper.isSequenceExpression(expression)) { this.processSequenceExpression(expression); }
-            else if (astHelper.isArrayExpression(expression)) { this.processArrayExpression(expression); }
-            else if (astHelper.isObjectExpression(expression)) { this.processObjectExpression(expression); }
-            else if (astHelper.isFunctionExpression(expression)) { this.processFunction(expression); }
+                 if (ASTHelper.isAssignmentExpression(expression)) { this.processAssignmentExpression(expression); }
+            else if (ASTHelper.isUnaryExpression(expression)) { this.processUnaryExpression(expression); }
+            else if (ASTHelper.isBinaryExpression(expression)) { this.processBinaryExpression(expression); }
+            else if (ASTHelper.isLogicalExpression(expression)) { this.processLogicalExpression(expression); }
+            else if (ASTHelper.isLiteral(expression)) { this.processLiteral(expression); }
+            else if (ASTHelper.isIdentifier(expression)) { this.processIdentifier(expression); }
+            else if (ASTHelper.isUpdateExpression(expression)) { this.processUpdateExpression(expression); }
+            else if (ASTHelper.isNewExpression(expression)) { this.processNewExpression(expression); }
+            else if (ASTHelper.isConditionalExpression(expression)) { this.processConditionalExpression(expression); }
+            else if (ASTHelper.isThisExpression(expression)) { this.processThisExpression(expression); }
+            else if (ASTHelper.isCallExpression(expression)) { this.processCallExpression(expression); }
+            else if (ASTHelper.isMemberExpression(expression)) { this.processMemberExpression(expression); }
+            else if (ASTHelper.isSequenceExpression(expression)) { this.processSequenceExpression(expression); }
+            else if (ASTHelper.isArrayExpression(expression)) { this.processArrayExpression(expression); }
+            else if (ASTHelper.isObjectExpression(expression)) { this.processObjectExpression(expression); }
+            else if (ASTHelper.isFunctionExpression(expression)) { this.processFunction(expression); }
             else { this.notifyError("Error: AST Expression element not defined: " + expression.type);  "";}
         }
         catch(e) { this.notifyError("Error when processing code from an expression:" + e); }
@@ -639,7 +639,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         try
         {
-            if(astHelper.isIdentifier(pattern)) { this.processIdentifier(pattern);}
+            if(ASTHelper.isIdentifier(pattern)) { this.processIdentifier(pattern);}
         }
         catch(e) { this.notifyError("Error when processing code from pattern:" + e);}
     },

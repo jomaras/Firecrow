@@ -4,7 +4,7 @@
  */
 FBL.ns(function () { with (FBL) {
     /*******/
-    const astHelper = Firecrow.ASTHelper;
+    const ASTHelper = Firecrow.ASTHelper;
     const valueTypeHelper = Firecrow.ValueTypeHelper;
 
     Firecrow.CodeMarkupGenerator =
@@ -13,7 +13,7 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(astHelper.isProgram(element))
+                if(ASTHelper.isProgram(element))
                 {
                     var html = "<div class=\"jsContainer\">";
 
@@ -35,19 +35,19 @@ FBL.ns(function () { with (FBL) {
                 /**
                  * generalized
                  */
-                else if (astHelper.isStatement(element))             { return this.generateStatement(element); }
-                else if (astHelper.isExpression(element))            { return this.generateExpression(element); }
+                else if (ASTHelper.isStatement(element))             { return this.generateStatement(element); }
+                else if (ASTHelper.isExpression(element))            { return this.generateExpression(element); }
 
                 /**
                  * rest
                  */
-                else if (astHelper.isSwitchCase(element))            { return this.generateFromSwitchCase(element); }
-                else if (astHelper.isCatchClause(element))           { return this.generateFromCatchClause(element); }
-                else if (astHelper.isFunction(element))              { return this.generateFromFunction(element, true); }
-                else if (astHelper.isVariableDeclaration(element))   { return this.generateFromVariableDeclaration(element); }
-                else if (astHelper.isVariableDeclarator(element))    { return this.generateFromVariableDeclarator(element); }
-                else if (astHelper.isLiteral(element))               { return this.generateFromLiteral(element); }
-                else if (astHelper.isIdentifier(element))            { return this.generateFromIdentifier(element); }
+                else if (ASTHelper.isSwitchCase(element))            { return this.generateFromSwitchCase(element); }
+                else if (ASTHelper.isCatchClause(element))           { return this.generateFromCatchClause(element); }
+                else if (ASTHelper.isFunction(element))              { return this.generateFromFunction(element, true); }
+                else if (ASTHelper.isVariableDeclaration(element))   { return this.generateFromVariableDeclaration(element); }
+                else if (ASTHelper.isVariableDeclarator(element))    { return this.generateFromVariableDeclarator(element); }
+                else if (ASTHelper.isLiteral(element))               { return this.generateFromLiteral(element); }
+                else if (ASTHelper.isIdentifier(element))            { return this.generateFromIdentifier(element); }
                 else
                 {
                     console.log(element);
@@ -68,22 +68,22 @@ FBL.ns(function () { with (FBL) {
 
                 //html += this.generateStartLineHtml(statement);
 
-                if (astHelper.isEmptyStatement(statement))  { html += this.generateFromEmptyStatement(statement); }
-                else if (astHelper.isBlockStatement(statement)) { html += this.generateFromBlockStatement(statement); }
-                else if (astHelper.isExpressionStatement(statement)) { html += this.generateFromExpressionStatement(statement); }
-                else if (astHelper.isIfStatement(statement)) { html += this.generateFromIfStatement(statement); }
-                else if (astHelper.isWhileStatement(statement)) { html += this.generateFromWhileStatement(statement); }
-                else if (astHelper.isDoWhileStatement(statement)) { html += this.generateFromDoWhileStatement(statement); }
-                else if (astHelper.isForStatement(statement)) { html += this.generateFromForStatement(statement); }
-                else if (astHelper.isForInStatement(statement)) { html += this.generateFromForInStatement(statement); }
-                else if (astHelper.isLabeledStatement(statement)) { html += this.generateFromLabeledStatement(statement); }
-                else if (astHelper.isBreakStatement(statement)) { html+= this.generateFromBreakStatement(statement); }
-                else if (astHelper.isContinueStatement(statement)) { html += this.generateFromContinueStatement(statement); }
-                else if (astHelper.isReturnStatement(statement)) { html += this.generateFromReturnStatement(statement); }
-                else if (astHelper.isWithStatement(statement)) { html += this.generateFromWithStatement(statement); }
-                else if (astHelper.isTryStatement(statement)) { html += this.generateFromTryStatement(statement); }
-                else if (astHelper.isThrowStatement(statement)) { html += this.generateFromThrowStatement(statement); }
-                else if (astHelper.isSwitchStatement(statement)) { html += this.generateFromSwitchStatement(statement); }
+                if (ASTHelper.isEmptyStatement(statement))  { html += this.generateFromEmptyStatement(statement); }
+                else if (ASTHelper.isBlockStatement(statement)) { html += this.generateFromBlockStatement(statement); }
+                else if (ASTHelper.isExpressionStatement(statement)) { html += this.generateFromExpressionStatement(statement); }
+                else if (ASTHelper.isIfStatement(statement)) { html += this.generateFromIfStatement(statement); }
+                else if (ASTHelper.isWhileStatement(statement)) { html += this.generateFromWhileStatement(statement); }
+                else if (ASTHelper.isDoWhileStatement(statement)) { html += this.generateFromDoWhileStatement(statement); }
+                else if (ASTHelper.isForStatement(statement)) { html += this.generateFromForStatement(statement); }
+                else if (ASTHelper.isForInStatement(statement)) { html += this.generateFromForInStatement(statement); }
+                else if (ASTHelper.isLabeledStatement(statement)) { html += this.generateFromLabeledStatement(statement); }
+                else if (ASTHelper.isBreakStatement(statement)) { html+= this.generateFromBreakStatement(statement); }
+                else if (ASTHelper.isContinueStatement(statement)) { html += this.generateFromContinueStatement(statement); }
+                else if (ASTHelper.isReturnStatement(statement)) { html += this.generateFromReturnStatement(statement); }
+                else if (ASTHelper.isWithStatement(statement)) { html += this.generateFromWithStatement(statement); }
+                else if (ASTHelper.isTryStatement(statement)) { html += this.generateFromTryStatement(statement); }
+                else if (ASTHelper.isThrowStatement(statement)) { html += this.generateFromThrowStatement(statement); }
+                else if (ASTHelper.isSwitchStatement(statement)) { html += this.generateFromSwitchStatement(statement); }
                 else { alert("Error: AST Statement element not defined: " + expression.type);  return "";}
 
                 return html;
@@ -97,22 +97,22 @@ FBL.ns(function () { with (FBL) {
             {
                 var html = "";
 
-                if (astHelper.isAssignmentExpression(expression)) { html += this.generateFromAssignmentExpression(expression); }
-                else if (astHelper.isUnaryExpression(expression)) { html += this.generateFromUnaryExpression(expression); }
-                else if (astHelper.isBinaryExpression(expression)) { html += this.generateFromBinaryExpression(expression); }
-                else if (astHelper.isLogicalExpression(expression)) { html += this.generateFromLogicalExpression(expression); }
-                else if (astHelper.isLiteral(expression)) { html += this.generateFromLiteral(expression); }
-                else if (astHelper.isIdentifier(expression)) { html += this.generateFromIdentifier(expression); }
-                else if (astHelper.isUpdateExpression(expression)) { html += this.generateFromUpdateExpression(expression); }
-                else if (astHelper.isNewExpression(expression)) { html += this.generateFromNewExpression(expression); }
-                else if (astHelper.isConditionalExpression(expression)) { html += this.generateFromConditionalExpression(expression); }
-                else if (astHelper.isThisExpression(expression)) { html += this.generateFromThisExpression(expression); }
-                else if (astHelper.isCallExpression(expression)) { html += this.generateFromCallExpression(expression); }
-                else if (astHelper.isMemberExpression(expression)) { html += this.generateFromMemberExpression(expression); }
-                else if (astHelper.isSequenceExpression(expression)) { html += this.generateFromSequenceExpression(expression); }
-                else if (astHelper.isArrayExpression(expression)) { html += this.generateFromArrayExpression(expression); }
-                else if (astHelper.isObjectExpression(expression)) { html += this.generateFromObjectExpression(expression); }
-                else if (astHelper.isFunctionExpression(expression)) { html += this.generateFromFunction(expression, true); }
+                if (ASTHelper.isAssignmentExpression(expression)) { html += this.generateFromAssignmentExpression(expression); }
+                else if (ASTHelper.isUnaryExpression(expression)) { html += this.generateFromUnaryExpression(expression); }
+                else if (ASTHelper.isBinaryExpression(expression)) { html += this.generateFromBinaryExpression(expression); }
+                else if (ASTHelper.isLogicalExpression(expression)) { html += this.generateFromLogicalExpression(expression); }
+                else if (ASTHelper.isLiteral(expression)) { html += this.generateFromLiteral(expression); }
+                else if (ASTHelper.isIdentifier(expression)) { html += this.generateFromIdentifier(expression); }
+                else if (ASTHelper.isUpdateExpression(expression)) { html += this.generateFromUpdateExpression(expression); }
+                else if (ASTHelper.isNewExpression(expression)) { html += this.generateFromNewExpression(expression); }
+                else if (ASTHelper.isConditionalExpression(expression)) { html += this.generateFromConditionalExpression(expression); }
+                else if (ASTHelper.isThisExpression(expression)) { html += this.generateFromThisExpression(expression); }
+                else if (ASTHelper.isCallExpression(expression)) { html += this.generateFromCallExpression(expression); }
+                else if (ASTHelper.isMemberExpression(expression)) { html += this.generateFromMemberExpression(expression); }
+                else if (ASTHelper.isSequenceExpression(expression)) { html += this.generateFromSequenceExpression(expression); }
+                else if (ASTHelper.isArrayExpression(expression)) { html += this.generateFromArrayExpression(expression); }
+                else if (ASTHelper.isObjectExpression(expression)) { html += this.generateFromObjectExpression(expression); }
+                else if (ASTHelper.isFunctionExpression(expression)) { html += this.generateFromFunction(expression, true); }
                 else { alert("Error: AST Expression element not defined: " + expression.type);  return "";}
 
                 return html;
@@ -124,7 +124,7 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isFunction(functionDecExp)) { alert("Invalid Element when generating function html code!"); }
+                if(!ASTHelper.isFunction(functionDecExp)) { alert("Invalid Element when generating function html code!"); }
 
                 var _class = functionDecExp.type + " node";
                 var _id = "node" + this.formatId(functionDecExp.nodeId);
@@ -168,7 +168,7 @@ FBL.ns(function () { with (FBL) {
 //    {
 //        try
 //        {
-//            if(!astHelper.isFunctionDeclaration(functionDeclaration)) { alert("Invalid element when generating function declaration html code!"); return ""; }
+//            if(!ASTHelper.isFunctionDeclaration(functionDeclaration)) { alert("Invalid element when generating function declaration html code!"); return ""; }
 //
 //            var html = this.getStartElementHtml("div", {class: 'funcDecl', id : "node" + functionDeclaration.astId });
 //
@@ -188,7 +188,7 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isFunction(functionDecExp)) { alert("Invalid element when generating function parameters html code!"); return ""; }
+                if(!ASTHelper.isFunction(functionDecExp)) { alert("Invalid element when generating function parameters html code!"); return ""; }
 
                 var html = "(";
 
@@ -209,7 +209,7 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isFunction(functionDeclExp)) { alert("Invalid element when generating function body html code!"); return ""; }
+                if(!ASTHelper.isFunction(functionDeclExp)) { alert("Invalid element when generating function body html code!"); return ""; }
 
                 return this.generateHtml(functionDeclExp.body);
             }
@@ -220,9 +220,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isBlockStatement(blockStatement)) { alert("Invalid element when generating block statement html code!"); return ""; }
+                if(!ASTHelper.isBlockStatement(blockStatement)) { alert("Invalid element when generating block statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.BlockStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.BlockStatement + " node";
                 var _id = "node" + this.formatId(blockStatement.nodeId);
 
                 var html = this.getStartElementHtml(
@@ -256,9 +256,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isEmptyStatement(emptyStatement)) { alert("Invalid element when generating empty statement html code!"); return ""; }
+                if(!ASTHelper.isEmptyStatement(emptyStatement)) { alert("Invalid element when generating empty statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.EmptyStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.EmptyStatement + " node";
                 var _id= "node" + this.formatId(emptyStatement.nodeId);
                 var _style = this.getStyle(emptyStatement);
 
@@ -271,11 +271,11 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isExpressionStatement(expressionStatement)) { alert("Invalid element when generating expression statement html code!"); return "";}
+                if(!ASTHelper.isExpressionStatement(expressionStatement)) { alert("Invalid element when generating expression statement html code!"); return "";}
 
                 var html = "";
 
-                var _class = astHelper.CONST.STATEMENT.ExpressionStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.ExpressionStatement + " node";
                 var _style = this.getStyle(expressionStatement);
                 var _id = "node" + this.formatId(expressionStatement.nodeId);
 
@@ -299,9 +299,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isAssignmentExpression(assignmentExpression)) { alert("Invalid element when generating assignment expression html code!"); return "";}
+                if(!ASTHelper.isAssignmentExpression(assignmentExpression)) { alert("Invalid element when generating assignment expression html code!"); return "";}
 
-                var _class = astHelper.CONST.EXPRESSION.AssignmentExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.AssignmentExpression + " node";
                 var _id =  "node" + this.formatId(assignmentExpression.nodeId);
 
                 return this.getStartElementHtml("span", { class: _class, id: _id})
@@ -317,9 +317,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isUnaryExpression(unaryExpression)) { alert("Invalid element when generating unary expression html code!"); return "";}
+                if(!ASTHelper.isUnaryExpression(unaryExpression)) { alert("Invalid element when generating unary expression html code!"); return "";}
 
-                var _class = astHelper.CONST.EXPRESSION.UnaryExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.UnaryExpression + " node";
                 var _id =  "node" + this.formatId(unaryExpression.nodeId);
 
                 var html = this.getStartElementHtml("span", {class: _class, id: _id});
@@ -349,9 +349,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isBinaryExpression(binaryExpression)) { alert("Invalid element when generating binary expression html code!"); return ""; }
+                if(!ASTHelper.isBinaryExpression(binaryExpression)) { alert("Invalid element when generating binary expression html code!"); return ""; }
 
-                var _class = astHelper.CONST.EXPRESSION.BinaryExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.BinaryExpression + " node";
                 var _id =  "node" + this.formatId(binaryExpression.nodeId);
 
                 var html = this.getStartElementHtml("span", { class: _class, id: _id });
@@ -371,9 +371,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isLogicalExpression(logicalExpression)) { alert("Invalid element when generating logical expression html code!"); return ""; }
+                if(!ASTHelper.isLogicalExpression(logicalExpression)) { alert("Invalid element when generating logical expression html code!"); return ""; }
 
-                var _class = astHelper.CONST.EXPRESSION.LogicalExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.LogicalExpression + " node";
                 var _id = "node" + this.formatId(logicalExpression.nodeId);
 
                 var html = this.getStartElementHtml("span", { class: _class, id: _id });
@@ -393,9 +393,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isUpdateExpression(updateExpression)) { alert("Invalid element when generating update expression html code!"); return ""; }
+                if(!ASTHelper.isUpdateExpression(updateExpression)) { alert("Invalid element when generating update expression html code!"); return ""; }
 
-                var _class = astHelper.CONST.EXPRESSION.UpdateExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.UpdateExpression + " node";
                 var _id = "node" + this.formatId(updateExpression.nodeId);
 
                 var html = this.getStartElementHtml("span", { class: _class, id: _id});
@@ -421,9 +421,9 @@ FBL.ns(function () { with (FBL) {
             {
                 var argumentNumber = 0;
 
-                if(!astHelper.isNewExpression(newExpression)) { alert("Invalid element when generating new expression html code!"); return ""; }
+                if(!ASTHelper.isNewExpression(newExpression)) { alert("Invalid element when generating new expression html code!"); return ""; }
 
-                var _class = astHelper.CONST.EXPRESSION.NewExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.NewExpression + " node";
                 var _id = "node" + this.formatId(newExpression.nodeId);
 
                 var html = this.getStartElementHtml("span", {class: _class, id: _id})
@@ -441,11 +441,11 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isConditionalExpression(conditionalExpression)) { alert("Invalid element when generating conditional expression html code!"); return ""; }
+                if(!ASTHelper.isConditionalExpression(conditionalExpression)) { alert("Invalid element when generating conditional expression html code!"); return ""; }
 
                 var html;
 
-                var _class =  astHelper.CONST.EXPRESSION.ConditionalExpression + " node";
+                var _class =  ASTHelper.CONST.EXPRESSION.ConditionalExpression + " node";
                 var _id = "node" + this.formatId(conditionalExpression.nodeId);
 
                 html = this.getStartElementHtml("span", {class: _class, id: _id})
@@ -464,7 +464,7 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isThisExpression(thisExpression)) { alert("Invalid element when generating this expression html code!"); return ""; }
+                if(!ASTHelper.isThisExpression(thisExpression)) { alert("Invalid element when generating this expression html code!"); return ""; }
 
                 var _class = "keyword node";
                 var _id = "node" + this.formatId(thisExpression.nodeId);
@@ -478,9 +478,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isCallExpression(callExpression)) { alert("Invalid element when generating call expression html code!"); return ""; }
+                if(!ASTHelper.isCallExpression(callExpression)) { alert("Invalid element when generating call expression html code!"); return ""; }
 
-                var _class = astHelper.CONST.EXPRESSION.CallExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.CallExpression + " node";
                 var _id = "node" + this.formatId(callExpression.nodeId);
 
                 return this.getStartElementHtml("span", { class: _class, id: _id})
@@ -495,9 +495,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isMemberExpression(memberExpression)) { alert("Invalid element when generating member expression html code!"); return ""; }
+                if(!ASTHelper.isMemberExpression(memberExpression)) { alert("Invalid element when generating member expression html code!"); return ""; }
 
-                var _class = astHelper.CONST.EXPRESSION.MemberExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.MemberExpression + " node";
                 var _id = "node" + this.formatId(memberExpression.nodeId);
 
                 var html = this.getStartElementHtml("span", { class: _class, id: _id})
@@ -523,9 +523,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isSequenceExpression(sequenceExpression)) { alert("Invalid element when generating sequence expression html code!"); return ""; }
+                if(!ASTHelper.isSequenceExpression(sequenceExpression)) { alert("Invalid element when generating sequence expression html code!"); return ""; }
 
-                var _class = astHelper.CONST.EXPRESSION.SequenceExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.SequenceExpression + " node";
                 var _id = "node" + this.formatId(sequenceExpression.nodeId);
 
                 var html = this.getStartElementHtml("span", { class: _class, id: _id});
@@ -543,9 +543,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isArrayExpression(arrayExpression)) { alert("Invalid element when generating array expression html code!"); return ""; }
+                if(!ASTHelper.isArrayExpression(arrayExpression)) { alert("Invalid element when generating array expression html code!"); return ""; }
 
-                var _class = astHelper.CONST.EXPRESSION.ArrayExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.ArrayExpression + " node";
                 var _id = "node" + this.formatId(arrayExpression.nodeId);
 
                 var html = this.getStartElementHtml("span", {class: _class, id: _id});
@@ -561,11 +561,11 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isObjectExpression(objectExpression)) { alert("Invalid element when generating object expression html code!"); return ""; }
+                if(!ASTHelper.isObjectExpression(objectExpression)) { alert("Invalid element when generating object expression html code!"); return ""; }
 
                 var _style = this.getStyle(objectExpression);
                 var _id = "node" + this.formatId(objectExpression.nodeId);
-                var _class = astHelper.CONST.EXPRESSION.ObjectExpression + " node";
+                var _class = ASTHelper.CONST.EXPRESSION.ObjectExpression + " node";
 
                 var _containerStyle = "display: block";
                 var _propertyContainerStyle = "";
@@ -655,7 +655,7 @@ FBL.ns(function () { with (FBL) {
                             html += this.getElementHtml("span", {class: "keyword"}, property.kind)
                                 + " " + this.generateHtml(property.key);
 
-                            if (astHelper.isFunctionExpression(property.value))
+                            if (ASTHelper.isFunctionExpression(property.value))
                                 html += this.generateFromFunction(property.value, false);
                             else
                                 html += this.generateExpression(property.value);
@@ -681,9 +681,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isIfStatement(ifStatement)) { alert("Invalid element when generating empty statement html code!"); return ""; }
+                if(!ASTHelper.isIfStatement(ifStatement)) { alert("Invalid element when generating empty statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.IfStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.IfStatement + " node";
                 var _id = "node" + this.formatId(ifStatement.nodeId);
                 var _style = "display: inline";
 
@@ -691,7 +691,7 @@ FBL.ns(function () { with (FBL) {
                     + this.getElementHtml("span", {class:"keyword"}, "if")
                     + " (" + this.generateHtml(ifStatement.test) + ") ";
 
-                if(!astHelper.isBlockStatement(ifStatement.consequent))
+                if(!ASTHelper.isBlockStatement(ifStatement.consequent))
                     html += "<br>";
 
                 html += this.generateHtml(ifStatement.consequent);
@@ -713,9 +713,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isWhileStatement(whileStatement)) { alert("Invalid element when generating while statement html code!"); return ""; }
+                if(!ASTHelper.isWhileStatement(whileStatement)) { alert("Invalid element when generating while statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.WhileStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.WhileStatement + " node";
                 var _id = "node" + this.formatId(whileStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -734,15 +734,15 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isDoWhileStatement(doWhileStatement)) { alert("Invalid element when generating do while statement html code!"); return ""; }
+                if(!ASTHelper.isDoWhileStatement(doWhileStatement)) { alert("Invalid element when generating do while statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.DoWhileStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.DoWhileStatement + " node";
                 var _id = "node" + this.formatId(doWhileStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id})
                     + this.getElementHtml("span", {class:"keyword"}, "do");
 
-                if(!astHelper.isBlockStatement(doWhileStatement.body))
+                if(!ASTHelper.isBlockStatement(doWhileStatement.body))
                     html += "<br>";
 
                 html += this.generateHtml(doWhileStatement.body);
@@ -760,9 +760,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isForStatement(forStatement)) { alert("Invalid element when generating for statement html code!"); return ""; }
+                if(!ASTHelper.isForStatement(forStatement)) { alert("Invalid element when generating for statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.ForStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.ForStatement + " node";
                 var _id = "node" + this.formatId(forStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id});
@@ -784,9 +784,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isForInStatement(forInStatement)) { alert("Invalid element when generating for...in statement html code!"); return ""; }
+                if(!ASTHelper.isForInStatement(forInStatement)) { alert("Invalid element when generating for...in statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.ForInStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.ForInStatement + " node";
                 var _id = "node" + this.formatId(forInStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id});
@@ -798,7 +798,7 @@ FBL.ns(function () { with (FBL) {
                 html += "(" + this.generateHtml(forInStatement.left)
                     + " in " + this.generateExpression(forInStatement.right) + ")";
 
-                if(!astHelper.isBlockStatement(forInStatement.body))
+                if(!ASTHelper.isBlockStatement(forInStatement.body))
                     html += "<br>";
 
                 html += this.generateStatement(forInStatement.body);
@@ -814,9 +814,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isBreakStatement(breakStatement)) { alert("Invalid element when generating break statement html code!"); return ""; }
+                if(!ASTHelper.isBreakStatement(breakStatement)) { alert("Invalid element when generating break statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.BreakStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.BreakStatement + " node";
                 var _id = "node" + this.formatId(breakStatement.nodeId);
                 var _style = this.getStyle(breakStatement);
 
@@ -836,9 +836,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isContinueStatement(continueStatement)) { alert("Invalid element when generating continue statement html code!"); return ""; }
+                if(!ASTHelper.isContinueStatement(continueStatement)) { alert("Invalid element when generating continue statement html code!"); return ""; }
 
-                var _class =  astHelper.CONST.STATEMENT.ContinueStatement + " node";
+                var _class =  ASTHelper.CONST.STATEMENT.ContinueStatement + " node";
                 var _id = "node" + this.formatId(continueStatement.nodeId);
                 var _style = this.getStyle(continueStatement);
 
@@ -858,9 +858,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isReturnStatement(returnStatement)) { alert("Invalid element when generating return statement html code!"); return ""; }
+                if(!ASTHelper.isReturnStatement(returnStatement)) { alert("Invalid element when generating return statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.ReturnStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.ReturnStatement + " node";
                 var _id = "node" + this.formatId(returnStatement.nodeId);
                 var _style = this.getStyle(returnStatement);
 
@@ -880,9 +880,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isWithStatement(withStatement)) { alert("Invalid element when generating with statement html code!"); return ""; }
+                if(!ASTHelper.isWithStatement(withStatement)) { alert("Invalid element when generating with statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.WithStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.WithStatement + " node";
                 var _id = "node" + this.formatId(withStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -900,9 +900,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isThrowStatement(throwStatement)) { alert("Invalid element when generating throw statement html code!"); return ""; }
+                if(!ASTHelper.isThrowStatement(throwStatement)) { alert("Invalid element when generating throw statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.ThrowStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.ThrowStatement + " node";
                 var _id =  "node" + this.formatId(throwStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -919,9 +919,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isSwitchStatement(switchStatement)) { alert("Invalid element when generating switch statement html code!"); return ""; }
+                if(!ASTHelper.isSwitchStatement(switchStatement)) { alert("Invalid element when generating switch statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.SwitchStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.SwitchStatement + " node";
                 var _id = "node" + this.formatId(switchStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -949,9 +949,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isSwitchCase(switchCase)) { alert("Invalid element when generating switch case html code!"); return ""; }
+                if(!ASTHelper.isSwitchCase(switchCase)) { alert("Invalid element when generating switch case html code!"); return ""; }
 
-                var _class = astHelper.CONST.SwitchCase + " node";
+                var _class = ASTHelper.CONST.SwitchCase + " node";
                 var _id = "node" + this.formatId(switchCase.nodeId);
                 var _style =  "padding-left: 20px;";
 
@@ -977,9 +977,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isTryStatement(tryStatement)) { alert("Invalid element when generating try statement html code!"); return ""; }
+                if(!ASTHelper.isTryStatement(tryStatement)) { alert("Invalid element when generating try statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.TryStatement  + " node";
+                var _class = ASTHelper.CONST.STATEMENT.TryStatement  + " node";
                 var _id = "node" + this.formatId(tryStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -1009,9 +1009,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isLabeledStatement(labeledStatement)) { alert("Invalid element when generating labeled statement html code!"); return ""; }
+                if(!ASTHelper.isLabeledStatement(labeledStatement)) { alert("Invalid element when generating labeled statement html code!"); return ""; }
 
-                var _class = astHelper.CONST.STATEMENT.LabeledStatement + " node";
+                var _class = ASTHelper.CONST.STATEMENT.LabeledStatement + " node";
                 var _id = "node" + this.formatId(labeledStatement.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -1027,14 +1027,14 @@ FBL.ns(function () { with (FBL) {
         generateFromVariableDeclaration: function(variableDeclaration)
         {
             try {
-                if (!astHelper.isVariableDeclaration(variableDeclaration)) {
+                if (!ASTHelper.isVariableDeclaration(variableDeclaration)) {
                     alert("Invalid element when generating html variable declaration");
                     return "";
                 }
 
                 var html = "";
 
-                var _class = astHelper.CONST.VariableDeclaration + " node";
+                var _class = ASTHelper.CONST.VariableDeclaration + " node";
                 var _id = "node" + this.formatId(variableDeclaration.nodeId);
 
                 html += this.getStartElementHtml("span", {class: _class, id: _id});
@@ -1056,8 +1056,8 @@ FBL.ns(function () { with (FBL) {
                     html += this.generateFromVariableDeclarator(currentDeclarator);
                 }
 
-                if (astHelper.isForStatement(variableDeclaration.parent)
-                 || astHelper.isForInStatement(variableDeclaration.parent))
+                if (ASTHelper.isForStatement(variableDeclaration.parent)
+                 || ASTHelper.isForInStatement(variableDeclaration.parent))
                 {
                     html += this.getEndElementHtml("span");
                 }
@@ -1075,9 +1075,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isVariableDeclarator(variableDeclarator)) { alert("The element is not a variable declarator when generating html code!"); return ""; }
+                if(!ASTHelper.isVariableDeclarator(variableDeclarator)) { alert("The element is not a variable declarator when generating html code!"); return ""; }
 
-                var html = this.getStartElementHtml("span", {class: astHelper.CONST.VariableDeclarator, id: "node" + this.formatId(variableDeclarator.nodeId)});
+                var html = this.getStartElementHtml("span", {class: ASTHelper.CONST.VariableDeclarator, id: "node" + this.formatId(variableDeclarator.nodeId)});
 
                 html += this.generateFromPattern(variableDeclarator.id);
 
@@ -1097,9 +1097,9 @@ FBL.ns(function () { with (FBL) {
             try
             {
                 //NOT FINISHED: there are other patterns!
-                if(!astHelper.isIdentifier(pattern)) { alert("The pattern is not an identifier when generating html."); return "";}
+                if(!ASTHelper.isIdentifier(pattern)) { alert("The pattern is not an identifier when generating html."); return "";}
 
-                if(astHelper.isIdentifier(pattern)) { return this.generateFromIdentifier(pattern);}
+                if(ASTHelper.isIdentifier(pattern)) { return this.generateFromIdentifier(pattern);}
             }
             catch(e) { alert("Error when generating HTML from pattern:" + e);}
         },
@@ -1108,9 +1108,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isCatchClause(catchClause)) { alert("Invalid element when generating catch clause html code!"); return ""; }
+                if(!ASTHelper.isCatchClause(catchClause)) { alert("Invalid element when generating catch clause html code!"); return ""; }
 
-                var _class = astHelper.CONST.CatchClause + " node";
+                var _class = ASTHelper.CONST.CatchClause + " node";
                 var _id = "node" + this.formatId(catchClause.nodeId);
 
                 var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -1134,9 +1134,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isIdentifier(identifier)) { alert("The identifier is not valid when generating html."); return "";}
+                if(!ASTHelper.isIdentifier(identifier)) { alert("The identifier is not valid when generating html."); return "";}
 
-                var _class = astHelper.CONST.Identifier + " node";
+                var _class = ASTHelper.CONST.Identifier + " node";
                 var _id = "node" + this.formatId(identifier.nodeId);
                 var _padding = this.getStyle(identifier);
 
@@ -1149,23 +1149,23 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(!astHelper.isLiteral(expression)) { alert("Currently when generating html from expressions we only support literals!"); return; }
+                if(!ASTHelper.isLiteral(expression)) { alert("Currently when generating html from expressions we only support literals!"); return; }
 
-                if(astHelper.isLiteral(expression))
+                if(ASTHelper.isLiteral(expression))
                 {
-                    var _class = astHelper.CONST.Literal;
+                    var _class = ASTHelper.CONST.Literal;
                     var _id = "node" + this.formatId(expression.nodeId);
 
                     return this.getElementHtml("span", {class: _class, id: _id}, expression.value);
                 }
-                if(astHelper.isIdentifier(expression))
+                if(ASTHelper.isIdentifier(expression))
                 {
-                    var _class =  astHelper.CONST.Identifier + " node";
+                    var _class =  ASTHelper.CONST.Identifier + " node";
                     var _id = "node" + this.formatId(expression.nodeId);
 
                     return this.getElementHtml("span", {class: _class, id: _id}, expression.name);
                 }
-                if(astHelper.isUpdateExpression(expression))
+                if(ASTHelper.isUpdateExpression(expression))
                 {
                     var html = "";
 
@@ -1180,7 +1180,7 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if (!astHelper.isLiteral(literal)) { alert("The literal is not valid when generating html."); return ""; }
+                if (!ASTHelper.isLiteral(literal)) { alert("The literal is not valid when generating html."); return ""; }
 
                 if (valueTypeHelper.isString(literal.value))
                     return this.getElementHtml("span", {class: "String", id: "node" + this.formatId(literal.nodeId)}, "\"" + this.escapeHtml(literal.value) + "\"");
@@ -1194,7 +1194,7 @@ FBL.ns(function () { with (FBL) {
                     return this.getElementHtml("span", {class: "RegExp", id: "node" + this.formatId(literal.nodeId)}, literal.value);
                 }
                 else
-                    return this.getElementHtml("span", {class: astHelper.CONST.Literal, id: "node" + this.formatId(literal.nodeId)}, literal.value);
+                    return this.getElementHtml("span", {class: ASTHelper.CONST.Literal, id: "node" + this.formatId(literal.nodeId)}, literal.value);
             }
             catch(e) { alert("Error when generating HTML from literal:" + e);}
         },
@@ -1265,9 +1265,9 @@ FBL.ns(function () { with (FBL) {
 
         getStyle: function(currentElement)
         {
-            if( astHelper.isLoopStatement(currentElement.parent)
-             || astHelper.isIfStatement(currentElement.parent)
-             || astHelper.isSwitchCase(currentElement.parent))
+            if( ASTHelper.isLoopStatement(currentElement.parent)
+             || ASTHelper.isIfStatement(currentElement.parent)
+             || ASTHelper.isSwitchCase(currentElement.parent))
             {
                 return "padding-left: 20px";
             }

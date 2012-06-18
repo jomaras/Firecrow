@@ -6,7 +6,7 @@
 FBL.ns(function () { with (FBL) {
 /*******/
 
-var astHelper = Firecrow.ASTHelper;
+var ASTHelper = Firecrow.ASTHelper;
 var valueTypeHelper = Firecrow.ValueTypeHelper;
 
 Firecrow.CodeHtmlGenerator =

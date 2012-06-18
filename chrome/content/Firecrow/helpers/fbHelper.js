@@ -5,7 +5,7 @@ var CI = Components.interfaces;
 
 var fileHelper = Firecrow.FileHelper;
 var valueTypeHelper = Firecrow.ValueTypeHelper;
-var astHelper = Firecrow.ASTHelper;
+var ASTHelper = Firecrow.ASTHelper;
 
 Firecrow.fbHelper = 
 {
@@ -128,7 +128,7 @@ Firecrow.fbHelper =
 	    			returnValue.push
 	        		({
 	        			path: currentPageUrl,
-	        			model: astHelper.parseSourceCodeToAST
+	        			model: ASTHelper.parseSourceCodeToAST
 	        			(
 	        				scriptElement.textContent,
 	        				currentPageUrl,
@@ -152,7 +152,7 @@ Firecrow.fbHelper =
 	    			returnValue.push
 	        		({
 	        			path: scriptElement.src,
-	        			model: astHelper.parseSourceCodeToAST
+	        			model: ASTHelper.parseSourceCodeToAST
 	        			(
 	        				fileHelper.getFileContentFromUrl(scriptElement.src),
 	        				scriptElement.src,
@@ -165,7 +165,7 @@ Firecrow.fbHelper =
             //Set parent child relationship for each element
 /*            returnValue.forEach(function(scriptModel)
             {
-                astHelper.traverseAst(scriptModel, function(currentElement, elementName, parentElement)
+                ASTHelper.traverseAst(scriptModel, function(currentElement, elementName, parentElement)
                 {
                     if(valueTypeHelper.isObject(currentElement))
                     {

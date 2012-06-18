@@ -5,7 +5,7 @@
  */
 FBL.ns(function () { with (FBL) {
 /*******/
-var astHelper = Firecrow.ASTHelper;
+var ASTHelper = Firecrow.ASTHelper;
 var valueTypeHelper = Firecrow.ValueTypeHelper;
 
 Firecrow.CodeTextGenerator = function(isSlicing)
@@ -135,27 +135,27 @@ Firecrow.CodeTextGenerator.prototype =
         {
             if(element == null || (this.isSlicing && !element.shouldBeIncluded)) { return "";}
 
-                 if (astHelper.isProgram(element)) { return this.generateProgram(element); }
-            else if (astHelper.isStatement(element))
+                 if (ASTHelper.isProgram(element)) { return this.generateProgram(element); }
+            else if (ASTHelper.isStatement(element))
             {
-                var isElseIfStatement = astHelper.isElseIfStatement(element);
+                var isElseIfStatement = ASTHelper.isElseIfStatement(element);
 
                 return (!isElseIfStatement ? this.whitespace : "")
                      + this.generateStatement(element)
-                     + (astHelper.isFunctionExpressionBlockAsObjectProperty(element) ? "": this.newLine);
+                     + (ASTHelper.isFunctionExpressionBlockAsObjectProperty(element) ? "": this.newLine);
             }
-            else if (astHelper.isFunction(element))
+            else if (ASTHelper.isFunction(element))
             {
-                var isObjectExpressionPropertyValue = astHelper.isObjectExpressionPropertyValue(element);
-                return (isObjectExpressionPropertyValue || astHelper.isFunctionDeclaration(element) ? this.whitespace : "")
+                var isObjectExpressionPropertyValue = ASTHelper.isObjectExpressionPropertyValue(element);
+                return (isObjectExpressionPropertyValue || ASTHelper.isFunctionDeclaration(element) ? this.whitespace : "")
                      + this.generateFromFunction(element);
             }
-            else if (astHelper.isExpression(element)) { return this.generateExpression(element); }
-            else if (astHelper.isSwitchCase(element)) { return this.generateFromSwitchCase(element); }
-            else if (astHelper.isCatchClause(element)) { return this.generateFromCatchClause(element); }
-            else if (astHelper.isVariableDeclaration(element))
+            else if (ASTHelper.isExpression(element)) { return this.generateExpression(element); }
+            else if (ASTHelper.isSwitchCase(element)) { return this.generateFromSwitchCase(element); }
+            else if (ASTHelper.isCatchClause(element)) { return this.generateFromCatchClause(element); }
+            else if (ASTHelper.isVariableDeclaration(element))
             {
-                var isForStatementInit = astHelper.isForStatementInit(element);
+                var isForStatementInit = ASTHelper.isForStatementInit(element);
 
                 var variableDeclarationCode = this.generateFromVariableDeclaration(element);
 
@@ -163,9 +163,9 @@ Firecrow.CodeTextGenerator.prototype =
 
                 return this.whitespace + variableDeclarationCode + this._SEMI_COLON + this.newLine;
             }
-            else if (astHelper.isVariableDeclarator(element)) { return this.generateFromVariableDeclarator(element); }
-            else if (astHelper.isLiteral(element)) { return this.generateFromLiteral(element); }
-            else if (astHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
+            else if (ASTHelper.isVariableDeclarator(element)) { return this.generateFromVariableDeclarator(element); }
+            else if (ASTHelper.isLiteral(element)) { return this.generateFromLiteral(element); }
+            else if (ASTHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
             else { this.notifyError("Error while generating code unidentified ast element: "); return ""; }
         }
         catch(e) { alert("Error while generating code: " + e); }
@@ -198,22 +198,22 @@ Firecrow.CodeTextGenerator.prototype =
         {
             if(statement == null || (this.isSlicing && !statement.shouldBeIncluded)) { return "";}
 
-                 if (astHelper.isEmptyStatement(statement))  { return this.generateFromEmptyStatement(statement); }
-            else if (astHelper.isBlockStatement(statement)) { return this.generateFromBlockStatement(statement); }
-            else if (astHelper.isExpressionStatement(statement)) { return this.generateFromExpressionStatement(statement) + this._SEMI_COLON ; }
-            else if (astHelper.isIfStatement(statement)) { return this.generateFromIfStatement(statement); }
-            else if (astHelper.isWhileStatement(statement)) { return this.generateFromWhileStatement(statement); }
-            else if (astHelper.isDoWhileStatement(statement)) { return this.generateFromDoWhileStatement(statement); }
-            else if (astHelper.isForStatement(statement)) { return this.generateFromForStatement(statement); }
-            else if (astHelper.isForInStatement(statement)) { return this.generateFromForInStatement(statement); }
-            else if (astHelper.isLabeledStatement(statement)) { return this.generateFromLabeledStatement(statement)  + this._SEMI_COLON ; }
-            else if (astHelper.isBreakStatement(statement)) { return this.generateFromBreakStatement(statement)  + this._SEMI_COLON ; }
-            else if (astHelper.isContinueStatement(statement)) { return this.generateFromContinueStatement(statement)  + this._SEMI_COLON ; }
-            else if (astHelper.isReturnStatement(statement)) { return this.generateFromReturnStatement(statement)  + this._SEMI_COLON ; }
-            else if (astHelper.isWithStatement(statement)) { return this.generateFromWithStatement(statement); }
-            else if (astHelper.isTryStatement(statement)) { return this.generateFromTryStatement(statement); }
-            else if (astHelper.isThrowStatement(statement)) { return this.generateFromThrowStatement(statement); }
-            else if (astHelper.isSwitchStatement(statement)) { return this.generateFromSwitchStatement(statement); }
+                 if (ASTHelper.isEmptyStatement(statement))  { return this.generateFromEmptyStatement(statement); }
+            else if (ASTHelper.isBlockStatement(statement)) { return this.generateFromBlockStatement(statement); }
+            else if (ASTHelper.isExpressionStatement(statement)) { return this.generateFromExpressionStatement(statement) + this._SEMI_COLON ; }
+            else if (ASTHelper.isIfStatement(statement)) { return this.generateFromIfStatement(statement); }
+            else if (ASTHelper.isWhileStatement(statement)) { return this.generateFromWhileStatement(statement); }
+            else if (ASTHelper.isDoWhileStatement(statement)) { return this.generateFromDoWhileStatement(statement); }
+            else if (ASTHelper.isForStatement(statement)) { return this.generateFromForStatement(statement); }
+            else if (ASTHelper.isForInStatement(statement)) { return this.generateFromForInStatement(statement); }
+            else if (ASTHelper.isLabeledStatement(statement)) { return this.generateFromLabeledStatement(statement)  + this._SEMI_COLON ; }
+            else if (ASTHelper.isBreakStatement(statement)) { return this.generateFromBreakStatement(statement)  + this._SEMI_COLON ; }
+            else if (ASTHelper.isContinueStatement(statement)) { return this.generateFromContinueStatement(statement)  + this._SEMI_COLON ; }
+            else if (ASTHelper.isReturnStatement(statement)) { return this.generateFromReturnStatement(statement)  + this._SEMI_COLON ; }
+            else if (ASTHelper.isWithStatement(statement)) { return this.generateFromWithStatement(statement); }
+            else if (ASTHelper.isTryStatement(statement)) { return this.generateFromTryStatement(statement); }
+            else if (ASTHelper.isThrowStatement(statement)) { return this.generateFromThrowStatement(statement); }
+            else if (ASTHelper.isSwitchStatement(statement)) { return this.generateFromSwitchStatement(statement); }
             else { this.notifyError("Error: AST Statement element not defined: " + expression.type);  return "";}
         }
         catch(e) { this.notifyError("Error when generating code from a statement: " + e); }
@@ -225,22 +225,22 @@ Firecrow.CodeTextGenerator.prototype =
         {
             if(expression == null || (this.isSlicing && !expression.shouldBeIncluded)) { return "";}
 
-                 if (astHelper.isAssignmentExpression(expression)) { return this.generateFromAssignmentExpression(expression); }
-            else if (astHelper.isUnaryExpression(expression)) { return this.generateFromUnaryExpression(expression); }
-            else if (astHelper.isBinaryExpression(expression)) { return this.generateFromBinaryExpression(expression); }
-            else if (astHelper.isLogicalExpression(expression)) { return this.generateFromLogicalExpression(expression); }
-            else if (astHelper.isLiteral(expression)) { return this.generateFromLiteral(expression); }
-            else if (astHelper.isIdentifier(expression)) { return this.generateFromIdentifier(expression); }
-            else if (astHelper.isUpdateExpression(expression)) { return this.generateFromUpdateExpression(expression); }
-            else if (astHelper.isNewExpression(expression)) { return this.generateFromNewExpression(expression); }
-            else if (astHelper.isConditionalExpression(expression)) { return this.generateFromConditionalExpression(expression); }
-            else if (astHelper.isThisExpression(expression)) { return this.generateFromThisExpression(expression); }
-            else if (astHelper.isCallExpression(expression)) { return this.generateFromCallExpression(expression); }
-            else if (astHelper.isMemberExpression(expression)) { return this.generateFromMemberExpression(expression); }
-            else if (astHelper.isSequenceExpression(expression)) { return this.generateFromSequenceExpression(expression); }
-            else if (astHelper.isArrayExpression(expression)) { return this.generateFromArrayExpression(expression); }
-            else if (astHelper.isObjectExpression(expression)) { return this.generateFromObjectExpression(expression); }
-            else if (astHelper.isFunctionExpression(expression)) { return this.generateFromFunction(expression, true); }
+                 if (ASTHelper.isAssignmentExpression(expression)) { return this.generateFromAssignmentExpression(expression); }
+            else if (ASTHelper.isUnaryExpression(expression)) { return this.generateFromUnaryExpression(expression); }
+            else if (ASTHelper.isBinaryExpression(expression)) { return this.generateFromBinaryExpression(expression); }
+            else if (ASTHelper.isLogicalExpression(expression)) { return this.generateFromLogicalExpression(expression); }
+            else if (ASTHelper.isLiteral(expression)) { return this.generateFromLiteral(expression); }
+            else if (ASTHelper.isIdentifier(expression)) { return this.generateFromIdentifier(expression); }
+            else if (ASTHelper.isUpdateExpression(expression)) { return this.generateFromUpdateExpression(expression); }
+            else if (ASTHelper.isNewExpression(expression)) { return this.generateFromNewExpression(expression); }
+            else if (ASTHelper.isConditionalExpression(expression)) { return this.generateFromConditionalExpression(expression); }
+            else if (ASTHelper.isThisExpression(expression)) { return this.generateFromThisExpression(expression); }
+            else if (ASTHelper.isCallExpression(expression)) { return this.generateFromCallExpression(expression); }
+            else if (ASTHelper.isMemberExpression(expression)) { return this.generateFromMemberExpression(expression); }
+            else if (ASTHelper.isSequenceExpression(expression)) { return this.generateFromSequenceExpression(expression); }
+            else if (ASTHelper.isArrayExpression(expression)) { return this.generateFromArrayExpression(expression); }
+            else if (ASTHelper.isObjectExpression(expression)) { return this.generateFromObjectExpression(expression); }
+            else if (ASTHelper.isFunctionExpression(expression)) { return this.generateFromFunction(expression, true); }
             else { this.notifyError("Error: AST Expression element not defined: " + expression.type);  return "";}
         }
         catch(e) { this.notifyError("Error when generating code from an expression:" + e); }
@@ -546,13 +546,13 @@ Firecrow.CodeTextGenerator.prototype =
                         code += this._COLON + " " + (this.generateJsCode(property.value) || "null");
                     }
 
-                    if(astHelper.isObjectExpression(property.value)){ code += this.newLine; }
+                    if(ASTHelper.isObjectExpression(property.value)){ code += this.newLine; }
                 }
                 else
                 {
                     code += this.generateJsCode(property.key);
 
-                    if (astHelper.isFunctionExpression(property.value))
+                    if (ASTHelper.isFunctionExpression(property.value))
                         code += this.generateFromFunction(property.value);
                     else
                         code += this.generateExpression(property.value);
@@ -562,7 +562,7 @@ Firecrow.CodeTextGenerator.prototype =
                 generatedProperties++;
             }
 
-            if(lastGeneratedProperty != null && lastGeneratedProperty.shouldBeIncluded && astHelper.isFunctionExpression(lastGeneratedProperty.value))
+            if(lastGeneratedProperty != null && lastGeneratedProperty.shouldBeIncluded && ASTHelper.isFunctionExpression(lastGeneratedProperty.value))
             {
                 code += this.newLine;
             }
@@ -592,7 +592,7 @@ Firecrow.CodeTextGenerator.prototype =
 
                 if(this.isSlicing && !property.shouldBeIncluded) { continue; }
 
-                if(property.value != null && !astHelper.isLiteral(property.value))
+                if(property.value != null && !ASTHelper.isLiteral(property.value))
                 {
                     return false
                 }
@@ -621,7 +621,7 @@ Firecrow.CodeTextGenerator.prototype =
 
                 elseBodyCode = elseBodyCode.length != 0 ? elseBodyCode : this._SEMI_COLON + this.newLine;
 
-                code += this.whitespace + this._ELSE_KEYWORD + " " + (! astHelper.isIfStatement(ifStatement.alternate) ? this.newLine : "") + elseBodyCode;
+                code += this.whitespace + this._ELSE_KEYWORD + " " + (! ASTHelper.isIfStatement(ifStatement.alternate) ? this.newLine : "") + elseBodyCode;
             }
 
             return code;
@@ -874,7 +874,7 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            if(astHelper.isIdentifier(pattern)) { return this.generateFromIdentifier(pattern);}
+            if(ASTHelper.isIdentifier(pattern)) { return this.generateFromIdentifier(pattern);}
         }
         catch(e) { this.notifyError("Error when generating code from pattern:" + e);}
     },
