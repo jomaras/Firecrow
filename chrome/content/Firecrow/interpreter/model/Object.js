@@ -36,6 +36,16 @@ fcModel.Object.LAST_ID = 0;
 
 fcModel.Object.prototype =
 {
+    registerModificationAddedCallback: function(callback, thisValue)
+    {
+        this.modificationCallbackDescriptor = { callback: callback, thisValue: thisValue};
+    },
+
+    registerGetPropertyCallback: function(callback, thisValue)
+    {
+        this.getPropertyCallbackDescriptor = { callback: callback, thisValue: thisValue};
+    },
+
     addModification: function(codeConstruct)
     {
         try
@@ -43,6 +53,16 @@ fcModel.Object.prototype =
             if(codeConstruct == null) { return; }
 
             this.modifications.push(codeConstruct);
+
+            if(this.modificationCallbackDescriptor != null)
+            {
+                this.modificationCallbackDescriptor.callback.call
+                (
+                    this.modificationCallbackDescriptor.thisValue || this,
+                    codeConstruct,
+                    this.modifications
+                );
+            }
         }
         catch(e) { alert("Error when adding modification - Object:" + e);}
     },
@@ -125,20 +145,31 @@ fcModel.Object.prototype =
         catch(e) { alert("Error when getting own property - Object:" + e);}
     },
 
-    getProperty: function(propertyName)
+    getProperty: function(propertyName, readPropertyConstruct)
     {
         try
         {
             var property = this.getOwnProperty(propertyName);
 
-            if(property != null) { return property; }
+            if(property != null)
+            {
+                if(this.getPropertyCallbackDescriptor != null)
+                {
+                    this.getPropertyCallbackDescriptor.callback.call
+                    (
+                        this.getPropertyCallbackDescriptor.thisValue || this,
+                        readPropertyConstruct
+                    );
+                }
+                return property;
+            }
             if(this.proto == null) { return null; }
 
             if(this.proto.fcInternal == null) { return null; }
 
             this.addDependencyToPrototypeDefinition();
 
-            return this.proto.fcInternal.object.getProperty(name);
+            return this.proto.fcInternal.object.getProperty(name, readPropertyConstruct);
         }
         catch(e)
         {
@@ -185,10 +216,12 @@ fcModel.Object.prototype =
             if(this.proto == null) { return; }
             if(this.proto.modifications == null) { return; }
 
-            this.proto.modifications.forEach(function(protoModificationConstruct)
+            var protoModifications = this.proto.modifications;
+
+            for(var i = 0, length = protoModifications.length; i < length; i++)
             {
-                this.modifications.push(protoModificationConstruct);
-            }, this);
+                this.addModification(protoModifications[i]);
+            }
         }
         catch(e)
         {

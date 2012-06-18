@@ -23,6 +23,36 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         if(this.jsArray.hasOwnProperty("input")) { this.addProperty("input", new fcModel.JsValue(this.jsArray.input, new fcModel.FcInternal(codeConstruct)), codeConstruct); }
 
         this.addProperty("__proto__", globalObject.arrayPrototype);
+
+        this.registerModificationAddedCallback(function(lastModification, allModifications)
+        {
+            try
+            {
+                var nextToLastModification = allModifications[allModifications.length - 2];
+
+                if(nextToLastModification != null && this.globalObject.currentCommand)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.currentCommand.id);
+                }
+            }
+            catch(e) { alert("Array - Error when registering modification added callback:" + e); }
+
+        }, this);
+
+        this.registerGetPropertyCallback(function(getPropertyConstruct)
+        {
+            try
+            {
+                var lastModification = this.modifications[this.modifications.length - 1];
+
+                if(lastModification != null && this.globalObject.currentCommand != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, lastModification, this.globalObject.currentCommand.id);
+                }
+            }
+            catch(e) { alert("Array - Error when registering getPropertyCallback: " + e); }
+
+        }, this);
     }
     catch(e)
     {

@@ -470,7 +470,7 @@ fcSimulator.Evaluator.prototype =
 
                 if(object.fcInternal != null && object.fcInternal.object != null)
                 {
-                    var fcProperty = object.fcInternal.object.getProperty(property.value);
+                    var fcProperty = object.fcInternal.object.getProperty(property.value, memberExpression);
 
                     if(fcProperty != null)
                     {
