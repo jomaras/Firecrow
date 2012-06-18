@@ -27,7 +27,7 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject)
 
     this.implementationObject = implementationObject;
 
-    this.proto = null;
+    this.proto = implementationObject != null ? implementationObject.__proto__ : null;
     this.properties = [];
     this.enumeratedProperties = [];
 };
@@ -165,11 +165,11 @@ fcModel.Object.prototype =
             }
             if(this.proto == null) { return null; }
 
-            if(this.proto.fcInternal == null) { return null; }
+            if(this.proto.fcInternal == null && this.proto.jsValue == null) { return null; }
 
-            this.addDependencyToPrototypeDefinition();
+            this.addDependencyToPrototypeDefinition(readPropertyConstruct);
 
-            return this.proto.fcInternal.object.getProperty(name, readPropertyConstruct);
+            return this.proto.jsValue.fcInternal.object.getProperty(name, readPropertyConstruct);
         }
         catch(e)
         {
@@ -209,14 +209,32 @@ fcModel.Object.prototype =
         catch(e) { alert("Error when getting property value - Object:" + e);}
     },
 
-    addDependencyToPrototypeDefinition: function()
+    addDependencyToPrototypeDefinition: function(constructCausingDependencyAddition)
     {
         try
         {
             if(this.proto == null) { return; }
-            if(this.proto.modifications == null) { return; }
 
-            var protoModifications = this.proto.modifications;
+            var protoModifications = [];
+
+            if(this.proto.jsValue != null)
+            {
+                protoModifications = this.proto.jsValue.fcInternal.object.modifications;
+            }
+            else if (this.proto.modifications != null)
+            {
+                protoModifications = this.proto.modifications;
+            }
+
+            if(protoModifications != null)
+            {
+                var lastModification = protoModifications[protoModifications.length - 1];
+
+                if(lastModification != null && this.globalObject.currentCommand)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(constructCausingDependencyAddition, lastModification, this.globalObject.currentCommand.id);
+                }
+            }
 
             for(var i = 0, length = protoModifications.length; i < length; i++)
             {

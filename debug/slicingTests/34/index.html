@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>New Expression in call expression</div>
+<div id="resultContainer"></div>
+<script>
+    function A() { this.z = 20; }
+    A.prototype.x = function()
+    {
+        return 10;
+    };
+
+    var a = new A();
+    var a1 = a.x() + a.z;
+    a1++;
+
+    A.prototype = { y: function() { return 100; } };
+
+    var b = new A();
+
+    var a2 = b.y() + b.z;
+    a2++;
+
+    var a3 = a.x();
+    a3++;
+</script>
+</body>
+</html>

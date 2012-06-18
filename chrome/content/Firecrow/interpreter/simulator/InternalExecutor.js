@@ -66,6 +66,18 @@ fcSimulator.InternalExecutor.prototype =
         {
             var newFunction = function(){};
 
+            var jsPropertyObject = new fcModel.Object(this.globalObject);
+
+            jsPropertyObject.registerModificationAddedCallback(function(lastModification, allModifications)
+            {
+                var nextToLastModification = allModifications[allModifications.length - 2];
+
+                if(nextToLastModification != null && this.globalObject.currentCommand)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.currentCommand.id);
+                }
+            });
+
             Object.defineProperty
             (
                 newFunction.prototype,
@@ -74,7 +86,7 @@ fcSimulator.InternalExecutor.prototype =
                     value: new fcModel.JsValue
                     (
                         newFunction.prototype,
-                        new fcModel.FcInternal(null, this.globalObject.objectPrototype)
+                        new fcModel.FcInternal(null, jsPropertyObject)
                     )
                 }
             );
