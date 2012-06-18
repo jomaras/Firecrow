@@ -393,9 +393,18 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.generateJsCode(logicalExpression.left)
-                 + " " + logicalExpression.operator + " "
-                 + this.generateJsCode(logicalExpression.right);
+            var leftCode = this.generateJsCode(logicalExpression.left);
+            var rightCode = this.generateJsCode(logicalExpression.right);
+
+            if(leftCode.length != 0 && rightCode.length != 0)
+            {
+                return leftCode + " " + logicalExpression.operator + " " + rightCode;
+            }
+
+            if(leftCode.length != 0) { return leftCode; }
+            if(rightCode.length != 0) { return rightCode; }
+
+            return "";
         }
         catch(e) { this.notifyError("Error when generating code from logical expression:" + e); }
     },
@@ -433,9 +442,18 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.generateJsCode(conditionalExpression.test)
-                + " " + this._QUESTION_MARK + " " + this.generateJsCode(conditionalExpression.consequent)
-                + " " + this._COLON + " " + this.generateJsCode(conditionalExpression.alternate);
+            var testCode = this.generateJsCode(conditionalExpression.test);
+            var consequentCode = this.generateJsCode(conditionalExpression.consequent);
+            var alternateCode = this.generateJsCode(conditionalExpression.alternate);
+
+            if(testCode == "" && consequentCode == "" && alternateCode == "") { return ""; }
+
+            if(testCode == "" && consequentCode != "" && alternateCode == "") { testCode = "true"; alternateCode = "0";}
+            if(testCode == "" && consequentCode == "" && alternateCode != "") { testCode = "false"; consequentCode = "0" }
+
+            return testCode
+                + " " + this._QUESTION_MARK + " " + consequentCode
+                + " " + this._COLON + " " + alternateCode;
         }
         catch(e) { this.notifyError("Error when generating code from conditional expression:" + e); }
     },

@@ -270,45 +270,16 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ValueTypeHelper.isOfType(command, fcCommands.Command)) { this.notifyError("Argument must be a command when executing command"); return; }
 
-            if (command.isEnterFunctionContextCommand())
-            {
-                this.blockCommandStack.push(command);
-                this._enterFunctionContext(command);
-            }
-            else if (command.isExitFunctionContextCommand())
-            {
-                this._popTillEnterFunctionContextCommand(command);
-                this._exitFunctionContext(command);
-            }
-            else if (command.isStartWithStatementCommand())
-            {
-                this.blockCommandStack.push(command);
-                this._evaluateStartWithCommand(command);
-            }
-            else if (command.isEndWithStatementCommand())
-            {
-                this._popWithCommand(command);
-                this._evaluateEndWithCommand(command);
-            }
-            else if (command.isForStatementCommand() || command.isWhileStatementCommand()
-                 ||  command.isDoWhileStatementCommand())
-            {
-                this.blockCommandStack.push(command);
-            }
-            else if(command.isForUpdateStatementCommand())
-            {
-
-            }
-            else if (command.isIfStatementCommand())
-            {
-                this.blockCommandStack.push(command);
-            }
-            else if (command.isEndIfCommand())
-            {
-                this.popTillIfCommand(command);
-            }
-            else if (command.isEvalConditionalExpressionBodyCommand()) {}
-            else if (command.isEvalBreakCommand() || command.isEvalContinueCommand()){}
+                 if (command.isEnterFunctionContextCommand()) { this.blockCommandStack.push(command); this._enterFunctionContext(command); }
+            else if (command.isExitFunctionContextCommand()) { this._popTillEnterFunctionContextCommand(command); this._exitFunctionContext(command); }
+            else if (command.isStartWithStatementCommand()) { this.blockCommandStack.push(command); this._evaluateStartWithCommand(command); }
+            else if (command.isEndWithStatementCommand()) { this._popWithCommand(command); this._evaluateEndWithCommand(command); }
+            else if (command.isForStatementCommand() || command.isWhileStatementCommand() ||  command.isDoWhileStatementCommand()) { this.blockCommandStack.push(command); }
+            else if (command.isForUpdateStatementCommand()){}
+            else if (command.isIfStatementCommand()) { this.blockCommandStack.push(command); }
+            else if (command.isEndIfCommand()) { this.popTillIfCommand(command);}
+            else if (command.isEvalConditionalExpressionBodyCommand()) { }
+            else if (command.isEvalBreakCommand() || command.isEvalContinueCommand()){ this.globalObject.browser.callImportantConstructReachedCallbacks(command.codeConstruct); }
             else if (command.isStartSwitchStatementCommand() || command.isEndSwitchStatementCommand() || command.isCaseCommand()) {}
             else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
             else if (command.isEvalNewExpressionCommand()) {}

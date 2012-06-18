@@ -37,11 +37,11 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             {
                 var command = this.commands[this.currentCommandIndex];
 
-                this.callControlFlowConnectionCallbacks(command.codeConstruct);
-
                 this.globalObject.currentCommand = command;
 
                 this.processCommand(command);
+
+                this.callControlFlowConnectionCallbacks(command.codeConstruct);
 
                 this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
             }

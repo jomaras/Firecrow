@@ -16,6 +16,7 @@ Firecrow.DependencyGraph.DependencyGraph = function()
     this.importantConstructDependencyIndexMapping = [];
 
     this.dataFlowEdgesCounter = 0;
+    this.inculsionFinder = new Firecrow.DependencyGraph.InclusionFinder();
 };
 
 var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
@@ -58,11 +59,6 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
 
 DependencyGraph.prototype.handleControlFlowConnection = function(sourceNode)
 {
-    /*if(ASTHelper.isVariableDeclarator(sourceNode))
-    {
-        sourceNode.id.hasBeenExecuted = true;
-    }*/
-
     sourceNode.hasBeenExecuted = true;
     this.controlFlow.push(sourceNode);
 };
@@ -88,11 +84,32 @@ DependencyGraph.prototype.markGraph = function(model)
     try
     {
         var importantConstructDependencyIndexMapping = this.importantConstructDependencyIndexMapping;
+        var breakContinueMapping = [];
         for(var i = 0, length = importantConstructDependencyIndexMapping.length; i < length; i++)
         {
             var mapping = importantConstructDependencyIndexMapping[i];
 
-            this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex);
+            if(ASTHelper.isBreakStatement(mapping.codeConstruct) || ASTHelper.isContinueStatement(mapping.codeConstruct))
+            {
+                breakContinueMapping.push(mapping);
+            }
+            else
+            {
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex);
+            }
+        }
+
+        for(var i = 0, length = breakContinueMapping.length; i < length; i++)
+        {
+            var mapping = breakContinueMapping[i];
+
+            var parent = ASTHelper.isBreakStatement(mapping.codeConstruct) ? ASTHelper.getLoopOrSwitchParent(mapping.codeConstruct)
+                                                                           : ASTHelper.getLoopParent(mapping.codeConstruct);
+
+            if(this.inculsionFinder.isIncludedElement(parent))
+            {
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex);
+            }
         }
 
         var postProcessor = new Firecrow.DependencyGraph.DependencyPostprocessor();
