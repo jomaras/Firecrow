@@ -235,8 +235,10 @@ FBL.ns(function () { with (FBL) {
 
             if(loopParent == null) { return false; }
 
-            return this.isForStatement(loopParent) ? loopParent.init == codeConstruct
-                                                   : false;
+            if(this.isForStatement(loopParent)) { return loopParent.init == codeConstruct;}
+            else if (this.isForInStatement(loopParent)) { return loopParent.left == codeConstruct; }
+
+            return false;
         },
 
         isObjectExpressionPropertyValue: function(element)

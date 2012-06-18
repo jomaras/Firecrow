@@ -154,7 +154,12 @@ Firecrow.CodeTextGenerator.prototype =
             else if (astHelper.isVariableDeclaration(element))
             {
                 var isForStatementInit = astHelper.isForStatementInit(element);
-                return (!isForStatementInit ? this.whitespace : "") + this.generateFromVariableDeclaration(element) + this._SEMI_COLON + ( !isForStatementInit ? this.newLine : "");
+
+                var variableDeclarationCode = this.generateFromVariableDeclaration(element);
+
+                if(isForStatementInit) { return variableDeclarationCode; }
+
+                return this.whitespace + variableDeclarationCode + this._SEMI_COLON + this.newLine;
             }
             else if (astHelper.isVariableDeclarator(element)) { return this.generateFromVariableDeclarator(element); }
             else if (astHelper.isLiteral(element)) { return this.generateFromLiteral(element); }
@@ -628,7 +633,7 @@ Firecrow.CodeTextGenerator.prototype =
             var forInit = this.generateJsCode(forStatement.init);
 
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
-                +  forInit + (forInit != "" ? "" : this._SEMI_COLON)
+                +  forInit + this._SEMI_COLON
                 +  this.generateJsCode(forStatement.test) + this._SEMI_COLON
                 +  this.generateJsCode(forStatement.update) + this._RIGHT_PARENTHESIS
                 +  this.newLine
@@ -648,7 +653,7 @@ Firecrow.CodeTextGenerator.prototype =
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
                 +  this.generateJsCode(forInStatement.left) + " " +  this._IN_KEYWORD + " "
                 +  this.generateJsCode(forInStatement.right) + this._RIGHT_PARENTHESIS
-                +  forInBody;
+                +  this.newLine + forInBody;
         }
         catch(e) { this.notifyError("Error when generating code from for...in statement:" + e); }
     },

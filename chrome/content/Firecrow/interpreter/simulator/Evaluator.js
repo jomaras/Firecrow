@@ -496,12 +496,20 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(evalMemberExpressionPropertyCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionPropertyCommand.isEvalMemberExpressionPropertyCommand()) { this.notifyError(evalMemberExpressionPropertyCommand, "Argument is not an EvalMemberExpressionPropertyCommand"); return; }
 
-            var value = evalMemberExpressionPropertyCommand.codeConstruct.computed ? this.executionContextStack.getExpressionValue(evalMemberExpressionPropertyCommand.codeConstruct.property)
-                                                                                   : new fcModel.JsValue(evalMemberExpressionPropertyCommand.codeConstruct.property.name, new fcModel.FcInternal(evalMemberExpressionPropertyCommand.codeConstruct.property));
+            var value = null;
+            var memberExpression = evalMemberExpressionPropertyCommand.codeConstruct;
 
-            //this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalMemberExpressionPropertyCommand.codeConstruct.property, evalMemberExpressionPropertyCommand.codeConstruct, evalMemberExpressionPropertyCommand.parentMemberExpressionCommand.id);
+            if(evalMemberExpressionPropertyCommand.codeConstruct.computed)
+            {
+                value = this.executionContextStack.getExpressionValue(memberExpression.property);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evalMemberExpressionPropertyCommand.parentMemberExpressionCommand.id);
+            }
+            else
+            {
+                value = new fcModel.JsValue(memberExpression.property.name, new fcModel.FcInternal(memberExpression.property))
+            }
 
-            this.executionContextStack.setExpressionValue(evalMemberExpressionPropertyCommand.codeConstruct.property, value);
+            this.executionContextStack.setExpressionValue(memberExpression.property, value);
         }
         catch(e)
         {
@@ -612,7 +620,7 @@ fcSimulator.Evaluator.prototype =
                     (
                         forInWhereConstruct.left.name,
                         nextPropertyName,
-                        forInWhereConstruct
+                        forInWhereConstruct.left
                     );
                 }
                 else if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
@@ -624,7 +632,7 @@ fcSimulator.Evaluator.prototype =
                     this._addDependenciesToTopBlockConstructs(declarator, evalForInWhereCommand.id);
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, evalForInWhereCommand.id);
 
-                    this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, forInWhereConstruct);
+                    this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
                 }
                 else { this.notifyError(evalForInWhereCommand, "Unknown forIn left statement"); }
             }
