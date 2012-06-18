@@ -183,6 +183,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             var topConstruct = topCommand.codeConstruct;
 
             if(topCommand.isEnterFunctionContextCommand() && topCommand.blockStackConstructs != null) { return topCommand.blockStackConstructs; }
+            if(topCommand.isStartSwitchStatementCommand() && topCommand.blockStackConstructs != null) { return topCommand.blockStackConstructs; }
             if(topConstruct.blockStackConstructs != null) { return topConstruct.blockStackConstructs; }
 
             if(ASTHelper.isForStatement(topConstruct)
@@ -204,17 +205,28 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 topConstruct.blockStackConstructs = [];
                 return topConstruct.blockStackConstructs;
             }
-            else if(ASTHelper.isSwitchStatement(topConstruct))
-            {
-                topConstruct.blockStackConstructs = [topConstruct.discriminant];
-                return topConstruct.blockStackConstructs;
-            }
 
             if(topCommand.isEnterFunctionContextCommand())
             {
                 topCommand.blockStackConstructs = [];
                 topCommand.blockStackConstructs.push(topCommand.codeConstruct);
                 topCommand.blockStackConstructs.push(topCommand.parentFunctionCommand.codeConstruct);
+
+                return topCommand.blockStackConstructs;
+            }
+            else if (topCommand.isStartSwitchStatementCommand())
+            {
+                topCommand.blockStackConstructs = [topConstruct.discriminant];
+
+                if(topCommand.matchedCaseCommand != null)
+                {
+                    topCommand.blockStackConstructs.push(topCommand.matchedCaseCommand.codeConstruct);
+
+                    if(topCommand.matchedCaseCommand.codeConstruct.test != null)
+                    {
+                        topCommand.blockStackConstructs.push(topCommand.matchedCaseCommand.codeConstruct.test);
+                    }
+                }
 
                 return topCommand.blockStackConstructs;
             }

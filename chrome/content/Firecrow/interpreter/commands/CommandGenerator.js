@@ -610,13 +610,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             startSwitchCommand.caseCommands = [];
             startSwitchCommand.hasBeenMatched = false;
 
-            commands.push(startSwitchCommand);
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
             (
                 sourceElement.discriminant,
                 parentFunctionCommand
             ));
+
+            commands.push(startSwitchCommand);
 
             sourceElement.cases.forEach(function(caseElement)
             {

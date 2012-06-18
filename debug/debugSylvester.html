@@ -14,6 +14,9 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/slicingCriterion.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
@@ -22,9 +25,9 @@
 
     <script src="../chrome/content/Firecrow/interpreter/model/JsValue.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/Object.js"></script>
-    <script src="../chrome/content/Firecrow/interpreter/model/Math.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/GlobalObject.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/Array.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Math.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/RegEx.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/Function.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
@@ -85,7 +88,7 @@
     <div id="codeContainer"></div>
     <div id="messageContainer"></div>
     <div style="clear:both"/>
-    <script src="sylvester/84-Vector-rotate/htmlMapping.js"></script>
+    <script src="sylvester/02-LineSegment-eql/htmlMapping.js"></script>
     <pre id="sourceTextContainer">
     </pre>
 
@@ -93,34 +96,35 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/sylvester/84-Vector-rotate/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/sylvester/02-LineSegment-eql/index.html");
 
+        var model = HtmlModelMapping.getWholeFileModel(webFile.url);
         var messageContainer = document.getElementById("messageContainer");
 
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
         var browser = new Browser(webFile, []);
-
-        var testIdContainer = document.getElementById("testIdContainer");
-        testIdContainer.textContent = webFile.url;
-        testIdContainer.href = webFile.url;
+        browser.registerSlicingCriteria(model.results.map(function(result)
+        {
+            for(var propName in result)
+            {
+                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(webFile.url, -1, propName);
+            }
+        }));
 
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
         browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
         browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
+        browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
+        browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
         browser.registerInterpreterMessageGeneratedCallback(function(message)
         {
-            var newDiv = document.createElement("div");
-            newDiv.textContent = message;
-            messageContainer.appendChild(newDiv);
         });
 
         browser.asyncBuildPage(function()
         {
-            var model = HtmlModelMapping.getWholeFileModel(webFile.url);
+            dependencyGraph.markGraph(model.model.htmlElement);
 
-            var codeContainer = document.getElementById("codeContainer");
-
-            codeContainer.textContent = "Finished";
+            document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(model.model);
 
             var globalObjectProperties = browser.globalObject.properties;
             var errors = "";

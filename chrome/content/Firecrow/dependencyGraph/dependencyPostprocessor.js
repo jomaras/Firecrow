@@ -557,7 +557,11 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
             switchCase.shouldBeIncluded = true;
 
-            this.processExpression(switchCase.test);
+            if(switchCase.test != null)
+            {
+                switchCase.test.shouldBeIncluded = true;
+            }
+
 
             for(var i = 0; i < switchCase.consequent.length; i++)
             {

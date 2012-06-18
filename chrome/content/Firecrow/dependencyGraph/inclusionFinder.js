@@ -500,7 +500,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
         {
             if(switchCase.shouldBeIncluded) { return true; }
 
-            if(switchCase.test != null) { return this.isIncludedExpression(switchCase.test); }
+            if(switchCase.test != null) { if(this.isIncludedExpression(switchCase.test)) { return true;}; }
 
             for(var i = 0; i < switchCase.consequent.length; i++)
             {

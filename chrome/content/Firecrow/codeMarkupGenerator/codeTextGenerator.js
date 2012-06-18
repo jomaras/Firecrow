@@ -749,18 +749,22 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var code = this._SWITCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateExpression(switchStatement.discriminant) + this._RIGHT_PARENTHESIS;
 
-            code += this.newLine + this.whitespace + this._LEFT_GULL_WING;
+            code += this.newLine + this.whitespace + this._LEFT_GULL_WING + this.newLine;
 
             this.indent();
 
             for(var i = 0; i < switchStatement.cases.length; i++)
             {
-                code += this.generateFromSwitchCase(switchStatement.cases[i]);
+                var caseClause = switchStatement.cases[i];
+
+                if(this.isSlicing && !caseClause.shouldBeIncluded) { continue; }
+
+                code += this.generateFromSwitchCase(caseClause);
             }
 
             this.deIndent();
 
-            code += this.newLine + this.whitespace + this._RIGHT_GULL_WING;
+            code += this.whitespace + this._RIGHT_GULL_WING;
 
             return code;
         }
@@ -772,16 +776,26 @@ Firecrow.CodeTextGenerator.prototype =
         try
         {
             var code = "";
-            if(switchCase.test === null){ code += this._DEFAULT_KEYWORD + this._SEMI_COLON; }
+            if(switchCase.test === null)
+            {
+                code += this.whitespace + this._DEFAULT_KEYWORD + this._COLON + this.newLine;
+            }
             else
             {
-                code +=this._CASE_KEYWORD + this.generateExpression(switchCase.test) + this._SEMI_COLON + this.newLine;
+                code += this.whitespace + this._CASE_KEYWORD + " " + this.generateExpression(switchCase.test) + this._COLON + this.newLine;
             }
 
+            this.indent();
             for(var i = 0; i < switchCase.consequent.length; i++)
             {
-                code += this.generateStatement(switchCase.consequent[i]);
+                var statementCode = this.generateStatement(switchCase.consequent[i]);
+
+                if(statementCode != "")
+                {
+                    code += this.whitespace + statementCode + this.newLine;
+                }
             }
+            this.deIndent();
 
             return code;
         }

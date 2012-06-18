@@ -469,11 +469,12 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(!ValueTypeHelper.isOfType(caseCommand, Command) || !caseCommand.isCaseCommand()) { alert("InterpreterSimulator - argument has to be a case command!"); return; }
 
-            if(this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).value == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).value
-            || caseCommand.parent.hasBeenMatched
-            || caseCommand.codeConstruct.test == null)
+            if( caseCommand.codeConstruct.test == null
+             || this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).value == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).value
+             || caseCommand.parent.hasBeenMatched)
             {
                 caseCommand.parent.hasBeenMatched = true;
+                caseCommand.parent.matchedCaseCommand = caseCommand;
 
                 ValueTypeHelper.insertElementsIntoArrayAtIndex
                 (
