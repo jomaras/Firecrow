@@ -651,12 +651,14 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(conditionalExpressionCommand, Firecrow.Interpreter.Commands.Command) || !conditionalExpressionCommand.isEvalConditionalExpressionCommand()) { this.notifyError(conditionalExpressionCommand, "Argument has to be an eval conditional expression command!"); return; }
 
             var bodyExpressionValue = this.executionContextStack.getExpressionValue(conditionalExpressionCommand.body);
+            var conditionalConstruct = conditionalExpressionCommand.codeConstruct;
 
-            this.executionContextStack.setExpressionValue(conditionalExpressionCommand.codeConstruct, bodyExpressionValue);
+            this.executionContextStack.setExpressionValue(conditionalConstruct, bodyExpressionValue);
 
-            this._addDependenciesToTopBlockConstructs(conditionalExpressionCommand.codeConstruct, conditionalExpressionCommand.id);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalExpressionCommand.codeConstruct, conditionalExpressionCommand.codeConstruct.test, conditionalExpressionCommand.id);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalExpressionCommand.codeConstruct, bodyExpressionValue.fcInternal.codeConstruct, conditionalExpressionCommand.id);
+            this._addDependenciesToTopBlockConstructs(conditionalConstruct, conditionalExpressionCommand.id);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test, conditionalExpressionCommand.id);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, bodyExpressionValue.fcInternal.codeConstruct, conditionalExpressionCommand.id);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.body, conditionalExpressionCommand.id);
         }
         catch(e) { this.notifyError(conditionalExpressionCommand, "Error when evaluating conditional expression command: " + e); }
     },

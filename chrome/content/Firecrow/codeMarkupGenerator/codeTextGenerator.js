@@ -451,6 +451,9 @@ Firecrow.CodeTextGenerator.prototype =
             if(testCode == "" && consequentCode != "" && alternateCode == "") { testCode = "true"; alternateCode = "0";}
             if(testCode == "" && consequentCode == "" && alternateCode != "") { testCode = "false"; consequentCode = "0" }
 
+            if(consequentCode == "") { consequentCode = "0"; }
+            if(alternateCode == "") { consequentCode = "0";}
+
             return testCode
                 + " " + this._QUESTION_MARK + " " + consequentCode
                 + " " + this._COLON + " " + alternateCode;
