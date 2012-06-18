@@ -157,7 +157,10 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             {
                 var command = this.commands[i];
 
-                ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+                if(!command.isEndSwitchStatementCommand())
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+                }
 
                 if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) { break;}
             }

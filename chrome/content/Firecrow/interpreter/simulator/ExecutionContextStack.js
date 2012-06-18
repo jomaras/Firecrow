@@ -204,6 +204,11 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 topConstruct.blockStackConstructs = [];
                 return topConstruct.blockStackConstructs;
             }
+            else if(ASTHelper.isSwitchStatement(topConstruct))
+            {
+                topConstruct.blockStackConstructs = [topConstruct.discriminant];
+                return topConstruct.blockStackConstructs;
+            }
 
             if(topCommand.isEnterFunctionContextCommand())
             {
@@ -223,7 +228,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping break/continue commands from block stack - empty stack @"); return; }
+            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping break/continue commands from block stack - empty stack @" + codeConstruct.loc.source); return; }
 
             if(ASTHelper.isBreakStatement(codeConstruct))
             {
@@ -233,7 +238,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 {
                     var command = blockCommandStack[i];
 
-                    if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) { return; }
+                    if(command.isLoopStatementCommand() || command.isStartSwitchStatementCommand()) { return; }
 
                     blockCommandStack.pop();
                 }
@@ -292,6 +297,19 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { this.notifyError("Error when popping if command from block stack: " + e);}
     },
 
+    _popTillSwitchStatementCommand: function(switchCommand)
+    {
+        try
+        {
+            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping switch commands from block stack - empty stack!"); return; }
+
+            if(this.blockCommandStack[this.blockCommandStack.length-1].codeConstruct != switchCommand.codeConstruct) { this.notifyError("The top command has to be switch command when popping commands from block stack"); return; }
+
+            this.blockCommandStack.pop();
+        }
+        catch(e) { this.notifyError("Error when popping if command from block stack: " + e);}
+    },
+
     _popWithCommand: function(withCommand)
     {
         try
@@ -326,7 +344,9 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 this.evaluator.evaluateBreakContinueCommand(command );
                 this._popBreakContinueFromBlockStack(command.codeConstruct);
             }
-            else if (command.isStartSwitchStatementCommand() || command.isEndSwitchStatementCommand() || command.isCaseCommand()) {}
+            else if (command.isStartSwitchStatementCommand()) { this.blockCommandStack.push(command); }
+            else if (command.isEndSwitchStatementCommand()) { this._popTillSwitchStatementCommand(command);}
+            else if (command.isCaseCommand()) {}
             else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
             else if (command.isEvalNewExpressionCommand()) {}
             else if (command.isStartLogicalExpressionCommand() || command.isEndLogicalExpressionCommand()) {}

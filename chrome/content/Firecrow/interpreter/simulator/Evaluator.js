@@ -54,7 +54,10 @@ fcSimulator.Evaluator.prototype =
             else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
             else if (command.isEvalUnaryExpressionCommand()) { this._evaluateUnaryExpression(command); }
             else if (command.isCallInternalFunctionCommand()) { this._evaluateCallInternalFunction(command); }
-            else { this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return; }
+            else
+            {
+                this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
+            }
         }
         catch(e) { this.notifyError(command, "An error occurred when evaluating command: " + e);}
     },
