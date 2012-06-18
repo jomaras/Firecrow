@@ -15,6 +15,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         this.jsArray = jsArray || [];
         this.globalObject = globalObject;
         this.items = [];
+        this.modifications = [];
 
         this.jsArray.forEach(function(item) { this.push(item, codeConstruct);}, this);
 

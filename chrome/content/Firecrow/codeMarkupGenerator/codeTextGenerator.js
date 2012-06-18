@@ -539,11 +539,13 @@ Firecrow.CodeTextGenerator.prototype =
 
                 if (property.kind == "init")
                 {
-                    code += this.generateJsCode(property.key)
-                         + (
-                                (this.isSlicing && !property.shouldBeIncluded) ? ""
-                                                                               : this._COLON + " " + this.generateJsCode(property.value)
-                           );
+                    code += this.generateJsCode(property.key);
+                    if(this.isSlicing && !property.shouldBeIncluded) {}
+                    else
+                    {
+                        code += this._COLON + " " + (this.generateJsCode(property.value) || "null");
+                    }
+
                     if(astHelper.isObjectExpression(property.value)){ code += this.newLine; }
                 }
                 else

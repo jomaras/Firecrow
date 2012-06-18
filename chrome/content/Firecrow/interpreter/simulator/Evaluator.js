@@ -587,9 +587,6 @@ fcSimulator.Evaluator.prototype =
 
             array.value.push(expressionItemValue);
             array.fcInternal.object.push(expressionItemValue, arrayItemCreationCommand.codeConstruct);
-
-            this._addDependenciesToTopBlockConstructs(arrayItemCreationCommand.codeConstruct, arrayItemCreationCommand.id);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(arrayItemCreationCommand.codeConstruct, array.fcInternal.codeConstruct, arrayItemCreationCommand.id);
         }
         catch(e) { this.notifyError(arrayItemCreationCommand, "Error when evaluating array expression item creation: " + e); }
     },

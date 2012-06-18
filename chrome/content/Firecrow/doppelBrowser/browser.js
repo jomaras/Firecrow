@@ -187,6 +187,11 @@ Browser.prototype =
             }, this);
 
             this.asyncInterpretCode ? interpreter.runAsync(function(){}) : interpreter.runSync();
+
+            if(interpreter.executionContextStack.blockCommandStack.length != 0)
+            {
+                var a = 3;
+            }
         }
         catch(e)
         {

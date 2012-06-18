@@ -408,15 +408,16 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(!ValueTypeHelper.isOfType(loopCommand, Command) || !loopCommand.isLoopStatementCommand()) { alert("InterpreterSimulator - argument has to be a loop command!"); return; }
 
-            var generatedCommands = CommandGenerator.generateLoopExecutionCommands
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
-                loopCommand,
-                !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).value : null
+                this.commands,
+                CommandGenerator.generateLoopExecutionCommands
+                (
+                    loopCommand,
+                    !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).value : null
+                ),
+                this.currentCommandIndex + 1
             );
-
-            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, generatedCommands, this.currentCommandIndex + 1);
-
-            if(generatedCommands.length == 0) { this.executionContextStack.popTillLoopCommandFromBlockStack(loopCommand);}
         }
         catch(e) { alert("InterpreterSimulator - Error while generating commands after loop command: " + e);}
     },

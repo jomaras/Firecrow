@@ -854,6 +854,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 fcCommands.Command.COMMAND_TYPE.WhileStatement,
                 parentFunctionCommand
             ));
+
+            commands.push(new fcCommands.Command
+            (
+                sourceElement,
+                fcCommands.Command.COMMAND_TYPE.EndLoopStatement,
+                parentFunctionCommand
+            ));
         }
         catch(e) { alert("Error when generating while statement commands:" + e); }
 
@@ -889,6 +896,14 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     whileStatementCommand.codeConstruct.test,
                     whileStatementCommand.parentFunctionCommand
                 ));
+
+                commands.push(new fcCommands.Command
+                (
+                    whileStatementCommand.codeConstruct,
+                    fcCommands.Command.COMMAND_TYPE.EndLoopStatement,
+                    whileStatementCommand.parentFunctionCommand
+                ));
+
                 commands.push(new fcCommands.Command
                 (
                     whileStatementCommand.codeConstruct,
@@ -914,6 +929,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.DoWhileStatement, parentFunctionCommand));
+            commands.push(new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement, parentFunctionCommand));
         }
         catch(e) { alert("Error when generating while statement commands:" + e); }
 
@@ -949,6 +965,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     doWhileStatementCommand.codeConstruct.test,
                     doWhileStatementCommand.parentFunctionCommand
                 ));
+
+                commands.push(new fcCommands.Command
+                (
+                    doWhileStatementCommand.codeConstruct,
+                    fcCommands.Command.COMMAND_TYPE.EndLoopStatement,
+                    doWhileStatementCommand.parentFunctionCommand)
+                );
 
                 commands.push(new fcCommands.Command
                 (
@@ -993,6 +1016,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             }
 
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.ForStatement, parentFunctionCommand));
+            commands.push(new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement,parentFunctionCommand));
         }
         catch(e) { alert("Error when generating for statement commands:" + e);}
 
@@ -1047,6 +1071,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                         forStatementCommand.parentFunctionCommand
                     ));
                 }
+                commands.push(new fcCommands.Command
+                (
+                    forStatementCommand.codeConstruct,
+                    fcCommands.Command.COMMAND_TYPE.EndLoopStatement,
+                    forStatementCommand.parentFunctionCommand
+                ));
 
                 commands.push(new fcCommands.Command
                 (
@@ -2032,6 +2062,7 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isForStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForStatement; },
     isForUpdateStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForUpdateStatement; },
     isEvalForInWhereCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalForInWhere; },
+    isEndLoopStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndLoopStatement ;},
 
     isCallInternalConstructorCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.CallInternalConstructor; },
     isCallInternalFunctionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.CallInternalFunction; },
@@ -2114,6 +2145,8 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     ForStatement: "ForStatement",
     ForUpdateStatement: "ForUpdateStatement",
+
+    EndLoopStatement: "EndLoopStatement",
 
     EvalForInWhere: "EvalForInWhere",
 

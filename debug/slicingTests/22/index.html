@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Firecrow - simple Js Test</h2>
-<div>Calculated property accessors</div>
+<div>Conditional expression</div>
 <div id="resultContainer"></div>
 <script>
     var a = { aa: 3, ab: 4 };
@@ -13,13 +13,14 @@
     var b =
     {
         bb: 5,
-        be: 6,
+        bc: 6,
         bc: function() { return 2; }
     };
 
     var arr = [a, b];
     var c = arr[0 + 1];
     var d = c["b" + "c"]();
+    d++;
 </script>
 </body>
 </html>

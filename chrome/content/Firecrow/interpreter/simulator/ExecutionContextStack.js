@@ -128,7 +128,9 @@ fcSimulator.ExecutionContextStack = function(globalObject)
     {
         if(globalObject == null) { this.notifyError("GlobalObject can not be null when constructing execution context stack!"); return; }
         this.globalObject = globalObject;
+
         this.stack = [];
+        this.activeContext = null;
         this.push(fcSimulator.ExecutionContext.createGlobalExecutionContext(globalObject));
 
         this.evaluator = new Firecrow.Interpreter.Simulator.Evaluator(this);
@@ -138,6 +140,7 @@ fcSimulator.ExecutionContextStack = function(globalObject)
             this._callExceptionCallbacks(exceptionInfo);
         }, this);
         this.exceptionCallbacks = [];
+        this.blockCommandStack = [];
     }
     catch(e)
     {
@@ -147,9 +150,6 @@ fcSimulator.ExecutionContextStack = function(globalObject)
 
 Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 {
-    activeContext: null,
-    blockCommandStack: [],
-
     _popTillEnterFunctionContextCommand: function(exitFunctionContextCommand)
     {
         try
@@ -219,7 +219,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { this.notifyError("Error when getting top block constructs: " + e); }
     },
 
-    popTillLoopCommandFromBlockStack: function(loopCommand)
+    _popTillLoopCommandFromBlockStack: function(loopCommand)
     {
         try
         {
@@ -238,7 +238,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { this.notifyError("Error when popping loop commands from block stack: " + e + "@" + loopCommand.codeConstruct.loc.source); }
     },
 
-    popTillIfCommand: function(ifCommand)
+    _popTillIfCommand: function(ifCommand)
     {
         try
         {
@@ -277,7 +277,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isForStatementCommand() || command.isWhileStatementCommand() ||  command.isDoWhileStatementCommand()) { this.blockCommandStack.push(command); }
             else if (command.isForUpdateStatementCommand()){}
             else if (command.isIfStatementCommand()) { this.blockCommandStack.push(command); }
-            else if (command.isEndIfCommand()) { this.popTillIfCommand(command);}
+            else if (command.isEndIfCommand()) { this._popTillIfCommand(command);}
+            else if (command.isEndLoopStatementCommand()) { this._popTillLoopCommandFromBlockStack(command);}
             else if (command.isEvalConditionalExpressionBodyCommand()) { }
             else if (command.isEvalBreakCommand() || command.isEvalContinueCommand()){ this.globalObject.browser.callImportantConstructReachedCallbacks(command.codeConstruct); }
             else if (command.isStartSwitchStatementCommand() || command.isEndSwitchStatementCommand() || command.isCaseCommand()) {}
