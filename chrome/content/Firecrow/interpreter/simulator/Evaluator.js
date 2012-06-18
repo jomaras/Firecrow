@@ -59,6 +59,18 @@ fcSimulator.Evaluator.prototype =
         catch(e) { this.notifyError(command, "An error occurred when evaluating command: " + e);}
     },
 
+    evaluateBreakContinueCommand: function(breakContinueCommand)
+    {
+        try
+        {
+            if(breakContinueCommand == null || (!breakContinueCommand.isEvalBreakCommand() && !breakContinueCommand.isEvalContinueCommand())) { this.notifyError("Should be break or continue command"); }
+
+            this._addDependenciesToTopBlockConstructs(breakContinueCommand.codeConstruct, breakContinueCommand.id);
+            this.globalObject.browser.callImportantConstructReachedCallbacks(breakContinueCommand.codeConstruct);
+        }
+        catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
+    },
+
     _evaluateDeclareVariableCommand: function(declareVariableCommand)
     {
         try

@@ -1102,6 +1102,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
 
             commands.push(fcCommands.Command.createForInWhereCommand(sourceElement, -1, parentFunctionCommand));
+            commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EndLoopStatement, parentFunctionCommand));
         }
         catch(e) { alert("Error when generating for-in statement commands:" + e); }
 
@@ -1132,6 +1133,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     false
                 );
 
+                commands.push(new fcCommands.Command(forInCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.EndLoopStatement, forInCommand.parentFunctionCommand));
                 commands.push(fcCommands.Command.createForInWhereCommand(forInCommand.codeConstruct, forInCommand.currentPropertyIndex + 1, forInCommand.parentFunctionCommand));
             }
         }

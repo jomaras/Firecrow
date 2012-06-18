@@ -190,7 +190,7 @@ Browser.prototype =
 
             if(interpreter.executionContextStack.blockCommandStack.length != 0)
             {
-                var a = 3;
+                alert("There are still commands in the block command stack" + scriptModelNode.pathAndModel.path);
             }
         }
         catch(e)
