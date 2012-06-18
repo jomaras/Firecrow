@@ -4,6 +4,7 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
+var ASTHelper = Firecrow.ASTHelper;
 var fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct)
@@ -16,6 +17,11 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct)
         this.modificationConstructs = [];
         this.lastModificationConstruct = null;
         this.declarationConstruct = codeConstruct;
+
+        if(ASTHelper.isObjectExpressionPropertyValue(codeConstruct))
+        {
+            this.lastModificationConstruct = codeConstruct.value;
+        }
 
         if(codeConstruct != null)
         {
