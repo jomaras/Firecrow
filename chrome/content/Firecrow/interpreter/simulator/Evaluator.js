@@ -717,7 +717,7 @@ fcSimulator.Evaluator.prototype =
             var logicalExpressionItem = evaluateLogicalExpressionItemCommand.codeConstruct;
 
             this._addDependenciesToTopBlockConstructs(wholeLogicalExpression, evaluateLogicalExpressionItemCommand.id);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(wholeLogicalExpression, logicalExpressionItem, evaluateLogicalExpressionItemCommand.id);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(wholeLogicalExpression, logicalExpressionItem, parentExpressionCommand.id);
 
             var value = this.executionContextStack.getExpressionValue(evaluateLogicalExpressionItemCommand.codeConstruct);
 

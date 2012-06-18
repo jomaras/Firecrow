@@ -8,26 +8,24 @@
 <div>Conditional expression</div>
 <div id="resultContainer"></div>
 <script>
-    var a = 5, sum = 0;
-
-    switch(a)
+    var a =
     {
-        case 1:
-            sum += 10;
-            break;
-        case 2:
-            sum += 20;
-            break;
-        case 3:
-            sum += 30;
-        case 4:
-            sum += 40;
-            break;
-        default:
-            sum += 80;
+        b: 3,
+        increment: function(c)
+        {
+            return c + 1;
+        },
+        getB: function()
+        {
+            var c = this.increment(this.b);
+            return c;
+        },
+        e: { c : 3}
     }
 
-    sum++;
+    var d = a.getB();
+    d += a.e.c;
+    d++;
 </script>
 </body>
 </html>

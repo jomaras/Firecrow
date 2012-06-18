@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Conditional expression</div>
+<div id="resultContainer"></div>
+<script>
+    var a = { test: function() { return 3; } };
+    var b = null;
+    var c = { test: function() { return 4; } };
+
+    var d = a && b && c;
+
+    var a1 = d;
+    !a1;
+
+    d = false && a && b && c;
+    var a2 = d;
+    !a2;
+
+    d = 1 && a && false;
+
+    var a3 = d;
+    !a3;
+
+    d = a && true && c;
+    var a4 = d.test();
+    a4++;
+</script>
+</body>
+</html>
