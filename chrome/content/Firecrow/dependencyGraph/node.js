@@ -61,9 +61,7 @@ FBL.ns(function() { with (FBL) {
 
                     var followingDependency = this.dataDependencies[j];
 
-                    if(followingDependency.groupId == ""
-                    || dependency.groupId == ""
-                    || followingDependency.groupId.indexOf(dependency.groupId) == 0
+                    if(followingDependency.groupId.indexOf(dependency.groupId) == 0
                     || dependency.groupId.indexOf(followingDependency.groupId) == 0)
                     {
                         edges.push(followingDependency);

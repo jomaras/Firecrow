@@ -762,24 +762,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { this.notifyError("Error when creating function: " + e);}
     },
 
-    createObjectInCurrentContext: function(constructorFunction, creationCodeConstruct)
-    {
-        try
-        {
-            return this.globalObject.internalExecutor.createObject(constructorFunction, creationCodeConstruct);
-        }
-        catch(e) { this.notifyError("Error when creating object:" + e); }
-    },
-
-    createArrayInCurrentContext: function(creationCodeConstruct)
-    {
-        try
-        {
-            return this.globalObject.internalExecutor.createArray(creationCodeConstruct);
-        }
-        catch(e) { this.notifyError("Error when creating array in current context: " + e); }
-    },
-
     registerExceptionCallback: function(callback, thisObject)
     {
         try

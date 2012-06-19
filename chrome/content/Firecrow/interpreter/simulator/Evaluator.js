@@ -538,7 +538,7 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(objectExpressionCommand, Firecrow.Interpreter.Commands.Command) || !objectExpressionCommand.isObjectExpressionCommand()) { this.notifyError(objectExpressionCommand, "Argument has to be an object expression creation command!"); return; }
 
-            var newObject = this.executionContextStack.createObjectInCurrentContext(null, objectExpressionCommand.codeConstruct);
+            var newObject = this.globalObject.internalExecutor.createObject(null, objectExpressionCommand.codeConstruct);
 
             this.executionContextStack.setExpressionValue(objectExpressionCommand.codeConstruct, newObject);
 
@@ -579,7 +579,7 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(arrayExpressionCommand, Firecrow.Interpreter.Commands.Command) || !arrayExpressionCommand.isArrayExpressionCommand()) { this.notifyError(arrayExpressionCommand, "Argument has to be an array expression creation command!"); return; }
 
-            var newArray = this.executionContextStack.createArrayInCurrentContext(arrayExpressionCommand.codeConstruct);
+            var newArray = this.globalObject.internalExecutor.createArray(arrayExpressionCommand.codeConstruct);
 
             this.executionContextStack.setExpressionValue(arrayExpressionCommand.codeConstruct, newArray);
 
