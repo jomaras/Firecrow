@@ -15,6 +15,9 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
         this.globalObject = globalObject;
         this.jsRegExp = jsRegExp;
 
+        this.__proto__ = new fcModel.Object(globalObject);
+        this.notifyError = function(message) { alert("RegEx - " + message); }
+
         this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         this.addProperty("ignoreCase", new fcModel.JsValue(jsRegExp.ignoreCase, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         this.addProperty("global", new fcModel.JsValue(jsRegExp.global, new fcModel.FcInternal(codeConstruct)), codeConstruct);
@@ -23,10 +26,6 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
     }
     catch(e) { this.notifyError("Error when creating RegExp object: " + e); }
 };
-
-fcModel.RegEx.prototype = new fcModel.Object(null);
-
-fcModel.RegEx.prototype.notifyError = function(message) { alert("RegEx - " + message); }
 
 fcModel.RegExPrototype = function(globalObject)
 {

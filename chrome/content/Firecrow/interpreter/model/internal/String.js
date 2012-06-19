@@ -11,15 +11,13 @@ fcModel.String = function(value, globalObject, codeConstruct)
 {
     try
     {
+        this.notifyError = function(message) { alert("String - " + message); }
         this.value = value;
         this.globalObject = globalObject;
+        this.__proto__ = new fcModel.Object(globalObject);
     }
     catch(e) { this.notifyError("Error when creating a String object: " + e); }
 };
-
-fcModel.String.prototype = new fcModel.Object(null);
-
-fcModel.String.prototype.notifyError = function(message) { alert("String - " + message); }
 
 fcModel.StringPrototype = function(globalObject)
 {
