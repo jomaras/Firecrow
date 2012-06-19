@@ -392,11 +392,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             for(var i = 0, length = formalParameters.length; i < length; i++)
             {
-                var formalParameter = formalParameters[i];
-                var sentValue = sentArgumentsValues[i];
-
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameter.value.fcInternal.codeConstruct, sentValue != null ? sentValue.fcInternal.codeConstruct : null, enterFunctionContextCommand.id);
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameter.value.fcInternal.codeConstruct, arguments[i], enterFunctionContextCommand.id);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameters[i].value.fcInternal.codeConstruct, arguments[i], enterFunctionContextCommand.id);
             }
 
             this.push

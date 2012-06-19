@@ -112,6 +112,7 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
                     sentArguments[index] || new fcModel.JsValue(undefined, new fcModel.FcInternal(formalParameter.declarationConstruct)),
                     argumentsConstructs[index]
                 );
+
             });
         }
 
