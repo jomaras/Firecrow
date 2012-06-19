@@ -113,9 +113,12 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             else if (ASTHelper.isTryStatement(statement)) { return this.isIncludedTryStatement(statement); }
             else if (ASTHelper.isThrowStatement(statement)) { return this.isIncludedThrowStatement(statement); }
             else if (ASTHelper.isSwitchStatement(statement)) { return this.isIncludedSwitchStatement(statement); }
-            else { this.notifyError("Error: AST Statement element not defined: " + expression.type);}
+            else { this.notifyError("Error: AST Statement element not defined: " + statement.type);}
         }
-        catch(e) { this.notifyError("Error when finding inclusions from a statement: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when finding inclusions from a statement: " + e);
+        }
     },
 
     isIncludedExpression: function(expression)
@@ -504,7 +507,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
 
             for(var i = 0; i < switchCase.consequent.length; i++)
             {
-                if(this.isIncludedStatement(switchCase.consequent[i])) { return true; }
+                if(this.isIncludedElement(switchCase.consequent[i])) { return true; }
             }
 
             return false;

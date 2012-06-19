@@ -133,6 +133,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             if(!this.inclusionFinder.isIncludedFunction(functionDecExp)) { return; }
 
             functionDecExp.shouldBeIncluded = true;
+            functionDecExp.body.shouldBeIncluded = true;
 
             if(functionDecExp.id != null) { functionDecExp.shouldBeIncluded = true; }
 

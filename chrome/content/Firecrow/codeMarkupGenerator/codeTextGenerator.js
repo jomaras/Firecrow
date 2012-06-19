@@ -251,9 +251,11 @@ Firecrow.CodeTextGenerator.prototype =
         {
             if(functionDecExp == null || (this.isSlicing && !functionDecExp.shouldBeIncluded)) { return "";}
 
+            var functionBodyCode = this.generateFromFunctionBody(functionDecExp);
+
             return  this._FUNCTION_KEYWORD + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) + " " : "")
-                 +  this.generateFunctionParameters(functionDecExp) + this.newLine
-                 +  this.generateFromFunctionBody(functionDecExp);
+                 +  this.generateFunctionParameters(functionDecExp)
+                 +  this.newLine + functionBodyCode;
         }
         catch(e) { alert("Error when generating code from a function:" + e); }
     },
@@ -297,7 +299,7 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            var code = this._LEFT_GULL_WING + this.newLine;
+            var code = "";
 
             this.indent();
 
@@ -309,7 +311,9 @@ Firecrow.CodeTextGenerator.prototype =
 
             this.deIndent();
 
-            return code + this.whitespace + this._RIGHT_GULL_WING;
+            if(code == "") { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
+
+            return this._LEFT_GULL_WING + this.newLine + code + this.whitespace + this._RIGHT_GULL_WING;
         }
         catch(e) { this.notifyError("Error when generating from block statement:" + e);}
     },

@@ -162,8 +162,9 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             {
                 var command = blockCommandStack[i];
 
-                if(command.codeConstruct == exitFunctionContextCommand.codeConstruct) { blockCommandStack.pop(); }
-                else { return; }
+                blockCommandStack.pop();
+
+                if(command.codeConstruct == exitFunctionContextCommand.codeConstruct) { return; }
             }
         }
         catch(e) { this.notifyError("Error when popping function context commands from block stack: " + e); }
