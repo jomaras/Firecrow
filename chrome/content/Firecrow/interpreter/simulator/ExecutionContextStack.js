@@ -353,7 +353,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
     _reevaluateEvaluationPositionId: function()
     {
-        this.globalObject.evaluationPositionId = "";
+        this.globalObject.evaluationPositionId = "root";;
 
         var blockCommandStack = this.blockCommandStack;
 
@@ -423,7 +423,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             for(var i = 0, length = formalParameters.length; i < length; i++)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameters[i].value.fcInternal.codeConstruct, arguments[i], enterFunctionContextCommand.id);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameters[i].value.fcInternal.codeConstruct, arguments[i], this.globalObject.evaluationPositionId);
             }
 
             this.push

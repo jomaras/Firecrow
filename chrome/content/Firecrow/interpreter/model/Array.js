@@ -17,7 +17,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         this.items = [];
         this.modifications = [];
 
-        //if(codeConstruct != null) { this.modifications.push(codeConstruct); }
+        if(codeConstruct != null) { this.modifications.push(codeConstruct); }
 
         this.jsArray.forEach(function(item) { this.push(item, codeConstruct);}, this);
 
@@ -35,7 +35,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
                 if(nextToLastModification != null && this.globalObject.currentCommand != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.currentCommand.id);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.evaluationPositionId);
                 }
             }
             catch(e) { alert("Array - Error when registering modification added callback:" + e); }
@@ -50,7 +50,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
                 if(lastModification != null && this.globalObject.currentCommand != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, lastModification, this.globalObject.currentCommand.id);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, lastModification, this.globalObject.evaluationPositionId);
                 }
             }
             catch(e) { alert("Array - Error when registering getPropertyCallback: " + e); }

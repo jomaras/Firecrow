@@ -48,7 +48,7 @@ fcSimulator.InternalExecutor.prototype =
 
                 if(constructorFunction.fcInternal != null && constructorFunction.fcInternal.object != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(creationCodeConstruct, constructorFunction.fcInternal.object.prototypeDefinitionConstruct, this.globalObject.currentCommand.id);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(creationCodeConstruct, constructorFunction.fcInternal.object.prototypeDefinitionConstruct, this.globalObject.evaluationPositionId);
                 }
 
                 return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)));
@@ -79,7 +79,7 @@ fcSimulator.InternalExecutor.prototype =
 
                 if(nextToLastModification != null && this.globalObject.currentCommand)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.currentCommand.id);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.evaluationPositionId);
                 }
             });
 

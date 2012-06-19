@@ -55,14 +55,22 @@ FBL.ns(function() { with (FBL) {
             {
                 edges.push(dependency);
 
-                for(var j = i - 1; j >= 0; j--)
+                for(var j = this.dataDependencies.length - 1; j >= 0; j--)
                 {
-                    var followingDependency = this.dataDependencies[j];
-                    if(followingDependency.groupId == dependency.groupId) { edges.push(followingDependency); }
-                    else { return edges; }
+                    if(j == i) { continue; }
 
-                    if(j == 0) { return edges;}
+                    var followingDependency = this.dataDependencies[j];
+
+                    if(followingDependency.groupId == ""
+                    || dependency.groupId == ""
+                    || followingDependency.groupId.indexOf(dependency.groupId) == 0
+                    || dependency.groupId.indexOf(followingDependency.groupId) == 0)
+                    {
+                        edges.push(followingDependency);
+                    }
                 }
+
+                return edges;
             }
         }
 

@@ -80,7 +80,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
             return false;
         }
 
-        this.globalObject.evaluationPositionId = "";
+        this.evaluationPositionId = "root";
     }
     catch(e) { alert("Error when initializing global object:" + e); }
 };
