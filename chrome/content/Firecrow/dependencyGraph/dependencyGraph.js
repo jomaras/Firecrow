@@ -48,6 +48,7 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
     try
     {
         if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
+        //if(ASTHelper.isLiteral(sourceNodeModelObject)) { return; }
 
         sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, generatingCommandId);
     }

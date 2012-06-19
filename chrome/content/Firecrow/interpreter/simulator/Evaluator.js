@@ -153,16 +153,12 @@ fcSimulator.Evaluator.prototype =
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.leftSide, evalAssignmentExpressionCommand.rightSide, evalAssignmentExpressionCommand.id);
 
             this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.id);
-            this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.leftSide, evalAssignmentExpressionCommand.id);
-            this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.rightSide, evalAssignmentExpressionCommand.id);
 
             //TODO - FIX PROBLEM WITH LINKS FROM LEFT TO RIGHT SIDE - SEE SLICING TEST 8 FOR DETAILS
 
             if(operator == "=")
             {
                 finalValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.rightSide);
-
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.leftSide, finalValue.fcInternal.codeConstruct, evalAssignmentExpressionCommand.id);
             }
             else
             {

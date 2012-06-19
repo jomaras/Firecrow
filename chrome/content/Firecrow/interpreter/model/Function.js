@@ -10,6 +10,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
 {
+    this.__proto__ = new fcModel.Object(globalObject, codeConstruct);
     this.object = this;
     this.globalObject = globalObject;
     this.codeConstruct = codeConstruct;
@@ -20,6 +21,20 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
     this.addProperty("__proto__", globalObject.functionPrototype);
 
     this.fcInternal = this;
+
+    this.registerModificationAddedCallback(function(lastModification, allModifications)
+    {
+        try
+        {
+            var nextToLastModification = allModifications[allModifications.length - 2];
+
+            if(nextToLastModification != null && this.globalObject.currentCommand)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.currentCommand.id);
+            }
+        }
+        catch(e) { alert("Function - Error when registering modification added callback:" + e); }
+    }, this);
 };
 
 fcModel.Function._LAST_USED_ID = 0;

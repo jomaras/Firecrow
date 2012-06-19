@@ -30,6 +30,8 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject)
     this.proto = implementationObject != null ? implementationObject.__proto__ : null;
     this.properties = [];
     this.enumeratedProperties = [];
+
+    this.prototypeDefinitionConstruct = null;
 };
 
 fcModel.Object.LAST_ID = 0;
@@ -96,6 +98,11 @@ fcModel.Object.prototype =
             else
             {
                 existingProperty.setValue(propertyValue, codeConstruct);
+            }
+
+            if(propertyName == "prototype" && propertyValue != null)
+            {
+                this.prototypeDefinitionConstruct = codeConstruct;
             }
 
             this.addModification(codeConstruct);
@@ -169,7 +176,7 @@ fcModel.Object.prototype =
 
             this.addDependencyToPrototypeDefinition(readPropertyConstruct);
 
-            return this.proto.jsValue.fcInternal.object.getProperty(name, readPropertyConstruct);
+            return this.proto.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
         }
         catch(e)
         {

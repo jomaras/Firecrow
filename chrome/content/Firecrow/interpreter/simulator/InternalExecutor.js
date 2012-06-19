@@ -46,6 +46,11 @@ fcSimulator.InternalExecutor.prototype =
                     constructorFunction.value.prototype = oldPrototype;
                 }
 
+                if(constructorFunction.fcInternal != null && constructorFunction.fcInternal.object != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(creationCodeConstruct, constructorFunction.fcInternal.object.prototypeDefinitionConstruct, this.globalObject.currentCommand.id);
+                }
+
                 return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)));
             }
             else if (constructorFunction != null && constructorFunction.isInternalFunction)
@@ -66,7 +71,7 @@ fcSimulator.InternalExecutor.prototype =
         {
             var newFunction = function(){};
 
-            var jsPropertyObject = new fcModel.Object(this.globalObject);
+            var jsPropertyObject = new fcModel.Object(this.globalObject, functionCodeConstruct);
 
             jsPropertyObject.registerModificationAddedCallback(function(lastModification, allModifications)
             {
