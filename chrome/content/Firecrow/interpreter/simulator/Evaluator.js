@@ -118,6 +118,8 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalLiteralCommand, Firecrow.Interpreter.Commands.Command) || !evalLiteralCommand.isEvalLiteralCommand()) { this.notifyError(evalLiteralCommand, "Argument is not an EvalLiteralCommand"); return; }
 
             this.executionContextStack.setExpressionValue(evalLiteralCommand.codeConstruct, new fcModel.JsValue(evalLiteralCommand.codeConstruct.value, new fcModel.FcInternal(evalLiteralCommand.codeConstruct)));
+
+            this._addDependenciesToTopBlockConstructs(evalLiteralCommand.codeConstruct, evalLiteralCommand.id);
         }
         catch(e) { this.notifyError(evalLiteralCommand, "Error when evaluating literal: " + e); }
     },
@@ -135,6 +137,8 @@ fcSimulator.Evaluator.prototype =
                 evalRegExCommand.codeConstruct,
                 this.globalObject.internalExecutor.createRegEx(evalRegExCommand.codeConstruct, regEx)
             );
+
+            this._addDependenciesToTopBlockConstructs(evalRegExCommand.codeConstruct, evalRegExCommand.id);
         }
         catch(e) { this.notifyError(evalRegExCommand, "Error when evaluating literal: " + e); }
     },

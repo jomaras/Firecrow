@@ -17,6 +17,8 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         this.items = [];
         this.modifications = [];
 
+        //if(codeConstruct != null) { this.modifications.push(codeConstruct); }
+
         this.jsArray.forEach(function(item) { this.push(item, codeConstruct);}, this);
 
         //For RegEx result arrays
@@ -31,7 +33,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
             {
                 var nextToLastModification = allModifications[allModifications.length - 2];
 
-                if(nextToLastModification != null && this.globalObject.currentCommand)
+                if(nextToLastModification != null && this.globalObject.currentCommand != null)
                 {
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.currentCommand.id);
                 }
