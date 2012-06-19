@@ -13,208 +13,10 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
     try
     {
         /**************************************************************************************************************/
-        this.push = function(item, codeConstruct)
+        for(var prop in fcModel.ArrayProto)
         {
-            try
-            {
-                this.items.push(item);
-                this.addProperty(this.items.length - 1, item, codeConstruct);
-            }
-            catch(e) { this.notifyError("Error when pushing item: " + e); }
-        };
-
-        this.pop = function(codeConstruct)
-        {
-            try
-            {
-                this.deleteProperty(this.items.length - 1, codeConstruct);
-
-                return this.items.pop();
-            }
-            catch(e) { alert("Array - error when popping item: " + e); }
-        };
-
-        this.reverse = function(codeConstruct)
-        {
-            try
-            {
-                this.items.reverse();
-
-                for(var i = 0; i < this.items.length; i++)
-                {
-                    this.addProperty(i, this.items[i], codeConstruct);
-                }
-            }
-            catch(e) { alert("Array - error when reversing the array: " + e); }
-        };
-
-        this.shift = function(codeConstruct)
-        {
-            try
-            {
-                this.deleteProperty(this.items.length - 1, codeConstruct);
-
-                this.items.shift();
-
-                for(var i = 0; i < this.items.length; i++)
-                {
-                    this.addProperty(i, this.items[i], codeConstruct);
-                }
-            }
-            catch(e) { alert("Array - error when shifting items in array: " + e); }
-        };
-
-        this.unshift = function(elementsToAdd, codeConstruct)
-        {
-            try
-            {
-                for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
-
-                for(var i = elementsToAdd.length - 1; i >= 0; i--)
-                {
-                    this.items.unshift(elementsToAdd[i]);
-                }
-
-                for(var i = 0; i < this.items.length; i++)
-                {
-                    this.addProperty(i, this.items[i], codeConstruct);
-                }
-
-                return new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct));
-            }
-            catch(e) { alert("Array - error when unshifting items in array: " + e); }
-        };
-
-        this.splice = function(jsArray, arguments, codeConstruct)
-        {
-            try
-            {
-                var removed = [];
-                for(var i = 0; i < this.items.length; i++)
-                {
-                    this.deleteProperty(i, codeConstruct);
-                    removed.push(this.items[i]);
-                }
-
-                var removedItems = this.globalObject.internalExecutor.createArray(codeConstruct, removed);
-
-                this.items.splice.apply(this.items, arguments);
-
-                for(var i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
-
-                return removedItems;
-            }
-            catch(e) { alert("Array - error when splicing item: " + e); }
-        };
-
-        this.concat = function(jsArray, callArguments, callExpression)
-        {
-            try
-            {
-                var newArray = this.globalObject.internalExecutor.createArray(callExpression);
-
-                jsArray.forEach(function(item)
-                {
-                    newArray.fcInternal.object.push(item);
-                    newArray.value.push(item);
-                });
-
-                for(var i = 0; i < callArguments.length; i++)
-                {
-                    var argument = callArguments[i];
-
-                    if(ValueTypeHelper.isArray(argument.value))
-                    {
-                        for(var j = 0; j < argument.value.length; j++)
-                        {
-                            var item = argument.value[j];
-                            newArray.fcInternal.object.push(item);
-                            newArray.value.push(item);
-                        }
-                    }
-                    else
-                    {
-                        newArray.fcInternal.object.push(argument);
-                        newArray.value.push(argument);
-                    }
-                }
-                return newArray;
-            }
-            catch(e) { this.notifyError("Error when concat array: " + e);}
-        };
-
-        this.slice = function(jsArray, callArguments, callExpression)
-        {
-            try
-            {
-                return this.globalObject.internalExecutor.createArray
-                    (
-                        callExpression,
-                        jsArray.slice.apply(jsArray, callArguments.map(function(argument){ return argument.value}))
-                    );
-            }
-            catch(e) { this.notifyError("When slicing array: " + e);}
-        };
-
-        this.indexOf = function(jsArray, callArguments, callExpression)
-        {
-            try
-            {
-                var searchForItem = callArguments[0];
-                var fromIndex = callArguments[1] != null ? callArguments[1].value : 0;
-
-                for(var i = fromIndex; i < jsArray.length; i++)
-                {
-                    if(jsArray[i].value === searchForItem.value)
-                    {
-                        return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
-                    }
-                }
-
-                return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
-            }
-            catch(e) { this.notifyError("When indexOf array: " + e);}
-        };
-
-        this.lastIndexOf = function(jsArray, callArguments, callExpression)
-        {
-            try
-            {
-                var searchForItem = callArguments[0];
-                var fromIndex = callArguments[1] != null ? callArguments[1].value : jsArray.length - 1;
-
-                for(var i = fromIndex; i >= 0; i--)
-                {
-                    if(jsArray[i].value === searchForItem.value)
-                    {
-                        return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
-                    }
-                }
-
-                return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
-            }
-            catch(e) { this.notifyError("When lastIndexOf array: " + e);}
-        };
-
-        this.join = function(jsArray, callArguments, callExpression)
-        {
-            try
-            {
-                var glue = callArguments[0] != null ? callArguments[0].value : ",";
-                var result = "";
-
-                var items = this.items;
-                for(var i = 0, length = items.length; i < length; i++)
-                {
-                    result += (i!=0 ? glue : "") + items[i].value;
-                }
-
-                return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
-            }
-            catch(e) { this.notifyError("When indexOf array: " + e);}
-        };
-
-        this.notifyError = function(message) { alert("Array - " + message); }
+            this[prop] = fcModel.ArrayProto[prop];
+        }
         /*******************************************************************************/
         this.jsArray = jsArray || [];
         this.globalObject = globalObject;
@@ -265,6 +67,215 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
     catch(e)
     {
         alert("Array - error when creating array object: " + e + codeConstruct.loc.source);
+    }
+};
+
+fcModel.ArrayProto =
+{
+    push: function(item, codeConstruct)
+    {
+        try
+        {
+            this.items.push(item);
+            this.addProperty(this.items.length - 1, item, codeConstruct);
+        }
+        catch(e) { this.notifyError("Error when pushing item: " + e); }
+    },
+
+    pop: function(codeConstruct)
+    {
+        try
+        {
+            this.deleteProperty(this.items.length - 1, codeConstruct);
+
+            return this.items.pop();
+        }
+        catch(e) { alert("Array - error when popping item: " + e); }
+    },
+
+    reverse: function(codeConstruct)
+    {
+        try
+        {
+            this.items.reverse();
+
+            for(var i = 0; i < this.items.length; i++)
+            {
+                this.addProperty(i, this.items[i], codeConstruct);
+            }
+        }
+        catch(e) { alert("Array - error when reversing the array: " + e); }
+    },
+
+    shift: function(codeConstruct)
+    {
+        try
+        {
+            this.deleteProperty(this.items.length - 1, codeConstruct);
+
+            this.items.shift();
+
+            for(var i = 0; i < this.items.length; i++)
+            {
+                this.addProperty(i, this.items[i], codeConstruct);
+            }
+        }
+        catch(e) { alert("Array - error when shifting items in array: " + e); }
+    },
+
+    unshift: function(elementsToAdd, codeConstruct)
+    {
+        try
+        {
+            for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
+
+            for(var i = elementsToAdd.length - 1; i >= 0; i--)
+            {
+                this.items.unshift(elementsToAdd[i]);
+            }
+
+            for(var i = 0; i < this.items.length; i++)
+            {
+                this.addProperty(i, this.items[i], codeConstruct);
+            }
+
+            return new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct));
+        }
+        catch(e) { alert("Array - error when unshifting items in array: " + e); }
+    },
+
+    splice: function(jsArray, arguments, codeConstruct)
+    {
+        try
+        {
+            var removed = [];
+            for(var i = 0; i < this.items.length; i++)
+            {
+                this.deleteProperty(i, codeConstruct);
+                removed.push(this.items[i]);
+            }
+
+            var removedItems = this.globalObject.internalExecutor.createArray(codeConstruct, removed);
+
+            this.items.splice.apply(this.items, arguments);
+
+            for(var i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
+
+            return removedItems;
+        }
+        catch(e) { alert("Array - error when splicing item: " + e); }
+    },
+
+    concat: function(jsArray, callArguments, callExpression)
+    {
+        try
+        {
+            var newArray = this.globalObject.internalExecutor.createArray(callExpression);
+
+            jsArray.forEach(function(item)
+            {
+                newArray.fcInternal.object.push(item);
+                newArray.value.push(item);
+            });
+
+            for(var i = 0; i < callArguments.length; i++)
+            {
+                var argument = callArguments[i];
+
+                if(ValueTypeHelper.isArray(argument.value))
+                {
+                    for(var j = 0; j < argument.value.length; j++)
+                    {
+                        var item = argument.value[j];
+                        newArray.fcInternal.object.push(item);
+                        newArray.value.push(item);
+                    }
+                }
+                else
+                {
+                    newArray.fcInternal.object.push(argument);
+                    newArray.value.push(argument);
+                }
+            }
+            return newArray;
+        }
+        catch(e) { this.notifyError("Error when concat array: " + e);}
+    },
+
+    slice: function(jsArray, callArguments, callExpression)
+    {
+        try
+        {
+            return this.globalObject.internalExecutor.createArray
+                (
+                    callExpression,
+                    jsArray.slice.apply(jsArray, callArguments.map(function(argument){ return argument.value}))
+                );
+        }
+        catch(e) { this.notifyError("When slicing array: " + e);}
+    },
+
+    indexOf: function(jsArray, callArguments, callExpression)
+    {
+        try
+        {
+            var searchForItem = callArguments[0];
+            var fromIndex = callArguments[1] != null ? callArguments[1].value : 0;
+
+            for(var i = fromIndex; i < jsArray.length; i++)
+            {
+                if(jsArray[i].value === searchForItem.value)
+                {
+                    return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
+                }
+            }
+
+            return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
+        }
+        catch(e) { this.notifyError("When indexOf array: " + e);}
+    },
+
+    lastIndexOf: function(jsArray, callArguments, callExpression)
+    {
+        try
+        {
+            var searchForItem = callArguments[0];
+            var fromIndex = callArguments[1] != null ? callArguments[1].value : jsArray.length - 1;
+
+            for(var i = fromIndex; i >= 0; i--)
+            {
+                if(jsArray[i].value === searchForItem.value)
+                {
+                    return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
+                }
+            }
+
+            return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
+        }
+        catch(e) { this.notifyError("When lastIndexOf array: " + e);}
+    },
+
+    join: function(jsArray, callArguments, callExpression)
+    {
+        try
+        {
+            var glue = callArguments[0] != null ? callArguments[0].value : ",";
+            var result = "";
+
+            var items = this.items;
+            for(var i = 0, length = items.length; i < length; i++)
+            {
+                result += (i!=0 ? glue : "") + items[i].value;
+            }
+
+            return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
+        }
+        catch(e) { this.notifyError("When indexOf array: " + e);}
+    },
+
+    notifyError: function(message)
+    {
+        alert("Array - " + message);
     }
 };
 

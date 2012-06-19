@@ -923,9 +923,9 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
+            if(valueTypeHelper.isNull(literal.value)) { return "null"; }
             if (valueTypeHelper.isString(literal.value)) { return "\"" + literal.value + "\""; }
-            else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNull(literal.value)
-                  || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
+            else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
             else if(valueTypeHelper.isObject(literal.value))
             {
                 if(literal.value.constructor != null && literal.value.constructor.name === "RegExp")
@@ -947,15 +947,18 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var code = "";
 
+            var generatedItems = 0;
             for(var i = 0, length = sequence.length; i < length; i++)
             {
                 var item = sequence[i];
 
                 if(this.isSlicing && !item.shouldBeIncluded) { continue; }
 
-                if(i != 0) { code += this._COMMA +  " "; }
+                if(generatedItems != 0) { code += this._COMMA +  " "; }
 
                 code += this.generateJsCode(item);
+
+                generatedItems++;
             }
 
             return code;

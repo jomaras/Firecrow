@@ -14,8 +14,14 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
     {
         if(!ValueTypeHelper.isOfType(textNode, Text)) { this.notifyError("When creating TextNode the textNode must be of type TextNode"); return; }
 
+        for(var prop in fcModel.TextNodeProto)
+        {
+            this[prop] = fcModel.TextNodeProto[prop];
+        }
+
         this.globalObject = globalObject;
         this.textNode = textNode;
+        this.__proto__ = new fcModel.Object(globalObject);
 
         this.setChildRelatedProperties(codeConstruct);
         this.addPrimitiveProperties(textNode, codeConstruct);
@@ -25,51 +31,54 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
 
 fcModel.TextNode.prototype = new fcModel.Object(null);
 
-fcModel.TextNode.prototype.setChildRelatedProperties = function(codeConstruct)
+fcModel.TextNodeProto =
 {
-    this.addProperty.call(this, "childNodes", this.getChildNodes(codeConstruct), codeConstruct);
-}
-
-fcModel.TextNode.prototype.addPrimitiveProperties = function(textNode, codeConstruct)
-{
-    try
+    setChildRelatedProperties: function(codeConstruct)
     {
-        var primitiveProperties = fcModel.TextNode.CONST.INTERNAL_PROPERTIES.PRIMITIVE_PROPERTIES;
+        this.addProperty.call(this, "childNodes", this.getChildNodes(codeConstruct), codeConstruct);
+    },
 
-        for(var i = 0, length = primitiveProperties.length; i < length; i++)
+    addPrimitiveProperties: function(textNode, codeConstruct)
+    {
+        try
         {
-            var propertyName = primitiveProperties[i];
+            var primitiveProperties = fcModel.TextNode.CONST.INTERNAL_PROPERTIES.PRIMITIVE_PROPERTIES;
 
-            this.addProperty(propertyName, new fcModel.JsValue(textNode[propertyName], new fcModel.FcInternal(codeConstruct)), codeConstruct);
+            for(var i = 0, length = primitiveProperties.length; i < length; i++)
+            {
+                var propertyName = primitiveProperties[i];
+
+                this.addProperty(propertyName, new fcModel.JsValue(textNode[propertyName], new fcModel.FcInternal(codeConstruct)), codeConstruct);
+            }
         }
-    }
-    catch(e) { this.notifyError("Error when adding primitive properties:" + e); }
-};
+        catch(e) { this.notifyError("Error when adding primitive properties:" + e); }
+    },
 
-fcModel.TextNode.prototype.getChildNodes = function(codeConstruct)
-{
-    try
+    getChildNodes: function(codeConstruct)
     {
-        var childNodeList = [];
-        for(var i = 0, childNodes = this.textNode.childNodes, length = childNodes.length; i < length; i++)
+        try
         {
-            var childNode = childNodes[i];
-            childNodeList.push
-            (
-                new fcModel.JsValue
+            var childNodeList = [];
+            for(var i = 0, childNodes = this.textNode.childNodes, length = childNodes.length; i < length; i++)
+            {
+                var childNode = childNodes[i];
+                childNodeList.push
                 (
-                    childNode,
-                    new fcModel.FcInternal(codeConstruct, new fcModel.TextNode(childNode, this.globalObject, codeConstruct))
+                    new fcModel.JsValue
+                    (
+                        childNode,
+                        new fcModel.FcInternal(codeConstruct, new fcModel.TextNode(childNode, this.globalObject, codeConstruct))
+                    )
                 )
-            )
+            }
+
+            return this.globalObject.internalExecutor.createArray(codeConstruct, childNodeList);
         }
+        catch(e) { this.notifyError("Error when getting child nodes:" + e);}
+    },
 
-        return this.globalObject.internalExecutor.createArray(codeConstruct, childNodeList);
-    }
-    catch(e) { this.notifyError("Error when getting child nodes:" + e);}
-}
-
-fcModel.TextNode.prototype.notifyError = function(message) { alert("TextNode - " + message); }
+    notifyError: function(message) { alert("TextNode - " + message); }
+};
 
 //https://developer.mozilla.org/en/DOM/element
 fcModel.TextNode.CONST =

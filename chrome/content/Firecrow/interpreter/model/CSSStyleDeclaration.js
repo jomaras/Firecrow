@@ -12,21 +12,13 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
 {
     try
     {
+        this.notifyError = function(message) { alert("CSSStyleDeclaration - " + message)};
+
         this.globalObject = globalObject;
         this.cssStyleDeclaration = cssStyleDeclaration;
         this.htmlElement = htmlElement;
+        this.__proto__ = new fcModel.Object(globalObject);
 
-        this.addProperties(cssStyleDeclaration, codeConstruct);
-    }
-    catch(e) { this.notifyError("Error when creating Document object: " + e); }
-};
-
-fcModel.CSSStyleDeclaration.prototype = new fcModel.Object(null);
-
-fcModel.CSSStyleDeclaration.prototype.addProperties = function(cssStyleDeclaration, codeConstruct)
-{
-    try
-    {
         var properties = fcModel.CSSStyleDeclaration.CONST.INTERNAL_PROPERTIES.PROPERTIES;
 
         for(var i = 0, length = properties.length; i < length; i++)
@@ -36,11 +28,10 @@ fcModel.CSSStyleDeclaration.prototype.addProperties = function(cssStyleDeclarati
             this.addProperty(propertyName, cssStyleDeclaration[propertyName], codeConstruct, true);
         }
     }
-    catch(e) { this.notifyError("Error when adding properties to cssStyleDeclaration:" + e);}
+    catch(e) { this.notifyError("Error when creating Document object: " + e); }
 };
 
-fcModel.CSSStyleDeclaration.prototype.notifyError = function(message) { alert("Document - " + message); }
-
+fcModel.CSSStyleDeclaration.prototype = new fcModel.Object(null);
 fcModel.CSSStyleDeclaration.CONST =
 {
     INTERNAL_PROPERTIES :

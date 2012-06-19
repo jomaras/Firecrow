@@ -15,6 +15,8 @@ fcModel.Attr = function(attr, globalObject, codeConstruct)
         this.globalObject = globalObject;
         this.attr = attr;
 
+        this.__proto__ = new fcModel.Object(this.globalObject);
+
         this.addProperty("isId", new fcModel.JsValue(this.attr.isId, new fcModel.FcInternal(null)), null);
         this.addProperty("localName", new fcModel.JsValue(this.attr.localName, new fcModel.FcInternal(null)), null);
         this.addProperty("name", new fcModel.JsValue(this.attr.name, new fcModel.FcInternal(null)), null);
@@ -25,6 +27,8 @@ fcModel.Attr = function(attr, globalObject, codeConstruct)
         this.addProperty("specified", new fcModel.JsValue(this.attr.specified, new fcModel.FcInternal(null)), null);
         this.addProperty("textContent", new fcModel.JsValue(this.attr.textContent, new fcModel.FcInternal(null)), null);
         this.addProperty("value", new fcModel.JsValue(this.attr.value, new fcModel.FcInternal(null)), null);
+
+        this.notifyError = function(message) { alert("Attr - " + message); }
     }
     catch(e) { this.notifyError("Error when creating HtmlElement object: " + e); }
 };
@@ -60,8 +64,6 @@ fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConst
     }
     catch(e) { alert("Attr - error when creating attribute list:" + e); }
 };
-
-fcModel.Attr.prototype.notifyError = function(message) { alert("Attr - " + message); }
 
 //https://developer.mozilla.org/en/DOM/element
 fcModel.Attr.CONST =

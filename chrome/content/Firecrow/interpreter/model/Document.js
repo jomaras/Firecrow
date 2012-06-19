@@ -12,8 +12,11 @@ fcModel.Document = function(documentFragment, globalObject)
 {
     try
     {
+        this.notifyError = function(message) { alert("Document - " + message); }
+
         this.globalObject = globalObject;
         this.documentFragment = documentFragment;
+        this.__proto__ = new fcModel.Object(globalObject);
 
         //Extend the fragment just to support createElement function
         this.documentFragment.createElement = document.createElement;
@@ -28,8 +31,6 @@ fcModel.Document = function(documentFragment, globalObject)
 };
 
 fcModel.Document.prototype = new fcModel.Object(null);
-
-fcModel.Document.prototype.notifyError = function(message) { alert("Document - " + message); }
 
 fcModel.Document.CONST =
 {

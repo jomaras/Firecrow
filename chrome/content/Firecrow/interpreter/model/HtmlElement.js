@@ -18,6 +18,12 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.htmlElement = htmlElement;
 
         this.proto = new fcModel.Object(this.globalObject);
+        this.__proto__ = this.proto;
+
+        for(var prop in fcModel.HtmlElementProto)
+        {
+            this[prop] = fcModel.HtmlElementProto[prop];
+        }
 
         this.setChildRelatedProperties(codeConstruct);
 
@@ -33,111 +39,115 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.addPrimitiveProperties(htmlElement, codeConstruct);
         this.expandMethods();
     }
-    catch(e) { this.notifyError("Error when creating HtmlElement object: " + e); }
+    catch(e) { alert(e); }//this.notifyError("Error when creating HtmlElement object: " + e); }
 };
 
 fcModel.HtmlElement.prototype = new fcModel.Object(null);
 
-fcModel.HtmlElement.prototype.setChildRelatedProperties = function(codeConstruct)
+fcModel.HtmlElementProto =
 {
-    var childNodes = this.getChildNodes(codeConstruct);
-    var children = this.getChildren(childNodes);
-
-    this.proto.addProperty.call(this, "childNodes", this.globalObject.internalExecutor.createArray(codeConstruct, childNodes), codeConstruct);
-    this.proto.addProperty.call(this, "children", this.globalObject.internalExecutor.createArray(codeConstruct, children), codeConstruct);
-    this.proto.addProperty.call(this, "innerHTML", new fcModel.JsValue(this.htmlElement.innerHTML, new fcModel.FcInternal(codeConstruct)), codeConstruct);
-}
-
-fcModel.HtmlElement.prototype.getChildNodes = function(codeConstruct)
-{
-    var childNodeList = [];
-    try
+    setChildRelatedProperties: function(codeConstruct)
     {
-        for(var i = 0, childNodes = this.htmlElement.childNodes, length = childNodes.length; i < length; i++)
+        var childNodes = this.getChildNodes(codeConstruct);
+        var children = this.getChildren(childNodes);
+
+        this.proto.addProperty.call(this, "childNodes", this.globalObject.internalExecutor.createArray(codeConstruct, childNodes), codeConstruct);
+        this.proto.addProperty.call(this, "children", this.globalObject.internalExecutor.createArray(codeConstruct, children), codeConstruct);
+        this.proto.addProperty.call(this, "innerHTML", new fcModel.JsValue(this.htmlElement.innerHTML, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+    },
+
+    getChildNodes: function(codeConstruct)
+    {
+        var childNodeList = [];
+        try
         {
-            var childNode = childNodes[i];
-            childNodeList.push
-            (
-                new fcModel.JsValue
+            for(var i = 0, childNodes = this.htmlElement.childNodes, length = childNodes.length; i < length; i++)
+            {
+                var childNode = childNodes[i];
+                childNodeList.push
                 (
-                    childNode,
-                    new fcModel.FcInternal
+                    new fcModel.JsValue
                     (
-                        codeConstruct,
-                        ValueTypeHelper.isOfType(childNode, HTMLElement) ?  new fcModel.HtmlElement(childNode, this.globalObject, codeConstruct)
-                                                                         :  new fcModel.TextNode(childNode, this.globalObject, codeConstruct)
+                        childNode,
+                        new fcModel.FcInternal
+                        (
+                            codeConstruct,
+                            ValueTypeHelper.isOfType(childNode, HTMLElement) ?  new fcModel.HtmlElement(childNode, this.globalObject, codeConstruct)
+                                                                             :  new fcModel.TextNode(childNode, this.globalObject, codeConstruct)
+                        )
                     )
                 )
-            )
+            }
         }
-    }
-    catch(e) { this.notifyError("Error when getting child nodes:" + e); }
+        catch(e) { this.notifyError("Error when getting child nodes:" + e); }
 
-    return childNodeList;
+        return childNodeList;
+    },
+
+    getChildren: function(childNodes)
+    {
+        var children = [];
+        try
+        {
+           for(var i = 0, length = childNodes.length; i < length; i++)
+           {
+               var child = childNodes[i];
+
+               if(ValueTypeHelper.isOfType(child.value, HTMLElement)) { children.push(child); }
+           }
+        }
+        catch(e) { this.notifyError("Error when getting children from child nodes: " + e); }
+
+        return children;
+    },
+
+    addPrimitiveProperties: function(htmlElement, codeConstruct)
+    {
+        try
+        {
+            var primitiveProperties = fcModel.HtmlElement.CONST.INTERNAL_PROPERTIES.PRIMITIVE_PROPERTIES;
+
+            for(var i = 0, length = primitiveProperties.length; i < length; i++)
+            {
+                var propertyName = primitiveProperties[i];
+
+                this.proto.addProperty.call(this, propertyName, new fcModel.JsValue(htmlElement[propertyName], new fcModel.FcInternal(codeConstruct)), codeConstruct);
+            }
+        }
+        catch(e) { this.notifyError("Error when adding primitive properties: " + e); }
+    },
+
+    addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
+    {
+        try
+        {
+            if(propertyName == "innerHTML")
+            {
+                this.setChildRelatedProperties(codeConstruct);
+            }
+
+            this.proto.addProperty.call(this, propertyName, propertyValue, codeConstruct, isEnumerable);
+        }
+        catch(e) { this.notifyError("Error when adding property: " + e);}
+    },
+
+    expandMethods: function()
+    {
+        try
+        {
+            var methods = fcModel.HtmlElement.CONST.INTERNAL_PROPERTIES.METHODS;
+
+            for(var i = 0, length = methods.length; i < length; i++)
+            {
+                this.globalObject.internalExecutor.expandWithInternalFunction(this.htmlElement, methods[i]);
+            }
+        }
+        catch(e) { this.notifyError("");}
+    },
+
+    notifyError: function(message) { alert("HtmlElement - " + message); }
 }
 
-fcModel.HtmlElement.prototype.getChildren = function(childNodes)
-{
-    var children = [];
-    try
-    {
-       for(var i = 0, length = childNodes.length; i < length; i++)
-       {
-           var child = childNodes[i];
-
-           if(ValueTypeHelper.isOfType(child.value, HTMLElement)) { children.push(child); }
-       }
-    }
-    catch(e) { this.notifyError("Error when getting children from child nodes: " + e); }
-
-    return children;
-};
-
-fcModel.HtmlElement.prototype.addPrimitiveProperties = function(htmlElement, codeConstruct)
-{
-    try
-    {
-        var primitiveProperties = fcModel.HtmlElement.CONST.INTERNAL_PROPERTIES.PRIMITIVE_PROPERTIES;
-
-        for(var i = 0, length = primitiveProperties.length; i < length; i++)
-        {
-            var propertyName = primitiveProperties[i];
-
-            this.proto.addProperty.call(this, propertyName, new fcModel.JsValue(htmlElement[propertyName], new fcModel.FcInternal(codeConstruct)), codeConstruct);
-        }
-    }
-    catch(e) { this.notifyError("Error when adding primitive properties: " + e); }
-};
-
-fcModel.HtmlElement.prototype.addProperty = function(propertyName, propertyValue, codeConstruct, isEnumerable)
-{
-    try
-    {
-        if(propertyName == "innerHTML")
-        {
-            this.setChildRelatedProperties(codeConstruct);
-        }
-
-        this.proto.addProperty.call(this, propertyName, propertyValue, codeConstruct, isEnumerable);
-    }
-    catch(e) { this.notifyError("Error when adding property: " + e);}
-};
-
-fcModel.HtmlElement.prototype.notifyError = function(message) { alert("HtmlElement - " + message); }
-
-fcModel.HtmlElement.prototype.expandMethods = function()
-{
-    try
-    {
-        var methods = fcModel.HtmlElement.CONST.INTERNAL_PROPERTIES.METHODS;
-
-        for(var i = 0, length = methods.length; i < length; i++)
-        {
-            this.globalObject.internalExecutor.expandWithInternalFunction(this.htmlElement, methods[i]);
-        }
-    }
-    catch(e) { this.notifyError("");}
-}
 //https://developer.mozilla.org/en/DOM/element
 fcModel.HtmlElement.CONST =
 {

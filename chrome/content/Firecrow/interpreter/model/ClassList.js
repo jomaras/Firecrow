@@ -18,8 +18,14 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
     try
     {
         if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement)) { this.notifyError("Constructor argument has to be a HTMLElement");}
+        /***************************************************************************************************/
+        this.notifyError = function(message) { alert("ClassList - " + message); }
+        /***************************************************************************************************/
+
         this.globalObject = globalObject;
         this.htmlElement = htmlElement;
+
+        this.__proto__ =  new fcModel.Object(this.globalObject);
 
         for(var i = 0, classList = htmlElement.classList, length = classList.length; i < length; i++)
         {
@@ -27,19 +33,6 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
             this.addProperty(i, new fcModel.JsValue(i, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         }
 
-        this.expandMethods();
-    }
-    catch(e) { this.notifyError("Error when creating HtmlElement object: " + e); }
-};
-
-fcModel.ClassList.prototype = new fcModel.Object(null);
-
-fcModel.ClassList.prototype.notifyError = function(message) { alert("ClassList - " + message); }
-
-fcModel.ClassList.prototype.expandMethods = function()
-{
-    try
-    {
         var internalMethods = fcModel.ClassList.CONST.INTERNAL_PROPERTIES.METHODS;
 
         var classList = this.htmlElement.classList;
@@ -48,8 +41,10 @@ fcModel.ClassList.prototype.expandMethods = function()
         this.globalObject.internalExecutor.expandWithInternalFunction(classList.remove, "remove");
         this.globalObject.internalExecutor.expandWithInternalFunction(classList.toggle, "toggle");
     }
-    catch(e) { this.notifyError("Error when expanding methods in ClassList:" + e); }
+    catch(e) { this.notifyError("Error when creating HtmlElement object: " + e); }
 };
+
+fcModel.ClassList.prototype = new fcModel.Object(null);
 
 //https://developer.mozilla.org/en/DOM/element
 fcModel.ClassList.CONST =
