@@ -477,8 +477,9 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.generateJsCode(callExpression.callee) + this._LEFT_PARENTHESIS
-                +  this.getSequenceCode(callExpression.arguments)
+            return this.generateJsCode(callExpression.callee)
+                + this._LEFT_PARENTHESIS
+                    +  this.getSequenceCode(callExpression.arguments)
                 +  this._RIGHT_PARENTHESIS;
         }
         catch(e) { this.notifyError("Error when generating code from call expression:" + e); }
@@ -488,7 +489,13 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.generateJsCode(memberExpression.object)
+            var isNotSimpleMemberExpression = !ASTHelper.isIdentifier(memberExpression.object)
+                                            &&!ASTHelper.isCallExpression(memberExpression.object)
+                                            &&!ASTHelper.isLiteral(memberExpression.object)
+                                            &&!ASTHelper.isThisExpression(memberExpression.object)
+                                            &&!ASTHelper.isMemberExpression(memberExpression.object);
+
+            return (isNotSimpleMemberExpression ? this._LEFT_PARENTHESIS : "") + this.generateJsCode(memberExpression.object) + (isNotSimpleMemberExpression ? this._RIGHT_PARENTHESIS : "")
                 + (memberExpression.computed ? this._LEFT_BRACKET + this.generateJsCode(memberExpression.property) + this._RIGHT_BRACKET
                                              : this._DOT + this.generateJsCode(memberExpression.property));
         }

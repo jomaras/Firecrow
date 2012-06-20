@@ -239,7 +239,7 @@ fcModel.Object.prototype =
 
                 if(lastModification != null && this.globalObject.currentCommand)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(constructCausingDependencyAddition, lastModification, this.globalObject.evaluationPositionId);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(constructCausingDependencyAddition, lastModification, this.globalObject.getPreciseEvaluationPositionId());
                 }
             }
 

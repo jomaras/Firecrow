@@ -50,6 +50,8 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
         if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
         //if(ASTHelper.isLiteral(sourceNodeModelObject)) { return; }
 
+        //console.log(Firecrow.CodeTextGenerator.generateJsCode(sourceNodeModelObject) + "->" + Firecrow.CodeTextGenerator.generateJsCode(targetNodeModelObject) + ";" + generatingCommandId);
+
         sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, generatingCommandId);
     }
     catch(e)

@@ -313,9 +313,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             if(topCommand.isEnterFunctionContextCommand())
             {
-                topCommand.blockStackConstructs = [];
-                topCommand.blockStackConstructs.push(topCommand.codeConstruct);
-                topCommand.blockStackConstructs.push(topCommand.parentFunctionCommand.codeConstruct);
+                topCommand.blockStackConstructs = [topCommand.codeConstruct, topCommand.parentFunctionCommand.codeConstruct];
 
                 return topCommand.blockStackConstructs;
             }
@@ -423,7 +421,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             for(var i = 0, length = formalParameters.length; i < length; i++)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameters[i].value.fcInternal.codeConstruct, arguments[i], this.globalObject.evaluationPositionId);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameters[i].value.fcInternal.codeConstruct, arguments[i], this.globalObject.getPreciseEvaluationPositionId());
             }
 
             this.push

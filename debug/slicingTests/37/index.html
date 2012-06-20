@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Firecrow - simple Js Test</h2>
+<div>JsTest</div>
+<div id="resultContainer"></div>
+<script>
+
+    var Vector = function(){};
+
+    Vector.prototype =
+    {
+        setElements: function(els)
+        {
+            this.elements = (els.elements || els).slice();
+            return this;
+        },
+
+        to3D: function()
+        {
+            var V = this.dup();
+            switch (V.elements.length)
+            {
+                case 3: break;
+                case 2: V.elements.push(0); break;
+                default: return null;
+            }
+            return V;
+        },
+
+        dup: function()
+        {
+            return Vector.create(this.elements);
+        }
+    };
+
+    Vector.create = function(elements)
+    {
+       var V = new Vector();
+       return V.setElements(elements);
+    }
+
+    var Segment = function(){};
+    Segment.prototype =
+    {
+        setPoints: function(startPoint, endPoint)
+        {
+            startPoint = Vector.create(startPoint).to3D();
+            endPoint = Vector.create(endPoint).to3D();
+
+            this.start = startPoint;
+            this.end = endPoint;
+
+            return this;
+        }
+    };
+
+    Segment.create = function(v1, v2)
+    {
+        var S = new Segment();
+        return S.setPoints(v1, v2);
+    }
+
+    var segment = Segment.create([5,5,5], [10,10,10]);
+
+    var startSum = 0;
+
+    for(var i = 0; i < segment.start.elements.length; i++)
+    {
+        startSum += segment.start.elements[i];
+    }
+
+    startSum++;
+
+    var endSum = 0;
+    for(var i = 0; i < segment.end.elements.length; i++)
+    {
+        endSum += segment.end.elements[i];
+    }
+
+    endSum++;
+</script>
+</body>
+</html>

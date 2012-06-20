@@ -42,7 +42,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
                 if(nextToLastModification != null && this.globalObject.currentCommand != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.evaluationPositionId);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.getPreciseEvaluationPositionId());
                 }
             }
             catch(e) { alert("Array - Error when registering modification added callback:" + e); }
@@ -57,7 +57,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
                 if(lastModification != null && this.globalObject.currentCommand != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, lastModification, this.globalObject.evaluationPositionId);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, lastModification, this.globalObject.getPreciseEvaluationPositionId());
                 }
             }
             catch(e) { alert("Array - Error when registering getPropertyCallback: " + e); }
