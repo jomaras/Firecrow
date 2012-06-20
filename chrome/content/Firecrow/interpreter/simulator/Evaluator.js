@@ -841,12 +841,18 @@ fcSimulator.Evaluator.prototype =
             var args = [];
             var callExpression = callInternalFunctionCommand.codeConstruct;
 
+            this._addDependenciesToTopBlockConstructs(callExpression);
+
             if(callExpression.arguments != null)
             {
-                callExpression.arguments.forEach(function(argument)
+                var arguments = callExpression.arguments;
+
+                for(var i = 0, length = arguments.length; i < length; i++)
                 {
+                    var argument = arguments[i];
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, this.globalObject.getPreciseEvaluationPositionId());
                     args.push(this.executionContextStack.getExpressionValue(argument));
-                }, this);
+                }
             }
 
             this.executionContextStack.setExpressionValue
@@ -893,7 +899,13 @@ fcSimulator.Evaluator.prototype =
         for(var i = 0, length = topBlockConstructs.length; i < length; i++)
         {
             //TODO - change to control dependencies and update graph traversal!
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(currentConstruct, topBlockConstructs[i], this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                currentConstruct,
+                topBlockConstructs[i],
+                this.globalObject.getPreciseEvaluationPositionId(),
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
         }
     },
 

@@ -34,16 +34,16 @@ FBL.ns(function() { with (FBL) {
     {
         this.structuralDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
     };
-    Node.prototype.addDataDependency = function(destinationNode, isDynamic, index, groupId, destinationNodeDependencyId)
+    Node.prototype.addDataDependency = function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo)
     {
-        this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, groupId, destinationNodeDependencyId));
+        this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo));
     };
     Node.prototype.addControlDependency = function(destinationNode, isDynamic)
     {
         this.controlDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
     };
 
-    Node.prototype.getDataDependencyEdgesIndexedLessOrEqualTo = function(maxIndex)
+    Node.prototype.getDataDependencyEdgesIndexedLessOrEqualTo = function(maxIndex, destinationNodeDependencyConstraints)
     {
         var edges = [];
 
@@ -51,7 +51,12 @@ FBL.ns(function() { with (FBL) {
         {
             var dependency = this.dataDependencies[i];
 
-            if(dependency.index <= maxIndex)
+            if(dependency.index <= maxIndex &&
+            (
+                dependency.destinationNodeDependencyConstraints == null
+              || destinationNodeDependencyConstraints == null
+              || dependency.destinationNodeDependencyConstraints.currentCommandId <= destinationNodeDependencyConstraints.currentCommandId
+              || dependency.dependencyCreationInfo.groupId.indexOf(destinationNodeDependencyConstraints.groupId) == 0))
             {
                 edges.push(dependency);
 
@@ -61,9 +66,9 @@ FBL.ns(function() { with (FBL) {
 
                     var followingDependency = this.dataDependencies[j];
 
-                    if(dependency.groupId.indexOf(followingDependency.groupId) == 0)
+                    if(dependency.dependencyCreationInfo.groupId.indexOf(followingDependency.dependencyCreationInfo.groupId) == 0)
                     {
-                        edges.push(followingDependency);
+                        edges.push(followingDependency)
                     }
                 }
 

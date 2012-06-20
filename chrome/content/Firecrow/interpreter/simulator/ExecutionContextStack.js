@@ -425,6 +425,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 (
                     formalParameters[i].value.fcInternal.codeConstruct,
                     arguments[i],
+                    this.globalObject.getPreciseEvaluationPositionId(),
                     this.globalObject.getPreciseEvaluationPositionId()
                 );
             }

@@ -43,16 +43,14 @@ DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentN
     }
 };
 
-DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, generatingCommandId, targetNodeDependencyId)
+DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo)
 {
     try
     {
         if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
         //if(ASTHelper.isLiteral(sourceNodeModelObject)) { return; }
 
-        //console.log(Firecrow.CodeTextGenerator.generateJsCode(sourceNodeModelObject) + "->" + Firecrow.CodeTextGenerator.generateJsCode(targetNodeModelObject) + ";" + generatingCommandId);
-
-        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, generatingCommandId, targetNodeDependencyId);
+        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo);
     }
     catch(e)
     {
@@ -98,7 +96,7 @@ DependencyGraph.prototype.markGraph = function(model)
             }
             else
             {
-                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex);
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null);
             }
         }
 
@@ -111,7 +109,7 @@ DependencyGraph.prototype.markGraph = function(model)
 
             if(this.inculsionFinder.isIncludedElement(parent))
             {
-                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex);
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null);
             }
         }
 
@@ -121,13 +119,13 @@ DependencyGraph.prototype.markGraph = function(model)
     catch(e) { this.notifyError("Error occurred when marking graph:" + e);}
 };
 
-DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex)
+DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, destinationNodeDependencyConstraints)
 {
     try
     {
         codeConstruct.shouldBeIncluded = true;
 
-        var dependencyEdgesToFollow = codeConstruct.graphNode.getDataDependencyEdgesIndexedLessOrEqualTo(maxDependencyIndex);
+        var dependencyEdgesToFollow = codeConstruct.graphNode.getDataDependencyEdgesIndexedLessOrEqualTo(maxDependencyIndex, destinationNodeDependencyConstraints);
 
         for(var i = 0, length = dependencyEdgesToFollow.length; i < length; i++)
         {
@@ -138,7 +136,12 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 
             dependencyEdgeToFollow.hasBeenTraversed = true;
 
-            this.traverseAndMark(dependencyEdgeToFollow.destinationNode.model, dependencyEdgeToFollow.index);
+            this.traverseAndMark
+            (
+                dependencyEdgeToFollow.destinationNode.model,
+                dependencyEdgeToFollow.index,
+                dependencyEdgeToFollow.destinationNodeDependencyConstraints || destinationNodeDependencyConstraints
+            );
         }
     }
     catch(e) { this.notifyError("Error occurred when traversing and marking the graph: " + e);}
