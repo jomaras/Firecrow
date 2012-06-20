@@ -6,16 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/edge.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/edge.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/38/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/38/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -716,7 +706,11 @@
       <created>1340191025205</created>
       <updated>1340191025205</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="Finally - augmenting dependencies with group and command id - was able to track dependencies between different instances - MAJOR MILESTONE">
+      <created>1340200428924</created>
+      <updated>1340200428925</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -801,7 +795,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="After updating (relating every modification with evaluation position), everything works as this morning - now real stuff continues!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finally - augmenting dependencies with group and command id - was able to track dependencies between different instances - MAJOR MILESTONE" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -814,7 +808,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="updateted slicing tests" />
     <MESSAGE value="Fixed a bug with setting dependencies of member expressions" />
     <MESSAGE value="Slicing tests added and updated; code generation changed (has HACKS :-/)" />
     <MESSAGE value="Added dependency tracking to array instances - dependencies between all modifications! I have tests but i'm not completely sure if this is ok" />
@@ -839,6 +832,7 @@
     <MESSAGE value="Tests are all passing" />
     <MESSAGE value="Backup before experimenting" />
     <MESSAGE value="After updating (relating every modification with evaluation position), everything works as this morning - now real stuff continues!!" />
+    <MESSAGE value="Finally - augmenting dependencies with group and command id - was able to track dependencies between different instances - MAJOR MILESTONE" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
