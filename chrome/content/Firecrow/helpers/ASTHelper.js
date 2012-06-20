@@ -24,18 +24,43 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
+                var ASTHelper = Firecrow.ASTHelper;
                 this.traverseAst(rootElement, function(currentElement, propertyName, parentElement)
                 {
-                    if(parentElement != null)
-                    {
-                        if(parentElement.children == null) { parentElement.children = [];}
-
-                        if(currentElement != null) { parentElement.children.push(currentElement);}
-                    }
-
                     if(currentElement != null)
                     {
                         currentElement.parent = parentElement;
+                    }
+
+                    if(parentElement != null)
+                    {
+                        if(parentElement.children == null) { parentElement.children = []; }
+
+                        if(currentElement != null)
+                        {
+                            currentElement.indexInParent = parentElement.children.length;
+
+                            if(ASTHelper.getFunctionParent(currentElement) != null)
+                            {
+                                for(var i = parentElement.children.length - 1; i >= 0; i--)
+                                {
+                                    var child = parentElement.children[i];
+
+                                    if(ASTHelper.isLoopStatement(child) || ASTHelper.isIfStatement(child))
+                                    {
+                                        currentElement.previousCondition = child.test;
+                                        break;
+                                    }
+                                }
+
+                                if(ASTHelper.isStatement(parentElement) && currentElement.previousCondition == null)
+                                {
+                                    currentElement.previousCondition = parentElement.previousCondition;
+                                }
+                            }
+
+                            parentElement.children.push(currentElement);
+                        }
                     }
                 });
             }
@@ -84,7 +109,8 @@ FBL.ns(function () { with (FBL) {
                         || propName == "domElement"
                         || propName == "graphNode"
                         || propName == "htmlNode"
-                        || propName == "attributes") { continue; }
+                        || propName == "attributes"
+                        || propName == "previousCondition") { continue; }
 
                     var propertyValue = astElement[propName];
 
@@ -96,7 +122,7 @@ FBL.ns(function () { with (FBL) {
                         {
                             if(ValueTypeHelper.isObject(propertyValue[i]))
                             {
-                                processElementFunction(propertyValue[i], propName, astElement);
+                                processElementFunction(propertyValue[i], propName, astElement, i);
                                 this.traverseAst(propertyValue[i], processElementFunction);
                             }
                         }

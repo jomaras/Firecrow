@@ -23,6 +23,10 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
         {
             this.lastModificationConstruct = { codeConstruct: codeConstruct.value, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
         }
+        else if (ASTHelper.isAssignmentExpression(codeConstruct))
+        {
+            this.lastModificationConstruct = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+        }
 
         if(codeConstruct != null)
         {

@@ -645,10 +645,8 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var whileBody = this.generateJsCode(whileStatement.body);
 
-            whileBody = whileBody.length != 0 ? whileBody : this._SEMI_COLON;
-
             return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(whileStatement.test) + this._RIGHT_PARENTHESIS
-                + this.newLine + whileBody;
+                + (whileBody.length != 0 ? this.newLine + whileBody : this._SEMI_COLON);
         }
         catch(e) { this.notifyError("Error when generating code from while statement:" + e); }
     },
@@ -672,16 +670,13 @@ Firecrow.CodeTextGenerator.prototype =
         try
         {
             var forBody = this.generateJsCode(forStatement.body);
-
-            forBody = forBody.length != 0 ? forBody : this._SEMI_COLON;
             var forInit = this.generateJsCode(forStatement.init);
 
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
                 +  forInit + this._SEMI_COLON
                 +  this.generateJsCode(forStatement.test) + this._SEMI_COLON
                 +  this.generateJsCode(forStatement.update) + this._RIGHT_PARENTHESIS
-                +  this.newLine
-                +  forBody;
+                +  (forBody.length != 0 ? (this.newLine + forBody) : this._SEMI_COLON);
         }
         catch(e) { this.notifyError("Error when generating code from for statement:" + e); }
     },

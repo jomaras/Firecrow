@@ -907,6 +907,18 @@ fcSimulator.Evaluator.prototype =
                 this.globalObject.getPreciseEvaluationPositionId()
             );
         }
+
+        if(currentConstruct.previousCondition != null)
+        {
+            //TODO - change to control dependencies and update graph traversal!
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                currentConstruct,
+                currentConstruct.previousCondition,
+                this.globalObject.getPreciseEvaluationPositionId(),
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
+        }
     },
 
     notifyError: function(command, message)

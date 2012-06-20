@@ -186,9 +186,34 @@ fcModel.Object.prototype =
 
             if(this.proto.fcInternal == null && this.proto.jsValue == null) { return null; }
 
-            this.addDependencyToPrototypeDefinition(readPropertyConstruct);
+            var property = this.proto.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
 
-            return this.proto.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+            if(property != null)
+            {
+                if(this.prototypeDefinitionConstruct != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        readPropertyConstruct,
+                        this.prototypeDefinitionConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        this.prototypeDefinitionConstruct.evaluationPositionId
+                    );
+                }
+
+                if(property.lastModificationConstruct != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        readPropertyConstruct,
+                        property.lastModificationConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        property.lastModificationConstruct.evaluationPositionId
+                    );
+                }
+            }
+
+            return property;
         }
         catch(e)
         {
@@ -226,51 +251,6 @@ fcModel.Object.prototype =
                                     : null;
         }
         catch(e) { alert("Error when getting property value - Object:" + e);}
-    },
-
-    addDependencyToPrototypeDefinition: function(constructCausingDependencyAddition)
-    {
-        try
-        {
-            if(this.proto == null) { return; }
-
-            var protoModifications = [];
-
-            if(this.proto.jsValue != null)
-            {
-                protoModifications = this.proto.jsValue.fcInternal.object.modifications;
-            }
-            else if (this.proto.modifications != null)
-            {
-                protoModifications = this.proto.modifications;
-            }
-
-            if(protoModifications != null)
-            {
-                var lastModification = protoModifications[protoModifications.length - 1];
-
-                if(lastModification != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        constructCausingDependencyAddition,
-                        lastModification.codeConstruct,
-                        this.globalObject.getPreciseEvaluationPositionId(),
-                        lastModification.evaluationPositionId
-                    );
-                }
-            }
-
-            for(var i = 0, length = protoModifications.length; i < length; i++)
-            {
-                var protoModification = protoModifications[i];
-                this.addModification(protoModification.codeConstruct, protoModification.evaluationPositionId);
-            }
-        }
-        catch(e)
-        {
-            alert("Error when adding dependency to prototype definition - Object:" + e);
-        }
     },
 
     isOwnProperty: function(propertyName)
