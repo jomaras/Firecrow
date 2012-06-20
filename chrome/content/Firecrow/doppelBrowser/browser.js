@@ -332,11 +332,11 @@ Browser.prototype =
         });
     },
 
-    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, generatingCommandId)
+    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, generatingCommandId, targetNodeDependencyId)
     {
         this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
         {
-            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, generatingCommandId);
+            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, generatingCommandId, targetNodeDependencyId);
         });
     },
 

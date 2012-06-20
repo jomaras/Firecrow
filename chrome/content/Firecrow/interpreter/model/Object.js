@@ -12,10 +12,7 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcModel.ObjectFunction = function()
-{
-
-};
+fcModel.ObjectFunction = function() { };
 
 fcModel.Object = function(globalObject, codeConstruct, implementationObject)
 {
@@ -23,7 +20,10 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject)
     this.globalObject = globalObject;
 
     this.modifications = [];
-    this.addModification(codeConstruct);
+    if(codeConstruct != null && globalObject != null)
+    {
+        this.addModification(codeConstruct, globalObject.getPreciseEvaluationPositionId());
+    }
 
     this.implementationObject = implementationObject;
 
@@ -48,20 +48,22 @@ fcModel.Object.prototype =
         this.getPropertyCallbackDescriptor = { callback: callback, thisValue: thisValue};
     },
 
-    addModification: function(codeConstruct)
+    addModification: function(codeConstruct, evaluationPositionId)
     {
         try
         {
             if(codeConstruct == null) { return; }
 
-            this.modifications.push(codeConstruct);
+            var modificationDescription = { codeConstruct: codeConstruct, evaluationPositionId: evaluationPositionId };
+
+            this.modifications.push(modificationDescription);
 
             if(this.modificationCallbackDescriptor != null)
             {
                 this.modificationCallbackDescriptor.callback.call
                 (
                     this.modificationCallbackDescriptor.thisValue || this,
-                    codeConstruct,
+                    modificationDescription,
                     this.modifications
                 );
             }
@@ -74,9 +76,13 @@ fcModel.Object.prototype =
         try
         {
             this.proto = proto;
-            this.addModification(codeConstruct);
+
+            if(codeConstruct != null)
+            {
+                this.addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+            }
         }
-        catch(e) { alert("Object - error "); }
+        catch(e) { alert("Object - error when setting proto: " + e); }
     },
 
     addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
@@ -89,7 +95,7 @@ fcModel.Object.prototype =
 
             if(existingProperty == null)
             {
-                var property = new fcModel.Identifier(propertyName, propertyValue, codeConstruct);
+                var property = new fcModel.Identifier(propertyName, propertyValue, codeConstruct, this.globalObject);
 
                 this.properties.push(property);
 
@@ -100,14 +106,20 @@ fcModel.Object.prototype =
                 existingProperty.setValue(propertyValue, codeConstruct);
             }
 
-            if(propertyName == "prototype" && propertyValue != null)
+            if(propertyName == "prototype" && propertyValue != null && codeConstruct != null)
             {
-                this.prototypeDefinitionConstruct = codeConstruct;
+                this.prototypeDefinitionConstruct = { codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
             }
 
-            this.addModification(codeConstruct);
+            if(codeConstruct != null)
+            {
+                this.addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+            }
         }
-        catch(e) { alert("Error when adding property - Object:" + e);}
+        catch(e)
+        {
+            alert("Error when adding property - Object:" + e);
+        }
     },
 
     deleteProperty: function(propertyName, codeConstruct)
@@ -237,15 +249,22 @@ fcModel.Object.prototype =
             {
                 var lastModification = protoModifications[protoModifications.length - 1];
 
-                if(lastModification != null && this.globalObject.currentCommand)
+                if(lastModification != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(constructCausingDependencyAddition, lastModification, this.globalObject.getPreciseEvaluationPositionId());
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        constructCausingDependencyAddition,
+                        lastModification.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        lastModification.evaluationPositionId
+                    );
                 }
             }
 
             for(var i = 0, length = protoModifications.length; i < length; i++)
             {
-                this.addModification(protoModifications[i]);
+                var protoModification = protoModifications[i];
+                this.addModification(protoModification.codeConstruct, protoModification.evaluationPositionId);
             }
         }
         catch(e)

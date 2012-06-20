@@ -27,7 +27,7 @@ fcSimulator.VariableObject.prototype =
             var existingIdentifier = this.getIdentifier(identifier.name);
 
             if(existingIdentifier == null) { this.identifiers.push(identifier); }
-            else { existingIdentifier.setValue(identifier.value, identifier.lastModificationConstruct); }
+            else { existingIdentifier.setValue(identifier.value, identifier.lastModificationConstruct.codeConstruct); }
         }
         catch(e) { this.notifyError("Error when registering identifier:" + e);}
     },
@@ -94,7 +94,8 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
             (
                 "arguments",
                 globalObject.internalExecutor.createArray(callExpressionCommand.codeConstruct, sentArguments),
-                callExpressionCommand.codeConstruct.arguments
+                callExpressionCommand.codeConstruct.arguments,
+                globalObject
             )
         );
 
@@ -153,7 +154,12 @@ Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(ob
         {
             try
             {
-                this.object.addProperty(identifier.name, identifier.value, identifier.declarationConstruct);
+                this.object.addProperty
+                (
+                    identifier.name,
+                    identifier.value,
+                    identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct : null
+                );
             }
             catch(e) { alert("LifterVariableObject -Error when registering identifier:" + e); }
         };

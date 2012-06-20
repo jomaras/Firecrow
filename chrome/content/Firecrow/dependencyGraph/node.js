@@ -34,9 +34,9 @@ FBL.ns(function() { with (FBL) {
     {
         this.structuralDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
     };
-    Node.prototype.addDataDependency = function(destinationNode, isDynamic, index, groupId)
+    Node.prototype.addDataDependency = function(destinationNode, isDynamic, index, groupId, destinationNodeDependencyId)
     {
-        this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, groupId));
+        this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, groupId, destinationNodeDependencyId));
     };
     Node.prototype.addControlDependency = function(destinationNode, isDynamic)
     {

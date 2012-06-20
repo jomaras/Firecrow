@@ -28,9 +28,15 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
         {
             var nextToLastModification = allModifications[allModifications.length - 2];
 
-            if(nextToLastModification != null && this.globalObject.currentCommand)
+            if(nextToLastModification != null)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.getPreciseEvaluationPositionId());
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    lastModification.codeConstruct,
+                    nextToLastModification.codeConstruct,
+                    lastModification.evaluationPositionId,
+                    nextToLastModification.evaluationPositionId
+                );
             }
         }
         catch(e) { alert("Function - Error when registering modification added callback:" + e); }

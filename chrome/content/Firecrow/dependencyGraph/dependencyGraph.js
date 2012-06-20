@@ -43,7 +43,7 @@ DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentN
     }
 };
 
-DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, generatingCommandId)
+DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, generatingCommandId, targetNodeDependencyId)
 {
     try
     {
@@ -52,11 +52,11 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
 
         //console.log(Firecrow.CodeTextGenerator.generateJsCode(sourceNodeModelObject) + "->" + Firecrow.CodeTextGenerator.generateJsCode(targetNodeModelObject) + ";" + generatingCommandId);
 
-        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, generatingCommandId);
+        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, generatingCommandId, targetNodeDependencyId);
     }
     catch(e)
     {
-        this.notifyError("Error when handling data dependency established!");
+        this.notifyError("Error when handling data dependency established: " + e);
     }
 };
 

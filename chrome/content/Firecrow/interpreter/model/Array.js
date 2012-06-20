@@ -24,7 +24,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         this.modifications = [];
         this.__proto__ = new fcModel.Object(this.globalObject);
 
-        if(codeConstruct != null) { this.modifications.push(codeConstruct); }
+        if(codeConstruct != null) { this.modifications.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});}
 
         this.jsArray.forEach(function(item) { this.push(item, codeConstruct);}, this);
 
@@ -42,7 +42,13 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
                 if(nextToLastModification != null && this.globalObject.currentCommand != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.getPreciseEvaluationPositionId());
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        lastModification.codeConstruct,
+                        nextToLastModification.codeConstruct,
+                        lastModification.evaluationPositionId,
+                        nextToLastModification.evaluationPositionId
+                    );
                 }
             }
             catch(e) { alert("Array - Error when registering modification added callback:" + e); }
@@ -57,7 +63,13 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
                 if(lastModification != null && this.globalObject.currentCommand != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, lastModification, this.globalObject.getPreciseEvaluationPositionId());
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        getPropertyConstruct,
+                        lastModification.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        lastModification.evaluationPositionId
+                    );
                 }
             }
             catch(e) { alert("Array - Error when registering getPropertyCallback: " + e); }

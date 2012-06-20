@@ -46,9 +46,16 @@ fcSimulator.InternalExecutor.prototype =
                     constructorFunction.value.prototype = oldPrototype;
                 }
 
-                if(constructorFunction.fcInternal != null && constructorFunction.fcInternal.object != null)
+                if(constructorFunction.fcInternal != null && constructorFunction.fcInternal.object != null
+                && constructorFunction.fcInternal.object.prototypeDefinitionConstruct != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(creationCodeConstruct, constructorFunction.fcInternal.object.prototypeDefinitionConstruct, this.globalObject.getPreciseEvaluationPositionId());
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        creationCodeConstruct,
+                        constructorFunction.fcInternal.object.prototypeDefinitionConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        constructorFunction.fcInternal.object.prototypeDefinitionConstruct.evaluationPositionId
+                    );
                 }
 
                 return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)));
@@ -77,9 +84,15 @@ fcSimulator.InternalExecutor.prototype =
             {
                 var nextToLastModification = allModifications[allModifications.length - 2];
 
-                if(nextToLastModification != null && this.globalObject.currentCommand)
+                if(nextToLastModification != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(lastModification, nextToLastModification, this.globalObject.getPreciseEvaluationPositionId());
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        lastModification.codeConstruct,
+                        nextToLastModification.codeConstruct,
+                        lastModification.evaluationPositionId,
+                        nextToLastModification.evaluationPositionId
+                    );
                 }
             });
 

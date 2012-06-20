@@ -883,7 +883,8 @@ Firecrow.CodeTextGenerator.prototype =
 
             if(variableDeclarator.init)
             {
-                if(!(this.isSlicing && !variableDeclarator.shouldBeIncluded))
+                if(this.isSlicing && !variableDeclarator.init.shouldBeIncluded) {}
+                else
                 {
                     initCode = " = " + this.generateJsCode(variableDeclarator.init);
                 }

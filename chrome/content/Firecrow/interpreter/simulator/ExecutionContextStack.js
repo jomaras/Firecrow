@@ -421,7 +421,12 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             for(var i = 0, length = formalParameters.length; i < length; i++)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameters[i].value.fcInternal.codeConstruct, arguments[i], this.globalObject.getPreciseEvaluationPositionId());
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    formalParameters[i].value.fcInternal.codeConstruct,
+                    arguments[i],
+                    this.globalObject.getPreciseEvaluationPositionId()
+                );
             }
 
             this.push
@@ -430,7 +435,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 (
                     fcSimulator.VariableObject.createFunctionVariableObject
                     (
-                        functionConstruct.id != null ? new fcModel.Identifier(functionConstruct.id.name, enterFunctionContextCommand.callee, functionConstruct)
+                        functionConstruct.id != null ? new fcModel.Identifier(functionConstruct.id.name, enterFunctionContextCommand.callee, functionConstruct, this.globalObject)
                                                      : null,
                         formalParameters,
                         enterFunctionContextCommand.callee,
@@ -457,8 +462,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             return functionConstruct.params.map(function(param)
             {
-                return new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)), param);
-            });
+                return new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)), param, this.globalObject);
+            }, this);
         }
         catch(e) { this.notifyError("Error when getting formal function parameters: " + e); }
     },
@@ -586,7 +591,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ASTHelper.isVariableDeclarator(variableDeclarator)) { this.notifyError("ExecutionContextStack: When registering an identifier, the argument has to be variable declarator"); }
 
-            this.activeContext.registerIdentifier(new fcModel.Identifier(variableDeclarator.id.name, undefined, variableDeclarator));
+            this.activeContext.registerIdentifier(new fcModel.Identifier(variableDeclarator.id.name, undefined, variableDeclarator, this.globalObject));
         }
         catch(e)
         {
@@ -600,7 +605,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ASTHelper.isFunctionDeclaration(functionDeclaration)) { this.notifyError("When registering a function, the argument has to be a function declaration"); return; }
 
-            this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration));
+            this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration, this.globalObject));
         }
         catch(e) { this.notifyError("ExecutionContextStack - error when registering function declaration: " + e); }
     },
@@ -679,7 +684,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             if(globalExecutionContext == null) { this.notifyError("Global execution context can not be null!"); return; }
 
-            globalExecutionContext.registerIdentifier(new fcModel.Identifier(identifierName, value, setCodeConstruct));
+            globalExecutionContext.registerIdentifier(new fcModel.Identifier(identifierName, value, setCodeConstruct, this.globalObject));
         }
         catch(e) { this.notifyError("Error when setting Identifier value: " + e); }
     },

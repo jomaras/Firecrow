@@ -3,7 +3,7 @@ FBL.ns(function() { with (FBL) {
 
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic, index, groupId)
+Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic, index, groupId, destinationNodeHelperId)
 {
     if(!ValueTypeHelper.isOfType(sourceNode, Firecrow.DependencyGraph.Node)
     || !ValueTypeHelper.isOfType(destinationNode, Firecrow.DependencyGraph.Node))
@@ -17,6 +17,7 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
     this.isDynamic = !!isDynamic;
     this.index = index;
     this.groupId = groupId;
+    this.destinationNodeHelperId = destinationNodeHelperId || "";
 };
 /*************************************************************************************/
 }});
