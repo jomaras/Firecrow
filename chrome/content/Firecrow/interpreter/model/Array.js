@@ -18,11 +18,11 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
             this[prop] = fcModel.ArrayProto[prop];
         }
         /*******************************************************************************/
+        this.__proto__ = new fcModel.Object(this.globalObject);
         this.jsArray = jsArray || [];
         this.globalObject = globalObject;
         this.items = [];
         this.modifications = [];
-        this.__proto__ = new fcModel.Object(this.globalObject);
 
         if(codeConstruct != null) { this.modifications.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});}
 
@@ -395,6 +395,17 @@ fcModel.ArrayExecutor =
             var thisObjectValue = thisObject.value;
             var functionName = functionObjectValue.name;
             var fcThisValue =  thisObject.fcInternal.object;
+
+            var lastModification = fcThisValue.modifications[fcThisValue.modifications.length - 1];
+            if(lastModification != null)
+            {
+                fcThisValue.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    callExpression,
+                    lastModification.codeConstruct,
+                    fcThisValue.globalObject.getPreciseEvaluationPositionId()
+                );
+            }
 
             switch(functionName)
             {

@@ -14,11 +14,11 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
     {
         if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement)) { this.notifyError("When creating HTMLElement the htmlElement must be of type HTMLElement: " + (typeof htmlElement)); return; }
 
-        this.globalObject = globalObject;
-        this.htmlElement = htmlElement;
-
         this.proto = new fcModel.Object(this.globalObject);
         this.__proto__ = this.proto;
+
+        this.globalObject = globalObject;
+        this.htmlElement = htmlElement;
 
         for(var prop in fcModel.HtmlElementProto)
         {
@@ -39,7 +39,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.addPrimitiveProperties(htmlElement, codeConstruct);
         this.expandMethods();
     }
-    catch(e) { alert(e); }//this.notifyError("Error when creating HtmlElement object: " + e); }
+    catch(e) { alert("Error when creating HTML node: " + e); }//this.notifyError("Error when creating HtmlElement object: " + e); }
 };
 
 fcModel.HtmlElement.prototype = new fcModel.Object(null);

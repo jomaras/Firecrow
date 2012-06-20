@@ -25,7 +25,7 @@ fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, 
         this.id = fcSimulator.ExecutionContext.LAST_INSTANCE_ID++;
         this.contextCreationCommand = contextCreationCommand;
 
-        this.codeConstructValuesMapping = [];
+        this.codeConstructValuesMapping = {};
     }
     catch(e) { this.notifyError("Error when constructing execution context: " + e); }
 };
@@ -36,18 +36,7 @@ fcSimulator.ExecutionContext.prototype =
     {
         try
         {
-            var codeConstructValueMapping = ValueTypeHelper.findInArray
-            (
-                this.codeConstructValuesMapping,
-                codeConstruct,
-                function(mapping, codeConstruct)
-                {
-                    return mapping.codeConstruct == codeConstruct;
-                }
-            );
-
-            return codeConstructValueMapping != null ? codeConstructValueMapping.value
-                                                     : null;
+            return this.codeConstructValuesMapping[codeConstruct.nodeId];
         }
         catch(e) { this.notifyError("Error when getting codeConstruct value:" + e);}
     },
@@ -56,18 +45,7 @@ fcSimulator.ExecutionContext.prototype =
     {
         try
         {
-            var codeConstructValueMapping = ValueTypeHelper.findInArray
-            (
-                this.codeConstructValuesMapping,
-                codeConstruct,
-                function(mapping, codeConstruct)
-                {
-                    return mapping.codeConstruct == codeConstruct;
-                }
-            );
-
-            codeConstructValueMapping == null ? this.codeConstructValuesMapping.push({codeConstruct: codeConstruct, value : value})
-                                              : codeConstructValueMapping.value = value;
+            this.codeConstructValuesMapping[codeConstruct.nodeId] = value
         }
         catch(e) { this.notifyError("Error when setting codeConstruct value:" + e);}
     },
