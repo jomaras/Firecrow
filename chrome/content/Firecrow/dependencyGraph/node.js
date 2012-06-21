@@ -43,48 +43,45 @@ FBL.ns(function() { with (FBL) {
         this.controlDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
     };
 
-    Node.prototype.getDataDependencyEdgesIndexedLessOrEqualTo = function(maxIndex, destinationNodeDependencyConstraints, maxCommandIndex)
+    Node.prototype.getDependencies = function(maxIndex, destinationConstraint)
     {
-        var edges = [];
+        var dependencies = [];
 
-        for(var i = this.dataDependencies.length - 1; i >= 0; i--)
+        var dataDependencies = this.dataDependencies;
+
+        for(var i = dataDependencies.length - 1; i >= 0; i--)
         {
-            var dependency = this.dataDependencies[i];
+            var dependency = dataDependencies[i];
 
             if(dependency.index > maxIndex) { continue; }
+            if(!this.canFollowDependency(dependency, destinationConstraint)) { continue; }
 
-            if(this.satisfiesInclusionCondition(dependency, destinationNodeDependencyConstraints, maxCommandIndex))
+            dependencies.push(dependency);
+
+            for(var j = dataDependencies.length - 1; j >= 0; j--)
             {
-                edges.push(dependency);
+                if(i == j) { continue; }
 
-                for(var j = this.dataDependencies.length - 1; j >= 0; j--)
+                var jThDependency = dataDependencies[j];
+
+                if(dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0
+                && this.canFollowDependency(jThDependency, destinationConstraint))
                 {
-                    if(j == i) { continue; }
-
-                    var followingDependency = this.dataDependencies[j];
-
-                    if(followingDependency.dependencyCreationInfo.currentCommandId <= maxCommandIndex
-                    && (destinationNodeDependencyConstraints == null || followingDependency.dependencyCreationInfo.currentCommandId <= destinationNodeDependencyConstraints.currentCommandId))
-                    {
-                        edges.push(followingDependency);
-                    }
+                    dependencies.push(jThDependency);
                 }
-
-                return edges;
             }
+
+            return dependencies;
         }
 
-        return edges;
-    }
+        return dependencies;
+    };
 
-    Node.prototype.satisfiesInclusionCondition = function(dependency, destinationNodeDependencyConstraints, maxIndex)
+    Node.prototype.canFollowDependency = function(dependency, destinationConstraint)
     {
-        if(destinationNodeDependencyConstraints == null)
-        {
-            return dependency.dependencyCreationInfo.currentCommandId <= maxIndex;
-        }
+        if(destinationConstraint == null) { return true; }
 
-        return dependency.dependencyCreationInfo.currentCommandId <= destinationNodeDependencyConstraints.currentCommandId;
+        return dependency.dependencyCreationInfo.currentCommandId <= destinationConstraint.currentCommandId;
     };
 
     Node.createHtmlNode = function(model, isDynamic) { return new Node(model, "html", isDynamic); };

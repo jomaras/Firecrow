@@ -847,6 +847,8 @@ fcSimulator.Evaluator.prototype =
 
             //this._addDependenciesToTopBlockConstructs(callExpression);
 
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, callExpression.callee, this.globalObject.getPreciseEvaluationPositionId());
+
             if(callExpression.arguments != null)
             {
                 var arguments = callExpression.arguments;

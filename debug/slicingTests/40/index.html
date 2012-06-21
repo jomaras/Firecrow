@@ -8,13 +8,27 @@
 <div>JsTest</div>
 <div id="resultContainer"></div>
 <script>
-    function testFunction (a, b)
+    var Vector = function(els)
     {
-        return a + b;
-    }
+        this.elements = els.slice();
+    };
 
-    var c = testFunction(2, 3);
-    c;
+    Vector.prototype =
+    {
+        dup: function()
+        {
+            return new Vector(this.elements);
+        }
+    };
+
+    function test(v1)
+    {
+        return new Vector(v1).dup();
+    };
+
+    var segment = test([5]);
+    var startSum = segment.elements[0];
+    startSum;
 </script>
 </body>
 </html>

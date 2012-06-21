@@ -108,7 +108,7 @@ DependencyGraph.prototype.markGraph = function(model)
 
             if(this.inculsionFinder.isIncludedElement(parent))
             {
-                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, Number.MAX_VALUE);
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null);
             }
         }
 
@@ -118,39 +118,30 @@ DependencyGraph.prototype.markGraph = function(model)
     catch(e) { this.notifyError("Error occurred when marking graph:" + e);}
 };
 
-DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, destinationNodeDependencyConstraints, maxCommandIndex)
+DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, dependencyConstraint)
 {
     try
     {
         codeConstruct.shouldBeIncluded = true;
 
-        var dependencyEdgesToFollow = codeConstruct.graphNode.getDataDependencyEdgesIndexedLessOrEqualTo(maxDependencyIndex, destinationNodeDependencyConstraints, maxCommandIndex);
+        var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
 
-        for(var i = 0, length = dependencyEdgesToFollow.length; i < length; i++)
+        for(var i = potentialDependencyEdges.length - 1; i >= 0; i--)
         {
-            var dependencyEdgeToFollow = dependencyEdgesToFollow[i];
+            var dependencyEdge = potentialDependencyEdges[i];
 
-            //This is ok because the whole group is traversed together
-            if(dependencyEdgeToFollow.hasBeenTraversed) { return; }
+            if(dependencyEdge.hasBeenTraversed) { continue; }
 
-            dependencyEdgeToFollow.hasBeenTraversed = true;
-
-            if(destinationNodeDependencyConstraints == null ||
-               dependencyEdgeToFollow.destinationNodeDependencyConstraints.currentCommandId < destinationNodeDependencyConstraints.currentCommandId)
-            {
-                destinationNodeDependencyConstraints = dependencyEdgeToFollow.destinationNodeDependencyConstraints;
-            }
+            dependencyEdge.hasBeenTraversed = true;
 
             this.traverseAndMark
             (
-                dependencyEdgeToFollow.destinationNode.model,
-                dependencyEdgeToFollow.index,
-                destinationNodeDependencyConstraints,
-                Math.min
-                (
-                    dependencyEdgeToFollow.destinationNodeDependencyConstraints.currentCommandId, maxCommandIndex
-                )
-            );
+                dependencyEdge.destinationNode.model,
+                dependencyEdge.index,
+                (dependencyConstraint == null || dependencyEdge.destinationNodeDependencyConstraints.currentCommandId < dependencyConstraint.currentCommandId)
+                ?  dependencyEdge.destinationNodeDependencyConstraints
+                :  dependencyConstraint
+            )
         }
     }
     catch(e) { this.notifyError("Error occurred when traversing and marking the graph: " + e);}
