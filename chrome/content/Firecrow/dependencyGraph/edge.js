@@ -23,7 +23,7 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
     if(dependencyCreationInfo == null) { return; }
 
 
-/*     console.log("**********************");
+     /*console.log("**********************");
      var sourceStartLine = sourceNode.model.loc != null ? sourceNode.model.loc.start.line : sourceNode.model.parent.loc.start.line;
      var sourceCode = Firecrow.CodeTextGenerator.generateJsCode(sourceNode.model);
 
@@ -34,7 +34,7 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
 
      var dependencyInfo = dependencyCreationInfo.groupId + "->" + dependencyCreationInfo.currentCommandId;
      var additionalInfo = destinationNodeDependencyConstraints == null ? "NONE" : destinationNodeDependencyConstraints.groupId + "->" + destinationNodeDependencyConstraints.currentCommandId;
-     console.log("DependencyIndex:" + index + "; " + "info: " + dependencyInfo + "; aInfo: " + additionalInfo);*/
+     console.log("DependencyIndex:" + index + "; " + "info: " + dependencyInfo + "; aInfo: " + additionalInfo); */
 };
 /*************************************************************************************/
 }});

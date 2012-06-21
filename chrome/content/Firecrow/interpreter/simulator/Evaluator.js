@@ -304,7 +304,8 @@ fcSimulator.Evaluator.prototype =
                         (
                             identifierConstruct,
                             identifier.lastModificationConstruct.codeConstruct,
-                            this.globalObject.getPreciseEvaluationPositionId()
+                            this.globalObject.getPreciseEvaluationPositionId(),
+                            identifier.lastModificationConstruct.evaluationPositionId
                         );
                     }
                 }
@@ -630,20 +631,27 @@ fcSimulator.Evaluator.prototype =
             var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(currentPropertyIndex + 1);
 
             this._addDependenciesToTopBlockConstructs(forInWhereConstruct.left);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
 
             if(nextPropertyName.value)
             {
                 evalForInWhereCommand.willBodyBeExecuted = true;
 
+                var property = whereObject.fcInternal.object.getProperty(nextPropertyName.value);
+                if(property != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        forInWhereConstruct.left,
+                        property.declarationConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId()
+                    );
+                }
+
                 if(ASTHelper.isIdentifier(forInWhereConstruct.left))
                 {
-                    this.executionContextStack.setIdentifierValue
-                    (
-                        forInWhereConstruct.left.name,
-                        nextPropertyName,
-                        forInWhereConstruct.left
-                    );
+                    this.executionContextStack.setIdentifierValue(forInWhereConstruct.left.name, nextPropertyName, forInWhereConstruct.left);
                 }
                 else if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
                 {
@@ -651,9 +659,10 @@ fcSimulator.Evaluator.prototype =
 
                     var declarator = forInWhereConstruct.left.declarations[0];
 
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
-
                     this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
+
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator.id, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
                 }
                 else { this.notifyError(evalForInWhereCommand, "Unknown forIn left statement"); }
             }

@@ -165,7 +165,11 @@ Firecrow.CodeTextGenerator.prototype =
             else if (ASTHelper.isVariableDeclarator(element)) { return this.generateFromVariableDeclarator(element); }
             else if (ASTHelper.isLiteral(element)) { return this.generateFromLiteral(element); }
             else if (ASTHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
-            else { this.notifyError("Error while generating code unidentified ast element: "); return ""; }
+            else if (ASTHelper.isObjectExpressionPropertyValue(element)) { return this.generateFromObjectExpressionProperty(element); }
+            else
+            {
+                this.notifyError("Error while generating code unidentified ast element: "); return "";
+            }
         }
         catch(e) { alert("Error while generating code: " + e); }
     },
@@ -547,26 +551,7 @@ Firecrow.CodeTextGenerator.prototype =
 
                 if(generatedProperties != 0) { code += ", " + (containsOnlySimpleProperties ? "" : this.newLine + this.whitespace); }
 
-                if (property.kind == "init")
-                {
-                    code += this.generateJsCode(property.key);
-                    if(this.isSlicing && !property.shouldBeIncluded) {}
-                    else
-                    {
-                        code += this._COLON + " " + (this.generateJsCode(property.value) || "null");
-                    }
-
-                    if(ASTHelper.isObjectExpression(property.value)){ code += this.newLine; }
-                }
-                else
-                {
-                    code += this.generateJsCode(property.key);
-
-                    if (ASTHelper.isFunctionExpression(property.value))
-                        code += this.generateFromFunction(property.value);
-                    else
-                        code += this.generateExpression(property.value);
-                }
+                code += this.generateFromObjectExpressionProperty(property);
 
                 var lastGeneratedProperty = property;
                 generatedProperties++;
@@ -588,6 +573,40 @@ Firecrow.CodeTextGenerator.prototype =
             return code;
         }
         catch(e) { this.notifyError("Error when generating from object expression:" + e); }
+    },
+
+    generateFromObjectExpressionProperty: function(property)
+    {
+        try
+        {
+            if(this.isSlicing && !property.shouldBeIncluded) { return ""; }
+
+            var code = "";
+
+            if (property.kind == "init")
+            {
+                code += this.generateJsCode(property.key);
+                if(this.isSlicing && !property.shouldBeIncluded) {}
+                else
+                {
+                    code += this._COLON + " " + (this.generateJsCode(property.value) || "null");
+                }
+
+                if(ASTHelper.isObjectExpression(property.value)){ code += this.newLine; }
+            }
+            else
+            {
+                code += this.generateJsCode(property.key);
+
+                if (ASTHelper.isFunctionExpression(property.value))
+                    code += this.generateFromFunction(property.value);
+                else
+                    code += this.generateExpression(property.value);
+            }
+
+            return code;
+        }
+        catch(e) { this.notifyError("Error when generating from object expression property:" + e); }
     },
 
     _objectExpressionContainsOnlySimpleProperties: function(objectExpression)

@@ -284,8 +284,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             }
             else if(ASTHelper.isForInStatement(topConstruct))
             {
-                //TODO - not sure what with this
-                topConstruct.blockStackConstructs = [];
+                topConstruct.blockStackConstructs = [topConstruct.right];
                 return topConstruct.blockStackConstructs;
             }
 
