@@ -291,7 +291,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             if(topCommand.isEnterFunctionContextCommand())
             {
-                topCommand.blockStackConstructs = [topCommand.codeConstruct, topCommand.parentFunctionCommand.codeConstruct];
+                topCommand.blockStackConstructs = [topCommand.codeConstruct];//, topCommand.parentFunctionCommand.codeConstruct];
 
                 return topCommand.blockStackConstructs;
             }
@@ -403,7 +403,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 (
                     formalParameters[i].value.fcInternal.codeConstruct,
                     arguments[i],
-                    this.globalObject.getPreciseEvaluationPositionId(),
                     this.globalObject.getPreciseEvaluationPositionId()
                 );
             }
@@ -441,7 +440,9 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             return functionConstruct.params.map(function(param)
             {
-                return new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)), param, this.globalObject);
+                var identifier = new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)), param, this.globalObject);
+                identifier.isFunctionFormalParameter = true;
+                return identifier
             }, this);
         }
         catch(e) { this.notifyError("Error when getting formal function parameters: " + e); }

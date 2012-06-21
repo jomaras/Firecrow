@@ -17,26 +17,24 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
         this.modificationConstructs = [];
         this.lastModificationConstruct = null;
         this.globalObject = globalObject;
-        this.declarationConstruct = codeConstruct != null ? { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()} : null;
-
-        if(ASTHelper.isObjectExpressionPropertyValue(codeConstruct))
-        {
-            this.lastModificationConstruct = { codeConstruct: codeConstruct.value, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
-        }
-        else if (ASTHelper.isAssignmentExpression(codeConstruct))
-        {
-            this.lastModificationConstruct = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
-        }
 
         if(codeConstruct != null)
         {
+            this.declarationConstruct = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+            if(ASTHelper.isVariableDeclarator(codeConstruct)) {}
+            if(ASTHelper.isObjectExpressionPropertyValue(codeConstruct))
+            {
+                this.lastModificationConstruct = { codeConstruct: codeConstruct.value, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+            }
+            else
+            {
+                this.lastModificationConstruct = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+            }
+
             this.modificationConstructs.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
         }
     }
-    catch(e)
-    {
-        alert("Identifier - Error when constructing: " + e );
-    }
+    catch(e) { alert("Identifier - Error when constructing: " + e ); }
 };
 
 Firecrow.Interpreter.Model.Identifier.prototype =

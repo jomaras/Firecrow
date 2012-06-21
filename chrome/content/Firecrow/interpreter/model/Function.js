@@ -21,26 +21,6 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
     this.addProperty("__proto__", globalObject.functionPrototype);
 
     this.fcInternal = this;
-
-    this.registerModificationAddedCallback(function(lastModification, allModifications)
-    {
-        try
-        {
-            var nextToLastModification = allModifications[allModifications.length - 2];
-
-            if(nextToLastModification != null)
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    lastModification.codeConstruct,
-                    nextToLastModification.codeConstruct,
-                    lastModification.evaluationPositionId,
-                    nextToLastModification.evaluationPositionId
-                );
-            }
-        }
-        catch(e) { alert("Function - Error when registering modification added callback:" + e); }
-    }, this);
 };
 
 fcModel.Function._LAST_USED_ID = 0;

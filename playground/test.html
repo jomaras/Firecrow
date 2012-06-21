@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    var Vector = function ()
+    {};
+    Vector.prototype = {
+        setElements: function (els)
+        {
+            this.elements = (els.elements || els).slice();
+            return this;
+        },
+        to3D: function ()
+        {
+            var V = this.dup();
+            return V;
+        },
+        dup: function ()
+        {
+            return Vector.create();
+        }
+    };
+    Vector.create = function (elements)
+    {
+        var V = new Vector();
+        return V.setElements(elements);
+    };
+    var Segment = function ()
+    {};
+    Segment.prototype = {
+        setPoints: function (startPoint)
+        {
+            startPoint = Vector.create(startPoint).to3D();
+            this.start = startPoint;
+            return this;
+        }
+    };
+    Segment.create = function (v1)
+    {
+        var S = new Segment();
+        return S.setPoints(v1);
+    };
+    var segment = Segment.create([5, 5, 5], [10, 10, 10]);
+    var startSum = 0;
+    for(var i = 0;i < segment.start.elements.length;i++)
+    {
+        startSum += segment.start.elements[i];
+    }
+
+    startSum++;
+</script>
+</body>
+</html>

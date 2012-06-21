@@ -38,11 +38,6 @@ fcModel.Object.LAST_ID = 0;
 
 fcModel.Object.prototype =
 {
-    registerModificationAddedCallback: function(callback, thisValue)
-    {
-        this.modificationCallbackDescriptor = { callback: callback, thisValue: thisValue};
-    },
-
     registerGetPropertyCallback: function(callback, thisValue)
     {
         this.getPropertyCallbackDescriptor = { callback: callback, thisValue: thisValue};
@@ -57,16 +52,6 @@ fcModel.Object.prototype =
             var modificationDescription = { codeConstruct: codeConstruct, evaluationPositionId: evaluationPositionId };
 
             this.modifications.push(modificationDescription);
-
-            if(this.modificationCallbackDescriptor != null)
-            {
-                this.modificationCallbackDescriptor.callback.call
-                (
-                    this.modificationCallbackDescriptor.thisValue || this,
-                    modificationDescription,
-                    this.modifications
-                );
-            }
         }
         catch(e) { alert("Error when adding modification - Object:" + e);}
     },

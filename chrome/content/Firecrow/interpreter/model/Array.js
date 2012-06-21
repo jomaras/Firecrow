@@ -34,62 +34,45 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
         this.addProperty("__proto__", globalObject.arrayPrototype);
 
-        this.registerModificationAddedCallback(function(lastModification, allModifications)
-        {
-            try
-            {
-                var nextToLastModification = allModifications[allModifications.length - 2];
-
-                if(nextToLastModification != null && this.globalObject.currentCommand != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        lastModification.codeConstruct,
-                        nextToLastModification.codeConstruct,
-                        lastModification.evaluationPositionId,
-                        nextToLastModification.evaluationPositionId
-                    );
-                }
-            }
-            catch(e) { alert("Array - Error when registering modification added callback:" + e); }
-
-        }, this);
-
         this.registerGetPropertyCallback(function(getPropertyConstruct)
         {
-            try
-            {
-                var lastModification = this.modifications[this.modifications.length - 1];
-
-                if(lastModification != null && this.globalObject.currentCommand != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        getPropertyConstruct,
-                        lastModification.codeConstruct,
-                        this.globalObject.getPreciseEvaluationPositionId(),
-                        lastModification.evaluationPositionId
-                    );
-                }
-            }
-            catch(e) { alert("Array - Error when registering getPropertyCallback: " + e); }
-
+           this.addDependenciesToAllProperties(getPropertyConstruct);
         }, this);
     }
-    catch(e)
-    {
-        alert("Array - error when creating array object: " + e + codeConstruct.loc.source);
-    }
+    catch(e) { alert("Array - error when creating array object: " + e + codeConstruct.loc.source); }
 };
 
 fcModel.ArrayProto =
 {
+    addDependenciesToAllProperties: function(codeConstruct)
+    {
+        try
+        {
+            var properties = this.properties;
+
+            for(var i = 0, length = properties.length; i < length; i++)
+            {
+                var property = properties[i];
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    codeConstruct,
+                    property.lastModificationConstruct.codeConstruct,
+                    this.globalObject.getPreciseEvaluationPositionId()
+                );
+            }
+        }
+        catch(e) { alert("Array - Error when registering getPropertyCallback: " + e); }
+    },
+
     push: function(item, codeConstruct)
     {
         try
         {
+            this.addDependenciesToAllProperties(codeConstruct);
             this.items.push(item);
             this.addProperty(this.items.length - 1, item, codeConstruct);
+            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
         }
         catch(e) { this.notifyError("Error when pushing item: " + e); }
     },
@@ -98,9 +81,12 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(codeConstruct);
             this.deleteProperty(this.items.length - 1, codeConstruct);
 
             return this.items.pop();
+
+            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
         }
         catch(e) { alert("Array - error when popping item: " + e); }
     },
@@ -109,6 +95,7 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(codeConstruct);
             this.items.reverse();
 
             for(var i = 0; i < this.items.length; i++)
@@ -123,6 +110,7 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(codeConstruct);
             this.deleteProperty(this.items.length - 1, codeConstruct);
 
             this.items.shift();
@@ -131,6 +119,8 @@ fcModel.ArrayProto =
             {
                 this.addProperty(i, this.items[i], codeConstruct);
             }
+
+            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
         }
         catch(e) { alert("Array - error when shifting items in array: " + e); }
     },
@@ -139,6 +129,7 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(codeConstruct);
             for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
             for(var i = elementsToAdd.length - 1; i >= 0; i--)
@@ -151,6 +142,8 @@ fcModel.ArrayProto =
                 this.addProperty(i, this.items[i], codeConstruct);
             }
 
+            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
+
             return new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct));
         }
         catch(e) { alert("Array - error when unshifting items in array: " + e); }
@@ -160,7 +153,9 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(codeConstruct);
             var removed = [];
+
             for(var i = 0; i < this.items.length; i++)
             {
                 this.deleteProperty(i, codeConstruct);
@@ -173,6 +168,8 @@ fcModel.ArrayProto =
 
             for(var i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
 
+            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
+
             return removedItems;
         }
         catch(e) { alert("Array - error when splicing item: " + e); }
@@ -182,6 +179,7 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(callExpression);
             var newArray = this.globalObject.internalExecutor.createArray(callExpression);
 
             jsArray.forEach(function(item)
@@ -196,6 +194,7 @@ fcModel.ArrayProto =
 
                 if(ValueTypeHelper.isArray(argument.value))
                 {
+                    argument.addDependenciesToAllProperties(codeConstruct);
                     for(var j = 0; j < argument.value.length; j++)
                     {
                         var item = argument.value[j];
@@ -218,11 +217,13 @@ fcModel.ArrayProto =
     {
         try
         {
+            //this.addDependenciesToAllProperties(callExpression);
+
             return this.globalObject.internalExecutor.createArray
-                (
-                    callExpression,
-                    jsArray.slice.apply(jsArray, callArguments.map(function(argument){ return argument.value}))
-                );
+            (
+                callExpression,
+                jsArray.slice.apply(jsArray, callArguments.map(function(argument){ return argument.value}))
+            );
         }
         catch(e) { this.notifyError("When slicing array: " + e);}
     },
@@ -231,6 +232,7 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(callExpression);
             var searchForItem = callArguments[0];
             var fromIndex = callArguments[1] != null ? callArguments[1].value : 0;
 
@@ -251,6 +253,7 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(callExpression);
             var searchForItem = callArguments[0];
             var fromIndex = callArguments[1] != null ? callArguments[1].value : jsArray.length - 1;
 
@@ -271,6 +274,7 @@ fcModel.ArrayProto =
     {
         try
         {
+            this.addDependenciesToAllProperties(callExpression);
             var glue = callArguments[0] != null ? callArguments[0].value : ",";
             var result = "";
 
@@ -285,10 +289,7 @@ fcModel.ArrayProto =
         catch(e) { this.notifyError("When indexOf array: " + e);}
     },
 
-    notifyError: function(message)
-    {
-        alert("Array - " + message);
-    }
+    notifyError: function(message) { alert("Array - " + message); }
 };
 
 fcModel.ArrayPrototype = function(globalObject)
@@ -395,17 +396,6 @@ fcModel.ArrayExecutor =
             var thisObjectValue = thisObject.value;
             var functionName = functionObjectValue.name;
             var fcThisValue =  thisObject.fcInternal.object;
-
-            var lastModification = fcThisValue.modifications[fcThisValue.modifications.length - 1];
-            if(lastModification != null)
-            {
-                fcThisValue.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    callExpression,
-                    lastModification.codeConstruct,
-                    fcThisValue.globalObject.getPreciseEvaluationPositionId()
-                );
-            }
 
             switch(functionName)
             {

@@ -154,7 +154,6 @@ fcSimulator.Evaluator.prototype =
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.leftSide, this.globalObject.getPreciseEvaluationPositionId());
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.rightSide, this.globalObject.getPreciseEvaluationPositionId());
-            //this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.leftSide, evalAssignmentExpressionCommand.rightSide, this.globalObject.getPreciseEvaluationPositionId());
 
             this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.codeConstruct);
 
@@ -305,8 +304,7 @@ fcSimulator.Evaluator.prototype =
                         (
                             identifierConstruct,
                             identifier.lastModificationConstruct.codeConstruct,
-                            this.globalObject.getPreciseEvaluationPositionId(),
-                            identifier.lastModificationConstruct.evaluationPositionId
+                            this.globalObject.getPreciseEvaluationPositionId()
                         );
                     }
                 }
@@ -318,8 +316,7 @@ fcSimulator.Evaluator.prototype =
                        identifierConstruct,
                        ASTHelper.isVariableDeclarator(identifier.declarationConstruct.codeConstruct) ? identifier.declarationConstruct.codeConstruct.id
                                                                                                      : identifier.declarationConstruct.codeConstruct,
-                       this.globalObject.getPreciseEvaluationPositionId(),
-                       identifier.declarationConstruct.evaluationPositionId
+                       this.globalObject.getPreciseEvaluationPositionId()
                    );
                 }
 
@@ -532,7 +529,6 @@ fcSimulator.Evaluator.prototype =
             if(evalMemberExpressionPropertyCommand.codeConstruct.computed)
             {
                 value = this.executionContextStack.getExpressionValue(memberExpression.property);
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, this.globalObject.getPreciseEvaluationPositionId());
             }
             else
             {
@@ -655,7 +651,6 @@ fcSimulator.Evaluator.prototype =
 
                     var declarator = forInWhereConstruct.left.declarations[0];
 
-                    this._addDependenciesToTopBlockConstructs(declarator);
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
 
                     this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
@@ -841,7 +836,7 @@ fcSimulator.Evaluator.prototype =
             var args = [];
             var callExpression = callInternalFunctionCommand.codeConstruct;
 
-            this._addDependenciesToTopBlockConstructs(callExpression);
+            //this._addDependenciesToTopBlockConstructs(callExpression);
 
             if(callExpression.arguments != null)
             {
@@ -903,7 +898,6 @@ fcSimulator.Evaluator.prototype =
             (
                 currentConstruct,
                 topBlockConstructs[i],
-                this.globalObject.getPreciseEvaluationPositionId(),
                 this.globalObject.getPreciseEvaluationPositionId()
             );
         }
@@ -915,7 +909,6 @@ fcSimulator.Evaluator.prototype =
             (
                 currentConstruct,
                 currentConstruct.previousCondition,
-                this.globalObject.getPreciseEvaluationPositionId(),
                 this.globalObject.getPreciseEvaluationPositionId()
             );
         }

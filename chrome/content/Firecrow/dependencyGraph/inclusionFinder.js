@@ -628,7 +628,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
                 var item = sequence[i];
 
                 if(item.shouldBeIncluded
-                || this.isIncludedElement(item)) { return; }
+                || this.isIncludedElement(item)) { return true; }
             }
 
             return false;

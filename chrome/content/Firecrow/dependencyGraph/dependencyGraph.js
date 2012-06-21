@@ -123,6 +123,16 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 {
     try
     {
+        if(codeConstruct.nodeId == 19)
+        {
+            var a = 3;
+        }
+
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 17)
+        {
+            var a = 3;
+        }
+
         codeConstruct.shouldBeIncluded = true;
 
         var dependencyEdgesToFollow = codeConstruct.graphNode.getDataDependencyEdgesIndexedLessOrEqualTo(maxDependencyIndex, destinationNodeDependencyConstraints);
