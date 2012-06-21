@@ -14,7 +14,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.ObjectFunction = function() { };
 
-fcModel.Object = function(globalObject, codeConstruct, implementationObject)
+fcModel.Object = function(globalObject, codeConstruct, implementationObject, prototype)
 {
     this.id = fcModel.Object.LAST_ID++;
     this.globalObject = globalObject;
@@ -27,7 +27,7 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject)
 
     this.implementationObject = implementationObject;
 
-    this.proto = implementationObject != null ? implementationObject.__proto__ : null;
+    this.proto = prototype != null ? prototype : null;
     this.properties = [];
     this.enumeratedProperties = [];
 
@@ -171,7 +171,16 @@ fcModel.Object.prototype =
 
             if(this.proto.fcInternal == null && this.proto.jsValue == null) { return null; }
 
-            var property = this.proto.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+            var property = null;
+
+            if(this.proto.fcInternal != null && this.proto.fcInternal.object != null)
+            {
+                property = this.proto.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+            }
+            else if (this.proto.jsValue != null && this.proto.jsValue.fcInternal.object != null)
+            {
+                property = this.proto.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+            }
 
             if(property != null)
             {

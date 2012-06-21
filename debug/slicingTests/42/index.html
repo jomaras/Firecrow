@@ -5,12 +5,14 @@
 </head>
 <body>
 <script>
-   function test(b, c)
-   {
-       return b + c;
-   }
-    var a = test(3, 4);
-    a;
+   var A = function(){};
+   A.prototype = { a: function(){ return 3; }};
+   A.prototype.b = function() { return 4; };
+
+    var a = new A();
+
+    var c = a.a() + a.b();
+    c;
 </script>
 </body>
 </html>

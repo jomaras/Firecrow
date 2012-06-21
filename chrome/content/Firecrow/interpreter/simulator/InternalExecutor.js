@@ -58,7 +58,7 @@ fcSimulator.InternalExecutor.prototype =
                     );
                 }
 
-                return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)));
+                return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject, constructorFunction.value.prototype)));
             }
             else if (constructorFunction != null && constructorFunction.isInternalFunction)
             {
