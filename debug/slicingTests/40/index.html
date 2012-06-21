@@ -8,19 +8,13 @@
 <div>JsTest</div>
 <div id="resultContainer"></div>
 <script>
-    var A = function(){};
+    function testFunction (a, b)
+    {
+        return a + b;
+    }
 
-    A.prototype.x = 3;
-    A.prototype.y = 4;
-    A.prototype.z = 5;
-
-    var a = new A();
-    var a1 = a.z;
-    a1;
-
-    var b = new A();
-    var b1 = a.y;
-    b1;
+    var c = testFunction(2, 3);
+    c;
 </script>
 </body>
 </html>

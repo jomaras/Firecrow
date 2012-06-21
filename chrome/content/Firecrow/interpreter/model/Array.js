@@ -58,7 +58,8 @@ fcModel.ArrayProto =
                 (
                     codeConstruct,
                     property.lastModificationConstruct.codeConstruct,
-                    this.globalObject.getPreciseEvaluationPositionId()
+                    this.globalObject.getPreciseEvaluationPositionId(),
+                    property.lastModificationConstruct.evaluationPositionId
                 );
             }
         }
@@ -217,7 +218,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            //this.addDependenciesToAllProperties(callExpression);
+            this.addDependenciesToAllProperties(callExpression);
 
             return this.globalObject.internalExecutor.createArray
             (

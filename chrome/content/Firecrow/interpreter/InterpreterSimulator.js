@@ -37,7 +37,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             {
                 var command = this.commands[this.currentCommandIndex];
 
-                this.globalObject.currentCommand = command;
+                this.globalObject.setCurrentCommand(command);
 
                 this.processCommand(command);
 

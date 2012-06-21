@@ -83,8 +83,15 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.evaluationPositionId = "root";
         this.getPreciseEvaluationPositionId = function()
         {
-            return { groupId : this.evaluationPositionId, currentCommandId : this.currentCommand.id };
-        }
+            return { groupId : this.evaluationPositionId, currentCommandId : this.currentCommand.executionId };
+        };
+
+        this.setCurrentCommand = function(command)
+        {
+            this.currentCommand = command;
+            this.currentCommand.executionId = this._EXECUTION_COMMAND_COUNTER++;
+        };
+        this._EXECUTION_COMMAND_COUNTER = 0;
     }
     catch(e) { alert("Error when initializing global object:" + e); }
 };

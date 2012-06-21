@@ -309,7 +309,7 @@ fcSimulator.Evaluator.prototype =
                     }
                 }
 
-                if(identifier.declarationConstruct != null)
+                if(identifier.declarationConstruct != null && identifier.declarationConstruct != identifier.lastModificationConstruct)
                 {
                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
                    (

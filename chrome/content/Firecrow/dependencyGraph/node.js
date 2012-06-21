@@ -43,7 +43,7 @@ FBL.ns(function() { with (FBL) {
         this.controlDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
     };
 
-    Node.prototype.getDataDependencyEdgesIndexedLessOrEqualTo = function(maxIndex, destinationNodeDependencyConstraints)
+    Node.prototype.getDataDependencyEdgesIndexedLessOrEqualTo = function(maxIndex, destinationNodeDependencyConstraints, maxCommandIndex)
     {
         var edges = [];
 
@@ -51,12 +51,9 @@ FBL.ns(function() { with (FBL) {
         {
             var dependency = this.dataDependencies[i];
 
-            if(dependency.index <= maxIndex &&
-            (
-                dependency.destinationNodeDependencyConstraints == null
-              || destinationNodeDependencyConstraints == null
-              || dependency.destinationNodeDependencyConstraints.currentCommandId <= destinationNodeDependencyConstraints.currentCommandId
-              || dependency.dependencyCreationInfo.groupId.indexOf(destinationNodeDependencyConstraints.groupId) == 0))
+            if(dependency.index > maxIndex) { continue; }
+
+            if(this.satisfiesInclusionCondition(dependency, destinationNodeDependencyConstraints, maxCommandIndex))
             {
                 edges.push(dependency);
 
@@ -66,9 +63,10 @@ FBL.ns(function() { with (FBL) {
 
                     var followingDependency = this.dataDependencies[j];
 
-                    if(dependency.dependencyCreationInfo.groupId.indexOf(followingDependency.dependencyCreationInfo.groupId) == 0)
+                    if(followingDependency.dependencyCreationInfo.currentCommandId <= maxCommandIndex
+                    && (destinationNodeDependencyConstraints == null || followingDependency.dependencyCreationInfo.currentCommandId <= destinationNodeDependencyConstraints.currentCommandId))
                     {
-                        edges.push(followingDependency)
+                        edges.push(followingDependency);
                     }
                 }
 
@@ -78,6 +76,16 @@ FBL.ns(function() { with (FBL) {
 
         return edges;
     }
+
+    Node.prototype.satisfiesInclusionCondition = function(dependency, destinationNodeDependencyConstraints, maxIndex)
+    {
+        if(destinationNodeDependencyConstraints == null)
+        {
+            return dependency.dependencyCreationInfo.currentCommandId <= maxIndex;
+        }
+
+        return dependency.dependencyCreationInfo.currentCommandId <= destinationNodeDependencyConstraints.currentCommandId;
+    };
 
     Node.createHtmlNode = function(model, isDynamic) { return new Node(model, "html", isDynamic); };
     Node.createCssNode = function(model, isDynamic) { return new Node(model, "css", isDynamic); };

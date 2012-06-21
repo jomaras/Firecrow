@@ -95,7 +95,7 @@ DependencyGraph.prototype.markGraph = function(model)
             }
             else
             {
-                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null);
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, Number.MAX_VALUE);
             }
         }
 
@@ -108,7 +108,7 @@ DependencyGraph.prototype.markGraph = function(model)
 
             if(this.inculsionFinder.isIncludedElement(parent))
             {
-                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null);
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, Number.MAX_VALUE);
             }
         }
 
@@ -118,13 +118,13 @@ DependencyGraph.prototype.markGraph = function(model)
     catch(e) { this.notifyError("Error occurred when marking graph:" + e);}
 };
 
-DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, destinationNodeDependencyConstraints)
+DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, destinationNodeDependencyConstraints, maxCommandIndex)
 {
     try
     {
         codeConstruct.shouldBeIncluded = true;
 
-        var dependencyEdgesToFollow = codeConstruct.graphNode.getDataDependencyEdgesIndexedLessOrEqualTo(maxDependencyIndex, destinationNodeDependencyConstraints);
+        var dependencyEdgesToFollow = codeConstruct.graphNode.getDataDependencyEdgesIndexedLessOrEqualTo(maxDependencyIndex, destinationNodeDependencyConstraints, maxCommandIndex);
 
         for(var i = 0, length = dependencyEdgesToFollow.length; i < length; i++)
         {
@@ -135,11 +135,21 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 
             dependencyEdgeToFollow.hasBeenTraversed = true;
 
+            if(destinationNodeDependencyConstraints == null ||
+               dependencyEdgeToFollow.destinationNodeDependencyConstraints.currentCommandId < destinationNodeDependencyConstraints.currentCommandId)
+            {
+                destinationNodeDependencyConstraints = dependencyEdgeToFollow.destinationNodeDependencyConstraints;
+            }
+
             this.traverseAndMark
             (
                 dependencyEdgeToFollow.destinationNode.model,
                 dependencyEdgeToFollow.index,
-                dependencyEdgeToFollow.destinationNodeDependencyConstraints || destinationNodeDependencyConstraints
+                destinationNodeDependencyConstraints,
+                Math.min
+                (
+                    dependencyEdgeToFollow.destinationNodeDependencyConstraints.currentCommandId, maxCommandIndex
+                )
             );
         }
     }

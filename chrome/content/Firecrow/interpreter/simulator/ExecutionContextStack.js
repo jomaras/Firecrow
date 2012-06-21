@@ -323,7 +323,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
         if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
         {
-            this.globalObject.evaluationPositionId += "-" + command.id;
+            this.globalObject.evaluationPositionId += "-" + command.executionId;
         }
     },
 
@@ -338,7 +338,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             var command = blockCommandStack[i];
             if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
             {
-                this.globalObject.evaluationPositionId += "-" + command.id;
+                this.globalObject.evaluationPositionId += "-" + command.executionId;
             }
         }
     },

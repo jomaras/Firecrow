@@ -21,6 +21,7 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
         if(codeConstruct != null)
         {
             this.declarationConstruct = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+
             if(ASTHelper.isVariableDeclarator(codeConstruct)) {}
             if(ASTHelper.isObjectExpressionPropertyValue(codeConstruct))
             {
@@ -28,10 +29,10 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
             }
             else
             {
-                this.lastModificationConstruct = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+                this.lastModificationConstruct = this.declarationConstruct;
             }
 
-            this.modificationConstructs.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+            this.modificationConstructs.push(this.declarationConstruct);
         }
     }
     catch(e) { alert("Identifier - Error when constructing: " + e ); }
