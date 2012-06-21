@@ -11,13 +11,25 @@
     function Vector(els)
     {
         return els.slice();
-    };
+    }
 
-    var start = Vector([5]);
-    var end = Vector([10]);
+    function Segment(v)
+    {
+        this.elements = new Vector(v);
+    }
 
-    var startSum = start[0];
-    startSum++;
+    Segment.prototype.setElements = function(v)
+    {
+        this.elements = new Vector(v);
+    }
+
+    var segment = new Segment([2]);
+    var endSeg = new Segment([10]);
+
+    segment.setElements([4]);
+
+    var startSum = segment.elements[0];
+    startSum;
 </script>
 </body>
 </html>

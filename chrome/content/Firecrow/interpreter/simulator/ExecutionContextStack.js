@@ -290,7 +290,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             if(topCommand.isEnterFunctionContextCommand())
             {
-                topCommand.blockStackConstructs = [topCommand.codeConstruct];//, topCommand.parentFunctionCommand.codeConstruct];
+                topCommand.blockStackConstructs = [topCommand.codeConstruct, topCommand.parentFunctionCommand.codeConstruct];
 
                 return topCommand.blockStackConstructs;
             }
