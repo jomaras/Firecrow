@@ -4,13 +4,14 @@
 </head>
 <body>
 <script>
-    var a = { a: 3 }
+    var a = { a: 3 };
+    var b = a;
     function sum(c, d)
     {
         return this.a + c + d;
     }
 
-    var a1 = sum.call(a, 3, 4);
+    var a1 = sum.call(b, 3, 4);
     a1;
 </script>
 </body>

@@ -409,9 +409,11 @@ Firecrow.CodeTextGenerator.prototype =
             var leftCode = this.generateJsCode(binaryExpression.left);
             var rightCode = this.generateJsCode(binaryExpression.right);
 
+            var isWithinBinaryExpression = ASTHelper.isBinaryExpression(binaryExpression.parent);
+
             if(leftCode.length != 0 && rightCode.length != 0)
             {
-                return leftCode + " " + binaryExpression.operator + " " + rightCode;
+                return (isWithinBinaryExpression ? this._LEFT_PARENTHESIS : "") + leftCode + " " + binaryExpression.operator + " " + rightCode + (isWithinBinaryExpression ? this._RIGHT_PARENTHESIS : "");
             }
 
             if(leftCode.length != 0) { return leftCode; }
