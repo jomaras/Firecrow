@@ -396,15 +396,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             var arguments = enterFunctionContextCommand.parentFunctionCommand.isExecuteCallbackCommand() ? []
                                                                                                          : enterFunctionContextCommand.parentFunctionCommand.codeConstruct.arguments;
 
-            for(var i = 0, length = formalParameters.length; i < length; i++)
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    formalParameters[i].value.fcInternal.codeConstruct,
-                    arguments[i],
-                    this.globalObject.getPreciseEvaluationPositionId()
-                );
-            }
+            this._establishDependenciesBetweenParametersAndArguments(enterFunctionContextCommand.parentFunctionCommand, formalParameters, arguments);
 
             this.push
             (
@@ -431,6 +423,63 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             this.notifyError("Error when entering function context: " + e);
         }
+    },
+
+    _establishDependenciesBetweenParametersAndArguments: function(callExpressionCommand, formalParameters, arguments)
+    {
+        try
+        {
+            if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
+            {
+                if(callExpressionCommand.isApply)
+                {
+                    var argumentValue = this.getExpressionValue(arguments[1]);
+
+                    if(argumentValue == null) { this.notifyError("When calling apply the array argument is null!"); return; }
+                    var fcArray = argumentValue.fcInternal.object;
+
+                    for(var i = 0, length = formalParameters.length; i < length; i++)
+                    {
+                        var arrayItem = fcArray.getProperty(i);
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            formalParameters[i].value.fcInternal.codeConstruct,
+                            arrayItem != null ? arrayItem.lastModificationConstruct.codeConstruct : null,
+                            this.globalObject.getPreciseEvaluationPositionId()
+                        );
+                    }
+                }
+                else if (callExpressionCommand.isCall)
+                {
+                    for(var i = 0, length = formalParameters.length; i < length; i++)
+                    {
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            formalParameters[i].value.fcInternal.codeConstruct,
+                            arguments[i + 1],
+                            this.globalObject.getPreciseEvaluationPositionId()
+                        );
+                    }
+                }
+                else
+                {
+                    for(var i = 0, length = formalParameters.length; i < length; i++)
+                    {
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            formalParameters[i].value.fcInternal.codeConstruct,
+                            arguments[i],
+                            this.globalObject.getPreciseEvaluationPositionId()
+                        );
+                    }
+                }
+            }
+            else if (callExpressionCommand.isExecuteCallbackCommand())
+            {
+                this.notifyError("Not handling dependencies from callback commands!");
+            }
+        }
+        catch(e) { this.notifyError("Error when establishing dependencies between function parameters and call expression arguments: " + e); }
     },
 
     _getFormalParameters: function(functionConstruct)

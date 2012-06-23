@@ -18,6 +18,7 @@
   
   <commandset id="mainCommandSet">
 	<command id="cmd_FirecrowButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowButtonPress()"/>
+    <command id="cmd_FirecrowProfilePress" oncommand="Firebug.FirecrowModule.onFirecrowProfilePress()"/>
     <command id="cmd_FirecrowASTButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowASTButtonPress()"/>
   </commandset>
   
@@ -26,6 +27,7 @@
     <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center">
        <hbox id="fbHTMLButtons" collapsed="false">
          <toolbarbutton id="fiButton" class="toolbar-text-button" label="Record" tooltiptext="Start execution recording process" command="cmd_FirecrowButtonPress"/>
+         <toolbarbutton id="profileButton" class="toolbar-text-button" label="Profile" tooltiptext="Start profiling process" command="cmd_FirecrowProfilePress"/>
          <toolbarbutton id="modelButton" class="toolbar-text-button" label="Firecrow" tooltiptext="Start Firecrow" command="cmd_FirecrowButtonPress"/>
       </hbox>
     </hbox>

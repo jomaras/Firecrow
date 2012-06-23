@@ -60,7 +60,7 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
 DependencyGraph.prototype.handleControlFlowConnection = function(sourceNode)
 {
     sourceNode.hasBeenExecuted = true;
-    this.controlFlow.push(sourceNode);
+    //this.controlFlow.push(sourceNode);
 };
 
 DependencyGraph.prototype.handleImportantConstructReached = function(sourceNode)
@@ -123,6 +123,11 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
     try
     {
         codeConstruct.shouldBeIncluded = true;
+
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 854)
+        {
+            var a = 3;
+        }
 
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
 

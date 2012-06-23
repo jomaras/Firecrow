@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<script>
+    var a = { a: 3 }
+    function sum(c, d)
+    {
+        return this.a + c + d;
+    }
+
+    var a1 = sum.call(a, 3, 4);
+    a1;
+</script>
+</body>
+</html>

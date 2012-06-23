@@ -24,7 +24,7 @@ FBL.ns(function() { with (FBL) {
 			{
 				if(this.persistedState.isAnalysisScheduled)
 				{
-					fbHelper.setButtonText("fiButton", "Stop Recording");
+					fbHelper.setButtonText("profileButton", "Stop Profiling");
 					this.startRecording(this.persistedState.scripts);
 					this.persistedState.isAnalysisScheduled = false;
 				}
@@ -48,6 +48,16 @@ FBL.ns(function() { with (FBL) {
 				fbHelper.asyncSetPluginInstallLocation("Firecrow@fesb.hr");
 			}catch(e) { alert("Error when loading context: " + e); }
 		},
+
+        onFirecrowProfilePress: function()
+        {
+            try
+            {
+                (!this.persistedState.isAnalyzing ? this.scheduleRecording()
+                                                  : this.stopRecording());
+            }
+            catch(e) { alert("Error when pressing Profiling button:" + e);; }
+        },
 		
 		onFirecrowButtonPress: function()
 		{
@@ -87,7 +97,7 @@ FBL.ns(function() { with (FBL) {
 			try
 			{
 				this.persistedState.isAnalysisScheduled = true;
-				this.persistedState.scripts = fbHelper.getScriptsPathsContents();
+				this.persistedState.scripts = fbHelper.getScriptsPathsAndModels();
 				this.persistedState.elementToTrackXPath = "/html/body";
 				fbHelper.reloadPage();
 			}
@@ -100,7 +110,7 @@ FBL.ns(function() { with (FBL) {
 			{
 				this.jsRecorder = new JsRecorder();
 				this.persistedState.isAnalyzing = true;
-				this.jsRecorder.start(scriptsToTrack, this.persistedState.elementToTrackXPath);
+				this.jsRecorder.startProfiling(scriptsToTrack);
 			}
 			catch(e){ alert("Recording js execution error: " + e); }
 		},
@@ -112,13 +122,9 @@ FBL.ns(function() { with (FBL) {
 				this.persistedState.isAnalyzing = false;
 				this.jsRecorder.stop();
 			
-				fbHelper.setButtonText("fiButton", "Record");
-			
-				var dataFile = fbHelper.installLocation + "data/data.txt";
-				
-				FileHelper.writeToFile(dataFile, JSON.stringify(this.jsRecorder.getExecutionSummary()));
-				
-				javaInvoker.invokeJavaMethod("doppelBrowser.jar", "DoppelBrowser", "GenerateExecutionData", [dataFile]);
+				fbHelper.setButtonText("profileButton", "Profile");
+
+                alert(this.jsRecorder.getProfilingSummary());
 			}
 			catch(e) { alert("Stopping analysis error:" + e); }
 		},

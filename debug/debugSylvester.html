@@ -53,42 +53,15 @@
     <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
-
-    <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
-
-    <style>
-        #codeContainer
-        {
-            float: left;
-            width: 700px;
-        }
-
-        #messageContainer
-        {
-            float:left;
-            width: 350px;
-        }
-
-        .selected { background-color: green; }
-        .dependent { background-color: yellow; }
-        .secondHandDependencies { background-color: #7FFF00;}
-
-    </style>
 </head>
 <body>
     <h1>Firecrow - Debugging Doppel Browser</h1>
     <div>
         <a id="testIdContainer"></a>
+        <div id="messageContainer"></div>
     </div>
-
-    <br/>
     <span id="resultTitle">Result:</span>
-    <br>
-    <div id="lineNumberContainer"></div>
-    <div id="codeContainer"></div>
-    <div id="messageContainer"></div>
-    <div style="clear:both"/>
-    <script src="sylvester/03-LineSegment-dup/htmlMapping.js"></script>
+    <script src="sylvester/14-Line-dup/htmlMapping.js"></script>
     <pre id="sourceTextContainer">
     </pre>
 
@@ -96,7 +69,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/sylvester/03-LineSegment-dup/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/sylvester/14-Line-dup/index.html");
 
         var model = HtmlModelMapping.getWholeFileModel(webFile.url);
         var messageContainer = document.getElementById("messageContainer");

@@ -20,6 +20,32 @@ Firecrow.CodeTextGenerator.generateSlicedCode = function(model)
     return codeGenerator.generateCode(model);
 }
 
+Firecrow.CodeTextGenerator.generateProfiledCode = function(model)
+{
+    ASTHelper.traverseAst(model.htmlElement, function(element)
+    {
+        if(element.hasBeenExecuted)
+        {
+            if(ASTHelper.isFunctionParameter(element))
+            {
+                if(element.parent.shouldBeIncluded || element.parent.hasBeenExecuted)
+                {
+                    element.shouldBeIncluded = true;
+                }
+            }
+
+            element.shouldBeIncluded = element.hasBeenExecuted;
+        }
+    });
+
+    var postProcessor = new Firecrow.DependencyGraph.DependencyPostprocessor();
+    postProcessor.processHtmlElement(model.htmlElement);
+
+    var codeGenerator = new Firecrow.CodeTextGenerator(true);
+
+    return codeGenerator.generateCode(model);
+};
+
 Firecrow.CodeTextGenerator.generateCode = function(model)
 {
     var codeGenerator = new Firecrow.CodeTextGenerator();
@@ -456,10 +482,10 @@ Firecrow.CodeTextGenerator.prototype =
             if(testCode == "" && consequentCode == "" && alternateCode == "") { return ""; }
 
             if(testCode == "" && consequentCode != "" && alternateCode == "") { testCode = "true"; alternateCode = "0";}
-            if(testCode == "" && consequentCode == "" && alternateCode != "") { testCode = "false"; consequentCode = "0" }
+            if(testCode == "" && consequentCode == "" && alternateCode != "") { testCode = "false"; consequentCode = "0"; }
 
             if(consequentCode == "") { consequentCode = "0"; }
-            if(alternateCode == "") { consequentCode = "0";}
+            if(alternateCode == "") { alternateCode = "0";}
 
             return testCode
                 + " " + this._QUESTION_MARK + " " + consequentCode

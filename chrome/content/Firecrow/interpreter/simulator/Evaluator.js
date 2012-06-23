@@ -409,7 +409,7 @@ fcSimulator.Evaluator.prototype =
             else
             {
                 this._addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct);
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
                 this.executionContextStack.setExpressionValueInPreviousContext

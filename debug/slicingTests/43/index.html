@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        var Sylvester = {precision: 0.000001};
+        Sylvester.Vector = function ()
+        {};
+        Sylvester.Vector.create = function (elements)
+        {
+            var V = new Sylvester.Vector();
+            return V.setElements(elements);
+        };
+        Sylvester.Vector.prototype = {
+            eql: function (vector)
+            {
+                var n = this.elements.length;
+                var V = vector.elements;
+                if(n !== V.length);
+
+                while(n--)
+                {
+                    if(Math.abs(this.elements[n] - V[n]) > Sylvester.precision)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            },
+            dup: function ()
+            {
+                return Sylvester.Vector.create(this.elements);
+            },
+            map: function (fn, context)
+            {
+                var elements = [];
+                this.each(function (x)
+                {
+                    elements.push(fn.call(context, x));
+                });
+                return Sylvester.Vector.create(elements);
+            },
+            forEach: function (fn, context)
+            {
+                var n = this.elements.length;
+                for(var i = 0;i < n;i++)
+                {
+                    fn.call(context);
+                }
+
+            },
+            subtract: function (vector)
+            {
+                var V = vector.elements;
+                return this.map(function (x, i)
+                {
+                    return x - V[i - 1];
+                });
+            },
+            to3D: function ()
+            {
+                var V = this.dup();
+                return V;
+            },
+            setElements: function (els)
+            {
+                this.elements = (els.elements || els).slice();
+                return this;
+            }
+        };
+        Sylvester.Vector.create([0, 1, 0]);
+        Sylvester.Line = function ()
+        {};
+        Sylvester.Line.Segment = function ()
+        {};
+        Sylvester.Line.Segment.prototype = {
+            eql: function (segment)
+            {
+                return this.start.eql(segment.start) && this.end.eql(segment.end) || this.start.eql(segment.end) && this.end.eql(segment.start);
+            },
+            setPoints: function (startPoint, endPoint)
+            {
+                startPoint = Sylvester.Vector.create(startPoint).to3D();
+                endPoint = Sylvester.Vector.create(endPoint).to3D();
+                if(startPoint === null || endPoint === null);
+
+                this.start = startPoint;
+                this.end = endPoint;
+                return this;
+            }
+        };
+        Sylvester.Line.Segment.create = function (v1, v2)
+        {
+            var S = new Sylvester.Line.Segment();
+            return S.setPoints(v1, v2);
+        };
+    </script>
+</head>
+<body>
+<script>
+    var segment = Sylvester.Line.Segment.create([5, 5, 5], [10, 10, 10]);
+    var segment2 = Sylvester.Line.Segment.create([1, 1, 0], [1, 2, 0]);
+    var a1 = segment.eql(segment);
+    var a2 = segment.eql(segment2);
+    var a3 = segment.eql(Sylvester.Line.Segment.create(segment.end, segment.start));
+    a1;
+    a2;
+    a3;
+</script>
+</body>
+</html>

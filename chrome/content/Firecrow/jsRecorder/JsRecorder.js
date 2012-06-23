@@ -10,16 +10,33 @@ Firecrow.JsRecorder = function ()
     this.jsDebugger = CC["@mozilla.org/js/jsd/debugger-service;1"].getService(CI.jsdIDebuggerService);
     
     this.executionTrace = [];
-    this.helperVars = 
-    {
-        lastExecutedLine : -1,
-        lastPc: -1,
-        stackDepth: -1,
-        frameHelper: null
-    };
-        
+
     var that = this;
     this.myFilePathCache = [];
+
+    this.startProfiling = function(scriptsToTrack)
+    {
+        if(this.jsDebugger == null) { alert("Error: jsDebugger is null when trying to start"); return; }
+
+        this.setScriptsToTrack(scriptsToTrack);
+
+        var returnContinue = CI.jsdIExecutionHook.RETURN_CONTINUE;
+
+        this.jsDebugger.interruptHook =
+        {
+            onExecute: function(frame, type, val)
+            {
+                that.executionTrace.push({file: frame.script.fileName, pc: frame.pc, line: frame.line});
+
+                return returnContinue;
+            }
+        }
+
+        if(this.jsDebugger.pauseDepth == 1) { this.jsDebugger.unPause(); }
+
+        this.jsDebugger.asyncOn(function(){});
+        this.isRecording = true;
+    }
     
     this.start = function(scriptsToTrack, elementToTrackXPath)
     {
@@ -98,27 +115,6 @@ Firecrow.JsRecorder = function ()
         catch(e) { alert("Error while starting jsDebugger:" + e); }
     };
     
-    this.getElementXPath = function(element)
-    {
-    	var paths = [];
-
-        for (; element && element.nodeType == 1; element = element.parentNode)
-        {
-            var index = 0;
-            for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling)
-            {
-                if (sibling.localName == element.localName)
-                    ++index;
-            }
-
-            var tagName = element.localName.toLowerCase();
-            var pathIndex = (index ? "[" + (index+1) + "]" : "");
-            paths.splice(0, 0, tagName + pathIndex);
-        }
-
-        return paths.length ? "/" + paths.join("/") : "";
-    }
-    
     this.stop = function()
     {
     	try
@@ -135,8 +131,8 @@ Firecrow.JsRecorder = function ()
     this.setScriptsToTrack = function(scriptsToTrack)
     {
     	scriptsToTrack.forEach(function(scriptToTrack)
-    	{
-    		this.jsDebugger.appendFilter(this.getFilterForFile(scriptToTrack));
+        {
+    		this.jsDebugger.appendFilter(this.getFilterForFile(scriptToTrack.path));
     	}, this);
         
 	    this.jsDebugger.appendFilter
@@ -164,7 +160,43 @@ Firecrow.JsRecorder = function ()
 
     this.denormalizeUrl = function(url) 
     {
-        return url ? url.replace(/file:\/\/\//, "file:/") : "";
+        return url != null ? url.replace(/file:\/\/\//, "file:/") : "";
+    };
+
+    this.getProfilingSummary = function()
+    {
+       var executionTrace = this.executionTrace;
+       var summary = {pcNum:0};
+       for(var i = 0, length = executionTrace.length; i < length; i++)
+       {
+           var trace = executionTrace[i];
+           var file = trace.file;
+           var pc = trace.pc;
+           var line = trace.line;
+
+           if(summary[file] == null) { summary[file] = {}; }
+           summary[file][line] = 1;
+           summary.pcNum++;
+       }
+        var pcNum;
+        var noExecutedLines = 0
+
+        for(var prop in summary)
+        {
+            if(prop == "pcNum") { pcNum = summary[prop];}
+            else
+            {
+                //is fileName
+                var fileSummary = summary[prop];
+
+                for(var line in fileSummary)
+                {
+                    noExecutedLines++;
+                }
+            }
+        }
+
+        return "NoExecutedLine: " + noExecutedLines + "\n" + "PcNum: " + pcNum;
     };
     
     this.getExecutionSummary = function()
@@ -178,13 +210,13 @@ Firecrow.JsRecorder = function ()
     	{
     		var lastExecutionTrace = i > 0 ? this.executionTrace[i - 1] : null;
     		var currentExecutionTrace = this.executionTrace[i];
-    		
+
     		if(!this.filePathAllreadyExists(files, currentExecutionTrace.filePath))
     		{
     			files.push({filePath : currentExecutionTrace.filePath});
     		}
-    		
-    		if(lastExecutionTrace == null 
+
+    		if(lastExecutionTrace == null
     		|| lastExecutionTrace.filePath != currentExecutionTrace.filePath)
     		{
     			executionSummary.push
@@ -195,11 +227,11 @@ Firecrow.JsRecorder = function ()
     				}
     			);
     		}
-    		
+
     		if(executionSummary.length == 0) { continue; }
-    		
+
     		var lastSummary = executionSummary[executionSummary.length - 1];
-    		
+
     		if(lastSummary != null)
     		{
 				lastSummary.lines.push
@@ -213,9 +245,9 @@ Firecrow.JsRecorder = function ()
 				);
     		}
     	}
-    	
+
     	var currentWebPagePath = fbHelper.getCurrentUrl().replace("file:///", "file:/");
-    	
+
     	if(!this.filePathAllreadyExists(files, currentWebPagePath))
     	{
     		files.push(
@@ -234,7 +266,7 @@ Firecrow.JsRecorder = function ()
     			}
     		});
     	}
-    	
+
     	fbHelper.getScriptPaths().forEach(function(script)
     	{
     		script = script.replace("file:///", "file:/");
@@ -243,7 +275,7 @@ Firecrow.JsRecorder = function ()
     			files.push({filePath : script});
     		}
     	}, this);
-    	
+
     	return {
     		files: files,
     		executionSummary : executionSummary

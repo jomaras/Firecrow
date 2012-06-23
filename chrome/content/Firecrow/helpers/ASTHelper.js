@@ -289,6 +289,22 @@ FBL.ns(function () { with (FBL) {
             return this.isFunctionExpression(element.parent) && this.isElementOfType(element.parent.parent, this.CONST.Property);
         },
 
+        isFunctionParameter: function(element)
+        {
+            if(!this.isIdentifier(element)){ return false; }
+            if(!this.isFunction(element.parent)) { return false;}
+
+            var functionParent = element.parent;
+            var params = functionParent.params;
+
+            for(var i = 0; i < params.length; i++)
+            {
+                if(params[i] ==  element) { return true;}
+            }
+
+            return false;
+        },
+
         getFunctionParent: function(codeConstruct)
         {
             return this.getParentOfTypes
