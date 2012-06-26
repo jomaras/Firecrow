@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<body>
+<script>
+    var a =
+    {
+        b: 3,
+        c: 4
+    };
+
+    var a1 = 0;
+
+    for(var prop in a)
+    {
+        if(a.hasOwnProperty(prop))
+        {
+            a1 += a[prop];
+        }
+    }
+
+    for(var prop in a)
+    {
+        if(Object.hasOwnProperty.call(a, prop))
+        {
+            a1 += a[prop];
+        }
+    }
+
+    a1;
+</script>
+</body>
+</html>

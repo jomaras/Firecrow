@@ -88,6 +88,16 @@ Browser.prototype =
         catch(e) { alert("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
     },
 
+    buildPageFromModel: function(htmlModel, callback)
+    {
+        try
+        {
+            this._buildSubtree(htmlModel.htmlElement, null, callback)
+        }
+        catch(e) { alert("Exception when building page from model"); }
+
+    },
+
     _asyncGetHtmlModel: function(callback)
     {
         try

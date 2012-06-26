@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<body>
+<script>
+    function convert(str, p1, offset, s)
+    {
+        return ((p1-32) * 5/9) + "C";
+    }
+    var s = "212F";
+    var test = /(\d+(?:\.\d*)?)F\b/g;
+    var a1 = s.replace(test, convert);
+    a1;
+</script>
+</body>
+</html>

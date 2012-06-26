@@ -37,9 +37,20 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("RegExp", this.regExFunction, null);
         this.addProperty("String", this.stringFunction, null);
         this.addProperty("document",this.jsFcDocument, null);
-        this.addProperty("Math",this.math, null);
+        this.addProperty("Math", this.math, null);
+        this.addProperty("window", this, null);
+        this.addProperty("undefined", new fcModel.JsValue(undefined, new fcModel.FcInternal()));
+        this.addProperty("location", this.internalExecutor.createLocationObject());
+
+        this.origWindow = Firecrow.getWindow();
+        this.origDocument = Firecrow.getDocument();
 
         this.internalExecutor.expandInternalFunctions();
+
+        fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(methodName)
+        {
+            this.addProperty(methodName,  this.origWindow[methodName].jsValue);
+        }, this);
 
         this.identifierSlicingCriteria = [];
 
@@ -97,5 +108,37 @@ fcModel.GlobalObject = function(browser, documentFragment)
 };
 
 fcModel.GlobalObject.prototype = new fcModel.Object(null);
+
+fcModel.GlobalObject.CONST =
+{
+    INTERNAL_PROPERTIES:
+    {
+        METHODS :
+        [
+            "decodeURI", "decodeURIComponent", "encodeURI",
+            "encodeURIComponent", "eval", "isFinite", "isNaN",
+            "parseFloat", "parseInt"
+        ]
+    }
+}
+
+fcModel.GlobalObjectExecutor =
+{
+    executeInternalFunction: function(fcFunction, arguments, callExpression, globalObject)
+    {
+        try
+        {
+            if(fcFunction.value.name == "eval") { alert("Not handling eval function!"); return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
+
+            return new fcModel.JsValue
+            (
+                globalObject.origWindow[fcFunction.value.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.value; })),
+                new fcModel.FcInternal(callExpression, null)
+            )
+        }
+        catch(e) { alert("Error when executing global object function internal function: " + e); }
+
+    }
+}
 /*************************************************************************************/
 }});

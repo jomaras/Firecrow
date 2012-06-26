@@ -157,8 +157,6 @@ fcSimulator.Evaluator.prototype =
 
             this._addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.codeConstruct);
 
-            //TODO - FIX PROBLEM WITH LINKS FROM LEFT TO RIGHT SIDE - SEE SLICING TEST 8 FOR DETAILS
-
             if(operator == "=")
             {
                 finalValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.rightSide);
@@ -207,11 +205,15 @@ fcSimulator.Evaluator.prototype =
                 var object = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.leftSide.object);
                 var property = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.leftSide.property);
 
-                if(object == null || object.value == null) { this._callExceptionCallbacks(); return; }
+                if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
                 if(ValueTypeHelper.isOfType(object.value, HTMLElement))
                 {
                     object.value[property.value] = finalValue.value;
+                }
+                else if (object == this.globalObject)
+                {
+                    this.globalObject.addProperty(property.value, finalValue.value,  evalAssignmentExpressionCommand.codeConstruct);
                 }
                 else
                 {
@@ -367,7 +369,16 @@ fcSimulator.Evaluator.prototype =
             else if (operator == "<<") { result = leftExpressionValue.value << rightExpressionValue.value; }
             else if (operator == ">>") { result = leftExpressionValue.value >> rightExpressionValue.value; }
             else if (operator == ">>>") { result = leftExpressionValue.value >>> rightExpressionValue.value; }
-            else if (operator == "+") { result = leftExpressionValue.value + rightExpressionValue.value; }
+            else if (operator == "+")
+            {
+                if(typeof leftExpressionValue.value == "object" && !(leftExpressionValue.value instanceof String)
+                || (typeof rightExpressionValue.value == "object" && !(rightExpressionValue.value instanceof String)))
+                {
+                    this.notifyError(evalBinaryExpressionCommand, "Still not handling implicit toString conversion in binary expression!");
+                    return;
+                }
+                result = leftExpressionValue.value + rightExpressionValue.value;
+            }
             else if (operator == "-") { result = leftExpressionValue.value - rightExpressionValue.value; }
             else if (operator == "*") { result = leftExpressionValue.value * rightExpressionValue.value; }
             else if (operator == "/") { result = leftExpressionValue.value / rightExpressionValue.value; }
@@ -455,11 +466,12 @@ fcSimulator.Evaluator.prototype =
 
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
-            if(object == null || object.value == null) { this._callExceptionCallbacks(); return; }
+            if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
             var property = this.executionContextStack.getExpressionValue(memberExpression.property);
 
-            var propertyValue = object.value[property.value];
+            var propertyValue = object != this.globalObject ? object.value[property.value]
+                                                            : this.globalObject.getPropertyValue(property.value);
 
             if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue))
             {
@@ -788,7 +800,7 @@ fcSimulator.Evaluator.prototype =
             var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
             var expressionValue = null;
 
-            if(argumentValue == null) { this._callExceptionCallbacks(); return; }
+            if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
 
             this._addDependenciesToTopBlockConstructs(unaryExpression);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument, this.globalObject.getPreciseEvaluationPositionId());
@@ -797,7 +809,7 @@ fcSimulator.Evaluator.prototype =
             else if (unaryExpression.operator == "+") { expressionValue = +argumentValue.value; }
             else if (unaryExpression.operator == "!") { expressionValue = !argumentValue.value; }
             else if (unaryExpression.operator == "~") { expressionValue = ~argumentValue.value; }
-            else if (unaryExpression.operator == "typeof") { expressionValue = typeof argumentValue.value; }
+            else if (unaryExpression.operator == "typeof") { expressionValue = argumentValue == null ? "undefined" : typeof argumentValue.value; }
             else if (unaryExpression.operator == "void") { expressionValue = void argumentValue.value;}
             else if (unaryExpression.operator == "delete")
             {
@@ -869,7 +881,8 @@ fcSimulator.Evaluator.prototype =
                     callInternalFunctionCommand.thisObject,
                     callInternalFunctionCommand.functionObject,
                     args,
-                    callInternalFunctionCommand.codeConstruct
+                    callInternalFunctionCommand.codeConstruct,
+                    callInternalFunctionCommand
                 )
             );
         }

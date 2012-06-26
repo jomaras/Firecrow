@@ -58,16 +58,57 @@ FBL.ns(function() { with (FBL) {
             }
             catch(e) { alert("Error when pressing Profiling button:" + e);; }
         },
-		
-		onFirecrowButtonPress: function()
-		{
-//			try
-//			{
-//				(!this.persistedState.isAnalyzing ? (this.loadHtmlInHiddenIFrame(), this.scheduleRecording()) 	
-//												  : this.stopRecording());
-//			}
-//			catch(e) { alert("Record button clicking error " + e);
 
+        onFirecrowSliceButtonPress: function()
+        {
+            try
+            {
+                this.loadHtmlInHiddenIFrame(function(htmlModel)
+                {
+                    try
+                    {
+                        var Firecrow = FBL.Firecrow;
+                        var WebFile = Firecrow.DoppelBrowser.WebFile;
+                        var Browser = Firecrow.DoppelBrowser.Browser;
+                        var model = htmlModel;
+
+                        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
+                        var browser = new Browser();
+                        prompt("Enter slicing criteria");
+                        browser.registerSlicingCriteria(model.results.map(function(result)
+                        {
+                            for(var propName in result)
+                            {
+                                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(webFile.url, -1, propName);
+                            }
+                        }));
+
+                        browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
+                        browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
+                        browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
+                        browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
+                        browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
+
+                        browser.buildPageFromModel(model, function()
+                        {
+                            dependencyGraph.markGraph(model.model.htmlElement);
+
+                            setTitle();
+
+                            checkForErrors(model);
+
+                            document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(model.model);
+                            document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(model.model);
+                        });
+                    }
+                    catch(e) { alert("Error when processing html model in slicing"); }
+                });
+            }
+            catch(e) { alert("Error when pressing Slice button: " + e);}
+        },
+
+        onFirecrowASTButtonPress: function()
+		{
             this.loadHtmlInHiddenIFrame(function(htmlJson)
             {
                 try
@@ -84,13 +125,6 @@ FBL.ns(function() { with (FBL) {
                 catch(e) { alert("Error when converting to JSON model:" + e)};
             });
 		},
-
-        onFirecrowASTButtonPress: function()
-        {
-            var code = prompt("Enter source code");
-
-            alert(ASTHelper.parseSourceCodeToASTString(code));
-        },
 		
 		scheduleRecording: function()
 		{
@@ -164,5 +198,8 @@ FBL.ns(function() { with (FBL) {
 	});
 	
 	Firebug.registerModule(Firebug.FirecrowModule);
+
+    Firecrow.getWindow = function() { return Firecrow.fbHelper.getWindow(); };
+    Firecrow.getDocument = function() { return Firecrow.fbHelper.getDocument(); }
 // ************************************************************************************************
 }});

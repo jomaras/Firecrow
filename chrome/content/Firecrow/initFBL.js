@@ -29,7 +29,10 @@ FBL.ns(function () { with (FBL)
             Internals: {},
             Simulator: {}
         },
-        IsDebugMode: true
+        IsDebugMode: true,
+
+        getWindow: function() { return window;},
+        getDocument: function() { return document; }
     };
 }});
 

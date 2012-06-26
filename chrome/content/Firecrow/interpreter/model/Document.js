@@ -25,6 +25,7 @@ fcModel.Document = function(documentFragment, globalObject)
         this.documentFragment.getElementsByTagName = document.getElementsByTagName;
 
         this.fcInternal = { object: this };
+        this.addProperty("location", this.globalObject.getPropertyValue("location"));
         //this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
     }
     catch(e) { this.notifyError("Error when creating Document object: " + e); }

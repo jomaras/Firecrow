@@ -76,7 +76,8 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            var newFunction = function(){};
+            var newFunction = ASTHelper.isFunctionDeclaration(functionCodeConstruct) ? eval("(function " + functionCodeConstruct.id.name + "(){})")
+                                                                                     : function(){};
 
             Object.defineProperty
             (
@@ -159,6 +160,26 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when creating html element: " + e);}
     },
 
+    createLocationObject: function()
+    {
+        try
+        {
+            var fcLocation = new fcModel.Object(this.globalObject, null, location);
+
+            fcLocation.addProperty("hash", new fcModel.JsValue(this.globalObject.origWindow.location.hash, new fcModel.FcInternal(null)));
+            fcLocation.addProperty("host", new fcModel.JsValue(this.globalObject.origWindow.location.host, new fcModel.FcInternal(null)));
+            fcLocation.addProperty("hostname", new fcModel.JsValue(this.globalObject.origWindow.location.hostname, new fcModel.FcInternal(null)));
+            fcLocation.addProperty("href", new fcModel.JsValue(this.globalObject.origWindow.location.href, new fcModel.FcInternal(null)));
+            fcLocation.addProperty("pathname", new fcModel.JsValue(this.globalObject.origWindow.location.pathname, new fcModel.FcInternal(null)));
+            fcLocation.addProperty("port", new fcModel.JsValue(this.globalObject.origWindow.location.port, new fcModel.FcInternal(null)));
+            fcLocation.addProperty("protocol", new fcModel.JsValue(this.globalObject.origWindow.location.protocol, new fcModel.FcInternal(null)));
+            fcLocation.addProperty("search", new fcModel.JsValue(this.globalObject.origWindow.location.search, new fcModel.FcInternal(null)));
+
+            return new fcModel.JsValue(location, new fcModel.FcInternal(null, fcLocation));
+        }
+        catch(e){ this.notifyError("Error when creating location object");}
+    },
+
     executeConstructor: function(constructorConstruct, internalConstructor)
     {
         try
@@ -171,25 +192,39 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Execute error: " + e); }
     },
 
-    executeFunction: function(thisObject, functionObject, arguments, callExpression)
+    executeFunction: function(thisObject, functionObject, arguments, callExpression, callCommand)
     {
         try
         {
             if(thisObject == null) { this.notifyError("This object can not be null when executing function!"); return; }
 
             if(ValueTypeHelper.isOfType(thisObject.value, Array)) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression); }
-            else if (ValueTypeHelper.isString(thisObject.value)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isString(thisObject.value)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (ValueTypeHelper.isOfType(thisObject.value, RegExp)) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject.fcInternal.globalObject.jsFcDocument, functionObject, arguments, callExpression);}
             else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, fcModel.Math)) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (functionObject.fcInternal.isInternalFunction)
+            {
+                if(ValueTypeHelper.arrayContains(fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS, functionObject.value.name))
+                {
+                    return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject.value, arguments, callExpression, this.globalObject);
+                }
+                else
+                {
+                    this.notifyError("");
+                }
+            }
             else
             {
                 this.notifyError("Unsupported internal function!");
             }
         }
-        catch(e) { this.notifyError("Error when executing internal function: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when executing internal function: " + e);
+        }
     },
 
     expandInternalFunctions: function()
@@ -204,6 +239,7 @@ fcSimulator.InternalExecutor.prototype =
             this._expandDocumentMethods();
             this._expandDocument();
             this._expandMathMethods();
+            this._expandGlobalObjectMethods();
         }
         catch(e) { this.notifyError("Error when expanding internal functions: " + e);}
     },
@@ -373,6 +409,14 @@ fcSimulator.InternalExecutor.prototype =
             }, this);
         }
         catch(e) { alert("InternalExecutor - error when expanding math methods: " + e); }
+    },
+
+    _expandGlobalObjectMethods: function()
+    {
+        fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+        {
+            this.expandWithInternalFunction(this.globalObject.origWindow, propertyName);
+        }, this);
     },
 
     _expandDocumentMethods: function()

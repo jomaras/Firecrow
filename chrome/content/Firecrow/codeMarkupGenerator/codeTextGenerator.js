@@ -243,7 +243,8 @@ Firecrow.CodeTextGenerator.prototype =
             else if (ASTHelper.isTryStatement(statement)) { return this.generateFromTryStatement(statement); }
             else if (ASTHelper.isThrowStatement(statement)) { return this.generateFromThrowStatement(statement); }
             else if (ASTHelper.isSwitchStatement(statement)) { return this.generateFromSwitchStatement(statement); }
-            else { this.notifyError("Error: AST Statement element not defined: " + expression.type);  return "";}
+            else if (ASTHelper.isVariableDeclaration(statement)) { return this.generateFromVariableDeclaration(statement); }
+            else { this.notifyError("Error: AST Statement element not defined: " + statement.type);  return "";}
         }
         catch(e) { this.notifyError("Error when generating code from a statement: " + e); }
     },
@@ -431,9 +432,11 @@ Firecrow.CodeTextGenerator.prototype =
             var leftCode = this.generateJsCode(logicalExpression.left);
             var rightCode = this.generateJsCode(logicalExpression.right);
 
+            var isWithinBinaryExpression = ASTHelper.isBinaryExpression(logicalExpression.parent);
+
             if(leftCode.length != 0 && rightCode.length != 0)
             {
-                return leftCode + " " + logicalExpression.operator + " " + rightCode;
+                return (isWithinBinaryExpression ? this._LEFT_PARENTHESIS : "") + leftCode + " " + logicalExpression.operator + " " + rightCode + (isWithinBinaryExpression ? this._RIGHT_PARENTHESIS : "");
             }
 
             if(leftCode.length != 0) { return leftCode; }

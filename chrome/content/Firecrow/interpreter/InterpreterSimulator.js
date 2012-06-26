@@ -5,6 +5,8 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 
+//TODO - implicit call toString method of an object if participating in a binary expression!
+
 var ExecutionContextStack = Firecrow.Interpreter.Simulator.ExecutionContextStack;
 var Command = Firecrow.Interpreter.Commands.Command;
 var CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
@@ -253,13 +255,15 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
                  if (command.isEvalCallbackFunctionCommand()) { this.generateCommandsAfterCallbackFunctionCommand(command); }
             else if (command.isEvalNewExpressionCommand()) { this.generateCommandsAfterNewExpressionCommand(command); }
-            else if (command.isEvalCallExpressionCommand()) { this.generateCommandsAfterCallFunctionCommand(command); }
+            else if (command.isEvalCallExpressionCommand() && !command.generatesCallbacks) { this.generateCommandsAfterCallFunctionCommand(command); }
+            else if (command.isCallInternalFunctionCommand() && command.generatesCallbacks) { this.generateCommandsAfterCallExpressionCallbackGenerator(command);}
             else if (command.isLoopStatementCommand()) { this.generateCommandsAfterLoopCommand(command); }
             else if (command.isIfStatementCommand()) { this.generateCommandsAfterIfCommand(command); }
             else if (command.isEvalConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
             else if (command.isCaseCommand()) { this.generateCommandsAfterCaseCommand(command); }
             else if (command.isCallCallbackMethodCommand()) { this.generateCommandsAfterCallCallback(command); }
             else if (command.isExecuteCallbackCommand()) { this.generateCommandsAfterExecuteCallbackCommand(command); }
+
             else { alert("Unknown generating new commands command!"); }
         }
         catch(e) { alert("An error occurred while processing generate new commands command:" + e);}
@@ -403,6 +407,21 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             );
         }
         catch(e) { alert("InterpreterSimulator - error when generating commands after execute callback command: " + e);}
+    },
+
+    generateCommandsAfterCallExpressionCallbackGenerator: function(internalFunctionCallCommand)
+    {
+       try
+       {
+           alert("TODO - implement generating call expression callback commands!");
+           /*ValueTypeHelper.insertElementsIntoArrayAtIndex
+           (
+               this.commands,
+               CommandGenerator.generateCallExpressionCallbackCommand(internalFunctionCallCommand),
+               this.currentCommandIndex + 1
+           );*/
+       }
+       catch(e) { this.alert("InterpreterSimulator - error when generating commands after call expression callback generator"); }
     },
 
     generateCommandsAfterLoopCommand: function(loopCommand)

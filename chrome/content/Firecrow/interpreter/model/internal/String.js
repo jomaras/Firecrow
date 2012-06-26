@@ -66,7 +66,7 @@ fcModel.StringFunction.prototype = new fcModel.Object(null);
 
 fcModel.StringExecutor =
 {
-    executeInternalStringMethod : function(thisObject, functionObject, arguments, callExpression)
+    executeInternalStringMethod : function(thisObject, functionObject, arguments, callExpression, callCommand)
     {
         try
         {
@@ -79,6 +79,8 @@ fcModel.StringExecutor =
             var fcThisValue =  thisObject.fcInternal.object;
             var globalObject = fcThisValue != null ? fcThisValue.globalObject
                                                    : functionObjectValue.jsValue.fcInternal.object.globalObject;
+
+            var argumentValues = arguments.map(function(argument){ return argument.value;});
 
             switch(functionName)
             {
@@ -103,17 +105,47 @@ fcModel.StringExecutor =
                 case "slice":
                     return new fcModel.JsValue
                     (
-                        thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.value;})),
+                        thisObjectValue[functionName].apply(thisObjectValue, argumentValues),
                         new fcModel.FcInternal(callExpression)
                     );
                 case "match":
                 case "split":
-                    var result = thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.value;}));
+                    var result = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
                     if(result == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
                     else if (ValueTypeHelper.isArray(result)){ return globalObject.internalExecutor.createArray(callExpression, result);}
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
                 case "replace":
-                    this.notifyError("Still not handling string replace!");
+                    if(ValueTypeHelper.isString(argumentValues[1]))
+                    {
+                        return new fcModel.JsValue
+                        (
+                            thisObjectValue[functionName].apply(thisObjectValue, argumentValues),
+                            new fcModel.FcInternal(callExpression)
+                        );
+                    }
+                    else if(ValueTypeHelper.isFunction(argumentValues[1]))
+                    {
+                        var allCallbackArguments = [];
+
+                        thisObjectValue.replace(argumentValues[0], function()
+                        {
+                            var currentArgs = [];
+
+                            for(var i = 0; i < arguments.length; i++) { currentArgs.push(arguments[i]); }
+
+                            allCallbackArguments.push(currentArgs);
+                        });
+
+                        callCommand.generatesNewCommands = true;
+                        callCommand.generatesCallbacks = true;
+                        callCommand.callbackFunction = functionObject
+                        callCommand.callbackArgumentGroups = allCallbackArguments;
+                        callCommand.thisObject = thisObject;
+                    }
+                    else
+                    {
+                        this.notifyError("Unknown replacement type in string, can be either a function or a string");
+                    }
                     return null;
                 default:
                     this.notifyError("Unknown method on string");

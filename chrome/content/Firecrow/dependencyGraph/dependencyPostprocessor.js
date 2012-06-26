@@ -96,9 +96,16 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             else if (ASTHelper.isTryStatement(statement)) { this.processTryStatement(statement); }
             else if (ASTHelper.isThrowStatement(statement)) { this.processThrowStatement(statement); }
             else if (ASTHelper.isSwitchStatement(statement)) { this.processSwitchStatement(statement); }
-            else { this.notifyError("Error: AST Statement element not defined: " + expression.type);}
+            else if (ASTHelper.isVariableDeclaration(statement)) { this.processVariableDeclaration(statement);}
+            else
+            {
+                this.notifyError("Error: AST Statement element not defined: " + statement.type);
+            }
         }
-        catch(e) { this.notifyError("Error when processing code from a statement: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when processing code from a statement: " + e);
+        }
     },
 
     processExpression: function(expression)

@@ -619,7 +619,16 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ASTHelper.isVariableDeclarator(variableDeclarator)) { this.notifyError("ExecutionContextStack: When registering an identifier, the argument has to be variable declarator"); }
 
-            this.activeContext.registerIdentifier(new fcModel.Identifier(variableDeclarator.id.name, undefined, variableDeclarator, this.globalObject));
+            this.activeContext.registerIdentifier
+            (
+                new fcModel.Identifier
+                (
+                    variableDeclarator.id.name,
+                    new fcModel.JsValue(undefined, new fcModel.FcInternal(variableDeclarator)),
+                    variableDeclarator,
+                    this.globalObject
+                )
+            );
         }
         catch(e)
         {

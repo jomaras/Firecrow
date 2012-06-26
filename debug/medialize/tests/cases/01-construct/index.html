@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="../../URI.js"></script>
+</head>
+<body>
+    <script>
+        var u = new URI("http://example.org/");
+
+        var a1 = u instanceof URI;
+        var a2 = u._parts.hostname !== undefined;
+        a1;
+        a2;
+
+        var u1 = new URI({protocol: "http", hostname: 'example.org'});
+        var a3 = u1 instanceof URI;
+        var a4 = u1._parts.hostname !== undefined;
+        a3;
+        a4;
+
+        var u2 = new URI(new URI({protocol: "http", hostname: 'example.org'}));
+        var a5 = u2 instanceof URI;
+        var a6 = u2._parts.hostname !== undefined;
+        a5;
+        a6;
+
+        var u3 = new URI();
+        var a7 = u3 instanceof URI;
+        a7;
+
+        var u4 = new URI("../foobar.html", "http://example.org/hello/world.html");
+        var a8 = u4.build(false)._string == "http://example.org/foobar.html";
+        a8;
+    </script>
+</body>
+</html>
