@@ -1057,6 +1057,11 @@ Firecrow.CodeTextGenerator.prototype =
             {
                 var attribute = attributes[i];
 
+                if(htmlElement.type == "script" && attribute.name == "src")
+                {
+                    continue;
+                }
+
                 attributesText += " " + attribute.name + '="' + attribute.value + '"';
             }
 

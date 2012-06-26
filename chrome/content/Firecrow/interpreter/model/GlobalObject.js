@@ -12,6 +12,9 @@ fcModel.GlobalObject = function(browser, documentFragment)
     {
         this.__proto__ = new fcModel.Object(this);
 
+        this.origWindow = Firecrow.getWindow();
+        this.origDocument = Firecrow.getDocument();
+
         this.fcInternal = new fcModel.FcInternal(null, this);
         this.internalExecutor = new Firecrow.Interpreter.Simulator.InternalExecutor(this);
 
@@ -41,9 +44,6 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("window", this, null);
         this.addProperty("undefined", new fcModel.JsValue(undefined, new fcModel.FcInternal()));
         this.addProperty("location", this.internalExecutor.createLocationObject());
-
-        this.origWindow = Firecrow.getWindow();
-        this.origDocument = Firecrow.getDocument();
 
         this.internalExecutor.expandInternalFunctions();
 

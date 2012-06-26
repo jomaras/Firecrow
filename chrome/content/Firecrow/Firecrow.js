@@ -68,19 +68,23 @@ FBL.ns(function() { with (FBL) {
                     try
                     {
                         var Firecrow = FBL.Firecrow;
-                        var WebFile = Firecrow.DoppelBrowser.WebFile;
                         var Browser = Firecrow.DoppelBrowser.Browser;
                         var model = htmlModel;
+                        ASTHelper.setParentsChildRelationships(htmlModel);
+                        FBL.pageModel = model;
 
+                        var currentPageLocation = fbHelper.getCurrentPageDocument().location.href;
                         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
                         var browser = new Browser();
-                        prompt("Enter slicing criteria");
-                        browser.registerSlicingCriteria(model.results.map(function(result)
+                        var input = prompt("Enter identifiers to be sliced (comma separated, only simple : a1:3,a2:'4'...)");
+                        var slicingVars = input.trim().split(",").map(function(item)
                         {
-                            for(var propName in result)
-                            {
-                                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(webFile.url, -1, propName);
-                            }
+                            var parts = item.trim().split(":");
+                            return { name: parts[0], value: parts[1]};
+                        });
+                        browser.registerSlicingCriteria(slicingVars.map(function(slicingVar)
+                        {
+                            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(currentPageLocation, -1, slicingVar.name);
                         }));
 
                         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
@@ -91,17 +95,31 @@ FBL.ns(function() { with (FBL) {
 
                         browser.buildPageFromModel(model, function()
                         {
-                            dependencyGraph.markGraph(model.model.htmlElement);
+                            dependencyGraph.markGraph(model.htmlElement);
+                            var errors = "";
 
-                            setTitle();
+                            slicingVars.forEach(function(slicingVar)
+                            {
+                                var propertyValue = browser.globalObject.getPropertyValue(slicingVar.name);
+                                if(propertyValue.value != slicingVar.value)
+                                {
+                                    errors += "The value of " + slicingVar.name + " differs; is " + propertyValue.value + " and should be " + slicingVar.value + ";;";
+                                }
+                            }, this);
 
-                            checkForErrors(model);
+                            if(errors == "") { alert("OK!"); }
+                            else { alert("Errors: " + errors); }
 
-                            document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(model.model);
-                            document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(model.model);
+                            var pageName  = currentPageLocation.substring(currentPageLocation.lastIndexOf("/") + 1, currentPageLocation.length)
+
+                            Firecrow.FileHelper.writeToFile
+                            (
+                                currentPageLocation.replace(pageName, "index-sliced.html").replace("file:///",""),
+                                Firecrow.CodeTextGenerator.generateSlicedCode(model)
+                            );
                         });
                     }
-                    catch(e) { alert("Error when processing html model in slicing"); }
+                    catch(e) { alert("Error when processing html model in slicing: " + e); }
                 });
             }
             catch(e) { alert("Error when pressing Slice button: " + e);}

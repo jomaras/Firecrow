@@ -21,13 +21,10 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlWebFile, WebFile)) { alert("The main html file in DoppelBrowser.Browser is not a web File!"); return; }
-        if(!ValueTypeHelper.isArrayOf(externalWebFiles, WebFile)) { alert("External web files are not webFiles in DoppelBrowser.Browser"); return; }
-
         this.htmlWebFile = htmlWebFile;
         this.externalWebFiles = externalWebFiles;
 
-        this.hostDocument = this._getDocumentObject();
+        this.hostDocument = Firecrow.getDocument();
         this.documentFragment = this.hostDocument.createDocumentFragment();
 
         this.globalObject = new GlobalObject(this, this.documentFragment);
@@ -92,9 +89,10 @@ Browser.prototype =
     {
         try
         {
-            this._buildSubtree(htmlModel.htmlElement, null, callback)
+            this._buildSubtree(htmlModel.htmlElement, null);
+            callback();
         }
-        catch(e) { alert("Exception when building page from model"); }
+        catch(e) { alert("Exception when building page from model: " + e); }
 
     },
 

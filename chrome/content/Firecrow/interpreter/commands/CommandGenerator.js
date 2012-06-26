@@ -241,7 +241,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         }
         catch (e)
         {
-            alert("CommandGenerator: An error occurred when generating function execution commands: " + e);
+            alert("CommandGenerator: An error occurred when generating function execution commands: " + e + " " + callExpressionCommand.codeConstruct.loc.source);
         }
     },
 

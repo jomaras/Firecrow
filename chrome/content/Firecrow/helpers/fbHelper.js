@@ -176,8 +176,10 @@ Firecrow.fbHelper =
 
 	    	return returnValue;
     	}
-    	catch(e) { alert("An error has occured while trying to get script paths and models: " + e);}
+    	catch(e) { alert("An error has occurred while trying to get script paths and models: " + e);}
     },
+
+    getWindow: function() { return this.getMainWindow(); },
     
     getMainWindow: function()
     {
@@ -194,6 +196,8 @@ Firecrow.fbHelper =
     	try { return this.getMainWindow().getBrowser().selectedBrowser; }
         catch (e) { alert("Getting current browser error: " + e); }
     },
+
+    getDocument: function() { return this.getCurrentPageDocument(); },
     
     getCurrentPageDocument: function()
     {
