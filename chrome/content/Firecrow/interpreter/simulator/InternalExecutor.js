@@ -145,7 +145,7 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            var jsElement = document.createElement(tagName);
+            var jsElement = this.globalObject.origDocument.createElement(tagName);
 
             return new fcModel.JsValue
             (
@@ -425,7 +425,7 @@ fcSimulator.InternalExecutor.prototype =
         {
             fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
             {
-                this.expandWithInternalFunction(document, propertyName);
+                this.expandWithInternalFunction(this.globalObject.origDocument, propertyName);
             }, this);
         }
         catch(e) { alert("InternalExecutor - error when expanding document methods: " + e); }
@@ -435,16 +435,16 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            if(!document.hasOwnProperty("jsValue"))
+            if(!this.globalObject.origDocument.hasOwnProperty("jsValue"))
             {
                 Object.defineProperty
                 (
-                    document,
+                    this.globalObject.origDocument,
                     "jsValue",
                     {
                         value: new fcModel.JsValue
                         (
-                            document,
+                            this.globalObject.origDocument,
                             this.globalObject.document
                         )
                     }

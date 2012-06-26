@@ -19,10 +19,10 @@ fcModel.Document = function(documentFragment, globalObject)
         this.__proto__ = new fcModel.Object(globalObject);
 
         //Extend the fragment just to support createElement function
-        this.documentFragment.createElement = document.createElement;
-        this.documentFragment.getElementById = document.getElementById;
-        this.documentFragment.getElementsByClassName = document.getElementsByClassName;
-        this.documentFragment.getElementsByTagName = document.getElementsByTagName;
+        this.documentFragment.createElement = this.globalObject.origDocument.createElement;
+        this.documentFragment.getElementById = this.globalObject.origDocument.getElementById;
+        this.documentFragment.getElementsByClassName = this.globalObject.origDocument.getElementsByClassName;
+        this.documentFragment.getElementsByTagName = this.globalObject.origDocument.getElementsByTagName;
 
         this.fcInternal = { object: this };
         this.addProperty("location", this.globalObject.getPropertyValue("location"));
