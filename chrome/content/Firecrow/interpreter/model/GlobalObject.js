@@ -46,10 +46,15 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("location", this.internalExecutor.createLocationObject());
 
         this.internalExecutor.expandInternalFunctions();
+        FBL.ORIG_WINDOW = this.origWindow;
 
         fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(methodName)
         {
-            this.addProperty(methodName,  this.origWindow[methodName].jsValue);
+            try
+            {
+                this.addProperty(methodName,  this.origWindow[methodName].jsValue);
+            }
+            catch(e) { alert("Global object error when adding property: " + methodName +", error: " + e);}
         }, this);
 
         this.identifierSlicingCriteria = [];

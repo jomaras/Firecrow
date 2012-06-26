@@ -76,7 +76,21 @@ FBL.ns(function() { with (FBL) {
                         var currentPageLocation = fbHelper.getCurrentPageDocument().location.href;
                         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
                         var browser = new Browser();
-                        var input = prompt("Enter identifiers to be sliced (comma separated, only simple : a1:3,a2:'4'...)");
+
+                        var suggestedInput = "";
+                        var window = fbHelper.getWindow();
+
+                        for(var propName in window)
+                        {
+                            if(propName.length > 1 && propName.length <= 3 && propName[0] == "a")
+                            {
+                                if(suggestedInput != "") { suggestedInput += ","; }
+
+                                suggestedInput += propName + ":" + window[propName];
+                            }
+                        }
+
+                        var input = prompt("Enter identifiers to be sliced (comma separated, only simple : a1:3,a2:'4'...)", suggestedInput);
                         var slicingVars = input.trim().split(",").map(function(item)
                         {
                             var parts = item.trim().split(":");
@@ -101,9 +115,12 @@ FBL.ns(function() { with (FBL) {
                             slicingVars.forEach(function(slicingVar)
                             {
                                 var propertyValue = browser.globalObject.getPropertyValue(slicingVar.name);
-                                if(propertyValue.value != slicingVar.value)
+                                var val = propertyValue.value;
+                                if(val === null) { val = "null";}
+
+                                if(val.toString() != slicingVar.value.toString())
                                 {
-                                    errors += "The value of " + slicingVar.name + " differs; is " + propertyValue.value + " and should be " + slicingVar.value + ";;";
+                                    errors += "The value of " + slicingVar.name + " differs - is " + propertyValue.value + " and should be " + slicingVar.value + ";;";
                                 }
                             }, this);
 

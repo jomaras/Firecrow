@@ -179,7 +179,7 @@ Firecrow.fbHelper =
     	catch(e) { alert("An error has occurred while trying to get script paths and models: " + e);}
     },
 
-    getWindow: function() { return this.getMainWindow(); },
+    getWindow: function() { return content.wrappedJSObject; },
     
     getMainWindow: function()
     {
