@@ -8,6 +8,8 @@ FBL.ns(function() { with (FBL) {
 //TODO - implicit call toString method of an object if participating in a binary expression!
 //TODO - define Object.isOwnProperty and other Object.prototype methods
 //TODO - implement String.replace commands
+//TODO - merge array callbacks and string callbacks
+//TODO - remove all alert calls - put everywhere only one notifyError
 
 var ExecutionContextStack = Firecrow.Interpreter.Simulator.ExecutionContextStack;
 var Command = Firecrow.Interpreter.Commands.Command;
@@ -257,8 +259,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
                  if (command.isEvalCallbackFunctionCommand()) { this.generateCommandsAfterCallbackFunctionCommand(command); }
             else if (command.isEvalNewExpressionCommand()) { this.generateCommandsAfterNewExpressionCommand(command); }
-            else if (command.isEvalCallExpressionCommand() && !command.generatesCallbacks) { this.generateCommandsAfterCallFunctionCommand(command); }
-            else if (command.isCallInternalFunctionCommand() && command.generatesCallbacks) { this.generateCommandsAfterCallExpressionCallbackGenerator(command);}
+            else if (command.isEvalCallExpressionCommand()) { this.generateCommandsAfterCallFunctionCommand(command); }
+            else if (command.isCallInternalFunctionCommand()) { if(command.generatesCallbacks) { this.generateCommandsAfterCallbackFunctionCommand(command); }}
             else if (command.isLoopStatementCommand()) { this.generateCommandsAfterLoopCommand(command); }
             else if (command.isIfStatementCommand()) { this.generateCommandsAfterIfCommand(command); }
             else if (command.isEvalConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
@@ -271,11 +273,16 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         catch(e) { alert("An error occurred while processing generate new commands command:" + e);}
     },
 
-    generateCommandsAfterCallbackFunctionCommand: function(callbackCommand)
+    generateCommandsAfterCallbackFunctionCommand: function(callInternalFunctionCommand)
     {
         try
         {
-            alert("Still not handling callback commands!");
+            ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateCallCallbackFunctionsCommands(callInternalFunctionCommand),
+                this.currentCommandIndex + 1
+            );
         }
         catch(e) { alert("Error while generating commands after callback function command: " + e);}
     },
@@ -357,33 +364,57 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(!ValueTypeHelper.isOfType(callCallbackMethodCommand, Command) || !callCallbackMethodCommand.isCallCallbackMethodCommand()) { alert("InterpreterSimulator: argument is not callCallbackCommand"); return; }
 
-            var argumentValues = [];
-
-            if(callCallbackMethodCommand.codeConstruct.arguments != null)
+            var argumentValues = null;
+            if(callCallbackMethodCommand.arguments != null)
             {
-                callCallbackMethodCommand.codeConstruct.arguments.forEach(function(argument)
+                argumentValues = callCallbackMethodCommand.arguments;
+            }
+            else
+            {
+                argumentValues = [];
+
+                if(callCallbackMethodCommand.codeConstruct.arguments != null)
                 {
-                    argumentValues.push(this.executionContextStack.getExpressionValue(argument));
-                }, this);
+                    callCallbackMethodCommand.codeConstruct.arguments.forEach(function(argument)
+                    {
+                        argumentValues.push(this.executionContextStack.getExpressionValue(argument));
+                    }, this);
+                }
             }
 
-            var functionName = callCallbackMethodCommand.functionObject.value.name;
-            var resultingObject = functionName == "filter" || functionName == "map" ? this.globalObject.internalExecutor.createArray(callCallbackMethodCommand.codeConstruct)
-                                                                                    : null;
-            this.executionContextStack.setExpressionValue(callCallbackMethodCommand.codeConstruct, resultingObject);
+            if(ValueTypeHelper.isOfType(callCallbackMethodCommand.originatingObject, Firecrow.Interpreter.Model.Array))
+            {
+                var functionName = callCallbackMethodCommand.functionObject.value.name;
+                var resultingObject = functionName == "filter" || functionName == "map" ? this.globalObject.internalExecutor.createArray(callCallbackMethodCommand.codeConstruct)
+                                                                                        : null;
+                this.executionContextStack.setExpressionValue(callCallbackMethodCommand.codeConstruct, resultingObject);
 
-            ValueTypeHelper.insertElementsIntoArrayAtIndex
-            (
-                this.commands,
-                CommandGenerator.generateCallbackExecutionCommands
+                ValueTypeHelper.insertElementsIntoArrayAtIndex
                 (
-                    callCallbackMethodCommand,
-                    resultingObject,
-                    argumentValues,
-                    this.globalObject
-                ),
-                this.currentCommandIndex + 1
-            );
+                    this.commands,
+                    CommandGenerator.generateCallbackExecutionCommands
+                    (
+                        callCallbackMethodCommand,
+                        resultingObject,
+                        argumentValues,
+                        this.globalObject
+                    ),
+                    this.currentCommandIndex + 1
+                );
+            }
+            else if(ValueTypeHelper.isString(callCallbackMethodCommand.originatingObject.value))
+            {
+                ValueTypeHelper.insertElementsIntoArrayAtIndex
+                (
+                    this.commands,
+                    CommandGenerator.generateStringCallbackExecutionCommands
+                    (
+                        callCallbackMethodCommand,
+                        this.globalObject
+                    ),
+                    this.currentCommandIndex + 1
+                );
+            }
         }
         catch(e) { alert("InterpreterSimulator - Error when generating commands after callback");}
     },
@@ -409,21 +440,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             );
         }
         catch(e) { alert("InterpreterSimulator - error when generating commands after execute callback command: " + e);}
-    },
-
-    generateCommandsAfterCallExpressionCallbackGenerator: function(internalFunctionCallCommand)
-    {
-       try
-       {
-           alert("TODO - implement generating call expression callback commands!");
-           /*ValueTypeHelper.insertElementsIntoArrayAtIndex
-           (
-               this.commands,
-               CommandGenerator.generateCallExpressionCallbackCommand(internalFunctionCallCommand),
-               this.currentCommandIndex + 1
-           );*/
-       }
-       catch(e) { this.alert("InterpreterSimulator - error when generating commands after call expression callback generator"); }
     },
 
     generateCommandsAfterLoopCommand: function(loopCommand)

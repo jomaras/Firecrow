@@ -126,21 +126,29 @@ fcModel.StringExecutor =
                     else if(ValueTypeHelper.isFunction(argumentValues[1]))
                     {
                         var allCallbackArguments = [];
+                        var callbackFunction = arguments[1];
+
+                        var params = callbackFunction.fcInternal.codeConstruct.params;
 
                         thisObjectValue.replace(argumentValues[0], function()
                         {
                             var currentArgs = [];
 
-                            for(var i = 0; i < arguments.length; i++) { currentArgs.push(arguments[i]); }
+                            for(var i = 0; i < arguments.length; i++)
+                            {
+                                currentArgs.push(new fcModel.JsValue(arguments[i], new fcModel.FcInternal(params[i])));
+                            }
 
                             allCallbackArguments.push(currentArgs);
                         });
 
                         callCommand.generatesNewCommands = true;
                         callCommand.generatesCallbacks = true;
-                        callCommand.callbackFunction = functionObject
+                        callCommand.callbackFunction = callbackFunction;
                         callCommand.callbackArgumentGroups = allCallbackArguments;
-                        callCommand.thisObject = thisObject;
+                        callCommand.thisObject = globalObject;
+                        callCommand.originatingObject = thisObject;
+                        callCommand.callerFunction = functionObject;
                     }
                     else
                     {

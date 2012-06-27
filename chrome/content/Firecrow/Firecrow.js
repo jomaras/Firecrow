@@ -124,14 +124,23 @@ FBL.ns(function() { with (FBL) {
                                 }
                             }, this);
 
-                            if(errors == "") { alert("OK!"); }
-                            else { alert("Errors: " + errors); }
-
                             var pageName  = currentPageLocation.substring(currentPageLocation.lastIndexOf("/") + 1, currentPageLocation.length)
+
+                            if(errors == "")
+                            {
+                                prompt("Success", currentPageLocation + " - OK");
+
+                                Firecrow.FileHelper.writeToFile
+                                (
+                                    currentPageLocation.replace(pageName, "index-sliced-results.txt").replace("file:///",""),
+                                    JSON.stringify(slicingVars)
+                                );
+                            }
+                            else { prompt ("Error", currentPageLocation + " - " + errors); }
 
                             Firecrow.FileHelper.writeToFile
                             (
-                                currentPageLocation.replace(pageName, "index-sliced.html").replace("file:///",""),
+                                currentPageLocation.replace(pageName, "index-sliced-sliced.html").replace("file:///",""),
                                 Firecrow.CodeTextGenerator.generateSlicedCode(model)
                             );
                         });

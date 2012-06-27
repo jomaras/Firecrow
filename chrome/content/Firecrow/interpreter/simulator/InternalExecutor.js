@@ -435,7 +435,7 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            if(!Object.hasOwnProperty.call(this.globalObject, "jsValue"))
+            if(!Object.hasOwnProperty.call(this.globalObject.origDocument, "jsValue"))
             {
                 Object.defineProperty
                 (
