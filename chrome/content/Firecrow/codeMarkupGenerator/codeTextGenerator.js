@@ -588,7 +588,7 @@ Firecrow.CodeTextGenerator.prototype =
                 generatedProperties++;
             }
 
-            if(lastGeneratedProperty != null && lastGeneratedProperty.shouldBeIncluded && ASTHelper.isFunctionExpression(lastGeneratedProperty.value))
+            if(lastGeneratedProperty != null && ASTHelper.isFunctionExpression(lastGeneratedProperty.value))
             {
                 code += this.newLine;
             }

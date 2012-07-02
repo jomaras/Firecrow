@@ -336,33 +336,34 @@ fcModel.ArrayFunction.prototype = new fcModel.Object(null);
 
 fcModel.ArrayCallbackEvaluator =
 {
-    evaluateCallbackReturn: function(callbackCommand, arrayObject, callbackFunction, resultingObject, returnValue)
+    evaluateCallbackReturn: function(callbackCommand, returnValue, returnExpression)
     {
         try
         {
-            if(!ValueTypeHelper.isArray(arrayObject.value)) { this.notifyError("When evaluating callback return the argument has to be an array!"); return; }
+            var originatingObject = callbackCommand.originatingObject;
 
-            if(callbackFunction == null || callbackFunction.value == null) { this.notifyError("Callback function can not be null"); }
+            if(!ValueTypeHelper.isArray(originatingObject.value)) { this.notifyError("When evaluating callback return the argument has to be an array!"); return; }
 
-            var callbackFunctionValue = callbackFunction.value;
-            var resultingObjectValue = resultingObject.value;
+            var callbackFunctionValue = callbackCommand.callerFunction.value;
+            var targetObject = callbackCommand.targetObject;
+            var targetObjectValue = targetObject.value;
 
             if(callbackFunctionValue.name == "filter")
             {
-                if(!ValueTypeHelper.isArray(resultingObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
+                if(!ValueTypeHelper.isArray(targetObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
 
                 if(returnValue != null && returnValue.value)
                 {
-                    resultingObject.fcInternal.object.push(callbackCommand.argumentValues[0]);
-                    resultingObjectValue.push(callbackCommand.argumentValues[0]);
+                    targetObject.fcInternal.object.push(callbackCommand.arguments[0], returnExpression.argument);
+                    targetObjectValue.push(callbackCommand.arguments[0]);
                 }
             }
             else if(callbackFunctionValue.name == "map")
             {
-                if(!ValueTypeHelper.isArray(resultingObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
+                if(!ValueTypeHelper.isArray(targetObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
 
-                resultingObject.fcInternal.object.push(returnValue);
-                resultingObjectValue.push(returnValue);
+                targetObject.fcInternal.object.push(returnValue, returnExpression.argument);
+                targetObjectValue.push(returnValue);
             }
             else if(callbackFunctionValue.name == "forEach") { }
             else if(callbackFunctionValue.name == "sort") { this.notifyError("Still not handling evaluate return from sort!"); return; }
@@ -386,7 +387,7 @@ fcModel.ArrayCallbackEvaluator =
 
 fcModel.ArrayExecutor =
 {
-    executeInternalArrayMethod : function(thisObject, functionObject, arguments, callExpression)
+    executeInternalArrayMethod : function(thisObject, functionObject, arguments, callExpression, callCommand)
     {
         try
         {
@@ -397,6 +398,7 @@ fcModel.ArrayExecutor =
             var thisObjectValue = thisObject.value;
             var functionName = functionObjectValue.name;
             var fcThisValue =  thisObject.fcInternal.object;
+            var globalObject = thisObject.fcInternal.object.globalObject;
 
             switch(functionName)
             {
@@ -417,6 +419,44 @@ fcModel.ArrayExecutor =
                 case "join":
                     thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
                     return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression]);
+                case "forEach":
+                case "filter":
+                case "every":
+                case "some":
+                case "map":
+                    var allCallbackArguments = [];
+                    var callbackParams = callExpression.arguments != null ? callExpression.arguments[0].params : [];
+                    callbackParams = callbackParams || [];
+
+                    for(var i = 0, length = thisObjectValue.length; i < length; i++)
+                    {
+                        var callbackArguments = [];
+
+                        callbackArguments.push(thisObject.value[i]);
+                        callbackArguments.push(new fcModel.JsValue(i, new fcModel.FcInternal(callbackParams[i])));
+                        callbackArguments.push(thisObject);
+
+                        allCallbackArguments.push(callbackArguments);
+                    }
+
+                    callCommand.generatesNewCommands = true;
+                    callCommand.generatesCallbacks = true;
+                    callCommand.callbackFunction = arguments[0];
+                    callCommand.callbackArgumentGroups = allCallbackArguments;
+                    callCommand.thisObject = arguments[2] || globalObject;
+                    callCommand.originatingObject = thisObject;
+                    callCommand.callerFunction = functionObject;
+
+                    if(functionName == "filter" || functionName == "map")
+                    {
+                        callCommand.targetObject = globalObject.internalExecutor.createArray(callExpression);
+                        return callCommand.targetObject;
+                    }
+                    else
+                    {
+                        return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
+                    }
+
                 default:
                     this.notifyError("Unknown internal array method: " + functionObjectValue.name);
             }

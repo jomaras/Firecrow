@@ -122,6 +122,9 @@
     browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
     browser.registerInterpreterMessageGeneratedCallback(function(message)
     {
+        var messageItemContainer = document.createElement("div");
+        messageItemContainer.textContent = message;
+        messageContainer.appendChild(messageItemContainer);
     });
 
     browser.asyncBuildPage(function()

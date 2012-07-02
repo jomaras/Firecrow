@@ -1,32 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Test</title>
+</head>
 <body>
+<h2>Firecrow - simple Js Test</h2>
+<div>Array internal methods</div>
+<div id="resultContainer"></div>
 <script>
-    var a =
+    var array = [0, 1, 2];
+
+    var evenArray = array.filter(function(a)
     {
-        b: 3,
-        c: 4
-    };
+        return a % 2 == 0;
+    });
 
-    var a1 = 0;
-
-    for(var prop in a)
-    {
-        if(a.hasOwnProperty(prop))
-        {
-            a1 += a[prop];
-        }
-    }
-
-    for(var prop in a)
-    {
-        if(Object.hasOwnProperty.call(a, prop))
-        {
-            a1 += a[prop];
-        }
-    }
-
+    var a1 = evenArray.length;
     a1;
 </script>
 </body>

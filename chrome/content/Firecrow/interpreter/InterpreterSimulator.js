@@ -265,9 +265,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             else if (command.isIfStatementCommand()) { this.generateCommandsAfterIfCommand(command); }
             else if (command.isEvalConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
             else if (command.isCaseCommand()) { this.generateCommandsAfterCaseCommand(command); }
-            else if (command.isCallCallbackMethodCommand()) { this.generateCommandsAfterCallCallback(command); }
-            else if (command.isExecuteCallbackCommand()) { this.generateCommandsAfterExecuteCallbackCommand(command); }
-
             else { alert("Unknown generating new commands command!"); }
         }
         catch(e) { alert("An error occurred while processing generate new commands command:" + e);}
@@ -280,7 +277,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
                 this.commands,
-                CommandGenerator.generateCallCallbackFunctionsCommands(callInternalFunctionCommand),
+                CommandGenerator.generateCallbackFunctionExecutionCommands(callInternalFunctionCommand),
                 this.currentCommandIndex + 1
             );
         }
@@ -356,90 +353,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             alert("InterpreterSimulator - Error while generating commands after call function command: " + e);
         }
-    },
-
-    generateCommandsAfterCallCallback: function(callCallbackMethodCommand)
-    {
-        try
-        {
-            if(!ValueTypeHelper.isOfType(callCallbackMethodCommand, Command) || !callCallbackMethodCommand.isCallCallbackMethodCommand()) { alert("InterpreterSimulator: argument is not callCallbackCommand"); return; }
-
-            var argumentValues = null;
-            if(callCallbackMethodCommand.arguments != null)
-            {
-                argumentValues = callCallbackMethodCommand.arguments;
-            }
-            else
-            {
-                argumentValues = [];
-
-                if(callCallbackMethodCommand.codeConstruct.arguments != null)
-                {
-                    callCallbackMethodCommand.codeConstruct.arguments.forEach(function(argument)
-                    {
-                        argumentValues.push(this.executionContextStack.getExpressionValue(argument));
-                    }, this);
-                }
-            }
-
-            if(ValueTypeHelper.isOfType(callCallbackMethodCommand.originatingObject, Firecrow.Interpreter.Model.Array))
-            {
-                var functionName = callCallbackMethodCommand.functionObject.value.name;
-                var resultingObject = functionName == "filter" || functionName == "map" ? this.globalObject.internalExecutor.createArray(callCallbackMethodCommand.codeConstruct)
-                                                                                        : null;
-                this.executionContextStack.setExpressionValue(callCallbackMethodCommand.codeConstruct, resultingObject);
-
-                ValueTypeHelper.insertElementsIntoArrayAtIndex
-                (
-                    this.commands,
-                    CommandGenerator.generateCallbackExecutionCommands
-                    (
-                        callCallbackMethodCommand,
-                        resultingObject,
-                        argumentValues,
-                        this.globalObject
-                    ),
-                    this.currentCommandIndex + 1
-                );
-            }
-            else if(ValueTypeHelper.isString(callCallbackMethodCommand.originatingObject.value))
-            {
-                ValueTypeHelper.insertElementsIntoArrayAtIndex
-                (
-                    this.commands,
-                    CommandGenerator.generateStringCallbackExecutionCommands
-                    (
-                        callCallbackMethodCommand,
-                        this.globalObject
-                    ),
-                    this.currentCommandIndex + 1
-                );
-            }
-        }
-        catch(e) { alert("InterpreterSimulator - Error when generating commands after callback");}
-    },
-
-    generateCommandsAfterExecuteCallbackCommand: function(executeCallbackCommand)
-    {
-        try
-        {
-            if(!ValueTypeHelper.isOfType(executeCallbackCommand, Command) || !executeCallbackCommand.isExecuteCallbackCommand()) { alert("InterpreterSimulator: argument is not execute callback command"); return; }
-
-            var callConstruct = executeCallbackCommand.codeConstruct;
-
-            ValueTypeHelper.insertElementsIntoArrayAtIndex
-            (
-                this.commands,
-                CommandGenerator.generateFunctionExecutionCommands
-                (
-                    executeCallbackCommand,
-                    executeCallbackCommand.callback,
-                    executeCallbackCommand.thisObject
-                ),
-                this.currentCommandIndex + 1
-            );
-        }
-        catch(e) { alert("InterpreterSimulator - error when generating commands after execute callback command: " + e);}
     },
 
     generateCommandsAfterLoopCommand: function(loopCommand)

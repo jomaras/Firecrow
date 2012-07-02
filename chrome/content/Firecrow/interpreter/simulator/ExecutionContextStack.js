@@ -476,7 +476,18 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             }
             else if (callExpressionCommand.isExecuteCallbackCommand())
             {
-                this.notifyError("Not handling dependencies from callback commands!");
+                var params = callExpressionCommand.callbackFunction.fcInternal.codeConstruct.params;
+
+                for(var i = 0; i < params.length; i++)
+                {
+                    var argument = callExpressionCommand.arguments[i];
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        params[i],
+                        argument != null ? argument.fcInternal.codeConstruct : null,
+                        this.globalObject.getPreciseEvaluationPositionId()
+                    )
+                }
             }
         }
         catch(e) { this.notifyError("Error when establishing dependencies between function parameters and call expression arguments: " + e); }
@@ -543,7 +554,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                     }
                 }
             }
-            else if (callExpressionCommand.isExecuteCallbackCommand()) { values = callExpressionCommand.argumentValues; }
+            else if (callExpressionCommand.isExecuteCallbackCommand())
+            {
+                values = callExpressionCommand.arguments;
+            }
         }
         catch(e) { this.notifyError("Error when getting sent arguments: " + e); }
 

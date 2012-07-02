@@ -54,6 +54,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
             else if (command.isEvalUnaryExpressionCommand()) { this._evaluateUnaryExpression(command); }
             else if (command.isCallInternalFunctionCommand()) { this._evaluateCallInternalFunction(command); }
+            else if (command.isEvalCallbackFunctionCommand()) { this._evaluateCallbackFunctionCommand(command); }
             else
             {
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
@@ -404,16 +405,25 @@ fcSimulator.Evaluator.prototype =
             {
                 var executeCallbackCommand = evalReturnExpressionCommand.parentFunctionCommand;
 
-                if(executeCallbackCommand.calledOnObject !=null && ValueTypeHelper.isArray(executeCallbackCommand.calledOnObject.value))
+                if(ValueTypeHelper.isArray(executeCallbackCommand.originatingObject.value))
                 {
                     fcModel.ArrayCallbackEvaluator.evaluateCallbackReturn
                     (
                         executeCallbackCommand,
-                        executeCallbackCommand.calledOnObject,
-                        executeCallbackCommand.parentCallCallbackCommand.functionObject,
-                        executeCallbackCommand.resultingObject,
                         evalReturnExpressionCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(evalReturnExpressionCommand.codeConstruct.argument)
-                                                                                   : null
+                                                                                   : null,
+                        evalReturnExpressionCommand.codeConstruct
+                    );
+                }
+                else if(ValueTypeHelper.isString(executeCallbackCommand.originatingObject.value))
+                {
+                    fcModel.StringExecutor.evaluateCallbackReturn
+                    (
+                        executeCallbackCommand,
+                        evalReturnExpressionCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(evalReturnExpressionCommand.codeConstruct.argument)
+                                                                                   : null,
+                        evalReturnExpressionCommand.codeConstruct,
+                        this.globalObject
                     );
                 }
             }
@@ -890,6 +900,15 @@ fcSimulator.Evaluator.prototype =
         {
             this.notifyError(callInternalFunctionCommand, "Error has occurred when evaluating call internal function command:" + e);
         }
+    },
+
+    _evaluateCallbackFunctionCommand: function(evalCallbackFunctionCommand)
+    {
+        try
+        {
+
+        }
+        catch(e) { this.notifyError(evalCallbackFunctionCommand, "Error has occurred when evaluating callback function command"); }
     },
 
     registerExceptionCallback: function(callback, thisObject)

@@ -66,6 +66,48 @@ fcModel.StringFunction.prototype = new fcModel.Object(null);
 
 fcModel.StringExecutor =
 {
+    evaluateCallbackReturn: function(callbackCommand, returnValue, returnExpression, globalObject)
+    {
+        try
+        {
+            var originatingObject = callbackCommand.originatingObject;
+
+            if(!ValueTypeHelper.isString(originatingObject.value)) { this.notifyError("When evaluating callback return the argument has to be a string!"); return; }
+
+            var callbackFunctionValue = callbackCommand.callerFunction.value;
+            var targetObject = callbackCommand.targetObject;
+            var targetObjectValue = targetObject.value;
+            var callbackArguments = callbackCommand.arguments;
+
+            if(callbackFunctionValue.name == "replace")
+            {
+                targetObject.value = targetObjectValue.replace(targetObject.replacedValue, function()
+                {
+                    var offset = arguments[arguments.length - 2];
+                    var callbackOffset = callbackArguments[callbackArguments.length - 2];
+
+                    if(offset == callbackOffset.value) { return returnValue.value; }
+
+                    return callbackArguments[0].value;
+                });
+
+                globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    targetObject.fcInternal.codeConstruct,
+                    returnExpression.argument,
+                    globalObject.getPreciseEvaluationPositionId()
+                );
+
+                targetObject.fcInternal = new fcModel.FcInternal(returnExpression);
+            }
+            else
+            {
+                this.notifyError("Unknown string callback function!");
+            }
+        }
+        catch(e) { this.notifyError("Error when evaluating callback return " + e); }
+    },
+
     executeInternalStringMethod : function(thisObject, functionObject, arguments, callExpression, callCommand)
     {
         try
@@ -149,6 +191,10 @@ fcModel.StringExecutor =
                         callCommand.thisObject = globalObject;
                         callCommand.originatingObject = thisObject;
                         callCommand.callerFunction = functionObject;
+                        callCommand.targetObject = new fcModel.JsValue(thisObjectValue, new fcModel.FcInternal(callExpression));
+                        callCommand.targetObject.replacedValue = argumentValues[0];
+
+                        return callCommand.targetObject;
                     }
                     else
                     {
