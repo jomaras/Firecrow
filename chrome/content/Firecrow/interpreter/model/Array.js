@@ -63,7 +63,7 @@ fcModel.ArrayProto =
                 );
             }
         }
-        catch(e) { alert("Array - Error when registering getPropertyCallback: " + e); }
+        catch(e) { alert("Array - Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source); }
     },
 
     push: function(item, codeConstruct)
@@ -126,26 +126,26 @@ fcModel.ArrayProto =
         catch(e) { alert("Array - error when shifting items in array: " + e); }
     },
 
-    unshift: function(elementsToAdd, codeConstruct)
+    unshift: function(jsArray, callArguments, callExpression)
     {
         try
         {
-            this.addDependenciesToAllProperties(codeConstruct);
-            for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
+            this.addDependenciesToAllProperties(callExpression);
+            for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, callExpression); }
 
-            for(var i = elementsToAdd.length - 1; i >= 0; i--)
+            for(var i = callArguments.length - 1; i >= 0; i--)
             {
-                this.items.unshift(elementsToAdd[i]);
+                this.items.unshift(callArguments[i]);
             }
 
             for(var i = 0; i < this.items.length; i++)
             {
-                this.addProperty(i, this.items[i], codeConstruct);
+                this.addProperty(i, this.items[i], callExpression);
             }
 
-            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
+            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(callExpression)),callExpression, false);
 
-            return new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct));
+            return new fcModel.JsValue(this.items.length, new fcModel.FcInternal(callExpression));
         }
         catch(e) { alert("Array - error when unshifting items in array: " + e); }
     },
