@@ -104,6 +104,8 @@ fcModel.GlobalObject = function(browser, documentFragment)
 
         this.setCurrentCommand = function(command)
         {
+            if(command == null) { alert("Command can not be null!");}
+
             this.currentCommand = command;
             this.currentCommand.executionId = this._EXECUTION_COMMAND_COUNTER++;
         };

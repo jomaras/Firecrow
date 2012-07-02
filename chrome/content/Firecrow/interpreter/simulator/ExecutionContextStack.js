@@ -318,28 +318,36 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
     _addToBlockCommandStack: function(command)
     {
-        this.blockCommandStack.push(command);
-
-        if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
+        try
         {
-            this.globalObject.evaluationPositionId += "-" + command.executionId;
-        }
-    },
+            this.blockCommandStack.push(command);
 
-    _reevaluateEvaluationPositionId: function()
-    {
-        this.globalObject.evaluationPositionId = "root";;
-
-        var blockCommandStack = this.blockCommandStack;
-
-        for(var i = 0, length = blockCommandStack.length; i < length; i++)
-        {
-            var command = blockCommandStack[i];
             if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
             {
                 this.globalObject.evaluationPositionId += "-" + command.executionId;
             }
         }
+        catch(e) { this.notifyError("Error when adding to block command stack!"); }
+    },
+
+    _reevaluateEvaluationPositionId: function()
+    {
+        try
+        {
+            this.globalObject.evaluationPositionId = "root";;
+
+            var blockCommandStack = this.blockCommandStack;
+
+            for(var i = 0, length = blockCommandStack.length; i < length; i++)
+            {
+                var command = blockCommandStack[i];
+                if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
+                {
+                    this.globalObject.evaluationPositionId += "-" + command.executionId;
+                }
+            }
+        }
+        catch(e) { this.notifyError("Error when reevaluating evaluation position id: " + e); }
     },
 
     executeCommand: function(command)

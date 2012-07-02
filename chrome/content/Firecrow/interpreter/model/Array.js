@@ -185,7 +185,7 @@ fcModel.ArrayProto =
 
             jsArray.forEach(function(item)
             {
-                newArray.fcInternal.object.push(item);
+                newArray.fcInternal.object.push(item, callExpression);
                 newArray.value.push(item);
             });
 
@@ -195,17 +195,17 @@ fcModel.ArrayProto =
 
                 if(ValueTypeHelper.isArray(argument.value))
                 {
-                    argument.addDependenciesToAllProperties(codeConstruct);
+                    argument.fcInternal.object.addDependenciesToAllProperties(callExpression);
                     for(var j = 0; j < argument.value.length; j++)
                     {
                         var item = argument.value[j];
-                        newArray.fcInternal.object.push(item);
+                        newArray.fcInternal.object.push(item, callExpression);
                         newArray.value.push(item);
                     }
                 }
                 else
                 {
-                    newArray.fcInternal.object.push(argument);
+                    newArray.fcInternal.object.push(argument, callExpression);
                     newArray.value.push(argument);
                 }
             }
