@@ -146,7 +146,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         codeConstruct.shouldBeIncluded = true;
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line >= 21)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 90)
         {
             var a = 3;
         }

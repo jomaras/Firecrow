@@ -99,7 +99,17 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
             )
         );
 
-        var argumentsConstructs = callExpressionCommand.codeConstruct.arguments || [];
+        var argumentsConstructs = callExpressionCommand.codeConstruct.arguments;
+
+        if(callExpressionCommand.isCall)
+        {
+            argumentsConstructs = callExpressionCommand.codeConstruct.arguments.slice(1);
+        }
+        else if (callExpressionCommand.isApply)
+        {
+            var argumentsArray = callExpressionCommand.codeConstruct.arguments[1];
+            argumentsConstructs = sentArguments.map(function(arg) { return argumentsArray; })
+        }
 
         if(functionIdentifier != null) { functionVariableObject.registerIdentifier(functionIdentifier); }
         if(formalParameters != null)
@@ -113,7 +123,6 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
                     sentArguments[index] || new fcModel.JsValue(undefined, new fcModel.FcInternal(formalParameter.declarationConstruct)),
                     argumentsConstructs[index]
                 );
-
             });
         }
 
