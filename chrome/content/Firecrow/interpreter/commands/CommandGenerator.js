@@ -1414,7 +1414,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             commands.push(new fcCommands.Command
             (
                 sourceElement,
-                fcCommands.Command.COMMAND_TYPE.SequenceExpression,
+                fcCommands.Command.COMMAND_TYPE.EvalSequenceExpression,
                 parentFunctionCommand
             ));
         }
@@ -2150,7 +2150,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     CallInternalFunction: "CallInternalFunction",
     CallCallbackMethod: "CallCallbackMethod",
 
-    ExecuteCallback: "ExecuteCallback"
+    ExecuteCallback: "ExecuteCallback",
 };
 /*************************************************************************************/
 }});

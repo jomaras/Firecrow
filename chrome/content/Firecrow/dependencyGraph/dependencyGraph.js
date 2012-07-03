@@ -143,13 +143,18 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 {
     try
     {
-        codeConstruct.shouldBeIncluded = true;
-        codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
-
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 90)
+       /* if(codeConstruct.nodeId == 630)
         {
             var a = 3;
         }
+
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 773)
+        {
+            console.log("nodeIndex: " + codeConstruct.nodeId + " : edgeIndex" + maxDependencyIndex);
+        }*/
+
+        codeConstruct.shouldBeIncluded = true;
+        codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
 

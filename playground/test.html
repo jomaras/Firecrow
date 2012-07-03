@@ -154,10 +154,6 @@ Sylvester.Vector.prototype = {
 
         var V = vector.elements;
 
-        if(this.elements.length !== V.length);
-
-
-
         return this.map(function (x, i)
 
         {
@@ -309,8 +305,6 @@ Sylvester.Line.Segment.prototype = {
         if(startPoint === null || endPoint === null);
 
 
-
-        this.line = Sylvester.Line.create(startPoint, endPoint.subtract(startPoint));
 
         this.start = startPoint;
 
@@ -479,3 +473,4 @@ Sylvester.Plane.ZX = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.
 </body>
 
 </html>
+

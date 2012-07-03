@@ -137,7 +137,7 @@ FBL.ns(function() { with (FBL) {
                                     JSON.stringify(slicingVars)
                                 );
                             }
-                            else { prompt ("Error", currentPageLocation + " - " + errors); }
+                            else { prompt ("Error", currentPageLocation + " - ERROR:" + errors); }
 
                             Firecrow.FileHelper.writeToFile
                             (

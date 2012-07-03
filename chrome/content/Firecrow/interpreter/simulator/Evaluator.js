@@ -55,6 +55,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isEvalUnaryExpressionCommand()) { this._evaluateUnaryExpression(command); }
             else if (command.isCallInternalFunctionCommand()) { this._evaluateCallInternalFunction(command); }
             else if (command.isEvalCallbackFunctionCommand()) { this._evaluateCallbackFunctionCommand(command); }
+            else if (command.isEvalSequenceExpressionCommand()) { this._evaluateSequenceExpression(command); }
             else
             {
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
@@ -525,7 +526,6 @@ fcSimulator.Evaluator.prototype =
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.object, this.globalObject.getPreciseEvaluationPositionId());
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, this.globalObject.getPreciseEvaluationPositionId());
-
             this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
         }
         catch(e) { this.notifyError(evalMemberExpressionCommand, "Error when evaluating member expression: " + e); }
@@ -893,6 +893,29 @@ fcSimulator.Evaluator.prototype =
 
         }
         catch(e) { this.notifyError(evalCallbackFunctionCommand, "Error has occurred when evaluating callback function command"); }
+    },
+
+    _evaluateSequenceExpression: function(evalSequenceCommand)
+    {
+        try
+        {
+            var sequenceExpression = evalSequenceCommand.codeConstruct;
+            var lastExpression = sequenceExpression.expressions[sequenceExpression.expressions.length - 1];
+
+            this.executionContextStack.setExpressionValue
+            (
+                sequenceExpression,
+                this.executionContextStack.getExpressionValue(lastExpression)
+            );
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                sequenceExpression,
+                lastExpression,
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
+        }
+        catch(e) { this.notifyError(evalSequenceCommand, "Error has occurred when evaluating sequence"); }
     },
 
     registerExceptionCallback: function(callback, thisObject)
