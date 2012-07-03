@@ -38,43 +38,43 @@ FBL.ns(function() { with (FBL) {
     {
         this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo));
     };
-    Node.prototype.addControlDependency = function(destinationNode, isDynamic)
+    Node.prototype.addControlDependency = function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo)
     {
-        this.controlDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
+        this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo));
     };
 
     Node.prototype.getDependencies = function(maxIndex, destinationConstraint)
     {
-        var dependencies = [];
+        var selectedDependencies = [];
 
-        var dataDependencies = this.dataDependencies;
+        var dependencies = this.dataDependencies.concat();
 
-        for(var i = dataDependencies.length - 1; i >= 0; i--)
+        for(var i = dependencies.length - 1; i >= 0; i--)
         {
-            var dependency = dataDependencies[i];
+            var dependency = dependencies[i];
 
             if(dependency.index > maxIndex) { continue; }
             if(!this.canFollowDependency(dependency, destinationConstraint)) { continue; }
 
-            dependencies.push(dependency);
+            selectedDependencies.push(dependency);
 
-            for(var j = dataDependencies.length - 1; j >= 0; j--)
+            for(var j = dependencies.length - 1; j >= 0; j--)
             {
                 if(i == j) { continue; }
 
-                var jThDependency = dataDependencies[j];
+                var jThDependency = dependencies[j];
 
                 if(dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0
                 && this.canFollowDependency(jThDependency, destinationConstraint))
                 {
-                    dependencies.push(jThDependency);
+                    selectedDependencies.push(jThDependency);
                 }
             }
 
-            return dependencies;
+            return selectedDependencies;
         }
 
-        return dependencies;
+        return selectedDependencies;
     };
 
     Node.prototype.canFollowDependency = function(dependency, destinationConstraint)

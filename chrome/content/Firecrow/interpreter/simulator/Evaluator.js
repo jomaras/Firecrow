@@ -920,8 +920,7 @@ fcSimulator.Evaluator.prototype =
 
         for(var i = 0, length = topBlockConstructs.length; i < length; i++)
         {
-            //TODO - change to control dependencies and update graph traversal!
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            this.globalObject.browser.callControlDependencyEstablishedCallbacks
             (
                 currentConstruct,
                 topBlockConstructs[i],
@@ -931,8 +930,7 @@ fcSimulator.Evaluator.prototype =
 
         if(currentConstruct.previousCondition != null)
         {
-            //TODO - change to control dependencies and update graph traversal!
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            this.globalObject.browser.callControlDependencyEstablishedCallbacks
             (
                 currentConstruct,
                 currentConstruct.previousCondition,

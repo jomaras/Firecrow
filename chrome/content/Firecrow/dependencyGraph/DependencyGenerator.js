@@ -19,6 +19,7 @@ Firecrow.Interpreter.DependencyGenerator =
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
         browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
         browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
+        browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
         browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
 
         browser.asyncBuildPage(function()

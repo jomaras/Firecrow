@@ -14,8 +14,9 @@ Firecrow.DependencyGraph.DependencyGraph = function()
     this.nodes = [];
     this.controlFlow = [];
     this.importantConstructDependencyIndexMapping = [];
+    this.controlDependencies = [];
 
-    this.dataFlowEdgesCounter = 0;
+    this.dependencyEdgesCounter = 0;
     this.inculsionFinder = new Firecrow.DependencyGraph.InclusionFinder();
 };
 
@@ -49,7 +50,28 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
     {
         if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
 
-        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dataFlowEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo);
+        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo);
+    }
+    catch(e)
+    {
+        this.notifyError("Error when handling data dependency established: " + e);
+    }
+};
+
+DependencyGraph.prototype.handleControlDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo)
+{
+    try
+    {
+        if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
+
+        sourceNodeModelObject.graphNode.addControlDependency
+        (
+            targetNodeModelObject.graphNode,
+            true,
+            this.dependencyEdgesCounter++,
+            dependencyCreationInfo,
+            destinationNodeDependencyInfo
+        );
     }
     catch(e)
     {
@@ -60,7 +82,6 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
 DependencyGraph.prototype.handleControlFlowConnection = function(sourceNode)
 {
     sourceNode.hasBeenExecuted = true;
-    //this.controlFlow.push(sourceNode);
 };
 
 DependencyGraph.prototype.handleImportantConstructReached = function(sourceNode)
@@ -74,7 +95,7 @@ DependencyGraph.prototype.handleImportantConstructReached = function(sourceNode)
                 codeConstruct: sourceNode,
                 dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
             }
-        )
+        );
     }
     catch(e){ this.notifyError("Error when handling important construct reached:" + e);}
 };
@@ -95,7 +116,7 @@ DependencyGraph.prototype.markGraph = function(model)
             }
             else
             {
-                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, Number.MAX_VALUE);
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null);
             }
         }
 
@@ -123,15 +144,11 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
     try
     {
         codeConstruct.shouldBeIncluded = true;
+        codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 33)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line >= 21)
         {
             var a = 3;
-
-            if(codeConstruct.nodeId == 4336 && maxDependencyIndex == 9499)
-            {
-                return;
-            }
         }
 
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);

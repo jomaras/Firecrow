@@ -19,6 +19,7 @@ HtmlModelMapping.models.forEach(function(model, index)
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
         browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
         browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
+        browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
         browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
         browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
         browser.registerSlicingCriteria(model.results.map(function(result)

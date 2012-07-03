@@ -13,7 +13,7 @@
 
     	var a1 = true;
        
-		for (var i = 0, M; i < 10; i++) 
+		for (var i = 0, M; i < 2; i++) 
 		{
       		M = Matrix.Random(4,4).x(5);
       		if (M.isSingular()) { continue; }
@@ -23,6 +23,8 @@
 		}
     	
     	a1 = a1 && $M([[4]]).inv().eql($M([[0.25]]));
+
+      a1;
    </script>
 </body>
 </html>

@@ -10,9 +10,13 @@
    <script>       
        var Line = Sylvester.Line;
        
-		var a1 = Line.X.rotate(Math.PI, $L([12,0,0],[1,0,1])).eql($L([12,0,0], Sylvester.Vector.k));
+		  var a1 = Line.X.rotate(Math.PI, $L([12,0,0],[1,0,1])).eql($L([12,0,0], Sylvester.Vector.k));
     	var a2 = $L([10,0,0], [0,1,1]).rotate(-Math.PI/2, Line.Y).eql($L([0,0,10], [1,-1,0]));
     	var a3 = $L([9,0], Sylvester.Vector.j).rotate(Math.PI/2, Sylvester.Vector.create([9,9])).eql($L([0,9], Sylvester.Vector.i));
+
+      a1;
+      a2;
+      a3;
    </script>
 </body>
 </html>

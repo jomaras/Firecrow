@@ -34,6 +34,7 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.interpretJsCallbacks = [];
 
         this.dataDependencyEstablishedCallbacks = [];
+        this.controlDependencyEstablishedCallbacks = [];
         this.interpreterMessageGeneratedCallbacks = [];
         this.controlFlowConnectionCallbacks = [];
         this.importantConstructReachedCallbacks = [];
@@ -286,6 +287,13 @@ Browser.prototype =
         this.controlFlowConnectionCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerControlDependencyEstablishedCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - control dependency established callback has to be a function!"); return; }
+
+        this.controlDependencyEstablishedCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     registerDataDependencyEstablishedCallback: function(callback, thisObject)
     {
         if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - data dependency established callback has to be a function!"); return; }
@@ -337,6 +345,14 @@ Browser.prototype =
         this.controlFlowConnectionCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
+        });
+    },
+
+    callControlDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo)
+    {
+        this.controlDependencyEstablishedCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo);
         });
     },
 

@@ -12,7 +12,7 @@
     	var $P = Plane.create;
     	var i, P1, P2, L1, L2, Vector = Sylvester.Vector
     	var a1 = true;
-    	for (i = 0; i < 10; i++) 
+    	for (i = 0; i < 2; i++) 
     	{
       		P1 = $P(Vector.create([-50,-50,-50]).add(Vector.Random(3).x(100)), Vector.create([-50,-50,-50]).add(Vector.Random(3).x(100)));
       		P2 = $P(Vector.create([-50,-50,-50]).add(Vector.Random(3).x(100)), Vector.create([-50,-50,-50]).add(Vector.Random(3).x(100)));
@@ -26,6 +26,8 @@
         		a1 = a1 && P2.contains(L1);
       		}
     	}
+
+      a1;
    </script>
 </body>
 </html>

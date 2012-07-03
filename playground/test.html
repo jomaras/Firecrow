@@ -1,472 +1,129 @@
-
-
 <!DOCTYPE html>
 
 <html>
-
-<head>
-
-<script>
-
-var Sylvester = {precision: 0.000001};
-
-Sylvester.Vector = function ()
-
-{};
-
-Sylvester.Vector.create = function (elements)
-
-{
-
-    var V = new Sylvester.Vector();
-
-    return V.setElements(elements);
-
-};
-
-Sylvester.Vector.Zero = function (n)
-
-{
-
-    while(n--);
-
-    return Sylvester.Vector.create();
-
-};
-
-Sylvester.Vector.prototype = {
-
-    modulus: function ()
-
-    {
-
-        return Math.sqrt(this.dot(this));
-
-    },
-
-    dup: function ()
-
-    {
-
-        return Sylvester.Vector.create(this.elements);
-
-    },
-
-    map: function (fn, context)
-
-    {
-
-        var elements = [];
-
-        this.each(function (x, i)
-
-        {
-
-            elements.push(fn.call(context, x, i));
-
-        });
-
-        return Sylvester.Vector.create(elements);
-
-    },
-
-    forEach: function (fn, context)
-
-    {
-
-        var n = this.elements.length;
-
-        for(var i = 0;i < n;i++)
-
-        {
-
-            fn.call(context, this.elements[i], i + 1);
-
-        }
-
-
-
-    },
-
-    angleFrom: function (vector)
-
-    {
-
-        var V = vector.elements;
-
-        var n = this.elements.length;
-
-        if(n !== V.length);
-
-
-
-        var dot = 0, mod1 = 0, mod2 = 0;
-
-        this.each(function (x, i)
-
-        {
-
-            dot += x * V[i - 1];
-
-            mod1 += x * x;
-
-            mod2 += V[i - 1] * V[i - 1];
-
-        });
-
-        mod1 = Math.sqrt(mod1);
-
-        mod2 = Math.sqrt(mod2);
-
-        var theta = dot / (mod1 * mod2);
-
-        if(theta > 1);
-
-
-
-        return Math.acos(theta);
-
-    },
-
-    isPerpendicularTo: function (vector)
-
-    {
-
-        var dot = this.dot(vector);
-
-        return dot === null ? 0 : Math.abs(dot) <= Sylvester.precision;
-
-    },
-
-    subtract: function (vector)
-
-    {
-
-        var V = vector.elements;
-
-        if(this.elements.length !== V.length);
-
-
-
-        return this.map(function (x, i)
-
-        {
-
-            return x - V[i - 1];
-
-        });
-
-    },
-
-    dot: function (vector)
-
-    {
-
-        var V = vector.elements;
-
-        var product = 0, n = this.elements.length;
-
-        if(n !== V.length);
-
-
-
-        while(n--)
-
-        {
-
-            product += this.elements[n] * V[n];
-
-        }
-
-
-
-        return product;
-
-    },
-
-    to3D: function ()
-
-    {
-
-        var V = this.dup();
-
-        return V;
-
-    },
-
-    setElements: function (els)
-
-    {
-
-        this.elements = (els.elements || els).slice();
-
-        return this;
-
-    }
-
-};
-
-Sylvester.Vector.prototype.each = Sylvester.Vector.prototype.forEach;
-
-Sylvester.Vector.i = Sylvester.Vector.create([1, 0, 0]);
-
-Sylvester.Vector.j = Sylvester.Vector.create([0, 1, 0]);
-
-Sylvester.Vector.k = Sylvester.Vector.create([0, 0, 1]);
-
-Sylvester.Line = function ()
-
-{};
-
-Sylvester.Line.prototype = {
-
-    isParallelTo: function (obj)
-
-    {
-
-        if(obj.normal || obj.start && obj.end)
-
-        {
-
-            return obj.isParallelTo(this);
-
-        }
-
-
-
-        var theta = this.direction.angleFrom(obj.direction);
-
-        return Math.abs(theta) <= Sylvester.precision || Math.abs(theta - Math.PI) <= Sylvester.precision;
-
-    },
-
-    setVectors: function (direction)
-
-    {
-
-        direction = Sylvester.Vector.create(direction);
-
-        var mod = direction.modulus();
-
-        if(mod === 0);
-
-
-
-        this.direction = Sylvester.Vector.create([direction.elements[0] / mod, direction.elements[1] / mod, direction.elements[2] / mod]);
-
-        return this;
-
-    }
-
-};
-
-Sylvester.Line.create = function (direction)
-
-{
-
-    var L = new Sylvester.Line();
-
-    return L.setVectors(direction);
-
-};
-
-Sylvester.Line.Y = Sylvester.Line.create(Sylvester.Vector.j);
-
-Sylvester.Line.Z = Sylvester.Line.create(Sylvester.Vector.k);
-
-Sylvester.Line.Segment = function ()
-
-{};
-
-Sylvester.Line.Segment.prototype = {
-
-    isParallelTo: function (obj)
-
-    {
-
-        return this.line.isParallelTo(obj);
-
-    },
-
-    setPoints: function (startPoint, endPoint)
-
-    {
-
-        startPoint = Sylvester.Vector.create(startPoint).to3D();
-
-        endPoint = Sylvester.Vector.create(endPoint).to3D();
-
-        if(startPoint === null || endPoint === null);
-
-
-
-        this.line = Sylvester.Line.create(endPoint.subtract(startPoint));
-
-        this.start = startPoint;
-
-        this.end = endPoint;
-
-        return this;
-
-    }
-
-};
-
-Sylvester.Line.Segment.create = function (v1, v2)
-
-{
-
-    var S = new Sylvester.Line.Segment();
-
-    return S.setPoints(v1, v2);
-
-};
-
-Sylvester.Plane = function ()
-
-{};
-
-Sylvester.Plane.prototype = {
-
-    isParallelTo: function (obj)
-
-    {
-
-        if(false);
-
-        else if(obj.direction)
-
-        {
-
-            return this.normal.isPerpendicularTo(obj.direction);
-
-        }
-
-
-
-
-
-    },
-
-    setVectors: function (anchor, v1, v2)
-
-    {
-
-        anchor = Sylvester.Vector.create();
-
-        anchor = anchor.to3D();
-
-        if(anchor === null);
-
-
-
-        v1 = Sylvester.Vector.create(v1);
-
-        v1 = v1.to3D();
-
-        if(v1 === null);
-
-
-
-        if(typeof v2 === "undefined")
-
-        {
-
-            v2 = null;
-
-        }
-
-
-
-        var v11 = v1.elements[0], v12 = v1.elements[1], v13 = v1.elements[2];
-
-        var normal, mod;
-
-        if(v2 !== null);
-
-        else
-
-        {
-
-            mod = Math.sqrt(((v11 * v11) + (v12 * v12)) + (v13 * v13));
-
-            if(mod === 0);
-
-
-
-            normal = Sylvester.Vector.create([v1.elements[0] / mod, v1.elements[1] / mod, v1.elements[2] / mod]);
-
-        }
-
-
-
-        this.normal = normal;
-
-        return this;
-
-    }
-
-};
-
-Sylvester.Plane.create = function (anchor, v1, v2)
-
-{
-
-    var P = new Sylvester.Plane();
-
-    return P.setVectors(anchor, v1, v2);
-
-};
-
-Sylvester.Plane.XY = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
-
-Sylvester.Plane.YZ = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
-
-Sylvester.Plane.ZX = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
-
-</script>
-
-</head>
 
 <body>
 
 <script>
 
-    var segment = Sylvester.Line.Segment.create([5, 5, 5], [10, 10, 10]);
+    var Sylvester = {};
 
-    var segment2 = Sylvester.Line.Segment.create([1, 1, 0], [1, 2, 0]);
+    Sylvester.Vector = function ()
 
-    var a1 = segment2.isParallelTo(Sylvester.Line.Y);
+    {};
 
-    var a2 = !segment2.isParallelTo(Sylvester.Line.Z);
+    Sylvester.Vector.create = function (elements)
 
-    var a3 = segment2.isParallelTo(Sylvester.Plane.XY);
+    {
 
-    var a4 = segment2.isParallelTo(Sylvester.Plane.YZ);
+        var V = new Sylvester.Vector();
 
-    var a5 = !segment2.isParallelTo(Sylvester.Plane.ZX);
+        return V.setElements(elements);
 
-    var a6 = !segment.isParallelTo(segment2);
+    };
 
-    var a7 = segment2.isParallelTo(segment2);
+    Sylvester.Vector.prototype = {
+
+        eql: function (vector)
+
+        {
+
+            var n = this.elements.length;
+
+            while(n--);
+
+            return true;
+
+        },
+
+        dup: function ()
+
+        {
+
+            return Sylvester.Vector.create(this.elements);
+
+        },
+
+        to3D: function ()
+
+        {
+
+            var V = this.dup();
+
+            return V;
+
+        },
+
+        setElements: function (els)
+
+        {
+
+            this.elements = (els.elements || els).slice();
+
+            return this;
+
+        }
+
+    };
+
+    Sylvester.Line = function ()
+
+    {};
+
+    Sylvester.Line.Segment = function ()
+
+    {};
+
+    Sylvester.Line.Segment.create = function (v1, v2)
+
+    {
+
+        var S = new Sylvester.Line.Segment();
+
+        return S.setPoints(v1, v2);
+
+    };
+
+    Sylvester.Line.Segment.prototype = {
+
+        eql: function (segment)
+
+        {
+
+            return this.start.eql(null) && this.end.eql(null);
+
+        },
+
+        setPoints: function (startPoint, endPoint)
+
+        {
+
+            startPoint = Sylvester.Vector.create(null).to3D();
+
+            endPoint = Sylvester.Vector.create(endPoint).to3D();
+
+            if(startPoint === null || endPoint === null);
+
+
+
+            this.start = startPoint;
+
+            this.end = endPoint;
+
+            return this;
+
+        }
+
+    };
+
+    segment = Sylvester.Line.Segment.create([null, null, null], [10, 10, 10]);
+
+    var a1 = segment.eql(null);
 
     a1;
-
-    a2;
-
-    a3;
-
-    a4;
-
-    a5;
-
-    a6;
-
-    a7;
 
 </script>
 
 </body>
 
 </html>
-

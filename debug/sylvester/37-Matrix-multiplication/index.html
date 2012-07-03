@@ -8,10 +8,10 @@
    <h2>Sylvester - test</h2>
    <div id="resultContainer"></div>
    <script>       
-		var Matrix = Sylvester.Matrix;
+		  var Matrix = Sylvester.Matrix;
     	var $M = Matrix.create;
 		
-		var M1 = $M([[2,5,9,3],[9,2,8,5]]);
+		  var M1 = $M([[2,5,9,3],[9,2,8,5]]);
     	var M2 = $M([[2,9],[0,2],[8,1],[0,6]]);
     
     	var a1 = 2 == M1.x(M2).rows();
@@ -23,6 +23,14 @@
     	var a5 = 4 == M2.x(M1).cols();
     	var a6 = M1.x(M1.x(M2)) == null;
     	var a7 = M1.x(M2.x(M1)) != null;
+
+      a1;
+      a2;
+      a3;
+      a4;
+      a5;
+      a6;
+      a7;
    </script>
 </body>
 </html>

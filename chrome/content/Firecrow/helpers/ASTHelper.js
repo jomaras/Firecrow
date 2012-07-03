@@ -46,7 +46,7 @@ FBL.ns(function () { with (FBL) {
                                 {
                                     var child = parentElement.children[i];
 
-                                    if(ASTHelper.isLoopStatement(child) || ASTHelper.isIfStatement(child))
+                                    if((ASTHelper.isLoopStatement(child) || ASTHelper.isIfStatement(child)))
                                     {
                                         currentElement.previousCondition = child.test;
                                         break;
@@ -402,6 +402,11 @@ FBL.ns(function () { with (FBL) {
                 || this.isDoWhileStatement(element)
                 || this.isForStatement(element)
                 || this.isForInStatement(element);
+        },
+
+        isLoopStatementCondition: function(element)
+        {
+            return this.isLoopStatement(element.parent) && element.parent.test == element;
         },
 
         isWhileStatement: function(element) { return this.isElementOfType(element, this.CONST.STATEMENT.WhileStatement); },
