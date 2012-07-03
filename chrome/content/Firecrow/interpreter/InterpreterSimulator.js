@@ -296,6 +296,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
 
+            if(callConstruct.arguments != null)
+            {
+                for(var i = 0; i < callConstruct.arguments.length; i++)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.arguments[i], this.globalObject.getPreciseEvaluationPositionId());
+                }
+            }
+
             this.executionContextStack.setExpressionValue(newExpressionCommand.codeConstruct, newObject);
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
@@ -322,6 +330,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             var callConstruct = callExpressionCommand.codeConstruct;
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
+
+            if(callConstruct.arguments != null)
+            {
+                for(var i = 0; i < callConstruct.arguments.length; i++)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.arguments[i], this.globalObject.getPreciseEvaluationPositionId());
+                }
+            }
 
             var baseObject = this.executionContextStack.getBaseObject(callConstruct.callee);
             var callFunction = this.executionContextStack.getExpressionValue(callConstruct.callee);

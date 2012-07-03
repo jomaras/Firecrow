@@ -6,14 +6,14 @@
         <script>
             function test(a, b)
             {
-                this.a = a;
+                this.a = a.slice();
                 this.b = b;
             }
 
-            var b1 = new test(3, 4);
-            var b2 = new test(5, 6);
+            var b1 = new test([3], 4);
+            var b2 = new test([5], 6);
 
-            var a1 = b1.a + b1.b;
+            var a1 = b1.a.length + b1.b;
             a1;
 
             var a2 = b2.b;
