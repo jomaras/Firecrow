@@ -111,6 +111,8 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
             argumentsConstructs = sentArguments.map(function(arg) { return argumentsArray; })
         }
 
+        argumentsConstructs = argumentsConstructs || [];
+
         if(functionIdentifier != null) { functionVariableObject.registerIdentifier(functionIdentifier); }
         if(formalParameters != null)
         {

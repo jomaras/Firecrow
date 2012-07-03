@@ -404,7 +404,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             var arguments = enterFunctionContextCommand.parentFunctionCommand.isExecuteCallbackCommand() ? []
                                                                                                          : enterFunctionContextCommand.parentFunctionCommand.codeConstruct.arguments;
 
-            this._establishDependenciesBetweenParametersAndArguments(enterFunctionContextCommand.parentFunctionCommand, formalParameters, arguments);
+            this._establishParametersDependencies(enterFunctionContextCommand.parentFunctionCommand, formalParameters, arguments);
 
             this.push
             (
@@ -433,7 +433,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         }
     },
 
-    _establishDependenciesBetweenParametersAndArguments: function(callExpressionCommand, formalParameters, arguments)
+    _establishParametersDependencies: function(callExpressionCommand, formalParameters, arguments)
     {
         try
         {
@@ -455,6 +455,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                             arrayItem != null ? arrayItem.lastModificationConstruct.codeConstruct : null,
                             this.globalObject.getPreciseEvaluationPositionId()
                         );
+
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            formalParameters[i].value.fcInternal.codeConstruct,
+                            callExpressionCommand.codeConstruct,
+                            this.globalObject.getPreciseEvaluationPositionId()
+                        );
                     }
                 }
                 else if (callExpressionCommand.isCall)
@@ -467,6 +475,13 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                             arguments[i + 1],
                             this.globalObject.getPreciseEvaluationPositionId()
                         );
+
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            formalParameters[i].value.fcInternal.codeConstruct,
+                            callExpressionCommand.codeConstruct,
+                            this.globalObject.getPreciseEvaluationPositionId()
+                        );
                     }
                 }
                 else
@@ -477,6 +492,13 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         (
                             formalParameters[i].value.fcInternal.codeConstruct,
                             arguments[i],
+                            this.globalObject.getPreciseEvaluationPositionId()
+                        );
+
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            formalParameters[i].value.fcInternal.codeConstruct,
+                            callExpressionCommand.codeConstruct,
                             this.globalObject.getPreciseEvaluationPositionId()
                         );
                     }
@@ -494,7 +516,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         params[i],
                         argument != null ? argument.fcInternal.codeConstruct : null,
                         this.globalObject.getPreciseEvaluationPositionId()
-                    )
+                    );
+
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        params[i],
+                        callExpressionCommand.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId()
+                    );
                 }
             }
         }
