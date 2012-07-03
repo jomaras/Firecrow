@@ -667,7 +667,8 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(ifStatement.test) + this._RIGHT_PARENTHESIS;
+            var testCode = this.generateJsCode(ifStatement.test);
+            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + (testCode || "false" )  + this._RIGHT_PARENTHESIS;
 
             var ifBodyCode = this.generateJsCode(ifStatement.consequent);
 

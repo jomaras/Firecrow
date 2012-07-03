@@ -127,6 +127,11 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         if(codeConstruct.loc != null && codeConstruct.loc.start.line == 854)
         {
             var a = 3;
+
+            if(codeConstruct.nodeId == 4336 && maxDependencyIndex == 9499)
+            {
+                return;
+            }
         }
 
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);

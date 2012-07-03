@@ -119,8 +119,6 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalLiteralCommand, Firecrow.Interpreter.Commands.Command) || !evalLiteralCommand.isEvalLiteralCommand()) { this.notifyError(evalLiteralCommand, "Argument is not an EvalLiteralCommand"); return; }
 
             this.executionContextStack.setExpressionValue(evalLiteralCommand.codeConstruct, new fcModel.JsValue(evalLiteralCommand.codeConstruct.value, new fcModel.FcInternal(evalLiteralCommand.codeConstruct)));
-
-            this._addDependenciesToTopBlockConstructs(evalLiteralCommand.codeConstruct);
         }
         catch(e) { this.notifyError(evalLiteralCommand, "Error when evaluating literal: " + e); }
     },
@@ -138,8 +136,6 @@ fcSimulator.Evaluator.prototype =
                 evalRegExCommand.codeConstruct,
                 this.globalObject.internalExecutor.createRegEx(evalRegExCommand.codeConstruct, regEx)
             );
-
-            this._addDependenciesToTopBlockConstructs(evalRegExCommand.codeConstruct, evalRegExCommand.id);
         }
         catch(e) { this.notifyError(evalRegExCommand, "Error when evaluating literal: " + e); }
     },
@@ -297,8 +293,6 @@ fcSimulator.Evaluator.prototype =
 
             if(identifier != null)
             {
-                this._addDependenciesToTopBlockConstructs(identifierConstruct);
-
                 if(!ASTHelper.isAssignmentExpression(identifierConstruct.parent) || identifierConstruct.parent.left != identifierConstruct || identifierConstruct.parent.operator.length == 2)
                 {
                     if(identifier.lastModificationConstruct != null)
@@ -343,8 +337,6 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalBinaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalBinaryExpressionCommand.isEvalBinaryExpressionCommand()) { this.notifyError(evalBinaryExpressionCommand, "Argument is not an EvalBinaryExpressionCommand"); return;}
 
             var binaryExpression = evalBinaryExpressionCommand.codeConstruct;
-
-            this._addDependenciesToTopBlockConstructs(binaryExpression);
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, this.globalObject.getPreciseEvaluationPositionId());
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right, this.globalObject.getPreciseEvaluationPositionId());
@@ -401,6 +393,8 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(evalReturnExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; }
 
+            this._addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.codeConstruct);
+
             if(evalReturnExpressionCommand.parentFunctionCommand.isExecuteCallbackCommand())
             {
                 var executeCallbackCommand = evalReturnExpressionCommand.parentFunctionCommand;
@@ -431,6 +425,7 @@ fcSimulator.Evaluator.prototype =
             {
                 this._addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct);
 
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
                 this.executionContextStack.setExpressionValueInPreviousContext
@@ -453,8 +448,6 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(thisExpressionCommand, Firecrow.Interpreter.Commands.Command) || !thisExpressionCommand.isThisExpressionCommand()) { this.notifyError(thisExpressionCommand, "Argument is not a ThisExpressionCommand"); return; }
 
-            this._addDependenciesToTopBlockConstructs(thisExpressionCommand.codeConstruct);
-
             this.executionContextStack.setExpressionValue
             (
                 thisExpressionCommand.codeConstruct,
@@ -471,8 +464,6 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalMemberExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { this.notifyError(evalMemberExpressionCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
-
-            this._addDependenciesToTopBlockConstructs(memberExpression);
 
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
@@ -600,8 +591,6 @@ fcSimulator.Evaluator.prototype =
 
             object.value[propertyKey] = propertyValue;
             object.fcInternal.object.addProperty(propertyKey, propertyValue, objectPropertyCreationCommand.codeConstruct);
-
-            this._addDependenciesToTopBlockConstructs(objectPropertyCreationCommand.codeConstruct);
         }
         catch(e) { this.notifyError(objectPropertyCreationCommand, "Error when evaluating object property creation: " + e); }
     },
@@ -707,7 +696,6 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(conditionalConstruct, bodyExpressionValue);
 
-            this._addDependenciesToTopBlockConstructs(conditionalConstruct);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test, this.globalObject.getPreciseEvaluationPositionId());
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.body, this.globalObject.getPreciseEvaluationPositionId());
         }
@@ -755,7 +743,6 @@ fcSimulator.Evaluator.prototype =
             var wholeLogicalExpression = parentExpressionCommand.codeConstruct;
             var logicalExpressionItem = evaluateLogicalExpressionItemCommand.codeConstruct;
 
-            this._addDependenciesToTopBlockConstructs(wholeLogicalExpression);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(wholeLogicalExpression, logicalExpressionItem, this.globalObject.getPreciseEvaluationPositionId());
 
             var value = this.executionContextStack.getExpressionValue(evaluateLogicalExpressionItemCommand.codeConstruct);
@@ -812,7 +799,6 @@ fcSimulator.Evaluator.prototype =
 
             if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
 
-            this._addDependenciesToTopBlockConstructs(unaryExpression);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument, this.globalObject.getPreciseEvaluationPositionId());
 
                  if (unaryExpression.operator == "-") { expressionValue = -argumentValue.value; }
@@ -866,8 +852,6 @@ fcSimulator.Evaluator.prototype =
 
             var args = [];
             var callExpression = callInternalFunctionCommand.codeConstruct;
-
-            //this._addDependenciesToTopBlockConstructs(callExpression);
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, callExpression.callee, this.globalObject.getPreciseEvaluationPositionId());
 
