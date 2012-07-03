@@ -298,18 +298,13 @@ Firecrow.CodeTextGenerator.prototype =
             var code = this._LEFT_PARENTHESIS;
 
             var params = functionDecExp.params;
-            var generatedParams = 0;
             for(var i = 0, length = params.length; i < length; i++)
             {
                 var param = params[i];
 
-                if(this.isSlicing && !param.shouldBeIncluded) { continue; }
-
-                if(generatedParams != 0) { code += ", "; }
+                if(i != 0) { code += ", "; }
 
                 code += this.generateFromPattern(param);
-
-                generatedParams++;
             }
 
             return code + this._RIGHT_PARENTHESIS;
@@ -1001,18 +996,19 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var code = "";
 
-            var generatedItems = 0;
             for(var i = 0, length = sequence.length; i < length; i++)
             {
                 var item = sequence[i];
 
-                if(this.isSlicing && !item.shouldBeIncluded) { continue; }
+                if(i != 0) { code += this._COMMA +  " "; }
 
-                if(generatedItems != 0) { code += this._COMMA +  " "; }
+                if(this.isSlicing && !item.shouldBeIncluded)
+                {
+                    code += "null";
+                    continue;
+                }
 
                 code += this.generateJsCode(item);
-
-                generatedItems++;
             }
 
             return code;

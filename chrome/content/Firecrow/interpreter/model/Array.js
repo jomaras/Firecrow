@@ -155,23 +155,16 @@ fcModel.ArrayProto =
         try
         {
             this.addDependenciesToAllProperties(codeConstruct);
-            var removed = [];
 
-            for(var i = 0; i < this.items.length; i++)
-            {
-                this.deleteProperty(i, codeConstruct);
-                removed.push(this.items[i]);
-            }
+            for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
-            var removedItems = this.globalObject.internalExecutor.createArray(codeConstruct, removed);
-
-            this.items.splice.apply(this.items, arguments);
+            var splicedItems = this.items.splice.apply(this.items, arguments);
 
             for(var i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
 
             this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
 
-            return removedItems;
+            return this.globalObject.internalExecutor.createArray(codeConstruct, splicedItems);
         }
         catch(e) { alert("Array - error when splicing item: " + e); }
     },
