@@ -375,11 +375,11 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isEndSwitchStatementCommand()) { this._popTillSwitchStatementCommand(command);}
             else if (command.isCaseCommand()) {}
             else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
-            else if (command.isEvalNewExpressionCommand()) {}
+            else if (command.isEvalNewExpressionCommand()){ this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isStartLogicalExpressionCommand() || command.isEndLogicalExpressionCommand()) {}
-            else if (command.isCallInternalConstructorCommand()) { }
+            else if (command.isCallInternalConstructorCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isCallCallbackMethodCommand()) {}
-            else if (command.isEvalCallExpressionCommand()) {}
+            else if (command.isEvalCallExpressionCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isExecuteCallbackCommand()) {}
             else
             {

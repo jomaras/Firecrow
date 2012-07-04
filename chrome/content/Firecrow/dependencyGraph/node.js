@@ -47,7 +47,7 @@ FBL.ns(function() { with (FBL) {
     {
         var selectedDependencies = [];
 
-        var dependencies = this.dataDependencies.concat();
+        var dependencies = this.dataDependencies;
 
         for(var i = dependencies.length - 1; i >= 0; i--)
         {
