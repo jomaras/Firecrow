@@ -6,8 +6,7 @@
         var FBL = undefined;
     </script>
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
-    <script src="htmlModelMapping.js"></script>
-    <script src="htmlModelMapping1.js"></script>
+    <script src="interpreterTestsModelMapping.js"></script>
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
@@ -98,7 +97,7 @@
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/63/index.html");
+        var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/testFiles/45/index.html");
         var model = HtmlModelMapping.getWholeFileModel(webFile.url);
 
         var messageContainer = document.getElementById("messageContainer");

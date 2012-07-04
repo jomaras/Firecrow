@@ -702,7 +702,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         catch(e) { this.notifyError("Error when processing sequence code:" + e); }
     },
 
-    notifyError:function(message) { alert("DependencyPostProcessor - " + message); }
+    notifyError:function(message) { console.log("DependencyPostProcessor - " + message); }
 }
 /*************************************************************************************/
 }});

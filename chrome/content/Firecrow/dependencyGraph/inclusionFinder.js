@@ -69,7 +69,11 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             else if (ASTHelper.isVariableDeclarator(element)) { return this.isIncludedVariableDeclarator(element); }
             else if (ASTHelper.isLiteral(element)) { return this.isIncludedLiteral(element); }
             else if (ASTHelper.isIdentifier(element)) { return this.isIncludedIdentifier(element); }
-            else { this.notifyError("Error while finding inclusions unidentified ast element: "); }
+            else
+            {
+                console.log("Error while finding inclusions unidentified ast element");
+                //this.notifyError("Error while finding inclusions unidentified ast element: ");
+            }
         }
         catch(e) { alert("Error while finding inclusions: " + e); }
     },

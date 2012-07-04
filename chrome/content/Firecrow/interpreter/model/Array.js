@@ -158,7 +158,7 @@ fcModel.ArrayProto =
 
             for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
-            var splicedItems = this.items.splice.apply(this.items, arguments);
+            var splicedItems = this.items.splice.apply(this.items, arguments.map(function(item) { return item.value; }));
 
             for(var i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
 

@@ -1,7 +1,6 @@
 load:
   - ../chrome/content/Firecrow/initFBL.js
-  - ../debug/htmlModelMapping.js
-  - ../debug/htmlModelMapping1.js
+  - ../debug/interpreterTestsModelMapping.js
   - ../chrome/content/Firecrow/helpers/valueTypeHelper.js
   - ../chrome/content/Firecrow/helpers/ASTHelper.js
   - ../chrome/content/Firecrow/helpers/htmlHelper.js
