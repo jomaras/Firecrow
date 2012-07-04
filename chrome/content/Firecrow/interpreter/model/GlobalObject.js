@@ -143,8 +143,10 @@ fcModel.GlobalObjectExecutor =
                 new fcModel.FcInternal(callExpression, null)
             )
         }
-        catch(e) { alert("Error when executing global object function internal function: " + e); }
-
+        catch(e)
+        {
+            alert("Error when executing global object function internal function: " + e);
+        }
     }
 }
 /*************************************************************************************/

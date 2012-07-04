@@ -209,7 +209,7 @@ fcSimulator.InternalExecutor.prototype =
             {
                 if(ValueTypeHelper.arrayContains(fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS, functionObject.value.name))
                 {
-                    return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject.value, arguments, callExpression, this.globalObject);
+                    return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, arguments, callExpression, this.globalObject);
                 }
                 else
                 {
