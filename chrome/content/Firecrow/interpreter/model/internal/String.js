@@ -153,8 +153,17 @@ fcModel.StringExecutor =
                 case "match":
                 case "split":
                     var result = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
-                    if(result == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
-                    else if (ValueTypeHelper.isArray(result)){ return globalObject.internalExecutor.createArray(callExpression, result);}
+                    if(result == null)
+                    {
+                        return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression));
+                    }
+                    else if (ValueTypeHelper.isArray(result))
+                    {
+                        return globalObject.internalExecutor.createArray(callExpression, result.map(function(item)
+                        {
+                            return new fcModel.JsValue(item, new fcModel.FcInternal(callExpression));
+                        }));
+                    }
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
                 case "replace":
                     if(ValueTypeHelper.isString(argumentValues[1]))

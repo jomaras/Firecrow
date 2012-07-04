@@ -147,13 +147,16 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(evalAssignmentExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalAssignmentExpressionCommand.isEvalAssignmentExpressionCommand()) { this.notifyError(evalAssignmentExpressionCommand, "Argument is not an EvalAssignmentExpressionCommand"); return; }
 
+            var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
+
             var operator = evalAssignmentExpressionCommand.operator;
             var finalValue = null;
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.leftSide, this.globalObject.getPreciseEvaluationPositionId());
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalAssignmentExpressionCommand.codeConstruct, evalAssignmentExpressionCommand.rightSide, this.globalObject.getPreciseEvaluationPositionId());
 
-            this.addDependenciesToTopBlockConstructs(evalAssignmentExpressionCommand.codeConstruct);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.leftSide, this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.rightSide, this.globalObject.getPreciseEvaluationPositionId());
+
+            this.addDependenciesToTopBlockConstructs(assignmentExpression);
 
             if(operator == "=")
             {
@@ -179,7 +182,7 @@ fcSimulator.Evaluator.prototype =
                 else if (operator == "&=") { result = leftValue.value & rightValue.value; }
                 else { this.notifyError(evalAssignmentExpressionCommand, "Unknown assignment operator!"); return; }
 
-                finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(evalAssignmentExpressionCommand.codeConstruct));
+                finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(assignmentExpression));
             }
 
             finalValue = finalValue.isPrimitive() ? finalValue.createCopy(evalAssignmentExpressionCommand.rightSide) : finalValue
@@ -195,7 +198,7 @@ fcSimulator.Evaluator.prototype =
                 (
                     evalAssignmentExpressionCommand.leftSide.name,
                     finalValue,
-                    evalAssignmentExpressionCommand.codeConstruct
+                    assignmentExpression
                 );
             }
             else
@@ -211,7 +214,7 @@ fcSimulator.Evaluator.prototype =
                 }
                 else if (object == this.globalObject)
                 {
-                    this.globalObject.addProperty(property.value, finalValue.value,  evalAssignmentExpressionCommand.codeConstruct);
+                    this.globalObject.addProperty(property.value, finalValue.value,  assignmentExpression);
                 }
                 else
                 {
@@ -220,10 +223,10 @@ fcSimulator.Evaluator.prototype =
 
                 if(property.value == "__proto__") { object.value[property.value] = finalValue.value;}
 
-                object.fcInternal.object.addProperty(property.value, finalValue, evalAssignmentExpressionCommand.codeConstruct, true);
+                object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
             }
 
-            this.executionContextStack.setExpressionValue(evalAssignmentExpressionCommand.codeConstruct, finalValue);
+            this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
         }
         catch(e)
         {

@@ -85,9 +85,11 @@ fcModel.ArrayProto =
             this.addDependenciesToAllProperties(codeConstruct);
             this.deleteProperty(this.items.length - 1, codeConstruct);
 
-            return this.items.pop();
+            var poppedItem = this.items.pop();
 
             this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
+
+            return poppedItem;
         }
         catch(e) { alert("Array - error when popping item: " + e); }
     },
