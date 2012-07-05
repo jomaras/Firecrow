@@ -164,14 +164,18 @@ var _parts = {'encode':'encode', 'decode':'decode'},
     {
         return function(string)
         {
-            return URI[_part](string + "").replace
+            var a = URI[_part](string + "");
+            var replaceWhat = URI.characters.pathname[_part].expression;
+            var replaced = a.replace
             (
-                URI.characters.pathname[_part].expression,
+                replaceWhat,
                 function(c)
                 {
                     return URI.characters.pathname[_part].map[c];
                 }
             );
+
+            return replaced;
         };
     };
 

@@ -152,7 +152,6 @@ fcSimulator.Evaluator.prototype =
             var operator = evalAssignmentExpressionCommand.operator;
             var finalValue = null;
 
-
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.leftSide, this.globalObject.getPreciseEvaluationPositionId());
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.rightSide, this.globalObject.getPreciseEvaluationPositionId());
 
@@ -182,10 +181,16 @@ fcSimulator.Evaluator.prototype =
                 else if (operator == "&=") { result = leftValue.value & rightValue.value; }
                 else { this.notifyError(evalAssignmentExpressionCommand, "Unknown assignment operator!"); return; }
 
-                finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(assignmentExpression));
+                finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(assignmentExpression, null));
             }
 
-            finalValue = finalValue.isPrimitive() ? finalValue.createCopy(evalAssignmentExpressionCommand.rightSide) : finalValue
+            finalValue = finalValue.isPrimitive() ? finalValue.createCopy(evalAssignmentExpressionCommand.rightSide) : finalValue;
+
+            if(assignmentExpression.loc.start.line == 169)
+            {
+                var a = 3;
+            }
+
 
             if(ASTHelper.isIdentifier(evalAssignmentExpressionCommand.leftSide))
             {
