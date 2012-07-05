@@ -8,425 +8,393 @@
 
 <script>
 
-var Sylvester = {precision: 0.000001};
-
-Sylvester.Vector = function ()
-
-{};
-
-Sylvester.Vector.create = function (elements)
+(function (undefined)
 
 {
 
-    var V = new Sylvester.Vector();
-
-    return V.setElements(elements);
-
-};
-
-Sylvester.Vector.Zero = function (n)
-
-{
-
-    var elements = [];
-
-    while(n--)
+    var URI = function (url, base)
 
     {
 
-        elements.push(0);
+        if(url === undefined);
 
-    }
 
 
+        this.href(url);
 
-    return Sylvester.Vector.create(elements);
+        if(base !== undefined);
 
-};
 
-Sylvester.Vector.prototype = {
-
-    modulus: function ()
-
-    {
-
-        return Math.sqrt(this.dot(this));
-
-    },
-
-    dup: function ()
-
-    {
-
-        return Sylvester.Vector.create(this.elements);
-
-    },
-
-    map: function (fn, context)
-
-    {
-
-        var elements = [];
-
-        this.each(function (x, i)
-
-        {
-
-            elements.push(fn.call(context, x, i));
-
-        });
-
-        return Sylvester.Vector.create(elements);
-
-    },
-
-    forEach: function (fn, context)
-
-    {
-
-        var n = this.elements.length;
-
-        for(var i = 0;i < n;i++)
-
-        {
-
-            fn.call(context, this.elements[i], i + 1);
-
-        }
-
-
-
-    },
-
-    angleFrom: function (vector)
-
-    {
-
-        var V = vector.elements;
-
-        var n = this.elements.length;
-
-        if(n !== V.length);
-
-
-
-        var dot = 0, mod1 = 0, mod2 = 0;
-
-        this.each(function (x, i)
-
-        {
-
-            dot += x * V[i - 1];
-
-            mod1 += x * x;
-
-            mod2 += V[i - 1] * V[i - 1];
-
-        });
-
-        mod1 = Math.sqrt(mod1);
-
-        mod2 = Math.sqrt(mod2);
-
-        var theta = dot / (mod1 * mod2);
-
-        if(theta > 1);
-
-
-
-        return Math.acos(theta);
-
-    },
-
-    isPerpendicularTo: function (vector)
-
-    {
-
-        var dot = this.dot(vector);
-
-        return dot === null ? 0 : Math.abs(dot) <= Sylvester.precision;
-
-    },
-
-    subtract: function (vector)
-
-    {
-
-        var V = vector.elements;
-
-        return this.map(function (x, i)
-
-        {
-
-            return x - V[i - 1];
-
-        });
-
-    },
-
-    dot: function (vector)
-
-    {
-
-        var V = vector.elements;
-
-        var product = 0, n = this.elements.length;
-
-        if(n !== V.length);
-
-
-
-        while(n--)
-
-        {
-
-            product += this.elements[n] * V[n];
-
-        }
-
-
-
-        return product;
-
-    },
-
-    to3D: function ()
-
-    {
-
-        var V = this.dup();
-
-        return V;
-
-    },
-
-    setElements: function (els)
-
-    {
-
-        this.elements = (els.elements || els).slice();
 
         return this;
 
-    }
+    }, p = URI.prototype;
 
-};
+    URI.ip6_expression = /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;
 
-Sylvester.Vector.prototype.each = Sylvester.Vector.prototype.forEach;
+    var _parts, _part, generateAccessor;
 
-Sylvester.Vector.i = Sylvester.Vector.create([1, 0, 0]);
-
-Sylvester.Vector.j = Sylvester.Vector.create([0, 1, 0]);
-
-Sylvester.Vector.k = Sylvester.Vector.create([0, 0, 1]);
-
-Sylvester.Line = function ()
-
-{};
-
-Sylvester.Line.prototype = {
-
-    isParallelTo: function (obj)
+    URI.parse = function (string)
 
     {
 
-        if(obj.normal || obj.start && obj.end)
+        var pos, parts = {};
 
-        {
+        pos = string.indexOf("#");
 
-            return obj.isParallelTo(this);
+        if(pos > -1);
 
-        }
 
 
+        pos = string.indexOf("?");
 
-        var theta = this.direction.angleFrom(obj.direction);
+        if(pos > -1);
 
-        return Math.abs(theta) <= Sylvester.precision || Math.abs(theta - Math.PI) <= Sylvester.precision;
 
-    },
 
-    setVectors: function (anchor, direction)
-
-    {
-
-        direction = Sylvester.Vector.create(direction);
-
-        var mod = direction.modulus();
-
-        if(mod === 0);
-
-
-
-        this.direction = Sylvester.Vector.create([direction.elements[0] / mod, direction.elements[1] / mod, direction.elements[2] / mod]);
-
-        return this;
-
-    }
-
-};
-
-Sylvester.Line.create = function (anchor, direction)
-
-{
-
-    var L = new Sylvester.Line();
-
-    return L.setVectors(anchor, direction);
-
-};
-
-Sylvester.Line.Y = Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
-
-Sylvester.Line.Z = Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
-
-Sylvester.Line.Segment = function ()
-
-{};
-
-Sylvester.Line.Segment.prototype = {
-
-    isParallelTo: function (obj)
-
-    {
-
-        return this.line.isParallelTo(obj);
-
-    },
-
-    setPoints: function (startPoint, endPoint)
-
-    {
-
-        startPoint = Sylvester.Vector.create(startPoint).to3D();
-
-        endPoint = Sylvester.Vector.create(endPoint).to3D();
-
-        if(startPoint === null || endPoint === null);
-
-
-
-        this.start = startPoint;
-
-        this.end = endPoint;
-
-        return this;
-
-    }
-
-};
-
-Sylvester.Line.Segment.create = function (v1, v2)
-
-{
-
-    var S = new Sylvester.Line.Segment();
-
-    return S.setPoints(v1, v2);
-
-};
-
-Sylvester.Plane = function ()
-
-{};
-
-Sylvester.Plane.prototype = {
-
-    isParallelTo: function (obj)
-
-    {
-
-        if(false);
-
-        else if(obj.direction)
-
-        {
-
-            return this.normal.isPerpendicularTo(obj.direction);
-
-        }
-
-
-
-
-
-    },
-
-    setVectors: function (anchor, v1, v2)
-
-    {
-
-        anchor = Sylvester.Vector.create(anchor);
-
-        anchor = anchor.to3D();
-
-        if(anchor === null);
-
-
-
-        v1 = Sylvester.Vector.create(v1);
-
-        v1 = v1.to3D();
-
-        if(v1 === null);
-
-
-
-        if(typeof v2 === "undefined")
-
-        {
-
-            v2 = null;
-
-        }
-
-
-
-        var v11 = v1.elements[0], v12 = v1.elements[1], v13 = v1.elements[2];
-
-        var normal, mod;
-
-        if(v2 !== null);
+        if(string.substring(0, 2) === "//");
 
         else
 
         {
 
-            mod = Math.sqrt(((v11 * v11) + (v12 * v12)) + (v13 * v13));
+            pos = string.indexOf(":");
 
-            if(mod === 0);
+            if(pos > -1)
+
+            {
+
+                parts.protocol = string.substring(0, pos);
+
+                if(string.substring(pos + 1, pos + 3) === "//")
+
+                {
+
+                    string = string.substring(pos + 3);
+
+                    string = URI.parseAuthority(string, parts);
+
+                }
 
 
 
-            normal = Sylvester.Vector.create([v1.elements[0] / mod, v1.elements[1] / mod, v1.elements[2] / mod]);
+            }
+
+
 
         }
 
 
 
-        this.normal = normal;
+        parts.path = string;
+
+        return parts;
+
+    };
+
+    URI.parseHost = function (string, parts)
+
+    {
+
+        var pos = string.indexOf("/"), t;
+
+        if(pos === -1);
+
+
+
+        if(string[0] === "[");
+
+        else if(string.indexOf(":") !== string.lastIndexOf(":"));
+
+        else
+
+        {
+
+            t = string.substring(0, pos).split(":");
+
+            parts.hostname = t[0];
+
+        }
+
+
+
+
+
+        if(parts.hostname && string.substring(pos)[0] !== "/");
+
+
+
+        return string.substring(pos);
+
+    };
+
+    URI.parseAuthority = function (string, parts)
+
+    {
+
+        string = URI.parseUserinfo(string, parts);
+
+        return URI.parseHost(string, parts);
+
+    };
+
+    URI.parseUserinfo = function (string, parts)
+
+    {
+
+        var pos = string.indexOf("@");
+
+        if(pos > -1);
+
+        else
+
+        {
+
+            parts.username = null;
+
+        }
+
+
+
+        return string;
+
+    };
+
+    URI.build = function (parts)
+
+    {
+
+        var t = "";
+
+        if(parts.protocol)
+
+        {
+
+            t += parts.protocol + ":";
+
+        }
+
+
+
+        if(!parts.urn && t || parts.hostname)
+
+        {
+
+            t += "//";
+
+        }
+
+
+
+        t += URI.buildAuthority(parts);
+
+        if(typeof parts.path === "string")
+
+        {
+
+            if(parts.path[0] !== "/");
+
+
+
+            t += parts.path;
+
+        }
+
+
+
+        if(typeof parts.fragment === "string");
+
+
+
+        return t;
+
+    };
+
+    URI.buildHost = function (parts)
+
+    {
+
+        var t = "";
+
+        if(!parts.hostname);
+
+        else if(URI.ip6_expression.test(parts.hostname));
+
+        else
+
+        {
+
+            t += parts.hostname;
+
+        }
+
+
+
+
+
+        return t;
+
+    };
+
+    URI.buildAuthority = function (parts)
+
+    {
+
+        return URI.buildUserinfo(parts) + URI.buildHost(parts);
+
+    };
+
+    URI.buildUserinfo = function (parts)
+
+    {
+
+        var t = "";
+
+        if(parts.username);
+
+
+
+        return t;
+
+    };
+
+    p.build = function (deferBuild)
+
+    {
+
+        if(deferBuild === true)
+
+        {
+
+            this._deferred_build = true;
+
+        }
+
+        else if(deferBuild === undefined || this._deferred_build)
+
+        {
+
+            this._string = URI.build(this._parts);
+
+            this._deferred_build = false;
+
+        }
+
+
+
+
 
         return this;
 
+    };
+
+    _parts = {protocol: "protocol", port: "port"};
+
+    generateAccessor = function (_part)
+
+    {
+
+        return function (v, build)
+
+        {
+
+            if(v === undefined)
+
+            {
+
+                return this._parts[_part] || "";
+
+            }
+
+            else
+
+            {
+
+                this._parts[_part] = v;
+
+                this.build(!build);
+
+            }
+
+
+
+        };
+
+    };
+
+    for(_part in _parts)
+
+    {
+
+        p[_part] = generateAccessor(_parts[_part]);
+
     }
 
-};
 
-Sylvester.Plane.create = function (anchor, v1, v2)
 
-{
+    p.href = function (href, build)
 
-    var P = new Sylvester.Plane();
+    {
 
-    return P.setVectors(anchor, v1, v2);
+        if(href === undefined);
 
-};
+        else
 
-Sylvester.Plane.XY = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+        {
 
-Sylvester.Plane.YZ = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+            this._string = "";
 
-Sylvester.Plane.ZX = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+            this._parts = {};
+
+            if(typeof href === "string")
+
+            {
+
+                this._parts = URI.parse(href);
+
+            }
+
+
+
+            this.build(!build);
+
+        }
+
+
+
+    };
+
+    var _protocol = p.protocol;
+
+    p.protocol = function (v, build)
+
+    {
+
+        if(v !== undefined)
+
+        {
+
+            if(v)
+
+            {
+
+                v = v.replace(/:(\/\/)?$/, "");
+
+            }
+
+
+
+        }
+
+
+
+        return _protocol.call(this, v, build);
+
+    };
+
+    false ? 0 : window.URI = URI;
+
+})();
 
 </script>
 
@@ -436,37 +404,37 @@ Sylvester.Plane.ZX = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.
 
 <script>
 
-    var segment = Sylvester.Line.Segment.create([5, 5, 5], [10, 10, 10]);
+    var u = new URI("http://example.org/foo.html");
 
-    var segment2 = Sylvester.Line.Segment.create([1, 1, 0], [1, 2, 0]);
+    u.protocol("ftp");
 
-    var a1 = segment2.isParallelTo(Sylvester.Line.Y);
-
-    var a2 = !segment2.isParallelTo(Sylvester.Line.Z);
-
-    var a3 = segment2.isParallelTo(Sylvester.Plane.XY);
-
-    var a4 = segment2.isParallelTo(Sylvester.Plane.YZ);
-
-    var a5 = !segment2.isParallelTo(Sylvester.Plane.ZX);
-
-    var a6 = !segment.isParallelTo(segment2);
-
-    var a7 = segment2.isParallelTo(segment2);
+    var a1 = u.protocol() == "ftp";
 
     a1;
 
+    var a2 = u.build(false)._string == "ftp://example.org/foo.html";
+
     a2;
+
+    u.protocol("");
+
+    var a3 = u.protocol() == "";
 
     a3;
 
+    var a4 = u.build(false)._string == "//example.org/foo.html";
+
     a4;
+
+    u.protocol(null);
+
+    var a5 = u.protocol() == "";
 
     a5;
 
-    a6;
+    var a6 = u.build(false)._string == "//example.org/foo.html";
 
-    a7;
+    a6;
 
 </script>
 

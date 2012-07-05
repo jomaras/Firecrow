@@ -289,6 +289,11 @@ FBL.ns(function () { with (FBL) {
             return this.isFunctionExpression(element.parent) && this.isElementOfType(element.parent.parent, this.CONST.Property);
         },
 
+        isCallExpressionCallee: function(element)
+        {
+            return this.isCallExpression(element.parent) && element.parent.callee == element;
+        },
+
         isFunctionParameter: function(element)
         {
             if(!this.isIdentifier(element)){ return false; }
