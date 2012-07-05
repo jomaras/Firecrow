@@ -292,7 +292,13 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             var callConstruct = newExpressionCommand.codeConstruct;
             var callee = this.executionContextStack.getExpressionValue(callConstruct.callee);
-            var newObject = this.globalObject.internalExecutor.createObject(callee, newExpressionCommand.codeConstruct);
+            var newObject = this.globalObject.internalExecutor.createObject
+            (
+                callee,
+                newExpressionCommand.codeConstruct,
+                callConstruct.arguments != null ? callConstruct.arguments.map(function(argument) { return this.executionContextStack.getExpressionValue(argument)}, this)
+                                                : []
+            );
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
 

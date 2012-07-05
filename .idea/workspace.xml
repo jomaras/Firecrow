@@ -5,12 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/cases/02-mutatingProtocol/htmlMapping.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/cases/02-mutatingProtocol/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/URI.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/cases/01-construct/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/cases/03-mutatingUsername/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/debugMedialize.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/debugURI.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/medialize/tests/mappingInfrastructure.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/test.html" afterPath="$PROJECT_DIR$/playground/test.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,34 +69,16 @@
       <file leaf-file-name="test.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/medialize/medialize-URIcode/test/test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="0" selection-start="2608" selection-end="3062" vertical-scroll-proportion="0.0">
+            <state line="305" column="73" selection-start="11302" selection-end="11857" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/02-mutatingProtocol/index.html">
+        <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/13-mutatingSubdomain/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="35" selection-start="546" selection-end="546" vertical-scroll-proportion="-16.346153">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/playground/test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="414" column="53" selection-start="5749" selection-end="5749" vertical-scroll-proportion="0.35391924">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="codeTextGenerator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="293" column="68" selection-start="14268" selection-end="14268" vertical-scroll-proportion="0.0">
+            <state line="6" column="7" selection-start="105" selection-end="105" vertical-scroll-proportion="-3.9230769">
               <folding />
             </state>
           </provider>
@@ -100,7 +87,25 @@
       <file leaf-file-name="debugMedialize.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/medialize/tests/debugMedialize.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="125" selection-start="4252" selection-end="4252" vertical-scroll-proportion="-21.923077">
+            <state line="70" column="70" selection-start="4477" selection-end="4477" vertical-scroll-proportion="-8.5">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="htmlMapping.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/13-mutatingSubdomain/htmlMapping.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="28" selection-start="1184959" selection-end="1184959" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InternalExecutor.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="185" column="45" selection-start="7399" selection-end="7399" vertical-scroll-proportion="0.422807">
               <folding />
             </state>
           </provider>
@@ -109,7 +114,7 @@
       <file leaf-file-name="InterpreterSimulator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="294" column="72" selection-start="12109" selection-end="12109" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -128,22 +133,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/htmlModelMapping.js" />
-        <option value="$PROJECT_DIR$/debug/allTests.html" />
-        <option value="$PROJECT_DIR$/tests/interpreter.jstd" />
-        <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
-        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/01-construct/htmlMapping.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/07-mutatingPath/htmlMapping.js" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/08-mutatingQuery/index.html" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/08-mutatingQuery/htmlMapping.js" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/09-mutatingFragment/index.html" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/09-mutatingFragment/htmlMapping.js" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/10-mutatingHost/index.html" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/10-mutatingHost/htmlMapping.js" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/11-mutatingAuthority/index.html" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/11-mutatingAuthority/htmlMapping.js" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/12-mutatingHref/index.html" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/12-mutatingHref/htmlMapping.js" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/13-mutatingSubdomain/index.html" />
         <option value="$PROJECT_DIR$/tests/medialize/tests/debugMedialize.html" />
-        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/02-mutatingProtocol/index.html" />
-        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/02-mutatingProtocol/htmlMapping.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-        <option value="$PROJECT_DIR$/playground/test.html" />
+        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/13-mutatingSubdomain/htmlMapping.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
       </list>
     </option>
   </component>
@@ -221,6 +226,72 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="medialize" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="medialize" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cases" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="medialize" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="playground" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -267,11 +338,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\tests\medialize\tests\cases\03-mutatingUsername" />
       <recent name="C:\GitWebStorm\Firecrow\tests\medialize\tests\cases\02-mutatingProtocol" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\53" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\52" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\51" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\50" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\debug\gauss\tests" />
@@ -794,7 +865,11 @@
       <created>1341436777984</created>
       <updated>1341436777984</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="in code generator - if a function expression is the callee of a callexpression then surround it with parenthesis">
+      <created>1341467663606</created>
+      <updated>1341467663611</updated>
+    </task>
+    <option name="localTasksCounter" value="112" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -819,12 +894,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4183223" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12286325" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3289183" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18406759" sideWeight="0.67045456" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18406759" sideWeight="0.67108166" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56390977" sideWeight="0.4202381" order="11" side_tool="true" content_ui="tabs" />
@@ -833,9 +910,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32954547" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.6474359" order="3" side_tool="false" content_ui="combo" />
@@ -879,7 +954,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a sneaking bug in String split" />
+    <option name="LAST_COMMIT_MESSAGE" value="in code generator - if a function expression is the callee of a callexpression then surround it with parenthesis" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -892,7 +967,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Another big backup before testing a new dependency algorithm" />
     <MESSAGE value="Commit after redesign of dependency tracking - still not sure if this is good - most tests are ok" />
     <MESSAGE value="Fixed a problem with forIn" />
     <MESSAGE value="Finally - everything, at least according to tests is working :) fijuuu" />
@@ -917,6 +991,7 @@
     <MESSAGE value="Refactored files. Fixed a bug in splice" />
     <MESSAGE value="Bug fix in executing global functions" />
     <MESSAGE value="Fixed a sneaking bug in String split" />
+    <MESSAGE value="in code generator - if a function expression is the callee of a callexpression then surround it with parenthesis" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -928,108 +1003,116 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/09-mutatingFragment/htmlMapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="53" selection-start="1451" selection-end="1451" vertical-scroll-proportion="0.22623575" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/63/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="14" selection-start="9519" selection-end="9519" vertical-scroll-proportion="0.0">
+        <state line="7" column="53" selection-start="1201428" selection-end="1201428" vertical-scroll-proportion="0.24335378">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/09-mutatingFragment/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="213" column="39" selection-start="7825" selection-end="7825" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.5714285">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/09-mutatingFragment/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="50" selection-start="241" selection-end="241" vertical-scroll-proportion="-0.071428575">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/10-mutatingHost/htmlMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="1182186" selection-start="1182534" selection-end="1182534" vertical-scroll-proportion="0.24335378">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/10-mutatingHost/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="58" selection-start="170" selection-end="170" vertical-scroll-proportion="0.2857143">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/11-mutatingAuthority/htmlMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="12" selection-start="1222930" selection-end="1222930" vertical-scroll-proportion="0.24335378">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/11-mutatingAuthority/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="28" selection-start="700" selection-end="700" vertical-scroll-proportion="0.10714286">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/12-mutatingHref/htmlMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="1210557" selection-start="1211054" selection-end="1211054" vertical-scroll-proportion="0.24335378">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/12-mutatingHref/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="18" selection-start="443" selection-end="443" vertical-scroll-proportion="0.39285713">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/medialize/tests/URI.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="146" column="26" selection-start="5535" selection-end="5535" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/testFiles/46/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="27" selection-start="95" selection-end="96" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="64" selection-start="6350" selection-end="6350" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="833" column="56" selection-start="24682" selection-end="24682" vertical-scroll-proportion="0.3329493">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/medialize/medialize-URIcode/test/test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="0" selection-start="2608" selection-end="3062" vertical-scroll-proportion="0.0">
+        <state line="305" column="73" selection-start="11302" selection-end="11857" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/13-mutatingSubdomain/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="7" selection-start="105" selection-end="105" vertical-scroll-proportion="-3.9230769">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/medialize/tests/debugMedialize.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="125" selection-start="4252" selection-end="4252" vertical-scroll-proportion="-21.923077">
+        <state line="70" column="70" selection-start="4477" selection-end="4477" vertical-scroll-proportion="-8.5">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="294" column="72" selection-start="12109" selection-end="12109" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/01-construct/index.html">
+    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/13-mutatingSubdomain/htmlMapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="32" selection-start="845" selection-end="853" vertical-scroll-proportion="0.6362573">
+        <state line="7" column="28" selection-start="1184959" selection-end="1184959" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/02-mutatingProtocol/htmlMapping.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="1184343" selection-start="1184539" selection-end="1184539" vertical-scroll-proportion="0.09792627">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/medialize/tests/cases/02-mutatingProtocol/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="35" selection-start="546" selection-end="546" vertical-scroll-proportion="-16.346153">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="294" column="10" selection-start="11690" selection-end="11690" vertical-scroll-proportion="0.5459705">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="293" column="68" selection-start="14268" selection-end="14268" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground/test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="414" column="53" selection-start="5749" selection-end="5749" vertical-scroll-proportion="0.35391924">
+        <state line="185" column="45" selection-start="7399" selection-end="7399" vertical-scroll-proportion="0.422807">
           <folding />
         </state>
       </provider>

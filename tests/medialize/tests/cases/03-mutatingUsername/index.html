@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="../../URI.js"></script>
+</head>
+<body>
+<script>
+    var u = new URI("http://example.org/foo.html");
+    u.username("hello");
+
+    var a1 = u.username() == "hello";
+    a1;
+
+    var a2 = u.password() == "";
+    a2;
+
+    var a3 = u.build(false)._string ==  "http://hello@example.org/foo.html";
+    a3;
+
+    u.username("");
+    var a4 = u.username() == "";
+    a4;
+
+    var a5 = u.password() == "";
+    a5;
+
+    var a6 = u.build(false)._string == "http://example.org/foo.html";
+    a6;
+</script>
+</body>
+</html>

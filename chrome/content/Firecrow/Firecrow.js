@@ -133,7 +133,7 @@ FBL.ns(function() { with (FBL) {
 
                                 Firecrow.FileHelper.writeToFile
                                 (
-                                    currentPageLocation.replace(pageName, "index-sliced-results.txt").replace("file:///",""),
+                                    currentPageLocation.replace(pageName, "index-results.txt").replace("file:///",""),
                                     JSON.stringify(slicingVars)
                                 );
                             }
@@ -141,7 +141,7 @@ FBL.ns(function() { with (FBL) {
 
                             Firecrow.FileHelper.writeToFile
                             (
-                                currentPageLocation.replace(pageName, "index-sliced-sliced.html").replace("file:///",""),
+                                currentPageLocation.replace(pageName, "index-sliced.html").replace("file:///",""),
                                 Firecrow.CodeTextGenerator.generateSlicedCode(model)
                             );
                         });

@@ -18,7 +18,7 @@ fcSimulator.InternalExecutor = function(globalObject)
 
 fcSimulator.InternalExecutor.prototype =
 {
-    createObject: function(constructorFunction, creationCodeConstruct)
+    createObject: function(constructorFunction, creationCodeConstruct, argumentValues)
     {
         try
         {
@@ -62,7 +62,7 @@ fcSimulator.InternalExecutor.prototype =
             }
             else if (constructorFunction != null && constructorFunction.isInternalFunction)
             {
-                return this.executeConstructor(creationCodeConstruct, constructorFunction);
+                return this.executeConstructor(creationCodeConstruct, constructorFunction, argumentValues);
             }
             else
             {
@@ -180,14 +180,24 @@ fcSimulator.InternalExecutor.prototype =
         catch(e){ this.notifyError("Error when creating location object");}
     },
 
-    executeConstructor: function(constructorConstruct, internalConstructor)
+    executeConstructor: function(constructorConstruct, internalConstructor, argumentValues)
     {
         try
         {
             if(internalConstructor == null) { this.notifyError("InternalConstructor can not be null!"); return; }
 
-            if(internalConstructor.name == "Array") { return this.createArray(constructorConstruct); }
-            else { this.notifyError("Unknown internal constructor"); return; }
+            if(internalConstructor.name == "Array")
+            {
+                return this.createArray(constructorConstruct, Array.apply(null, argumentValues.map(function(item){ return item.value; })));
+            }
+            else if(internalConstructor.name == "RegExp")
+            {
+                return this.createRegEx(constructorConstruct, RegExp.apply(null, argumentValues.map(function(item){ return item.value; })));
+            }
+            else
+            {
+                this.notifyError("Unknown internal constructor"); return;
+            }
         }
         catch(e) { this.notifyError("Execute error: " + e); }
     },
