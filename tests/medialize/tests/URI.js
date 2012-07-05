@@ -48,7 +48,7 @@ function escapeRegEx(string) {
 }
 
 function isArray(obj) {
-    return obj.toString() === "[object Array]";
+    return obj != null && obj.toString() === "[object Array]";
 }
 
 function filterArrayValues(data, value) {

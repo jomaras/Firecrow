@@ -285,6 +285,15 @@ fcModel.ArrayProto =
         catch(e) { this.notifyError("When indexOf array: " + e);}
     },
 
+    updateItem: function(propertyName, newItem)
+    {
+        try
+        {
+            if(ValueTypeHelper.isInteger(propertyName)) { this.items[propertyName] = newItem; }
+        }
+        catch(e) { this.notifyError("Error when updating item: " + e); }
+    },
+
     notifyError: function(message) { alert("Array - " + message); }
 };
 
