@@ -48,7 +48,7 @@ function escapeRegEx(string) {
 }
 
 function isArray(obj) {
-    return obj != null && obj.toString() === "[object Array]";
+    return obj != null && obj instanceof Array;
 }
 
 function filterArrayValues(data, value) {
@@ -135,14 +135,25 @@ URI.characters = {
         }
     }
 };
-URI.encodeQuery = function(string) {
-    return URI.encode(string + "").replace(/%20/g, '+');
+URI.encodeQuery = function(string)
+{
+    if(typeof string != "string")
+    {
+        string = string.toString();
+    }
+    return URI.encode(string).replace(/%20/g, '+');
 };
-URI.decodeQuery = function(string) {
+URI.decodeQuery = function(string)
+{
+    if(typeof string != "string") { string = string.toString(); }
+
     return URI.decode((string + "").replace(/\+/g, '%20'));
 };
-URI.recodePath = function(string) {
-    var segments = (string + "").split('/');
+URI.recodePath = function(string)
+{
+    if(typeof string != "string") { string = string.toString(); }
+
+    var segments = (string).split('/');
     for (var i = 0, length = segments.length; i < length; i++) {
         segments[i] = URI.encodePathSegment(URI.decode(segments[i]));
     }
@@ -150,6 +161,7 @@ URI.recodePath = function(string) {
     return segments.join('/');
 };
 URI.decodePath = function(string) {
+    if(typeof string != "string") { string = string.toString(); }
     var segments = (string + "").split('/');
     for (var i = 0, length = segments.length; i < length; i++) {
         segments[i] = URI.decodePathSegment(segments[i]);
@@ -166,7 +178,7 @@ var _parts = {'encode':'encode', 'decode':'decode'},
         {
             var a = URI[_part](string + "");
             var replaceWhat = URI.characters.pathname[_part].expression;
-            var replaced = a.replace
+            /*var replaced = a.replace
             (
                 replaceWhat,
                 function(c)
@@ -174,8 +186,22 @@ var _parts = {'encode':'encode', 'decode':'decode'},
                     return URI.characters.pathname[_part].map[c];
                 }
             );
-
             return replaced;
+            */
+
+            var regExp = new RegExp(replaceWhat);
+            var match = null;
+
+            do
+            {
+                match = regExp.exec(a);
+                if(match != null)
+                {
+                    a = a.replace(match[0], URI.characters.pathname[_part].map[match[0]]);
+                }
+            }while(match != null)
+
+            return a;
         };
     };
 
@@ -403,11 +429,15 @@ URI.buildQuery = function(data, duplicates) {
     // see http://www.w3.org/TR/REC-html40/interact/forms.html#form-content-type
 
     var t = "";
-    for (var key in data) {
-        if (key) {
-            if (isArray(data[key])) {
+    for (var key in data)
+    {
+        if (key)
+        {
+            if (isArray(data[key]))
+            {
                 var unique = {};
-                for (var i = 0, length = data[key].length; i < length; i++) {
+                for (var i = 0, length = data[key].length; i < length; i++)
+                {
                     if (data[key][i] !== undefined && unique[data[key][i] + ""] === undefined) {
                         t += "&" + URI.buildQueryParameter(key, data[key][i]);
                         if (duplicates !== true) {
@@ -415,7 +445,9 @@ URI.buildQuery = function(data, duplicates) {
                         }
                     }
                 }
-            } else if (data[key] !== undefined) {
+            }
+            else if (data[key] !== undefined)
+            {
                 t += '&' + URI.buildQueryParameter(key, data[key]);
             }
         }

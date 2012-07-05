@@ -394,7 +394,11 @@ Firecrow.CodeTextGenerator.prototype =
                 || unaryExpression.operator == "void"
                 || unaryExpression.operator == "delete") { code += " "; }
 
-            code += this.generateExpression(unaryExpression.argument);
+            var isComplexArgument = !(ASTHelper.isLiteral(unaryExpression.argument) || ASTHelper.isIdentifier(unaryExpression.argument));
+
+            code += (isComplexArgument ? this._LEFT_PARENTHESIS : "")
+                        + this.generateExpression(unaryExpression.argument)
+                  + (isComplexArgument ? this._RIGHT_PARENTHESIS : "");
 
             if(!unaryExpression.prefix) { code += unaryExpression.operator; }
 
@@ -492,9 +496,12 @@ Firecrow.CodeTextGenerator.prototype =
             if(consequentCode == "") { consequentCode = "0"; }
             if(alternateCode == "") { alternateCode = "0";}
 
-            return testCode
-                + " " + this._QUESTION_MARK + " " + consequentCode
-                + " " + this._COLON + " " + alternateCode;
+            var shouldBeSurroundedWithParenthesis = ASTHelper.isBinaryExpression(conditionalExpression.parent) || ASTHelper.isLogicalExpression(conditionalExpression.parent);
+
+            var code =  testCode + " " + this._QUESTION_MARK + " " + consequentCode
+                                 + " " + this._COLON + " " + alternateCode;
+
+            return shouldBeSurroundedWithParenthesis ? (this._LEFT_PARENTHESIS + code + this._RIGHT_PARENTHESIS) : code;
         }
         catch(e) { this.notifyError("Error when generating code from conditional expression:" + e); }
     },
@@ -530,9 +537,21 @@ Firecrow.CodeTextGenerator.prototype =
                                             &&!ASTHelper.isThisExpression(memberExpression.object)
                                             &&!ASTHelper.isMemberExpression(memberExpression.object);
 
+            var propertyCode = this.generateJsCode(memberExpression.property);
+
+            var isInBrackets = memberExpression.computed;
+
+            if(!isInBrackets)
+            {
+                if(propertyCode.indexOf(' ') != -1)
+                {
+                    propertyCode = "'" + propertyCode + "'";
+                    isInBrackets = true;
+                }
+            }
+
             return (isNotSimpleMemberExpression ? this._LEFT_PARENTHESIS : "") + this.generateJsCode(memberExpression.object) + (isNotSimpleMemberExpression ? this._RIGHT_PARENTHESIS : "")
-                + (memberExpression.computed ? this._LEFT_BRACKET + this.generateJsCode(memberExpression.property) + this._RIGHT_BRACKET
-                                             : this._DOT + this.generateJsCode(memberExpression.property));
+                + (isInBrackets ? (this._LEFT_BRACKET + propertyCode + this._RIGHT_BRACKET) : (this._DOT + propertyCode));
         }
         catch(e) { this.notifyError("Error when generating code from member expression:" + e); }
     },

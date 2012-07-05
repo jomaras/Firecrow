@@ -319,7 +319,7 @@ fcModel.ArrayPrototype.CONST =
 {
     INTERNAL_PROPERTIES :
     {
-        METHODS: ["pop","push","reverse","shift","sort","splice","unshift","concat","join","slice","indexOf","lastIndexOf","filter","forEach","every","map","some","reduce","reduceRight"],
+        METHODS: ["pop","push","reverse","shift","sort","splice","unshift","concat","join","slice","indexOf","lastIndexOf","filter","forEach","every","map","some","reduce","reduceRight", "toString"],
         CALLBACK_METHODS: ["sort", "filter", "forEach", "every", "map", "some", "reduce", "reduceRight"]
     }
 };
@@ -406,6 +406,8 @@ fcModel.ArrayExecutor =
 
             switch(functionName)
             {
+                case "toString":
+                    return new fcModel.JsValue("[object Array]", new fcModel.FcInternal(callExpression));
                 case "pop":
                 case "reverse":
                 case "shift":

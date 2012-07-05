@@ -91,6 +91,7 @@ fcModel.StringExecutor =
                 );
 
                 targetObject.fcInternal = new fcModel.FcInternal(returnExpression);
+                console.log("String replace is being used!");
             }
             else
             {

@@ -4,13 +4,22 @@
     </head>
     <body>
         <script>
-            var a = [1,2,3];
+            var obj = {};
 
-            a[0] = 2;
-            a[1] = 3;
-            a[2] = 4;
+            function test()
+            {
+                if(obj.test == null)
+                {
+                    obj.test = 3;
+                    return;
+                }
 
-            var a1 = a.join("");
+                obj.shouldNotBeHere = 4;
+            }
+
+            test();
+
+            var a1 = obj.test;
             a1;
         </script>
     </body>

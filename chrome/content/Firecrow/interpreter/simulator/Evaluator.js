@@ -186,7 +186,7 @@ fcSimulator.Evaluator.prototype =
 
             finalValue = finalValue.isPrimitive() ? finalValue.createCopy(evalAssignmentExpressionCommand.rightSide) : finalValue;
 
-            if(assignmentExpression.loc.start.line == 169)
+            if(assignmentExpression.loc.start.line == 445)
             {
                 var a = 3;
             }
@@ -297,6 +297,11 @@ fcSimulator.Evaluator.prototype =
 
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
 
+            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 433)
+            {
+                var a = 3;
+            }
+
             var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
             var identifierValue = identifier != null ? identifier.value : null;
 
@@ -390,7 +395,21 @@ fcSimulator.Evaluator.prototype =
             else if (operator == "|") { result = leftExpressionValue.value | rightExpressionValue.value; }
             else if (operator == "^") { result = leftExpressionValue.value ^ rightExpressionValue.value; }
             else if (operator == "in") { result = leftExpressionValue.value in rightExpressionValue.value; }
-            else if (operator == "instanceof") { result = leftExpressionValue.value instanceof rightExpressionValue.value; }
+            else if (operator == "instanceof")
+            {
+                var compareWith = null;
+
+                if(rightExpressionValue == this.globalObject.arrayFunction) { compareWith = Array; }
+                else if (rightExpressionValue == this.globalObject.stringFunction) { compareWith = String; }
+                else if (rightExpressionValue == this.globalObject.regExFunction) { compareWith = RegExp; }
+                else if (rightExpressionValue.value != undefined) { compareWith = rightExpressionValue.value; }
+                else
+                {
+                    this.notifyError(evalBinaryExpressionCommand, "Unhandled instanceof");
+                }
+
+                result = leftExpressionValue.value instanceof compareWith;
+            }
             else { this.notifyError(evalBinaryExpressionCommand, "Unknown operator when evaluating binary expression"); return; }
 
             this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.JsValue(result, new fcModel.FcInternal(binaryExpression)));
@@ -484,6 +503,11 @@ fcSimulator.Evaluator.prototype =
 
             var propertyValue = object != this.globalObject ? object.value[property.value]
                                                             : this.globalObject.getPropertyValue(property.value);
+
+            if(memberExpression.nodeId == 1730)
+            {
+                var a = 3;
+            }
 
             if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue))
             {
@@ -648,7 +672,24 @@ fcSimulator.Evaluator.prototype =
 
             var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
 
+            if(whereObject != null && whereObject.fcInternal.object != null)
+            {
+                var modifications = whereObject.fcInternal.object.getLastPropertyModifications(forInWhereConstruct.right);
+
+                for(var i = 0, length = modifications.length; i < length; i++)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        forInWhereConstruct.right,
+                        modifications[i].codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        modifications[i].evaluationPositionId
+                    );
+                }
+            }
+
             var currentPropertyIndex = evalForInWhereCommand.currentPropertyIndex;
+
             var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(currentPropertyIndex + 1);
 
             this.addDependenciesToTopBlockConstructs(forInWhereConstruct.left);
@@ -667,6 +708,14 @@ fcSimulator.Evaluator.prototype =
                         forInWhereConstruct.left,
                         property.declarationConstruct.codeConstruct,
                         this.globalObject.getPreciseEvaluationPositionId()
+                    );
+
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        forInWhereConstruct.left,
+                        property.lastModificationConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        property.lastModificationConstruct.evaluationPositionId
                     );
                 }
 

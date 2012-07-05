@@ -38,6 +38,25 @@ fcModel.Object.LAST_ID = 0;
 
 fcModel.Object.prototype =
 {
+    getLastPropertyModifications: function(codeConstruct)
+    {
+        var propertyNames = this._getEnumeratedPropertiesFromImplementationObject();
+
+        var lastModifications = [];
+
+        for(var i = 0, length = propertyNames.length; i < length; i++)
+        {
+            var property = this.getProperty(propertyNames[i], codeConstruct);
+
+            if(property != null && property.lastModificationConstruct != null)
+            {
+                lastModifications.push(property.lastModificationConstruct);
+            }
+        }
+
+        return lastModifications;
+    },
+
     registerGetPropertyCallback: function(callback, thisValue)
     {
         this.getPropertyCallbackDescriptor = { callback: callback, thisValue: thisValue};
@@ -217,7 +236,11 @@ fcModel.Object.prototype =
 
     getPropertyNameAtIndex: function(index, codeConstruct)
     {
-        return new fcModel.JsValue(this._getEnumeratedPropertiesFromImplementationObject()[index], new fcModel.FcInternal(codeConstruct));
+        return new fcModel.JsValue
+        (
+            this._getEnumeratedPropertiesFromImplementationObject()[index],
+            new fcModel.FcInternal(codeConstruct)
+        );
     },
 
     _getEnumeratedPropertiesFromImplementationObject: function()
