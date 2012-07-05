@@ -148,12 +148,13 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalAssignmentExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalAssignmentExpressionCommand.isEvalAssignmentExpressionCommand()) { this.notifyError(evalAssignmentExpressionCommand, "Argument is not an EvalAssignmentExpressionCommand"); return; }
 
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var operator = evalAssignmentExpressionCommand.operator;
             var finalValue = null;
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.leftSide, this.globalObject.getPreciseEvaluationPositionId());
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.rightSide, this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.leftSide, evaluationPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.rightSide, evaluationPosition);
 
             this.addDependenciesToTopBlockConstructs(assignmentExpression);
 
@@ -296,6 +297,7 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
 
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 433)
             {
@@ -317,7 +319,7 @@ fcSimulator.Evaluator.prototype =
                         (
                             identifierConstruct,
                             identifier.lastModificationConstruct.codeConstruct,
-                            this.globalObject.getPreciseEvaluationPositionId(),
+                            evaluationPosition,
                             identifier.lastModificationConstruct.evaluationPositionId
                         );
                     }
@@ -330,7 +332,7 @@ fcSimulator.Evaluator.prototype =
                        identifierConstruct,
                        ASTHelper.isVariableDeclarator(identifier.declarationConstruct.codeConstruct) ? identifier.declarationConstruct.codeConstruct.id
                                                                                                      : identifier.declarationConstruct.codeConstruct,
-                       this.globalObject.getPreciseEvaluationPositionId()
+                       evaluationPosition
                    );
                 }
 
@@ -353,9 +355,10 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalBinaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalBinaryExpressionCommand.isEvalBinaryExpressionCommand()) { this.notifyError(evalBinaryExpressionCommand, "Argument is not an EvalBinaryExpressionCommand"); return;}
 
             var binaryExpression = evalBinaryExpressionCommand.codeConstruct;
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, this.globalObject.getPreciseEvaluationPositionId());
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right, this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, evaluationPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right, evaluationPosition);
 
             var leftExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
             var rightExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
@@ -456,6 +459,7 @@ fcSimulator.Evaluator.prototype =
                 this.addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct);
 
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
                 this.executionContextStack.setExpressionValueInPreviousContext
@@ -669,6 +673,7 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalForInWhereCommand, Firecrow.Interpreter.Commands.Command) || !evalForInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(evalForInWhereCommand, "Argument has to be an eval for in where command!"); return; }
 
             var forInWhereConstruct = evalForInWhereCommand.codeConstruct;
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
 
@@ -682,7 +687,7 @@ fcSimulator.Evaluator.prototype =
                     (
                         forInWhereConstruct.right,
                         modifications[i].codeConstruct,
-                        this.globalObject.getPreciseEvaluationPositionId(),
+                        evaluationPosition,
                         modifications[i].evaluationPositionId
                     );
                 }
@@ -693,8 +698,8 @@ fcSimulator.Evaluator.prototype =
             var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(currentPropertyIndex + 1);
 
             this.addDependenciesToTopBlockConstructs(forInWhereConstruct.left);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, evaluationPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right, evaluationPosition);
 
             if(nextPropertyName.value)
             {
@@ -707,14 +712,14 @@ fcSimulator.Evaluator.prototype =
                     (
                         forInWhereConstruct.left,
                         property.declarationConstruct.codeConstruct,
-                        this.globalObject.getPreciseEvaluationPositionId()
+                        evaluationPosition
                     );
 
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         forInWhereConstruct.left,
                         property.lastModificationConstruct.codeConstruct,
-                        this.globalObject.getPreciseEvaluationPositionId(),
+                        evaluationPosition,
                         property.lastModificationConstruct.evaluationPositionId
                     );
                 }
@@ -731,8 +736,8 @@ fcSimulator.Evaluator.prototype =
 
                     this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
 
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator.id, forInWhereConstruct.right, this.globalObject.getPreciseEvaluationPositionId());
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, evaluationPosition);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator.id, forInWhereConstruct.right, evaluationPosition);
                 }
                 else { this.notifyError(evalForInWhereCommand, "Unknown forIn left statement"); }
             }
@@ -1000,13 +1005,15 @@ fcSimulator.Evaluator.prototype =
     {
         var topBlockConstructs = this.executionContextStack.getTopBlockCommandConstructs();
 
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
         for(var i = 0, length = topBlockConstructs.length; i < length; i++)
         {
             this.globalObject.browser.callControlDependencyEstablishedCallbacks
             (
                 currentConstruct,
                 topBlockConstructs[i],
-                this.globalObject.getPreciseEvaluationPositionId()
+                evaluationPosition
             );
         }
 
@@ -1016,7 +1023,7 @@ fcSimulator.Evaluator.prototype =
             (
                 currentConstruct,
                 currentConstruct.previousCondition,
-                this.globalObject.getPreciseEvaluationPositionId()
+                evaluationPosition
             );
         }
     },
