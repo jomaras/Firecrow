@@ -125,7 +125,7 @@ DependencyGraph.prototype.markGraph = function(model)
             }
             else
             {
-                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null);
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
             }
         }
 
@@ -138,7 +138,7 @@ DependencyGraph.prototype.markGraph = function(model)
 
             if(this.inculsionFinder.isIncludedElement(parent))
             {
-                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null);
+                this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
             }
         }
 
@@ -148,7 +148,7 @@ DependencyGraph.prototype.markGraph = function(model)
     catch(e) { this.notifyError("Error occurred when marking graph:" + e);}
 };
 
-DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, dependencyConstraint)
+DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, dependencyConstraint, includedByNode)
 {
     try
     {
@@ -157,11 +157,20 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
             var a = 3;
         }
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 17)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 30)
         {
             var a = 3;
-            //console.log("nodeIndex: " + codeConstruct.nodeId + " : edgeIndex" + maxDependencyIndex);
         }
+
+        if(includedByNode != null)
+        {
+            if(includedByNode.includesNodes == null) { includedByNode.includesNodes = []; }
+            includedByNode.includesNodes.push(codeConstruct);
+        }
+
+        if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
+        codeConstruct.includedByNodes.push(includedByNode);
+
         codeConstruct.shouldBeIncluded = true;
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
@@ -187,7 +196,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
                 dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
             }
 
-            this.traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow);
+            this.traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);
         }
     }
     catch(e) { this.notifyError("Error occurred when traversing and marking the graph: " + e);}

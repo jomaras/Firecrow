@@ -117,6 +117,7 @@ fcSimulator.ExecutionContextStack = function(globalObject)
         {
             this._callExceptionCallbacks(exceptionInfo);
         }, this);
+
         this.exceptionCallbacks = [];
         this.blockCommandStack = [];
     }
@@ -316,10 +317,40 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { this.notifyError("Error when getting top block constructs: " + e); }
     },
 
+    getPreviouslyExecutedBlockConstruct: function()
+    {
+        if(this.lastExecutedBlockCommand == null) { return null; }
+
+        var codeConstruct = this.lastExecutedBlockCommand.codeConstruct;
+
+        if(ASTHelper.isForStatement(codeConstruct)
+            || ASTHelper.isWhileStatement(codeConstruct)
+            || ASTHelper.isDoWhileStatement(codeConstruct)
+            || ASTHelper.isIfStatement(codeConstruct))
+        {
+            return codeConstruct.test;
+        }
+        else if(ASTHelper.isWithStatement(codeConstruct))
+        {
+            return codeConstruct.object;
+        }
+        else if(ASTHelper.isForInStatement(codeConstruct))
+        {
+            return codeConstruct.right;
+        }
+        else if (ASTHelper.isSwitchStatement(codeConstruct))
+        {
+            return codeConstruct.discriminant;
+        }
+
+        return null;
+    },
+
     _addToBlockCommandStack: function(command)
     {
         try
         {
+            this.lastExecutedBlockCommand = command;
             this.blockCommandStack.push(command);
 
             if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
@@ -356,8 +387,18 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ValueTypeHelper.isOfType(command, fcCommands.Command)) { this.notifyError("Argument must be a command when executing command"); return; }
 
-                 if (command.isEnterFunctionContextCommand()) { this._addToBlockCommandStack(command); this._enterFunctionContext(command); }
-            else if (command.isExitFunctionContextCommand()) { this._popTillEnterFunctionContextCommand(command); this._exitFunctionContext(command); }
+            if (command.isEnterFunctionContextCommand())
+            {
+                this.lastExecutedBlockCommand = null;
+                this._addToBlockCommandStack(command);
+                this._enterFunctionContext(command);
+            }
+            else if (command.isExitFunctionContextCommand())
+            {
+                this._popTillEnterFunctionContextCommand(command);
+                this._exitFunctionContext(command);
+                this.lastExecutedBlockCommand = null;
+            }
             else if (command.isStartWithStatementCommand())
             {
                 this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct.object);
@@ -626,15 +667,18 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             this.pop();
 
-            if(exitFunctionContextCommand.parentFunctionCommand.executedReturnCommand == null)
+            var callFunctionCommand = exitFunctionContextCommand.parentFunctionCommand;
+
+            //NOTICE - related to evalReturn in Evaluator
+            if(callFunctionCommand.executedReturnCommand == null)
             {
                 var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
                 evaluationPosition.isReturnDependency = true;
 
                 this.globalObject.browser.callControlDependencyEstablishedCallbacks
                 (
-                    exitFunctionContextCommand.parentFunctionCommand.codeConstruct,
-                    ASTHelper.getLastLoopOrBranchingConditionInFunctionBody(exitFunctionContextCommand.codeConstruct),
+                    callFunctionCommand.codeConstruct,
+                    this.getPreviouslyExecutedBlockConstruct(),
                     evaluationPosition
                 );
             }

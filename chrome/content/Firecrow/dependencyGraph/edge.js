@@ -23,8 +23,6 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
     if(dependencyCreationInfo == null) { return; }
 
     this.isReturnDependency = dependencyCreationInfo.isReturnDependency;
-    this.isModificationDependency = !(this.dependencyCreationInfo == this.destinationNodeDependencyConstraints);
-
 
     if(this.isReturnDependency)
     {

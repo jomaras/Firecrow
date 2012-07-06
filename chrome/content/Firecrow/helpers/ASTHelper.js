@@ -110,7 +110,9 @@ FBL.ns(function () { with (FBL) {
                         || propName == "graphNode"
                         || propName == "htmlNode"
                         || propName == "attributes"
-                        || propName == "previousCondition") { continue; }
+                        || propName == "previousCondition"
+                        || propName == "includesNodes"
+                        || propName == "includedByNodes") { continue; }
 
                     var propertyValue = astElement[propName];
 
@@ -319,6 +321,35 @@ FBL.ns(function () { with (FBL) {
             }
 
             return null;
+        },
+
+        containsCallOrUpdateOrAssignmentExpression: function(element)
+        {
+            if(element == null) { return false; }
+
+            if(element.containsCallOrUpdateOrAssignmentExpression === true
+            || element.containsCallOrUpdateOrAssignmentExpression === false)
+            {
+                return element.containsCallOrUpdateOrAssignmentExpression;
+            }
+
+            var containsCallOrUpdateOrAssignmentExpression = false;
+
+            var ASTHelper = Firecrow.ASTHelper;
+
+            this.traverseAst(element, function(currentElement)
+            {
+                if(ASTHelper.isCallExpression(currentElement)
+                || ASTHelper.isAssignmentExpression(currentElement)
+                || ASTHelper.isUpdateExpression(currentElement))
+                {
+                    containsCallOrUpdateOrAssignmentExpression = true;
+                }
+            });
+
+            element.containsCallOrUpdateOrAssignmentExpression = containsCallOrUpdateOrAssignmentExpression;
+
+            return containsCallOrUpdateOrAssignmentExpression;
         },
 
         isFunctionParameter: function(element)

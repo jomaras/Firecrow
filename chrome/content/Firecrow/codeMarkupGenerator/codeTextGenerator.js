@@ -166,8 +166,11 @@ Firecrow.CodeTextGenerator.prototype =
             {
                 var isElseIfStatement = ASTHelper.isElseIfStatement(element);
 
+                var statementCode = this.generateStatement(element);
+                if(statementCode == "") { return ""; }
+
                 return (!isElseIfStatement ? this.whitespace : "")
-                     + this.generateStatement(element)
+                     + statementCode
                      + (ASTHelper.isFunctionExpression(element.parent) ? "": this.newLine);
             }
             else if (ASTHelper.isFunction(element))
@@ -686,22 +689,36 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            var testCode = this.generateJsCode(ifStatement.test);
-            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + (testCode || "false" )  + this._RIGHT_PARENTHESIS;
-
             var ifBodyCode = this.generateJsCode(ifStatement.consequent);
+            var testCode = this.generateJsCode(ifStatement.test);
+            var elseBodyCode = "";
+            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + (testCode || "false" )  + this._RIGHT_PARENTHESIS;
 
             code += ifBodyCode.length != 0 ? this.newLine + ifBodyCode : this._SEMI_COLON + this.newLine;
 
             if(ifStatement.alternate != null)
             {
-                if(this.isSlicing && !ifStatement.alternate.shouldBeIncluded) { return code; }
+                if(this.isSlicing && !ifStatement.alternate.shouldBeIncluded)
+                {
+                    if(ifBodyCode == "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(ifStatement.test))
+                    {
+                        return "";
+                    }
 
-                var elseBodyCode = this.generateJsCode(ifStatement.alternate);
+                    return code;
+                }
 
-                elseBodyCode = elseBodyCode.length != 0 ? elseBodyCode : this._SEMI_COLON + this.newLine;
+                elseBodyCode = this.generateJsCode(ifStatement.alternate);
 
-                code += this.whitespace + this._ELSE_KEYWORD + " " + (! ASTHelper.isIfStatement(ifStatement.alternate) ? this.newLine : "") + elseBodyCode;
+                if(elseBodyCode != "")
+                {
+                    code += this.whitespace + this._ELSE_KEYWORD + " " + (! ASTHelper.isIfStatement(ifStatement.alternate) ? this.newLine : "") + elseBodyCode;
+                }
+            }
+
+            if(ifBodyCode == "" && elseBodyCode == "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(ifStatement.test))
+            {
+                return "";
             }
 
             return code;
@@ -714,8 +731,11 @@ Firecrow.CodeTextGenerator.prototype =
         try
         {
             var whileBody = this.generateJsCode(whileStatement.body);
+            var whileTest = this.generateJsCode(whileStatement.test);
 
-            return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(whileStatement.test) + this._RIGHT_PARENTHESIS
+            if(whileBody == "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(whileStatement.test)) { return ""; }
+
+            return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + whileTest  + this._RIGHT_PARENTHESIS
                 + (whileBody.length != 0 ? this.newLine + whileBody : this._SEMI_COLON);
         }
         catch(e) { this.notifyError("Error when generating code from while statement:" + e); }
@@ -726,11 +746,14 @@ Firecrow.CodeTextGenerator.prototype =
         try
         {
             var doWhileBody = this.generateJsCode(doWhileStatement.body);
+            var doWhileTest = this.generateJsCode(doWhileStatement.test);
+
+            if(doWhileBody == "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(doWhileStatement.test)) { return ""; }
 
             doWhileBody = doWhileBody.length != 0 ? doWhileBody : this._SEMI_COLON;
 
             return this._DO_KEYWORD + this.newLine + doWhileBody
-                +  this.whitespace + this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(doWhileStatement.test) + this._RIGHT_PARENTHESIS;
+                +  this.whitespace + this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + doWhileTest + this._RIGHT_PARENTHESIS;
         }
         catch(e) { this.notifyError("Error when generating code from do while statement:" + e); }
     },
@@ -741,11 +764,18 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var forBody = this.generateJsCode(forStatement.body);
             var forInit = this.generateJsCode(forStatement.init);
+            var forTest = this.generateJsCode(forStatement.test);
+            var forUpdate = this.generateJsCode(forStatement.update);
+
+            if(forBody == "" && forUpdate == "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(forTest))
+            {
+                return forInit +  this._SEMI_COLON;
+            }
 
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
                 +  forInit + this._SEMI_COLON
-                +  this.generateJsCode(forStatement.test) + this._SEMI_COLON
-                +  this.generateJsCode(forStatement.update) + this._RIGHT_PARENTHESIS
+                +  forTest + this._SEMI_COLON
+                +  forUpdate + this._RIGHT_PARENTHESIS
                 +  (forBody.length != 0 ? (this.newLine + forBody) : this._SEMI_COLON);
         }
         catch(e) { this.notifyError("Error when generating code from for statement:" + e); }
@@ -756,12 +786,16 @@ Firecrow.CodeTextGenerator.prototype =
         try
         {
             var forInBody = this.generateJsCode(forInStatement.body);
+            var leftPart = this.generateJsCode(forInStatement.left);
+            var rightPart = this.generateJsCode(forInStatement.right);
+
+            if(leftPart == "" && forInBody == "") { return ""; }
 
             forInBody = forInBody.length != 0 ? forInBody : this._SEMI_COLON;
 
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
-                +  this.generateJsCode(forInStatement.left) + " " +  this._IN_KEYWORD + " "
-                +  this.generateJsCode(forInStatement.right) + this._RIGHT_PARENTHESIS
+                +  leftPart + " " +  this._IN_KEYWORD + " "
+                +  rightPart + this._RIGHT_PARENTHESIS
                 +  this.newLine + forInBody;
         }
         catch(e) { this.notifyError("Error when generating code from for...in statement:" + e); }
