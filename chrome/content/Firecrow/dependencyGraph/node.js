@@ -53,6 +53,11 @@ FBL.ns(function() { with (FBL) {
         {
             var dependency = dependencies[i];
 
+            if(dependency.isReturnDependency && dependency.callDependencyMaxIndex <= maxIndex)
+            {
+                selectedDependencies.push(dependency);
+            }
+
             if(dependency.index > maxIndex) { continue; }
             if(!this.canFollowDependency(dependency, destinationConstraint)) { continue; }
 

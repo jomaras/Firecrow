@@ -149,7 +149,10 @@ Browser.prototype =
                                            : this._buildSubtree(element, htmlDomElement);
             }, this);
         }
-        catch(e) { alert("Error when building a subtree of an html element in DoppelBrowser.browser: " + e); }
+        catch(e)
+        {
+            alert("Error when building a subtree of an html element in DoppelBrowser.browser: " + e);
+        }
     },
 
     _createStaticHtmlNode: function(htmlModelNode)

@@ -22,6 +22,13 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
 
     if(dependencyCreationInfo == null) { return; }
 
+    this.isReturnDependency = dependencyCreationInfo.isReturnDependency;
+
+    if(this.isReturnDependency)
+    {
+        this.callDependencyMaxIndex = dependencyCreationInfo.callDependencyMaxIndex || index;
+    }
+
     /* var sourceStartLine = sourceNode.model.loc != null ? sourceNode.model.loc.start.line : sourceNode.model.parent.loc.start.line;
      var sourceCode = Firecrow.CodeTextGenerator.generateJsCode(sourceNode.model);
 

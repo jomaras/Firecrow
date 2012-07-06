@@ -203,7 +203,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject);
             }
 
-            commands.push(fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand));
+            var enterFunctionContextCommand = fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand);
+            var exitFunctionContextCommand = fcCommands.Command.createExitFunctionContextCommand(functionObject, callExpressionCommand);
+
+            commands.push(enterFunctionContextCommand);
+            callExpressionCommand.exitFunctionContextCommand = exitFunctionContextCommand;
+            exitFunctionContextCommand.callExpressionCommand = callExpressionCommand;
 
             var functionConstruct = functionObject.fcInternal.codeConstruct;
 
@@ -235,7 +240,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 false
             );
 
-            commands.push(fcCommands.Command.createExitFunctionContextCommand(functionObject, callExpressionCommand));
+            commands.push(exitFunctionContextCommand);
 
             return commands;
         }

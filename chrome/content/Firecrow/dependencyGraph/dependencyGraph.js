@@ -64,6 +64,15 @@ DependencyGraph.prototype.handleControlDependencyEstablished = function(sourceNo
     {
         if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
 
+        if(dependencyCreationInfo != null && dependencyCreationInfo.isReturnDependency)
+        {
+            var lastDependency = sourceNodeModelObject.graphNode.dataDependencies[sourceNodeModelObject.graphNode.dataDependencies.length - 1];
+            if(lastDependency != null)
+            {
+                dependencyCreationInfo.callDependencyMaxIndex = lastDependency.index;
+            }
+        }
+
         sourceNodeModelObject.graphNode.addControlDependency
         (
             targetNodeModelObject.graphNode,
@@ -166,14 +175,19 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 
             dependencyEdge.hasBeenTraversed = true;
 
-            this.traverseAndMark
-            (
-                dependencyEdge.destinationNode.model,
-                dependencyEdge.index,
-                (dependencyConstraint == null || dependencyEdge.destinationNodeDependencyConstraints.currentCommandId < dependencyConstraint.currentCommandId)
-                ?  dependencyEdge.destinationNodeDependencyConstraints
-                :  dependencyConstraint
-            )
+            var dependencyConstraintToFollow = dependencyConstraint;
+
+            if(dependencyConstraintToFollow == null){ dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints; }
+            else if(dependencyEdge.destinationNodeDependencyConstraints.currentCommandId < dependencyConstraint.currentCommandId)
+            {
+                dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
+            }
+            else if (dependencyEdge.isReturnDependency)
+            {
+                dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
+            }
+
+            this.traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow);
         }
     }
     catch(e) { this.notifyError("Error occurred when traversing and marking the graph: " + e);}

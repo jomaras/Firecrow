@@ -456,10 +456,12 @@ fcSimulator.Evaluator.prototype =
             }
             else
             {
-                this.addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct);
+                evalReturnExpressionCommand.parentFunctionCommand.executedReturnCommand = evalReturnExpressionCommand;
 
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+                var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+                evaluationPosition.isReturnDependency = true;
 
+                this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, evaluationPosition);
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
                 this.executionContextStack.setExpressionValueInPreviousContext
