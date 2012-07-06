@@ -625,6 +625,19 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             if(!ValueTypeHelper.isOfType(exitFunctionContextCommand, fcCommands.Command) || !exitFunctionContextCommand.isExitFunctionContextCommand()) { this.notifyError("Argument must be a exitFunctionContext command"); return; }
 
             this.pop();
+
+            if(exitFunctionContextCommand.parentFunctionCommand.executedReturnCommand == null)
+            {
+                var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+                evaluationPosition.isReturnDependency = true;
+
+                this.globalObject.browser.callControlDependencyEstablishedCallbacks
+                (
+                    exitFunctionContextCommand.parentFunctionCommand.codeConstruct,
+                    ASTHelper.getLastLoopOrBranchingConditionInFunctionBody(exitFunctionContextCommand.codeConstruct),
+                    evaluationPosition
+                );
+            }
         }
         catch(e) { this.notifyError("Error when exiting function context: " + e); }
     },

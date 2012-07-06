@@ -427,6 +427,7 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalReturnExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; }
 
             this.addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.codeConstruct);
+            evalReturnExpressionCommand.parentFunctionCommand.executedReturnCommand = evalReturnExpressionCommand;
 
             if(evalReturnExpressionCommand.parentFunctionCommand.isExecuteCallbackCommand())
             {
@@ -456,8 +457,6 @@ fcSimulator.Evaluator.prototype =
             }
             else
             {
-                evalReturnExpressionCommand.parentFunctionCommand.executedReturnCommand = evalReturnExpressionCommand;
-
                 var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
                 evaluationPosition.isReturnDependency = true;
 

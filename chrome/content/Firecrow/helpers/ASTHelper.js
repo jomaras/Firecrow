@@ -304,6 +304,23 @@ FBL.ns(function () { with (FBL) {
                  && element.parent.parent.left == element.parent && element.parent.parent.operator.length == 1;
         },
 
+        getLastLoopOrBranchingConditionInFunctionBody: function(element)
+        {
+            if(!this.isFunction(element)){ return null; }
+
+            var firstLevelStatements = element.body.body;
+
+            for(var i = firstLevelStatements.length - 1; i >= 0; i--)
+            {
+                var statement = firstLevelStatements[i];
+                if(this.isIfStatement(statement) || this.isLoopStatement(statement)){ return statement.test; }
+                else if (this.isWithStatement(statement)) { return statement.object; }
+                else if (this.isForInStatement(statement)) { return statement.right; }
+            }
+
+            return null;
+        },
+
         isFunctionParameter: function(element)
         {
             if(!this.isIdentifier(element)){ return false; }
