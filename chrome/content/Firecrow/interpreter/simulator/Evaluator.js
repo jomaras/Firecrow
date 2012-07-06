@@ -510,11 +510,6 @@ fcSimulator.Evaluator.prototype =
             var propertyValue = object != this.globalObject ? object.value[property.value]
                                                             : this.globalObject.getPropertyValue(property.value);
 
-            if(memberExpression.nodeId == 1730)
-            {
-                var a = 3;
-            }
-
             if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue))
             {
                 if(ValueTypeHelper.isPrimitive(propertyValue))
@@ -537,19 +532,8 @@ fcSimulator.Evaluator.prototype =
                 {
                     var fcProperty = object.fcInternal.object.getProperty(property.value, memberExpression);
 
-                    if(fcProperty != null)
+                    if(fcProperty != null && !ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
                     {
-                        if(fcProperty.declarationConstruct != null)
-                        {
-                            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                            (
-                                memberExpression.property,
-                                fcProperty.declarationConstruct.codeConstruct,
-                                this.globalObject.getPreciseEvaluationPositionId(),
-                                fcProperty.declarationConstruct.evaluationPositionId
-                            );
-                        }
-
                         if(fcProperty.lastModificationConstruct != null)
                         {
                             this.globalObject.browser.callDataDependencyEstablishedCallbacks
@@ -558,6 +542,16 @@ fcSimulator.Evaluator.prototype =
                                 fcProperty.lastModificationConstruct.codeConstruct,
                                 this.globalObject.getPreciseEvaluationPositionId(),
                                 fcProperty.lastModificationConstruct.evaluationPositionId
+                            );
+                        }
+                        else  if(fcProperty.declarationConstruct != null)
+                        {
+                            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                            (
+                                memberExpression.property,
+                                fcProperty.declarationConstruct.codeConstruct,
+                                this.globalObject.getPreciseEvaluationPositionId(),
+                                fcProperty.declarationConstruct.evaluationPositionId
                             );
                         }
                     }

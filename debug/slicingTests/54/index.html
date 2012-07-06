@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <script>
+            var a =
+            {
+                b:4,
+                calcSum: function()
+                {
+                   this.num = 0;
+
+                   if(this.b)
+                   {
+                       this.num += this.b;
+                   }
+                }
+            };
+
+            a.calcSum();
+            a1 = a.num;
+            a1;
+
+            a.b = null;
+
+            a.calcSum();
+            a2 = a.num;
+            a2;
+        </script>
+    </body>
+</html>

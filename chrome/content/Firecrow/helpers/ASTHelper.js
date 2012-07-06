@@ -291,7 +291,17 @@ FBL.ns(function () { with (FBL) {
 
         isCallExpressionCallee: function(element)
         {
+            if(element == null) { return false; }
+
             return this.isCallExpression(element.parent) && element.parent.callee == element;
+        },
+
+        isLastPropertyInLeftHandAssignment: function(element)
+        {
+            if(element == null) { return false; }
+
+            return this.isMemberExpression(element.parent) && this.isAssignmentExpression(element.parent.parent)
+                 && element.parent.parent.left == element.parent && element.parent.parent.operator.length == 1;
         },
 
         isFunctionParameter: function(element)

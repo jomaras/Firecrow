@@ -556,6 +556,13 @@ URI.ensureValidHostname = function(v) {
     }
 };
 
+p.forceBuild = function()
+{
+    this._string = URI.build(this._parts);
+
+    return this;
+}
+
 p.build = function(deferBuild) {
     if (deferBuild === true) {
         this._deferred_build = true;

@@ -152,12 +152,12 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 {
     try
     {
-        /*if(codeConstruct.nodeId == 21)
+        if(codeConstruct.nodeId == 39)
         {
             var a = 3;
-        }*/
+        }
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 20)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 17)
         {
             var a = 3;
             //console.log("nodeIndex: " + codeConstruct.nodeId + " : edgeIndex" + maxDependencyIndex);
