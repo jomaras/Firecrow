@@ -113,6 +113,7 @@ DependencyGraph.prototype.markGraph = function(model)
 {
     try
     {
+        Firecrow._NODE_CONTAINER = {};
         var importantConstructDependencyIndexMapping = this.importantConstructDependencyIndexMapping;
         var breakContinueMapping = [];
         for(var i = 0, length = importantConstructDependencyIndexMapping.length; i < length; i++)
@@ -152,15 +153,17 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 {
     try
     {
-        if(codeConstruct.nodeId == 39)
+        /*if(codeConstruct.nodeId == 39)
         {
             var a = 3;
         }
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 30)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 854)
         {
             var a = 3;
+            Firecrow._NODE_CONTAINER[codeConstruct.nodeId] = codeConstruct;
         }
+
 
         if(includedByNode != null)
         {
@@ -169,7 +172,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         }
 
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
-        codeConstruct.includedByNodes.push(includedByNode);
+        codeConstruct.includedByNodes.push(includedByNode);*/
 
         codeConstruct.shouldBeIncluded = true;
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;

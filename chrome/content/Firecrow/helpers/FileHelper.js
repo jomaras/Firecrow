@@ -186,6 +186,31 @@ Firecrow.FileHelper =
         }
         catch (e) { alert("Trying to write to:" + absoluteFilePath + " " + e); }
     },
+
+    getDirectoriesFromFolder: function(folderPath)
+    {
+        try
+        {
+            var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+            file.initWithPath(folderPath);
+
+            var entries = file.directoryEntries;
+            var directories = [];
+
+            while(entries.hasMoreElements())
+            {
+                var entry = entries.getNext();
+                entry.QueryInterface(Components.interfaces.nsIFile);
+                if(entry.isDirectory())
+                {
+                    directories.push(entry.path + "\\");
+                }
+            }
+
+            return directories;
+        }
+        catch(e) { alert("Error when getting directories from folder: " + e); }
+    },
     
     deleteFilesInFolder: function(path)
     {

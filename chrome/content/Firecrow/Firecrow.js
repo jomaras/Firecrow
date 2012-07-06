@@ -59,6 +59,97 @@ FBL.ns(function() { with (FBL) {
             catch(e) { alert("Error when pressing Profiling button:" + e);; }
         },
 
+        testSubdirectories: [],
+        currentTestIndex: -1,
+
+        onFirecrowRunTestsButtonPress: function()
+        {
+            try
+            {
+                var folderPath = prompt("Enter root test folder path(e.g.)", "C:\\GitWebStorm\\Firecrow\\tests\\sylvester\\");
+
+                this.testSubdirectories = Firecrow.FileHelper.getDirectoriesFromFolder(folderPath);
+
+                this.processNextTest();
+            }
+            catch(e) { alert("Error when running tests: " + e); }
+        },
+
+        processNextTest: function()
+        {
+            try
+            {
+                var subdirectory = this.testSubdirectories[++this.currentTestIndex];
+
+                if(subdirectory == null) { return; }
+
+                var currentPage = subdirectory + "index.html";
+                var slicedPage = subdirectory + "index-sliced.html";
+
+                this.loadUrlInHiddenIFrame(currentPage, function (model)
+                {
+                    try
+                    {
+                        var Firecrow = FBL.Firecrow;
+                        var Browser = Firecrow.DoppelBrowser.Browser;
+                        ASTHelper.setParentsChildRelationships(model);
+
+                        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
+                        var browser = new Browser();
+
+                        var slicingVars = JSON.parse(Firecrow.FileHelper.readFromFile(subdirectory + "index-results.txt"))
+                        browser.registerSlicingCriteria(slicingVars.map(function(slicingVar)
+                        {
+                            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(currentPage, -1, slicingVar.name);
+                        }));
+
+                        browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
+                        browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
+                        browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
+                        browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
+                        browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
+                        browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
+
+                        browser.buildPageFromModel(model);
+
+                        dependencyGraph.markGraph(model.htmlElement);
+                        var errors = "";
+
+                        slicingVars.forEach(function(slicingVar)
+                        {
+                            var propertyValue = browser.globalObject.getPropertyValue(slicingVar.name);
+                            var val = propertyValue.value;
+                            if(val === null) { val = "null";}
+
+                            if(val.toString() != slicingVar.value.toString())
+                            {
+                                errors += "The value of " + slicingVar.name + " differs - is " + propertyValue.value + " and should be " + slicingVar.value + ";;";
+                            }
+                        }, this);
+
+                        if(errors == "")
+                        {
+                            this.addMessageToCurrentDocument("OK - "  + subdirectory);
+                        }
+                        else
+                        {
+                            this.addMessageToCurrentDocument("ERROR - " + subdirectory + "  -> " + errors);
+                        }
+
+                        Firecrow.FileHelper.writeToFile
+                        (
+                            slicedPage,
+                            Firecrow.CodeTextGenerator.generateSlicedCode(model)
+                        );
+
+                        setTimeout(function(thisObj) { thisObj.processNextTest(); }, 500, this);
+                    }
+                    catch(e) { alert("Error when testing a page: " + e); }
+                }, this);
+            }
+            catch(e) { alert("Error when processing next test: " + e); }
+        },
+
         onFirecrowSliceButtonPress: function()
         {
             try
@@ -152,6 +243,20 @@ FBL.ns(function() { with (FBL) {
             catch(e) { alert("Error when pressing Slice button: " + e);}
         },
 
+        addMessageToCurrentDocument: function(message)
+        {
+            try
+            {
+                var document = Firecrow.fbHelper.getDocument();
+                var div = document.createElement("div");
+                div.textContent = message;
+                document.getElementsByTagName("body")[0].appendChild(div);
+
+                Firecrow.fbHelper.getWindow().scrollTo(0, document.body.scrollHeight);
+            }
+            catch(e) { alert("Error:" + e);}
+        },
+
         onFirecrowASTButtonPress: function()
 		{
             this.loadHtmlInHiddenIFrame(function(htmlJson)
@@ -239,7 +344,46 @@ FBL.ns(function() { with (FBL) {
 				this.hiddenIFrame.webNavigation.loadURI(fbHelper.getCurrentUrl(), CI.nsIWebNavigation, null, null, null);
 			}
 			catch(e) { alert("Loading html in iFrame errror: " + e); }
-		}
+		},
+
+        loadUrlInHiddenIFrame: function(url, callbackFunction, thisObject)
+        {
+            try
+            {
+                var hiddenIFrame = fbHelper.getElementByID('fdHiddenIFrame');
+
+                this.hiddenIFrame = hiddenIFrame;
+
+                this.hiddenIFrame.style.height = "0px";
+                this.hiddenIFrame.webNavigation.allowAuth = true;
+                this.hiddenIFrame.webNavigation.allowImages = false;
+                this.hiddenIFrame.webNavigation.allowJavascript = false;
+                this.hiddenIFrame.webNavigation.allowMetaRedirects = true;
+                this.hiddenIFrame.webNavigation.allowPlugins = false;
+                this.hiddenIFrame.webNavigation.allowSubframes = false;
+
+                this.hiddenIFrame.addEventListener("DOMContentLoaded", function listener(e)
+                {
+                    try
+                    {
+                        var document = e.originalTarget.wrappedJSObject;
+                        var htmlJson = htmlHelper.serializeToHtmlJSON
+                        (
+                            document,
+                            Firecrow.fbHelper.getScriptsPathsAndModels(document),
+                            Firecrow.fbHelper.getStylesPathsAndModels(document)
+                        );
+                        callbackFunction.call(thisObject, htmlJson);
+
+                        hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
+                    }
+                    catch(e) { alert("Error while serializing html code:" + e);}
+                }, true);
+
+                this.hiddenIFrame.webNavigation.loadURI(url, CI.nsIWebNavigation, null, null, null);
+            }
+            catch(e) { alert("Loading html in iFrame errror: " + e); }
+        }
 	});
 	
 	Firebug.registerModule(Firebug.FirecrowModule);

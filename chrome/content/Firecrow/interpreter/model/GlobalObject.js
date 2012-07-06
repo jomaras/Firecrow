@@ -85,7 +85,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
             {
                 var slicingCriterion = this.identifierSlicingCriteria[i];
 
-                if(slicingCriterion.fileName != codeConstruct.loc.source) { continue; }
+                //if(slicingCriterion.fileName != codeConstruct.loc.source) { continue; }
                 //TODO - uncomment this!
                 //if(slicingCriterion.lineNumber != codeConstruct.loc.start.line) { continue; }
                 if(slicingCriterion.identifierName != codeConstruct.name) { continue; }

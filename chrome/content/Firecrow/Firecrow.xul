@@ -63,6 +63,7 @@
     <command id="cmd_FirecrowProfilePress" oncommand="Firebug.FirecrowModule.onFirecrowProfilePress()"/>
     <command id="cmd_FirecrowASTButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowASTButtonPress()"/>
     <command id="cmd_FirecrowSliceButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowSliceButtonPress()"/>
+      <command id="cmd_FirecrowRunTestsButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowRunTestsButtonPress()"/>
   </commandset>
   
   
@@ -73,6 +74,7 @@
          <toolbarbutton id="profileButton" class="toolbar-text-button" label="Profile" tooltiptext="Start profiling process" command="cmd_FirecrowProfilePress"/>
          <toolbarbutton id="modelButton" class="toolbar-text-button" label="AST" tooltiptext="Get page AST model" command="cmd_FirecrowASTButtonPress"/>
          <toolbarbutton id="sliceButton" class="toolbar-text-button" label="Slice" tooltiptext="Slice page" command="cmd_FirecrowSliceButtonPress"/>
+         <toolbarbutton id="runTestsButton" class="toolbar-text-button" label="Run tests" tooltiptext="Run tests" command="cmd_FirecrowRunTestsButtonPress"/>
       </hbox>
     </hbox>
   </toolbar>

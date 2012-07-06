@@ -1015,13 +1015,13 @@ fcSimulator.Evaluator.prototype =
             }
         }
 
-        /*if(currentConstruct.previousCondition != null)
+        if(currentConstruct.previousCondition != null)
         {
             this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, currentConstruct.previousCondition, evaluationPosition);
             if(previouslyExecutedConstruct == currentConstruct.previousCondition) { hasPreviouslyAlreadyBeenIncluded = true; }
         }
 
-        if(previouslyExecutedConstruct != null && !hasPreviouslyAlreadyBeenIncluded)
+        /*if(previouslyExecutedConstruct != null && !hasPreviouslyAlreadyBeenIncluded)
         {
             this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, previouslyExecutedConstruct, evaluationPosition);
         }*/

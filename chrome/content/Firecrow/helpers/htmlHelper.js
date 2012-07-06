@@ -3,7 +3,7 @@ FBL.ns(function () { with (FBL) {
 
 Firecrow.htmlHelper =
 {
-	serializeToHtmlJSON: function(htmlDocument)
+	serializeToHtmlJSON: function(htmlDocument, scriptPathsAndModels, stylesPathsAndModels)
 	{
         try
         {
@@ -12,8 +12,8 @@ Firecrow.htmlHelper =
             var docType = this.getDocumentType(htmlDocument);
             var htmlElement = this.getHtmlElement(htmlDocument);
 
-            var scriptPathsAndModels = Firecrow.fbHelper.getScriptsPathsAndModels();
-            var stylesPathsAndModels = Firecrow.fbHelper.getStylesPathsAndModels();
+            scriptPathsAndModels = scriptPathsAndModels || Firecrow.fbHelper.getScriptsPathsAndModels();
+            stylesPathsAndModels = stylesPathsAndModels || Firecrow.fbHelper.getStylesPathsAndModels();
 
             this._lastUsedId = 0;
 

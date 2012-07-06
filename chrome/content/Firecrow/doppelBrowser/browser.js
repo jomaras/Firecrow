@@ -91,7 +91,7 @@ Browser.prototype =
         try
         {
             this._buildSubtree(htmlModel.htmlElement, null);
-            callback();
+            if(callback){ callback();}
         }
         catch(e) { alert("Exception when building page from model: " + e); }
 

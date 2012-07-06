@@ -350,7 +350,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            this.lastExecutedBlockCommand = command;
+            this.lastExecutedBlockCommand = command.isLoopStatementCommand() || command.isIfStatementCommand() ? command : null;
+
             this.blockCommandStack.push(command);
 
             if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
@@ -365,7 +366,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            this.globalObject.evaluationPositionId = "root";;
+            this.globalObject.evaluationPositionId = "root";
 
             var blockCommandStack = this.blockCommandStack;
 

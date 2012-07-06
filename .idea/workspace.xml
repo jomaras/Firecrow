@@ -5,20 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/99/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/99/sylvester.src.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/edge.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/edge.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/37/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/37/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/39/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/39/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/43/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/43/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/47/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/47/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/test.html" afterPath="$PROJECT_DIR$/playground/test.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,64 +71,93 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="slicingModelMapping.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+      <file leaf-file-name="Firecrow.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="511" column="58" selection-start="702800" selection-end="702800" vertical-scroll-proportion="0.41618496">
+            <state line="152" column="17" selection-start="6001" selection-end="6001" vertical-scroll-proportion="0.64111924">
+              <folding>
+                <element signature="e#6039#11025#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slicingCriterion.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/slicingCriterion.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="62" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingTests/47/index.html">
+      <file leaf-file-name="Evaluator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="338" column="53" selection-start="18913" selection-end="18913" vertical-scroll-proportion="-19.44">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingTests/39/index.html">
+      <file leaf-file-name="GlobalObject.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="57" selection-start="257" selection-end="257" vertical-scroll-proportion="-2.3461537">
+            <state line="60" column="23" selection-start="2670" selection-end="2670" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingTests/36/index.html">
+      <file leaf-file-name="fbHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="32" selection-start="0" selection-end="296" vertical-scroll-proportion="-7.8461537">
+            <state line="114" column="65" selection-start="2953" selection-end="2953" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingTests/37/index.html">
+      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="7" selection-start="296" selection-end="296" vertical-scroll-proportion="-9.807693">
+            <state line="22" column="8" selection-start="670" selection-end="670" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugSlicing.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+      <file leaf-file-name="initFBL.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="39" selection-start="4552" selection-end="4552" vertical-scroll-proportion="-5.230769">
+            <state line="15" column="46" selection-start="373" selection-end="373" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingTests/43/index.html">
+      <file leaf-file-name="htmlHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="25" column="49" selection-start="940" selection-end="963" vertical-scroll-proportion="-16.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="browser.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="110" column="73" selection-start="3870" selection-end="3870" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Firecrow.xul" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="65" column="92" selection-start="4870" selection-end="4899" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -145,30 +176,30 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/slicingTests/54/index.html" />
-        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/14-mutatingDomain/index-sliced.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/23-normalizePort/index-sliced.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/edge.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/playground/test.html" />
-        <option value="$PROJECT_DIR$/tests/medialize/tests/cases/25-normalizeQuery/index.html" />
-        <option value="$PROJECT_DIR$/tests/sylvester/02-LineSegment-eql/index.html" />
         <option value="$PROJECT_DIR$/debug/slicingTests/37/index.html" />
-        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
+        <option value="$PROJECT_DIR$/tests/sylvester/02-LineSegment-eql/index-sliced.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
         <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
+        <option value="$PROJECT_DIR$/debug/slicingTests/99/index.html" />
+        <option value="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1358" />
-    <option name="y" value="-140" />
-    <option name="width" value="1696" />
-    <option name="height" value="1066" />
+    <option name="y" value="-264" />
+    <option name="width" value="1296" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -248,7 +279,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="playground" />
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sylvester" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sylvester" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="05-LineSegment-toVector" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -276,11 +333,41 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
+              <option name="myItemId" value="chrome" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="slicingTests" />
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -302,25 +389,25 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="240" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="910" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="914" />
     <property name="DefaultHtmlFileTemplate" value="Html" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="914" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="910" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="235" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="234" />
     <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="234" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\99" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\47" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\43" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\39" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\37-fake" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\54" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\debug\gauss\tests" />
@@ -883,7 +970,11 @@
       <created>1341572654594</created>
       <updated>1341572654594</updated>
     </task>
-    <option name="localTasksCounter" value="121" />
+    <task id="LOCAL-00121" summary="CodeTextGenerator does not generate empty if, while, forIn statements..&#10;Removed complex tests from slicing (replaced them with copies of existing ones)">
+      <created>1341588942156</created>
+      <updated>1341588942156</updated>
+    </task>
+    <option name="localTasksCounter" value="122" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -907,24 +998,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
+    <frame x="1358" y="-264" width="1296" height="1040" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4183223" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12286325" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15872058" sideWeight="0.42384106" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2585521" sideWeight="0.42384106" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56390977" sideWeight="0.4202381" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.57615894" sideWeight="0.57559526" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57615894" sideWeight="0.57559526" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30573952" sideWeight="0.48630953" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33002207" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.6474359" order="3" side_tool="false" content_ui="combo" />
@@ -968,7 +1059,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug with creating a dependency to with statement object" />
+    <option name="LAST_COMMIT_MESSAGE" value="CodeTextGenerator does not generate empty if, while, forIn statements..&#10;Removed complex tests from slicing (replaced them with copies of existing ones)" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -981,7 +1072,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Firecrow plugin slicing integration" />
     <MESSAGE value="Backup before refactoring array and string callback commands to one thing" />
     <MESSAGE value="All tests working - added dependencies towards callback function evaluation, both in strings and in arrays" />
     <MESSAGE value="Fixed an error in unshift array method" />
@@ -1006,6 +1096,7 @@
     <MESSAGE value="In order to be able to create a link between the call expression and its return expression i had to change the algorithm a bit. I decided to add a flag to the dependencyInfo which signalizes that this is that type of dependency. Then when creating the dependency i check the last dependency of the callExpression and remember its index. Then in the getting dependency phase when i run into this dependency i allow it if that remember index is less then max index" />
     <MESSAGE value="When reading a member expression, if it is on the left hand side of the assignment expression and is not += -=... don't create dependencies towards declaration and last modification position.&#10;&#10;When reading member expression if there exists a last modification statemen, don't create a dependency towards the declaration statement" />
     <MESSAGE value="Fixed a bug with creating a dependency to with statement object" />
+    <MESSAGE value="CodeTextGenerator does not generate empty if, while, forIn statements..&#10;Removed complex tests from slicing (replaced them with copies of existing ones)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1017,115 +1108,107 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/44/index.html">
+    <entry file="file://$PROJECT_DIR$/tests/sylvester/02-LineSegment-eql/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="34" selection-start="152" selection-end="152" vertical-scroll-proportion="0.23859648">
-          <folding />
-        </state>
+        <state line="58" column="48" selection-start="1441" selection-end="1441" vertical-scroll-proportion="5.0384617" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/45/index.html">
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/99/sylvester.src.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="175" column="48" selection-start="3717" selection-end="3717" vertical-scroll-proportion="-11.24" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="163" column="70" selection-start="5760" selection-end="5760" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="387" column="80" selection-start="14234" selection-end="14234" vertical-scroll-proportion="-3.76" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.xul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="92" selection-start="4870" selection-end="4899" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/sylvester/05-LineSegment-toVector/index-results.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/46/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="25" column="49" selection-start="940" selection-end="963" vertical-scroll-proportion="-16.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/48/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="110" column="73" selection-start="3870" selection-end="3870" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/49/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="15" column="46" selection-start="373" selection-end="373" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/50/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="22" column="8" selection-start="670" selection-end="670" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/51/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="114" column="65" selection-start="2953" selection-end="2953" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/52/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="7" column="12" selection-start="134" selection-end="146" vertical-scroll-proportion="0.14133017">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/53/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/slicingCriterion.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="14" column="62" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/36/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="32" selection-start="0" selection-end="296" vertical-scroll-proportion="-7.8461537">
+        <state line="338" column="53" selection-start="18913" selection-end="18913" vertical-scroll-proportion="-19.44">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/37/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="7" selection-start="296" selection-end="296" vertical-scroll-proportion="-9.807693">
+        <state line="60" column="23" selection-start="2670" selection-end="2670" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/39/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="57" selection-start="257" selection-end="257" vertical-scroll-proportion="-2.3461537">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="39" selection-start="4552" selection-end="4552" vertical-scroll-proportion="-5.230769">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/43/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/47/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="511" column="58" selection-start="702800" selection-end="702800" vertical-scroll-proportion="0.41618496">
-          <folding />
+        <state line="152" column="17" selection-start="6001" selection-end="6001" vertical-scroll-proportion="0.64111924">
+          <folding>
+            <element signature="e#6039#11025#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
