@@ -501,7 +501,7 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 1143)
+            if(memberExpression.loc.start.line == 21)
             {
                 var a = 3;
             }
@@ -661,8 +661,7 @@ fcSimulator.Evaluator.prototype =
 
             var expressionItemValue = this.executionContextStack.getExpressionValue(arrayItemCreationCommand.codeConstruct);
 
-            array.value.push(expressionItemValue);
-            array.fcInternal.object.push(expressionItemValue, arrayItemCreationCommand.codeConstruct);
+            array.fcInternal.object.push(array.value, expressionItemValue, arrayItemCreationCommand.codeConstruct);
         }
         catch(e) { this.notifyError(arrayItemCreationCommand, "Error when evaluating array expression item creation: " + e); }
     },

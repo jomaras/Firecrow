@@ -26,7 +26,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
         if(codeConstruct != null) { this.modifications.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});}
 
-        this.jsArray.forEach(function(item) { this.push(item, codeConstruct);}, this);
+        this.jsArray.forEach(function(item) { this.push(jsArray, item, codeConstruct, false);}, this);
 
         //For RegEx result arrays
         if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", new fcModel.JsValue(this.jsArray.index, new fcModel.FcInternal(codeConstruct)), codeConstruct); }
@@ -66,19 +66,40 @@ fcModel.ArrayProto =
         catch(e) { alert("Array - Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source); }
     },
 
-    push: function(item, codeConstruct)
+    push: function(jsArray, arguments, codeConstruct, dontFillJsArray)
     {
         try
         {
             this.addDependenciesToAllProperties(codeConstruct);
-            this.items.push(item);
-            this.addProperty(this.items.length - 1, item, codeConstruct);
-            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
+
+            if(ValueTypeHelper.isArray(arguments))
+            {
+                arguments.forEach(function(argument)
+                {
+                    this.items.push(argument);
+                    if(dontFillJsArray !== false) { jsArray.push(argument); }
+                    this.addProperty(this.items.length - 1, argument, codeConstruct);
+                }, this);
+            }
+            else
+            {
+                this.items.push(arguments);
+                if(dontFillJsArray !== false) { jsArray.push(arguments); }
+                this.addProperty(this.items.length - 1, arguments, codeConstruct);
+            }
+
+            var lengthValue = new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct));
+            this.addProperty("length", lengthValue, codeConstruct, false);
+
+            return lengthValue;
         }
-        catch(e) { this.notifyError("Error when pushing item: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when pushing item: " + e);
+        }
     },
 
-    pop: function(codeConstruct)
+    pop: function(jsArray, arguments, codeConstruct)
     {
         try
         {
@@ -86,6 +107,7 @@ fcModel.ArrayProto =
             this.deleteProperty(this.items.length - 1, codeConstruct);
 
             var poppedItem = this.items.pop();
+            jsArray.pop();
 
             this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
 
@@ -94,36 +116,42 @@ fcModel.ArrayProto =
         catch(e) { alert("Array - error when popping item: " + e); }
     },
 
-    reverse: function(codeConstruct)
+    reverse: function(jsArray, arguments, codeConstruct)
     {
         try
         {
             this.addDependenciesToAllProperties(codeConstruct);
             this.items.reverse();
+            jsArray.reverse()
 
             for(var i = 0; i < this.items.length; i++)
             {
                 this.addProperty(i, this.items[i], codeConstruct);
             }
+
+            return jsArray;
         }
         catch(e) { alert("Array - error when reversing the array: " + e); }
     },
 
-    shift: function(codeConstruct)
+    shift: function(jsArray, arguments, codeConstruct)
     {
         try
         {
             this.addDependenciesToAllProperties(codeConstruct);
             this.deleteProperty(this.items.length - 1, codeConstruct);
 
-            this.items.shift();
+            var shiftedItem = this.items.shift();
+            jsArray.shift();
 
             for(var i = 0; i < this.items.length; i++)
             {
                 this.addProperty(i, this.items[i], codeConstruct);
             }
 
-            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
+            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
+
+            return shiftedItem;
         }
         catch(e) { alert("Array - error when shifting items in array: " + e); }
     },
@@ -146,11 +174,40 @@ fcModel.ArrayProto =
                 this.addProperty(i, this.items[i], callExpression);
             }
 
-            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(callExpression)),callExpression, false);
+            var lengthValue =  new fcModel.JsValue(this.items.length, new fcModel.FcInternal(callExpression));
 
-            return new fcModel.JsValue(this.items.length, new fcModel.FcInternal(callExpression));
+            this.addProperty("length", lengthValue, callExpression, false);
+
+            return lengthValue;
         }
         catch(e) { alert("Array - error when unshifting items in array: " + e); }
+    },
+
+    sort: function(jsArray, arguments, codeConstruct)
+    {
+        this.addDependenciesToAllProperties(codeConstruct);
+
+        for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
+
+        if(arguments.length > 0) { alert("Still not handling parametrized sort"); }
+
+        var sortFunction = function(a, b)
+        {
+            //just sort lexicographically
+            if(a.value == b.value) { return 0;}
+
+            return a.value < b.value ? -1 : 1;
+        };
+
+        this.items.sort(sortFunction);
+        jsArray.sort(sortFunction);
+
+        for(var i = 0; i < this.items.length; i++)
+        {
+            this.addProperty(i, this.items[i], codeConstruct);
+        }
+
+        return jsArray;
     },
 
     splice: function(jsArray, arguments, codeConstruct)
@@ -161,12 +218,18 @@ fcModel.ArrayProto =
 
             for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
-            var argumentValues =  arguments.map(function(item) { return item.value; });
+            var argumentValues = [];
+
+            for(i = 0; i < arguments.length; i++)
+            {
+                if(i <= 1) { argumentValues.push(arguments[i].value);}
+                else { argumentValues.push(arguments[i]); }
+            }
 
             var splicedItems = this.items.splice.apply(this.items, argumentValues);
             jsArray.splice.apply(jsArray, argumentValues);
 
-            for(var i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
+            for(i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
 
             this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
 
@@ -184,8 +247,7 @@ fcModel.ArrayProto =
 
             jsArray.forEach(function(item)
             {
-                newArray.fcInternal.object.push(item, callExpression);
-                newArray.value.push(item);
+                newArray.fcInternal.object.push(newArray.value, item, callExpression);
             });
 
             for(var i = 0; i < callArguments.length; i++)
@@ -198,14 +260,12 @@ fcModel.ArrayProto =
                     for(var j = 0; j < argument.value.length; j++)
                     {
                         var item = argument.value[j];
-                        newArray.fcInternal.object.push(item, callExpression);
-                        newArray.value.push(item);
+                        newArray.fcInternal.object.push(newArray.value, item, callExpression);
                     }
                 }
                 else
                 {
-                    newArray.fcInternal.object.push(argument, callExpression);
-                    newArray.value.push(argument);
+                    newArray.fcInternal.object.push(newArray.value, argument, callExpression);
                 }
             }
             return newArray;
@@ -324,7 +384,7 @@ fcModel.ArrayPrototype.CONST =
     INTERNAL_PROPERTIES :
     {
         METHODS: ["pop","push","reverse","shift","sort","splice","unshift","concat","join","slice","indexOf","lastIndexOf","filter","forEach","every","map","some","reduce","reduceRight", "toString"],
-        CALLBACK_METHODS: ["sort", "filter", "forEach", "every", "map", "some", "reduce", "reduceRight"]
+        CALLBACK_METHODS: ["filter", "forEach", "every", "map", "some", "reduce", "reduceRight"]
     }
 };
 
@@ -362,16 +422,14 @@ fcModel.ArrayCallbackEvaluator =
 
                 if(returnValue != null && returnValue.value)
                 {
-                    targetObject.fcInternal.object.push(callbackCommand.arguments[0], returnExpression.argument);
-                    targetObjectValue.push(callbackCommand.arguments[0]);
+                    targetObject.fcInternal.object.push(targetObjectValue, [callbackCommand.arguments[0]], returnExpression.argument);
                 }
             }
             else if(callbackFunctionValue.name == "map")
             {
                 if(!ValueTypeHelper.isArray(targetObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
 
-                targetObject.fcInternal.object.push(returnValue, returnExpression.argument);
-                targetObjectValue.push(returnValue);
+                targetObject.fcInternal.object.push(targetObjectValue, [returnValue], returnExpression.argument);
             }
             else if(callbackFunctionValue.name == "forEach") { }
             else if(callbackFunctionValue.name == "sort") { this.notifyError("Still not handling evaluate return from sort!"); return; }
@@ -415,11 +473,7 @@ fcModel.ArrayExecutor =
                 case "pop":
                 case "reverse":
                 case "shift":
-                    fcThisValue[functionName].apply(fcThisValue, [callExpression]);
-                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
                 case "push":
-                    arguments.forEach(function(argument){fcThisValue.push(argument, callExpression);});
-                    return thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
                 case "concat":
                 case "slice":
                 case "indexOf":
@@ -427,7 +481,7 @@ fcModel.ArrayExecutor =
                 case "unshift":
                 case "splice":
                 case "join":
-                    thisObjectValue[functionObjectValue.name].apply(thisObjectValue, arguments);
+                case "sort":
                     return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression]);
                 case "forEach":
                 case "filter":
@@ -440,13 +494,7 @@ fcModel.ArrayExecutor =
 
                     for(var i = 0, length = thisObjectValue.length; i < length; i++)
                     {
-                        var callbackArguments = [];
-
-                        callbackArguments.push(thisObject.value[i]);
-                        callbackArguments.push(new fcModel.JsValue(i, new fcModel.FcInternal(callbackParams[i])));
-                        callbackArguments.push(thisObject);
-
-                        allCallbackArguments.push(callbackArguments);
+                        allCallbackArguments.push([thisObject.value[i], new fcModel.JsValue(i, new fcModel.FcInternal(callbackParams[i])), thisObject]);
                     }
 
                     callCommand.generatesNewCommands = true;

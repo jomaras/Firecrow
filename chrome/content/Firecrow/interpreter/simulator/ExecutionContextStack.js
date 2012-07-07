@@ -600,7 +600,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 return identifier
             }, this);
         }
-        catch(e) { this.notifyError("Error when getting formal function parameters: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when getting formal function parameters: " + e);
+        }
     },
 
     _getSentArgumentValues: function(callExpressionCommand)
