@@ -302,9 +302,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(argumentGroups == null) { return commands; }
 
+            callbackCommand.intermediateResults = [];
+
             for(var i = 0, length = argumentGroups.length; i < length; i++)
             {
                 var executeCallbackCommand = fcCommands.Command.createExecuteCallbackCommand(callbackCommand, argumentGroups[i]);
+                executeCallbackCommand.parentInitCallbackCommand = callbackCommand;
 
                 commands.push(executeCallbackCommand);
 
@@ -317,9 +320,16 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     callbackCommand
                 );
 
+                evalCallbackCommand.parentInitCallbackCommand = callbackCommand;
                 evalCallbackCommand.thisObject = executeCallbackCommand.thisObject;
                 evalCallbackCommand.originatingObject = executeCallbackCommand.originatingObject;
                 evalCallbackCommand.targetObject = executeCallbackCommand.targetObject;
+
+                if(i == length - 1)
+                {
+                    evalCallbackCommand.isLastCallbackCommand = true;
+                    executeCallbackCommand.isLastCallbackCommand = true;
+                }
 
                 commands.push(evalCallbackCommand);
             }

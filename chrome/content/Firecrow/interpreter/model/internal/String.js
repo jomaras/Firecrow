@@ -81,7 +81,18 @@ fcModel.StringExecutor =
 
             if(callbackFunctionValue.name == "replace")
             {
-                targetObject.value = targetObjectValue.replace(callbackArguments[0].value, returnValue.value);
+                callbackCommand.parentInitCallbackCommand.intermediateResults.push(returnValue);
+
+                if(callbackCommand.isLastCallbackCommand)
+                {
+                    var index = 0;
+                    var resultMapping = callbackCommand.parentInitCallbackCommand.intermediateResults;
+
+                    targetObject.value = targetObjectValue.replace(targetObject.replacedValue, function()
+                    {
+                        return resultMapping[index++].value;
+                    });
+                }
 
                 globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
