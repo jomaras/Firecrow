@@ -138,6 +138,7 @@ fcModel.ArrayProto =
             for(var i = callArguments.length - 1; i >= 0; i--)
             {
                 this.items.unshift(callArguments[i]);
+                jsArray.unshift(callArguments[i]);
             }
 
             for(var i = 0; i < this.items.length; i++)
@@ -160,7 +161,10 @@ fcModel.ArrayProto =
 
             for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
-            var splicedItems = this.items.splice.apply(this.items, arguments.map(function(item) { return item.value; }));
+            var argumentValues =  arguments.map(function(item) { return item.value; });
+
+            var splicedItems = this.items.splice.apply(this.items, argumentValues);
+            jsArray.splice.apply(jsArray, argumentValues);
 
             for(var i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
 

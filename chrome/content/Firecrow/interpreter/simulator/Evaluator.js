@@ -299,7 +299,7 @@ fcSimulator.Evaluator.prototype =
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 433)
+            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 74)
             {
                 var a = 3;
             }
@@ -500,6 +500,11 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalMemberExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { this.notifyError(evalMemberExpressionCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
+
+            if(memberExpression.loc.start.line == 1143)
+            {
+                var a = 3;
+            }
 
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
