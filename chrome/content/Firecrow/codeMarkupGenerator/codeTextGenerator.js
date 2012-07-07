@@ -1031,7 +1031,10 @@ Firecrow.CodeTextGenerator.prototype =
         try
         {
             if(valueTypeHelper.isNull(literal.value)) { return "null"; }
-            if (valueTypeHelper.isString(literal.value)) { return "\"" + literal.value + "\""; }
+            if (valueTypeHelper.isString(literal.value))
+            {
+                return "'" + literal.value.replace(/\n/g, "\\n").replace(/'/g, "\\'") + "'";
+            }
             else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
             else if(valueTypeHelper.isObject(literal.value))
             {
