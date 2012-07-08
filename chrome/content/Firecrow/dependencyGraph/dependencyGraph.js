@@ -154,17 +154,10 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 {
     try
     {
-        /*if(codeConstruct.nodeId == 39)
+        if(codeConstruct.nodeId == 39)
         {
             var a = 3;
         }
-
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 854)
-        {
-            var a = 3;
-            Firecrow._NODE_CONTAINER[codeConstruct.nodeId] = codeConstruct;
-        }
-
 
         if(includedByNode != null)
         {
@@ -173,7 +166,20 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         }
 
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
-        codeConstruct.includedByNodes.push(includedByNode);*/
+        codeConstruct.includedByNodes.push(includedByNode);
+
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 24)
+        {
+            if(codeConstruct.nodeId == 73 || codeConstruct.nodeId == 75)
+            {
+                if(Firecrow.nodesToStudy == null) { Firecrow.nodesToStudy = {}; }
+                Firecrow.nodesToStudy[maxDependencyIndex] = codeConstruct;
+
+                return;
+            }
+
+            var a = 3;
+        }
 
         codeConstruct.shouldBeIncluded = true;
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
