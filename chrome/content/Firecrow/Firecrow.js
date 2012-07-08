@@ -16,7 +16,10 @@ FBL.ns(function() { with (FBL) {
 		jsRecorder: null,
 		persistedState: {},
 		
-		initialize: function() {},
+		initialize: function()
+        {
+            Firecrow.IsDebugMode = false;
+        },
 		
 		initContext: function(context, persistedState)
 		{
@@ -113,7 +116,7 @@ FBL.ns(function() { with (FBL) {
                         browser.buildPageFromModel(model);
 
                         dependencyGraph.markGraph(model.htmlElement);
-                        var errors = "";
+                        var errors = browser.errorMessages.join("<br/>");
 
                         slicingVars.forEach(function(slicingVar)
                         {
@@ -136,11 +139,9 @@ FBL.ns(function() { with (FBL) {
                             this.addMessageToCurrentDocument("ERROR - " + subdirectory + "  -> " + errors);
                         }
 
-                        Firecrow.FileHelper.writeToFile
-                        (
-                            slicedPage,
-                            Firecrow.CodeTextGenerator.generateSlicedCode(model)
-                        );
+                        this.addMessageToCurrentDocument("********************************************************");
+
+                        Firecrow.FileHelper.writeToFile(slicedPage, Firecrow.CodeTextGenerator.generateSlicedCode(model));
 
                         setTimeout(function(thisObj) { thisObj.processNextTest(); }, 500, this);
                     }
@@ -249,7 +250,11 @@ FBL.ns(function() { with (FBL) {
             {
                 var document = Firecrow.fbHelper.getDocument();
                 var div = document.createElement("div");
-                div.textContent = message;
+
+                if(message.indexOf("OK") == 0) { div.style.color = "green"; }
+                else if(message.indexOf("ERROR") == 0){ div.style.color = "red"; }
+
+                div.innerHTML = message;
                 document.getElementsByTagName("body")[0].appendChild(div);
 
                 Firecrow.fbHelper.getWindow().scrollTo(0, document.body.scrollHeight);
