@@ -433,7 +433,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isCaseCommand()) {}
             else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
             else if (command.isEvalNewExpressionCommand()){ this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
-            else if (command.isStartLogicalExpressionCommand() || command.isEndLogicalExpressionCommand()) {}
+            else if (command.isStartLogicalExpressionCommand()) {}
             else if (command.isCallInternalConstructorCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isCallCallbackMethodCommand()) {}
             else if (command.isEvalCallExpressionCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }

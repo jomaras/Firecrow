@@ -1404,7 +1404,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             startLogicalExpressionCommand.evalRightCommand = evalRight;
 
             var endLogicalExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EndEvalLogicalExpression, parentFunctionCommand);
+
+            evalLeft.parentEndLogicalExpressionCommand = endLogicalExpressionCommand;
+            evalRight.parentEndLogicalExpressionCommand = endLogicalExpressionCommand;
+
             endLogicalExpressionCommand.startCommand = startLogicalExpressionCommand;
+            endLogicalExpressionCommand.executedLogicalItemExpressionCommands = [];
 
             commands.push(endLogicalExpressionCommand);
         }

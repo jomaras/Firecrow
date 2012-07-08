@@ -246,9 +246,9 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 {
                     var command = this.commands[i];
 
-                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
-
                     if(command.isEndLogicalExpressionCommand() && command.startCommand == parentCommand) { break;}
+
+                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
                 }
             }
         }

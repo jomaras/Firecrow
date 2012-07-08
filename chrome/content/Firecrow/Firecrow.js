@@ -7,7 +7,6 @@ FBL.ns(function() { with (FBL) {
 	var fbHelper = Firecrow.fbHelper;
 	var htmlHelper = Firecrow.htmlHelper;
 	var JsRecorder = Firecrow.JsRecorder;
-	var javaInvoker = Firecrow.JavaInvoker;
     var CommandGenerator = Firecrow.CommandGenerator;
     var ASTHelper = Firecrow.ASTHelper;
 	

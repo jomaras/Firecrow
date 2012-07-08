@@ -58,6 +58,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isCallInternalFunctionCommand()) { this._evaluateCallInternalFunction(command); }
             else if (command.isEvalCallbackFunctionCommand()) { this._evaluateCallbackFunctionCommand(command); }
             else if (command.isEvalSequenceExpressionCommand()) { this._evaluateSequenceExpression(command); }
+            else if (command.isEndLogicalExpressionCommand()) { this._evaluateEndLogicalExpressionCommand(command); }
             else
             {
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
@@ -809,9 +810,9 @@ fcSimulator.Evaluator.prototype =
             var wholeLogicalExpression = parentExpressionCommand.codeConstruct;
             var logicalExpressionItem = evaluateLogicalExpressionItemCommand.codeConstruct;
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(wholeLogicalExpression, logicalExpressionItem, this.globalObject.getPreciseEvaluationPositionId());
+            evaluateLogicalExpressionItemCommand.parentEndLogicalExpressionCommand.executedLogicalItemExpressionCommands.push(evaluateLogicalExpressionItemCommand);
 
-            var value = this.executionContextStack.getExpressionValue(evaluateLogicalExpressionItemCommand.codeConstruct);
+            var value = this.executionContextStack.getExpressionValue(logicalExpressionItem);
 
             if(value == null) { this._callExceptionCallbacks(); return; }
 
@@ -846,11 +847,41 @@ fcSimulator.Evaluator.prototype =
                     finalExpressionValue = result === leftValue.value ? leftValue : rightValue;
                 }
 
+                if(wholeLogicalExpression.operator == "&&")
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        wholeLogicalExpression.right,
+                        wholeLogicalExpression.left,
+                        this.globalObject.getPreciseEvaluationPositionId()
+                    );
+                }
+
                 this.executionContextStack.setExpressionValue(wholeLogicalExpression, finalExpressionValue);
             }
             else { this.notifyError(evaluateLogicalExpressionItemCommand, "The expression item is neither left nor right expression"); return; }
         }
         catch(e) { this.notifyError(evaluateLogicalExpressionItemCommand, "Error when evaluating logical expression item command: " + e); }
+    },
+
+    _evaluateEndLogicalExpressionCommand: function(evaluateEndLogicalExpressionCommand)
+    {
+        try
+        {
+            var logicalExpression = evaluateEndLogicalExpressionCommand.codeConstruct;
+            var executedItemsCommands = evaluateEndLogicalExpressionCommand.executedLogicalItemExpressionCommands;
+
+            for(var i = 0, length = executedItemsCommands.length; i < length; i++)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    logicalExpression,
+                    executedItemsCommands[i].codeConstruct,
+                    this.globalObject.getPreciseEvaluationPositionId()
+                );
+            }
+        }
+        catch(e) { this.notifyError(evaluateEndLogicalExpressionCommand, "Error when evaluating end logical expression item command: " + e); }
     },
 
     _evaluateUnaryExpression: function(evaluateUnaryExpressionCommand)
