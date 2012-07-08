@@ -60,6 +60,11 @@ Firecrow.CodeTextGenerator.generateJsCode = function(model)
     return codeGenerator.generateJsCode(model);
 };
 
+Firecrow.CodeTextGenerator.notifyError = function(message)
+{
+    alert("CodeTextGenerator - " + message);
+};
+
 Firecrow.CodeTextGenerator.prototype =
 {
     generateCode: function(model)
@@ -200,7 +205,7 @@ Firecrow.CodeTextGenerator.prototype =
                 this.notifyError("Error while generating code unidentified ast element: "); return "";
             }
         }
-        catch(e) { alert("Error while generating code: " + e); }
+        catch(e) { this.notifyError("Error while generating code: " + e); }
     },
 
     generateProgram: function(programElement)
@@ -296,7 +301,7 @@ Firecrow.CodeTextGenerator.prototype =
                  +  this.newLine + functionBodyCode
                  +  (shouldBeInParentheses ? this._RIGHT_PARENTHESIS : "");
         }
-        catch(e) { alert("Error when generating code from a function:" + e); }
+        catch(e) { this.notifyError("Error when generating code from a function:" + e); }
     },
 
     generateFunctionParameters: function(functionDecExp)
@@ -991,7 +996,7 @@ Firecrow.CodeTextGenerator.prototype =
 
             return this.generateFromPattern(variableDeclarator.id) + initCode;
         }
-        catch(e) { alert("Error when generating code from variableDeclarator - CodeMarkupGenerator:" + e);}
+        catch(e) { this.notifyError("Error when generating code from variableDeclarator - CodeMarkupGenerator:" + e);}
     },
 
     generateFromPattern: function(pattern)
@@ -1138,7 +1143,7 @@ Firecrow.CodeTextGenerator.prototype =
     indent: function() { this.whitespace += "  "; },
     deIndent: function()  { this.whitespace = this.whitespace.replace(/\s\s$/, "");},
 
-    notifyError: function(message) { alert("Error when generating code text: " + message); },
+    notifyError: function(message) { Firecrow.CodeTextGenerator.notifyError(message); },
 
     _LEFT_GULL_WING:  "{",
     _RIGHT_GULL_WING: "}",

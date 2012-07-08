@@ -39,8 +39,10 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
            this.addDependenciesToAllProperties(getPropertyConstruct);
         }, this);
     }
-    catch(e) { alert("Array - error when creating array object: " + e + codeConstruct.loc.source); }
+    catch(e) { this.notifyError("Error when creating array object: " + e + codeConstruct.loc.source); }
 };
+
+Firecrow.Interpreter.Model.Array.notifyError = function(message) { alert("Array - " + message); }
 
 fcModel.ArrayProto =
 {
@@ -63,7 +65,7 @@ fcModel.ArrayProto =
                 );
             }
         }
-        catch(e) { alert("Array - Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source); }
+        catch(e) { this.notifyError("Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source); }
     },
 
     push: function(jsArray, arguments, codeConstruct, dontFillJsArray)
@@ -113,7 +115,7 @@ fcModel.ArrayProto =
 
             return poppedItem;
         }
-        catch(e) { alert("Array - error when popping item: " + e); }
+        catch(e) { this.notifyError("Error when popping item: " + e); }
     },
 
     reverse: function(jsArray, arguments, codeConstruct)
@@ -131,7 +133,7 @@ fcModel.ArrayProto =
 
             return jsArray;
         }
-        catch(e) { alert("Array - error when reversing the array: " + e); }
+        catch(e) { this.notifyError("Error when reversing the array: " + e); }
     },
 
     shift: function(jsArray, arguments, codeConstruct)
@@ -153,7 +155,7 @@ fcModel.ArrayProto =
 
             return shiftedItem;
         }
-        catch(e) { alert("Array - error when shifting items in array: " + e); }
+        catch(e) { this.notifyError("Error when shifting items in array: " + e); }
     },
 
     unshift: function(jsArray, callArguments, callExpression)
@@ -180,7 +182,7 @@ fcModel.ArrayProto =
 
             return lengthValue;
         }
-        catch(e) { alert("Array - error when unshifting items in array: " + e); }
+        catch(e) { this.notifyError("Error when unshifting items in array: " + e); }
     },
 
     sort: function(jsArray, arguments, codeConstruct)
@@ -189,7 +191,7 @@ fcModel.ArrayProto =
 
         for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
-        if(arguments.length > 0) { alert("Still not handling parametrized sort"); }
+        if(arguments.length > 0) { this.notifyError("Still not handling parametrized sort"); }
 
         var sortFunction = function(a, b)
         {
@@ -235,7 +237,7 @@ fcModel.ArrayProto =
 
             return this.globalObject.internalExecutor.createArray(codeConstruct, splicedItems);
         }
-        catch(e) { alert("Array - error when splicing item: " + e); }
+        catch(e) { this.notifyError("Error when splicing item: " + e); }
     },
 
     concat: function(jsArray, callArguments, callExpression)
@@ -346,7 +348,7 @@ fcModel.ArrayProto =
 
             return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
         }
-        catch(e) { this.notifyError("When indexOf array: " + e);}
+        catch(e) { this.notifyError("When indexOf array: " + e); }
     },
 
     updateItem: function(propertyName, newItem)
@@ -358,7 +360,7 @@ fcModel.ArrayProto =
         catch(e) { this.notifyError("Error when updating item: " + e); }
     },
 
-    notifyError: function(message) { alert("Array - " + message); }
+    notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
 };
 
 fcModel.ArrayPrototype = function(globalObject)
@@ -374,7 +376,7 @@ fcModel.ArrayPrototype = function(globalObject)
 
         this.fcInternal = { object: this };
     }
-    catch(e) { alert("Array - error when creating array prototype:" + e + " " + codeConstruct.loc.source); }
+    catch(e) { Firecrow.Interpreter.Model.Array.notifyError("Error when creating array prototype:" + e + " " + codeConstruct.loc.source); }
 };
 
 fcModel.ArrayPrototype.prototype = new fcModel.Object(null);
@@ -397,7 +399,7 @@ fcModel.ArrayFunction = function(globalObject)
         this.name = "Array";
         this.fcInternal = this;
     }
-    catch(e){ alert("Array - error when creating Array Function:" + e); }
+    catch(e){ Firecrow.Interpreter.Model.Array.notifyError("Error when creating Array Function:" + e); }
 };
 
 fcModel.ArrayFunction.prototype = new fcModel.Object(null);
@@ -448,7 +450,7 @@ fcModel.ArrayCallbackEvaluator =
         }
     },
 
-    notifyError: function(message) { alert("ArrayCallbackEvaluator - " + message); }
+    notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
 };
 
 fcModel.ArrayExecutor =
@@ -522,9 +524,6 @@ fcModel.ArrayExecutor =
         catch(e) { this.notifyError("Error when executing internal array method: " + e); }
     },
 
-    notifyError: function(message)
-    {
-       alert("Array executor - " + message);
-    }
+    notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
 };
 }});

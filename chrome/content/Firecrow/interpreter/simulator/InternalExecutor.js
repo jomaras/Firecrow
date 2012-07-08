@@ -16,6 +16,8 @@ fcSimulator.InternalExecutor = function(globalObject)
     this.globalObject = globalObject;
 };
 
+Firecrow.Interpreter.Simulator.InternalExecutor.notifyError = function(message) { alert("InternalExecutor - " + message);}
+
 fcSimulator.InternalExecutor.prototype =
 {
     createObject: function(constructorFunction, creationCodeConstruct, argumentValues)
@@ -333,7 +335,7 @@ fcSimulator.InternalExecutor.prototype =
             }, this);
 
         }
-        catch(e) { alert("InternalExecutor - error when expanding function prototype: " + e); }
+        catch(e) { this.notifyError("Error when expanding function prototype: " + e); }
     },
 
     _expandObjectPrototype: function()
@@ -378,7 +380,7 @@ fcSimulator.InternalExecutor.prototype =
                 arrayPrototype[propertyName].jsValue.fcInternal.isCallbackMethod = true;
             });
         }
-        catch(e) { alert("InternalExecutor - error when expanding array methods: " + e); }
+        catch(e) { this.notifyError("Error when expanding array methods: " + e); }
     },
 
     _expandRegExMethods: function()
@@ -392,7 +394,7 @@ fcSimulator.InternalExecutor.prototype =
                 this.expandWithInternalFunction(regExPrototype, propertyName);
             }, this);
         }
-        catch(e) { alert("InternalExecutor - error when expanding regEx methods: " + e); }
+        catch(e) { this.notifyError("Error when expanding regEx methods: " + e); }
     },
 
     _expandStringMethods: function()
@@ -406,7 +408,7 @@ fcSimulator.InternalExecutor.prototype =
                 this.expandWithInternalFunction(stringPrototype, propertyName);
             }, this);
         }
-        catch(e) { alert("InternalExecutor - error when expanding string methods: " + e); }
+        catch(e) { this.notifyError("Error when expanding string methods: " + e); }
     },
 
     _expandMathMethods: function()
@@ -418,7 +420,7 @@ fcSimulator.InternalExecutor.prototype =
                 this.expandWithInternalFunction(Math, propertyName);
             }, this);
         }
-        catch(e) { alert("InternalExecutor - error when expanding math methods: " + e); }
+        catch(e) { this.notifyError("Error when expanding math methods: " + e); }
     },
 
     _expandGlobalObjectMethods: function()
@@ -438,7 +440,7 @@ fcSimulator.InternalExecutor.prototype =
                 this.expandWithInternalFunction(this.globalObject.origDocument, propertyName);
             }, this);
         }
-        catch(e) { alert("InternalExecutor - error when expanding document methods: " + e); }
+        catch(e) { this.notifyError("Error when expanding document methods: " + e); }
     },
 
     _expandDocument: function()
@@ -461,9 +463,9 @@ fcSimulator.InternalExecutor.prototype =
                 );
             }
         }
-        catch(e) { alert("InternalExecutor - error when expanding document: " + e); }
+        catch(e) { this.notifyError("Error when expanding document: " + e); }
     },
 
-    notifyError: function(message) { alert("InternalExecutor - " + message);}
+    notifyError: function(message) { Firecrow.Interpreter.Simulator.InternalExecutor.notifyError(message);}
 }
 }});

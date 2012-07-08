@@ -4,8 +4,6 @@ FBL.ns(function() { with (FBL) {
 
     Firecrow.DependencyGraph.Node = function(model, type, isDynamic)
     {
-        if(!(model instanceof Object)) { alert("DependencyGraph.Node: model has to be an object!"); return; }
-
         this.model = model;
         this.type = type;
         this.isDynamic = !!isDynamic;
@@ -15,14 +13,15 @@ FBL.ns(function() { with (FBL) {
         this.controlDependencies = [];
 
         this.model.graphNode = this;
-
-        this.idNum = Node.ID++;
         this.idString = this.generateId();
+
+        this.idNum = Node._LAST_ID++;
     };
 
-    var Node = Firecrow.DependencyGraph.Node;
+    Firecrow.DependencyGraph.Node.notifyError = function(message) { alert("Node - " + message); }
 
-    Node.ID = 0;
+    var Node = Firecrow.DependencyGraph.Node;
+    Node._LAST_ID = 0;
 
     Node.prototype.isNodeOfType = function(type) { return this.type === type; };
     Node.prototype.isHtmlNode = function() { return this.isNodeOfType("html"); };

@@ -19,6 +19,8 @@ fcModel.String = function(value, globalObject, codeConstruct)
     catch(e) { this.notifyError("Error when creating a String object: " + e); }
 };
 
+Firecrow.Interpreter.Model.String.notifyError = function(message) { alert("String - " + message); };
+
 fcModel.StringPrototype = function(globalObject)
 {
     try
@@ -32,7 +34,7 @@ fcModel.StringPrototype = function(globalObject)
 
         this.fcInternal = { object: this};
     }
-    catch(e) { alert("StringPrototype - error when creating array prototype:" + e); }
+    catch(e) { fcModel.String.notifyError("StringPrototype - error when creating array prototype:" + e); }
 };
 
 fcModel.StringPrototype.CONST =
@@ -59,7 +61,7 @@ fcModel.StringFunction = function(globalObject)
         this.name = "String";
         this.fcInternal = this;
     }
-    catch(e){ alert("String - error when creating String Function:" + e); }
+    catch(e){ fcModel.String.notifyError("String - error when creating String Function:" + e); }
 };
 
 fcModel.StringFunction.prototype = new fcModel.Object(null);
@@ -220,7 +222,7 @@ fcModel.StringExecutor =
         }
         catch(e) {this.notifyError("Error when executing internal string method: " + e); }
     },
-    notifyError: function(message) { alert("StringExecutor - " + message); }
+    notifyError: function(message) { fcModel.String.notifyError(message); }
 };
 /*************************************************************************************/
 }});

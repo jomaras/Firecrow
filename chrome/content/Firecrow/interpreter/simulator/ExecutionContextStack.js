@@ -30,6 +30,8 @@ fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, 
     catch(e) { this.notifyError("Error when constructing execution context: " + e); }
 };
 
+Firecrow.Interpreter.Simulator.ExecutionContext.notifyError = function(message) { alert("ExecutionContextStack - " + message);}
+
 fcSimulator.ExecutionContext.prototype =
 {
     getCodeConstructValue: function(codeConstruct)
@@ -82,7 +84,7 @@ fcSimulator.ExecutionContext.prototype =
         catch(e) { this.notifyError("Error when popping from scope chain: " + e); }
     },
 
-    notifyError: function(message) { alert("ExecutionContext - " + e); }
+    notifyError: function(message) { Firecrow.Interpreter.Simulator.ExecutionContext.notifyError(message); }
 };
 
 fcSimulator.ExecutionContext.createGlobalExecutionContext = function(globalObject)
@@ -95,7 +97,7 @@ fcSimulator.ExecutionContext.createGlobalExecutionContext = function(globalObjec
             globalObject, globalObject
         );
     }
-    catch(e) { alert("Error when constructing the global execution context: " + e); }
+    catch(e) { Firecrow.Interpreter.Simulator.ExecutionContext.notifyError("Error when constructing the global execution context: " + e); }
 };
 
 fcSimulator.ExecutionContext.LAST_INSTANCE_ID = 0;
@@ -950,6 +952,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         });
     },
 
-    notifyError: function(message) { alert("ExecutionContextStack - " + message); }
+    notifyError: function(message) { Firecrow.Interpreter.Simulator.ExecutionContext.notifyError(message); }
 };
 }});

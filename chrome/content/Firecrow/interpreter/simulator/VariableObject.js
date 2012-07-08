@@ -16,6 +16,8 @@ fcSimulator.VariableObject = function(executionContext)
     this.fcInternal.object = this;
 };
 
+Firecrow.Interpreter.Simulator.VariableObject.notifyError = function(message) { alert("VariableObject - " + message); };
+
 fcSimulator.VariableObject.prototype =
 {
     registerIdentifier: function(identifier)
@@ -74,7 +76,7 @@ fcSimulator.VariableObject.prototype =
         catch(e) { this.notifyError("Error when deleting identifier:" + e);}
     },
 
-    notifyError: function(message) { alert("VariableObject - " + message); }
+    notifyError: function(message) { Firecrow.Interpreter.Simulator.VariableObject.notifyError(message); }
 };
 
 Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = function(functionIdentifier, formalParameters, calleeFunction, sentArguments, callExpressionCommand, globalObject)
@@ -132,7 +134,7 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
     }
     catch(e)
     {
-        alert("Error while creating function variable object: " + e);
+        Firecrow.Interpreter.Simulator.VariableObject.notifyError("Error while creating function variable object: " + e);
     }
 };
 
@@ -149,7 +151,7 @@ Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(ob
             {
                 return this.object.getProperty(identifierName);
             }
-            catch(e) { alert("Error when getting identifier in lifted variable object: " + e); }
+            catch(e) { Firecrow.Interpreter.Simulator.VariableObject.notifyError("Error when getting identifier in lifted variable object: " + e); }
         };
 
         object.fcInternal.getIdentifierValue = function(identifierName, readConstruct, currentContext)
@@ -158,7 +160,7 @@ Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(ob
             {
                 return this.object.getPropertyValue(identifierName, readConstruct, currentContext);
             }
-            catch(e) { alert("LifterVariableObject - Error when getting identifier value:" + e);}
+            catch(e) { Firecrow.Interpreter.Simulator.VariableObject.notifyError("LifterVariableObject - Error when getting identifier value:" + e);}
         };
 
         object.fcInternal.registerIdentifier = function(identifier)
@@ -172,7 +174,7 @@ Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(ob
                     identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct : null
                 );
             }
-            catch(e) { alert("LifterVariableObject -Error when registering identifier:" + e); }
+            catch(e) { Firecrow.Interpreter.Simulator.VariableObject.notifyError("LifterVariableObject -Error when registering identifier:" + e); }
         };
 
         object.fcInternal.deleteIdentifier = function(identifierName, deleteConstruct)
@@ -181,12 +183,12 @@ Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject = function(ob
             {
                 this.object.deleteProperty(identifierName, deleteConstruct);
             }
-            catch(e) { alert("LiftedVariableObject - Error when deleting identifier: " + e);}
+            catch(e) { Firecrow.Interpreter.Simulator.VariableObject.notifyError("LiftedVariableObject - Error when deleting identifier: " + e);}
         };
 
         return object;
     }
-    catch(e) { alert("VariableObject - error when lifting to variableObject!"); }
+    catch(e) { Firecrow.Interpreter.Simulator.VariableObject.notifyError("VariableObject - error when lifting to variableObject!"); }
 };
 /***************************************************************************************/
 }});

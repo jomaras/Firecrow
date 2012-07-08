@@ -14,12 +14,13 @@ fcModel.JsValue = function(value, fcInternal)
     {
         this.value = value;
         this.fcInternal = fcInternal;
-        this.id = fcModel.JsValue._lastUsedId++;
+        this.id = fcModel.JsValue._LAST_ID++;
     }
     catch(e) { alert("JsValue - error when creating: " + e); }
 };
 
-fcModel.JsValue._lastUsedId = 0;
+fcModel.JsValue._LAST_ID = 0;
+fcModel.JsValue.notifyError = function(message) { alert("JsValue - " + message);}
 
 fcModel.JsValue.prototype =
 {
@@ -37,7 +38,7 @@ fcModel.JsValue.prototype =
         return new fcModel.JsValue(this.value, new fcModel.FcInternal(codeConstruct));
     },
 
-    notifyError: function(message) { alert("JsValue - Error: " + message); }
+    notifyError: function(message) { Firecrow.Interpreter.Model.JsValue.notifyError(message); }
 };
 
 fcModel.FcInternal = function(codeConstruct, object)

@@ -8,7 +8,7 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
     if(!ValueTypeHelper.isOfType(sourceNode, Firecrow.DependencyGraph.Node)
     || !ValueTypeHelper.isOfType(destinationNode, Firecrow.DependencyGraph.Node))
     {
-        alert("DependencyGraph.Edge: Source or destination node are not of type node!");
+        Firecrow.DependencyGraph.Edge.notifyError("DependencyGraph.Edge: Source or destination node are not of type node!");
         return;
     }
 
@@ -41,5 +41,7 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
      var additionalInfo = destinationNodeDependencyConstraints == null ? "N" : destinationNodeDependencyConstraints.groupId + "->" + destinationNodeDependencyConstraints.currentCommandId;
      console.log(location.replace(/\n/," ") + "; index:" + index + "; " + "; info: " + dependencyInfo + "; aInfo: " + additionalInfo); */
 };
+
+Firecrow.DependencyGraph.Edge.notifyError = function(message) { alert("Edge - " + message); }
 /*************************************************************************************/
 }});

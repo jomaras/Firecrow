@@ -3,7 +3,6 @@
  * Date: 03.05.12.
  * Time: 09:11
  */
-
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
@@ -39,9 +38,41 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.controlFlowConnectionCallbacks = [];
         this.importantConstructReachedCallbacks = [];
         this.slicingCriteria = [];
+        this.errorMessages = [];
+
+        if(!Firecrow.IsDebugMode)
+        {
+            var errorMessages = this.errorMessages
+
+            Firecrow.Interpreter.Commands.CommandGenerator.notifyError = function(message) { errorMessages.push("CommandGenerator - " + message); };
+            Firecrow.Interpreter.Commands.Command.notifyError = function(message) { errorMessages.push("Command - " + message); };
+            Firecrow.CodeTextGenerator.notifyError = function(message) { errorMessages.push("CodeTextGenerator - " + message); }
+            Firecrow.DependencyGraph.DependencyGraph.notifyError = function(message) { errorMessages.push("DependencyGraph - " + message); }
+            Firecrow.Interpreter.Model.GlobalObject.notifyError = function(message) { errorMessages.push("GlobalObject - " + message); }
+            Firecrow.DependencyGraph.DependencyPostprocessor.notifyError = function(message) { errorMessages.push("DependencyPostprocessor - " + message); }
+            Firecrow.DependencyGraph.Edge.notifyError = function(message) { errorMessages.push("Edge - " + message); }
+            Firecrow.DependencyGraph.InclusionFinder.notifyError = function(message) { errorMessages.push("InclusionFinder - " + message); }
+            Firecrow.DependencyGraph.Node.notifyError = function(message) { errorMessages.push("Node - " + message); }
+            Firecrow.DoppelBrowser.Browser.notifyError = function(message) { errorMessages.push("Browser - " + message); }
+            Firecrow.Interpreter.Model.RegEx.notifyError = function(message) { errorMessages.push("RegEx - " + message); }
+            Firecrow.Interpreter.Model.String.notifyError = function(message) { errorMessages.push("String - " + message); }
+            Firecrow.Interpreter.Model.Array.notifyError = function(message) { errorMessages.push("Array - " + message); }
+            Firecrow.Interpreter.Model.Attr.notifyError = function(message) { errorMessages.push("Attr - " + message); }
+            Firecrow.Interpreter.Model.Identifier.notifyError = function(message) { errorMessages.push("Identifier - " + message); }
+            Firecrow.Interpreter.Model.JsValue.notifyError = function(message) { errorMessages.push("JsValue - " + message); }
+            Firecrow.Interpreter.Model.Object.notifyError = function(message) { errorMessages.push("Object - " + message); }
+            Firecrow.Interpreter.Model.Math.notifyError = function(message) { errorMessages.push("Math - " + message); }
+            Firecrow.Interpreter.Simulator.Evaluator.notifyError = function(message) { errorMessages.push("Evaluator - " + message); }
+            Firecrow.Interpreter.Simulator.ExecutionContext.notifyError = function(message) { errorMessages.push("ExecutionContext - " + message); }
+            Firecrow.Interpreter.Simulator.InternalExecutor.notifyError = function(message) { errorMessages.push("InternalExecutor - " + message); }
+            Firecrow.Interpreter.Simulator.VariableObject.notifyError = function(message) { errorMessages.push("VariableObject - " + message); }
+            Firecrow.Interpreter.InterpreterSimulator.notifyError = function(message) { errorMessages.push("InterpreterSimulator - " + message); }
+        }
     }
-    catch(e) { alert("Error when initialising Doppel Browser.Browser: " + e); }
+    catch(e) { Firecrow.DoppelBrowser.Browser.notifyError("Error when initialising Doppel Browser.Browser: " + e); }
 };
+
+Firecrow.DoppelBrowser.Browser.notifyError = function(message) { alert("Browser - " + message); };
 
 var Browser = Firecrow.DoppelBrowser.Browser;
 
@@ -57,8 +88,8 @@ Browser.prototype =
 
                 ASTHelper.setParentsChildRelationships(htmlModel);
 
-                if(htmlModel == null) { alert("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
-                if(htmlModel.htmlElement == null) { alert("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
+                if(htmlModel == null) { this.notifyError("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
+                if(htmlModel.htmlElement == null) { this.notifyError("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
 
                 this.asyncInterpretCode = !!asyncInterpretCode;
 
@@ -66,7 +97,7 @@ Browser.prototype =
 
                 callback();
             }
-            catch(e) { alert("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
+            catch(e) { this.notifyError("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
         });
     },
 
@@ -78,12 +109,12 @@ Browser.prototype =
 
             ASTHelper.setParentsChildRelationships(htmlModel);
 
-            if(htmlModel == null) { alert("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
-            if(htmlModel.htmlElement == null) { alert("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
+            if(htmlModel == null) { this.notifyError("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
+            if(htmlModel.htmlElement == null) { this.notifyError("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
 
             this._buildSubtree(htmlModel.htmlElement, null);
         }
-        catch(e) { alert("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
+        catch(e) { this.notifyError("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
     },
 
     buildPageFromModel: function(htmlModel, callback)
@@ -93,15 +124,14 @@ Browser.prototype =
             this._buildSubtree(htmlModel.htmlElement, null);
             if(callback){ callback();}
         }
-        catch(e) { alert("Exception when building page from model: " + e); }
-
+        catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
 
     _asyncGetHtmlModel: function(callback)
     {
         try
         {
-            if(this.htmlWebFile == null) { alert("The initial page is not set in DoppelBrowser.Browser!"); return; }
+            if(this.htmlWebFile == null) { this.notifyError("The initial page is not set in DoppelBrowser.Browser!"); return; }
 
             if(!Firecrow.IsDebugMode)
             {
@@ -124,7 +154,7 @@ Browser.prototype =
                 callback.call(this, HtmlModelMapping.getModel(this.htmlWebFile.url));
             }
         }
-        catch(e) { alert("Exception in creating main page iFrame: " + e); }
+        catch(e) { this.notifyError("Exception in creating main page iFrame: " + e); }
     },
 
     _buildSubtree: function(htmlModelElement, parentDomElement, executionFinishedCallback)
@@ -151,7 +181,7 @@ Browser.prototype =
         }
         catch(e)
         {
-            alert("Error when building a subtree of an html element in DoppelBrowser.browser: " + e);
+            this.notifyError("Error when building a subtree of an html element in DoppelBrowser.browser: " + e);
         }
     },
 
@@ -202,12 +232,12 @@ Browser.prototype =
 
             if(interpreter.executionContextStack.blockCommandStack.length != 0)
             {
-                alert("There are still commands in the block command stack" + scriptModelNode.pathAndModel.path);
+                this.notifyError("There are still commands in the block command stack" + scriptModelNode.pathAndModel.path);
             }
         }
         catch(e)
         {
-            alert("DoppelBrowser.browser error when interpreting js code: " + e);
+            this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e);
         }
     },
 
@@ -231,7 +261,7 @@ Browser.prototype =
 
             //TODO - add to document.stylesheets
         }
-        catch(e) { alert("DoppelBrowser.browser error when building css nodes: " + e);}
+        catch(e) { this.notifyError("DoppelBrowser.browser error when building css nodes: " + e);}
     },
 
     _buildJavaScriptNodes: function(scriptHtmlElementModelNode)
@@ -245,68 +275,68 @@ Browser.prototype =
                 that._callNodeInsertedCallbacks(currentNode, ASTHelper.isProgram(parentNode) ? scriptHtmlElementModelNode : parentNode);
             });
         }
-        catch(e) { alert("DoppelBrowser.browser error when building js nodes: " + e); }
+        catch(e) { this.notifyError("DoppelBrowser.browser error when building js nodes: " + e); }
     },
 
     registerNodeCreatedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - node created callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - node created callback has to be a function!"); return; }
 
         this.nodeCreatedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerNodeInsertedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - node inserted callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - node inserted callback has to be a function!"); return; }
 
         this.nodeInsertedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerInterpretJsCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
 
         this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerInterpreterMessageGeneratedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - interpreter message generated callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - interpreter message generated callback has to be a function!"); return; }
 
         this.interpreterMessageGeneratedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerInterpretJsCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
 
         this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerControlFlowConnectionCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - control flow connection callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - control flow connection callback has to be a function!"); return; }
 
         this.controlFlowConnectionCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerControlDependencyEstablishedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - control dependency established callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - control dependency established callback has to be a function!"); return; }
 
         this.controlDependencyEstablishedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerDataDependencyEstablishedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - data dependency established callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - data dependency established callback has to be a function!"); return; }
 
         this.dataDependencyEstablishedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerImportantConstructReachedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { alert("DoppelBrowser.Browser - important construct reached callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - important construct reached callback has to be a function!"); return; }
 
         this.importantConstructReachedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
@@ -383,6 +413,8 @@ Browser.prototype =
     registerSlicingCriteria: function(slicingCriteria)
     {
         this.globalObject.registerSlicingCriteria(slicingCriteria);
-    }
+    },
+
+    notifyError: function(message) { Firecrow.DoppelBrowser.Browser.notifyError(message); }
 };
 }});

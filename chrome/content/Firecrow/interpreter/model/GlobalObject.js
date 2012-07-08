@@ -54,7 +54,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
             {
                 this.addProperty(methodName,  this.origWindow[methodName].jsValue);
             }
-            catch(e) { alert("Global object error when adding property: " + methodName +", error: " + e);}
+            catch(e) { fcModel.GlobalObject.notifyError("Global object error when adding property: " + methodName +", error: " + e);}
         }, this);
 
         this.identifierSlicingCriteria = [];
@@ -104,15 +104,17 @@ fcModel.GlobalObject = function(browser, documentFragment)
 
         this.setCurrentCommand = function(command)
         {
-            if(command == null) { alert("Command can not be null!");}
+            if(command == null) { fcModel.GlobalObject.notifyError("Command can not be null!");}
 
             this.currentCommand = command;
             this.currentCommand.executionId = this._EXECUTION_COMMAND_COUNTER++;
         };
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
-    catch(e) { alert("Error when initializing global object:" + e); }
+    catch(e) { fcModel.GlobalObject.notifyError("Error when initializing global object:" + e); }
 };
+
+fcModel.GlobalObject.notifyError = function(message) { alert("GlobalObject - " + message); }
 
 fcModel.GlobalObject.prototype = new fcModel.Object(null);
 
@@ -135,7 +137,11 @@ fcModel.GlobalObjectExecutor =
     {
         try
         {
-            if(fcFunction.value.name == "eval") { alert("Not handling eval function!"); return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
+            if(fcFunction.value.name == "eval")
+            {
+                fcModel.GlobalObject.notifyError("Not handling eval function!");
+                return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression));
+            }
 
             return new fcModel.JsValue
             (
@@ -145,7 +151,7 @@ fcModel.GlobalObjectExecutor =
         }
         catch(e)
         {
-            alert("Error when executing global object function internal function: " + e);
+            fcModel.GlobalObject.notifyError("Error when executing global object function internal function: " + e);
         }
     }
 }

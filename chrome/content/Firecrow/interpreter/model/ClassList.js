@@ -18,9 +18,6 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
     try
     {
         if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement)) { this.notifyError("Constructor argument has to be a HTMLElement");}
-        /***************************************************************************************************/
-        this.notifyError = function(message) { alert("ClassList - " + message); }
-        /***************************************************************************************************/
 
         this.globalObject = globalObject;
         this.htmlElement = htmlElement;
@@ -41,10 +38,12 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
         this.globalObject.internalExecutor.expandWithInternalFunction(classList.remove, "remove");
         this.globalObject.internalExecutor.expandWithInternalFunction(classList.toggle, "toggle");
     }
-    catch(e) { this.notifyError("Error when creating HtmlElement object: " + e); }
+    catch(e) { Firecrow.Interpreter.Model.ClassList.notifyError("Error when creating ClassList: " + e); }
 };
 
 fcModel.ClassList.prototype = new fcModel.Object(null);
+
+Firecrow.Interpreter.Model.ClassList.notifyError = function(message) { alert("ClassList - " + message); };
 
 //https://developer.mozilla.org/en/DOM/element
 fcModel.ClassList.CONST =

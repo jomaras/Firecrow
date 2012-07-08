@@ -13,6 +13,8 @@ FBL.ns(function() { with (FBL) {
 var ASTHelper = Firecrow.ASTHelper;
 Firecrow.DependencyGraph.InclusionFinder = function(){};
 
+Firecrow.DependencyGraph.InclusionFinder.notifyError = function(message) { alert("InclusionFinder - " + message);}
+
 Firecrow.DependencyGraph.InclusionFinder.prototype =
 {
     isIncludedHtmlElement: function(htmlElement)
@@ -71,8 +73,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             else if (ASTHelper.isIdentifier(element)) { return this.isIncludedIdentifier(element); }
             else
             {
-                console.log("Error while finding inclusions unidentified ast element");
-                //this.notifyError("Error while finding inclusions unidentified ast element: ");
+                this.notifyError("Error while finding inclusions unidentified ast element: ");
             }
         }
         catch(e) { alert("Error while finding inclusions: " + e); }
@@ -640,7 +641,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
         catch(e) { this.notifyError("Error when isIncluded sequence:" + e); }
     },
 
-    notifyError:function(message) { alert("InclusionFinder - " + message); }
+    notifyError:function(message) { Firecrow.DependencyGraph.InclusionFinder.notifyError(message); }
 }
 /*************************************************************************************/
 }});

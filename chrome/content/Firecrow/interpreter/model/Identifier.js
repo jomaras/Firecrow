@@ -11,7 +11,7 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
 {
     try
     {
-        this.id = fcModel.Identifier.LAST_IDENTIFIER_ID++;
+        this.id = fcModel.Identifier.LAST_ID++;
         this.name = name;
         this.value = value;
         this.modificationConstructs = [];
@@ -35,8 +35,10 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
             this.modificationConstructs.push(this.declarationConstruct);
         }
     }
-    catch(e) { alert("Identifier - Error when constructing: " + e ); }
+    catch(e) { Firecrow.Interpreter.Model.Identifier.notifyError("Error when constructing: " + e ); }
 };
+
+Firecrow.Interpreter.Model.Identifier.notifyError = function(message) { alert("Identifier - " + message); };
 
 Firecrow.Interpreter.Model.Identifier.prototype =
 {
@@ -52,10 +54,10 @@ Firecrow.Interpreter.Model.Identifier.prototype =
                 this.modificationConstructs.push({ codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
             }
         }
-        catch(e) { alert("Identifier - Error when setting value: " + e); }
+        catch(e) { Firecrow.Interpreter.Model.Identifier.notifyError("Error when setting value: " + e); }
     }
 };
 
-Firecrow.Interpreter.Model.Identifier.LAST_IDENTIFIER_ID = 0;
+Firecrow.Interpreter.Model.Identifier.LAST_ID = 0;
 /****************************************************************************/
 }});

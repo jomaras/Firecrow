@@ -312,6 +312,14 @@ FBL.ns(function() { with (FBL) {
 			}
 			catch(e) { alert("Stopping analysis error:" + e); }
 		},
+
+        asyncGetPageModel: function(callbackFunction, thisValue)
+        {
+            this.loadHtmlInHiddenIFrame(function(pageModel)
+            {
+                callbackFunction.call(thisValue, pageModel);
+            });
+        },
 		
 		loadHtmlInHiddenIFrame: function(callbackFunction)
 		{

@@ -16,7 +16,6 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
         this.jsRegExp = jsRegExp;
 
         this.__proto__ = new fcModel.Object(globalObject);
-        this.notifyError = function(message) { alert("RegEx - " + message); }
 
         this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         this.addProperty("ignoreCase", new fcModel.JsValue(jsRegExp.ignoreCase, new fcModel.FcInternal(codeConstruct)), codeConstruct);
@@ -24,8 +23,10 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
         this.addProperty("multiline", new fcModel.JsValue(jsRegExp.multiline, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         this.addProperty("source", new fcModel.JsValue(jsRegExp.source, new fcModel.FcInternal(codeConstruct)), codeConstruct);
     }
-    catch(e) { this.notifyError("Error when creating RegExp object: " + e); }
+    catch(e) { Firecrow.Interpreter.Model.RegEx.notifyError("Error when creating RegExp object: " + e); }
 };
+
+Firecrow.Interpreter.Model.RegEx.notifyError = function(message) { alert("RegEx - " + message); }
 
 fcModel.RegExPrototype = function(globalObject)
 {
@@ -40,7 +41,7 @@ fcModel.RegExPrototype = function(globalObject)
 
         this.fcInternal = { object: this };
     }
-    catch(e) { alert("RegExPrototype - error when creating array prototype:" + e); }
+    catch(e) { Firecrow.Interpreter.Model.RegEx.notifyError("Error when creating regEx prototype:" + e); }
 };
 
 fcModel.RegExPrototype.prototype = new fcModel.Object(null);
@@ -63,7 +64,7 @@ fcModel.RegExFunction = function(globalObject)
         this.name = "RegExp";
         this.fcInternal = this;
     }
-    catch(e){ alert("RegExp - error when creating RegEx Function:" + e); }
+    catch(e){ Firecrow.Interpreter.Model.RegEx.notifyError("Error when creating RegEx Function:" + e); }
 };
 
 fcModel.RegExFunction.prototype = new fcModel.Object(null);
@@ -108,6 +109,6 @@ fcModel.RegExExecutor =
         catch(e) {this.notifyError("Error when executing internal RegEx method: " + e); }
     },
 
-    notifyError: function(message) { alert("RegExExecutor - " + message);}
+    notifyError: function(message) { Firecrow.Interpreter.Model.RegEx.notifyError(message);}
 };
 }});

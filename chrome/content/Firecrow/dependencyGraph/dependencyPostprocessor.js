@@ -13,6 +13,8 @@ Firecrow.DependencyGraph.DependencyPostprocessor = function()
     this.inclusionFinder = new InclusionFinder();
 };
 
+Firecrow.DependencyGraph.DependencyPostprocessor.notifyError = function(message) { alert("DependencyPostprocessor - " + message); }
+
 Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 {
     processHtmlElement: function(htmlElement)
@@ -146,7 +148,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
             this.processFunctionBody(functionDecExp);
         }
-        catch(e) { alert("Error when processing code from a function:" + e); }
+        catch(e) { this.notifyError("Error when processing code from a function:" + e); }
     },
 
     processFunctionBody: function(functionDeclExp)
@@ -607,7 +609,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         try
         {
-            alert("Labelled statement!");
+            this.notifyError("Labelled statement!");
         }
         catch(e) { this.notifyError("Error when processing code from labeled statement:" + e); }
     },
@@ -644,7 +646,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
                 this.processElement(variableDeclarator.init);
             }
         }
-        catch(e) { alert("Error when processing code from variableDeclarator - CodeMarkupGenerator:" + e);}
+        catch(e) { this.notifyError("Error when processing code from variableDeclarator - CodeMarkupGenerator:" + e);}
     },
 
     processPattern: function(pattern)
@@ -702,7 +704,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         catch(e) { this.notifyError("Error when processing sequence code:" + e); }
     },
 
-    notifyError:function(message) { console.log("DependencyPostProcessor - " + message); }
+    notifyError:function(message) {  Firecrow.DependencyGraph.DependencyPostprocessor.notifyError(message); }
 }
 /*************************************************************************************/
 }});

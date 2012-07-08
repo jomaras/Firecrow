@@ -27,6 +27,8 @@ fcModel.Math = function(globalObject)
     }, this);
 };
 
+Firecrow.Interpreter.Model.Math.notifyError = function(message){ alert("Math - " + message); };
+
 fcModel.Math.CONST =
 {
     INTERNAL_PROPERTIES:
@@ -55,10 +57,8 @@ fcModel.MathExecutor =
                 new fcModel.FcInternal(callExpression)
             );
         }
-        catch(e) { this.notifyError("Error when executing internal math method: " + e);}
-    },
-
-    notifyError: function(message){ alert("Math Executor error -  " + message);}
+        catch(e) { Firecrow.Interpreter.Model.Math.notifyError("Error when executing internal math method: " + e);}
+    }
 }
 /*************************************************************************************/
 }});

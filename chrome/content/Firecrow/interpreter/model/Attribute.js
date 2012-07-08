@@ -32,6 +32,7 @@ fcModel.Attr = function(attr, globalObject, codeConstruct)
     }
     catch(e) { this.notifyError("Error when creating HtmlElement object: " + e); }
 };
+Firecrow.Interpreter.Model.Attr.notifyError = function(message) { alert("Attr - " + message); }
 
 fcModel.Attr.prototype = new fcModel.Object(null);
 

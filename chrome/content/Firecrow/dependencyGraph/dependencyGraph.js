@@ -22,9 +22,11 @@ Firecrow.DependencyGraph.DependencyGraph = function()
 
 var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
 
+DependencyGraph.notifyError = function(message) { alert("DependencyGraph - " + message); };
+
 DependencyGraph.prototype.addNode = function(node)
 {
-    if(!ValueTypeHelper.isOfType(node, Node)) { alert("DependencyGraph.DependencyGraph: node is not of type DependencyGraph.Node!"); }
+    if(!ValueTypeHelper.isOfType(node, Node)) { this.notifyError("Node is not of type DependencyGraph.Node!"); }
 
     this.nodes.push(node);
 };
@@ -36,7 +38,7 @@ DependencyGraph.prototype.handleNodeCreated = function(nodeModelObject, type, is
 
 DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentNodeModelObject, isDynamic)
 {
-    if(nodeModelObject == null) { alert("DependencyGraph.DependencyGraph nodeModelObject must not be null!"); return; }
+    if(nodeModelObject == null) { this.notifyError("nodeModelObject must not be null!"); return; }
 
     if(parentNodeModelObject != null)
     {
@@ -113,7 +115,6 @@ DependencyGraph.prototype.markGraph = function(model)
 {
     try
     {
-        Firecrow._NODE_CONTAINER = {};
         var importantConstructDependencyIndexMapping = this.importantConstructDependencyIndexMapping;
         var breakContinueMapping = [];
         for(var i = 0, length = importantConstructDependencyIndexMapping.length; i < length; i++)
@@ -205,5 +206,5 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
     catch(e) { this.notifyError("Error occurred when traversing and marking the graph: " + e);}
 };
 
-DependencyGraph.prototype.notifyError = function(message) { alert("DependencyGraph - :" + message);}
+DependencyGraph.prototype.notifyError = function(message) { Firecrow.DependencyGraph.DependencyGraph.notifyError(message);}
 }});

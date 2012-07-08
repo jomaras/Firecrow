@@ -19,8 +19,10 @@ fcSimulator.Evaluator = function(executionContextStack)
 
         this.exceptionCallbacks = [];
     }
-    catch(e) { alert("Evaluator - Error when constructing evaluator: " + e);}
+    catch(e) { Firecrow.Interpreter.Simulator.Evaluator.notifyError("Error when constructing evaluator: " + e);}
 };
+
+Firecrow.Interpreter.Simulator.Evaluator.notifyError = function(message) { alert("Evaluator - " + message); };
 
 fcSimulator.Evaluator.prototype =
 {
@@ -1033,7 +1035,7 @@ fcSimulator.Evaluator.prototype =
 
     notifyError: function(command, message)
     {
-        alert("Evaluator - " + message + "@" + (command != null ? (command.codeConstruct.loc.source + " - Ln:" + command.codeConstruct.loc.start.line) : ""));
+        Firecrow.Interpreter.Simulator.Evaluator.notifyError(message + "@" + (command != null ? (command.codeConstruct.loc.source + " - Ln:" + command.codeConstruct.loc.start.line) : ""));
     }
 };
 }});

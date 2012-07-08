@@ -35,6 +35,7 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject, pro
 };
 
 fcModel.Object.LAST_ID = 0;
+fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
 
 fcModel.Object.prototype =
 {
@@ -72,7 +73,7 @@ fcModel.Object.prototype =
 
             this.modifications.push(modificationDescription);
         }
-        catch(e) { alert("Error when adding modification - Object:" + e);}
+        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when adding modification:" + e);}
     },
 
     setProto: function(proto, codeConstruct)
@@ -86,7 +87,7 @@ fcModel.Object.prototype =
                 this.addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
             }
         }
-        catch(e) { alert("Object - error when setting proto: " + e); }
+        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when setting proto: " + e); }
     },
 
     addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
@@ -122,7 +123,7 @@ fcModel.Object.prototype =
         }
         catch(e)
         {
-            alert("Error when adding property - Object:" + e);
+            Firecrow.Interpreter.Model.notifyError("Error when adding property:" + e);
         }
     },
 
@@ -148,7 +149,7 @@ fcModel.Object.prototype =
                 }
             }
         }
-        catch(e) { alert("Error when deleting property - Object:" + e);}
+        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when deleting property:" + e);}
     },
 
     getOwnProperty: function(propertyName)
@@ -165,7 +166,7 @@ fcModel.Object.prototype =
                 }
             );
         }
-        catch(e) { alert("Error when getting own property - Object:" + e);}
+        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when getting own property:" + e);}
     },
 
     getProperty: function(propertyName, readPropertyConstruct)
@@ -230,7 +231,7 @@ fcModel.Object.prototype =
         }
         catch(e)
         {
-            alert("Error when getting property - Object:" + e);
+            Firecrow.Interpreter.Model.notifyError("Error when getting property:" + e);
         }
     },
 
@@ -267,7 +268,7 @@ fcModel.Object.prototype =
             return property != null ? property.value
                                     : null;
         }
-        catch(e) { alert("Error when getting property value - Object:" + e);}
+        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when getting property value:" + e);}
     },
 
     isOwnProperty: function(propertyName)

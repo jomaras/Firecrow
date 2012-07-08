@@ -51,7 +51,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             return declarationCommands.concat(executionCommands);
         }
-        catch(e) { alert("Error while generating commands in CommandGenerator: " + e);}
+        catch(e) { this.notifyError("Error while generating commands: " + e);}
     },
 
     generateDeclarationCommands: function(sourceElement, parentFunctionCommand)
@@ -97,7 +97,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         }
         catch(e)
         {
-            alert("Error while appending declaration commands at CommandGenerator: " + e);
+            this.notifyError("Error while appending declaration commands: " + e);
         }
 
         return declarationCommands;
@@ -179,11 +179,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             else if (ASTHelper.isEmptyStatement(sourceElement)) { return []; }
             else
             {
-                alert("Unhandled source element when generating execution command: " + sourceElement.type);
+                this.notifyError("Unhandled source element when generating execution command: " + sourceElement.type);
                 return [];
             }
         }
-        catch(e) { alert("Error while generating execution commands in CommandGenerator:" + e); }
+        catch(e) { this.notifyError("Error while generating execution commands:" + e); }
     },
 
     generateFunctionExecutionCommands: function(callExpressionCommand, functionObject, thisObject)
@@ -192,11 +192,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             var commands = [];
 
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand() && !callExpressionCommand.isExecuteCallbackCommand()))
-            {
-                alert("CommandGenerator: an argument is not an EvalCallExpressionCommand"); return commands;
-            }
-            if(functionObject == null) { alert("CommandGenerator: function object can not be null when generating commands for function execution!"); return commands; }
+            if(functionObject == null) { this.notifyError("function object can not be null when generating commands for function execution!"); return commands; }
 
             if(functionObject.fcInternal.isInternalFunction && !callExpressionCommand.isCall && !callExpressionCommand.isApply)
             {
@@ -246,7 +242,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         }
         catch (e)
         {
-            alert("CommandGenerator: An error occurred when generating function execution commands: " + e + " " + callExpressionCommand.codeConstruct.loc.source);
+            this.notifyError("An error occurred when generating function execution commands: " + e + " " + callExpressionCommand.codeConstruct.loc.source);
         }
     },
 
@@ -256,12 +252,8 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             var commands = [];
 
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand()))
-            {
-                alert("CommandGenerator: an argument is not EvalCallExpressionCommand"); return commands;
-            }
-            if(functionObject == null) { alert("CommandGenerator: function object can not be null when generating commands for internal function execution!"); return commands; }
-            if(!functionObject.fcInternal.isInternalFunction) { alert("CommandGenerator: function must be an internal function"); return commands; }
+            if(functionObject == null) { this.notifyError("function object can not be null when generating commands for internal function execution!"); return commands; }
+            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("function must be an internal function"); return commands; }
 
             var command = null;
 
@@ -289,7 +281,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             return commands;
         }
-        catch(e) { alert("CommandGenerator - error when generating internal function execution commands: " + e); }
+        catch(e) { this.notifyError("CommandGenerator - error when generating internal function execution commands: " + e); }
     },
 
     generateCallbackFunctionExecutionCommands: function(callbackCommand)
@@ -336,7 +328,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             return commands;
         }
-        catch(e) { alert("CommandGenerator - Error when generating callback function execution commands: " + e); }
+        catch(e) { this.notifyError("CommandGenerator - Error when generating callback function execution commands: " + e); }
     },
 
     generateVariableDeclarationExecutionCommands: function (sourceElement, parentFunctionCommand)
@@ -345,17 +337,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isVariableDeclaration(sourceElement))
-            {
-                alert("Source element is not a variable declaration when generating commands");
-                return;
-            }
-
             sourceElement.declarations.forEach(function(variableDeclarator)
             {
                 if(!ASTHelper.isIdentifier(variableDeclarator.id))
                 {
-                    alert("Variable declarator is not an identifier!");
+                    this.notifyError("Variable declarator is not an identifier!");
                     return;
                 }
 
@@ -366,7 +352,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 }
             }, this);
         }
-        catch(e) { alert("Error when generating variable declaration commands:" + e);}
+        catch(e) { this.notifyError("Error when generating variable declaration commands:" + e);}
 
         return commands;
     },
@@ -375,12 +361,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         try
         {
-            if(!ASTHelper.isBlockStatement(sourceElement))
-            {
-                alert("Source element is not block statement when generating commands");
-                return;
-            }
-
             var commands = [];
 
             sourceElement.body.forEach(function(statement)
@@ -391,7 +371,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             return commands;
         }
-        catch(e) { alert("Error when generating expression statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating expression statement commands:" + e);}
 
         return [];
     },
@@ -400,15 +380,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         try
         {
-            if(!ASTHelper.isExpressionStatement(sourceElement))
-            {
-                alert("Source element is not an expression statement when generating commands");
-                return;
-            }
-
             return this.generateExpressionCommands(sourceElement.expression, parentFunctionCommand);
         }
-        catch(e) { alert("Error when generating expression statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating expression statement commands:" + e);}
 
         return [];
     },
@@ -419,12 +393,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isIfStatement(sourceElement))
-            {
-                alert("Source element is not if statement when generating commands");
-                return;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
             var ifStatementCommand = new fcCommands.Command
             (
@@ -436,7 +404,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             commands.push(ifStatementCommand);
             commands.push(new fcCommands.Command(ifStatementCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.EndIf, parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating if statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating if statement commands:" + e);}
 
         return commands;
     },
@@ -447,8 +415,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ifStatementCommand.isIfStatementCommand()) { alert("Source element is not if statement when generating commands"); return []; }
-
             if(conditionEvaluationResult)
             {
                 ASTHelper.traverseDirectSourceElements
@@ -477,7 +443,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 }
             }
         }
-        catch(e) { alert("Error when generating if statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating if statement commands:" + e);}
 
         return commands;
     },
@@ -488,15 +454,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isLabeledStatement(sourceElement))
-            {
-                alert("Source element is not a labeled statement when generating commands");
-                return;
-            }
-
-            alert("Ignoring labeled statements!");
+            this.notifyError("Ignoring labeled statements!");
         }
-        catch(e) { alert("Error when generating labeled statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating labeled statement commands:" + e);}
 
         return commands;
     },
@@ -507,17 +467,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isBreakStatement(sourceElement))
-            {
-                alert("Source element is not a break statement when generating commands");
-                return commands;
-            }
-
-            if(sourceElement.label != null) { alert("Not handling break with labels!"); return commands; }
+            if(sourceElement.label != null) { this.notifyError("Not handling break with labels!"); return commands; }
 
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalBreak, parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating break statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating break statement commands:" + e);}
 
         return commands;
     },
@@ -528,17 +482,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isContinueStatement(sourceElement))
-            {
-                alert("Source element is not a continue statement when generating commands");
-                return commands;
-            }
-
-            if(sourceElement.label != null) { alert("Not handling continue with labels!"); return commands; }
+            if(sourceElement.label != null) { this.notifyError("Not handling continue with labels!"); return commands; }
 
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalContinue, parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating continue statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating continue statement commands:" + e);}
 
         return commands;
     },
@@ -549,12 +497,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isWithStatement(sourceElement))
-            {
-                alert("Source element is not a with statement when generating commands");
-                return;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
             (
                 sourceElement.object,
@@ -584,7 +526,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EndWithStatement, parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating with statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating with statement commands:" + e);}
 
         return commands;
     },
@@ -595,8 +537,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isSwitchStatement(sourceElement)) { alert("Source element is not a switch statement when generating commands"); return; }
-
             var startSwitchCommand = new fcCommands.Command
             (
                 sourceElement,
@@ -646,7 +586,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error when generating switch statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating switch statement commands:" + e);}
 
         return commands;
     },
@@ -657,8 +597,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!caseCommand.isCaseCommand()){ alert("Should be case command!"); return commands; }
-
             ASTHelper.traverseArrayOfDirectStatements
             (
                 caseCommand.codeConstruct.consequent,
@@ -670,7 +608,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 false
             );
         }
-        catch(e) { alert("Error when generating case commands: " + e); }
+        catch(e) { this.notifyError("Error when generating case commands: " + e); }
 
         return commands;
     },
@@ -681,12 +619,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isReturnStatement(sourceElement))
-            {
-                alert("Source element is not a return statement when generating commands");
-                return;
-            }
-
             if(sourceElement.argument != null)
             {
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
@@ -703,7 +635,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error when generating return statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating return statement commands:" + e);}
 
         return commands;
     },
@@ -714,12 +646,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isThrowStatement(sourceElement))
-            {
-                alert("Source element is not a throw statement when generating commands");
-                return;
-            }
-
             if(sourceElement.argument != null)
             {
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
@@ -731,7 +657,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalThrowExpression, parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating throw statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating throw statement commands:" + e);}
 
         return commands;
     },
@@ -742,8 +668,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isTryStatement(sourceElement)) { alert("Source element is not a try statement when generating commands"); return commands; }
-
             var startTryCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.StartTryStatement, parentFunctionCommand);
             commands.push(startTryCommand);
 
@@ -762,7 +686,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             commands.push(endTryCommand);
         }
-        catch(e) { alert("Error when generating try statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating try statement commands:" + e);}
 
         return commands;
     },
@@ -773,11 +697,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!(tryCommand.isStartTryStatementCommand() || tryCommand.isEndTryStatementCommand())) { alert("Command is not a try command"); return commands; }
-
             var tryStatement = tryCommand.codeConstruct;
 
-            if(tryStatement.handlers.length > 1) { alert("Not handling more than 1 catch"); return commands; }
+            if(tryStatement.handlers.length > 1) { this.notifyError("Not handling more than 1 catch"); return commands; }
 
             var catchElement = tryStatement.handlers[0];
 
@@ -811,7 +733,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 tryCommand.parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error when generating catch statement commands: " + e); }
+        catch(e) { this.notifyError("Error when generating catch statement commands: " + e); }
 
         return commands;
     },
@@ -820,15 +742,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         try
         {
-            if(!loopStatementCommand.isLoopStatementCommand()) { alert("CommandGenerator: should be a loop statement command"); return;}
-
             if(loopStatementCommand.isForStatementCommand()) { return this.generateForBodyExecutionCommands(loopStatementCommand, evaldCondition); }
             else if (loopStatementCommand.isDoWhileStatementCommand()) { return this.generateDoWhileBodyExecutionCommands(loopStatementCommand, evaldCondition); }
             else if (loopStatementCommand.isWhileStatementCommand()) { return this.generateWhileBodyExecutionCommands(loopStatementCommand, evaldCondition); }
             else if (loopStatementCommand.isEvalForInWhereCommand()) { return this.generateForInBodyExecutionCommands(loopStatementCommand, evaldCondition); }
-            else { alert("CommandGenerator - Unknown loop statement!"); }
+            else { this.notifyError("Unknown loop statement!"); }
         }
-        catch(e) { alert("Error when generating loop execution commands: " + e); }
+        catch(e) { this.notifyError("Error when generating loop execution commands: " + e); }
     },
 
     generateWhileStatementExecutionCommands: function (sourceElement, parentFunctionCommand)
@@ -837,12 +757,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isWhileStatement(sourceElement))
-            {
-                alert("Source element is not a while statement when generating commands");
-                return;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
             commands.push(new fcCommands.Command
@@ -859,7 +773,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error when generating while statement commands:" + e); }
+        catch(e) { this.notifyError("Error when generating while statement commands:" + e); }
 
         return commands;
     },
@@ -870,8 +784,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!whileStatementCommand.isWhileStatementCommand()) { alert("Command is not a while statement command"); return; }
-
             if(evaldCondition)
             {
                 ASTHelper.traverseDirectSourceElements
@@ -909,7 +821,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 ));
             }
         }
-        catch(e) { alert("Error when generating while statement commands:" + e); }
+        catch(e) { this.notifyError("Error when generating while statement commands:" + e); }
 
         return commands;
     },
@@ -920,15 +832,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isDoWhileStatement(sourceElement)) { alert("Source element is not a dowhile statement when generating commands"); return; }
-
             ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands(sourceElement.body, parentFunctionCommand));
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.DoWhileStatement, parentFunctionCommand));
             commands.push(new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement, parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating while statement commands:" + e); }
+        catch(e) { this.notifyError("Error when generating while statement commands:" + e); }
 
         return commands;
     },
@@ -939,8 +849,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!doWhileStatementCommand.isDoWhileStatementCommand()) { alert("Command is not a doWhile statement command"); return; }
-
             if(evaldCondition)
             {
                 ASTHelper.traverseDirectSourceElements
@@ -978,7 +886,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 ));
             }
         }
-        catch(e) { alert("Error when generating doWhile statement commands:" + e); }
+        catch(e) { this.notifyError("Error when generating doWhile statement commands:" + e); }
 
         return commands;
     },
@@ -989,8 +897,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isForStatement(sourceElement)) { alert("Source element is not a for statement when generating commands"); return; }
-
             if(sourceElement.init != null)
             {
                 if(ASTHelper.isVariableDeclaration(sourceElement.init))
@@ -1015,7 +921,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.ForStatement, parentFunctionCommand));
             commands.push(new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement,parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating for statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating for statement commands:" + e);}
 
         return commands;
     },
@@ -1026,8 +932,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!forStatementCommand.isForStatementCommand()) { alert("Should be a for statement command!"); return commands; }
-
             if(evaldCondition)
             {
                 ASTHelper.traverseDirectSourceElements
@@ -1083,7 +987,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 ));
             }
         }
-        catch(e) { alert("Error has occurred when generating for body commands:" + e); }
+        catch(e) { this.notifyError("Error has occurred when generating for body commands:" + e); }
 
         return commands;
     },
@@ -1094,14 +998,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isForInStatement(sourceElement)) { alert("Source element is not a for in statement when generating commands"); return; }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
 
             commands.push(fcCommands.Command.createForInWhereCommand(sourceElement, -1, parentFunctionCommand));
             commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EndLoopStatement, parentFunctionCommand));
         }
-        catch(e) { alert("Error when generating for-in statement commands:" + e); }
+        catch(e) { this.notifyError("Error when generating for-in statement commands:" + e); }
 
         return commands;
     },
@@ -1112,8 +1014,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!forInCommand.isEvalForInWhereCommand()) { alert("Should be a for-in statement command!"); return commands; }
-
             if(forInCommand.willBodyBeExecuted)
             {
                 ASTHelper.traverseDirectSourceElements
@@ -1134,7 +1034,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 commands.push(fcCommands.Command.createForInWhereCommand(forInCommand.codeConstruct, forInCommand.currentPropertyIndex + 1, forInCommand.parentFunctionCommand));
             }
         }
-        catch(e) { alert("Error when generating for in commands: " + e); }
+        catch(e) { this.notifyError("Error when generating for in commands: " + e); }
 
         return commands;
     },
@@ -1145,13 +1045,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isLetStatement(sourceElement))
-            {
-                alert("Source element is not a let statement when generating commands");
-                return;
-            }
+            alert("Let is not handled!");
         }
-        catch(e) { alert("Error when generating let statement commands:" + e);}
+        catch(e) { this.notifyError("Error when generating let statement commands:" + e);}
 
         return commands;
     },
@@ -1227,7 +1123,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             ||  ASTHelper.isGeneratorExpression(sourceElement)
             ||  ASTHelper.isLetExpression(sourceElement))
         {
-            alert("Yield, Comprehnsion, Generator and Let not yet implemented!");
+            this.notifyError("Yield, Comprehension, Generator and Let not yet implemented!");
         }
     },
 
@@ -1237,12 +1133,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isThisExpression(sourceElement))
-            {
-                alert("Source element is not a this expression!");
-                return commands;
-            }
-
             commands.push(new fcCommands.Command
             (
                 sourceElement,
@@ -1250,7 +1140,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating this commands:" + e);}
+        catch(e) { this.notifyError("Error while generating this commands:" + e);}
 
         return commands;
     },
@@ -1261,12 +1151,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isIdentifier(sourceElement))
-            {
-                alert("Source element is not an identifier!");
-                return commands;
-            }
-
             commands.push(new fcCommands.Command
             (
                 sourceElement,
@@ -1274,7 +1158,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating identifier commands:" + e);}
+        catch(e) { this.notifyError("Error while generating identifier commands:" + e);}
 
         return commands;
     },
@@ -1285,8 +1169,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isLiteral(sourceElement)) { alert("Source element is not a literal!"); return commands; }
-
             if(ValueTypeHelper.isObject(sourceElement.value))
             {
                 var regExCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalRegExLiteral, parentFunctionCommand);
@@ -1313,7 +1195,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating identifier commands:" + e);}
+        catch(e) { this.notifyError("Error while generating identifier commands:" + e);}
 
         return commands;
     },
@@ -1324,8 +1206,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isArrayExpression(sourceElement)) { alert("Source element is not an array expression!"); return commands; }
-
             var arrayExpressionCommand = new fcCommands.Command
             (
                 sourceElement,
@@ -1345,7 +1225,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 commands.push(fcCommands.Command.createArrayExpressionItemCommand(item, arrayExpressionCommand, parentFunctionCommand));
             }, this);
         }
-        catch(e) { alert("Error while generating array expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating array expression commands:" + e);}
 
         return commands;
     },
@@ -1356,12 +1236,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isObjectExpression(sourceElement))
-            {
-                alert("Source element is not an object expression!");
-                return commands;
-            }
-
             var objectExpressionCommand = new fcCommands.Command
             (
                 sourceElement,
@@ -1375,12 +1249,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             {
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(property.value));
 
-                if(property.kind == "get" || property.kind == "set") { alert("Getters and setters not supported!"); }
+                if(property.kind == "get" || property.kind == "set") { this.notifyError("Getters and setters not supported!"); }
 
                 commands.push(fcCommands.Command.createObjectPropertyCommand(property, objectExpressionCommand, parentFunctionCommand));
             }, this);
         }
-        catch(e) { alert("Error while generating object expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating object expression commands:" + e);}
 
         return commands;
     },
@@ -1391,12 +1265,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isFunctionExpression(sourceElement))
-            {
-                alert("Source element is not a function expression!");
-                return commands;
-            }
-
             commands.push(new fcCommands.Command
             (
                 sourceElement,
@@ -1404,7 +1272,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating function expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating function expression commands:" + e);}
 
         return commands;
     },
@@ -1415,12 +1283,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isSequenceExpression(sourceElement))
-            {
-                alert("Source element is not a sequence expression!");
-                return commands;
-            }
-
             sourceElement.expressions.forEach(function(expression)
             {
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(expression, parentFunctionCommand));
@@ -1433,7 +1295,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating sequence expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating sequence expression commands:" + e);}
 
         return commands;
     },
@@ -1444,12 +1306,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isUnaryExpression(sourceElement))
-            {
-                alert("Source element is not a unary expression!");
-                return commands;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.argument, parentFunctionCommand));
 
             commands.push(new fcCommands.Command
@@ -1459,7 +1315,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating unary expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating unary expression commands:" + e);}
 
         return commands;
     },
@@ -1470,12 +1326,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isBinaryExpression(sourceElement))
-            {
-                alert("Source element is not a binary expression!");
-                return commands;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
 
@@ -1486,7 +1336,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating binary expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating binary expression commands:" + e);}
 
         return commands;
     },
@@ -1497,12 +1347,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isAssignmentExpression(sourceElement))
-            {
-                alert("Source element is not an assignment expression!");
-                return commands;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
 
@@ -1512,7 +1356,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating assignment expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating assignment expression commands:" + e);}
 
         return commands;
     },
@@ -1523,12 +1367,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isUpdateExpression(sourceElement))
-            {
-                alert("Source element is not an update expression!");
-                return commands;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.argument, parentFunctionCommand));
 
             commands.push(new fcCommands.Command
@@ -1538,7 +1376,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating update expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating update expression commands:" + e);}
 
         return commands;
     },
@@ -1549,10 +1387,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isLogicalExpression(sourceElement)) { alert("Source element is not a logical expression!"); return commands; }
-
             var startLogicalExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.StartEvalLogicalExpression, parentFunctionCommand);
-
 
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
 
@@ -1573,7 +1408,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             commands.push(endLogicalExpressionCommand);
         }
-        catch(e) { alert("Error while generating logical expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating logical expression commands:" + e);}
 
         return commands;
     },
@@ -1584,8 +1419,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isConditionalExpression(sourceElement)) { alert("Source element is not a conditional expression!"); return commands; }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
             commands.push(new fcCommands.Command
@@ -1595,7 +1428,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating conditional expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating conditional expression commands:" + e);}
 
         return commands;
     },
@@ -1606,12 +1439,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!executeConditionalExpressionBodyCommand.isEvalConditionalExpressionBodyCommand(executeConditionalExpressionBodyCommand))
-            {
-                alert("Source element is not an execute conditional expression body command!");
-                return commands;
-            }
-
             var evalConditionalExpressionCommand = new fcCommands.Command
             (
                 executeConditionalExpressionBodyCommand.codeConstruct,
@@ -1641,7 +1468,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             commands.push(evalConditionalExpressionCommand);
         }
-        catch(e) { alert("Error while generating conditional expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating conditional expression commands:" + e);}
 
         return commands;
     },
@@ -1652,12 +1479,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isNewExpression(sourceElement))
-            {
-                alert("Source element is not a new expression!");
-                return commands;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
             (
                 sourceElement.callee,
@@ -1683,7 +1504,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating new expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating new expression commands:" + e);}
 
         return commands;
     },
@@ -1694,12 +1515,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isCallExpression(sourceElement))
-            {
-                alert("Source element is not a call expression!");
-                return commands;
-            }
-
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
             (
                 sourceElement.callee,
@@ -1725,7 +1540,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { alert("Error while generating call expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating call expression commands:" + e);}
 
         return commands;
     },
@@ -1736,17 +1551,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         try
         {
-            if(!ASTHelper.isMemberExpression(sourceElement))
-            {
-                alert("Source element is not a member expression!");
-                return commands;
-            }
-
-            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
-            (
-                sourceElement.object,
-                parentFunctionCommand
-            ));
+            ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.object,parentFunctionCommand));
 
             if(sourceElement.computed)
             {
@@ -1776,15 +1581,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             commands.push(evalMemberPropertyExpressionCommand);
             commands.push(evalMemberExpressionCommand);
         }
-        catch(e) { alert("Error while generating member expression commands:" + e);}
+        catch(e) { this.notifyError("Error while generating member expression commands:" + e);}
 
         return commands;
     },
 
-    toString: function(commands)
-    {
-        return commands.join("\n");
-    },
+    toString: function(commands) { return commands.join("\n"); },
 
     notifyError: function(message) { alert("CommandGenerator - " + message); }
 };
@@ -1807,6 +1609,10 @@ Firecrow.Interpreter.Commands.Command = function(codeConstruct, type, parentFunc
                             ||  this.isCallCallbackMethodCommand();
 };
 
+Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
+
+Firecrow.Interpreter.Commands.Command.notifyError = function(message) { alert("Command - " + message); }
+
 Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeConstruct, parentFunctionCommand)
 {
     try
@@ -1814,7 +1620,7 @@ Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeCon
         if(!ASTHelper.isVariableDeclarator(codeConstruct)
         && !ASTHelper.isAssignmentExpression(codeConstruct))
         {
-            alert("Assignment command can only be created on variable declarators and assignement expressions!");
+            this.notifyError("Assignment command can only be created on variable declarators and assignement expressions!");
             return null;
         }
 
@@ -1835,7 +1641,7 @@ Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeCon
 
         return command;
     }
-    catch(e) { alert("Error while creating assignment command: " + e);}
+    catch(e) { this.notifyError("Error while creating assignment command: " + e);}
 };
 
 Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = function(functionObject, thisObject, parentFunctionCommand)
@@ -1849,7 +1655,7 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - an error has occurred when generating enter function context commands: " + e); }
+    catch(e) { this.notifyError("an error has occurred when generating enter function context commands: " + e); }
 };
 
 Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = function(functionObject, parentFunctionCommand)
@@ -1858,7 +1664,7 @@ Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = functio
     {
         return new fcCommands.Command(functionObject.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
     }
-    catch(e) { alert("CommandGenerator - an error has occurred when generating exit function context command:" + e); }
+    catch(e) { this.notifyError("an error has occurred when generating exit function context command:" + e); }
 };
 
 Firecrow.Interpreter.Commands.Command.createObjectPropertyCommand = function(codeConstruct, objectExpressionCommand, parentFunctionCommand)
@@ -1876,7 +1682,7 @@ Firecrow.Interpreter.Commands.Command.createObjectPropertyCommand = function(cod
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - an error has occurred when generating create object property commands:" + e); }
+    catch(e) { this.notifyError("an error has occurred when generating create object property commands:" + e); }
 };
 
 Firecrow.Interpreter.Commands.Command.createArrayExpressionItemCommand = function(codeConstruct, arrayExpressionCommand, parentFunctionCommand)
@@ -1894,7 +1700,7 @@ Firecrow.Interpreter.Commands.Command.createArrayExpressionItemCommand = functio
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - an error has occurred when generating array expression item commands"); }
+    catch(e) { this.notifyError("an error has occurred when generating array expression item commands"); }
 };
 
 Firecrow.Interpreter.Commands.Command.createForInWhereCommand = function(codeConstruct, currentPropertyIndex, parentFunctionCommand)
@@ -1907,7 +1713,7 @@ Firecrow.Interpreter.Commands.Command.createForInWhereCommand = function(codeCon
 
         return newForInWhereCommand;
     }
-    catch(e) { alert("CommandGenerator - error when creating a new For In Where command: " + e);}
+    catch(e) { this.notifyError("error when creating a new For In Where command: " + e);}
 };
 
 Firecrow.Interpreter.Commands.Command.createCallInternalConstructorCommand = function(codeConstruct, functionObject, parentFunctionCommand)
@@ -1920,7 +1726,7 @@ Firecrow.Interpreter.Commands.Command.createCallInternalConstructorCommand = fun
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - error when creating internal constructor command"); }
+    catch(e) { this.notifyError("error when creating internal constructor command"); }
 };
 
 Firecrow.Interpreter.Commands.Command.createCallInternalConstructorCommand = function(codeConstruct, functionObject, parentFunctionCommand)
@@ -1933,7 +1739,7 @@ Firecrow.Interpreter.Commands.Command.createCallInternalConstructorCommand = fun
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - error when creating internal constructor command"); }
+    catch(e) { this.notifyError("error when creating internal constructor command"); }
 };
 
 Firecrow.Interpreter.Commands.Command.createCallInternalFunctionCommand = function(codeConstruct, functionObject, thisObject, parentFunctionCommand)
@@ -1947,7 +1753,7 @@ Firecrow.Interpreter.Commands.Command.createCallInternalFunctionCommand = functi
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - error when creating call internal function command: " + e); }
+    catch(e) { this.notifyError("error when creating call internal function command: " + e); }
 };
 
 Firecrow.Interpreter.Commands.Command.createCallCallbackMethodCommand = function(codeConstruct, callCommand, parentFunctionCommand)
@@ -1967,7 +1773,7 @@ Firecrow.Interpreter.Commands.Command.createCallCallbackMethodCommand = function
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - error when creating call callback method command: " + e); }
+    catch(e) { this.notifyError("error when creating call callback method command: " + e); }
 };
 
 Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(callCallbackCommand, arguments)
@@ -1987,10 +1793,8 @@ Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(ca
 
         return command;
     }
-    catch(e) { alert("CommandGenerator - error when creating execute callback command: " + e); }
+    catch(e) { this.notifyError("error when creating execute callback command: " + e); }
 };
-
-Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
 
 Firecrow.Interpreter.Commands.Command.prototype =
 {
@@ -2165,7 +1969,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     CallInternalFunction: "CallInternalFunction",
     CallCallbackMethod: "CallCallbackMethod",
 
-    ExecuteCallback: "ExecuteCallback",
+    ExecuteCallback: "ExecuteCallback"
 };
 /*************************************************************************************/
 }});

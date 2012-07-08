@@ -33,6 +33,8 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject)
     this.controlFlowConnectionCallbacks = [];
 };
 
+Firecrow.Interpreter.InterpreterSimulator.notifyError = function(message) { alert("InterpreterSimulator - " + message); }
+
 Firecrow.Interpreter.InterpreterSimulator.prototype =
 {
     runSync: function()
@@ -52,7 +54,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
             }
         }
-        catch(e) { alert("Error while running the InterpreterSimulator: " + e); }
+        catch(e) { this.notifyError("Error while running the InterpreterSimulator: " + e); }
     },
 
     runAsync: function(callback)
@@ -84,7 +86,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             setTimeout(asyncLoop, 10)
         }
-        catch(e) { alert("InterpreterSimulator - error when executing async loop"); }
+        catch(e) { this.notifyError("Error when executing async loop"); }
     },
 
     processCommand: function(command)
@@ -99,14 +101,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             if (command.removesCommands) { this.processRemovingCommandsCommand(command); }
             if (command.generatesNewCommands) { this.processGeneratingNewCommandsCommand(command); }
         }
-        catch(e) { alert("Error while processing commands in InterpreterSimulator: " + e);}
+        catch(e) { this.notifyError("Error while processing commands in InterpreterSimulator: " + e);}
     },
 
     processTryCommand: function(command)
     {
         try
         {
-            if(!(command.isStartTryStatementCommand() || command.isEndTryStatementCommand())) { alert("The command is not a try command in InterpreterSimulator!"); return; }
+            if(!(command.isStartTryStatementCommand() || command.isEndTryStatementCommand())) { this.notifyError("The command is not a try command in InterpreterSimulator!"); return; }
 
             if(command.isStartTryStatementCommand())
             {
@@ -116,12 +118,12 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             {
                 var topCommand = this.tryStack[this.tryStack.length - 1];
 
-                if(topCommand == null || topCommand.codeConstruct != command.codeConstruct) { alert("Error while popping try command from Stack"); return; }
+                if(topCommand == null || topCommand.codeConstruct != command.codeConstruct) { this.notifyError("Error while popping try command from Stack"); return; }
 
                 this.tryStack.pop();
             }
         }
-        catch(e) { alert("Error while processing try command in InterpreterSimulator: " + e); }
+        catch(e) { this.notifyError("Error while processing try command in InterpreterSimulator: " + e); }
     },
 
     processRemovingCommandsCommand: function(command)
@@ -133,9 +135,9 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             else if (command.isEvalContinueCommand()) { this.removeCommandsAfterContinue(command); }
             else if (command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterException(command); }
             else if (command.isEvalLogicalExpressionItemCommand()) { this.removeCommandsAfterLogicalExpressionItem(command); }
-            else { alert("Unknown removing commands command: " + command.type); }
+            else { this.notifyError("Unknown removing commands command: " + command.type); }
         }
-        catch(e) { alert("Error while removing commands: " + e); }
+        catch(e) { this.notifyError("Error while removing commands: " + e); }
     },
 
     removeCommandsAfterReturnStatement: function(returnCommand)
@@ -152,7 +154,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 else { break; }
             }
         }
-        catch(e) { alert("Error while removing commands after return statement:" + e);}
+        catch(e) { this.notifyError("Error while removing commands after return statement:" + e);}
     },
 
     removeCommandsAfterBreak: function(breakCommand)
@@ -171,7 +173,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) { break;}
             }
         }
-        catch(e) { alert("Error when removing commands after a break command:" + e); }
+        catch(e) { this.notifyError("Error when removing commands after a break command:" + e); }
     },
 
     removeCommandsAfterContinue: function(continueCommand)
@@ -189,7 +191,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 else { break; }
             }
         }
-        catch(e) { alert("Error when removing commands after continue: " + e); }
+        catch(e) { this.notifyError("Error when removing commands after continue: " + e); }
     },
 
     removeCommandsAfterException: function(exceptionGeneratingArgument)
@@ -198,7 +200,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(this.tryStack.length == 0)
             {
-                alert("Removing commands and there is no enclosing try catch block @ " + this.commands[this.currentCommandIndex].codeConstruct.loc.source);
+                this.notifyError("Removing commands and there is no enclosing try catch block @ " + this.commands[this.currentCommandIndex].codeConstruct.loc.source);
                 return;
             }
 
@@ -227,14 +229,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 );
             }
         }
-        catch(e) { alert("Error when removing commands after Exception: " + e);}
+        catch(e) { this.notifyError("Error when removing commands after Exception: " + e);}
     },
 
     removeCommandsAfterLogicalExpressionItem: function(evalLogicalExpressionItemCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalLogicalExpressionItemCommand, Command) || !evalLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { alert("InterpreterSimulator: argument is not an eval logical expression item command"); return; }
+            if(!ValueTypeHelper.isOfType(evalLogicalExpressionItemCommand, Command) || !evalLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError("Argument is not an eval logical expression item command"); return; }
 
             if(evalLogicalExpressionItemCommand.shouldDeleteFollowingLogicalCommands)
             {
@@ -250,7 +252,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 }
             }
         }
-        catch(e) { alert("InterpreterSimulator - error when removing commands after logical expression item!");}
+        catch(e) { this.notifyError("Error when removing commands after logical expression item!");}
     },
 
     processGeneratingNewCommandsCommand: function(command)
@@ -265,9 +267,9 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             else if (command.isIfStatementCommand()) { this.generateCommandsAfterIfCommand(command); }
             else if (command.isEvalConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
             else if (command.isCaseCommand()) { this.generateCommandsAfterCaseCommand(command); }
-            else { alert("Unknown generating new commands command!"); }
+            else { this.notifyError("Unknown generating new commands command!"); }
         }
-        catch(e) { alert("An error occurred while processing generate new commands command:" + e);}
+        catch(e) { this.notifyError("An error occurred while processing generate new commands command:" + e);}
     },
 
     generateCommandsAfterCallbackFunctionCommand: function(callInternalFunctionCommand)
@@ -281,14 +283,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 this.currentCommandIndex + 1
             );
         }
-        catch(e) { alert("Error while generating commands after callback function command: " + e);}
+        catch(e) { this.notifyError("Error while generating commands after callback function command: " + e);}
     },
 
     generateCommandsAfterNewExpressionCommand: function(newExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(newExpressionCommand, Command) || !newExpressionCommand.isEvalNewExpressionCommand()) { alert("InterpreterSimulator: argument is not newExpressionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(newExpressionCommand, Command) || !newExpressionCommand.isEvalNewExpressionCommand()) { this.notifyError("Argument is not newExpressionCommand"); return; }
 
             var callConstruct = newExpressionCommand.codeConstruct;
             var callee = this.executionContextStack.getExpressionValue(callConstruct.callee);
@@ -324,14 +326,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 this.currentCommandIndex + 1
             );
         }
-        catch(e) { alert("InterpreterSimulator - Error while generating commands after new expression command: " + e);}
+        catch(e) { this.notifyError("Error while generating commands after new expression command: " + e);}
     },
 
     generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, Command) || !callExpressionCommand.isEvalCallExpressionCommand()) { alert("InterpreterSimulator: argument is not callExpressionCommand"); return; }
+            if(!ValueTypeHelper.isOfType(callExpressionCommand, Command) || !callExpressionCommand.isEvalCallExpressionCommand()) { this.notifyError("Argument is not callExpressionCommand"); return; }
 
             var callConstruct = callExpressionCommand.codeConstruct;
 
@@ -373,7 +375,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         }
         catch(e)
         {
-            alert("InterpreterSimulator - Error while generating commands after call function command: " + e);
+            this.notifyError("Error while generating commands after call function command: " + e);
         }
     },
 
@@ -381,7 +383,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(loopCommand, Command) || !loopCommand.isLoopStatementCommand()) { alert("InterpreterSimulator - argument has to be a loop command!"); return; }
+            if(!ValueTypeHelper.isOfType(loopCommand, Command) || !loopCommand.isLoopStatementCommand()) { this.notifyError("Argument has to be a loop command!"); return; }
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
@@ -394,14 +396,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 this.currentCommandIndex + 1
             );
         }
-        catch(e) { alert("InterpreterSimulator - Error while generating commands after loop command: " + e);}
+        catch(e) { this.notifyError("Error while generating commands after loop command: " + e);}
     },
 
     generateCommandsAfterIfCommand: function(ifCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(ifCommand, Command) || !ifCommand.isIfStatementCommand()) { alert("InterpreterSimulator - argument has to be a if command!"); return; }
+            if(!ValueTypeHelper.isOfType(ifCommand, Command) || !ifCommand.isIfStatementCommand()) { this.notifyError("Argument has to be a if command!"); return; }
 
             var generatedCommands = CommandGenerator.generateIfStatementBodyCommands
             (
@@ -412,14 +414,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, generatedCommands, this.currentCommandIndex + 1);
         }
-        catch(e) { alert("Error while generating commands after if command: " + e);}
+        catch(e) { this.notifyError("Error while generating commands after if command: " + e);}
     },
 
     generateCommandsAfterConditionalCommand: function(conditionalCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(conditionalCommand, Command) || !conditionalCommand.isEvalConditionalExpressionBodyCommand()) { alert("InterpreterSimulator - argument has to be a conditional expression body command!"); return; }
+            if(!ValueTypeHelper.isOfType(conditionalCommand, Command) || !conditionalCommand.isEvalConditionalExpressionBodyCommand()) { this.notifyError("Argument has to be a conditional expression body command!"); return; }
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
@@ -432,14 +434,14 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 this.currentCommandIndex + 1
             );
         }
-        catch(e) { alert("Error while generating commands after conditional command: " + e);}
+        catch(e) { this.notifyError("Error while generating commands after conditional command: " + e);}
     },
 
     generateCommandsAfterCaseCommand: function(caseCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(caseCommand, Command) || !caseCommand.isCaseCommand()) { alert("InterpreterSimulator - argument has to be a case command!"); return; }
+            if(!ValueTypeHelper.isOfType(caseCommand, Command) || !caseCommand.isCaseCommand()) { this.notifyError("Argument has to be a case command!"); return; }
 
             if( caseCommand.codeConstruct.test == null
              || this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).value == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).value
@@ -456,7 +458,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 );
             }
         }
-        catch(e) { alert("Error while generating commands after case command: " + e);}
+        catch(e) { this.notifyError("Error while generating commands after case command: " + e);}
     },
 
     registerMessageGeneratedCallback: function(callbackFunction, thisValue)
@@ -495,7 +497,9 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             callbackDescription.callback.call(callbackDescription.thisValue, codeConstruct);
         });
-    }
+    },
+
+    notifyError: function (message) { Firecrow.Interpreter.InterpreterSimulator.notifyError(message); }
 };
 /******************************************************************************************/
 }});
