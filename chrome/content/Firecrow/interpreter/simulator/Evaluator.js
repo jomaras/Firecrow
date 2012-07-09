@@ -464,8 +464,7 @@ fcSimulator.Evaluator.prototype =
             {
 
                 this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getReturnExpressionPreciseEvaluationPositionId());
-                this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, this.executionContextStack.getPreviouslyExecutedBlockConstruct(), this.globalObject.getPreciseEvaluationPositionId());
-
+                this.executionContextStack.addDependenciesToPreviouslyExecutedBlockConstructs(evalReturnExpressionCommand.codeConstruct);
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
                 this.executionContextStack.setExpressionValueInPreviousContext
@@ -1047,30 +1046,17 @@ fcSimulator.Evaluator.prototype =
     addDependenciesToTopBlockConstructs: function(currentConstruct)
     {
         var topBlockConstructs = this.executionContextStack.getTopBlockCommandConstructs();
-        var previouslyExecutedConstruct = this.executionContextStack.getPreviouslyExecutedBlockConstruct();
-        var hasPreviouslyAlreadyBeenIncluded = false;
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
         for(var i = 0, length = topBlockConstructs.length; i < length; i++)
         {
             var topBlockConstruct = topBlockConstructs[i];
             this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, topBlockConstruct, evaluationPosition);
-
-            if(previouslyExecutedConstruct == topBlockConstructs)
-            {
-                hasPreviouslyAlreadyBeenIncluded = true;
-            }
         }
 
-        if(currentConstruct.previousCondition != null)
+        /*if(currentConstruct.previousCondition != null)
         {
             this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, currentConstruct.previousCondition, evaluationPosition);
-            if(previouslyExecutedConstruct == currentConstruct.previousCondition) { hasPreviouslyAlreadyBeenIncluded = true; }
-        }
-
-        /*if(previouslyExecutedConstruct != null && !hasPreviouslyAlreadyBeenIncluded)
-        {
-            this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, previouslyExecutedConstruct, evaluationPosition);
         }*/
     },
 

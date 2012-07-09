@@ -71,7 +71,8 @@ DependencyGraph.prototype.handleControlDependencyEstablished = function(sourceNo
             var lastDependency = sourceNodeModelObject.graphNode.dataDependencies[sourceNodeModelObject.graphNode.dataDependencies.length - 1];
             if(lastDependency != null)
             {
-                dependencyCreationInfo.callDependencyMaxIndex = lastDependency.index;
+                dependencyCreationInfo.callDependencyMaxIndex = lastDependency.callDependencyMaxIndex == null ? lastDependency.index
+                                                                                                              : lastDependency.callDependencyMaxIndex;
             }
         }
 
@@ -163,7 +164,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
         codeConstruct.includedByNodes.push(includedByNode);
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 21)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 30)
         {
             var a = 3;
         }
