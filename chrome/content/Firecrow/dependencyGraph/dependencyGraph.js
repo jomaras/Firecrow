@@ -169,16 +169,8 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
         codeConstruct.includedByNodes.push(includedByNode);
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 18)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 12)
         {
-            if(codeConstruct.nodeId == 43 || codeConstruct.nodeId == 41)
-            {
-                if(Firecrow.nodesToStudy == null) { Firecrow.nodesToStudy = {}; }
-                Firecrow.nodesToStudy[maxDependencyIndex] = codeConstruct;
-
-                //return;
-            }
-
             var a = 3;
         }
 

@@ -54,11 +54,11 @@ fcSimulator.Evaluator.prototype =
             else if (command.isStartCatchStatementCommand()) { this._evaluateStartCatchStatementCommand(command);}
             else if (command.isEndCatchStatementCommand()) { this._evaluateEndCatchStatementCommand(command);}
             else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
+            else if (command.isEndLogicalExpressionCommand()) { this._evaluateEndLogicalExpressionCommand(command); }
             else if (command.isEvalUnaryExpressionCommand()) { this._evaluateUnaryExpression(command); }
             else if (command.isCallInternalFunctionCommand()) { this._evaluateCallInternalFunction(command); }
             else if (command.isEvalCallbackFunctionCommand()) { this._evaluateCallbackFunctionCommand(command); }
             else if (command.isEvalSequenceExpressionCommand()) { this._evaluateSequenceExpression(command); }
-            else if (command.isEndLogicalExpressionCommand()) { this._evaluateEndLogicalExpressionCommand(command); }
             else
             {
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
@@ -428,6 +428,8 @@ fcSimulator.Evaluator.prototype =
         try
         {
             if(!ValueTypeHelper.isOfType(evalReturnExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; }
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
             this.addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.codeConstruct);
             evalReturnExpressionCommand.parentFunctionCommand.executedReturnCommand = evalReturnExpressionCommand;

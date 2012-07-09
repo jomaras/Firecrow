@@ -45,6 +45,7 @@ FBL.ns(function() { with (FBL) {
     Node.prototype.getDependencies = function(maxIndex, destinationConstraint)
     {
         var selectedDependencies = [];
+        var returnDependencies = {};
 
         var dependencies = this.dataDependencies;
 
@@ -54,7 +55,7 @@ FBL.ns(function() { with (FBL) {
 
             if(dependency.isReturnDependency && dependency.callDependencyMaxIndex <= maxIndex)
             {
-                selectedDependencies.push(dependency);
+                returnDependencies[dependency.index] = dependency;
             }
 
             if(dependency.index > maxIndex) { continue; }
@@ -68,6 +69,11 @@ FBL.ns(function() { with (FBL) {
 
                 var jThDependency = dependencies[j];
 
+                if(jThDependency.isReturnDependency && jThDependency.callDependencyMaxIndex <= maxIndex)
+                {
+                    returnDependencies[jThDependency.index] = jThDependency;
+                }
+
                 if((dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0)
                 && this.canFollowDependency(jThDependency, destinationConstraint))
                 {
@@ -75,12 +81,10 @@ FBL.ns(function() { with (FBL) {
                 }
             }
 
-            containsInterestingDependencies(selectedDependencies);
-
-            return selectedDependencies;
+            break;
         }
 
-        containsInterestingDependencies(selectedDependencies)
+        for(var depIndex in returnDependencies) { selectedDependencies.push(returnDependencies[depIndex]); }
 
         return selectedDependencies;
     };
