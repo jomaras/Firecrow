@@ -351,11 +351,22 @@ fcModel.ArrayProto =
         catch(e) { this.notifyError("When indexOf array: " + e); }
     },
 
-    updateItem: function(propertyName, newItem)
+    updateItem: function(propertyName, newItem, codeConstruct)
     {
         try
         {
-            if(ValueTypeHelper.isInteger(propertyName)) { this.items[propertyName] = newItem; }
+            if(ValueTypeHelper.isInteger(propertyName))
+            {
+                this.addDependenciesToAllProperties(codeConstruct);
+                var oldLength = this.items.length;
+                this.items[propertyName] = newItem;
+                this.addProperty(propertyName, newItem, codeConstruct);
+
+                if(this.items.length != oldLength)
+                {
+                    this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
+                }
+            }
         }
         catch(e) { this.notifyError("Error when updating item: " + e); }
     },

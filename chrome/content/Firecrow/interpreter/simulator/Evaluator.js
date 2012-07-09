@@ -234,7 +234,7 @@ fcSimulator.Evaluator.prototype =
 
                 object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
 
-                if(ValueTypeHelper.isArray(object.value)) { object.fcInternal.object.updateItem(property.value, finalValue); }
+                if(ValueTypeHelper.isArray(object.value)) { object.fcInternal.object.updateItem(property.value, finalValue, assignmentExpression); }
             }
 
             this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
