@@ -327,6 +327,8 @@ FBL.ns(function () { with (FBL) {
         {
             if(element == null) { return false; }
 
+            if(this.isCallExpression(element) || this.isUpdateExpression(element) || this.isAssignmentExpression(element)) { return true;}
+
             if(element.containsCallOrUpdateOrAssignmentExpression === true
             || element.containsCallOrUpdateOrAssignmentExpression === false)
             {

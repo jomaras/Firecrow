@@ -55,7 +55,7 @@ FBL.ns(function() { with (FBL) {
 
             if(dependency.isReturnDependency && dependency.callDependencyMaxIndex <= maxIndex)
             {
-                returnDependencies[dependency.index] = dependency;
+                selectedDependencies.push(dependency);
             }
 
             if(dependency.index > maxIndex) { continue; }
@@ -69,11 +69,6 @@ FBL.ns(function() { with (FBL) {
 
                 var jThDependency = dependencies[j];
 
-                if(jThDependency.isReturnDependency && jThDependency.callDependencyMaxIndex <= maxIndex)
-                {
-                    returnDependencies[jThDependency.index] = jThDependency;
-                }
-
                 if((dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0)
                 && this.canFollowDependency(jThDependency, destinationConstraint))
                 {
@@ -83,8 +78,6 @@ FBL.ns(function() { with (FBL) {
 
             break;
         }
-
-        for(var depIndex in returnDependencies) { selectedDependencies.push(returnDependencies[depIndex]); }
 
         return selectedDependencies;
     };

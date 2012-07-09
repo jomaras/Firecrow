@@ -429,7 +429,7 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(evalReturnExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; }
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
             this.addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.codeConstruct);
             evalReturnExpressionCommand.parentFunctionCommand.executedReturnCommand = evalReturnExpressionCommand;
@@ -464,6 +464,8 @@ fcSimulator.Evaluator.prototype =
             {
                 var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
                 evaluationPosition.isReturnDependency = true;
+                evaluationPosition.groupId = evaluationPosition.groupId.replace(/-[0-9]+$/, "");
+
                 this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, evaluationPosition);
                 this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, this.executionContextStack.getPreviouslyExecutedBlockConstruct(), this.globalObject.getPreciseEvaluationPositionId());
 

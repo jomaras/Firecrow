@@ -63,7 +63,7 @@
     <command id="cmd_FirecrowProfilePress" oncommand="Firebug.FirecrowModule.onFirecrowProfilePress()"/>
     <command id="cmd_FirecrowASTButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowASTButtonPress()"/>
     <command id="cmd_FirecrowSliceButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowSliceButtonPress()"/>
-      <command id="cmd_FirecrowRunTestsButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowRunTestsButtonPress()"/>
+    <command id="cmd_FirecrowRunTestsButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowRunTestsButtonPress()"/>
   </commandset>
   
   

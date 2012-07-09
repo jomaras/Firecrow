@@ -115,6 +115,9 @@ FBL.ns(function() { with (FBL) {
                         browser.buildPageFromModel(model);
 
                         dependencyGraph.markGraph(model.htmlElement);
+
+                        Firecrow.FileHelper.writeToFile(slicedPage, Firecrow.CodeTextGenerator.generateSlicedCode(model));
+
                         var errors = browser.errorMessages.join("<br/>");
 
                         slicingVars.forEach(function(slicingVar)
@@ -125,24 +128,34 @@ FBL.ns(function() { with (FBL) {
 
                             if(val.toString() != slicingVar.value.toString())
                             {
-                                errors += "The value of " + slicingVar.name + " differs - is " + propertyValue.value + " and should be " + slicingVar.value + ";;";
+                                errors += "In evaluated: the value of " + slicingVar.name + " differs - is " + propertyValue.value + " and should be " + slicingVar.value + ";;";
                             }
                         }, this);
 
-                        if(errors == "")
+                        this.getFirecrowResultsFromPage("file:///" + slicedPage.replace("/", "\\"), function(window)
                         {
-                            this.addMessageToCurrentDocument("OK - "  + subdirectory);
-                        }
-                        else
-                        {
-                            this.addMessageToCurrentDocument("ERROR - " + subdirectory + "  -> " + errors);
-                        }
+                            slicingVars.forEach(function(slicingVar)
+                            {
+                                var value = window[slicingVar.name];
+                                if(value.toString() != slicingVar.value.toString())
+                                {
+                                    errors += "In sliced: the value of " + slicingVar.name + " differs - is " + value + " and should be " + slicingVar.value + ";;";
+                                }
+                            }, this);
 
-                        this.addMessageToCurrentDocument("********************************************************");
+                            if(errors == "")
+                            {
+                                this.addMessageToCurrentDocument("OK - "  + subdirectory);
+                            }
+                            else
+                            {
+                                this.addMessageToCurrentDocument("ERROR - " + subdirectory + "  -> " + errors);
+                            }
 
-                        Firecrow.FileHelper.writeToFile(slicedPage, Firecrow.CodeTextGenerator.generateSlicedCode(model));
+                            this.addMessageToCurrentDocument("********************************************************");
 
-                        setTimeout(function(thisObj) { thisObj.processNextTest(); }, 500, this);
+                            setTimeout(function(thisObj) { thisObj.processNextTest(); }, 500, this);
+                        }, this);
                     }
                     catch(e) { alert("Error when testing a page: " + e); }
                 }, this);
@@ -357,6 +370,40 @@ FBL.ns(function() { with (FBL) {
 			}
 			catch(e) { alert("Loading html in iFrame errror: " + e); }
 		},
+
+        getFirecrowResultsFromPage: function(url, callbackFunction, thisObject)
+        {
+            try
+            {
+                var hiddenIFrame = fbHelper.getElementByID('fdHiddenIFrame');
+
+                this.hiddenIFrame = hiddenIFrame;
+
+                this.hiddenIFrame.style.height = "0px";
+                this.hiddenIFrame.webNavigation.allowAuth = true;
+                this.hiddenIFrame.webNavigation.allowImages = false;
+                this.hiddenIFrame.webNavigation.allowJavascript = true;
+                this.hiddenIFrame.webNavigation.allowMetaRedirects = true;
+                this.hiddenIFrame.webNavigation.allowPlugins = false;
+                this.hiddenIFrame.webNavigation.allowSubframes = false;
+
+                this.hiddenIFrame.addEventListener("DOMContentLoaded", function listener(e)
+                {
+                    try
+                    {
+                        var document = e.originalTarget.wrappedJSObject;
+
+                        callbackFunction.call(thisObject, document.defaultView);
+
+                        hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
+                    }
+                    catch(e) { alert("Error while serializing html code:" + e);}
+                }, true);
+
+                this.hiddenIFrame.webNavigation.loadURI(url, CI.nsIWebNavigation, null, null, null);
+            }
+            catch(e) { alert("Loading html in iFrame errror: " + e); }
+        },
 
         loadUrlInHiddenIFrame: function(url, callbackFunction, thisObject)
         {
