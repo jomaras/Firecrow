@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+</head>
+<body>
+<h2>Sylvester - test</h2>
+<script>
+    function Vector(els)
+    {
+        this.elements = els.elements || els;
+    };
+
+    function Segment(startPoint, endPoint)
+    {
+        startPoint = new Vector(startPoint);
+
+        new Vector(new Vector(startPoint));
+
+        this.start = startPoint;
+    };
+
+    var segment1 = new Segment([5,5]);
+    var segment2 = new Segment([1,1]);
+
+    var a2 = segment1.start.elements[0] == segment2.start.elements[0];
+    a2;
+</script>
+</body>
+</html>

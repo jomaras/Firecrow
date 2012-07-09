@@ -85,8 +85,8 @@ FBL.ns(function() { with (FBL) {
 
                 if(subdirectory == null) { return; }
 
-                var currentPage = subdirectory + "index-sliced.html";
-                var slicedPage = subdirectory + "index-sliced-sliced.html";
+                var currentPage = subdirectory + "index.html";
+                var slicedPage = subdirectory + "index-sliced.html";
 
                 this.loadUrlInHiddenIFrame(currentPage, function (model)
                 {
