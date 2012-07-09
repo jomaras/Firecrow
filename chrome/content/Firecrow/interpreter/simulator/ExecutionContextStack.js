@@ -498,6 +498,9 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+           // evaluationPosition.groupId = evaluationPosition.groupId.replace(/-([0-9])+$/, "");
+
             if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
             {
                 if(callExpressionCommand.isApply)
@@ -514,15 +517,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         (
                             formalParameters[i].value.fcInternal.codeConstruct,
                             arrayItem != null ? arrayItem.lastModificationConstruct.codeConstruct : null,
-                            this.globalObject.getPreciseEvaluationPositionId()
+                            evaluationPosition
                         );
 
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks
                         (
                             formalParameters[i].value.fcInternal.codeConstruct,
                             callExpressionCommand.codeConstruct,
-                            this.globalObject.getPreciseEvaluationPositionId()
+                            evaluationPosition
                         );
                     }
                 }
@@ -534,14 +536,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         (
                             formalParameters[i].value.fcInternal.codeConstruct,
                             arguments[i + 1],
-                            this.globalObject.getPreciseEvaluationPositionId()
+                            evaluationPosition
                         );
 
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks
                         (
                             formalParameters[i].value.fcInternal.codeConstruct,
                             callExpressionCommand.codeConstruct,
-                            this.globalObject.getPreciseEvaluationPositionId()
+                            evaluationPosition
                         );
                     }
                 }
@@ -553,14 +555,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                         (
                             formalParameters[i].value.fcInternal.codeConstruct,
                             arguments[i],
-                            this.globalObject.getPreciseEvaluationPositionId()
+                            evaluationPosition
                         );
 
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks
                         (
                             formalParameters[i].value.fcInternal.codeConstruct,
                             callExpressionCommand.codeConstruct,
-                            this.globalObject.getPreciseEvaluationPositionId()
+                            evaluationPosition
                         );
                     }
                 }
@@ -576,14 +578,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                     (
                         params[i],
                         argument != null ? argument.fcInternal.codeConstruct : null,
-                        this.globalObject.getPreciseEvaluationPositionId()
+                        evaluationPosition
                     );
 
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         params[i],
                         callExpressionCommand.codeConstruct,
-                        this.globalObject.getPreciseEvaluationPositionId()
+                        evaluationPosition
                     );
                 }
             }

@@ -518,6 +518,8 @@ fcSimulator.Evaluator.prototype =
             var propertyValue = object != this.globalObject ? object.value[property.value]
                                                             : this.globalObject.getPropertyValue(property.value);
 
+            var propertyExists = propertyValue !== undefined;
+
             if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue))
             {
                 if(ValueTypeHelper.isPrimitive(propertyValue))
@@ -567,7 +569,14 @@ fcSimulator.Evaluator.prototype =
             }
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.object, this.globalObject.getPreciseEvaluationPositionId());
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, this.globalObject.getPreciseEvaluationPositionId());
+
+            //Create a dependency only if the property exists, the problem is that if we don't ignore it here, that will lead to links
+            //to constructs where the property was not null
+            if(propertyExists)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, this.globalObject.getPreciseEvaluationPositionId());
+            }
+
             this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
         }
         catch(e) { this.notifyError(evalMemberExpressionCommand, "Error when evaluating member expression: " + e); }

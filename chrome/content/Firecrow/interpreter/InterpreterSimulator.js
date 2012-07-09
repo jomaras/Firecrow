@@ -51,7 +51,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
 
-                this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
+                this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + "-" + command.executionId + ":" + command.type);
             }
         }
         catch(e) { this.notifyError("Error while running the InterpreterSimulator: " + e); }

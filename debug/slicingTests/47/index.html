@@ -4,14 +4,20 @@
 </head>
 <body>
 <script>
-    var a = { a: 3 };
-    var b = a;
-    function sum(c, d)
+    var Vector = function (els)
     {
-        return this.a + c + d;
+        this.elements = els;
+    };
+
+    var a = new Vector(2);
+    var a1 = 0;
+
+    if(!a.test)
+    {
+       a1 += a.elements;
     }
 
-    var a1 = sum.call(b, 3, 4);
+    a1 += 3;
     a1;
 </script>
 </body>

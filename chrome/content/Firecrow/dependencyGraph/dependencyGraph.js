@@ -154,7 +154,8 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 {
     try
     {
-        if(codeConstruct.nodeId == 39)
+        if(codeConstruct.nodeId == 102 || codeConstruct.nodeId == 103
+         ||codeConstruct.nodeId == 104 || codeConstruct.nodeId == 108)
         {
             var a = 3;
         }
@@ -168,14 +169,14 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
         codeConstruct.includedByNodes.push(includedByNode);
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 24)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 18)
         {
-            if(codeConstruct.nodeId == 73 || codeConstruct.nodeId == 75)
+            if(codeConstruct.nodeId == 43 || codeConstruct.nodeId == 41)
             {
                 if(Firecrow.nodesToStudy == null) { Firecrow.nodesToStudy = {}; }
                 Firecrow.nodesToStudy[maxDependencyIndex] = codeConstruct;
 
-                return;
+                //return;
             }
 
             var a = 3;

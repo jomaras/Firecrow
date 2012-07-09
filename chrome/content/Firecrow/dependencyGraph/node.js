@@ -75,11 +75,29 @@ FBL.ns(function() { with (FBL) {
                 }
             }
 
+            containsInterestingDependencies(selectedDependencies);
+
             return selectedDependencies;
         }
 
+        containsInterestingDependencies(selectedDependencies)
+
         return selectedDependencies;
     };
+
+    function containsInterestingDependencies(dependencies)
+    {
+        for(var i = 0; i < dependencies.length; i++)
+        {
+            if(dependencies[i].index == 44 || dependencies[i].index == 45
+            || dependencies[i].index == 46 || dependencies[i].index == 57)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     Node.prototype.canFollowDependency = function(dependency, destinationConstraint)
     {

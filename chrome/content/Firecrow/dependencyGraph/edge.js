@@ -29,7 +29,14 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
         this.callDependencyMaxIndex = dependencyCreationInfo.callDependencyMaxIndex || index;
     }
 
-    /* var sourceStartLine = sourceNode.model.loc != null ? sourceNode.model.loc.start.line : sourceNode.model.parent.loc.start.line;
+    if(sourceNode.model.nodeId == 14)
+    {
+        console.log(sourceNode.model.nodeId + " index: " + this.index +  "; depCreationInfoId: " + dependencyCreationInfo.groupId + "; depCommand: " + dependencyCreationInfo.currentCommandId
+                 +  " destinationGroupId: " + this.destinationNodeDependencyConstraints.groupId + "; destDepCommand: " + this.destinationNodeDependencyConstraints.currentCommandId
+                 + " " + Firecrow.CodeTextGenerator.generateJsCode(this.destinationNode.model));
+    }
+
+     /*var sourceStartLine = sourceNode.model.loc != null ? sourceNode.model.loc.start.line : sourceNode.model.parent.loc.start.line;
      var sourceCode = Firecrow.CodeTextGenerator.generateJsCode(sourceNode.model);
 
      var destinationStartLine = destinationNode.model.loc != null ? destinationNode.model.loc.start.line : destinationNode.model.parent.loc.start.line;
@@ -39,7 +46,7 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
 
      var dependencyInfo = dependencyCreationInfo.groupId + "->" + dependencyCreationInfo.currentCommandId;
      var additionalInfo = destinationNodeDependencyConstraints == null ? "N" : destinationNodeDependencyConstraints.groupId + "->" + destinationNodeDependencyConstraints.currentCommandId;
-     console.log(location.replace(/\n/," ") + "; index:" + index + "; " + "; info: " + dependencyInfo + "; aInfo: " + additionalInfo); */
+     console.log(location.replace(/\n/," ") + "; index:" + index + "; " + "; info: " + dependencyInfo + "; aInfo: " + additionalInfo);*/
 };
 
 Firecrow.DependencyGraph.Edge.notifyError = function(message) { alert("Edge - " + message); }

@@ -6,31 +6,24 @@
 <body>
 <h2>Sylvester - test</h2>
 <script>
-    var Vector = function (els)
+    function Vector(els)
     {
-        this.elements = (els.elements || els).slice();
-
-        this.eql = function (vector)
-        {
-            return this.elements[0] == vector.elements[0];
-        };
+        this.elements = els.elements || els;
     };
 
-    var Segment = function (startPoint, endPoint)
+    function Segment(startPoint, endPoint)
     {
         startPoint = new Vector(startPoint);
-        endPoint = new Vector(endPoint);
 
-        new Vector(new Vector(startPoint.elements));
+        new Vector(new Vector(startPoint));
 
         this.start = startPoint;
-        this.end = endPoint;
     };
 
-    var segment1 = new Segment([5,5], [10,10]);
-    var segment2 = new Segment([1,1], [1,2]);
+    var segment1 = new Segment([5,5]);
+    var segment2 = new Segment([1,1]);
 
-    var a2 = segment1.start.eql(segment2.start) || segment1.start.eql(segment2.end);
+    var a2 = segment1.start.elements[0] == segment2.start.elements[0];
     a2;
 </script>
 </body>
