@@ -358,7 +358,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
             {
-                this.globalObject.evaluationPositionId += "-" + command.executionId;
+                this.globalObject.evaluationPositionId += "-" + command.executionId + (command.isEnterFunctionContextCommand() ? "f" : "");
             }
         }
         catch(e) { this.notifyError("Error when adding to block command stack!"); }
@@ -377,7 +377,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 var command = blockCommandStack[i];
                 if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
                 {
-                    this.globalObject.evaluationPositionId += "-" + command.executionId;
+                    this.globalObject.evaluationPositionId += "-" + command.executionId + (command.isEnterFunctionContextCommand() ? "f" : "");
                 }
             }
         }

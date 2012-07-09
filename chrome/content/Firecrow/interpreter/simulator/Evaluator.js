@@ -462,11 +462,8 @@ fcSimulator.Evaluator.prototype =
             }
             else
             {
-                var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-                evaluationPosition.isReturnDependency = true;
-                evaluationPosition.groupId = evaluationPosition.groupId.replace(/-[0-9]+$/, "");
 
-                this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, evaluationPosition);
+                this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getReturnExpressionPreciseEvaluationPositionId());
                 this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, this.executionContextStack.getPreviouslyExecutedBlockConstruct(), this.globalObject.getPreciseEvaluationPositionId());
 
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());

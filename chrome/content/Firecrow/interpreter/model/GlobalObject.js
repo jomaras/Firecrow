@@ -102,6 +102,25 @@ fcModel.GlobalObject = function(browser, documentFragment)
             return { groupId : this.evaluationPositionId, currentCommandId : this.currentCommand.executionId };
         };
 
+        this.getReturnExpressionPreciseEvaluationPositionId = function()
+        {
+            var evaluationPositionId = this.getPreciseEvaluationPositionId();
+            evaluationPositionId.isReturnDependency = true;
+
+            var offset = null;
+            evaluationPositionId.groupId.replace(/-[0-9]+f/g, function(match)
+            {
+                offset = arguments[arguments.length - 2];
+            });
+
+            if(offset)
+            {
+                evaluationPositionId.groupId = evaluationPositionId.groupId.substring(0, offset);
+            }
+
+            return evaluationPositionId;
+        };
+
         this.setCurrentCommand = function(command)
         {
             if(command == null) { fcModel.GlobalObject.notifyError("Command can not be null!");}

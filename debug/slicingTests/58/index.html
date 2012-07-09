@@ -8,17 +8,15 @@
 <script>
     function test()
     {
-        return false;
+        if(1)
+        {
+            return true;
+        }
     }
 
     function testFunction()
     {
-        if(test())
-        {
-            return 4;
-        }
-
-        return 3;
+        return a && test();
     }
 
     var a1 = testFunction();
