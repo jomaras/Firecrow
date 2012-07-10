@@ -29,12 +29,12 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
         this.callDependencyMaxIndex = dependencyCreationInfo.callDependencyMaxIndex || index;
     }
 
-    if(sourceNode.model.nodeId == 14)
+/*    if(sourceNode.model.nodeId == 14)
     {
         console.log(sourceNode.model.nodeId + " index: " + this.index +  "; depCreationInfoId: " + dependencyCreationInfo.groupId + "; depCommand: " + dependencyCreationInfo.currentCommandId
                  +  " destinationGroupId: " + this.destinationNodeDependencyConstraints.groupId + "; destDepCommand: " + this.destinationNodeDependencyConstraints.currentCommandId
                  + " " + Firecrow.CodeTextGenerator.generateJsCode(this.destinationNode.model));
-    }
+    }*/
 
      /*var sourceStartLine = sourceNode.model.loc != null ? sourceNode.model.loc.start.line : sourceNode.model.parent.loc.start.line;
      var sourceCode = Firecrow.CodeTextGenerator.generateJsCode(sourceNode.model);

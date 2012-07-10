@@ -69,7 +69,8 @@ FBL.ns(function() { with (FBL) {
 
                 var jThDependency = dependencies[j];
 
-                if((dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0)
+                if((dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0
+                 || jThDependency.dependencyCreationInfo.groupId.indexOf(dependency.dependencyCreationInfo.groupId) == 0)
                 && this.canFollowDependency(jThDependency, destinationConstraint))
                 {
                     selectedDependencies.push(jThDependency);

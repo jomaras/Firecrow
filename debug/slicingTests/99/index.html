@@ -2,29 +2,236 @@
 <html>
 <head>
     <title>Sylvester - test</title>
+    <script>
+    var Sylvester = {};
+    Sylvester.Matrix = function(){}
+
+    Sylvester.Matrix.prototype = {
+        dup: function ()
+        {
+            return Sylvester.Matrix.create(this.elements);
+        },
+
+        map: function (fn, context)
+        {
+            if (this.elements.length === 0)
+            {
+                return Sylvester.Matrix.create([]);
+            }
+            var els = [], i = this.elements.length, nj = this.elements[0].length, j;
+            while (i--)
+            {
+                j = nj;
+                els[i] = [];
+                while (j--)
+                {
+                    els[i][j] = fn.call(context, this.elements[i][j], i + 1, j + 1);
+                }
+            }
+            return Sylvester.Matrix.create(els);
+        },
+
+        isSquare: function ()
+        {
+            var cols = (this.elements.length === 0) ? 0 : this.elements[0].length;
+            return (this.elements.length === cols);
+        },
+
+        toRightTriangular: function ()
+        {
+            if (this.elements.length === 0) return Sylvester.Matrix.create([]);
+            var M = this.dup(), els;
+            var n = this.elements.length, i, j, np = this.elements[0].length, p;
+            for (i = 0; i < n; i++)
+            {
+                if (M.elements[i][i] === 0)
+                {
+                    for (j = i + 1; j < n; j++)
+                    {
+                        if (M.elements[j][i] !== 0)
+                        {
+                            els = [];
+                            for (p = 0; p < np; p++)
+                            {
+                                els.push(M.elements[i][p] + M.elements[j][p]);
+                            }
+                            M.elements[i] = els;
+                            break;
+                        }
+                    }
+                }
+                if (M.elements[i][i] !== 0)
+                {
+                    for (j = i + 1; j < n; j++)
+                    {
+                        var multiplier = M.elements[j][i] / M.elements[i][i];
+                        els = [];
+                        for (p = 0; p < np; p++)
+                        {
+                            els.push(p <= i ? 0 : M.elements[j][p] - M.elements[i][p] * multiplier);
+                        }
+                        M.elements[j] = els;
+                    }
+                }
+            }
+            return M;
+        },
+
+        determinant: function ()
+        {
+            if (this.elements.length === 0)
+            {
+                return 1;
+            }
+            if (!this.isSquare())
+            {
+                return null;
+            }
+            var M = this.toRightTriangular();
+            var det = M.elements[0][0], n = M.elements.length;
+            for (var i = 1; i < n; i++)
+            {
+                det = det * M.elements[i][i];
+            }
+            return det;
+        },
+
+        isSingular: function ()
+        {
+            return (this.isSquare() && this.determinant() === 0);
+        },
+
+        setElements: function (els)
+        {
+            var i, j, elements = els.elements || els;
+            if (elements[0] && typeof (elements[0][0]) !== 'undefined')
+            {
+                i = elements.length;
+                this.elements = [];
+                while (i--)
+                {
+                    j = elements[i].length;
+                    this.elements[i] = [];
+                    while (j--)
+                    {
+                        this.elements[i][j] = elements[i][j];
+                    }
+                }
+                return this;
+            }
+            var n = elements.length;
+            this.elements = [];
+            for (i = 0; i < n; i++)
+            {
+                this.elements.push([elements[i]]);
+            }
+            return this;
+        },
+        multiply:  function (matrix)
+        {
+            if (this.elements.length === 0)
+            {
+                return null;
+            }
+            if (!matrix.elements)
+            {
+                return this.map(function (x)
+                {
+                    return x * matrix;
+                });
+            }
+            var returnVector = matrix.modulus ? true : false;
+            var M = matrix.elements || matrix;
+            if (typeof (M[0][0]) === 'undefined')
+            {
+                M = Sylvester.Matrix.create(M).elements;
+            }
+            if (!this.canMultiplyFromLeft(M))
+            {
+                return null;
+            }
+            var i = this.elements.length,
+                    nj = M[0].length,
+                    j;
+            var cols = this.elements[0].length,
+                    c, elements = [],
+                    sum;
+            while (i--)
+            {
+                j = nj;
+                elements[i] = [];
+                while (j--)
+                {
+                    c = cols;
+                    sum = 0;
+                    while (c--)
+                    {
+                        sum += this.elements[i][c] * M[c][j];
+                    }
+                    elements[i][j] = sum;
+                }
+            }
+            var M = Sylvester.Matrix.create(elements);
+            return returnVector ? M.col(1) : M;
+        },
+
+        canMultiplyFromLeft: function (matrix)
+        {
+            if (this.elements.length === 0)
+            {
+                return false;
+            }
+            var M = matrix.elements || matrix;
+            if (typeof (M[0][0]) === 'undefined')
+            {
+                M = Sylvester.Matrix.create(M).elements;
+            }
+            // this.columns should equal matrix.rows
+            return (this.elements[0].length === M.length);
+        }
+    };
+
+    Sylvester.Matrix.Random = function (n, m)
+    {
+        return Sylvester.Matrix.Zero(n, m).map(
+        function ()
+        {
+            return Math.random();
+        });
+    };
+
+    Sylvester.Matrix.Zero = function (n, m)
+    {
+        var els = [],
+                i = n,
+                j;
+        while (i--)
+        {
+            j = m;
+            els[i] = [];
+            while (j--)
+            {
+                els[i][j] = 0;
+            }
+        }
+        return Sylvester.Matrix.create(els);
+    };
+
+    Sylvester.Matrix.create = function (elements)
+    {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+    };
+    </script>
 </head>
 <body>
 <h2>Sylvester - test</h2>
 <script>
-    function Vector(els)
-    {
-        this.elements = els.elements || els;
-    };
+    var M = Sylvester.Matrix.Random(3,3).multiply(10)
+    M.elements[0][0] = M.elements[1][0] = M.elements[2][0] = 0;
 
-    function Segment(startPoint, endPoint)
-    {
-        startPoint = new Vector(startPoint);
-
-        new Vector(new Vector(startPoint));
-
-        this.start = startPoint;
-    };
-
-    var segment1 = new Segment([5,5]);
-    var segment2 = new Segment([1,1]);
-
-    var a2 = segment1.start.elements[0] == segment2.start.elements[0];
-    a2;
+    var a1 = M.isSingular();
+    a1;
 </script>
 </body>
 </html>

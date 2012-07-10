@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Sylvester - test</title>
-</head>
 <body>
-<h2>Sylvester - test</h2>
 <script>
-
-    var a = [[1,2], [3,4]];
-
-    var sum = 0;
-
-    for(var i = 0; i < a.length; i++)
+    function test()
     {
-        for(var j = 0; j < a[i].length; j++)
+        var a = [4];
+        var sum = 0;
+        for(var i = 0;i < a.length; i++)
         {
-            sum += a[j][i];
+            sum += a[i];
         }
+
+        return sum;
     }
 
-    var a1 = sum;
-    a1;
 
+    var a1 = test();
+    a1;
 </script>
 </body>
 </html>

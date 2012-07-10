@@ -1379,7 +1379,7 @@ Sylvester.Matrix.prototype = {
         return (this.elements[0].length === M.length);
     },
 
-    multiply: function (matrix)
+    multiply:  function (matrix)
     {
         if (this.elements.length === 0)
         {

@@ -302,7 +302,7 @@ fcSimulator.Evaluator.prototype =
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 74)
+            if(identifierConstruct.loc != null && (identifierConstruct.loc.start.line == 71 || identifierConstruct.loc.start.line == 67))
             {
                 var a = 3;
             }
@@ -462,10 +462,9 @@ fcSimulator.Evaluator.prototype =
             }
             else
             {
-
-                this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getReturnExpressionPreciseEvaluationPositionId());
                 this.executionContextStack.addDependenciesToPreviouslyExecutedBlockConstructs(evalReturnExpressionCommand.codeConstruct);
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
+                this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getReturnExpressionPreciseEvaluationPositionId());
 
                 this.executionContextStack.setExpressionValueInPreviousContext
                 (
@@ -572,7 +571,7 @@ fcSimulator.Evaluator.prototype =
 
             //Create a dependency only if the property exists, the problem is that if we don't ignore it here, that will lead to links
             //to constructs where the property was not null
-            if(propertyExists)
+            if(propertyExists || ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
             {
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, this.globalObject.getPreciseEvaluationPositionId());
             }

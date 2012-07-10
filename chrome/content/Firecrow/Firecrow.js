@@ -363,7 +363,7 @@ FBL.ns(function() { with (FBL) {
 
                         hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
 					}
-					catch(e) { alert("Error while serializing html code:" + e);}
+                    catch(e) { alert("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
 				}, true);
 				
 				this.hiddenIFrame.webNavigation.loadURI(fbHelper.getCurrentUrl(), CI.nsIWebNavigation, null, null, null);
@@ -397,7 +397,7 @@ FBL.ns(function() { with (FBL) {
 
                         hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
                     }
-                    catch(e) { alert("Error while serializing html code:" + e);}
+                    catch(e) { alert("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
                 }, true);
 
                 this.hiddenIFrame.webNavigation.loadURI(url, CI.nsIWebNavigation, null, null, null);
@@ -436,7 +436,7 @@ FBL.ns(function() { with (FBL) {
 
                         hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
                     }
-                    catch(e) { alert("Error while serializing html code:" + e);}
+                    catch(e) { alert("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
                 }, true);
 
                 this.hiddenIFrame.webNavigation.loadURI(url, CI.nsIWebNavigation, null, null, null);

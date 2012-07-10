@@ -155,16 +155,20 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 {
     try
     {
-        if(includedByNode != null)
+        if(codeConstruct.nodeId == 21 && maxDependencyIndex == 64)
+        {
+            var a = 3;
+        }
+/*        if(includedByNode != null)
         {
             if(includedByNode.includesNodes == null) { includedByNode.includesNodes = []; }
             includedByNode.includesNodes.push(codeConstruct);
         }
 
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
-        codeConstruct.includedByNodes.push(includedByNode);
+        codeConstruct.includedByNodes.push(includedByNode);*/
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 30)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 14)
         {
             var a = 3;
         }
