@@ -37,8 +37,10 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.interpreterMessageGeneratedCallbacks = [];
         this.controlFlowConnectionCallbacks = [];
         this.importantConstructReachedCallbacks = [];
+        this.documentReadyCallbacks = [];
         this.slicingCriteria = [];
         this.errorMessages = [];
+        this.cssRules = [];
 
         if(!Firecrow.IsDebugMode)
         {
@@ -101,9 +103,14 @@ Browser.prototype =
 
                 this._buildSubtree(htmlModel.htmlElement, null, callback);
 
-                callback();
+                if(callback != null) { callback(); }
+
+                this._callDocumentReadyCallbacks();
             }
-            catch(e) { this.notifyError("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
+            catch(e)
+            {
+                this.notifyError("Exception when async getting html model at DoppelBrowser.Browser: " + e);
+            }
         });
     },
 
@@ -119,8 +126,13 @@ Browser.prototype =
             if(htmlModel.htmlElement == null) { this.notifyError("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
 
             this._buildSubtree(htmlModel.htmlElement, null);
+
+            this._callDocumentReadyCallbacks();
         }
-        catch(e) { this.notifyError("Exception when async getting html model at DoppelBrowser.Browser: " + e); }
+        catch(e)
+        {
+            this.notifyError("Exception when sync getting html model at DoppelBrowser.Browser: " + e);
+        }
     },
 
     buildPageFromModel: function(htmlModel, callback)
@@ -176,6 +188,8 @@ Browser.prototype =
 
             this._insertIntoDom(htmlDomElement, parentDomElement);
 
+            this._createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
+
             htmlModelElement.type == "script" ? htmlDomElement.textContent = htmlModelElement.textContent
                                               : "";
 
@@ -206,11 +220,7 @@ Browser.prototype =
             this._interpretJsCode(htmlModelNode);
             this._callInterpretJsCallbacks(htmlModelNode.pathAndModel.model);
         }
-        else if(htmlModelNode.type == "style")
-        {
-            this._buildCssNodes(htmlModelNode);
-        }
-        else if (htmlModelNode.type == "link")
+        else if(htmlModelNode.type == "style" || htmlModelNode.type == "link")
         {
             this._buildCssNodes(htmlModelNode);
         }
@@ -259,15 +269,29 @@ Browser.prototype =
     {
         try
         {
-            cssHtmlElementModelNode.pathAndModel.model.rules.forEach(function(cssRule)
+            cssHtmlElementModelNode.cssRules = cssHtmlElementModelNode.pathAndModel.model.rules;
+            cssHtmlElementModelNode.cssRules.forEach(function(cssRule)
             {
                 this._callNodeCreatedCallbacks(cssRule, "css", false);
                 this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
+                this.cssRules.push(cssRule);
             }, this);
-
-            //TODO - add to document.stylesheets
         }
         catch(e) { this.notifyError("DoppelBrowser.browser error when building css nodes: " + e);}
+    },
+
+    _createDependenciesBetweenHtmlNodeAndCssNodes: function(htmlModelNode)
+    {
+        var cssRules = this.cssRules;
+
+        for(var i = 0, length = cssRules.length; i < length; i++)
+        {
+           var cssRule = cssRules[i];
+           if(ValueTypeHelper.arrayContains(this.documentFragment.querySelectorAll(cssRule.selector), htmlModelNode.domElement))
+           {
+                this.callDataDependencyEstablishedCallbacks(htmlModelNode, cssRule, this.globalObject.getPreciseEvaluationPositionId());
+           }
+        }
     },
 
     _buildJavaScriptNodes: function(scriptHtmlElementModelNode)
@@ -345,6 +369,21 @@ Browser.prototype =
         if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - important construct reached callback has to be a function!"); return; }
 
         this.importantConstructReachedCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
+    registerDocumentReadyCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - important document ready callback has to be a function!"); return; }
+
+        this.documentReadyCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
+    _callDocumentReadyCallbacks: function()
+    {
+        this.documentReadyCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject);
+        });
     },
 
     _callNodeCreatedCallbacks: function(nodeModelObject, nodeType, isDynamic)

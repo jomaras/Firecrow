@@ -168,7 +168,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
         codeConstruct.includedByNodes.push(includedByNode);*/
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 56)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 12)
         {
             var a = 3;
         }

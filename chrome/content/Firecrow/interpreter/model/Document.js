@@ -74,16 +74,34 @@ fcModel.DocumentExecutor =
         var fcThisValue =  thisObject.fcInternal.object;
         var globalObject = fcThisValue.globalObject;
 
-        switch(functionName)
+        if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
+        else
         {
-            case "createElement":
-                return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value);
-            case "getElementsByTagName":
-                return this.wrapToFcHtmlElements(thisObjectValue.querySelectorAll("." + arguments[0].value), callExpression, globalObject);
-            case "getElementById":
-                return this.wrapToFcHtmlElement(thisObjectValue.querySelector("#" + arguments[0].value), callExpression, globalObject);
-            default:
-                this.notifyError("Unhandled internal method - " + functionName); return;
+            var result;
+            if(functionName == "getElementsByTagName"
+            || functionName == "querySelectorAll")
+            {
+                var elements = thisObjectValue.querySelectorAll( arguments[0].value);
+
+                for(var i = 0, length = elements.length; i < length; i++)
+                {
+                    globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, elements[i].modelElement, globalObject.getPreciseEvaluationPositionId());
+                }
+
+                return this.wrapToFcHtmlElements(elements, callExpression, globalObject);
+            }
+            else if(functionName == "getElementById"
+                 || functionName == "querySelector")
+            {
+                 var element = thisObjectValue.querySelector(functionName == "getElementById" ? ("#" + arguments[0].value) : (arguments[0].value));
+                 globalObject.browser.callDataDependencyEstablishedCallbacks (callExpression, element.modelElement, globalObject.getPreciseEvaluationPositionId());
+
+                return this.wrapToFcHtmlElement(element, callExpression, globalObject);
+            }
+            else
+            {
+                this.notifyError("Unknown document method!");
+            }
         }
     },
 

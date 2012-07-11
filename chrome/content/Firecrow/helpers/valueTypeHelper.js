@@ -110,8 +110,6 @@ Firecrow.ValueTypeHelper =
 
     arrayContains: function(array, item)
     {
-        if(!this.isArray(array)) { return false; }
-        
         for(var i = 0; i < array.length; i++)
         {
             if(array[i] === item) { return true; }

@@ -32,8 +32,9 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.emptyFunction = new fcModel.EmptyFunction(this);
         this.fcMath = new fcModel.Math(this);
         this.math = new fcModel.JsValue(this.fcMath, new fcModel.FcInternal(null, this.fcMath));
+        this.documentFragment = documentFragment;
         this.document = new fcModel.Document(documentFragment, this);
-        this.jsFcDocument = new fcModel.JsValue(this.document.documentFragment, new fcModel.FcInternal(null, this.document));
+        this.jsFcDocument = new fcModel.JsValue(documentFragment, new fcModel.FcInternal(null, this.document));
         this.browser = browser;
 
         this.addProperty("Array", this.arrayFunction , null);
@@ -101,7 +102,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.evaluationPositionId = "root";
         this.getPreciseEvaluationPositionId = function()
         {
-            return { groupId : this.evaluationPositionId, currentCommandId : (this.currentCommand != null ? this.currentCommand.executionId : "null") };
+            return { groupId : this.evaluationPositionId, currentCommandId : (this.currentCommand != null ? this.currentCommand.executionId : "0") };
         };
 
         this.getReturnExpressionPreciseEvaluationPositionId = function()

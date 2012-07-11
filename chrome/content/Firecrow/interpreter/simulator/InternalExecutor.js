@@ -264,6 +264,7 @@ fcSimulator.InternalExecutor.prototype =
             this._expandStringMethods();
             this._expandDocumentMethods();
             this._expandDocument();
+            this._expandDocumentFragment();
             this._expandMathMethods();
             this._expandGlobalObjectMethods();
         }
@@ -479,6 +480,14 @@ fcSimulator.InternalExecutor.prototype =
             }
         }
         catch(e) { this.notifyError("Error when expanding document: " + e); }
+    },
+
+    _expandDocumentFragment: function()
+    {
+        fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+        {
+            this.expandWithInternalFunction(this.globalObject.documentFragment, propertyName);
+        }, this);
     },
 
     notifyError: function(message) { Firecrow.Interpreter.Simulator.InternalExecutor.notifyError(message);}
