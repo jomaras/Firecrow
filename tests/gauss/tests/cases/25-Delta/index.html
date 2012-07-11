@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gauss</title>
+    <script src="../../gauss.js"></script>
+</head>
+<body>
+    <script>
+        var set = new Vector([10, 82, 67, 17, 36, 3, 1, 61, 33, 20, 18, 35, 15, 39, 52, 85, 17]);
+
+        var b1 = set.delta().toArray();
+
+        var sum = 0;
+
+        for(var i = 0; i < b1.length; i++)
+        {
+            sum += b1[i];
+        }
+
+
+        var a1 = sum == 7;
+        var a2 = b1[0] == 72;
+        var a3 = b1[2] == -50;
+        var a4 = b1[10] == 17;
+        var a5 = b1[15] == -68;
+
+        a1;a2;a3;a4;a5;
+    </script>
+</body>
+</html>

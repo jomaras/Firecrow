@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gauss</title>
+    <script src="../../gauss.js"></script>
+</head>
+<body>
+    <script>
+        var prices = new Vector([22.2734, 22.194, 22.0847, 22.1741, 22.184, 22.1344, 22.2337, 22.4323, 22.2436, 22.2933, 22.1542, 22.3926]);
+
+        var b1 = prices.sma(1);
+
+        var a1 = prices.vector[0] == b1[0];
+        var a2 = prices.vector[5] == b1[5];
+        var a3 = prices.vector[10] == b1[10];
+
+        a1;a2;a3;
+    </script>
+</body>
+</html>

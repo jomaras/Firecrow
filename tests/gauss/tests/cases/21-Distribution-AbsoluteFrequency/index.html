@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gauss</title>
+    <script src="../../gauss.js"></script>
+</head>
+<body>
+    <script>
+        var set = new Vector([10, 82, 67, 17, 36, 3, 36, 61, 33, 20]);
+
+        var b1 = set.distribution();
+
+        var sum = 0;
+        for(var prop in b1)
+        {
+            sum += b1[prop];
+        }
+
+        var a1 = sum == 10;
+        var a2 = b1[3] == 1;
+        var a3 = b1[10] == 1;
+        var a4 = b1[17] == 1;
+        var a5 = b1[33] == 1;
+        var a6 = b1[36] == 2;
+        var a7 = b1[67] == 1;
+
+        a1;a2;a3;a4;a5;a6;a7;
+
+    </script>
+</body>
+</html>

@@ -6,10 +6,8 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 
 //TODO - implicit call toString method of an object if participating in a binary expression!
-//TODO - define Object.isOwnProperty and other Object.prototype methods
-//TODO - implement String.replace commands
-//TODO - merge array callbacks and string callbacks
-//TODO - remove all alert calls - put everywhere only one notifyError
+//TODO - define Object.isOwnProperty and other Object.prototype methods; Array.prototype...
+
 
 var ExecutionContextStack = Firecrow.Interpreter.Simulator.ExecutionContextStack;
 var Command = Firecrow.Interpreter.Commands.Command;

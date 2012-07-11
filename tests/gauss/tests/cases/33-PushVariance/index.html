@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gauss</title>
+    <script src="../../gauss.js"></script>
+</head>
+<body>
+    <script>
+
+        var prices = new Vector([22.2734, 22.194, 22.0847, 22.1741, 22.184, 22.1344,
+            22.2337, 22.4323, 22.2436, 22.2933, 22.1542, 22.3926,
+            22.3816, 22.6109, 23.3558]);
+
+
+        var vector = new Vector();
+        vector.push(1,2,3);
+
+        var numbers = new Vector();
+        numbers.push(
+                22.2734, 22.194, 22.0847, 22.1741, 22.184, 22.1344,
+                22.2337, 22.4323, 22.2436, 22.2933, 22.1542, 22.3926,
+                22.3816, 22.6109, 23.3558);
+
+        var a1 = numbers.variance() == prices.variance();
+
+        a1;
+    </script>
+</body>
+</html>

@@ -4,27 +4,45 @@
     <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" line="850" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Rearanged the oreder of creation for dependecies from the return expression. In node, groupIds get compared in both ways (mainly the problem was with dependencies between for test and for increment (increment is considered inside of a loop, while test is kind-a outside of it)&#10;&#10;Also, when evaluating a member expression, a link to the property is created if a property exists or if it is the last property on the left hand side of the assignement expression">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/62/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/99/trimmedURI.js" />
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/02-Maximum/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/03-sum/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/04-Product/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/05-ArithmeticMean/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/06-GeometricMean/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/07-HarmonicMean/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/08-QuadraticMean/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/09-Median-EvenNumber/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/10-MedianOddNumber/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/11-Mode-Tie/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/12-Mode-Majority/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/13-Mode-Uniform/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/14-Range/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/15-Variance/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/16-StandardDeviation-Population/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/17-StandardDeviation-Percentage/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/18-Frequency/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/19-Percentile/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/20-Density/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/21-Distribution-AbsoluteFrequency/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/22-Distribution-RelativeFrequency/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/23-Quantile-4/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/24-Quantile-10/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/25-Delta/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/26-SMA-10/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/27-SMA-1/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/28-ExponentialMovingAverage-1/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/29-ExponentialMovingAverage-10/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/30-ExponentialMovingAverage-10-Wilder/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/31-Push/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/32-Push-Sum/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/33-PushVariance/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/gauss/tests/cases/34-Push-HVariance/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Function.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Function.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/JsValue.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/JsValue.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Math.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Math.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" afterPath="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/99/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/99/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/medialize/tests/URI.js" afterPath="$PROJECT_DIR$/tests/medialize/tests/URI.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,73 +92,7 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="gauss.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/gauss/tests/gauss.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="19" selection-start="1067" selection-end="1067" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inclusionFinder.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="414" column="31" selection-start="16499" selection-end="16499" vertical-scroll-proportion="-11.4">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Firecrow.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="224" column="85" selection-start="10157" selection-end="10157" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugSlicing.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="94" column="49" selection-start="4496" selection-end="4496" vertical-scroll-proportion="-4.576923">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="slicingModelMapping.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="624" column="47" selection-start="889152" selection-end="889152" vertical-scroll-proportion="0.37037036">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Evaluator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="922" column="32" selection-start="52323" selection-end="52324" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Math.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Math.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="5" selection-start="1115" selection-end="1115" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -153,22 +105,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/JsValue.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
-        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/01-Min/index.html" />
-        <option value="$PROJECT_DIR$/tests/gauss/tests/gauss.js" />
-        <option value="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" />
-        <option value="$PROJECT_DIR$/debug/slicingTests/62/index.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Math.js" />
-        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
-        <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/18-Frequency/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/19-Percentile/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/20-Density/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/21-Distribution-AbsoluteFrequency/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/22-Distribution-RelativeFrequency/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/23-Quantile-4/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/24-Quantile-10/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/25-Delta/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/26-SMA-10/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/27-SMA-1/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/28-ExponentialMovingAverage-1/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/29-ExponentialMovingAverage-10/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/30-ExponentialMovingAverage-10-Wilder/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/31-Push/index-sliced.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/33-PushVariance/index.html" />
+        <option value="$PROJECT_DIR$/tests/gauss/tests/cases/34-Push-HVariance/index.html" />
       </list>
     </option>
   </component>
@@ -232,140 +184,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gauss" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gauss" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cases" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="01-Min" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gauss" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="playground" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slicingTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -398,11 +216,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\99" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\62" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\61" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\60" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\59" />
+      <recent name="C:\GitWebStorm\Firecrow\tests\gauss\tests\cases\34-Push-HVariance" />
+      <recent name="C:\GitWebStorm\Firecrow\tests\gauss\tests\cases\33-PushVariance" />
+      <recent name="C:\GitWebStorm\Firecrow\tests\gauss\tests\cases\32-Push-Sum" />
+      <recent name="C:\GitWebStorm\Firecrow\tests\gauss\tests\cases\31-Push" />
+      <recent name="C:\GitWebStorm\Firecrow\tests\gauss\tests\cases\30-ExponentialMovingAverage-10-Wilder" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\debug\gauss\tests" />
@@ -1062,7 +880,11 @@
       <created>1341914152810</created>
       <updated>1341914152810</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="Allowed calling internal methods over call, apply. Fixed a bug in Math method invocation">
+      <created>1341985975703</created>
+      <updated>1341985975703</updated>
+    </task>
+    <option name="localTasksCounter" value="146" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -1087,23 +909,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16666667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12286325" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16234158" sideWeight="0.39955848" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1804466" sideWeight="0.39955848" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56390977" sideWeight="0.4202381" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6004415" sideWeight="0.57559526" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6004415" sideWeight="0.57559526" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30463576" sideWeight="0.48630953" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.6474359" order="3" side_tool="false" content_ui="combo" />
@@ -1147,7 +969,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rearanged the oreder of creation for dependecies from the return expression. In node, groupIds get compared in both ways (mainly the problem was with dependencies between for test and for increment (increment is considered inside of a loop, while test is kind-a outside of it)&#10;&#10;Also, when evaluating a member expression, a link to the property is created if a property exists or if it is the last property on the left hand side of the assignement expression" />
+    <option name="LAST_COMMIT_MESSAGE" value="Allowed calling internal methods over call, apply. Fixed a bug in Math method invocation" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1160,7 +982,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Backup before introducing end call expression commands" />
     <MESSAGE value="In order to be able to create a link between the call expression and its return expression i had to change the algorithm a bit. I decided to add a flag to the dependencyInfo which signalizes that this is that type of dependency. Then when creating the dependency i check the last dependency of the callExpression and remember its index. Then in the getting dependency phase when i run into this dependency i allow it if that remember index is less then max index" />
     <MESSAGE value="When reading a member expression, if it is on the left hand side of the assignment expression and is not += -=... don't create dependencies towards declaration and last modification position.&#10;&#10;When reading member expression if there exists a last modification statemen, don't create a dependency towards the declaration statement" />
     <MESSAGE value="Fixed a bug with creating a dependency to with statement object" />
@@ -1185,6 +1006,7 @@
     <MESSAGE value="Backup before adding connection from a return expression to all executed braches/loops in the function context" />
     <MESSAGE value="Connections from return expressions (and callExpressions) to all previously executed loops/branches in current function context are added" />
     <MESSAGE value="Rearanged the oreder of creation for dependecies from the return expression. In node, groupIds get compared in both ways (mainly the problem was with dependencies between for test and for increment (increment is considered inside of a loop, while test is kind-a outside of it)&#10;&#10;Also, when evaluating a member expression, a link to the property is created if a property exists or if it is the last property on the left hand side of the assignement expression" />
+    <MESSAGE value="Allowed calling internal methods over call, apply. Fixed a bug in Math method invocation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1196,106 +1018,114 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/27-SMA-1/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="53" selection-start="505" selection-end="505" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/01-Min/index-sliced.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMappingLarge.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="22" selection-start="163" selection-end="163" vertical-scroll-proportion="0.09792627" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/01-Min/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="22" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
+        <state line="16" column="17" selection-start="453" selection-end="453" vertical-scroll-proportion="0.31812865">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/26-SMA-10/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="279" column="93" selection-start="11435" selection-end="11435" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="29" selection-start="3172" selection-end="3172" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/62/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="36" selection-start="152" selection-end="152" vertical-scroll-proportion="0.0">
+        <state line="25" column="20" selection-start="607" selection-end="607" vertical-scroll-proportion="0.49707603">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/25-Delta/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="30" selection-start="2011" selection-end="2041" vertical-scroll-proportion="0.45046082">
+        <state line="26" column="23" selection-start="554" selection-end="554" vertical-scroll-proportion="0.5169591">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/gauss.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/24-Quantile-10/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="19" selection-start="1067" selection-end="1067" vertical-scroll-proportion="0.0">
+        <state line="22" column="35" selection-start="526" selection-end="526" vertical-scroll-proportion="0.4374269">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/23-Quantile-4/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="414" column="31" selection-start="16499" selection-end="16499" vertical-scroll-proportion="-11.4">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="224" column="85" selection-start="10157" selection-end="10157" vertical-scroll-proportion="0.0">
+        <state line="16" column="18" selection-start="366" selection-end="366" vertical-scroll-proportion="0.31812865">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/31-Push/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="922" column="32" selection-start="52323" selection-end="52324" vertical-scroll-proportion="0.0">
+        <state line="24" column="16" selection-start="521" selection-end="521" vertical-scroll-proportion="0.47719297">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/31-Push/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="221" column="57" selection-start="9055" selection-end="9055" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Math.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/30-ExponentialMovingAverage-10-Wilder/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="5" selection-start="1115" selection-end="1115" vertical-scroll-proportion="0.0">
+        <state line="13" column="46" selection-start="438" selection-end="438" vertical-scroll-proportion="0.25847954">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/29-ExponentialMovingAverage-10/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="49" selection-start="4496" selection-end="4496" vertical-scroll-proportion="-4.576923">
+        <state line="14" column="50" selection-start="447" selection-end="447" vertical-scroll-proportion="0.27836257">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/28-ExponentialMovingAverage-1/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="624" column="47" selection-start="889152" selection-end="889152" vertical-scroll-proportion="0.37037036">
+        <state line="16" column="17" selection-start="454" selection-end="454" vertical-scroll-proportion="0.31812865">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/33-PushVariance/index-sliced.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/ECMAScript.js2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="171" column="25" selection-start="7536" selection-end="7536" vertical-scroll-proportion="0.3325766">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/34-Push-HVariance/index-sliced.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/34-Push-HVariance/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="17" selection-start="278" selection-end="278" vertical-scroll-proportion="0.21871345">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/33-PushVariance/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="11" selection-start="696" selection-end="696" vertical-scroll-proportion="0.49707603">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/gauss/tests/cases/32-Push-Sum/index-sliced.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.15321638">
           <folding />
         </state>
       </provider>

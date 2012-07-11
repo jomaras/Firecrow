@@ -455,9 +455,9 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
             forStatement.shouldBeIncluded = true;
 
-            this.processElement(forStatement.init);
-            this.processElement(forStatement.test)
-            this.processElement(forStatement.update)
+            if(forStatement.init != null) { this.processElement(forStatement.init); }
+            if(forStatement.test != null) { this.processElement(forStatement.test); }
+            if(forStatement.update != null) {this.processElement(forStatement.update)}
 
             this.processElement(forStatement.body);
         }

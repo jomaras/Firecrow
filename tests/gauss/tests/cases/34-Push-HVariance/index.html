@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gauss</title>
+    <script src="../../gauss.js"></script>
+</head>
+<body>
+    <script>
+
+        var heterogeneous = new Vector([72, -15, -50, 19, -33, -2, 60, -28, -13, -2, 17, -20, 24, 13, 33, -68, 75, -4, -18, -4,19]);
+
+        var mixed = new Vector();
+        mixed.push(72, -15, -50, 19, -33, -2, 60, -28, -13, -2, 17, -20, 24, 13, 33, -68, 75, -4, -18, -4, 19);
+
+        var a1 = mixed.variance() === heterogeneous.variance();
+        a1;
+    </script>
+</body>
+</html>
