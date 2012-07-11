@@ -53,7 +53,7 @@ fcModel.MathExecutor =
 
             return new fcModel.JsValue
             (
-                Math[functionObject.value.name](arguments[0] != null ? arguments[0].value : null),
+                Math[functionObject.value.name].apply(null, arguments.map(function(argument) { return argument.value; })),
                 new fcModel.FcInternal(callExpression)
             );
         }

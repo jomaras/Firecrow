@@ -23,8 +23,6 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
     this.fcInternal = this;
 };
 
-fcModel.Function._LAST_USED_ID = 0;
-
 fcModel.EmptyFunction = function(globalObject)
 {
     this.globalObject = globalObject;

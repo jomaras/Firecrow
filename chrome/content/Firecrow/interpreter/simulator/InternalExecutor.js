@@ -210,6 +210,20 @@ fcSimulator.InternalExecutor.prototype =
         {
             if(thisObject == null) { this.notifyError("This object can not be null when executing function!"); return; }
 
+            if(callCommand.isCall || callCommand.isApply)
+            {
+                if(functionObject == null || functionObject.value == null || functionObject.value.jsValue == null || functionObject.value.jsValue.fcInternal == null)
+                {
+                    this.notifyError("Error when executing call applied internal method!");
+                }
+
+                if(functionObject.value.jsValue.fcInternal.ownerObject == Math)
+                {
+                    return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);
+                }
+                else{ this.notifyError("Unhandled call applied internal method"); }
+            }
+
             if(ValueTypeHelper.isOfType(thisObject.value, Array)) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (ValueTypeHelper.isString(thisObject.value)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (ValueTypeHelper.isOfType(thisObject.value, RegExp)) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
@@ -418,6 +432,7 @@ fcSimulator.InternalExecutor.prototype =
             fcModel.Math.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
             {
                 this.expandWithInternalFunction(Math, propertyName);
+                Math[propertyName].jsValue.fcInternal.ownerObject = Math;
             }, this);
         }
         catch(e) { this.notifyError("Error when expanding math methods: " + e); }

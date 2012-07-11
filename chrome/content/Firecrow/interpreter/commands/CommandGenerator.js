@@ -198,6 +198,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             {
                 return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject);
             }
+            else if(functionObject.fcInternal.isInternalFunction && (callExpressionCommand.isCall || callExpressionCommand.isApply))
+            {
+                return this._generateInternalFunctionExecutionCallApplyCommands(callExpressionCommand, functionObject, thisObject);
+            }
 
             var enterFunctionContextCommand = fcCommands.Command.createEnterFunctionContextCommand(functionObject, thisObject, callExpressionCommand);
             var exitFunctionContextCommand = fcCommands.Command.createExitFunctionContextCommand(functionObject, callExpressionCommand);
@@ -282,6 +286,26 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             return commands;
         }
         catch(e) { this.notifyError("CommandGenerator - error when generating internal function execution commands: " + e); }
+    },
+
+    _generateInternalFunctionExecutionCallApplyCommands: function(callExpressionCommand, functionObject, thisObject)
+    {
+       try
+       {
+           var command = fcCommands.Command.createCallInternalFunctionCommand
+           (
+               callExpressionCommand.codeConstruct,
+               functionObject,
+               thisObject,
+               callExpressionCommand.parentFunctionCommand
+           );
+
+           command.isCall = callExpressionCommand.isCall;
+           command.isApply = callExpressionCommand.isApply;
+
+           return [command];
+       }
+       catch(e) { this.notifyError("Error when generating internal function execution commands:" + e);; }
     },
 
     generateCallbackFunctionExecutionCommands: function(callbackCommand)

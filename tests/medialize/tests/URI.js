@@ -1154,22 +1154,22 @@ p.removeSearch = p.removeQuery;
 
 // sanitizing URLs
 p.normalize = function() {
-    if (this._parts.urn) {
-        return this
-            .normalizeProtocol(false)
-            .normalizeQuery(false)
-            .normalizeFragment(false)
-            .build();
+    if (this._parts.urn)
+    {
+        var normalizedProtocol = this.normalizeProtocol(false);
+        var normalizedQuery = normalizedProtocol.normalizeQuery(false);
+        var normalizeFragment = normalizedQuery.normalizeFragment(false);
+        return normalizeFragment.build();
     }
-    
-    return this
-        .normalizeProtocol(false)
-        .normalizeHostname(false)
-        .normalizePort(false)
-        .normalizePath(false)
-        .normalizeQuery(false)
-        .normalizeFragment(false)
-        .build();
+
+    var normalizedProtocol = this.normalizeProtocol(false);
+    var normalizedHostname = normalizedProtocol.normalizeProtocol(false);
+    var normalizedPort = normalizedHostname.normalizePort(false);
+    var normalizedPath =  normalizedPort.normalizePath(false);
+    var normalizedQuery = normalizedPath.normalizeQuery(false);
+    var normalizedFragment = normalizedQuery.normalizeFragment(false);
+
+    return normalizedFragment.build();
 };
 p.normalizeProtocol = function(build) {
     if (typeof this._parts.protocol === "string") {
@@ -1500,7 +1500,7 @@ p.equals = function(uri) {
     return true;
 };
 
-(typeof module !== 'undefined' && module.exports 
+(typeof module !== 'undefined' && module.exports
     ? module.exports = URI
     : window.URI = URI
 );

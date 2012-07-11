@@ -14,12 +14,12 @@ fcModel.JsValue = function(value, fcInternal)
     {
         this.value = value;
         this.fcInternal = fcInternal;
-        this.id = fcModel.JsValue._LAST_ID++;
+        this.id = fcModel.JsValue.LAST_ID++;
     }
     catch(e) { alert("JsValue - error when creating: " + e); }
 };
 
-fcModel.JsValue._LAST_ID = 0;
+fcModel.JsValue.LAST_ID = 0;
 fcModel.JsValue.notifyError = function(message) { alert("JsValue - " + message);}
 
 fcModel.JsValue.prototype =

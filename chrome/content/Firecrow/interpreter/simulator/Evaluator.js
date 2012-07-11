@@ -571,7 +571,7 @@ fcSimulator.Evaluator.prototype =
 
             //Create a dependency only if the property exists, the problem is that if we don't ignore it here, that will lead to links
             //to constructs where the property was not null
-            if(propertyExists || ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
+            if(propertyExists || !ASTHelper.isIdentifier(memberExpression.property) || ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
             {
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, this.globalObject.getPreciseEvaluationPositionId());
             }
@@ -955,15 +955,44 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(callInternalFunctionCommand, Firecrow.Interpreter.Commands.Command) || !callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
 
-            var args = [];
             var callExpression = callInternalFunctionCommand.codeConstruct;
+
+            var thisObject = callInternalFunctionCommand.thisObject;
+            var args = [];
+            var arguments = callExpression.arguments || [];
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, callExpression.callee, this.globalObject.getPreciseEvaluationPositionId());
 
-            if(callExpression.arguments != null)
+            if(callInternalFunctionCommand.isCall || callInternalFunctionCommand.isApply)
             {
-                var arguments = callExpression.arguments;
+                thisObject = this.executionContextStack.getExpressionValue(arguments[0]);
 
+                if(callInternalFunctionCommand.isCall)
+                {
+                    for(var i = 1, length = arguments.length; i < length; i++)
+                    {
+                        var argument = arguments[i];
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, this.globalObject.getPreciseEvaluationPositionId());
+                        args.push(this.executionContextStack.getExpressionValue(argument));
+                    }
+                }
+                else
+                {
+                    var secondArgumentValue = this.executionContextStack.getExpressionValue(arguments[1]);
+
+                    if(secondArgumentValue != null && secondArgumentValue.value != null)
+                    {
+                        args = secondArgumentValue.value;
+                    }
+
+                    if(ValueTypeHelper.isArray(secondArgumentValue.value))
+                    {
+                        secondArgumentValue.fcInternal.object.addDependenciesToAllProperties(callExpression);
+                    }
+                }
+            }
+            else
+            {
                 for(var i = 0, length = arguments.length; i < length; i++)
                 {
                     var argument = arguments[i];
@@ -977,7 +1006,7 @@ fcSimulator.Evaluator.prototype =
                 callInternalFunctionCommand.codeConstruct,
                 this.globalObject.internalExecutor.executeFunction
                 (
-                    callInternalFunctionCommand.thisObject,
+                    thisObject,
                     callInternalFunctionCommand.functionObject,
                     args,
                     callInternalFunctionCommand.codeConstruct,

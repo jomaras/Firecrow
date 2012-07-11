@@ -22,7 +22,6 @@ fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, 
         this.scopeChain = ValueTypeHelper.createArrayCopy(scopeChain);
         this.scopeChain.push(this.variableObject);
 
-        this.id = fcSimulator.ExecutionContext.LAST_INSTANCE_ID++;
         this.contextCreationCommand = contextCreationCommand;
 
         this.codeConstructValuesMapping = {};
@@ -99,8 +98,6 @@ fcSimulator.ExecutionContext.createGlobalExecutionContext = function(globalObjec
     }
     catch(e) { Firecrow.Interpreter.Simulator.ExecutionContext.notifyError("Error when constructing the global execution context: " + e); }
 };
-
-fcSimulator.ExecutionContext.LAST_INSTANCE_ID = 0;
 
 fcSimulator.ExecutionContextStack = function(globalObject)
 {

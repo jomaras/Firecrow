@@ -73,7 +73,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             else if (ASTHelper.isIdentifier(element)) { return this.isIncludedIdentifier(element); }
             else
             {
-                this.notifyError("Error while finding inclusions unidentified ast element: ");
+                this.notifyError("Error while finding inclusions unidentified ast element");
             }
         }
         catch(e) { alert("Error while finding inclusions: " + e); }
@@ -417,9 +417,9 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
         try
         {
             return forStatement.shouldBeIncluded
-                || this.isIncludedElement(forStatement.init)
-                || this.isIncludedElement(forStatement.test)
-                || this.isIncludedElement(forStatement.update)
+                || (forStatement.init != null ? this.isIncludedElement(forStatement.init) : false)
+                || (forStatement.test != null ? this.isIncludedElement(forStatement.test) : false)
+                || (forStatement.update != null ? this.isIncludedElement(forStatement.update) : false)
                 || this.isIncludedElement(forStatement.body);
         }
         catch(e) { this.notifyError("Error when finding inclusions from for statement:" + e); }

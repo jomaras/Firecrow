@@ -67,6 +67,12 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
             Firecrow.Interpreter.Simulator.InternalExecutor.notifyError = function(message) { errorMessages.push("InternalExecutor - " + message); }
             Firecrow.Interpreter.Simulator.VariableObject.notifyError = function(message) { errorMessages.push("VariableObject - " + message); }
             Firecrow.Interpreter.InterpreterSimulator.notifyError = function(message) { errorMessages.push("InterpreterSimulator - " + message); }
+
+            Firecrow.DependencyGraph.Node.LAST_ID = 0;
+            Firecrow.Interpreter.Model.JsValue.LAST_ID = 0;
+            Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
+            Firecrow.Interpreter.Model.Identifier.LAST_ID = 0;
+            Firecrow.Interpreter.Model.Object.LAST_ID = 0;
         }
     }
     catch(e) { Firecrow.DoppelBrowser.Browser.notifyError("Error when initialising Doppel Browser.Browser: " + e); }

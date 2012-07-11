@@ -45,6 +45,8 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("undefined", new fcModel.JsValue(undefined, new fcModel.FcInternal()));
         this.addProperty("location", this.internalExecutor.createLocationObject());
 
+        this.currentCommand = null;
+
         this.internalExecutor.expandInternalFunctions();
         FBL.ORIG_WINDOW = this.origWindow;
 
@@ -99,7 +101,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.evaluationPositionId = "root";
         this.getPreciseEvaluationPositionId = function()
         {
-            return { groupId : this.evaluationPositionId, currentCommandId : this.currentCommand.executionId };
+            return { groupId : this.evaluationPositionId, currentCommandId : (this.currentCommand != null ? this.currentCommand.executionId : "null") };
         };
 
         this.getReturnExpressionPreciseEvaluationPositionId = function()

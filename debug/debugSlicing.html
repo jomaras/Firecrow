@@ -102,7 +102,7 @@
     var Firecrow = FBL.Firecrow;
     var WebFile = Firecrow.DoppelBrowser.WebFile;
     var Browser = Firecrow.DoppelBrowser.Browser;
-    var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/slicingTests/61/index.html");
+    var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/slicingTests/62/index.html");
     var model = HtmlModelMapping.getWholeFileModel(webFile.url);
     var messageContainer = document.getElementById("messageContainer");
 
@@ -124,9 +124,9 @@
     browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
     browser.registerInterpreterMessageGeneratedCallback(function(message)
     {
-        var messageItemContainer = document.createElement("div");
+        /*var messageItemContainer = document.createElement("div");
         messageItemContainer.textContent = message;
-        messageContainer.appendChild(messageItemContainer);
+        messageContainer.appendChild(messageItemContainer);*/
     });
 
     browser.asyncBuildPage(function()

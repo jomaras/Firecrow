@@ -15,13 +15,13 @@ FBL.ns(function() { with (FBL) {
         this.model.graphNode = this;
         this.idString = this.generateId();
 
-        this.idNum = Node._LAST_ID++;
+        this.idNum = Node.LAST_ID++;
     };
 
     Firecrow.DependencyGraph.Node.notifyError = function(message) { alert("Node - " + message); }
 
     var Node = Firecrow.DependencyGraph.Node;
-    Node._LAST_ID = 0;
+    Node.LAST_ID = 0;
 
     Node.prototype.isNodeOfType = function(type) { return this.type === type; };
     Node.prototype.isHtmlNode = function() { return this.isNodeOfType("html"); };
