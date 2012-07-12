@@ -1096,8 +1096,10 @@ Firecrow.CodeTextGenerator.prototype =
 
                 if(this.isSlicing && !rule.shouldBeIncluded) { continue; }
 
-                cssText += rule.cssText;
+                cssText += this.newLine + this.whitespace + rule.cssText;
             }
+
+            if(cssText != "") { cssText += this.newLine;}
 
             return cssText;
         }
