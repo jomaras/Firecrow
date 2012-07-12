@@ -37,7 +37,7 @@ fcModel.RegExPrototype = function(globalObject)
 
         fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            var internalFunction = globalObject.internalExecutor.createInternalFunction(RegExp.prototype[propertyName], propertyName, this);
+            var internalFunction = globalObject.internalExecutor.createInternalFunction(RegExp.prototype[propertyName], propertyName, this, true);
             this[propertyName] = internalFunction;
             this.addProperty(propertyName, internalFunction, null, false);
         }, this);

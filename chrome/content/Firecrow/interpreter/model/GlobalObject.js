@@ -11,6 +11,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
     try
     {
         this.__proto__ = new fcModel.Object(this);
+        this.browser = browser;
 
         this.origWindow = Firecrow.getWindow();
         this.origDocument = Firecrow.getDocument();
@@ -29,13 +30,12 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.stringFunction = new fcModel.StringFunction(this);
         this.arrayFunction = new fcModel.ArrayFunction(this);
         this.regExFunction = new fcModel.RegExFunction(this);
-        this.emptyFunction = new fcModel.EmptyFunction(this);
+
         this.fcMath = new fcModel.Math(this);
         this.math = new fcModel.JsValue(this.fcMath, new fcModel.FcInternal(null, this.fcMath));
         this.documentFragment = documentFragment;
         this.document = new fcModel.Document(documentFragment, this);
         this.jsFcDocument = new fcModel.JsValue(documentFragment, new fcModel.FcInternal(null, this.document));
-        this.browser = browser;
 
         this.addProperty("Array", new fcModel.JsValue(this.arrayFunction, new fcModel.FcInternal(null, this.arrayFunction)) , null);
         this.addProperty("RegExp", new fcModel.JsValue(this.regExFunction, new fcModel.FcInternal(null, this.regExFunction)) , null);

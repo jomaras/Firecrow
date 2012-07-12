@@ -107,12 +107,15 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when creating function: " + e); }
     },
 
-    createInternalFunction: function(functionObject, functionName, parentObject)
+    createInternalFunction: function(functionObject, functionName, parentObject, dontExpandCallApply)
     {
         var internalNamedFunction = fcModel.Function.createInternalNamedFunction(this.globalObject, functionName, parentObject);
 
-        this.expandWithInternalFunction(functionObject, "call");
-        this.expandWithInternalFunction(functionObject, "apply");
+        if(!dontExpandCallApply)
+        {
+            this.expandWithInternalFunction(functionObject, "call");
+            this.expandWithInternalFunction(functionObject, "apply");
+        }
 
         return new fcModel.JsValue
         (
@@ -125,7 +128,7 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            if(object == null) { this.notifyError("Argument object can not be null when expanding with internal function")}
+            if(object == null) { this.notifyError("Argument object can not be null when expanding with internal function: " + this.globalObject.browser.htmlWebFile.url)}
 
             if(object[functionName] && !object[functionName].hasOwnProperty("jsValue"))
             {
