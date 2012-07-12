@@ -288,6 +288,10 @@ fcSimulator.InternalExecutor.prototype =
             {
                 return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);
             }
+            else if (functionObject.fcInternal.object.ownerObject == this.globalObject.objectPrototype)
+            {
+                return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression)
+            }
             else
             {
                 this.notifyError("Unhandled call applied internal method: " + codeConstruct.loc.source);
@@ -302,6 +306,7 @@ fcSimulator.InternalExecutor.prototype =
         {
             if(functionObject.value == this.globalObject.arrayFunction) { return this.createArray(callExpression, Array.apply(null, arguments)); }
             else if(functionObject.value == this.globalObject.arrayFunction) { return this.createRegEx(callExpression, Array.apply(null, arguments.map(function(item){ return item.value; }))); }
+            else if(functionObject.value != null && functionObject.value.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else
             {
                 this.notifyError("Unknown internal function!");
@@ -407,6 +412,11 @@ fcSimulator.InternalExecutor.prototype =
                     }
                 );
             }
+
+            ["toString", "hasOwnProperty"].forEach(function(propertyName)
+            {
+                this.expandWithInternalFunction(objectPrototype, propertyName);
+            }, this);
         }
         catch(e) { this.notifyError("Error when expanding Object prototype"); }
     },

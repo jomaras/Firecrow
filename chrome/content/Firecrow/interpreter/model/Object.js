@@ -12,8 +12,6 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcModel.ObjectFunction = function() { };
-
 fcModel.Object = function(globalObject, codeConstruct, implementationObject, prototype)
 {
     this.id = fcModel.Object.LAST_ID++;
@@ -280,8 +278,62 @@ fcModel.Object.prototype =
 fcModel.ObjectPrototype = function(globalObject)
 {
     this.globalObject = globalObject;
+
+    this.__proto__ = new fcModel.Object(globalObject);
+
+    fcModel.ObjectPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+    {
+        var internalFunction = globalObject.internalExecutor.createInternalFunction(Object.prototype[propertyName], propertyName, this);
+        this[propertyName] = internalFunction;
+        this.addProperty(propertyName, internalFunction, null, false);
+    }, this);
+
+    this.fcInternal = { object: this };
 };
 
 fcModel.ObjectPrototype.prototype = new fcModel.Object(null);
+
+fcModel.ObjectPrototype.CONST =
+{
+    INTERNAL_PROPERTIES :
+    {
+        METHODS: ["toString", "hasOwnProperty", "isPrototypeOf"]
+    }
+};
+
+fcModel.ObjectFunction = function(globalObject)
+{
+    try
+    {
+        this.__proto__ = new fcModel.Object(globalObject);
+
+        this.prototype = new fcModel.JsValue(globalObject.objectPrototype, new fcModel.FcInternal(null, globalObject.objectPrototype)) ;
+        this.addProperty("prototype", globalObject.objectPrototype);
+
+        this.isInternalFunction = true;
+        this.name = "Object";
+        this.fcInternal = { object: this };
+    }
+    catch(e){ Firecrow.Interpreter.Model.Object.notifyError("Error when creating Object Function:" + e); }
+};
+
+fcModel.ObjectFunction.prototype = new fcModel.Object(null);
+
+fcModel.ObjectExecutor =
+{
+    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+    {
+        try
+        {
+            return new fcModel.JsValue
+            (
+                Object.prototype[functionObject.value.name].apply(thisObject.value, arguments.map(function(item){return item.value})),
+                new fcModel.FcInternal(callExpression)
+            );
+        }
+        catch(e){ Firecrow.Interpreter.Model.Object.notifyError("Error when executing internal method:" + e); }
+    }
+};
+
 /*************************************************************************************/
 }});

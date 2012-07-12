@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    function b1()
+    {
+        this.a = 3;
+    }
+
+    b1.prototype = {
+        b: 4
+    }
+
+    var obj = new b1();
+
+    var sum = 0;
+
+    for(var prop in obj)
+    {
+        sum += obj[prop];
+    }
+
+    var a1 = sum;
+
+    sum = 0;
+
+    for(var prop in obj)
+    {
+        if(obj.hasOwnProperty(prop))
+        {
+            sum += obj[prop];
+        }
+    }
+
+    var a2 = sum;
+
+    sum = 0;
+
+    for(var prop in obj)
+    {
+        if(hasOwnProperty.call(obj, prop))
+        {
+            sum += obj[prop];
+        }
+    }
+
+    var a3 = sum;
+
+    a1; a2; a3;
+
+</script>
+</body>
+</html>
