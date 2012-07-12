@@ -224,6 +224,26 @@ fcSimulator.InternalExecutor.prototype =
         catch(e){ this.notifyError("Error when creating location object");}
     },
 
+    createNavigatorObject: function()
+    {
+        var fcNavigator = new fcModel.Object(this.globalObject, null, navigator);
+
+        fcNavigator.addProperty("appCodeName", new fcModel.JsValue(this.globalObject.origWindow.navigator.appCodeName, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("appName", new fcModel.JsValue(this.globalObject.origWindow.navigator.appName, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("appVersion", new fcModel.JsValue(this.globalObject.origWindow.navigator.appVersion, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("buildID", new fcModel.JsValue(this.globalObject.origWindow.navigator.buildID, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("cookieEnabled", new fcModel.JsValue(this.globalObject.origWindow.navigator.cookieEnabled, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("doNotTrack", new fcModel.JsValue(this.globalObject.origWindow.navigator.doNotTrack, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("language", new fcModel.JsValue(this.globalObject.origWindow.navigator.language, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("oscpu", new fcModel.JsValue(this.globalObject.origWindow.navigator.oscpu, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("platform", new fcModel.JsValue(this.globalObject.origWindow.navigator.platform, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("product", new fcModel.JsValue(this.globalObject.origWindow.navigator.product, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("productSub", new fcModel.JsValue(this.globalObject.origWindow.navigator.productSub, new fcModel.FcInternal(null)));
+        fcNavigator.addProperty("userAgent", new fcModel.JsValue(this.globalObject.origWindow.navigator.userAgent, new fcModel.FcInternal(null)));
+
+        return new fcModel.JsValue(navigator, new fcModel.FcInternal(null, fcNavigator));
+    },
+
     executeConstructor: function(constructorConstruct, internalConstructor, argumentValues)
     {
         try

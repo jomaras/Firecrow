@@ -47,6 +47,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("window", this, null);
         this.addProperty("undefined", new fcModel.JsValue(undefined, new fcModel.FcInternal()));
         this.addProperty("location", this.internalExecutor.createLocationObject());
+        this.addProperty("navigator", this.internalExecutor.createNavigatorObject());
 
         this.currentCommand = null;
 
