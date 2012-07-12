@@ -32,7 +32,7 @@ fcModel.EmptyFunction = function(globalObject)
 fcModel.EmptyFunction.prototype = new fcModel.Object(null);
 fcModel.Function.prototype = new fcModel.EmptyFunction(null);
 
-fcModel.Function.createInternalNamedFunction = function(globalObject, name)
+fcModel.Function.createInternalNamedFunction = function(globalObject, name, ownerObject)
 {
     try
     {
@@ -40,6 +40,7 @@ fcModel.Function.createInternalNamedFunction = function(globalObject, name)
 
         functionObject.name = name;
         functionObject.isInternalFunction = true;
+        functionObject.ownerObject = ownerObject;
 
         return functionObject;
     }

@@ -11,6 +11,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 fcModel.Math = function(globalObject)
 {
     this.globalObject = globalObject;
+    this.__proto__ = new fcModel.Object(globalObject);
 
     fcModel.Math.CONST.INTERNAL_PROPERTIES.PROPERTIES.forEach(function(property)
     {
@@ -19,11 +20,11 @@ fcModel.Math = function(globalObject)
         this[property] = propertyValue;
     }, this);
 
-    fcModel.Math.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(property)
+    fcModel.Math.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
     {
-        var propertyValue = new fcModel.JsValue(Math[property], new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(this.globalObject, property)));
-        this.addProperty(property, propertyValue, null);
-        this[property] = propertyValue;
+        var internalFunction = globalObject.internalExecutor.createInternalFunction(Math[propertyName], propertyName, this);
+        this[propertyName] = internalFunction;
+        this.addProperty(propertyName, internalFunction, null, false);
     }, this);
 };
 

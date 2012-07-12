@@ -379,15 +379,18 @@ fcModel.ArrayPrototype = function(globalObject)
     try
     {
         this.globalObject = globalObject;
+        this.__proto__ = new fcModel.Object(globalObject);
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
         fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
+            var internalFunction = globalObject.internalExecutor.createInternalFunction(Array.prototype[propertyName], propertyName, this);
+            this[propertyName] = internalFunction;
+            this.addProperty(propertyName, internalFunction, null, false);
         }, this);
 
         this.fcInternal = { object: this };
     }
-    catch(e) { Firecrow.Interpreter.Model.Array.notifyError("Error when creating array prototype:" + e + " " + codeConstruct.loc.source); }
+    catch(e) { Firecrow.Interpreter.Model.Array.notifyError("Error when creating array prototype:" + e); }
 };
 
 fcModel.ArrayPrototype.prototype = new fcModel.Object(null);
@@ -405,10 +408,14 @@ fcModel.ArrayFunction = function(globalObject)
 {
     try
     {
+        this.__proto__ = new fcModel.Object(globalObject);
+
+        this.prototype = new fcModel.JsValue(globalObject.arrayPrototype, new fcModel.FcInternal(null, globalObject.arrayPrototype)) ;
         this.addProperty("prototype", globalObject.arrayPrototype);
+
         this.isInternalFunction = true;
         this.name = "Array";
-        this.fcInternal = this;
+        this.fcInternal = { object: this };
     }
     catch(e){ Firecrow.Interpreter.Model.Array.notifyError("Error when creating Array Function:" + e); }
 };

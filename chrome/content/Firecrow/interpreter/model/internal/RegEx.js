@@ -33,10 +33,13 @@ fcModel.RegExPrototype = function(globalObject)
     try
     {
         this.globalObject = globalObject;
+        this.__proto__ = new fcModel.Object(globalObject);
 
         fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
+            var internalFunction = globalObject.internalExecutor.createInternalFunction(RegExp.prototype[propertyName], propertyName, this);
+            this[propertyName] = internalFunction;
+            this.addProperty(propertyName, internalFunction, null, false);
         }, this);
 
         this.fcInternal = { object: this };
@@ -59,10 +62,14 @@ fcModel.RegExFunction = function(globalObject)
 {
     try
     {
+        this.__proto__ = new fcModel.Object(globalObject);
+
+        this.prototype = new fcModel.JsValue(globalObject.regExPrototype, new fcModel.FcInternal(null, globalObject.regExPrototype)) ;
         this.addProperty("prototype", globalObject.regExPrototype);
+
         this.isInternalFunction = true;
         this.name = "RegExp";
-        this.fcInternal = this;
+        this.fcInternal = { object: this };
     }
     catch(e){ Firecrow.Interpreter.Model.RegEx.notifyError("Error when creating RegEx Function:" + e); }
 };

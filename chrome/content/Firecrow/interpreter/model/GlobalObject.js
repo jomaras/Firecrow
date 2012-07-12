@@ -37,10 +37,10 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.jsFcDocument = new fcModel.JsValue(documentFragment, new fcModel.FcInternal(null, this.document));
         this.browser = browser;
 
-        this.addProperty("Array", this.arrayFunction , null);
-        this.addProperty("RegExp", this.regExFunction, null);
-        this.addProperty("String", this.stringFunction, null);
-        this.addProperty("document",this.jsFcDocument, null);
+        this.addProperty("Array", new fcModel.JsValue(this.arrayFunction, new fcModel.FcInternal(null, this.arrayFunction)) , null);
+        this.addProperty("RegExp", new fcModel.JsValue(this.regExFunction, new fcModel.FcInternal(null, this.regExFunction)) , null);
+        this.addProperty("String", new fcModel.JsValue(this.stringFunction, new fcModel.FcInternal(null, this.stringFunction)) , null);
+        this.addProperty("document", this.jsFcDocument, null);
         this.addProperty("Math", this.math, null);
         this.addProperty("window", this, null);
         this.addProperty("undefined", new fcModel.JsValue(undefined, new fcModel.FcInternal()));
@@ -48,8 +48,9 @@ fcModel.GlobalObject = function(browser, documentFragment)
 
         this.currentCommand = null;
 
-        this.internalExecutor.expandInternalFunctions();
         FBL.ORIG_WINDOW = this.origWindow;
+
+        this.internalExecutor.expandInternalFunctions();
 
         fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(methodName)
         {
@@ -133,7 +134,10 @@ fcModel.GlobalObject = function(browser, documentFragment)
         };
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
-    catch(e) { fcModel.GlobalObject.notifyError("Error when initializing global object:" + e); }
+    catch(e)
+    {
+        fcModel.GlobalObject.notifyError("Error when initializing global object:" + e);
+    }
 };
 
 fcModel.GlobalObject.notifyError = function(message) { alert("GlobalObject - " + message); }
