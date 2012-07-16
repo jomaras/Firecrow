@@ -52,7 +52,17 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
     {
         if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
 
-        sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo);
+        if(ValueTypeHelper.isArray(targetNodeModelObject))
+        {
+            for(var i = 0; i < targetNodeModelObject.length; i++)
+            {
+                sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject[i].graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo);
+            }
+        }
+        else
+        {
+            sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo);
+        }
     }
     catch(e)
     {

@@ -5,36 +5,24 @@
  */
 var testObject = {};
 
-HtmlModelMapping.models.forEach(function(model, index)
+HtmlModelMapping.models.forEach(function(htmlModel, index)
 {
     testObject["test test" + (index + 1)] = function()
     {
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
         var Browser = Firecrow.DoppelBrowser.Browser;
-        var webFile = new WebFile(model.url);
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
 
-        var browser = new Browser(webFile, []);
-        browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
-        browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
-        browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
-        browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
-        browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
-        browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
-        browser.registerSlicingCriteria(model.results.map(function(result)
+        Firecrow.Slicer.slice(htmlModel.model, htmlModel.results.map(function(result)
         {
             for(var propName in result)
             {
-                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(webFile.url, -1, propName);
+                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(htmlModel.url, -1, propName);
             }
         }));
 
-        browser.syncBuildPage();
-
-        dependencyGraph.markGraph(model.model.htmlElement);
-
-        assertEquals(Firecrow.CodeTextGenerator.generateSlicedCode(model.model), atob(model.slicingResult));
+        assertEquals(Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model), atob(htmlModel.slicingResult));
     };
 });
 

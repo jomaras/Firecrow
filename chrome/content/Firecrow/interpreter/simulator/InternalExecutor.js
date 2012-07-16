@@ -279,7 +279,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject.fcInternal.globalObject.jsFcDocument, functionObject, arguments, callExpression);}
             else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
-            else if (ValueTypeHelper.isOfType(thisObject.value, fcModel.Math)) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (thisObject.value == this.globalObject.fcMath) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (functionObject.fcInternal.isInternalFunction) { return this._executeInternalFunction(thisObject, functionObject, arguments, callExpression, callCommand); }
             else
             {
@@ -324,9 +324,10 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            if(functionObject.value == this.globalObject.arrayFunction) { return this.createArray(callExpression, Array.apply(null, arguments)); }
-            else if(functionObject.value == this.globalObject.arrayFunction) { return this.createRegEx(callExpression, Array.apply(null, arguments.map(function(item){ return item.value; }))); }
-            else if(functionObject.value != null && functionObject.value.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+                 if (functionObject.value == this.globalObject.arrayFunction) { return this.createArray(callExpression, Array.apply(null, arguments)); }
+            else if (functionObject.value == this.globalObject.regExFunction) { return this.createRegEx(callExpression, Array.apply(null, arguments.map(function(item){ return item.value; }))); }
+            else if (functionObject.value != null && functionObject.value.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.value.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, arguments, callExpression, this.globalObject); }
             else
             {
                 this.notifyError("Unknown internal function!");
@@ -351,6 +352,20 @@ fcSimulator.InternalExecutor.prototype =
             this._expandGlobalObjectMethods();
         }
         catch(e) { this.notifyError("Error when expanding internal functions: " + e);}
+    },
+
+    removeInternalFunctions: function()
+    {
+        this._removeArrayMethods();
+        this._removeFunctionPrototype();
+        this._removeObjectPrototype();
+        this._removeRegExMethods();
+        this._removeStringMethods();
+        this._removeDocumentMethods();
+        this._removeDocument();
+        this._removeDocumentFragment();
+        this._removeMathMethods();
+        this._removeGlobalObjectMethods();
     },
 
     expandBasicObject: function(object)
@@ -410,6 +425,22 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when expanding function prototype: " + e); }
     },
 
+    _removeFunctionPrototype: function()
+    {
+        try
+        {
+            var functionPrototype = Function.prototype;
+
+            functionPrototype.jsValue = null;
+
+            fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                functionPrototype[propertyName].jsValue = null;
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when removing function prototype: " + e); }
+    },
+
     _expandObjectPrototype: function()
     {
         try
@@ -441,6 +472,21 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when expanding Object prototype"); }
     },
 
+    _removeObjectPrototype: function()
+    {
+        try
+        {
+            var objectPrototype = Object.prototype;
+
+            objectPrototype.jsValue = null;
+
+            ["toString", "hasOwnProperty"].forEach(function(propertyName)
+            {
+                objectPrototype[propertyName].jsValue = null;
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when removing Object prototype"); }
+    },
 
     _expandArrayMethods: function()
     {
@@ -461,6 +507,20 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when expanding array methods: " + e); }
     },
 
+    _removeArrayMethods: function()
+    {
+        try
+        {
+            var arrayPrototype = Array.prototype;
+
+            fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                arrayPrototype[propertyName].jsValue = null;
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when removing array methods: " + e); }
+    },
+
     _expandRegExMethods: function()
     {
         try
@@ -473,6 +533,23 @@ fcSimulator.InternalExecutor.prototype =
             }, this);
         }
         catch(e) { this.notifyError("Error when expanding regEx methods: " + e); }
+    },
+
+    _removeRegExMethods: function()
+    {
+        try
+        {
+            var regExPrototype = RegExp.prototype;
+
+            fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                if(regExPrototype[propertyName] != null)
+                {
+                    regExPrototype[propertyName].jsValue = null;
+                }
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when removing regEx methods: " + e); }
     },
 
     _expandStringMethods: function()
@@ -489,6 +566,20 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when expanding string methods: " + e); }
     },
 
+    _removeStringMethods: function()
+    {
+        try
+        {
+            var stringPrototype = String.prototype;
+
+            fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                stringPrototype[propertyName].jsValue = null;
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when removing string methods: " + e); }
+    },
+
     _expandMathMethods: function()
     {
         try
@@ -502,11 +593,31 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when expanding math methods: " + e); }
     },
 
+    _removeMathMethods: function()
+    {
+        try
+        {
+            fcModel.Math.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                Math[propertyName].jsValue = null;
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when removing math methods: " + e); }
+    },
+
     _expandGlobalObjectMethods: function()
     {
         fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
             this.expandWithInternalFunction(this.globalObject.origWindow, propertyName);
+        }, this);
+    },
+
+    _removeGlobalObjectMethods: function()
+    {
+        fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+        {
+            this.globalObject.origWindow[propertyName].jsValue = null;
         }, this);
     },
 
@@ -522,27 +633,49 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when expanding document methods: " + e); }
     },
 
+    _removeDocumentMethods: function()
+    {
+        try
+        {
+            fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                if(this.globalObject.origDocument[propertyName] != null)
+                {
+                    this.globalObject.origDocument[propertyName].jsValue = null;
+                }
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when removing document methods: " + e); }
+    },
+
     _expandDocument: function()
     {
         try
         {
-            if(!Object.hasOwnProperty.call(this.globalObject.origDocument, "jsValue"))
-            {
-                Object.defineProperty
-                (
-                    this.globalObject.origDocument,
-                    "jsValue",
-                    {
-                        value: new fcModel.JsValue
-                        (
-                            this.globalObject.origDocument,
-                            this.globalObject.document
-                        )
-                    }
-                );
-            }
+            Object.defineProperty
+            (
+                this.globalObject.origDocument,
+                "jsValue",
+                {
+                    value: new fcModel.JsValue
+                    (
+                        this.globalObject.origDocument,
+                        this.globalObject.document
+                    ),
+                    writable:true
+                }
+            );
         }
         catch(e) { this.notifyError("Error when expanding document: " + e); }
+    },
+
+    _removeDocument: function()
+    {
+        try
+        {
+            this.globalObject.origDocument.jsValue = null;
+        }
+        catch(e) { this.notifyError("Error when removing document: " + e); }
     },
 
     _expandDocumentFragment: function()
@@ -550,6 +683,17 @@ fcSimulator.InternalExecutor.prototype =
         fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
             this.expandWithInternalFunction(this.globalObject.documentFragment, propertyName);
+        }, this);
+    },
+
+    _removeDocumentFragment: function()
+    {
+        fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+        {
+            if(this.globalObject.documentFragment[propertyName] != null)
+            {
+                this.globalObject.documentFragment[propertyName].jsValue = null;
+            }
         }, this);
     },
 

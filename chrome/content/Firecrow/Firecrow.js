@@ -85,72 +85,20 @@ FBL.ns(function() { with (FBL) {
 
                 if(subdirectory == null) { return; }
 
-                var currentPage = subdirectory + "index.html";
-                var slicedPage = subdirectory + "index-sliced.html";
+                var currentPageUrl = "file:///" + subdirectory.replace(/\\/g, "/") + "index.html";
 
-                this.loadUrlInHiddenIFrame(currentPage, function (model)
+                this.loadUrlInHiddenIFrame(currentPageUrl, true, function (window, model)
                 {
                     try
                     {
                         var Firecrow = FBL.Firecrow;
-                        var Browser = Firecrow.DoppelBrowser.Browser;
-                        ASTHelper.setParentsChildRelationships(model);
 
-                        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
-                        var browser = new Browser();
+                        var slicingVars = this.getDefaultSlicingVariablesFromWindow(window);
 
-                        var slicingVars = JSON.parse(Firecrow.FileHelper.readFromFile(subdirectory + "index-results.txt"))
-                        browser.registerSlicingCriteria(slicingVars.map(function(slicingVar)
+                        this.slicePage(currentPageUrl, model, slicingVars, function(errors)
                         {
-                            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(currentPage, -1, slicingVar.name);
-                        }));
-
-                        browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
-                        browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
-                        browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
-                        browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
-                        browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
-                        browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
-
-                        browser.buildPageFromModel(model);
-
-                        dependencyGraph.markGraph(model.htmlElement);
-
-                        Firecrow.FileHelper.writeToFile(slicedPage, Firecrow.CodeTextGenerator.generateSlicedCode(model));
-
-                        var errors = browser.errorMessages.join("<br/>");
-
-                        slicingVars.forEach(function(slicingVar)
-                        {
-                            var propertyValue = browser.globalObject.getPropertyValue(slicingVar.name);
-                            var val = propertyValue.value;
-                            if(val === null) { val = "null";}
-
-                            if(val.toString() != slicingVar.value.toString())
-                            {
-                                errors += "In evaluated: the value of " + slicingVar.name + " differs - is " + propertyValue.value + " and should be " + slicingVar.value + ";;";
-                            }
-                        }, this);
-
-                        this.getFirecrowResultsFromPage("file:///" + slicedPage.replace("/", "\\"), function(window)
-                        {
-                            slicingVars.forEach(function(slicingVar)
-                            {
-                                var value = window[slicingVar.name];
-                                if(value.toString() != slicingVar.value.toString())
-                                {
-                                    errors += "In sliced: the value of " + slicingVar.name + " differs - is " + value + " and should be " + slicingVar.value + ";;";
-                                }
-                            }, this);
-
-                            if(errors == "")
-                            {
-                                this.addMessageToCurrentDocument("OK - "  + subdirectory);
-                            }
-                            else
-                            {
-                                this.addMessageToCurrentDocument("ERROR - " + subdirectory + "  -> " + errors);
-                            }
+                            errors == "" ? this.addMessageToCurrentDocument("OK - "  + subdirectory)
+                                         : this.addMessageToCurrentDocument("ERROR - " + subdirectory + "  -> " + errors)
 
                             this.addMessageToCurrentDocument("********************************************************");
 
@@ -163,97 +111,124 @@ FBL.ns(function() { with (FBL) {
             catch(e) { alert("Error when processing next test: " + e); }
         },
 
+        getDefaultSlicingVariablesFromWindow: function(window)
+        {
+            var slicingVars = [];
+
+            for(var propName in window)
+            {
+                if(propName.length > 1 && propName.length <= 3 && propName[0] == "a")
+                {
+                    var value = window[propName];
+
+                    if(value === null) { value = "null"; }
+
+                    slicingVars.push({name: propName, value: value});
+                }
+            }
+
+            return slicingVars;
+        },
+
         onFirecrowSliceButtonPress: function()
         {
             try
             {
-                this.loadHtmlInHiddenIFrame(function(htmlModel)
+                var currentPageLocation =  fbHelper.getCurrentUrl();
+
+                this.loadUrlInHiddenIFrame(currentPageLocation, true, function(window, model)
                 {
                     try
                     {
-                        var Firecrow = FBL.Firecrow;
-                        var Browser = Firecrow.DoppelBrowser.Browser;
-                        var model = htmlModel;
-                        ASTHelper.setParentsChildRelationships(htmlModel);
-                        FBL.pageModel = model;
-
-                        var currentPageLocation = fbHelper.getCurrentPageDocument().location.href;
-                        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
-                        var browser = new Browser();
-
-                        var suggestedInput = "";
-                        var window = fbHelper.getWindow();
-
-                        for(var propName in window)
+                        this.slicePage(currentPageLocation, model, this.getDefaultSlicingVariablesFromWindow(window), function(errors)
                         {
-                            if(propName.length > 1 && propName.length <= 3 && propName[0] == "a")
-                            {
-                                if(suggestedInput != "") { suggestedInput += ","; }
-
-                                suggestedInput += propName + ":" + window[propName];
-                            }
-                        }
-
-                        var input = prompt("Enter identifiers to be sliced (comma separated, only simple : a1:3,a2:'4'...)", suggestedInput);
-                        var slicingVars = input.trim().split(",").map(function(item)
-                        {
-                            var parts = item.trim().split(":");
-                            return { name: parts[0], value: parts[1]};
-                        });
-                        browser.registerSlicingCriteria(slicingVars.map(function(slicingVar)
-                        {
-                            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(currentPageLocation, -1, slicingVar.name);
-                        }));
-
-                        browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
-                        browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
-                        browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
-                        browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
-                        browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
-                        browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
-
-                        browser.buildPageFromModel(model, function()
-                        {
-                            dependencyGraph.markGraph(model.htmlElement);
-                            var errors = "";
-
-                            slicingVars.forEach(function(slicingVar)
-                            {
-                                var propertyValue = browser.globalObject.getPropertyValue(slicingVar.name);
-                                var val = propertyValue.value;
-                                if(val === null) { val = "null";}
-
-                                if(val.toString() != slicingVar.value.toString())
-                                {
-                                    errors += "The value of " + slicingVar.name + " differs - is " + propertyValue.value + " and should be " + slicingVar.value + ";;";
-                                }
-                            }, this);
-
-                            var pageName  = currentPageLocation.substring(currentPageLocation.lastIndexOf("/") + 1, currentPageLocation.length)
-
-                            if(errors == "")
-                            {
-                                prompt("Success", currentPageLocation + " - OK");
-
-                                Firecrow.FileHelper.writeToFile
-                                (
-                                    currentPageLocation.replace(pageName, "index-results.txt").replace("file:///",""),
-                                    JSON.stringify(slicingVars)
-                                );
-                            }
-                            else { prompt ("Error", currentPageLocation + " - ERROR:" + errors); }
-
-                            Firecrow.FileHelper.writeToFile
-                            (
-                                currentPageLocation.replace(pageName, "index-sliced.html").replace("file:///",""),
-                                Firecrow.CodeTextGenerator.generateSlicedCode(model)
-                            );
+                            errors == "" ? prompt("Success", currentPageLocation + " - OK")
+                                         : prompt ("Error", currentPageLocation + " - ERROR:" + errors);
                         });
                     }
-                    catch(e) { alert("Error when processing html model in slicing: " + e); }
-                });
+                    catch(e) { alert("Error when processing html model in slicing: " + e + e.lineNumber) ; }
+                }, this);
             }
             catch(e) { alert("Error when pressing Slice button: " + e);}
+        },
+
+        slicePage: function(currentPageLocation, model, slicingVariables, callbackFunction, callbackThis)
+        {
+            try
+            {
+                var Firecrow = FBL.Firecrow;
+
+                var slicingCriteria = slicingVariables.map(function(slicingVar)
+                {
+                    return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(currentPageLocation, -1, slicingVar.name);
+                });
+
+                var browser = Firecrow.Slicer.slice(model, slicingCriteria);
+
+                var slicedPageLocation = currentPageLocation.substring(currentPageLocation.lastIndexOf("/") + 1, currentPageLocation.length);
+
+                var slicedPageUrl = currentPageLocation.replace(slicedPageLocation, "index-sliced.html");
+
+                Firecrow.FileHelper.writeToFile
+                (
+                    slicedPageUrl.replace("file:///",""),
+                    Firecrow.CodeTextGenerator.generateSlicedCode(model)
+                );
+
+                this.getErrorsString(browser, slicedPageUrl, slicingVariables, callbackFunction, callbackThis);
+            }
+            catch(e) { alert("Error when slicing page: " + e); }
+        },
+
+        getErrorsString: function(browser, slicedPageUrl, slicingVariables, callbackFunction, callbackThis)
+        {
+           try
+           {
+               var errors = browser.errorMessages.join("\r\n");
+
+               slicingVariables.forEach(function(slicingVar)
+               {
+                   var propertyValue = browser.globalObject.getPropertyValue(slicingVar.name);
+                   var val = propertyValue.value;
+
+                   if(val === null) { val = "null";}
+
+                   if(val.toString() != slicingVar.value.toString())
+                   {
+                       errors += "The value of " + slicingVar.name + " differs - is " + propertyValue.value + " and should be " + slicingVar.value + ";";
+                   }
+               }, this);
+
+               this.loadUrlInHiddenIFrame(slicedPageUrl, true, function(window)
+               {
+                   var slicedPageVariables = this.getDefaultSlicingVariablesFromWindow(window);
+
+                   for(var i = 0; i < slicingVariables.length; i++)
+                   {
+                       var originalPageVariable = slicingVariables[i];
+                       var hasBeenFound = false;
+
+                       for(var j = 0; j < slicedPageVariables.length; j++)
+                       {
+                           var slicedPageVariable = slicedPageVariables[j];
+                           if(originalPageVariable.name == slicedPageVariable.name)
+                           {
+                               hasBeenFound = true;
+                               if(originalPageVariable.value != slicedPageVariable.value)
+                               {
+                                   errors += "In sliced page: the value of " + originalPageVariable.name + " differs - is "
+                                          + slicedPageVariable.value + " and should be " + originalPageVariable.value + "\r\n";
+                               }
+                           }
+                       }
+                   }
+
+                   if(callbackFunction != null) { callbackFunction.call(callbackThis, errors); }
+               }, this);
+
+               return errors;
+           }
+           catch(e) { alert("Error when getting errors string while comparing slicing variables values and doppelBrowser values: " + e);}
         },
 
         addMessageToCurrentDocument: function(message)
@@ -276,7 +251,7 @@ FBL.ns(function() { with (FBL) {
 
         onFirecrowASTButtonPress: function()
 		{
-            this.loadHtmlInHiddenIFrame(function(htmlJson)
+            this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(window, htmlJson)
             {
                 try
                 {
@@ -290,7 +265,7 @@ FBL.ns(function() { with (FBL) {
                     }));
                 }
                 catch(e) { alert("Error when converting to JSON model:" + e)};
-            });
+            }, this);
 		},
 		
 		scheduleRecording: function()
@@ -332,46 +307,13 @@ FBL.ns(function() { with (FBL) {
 
         asyncGetPageModel: function(callbackFunction, thisValue)
         {
-            this.loadHtmlInHiddenIFrame(function(pageModel)
+            this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(pageModel)
             {
-                callbackFunction.call(thisValue, pageModel);
+                callbackFunction.call(thisValue, window, pageModel);
             });
         },
 		
-		loadHtmlInHiddenIFrame: function(callbackFunction)
-		{
-			try
-			{
-				var hiddenIFrame = fbHelper.getElementByID('fdHiddenIFrame');
-
-                this.hiddenIFrame = hiddenIFrame;
-				
-				this.hiddenIFrame.style.height = "0px";
-				this.hiddenIFrame.webNavigation.allowAuth = true;
-				this.hiddenIFrame.webNavigation.allowImages = false;
-				this.hiddenIFrame.webNavigation.allowJavascript = false;
-				this.hiddenIFrame.webNavigation.allowMetaRedirects = true;
-				this.hiddenIFrame.webNavigation.allowPlugins = false;
-				this.hiddenIFrame.webNavigation.allowSubframes = false;
-
-				this.hiddenIFrame.addEventListener("DOMContentLoaded", function listener(e)
-				{ 
-					try
-					{
-						Firebug.FirecrowModule.htmlJson = htmlHelper.serializeToHtmlJSON(e.originalTarget.wrappedJSObject);
-                        callbackFunction(Firebug.FirecrowModule.htmlJson);
-
-                        hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
-					}
-                    catch(e) { alert("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
-				}, true);
-				
-				this.hiddenIFrame.webNavigation.loadURI(fbHelper.getCurrentUrl(), CI.nsIWebNavigation, null, null, null);
-			}
-			catch(e) { alert("Loading html in iFrame errror: " + e); }
-		},
-
-        getFirecrowResultsFromPage: function(url, callbackFunction, thisObject)
+        loadUrlInHiddenIFrame: function(url, allowJavaScript, callbackFunction, thisObject)
         {
             try
             {
@@ -382,41 +324,7 @@ FBL.ns(function() { with (FBL) {
                 this.hiddenIFrame.style.height = "0px";
                 this.hiddenIFrame.webNavigation.allowAuth = true;
                 this.hiddenIFrame.webNavigation.allowImages = false;
-                this.hiddenIFrame.webNavigation.allowJavascript = true;
-                this.hiddenIFrame.webNavigation.allowMetaRedirects = true;
-                this.hiddenIFrame.webNavigation.allowPlugins = false;
-                this.hiddenIFrame.webNavigation.allowSubframes = false;
-
-                this.hiddenIFrame.addEventListener("DOMContentLoaded", function listener(e)
-                {
-                    try
-                    {
-                        var document = e.originalTarget.wrappedJSObject;
-
-                        callbackFunction.call(thisObject, document.defaultView);
-
-                        hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
-                    }
-                    catch(e) { alert("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
-                }, true);
-
-                this.hiddenIFrame.webNavigation.loadURI(url, CI.nsIWebNavigation, null, null, null);
-            }
-            catch(e) { alert("Loading html in iFrame errror: " + e); }
-        },
-
-        loadUrlInHiddenIFrame: function(url, callbackFunction, thisObject)
-        {
-            try
-            {
-                var hiddenIFrame = fbHelper.getElementByID('fdHiddenIFrame');
-
-                this.hiddenIFrame = hiddenIFrame;
-
-                this.hiddenIFrame.style.height = "0px";
-                this.hiddenIFrame.webNavigation.allowAuth = true;
-                this.hiddenIFrame.webNavigation.allowImages = false;
-                this.hiddenIFrame.webNavigation.allowJavascript = false;
+                this.hiddenIFrame.webNavigation.allowJavascript = allowJavaScript;
                 this.hiddenIFrame.webNavigation.allowMetaRedirects = true;
                 this.hiddenIFrame.webNavigation.allowPlugins = false;
                 this.hiddenIFrame.webNavigation.allowSubframes = false;
@@ -432,9 +340,10 @@ FBL.ns(function() { with (FBL) {
                             Firecrow.fbHelper.getScriptsPathsAndModels(document),
                             Firecrow.fbHelper.getStylesPathsAndModels(document)
                         );
-                        callbackFunction.call(thisObject, htmlJson);
 
                         hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
+
+                        callbackFunction.call(thisObject, document.defaultView, htmlJson);
                     }
                     catch(e) { alert("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
                 }, true);

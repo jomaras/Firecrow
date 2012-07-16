@@ -5,6 +5,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.GlobalObject = function(browser, documentFragment)
 {
@@ -182,6 +183,11 @@ fcModel.GlobalObjectExecutor =
         {
             fcModel.GlobalObject.notifyError("Error when executing global object function internal function: " + e);
         }
+    },
+
+    executesFunction: function(globalObject, functionName)
+    {
+        return globalObject.origWindow[functionName] != null && ValueTypeHelper.isFunction(globalObject.origWindow[functionName]);
     }
 }
 /*************************************************************************************/

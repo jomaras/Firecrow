@@ -17,7 +17,7 @@ Firecrow.ValueTypeHelper =
 
     isFunction: function(variable)
     {
-        return this.isOfType(variable, Function);
+        return this.isOfType(variable, Function) || (typeof variable == "function");
     },
 
     isRegExp: function(variable)

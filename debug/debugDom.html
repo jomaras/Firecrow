@@ -53,6 +53,7 @@
     <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/Slicer.js"></script>
 
     <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
@@ -98,133 +99,92 @@
 <div style="clear:both"/>
 
     <script>
-    var Firecrow = FBL.Firecrow;
-    var WebFile = Firecrow.DoppelBrowser.WebFile;
-    var Browser = Firecrow.DoppelBrowser.Browser;
-    var webFile = new WebFile("file:///C:/GitWebStorm/Firecrow/debug/domTests/02/index.html");
-    var model = HtmlModelMapping.getWholeFileModel(webFile.url);
-    var messageContainer = document.getElementById("messageContainer");
+        var Firecrow = FBL.Firecrow;
 
-    var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
-    var browser = new Browser(webFile, []);
-    browser.registerSlicingCriteria(model.results.map(function(result)
-    {
-        for(var propName in result)
-        {
-            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(webFile.url, -1, propName);
-        }
-    }));
-
-    browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
-    browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
-    browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
-    browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
-    browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
-    browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
-    browser.registerInterpreterMessageGeneratedCallback(function(message)
-    {
-        /*var messageItemContainer = document.createElement("div");
-        messageItemContainer.textContent = message;
-        messageContainer.appendChild(messageItemContainer);*/
-    });
-
-    browser.asyncBuildPage(function()
-    {
-        dependencyGraph.markGraph(model.model.htmlElement);
-
-        setTitle();
-
-        checkForErrors(model);
-
-        document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(model.model);
-        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(model.model);
-    });
-
-    function getAllDependencies(item, result)
-    {
-        if(item == null) { return result; }
-
-        var dependencies = item.dependencies;
-
-        for(var i = 0, length = dependencies.length; i < length; i++)
-        {
-            var currItem = dependencies[i];
-            if(result[currItem.nodeId] != null) { continue; }
-
-            result[currItem.nodeId] = currItem;
-
-            getAllDependencies(currItem, result);
-        }
-    }
-
-
-    function setTitle()
-    {
-        var testIdContainer = document.getElementById("testIdContainer");
-        testIdContainer.textContent = webFile.url;
-        testIdContainer.href = webFile.url;
-    }
-
-    function checkForErrors(model)
-    {
-        var globalObjectProperties = browser.globalObject.properties;
-
-        var errors = "";
-
-        var generated = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(model.model);
-        var fromModel = atob(model.slicingResult);
-
-        if(generated != fromModel)
-        {
-           errors += "Slicing does not match!";
-        }
-
-
-        model.results.forEach(function(result)
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/01/index.html";
+        var htmlModel = HtmlModelMapping.getWholeFileModel(url);
+        var slicingCriteria = htmlModel.results.map(function(result)
         {
             for(var propName in result)
             {
-                var hasBeenFound = false;
-                for(var i = 0; i < globalObjectProperties.length; i++)
-                {
-                    var property = globalObjectProperties[i];
-                    var propertyValue = property.value;
-
-                    if(property.name == propName)
-                    {
-                        hasBeenFound = true;
-
-                        if(propertyValue == null)
-                        {
-                            errors += propName + " is null, and should be: " + result[propName] + "\n";
-                            break;
-                        }
-
-                        if(propertyValue.value != result[propName])
-                        {
-                            errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
-                        }
-
-                        break;
-                    }
-                }
-
-                if(!hasBeenFound)
-                {
-                    errors += propName + " could not be found in global object!\n";
-                }
+                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
             }
         });
 
-        if(errors != "") { alert("Errors on validating result:\n" + errors); }
-        else
+        setTitle(url);
+
+        var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
+
+        checkForErrors(browser, htmlModel);
+
+        document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.model);
+        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+
+        function setTitle(url)
         {
-            var newDiv = document.createElement("div");
-            newDiv.style.color = "green";
-            newDiv.textContent = "Test successful";
-            messageContainer.appendChild(newDiv);
+            var testIdContainer = document.getElementById("testIdContainer");
+            testIdContainer.textContent = url;
+            testIdContainer.href = url;
         }
-    }
+
+        function checkForErrors(browser, htmlModel)
+        {
+            var messageContainer = document.getElementById("messageContainer");
+            var globalObjectProperties = browser.globalObject.properties;
+
+            var errors = "";
+
+            var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+            var specifiedCode = atob(htmlModel.slicingResult);
+
+            if(generatedCode != specifiedCode) { errors += "Slicing does not match!"; }
+
+
+            htmlModel.results.forEach(function(result)
+            {
+                for(var propName in result)
+                {
+                    var hasBeenFound = false;
+                    for(var i = 0; i < globalObjectProperties.length; i++)
+                    {
+                        var property = globalObjectProperties[i];
+                        var propertyValue = property.value;
+
+                        if(property.name == propName)
+                        {
+                            hasBeenFound = true;
+
+                            if(propertyValue == null)
+                            {
+                                errors += propName + " is null, and should be: " + result[propName] + "\n";
+                                break;
+                            }
+
+                            if(propertyValue.value != result[propName])
+                            {
+                                errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
+                            }
+
+                            break;
+                        }
+                    }
+
+                    if(!hasBeenFound)
+                    {
+                        errors += propName + " could not be found in global object!\n";
+                    }
+                }
+            });
+
+            if(errors != "") { alert("Errors on validating result:\n" + errors); }
+            else
+            {
+                var newDiv = document.createElement("div");
+                newDiv.style.color = "green";
+                newDiv.textContent = "Test successful";
+                messageContainer.appendChild(newDiv);
+            }
+        }
     </script>
 </body>
 </html>

@@ -16,13 +16,11 @@ var GlobalObject = Firecrow.Interpreter.Model.GlobalObject;
 
 var fcSimulator = Firecrow.Interpreter.Simulator;
 
-Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
+Firecrow.DoppelBrowser.Browser = function(pageModel)
 {
     try
     {
-        this.htmlWebFile = htmlWebFile;
-        this.externalWebFiles = externalWebFiles;
-
+        this.pageModel = pageModel;
         this.hostDocument = Firecrow.getDocument();
         this.documentFragment = this.hostDocument.createDocumentFragment();
 
@@ -38,7 +36,7 @@ Firecrow.DoppelBrowser.Browser = function(htmlWebFile, externalWebFiles)
         this.controlFlowConnectionCallbacks = [];
         this.importantConstructReachedCallbacks = [];
         this.documentReadyCallbacks = [];
-        this.slicingCriteria = [];
+
         this.errorMessages = [];
         this.cssRules = [];
 
@@ -86,122 +84,71 @@ var Browser = Firecrow.DoppelBrowser.Browser;
 
 Browser.prototype =
 {
-    asyncBuildPage: function(callback, asyncInterpretCode)
-    {
-        this._asyncGetHtmlModel(function(htmlModel)
-        {
-            try
-            {
-                this.model = htmlModel;
-
-                ASTHelper.setParentsChildRelationships(htmlModel);
-
-                if(htmlModel == null) { this.notifyError("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
-                if(htmlModel.htmlElement == null) { this.notifyError("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
-
-                this.asyncInterpretCode = !!asyncInterpretCode;
-
-                this._buildSubtree(htmlModel.htmlElement, null, callback);
-
-                if(callback != null) { callback(); }
-
-                this._callDocumentReadyCallbacks();
-            }
-            catch(e)
-            {
-                this.notifyError("Exception when async getting html model at DoppelBrowser.Browser: " + e);
-            }
-        });
-    },
-
-    syncBuildPage: function()
+    evaluatePage: function()
     {
         try
         {
-            var htmlModel = HtmlModelMapping.getModel(this.htmlWebFile.url);
-
-            ASTHelper.setParentsChildRelationships(htmlModel);
-
-            if(htmlModel == null) { this.notifyError("There is no html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
-            if(htmlModel.htmlElement == null) { this.notifyError("There is no html element for html model in DoppelBrowser.Browser for page: " + this.htmlWebFile.url); return; }
-
-            this._buildSubtree(htmlModel.htmlElement, null);
-
-            this._callDocumentReadyCallbacks();
-        }
-        catch(e)
-        {
-            this.notifyError("Exception when sync getting html model at DoppelBrowser.Browser: " + e);
-        }
-    },
-
-    buildPageFromModel: function(htmlModel, callback)
-    {
-        try
-        {
-            this._buildSubtree(htmlModel.htmlElement, null);
-            if(callback){ callback();}
+            this._buildSubtree(this.pageModel.htmlElement, null);
         }
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
 
-    _asyncGetHtmlModel: function(callback)
-    {
-        try
-        {
-            if(this.htmlWebFile == null) { this.notifyError("The initial page is not set in DoppelBrowser.Browser!"); return; }
-
-            if(!Firecrow.IsDebugMode)
-            {
-                var iFrame = FirebugChrome.$('fdHiddenIFrame');
-                iFrame.webNavigation.allowAuth = true;
-                iFrame.webNavigation.allowImages = false;
-                iFrame.webNavigation.allowJavascript = false;
-                iFrame.webNavigation.allowMetaRedirects = true;
-                iFrame.webNavigation.allowPlugins = false;
-                iFrame.webNavigation.allowSubframes = false;
-                iFrame.addEventListener("DOMContentLoaded", function (e)
-                {
-                    callback(HtmlHelper.serializeToHtmlJSON(e.originalTarget.wrappedJSObject));
-                }, true);
-
-                iFrame.webNavigation.loadURI(this.getCurrentUrl(), Components.interfaces.nsIWebNavigation, null, null, null);
-            }
-            else
-            {
-                callback.call(this, HtmlModelMapping.getModel(this.htmlWebFile.url));
-            }
-        }
-        catch(e) { this.notifyError("Exception in creating main page iFrame: " + e); }
-    },
-
-    _buildSubtree: function(htmlModelElement, parentDomElement, executionFinishedCallback)
+    _buildSubtree: function(htmlModelElement, parentDomElement)
     {
         try
         {
             var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
 
-            htmlModelElement.attributes.forEach(function(attribute)
-            {
-                htmlDomElement.setAttribute(attribute.name, attribute.value);
-            }, this);
+            this._setAttributes(htmlDomElement, htmlModelElement);
 
             this._insertIntoDom(htmlDomElement, parentDomElement);
 
-            this._createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
-
-            htmlModelElement.type == "script" ? htmlDomElement.textContent = htmlModelElement.textContent
-                                              : "";
-
-            htmlModelElement.childNodes.forEach(function(element)
+            if(htmlModelElement.type == "script" || htmlModelElement.type == "style")
             {
-                element.type == "textNode" ? htmlDomElement.appendChild(this.hostDocument.createTextNode(element.textContent))
-                                           : this._buildSubtree(element, htmlDomElement);
-            }, this);
+                if(htmlModelElement.type == "script")
+                {
+                    this._buildJavaScriptNodes(htmlModelElement);
+                    this._interpretJsCode(htmlModelElement);
+                    this._callInterpretJsCallbacks(htmlModelElement.pathAndModel.model);
+                }
+                else if(htmlModelElement.type == "style" || htmlModelElement.type == "link")
+                {
+                    this._buildCssNodes(htmlModelElement);
+                }
+
+                htmlDomElement.textContent = htmlModelElement.textContent
+            }
+
+            this._createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
+            this._processChildren(htmlDomElement, htmlModelElement);
         }
         catch(e)
         {
             this.notifyError("Error when building a subtree of an html element in DoppelBrowser.browser: " + e);
+        }
+    },
+
+    _setAttributes: function(htmlDomElement, htmlModelElement)
+    {
+        var attributes = htmlModelElement.attributes;
+
+        for(var i = 0, length = attributes.length; i < length; i++)
+        {
+            var attribute = attributes[i];
+            htmlDomElement.setAttribute(attribute.name, attribute.value);
+        }
+    },
+
+    _processChildren: function(htmlDomElement, htmlModelElement)
+    {
+        var childNodes = htmlModelElement.childNodes;
+
+        for(var i = 0, length = childNodes.length; i < length; i++)
+        {
+            var childNode = childNodes[i];
+
+            if(childNode.type != "textNode") { this._buildSubtree(childNode, htmlDomElement); }
+            else { htmlDomElement.appendChild(this.hostDocument.createTextNode(childNode.textContent)); }
         }
     },
 
@@ -213,17 +160,6 @@ Browser.prototype =
         htmlModelNode.domElement = htmlDomElement;
 
         this._callNodeCreatedCallbacks(htmlModelNode, "html", false);
-
-        if(htmlModelNode.type == "script")
-        {
-            this._buildJavaScriptNodes(htmlModelNode);
-            this._interpretJsCode(htmlModelNode);
-            this._callInterpretJsCallbacks(htmlModelNode.pathAndModel.model);
-        }
-        else if(htmlModelNode.type == "style" || htmlModelNode.type == "link")
-        {
-            this._buildCssNodes(htmlModelNode);
-        }
 
         return htmlDomElement;
     },
@@ -244,17 +180,11 @@ Browser.prototype =
                 this._callControlFlowConnectionCallbacks(codeConstruct);
             }, this);
 
-            this.asyncInterpretCode ? interpreter.runAsync(function(){}) : interpreter.runSync();
+            interpreter.runSync();
 
-            if(interpreter.executionContextStack.blockCommandStack.length != 0)
-            {
-                this.notifyError("There are still commands in the block command stack" + scriptModelNode.pathAndModel.path);
-            }
+            if(interpreter.executionContextStack.blockCommandStack.length != 0) { this.notifyError("There are still commands in the block command stack" + scriptModelNode.pathAndModel.path); }
         }
-        catch(e)
-        {
-            this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e);
-        }
+        catch(e) { this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e); }
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)
@@ -458,6 +388,11 @@ Browser.prototype =
     registerSlicingCriteria: function(slicingCriteria)
     {
         this.globalObject.registerSlicingCriteria(slicingCriteria);
+    },
+
+    clean: function()
+    {
+        this.globalObject.internalExecutor.removeInternalFunctions();
     },
 
     notifyError: function(message) { Firecrow.DoppelBrowser.Browser.notifyError(message); }

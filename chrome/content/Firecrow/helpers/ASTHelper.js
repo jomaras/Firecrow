@@ -24,6 +24,8 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
+                if(rootElement == null || rootElement.parentChildRelationshipsHaveBeenSet) { return; }
+
                 var ASTHelper = Firecrow.ASTHelper;
                 this.traverseAst(rootElement, function(currentElement, propertyName, parentElement)
                 {
@@ -63,6 +65,8 @@ FBL.ns(function () { with (FBL) {
                         }
                     }
                 });
+
+                rootElement.parentChildRelationshipsHaveBeenSet = true;
             }
             catch(e) { alert("Error when setting parent-child relationships:" + e); }
         },
