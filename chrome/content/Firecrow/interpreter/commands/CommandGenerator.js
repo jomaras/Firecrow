@@ -942,7 +942,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
             }
 
-            commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.ForStatement, parentFunctionCommand));
+            var forStatementCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.ForStatement, parentFunctionCommand);
+            forStatementCommand.isFirstLoopExecution = true;
+
+            commands.push(forStatementCommand);
             commands.push(new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement,parentFunctionCommand));
         }
         catch(e) { this.notifyError("Error when generating for statement commands:" + e);}

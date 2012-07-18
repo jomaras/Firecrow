@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-    <script src="trimmedURI.js"></script>
+    <title>Gauss</title>
+    <script src="trimmedGauss.js"></script>
 </head>
 <body>
-    <script>
-        var u = new URI("http://example.org/foobar.html?query=string");
+<script>
+    var topic = new Vector([1,2,3,4]).mode().vector;
 
-        u.pathname('/~userhome/@mine;is %2F and/');
-        var a1 = u.pathname() == '/~userhome/@mine;is%20%2F%20and/';
+    var a1 = topic[0] == 1;
+    var a2 = topic[1] == 2;
+    var a3 = topic[2] == 3;
+    var a4 = topic[3] == 4;
 
-        a1;
-    </script>
+    a1;a2;a3;a4;
+</script>
 </body>
 </html>

@@ -273,6 +273,19 @@ FBL.ns(function () { with (FBL) {
             return false;
         },
 
+        isForStatementTest: function(codeConstruct)
+        {
+            if(codeConstruct == null) { return false; }
+
+            var loopParent = this.getLoopParent(codeConstruct);
+
+            if(loopParent == null) { return false; }
+
+            if(this.isForStatement(loopParent)) { return loopParent.test == codeConstruct;}
+
+            return false;
+        },
+
         isElseIfStatement: function(codeConstruct)
         {
             if(!this.isIfStatement(codeConstruct)){ return false; }

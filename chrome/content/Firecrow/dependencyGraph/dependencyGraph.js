@@ -161,11 +161,13 @@ DependencyGraph.prototype.markGraph = function(model)
     catch(e) { this.notifyError("Error occurred when marking graph:" + e);}
 };
 
+_GLOBAL_HELPER = [];
+
 DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, dependencyConstraint, includedByNode)
 {
     try
     {
-        if(codeConstruct.nodeId == 21 && maxDependencyIndex == 64)
+        if(codeConstruct.nodeId == 19)
         {
             var a = 3;
         }
@@ -178,7 +180,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
         codeConstruct.includedByNodes.push(includedByNode);*/
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 12)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 8)
         {
             var a = 3;
         }

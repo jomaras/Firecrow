@@ -1,15 +1,60 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script>
+        var Vector = function (values) {
+            this.vector = values || [];
+        };
+        Vector.prototype = {
+            mode: function (callback) {
+                var map = {};
+                var count = 1;
+                var modes = new Vector();
+                for (var i = 0; i < this.vector.length; i++) {
+                    var e = this.vector[i];
+                    if (map[e] == null) map[e] = 1;
+                    if (map[e] > count);
+                    else if (map[e] == count) {
+                        modes.push(e);
+                        count = map[e];
+                    }
+                }
+                if (callback);
+                else return modes;
+            },
+            toArray: function (callback) {
+                var array = this.vector.slice();
+                if (callback);
+                else return array;
+            },
+            push: function () {
+                var args = arguments;
+                var end = args[args.length - 1];
+                if (typeof end === 'function') {
+                    var i;
+                } else {
+                    for (var i = 0; i < args.length; i++) {
+                        this.vector.push(args[i]);
+                    }
+                }
+            }
+        };
     </script>
 </head>
-<body>
-    <script>
-        var a = "3";
-        var a1 = 1 + parseInt(a);
-        a1;
 
-    </script>
+<body>
+<script>
+    var topic = (new Vector([1, 2, 3, 4])).mode().toArray();
+    var a1 = topic[0] == 1;
+    var a2 = topic[1] == 2;
+    var a3 = topic[2] == 3;
+    var a4 = topic[3] == 4;
+    a1;
+    a2;
+    a3;
+    a4;
+</script>
 </body>
+
 </html>

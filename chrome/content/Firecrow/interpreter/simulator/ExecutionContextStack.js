@@ -119,7 +119,7 @@ fcSimulator.ExecutionContextStack = function(globalObject)
 
         this.exceptionCallbacks = [];
         this.blockCommandStack = [];
-        this.functionContextCommandsStack = [];
+        this.functionContextCommandsStack = [{functionContextBlockCommandsEvalPositions:[]}];
     }
     catch(e)
     {
@@ -378,6 +378,24 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 codeConstruct,
                 mapping.codeConstruct,
                 evaluationPositionId,
+                mapping.evaluationPositionId
+            );
+        }
+    },
+
+    addDependencyToLastExecutedBlockStatement: function(codeConstruct)
+    {
+        var previouslyExecutedBlockConstructs = this.getPreviouslyExecutedBlockConstructs();
+
+        var mapping = previouslyExecutedBlockConstructs[previouslyExecutedBlockConstructs.length - 1];
+
+        if(mapping != null)
+        {
+            this.globalObject.browser.callControlDependencyEstablishedCallbacks
+            (
+                codeConstruct,
+                mapping.codeConstruct,
+                this.globalObject.getPreciseEvaluationPositionId(),
                 mapping.evaluationPositionId
             );
         }

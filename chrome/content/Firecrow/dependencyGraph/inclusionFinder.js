@@ -416,10 +416,28 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         try
         {
-            return forStatement.shouldBeIncluded
+            var testIncluded = (forStatement.test != null ? this.isIncludedElement(forStatement.test) : false);
+            var updateIncluded = (forStatement.update != null ? this.isIncludedElement(forStatement.update) : false);
+
+            //TODO: HACK!
+            if(testIncluded && !updateIncluded)
+            {
+                if(forStatement.update != null)
+                {
+                    updateIncluded = true;
+                    forStatement.update.shouldBeIncluded = true;
+                    forStatement.update.children.forEach(function(child)
+                    {
+                        child.shouldBeIncluded = true;
+                    });
+                }
+            }
+            //END HACK!
+
+            return  forStatement.shouldBeIncluded
                 || (forStatement.init != null ? this.isIncludedElement(forStatement.init) : false)
-                || (forStatement.test != null ? this.isIncludedElement(forStatement.test) : false)
-                || (forStatement.update != null ? this.isIncludedElement(forStatement.update) : false)
+                || testIncluded
+                || updateIncluded
                 || this.isIncludedElement(forStatement.body);
         }
         catch(e) { this.notifyError("Error when finding inclusions from for statement:" + e); }
