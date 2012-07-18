@@ -532,7 +532,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         try
         {
-            if(!this.inclusionFinder.isIncludedTryStatement(throwStatement)) { return; }
+            if(!this.inclusionFinder.isIncludedThrowStatement(throwStatement)) { return; }
 
             throwStatement.shouldBeIncluded = true;
 
