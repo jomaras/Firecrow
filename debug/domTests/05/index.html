@@ -11,17 +11,18 @@
 <div id="container"></div>
 <script type ="text/javascript">
 
-    window.onload = function()
-    {
-        var container = document.getElementById("container");
-        container.textContent = "test";
+    var container = document.getElementById("container");
 
-        var container2 = document.getElementById("container");
+    var newElement = document.createElement("span");
+    newElement.id = "newlyCreatedElement";
+    newElement.textContent = 3;
 
-        var a1 = container2.textContent;
-        a1;
-    };
+    container.appendChild(newElement);
 
+    var newElement2 = document.getElementById("newlyCreatedElement");
+
+    var a1 = newElement2.textContent;
+    a1;
 </script>
 </body>
 </html>

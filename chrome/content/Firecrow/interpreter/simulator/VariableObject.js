@@ -90,27 +90,32 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
         functionVariableObject.calleeFunction = calleeFunction;
         functionVariableObject.sentArguments = sentArguments;
 
+        var callConstruct = callExpressionCommand != null ? callExpressionCommand.codeConstruct : null;
+
         functionVariableObject.registerIdentifier
         (
             new fcModel.Identifier
             (
                 "arguments",
-                globalObject.internalExecutor.createArray(callExpressionCommand.codeConstruct, sentArguments),
-                callExpressionCommand.codeConstruct.arguments,
+                globalObject.internalExecutor.createArray(callConstruct, sentArguments),
+                callConstruct != null ? callConstruct.arguments : null,
                 globalObject
             )
         );
 
-        var argumentsConstructs = callExpressionCommand.codeConstruct.arguments;
+        var argumentsConstructs = callConstruct != null ? callConstruct.arguments : [];
 
-        if(callExpressionCommand.isCall)
+        if(callExpressionCommand != null)
         {
-            argumentsConstructs = callExpressionCommand.codeConstruct.arguments.slice(1);
-        }
-        else if (callExpressionCommand.isApply)
-        {
-            var argumentsArray = callExpressionCommand.codeConstruct.arguments[1];
-            argumentsConstructs = sentArguments.map(function(arg) { return argumentsArray; })
+            if(callExpressionCommand.isCall)
+            {
+                argumentsConstructs = callConstruct.arguments.slice(1);
+            }
+            else if (callExpressionCommand.isApply)
+            {
+                var argumentsArray = callConstruct.arguments[1];
+                argumentsConstructs = sentArguments.map(function(arg) { return argumentsArray; })
+            }
         }
 
         argumentsConstructs = argumentsConstructs || [];

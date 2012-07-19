@@ -1690,6 +1690,23 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
     catch(e) { this.notifyError("an error has occurred when generating enter function context commands: " + e); }
 };
 
+Firecrow.Interpreter.Commands.Command.createEnterEventHandlerContextCommand = function(handlerInfo)
+{
+    try
+    {
+        var command = new fcCommands.Command(handlerInfo.functionHandler.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, null);
+
+        command.callee = handlerInfo.functionHandler;
+        command.thisObject = handlerInfo.thisObject;
+        command.argumentValues = handlerInfo.argumentValues;
+        command.codeConstruct = handlerInfo.registrationPoint.codeConstruct;
+        command.isEnterEventHandler = true;
+
+        return command;
+    }
+    catch(e) { this.notifyError("an error has occurred when generating enter function context commands: " + e); }
+};
+
 Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = function(functionObject, parentFunctionCommand)
 {
     try

@@ -12,12 +12,13 @@ var CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 
-Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject)
+Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, handlerInfo)
 {
     this.programAst = programAst;
     this.globalObject = globalObject;
+    this.handlerInfo = handlerInfo;
 
-    this.executionContextStack = new ExecutionContextStack(globalObject);
+    this.executionContextStack = new ExecutionContextStack(globalObject, handlerInfo);
     this.executionContextStack.registerExceptionCallback(this.removeCommandsAfterException, this);
 
     this.commands = CommandGenerator.generateCommands(programAst);

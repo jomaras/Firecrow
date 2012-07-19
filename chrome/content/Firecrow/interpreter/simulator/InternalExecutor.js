@@ -190,6 +190,11 @@ fcSimulator.InternalExecutor.prototype =
         try
         {
             var jsElement = this.globalObject.origDocument.createElement(tagName);
+            jsElement.creationPoint =
+            {
+                codeConstruct: creationCodeConstruct,
+                evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+            }
 
             return new fcModel.JsValue
             (

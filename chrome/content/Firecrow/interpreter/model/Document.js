@@ -81,11 +81,11 @@ fcModel.DocumentExecutor =
             if(functionName == "getElementsByTagName"
             || functionName == "querySelectorAll")
             {
-                var elements = thisObjectValue.querySelectorAll( arguments[0].value);
+                var elements = thisObjectValue.querySelectorAll(arguments[0].value);
 
                 for(var i = 0, length = elements.length; i < length; i++)
                 {
-                    globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, elements[i].modelElement, globalObject.getPreciseEvaluationPositionId());
+                    fcModel.HtmlElementExecutor.addDependencies(elements[i], callExpression, globalObject);
                 }
 
                 return this.wrapToFcHtmlElements(elements, callExpression, globalObject);
@@ -93,8 +93,9 @@ fcModel.DocumentExecutor =
             else if(functionName == "getElementById"
                  || functionName == "querySelector")
             {
-                 var element = thisObjectValue.querySelector(functionName == "getElementById" ? ("#" + arguments[0].value) : (arguments[0].value));
-                 globalObject.browser.callDataDependencyEstablishedCallbacks (callExpression, element.modelElement, globalObject.getPreciseEvaluationPositionId());
+                var element = thisObjectValue.querySelector(functionName == "getElementById" ? ("#" + arguments[0].value) : (arguments[0].value));
+
+                fcModel.HtmlElementExecutor.addDependencies(element, callExpression, globalObject);
 
                 return this.wrapToFcHtmlElement(element, callExpression, globalObject);
             }

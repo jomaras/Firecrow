@@ -35,9 +35,10 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.proto.addProperty.call(this, "style", styleValue, codeConstruct);
 
         this.htmlElement.style.jsValue = styleValue;
+        this.htmlElement.attributeModificationPoints = [];
 
         this.addPrimitiveProperties(htmlElement, codeConstruct);
-        this.expandMethods();
+        this.addMethods(codeConstruct);
 
         this.registerGetPropertyCallback(function(getPropertyConstruct, propertyName)
         {
@@ -152,12 +153,14 @@ fcModel.HtmlElementProto =
                 this.setChildRelatedProperties(codeConstruct);
             }
 
+            this.htmlElement.attributeModificationPoints.push({ codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
+
             this.proto.addProperty.call(this, propertyName, propertyValue, codeConstruct, isEnumerable);
         }
         catch(e) { this.notifyError("Error when adding property: " + e);}
     },
 
-    expandMethods: function()
+    addMethods: function(codeConstruct)
     {
         try
         {
@@ -165,10 +168,26 @@ fcModel.HtmlElementProto =
 
             for(var i = 0, length = methods.length; i < length; i++)
             {
-                this.globalObject.internalExecutor.expandWithInternalFunction(this.htmlElement, methods[i]);
+                var method = methods[i];
+                this.globalObject.internalExecutor.expandWithInternalFunction(this.htmlElement, method);
+
+                this.proto.addProperty.call(this, method, this.globalObject.internalExecutor.createInternalFunction(this.htmlElement[method], method, this, true), codeConstruct);
             }
         }
-        catch(e) { this.notifyError("");}
+        catch(e) { this.notifyError("Error when adding methods: " + e);}
+    },
+
+    notifyElementInsertedIntoDom: function(callExpression)
+    {
+        try
+        {
+            this.htmlElement.domInsertionPoint =
+            {
+                codeConstruct: callExpression,
+                evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+            };
+        }
+        catch(e) { this.notifyError("Error when handling element inserted into dom!"); }
     },
 
     notifyError: function(message) { alert("HtmlElement - " + message); }
@@ -236,15 +255,27 @@ fcModel.HtmlElementExecutor =
             case "getElementsByTagName":
             case "getElementsByClassName":
             case "querySelectorAll":
-                return this.wrapToFcElements(globalObject, callExpression, thisObjectValue[functionName].apply(thisObjectValue, jsArguments));
+                var elements = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+
+                for(var i = 0, length = elements.length; i < length; i++)
+                {
+                    this.addDependencies(elements[i], callExpression, globalObject);
+                }
+
+                return this.wrapToFcElements(globalObject, callExpression, elements);
             case "getAttribute":
                 var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                this.addDependencies(result, callExpression, globalObject);
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
             case "appendChild":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                for(var i = 0; i < arguments.length; i++)
+                {
+                    arguments[i].fcInternal.object.notifyElementInsertedIntoDom(callExpression);
+                }
                 return arguments[0];
             default:
-                this.notifyError("Unhandled internal method"); return;
+                this.notifyError("Unhandled internal method:" + functionName); return;
         }
     },
 
@@ -264,6 +295,60 @@ fcModel.HtmlElementExecutor =
         }
         catch(e) {alert("HtmlElementExecutor - error when wrapping: " + e);}
     },
+
+    addDependencies: function(element, codeConstruct, globalObject)
+    {
+        try
+        {
+            var evaluationPositionId = globalObject.getPreciseEvaluationPositionId();
+
+            if(element.modelElement != null)
+            {
+                globalObject.browser.callDataDependencyEstablishedCallbacks (codeConstruct, element.modelElement, evaluationPositionId);
+            }
+            else if (element.creationPoint != null)
+            {
+                globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    codeConstruct,
+                    element.creationPoint.codeConstruct,
+                    evaluationPositionId,
+                    element.creationPoint.evaluationPositionId
+                );
+            }
+
+            if(element.domInsertionPoint != null)
+            {
+                globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    codeConstruct,
+                    element.domInsertionPoint.codeConstruct,
+                    evaluationPositionId,
+                    element.domInsertionPoint.evaluationPositionId
+                );
+            }
+
+            if(element.attributeModificationPoints != null)
+            {
+                var attributeModificationPoints = element.attributeModificationPoints;
+
+                for(var i = 0, length = attributeModificationPoints.length; i < length; i++)
+                {
+                    var attributeModificationPoint = attributeModificationPoints[i];
+
+                    globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        codeConstruct,
+                        attributeModificationPoint.codeConstruct,
+                        evaluationPositionId,
+                        attributeModificationPoint.evaluationPositionId
+                    );
+                }
+            }
+        }
+        catch(e) { this.notifyError("Error when adding dependencies: " + e);}
+    },
+
 
     notifyError: function(message) { alert("HtmlElementExecutor - " + message);}
 }

@@ -1083,6 +1083,17 @@ fcSimulator.Evaluator.prototype =
             this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, topBlockConstruct, evaluationPosition);
         }
 
+        if(this.executionContextStack.handlerInfo != null)
+        {
+            this.globalObject.browser.callControlDependencyEstablishedCallbacks
+            (
+                currentConstruct,
+                this.executionContextStack.handlerInfo.registrationPoint.codeConstruct,
+                evaluationPosition,
+                this.executionContextStack.handlerInfo.registrationPoint.evaluationPositionId
+            );
+        }
+
        // this.executionContextStack.addDependencyToLastExecutedBlockStatement(currentConstruct);
 
         /*if(currentConstruct.previousCondition != null)

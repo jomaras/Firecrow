@@ -89,6 +89,7 @@ Browser.prototype =
         try
         {
             this._buildSubtree(this.pageModel.htmlElement, null);
+            this._handlePageReadyEvents();
         }
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
@@ -108,7 +109,7 @@ Browser.prototype =
                 if(htmlModelElement.type == "script")
                 {
                     this._buildJavaScriptNodes(htmlModelElement);
-                    this._interpretJsCode(htmlModelElement);
+                    this._interpretJsCode(htmlModelElement.pathAndModel.model, null);
                     this._callInterpretJsCallbacks(htmlModelElement.pathAndModel.model);
                 }
                 else if(htmlModelElement.type == "style" || htmlModelElement.type == "link")
@@ -164,11 +165,11 @@ Browser.prototype =
         return htmlDomElement;
     },
 
-    _interpretJsCode: function(scriptModelNode)
+    _interpretJsCode: function(codeModel, handlerInfo)
     {
         try
         {
-            var interpreter = new Interpreter(scriptModelNode.pathAndModel.model, this.globalObject);
+            var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
 
             interpreter.registerMessageGeneratedCallback(function(message)
             {
@@ -236,6 +237,29 @@ Browser.prototype =
             });
         }
         catch(e) { this.notifyError("DoppelBrowser.browser error when building js nodes: " + e); }
+    },
+
+    _handlePageReadyEvents: function()
+    {
+        try
+        {
+            var onLoadFunction = this.globalObject.getPropertyValue("onload");
+
+            if(onLoadFunction != null)
+            {
+                this._interpretJsCode
+                (
+                    onLoadFunction.fcInternal.object.codeConstruct.body,
+                    {
+                        functionHandler: onLoadFunction,
+                        thisObject: this.globalObject,
+                        arguments: [],
+                        registrationPoint: this.globalObject.getProperty("onload").lastModificationConstruct
+                    }
+                );
+            }
+        }
+        catch(e) { this.notifyError("Error when handling page ready events"); }
     },
 
     registerNodeCreatedCallback: function(callback, thisObject)

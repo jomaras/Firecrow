@@ -10,7 +10,7 @@ var fcSimulator = Firecrow.Interpreter.Simulator;
 var fcCommands = Firecrow.Interpreter.Commands;
 var fcModel = Firecrow.Interpreter.Model;
 
-fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, globalObject, contextCreationCommand)
+fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, globalObject)
 {
     try
     {
@@ -21,8 +21,6 @@ fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, 
 
         this.scopeChain = ValueTypeHelper.createArrayCopy(scopeChain);
         this.scopeChain.push(this.variableObject);
-
-        this.contextCreationCommand = contextCreationCommand;
 
         this.codeConstructValuesMapping = {};
     }
@@ -99,7 +97,7 @@ fcSimulator.ExecutionContext.createGlobalExecutionContext = function(globalObjec
     catch(e) { Firecrow.Interpreter.Simulator.ExecutionContext.notifyError("Error when constructing the global execution context: " + e); }
 };
 
-fcSimulator.ExecutionContextStack = function(globalObject)
+fcSimulator.ExecutionContextStack = function(globalObject, handlerInfo)
 {
     try
     {
@@ -108,7 +106,16 @@ fcSimulator.ExecutionContextStack = function(globalObject)
 
         this.stack = [];
         this.activeContext = null;
-        this.push(fcSimulator.ExecutionContext.createGlobalExecutionContext(globalObject));
+        this.handlerInfo = handlerInfo;
+
+        if(handlerInfo == null)
+        {
+            this.push(fcSimulator.ExecutionContext.createGlobalExecutionContext(globalObject));
+        }
+        else
+        {
+            this._enterFunctionContext(fcCommands.Command.createEnterEventHandlerContextCommand(handlerInfo));
+        }
 
         this.evaluator = new Firecrow.Interpreter.Simulator.Evaluator(this);
 
@@ -526,9 +533,23 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             var functionConstruct = enterFunctionContextCommand.callee.fcInternal.codeConstruct;
 
             var formalParameters = this._getFormalParameters(functionConstruct);
-            var sentArgumentsValues = this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand);
-            var arguments = enterFunctionContextCommand.parentFunctionCommand.isExecuteCallbackCommand() ? []
-                                                                                                         : enterFunctionContextCommand.parentFunctionCommand.codeConstruct.arguments;
+
+            var sentArgumentsValues = null;
+            var arguments = [];
+
+            if(enterFunctionContextCommand.isEnterEventHandler)
+            {
+                sentArgumentsValues = enterFunctionContextCommand.argumentValues;
+            }
+            else
+            {
+                sentArgumentsValues = this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand);
+
+                if(!enterFunctionContextCommand.parentFunctionCommand.isExecuteCallbackCommand())
+                {
+                    arguments = enterFunctionContextCommand.parentFunctionCommand.codeConstruct.arguments;
+                }
+            }
 
             this._establishParametersDependencies(enterFunctionContextCommand.parentFunctionCommand, formalParameters, arguments);
 
@@ -564,7 +585,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         try
         {
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-           // evaluationPosition.groupId = evaluationPosition.groupId.replace(/-([0-9])+$/, "");
+            if(callExpressionCommand == null) { return; }
 
             if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
             {
