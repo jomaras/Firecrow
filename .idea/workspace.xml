@@ -5,16 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/domTests/04/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/domTests/05/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Jomaras.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Jomaras.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDom.html" afterPath="$PROJECT_DIR$/debug/debugDom.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/domModelMapping.js" afterPath="$PROJECT_DIR$/debug/domModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/domTests/03/index.html" afterPath="$PROJECT_DIR$/debug/domTests/03/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/65/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/65/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/libraries/medialize/tests/URI.js" afterPath="$PROJECT_DIR$/tests/libraries/medialize/tests/URI.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/domTests/04/index.html" afterPath="$PROJECT_DIR$/debug/domTests/04/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,7 +76,16 @@
       <file leaf-file-name="domModelMapping.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/domModelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="23" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
+            <state line="73" column="581" selection-start="39343" selection-end="39343" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/domTests/05/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
@@ -86,34 +94,16 @@
       <file leaf-file-name="debugDom.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="61" selection-start="4667" selection-end="4667" vertical-scroll-proportion="-9.5">
+            <state line="103" column="68" selection-start="4737" selection-end="4737" vertical-scroll-proportion="-10.807693">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HtmlElement.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="HtmlElement.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="54" selection-start="4076" selection-end="4076" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Evaluator.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="229" column="26" selection-start="13245" selection-end="13245" vertical-scroll-proportion="0.6737194">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Array.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="20" selection-start="1770" selection-end="1770" vertical-scroll-proportion="0.0">
+            <state line="55" column="76" selection-start="2472" selection-end="2472" vertical-scroll-proportion="0.45100224">
               <folding />
             </state>
           </provider>
@@ -122,7 +112,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/domTests/04/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="7" selection-start="262" selection-end="262" vertical-scroll-proportion="-9.153846">
+            <state line="23" column="52" selection-start="522" selection-end="522" vertical-scroll-proportion="-15.038462">
               <folding />
             </state>
           </provider>
@@ -141,8 +131,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-        <option value="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
         <option value="$PROJECT_DIR$/playground/test.html" />
@@ -151,12 +139,14 @@
         <option value="$PROJECT_DIR$/debug/slicingTests/99/trimmedGauss.js" />
         <option value="$PROJECT_DIR$/debug/slicingTests/65/index.html" />
         <option value="$PROJECT_DIR$/debug/slicingTests/65/index-sliced.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
         <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/debug/domTests/03/index.html" />
-        <option value="$PROJECT_DIR$/debug/domModelMapping.js" />
+        <option value="$PROJECT_DIR$/debug/domTests/04/index.html" />
         <option value="$PROJECT_DIR$/debug/debugDom.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
+        <option value="$PROJECT_DIR$/debug/domModelMapping.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
       </list>
     </option>
   </component>
@@ -360,6 +350,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="05" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="domTests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="04" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -458,11 +470,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\domTests" />
       <recent name="C:\GitWebStorm\Firecrow\debug\domTests\04" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\67" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\66" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\65" />
-      <recent name="C:\GitWebStorm\Firecrow\tests\libraries\gauss\tests\cases\10-MedianOddNumber" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\tests\libraries" />
@@ -1166,7 +1178,11 @@
       <created>1342611310485</created>
       <updated>1342611310485</updated>
     </task>
-    <option name="localTasksCounter" value="156" />
+    <task id="LOCAL-00156" summary="Added creating dependecies between a html element and property assignment expressions">
+      <created>1342708605157</created>
+      <updated>1342708605158</updated>
+    </task>
+    <option name="localTasksCounter" value="157" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -1193,6 +1209,7 @@
     <frame x="1358" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16666667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12286325" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
@@ -1207,7 +1224,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.6474359" order="3" side_tool="false" content_ui="combo" />
@@ -1251,7 +1267,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug in dependency postprocessor with processing throw command" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added creating dependecies between a html element and property assignment expressions" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1264,7 +1280,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Commit before merging all NotifyErrors" />
     <MESSAGE value="notifyErrors centralized" />
     <MESSAGE value="When running tests from the plugin - errors are logged and not alerted!" />
     <MESSAGE value="Trimmed down test" />
@@ -1289,6 +1304,7 @@
     <MESSAGE value="Test are running away" />
     <MESSAGE value="Introduced a hack for including for statment update expression if test expression is included - could not get it working normally :-/&#10;&#10;Devised a test case that fails - i don't know how to handle it!" />
     <MESSAGE value="Fixed a bug in dependency postprocessor with processing throw command" />
+    <MESSAGE value="Added creating dependecies between a html element and property assignment expressions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1300,16 +1316,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/65/index-sliced.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="29" selection-start="518" selection-end="518" vertical-scroll-proportion="0.8300181" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/65/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="23" selection-start="411" selection-end="411" vertical-scroll-proportion="0.6455696" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/libraries/gauss/code/originalCode.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -1349,13 +1355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/domTests/04/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="7" selection-start="262" selection-end="262" vertical-scroll-proportion="-9.153846">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/domTests/03/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="30" selection-start="313" selection-end="313" vertical-scroll-proportion="-8.5">
@@ -1363,37 +1362,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/domModelMapping.js">
+    <entry file="file://$PROJECT_DIR$/debug/domTests/05/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="23" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/domTests/04/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="52" selection-start="522" selection-end="522" vertical-scroll-proportion="-15.038462">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="61" selection-start="4667" selection-end="4667" vertical-scroll-proportion="-9.5">
+        <state line="103" column="68" selection-start="4737" selection-end="4737" vertical-scroll-proportion="-10.807693">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/domModelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="581" selection-start="39343" selection-end="39343" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="20" selection-start="1770" selection-end="1770" vertical-scroll-proportion="0.0">
+        <state line="36" column="8" selection-start="1609" selection-end="1770" vertical-scroll-proportion="0.50384194">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="54" selection-start="4076" selection-end="4076" vertical-scroll-proportion="0.0">
+        <state line="183" column="36" selection-start="5747" selection-end="5747" vertical-scroll-proportion="0.4632272">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="229" column="26" selection-start="13245" selection-end="13245" vertical-scroll-proportion="0.6737194">
+        <state line="146" column="4" selection-start="8503" selection-end="8503" vertical-scroll-proportion="-1.1271478">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="76" selection-start="2472" selection-end="2472" vertical-scroll-proportion="0.45100224">
           <folding />
         </state>
       </provider>

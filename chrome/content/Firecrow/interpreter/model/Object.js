@@ -180,7 +180,8 @@ fcModel.Object.prototype =
                     this.getPropertyCallbackDescriptor.callback.call
                     (
                         this.getPropertyCallbackDescriptor.thisValue || this,
-                        readPropertyConstruct
+                        readPropertyConstruct,
+                        propertyName
                     );
                 }
                 return property;

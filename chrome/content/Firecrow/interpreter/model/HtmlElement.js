@@ -38,6 +38,32 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
         this.addPrimitiveProperties(htmlElement, codeConstruct);
         this.expandMethods();
+
+        this.registerGetPropertyCallback(function(getPropertyConstruct, propertyName)
+        {
+            var evaluationPositionId = this.globalObject.getPreciseEvaluationPositionId();
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                getPropertyConstruct,
+                this.htmlElement.modelElement,
+                evaluationPositionId
+            );
+
+            if(propertyName == "children" || propertyName == "childNodes")
+            {
+                var descendents = this.htmlElement[propertyName];
+
+                for(var i = 0; i < descendents.length; i++)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        getPropertyConstruct,
+                        descendents[i].modelElement,
+                        evaluationPositionId
+                    );
+                }
+            }
+        }, this);
     }
     catch(e) { alert("Error when creating HTML node: " + e); }//this.notifyError("Error when creating HtmlElement object: " + e); }
 };

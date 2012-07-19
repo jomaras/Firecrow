@@ -506,19 +506,17 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 21)
-            {
-                var a = 3;
-            }
-
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
             var property = this.executionContextStack.getExpressionValue(memberExpression.property);
 
-            var propertyValue = object != this.globalObject ? object.value[property.value]
-                                                            : this.globalObject.getPropertyValue(property.value);
+            var propertyValue;
+
+            if(object == this.globalObject) { propertyValue = this.globalObject.getPropertyValue(property.value); }
+            else if (ValueTypeHelper.isOfType(object.value, HTMLElement)) { propertyValue = object.fcInternal.object.getPropertyValue(property.value); }
+            else { propertyValue = object.value[property.value]; }
 
             var propertyExists = propertyValue !== undefined;
 

@@ -8,20 +8,24 @@
 </head>
 <body>
 <h2 class="testClass">Title</h2>
-<div id="container"></div>
+<div id="container">
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+</div>
 <script type ="text/javascript">
 
-    window.onload = function()
-    {
         var container = document.getElementById("container");
-        container.textContent = "test";
+        var children = container.children;
 
-        var container2 = document.getElementById("container");
+        var sum = 0;
+        for(var i = 0; i < children.length; i++)
+        {
+            sum += parseInt(children[i].textContent);
+        }
 
-        var a1 = container2.textContent;
+        var a1 = sum;
         a1;
-    };
-
-</script>
+    </script>
 </body>
 </html>
