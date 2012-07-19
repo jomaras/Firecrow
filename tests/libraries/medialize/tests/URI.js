@@ -574,9 +574,6 @@ p.build = function(deferBuild) {
     return this;
 };
 
-p.toString = function() {
-    return this.build(false)._string;
-};
 p.valueOf = function() {
     return this.toString();
 };

@@ -214,6 +214,9 @@ fcModel.HtmlElementExecutor =
             case "getAttribute":
                 var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
+            case "appendChild":
+                thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                return arguments[0];
             default:
                 this.notifyError("Unhandled internal method"); return;
         }

@@ -10,13 +10,12 @@
 <h2 class="testClass">Title</h2>
 <div id="container"></div>
 <script type ="text/javascript">
-    var newContainer = document.createElement("div");
+    var container = document.getElementById("container");
+    container.textContent = "1";
 
-    var container = document.querySelector("#container");
-    container.appendChild(newContainer);
+    var container2 = document.getElementById("container");
 
-    newContainer.textContent = "Element created by Js";
-    var a1 = newContainer.textContent;
+    var a1 = container2.textContent;
     a1;
 </script>
 </body>

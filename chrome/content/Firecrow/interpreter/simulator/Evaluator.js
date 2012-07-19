@@ -190,12 +190,6 @@ fcSimulator.Evaluator.prototype =
 
             finalValue = finalValue.isPrimitive() ? finalValue.createCopy(evalAssignmentExpressionCommand.rightSide) : finalValue;
 
-            if(assignmentExpression.loc.start.line == 445)
-            {
-                var a = 3;
-            }
-
-
             if(ASTHelper.isIdentifier(evalAssignmentExpressionCommand.leftSide))
             {
                 if(this.globalObject.checkIfSatisfiesIdentifierSlicingCriteria(evalAssignmentExpressionCommand.leftSide))
@@ -235,6 +229,15 @@ fcSimulator.Evaluator.prototype =
                 object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
 
                 if(ValueTypeHelper.isArray(object.value)) { object.fcInternal.object.updateItem(property.value, finalValue, assignmentExpression); }
+                else if (ValueTypeHelper.isOfType(object.value, HTMLElement))
+                {
+                   this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                   (
+                       object.fcInternal.object.htmlElement.modelElement,
+                       assignmentExpression,
+                       this.globalObject.getPreciseEvaluationPositionId()
+                   );
+                }
             }
 
             this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
@@ -302,7 +305,7 @@ fcSimulator.Evaluator.prototype =
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(identifierConstruct.loc != null && (identifierConstruct.loc.start.line == 71 || identifierConstruct.loc.start.line == 67))
+            if(identifierConstruct.loc != null && (identifierConstruct.loc.start.line == 71))
             {
                 var a = 3;
             }
