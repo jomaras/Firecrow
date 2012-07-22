@@ -284,6 +284,9 @@ fcModel.HtmlElementExecutor =
                     arguments[i].fcInternal.object.notifyElementInsertedIntoDom(callExpression);
                 }
                 return arguments[0];
+            case "cloneNode":
+                var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                return this.wrapToFcElement(clonedNode, globalObject, callExpression);
             default:
                 this.notifyError("Unhandled internal method:" + functionName); return;
         }
