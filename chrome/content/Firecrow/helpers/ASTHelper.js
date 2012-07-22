@@ -523,6 +523,27 @@ FBL.ns(function () { with (FBL) {
         isUpdateOperator: function(element) { return this.isElementOfType(element, this.CONST.OPERATOR.UpdateOperator); },
         isLogicalOperator: function(element) { return this.isElementOfType(element, this.CONST.OPERATOR.LogicalOperator); },
 
+        isUnaryMathOperator: function(operator)
+        {
+            return operator == "-" || operator == "+";
+        },
+
+        isUnaryLogicalOperator: function(operator)
+        {
+            return operator == "!";
+        },
+
+        isUnaryBitOperator: function(operator)
+        {
+            return operator == "~";
+        },
+
+        isUnaryObjectOperator: function(operator)
+        {
+            return operator == "typeof" || operator == "void"
+                || operator == "delete";
+        },
+
         isBinaryEqualityOperator:function (element)
         {
             return element == "==" || element == "==="

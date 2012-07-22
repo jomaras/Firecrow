@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CloneDetector</title>
+    <script src="modelMapping.js"></script>
+    <script src="../../chrome/content/Firecrow/initFBL.js"></script>
+
+    <script src="../../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+
+    <script src="../../chrome/content/Firecrow/cloneDetector/CloneDetector.js"></script>
+    <script src="../../chrome/content/Firecrow/cloneDetector/CombinationsGenerator.js"></script>
+    <script src="../../chrome/content/Firecrow/cloneDetector/CharacteristicVector.js"></script>
+    <script src="../../chrome/content/Firecrow/cloneDetector/VectorGenerator.js"></script>
+
+    <script>
+        var model = HtmlModelMapping.getModel("file:///C:/GitWebStorm/Firecrow/debug/cloneDetector/01/index.html");
+        FBL.Firecrow.CloneDetector.generateCharacteristicVectors(model);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
