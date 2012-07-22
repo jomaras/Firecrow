@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firecrow - Debug Slicing</title>
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="jqueryModelMapping.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+
+    <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/slicingCriterion.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/JsValue.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Object.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/GlobalObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Array.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Math.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/RegEx.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Function.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Date.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Boolean.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Number.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/Document.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/HtmlElement.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/TextNode.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Attribute.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/ClassList.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/CSSStyleDeclaration.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/simulator/VariableObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/Evaluator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
+
+    <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
+    <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/Slicer.js"></script>
+
+    <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
+
+    <style>
+        #codeContainer
+        {
+            float: left;
+            width: 600px;
+        }
+
+        #slicedCodeContainer
+        {
+            float:left;
+            width: 600px;
+        }
+
+        .selected { background-color: green; }
+        .dependent { background-color: yellow; }
+        .secondHandDependencies { background-color: #7FFF00;}
+        .unexecuted { color: gray;}
+        .executed { color: black;}
+
+    </style>
+</head>
+<body>
+<h1>Firecrow - Debugging DOM Slicing</h1>
+<div>
+    <a id="testIdContainer"></a>
+</div>
+
+<br/>
+<span id="resultTitle">Result:</span>
+<div id="messageContainer"></div>
+<br>
+<div id="lineNumberContainer"></div>
+<div id="codeContainer">
+    <pre id="sourceTextContainer">
+    </pre>
+</div>
+<div id="slicedCodeContainer">
+    <pre id="slicedSourceTextContainer"></pre>
+</div>
+<div style="clear:both"/>
+
+<script>
+    var Firecrow = FBL.Firecrow;
+
+    var url = "file:///C:/GitWebStorm/Firecrow/debug/jQuery/01/index.html";
+    var htmlModel = HtmlModelMapping.getWholeFileModel(url);
+    var slicingCriteria = htmlModel.results.map(function(result)
+    {
+        for(var propName in result)
+        {
+            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
+        }
+    });
+
+    setTitle(url);
+
+    var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
+
+    checkForErrors(browser, htmlModel);
+
+    document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.model);
+    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+
+    function setTitle(url)
+    {
+        var testIdContainer = document.getElementById("testIdContainer");
+        testIdContainer.textContent = url;
+        testIdContainer.href = url;
+    }
+
+    function checkForErrors(browser, htmlModel)
+    {
+        var messageContainer = document.getElementById("messageContainer");
+        var globalObjectProperties = browser.globalObject.properties;
+
+        var errors = "";
+
+        var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+        var specifiedCode = atob(htmlModel.slicingResult);
+
+        if(generatedCode != specifiedCode) { errors += "Slicing does not match!"; }
+
+
+        htmlModel.results.forEach(function(result)
+        {
+            for(var propName in result)
+            {
+                var hasBeenFound = false;
+                for(var i = 0; i < globalObjectProperties.length; i++)
+                {
+                    var property = globalObjectProperties[i];
+                    var propertyValue = property.value;
+
+                    if(property.name == propName)
+                    {
+                        hasBeenFound = true;
+
+                        if(propertyValue == null)
+                        {
+                            errors += propName + " is null, and should be: " + result[propName] + "\n";
+                            break;
+                        }
+
+                        if(propertyValue.value != result[propName])
+                        {
+                            errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
+                        }
+
+                        break;
+                    }
+                }
+
+                if(!hasBeenFound)
+                {
+                    errors += propName + " could not be found in global object!\n";
+                }
+            }
+        });
+
+        if(errors != "") { alert("Errors on validating result:\n" + errors); }
+        else
+        {
+            var newDiv = document.createElement("div");
+            newDiv.style.color = "green";
+            newDiv.textContent = "Test successful";
+            messageContainer.appendChild(newDiv);
+        }
+    }
+</script>
+</body>
+</html>

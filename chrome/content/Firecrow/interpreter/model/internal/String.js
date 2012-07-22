@@ -12,6 +12,7 @@ fcModel.String = function(value, globalObject, codeConstruct)
     try
     {
         this.notifyError = function(message) { alert("String - " + message); }
+
         this.value = value;
         this.globalObject = globalObject;
         this.__proto__ = new fcModel.Object(globalObject);
@@ -26,13 +27,16 @@ fcModel.StringPrototype = function(globalObject)
     try
     {
         this.globalObject = globalObject;
-
+        this.__proto__ = new fcModel.Object(globalObject);
+        //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
         fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
+            var internalFunction = globalObject.internalExecutor.createInternalFunction(String.prototype[propertyName], propertyName, this);
+            this[propertyName] = internalFunction;
+            this.addProperty(propertyName, internalFunction, null, false);
         }, this);
 
-        this.fcInternal = { object: this};
+        this.fcInternal = { object: this };
     }
     catch(e) { fcModel.String.notifyError("StringPrototype - error when creating array prototype:" + e); }
 };
@@ -56,7 +60,11 @@ fcModel.StringFunction = function(globalObject)
 {
     try
     {
+        this.__proto__ = new fcModel.Object(globalObject);
+
+        this.prototype = new fcModel.JsValue(globalObject.stringPrototype, new fcModel.FcInternal(null, globalObject.stringPrototype)) ;
         this.addProperty("prototype", globalObject.stringPrototype);
+
         this.isInternalFunction = true;
         this.name = "String";
         this.fcInternal = this;

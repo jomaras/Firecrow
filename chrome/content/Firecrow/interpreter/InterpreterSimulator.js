@@ -193,6 +193,8 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
+            this.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line);
+
             if(this.tryStack.length == 0)
             {
                 this.notifyError("Removing commands and there is no enclosing try catch block @ " + this.commands[this.currentCommandIndex].codeConstruct.loc.source);

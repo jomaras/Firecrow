@@ -22,16 +22,22 @@ fcModel.GlobalObject = function(browser, documentFragment)
 
         Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
 
+        this.booleanPrototype = new fcModel.BooleanPrototype(this);
         this.arrayPrototype = new fcModel.ArrayPrototype(this);
         this.objectPrototype = new fcModel.ObjectPrototype(this);
         this.functionPrototype = new fcModel.FunctionPrototype(this);
         this.regExPrototype = new fcModel.RegExPrototype(this);
         this.stringPrototype = new fcModel.StringPrototype(this);
+        this.numberPrototype = new fcModel.NumberPrototype(this);
+        this.datePrototype = new fcModel.DatePrototype(this);
 
+        this.booleanFunction = new fcModel.BooleanFunction(this);
         this.stringFunction = new fcModel.StringFunction(this);
         this.arrayFunction = new fcModel.ArrayFunction(this);
         this.regExFunction = new fcModel.RegExFunction(this);
         this.objectFunction = new fcModel.ObjectFunction(this);
+        this.numberFunction = new fcModel.NumberFunction(this);
+        this.dateFunction = new fcModel.DateFunction(this);
 
         this.fcMath = new fcModel.Math(this);
         this.math = new fcModel.JsValue(this.fcMath, new fcModel.FcInternal(null, this.fcMath));
@@ -43,6 +49,9 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("RegExp", new fcModel.JsValue(this.regExFunction, new fcModel.FcInternal(null, this.regExFunction)) , null);
         this.addProperty("String", new fcModel.JsValue(this.stringFunction, new fcModel.FcInternal(null, this.stringFunction)) , null);
         this.addProperty("Object", new fcModel.JsValue(this.objectFunction, new fcModel.FcInternal(null, this.objectFunction)) , null);
+        this.addProperty("Boolean", new fcModel.JsValue(this.booleanFunction, new fcModel.FcInternal(null, this.booleanFunction)) , null);
+        this.addProperty("Number", new fcModel.JsValue(this.numberFunction, new fcModel.FcInternal(null, this.numberFunction)) , null);
+        this.addProperty("Date", new fcModel.JsValue(this.dateFunction, new fcModel.FcInternal(null, this.dateFunction)), null);
         this.addProperty("document", this.jsFcDocument, null);
         this.addProperty("Math", this.math, null);
         this.addProperty("window", this, null);

@@ -71,7 +71,10 @@ fcSimulator.InternalExecutor.prototype =
                 this.notifyError("Unknown state when creating object");
             }
         }
-        catch(e) { this.notifyError("Error when creating object:" + e); }
+        catch(e)
+        {
+            this.notifyError("Error when creating object:" + e);
+        }
     },
 
     createFunction: function(scopeChain, functionCodeConstruct)
@@ -146,7 +149,10 @@ fcSimulator.InternalExecutor.prototype =
                 );
             }
         }
-        catch(e) { this.notifyError("Error when expanding object with internal function:" + e); }
+        catch(e)
+        {
+            this.notifyError("Error when expanding object with internal function:" + e);
+        }
     },
 
     createArray: function(creationCodeConstruct, existingArray)
@@ -249,23 +255,45 @@ fcSimulator.InternalExecutor.prototype =
         return new fcModel.JsValue(navigator, new fcModel.FcInternal(null, fcNavigator));
     },
 
-    executeConstructor: function(constructorConstruct, internalConstructor, argumentValues)
+    executeConstructor: function(constructorConstruct, internalConstructor, arguments)
     {
         try
         {
+            var argumentValues = arguments.map(function(item) { return item.value});
+
             if(internalConstructor == null) { this.notifyError("InternalConstructor can not be null!"); return; }
 
             if(internalConstructor.value == this.globalObject.arrayFunction)
             {
-                return this.createArray(constructorConstruct, Array.apply(null, argumentValues));
+                return this.createArray(constructorConstruct, Array.apply(null, arguments));
             }
             else if(internalConstructor.value == this.globalObject.regExFunction)
             {
-                return this.createRegEx(constructorConstruct, RegExp.apply(null, argumentValues.map(function(item){ return item.value; })));
+                return this.createRegEx(constructorConstruct, RegExp.apply(null, arguments));
+            }
+            else if (internalConstructor.value == this.globalObject.stringFunction)
+            {
+                return new fcModel.JsValue(String.apply(null, arguments), new fcModel.FcInternal(constructorConstruct));
+            }
+            else if (internalConstructor.value == this.globalObject.booleanFunction)
+            {
+                return new fcModel.JsValue(Boolean.apply(null, arguments), new fcModel.FcInternal(constructorConstruct));
+            }
+            else if (internalConstructor.value == this.globalObject.numberFunction)
+            {
+                return new fcModel.JsValue(Number.apply(null, arguments), new fcModel.FcInternal(constructorConstruct));
+            }
+            else if (internalConstructor.value == this.globalObject.objectFunction)
+            {
+                return new fcModel.JsValue(Object.apply(null, arguments), new fcModel.FcInternal(constructorConstruct));
+            }
+            else if (internalConstructor.value == this.globalObject.dateFunction)
+            {
+                return fcModel.DateExecutor.executeConstructor(constructorConstruct, arguments);
             }
             else
             {
-                this.notifyError("Unknown internal constructor"); return;
+                this.notifyError("Unknown internal constructor" + constructorConstruct.loc.start.line); return;
             }
         }
         catch(e) { this.notifyError("Execute error: " + e); }
@@ -284,6 +312,8 @@ fcSimulator.InternalExecutor.prototype =
             else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject.fcInternal.globalObject.jsFcDocument, functionObject, arguments, callExpression);}
             else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, Date)) { return fcModel.DateExecutor.executeInternalDateMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (thisObject.value == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeFunctionMethod(thisObject, functionObject, arguments, callExpression, this.globalObject); }
             else if (thisObject.value == this.globalObject.fcMath) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (functionObject.fcInternal.isInternalFunction) { return this._executeInternalFunction(thisObject, functionObject, arguments, callExpression, callCommand); }
             else
@@ -315,7 +345,11 @@ fcSimulator.InternalExecutor.prototype =
             }
             else if (functionObject.fcInternal.object.ownerObject == this.globalObject.objectPrototype)
             {
-                return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression)
+                return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);
+            }
+            else if (functionObject.fcInternal.object.ownerObject == this.globalObject.stringPrototype)
+            {
+                return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression, callCommand);
             }
             else
             {
@@ -346,6 +380,7 @@ fcSimulator.InternalExecutor.prototype =
         try
         {
             this._expandArrayMethods();
+            this._expandDateMethods();
             this._expandFunctionPrototype();
             this._expandObjectPrototype();
             this._expandRegExMethods();
@@ -362,6 +397,7 @@ fcSimulator.InternalExecutor.prototype =
     removeInternalFunctions: function()
     {
         this._removeArrayMethods();
+        this._removeDateMethods();
         this._removeFunctionPrototype();
         this._removeObjectPrototype();
         this._removeRegExMethods();
@@ -525,6 +561,35 @@ fcSimulator.InternalExecutor.prototype =
         }
         catch(e) { this.notifyError("Error when removing array methods: " + e); }
     },
+
+    _expandDateMethods: function()
+    {
+        try
+        {
+            var datePrototype = Date.prototype;
+
+            fcModel.DatePrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                this.expandWithInternalFunction(datePrototype, propertyName);
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when expanding date methods: " + e); }
+    },
+
+    _removeDateMethods: function()
+    {
+        try
+        {
+            var datePrototype = Date.prototype;
+
+            fcModel.DatePrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            {
+                datePrototype[propertyName].jsValue = null;
+            }, this);
+        }
+        catch(e) { this.notifyError("Error when removing date methods: " + e); }
+    },
+
 
     _expandRegExMethods: function()
     {

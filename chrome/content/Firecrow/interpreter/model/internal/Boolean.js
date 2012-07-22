@@ -5,27 +5,26 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
-var fcModelInternals = Firecrow.Interpreter.Model.Internals;
 var fcModel = Firecrow.Interpreter.Model;
 
-Firecrow.Interpreter.Model.Internals.BooleanFunction = function(globalObject)
-{
-    this.__proto__ = fcModel.createNativeFunction("Boolean", globalObject, false);
-
-    this._prototype = new fcModelInternals.BooleanObjectPrototype(globalObject);
-    //TODO: proto not set!
-    //TODO: not finished!
-};
-
-Firecrow.Interpreter.Model.Internals.BooleanObject = function(globalObject, codeConstruct, value)
-{
-    this.__proto__ = new fcModel.Object(globalObject, codeConstruct);
-    this.value = value || false;
-}
-
-Firecrow.Interpreter.Model.Internals.BooleanObjectPrototype = function(globalObject)
+Firecrow.Interpreter.Model.BooleanFunction = function(globalObject)
 {
     this.__proto__ = new fcModel.Object(globalObject);
+
+    this.prototype = new fcModel.JsValue(globalObject.booleanPrototype, new fcModel.FcInternal(null, globalObject.booleanPrototype)) ;
+    this.addProperty("prototype", globalObject.booleanPrototype);
+
+    this.isInternalFunction = true;
+    this.name = "Boolean";
+    this.fcInternal = this;
+};
+
+Firecrow.Interpreter.Model.BooleanPrototype = function(globalObject)
+{
+    this.globalObject = globalObject;
+    this.__proto__ = new fcModel.Object(globalObject);
+
+    this.fcInternal = { object: this };
 }
 /*************************************************************************************/
 }});
