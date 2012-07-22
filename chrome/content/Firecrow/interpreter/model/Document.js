@@ -75,6 +75,8 @@ fcModel.DocumentExecutor =
         var globalObject = fcThisValue.globalObject;
 
         if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
+        else if(functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
+        else if(functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }
         else
         {
             var result;

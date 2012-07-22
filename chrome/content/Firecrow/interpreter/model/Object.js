@@ -30,6 +30,8 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject, pro
     this.enumeratedProperties = [];
 
     this.prototypeDefinitionConstruct = null;
+
+    this.eventListenerInfo = {};
 };
 
 fcModel.Object.LAST_ID = 0;
@@ -54,6 +56,53 @@ fcModel.Object.prototype =
         }
 
         return lastModifications;
+    },
+
+    addEventListener: function(arguments, callExpression, globalObject)
+    {
+        try
+        {
+            if(arguments.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); }
+
+            var eventTypeName = arguments[0].value;
+            var handler = arguments[1];
+
+            if(this.eventListenerInfo[eventTypeName] == null) { this.eventListenerInfo[eventTypeName] = []; }
+
+            this.eventListenerInfo[eventTypeName].push({
+                handler: handler,
+                registrationPoint: {
+                    codeConstruct: callExpression,
+                    evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
+                }
+            });
+        }
+        catch(e) { this.notifyError("Error when adding event listener"); }
+    },
+
+    removeEventListener: function(arguments, callExpression, globalObject)
+    {
+        try
+        {
+            if(arguments.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); }
+
+            var eventTypeName = arguments[0].value;
+            var handler = arguments[1].value;
+
+            var eventHandlers = this.eventListenerInfo[eventTypeName];
+
+            if(eventHandlers == null) { return; }
+
+            for(var i = 0; i < eventHandlers.length; i++)
+            {
+                if(eventHandlers[i].handler == handler)
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(eventHandlers, i);
+                    i--;
+                }
+            }
+        }
+        catch(e) { this.notifyError("Error when removing event listener"); }
     },
 
     registerGetPropertyCallback: function(callback, thisValue)

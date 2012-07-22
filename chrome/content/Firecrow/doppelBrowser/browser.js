@@ -243,6 +243,48 @@ Browser.prototype =
     {
         try
         {
+            var documentDomContentReadyMethods = this.globalObject.document.eventListenerInfo["DOMContentLoaded"];
+
+            if(documentDomContentReadyMethods != null)
+            {
+                for(var i = 0; i < documentDomContentReadyMethods.length; i++)
+                {
+                    var domContentReadyInfo = documentDomContentReadyMethods[i];
+
+                    this._interpretJsCode
+                    (
+                        domContentReadyInfo.handler.fcInternal.object.codeConstruct.body,
+                        {
+                            functionHandler: domContentReadyInfo.handler,
+                            thisObject: this.globalObject.document,
+                            arguments: [],
+                            registrationPoint: domContentReadyInfo.registrationPoint
+                        }
+                    );
+                }
+            }
+
+            var windowDomContentReadyMethods = this.globalObject.eventListenerInfo["DOMContentLoaded"];
+
+            if(windowDomContentReadyMethods != null)
+            {
+                for(var i = 0; i < windowDomContentReadyMethods.length; i++)
+                {
+                    var domContentReadyInfo = windowDomContentReadyMethods[i];
+
+                    this._interpretJsCode
+                    (
+                        domContentReadyInfo.handler.fcInternal.object.codeConstruct.body,
+                        {
+                            functionHandler: domContentReadyInfo.handler,
+                            thisObject: this.globalObject,
+                            arguments: [],
+                            registrationPoint: domContentReadyInfo.registrationPoint
+                        }
+                    );
+                }
+            }
+
             var onLoadFunction = this.globalObject.getPropertyValue("onload");
 
             if(onLoadFunction != null)
@@ -259,7 +301,7 @@ Browser.prototype =
                 );
             }
         }
-        catch(e) { this.notifyError("Error when handling page ready events"); }
+        catch(e) { this.notifyError("Error when handling page ready events: " + e); }
     },
 
     registerNodeCreatedCallback: function(callback, thisObject)

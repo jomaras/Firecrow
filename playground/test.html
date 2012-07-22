@@ -1,191 +1,29 @@
 <!DOCTYPE html>
-
 <html>
-
-<head>
-
-    <script>
-
-        var Vector = function (values)
-
-        {
-
-            this.vector = values || [];
-
-        };
-
-        Vector.prototype = {
-
-            sortAscending: function ()
-
-            {
-
-                for(var i = 0, length = this.vector.length;i < (length - 1);i++)
-
-                {
-
-                    for(var j = i + 1;j < length;j++)
-
-                    {
-
-                        if(this.vector[i] > this.vector[j])
-
-                        {
-
-                            var temp = this.vector[i];
-
-                            this.vector[i] = this.vector[j];
-
-                            this.vector[j] = temp;
-
-                        }
-
-
-
-                    }
-
-
-
-                }
-
-
-
-            },
-
-            quantile: function (quantity, callback)
-
-            {
-
-                var buffer = this.copy();
-
-                buffer.sortAscending();
-
-                var increment = 1 / quantity;
-
-                var results = new Vector();
-
-                for(var i = increment;i < 1;i += increment)
-
-                {
-
-                    var index = Math.round(buffer.vector.length * i) - 1;
-
-                    if(index < (buffer.vector.length - 1))
-
-                        results.push(buffer.vector[index]);
-
-
-
-                }
-
-
-
-                if(callback);
-
-                else
-
-                    return results;
-
-
-
-            },
-
-            copy: function (callback)
-
-            {
-
-                var copy = new Vector(this.vector.slice());
-
-                if(callback);
-
-                else
-
-                    return copy;
-
-
-
-            },
-
-            toArray: function (callback)
-
-            {
-
-                var array = this.vector.slice();
-
-                if(callback);
-
-                else
-
-                    return array;
-
-
-
-            },
-
-            push: function ()
-
-            {
-
-                var args = arguments;
-
-                var end = args[args.length - 1];
-
-                if(typeof end === 'function')
-
-                {
-
-                    var i;
-
-                }
-
-                else
-
-                {
-
-                    for(var i = 0;i < args.length;i++)
-
-                    {
-
-                        this.vector.push(args[i]);
-
-                    }
-
-
-
-                }
-
-
-
-            }
-
-        };
-
-    </script>
-
-</head>
-
+    <head>
+    </head>
 <body>
+    <script>
+        var sum = 0;
 
-<script>
+        window.onload = function()
+        {
+            sum += 1;
+            alert("On load executed");
+        };
 
-    var set = new Vector([10, 82, 67, 17, 36, 3, 1, 61, 33, 20, 18, 35, 15, 39]);
+        window.addEventListener("DOMContentLoaded", function()
+        {
+           sum +=1;
+           alert("DOMContentLoaded on window executed");
+        });
 
-    var b1 = set.quantile(4).toArray();
-
-    var a1 = b1[0] == 15;
-
-    var a2 = b1[1] == 20;
-
-    var a3 = b1[2] == 39;
-
-    a1;
-
-    a2;
-
-    a3;
-
-</script>
-
+        document.addEventListener("DOMContentLoaded", function()
+        {
+            sum += 1;
+            sum;
+            alert("DOMContentLoaded on document executed");
+        });
+    </script>
 </body>
-
 </html>

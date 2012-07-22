@@ -156,7 +156,7 @@ fcModel.GlobalObject.CONST =
         [
             "decodeURI", "decodeURIComponent", "encodeURI",
             "encodeURIComponent", "eval", "isFinite", "isNaN",
-            "parseFloat", "parseInt"
+            "parseFloat", "parseInt", "addEventListener", "removeEventListener"
         ]
     }
 }
@@ -167,11 +167,9 @@ fcModel.GlobalObjectExecutor =
     {
         try
         {
-            if(fcFunction.value.name == "eval")
-            {
-                fcModel.GlobalObject.notifyError("Not handling eval function!");
-                return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression));
-            }
+            if(fcFunction.value.name == "eval") { return _handleEval(fcFunction, arguments, callExpression, globalObject); }
+            else if (fcFunction.value.name == "addEventListener") { return globalObject.addEventListener(arguments, callExpression, globalObject); }
+            else if (fcFunction.value.name == "removeEventListener") { return globalObject.removeEventListener(arguments, callExpression, globalObject); }
 
             return new fcModel.JsValue
             (
@@ -185,10 +183,18 @@ fcModel.GlobalObjectExecutor =
         }
     },
 
+    _handleEval: function(fcFunction, arguments, callExpression, globalObject)
+    {
+        fcModel.GlobalObject.notifyError("Not handling eval function!");
+
+        return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression));
+    },
+
     executesFunction: function(globalObject, functionName)
     {
         return globalObject.origWindow[functionName] != null && ValueTypeHelper.isFunction(globalObject.origWindow[functionName]);
     }
-}
+};
+
 /*************************************************************************************/
 }});
