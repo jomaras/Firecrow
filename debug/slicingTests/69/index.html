@@ -3,11 +3,13 @@
 <body>
 <script>
 
-    var a = new Date(Date.now());
-    var a1 = a.getYear();
+    var a = "Boolean Number String Function Array Date RegExp Object".split(" ");
+    var class2type = {};
 
-    a1 += 3;
-    a1;
+    a.forEach(function(name, index)
+    {
+        class2type[ "[object " + name + "]" ] = name.toLowerCase();
+    });
 </script>
 </body>
 </html>

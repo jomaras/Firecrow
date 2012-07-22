@@ -990,7 +990,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            return this.activeContext.getCodeConstructValue(codeConstruct);
+            var returnValue = this.activeContext.getCodeConstructValue(codeConstruct);
+
+            if(returnValue == null && ASTHelper.isCallExpression(codeConstruct))
+            {
+                return new fcModel.JsValue(undefined, new fcModel.FcInternal(codeConstruct));
+            }
+
+            return returnValue;
         }
         catch(e) { this.notifyError("Error when setting expression value: " + e); }
     },

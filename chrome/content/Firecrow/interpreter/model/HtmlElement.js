@@ -12,7 +12,11 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement)) { this.notifyError("When creating HTMLElement the htmlElement must be of type HTMLElement: " + (typeof htmlElement)); return; }
+        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement))
+        {
+            fcModel.HtmlElement.notifyError("When creating HTMLElement the htmlElement must be of type HTMLElement: " + (typeof htmlElement));
+            return;
+        }
 
         this.proto = new fcModel.Object(this.globalObject);
         this.__proto__ = this.proto;
@@ -69,6 +73,8 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
     catch(e) { alert("Error when creating HTML node: " + e); }//this.notifyError("Error when creating HtmlElement object: " + e); }
 };
 
+fcModel.HtmlElement.notifyError = function(message) { alert("HtmlElement - " + message); }
+
 fcModel.HtmlElement.prototype = new fcModel.Object(null);
 
 fcModel.HtmlElementProto =
@@ -80,6 +86,7 @@ fcModel.HtmlElementProto =
 
         this.proto.addProperty.call(this, "childNodes", this.globalObject.internalExecutor.createArray(codeConstruct, childNodes), codeConstruct);
         this.proto.addProperty.call(this, "children", this.globalObject.internalExecutor.createArray(codeConstruct, children), codeConstruct);
+        this.proto.addProperty.call(this, "firstChild", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.firstChild, this.globalObject, codeConstruct));
         this.proto.addProperty.call(this, "innerHTML", new fcModel.JsValue(this.htmlElement.innerHTML, new fcModel.FcInternal(codeConstruct)), codeConstruct);
     },
 
@@ -267,6 +274,9 @@ fcModel.HtmlElementExecutor =
                 var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 this.addDependencies(result, callExpression, globalObject);
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
+            case "setAttribute":
+                thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression, null));
             case "appendChild":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 for(var i = 0; i < arguments.length; i++)
@@ -288,12 +298,30 @@ fcModel.HtmlElementExecutor =
             for(var i = 0, length = items.length; i < length; i++)
             {
                 var item = items[i];
-                fcItems.push(new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, new fcModel.HtmlElement(item, globalObject, codeConstruct))))
+                fcItems.push(this.wrapToFcElement(item, globalObject, codeConstruct));
             }
 
             return globalObject.internalExecutor.createArray(codeConstruct, fcItems);
         }
-        catch(e) {alert("HtmlElementExecutor - error when wrapping: " + e);}
+        catch(e) { alert("HtmlElementExecutor - error when wrapping: " + e);}
+    },
+
+    wrapToFcElement: function(item, globalObject, codeConstruct)
+    {
+       try
+       {
+           if(item == null) { return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct)); }
+
+           if(ValueTypeHelper.isOfType(item, HTMLElement))
+           {
+               return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, new fcModel.HtmlElement(item, globalObject, codeConstruct)));
+           }
+           else
+           {
+               return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, new fcModel.TextNode(item, globalObject, codeConstruct)));
+           }
+       }
+       catch(e) { alert("HtmlElementExecutor - error when wrapping: " + e);}
     },
 
     addDependencies: function(element, codeConstruct, globalObject)
