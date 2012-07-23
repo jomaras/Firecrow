@@ -12,7 +12,7 @@ var fcCharacteristicVector = Firecrow.CloneDetector.CharacteristicVector;
 
 Firecrow.CloneDetector.NodeCombinationsGenerator =
 {
-    defaultMinNumOfTokens: 4,
+    defaultMinNumOfTokens: 30,
 
     getPotentialCandidates: function(combinationsGroups, maxDistance, minSimilarity)
     {
@@ -20,59 +20,99 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
 
         for(var i = 0, groupsLength = combinationsGroups.length; i < groupsLength; i++)
         {
-            var currentGroup = combinationsGroups[i];
+            this.processPotentialCandidate(combinationsGroups, i, maxDistance, minSimilarity, potentialCandidates);
+        }
 
-            if(currentGroup == null) { continue; }
+        return this._removeSubCombinations(potentialCandidates);
+    },
 
-            var compareWithGroups = [];
+    asyncProcessPotentialCandidates: function(combinationsGroups, maxDistance, minSimilarity, finishedCallbackFunction, messageCallbackFunction)
+    {
+        var potentialCandidates = [];
+        var _this = this;
 
-            var endGroupIndex = i + maxDistance;
+        this.currentIndex = 0;
 
-            endGroupIndex = endGroupIndex < groupsLength ? endGroupIndex : groupsLength - 1;
+        var asyncLoop = function()
+        {
+            _this.processPotentialCandidate(combinationsGroups, _this.currentIndex, maxDistance, minSimilarity, potentialCandidates);
 
-            for(var j = i + 1; j <= endGroupIndex; j++)
+            _this.currentIndex++;
+
+            if(_this.currentIndex < combinationsGroups.length)
             {
-                if(combinationsGroups[j] != null)
+                if(_this.currentIndex % 5 == 0)
                 {
-                    compareWithGroups.push(combinationsGroups[j]);
+                    messageCallbackFunction("asyncProcessPotentialCandidate - " + _this.currentIndex + " / " + combinationsGroups.length);
+                    setTimeout(asyncLoop, 20);
+                }
+                else
+                {
+                    asyncLoop();
                 }
             }
-
-            for(var j = 0, currentGroupLength = currentGroup.length; j < currentGroupLength; j++)
+            else
             {
-                var combinationsVector = currentGroup[j];
+                finishedCallbackFunction(_this._removeSubCombinations(potentialCandidates));
+            }
+        };
 
-                //compare with vectors in the current group
-                for(var k = j + 1; k < currentGroupLength; k++)
-                {
-                    var compareWithCombinationsVector = currentGroup[k];
+        asyncLoop();
+    },
 
-                    if(fcCharacteristicVector.calculateSimilarity(combinationsVector.characteristicVector, compareWithCombinationsVector.characteristicVector) >= minSimilarity
-                    && !this._containsDescendents(combinationsVector.combination, compareWithCombinationsVector.combination))
-                    {
-                        potentialCandidates.push({ first:combinationsVector, second:compareWithCombinationsVector });
-                    };
-                }
+    processPotentialCandidate: function(combinationsGroups, index, maxDistance, minSimilarity, potentialCandidates)
+    {
+        var groupsLength = combinationsGroups.length;
+        var currentGroup = combinationsGroups[index];
 
-                for(k = 0; k < compareWithGroups.length; k++)
-                {
-                    var compareWithGroup = compareWithGroups[k];
+        if(currentGroup == null) { return; }
 
-                    for(var l = 0, compareGroupLength = compareWithGroup.length; l < compareGroupLength; l++)
-                    {
-                        var compareWithCombinationsVector = compareWithGroup[l];
+        var compareWithGroups = [];
 
-                        if(fcCharacteristicVector.calculateSimilarity(combinationsVector.characteristicVector, compareWithCombinationsVector.characteristicVector) >= minSimilarity
-                        && !this._containsDescendents(combinationsVector.combination, compareWithCombinationsVector.combination))
-                        {
-                            potentialCandidates.push({first:combinationsVector, second:compareWithCombinationsVector});
-                        };
-                    }
-                }
+        var endGroupIndex = index + Math.floor(maxDistance*index);
+
+        endGroupIndex = endGroupIndex < groupsLength ? endGroupIndex : groupsLength - 1;
+
+        for(var j = index + 1; j <= endGroupIndex; j++)
+        {
+            if(combinationsGroups[j] != null)
+            {
+                compareWithGroups.push(combinationsGroups[j]);
             }
         }
 
-        return potentialCandidates;
+        for(var j = 0, currentGroupLength = currentGroup.length; j < currentGroupLength; j++)
+        {
+            var combinationsVector = currentGroup[j];
+
+            //compare with vectors in the current group
+            for(var k = j + 1; k < currentGroupLength; k++)
+            {
+                var compareWithCombinationsVector = currentGroup[k];
+
+                if(fcCharacteristicVector.calculateSimilarity(combinationsVector.characteristicVector, compareWithCombinationsVector.characteristicVector) >= minSimilarity
+                    && !this._containsDescendents(combinationsVector.combination, compareWithCombinationsVector.combination))
+                {
+                    potentialCandidates.push({ first:combinationsVector, second:compareWithCombinationsVector });
+                };
+            }
+
+            for(k = 0; k < compareWithGroups.length; k++)
+            {
+                var compareWithGroup = compareWithGroups[k];
+
+                for(var l = 0, compareGroupLength = compareWithGroup.length; l < compareGroupLength; l++)
+                {
+                    var compareWithCombinationsVector = compareWithGroup[l];
+
+                    if(fcCharacteristicVector.calculateSimilarity(combinationsVector.characteristicVector, compareWithCombinationsVector.characteristicVector) >= minSimilarity
+                        && !this._containsDescendents(combinationsVector.combination, compareWithCombinationsVector.combination))
+                    {
+                        potentialCandidates.push({first:combinationsVector, second:compareWithCombinationsVector});
+                    };
+                }
+            }
+        }
     },
 
     generateCombinations: function(mergeCombinations)
@@ -122,6 +162,11 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
         return this.generateFromHtmlNode(htmlElement, []);
     },
 
+    asyncGenerateAllMergeCombinations: function(pageModel, finishedCallback, messageCallback)
+    {
+        this.asyncGenerateFromHtmlNode(pageModel.htmlElement, [], finishedCallback, messageCallback);
+    },
+
     generateFromHtmlNode: function(htmlElement, combinationsArray)
     {
         if(htmlElement == null) { return combinationsArray; }
@@ -154,6 +199,36 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
         return combinationsArray;
     },
 
+    asyncGenerateFromHtmlNode: function(htmlElement, combinationsArray, finishedCallback, messageCallback)
+    {
+        if(htmlElement == null) { return ; }
+        if(htmlElement.type == "textNode") { return; }
+
+        if(htmlElement.type == "script")
+        {
+            this.asyncGenerateFromJsNode(htmlElement.pathAndModel.model, combinationsArray, finishedCallback, messageCallback);
+        }
+        else if (htmlElement.type == "style" || htmlElement.type == "link")
+        {
+            this.generateFromCssNodes(htmlElement.pathAndModel.model, combinationsArray);
+        }
+
+        var childNodes = htmlElement.childNodes;
+        var children = [];
+        for(var i = 0, length = childNodes.length; i < length; i++)
+        {
+            var childNode = childNodes[i];
+
+            if(childNode.type != "textNode")
+            {
+                this.asyncGenerateFromHtmlNode(childNode, combinationsArray, finishedCallback, messageCallback);
+                children.push(childNode);
+            }
+        }
+
+        fcValueTypeHelper.pushAll(combinationsArray, this.getAllChildCombinations(children));
+    },
+
     generateFromJsNode: function(program, combinationsArray)
     {
         var functions = [];
@@ -175,7 +250,7 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
 
         for(var i = 0, length = functions.length; i < length; i++)
         {
-            fcValueTypeHelper.pushAll(combinationsArray);
+            fcValueTypeHelper.pushAll(combinationsArray, this.getAllChildCombinations(functions[i].body.children));
         }
         for(var i = 0, length = loops.length; i < length; i++)
         {
@@ -207,6 +282,86 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
         return combinationsArray;
     },
 
+    asyncGenerateFromJsNode: function(program, combinationsArray, finishedCallback, messageCallback)
+    {
+        var functions = [];
+        var loops = [];
+        var conditionals = [];
+        var objectExpressions = [];
+        var _this = this;
+
+        fcASTHelper.traverseAst(program, function(element)
+        {
+            if(element.characteristicVector == null || fcCharacteristicVector.sum(element.characteristicVector) < this.defaultMinNumOfTokens) { return; }
+
+            if(fcASTHelper.isFunction(element)) { functions.push(element);}
+            else if (fcASTHelper.isLoopStatement(element)) { loops.push(element);}
+            else if (fcASTHelper.isIfStatement(element) || fcASTHelper.isSwitchStatement(element)) { conditionals.push(element); }
+            else if (fcASTHelper.isObjectExpression(element)) { objectExpressions.push(element); }
+        });
+
+        messageCallback("Got all copy-paste elements when async generating from js nodes");
+
+        fcValueTypeHelper.pushAll(combinationsArray, this.getAllChildCombinations(program.children));
+        messageCallback("Got direct program children combinations");
+
+        setTimeout(function()
+        {
+            for(var i = 0, length = functions.length; i < length; i++)
+            {
+                fcValueTypeHelper.pushAll(combinationsArray, _this.getAllChildCombinations(functions[i].body.children));
+            }
+
+            messageCallback("Got functions children combinations");
+
+            setTimeout(function()
+            {
+                for(var i = 0, length = loops.length; i < length; i++)
+                {
+                    fcValueTypeHelper.pushAll(combinationsArray, _this.getAllChildCombinations(loops[i].body.children));
+                }
+                messageCallback("Got loops children combinations");
+
+                setTimeout(function()
+                {
+                    for(var i = 0, length = conditionals.length; i < length; i++)
+                    {
+                        var conditional = conditionals[i];
+
+                        if(fcASTHelper.isIfStatement(conditional))
+                        {
+                            fcValueTypeHelper.pushAll(combinationsArray, _this.getAllChildCombinations(conditional.consequent.children));
+
+                            if(conditional.alternate != null)
+                            {
+                                fcValueTypeHelper.pushAll(combinationsArray, _this.getAllChildCombinations(conditional.alternate.children));
+                            }
+                        }
+                        else
+                        {
+                            fcValueTypeHelper.pushAll(combinationsArray, _this.getAllChildCombinations(conditional.children));
+                        }
+                    }
+
+                    messageCallback("Got conditional children combinations");
+
+                    setTimeout(function()
+                    {
+                        for(var i = 0, length = objectExpressions.length; i < length; i++)
+                        {
+                            fcValueTypeHelper.pushAll(combinationsArray, _this.getAllChildCombinations(objectExpressions[i].children));
+                        }
+
+                        messageCallback("Got object expression children combinations");
+
+                        finishedCallback(combinationsArray);
+                    }, 50);
+                }, 50);
+
+            }, 50);
+        }, 50);
+    },
+
     generateFromCssNodes: function(model, combinationsArray)
     {
 
@@ -214,6 +369,7 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
 
     getAllChildCombinations: function(nodes)
     {
+        nodes = nodes || [];
         var combinations = [];
 
         var expandedNodes = [];
@@ -272,6 +428,53 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
         }
 
         return false;
+    },
+
+    _removeSubCombinations: function(combinations)
+    {
+        var returnValue = [];
+
+        for(var i = 0; i < combinations.length; i++)
+        {
+            var firstCombination = combinations[i];
+            var encompassingCombination = null;
+
+            for(var j = i + 1; j < combinations.length; j++)
+            {
+                var secondCombination = combinations[j];
+
+                if(this._isSubCombination(firstCombination, secondCombination))
+                {
+                    encompassingCombination = secondCombination;
+                }
+            }
+
+            if(encompassingCombination == null)
+            {
+                returnValue.push(firstCombination);
+            }
+        }
+
+        return returnValue;
+    },
+
+    _isSubCombination: function(firstCombination, secondCombination)
+    {
+        var firstFirst = firstCombination.first.combination;
+        var secondFirst = secondCombination.first.combination;
+
+        for(var i = 0; i < firstFirst.length; i++)
+        {
+            var first = firstFirst[i];
+            for(var j = 0; j < secondFirst.length; j++)
+            {
+                var second = secondFirst[j];
+
+                if(!fcASTHelper.isAncestor(second, first)) { return false; }
+            }
+        }
+
+        return true;
     }
 };
 /*************************************************************************************/

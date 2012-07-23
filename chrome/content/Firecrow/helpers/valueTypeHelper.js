@@ -242,10 +242,7 @@ Firecrow.ValueTypeHelper =
     {
         try
         {
-            arrayWithItems.forEach(function (item)
-            {
-                baseArray.push(item);
-            });
+            baseArray.push.apply(baseArray, arrayWithItems);
         }
         catch(e) { alert("Error while pushing all in ValueTypeHelper:" + e); }
     },

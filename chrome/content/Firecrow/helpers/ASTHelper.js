@@ -129,7 +129,8 @@ FBL.ns(function () { with (FBL) {
                         || propName == "attributes"
                         || propName == "previousCondition"
                         || propName == "includesNodes"
-                        || propName == "includedByNodes") { continue; }
+                        || propName == "includedByNodes"
+                        || propName == "type") { continue; }
 
                     var propertyValue = astElement[propName];
 

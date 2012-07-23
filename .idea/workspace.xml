@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/cloneDetector/02/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/cloneDetector/nodeJs.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CharacteristicVector.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CharacteristicVector.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CloneDetector.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CloneDetector.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/NodeCombinationsGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/NodeCombinationsGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/VectorGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/VectorGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/cloneDetector/01/index.html" afterPath="$PROJECT_DIR$/debug/cloneDetector/01/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/cloneDetector/index.html" afterPath="$PROJECT_DIR$/debug/cloneDetector/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/cloneDetector/modelMapping.js" afterPath="$PROJECT_DIR$/debug/cloneDetector/modelMapping.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,10 +67,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CharacteristicVector.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CharacteristicVector.js">
+      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="108" selection-start="2489" selection-end="2489" vertical-scroll-proportion="0.0">
+            <state line="73" column="8" selection-start="2844" selection-end="2844" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/cloneDetector/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="58" column="44" selection-start="2696" selection-end="2696" vertical-scroll-proportion="-8.5">
               <folding />
             </state>
           </provider>
@@ -70,16 +88,16 @@
       <file leaf-file-name="CloneDetector.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CloneDetector.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="68" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0">
+            <state line="12" column="74" selection-start="465" selection-end="465" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NodeCombinationsGenerator.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="NodeCombinationsGenerator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/NodeCombinationsGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="28" selection-start="500" selection-end="500" vertical-scroll-proportion="0.18660812">
+            <state line="77" column="78" selection-start="2608" selection-end="2608" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#58#0" expanded="false" />
               </folding>
@@ -87,10 +105,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/cloneDetector/index.html">
+      <file leaf-file-name="nodeJs.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/debug/cloneDetector/nodeJs.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="87" selection-start="3576" selection-end="3576" vertical-scroll-proportion="-26.192308">
+            <state line="9" column="32" selection-start="135" selection-end="135" vertical-scroll-proportion="0.14680484">
+              <folding>
+                <element signature="e#0#58#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="modelMapping.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/cloneDetector/modelMapping.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="430567" selection-start="435544" selection-end="435544" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -99,7 +128,16 @@
       <file leaf-file-name="valueTypeHelper.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="67" selection-start="412" selection-end="412" vertical-scroll-proportion="0.0">
+            <state line="244" column="68" selection-start="5840" selection-end="5840" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/cloneDetector/02/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="514" column="7" selection-start="13486" selection-end="13486" vertical-scroll-proportion="-15.730769">
               <folding />
             </state>
           </provider>
@@ -118,22 +156,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/VectorGenerator.js" />
         <option value="$PROJECT_DIR$/debug/cloneDetector/modelMapping.js.html" />
-        <option value="$PROJECT_DIR$/debug/cloneDetector/01/index.html" />
-        <option value="$PROJECT_DIR$/debug/cloneDetector/modelMapping.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CombinationsGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/MergeableNodeDetector.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CloneDetector.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CharacteristicVector.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-        <option value="$PROJECT_DIR$/debug/cloneDetector/index.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CharacteristicVector.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/VectorGenerator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+        <option value="$PROJECT_DIR$/debug/cloneDetector/index.html" />
+        <option value="$PROJECT_DIR$/debug/cloneDetector/01/index.html" />
+        <option value="$PROJECT_DIR$/debug/cloneDetector/02/index.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CloneDetector.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/NodeCombinationsGenerator.js" />
+        <option value="$PROJECT_DIR$/debug/cloneDetector/modelMapping.js" />
+        <option value="$PROJECT_DIR$/debug/cloneDetector/nodeJs.js.html" />
+        <option value="$PROJECT_DIR$/debug/cloneDetector/nodeJs.js" />
       </list>
     </option>
   </component>
@@ -283,6 +321,58 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gauss" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gauss" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="code" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="playground" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -312,106 +402,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloneDetector" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helpers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="codeMarkupGenerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -451,11 +441,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\cloneDetector\02" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\69" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\68" />
       <recent name="C:\GitWebStorm\Firecrow\debug\jQuery" />
       <recent name="C:\GitWebStorm\Firecrow\debug\domTests\07" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\domTests" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\debug\jQuery\01" />
@@ -1195,7 +1185,11 @@
       <created>1343025114424</created>
       <updated>1343025114425</updated>
     </task>
-    <option name="localTasksCounter" value="165" />
+    <task id="LOCAL-00165" summary="More functionality to CloneDetector">
+      <created>1343026558711</created>
+      <updated>1343026558711</updated>
+    </task>
+    <option name="localTasksCounter" value="166" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -1226,11 +1220,11 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16666667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12286325" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13863996" sideWeight="0.87713677" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1391671" sideWeight="0.64529914" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56390977" sideWeight="0.4202381" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35470086" sideWeight="0.57559526" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35470086" sideWeight="0.57559526" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30448717" sideWeight="0.48630953" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1329,102 +1323,116 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/domModelMapping.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CharacteristicVector.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.56792873" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="75" selection-start="247" selection-end="400" vertical-scroll-proportion="0.19209039" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/jqueryModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="768" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/01/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="27" selection-start="428" selection-end="428" vertical-scroll-proportion="0.46101695" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="349" column="5486" selection-start="497131" selection-end="497144" vertical-scroll-proportion="0.33407572" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/modelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="119" selection-start="563" selection-end="563" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CombinationsGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="149" column="0" selection-start="4636" selection-end="4728" vertical-scroll-proportion="2.2129529">
+        <state line="46" column="173" selection-start="2224" selection-end="2224" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/VectorGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="17" selection-start="1130" selection-end="1540" vertical-scroll-proportion="0.7837541">
+        <state line="56" column="54" selection-start="1648" selection-end="1648" vertical-scroll-proportion="-0.85839736">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="67" selection-start="412" selection-end="412" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/gauss/code/originalCode.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="4" selection-start="6131" selection-end="6131" vertical-scroll-proportion="0.33296213">
+        <state line="10" column="3" selection-start="266" selection-end="266" vertical-scroll-proportion="0.18660812">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="87" selection-start="3576" selection-end="3576" vertical-scroll-proportion="-26.192308">
+        <state line="78" column="19" selection-start="2412" selection-end="2686" vertical-scroll-proportion="0.73830736">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CombinationsGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="149" column="0" selection-start="4636" selection-end="4728" vertical-scroll-proportion="2.780461">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="8" selection-start="2844" selection-end="2844" vertical-scroll-proportion="0.33260155">
+        <state line="73" column="8" selection-start="2844" selection-end="2844" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/01/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="73" selection-start="128" selection-end="128" vertical-scroll-proportion="0.07683616">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/libraries/gauss/tests/gauss.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="26" selection-start="2685" selection-end="2685" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="44" selection-start="2696" selection-end="2696" vertical-scroll-proportion="-8.5">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="244" column="68" selection-start="5840" selection-end="5840" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/02/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="514" column="7" selection-start="13486" selection-end="13486" vertical-scroll-proportion="-15.730769">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/modelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="430567" selection-start="435544" selection-end="435544" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CloneDetector.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="68" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/CharacteristicVector.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="108" selection-start="2489" selection-end="2489" vertical-scroll-proportion="0.0">
+        <state line="12" column="74" selection-start="465" selection-end="465" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/NodeCombinationsGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="28" selection-start="500" selection-end="500" vertical-scroll-proportion="0.18660812">
+        <state line="77" column="78" selection-start="2608" selection-end="2608" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#58#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/nodeJs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="32" selection-start="135" selection-end="135" vertical-scroll-proportion="0.14680484">
           <folding>
             <element signature="e#0#58#0" expanded="false" />
           </folding>

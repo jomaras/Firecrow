@@ -81,7 +81,7 @@ fcCloneDetector.VectorGenerator =
             else if (ASTHelper.isArrayExpression(astElement)) { this.generateVectorForArrayExpression(astElement); }
 
 
-            else if (ASTHelper.isDebuggerStatement(astElement)) { }
+            else if (ASTHelper.isDebuggerStatement(astElement)) { astElement.characteristicVector = new fcCharacteristicVector(); }
 
             else if (ASTHelper.isNewExpression(astElement)) { this.generateVectorForNewExpression(astElement); }
 
@@ -122,10 +122,14 @@ fcCloneDetector.VectorGenerator =
             else if (ASTHelper.isGeneratorExpression(astElement)) { this.generateVectorForGeneratorExpression(astElement); }
 
             else if (ASTHelper.isLetExpression(astElement)) { this.generateVectorForLetExpression(astElement); }
+            else if (ASTHelper.isEmptyStatement(astElement)) { astElement.characteristicVector = new fcCharacteristicVector(); }
 
             else { alert("Unhandled element when generating vector: " + astElement.type); }
         }
-        catch(e) { alert("Error when generating vector: " + e); }
+        catch(e)
+        {
+            alert("Error when generating vector: " + e);
+        }
     },
 
     generateVectorForLetExpression: function (letExpression)
