@@ -46,6 +46,13 @@ Firecrow.CodeTextGenerator.generateProfiledCode = function(model)
     return codeGenerator.generateCode(model);
 };
 
+Firecrow.CodeTextGenerator.generateStandAloneCode = function(model)
+{
+    var codeGenerator = new Firecrow.CodeTextGenerator();
+
+    return codeGenerator.generateStandAloneCode(model);
+};
+
 Firecrow.CodeTextGenerator.generateCode = function(model)
 {
     var codeGenerator = new Firecrow.CodeTextGenerator();
@@ -158,6 +165,45 @@ Firecrow.CodeTextGenerator.prototype =
             return this.newLine + this.generateJsCode(scriptElement.pathAndModel.model);
         }
         catch(e) { this.notifyError("Error when generating code from script element: " + e); }
+    },
+
+    generateStandAloneCode: function(element)
+    {
+        if (ASTHelper.isProgram(element)) { return this.generateProgram(element); }
+        else if (ASTHelper.isStatement(element))
+        {
+            var isElseIfStatement = ASTHelper.isElseIfStatement(element);
+
+            var statementCode = this.generateStatement(element);
+            if(statementCode == "") { return ""; }
+
+            return (!isElseIfStatement ? this.whitespace : "")
+                + statementCode
+                + (ASTHelper.isFunctionExpression(element.parent) ? "": this.newLine);
+        }
+        else if (ASTHelper.isFunction(element))
+        {
+            return (ASTHelper.isFunctionDeclaration(element) ? this.whitespace : "")
+                + this.generateFromFunction(element);
+        }
+        else if (ASTHelper.isExpression(element)) { return this.generateExpression(element); }
+        else if (ASTHelper.isSwitchCase(element)) { return this.generateFromSwitchCase(element); }
+        else if (ASTHelper.isCatchClause(element)) { return this.generateFromCatchClause(element); }
+        else if (ASTHelper.isVariableDeclaration(element))
+        {
+            var isForStatementInit = ASTHelper.isForStatementInit(element);
+
+            var variableDeclarationCode = this.generateFromVariableDeclaration(element);
+
+            if(isForStatementInit) { return variableDeclarationCode; }
+
+            return this.whitespace + variableDeclarationCode + this._SEMI_COLON + this.newLine;
+        }
+        else if (ASTHelper.isVariableDeclarator(element)) { return this.generateFromVariableDeclarator(element); }
+        else if (ASTHelper.isLiteral(element)) { return this.generateFromLiteral(element); }
+        else if (ASTHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
+        else if (ASTHelper.isObjectExpressionPropertyValue(element)) { return this.generateFromObjectExpressionProperty(element); }
+        else  { return this.generateCodeFromHtmlElement(element); }
     },
 
     generateJsCode: function(element)

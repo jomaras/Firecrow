@@ -59,7 +59,7 @@ fcCloneDetector.CharacteristicVector.calculateSimilarity = function(firstCharact
         var currentVectorValue = firstCharacteristicVector[propertyName];
         var targetVectorValue = secondCharacteristicVector[propertyName] || 0;
 
-        if (currentVectorValue == targetVectorValue && currentVectorValue != 0 && targetVectorValue != 0) { H += this[propertyName]; }
+        if (currentVectorValue == targetVectorValue && currentVectorValue != 0 && targetVectorValue != 0) { H += currentVectorValue; }
         else if (currentVectorValue > targetVectorValue) { L += currentVectorValue - targetVectorValue; }
         else if(currentVectorValue < targetVectorValue) { R += targetVectorValue - currentVectorValue; }
     }
