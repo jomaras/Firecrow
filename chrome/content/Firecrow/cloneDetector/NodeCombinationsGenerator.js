@@ -18,7 +18,6 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
     {
         var potentialCandidates = [];
 
-        //Go through all groups
         for(var i = 0, groupsLength = combinationsGroups.length; i < groupsLength; i++)
         {
             var currentGroup = combinationsGroups[i];
@@ -27,8 +26,8 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
 
             var compareWithGroups = [];
 
-            //compare with the following maxDistance groups ( from here to i + maxDistance)
             var endGroupIndex = i + maxDistance;
+
             endGroupIndex = endGroupIndex < groupsLength ? endGroupIndex : groupsLength - 1;
 
             for(var j = i + 1; j <= endGroupIndex; j++)
@@ -39,7 +38,6 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
                 }
             }
 
-            //For each vector in the current group
             for(var j = 0, currentGroupLength = currentGroup.length; j < currentGroupLength; j++)
             {
                 var combinationsVector = currentGroup[j];
@@ -49,13 +47,13 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
                 {
                     var compareWithCombinationsVector = currentGroup[k];
 
-                    if(fcCharacteristicVector.calculateSimilarity(combinationsVector.characteristicVector, compareWithCombinationsVector.characteristicVector) >= minSimilarity)
+                    if(fcCharacteristicVector.calculateSimilarity(combinationsVector.characteristicVector, compareWithCombinationsVector.characteristicVector) >= minSimilarity
+                    && !this._containsDescendents(combinationsVector.combination, compareWithCombinationsVector.combination))
                     {
                         potentialCandidates.push({ first:combinationsVector, second:compareWithCombinationsVector });
                     };
                 }
 
-                //compare with all vectors in the following groups
                 for(k = 0; k < compareWithGroups.length; k++)
                 {
                     var compareWithGroup = compareWithGroups[k];
@@ -64,8 +62,8 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
                     {
                         var compareWithCombinationsVector = compareWithGroup[l];
 
-                        //How to compare if they are really similar
-                        if(fcCharacteristicVector.calculateSimilarity(combinationsVector.characteristicVector, compareWithCombinationsVector.characteristicVector) >= minSimilarity)
+                        if(fcCharacteristicVector.calculateSimilarity(combinationsVector.characteristicVector, compareWithCombinationsVector.characteristicVector) >= minSimilarity
+                        && !this._containsDescendents(combinationsVector.combination, compareWithCombinationsVector.combination))
                         {
                             potentialCandidates.push({first:combinationsVector, second:compareWithCombinationsVector});
                         };
@@ -256,6 +254,24 @@ Firecrow.CloneDetector.NodeCombinationsGenerator =
         }
 
         return combinations;
+    },
+
+    _containsDescendents: function(firstNodeGroup, secondNodeGroup)
+    {
+        for(var i = 0, firstLength = firstNodeGroup.length; i < firstLength; i++)
+        {
+            for(var j = 0, secondLength = secondNodeGroup.length; j < secondLength; j++)
+            {
+                var firstNode = firstNodeGroup[i];
+                var secondNode = secondNodeGroup[j];
+                if(fcASTHelper.isAncestor(firstNode, secondNode) || fcASTHelper.isAncestor(secondNode, firstNode))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 };
 /*************************************************************************************/

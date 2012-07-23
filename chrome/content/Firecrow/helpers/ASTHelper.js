@@ -71,6 +71,19 @@ FBL.ns(function () { with (FBL) {
             catch(e) { alert("Error when setting parent-child relationships:" + e); }
         },
 
+        isAncestor: function(firstNode, secondNode)
+        {
+            var ancestor = firstNode;
+
+            while(ancestor != null)
+            {
+                if(secondNode == ancestor) { return true; }
+                ancestor = ancestor.parent;
+            }
+
+            return false;
+        },
+
         getTypeExpressionsFromProgram: function(program, types)
         {
             try
