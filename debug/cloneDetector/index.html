@@ -30,6 +30,7 @@
     <div id="container"></div>
     <script>
         var Firecrow = FBL.Firecrow;
+        var startTime = Date.now();
         var model = HtmlModelMapping.getModel("file:///C:/GitWebStorm/Firecrow/debug/cloneDetector/02/index.html");
         var messageContainer = document.querySelector("#messageContainer");
         var mainContainer = document.querySelector("#container");
@@ -101,6 +102,12 @@
                 clearer.style.clear = "both";
                 clearer.textContent = "**************************";
                 mainContainer.appendChild(clearer);
+
+                var endTime = Date.now();
+
+                var messageItemContainer = document.createElement("div");
+                messageItemContainer.textContent = "Time: " + (endTime - startTime);
+                messageContainer.appendChild(messageItemContainer);
             },
             function(message)
             {

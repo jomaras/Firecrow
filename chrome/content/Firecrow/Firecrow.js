@@ -1,62 +1,62 @@
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
-	var CC = Components.classes;
-	var CI = Components.interfaces;
-	
-	var FileHelper = Firecrow.FileHelper;
-	var fbHelper = Firecrow.fbHelper;
-	var htmlHelper = Firecrow.htmlHelper;
-	var JsRecorder = Firecrow.JsRecorder;
+    var CC = Components.classes;
+    var CI = Components.interfaces;
+
+    var FileHelper = Firecrow.FileHelper;
+    var fbHelper = Firecrow.fbHelper;
+    var htmlHelper = Firecrow.htmlHelper;
+    var JsRecorder = Firecrow.JsRecorder;
     var CommandGenerator = Firecrow.CommandGenerator;
     var ASTHelper = Firecrow.ASTHelper;
-	
-	Firebug.FirecrowModule = extend(Firebug.Module,
-	{
-		jsRecorder: null,
-		persistedState: {},
-		
-		initialize: function()
+
+    Firebug.FirecrowModule = extend(Firebug.Module,
+    {
+        jsRecorder: null,
+        persistedState: {},
+
+        initialize: function()
         {
             Firecrow.IsDebugMode = false;
         },
-		
-		initContext: function(context, persistedState)
-		{
-			try
-			{
-				if(this.persistedState.isAnalysisScheduled)
-				{
-					fbHelper.setButtonText("profileButton", "Stop Profiling");
-					this.startRecording(this.persistedState.scripts);
-					this.persistedState.isAnalysisScheduled = false;
-				}
-				else 
-				{
-					fbHelper.setButtonText("fiButton", "Record"); 
-				}
-			}
-			catch(e) { alert("Init context error " + e); }
-		},
-		
-		loadedContext: function(context)
-		{
-			try
-			{
-				if(this.persistedState.isAnalysisScheduled)
-				{
-					this.persistedState.isAnalysisScheduled = false;
-				}
-				
-				fbHelper.asyncSetPluginInstallLocation("Firecrow@fesb.hr");
-			}catch(e) { alert("Error when loading context: " + e); }
-		},
+
+        initContext: function(context, persistedState)
+        {
+            try
+            {
+                if(this.persistedState.isAnalysisScheduled)
+                {
+                    fbHelper.setButtonText("profileButton", "Stop Profiling");
+                    this.startRecording(this.persistedState.scripts);
+                    this.persistedState.isAnalysisScheduled = false;
+                }
+                else
+                {
+                    fbHelper.setButtonText("fiButton", "Record");
+                }
+            }
+            catch(e) { alert("Init context error " + e); }
+        },
+
+        loadedContext: function(context)
+        {
+            try
+            {
+                if(this.persistedState.isAnalysisScheduled)
+                {
+                    this.persistedState.isAnalysisScheduled = false;
+                }
+
+                fbHelper.asyncSetPluginInstallLocation("Firecrow@fesb.hr");
+            }catch(e) { alert("Error when loading context: " + e); }
+        },
 
         onFirecrowProfilePress: function()
         {
             try
             {
-                (!this.persistedState.isAnalyzing ? this.scheduleRecording()
-                                                  : this.stopRecording());
+                if(this.persistedState.isAnalyzing) { this.stopRecording(); }
+                else { this.scheduleRecording(); }
             }
             catch(e) { alert("Error when pressing Profiling button:" + e);; }
         },
@@ -250,7 +250,7 @@ FBL.ns(function() { with (FBL) {
         },
 
         onFirecrowASTButtonPress: function()
-		{
+        {
             this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(window, htmlJson)
             {
                 try
@@ -266,44 +266,60 @@ FBL.ns(function() { with (FBL) {
                 }
                 catch(e) { alert("Error when converting to JSON model:" + e)};
             }, this);
-		},
-		
-		scheduleRecording: function()
-		{
-			try
-			{
-				this.persistedState.isAnalysisScheduled = true;
-				this.persistedState.scripts = fbHelper.getScriptsPathsAndModels();
-				this.persistedState.elementToTrackXPath = "/html/body";
-				fbHelper.reloadPage();
-			}
-			catch(e) { alert("Scheduling recording error: " + e); }
-		},
-		
-	    startRecording: function(scriptsToTrack)
-		{
-			try
-			{
-				this.jsRecorder = new JsRecorder();
-				this.persistedState.isAnalyzing = true;
-				this.jsRecorder.startProfiling(scriptsToTrack);
-			}
-			catch(e){ alert("Recording js execution error: " + e); }
-		},
-		
-		stopRecording: function()
-		{
-			try
-			{
-				this.persistedState.isAnalyzing = false;
-				this.jsRecorder.stop();
-			
-				fbHelper.setButtonText("profileButton", "Profile");
+        },
 
-                alert(this.jsRecorder.getProfilingSummary());
-			}
-			catch(e) { alert("Stopping analysis error:" + e); }
-		},
+        scheduleRecording: function()
+        {
+            try
+            {
+                this.persistedState.isAnalysisScheduled = true;
+                this.persistedState.scripts = fbHelper.getScriptsPathsAndModels();
+                this.persistedState.elementToTrackXPath = "/html/body";
+                fbHelper.reloadPage();
+            }
+            catch(e) { alert("Scheduling recording error: " + e); }
+        },
+
+        startRecording: function(scriptsToTrack)
+        {
+            try
+            {
+                this.jsRecorder = new JsRecorder();
+                this.persistedState.isAnalyzing = true;
+                //this.jsRecorder.startProfiling(scriptsToTrack);
+                this.jsRecorder.start(scriptsToTrack);
+            }
+            catch(e){ alert("Recording js execution error: " + e); }
+        },
+
+        stopRecording: function()
+        {
+            try
+            {
+                this.persistedState.isAnalyzing = false;
+                this.jsRecorder.stop();
+
+                fbHelper.setButtonText("profileButton", "Profile");
+
+                this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(window, htmlJson)
+                {
+                    try
+                    {
+                        htmlJson.eventTraces = this.jsRecorder.getEventTrace();
+                        prompt("JSON", JSON.stringify(htmlJson, function(key, value)
+                        {
+                            if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+                            {
+                                return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
+                            }
+                            return value;
+                        }));
+                    }
+                    catch(e) { alert("Error when converting to JSON model:" + e)};
+                }, this);
+            }
+            catch(e) { alert("Stopping analysis error:" + e); }
+        },
 
         asyncGetPageModel: function(callbackFunction, thisValue)
         {
@@ -312,7 +328,7 @@ FBL.ns(function() { with (FBL) {
                 callbackFunction.call(thisValue, window, pageModel);
             });
         },
-		
+
         loadUrlInHiddenIFrame: function(url, allowJavaScript, callbackFunction, thisObject)
         {
             try
@@ -352,9 +368,9 @@ FBL.ns(function() { with (FBL) {
             }
             catch(e) { alert("Loading html in iFrame errror: " + e); }
         }
-	});
-	
-	Firebug.registerModule(Firebug.FirecrowModule);
+    });
+
+    Firebug.registerModule(Firebug.FirecrowModule);
 
     Firecrow.getWindow = function() { return Firecrow.fbHelper.getWindow(); };
     Firecrow.getDocument = function() { return Firecrow.fbHelper.getDocument(); }
