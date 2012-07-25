@@ -155,9 +155,19 @@ fcModel.HtmlElementProto =
     {
         try
         {
-            if(propertyName == "innerHTML")
+            if(propertyName == "innerHTML") { this.setChildRelatedProperties(codeConstruct); }
+            else if(propertyName == "onclick")
             {
-                this.setChildRelatedProperties(codeConstruct);
+                this.globalObject.registerHtmlElementEventHandler
+                (
+                    this,
+                    propertyName,
+                    propertyValue,
+                    {
+                        codeConstruct: codeConstruct,
+                        evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+                    }
+                );
             }
 
             this.htmlElement.attributeModificationPoints.push({ codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
@@ -287,6 +297,17 @@ fcModel.HtmlElementExecutor =
             case "cloneNode":
                 var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 return this.wrapToFcElement(clonedNode, globalObject, callExpression);
+            case "addEventListener":
+                globalObject.registerHtmlElementEventHandler
+                (
+                    fcThisValue,
+                    jsArguments[0],
+                    arguments[1],
+                    {
+                        codeConstruct: callExpression,
+                        evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
+                    }
+                );
             default:
                 this.notifyError("Unhandled internal method:" + functionName); return;
         }

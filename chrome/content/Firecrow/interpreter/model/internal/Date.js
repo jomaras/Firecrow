@@ -29,9 +29,14 @@ fcModel.DatePrototype = function(globalObject)
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date#Methods_2
         fcModel.DatePrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            var internalFunction = globalObject.internalExecutor.createInternalFunction(Date.prototype[propertyName], propertyName, this);
-            this[propertyName] = internalFunction;
-            this.addProperty(propertyName, internalFunction, null, false);
+            var method = Date.prototype[propertyName];
+
+            if(method != null)
+            {
+                var internalFunction = globalObject.internalExecutor.createInternalFunction(method, propertyName, this);
+                this[propertyName] = internalFunction;
+                this.addProperty(propertyName, internalFunction, null, false);
+            }
         }, this);
 
         this.fcInternal = { object: this };

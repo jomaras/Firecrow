@@ -584,7 +584,10 @@ fcSimulator.InternalExecutor.prototype =
 
             fcModel.DatePrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
             {
-                datePrototype[propertyName].jsValue = null;
+                if(datePrototype[propertyName] != null)
+                {
+                    datePrototype[propertyName].jsValue = null;
+                }
             }, this);
         }
         catch(e) { this.notifyError("Error when removing date methods: " + e); }

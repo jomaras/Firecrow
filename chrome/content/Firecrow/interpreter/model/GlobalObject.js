@@ -61,8 +61,6 @@ fcModel.GlobalObject = function(browser, documentFragment)
 
         this.currentCommand = null;
 
-        FBL.ORIG_WINDOW = this.origWindow;
-
         this.internalExecutor.expandInternalFunctions();
 
         fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(methodName)
@@ -145,6 +143,20 @@ fcModel.GlobalObject = function(browser, documentFragment)
             this.currentCommand = command;
             this.currentCommand.executionId = this._EXECUTION_COMMAND_COUNTER++;
         };
+
+        this.htmlElementEventHandlingRegistrations = [];
+
+        this.registerHtmlElementEventHandler = function(fcHtmlElement, eventType, handler, evaluationPosition)
+        {
+            this.htmlElementEventHandlingRegistrations.push(
+            {
+                fcHtmlElement: fcHtmlElement,
+                eventType: eventType,
+                handler: handler,
+                registrationPoint: evaluationPosition
+            });
+        };
+
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
     catch(e)

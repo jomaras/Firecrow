@@ -23,10 +23,51 @@ fcModel.Document = function(documentFragment, globalObject)
         this.documentFragment.getElementById = this.globalObject.origDocument.getElementById;
         this.documentFragment.getElementsByClassName = this.globalObject.origDocument.getElementsByClassName;
         this.documentFragment.getElementsByTagName = this.globalObject.origDocument.getElementsByTagName;
+        this.documentFragment.evaluate = this.globalObject.origDocument.evaluate;
 
         this.fcInternal = { object: this };
         this.addProperty("location", this.globalObject.getPropertyValue("location"));
         //this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+
+        this.getElementByXPath = function(xPath)
+        {
+            try
+            {
+                var simpleXPath = new fcModel.SimpleXPath(xPath);
+                simpleXPath.removeLevel();
+                var foundElement = this.documentFragment.childNodes[0];
+
+                while(!simpleXPath.isEmpty() && foundElement != null)
+                {
+                    foundElement = this._getChild(foundElement, simpleXPath.getCurrentTag(), simpleXPath.getIndex());
+
+                    simpleXPath.removeLevel();
+                }
+
+                if(foundElement == null) { return new fcModel.JsValue(null, new fcModel.FcInternal());}
+
+                return fcModel.DocumentExecutor.wrapToFcHtmlElement(foundElement, null, this.globalObject);
+            }
+            catch(e) { this.notifyError("Error when getting element by xPath: " + e); }
+        };
+
+        this._getChild = function(htmlElement, tagName, index)
+        {
+            if(htmlElement == null) { return null;}
+            var tagChildren = [];
+
+            for(var i = 0; i < htmlElement.children.length; i++)
+            {
+                var child = htmlElement.children[i];
+
+                if(child.nodeName.toUpperCase() == tagName.toUpperCase())
+                {
+                    tagChildren.push(child);
+                }
+            }
+
+            return tagChildren[index];
+        };
     }
     catch(e) { this.notifyError("Error when creating Document object: " + e); }
 };
@@ -60,6 +101,60 @@ fcModel.Document.CONST =
             "textContent", "title", "tooltipNode", "URL"
         ]
     }
+};
+
+fcModel.SimpleXPath = function(xPathExpression)
+{
+    this.xPathExpression = xPathExpression;
+};
+fcModel.SimpleXPath.prototype =
+{
+    getCurrentTag: function()
+    {
+        var elementRegEx = new RegExp("^/([^/[])*");
+
+        var match = this.xPathExpression.match(elementRegEx);
+
+        if(match != null)
+        {
+            var matchedString = match[0];
+
+            if(matchedString == null) { return ""; }
+
+            if(matchedString.indexOf("/") == 0) { return matchedString.substring(1);}
+        }
+
+        return "";
+    },
+
+    getIndex: function()
+    {
+        var indexRegEx = new RegExp("\\[[^\\]]\\]");
+
+        var match = this.xPathExpression.match(indexRegEx);
+
+        if(match != null)
+        {
+            var matchedString = match[0];
+
+            if(matchedString != null)
+            {
+                var result =  matchedString.replace(/\]$/, "").replace(/^\[/,"");
+
+                if(result != "") { return result - 1; }
+            }
+        }
+
+        return 0;
+    },
+
+    removeLevel: function()
+    {
+        this.xPathExpression = this.xPathExpression.substring(this.getCurrentTag().length + 1); // +1 because xPath goes like /html..
+        return this;
+    },
+
+    isEmpty: function() { return this.xPathExpression == ""; }
 };
 
 fcModel.DocumentExecutor =

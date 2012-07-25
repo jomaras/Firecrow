@@ -123,16 +123,18 @@ Firecrow.Interpreter.Simulator.VariableObject.createFunctionVariableObject = fun
         if(functionIdentifier != null) { functionVariableObject.registerIdentifier(functionIdentifier); }
         if(formalParameters != null)
         {
-            formalParameters.forEach(function(formalParameter, index)
+            for(var i = 0; i < formalParameters.length; i++)
             {
+                var formalParameter = formalParameters[i];
+
                 functionVariableObject.registerIdentifier(formalParameter);
 
                 formalParameter.setValue
                 (
-                    sentArguments[index] || new fcModel.JsValue(undefined, new fcModel.FcInternal(formalParameter.declarationConstruct)),
-                    argumentsConstructs[index]
+                    sentArguments[i] || new fcModel.JsValue(undefined, new fcModel.FcInternal(formalParameter.declarationConstruct)),
+                    argumentsConstructs[i]
                 );
-            });
+            }
         }
 
         return functionVariableObject;

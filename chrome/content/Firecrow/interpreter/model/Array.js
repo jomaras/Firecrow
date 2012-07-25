@@ -26,7 +26,10 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
         if(codeConstruct != null) { this.modifications.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});}
 
-        this.jsArray.forEach(function(item) { this.push(jsArray, item, codeConstruct, false);}, this);
+        for(var i = 0; i < this.jsArray.length; i++)
+        {
+            this.push(jsArray, this.jsArray[i], codeConstruct, false);
+        }
 
         //For RegEx result arrays
         if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", new fcModel.JsValue(this.jsArray.index, new fcModel.FcInternal(codeConstruct)), codeConstruct); }
@@ -50,6 +53,8 @@ fcModel.ArrayProto =
     {
         try
         {
+            if(codeConstruct == null) { return; }
+
             var properties = this.properties;
 
             for(var i = 0, length = properties.length; i < length; i++)

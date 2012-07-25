@@ -15,6 +15,7 @@ var Interpreter = Firecrow.Interpreter.InterpreterSimulator;
 var GlobalObject = Firecrow.Interpreter.Model.GlobalObject;
 
 var fcSimulator = Firecrow.Interpreter.Simulator;
+var fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.DoppelBrowser.Browser = function(pageModel)
 {
@@ -89,7 +90,7 @@ Browser.prototype =
         try
         {
             this._buildSubtree(this.pageModel.htmlElement, null);
-            this._handlePageReadyEvents();
+            this._handleEvents();
         }
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
@@ -239,70 +240,128 @@ Browser.prototype =
         catch(e) { this.notifyError("DoppelBrowser.browser error when building js nodes: " + e); }
     },
 
-    _handlePageReadyEvents: function()
+    _handleEvents: function()
     {
         try
         {
-            var documentDomContentReadyMethods = this.globalObject.document.eventListenerInfo["DOMContentLoaded"];
+            if(this.pageModel.eventTraces == null) { return; }
 
-            if(documentDomContentReadyMethods != null)
-            {
-                for(var i = 0; i < documentDomContentReadyMethods.length; i++)
-                {
-                    var domContentReadyInfo = documentDomContentReadyMethods[i];
+            var eventTraces = this.pageModel.eventTraces;
 
-                    this._interpretJsCode
-                    (
-                        domContentReadyInfo.handler.fcInternal.object.codeConstruct.body,
-                        {
-                            functionHandler: domContentReadyInfo.handler,
-                            thisObject: this.globalObject.document,
-                            arguments: [],
-                            registrationPoint: domContentReadyInfo.registrationPoint
-                        }
-                    );
-                }
-            }
-
-            var windowDomContentReadyMethods = this.globalObject.eventListenerInfo["DOMContentLoaded"];
-
-            if(windowDomContentReadyMethods != null)
-            {
-                for(var i = 0; i < windowDomContentReadyMethods.length; i++)
-                {
-                    var domContentReadyInfo = windowDomContentReadyMethods[i];
-
-                    this._interpretJsCode
-                    (
-                        domContentReadyInfo.handler.fcInternal.object.codeConstruct.body,
-                        {
-                            functionHandler: domContentReadyInfo.handler,
-                            thisObject: this.globalObject,
-                            arguments: [],
-                            registrationPoint: domContentReadyInfo.registrationPoint
-                        }
-                    );
-                }
-            }
-
+            var documentDomContentReadyMethods = this.globalObject.document.eventListenerInfo["DOMContentLoaded"] || [];
+            var windowDomContentReadyMethods = this.globalObject.eventListenerInfo["DOMContentLoaded"] || [];
             var onLoadFunction = this.globalObject.getPropertyValue("onload");
+            var htmlElementEvents = this.globalObject.htmlElementEventHandlingRegistrations;
 
-            if(onLoadFunction != null)
+            for(var i = 0, length = eventTraces.length; i < length; i++)
             {
-                this._interpretJsCode
-                (
-                    onLoadFunction.fcInternal.object.codeConstruct.body,
+                var eventTrace = eventTraces[i];
+                var eventFile = eventTrace.filePath;
+
+                if(eventTrace.args.type == "")
+                {
+                    var domContentReadyInfo = documentDomContentReadyMethods.shift();
+
+                    if(domContentReadyInfo != null)
                     {
-                        functionHandler: onLoadFunction,
-                        thisObject: this.globalObject,
-                        arguments: [],
-                        registrationPoint: this.globalObject.getProperty("onload").lastModificationConstruct
+                        var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
+
+                        if(handlerConstruct.loc.source.replace("///", "/") != eventFile) { this.notifyError("Event handler domContentReady in the wrong file"); return; }
+                        if(eventTrace.line < handlerConstruct.loc.start.line || eventTrace.line > handlerConstruct.loc.end.line) { this.notifyError("The event handler is not within limit"); return; }
+
+                        this._interpretJsCode
+                        (
+                            handlerConstruct.body,
+                            {
+                                functionHandler: domContentReadyInfo.handler,
+                                thisObject: this.globalObject.document,
+                                argumentValues: [],
+                                registrationPoint: domContentReadyInfo.registrationPoint
+                            }
+                        );
+
+                        continue;
                     }
-                );
+
+                    domContentReadyInfo = windowDomContentReadyMethods.shift();
+
+                    if(domContentReadyInfo != null)
+                    {
+                        var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
+
+                        if(handlerConstruct.loc.source.replace("///", "/") != eventFile) { this.notifyError("Event handler windowDomContentReady in the wrong file"); return; }
+                        if(eventTrace.line < handlerConstruct.loc.start.line || eventTrace.line > handlerConstruct.loc.end.line) { this.notifyError("The event handler is not within limit"); return; }
+
+                        this._interpretJsCode
+                        (
+                            handlerConstruct.body,
+                            {
+                                functionHandler: domContentReadyInfo.handler,
+                                thisObject: this.globalObject,
+                                argumentValues: [],
+                                registrationPoint: domContentReadyInfo.registrationPoint
+                            }
+                        );
+
+                        continue;
+                    }
+
+                    if(onLoadFunction != null)
+                    {
+                        var handlerConstruct = onLoadFunction.fcInternal.object.codeConstruct;
+
+                        if(handlerConstruct.loc.source.replace("///", "/") != eventFile) { this.notifyError("Event handler onLoadFunction in the wrong file"); return; }
+                        if(eventTrace.line < handlerConstruct.loc.start.line || eventTrace.line > handlerConstruct.loc.end.line) { this.notifyError("The event handler is not within limit"); return; }
+
+                        this._interpretJsCode
+                        (
+                            handlerConstruct.body,
+                            {
+                                functionHandler: onLoadFunction,
+                                thisObject: this.globalObject,
+                                argumentValues: [],
+                                registrationPoint: this.globalObject.getProperty("onload").lastModificationConstruct
+                            }
+                        );
+
+                        onLoadFunction = null;
+                    }
+                }
+                else
+                {
+                    for(var j = 0, htmlEventsLength = htmlElementEvents.length; j < htmlEventsLength; j++)
+                    {
+                        var event = htmlElementEvents[j];
+                        var fcHtmlElement = event.fcHtmlElement;
+                        var xPath = this._getElementXPath(fcHtmlElement.htmlElement);
+
+                        if(xPath != eventTrace.args.targetXPath) { continue; }
+
+                        if(eventTrace.args.type == event.eventType || "on" + eventTrace.args.type == event.eventType)
+                        {
+                            var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+
+                            if(handlerConstruct.loc.source.replace("///", "/") != eventFile) { continue; }
+                            if(eventTrace.line < handlerConstruct.loc.start.line || eventTrace.line > handlerConstruct.loc.end.line) { continue; }
+
+                            this._interpretJsCode
+                            (
+                                handlerConstruct.body,
+                                {
+                                    functionHandler: event.handler,
+                                    thisObject: fcHtmlElement,
+                                    argumentValues: this._getArguments(eventTrace.args),
+                                    registrationPoint: event.registrationPoint
+                                }
+                            );
+                        }
+                    }
+                }
             }
         }
-        catch(e) { this.notifyError("Error when handling page ready events: " + e); }
+        catch(e) { this.notifyError("Error when handling events: " + e); }
     },
+
 
     registerNodeCreatedCallback: function(callback, thisObject)
     {
@@ -459,6 +518,50 @@ Browser.prototype =
     clean: function()
     {
         this.globalObject.internalExecutor.removeInternalFunctions();
+    },
+
+    _getElementXPath: function(element)
+    {
+        var paths = [];
+
+        for (; element && element.nodeType == 1; element = element.parentNode)
+        {
+            var index = 0;
+            for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling)
+            {
+                if (sibling.localName == element.localName)
+                    ++index;
+            }
+
+            var tagName = element.localName.toLowerCase();
+            var pathIndex = (index ? "[" + (index+1) + "]" : "");
+            paths.splice(0, 0, tagName + pathIndex);
+        }
+
+        return paths.length ? "/" + paths.join("/") : "";
+    },
+
+    _getArguments: function(eventTraceArgs)
+    {
+        var arguments = [];
+
+        var eventInfo = new fcModel.Object(this.globalObject);
+
+        for(var propName in eventTraceArgs)
+        {
+            if(propName.indexOf("XPath") != -1)
+            {
+                eventInfo.addProperty(propName.replace("XPath", ""), this.globalObject.document.getElementByXPath(eventTraceArgs[propName]));
+            }
+            else
+            {
+                eventInfo.addProperty(propName.replace("XPath", ""), new fcModel.JsValue(eventTraceArgs[propName], new fcModel.FcInternal()));
+            }
+        }
+
+        arguments.push(eventInfo);
+
+        return arguments;
     },
 
     notifyError: function(message) { Firecrow.DoppelBrowser.Browser.notifyError(message); }
