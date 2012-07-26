@@ -40,30 +40,34 @@ fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConst
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement)) { alert("Attr - when creating attribute list, the argument has to be an HTMLElement!"); }
+        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment)) { Firecrow.Interpreter.Model.Attr.notifyError("Attr - when creating attribute list, the argument has to be an HTMLElement!"); }
 
         var attributeList = [];
+        var attributes = htmlElement.attributes;
 
-        for(var i = 0, attributes = htmlElement.attributes, length = attributes.length; i < length; i++)
+        if(attributes != null)
         {
-            var attribute = attributes[i];
-            attributeList.push
-            (
-                new fcModel.JsValue
+            for(var i = 0, length = attributes.length; i < length; i++)
+            {
+                var attribute = attributes[i];
+                attributeList.push
                 (
-                    attribute,
-                    new fcModel.FcInternal
+                    new fcModel.JsValue
                     (
-                        codeConstruct,
-                        new fcModel.Attr(attribute, globalObject, codeConstruct)
+                        attribute,
+                        new fcModel.FcInternal
+                        (
+                            codeConstruct,
+                            new fcModel.Attr(attribute, globalObject, codeConstruct)
+                        )
                     )
-                )
-            );
+                );
+            }
         }
 
         return globalObject.internalExecutor.createArray(codeConstruct, attributeList);
     }
-    catch(e) { alert("Attr - error when creating attribute list:" + e); }
+    catch(e) { Firecrow.Interpreter.Model.Attr.notifyError("Attr - error when creating attribute list:" + e); }
 };
 
 //https://developer.mozilla.org/en/DOM/element

@@ -20,6 +20,7 @@ fcModel.Document = function(documentFragment, globalObject)
 
         //Extend the fragment just to support createElement function
         this.documentFragment.createElement = this.globalObject.origDocument.createElement;
+        this.documentFragment.createDocumentFragment = this.globalObject.origDocument.createDocumentFragment;
         this.documentFragment.getElementById = this.globalObject.origDocument.getElementById;
         this.documentFragment.getElementsByClassName = this.globalObject.origDocument.getElementsByClassName;
         this.documentFragment.getElementsByTagName = this.globalObject.origDocument.getElementsByTagName;
@@ -172,6 +173,7 @@ fcModel.DocumentExecutor =
         if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
         else if(functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
         else if(functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }
+        else if (functionName == "createDocumentFragment") { return globalObject.internalExecutor.createDocumentFragment(callExpression, globalObject); }
         else
         {
             var result;
@@ -198,7 +200,7 @@ fcModel.DocumentExecutor =
             }
             else
             {
-                this.notifyError("Unknown document method!");
+                this.notifyError("Unknown document method: " +  functionName);
             }
         }
     },

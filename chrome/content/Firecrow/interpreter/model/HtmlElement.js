@@ -12,7 +12,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement))
+        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment))
         {
             fcModel.HtmlElement.notifyError("When creating HTMLElement the htmlElement must be of type HTMLElement: " + (typeof htmlElement));
             return;
@@ -38,7 +38,11 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         var styleValue = new fcModel.JsValue(htmlElement.style, new fcModel.FcInternal(codeConstruct, new fcModel.CSSStyleDeclaration(htmlElement, htmlElement.style, globalObject, codeConstruct)));
         this.proto.addProperty.call(this, "style", styleValue, codeConstruct);
 
-        this.htmlElement.style.jsValue = styleValue;
+        if(this.htmlElement.style != null)
+        {
+            this.htmlElement.style.jsValue = styleValue;
+        }
+
         this.htmlElement.attributeModificationPoints = [];
 
         this.addPrimitiveProperties(htmlElement, codeConstruct);
@@ -70,7 +74,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
             }
         }, this);
     }
-    catch(e) { alert("Error when creating HTML node: " + e); }//this.notifyError("Error when creating HtmlElement object: " + e); }
+    catch(e) { fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e); }
 };
 
 fcModel.HtmlElement.notifyError = function(message) { alert("HtmlElement - " + message); }
@@ -87,6 +91,7 @@ fcModel.HtmlElementProto =
         this.proto.addProperty.call(this, "childNodes", this.globalObject.internalExecutor.createArray(codeConstruct, childNodes), codeConstruct);
         this.proto.addProperty.call(this, "children", this.globalObject.internalExecutor.createArray(codeConstruct, children), codeConstruct);
         this.proto.addProperty.call(this, "firstChild", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.firstChild, this.globalObject, codeConstruct));
+        this.proto.addProperty.call(this, "lastChild", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.lastChild, this.globalObject, codeConstruct));
         this.proto.addProperty.call(this, "innerHTML", new fcModel.JsValue(this.htmlElement.innerHTML, new fcModel.FcInternal(codeConstruct)), codeConstruct);
     },
 
@@ -106,14 +111,15 @@ fcModel.HtmlElementProto =
                         new fcModel.FcInternal
                         (
                             codeConstruct,
-                            ValueTypeHelper.isOfType(childNode, HTMLElement) ?  new fcModel.HtmlElement(childNode, this.globalObject, codeConstruct)
+                            ValueTypeHelper.isOfType(childNode, HTMLElement) || ValueTypeHelper.isOfType(childNode, DocumentFragment)
+                                                                             ?  new fcModel.HtmlElement(childNode, this.globalObject, codeConstruct)
                                                                              :  new fcModel.TextNode(childNode, this.globalObject, codeConstruct)
                         )
                     )
                 )
             }
         }
-        catch(e) { this.notifyError("Error when getting child nodes:" + e); }
+        catch(e) { fcModel.HtmlElement.notifyError("Error when getting child nodes:" + e); }
 
         return childNodeList;
     },
@@ -127,10 +133,10 @@ fcModel.HtmlElementProto =
            {
                var child = childNodes[i];
 
-               if(ValueTypeHelper.isOfType(child.value, HTMLElement)) { children.push(child); }
+               if(ValueTypeHelper.isOfType(child.value, HTMLElement) || ValueTypeHelper.isOfType(child.value, DocumentFragment)) { children.push(child); }
            }
         }
-        catch(e) { this.notifyError("Error when getting children from child nodes: " + e); }
+        catch(e) { fcModel.HtmlElement.notifyError("Error when getting children from child nodes: " + e); }
 
         return children;
     },
@@ -148,7 +154,7 @@ fcModel.HtmlElementProto =
                 this.proto.addProperty.call(this, propertyName, new fcModel.JsValue(htmlElement[propertyName], new fcModel.FcInternal(codeConstruct)), codeConstruct);
             }
         }
-        catch(e) { this.notifyError("Error when adding primitive properties: " + e); }
+        catch(e) { fcModel.HtmlElement.notifyError("Error when adding primitive properties: " + e); }
     },
 
     addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
@@ -174,7 +180,7 @@ fcModel.HtmlElementProto =
 
             this.proto.addProperty.call(this, propertyName, propertyValue, codeConstruct, isEnumerable);
         }
-        catch(e) { this.notifyError("Error when adding property: " + e);}
+        catch(e) { fcModel.HtmlElement.notifyError("Error when adding property: " + e);}
     },
 
     addMethods: function(codeConstruct)
@@ -191,7 +197,7 @@ fcModel.HtmlElementProto =
                 this.proto.addProperty.call(this, method, this.globalObject.internalExecutor.createInternalFunction(this.htmlElement[method], method, this, true), codeConstruct);
             }
         }
-        catch(e) { this.notifyError("Error when adding methods: " + e);}
+        catch(e) { fcModel.HtmlElement.notifyError("Error when adding methods: " + e);}
     },
 
     notifyElementInsertedIntoDom: function(callExpression)
@@ -204,7 +210,7 @@ fcModel.HtmlElementProto =
                 evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
             };
         }
-        catch(e) { this.notifyError("Error when handling element inserted into dom!"); }
+        catch(e) { fcModel.HtmlElement.notifyError("Error when handling element inserted into dom!"); }
     },
 
     notifyError: function(message) { alert("HtmlElement - " + message); }
@@ -258,7 +264,7 @@ fcModel.HtmlElementExecutor =
 {
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
-        if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing string method!"); return; }
+        if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing string method!"); return; }
 
         var functionObjectValue = functionObject.value;
         var thisObjectValue = thisObject.value;
@@ -288,7 +294,9 @@ fcModel.HtmlElementExecutor =
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression, null));
             case "appendChild":
+            case "removeChild":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                fcThisValue.setChildRelatedProperties(callExpression);
                 for(var i = 0; i < arguments.length; i++)
                 {
                     arguments[i].fcInternal.object.notifyElementInsertedIntoDom(callExpression);
@@ -309,7 +317,7 @@ fcModel.HtmlElementExecutor =
                     }
                 );
             default:
-                this.notifyError("Unhandled internal method:" + functionName); return;
+                fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
         }
     },
 
@@ -327,7 +335,7 @@ fcModel.HtmlElementExecutor =
 
             return globalObject.internalExecutor.createArray(codeConstruct, fcItems);
         }
-        catch(e) { alert("HtmlElementExecutor - error when wrapping: " + e);}
+        catch(e) { fcModel.HtmlElement.notifyError("HtmlElementExecutor - error when wrapping: " + e);}
     },
 
     wrapToFcElement: function(item, globalObject, codeConstruct)
@@ -336,7 +344,7 @@ fcModel.HtmlElementExecutor =
        {
            if(item == null) { return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct)); }
 
-           if(ValueTypeHelper.isOfType(item, HTMLElement))
+           if(ValueTypeHelper.isOfType(item, HTMLElement) || ValueTypeHelper.isOfType(item, DocumentFragment))
            {
                return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, new fcModel.HtmlElement(item, globalObject, codeConstruct)));
            }
@@ -345,7 +353,10 @@ fcModel.HtmlElementExecutor =
                return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, new fcModel.TextNode(item, globalObject, codeConstruct)));
            }
        }
-       catch(e) { alert("HtmlElementExecutor - error when wrapping: " + e);}
+       catch(e)
+       {
+           fcModel.HtmlElement.notifyError("HtmlElementExecutor - error when wrapping: " + e);
+       }
     },
 
     addDependencies: function(element, codeConstruct, globalObject)
@@ -398,7 +409,7 @@ fcModel.HtmlElementExecutor =
                 }
             }
         }
-        catch(e) { this.notifyError("Error when adding dependencies: " + e);}
+        catch(e) { fcModel.HtmlElement.notifyError("Error when adding dependencies: " + e);}
     },
 
 

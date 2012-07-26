@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .testClass { color: green; }
+        #container { height: 100px; width: 100px; background-color: red;}
+    </style>
+</head>
+<body>
+<h2 class="testClass">Title</h2>
+<div id="container"></div>
+<script type ="text/javascript">
+    var a1 = 1;
+    var div = document.createElement("div");
+    var input = document.createElement("input");
+
+    input.value = "t";
+
+    input.setAttribute("type", "radio");
+    input.setAttribute("checked", "checked");
+    input.setAttribute( "name", "t" );
+
+    div.appendChild( input );
+
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild( div.lastChild );
+
+    var checkClone = fragment.cloneNode(true).cloneNode(true).lastChild.checked;
+
+    fragment.removeChild( input );
+    fragment.appendChild( div );
+    a1;
+</script>
+</body>
+</html>

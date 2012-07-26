@@ -19,6 +19,8 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
         this.htmlElement = htmlElement;
         this.__proto__ = new fcModel.Object(globalObject);
 
+        if(cssStyleDeclaration == null) { return; }
+
         var properties = fcModel.CSSStyleDeclaration.CONST.INTERNAL_PROPERTIES.PROPERTIES;
 
         for(var i = 0, length = properties.length; i < length; i++)

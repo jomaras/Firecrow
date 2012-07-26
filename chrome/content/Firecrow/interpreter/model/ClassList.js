@@ -17,26 +17,27 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement)) { this.notifyError("Constructor argument has to be a HTMLElement");}
+        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment)) { this.notifyError("Constructor argument has to be a HTMLElement");}
 
         this.globalObject = globalObject;
         this.htmlElement = htmlElement;
 
         this.__proto__ =  new fcModel.Object(this.globalObject);
 
-        for(var i = 0, classList = htmlElement.classList, length = classList.length; i < length; i++)
+        var classList = htmlElement.classList;
+
+        if(classList != null)
         {
-            var className = classList[i];
-            this.addProperty(i, new fcModel.JsValue(i, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+            for(var i = 0, length = classList.length; i < length; i++)
+            {
+                var className = classList[i];
+                this.addProperty(i, new fcModel.JsValue(i, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+            }
+
+            this.globalObject.internalExecutor.expandWithInternalFunction(classList.add, "add");
+            this.globalObject.internalExecutor.expandWithInternalFunction(classList.remove, "remove");
+            this.globalObject.internalExecutor.expandWithInternalFunction(classList.toggle, "toggle");
         }
-
-        var internalMethods = fcModel.ClassList.CONST.INTERNAL_PROPERTIES.METHODS;
-
-        var classList = this.htmlElement.classList;
-
-        this.globalObject.internalExecutor.expandWithInternalFunction(classList.add, "add");
-        this.globalObject.internalExecutor.expandWithInternalFunction(classList.remove, "remove");
-        this.globalObject.internalExecutor.expandWithInternalFunction(classList.toggle, "toggle");
     }
     catch(e) { Firecrow.Interpreter.Model.ClassList.notifyError("Error when creating ClassList: " + e); }
 };

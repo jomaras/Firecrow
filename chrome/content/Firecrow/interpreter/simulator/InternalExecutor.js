@@ -215,6 +215,30 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when creating html element: " + e);}
     },
 
+    createDocumentFragment: function(creationCodeConstruct, tagName)
+    {
+        try
+        {
+            var jsElement = this.globalObject.origDocument.createDocumentFragment();
+            jsElement.creationPoint =
+            {
+                codeConstruct: creationCodeConstruct,
+                evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+            }
+
+            return new fcModel.JsValue
+            (
+                jsElement,
+                new fcModel.FcInternal
+                    (
+                        creationCodeConstruct,
+                        new fcModel.HtmlElement(jsElement, this.globalObject, creationCodeConstruct)
+                    )
+            );
+        }
+        catch(e) { this.notifyError("Error when creating html element: " + e);}
+    },
+
     createLocationObject: function()
     {
         try
@@ -309,7 +333,18 @@ fcSimulator.InternalExecutor.prototype =
             else if (ValueTypeHelper.isOfType(thisObject.value, Array)) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (ValueTypeHelper.isString(thisObject.value)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (ValueTypeHelper.isOfType(thisObject.value, RegExp)) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
-            else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment))
+            {
+                //Is documentFragment acting as a document
+                if(thisObject == this.globalObject.jsFcDocument)
+                {
+                    return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);
+                }
+                else//is standard document fragment, created in application code
+                {
+                    return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);
+                }
+            }
             else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject.fcInternal.globalObject.jsFcDocument, functionObject, arguments, callExpression);}
             else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, Date)) { return fcModel.DateExecutor.executeInternalDateMethod(thisObject, functionObject, arguments, callExpression); }
