@@ -58,6 +58,11 @@ FBL.ns(function() { with (FBL) {
                 selectedDependencies.push(dependency);
             }
 
+            if(dependency.shouldAlwaysBeFollowed)
+            {
+                selectedDependencies.push(dependency);
+            }
+
             if(dependency.index > maxIndex) { continue; }
             if(!this.canFollowDependency(dependency, destinationConstraint)) { continue; }
 

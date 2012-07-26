@@ -205,7 +205,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
             {
                 dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
             }
-            else if (dependencyEdge.isReturnDependency)
+            else if (dependencyEdge.isReturnDependency || dependencyEdge.shouldAlwaysBeFollowed)
             {
                 dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
             }

@@ -171,7 +171,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
             });
         };
 
-        this.unregisterTimeout = function(timeoutId)
+        this.unregisterTimeout = function(timeoutId, codeConstruct)
         {
             if(timeoutId == null) { return; }
 
@@ -179,11 +179,60 @@ fcModel.GlobalObject = function(browser, documentFragment)
             {
                 if(this.timeoutHandlers[i].timeoutId == timeoutId)
                 {
+
+                    this.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        this.timeoutHandlers[i].registrationPoint.codeConstruct,
+                        codeConstruct,
+                        dependencyCreationInfo,
+                        this.getPreciseEvaluationPositionId()
+                    );
+
                     ValueTypeHelper.removeFromArrayByIndex(this.timeoutHandlers, i);
                     return;
                 }
             }
-        }
+        };
+
+        this.intervalHandlers = [];
+
+        this.registerInterval = function(intervalId, handler, timePeriod, callArguments, registrationPoint)
+        {
+            this.intervalHandlers.push(
+            {
+                intervalId: intervalId,
+                handler: handler,
+                timePeriod: timePeriod,
+                callArguments: callArguments,
+                registrationPoint: registrationPoint
+            });
+        };
+
+        this.unregisterInterval = function(intervalId, codeConstruct)
+        {
+            if(intervalId == null) { return; }
+
+            for(var i = 0; i < this.intervalHandlers.length; i++)
+            {
+                if(this.intervalHandlers[i].intervalId == intervalId)
+                {
+                    var dependencyCreationInfo = this.getPreciseEvaluationPositionId();
+                    dependencyCreationInfo.shouldAlwaysBeFollowed = true;
+
+                    this.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        this.intervalHandlers[i].registrationPoint.codeConstruct,
+                        codeConstruct,
+                        dependencyCreationInfo,
+                        this.getPreciseEvaluationPositionId()
+                    );
+
+                    ValueTypeHelper.removeFromArrayByIndex(this.intervalHandlers, i);
+
+                    return;
+                }
+            }
+        };
 
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
@@ -206,7 +255,7 @@ fcModel.GlobalObject.CONST =
             "decodeURI", "decodeURIComponent", "encodeURI",
             "encodeURIComponent", "eval", "isFinite", "isNaN",
             "parseFloat", "parseInt", "addEventListener", "removeEventListener",
-            "setTimeout", "clearTimeout"
+            "setTimeout", "clearTimeout", "setInterval", "clearInterval"
         ]
     }
 }
@@ -220,17 +269,35 @@ fcModel.GlobalObjectExecutor =
             if(fcFunction.value.name == "eval") { return _handleEval(fcFunction, arguments, callExpression, globalObject); }
             else if (fcFunction.value.name == "addEventListener") { return globalObject.addEventListener(arguments, callExpression, globalObject); }
             else if (fcFunction.value.name == "removeEventListener") { return globalObject.removeEventListener(arguments, callExpression, globalObject); }
-            else if (fcFunction.value.name == "setTimeout")
+            else if (fcFunction.value.name == "setTimeout" || fcFunction.value.name == "setInterval")
             {
                 var timeoutId = setTimeout(function(){});
 
-                globalObject.registerTimeout(timeoutId, arguments[0], arguments[1].value, arguments.slice(2), { codeConstruct:callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+                var timingEventArguments = [timeoutId, arguments[0], arguments[1].value, arguments.slice(2), { codeConstruct:callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()}];
+
+                if(fcFunction.value.name == "setTimeout")
+                {
+                    globalObject.registerTimeout.apply(globalObject, timingEventArguments);
+                }
+                else if(fcFunction.value.name == "setInterval")
+                {
+                    globalObject.registerInterval.apply(globalObject, timingEventArguments);
+                }
 
                 return new fcModel.JsValue(timeoutId, new fcModel.FcInternal());
             }
-            else if (fcFunction.value.name == "clearTimeout")
+            else if (fcFunction.value.name == "clearTimeout" || fcFunction.value.name == "clearInterval")
             {
-                globalObject.unregisterTimeout(arguments[0] != null ? arguments[0].value : null);
+                if(fcFunction.value.name == "clearTimeout")
+                {
+                    globalObject.unregisterTimeout(arguments[0] != null ? arguments[0].value : null, callExpression);
+                }
+                else
+                {
+                    globalObject.unregisterInterval(arguments[0] != null ? arguments[0].value : null, callExpression);
+                }
+
+
                 return new fcModel.JsValue(undefined, new fcModel.FcInternal());
             }
 

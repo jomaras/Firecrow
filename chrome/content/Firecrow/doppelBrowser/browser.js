@@ -253,6 +253,7 @@ Browser.prototype =
             var onLoadFunction = this.globalObject.getPropertyValue("onload");
             var htmlElementEvents = this.globalObject.htmlElementEventHandlingRegistrations;
             var timeoutEvents = this.globalObject.timeoutHandlers;
+            var intervalEvents = this.globalObject.intervalHandlers;
 
             for(var i = 0, length = eventTraces.length; i < length; i++)
             {
@@ -334,9 +335,9 @@ Browser.prototype =
                         }
                     }
 
-                    for(var j = 0, timeoutLength = timeoutEvents.length; j < timeoutLength; j++)
+                    for(var j = 0, intervalLength = intervalEvents.length; j < intervalLength; j++)
                     {
-                        var event = timeoutEvents[j];
+                        var event = intervalEvents[j];
 
                         var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 
@@ -353,6 +354,29 @@ Browser.prototype =
                                     registrationPoint: event.registrationPoint
                                 }
                             );
+                            break;
+                        }
+                    }
+
+                    for(var j = 0, timeoutLength = timeoutEvents.length; j < timeoutLength; j++)
+                    {
+                        var event = timeoutEvents[j];
+
+                        var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+
+                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
+                            && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        {
+                            this._interpretJsCode
+                                (
+                                    handlerConstruct.body,
+                                    {
+                                        functionHandler: event.handler,
+                                        thisObject: this.globalObject,
+                                        argumentValues: event.callArguments,
+                                        registrationPoint: event.registrationPoint
+                                    }
+                                );
 
                             ValueTypeHelper.removeFromArrayByIndex(timeoutEvents, j);
                             break;
