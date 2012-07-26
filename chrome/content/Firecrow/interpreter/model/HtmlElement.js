@@ -29,6 +29,8 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
             this[prop] = fcModel.HtmlElementProto[prop];
         }
 
+        this.constructor = fcModel.HtmlElement;
+
         this.setChildRelatedProperties(codeConstruct);
 
         this.proto.addProperty.call(this, "attributes", fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), codeConstruct);
@@ -192,6 +194,7 @@ fcModel.HtmlElementProto =
             for(var i = 0, length = methods.length; i < length; i++)
             {
                 var method = methods[i];
+
                 this.globalObject.internalExecutor.expandWithInternalFunction(this.htmlElement, method);
 
                 this.proto.addProperty.call(this, method, this.globalObject.internalExecutor.createInternalFunction(this.htmlElement[method], method, this, true), codeConstruct);
@@ -230,7 +233,8 @@ fcModel.HtmlElement.CONST =
             "isDefaultNamespace", "isEqualNode", "isSameNode", "isSupported", "lookupNamespaceURI", "lookupPrefix", "mozMatchesSelector",
             "mozRequestFullScreen", "normalize", "querySelector", "querySelectorAll", "removeAttribute", "removeAttributeNS", "removeAttributeNode",
             "removeChild", "removeEventListener", "replaceChild", "scrollIntoView", "setAttribute", "setAttributeNS", "setAttributeNode",
-            "setAttributeNodeNS", "setCapture", "setIdAttribute", "setIdAttributeNS", "setIdAttributeNode", "setUserData", "insertAdjacentHTML"
+            "setAttributeNodeNS", "setCapture", "setIdAttribute", "setIdAttributeNS", "setIdAttributeNode", "setUserData", "insertAdjacentHTML",
+            "mozMatchesSelector", "webkitMatchesSelector"
         ],
         PROPERTIES:
         [
@@ -295,11 +299,15 @@ fcModel.HtmlElementExecutor =
                 return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression, null));
             case "appendChild":
             case "removeChild":
+            case "insertBefore":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 fcThisValue.setChildRelatedProperties(callExpression);
                 for(var i = 0; i < arguments.length; i++)
                 {
-                    arguments[i].fcInternal.object.notifyElementInsertedIntoDom(callExpression);
+                    if(arguments[i].fcInternal.object != null) //Because of comments
+                    {
+                        arguments[i].fcInternal.object.notifyElementInsertedIntoDom(callExpression);
+                    }
                 }
                 return arguments[0];
             case "cloneNode":
@@ -316,6 +324,13 @@ fcModel.HtmlElementExecutor =
                         evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
                     }
                 );
+            case "matchesSelector":
+            case "mozMatchesSelector":
+            case "webkitMatchesSelector":
+                var result = false;
+                try { result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments); }
+                catch(e) {}
+                return fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
         }

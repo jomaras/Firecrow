@@ -12,10 +12,7 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(textNode, Text))
-        {
-            alert("When creating TextNode the textNode must be of type TextNode"); return;
-        }
+        if(!ValueTypeHelper.isOfType(textNode, Text) && !ValueTypeHelper.isOfType(textNode, Comment)) { alert("When creating TextNode the textNode must be of type TextNode"); return; }
 
         for(var prop in fcModel.TextNodeProto)
         {

@@ -25,9 +25,11 @@ fcModel.Document = function(documentFragment, globalObject)
         this.documentFragment.getElementsByClassName = this.globalObject.origDocument.getElementsByClassName;
         this.documentFragment.getElementsByTagName = this.globalObject.origDocument.getElementsByTagName;
         this.documentFragment.evaluate = this.globalObject.origDocument.evaluate;
+        this.documentFragment.createComment = this.globalObject.origDocument.createComment;
 
         this.fcInternal = { object: this };
         this.addProperty("location", this.globalObject.getPropertyValue("location"));
+
         //this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
 
         this.getElementByXPath = function(xPath)
@@ -69,6 +71,13 @@ fcModel.Document = function(documentFragment, globalObject)
 
             return tagChildren[index];
         };
+
+        this.reevaluateProperties = function()
+        {
+            var firstChild = new fcModel.JsValue(this.documentFragment.firstChild, new fcModel.FcInternal(null, new fcModel.HtmlElement(this.documentFragment.firstChild, this.globalObject)));
+            this.addProperty("documentElement", firstChild);
+            this.documentFragment.documentElement = firstChild;
+        }
     }
     catch(e) { this.notifyError("Error when creating Document object: " + e); }
 };
@@ -174,6 +183,7 @@ fcModel.DocumentExecutor =
         else if(functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
         else if(functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }
         else if (functionName == "createDocumentFragment") { return globalObject.internalExecutor.createDocumentFragment(callExpression, globalObject); }
+        else if (functionName == "createComment") { return new fcModel.JsValue(globalObject.origDocument.createComment(""), new fcModel.FcInternal(callExpression))}
         else
         {
             var result;
@@ -194,9 +204,16 @@ fcModel.DocumentExecutor =
             {
                 var element = thisObjectValue.querySelector(functionName == "getElementById" ? ("#" + arguments[0].value) : (arguments[0].value));
 
-                fcModel.HtmlElementExecutor.addDependencies(element, callExpression, globalObject);
+                if(element != null)
+                {
+                    fcModel.HtmlElementExecutor.addDependencies(element, callExpression, globalObject);
 
-                return this.wrapToFcHtmlElement(element, callExpression, globalObject);
+                    return this.wrapToFcHtmlElement(element, callExpression, globalObject);
+                }
+                else
+                {
+                    return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression));
+                }
             }
             else
             {

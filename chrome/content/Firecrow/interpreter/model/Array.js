@@ -61,6 +61,8 @@ fcModel.ArrayProto =
             {
                 var property = properties[i];
 
+                if(property.lastModificationConstruct == null) { continue; }
+
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
                     codeConstruct,
@@ -70,7 +72,10 @@ fcModel.ArrayProto =
                 );
             }
         }
-        catch(e) { this.notifyError("Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source); }
+        catch(e)
+        {
+            this.notifyError("Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source); }
+
     },
 
     push: function(jsArray, arguments, codeConstruct, dontFillJsArray)
@@ -196,7 +201,7 @@ fcModel.ArrayProto =
 
         for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
-        if(arguments.length > 0) { this.notifyError("Still not handling parametrized sort"); }
+        if(arguments.length > 0) { console.log("Still not handling parametrized sort - " + codeConstruct.loc.start.line); }
 
         var sortFunction = function(a, b)
         {
@@ -482,7 +487,10 @@ fcModel.ArrayExecutor =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(thisObject.value, Array)) { this.notifyError("The called on object should be an array!"); return; }
+            if(!ValueTypeHelper.isOfType(thisObject.value, Array))
+            {
+                this.notifyError("The called on object should be an array!"); return;
+            }
             if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing array method!"); return; }
 
             var functionObjectValue = functionObject.value;

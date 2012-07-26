@@ -506,6 +506,12 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
+            if(memberExpression.loc.start.line == 4869)
+            {
+                var a = 3;
+                a++;
+            }
+
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
@@ -516,6 +522,17 @@ fcSimulator.Evaluator.prototype =
 
             if(object == this.globalObject) { propertyValue = this.globalObject.getPropertyValue(property.value); }
             else if (ValueTypeHelper.isOfType(object.value, HTMLElement)) { propertyValue = object.fcInternal.object.getPropertyValue(property.value); }
+            else if (ValueTypeHelper.isOfType(object.value, DocumentFragment))
+            {
+                if(object.fcInternal.object == this.globalObject.document)
+                {
+                    propertyValue = object.value[property.value];
+                }
+                else
+                {
+                    propertyValue = object.fcInternal.object.getPropertyValue(property.value);
+                }
+            }
             else { propertyValue = object.value[property.value]; }
 
             var propertyExists = propertyValue !== undefined;

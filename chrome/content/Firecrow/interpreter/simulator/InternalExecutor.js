@@ -386,12 +386,19 @@ fcSimulator.InternalExecutor.prototype =
             {
                 return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression, callCommand);
             }
+            else if (functionObject.fcInternal.object.ownerObject.constructor == fcModel.HtmlElement)
+            {
+                return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);
+            }
             else
             {
                 this.notifyError("Unhandled call applied internal method: " + codeConstruct.loc.source);
             }
         }
-        catch(e) { this.notifyError("Error when executing call apply internal function: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when executing call apply internal function: " + e);
+        }
     },
 
     _executeInternalFunction: function(thisObject, functionObject, arguments, callExpression, callCommand)

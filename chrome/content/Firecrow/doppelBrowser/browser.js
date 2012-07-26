@@ -171,6 +171,7 @@ Browser.prototype =
         try
         {
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
+            this.globalObject.document.reevaluateProperties();
 
             interpreter.registerMessageGeneratedCallback(function(message)
             {
@@ -219,11 +220,19 @@ Browser.prototype =
         for(var i = 0, length = cssRules.length; i < length; i++)
         {
            var cssRule = cssRules[i];
-           if(ValueTypeHelper.arrayContains(this.documentFragment.querySelectorAll(cssRule.selector), htmlModelNode.domElement))
+
+            if(this._matchesSelector(htmlModelNode.domElement, cssRule.selector))
            {
                 this.callDataDependencyEstablishedCallbacks(htmlModelNode, cssRule, this.globalObject.getPreciseEvaluationPositionId());
            }
         }
+    },
+
+    _matchesSelector: function(htmlElement, selector)
+    {
+        var matchesSelector = htmlElement.matchesSelector || htmlElement.mozMatchesSelector || htmlElement.webkitMatchesSelector;
+
+        return matchesSelector.call(htmlElement, selector);
     },
 
     _buildJavaScriptNodes: function(scriptHtmlElementModelNode)
