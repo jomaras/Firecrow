@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
         .testClass { color: green; }
         #container { height: 100px; width: 100px; background-color: red;}
@@ -15,28 +16,12 @@
 
     window.onload = function()
     {
-        var container = document.getElementById("container");
-
-        container.onclick = function(a)
+        setTimeout(function(a)
         {
             a1 += 1;
             a1;
-        };
-
-        a1;
+        }, 100);
     };
-
-    document.addEventListener("DOMContentLoaded", function()
-    {
-        a1 += 1;
-        a1;
-    });
-
-    window.addEventListener("DOMContentLoaded", function()
-    {
-        a1 +=1;
-        a1;
-    });
 
     a1;
 </script>

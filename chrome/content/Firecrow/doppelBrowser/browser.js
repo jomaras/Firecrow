@@ -252,6 +252,7 @@ Browser.prototype =
             var windowDomContentReadyMethods = this.globalObject.eventListenerInfo["DOMContentLoaded"] || [];
             var onLoadFunction = this.globalObject.getPropertyValue("onload");
             var htmlElementEvents = this.globalObject.htmlElementEventHandlingRegistrations;
+            var timeoutEvents = this.globalObject.timeoutHandlers;
 
             for(var i = 0, length = eventTraces.length; i < length; i++)
             {
@@ -260,71 +261,102 @@ Browser.prototype =
 
                 if(eventTrace.args.type == "")
                 {
-                    var domContentReadyInfo = documentDomContentReadyMethods.shift();
+                    var domContentReadyInfo = documentDomContentReadyMethods[0];
 
                     if(domContentReadyInfo != null)
                     {
                         var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
 
-                        if(handlerConstruct.loc.source.replace("///", "/") != eventFile) { this.notifyError("Event handler domContentReady in the wrong file"); return; }
-                        if(eventTrace.line < handlerConstruct.loc.start.line || eventTrace.line > handlerConstruct.loc.end.line) { this.notifyError("The event handler is not within limit"); return; }
+                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
+                        && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        {
+                            this._interpretJsCode
+                            (
+                                handlerConstruct.body,
+                                {
+                                    functionHandler: domContentReadyInfo.handler,
+                                    thisObject: this.globalObject.document,
+                                    argumentValues: [],
+                                    registrationPoint: domContentReadyInfo.registrationPoint
+                                }
+                            );
 
-                        this._interpretJsCode
-                        (
-                            handlerConstruct.body,
-                            {
-                                functionHandler: domContentReadyInfo.handler,
-                                thisObject: this.globalObject.document,
-                                argumentValues: [],
-                                registrationPoint: domContentReadyInfo.registrationPoint
-                            }
-                        );
-
-                        continue;
+                            documentDomContentReadyMethods.shift();
+                            continue;
+                        }
                     }
 
-                    domContentReadyInfo = windowDomContentReadyMethods.shift();
+                    domContentReadyInfo = windowDomContentReadyMethods[0];//.shift();
 
                     if(domContentReadyInfo != null)
                     {
                         var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
 
-                        if(handlerConstruct.loc.source.replace("///", "/") != eventFile) { this.notifyError("Event handler windowDomContentReady in the wrong file"); return; }
-                        if(eventTrace.line < handlerConstruct.loc.start.line || eventTrace.line > handlerConstruct.loc.end.line) { this.notifyError("The event handler is not within limit"); return; }
+                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
+                        && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        {
+                            this._interpretJsCode
+                            (
+                                handlerConstruct.body,
+                                {
+                                    functionHandler: domContentReadyInfo.handler,
+                                    thisObject: this.globalObject,
+                                    argumentValues: [],
+                                    registrationPoint: domContentReadyInfo.registrationPoint
+                                }
+                            );
 
-                        this._interpretJsCode
-                        (
-                            handlerConstruct.body,
-                            {
-                                functionHandler: domContentReadyInfo.handler,
-                                thisObject: this.globalObject,
-                                argumentValues: [],
-                                registrationPoint: domContentReadyInfo.registrationPoint
-                            }
-                        );
-
-                        continue;
+                            windowDomContentReadyMethods.shift();
+                            continue;
+                        }
                     }
 
                     if(onLoadFunction != null)
                     {
                         var handlerConstruct = onLoadFunction.fcInternal.object.codeConstruct;
 
-                        if(handlerConstruct.loc.source.replace("///", "/") != eventFile) { this.notifyError("Event handler onLoadFunction in the wrong file"); return; }
-                        if(eventTrace.line < handlerConstruct.loc.start.line || eventTrace.line > handlerConstruct.loc.end.line) { this.notifyError("The event handler is not within limit"); return; }
+                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
+                        && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        {
+                            this._interpretJsCode
+                            (
+                                handlerConstruct.body,
+                                {
+                                    functionHandler: onLoadFunction,
+                                    thisObject: this.globalObject,
+                                    argumentValues: [],
+                                    registrationPoint: this.globalObject.getProperty("onload").lastModificationConstruct
+                                }
+                            );
 
-                        this._interpretJsCode
-                        (
-                            handlerConstruct.body,
-                            {
-                                functionHandler: onLoadFunction,
-                                thisObject: this.globalObject,
-                                argumentValues: [],
-                                registrationPoint: this.globalObject.getProperty("onload").lastModificationConstruct
-                            }
-                        );
+                            onLoadFunction = null;
+                            continue;
+                        }
+                    }
 
-                        onLoadFunction = null;
+                    for(var j = 0, timeoutLength = timeoutEvents.length; j < timeoutLength; j++)
+                    {
+                        var event = timeoutEvents[j];
+
+                        var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+
+                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
+                        && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        {
+                            this._interpretJsCode
+                            (
+                                handlerConstruct.body,
+                                {
+                                    functionHandler: event.handler,
+                                    thisObject: this.globalObject,
+                                    argumentValues: event.callArguments,
+                                    registrationPoint: event.registrationPoint
+                                }
+                            );
+
+                            ValueTypeHelper.removeFromArrayByIndex(timeoutEvents, j);
+                            break;
+                        }
                     }
                 }
                 else
@@ -341,19 +373,23 @@ Browser.prototype =
                         {
                             var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 
-                            if(handlerConstruct.loc.source.replace("///", "/") != eventFile) { continue; }
-                            if(eventTrace.line < handlerConstruct.loc.start.line || eventTrace.line > handlerConstruct.loc.end.line) { continue; }
+                            if(handlerConstruct.loc.source.replace("///", "/") == eventFile
+                            && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                            {
+                                this._interpretJsCode
+                                (
+                                    handlerConstruct.body,
+                                    {
+                                        functionHandler: event.handler,
+                                        thisObject: fcHtmlElement,
+                                        argumentValues: this._getArguments(eventTrace.args),
+                                        registrationPoint: event.registrationPoint
+                                    }
+                                );
 
-                            this._interpretJsCode
-                            (
-                                handlerConstruct.body,
-                                {
-                                    functionHandler: event.handler,
-                                    thisObject: fcHtmlElement,
-                                    argumentValues: this._getArguments(eventTrace.args),
-                                    registrationPoint: event.registrationPoint
-                                }
-                            );
+                                ValueTypeHelper.removeFromArrayByIndex(htmlElementEvents, j);
+                                break;
+                            }
                         }
                     }
                 }
