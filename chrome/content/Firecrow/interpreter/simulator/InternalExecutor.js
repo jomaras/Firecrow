@@ -127,7 +127,7 @@ fcSimulator.InternalExecutor.prototype =
         );
     },
 
-    expandWithInternalFunction: function(object, functionName)
+    expandWithInternalFunction: function(object, functionName, parentObject)
     {
         try
         {
@@ -143,7 +143,7 @@ fcSimulator.InternalExecutor.prototype =
                         value: new fcModel.JsValue
                         (
                             object[functionName],
-                            new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(this.globalObject, functionName))
+                            new fcModel.FcInternal(null, fcModel.Function.createInternalNamedFunction(this.globalObject, functionName, parentObject))
                         )
                     }
                 );
@@ -293,7 +293,7 @@ fcSimulator.InternalExecutor.prototype =
             }
             else if(internalConstructor.value == this.globalObject.regExFunction)
             {
-                return this.createRegEx(constructorConstruct, RegExp.apply(null, arguments));
+                return this.createRegEx(constructorConstruct, RegExp.apply(null, arguments.map(function(item) { return item.value; })));
             }
             else if (internalConstructor.value == this.globalObject.stringFunction)
             {
@@ -315,12 +315,20 @@ fcSimulator.InternalExecutor.prototype =
             {
                 return fcModel.DateExecutor.executeConstructor(constructorConstruct, arguments);
             }
+            else if (internalConstructor.value == this.globalObject.xmlHttpRequestFunction)
+            {
+                var obj = {};
+                return new fcModel.JsValue(obj, new fcModel.FcInternal(constructorConstruct, new fcModel.Object(this.globalObject, constructorConstruct, obj)));
+            }
             else
             {
                 this.notifyError("Unknown internal constructor" + constructorConstruct.loc.start.line); return;
             }
         }
-        catch(e) { this.notifyError("Execute error: " + e); }
+        catch(e)
+        {
+            this.notifyError("Execute error: " + e);
+        }
     },
 
     executeFunction: function(thisObject, functionObject, arguments, callExpression, callCommand)
@@ -579,7 +587,7 @@ fcSimulator.InternalExecutor.prototype =
 
             fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
             {
-                this.expandWithInternalFunction(arrayPrototype, propertyName);
+                this.expandWithInternalFunction(arrayPrototype, propertyName, this.globalObject.arrayPrototype);
             }, this);
 
             fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.CALLBACK_METHODS.forEach(function(propertyName)

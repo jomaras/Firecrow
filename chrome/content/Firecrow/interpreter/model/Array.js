@@ -23,6 +23,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         this.globalObject = globalObject;
         this.items = [];
         this.modifications = [];
+        this.constructor = fcModel.Array;
 
         if(codeConstruct != null) { this.modifications.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});}
 

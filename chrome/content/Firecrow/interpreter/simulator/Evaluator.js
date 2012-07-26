@@ -392,10 +392,22 @@ fcSimulator.Evaluator.prototype =
                 if(typeof leftExpressionValue.value == "object" && !(leftExpressionValue.value instanceof String)
                 || (typeof rightExpressionValue.value == "object" && !(rightExpressionValue.value instanceof String)))
                 {
-                    this.notifyError(evalBinaryExpressionCommand, "Still not handling implicit toString conversion in binary expression!");
-                    return;
+                    //TODO - temp jQuery hack
+                    if(ValueTypeHelper.isArray(leftExpressionValue.value) && ValueTypeHelper.isArray(rightExpressionValue.value))
+                    {
+                       result = (leftExpressionValue.value.map(function(item) { return item.value})).join("")
+                              + (rightExpressionValue.value.map(function(item) { return item.value})).join("")
+                    }
+                    else
+                    {
+                        this.notifyError(evalBinaryExpressionCommand, "Still not handling implicit toString conversion in binary expression!");
+                        return;
+                    }
                 }
-                result = leftExpressionValue.value + rightExpressionValue.value;
+                else
+                {
+                    result = leftExpressionValue.value + rightExpressionValue.value;
+                }
             }
             else if (operator == "-") { result = leftExpressionValue.value - rightExpressionValue.value; }
             else if (operator == "*") { result = leftExpressionValue.value * rightExpressionValue.value; }

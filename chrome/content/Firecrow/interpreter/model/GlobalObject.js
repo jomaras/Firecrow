@@ -38,6 +38,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.objectFunction = new fcModel.ObjectFunction(this);
         this.numberFunction = new fcModel.NumberFunction(this);
         this.dateFunction = new fcModel.DateFunction(this);
+        this.xmlHttpRequestFunction = new fcModel.XMLHttpRequestFunction(this);
 
         this.fcMath = new fcModel.Math(this);
         this.math = new fcModel.JsValue(this.fcMath, new fcModel.FcInternal(null, this.fcMath));
@@ -52,6 +53,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("Boolean", new fcModel.JsValue(this.booleanFunction, new fcModel.FcInternal(null, this.booleanFunction)) , null);
         this.addProperty("Number", new fcModel.JsValue(this.numberFunction, new fcModel.FcInternal(null, this.numberFunction)) , null);
         this.addProperty("Date", new fcModel.JsValue(this.dateFunction, new fcModel.FcInternal(null, this.dateFunction)), null);
+        this.addProperty("XMLHttpRequest", new fcModel.JsValue(this.xmlHttpRequestFunction, new fcModel.FcInternal(null, this.xmlHttpRequestFunction)), null);
         this.addProperty("document", this.jsFcDocument, null);
         this.addProperty("Math", this.math, null);
         this.addProperty("window", this, null);
