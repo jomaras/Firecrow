@@ -702,6 +702,10 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalForInWhereCommand, Firecrow.Interpreter.Commands.Command) || !evalForInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(evalForInWhereCommand, "Argument has to be an eval for in where command!"); return; }
 
             var forInWhereConstruct = evalForInWhereCommand.codeConstruct;
+            if(forInWhereConstruct.loc.start.line == 5178)
+            {
+                var a = 3;
+            }
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);

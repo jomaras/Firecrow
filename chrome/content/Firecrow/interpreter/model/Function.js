@@ -10,7 +10,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
 {
-    this.__proto__ = new fcModel.Object(globalObject, codeConstruct);
+    this.__proto__ = new fcModel.Object(globalObject, codeConstruct, value);
     this.object = this;
     this.globalObject = globalObject;
     this.codeConstruct = codeConstruct;
