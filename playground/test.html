@@ -172,7 +172,7 @@
     {
         var object = flagsCache[flags] = {}, i, length;
         flags = flags.split(/\s+/);
-        for (; i < length; i++)
+        for (i = 0, length = flags.length; i < length; i++)
         {
             object[flags[i]] = true;
         }
@@ -186,7 +186,7 @@
                 memory, firing, firingStart, firingLength, firingIndex, add = function (args)
                 {
                     var i, length, elem, type;
-                    for (; i < length; i++)
+                    for (i = 0, length = args.length; i < length; i++)
                     {
                         elem = args[i];
                         type = jQuery.type(elem);

@@ -332,7 +332,11 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         try
         {
-            this.isSequenceIncluded(sequenceExpression.expressions);
+            var isIncluded = this.isSequenceIncluded(sequenceExpression.expressions);
+
+            sequenceExpression.shouldBeIncluded = isIncluded;
+
+            return isIncluded;
         }
         catch(e) { this.notifyError("Error when finding inclusions from sequence expression:" + e); }
     },
