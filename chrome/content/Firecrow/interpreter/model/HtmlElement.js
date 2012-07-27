@@ -24,6 +24,12 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.globalObject = globalObject;
         this.htmlElement = htmlElement;
 
+        if(htmlElement != null)
+        {
+            htmlElement.fcHtmlElementId = this.id;
+            this.globalObject.document.htmlElementToFcMapping[this.id] = this;
+        }
+
         for(var prop in fcModel.HtmlElementProto)
         {
             this[prop] = fcModel.HtmlElementProto[prop];
@@ -53,6 +59,9 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.registerGetPropertyCallback(function(getPropertyConstruct, propertyName)
         {
             var evaluationPositionId = this.globalObject.getPreciseEvaluationPositionId();
+
+            this.addDependenciesToAllModifications(getPropertyConstruct);
+
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
                 getPropertyConstruct,
@@ -94,7 +103,35 @@ fcModel.HtmlElementProto =
         this.proto.addProperty.call(this, "children", this.globalObject.internalExecutor.createArray(codeConstruct, children), codeConstruct);
         this.proto.addProperty.call(this, "firstChild", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.firstChild, this.globalObject, codeConstruct));
         this.proto.addProperty.call(this, "lastChild", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.lastChild, this.globalObject, codeConstruct));
+        this.proto.addProperty.call(this, "parentNode", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.parentNode, this.globalObject, codeConstruct));
         this.proto.addProperty.call(this, "innerHTML", new fcModel.JsValue(this.htmlElement.innerHTML, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+    },
+
+    addDependenciesToAllModifications: function(codeConstruct)
+    {
+        try
+        {
+            if(codeConstruct == null) { return; }
+
+            var modifications = this.htmlElement.attributeModificationPoints;
+
+            for(var i = 0, length = modifications.length; i < length; i++)
+            {
+                var modification = modifications[i];
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    codeConstruct,
+                    modification.codeConstruct,
+                    this.globalObject.getPreciseEvaluationPositionId(),
+                    modification.evaluationPositionId
+                );
+            }
+        }
+        catch(e)
+        {
+            this.notifyError("Error when adding dependencies to all modifications " + e);
+        }
     },
 
     getChildNodes: function(codeConstruct)
@@ -361,7 +398,15 @@ fcModel.HtmlElementExecutor =
 
            if(ValueTypeHelper.isOfType(item, HTMLElement) || ValueTypeHelper.isOfType(item, DocumentFragment))
            {
-               return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, new fcModel.HtmlElement(item, globalObject, codeConstruct)));
+               return new fcModel.JsValue
+               (
+                   item,
+                   new fcModel.FcInternal
+                   (
+                       codeConstruct,
+                       globalObject.document.htmlElementToFcMapping[item.fcHtmlElementId] || new fcModel.HtmlElement(item, globalObject, codeConstruct)
+                   )
+               );
            }
            else
            {

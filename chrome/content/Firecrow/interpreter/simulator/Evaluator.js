@@ -518,12 +518,6 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 4869)
-            {
-                var a = 3;
-                a++;
-            }
-
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
@@ -533,7 +527,7 @@ fcSimulator.Evaluator.prototype =
             var propertyValue;
 
             if(object == this.globalObject) { propertyValue = this.globalObject.getPropertyValue(property.value); }
-            else if (ValueTypeHelper.isOfType(object.value, HTMLElement)) { propertyValue = object.fcInternal.object.getPropertyValue(property.value); }
+            else if (ValueTypeHelper.isOfType(object.value, HTMLElement)) { propertyValue = object.fcInternal.object.getPropertyValue(property.value, memberExpression); }
             else if (ValueTypeHelper.isOfType(object.value, DocumentFragment))
             {
                 if(object.fcInternal.object == this.globalObject.document)
@@ -542,7 +536,7 @@ fcSimulator.Evaluator.prototype =
                 }
                 else
                 {
-                    propertyValue = object.fcInternal.object.getPropertyValue(property.value);
+                    propertyValue = object.fcInternal.object.getPropertyValue(property.value, memberExpression);
                 }
             }
             else { propertyValue = object.value[property.value]; }
@@ -724,7 +718,8 @@ fcSimulator.Evaluator.prototype =
 
             if(whereObject != null && whereObject.fcInternal.object != null)
             {
-                var modifications = whereObject.fcInternal.object.getLastPropertyModifications(forInWhereConstruct.right);
+                //TODO - not adding dependencies to all FOR-in modifications
+                /*var modifications = whereObject.fcInternal.object.getLastPropertyModifications(forInWhereConstruct.right);
 
                 for(var i = 0, length = modifications.length; i < length; i++)
                 {
@@ -735,7 +730,7 @@ fcSimulator.Evaluator.prototype =
                         evaluationPosition,
                         modifications[i].evaluationPositionId
                     );
-                }
+                }*/
             }
 
             var currentPropertyIndex = evalForInWhereCommand.currentPropertyIndex;
@@ -753,13 +748,6 @@ fcSimulator.Evaluator.prototype =
                 var property = whereObject.fcInternal.object.getProperty(nextPropertyName.value);
                 if(property != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        forInWhereConstruct.left,
-                        property.declarationConstruct.codeConstruct,
-                        evaluationPosition
-                    );
-
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         forInWhereConstruct.left,

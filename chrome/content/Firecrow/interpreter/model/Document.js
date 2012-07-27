@@ -28,6 +28,7 @@ fcModel.Document = function(documentFragment, globalObject)
         this.documentFragment.createComment = this.globalObject.origDocument.createComment;
 
         this.fcInternal = { object: this };
+        this.htmlElementToFcMapping = {};
         this.addProperty("location", this.globalObject.getPropertyValue("location"));
 
         //this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
@@ -230,7 +231,7 @@ fcModel.DocumentExecutor =
 
             for(var i = 0, length = items.length; i < length; i++)
             {
-                elements.push(this.wrapToFcHtmlElement(items[i], callExpression));
+                elements.push(this.wrapToFcHtmlElement(items[i], callExpression, globalObject));
             }
 
             return globalObject.internalExecutor.createArray(callExpression, elements);

@@ -1,29 +1,228 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    </head>
-<body>
-    <script>
-        var sum = 0;
 
-        window.onload = function()
-        {
-            sum += 1;
-            alert("On load executed");
+<head>
+<script>
+(function (window, undefined)
+{
+    var document = window.document,
+            navigator = window.navigator;
+    var jQuery = (function ()
+    {
+        var jQuery = function (selector, context)
+                {
+                    return new jQuery.fn.init(selector, context, rootjQuery);
+                }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
+                rnotwhite = /\S/,
+                rwebkit = /(webkit)[ \/]([\w.]+)/,
+                ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
+                rmsie = /(msie) ([\w.]+)/,
+                rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/,
+                userAgent = navigator.userAgent,
+                browserMatch;
+        jQuery.fn = jQuery.prototype = {
+            init: function (selector, context, rootjQuery)
+            {
+                var match, elem;
+                if (selector.nodeType)
+                {
+                    return this;
+                }
+                if (typeof selector === 'string')
+                {
+                    if (selector.charAt(0) === '<');
+                    else
+                    {
+                        match = quickExpr.exec(selector);
+                    }
+                    if (match && match[1] || !context)
+                    {
+                        if (match[1]);
+                        else
+                        {
+                            elem = document.getElementById(match[2]);
+                            if (elem && elem.parentNode)
+                            {
+                                this[0] = elem;
+                            }
+                            return this;
+                        }
+                    }
+                }
+            }
         };
-
-        window.addEventListener("DOMContentLoaded", function()
+        jQuery.fn.init.prototype = jQuery.fn;
+        jQuery.extend = jQuery.fn.extend = function ()
         {
-           sum +=1;
-           alert("DOMContentLoaded on window executed");
-        });
-
-        document.addEventListener("DOMContentLoaded", function()
+            var options, name, copy, target = arguments[0],
+                    i = 1,
+                    length = arguments.length,
+                    deep = false;
+            if (length === i)
+            {
+                target = this;
+                --i;
+            }
+            for (; i < length; i++)
+            {
+                if ((options = arguments[i]) != null)
+                {
+                    for (name in options)
+                    {
+                        copy = options[name];
+                        if (deep);
+                        else if (copy !== undefined)
+                        {
+                            target[name] = copy;
+                        }
+                    }
+                }
+            }
+        };
+        jQuery.extend(
+                {
+                    access: function (elems, fn, key, value, chainable, emptyGet, pass)
+                    {
+                        var bulk = key == null;
+                        return chainable ? 0 : bulk ? fn.call(elems) : 0;
+                    },
+                    uaMatch: function (ua)
+                    {
+                        ua = ua.toLowerCase();
+                        var match = rwebkit.exec(ua) || ropera.exec(ua) || rmsie.exec(ua) || ua.indexOf('compatible') < 0 && rmozilla.exec(ua);
+                        return {
+                            browser: match[1]
+                        };
+                    },
+                    browser: {}
+                });
+        browserMatch = jQuery.uaMatch(userAgent);
+        if (rnotwhite.test(' '));
+        rootjQuery = jQuery(document);
+        return jQuery;
+    })();
+    jQuery.support = (function ()
+    {
+        var support, all, a, select, opt, input, div = document.createElement('div');
+        div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
+        all = div.getElementsByTagName('*');
+        a = div.getElementsByTagName('a')[0];
+        select = document.createElement('select');
+        opt = select.appendChild(document.createElement('option'));
+        input = div.getElementsByTagName('input')[0];
+        support = {
+            htmlSerialize: !(!(div.getElementsByTagName('link').length)),
+            style: /top/.test(a.getAttribute('style')),
+            hrefNormalized: a.getAttribute('href') === '/a',
+            opacity: /^0.55/.test(a.style.opacity),
+            checkOn: input.value === 'on',
+            optSelected: opt.selected,
+            getSetAttribute: div.className !== 't',
+            enctype: !(!(document.createElement('form').enctype)),
+            submitBubbles: true,
+            changeBubbles: true,
+            focusinBubbles: null
+        };
+        return support;
+    })();
+    var getSetAttribute = jQuery.support.getSetAttribute;
+    (function ()
+    {
+        var Sizzle = function (selector, context, results, seed)
+        {};
+        var getText = Sizzle.getText = function (elem)
         {
-            sum += 1;
-            sum;
-            alert("DOMContentLoaded on document executed");
-        });
-    </script>
+            var i, node, nodeType = elem.nodeType,
+                    ret = '';
+            if (nodeType)
+            {
+                if (nodeType === 1)
+                {
+                    if (typeof (elem.textContent) === 'string')
+                    {
+                        return elem.textContent;
+                    }
+                }
+            }
+            else
+            {
+                for (i = 0; node = elem[i]; i++)
+                {
+                    if (node.nodeType !== 8)
+                    {
+                        ret += getText(node);
+                    }
+                }
+            }
+            return ret;
+        };
+        var Expr = Sizzle.selectors = {
+            match: {},
+            filters: {}
+        };
+        if (document.querySelectorAll)
+        {
+            (function ()
+            {
+                var oldSizzle = Sizzle,
+                        div = document.createElement('div');
+                div.innerHTML = '<p class=\'TEST\'></p>';
+                if (div.querySelectorAll && div.querySelectorAll('.TEST').length === 0);
+                Sizzle = function (query, context, extra, seed)
+                {};
+                for (var prop in oldSizzle)
+                {
+                    Sizzle[prop] = oldSizzle[prop];
+                }
+            })();
+        }
+        jQuery.expr = Sizzle.selectors;
+        jQuery.text = Sizzle.getText;
+    })();
+    jQuery.fn.extend(
+            {
+                text: function (value)
+                {
+                    return jQuery.access(this, function (value)
+                    {
+                        return value === undefined ? jQuery.text(this) : 0;
+                    }, null, value, arguments.length);
+                }
+            });
+    jQuery.extend(
+            {
+                ajaxSettings: {}
+            });
+
+    function createStandardXHR()
+    {
+        try
+        {
+            return new window.XMLHttpRequest();
+        }
+        catch (e)
+        {}
+    }
+    jQuery.ajaxSettings.xhr = window.ActiveXObject ? 0 : createStandardXHR;
+    (function (xhr)
+    {
+        jQuery.extend(jQuery.support,
+                {
+                    ajax: !(!xhr)
+                });
+    })(jQuery.ajaxSettings.xhr());
+    window.$ = jQuery;
+})(window);
+</script>
+</head>
+
+<body>
+<div id="container">2</div>
+<script>
+    var cont = $('#container');
+    var a1 = cont.text();
+    a1;
+</script>
 </body>
+
 </html>

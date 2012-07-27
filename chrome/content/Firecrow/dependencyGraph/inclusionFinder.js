@@ -545,7 +545,6 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             if(tryStatement.shouldBeIncluded) { return true;}
             if(this.isIncludedElement(tryStatement.block)) { return true; }
 
-
             for(var i = 0; i < tryStatement.handlers.length; i++)
             {
                 if(this.isIncludedCatchClause(tryStatement.handlers[i])) { return true};

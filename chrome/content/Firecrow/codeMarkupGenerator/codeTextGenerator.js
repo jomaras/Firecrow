@@ -431,7 +431,9 @@ Firecrow.CodeTextGenerator.prototype =
             if(leftSide.length == 0) { return rightSide;}
             if(rightSide.length == 0) { return leftSide; }
 
-            return leftSide + " " + assignmentExpression.operator + " " + rightSide;
+            var shouldBeSurrounded = ASTHelper.isBinaryExpression(assignmentExpression.parent);
+
+            return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftSide + " " + assignmentExpression.operator + " " + rightSide + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
         }
         catch(e) { this.notifyError("Error when generating code from assignment expression:" + e); }
     },
@@ -468,11 +470,11 @@ Firecrow.CodeTextGenerator.prototype =
             var leftCode = this.generateJsCode(binaryExpression.left);
             var rightCode = this.generateJsCode(binaryExpression.right);
 
-            var isWithinBinaryExpression = ASTHelper.isBinaryExpression(binaryExpression.parent);
+            var shouldBeSurrounded = ASTHelper.isBinaryExpression(binaryExpression.parent);
 
             if(leftCode.length != 0 && rightCode.length != 0)
             {
-                return (isWithinBinaryExpression ? this._LEFT_PARENTHESIS : "") + leftCode + " " + binaryExpression.operator + " " + rightCode + (isWithinBinaryExpression ? this._RIGHT_PARENTHESIS : "");
+                return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftCode + " " + binaryExpression.operator + " " + rightCode + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
             }
 
             if(leftCode.length != 0) { return leftCode; }
@@ -1061,6 +1063,8 @@ Firecrow.CodeTextGenerator.prototype =
             var body = this.generateStatement(catchClause.body);
 
             body = body.length != 0 ? body : this._LEFT_GULL_WING + this._RIGHT_GULL_WING;
+
+            catchClause.param.shouldBeIncluded = true;
 
             return this._CATCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(catchClause.param) + this._RIGHT_PARENTHESIS
                  + body;

@@ -180,7 +180,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
         codeConstruct.includedByNodes.push(includedByNode);*/
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 8)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 55)
         {
             var a = 3;
         }

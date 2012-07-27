@@ -75,8 +75,8 @@ fcModel.ArrayProto =
         }
         catch(e)
         {
-            this.notifyError("Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source); }
-
+            this.notifyError("Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source);
+        }
     },
 
     push: function(jsArray, arguments, codeConstruct, dontFillJsArray)

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .testClass { color: green; }
+        #container { height: 100px; width: 100px; background-color: red;}
+    </style>
+</head>
+<body>
+<h2 class="testClass">Title</h2>
+<div id="container">1</div>
+<script type ="text/javascript">
+    var extend = function ()
+    {
+        var options, name, copy, target = arguments[0],
+                i = 1,
+                length = arguments.length,
+                deep = false;
+        if (length === i)
+        {
+            target = this;
+            --i;
+        }
+        for (; i < length; i++)
+        {
+            if ((options = arguments[i]) != null)
+            {
+                for (name in options)
+                {
+                    copy = options[name];
+                    if (deep);
+                    else if (copy !== undefined)
+                    {
+                        target[name] = copy;
+                    }
+                }
+            }
+        }
+    };
+
+    var a = {
+      b: function()
+      {
+          return 3;
+      },
+      c: function()
+      {
+          return 4;
+      },
+      d: function() { return 4;}
+    };
+
+    var d = {
+      e: function()
+      {
+          return 5;
+      },
+      f: function()
+      {
+          return 6;
+      },
+      g: function() { return 7;}
+    };
+
+    extend(a, d);
+
+    var g = 3;
+
+    var a1 = a.c() + a.f();
+    a1;
+
+</script>
+</body>
+</html>
