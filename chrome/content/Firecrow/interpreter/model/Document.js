@@ -30,8 +30,8 @@ fcModel.Document = function(documentFragment, globalObject)
         this.fcInternal = { object: this };
         this.htmlElementToFcMapping = {};
         this.addProperty("location", this.globalObject.getPropertyValue("location"));
-
-        //this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+        this.addProperty("nodeType", new fcModel.JsValue(this.globalObject.origDocument.nodeType, new fcModel.FcInternal()));
+        this.nodeType = this.globalObject.origDocument.nodeType;
 
         this.getElementByXPath = function(xPath)
         {
@@ -48,9 +48,7 @@ fcModel.Document = function(documentFragment, globalObject)
                     simpleXPath.removeLevel();
                 }
 
-                if(foundElement == null) { return new fcModel.JsValue(null, new fcModel.FcInternal());}
-
-                return fcModel.DocumentExecutor.wrapToFcHtmlElement(foundElement, null, this.globalObject);
+                return fcModel.HtmlElementExecutor.wrapToFcElement(foundElement, this.globalObject, null);
             }
             catch(e) { this.notifyError("Error when getting element by xPath: " + e); }
         };
@@ -75,9 +73,14 @@ fcModel.Document = function(documentFragment, globalObject)
 
         this.reevaluateProperties = function()
         {
-            var firstChild = new fcModel.JsValue(this.documentFragment.firstChild, new fcModel.FcInternal(null, new fcModel.HtmlElement(this.documentFragment.firstChild, this.globalObject)));
+            var firstChild = fcModel.HtmlElementExecutor.wrapToFcElement(this.documentFragment.firstChild, this.globalObject);
+            var body = fcModel.HtmlElementExecutor.wrapToFcElement(this.documentFragment.querySelector("body"), this.globalObject);
+
             this.addProperty("documentElement", firstChild);
             this.documentFragment.documentElement = firstChild;
+
+            this.addProperty("body", body);
+            this.documentFragment.body = body;
         }
     }
     catch(e) { this.notifyError("Error when creating Document object: " + e); }

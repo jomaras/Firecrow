@@ -296,7 +296,7 @@ Browser.prototype =
                         }
                     }
 
-                    domContentReadyInfo = windowDomContentReadyMethods[0];//.shift();
+                    domContentReadyInfo = windowDomContentReadyMethods[0];
 
                     if(domContentReadyInfo != null)
                     {

@@ -77,6 +77,9 @@ fcModel.TextNodeProto =
         catch(e) { this.notifyError("Error when getting child nodes:" + e);}
     },
 
+    notifyElementInsertedIntoDom: function(callExpression)
+    {},
+
     notifyError: function(message) { alert("TextNode - " + message); }
 };
 

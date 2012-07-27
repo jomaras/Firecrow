@@ -37,7 +37,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
         this.constructor = fcModel.HtmlElement;
 
-        this.setChildRelatedProperties(codeConstruct);
+        /*this.setChildRelatedProperties(codeConstruct);*/
 
         this.proto.addProperty.call(this, "attributes", fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), codeConstruct);
         this.proto.addProperty.call(this, "classList", new fcModel.JsValue(htmlElement.classList, new fcModel.FcInternal(codeConstruct, new fcModel.ClassList(this.htmlElement, this.globalObject, codeConstruct))), codeConstruct);
@@ -101,9 +101,11 @@ fcModel.HtmlElementProto =
 
         this.proto.addProperty.call(this, "childNodes", this.globalObject.internalExecutor.createArray(codeConstruct, childNodes), codeConstruct);
         this.proto.addProperty.call(this, "children", this.globalObject.internalExecutor.createArray(codeConstruct, children), codeConstruct);
+        this.proto.addProperty.call(this, "body", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.body, this.globalObject, codeConstruct));
         this.proto.addProperty.call(this, "firstChild", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.firstChild, this.globalObject, codeConstruct));
         this.proto.addProperty.call(this, "lastChild", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.lastChild, this.globalObject, codeConstruct));
         this.proto.addProperty.call(this, "parentNode", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.parentNode, this.globalObject, codeConstruct));
+        this.proto.addProperty.call(this, "nextSibling", fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement.nextSibling, this.globalObject, codeConstruct));
         this.proto.addProperty.call(this, "innerHTML", new fcModel.JsValue(this.htmlElement.innerHTML, new fcModel.FcInternal(codeConstruct)), codeConstruct);
     },
 
@@ -196,11 +198,37 @@ fcModel.HtmlElementProto =
         catch(e) { fcModel.HtmlElement.notifyError("Error when adding primitive properties: " + e); }
     },
 
+    getHtmlPropertyValue: function(propertyName, codeConstruct)
+    {
+        if(propertyName == "childNodes")
+        {
+            var childNodes = this.getChildNodes(codeConstruct);
+            this.proto.addProperty.call(this, "childNodes", this.globalObject.internalExecutor.createArray(codeConstruct, childNodes), codeConstruct);
+        }
+        else if(propertyName == "children")
+        {
+            var children = this.getChildren(this.getChildNodes(codeConstruct));
+            this.proto.addProperty.call(this, "children", this.globalObject.internalExecutor.createArray(codeConstruct, children), codeConstruct);
+        }
+        else if (propertyName == "body" || propertyName == "firstChild"
+              || propertyName == "parentNode" || propertyName == "lastChild"
+              || propertyName == "nextSibling" || propertyName == "previousSibling")
+        {
+            this.proto.addProperty.call(this, propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, codeConstruct));
+        }
+        else if(propertyName == "innerHTML")
+        {
+            this.proto.addProperty.call(this, "innerHTML", new fcModel.JsValue(this.htmlElement.innerHTML, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+        }
+
+        return this.getPropertyValue(propertyName, codeConstruct);
+    },
+
     addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
     {
         try
         {
-            if(propertyName == "innerHTML") { this.setChildRelatedProperties(codeConstruct); }
+            if(propertyName == "innerHTML") { /*this.setChildRelatedProperties(codeConstruct); */}
             else if(propertyName == "onclick")
             {
                 this.globalObject.registerHtmlElementEventHandler
@@ -338,7 +366,7 @@ fcModel.HtmlElementExecutor =
             case "removeChild":
             case "insertBefore":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                fcThisValue.setChildRelatedProperties(callExpression);
+                /*fcThisValue.setChildRelatedProperties(callExpression);*/
                 for(var i = 0; i < arguments.length; i++)
                 {
                     if(arguments[i].fcInternal.object != null) //Because of comments
@@ -398,15 +426,12 @@ fcModel.HtmlElementExecutor =
 
            if(ValueTypeHelper.isOfType(item, HTMLElement) || ValueTypeHelper.isOfType(item, DocumentFragment))
            {
-               return new fcModel.JsValue
-               (
-                   item,
-                   new fcModel.FcInternal
-                   (
-                       codeConstruct,
-                       globalObject.document.htmlElementToFcMapping[item.fcHtmlElementId] || new fcModel.HtmlElement(item, globalObject, codeConstruct)
-                   )
-               );
+               var fcHtmlElement = globalObject.document.htmlElementToFcMapping[item.fcHtmlElementId];
+
+               if(fcHtmlElement != null) { /*fcHtmlElement.setChildRelatedProperties(codeConstruct);*/ }
+               else { fcHtmlElement = new fcModel.HtmlElement(item, globalObject, codeConstruct); }
+
+               return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, fcHtmlElement));
            }
            else
            {

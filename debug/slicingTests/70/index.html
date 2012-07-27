@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+
+    function obj(a,b)
+    {
+        if(!(this instanceof obj))
+        {
+            return new obj(a,b);
+        }
+
+        this.a = a;
+        this.b = b;
+    };
+
+    obj.prototype =
+    {
+        c: 3
+    };
+
+    var a = new obj(3,4);
+    var b = obj(4,5);
+
+    var a1 = a.a;
+    var a2 = b.a;
+
+    a1; a2;
+</script>
+</body>
+</html>

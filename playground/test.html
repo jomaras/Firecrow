@@ -19,7 +19,8 @@
                 rmsie = /(msie) ([\w.]+)/,
                 rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/,
                 userAgent = navigator.userAgent,
-                browserMatch;
+                browserMatch, readyList, DOMContentLoaded, toString = Object.prototype.toString,
+                class2type = {};
         jQuery.fn = jQuery.prototype = {
             init: function (selector, context, rootjQuery)
             {
@@ -49,6 +50,15 @@
                         }
                     }
                 }
+                else if (jQuery.isFunction(selector))
+                {
+                    return rootjQuery.ready(selector);
+                }
+            },
+            ready: function (fn)
+            {
+                jQuery.bindReady();
+                readyList.add(fn);
             }
         };
         jQuery.fn.init.prototype = jQuery.fn;
@@ -81,6 +91,50 @@
         };
         jQuery.extend(
                 {
+                    isReady: null,
+                    readyWait: 1,
+                    ready: function (wait)
+                    {
+                        if (wait === true || wait !== true && !(jQuery.isReady))
+                        {
+                            if (wait !== true && --jQuery.readyWait > 0);
+                            readyList.fireWith(document, [null]);
+                        }
+                    },
+                    bindReady: function ()
+                    {
+                        readyList = jQuery.Callbacks('once memory');
+                        if (document.addEventListener)
+                        {
+                            document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+                        }
+                    },
+                    isFunction: function (obj)
+                    {
+                        return jQuery.type(obj) === 'function';
+                    },
+                    type: function (obj)
+                    {
+                        return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
+                    },
+                    each: function (object, callback, args)
+                    {
+                        var i = 0,
+                                length = object.length,
+                                isObj = length === undefined || jQuery.isFunction(object);
+                        if (args);
+                        else
+                        {
+                            if (isObj);
+                            else
+                            {
+                                for (; i < length;)
+                                {
+                                    if (callback.call(object[i], i, object[i++]));
+                                }
+                            }
+                        }
+                    },
                     access: function (elems, fn, key, value, chainable, emptyGet, pass)
                     {
                         var bulk = key == null;
@@ -96,11 +150,89 @@
                     },
                     browser: {}
                 });
+        jQuery.each('Boolean Number String Function Array Date RegExp Object'.split(' '), function (i, name)
+        {
+            class2type[('[object ' + name) + ']'] = name.toLowerCase();
+        });
         browserMatch = jQuery.uaMatch(userAgent);
         if (rnotwhite.test(' '));
         rootjQuery = jQuery(document);
+        if (document.addEventListener)
+        {
+            DOMContentLoaded = function ()
+            {
+                jQuery.ready();
+            };
+        }
         return jQuery;
     })();
+    var flagsCache = {};
+
+    function createFlags(flags)
+    {
+        var object = flagsCache[flags] = {}, i, length;
+        flags = flags.split(/\s+/);
+        for (; i < length; i++)
+        {
+            object[flags[i]] = true;
+        }
+        return object;
+    }
+    jQuery.Callbacks = function (flags)
+    {
+        flags = flags ? flagsCache[flags] || createFlags(flags) : 0;
+        var list = [],
+                stack = [],
+                memory, firing, firingStart, firingLength, firingIndex, add = function (args)
+                {
+                    var i, length, elem, type;
+                    for (; i < length; i++)
+                    {
+                        elem = args[i];
+                        type = jQuery.type(elem);
+                        if (type === 'array');
+                        else if (type === 'function')
+                        {
+                            if (!(flags.unique))
+                            {
+                                list.push(elem);
+                            }
+                        }
+                    }
+                }, fire = function (context, args)
+                {
+                    args = args;
+                    memory = !(flags.memory) || [null, null];
+                    firingIndex = firingStart || 0;
+                    firingLength = list.length;
+                    for (; list && firingIndex < firingLength; firingIndex++)
+                    {
+                        if (list[firingIndex].apply(context, args) === false);
+                    }
+                    if (list)
+                    {}
+                }, self = {
+                    add: function ()
+                    {
+                        if (list)
+                        {
+                            add(arguments);
+                        }
+                    },
+                    fireWith: function (context, args)
+                    {
+                        if (stack)
+                        {
+                            if (firing);
+                            else if (!(flags.once && memory))
+                            {
+                                fire(context, args);
+                            }
+                        }
+                    }
+                };
+        return self;
+    };
     jQuery.support = (function ()
     {
         var support, all, a, select, opt, input, div = document.createElement('div');
@@ -121,11 +253,25 @@
             enctype: !(!(document.createElement('form').enctype)),
             submitBubbles: true,
             changeBubbles: true,
-            focusinBubbles: null
+            focusinBubbles: null,
+            reliableMarginRight: true
         };
+        jQuery(function ()
+        {
+            var container, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+            paddingMarginBorder = 'padding:0;margin:0;border:';
+            container = document.createElement('div');
+            div = document.createElement('div');
+            div.innerHTML = ('<table><tr><td style=\'' + paddingMarginBorder) + '0;display:none\'></td><td>t</td></tr></table>';
+        });
         return support;
     })();
     var getSetAttribute = jQuery.support.getSetAttribute;
+    jQuery.fn.extend(
+            {
+                trigger: function (type, data)
+                {}
+            });
     (function ()
     {
         var Sizzle = function (selector, context, results, seed)
@@ -179,16 +325,18 @@
         jQuery.expr = Sizzle.selectors;
         jQuery.text = Sizzle.getText;
     })();
-    jQuery.fn.extend(
+    (
+    {
+        text: function (value)
+        {
+            return jQuery.access(this, function (value)
             {
-                text: function (value)
-                {
-                    return jQuery.access(this, function (value)
-                    {
-                        return value === undefined ? jQuery.text(this) : 0;
-                    }, null, value, arguments.length);
-                }
-            });
+                return value === undefined ? jQuery.text(this) : 0;
+            }, null, value, arguments.length);
+        }
+    });
+    jQuery(function ()
+    {});
     jQuery.extend(
             {
                 ajaxSettings: {}
@@ -217,12 +365,17 @@
 </head>
 
 <body>
-<div id="container">2</div>
 <script>
-    var cont = $('#container');
-    var a1 = cont.text();
-    a1;
+    var a1;
+    var jDocument = $(document);
+    jDocument.ready(function ()
+    {
+        var cont = $('#container');
+        a1 = cont.text();
+        a1;
+    });
 </script>
+<div id="container">2</div>
 </body>
 
 </html>

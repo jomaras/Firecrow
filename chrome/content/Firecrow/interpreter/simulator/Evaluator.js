@@ -224,7 +224,7 @@ fcSimulator.Evaluator.prototype =
                     object.value[property.value] = finalValue;
                 }
 
-                if(property.value == "__proto__") { object.value[property.value] = finalValue.value;}
+                if(property.value == "__proto__" || property.value == "prototype") { object.value[property.value] = finalValue.value; }
 
                 object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
 
@@ -305,7 +305,7 @@ fcSimulator.Evaluator.prototype =
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(identifierConstruct.loc != null && (identifierConstruct.loc.start.line == 71))
+            if(identifierConstruct.loc != null && (identifierConstruct.loc.start.line == 14))
             {
                 var a = 3;
             }
@@ -518,6 +518,11 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
+            if(memberExpression.loc.start.line == 1625)
+            {
+                var a = 3;
+            }
+
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
@@ -527,7 +532,7 @@ fcSimulator.Evaluator.prototype =
             var propertyValue;
 
             if(object == this.globalObject) { propertyValue = this.globalObject.getPropertyValue(property.value); }
-            else if (ValueTypeHelper.isOfType(object.value, HTMLElement)) { propertyValue = object.fcInternal.object.getPropertyValue(property.value, memberExpression); }
+            else if (ValueTypeHelper.isOfType(object.value, HTMLElement)) { propertyValue = object.fcInternal.object.getHtmlPropertyValue(property.value, memberExpression); }
             else if (ValueTypeHelper.isOfType(object.value, DocumentFragment))
             {
                 if(object.fcInternal.object == this.globalObject.document)
@@ -536,7 +541,7 @@ fcSimulator.Evaluator.prototype =
                 }
                 else
                 {
-                    propertyValue = object.fcInternal.object.getPropertyValue(property.value, memberExpression);
+                    propertyValue = object.fcInternal.object.getHtmlPropertyValue(property.value, memberExpression);
                 }
             }
             else { propertyValue = object.value[property.value]; }
