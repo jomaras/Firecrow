@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+
+    var a = { a: 3};
+    var extender = {
+        a: 3,
+        extend: function(sourceObj, extendWithObj)
+        {
+            if(arguments.length == 1)
+            {
+                extendWithObj = sourceObj;
+                sourceObj = this;
+            }
+
+            for(var prop in extendWithObj)
+            {
+                sourceObj[prop] = extendWithObj[prop];
+            }
+        }
+    };
+
+    var b = {
+        b: function()
+        {
+            return this.a;
+        }
+    };
+
+    extender.extend(b);
+
+    window.onload = function()
+    {
+        var a1 = extender.b();
+        a1;
+    };
+</script>
+</body>
+</html>

@@ -224,7 +224,10 @@ fcSimulator.Evaluator.prototype =
                     object.value[property.value] = finalValue;
                 }
 
-                if(property.value == "__proto__" || property.value == "prototype") { object.value[property.value] = finalValue.value; }
+                if(property.value == "__proto__" || property.value == "prototype")
+                {
+                    object.value[property.value] = finalValue.value;
+                }
 
                 object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
 
@@ -517,11 +520,6 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalMemberExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { this.notifyError(evalMemberExpressionCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
-
-            if(memberExpression.loc.start.line == 1625)
-            {
-                var a = 3;
-            }
 
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 

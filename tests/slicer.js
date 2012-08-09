@@ -14,6 +14,8 @@ HtmlModelMapping.models.forEach(function(htmlModel, index)
         var Browser = Firecrow.DoppelBrowser.Browser;
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
 
+        testObject.currentUrl = htmlModel.url;
+
         Firecrow.Slicer.slice(htmlModel.model, htmlModel.results.map(function(result)
         {
             for(var propName in result)

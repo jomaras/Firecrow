@@ -531,7 +531,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             if(enterFunctionContextCommand.callee == null) { this.notifyError("When processing enter function context the callee can not be null!"); return; }
 
             var functionConstruct = enterFunctionContextCommand.callee.fcInternal.codeConstruct;
-
             var formalParameters = this._getFormalParameters(functionConstruct);
 
             var sentArgumentsValues = null;

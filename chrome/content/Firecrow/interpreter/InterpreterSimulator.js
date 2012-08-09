@@ -46,11 +46,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
 
-                if(command.executionId % 5000 == 0)
-                {
-                    alert("ExCommand@" + command.getLineNo() + "-" + command.executionId + ":" + command.type);
-                }
-
                 this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + "-" + command.executionId + ":" + command.type);
             }
         }

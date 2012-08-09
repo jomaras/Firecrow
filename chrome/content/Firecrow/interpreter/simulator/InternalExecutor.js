@@ -30,7 +30,11 @@ fcSimulator.InternalExecutor.prototype =
             {
                 newObject = {};
 
-                return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)));
+                var jsValue = new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)));
+
+                Object.defineProperty(newObject, "jsValue", {value:jsValue});
+
+                return jsValue;
             }
             else if(ValueTypeHelper.isOfType(constructorFunction.value, Function))
             {
@@ -60,7 +64,11 @@ fcSimulator.InternalExecutor.prototype =
                     );
                 }
 
-                return new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject, constructorFunction.value.prototype)));
+                var jsValue = new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject, constructorFunction.value.prototype)));
+
+                Object.defineProperty(newObject, "jsValue", {value:jsValue});
+
+                return jsValue;
             }
             else if (constructorFunction != null && constructorFunction.value.isInternalFunction)
             {
