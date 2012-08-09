@@ -24,15 +24,13 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(this.persistedState.isAnalysisScheduled)
+                if(this.persistedState.isRecordingScheduled)
                 {
                     fbHelper.setButtonText("profileButton", "Stop Profiling");
+                    fbHelper.setButtonText("recordButton", "Stop Recording");
+
                     this.startRecording(this.persistedState.scripts);
-                    this.persistedState.isAnalysisScheduled = false;
-                }
-                else
-                {
-                    fbHelper.setButtonText("fiButton", "Record");
+                    this.persistedState.isRecordingScheduled = false;
                 }
             }
             catch(e) { alert("Init context error " + e); }
@@ -42,9 +40,9 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(this.persistedState.isAnalysisScheduled)
+                if(this.persistedState.isRecordingScheduled)
                 {
-                    this.persistedState.isAnalysisScheduled = false;
+                    this.persistedState.isRecordingScheduled = false;
                 }
 
                 fbHelper.asyncSetPluginInstallLocation("Firecrow@fesb.hr");
@@ -55,10 +53,20 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                if(this.persistedState.isAnalyzing) { this.stopRecording(); }
+                if(this.persistedState.isRecording) { this.stopRecording(); }
+                else { this.scheduleRecording(true); }
+            }
+            catch(e) { alert("Error when pressing Profiling button:" + e); }
+        },
+
+        onFirecrowRecordPress: function()
+        {
+            try
+            {
+                if(this.persistedState.isRecording) { this.stopRecording(); }
                 else { this.scheduleRecording(); }
             }
-            catch(e) { alert("Error when pressing Profiling button:" + e);; }
+            catch(e) { alert("Error when pressing Trace button:" + e); }
         },
 
         testSubdirectories: [],
@@ -268,11 +276,12 @@ FBL.ns(function() { with (FBL) {
             }, this);
         },
 
-        scheduleRecording: function()
+        scheduleRecording: function(recordOnlyEventHandlerEntries)
         {
             try
             {
-                this.persistedState.isAnalysisScheduled = true;
+                this.persistedState.isRecordingScheduled = true;
+                this.recordOnlyEventHandlerEntries = !!recordOnlyEventHandlerEntries;
                 this.persistedState.scripts = fbHelper.getScriptsPathsAndModels();
                 this.persistedState.elementToTrackXPath = "/html/body";
                 fbHelper.reloadPage();
@@ -285,9 +294,9 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 this.jsRecorder = new JsRecorder();
-                this.persistedState.isAnalyzing = true;
-                //this.jsRecorder.startProfiling(scriptsToTrack);
-                this.jsRecorder.start(scriptsToTrack);
+                this.persistedState.isRecording = true;
+                if(this.recordOnlyEventHandlerEntries) { this.jsRecorder.start(scriptsToTrack); }
+                else { this.jsRecorder.startProfiling(scriptsToTrack); }
             }
             catch(e){ alert("Recording js execution error: " + e); }
         },
@@ -296,27 +305,37 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                this.persistedState.isAnalyzing = false;
+                this.persistedState.isRecording = false;
                 this.jsRecorder.stop();
 
                 fbHelper.setButtonText("profileButton", "Profile");
+                fbHelper.setButtonText("recordButton", "Record");
 
-                this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(window, htmlJson)
+                if(this.recordOnlyEventHandlerEntries)
                 {
-                    try
+                    this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(window, htmlJson)
                     {
-                        htmlJson.eventTraces = this.jsRecorder.getEventTrace();
-                        prompt("JSON", JSON.stringify(htmlJson, function(key, value)
+                        try
                         {
-                            if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+                            htmlJson.eventTraces = this.jsRecorder.getEventTrace();
+                            prompt("JSON", JSON.stringify(htmlJson, function(key, value)
                             {
-                                return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
-                            }
-                            return value;
-                        }));
-                    }
-                    catch(e) { alert("Error when converting to JSON model:" + e)};
-                }, this);
+                                if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+                                {
+                                    return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
+                                }
+                                return value;
+                            }));
+                        }
+                        catch(e) { alert("Error when converting to JSON model:" + e)};
+                    }, this);
+                }
+                else
+                {
+                    FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-executionTrace.txt", JSON.stringify(this.jsRecorder.getEventTrace()));
+                }
+
+                this.recordOnlyEventHandlerEntries = false;
             }
             catch(e) { alert("Stopping analysis error:" + e); }
         },

@@ -61,6 +61,7 @@
   <script src="chrome://Firecrow/content/Firecrow.js" type="application/x-javascript"/>
   
   <commandset id="mainCommandSet">
+    <command id="cmd_FirecrowRecordPress" oncommand="Firebug.FirecrowModule.onFirecrowRecordPress()"/>
     <command id="cmd_FirecrowProfilePress" oncommand="Firebug.FirecrowModule.onFirecrowProfilePress()"/>
     <command id="cmd_FirecrowASTButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowASTButtonPress()"/>
     <command id="cmd_FirecrowSliceButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowSliceButtonPress()"/>
@@ -71,7 +72,7 @@
   <toolbar id="fbToolbar" align="center">
     <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center">
        <hbox id="fbHTMLButtons" collapsed="false">
-         <toolbarbutton id="fiButton" class="toolbar-text-button" label="Record" tooltiptext="Start execution recording process" command="cmd_FirecrowButtonPress"/>
+         <toolbarbutton id="recordButton" class="toolbar-text-button" label="Record" tooltiptext="Start execution recording process" command="cmd_FirecrowRecordPress"/>
          <toolbarbutton id="profileButton" class="toolbar-text-button" label="Profile" tooltiptext="Start profiling process" command="cmd_FirecrowProfilePress"/>
          <toolbarbutton id="modelButton" class="toolbar-text-button" label="AST" tooltiptext="Get page AST model" command="cmd_FirecrowASTButtonPress"/>
          <toolbarbutton id="sliceButton" class="toolbar-text-button" label="Slice" tooltiptext="Slice page" command="cmd_FirecrowSliceButtonPress"/>
