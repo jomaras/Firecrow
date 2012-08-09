@@ -114,6 +114,15 @@
             }
         });
 
+        if(htmlModel.model.trackedElementsSelectors != null)
+        {
+            htmlModel.model.trackedElementsSelectors.forEach(function(selector)
+            {
+                slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
+            });
+        }
+
+
         setTitle(url);
 
         var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);

@@ -25,7 +25,15 @@ Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion = functi
     criterion.identifierName = identifierName;
 
     return criterion;
-}
+};
 
+Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion = function(cssSelector)
+{
+    var criterion = new Firecrow.DependencyGraph.SlicingCriterion(Firecrow.DependencyGraph.SlicingCriterion.TYPES.DOM_MODIFICATION);
+
+    criterion.cssSelector = cssSelector;
+
+    return criterion;
+};
 /*************************************************************************************/
 }});

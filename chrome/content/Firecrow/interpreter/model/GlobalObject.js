@@ -75,12 +75,14 @@ fcModel.GlobalObject = function(browser, documentFragment)
         }, this);
 
         this.identifierSlicingCriteria = [];
+        this.domModificationSlicingCriteria = [];
 
         this.registerSlicingCriteria = function(slicingCriteria)
         {
             if(slicingCriteria == null) { return; }
 
             this.identifierSlicingCriteria = [];
+            this.domModificationSlicingCriteria = [];
 
             for(var i = 0; i < slicingCriteria.length; i++)
             {
@@ -90,7 +92,38 @@ fcModel.GlobalObject = function(browser, documentFragment)
                 {
                     this.identifierSlicingCriteria.push(criterion);
                 }
+                else if (criterion.type == Firecrow.DependencyGraph.SlicingCriterion.TYPES.DOM_MODIFICATION)
+                {
+                    this.domModificationSlicingCriteria.push(criterion);
+                }
             }
+        };
+
+        this.checkIfSatisfiesDomSlicingCriteria = function(htmlElement)
+        {
+            try
+            {
+                if(htmlElement == null) { return false; }
+                if(this.domModificationSlicingCriteria.length == 0) { return false; }
+
+                for(var i = 0; i < this.domModificationSlicingCriteria.length; i++)
+                {
+                    var element = htmlElement;
+
+                    while(element != null)
+                    {
+                        if(this.browser.matchesSelector(element, this.domModificationSlicingCriteria[i].cssSelector))
+                        {
+                            return true;
+                        }
+
+                        element = element.parentElement;
+                    }
+                }
+            }
+            catch(e) { fcModel.GlobalObject.notifyError("Global object error when checking if satisfies dom slicing: " + e);}
+
+            return false;
         };
 
         this.checkIfSatisfiesIdentifierSlicingCriteria = function(codeConstruct)
@@ -111,7 +144,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
             }
 
             return false;
-        }
+        };
 
         this.evaluationPositionId = "root";
         this.getPreciseEvaluationPositionId = function()

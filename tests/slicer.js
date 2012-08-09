@@ -16,13 +16,23 @@ HtmlModelMapping.models.forEach(function(htmlModel, index)
 
         testObject.currentUrl = htmlModel.url;
 
-        Firecrow.Slicer.slice(htmlModel.model, htmlModel.results.map(function(result)
+        var slicingCriteria = htmlModel.results.map(function(result)
         {
             for(var propName in result)
             {
                 return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(htmlModel.url, -1, propName);
             }
-        }));
+        });
+
+        if(htmlModel.model.trackedElementsSelectors != null)
+        {
+            htmlModel.model.trackedElementsSelectors.forEach(function(selector)
+            {
+                slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
+            });
+        }
+
+        Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
 
         assertEquals(Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model), atob(htmlModel.slicingResult));
     };

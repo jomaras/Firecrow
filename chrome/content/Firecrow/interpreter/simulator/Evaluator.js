@@ -308,11 +308,6 @@ fcSimulator.Evaluator.prototype =
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(identifierConstruct.loc != null && (identifierConstruct.loc.start.line == 14))
-            {
-                var a = 3;
-            }
-
             var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
             var identifierValue = identifier != null ? identifier.value : null;
 
@@ -711,10 +706,6 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalForInWhereCommand, Firecrow.Interpreter.Commands.Command) || !evalForInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(evalForInWhereCommand, "Argument has to be an eval for in where command!"); return; }
 
             var forInWhereConstruct = evalForInWhereCommand.codeConstruct;
-            if(forInWhereConstruct.loc.start.line == 5178)
-            {
-                var a = 3;
-            }
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);

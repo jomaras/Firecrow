@@ -41,6 +41,8 @@ Firecrow.DoppelBrowser.Browser = function(pageModel)
         this.errorMessages = [];
         this.cssRules = [];
 
+        this._matchesSelector = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector;
+
         if(!Firecrow.IsDebugMode)
         {
             var errorMessages = this.errorMessages
@@ -221,18 +223,18 @@ Browser.prototype =
         {
            var cssRule = cssRules[i];
 
-            if(this._matchesSelector(htmlModelNode.domElement, cssRule.selector))
+            if(this.matchesSelector(htmlModelNode.domElement, cssRule.selector))
            {
                 this.callDataDependencyEstablishedCallbacks(htmlModelNode, cssRule, this.globalObject.getPreciseEvaluationPositionId());
            }
         }
     },
 
-    _matchesSelector: function(htmlElement, selector)
+    matchesSelector: function(htmlElement, selector)
     {
-        var matchesSelector = htmlElement.matchesSelector || htmlElement.mozMatchesSelector || htmlElement.webkitMatchesSelector;
+        if(this._matchesSelector == null) { return false; }
 
-        return matchesSelector.call(htmlElement, selector);
+        return this._matchesSelector.call(htmlElement, selector);
     },
 
     _buildJavaScriptNodes: function(scriptHtmlElementModelNode)

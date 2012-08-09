@@ -8,11 +8,12 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcModel.Attr = function(attr, globalObject, codeConstruct)
+fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
 {
     try
     {
         this.globalObject = globalObject;
+        this.htmlElement = htmlElement;
         this.attr = attr;
 
         this.__proto__ = new fcModel.Object(this.globalObject);
@@ -28,9 +29,17 @@ fcModel.Attr = function(attr, globalObject, codeConstruct)
         this.addProperty("textContent", new fcModel.JsValue(this.attr.textContent, new fcModel.FcInternal(null)), null);
         this.addProperty("value", new fcModel.JsValue(this.attr.value, new fcModel.FcInternal(null)), null);
 
+        this.registerAddPropertyCallback(function(propertyName, propertyValue, codeConstruct)
+        {
+            fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
+        }, this);
+
         this.notifyError = function(message) { alert("Attr - " + message); }
     }
-    catch(e) { this.notifyError("Error when creating HtmlElement object: " + e); }
+    catch(e)
+    {
+        Firecrow.Interpreter.Model.Attr.notifyError("Error when creating HtmlElement object: " + e);
+    }
 };
 Firecrow.Interpreter.Model.Attr.notifyError = function(message) { alert("Attr - " + message); }
 
@@ -58,7 +67,7 @@ fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConst
                         new fcModel.FcInternal
                         (
                             codeConstruct,
-                            new fcModel.Attr(attribute, globalObject, codeConstruct)
+                            new fcModel.Attr(attribute, htmlElement, globalObject, codeConstruct)
                         )
                     )
                 );
@@ -67,7 +76,10 @@ fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConst
 
         return globalObject.internalExecutor.createArray(codeConstruct, attributeList);
     }
-    catch(e) { Firecrow.Interpreter.Model.Attr.notifyError("Attr - error when creating attribute list:" + e); }
+    catch(e)
+    {
+        Firecrow.Interpreter.Model.Attr.notifyError("Attr - error when creating attribute list:" + e);
+    }
 };
 
 //https://developer.mozilla.org/en/DOM/element

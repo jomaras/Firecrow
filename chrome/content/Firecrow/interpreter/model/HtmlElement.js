@@ -243,6 +243,8 @@ fcModel.HtmlElementProto =
                 );
             }
 
+            fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
+
             this.htmlElement.attributeModificationPoints.push({ codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
 
             this.proto.addProperty.call(this, propertyName, propertyValue, codeConstruct, isEnumerable);
@@ -331,6 +333,14 @@ fcModel.HtmlElement.CONST =
 
 fcModel.HtmlElementExecutor =
 {
+    addDependencyIfImportantElement: function(htmlElement, globalObject, codeConstruct)
+    {
+        if(globalObject.checkIfSatisfiesDomSlicingCriteria(htmlElement))
+        {
+            globalObject.browser.callImportantConstructReachedCallbacks(codeConstruct);
+        }
+    },
+
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
         if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing string method!"); return; }
@@ -361,11 +371,13 @@ fcModel.HtmlElementExecutor =
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
             case "setAttribute":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
                 return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression, null));
             case "appendChild":
             case "removeChild":
             case "insertBefore":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
                 /*fcThisValue.setChildRelatedProperties(callExpression);*/
                 for(var i = 0; i < arguments.length; i++)
                 {
@@ -379,6 +391,7 @@ fcModel.HtmlElementExecutor =
                 var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 return this.wrapToFcElement(clonedNode, globalObject, callExpression);
             case "addEventListener":
+                fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
                 globalObject.registerHtmlElementEventHandler
                 (
                     fcThisValue,
@@ -494,10 +507,9 @@ fcModel.HtmlElementExecutor =
                 }
             }
         }
-        catch(e) { fcModel.HtmlElement.notifyError("Error when adding dependencies: " + e);}
+        catch(e) { fcModel.HtmlElement.notifyError("Error when adding dependencies: " + e); }
     },
 
-
-    notifyError: function(message) { alert("HtmlElementExecutor - " + message);}
+    notifyError: function(message) { alert("HtmlElementExecutor - " + message); }
 }
 }});

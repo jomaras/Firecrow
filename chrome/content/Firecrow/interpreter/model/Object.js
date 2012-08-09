@@ -110,6 +110,11 @@ fcModel.Object.prototype =
         this.getPropertyCallbackDescriptor = { callback: callback, thisValue: thisValue};
     },
 
+    registerAddPropertyCallback: function(callback, thisValue)
+    {
+        this.addPropertyCallbackDescriptor = { callback: callback, thisValue: thisValue};
+    },
+
     addModification: function(codeConstruct, evaluationPositionId)
     {
         try
@@ -166,6 +171,17 @@ fcModel.Object.prototype =
             if(codeConstruct != null)
             {
                 this.addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+            }
+
+            if(this.addPropertyCallbackDescriptor != null)
+            {
+                this.addPropertyCallbackDescriptor.callback.call
+                (
+                    this.addPropertyCallbackDescriptor.thisValue || this,
+                    propertyName,
+                    propertyValue,
+                    codeConstruct
+                );
             }
         }
         catch(e)

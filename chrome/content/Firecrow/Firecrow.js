@@ -171,6 +171,14 @@ FBL.ns(function() { with (FBL) {
                     return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(currentPageLocation, -1, slicingVar.name);
                 });
 
+                if(model.trackedElementsSelectors != null)
+                {
+                    model.trackedElementsSelectors.forEach(function(selector)
+                    {
+                        slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
+                    });
+                }
+
                 var browser = Firecrow.Slicer.slice(model, slicingCriteria);
 
                 var slicedPageLocation = currentPageLocation.substring(currentPageLocation.lastIndexOf("/") + 1, currentPageLocation.length);
@@ -283,7 +291,6 @@ FBL.ns(function() { with (FBL) {
                 this.persistedState.isRecordingScheduled = true;
                 this.recordOnlyEventHandlerEntries = !!recordOnlyEventHandlerEntries;
                 this.persistedState.scripts = fbHelper.getScriptsPathsAndModels();
-                this.persistedState.elementToTrackXPath = "/html/body";
                 fbHelper.reloadPage();
             }
             catch(e) { alert("Scheduling recording error: " + e); }
@@ -318,6 +325,7 @@ FBL.ns(function() { with (FBL) {
                         try
                         {
                             htmlJson.eventTraces = this.jsRecorder.getEventTrace();
+                            htmlJson.trackedElementsSelectors = [];
                             prompt("JSON", JSON.stringify(htmlJson, function(key, value)
                             {
                                 if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")

@@ -29,6 +29,11 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
 
             this.addProperty(propertyName, cssStyleDeclaration[propertyName], codeConstruct, true);
         }
+
+        this.registerAddPropertyCallback(function(propertyName, propertyValue, codeConstruct)
+        {
+            fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
+        }, this);
     }
     catch(e) { this.notifyError("Error when creating Document object: " + e); }
 };

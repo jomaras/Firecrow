@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .testClass { color: green; }
+        #container { height: 100px; width: 100px; background-color: red;}
+    </style>
+</head>
+<body>
+<h2 class="testClass">Title</h2>
+<div id="container">1</div>
+<script type ="text/javascript">
+    window.onload = function()
+    {
+        var cont = document.getElementById("container");
+        cont.textContent = 2;
+    }
+</script>
+</body>
+</html>
