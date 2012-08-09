@@ -985,8 +985,9 @@ fcSimulator.Evaluator.prototype =
             var thisObject = callInternalFunctionCommand.thisObject;
             var args = [];
             var arguments = callExpression.arguments || [];
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, callExpression.callee, this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, callExpression.callee, evaluationPosition);
 
             if(callInternalFunctionCommand.isCall || callInternalFunctionCommand.isApply)
             {
@@ -997,7 +998,7 @@ fcSimulator.Evaluator.prototype =
                     for(var i = 1, length = arguments.length; i < length; i++)
                     {
                         var argument = arguments[i];
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, this.globalObject.getPreciseEvaluationPositionId());
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, evaluationPosition);
                         args.push(this.executionContextStack.getExpressionValue(argument));
                     }
                 }
@@ -1021,7 +1022,8 @@ fcSimulator.Evaluator.prototype =
                 for(var i = 0, length = arguments.length; i < length; i++)
                 {
                     var argument = arguments[i];
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, this.globalObject.getPreciseEvaluationPositionId());
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, evaluationPosition);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(argument, callExpression, evaluationPosition);
                     args.push(this.executionContextStack.getExpressionValue(argument));
                 }
             }
@@ -1049,7 +1051,16 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
+            var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
+            var callExpression = parentInitCallbackCommand.codeConstruct;
+            var arguments = callExpression.arguments;
 
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+            for(var i = 0; i < arguments.length; i++)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(arguments[i], callExpression, evaluationPosition);
+            }
         }
         catch(e) { this.notifyError(evalCallbackFunctionCommand, "Error has occurred when evaluating callback function command"); }
     },

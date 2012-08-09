@@ -583,8 +583,19 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
             if(callExpressionCommand == null) { return; }
+
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+            for(var i = 0; i < arguments.length; i++)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    arguments[i],
+                    callExpressionCommand.codeConstruct,
+                    evaluationPosition
+                );
+            }
 
             if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
             {

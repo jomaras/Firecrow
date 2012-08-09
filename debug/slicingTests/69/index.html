@@ -3,13 +3,17 @@
 <body>
 <script>
 
-    var a = "Boolean Number String Function Array Date RegExp Object".split(" ");
+    var a = "Boolean Number String".split(" ");
+    var a1 = "";
     var class2type = {};
 
     a.forEach(function(name, index)
     {
         class2type[ "[object " + name + "]" ] = name.toLowerCase();
+        a1 += name.toLowerCase();
     });
+
+    a1;
 </script>
 </body>
 </html>
