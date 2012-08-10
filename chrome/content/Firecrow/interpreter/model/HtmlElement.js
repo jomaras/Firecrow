@@ -220,6 +220,11 @@ fcModel.HtmlElementProto =
         {
             this.proto.addProperty.call(this, "innerHTML", new fcModel.JsValue(this.htmlElement.innerHTML, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         }
+        else if(propertyName == "offsetHeight" || propertyName == "offsetWidth")
+        {
+            //TODO: HUGE HACK
+            return new fcModel.JsValue(10, new fcModel.FcInternal());
+        }
 
         return this.getPropertyValue(propertyName, codeConstruct);
     },
@@ -408,9 +413,14 @@ fcModel.HtmlElementExecutor =
             case "matchesSelector":
             case "mozMatchesSelector":
             case "webkitMatchesSelector":
+            case "compareDocumentPosition":
                 var result = false;
-                try { result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments); }
+                try
+                {
+                    result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                }
                 catch(e) {}
+
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;

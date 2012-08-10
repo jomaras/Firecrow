@@ -398,6 +398,8 @@ Firecrow.CodeTextGenerator.prototype =
 
             if(code == "") { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
 
+            code = code.replace(/(\n(\r)?)+$/g, "\n\r");
+
             return this._LEFT_GULL_WING + this.newLine + code + this.whitespace + this._RIGHT_GULL_WING;
         }
         catch(e) { this.notifyError("Error when generating from block statement:" + e);}
@@ -554,7 +556,9 @@ Firecrow.CodeTextGenerator.prototype =
             if(consequentCode == "") { consequentCode = "0"; }
             if(alternateCode == "") { alternateCode = "0";}
 
-            var shouldBeSurroundedWithParenthesis = ASTHelper.isBinaryExpression(conditionalExpression.parent) || ASTHelper.isLogicalExpression(conditionalExpression.parent);
+            var shouldBeSurroundedWithParenthesis = ASTHelper.isBinaryExpression(conditionalExpression.parent)
+                                                 || ASTHelper.isLogicalExpression(conditionalExpression.parent)
+                                                 || ASTHelper.isCallExpressionCallee(conditionalExpression);
 
             var code =  testCode + " " + this._QUESTION_MARK + " " + consequentCode
                                  + " " + this._COLON + " " + alternateCode;
@@ -657,7 +661,10 @@ Firecrow.CodeTextGenerator.prototype =
 
                 if(this.isSlicing && !property.shouldBeIncluded) { continue; }
 
-                if(generatedProperties != 0) { code += ", " + (containsOnlySimpleProperties ? "" : this.newLine + this.whitespace); }
+                if(generatedProperties != 0)
+                {
+                    code += ", " + (containsOnlySimpleProperties ? "" : this.newLine + this.whitespace);
+                }
 
                 code += this.generateFromObjectExpressionProperty(property);
 
@@ -665,7 +672,7 @@ Firecrow.CodeTextGenerator.prototype =
                 generatedProperties++;
             }
 
-            if(lastGeneratedProperty != null && ASTHelper.isFunctionExpression(lastGeneratedProperty.value))
+            if(lastGeneratedProperty != null && !containsOnlySimpleProperties) //&& ASTHelper.isFunctionExpression(lastGeneratedProperty.value))
             {
                 code += this.newLine;
             }
@@ -694,13 +701,12 @@ Firecrow.CodeTextGenerator.prototype =
             if (property.kind == "init")
             {
                 code += this.generateJsCode(property.key);
+                var valueCode = this.generateJsCode(property.value) || "null";
                 if(this.isSlicing && !property.shouldBeIncluded) {}
                 else
                 {
-                    code += this._COLON + " " + (this.generateJsCode(property.value) || "null");
+                    code += this._COLON + " " + valueCode;
                 }
-
-                if(ASTHelper.isObjectExpression(property.value)){ code += this.newLine; }
             }
             else
             {
@@ -804,6 +810,7 @@ Firecrow.CodeTextGenerator.prototype =
             var doWhileTest = this.generateJsCode(doWhileStatement.test);
 
             if(doWhileBody == "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(doWhileStatement.test)) { return ""; }
+            if(doWhileTest == "") { doWhileTest = "false"; }
 
             doWhileBody = doWhileBody.length != 0 ? doWhileBody : this._SEMI_COLON;
 
@@ -970,7 +977,7 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            var code = this._TRY_KEYWORD + this.generateJsCode(tryStatement.block);
+            var code = this._TRY_KEYWORD + this.newLine + this.generateJsCode(tryStatement.block);
 
             // catch clauses
             for(var i = 0; i < tryStatement.handlers.length; i++)
@@ -1068,8 +1075,8 @@ Firecrow.CodeTextGenerator.prototype =
 
             catchClause.param.shouldBeIncluded = true;
 
-            return this._CATCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(catchClause.param) + this._RIGHT_PARENTHESIS
-                 + body;
+            return this.whitespace + this._CATCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(catchClause.param) + this._RIGHT_PARENTHESIS
+                 + (body != this._LEFT_GULL_WING + this._RIGHT_GULL_WING ? this.newLine : "" ) + body;
         }
         catch(e) { this.notifyError("Error when generating code from catch clause:" + e);}
     },
@@ -1090,7 +1097,7 @@ Firecrow.CodeTextGenerator.prototype =
             if(valueTypeHelper.isNull(literal.value)) { return "null"; }
             if (valueTypeHelper.isString(literal.value))
             {
-                return "'" + literal.value.replace(/\n/g, "\\n").replace(/'/g, "\\'") + "'";
+                return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace() + "'";
             }
             else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
             else if(valueTypeHelper.isObject(literal.value))

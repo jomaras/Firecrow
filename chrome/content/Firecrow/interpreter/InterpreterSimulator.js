@@ -44,6 +44,11 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 this.processCommand(command);
 
+                if(command.codeConstruct.loc != null && command.codeConstruct.loc.start.line >= 4175
+                && command.codeConstruct.loc.start.line <= 4263 && command.isEvalIdentifierCommand())
+                {
+                    console.log("ExCommand@" + command.getLineNo() + "-" + command.executionId + ":" + command.type);
+                }
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
 
                 this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + "-" + command.executionId + ":" + command.type);

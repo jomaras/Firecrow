@@ -496,11 +496,110 @@
             });
     (function ()
     {
+        var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g;
         var Sizzle = function (selector, context, results, seed)
-        {};
+        {
+            context = context;
+            var m, ret, parts = [],
+                    soFar = selector;
+            {
+                m = chunker.exec(soFar);
+                if (m)
+                {
+                    parts.push(m[1]);
+                }
+            }
+            if (parts.length > 1);
+            else
+            {
+                if (context)
+                {
+                    ret = seed ? {
+                        expr: parts.pop(),
+                        set: makeArray(seed)
+                    } : 0;
+                    true ? Sizzle.filter(ret.expr, ret.set) : 0;
+                }
+            }
+        };
+        Sizzle.filter = function (expr, set, inplace, not)
+        {
+            var match, type, item, filter, i, result = [],
+                    curLoop = set,
+                    isXMLFilter = set && set[0] && Sizzle.isXML(set[0]);
+            while (expr && set.length)
+            {
+                for (type in Expr.filter)
+                {
+                    if ((match = Expr.leftMatch[type].exec(expr)) != null && match[2])
+                    {
+                        filter = Expr.filter[type];
+                        match.splice(1, 1);
+                        if (Expr.preFilter[type])
+                        {
+                            match = Expr.preFilter[type](match, curLoop, inplace, result, not, isXMLFilter);
+                        }
+                        if (match)
+                        {
+                            for (i = 0;
+                                 (item = curLoop[i]) != null; i++)
+                            {
+                                if (item)
+                                {
+                                    filter(item, match, i, curLoop);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
         var Expr = Sizzle.selectors = {
-            match: {},
-            filters: {}
+            match: {
+                ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,
+                CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,
+                NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/,
+                ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/,
+                TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/,
+                CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/,
+                POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/,
+                PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/
+            },
+            leftMatch: {},
+            preFilter: {
+                PSEUDO: function (match, curLoop, inplace, result, not)
+                {
+                    if (match[1] === 'not');
+                    else if (Expr.match.POS.test(match[0]) || Expr.match.CHILD.test(match[0]));
+                    return match;
+                }
+            },
+            filters: {},
+            filter: {
+                PSEUDO: function (elem, match, i, array)
+                {
+                    var name = match[1],
+                            filter = Expr.filters[name];
+                    if (filter)
+                    {
+                        return filter(elem, i, match, array);
+                    }
+                }
+            }
+        };
+        var fescape = function (all, num)
+        {
+            return '\\' + ((num - 0) + 1);
+        };
+        for (var type in Expr.match)
+        {
+            Expr.match[type] = new RegExp(Expr.match[type].source + /(?![^\[]*\])(?![^\(]*\))/.source);
+            Expr.leftMatch[type] = new RegExp(/(^(?:.|\r|\n)*?)/.source + Expr.match[type].source.replace(/\\(\d+)/g, fescape));
+        }
+        var makeArray = function (array, results)
+        {
+            array = Array.prototype.slice.call(array, 0);
+            return array;
         };
         (function ()
         {
@@ -520,15 +619,51 @@
                 div.innerHTML = '<p class=\'TEST\'></p>';
                 if (div.querySelectorAll && div.querySelectorAll('.TEST').length === 0);
                 Sizzle = function (query, context, extra, seed)
-                {};
+                {
+                    context = context || document;
+                    return oldSizzle(query, context, extra, seed);
+                };
                 for (var prop in oldSizzle)
                 {
                     Sizzle[prop] = oldSizzle[prop];
                 }
             })();
         }
+        (function ()
+        {
+            var html = document.documentElement,
+                    matches = html.matchesSelector || html.mozMatchesSelector;
+            if (matches)
+            {
+                Sizzle.matchesSelector = function (node, expr)
+                {
+                    expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, '=\'$1\']');
+                    return Sizzle(expr, null, null, [node]).length;
+                };
+            }
+        })();
+        Sizzle.isXML = function (elem)
+        {
+            var documentElement = (elem ? elem.ownerDocument : 0).documentElement;
+            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
+        };
+        jQuery.find = Sizzle;
         jQuery.expr = Sizzle.selectors;
     })();
+    jQuery.fn.extend(
+            {
+                is: function (selector)
+                {
+                    return (true ? false ? 0 : jQuery.filter(selector, this).length : 0);
+                }
+            });
+    jQuery.extend(
+            {
+                filter: function (expr, elems, not)
+                {
+                    return true ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : 0 : 0;
+                }
+            });
     jQuery.fn.extend(
             {
                 text: function (value)
@@ -719,6 +854,13 @@
     curCSS = getComputedStyle;
     jQuery(function ()
     {});
+    if (jQuery.expr && jQuery.expr.filters)
+    {
+        jQuery.expr.filters.hidden = function (elem)
+        {
+            return jQuery.css(elem, 'display');
+        };
+    }
     jQuery.extend(
             {
                 ajaxSettings: {}
@@ -788,6 +930,7 @@
                     {
                         var opt = jQuery.extend(
                                         {}, optall),
+                                hidden = jQuery(this).is(':hidden'),
                                 name, val, p, e, method;
                         opt.animatedProperties = {};
                         for (p in prop)

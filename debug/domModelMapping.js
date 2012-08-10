@@ -265,5 +265,17 @@ HtmlModelMapping.push
     }
 );
 
+HtmlModelMapping.push
+(
+    {
+        url: "file:///C:/GitWebStorm/Firecrow/debug/domTests/24/index.html",
+        results: [],
+        model: {},
+        slicingResult: "PCFET0NUWVBFIGh0bWw+DQo8aHRtbD4NCiAgPGhlYWQ+DQogICAgPHN0eWxlPg0KICAgICAgI2NvbnRhaW5lciB7IGhlaWdodDogMTAwcHg7IHdpZHRoOiAxMDBweDsgYmFja2dyb3VuZC1jb2xvcjogcmVkOyB9DQogICAgPC9zdHlsZT4NCiAgPC9oZWFkPg0KICA8Ym9keT4NCiAgICA8ZGl2IGlkPSJjb250YWluZXIiPjE8L2Rpdj4NCiAgICA8c2NyaXB0IHR5cGU9InRleHQvamF2YXNjcmlwdCI+DQogICAgICB3aW5kb3cub25sb2FkID0gZnVuY3Rpb24gKCkNCiAgICAgIHsNCiAgICAgICAgdmFyIGNvbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29udGFpbmVyJyk7DQogICAgICAgIHZhciBmcmFnbWVudCA9IGRvY3VtZW50LmNyZWF0ZURvY3VtZW50RnJhZ21lbnQoKTsNCiAgICAgICAgdmFyIHRleHROb2RlID0gZG9jdW1lbnQuY3JlYXRlVGV4dE5vZGUoJ1Rlc3QnKTsNCiAgICAgICAgZnJhZ21lbnQuYXBwZW5kQ2hpbGQodGV4dE5vZGUpOw0KICAgICAgICBjb250LmFwcGVuZENoaWxkKGZyYWdtZW50LmZpcnN0Q2hpbGQpOw0KICAgICAgfTsNCiAgICA8L3NjcmlwdD4NCiAgPC9ib2R5Pg0KPC9odG1sPg0K"
+    }
+);
+
+
+
 
 

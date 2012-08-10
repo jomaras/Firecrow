@@ -3,8 +3,8 @@ FBL.ns(function () { with (FBL) {
 
 Firecrow.htmlHelper =
 {
-	serializeToHtmlJSON: function(htmlDocument, scriptPathsAndModels, stylesPathsAndModels)
-	{
+    serializeToHtmlJSON: function(htmlDocument, scriptPathsAndModels, stylesPathsAndModels)
+    {
         try
         {
             var serialized = { };
@@ -24,32 +24,32 @@ Firecrow.htmlHelper =
             return serialized;
         }
         catch(e) { alert("Error when serializing to HTML JSON:" + e);}
-	},
+    },
 
     _lastUsedId: 0,
 
-	getDocumentType: function(htmlDocument)
-	{
-		return htmlDocument.childNodes[0] instanceof DocumentType
-			?  htmlDocument.childNodes[0]
-			:  null;
-	},
+    getDocumentType: function(htmlDocument)
+    {
+        return htmlDocument.childNodes[0] instanceof DocumentType
+            ?  htmlDocument.childNodes[0]
+            :  null;
+    },
 
-	getHtmlElement: function(htmlDocument)
-	{
-		for(var i = 0; i < htmlDocument.childNodes.length; i++)
-		{
-			if(htmlDocument.childNodes[i] instanceof HTMLHtmlElement)
-			{
-				return htmlDocument.childNodes[i];
-			}
-		}
+    getHtmlElement: function(htmlDocument)
+    {
+        for(var i = 0; i < htmlDocument.childNodes.length; i++)
+        {
+            if(htmlDocument.childNodes[i] instanceof HTMLHtmlElement)
+            {
+                return htmlDocument.childNodes[i];
+            }
+        }
 
-		return null;
-	},
+        return null;
+    },
 
-	getSimplifiedElement: function(rootElement, scriptPathsAndModels, stylesPathsAndModels)
-	{
+    getSimplifiedElement: function(rootElement, scriptPathsAndModels, stylesPathsAndModels)
+    {
         try
         {
             var elem =
@@ -59,6 +59,7 @@ Firecrow.htmlHelper =
                 childNodes: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels),
                 nodeId: this._lastUsedId++
             };
+
             var that = this;
 
             if(rootElement instanceof Text
@@ -96,7 +97,7 @@ Firecrow.htmlHelper =
         {
             alert("helpers.htmlHelper: Error when getting simplified:" + e);
         }
-	},
+    },
 
     getTextNodesBeforeScriptElements: function()
     {
@@ -145,47 +146,47 @@ Firecrow.htmlHelper =
         return allNodes;
     },
 
-	getAttributes: function(element)
-	{
-		var attributes = [];
+    getAttributes: function(element)
+    {
+        var attributes = [];
 
-		try
-		{
-			if(element.attributes == null) { return attributes; }
+        try
+        {
+            if(element.attributes == null) { return attributes; }
 
-			for(var i = 0; i < element.attributes.length; i++)
-			{
-				var currentAttribute = element.attributes[i];
-				attributes.push
-				(
-					{
-						name: currentAttribute.name,
-						value: currentAttribute.nodeValue
-					}
-				);
-			}
-		}
-		catch(e) { alert("Attributes" + e);}
+            for(var i = 0; i < element.attributes.length; i++)
+            {
+                var currentAttribute = element.attributes[i];
+                attributes.push
+                (
+                    {
+                        name: currentAttribute.name,
+                        value: currentAttribute.nodeValue
+                    }
+                );
+            }
+        }
+        catch(e) { alert("Attributes" + e);}
 
-		return attributes;
-	},
+        return attributes;
+    },
 
-	getChildren: function(rootElement, scriptPathsAndModels, stylesPathsAndModels)
-	{
-		var allNodes = [];
+    getChildren: function(rootElement, scriptPathsAndModels, stylesPathsAndModels)
+    {
+        var allNodes = [];
 
-		if(rootElement.childNodes == null) { return allNodes;}
+        if(rootElement.childNodes == null) { return allNodes;}
 
-		try
-		{
-			for(var i = 0; i < rootElement.childNodes.length;i++)
-			{
-				allNodes.push(this.getSimplifiedElement(rootElement.childNodes[i], scriptPathsAndModels, stylesPathsAndModels));
-			}
-		}
-		catch(e) {alert("Children:" + e);}
+        try
+        {
+            for(var i = 0; i < rootElement.childNodes.length;i++)
+            {
+                allNodes.push(this.getSimplifiedElement(rootElement.childNodes[i], scriptPathsAndModels, stylesPathsAndModels));
+            }
+        }
+        catch(e) {alert("Children:" + e);}
 
-		return allNodes;
-	}
+        return allNodes;
+    }
 };
 }});

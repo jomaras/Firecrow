@@ -104,7 +104,6 @@ Browser.prototype =
             var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
 
             this._setAttributes(htmlDomElement, htmlModelElement);
-
             this._insertIntoDom(htmlDomElement, parentDomElement);
 
             if(htmlModelElement.type == "script" || htmlModelElement.type == "style")
@@ -140,6 +139,15 @@ Browser.prototype =
         {
             var attribute = attributes[i];
             htmlDomElement.setAttribute(attribute.name, attribute.value);
+        }
+
+        var calculatedProperties = htmlModelElement.calculatedProperties;
+
+        if(calculatedProperties == null) { return; }
+
+        for(var i = 0, length = attributes.length; i < length; i++)
+        {
+
         }
     },
 

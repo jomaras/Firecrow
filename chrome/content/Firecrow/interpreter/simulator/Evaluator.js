@@ -308,6 +308,11 @@ fcSimulator.Evaluator.prototype =
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
+            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 4692)
+            {
+                var a = 3;
+            }
+
             var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
             var identifierValue = identifier != null ? identifier.value : null;
 
@@ -361,6 +366,11 @@ fcSimulator.Evaluator.prototype =
             var binaryExpression = evalBinaryExpressionCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
+            if(binaryExpression.loc.start.line == 4216)
+            {
+                var a = 3;
+            }
+
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, evaluationPosition);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right, evaluationPosition);
 
@@ -413,6 +423,7 @@ fcSimulator.Evaluator.prototype =
             else if (operator == "%") { result = leftExpressionValue.value % rightExpressionValue.value; }
             else if (operator == "|") { result = leftExpressionValue.value | rightExpressionValue.value; }
             else if (operator == "^") { result = leftExpressionValue.value ^ rightExpressionValue.value; }
+            else if (operator == "&") { result = leftExpressionValue.value & rightExpressionValue.value; }
             else if (operator == "in") { result = leftExpressionValue.value in rightExpressionValue.value; }
             else if (operator == "instanceof")
             {
@@ -479,6 +490,12 @@ fcSimulator.Evaluator.prototype =
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
                 this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getReturnExpressionPreciseEvaluationPositionId());
 
+                if(evalReturnExpressionCommand.codeConstruct.loc.start.line >= 4175
+                && evalReturnExpressionCommand.codeConstruct.loc.start.line <= 4263)
+                {
+                    var a = 3;
+                }
+
                 this.executionContextStack.setExpressionValueInPreviousContext
                 (
                     evalReturnExpressionCommand.parentFunctionCommand.codeConstruct,
@@ -516,6 +533,11 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
+            if(memberExpression.loc.start.line == 6932)
+            {
+                var a = 3;
+            }
+
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
@@ -530,7 +552,14 @@ fcSimulator.Evaluator.prototype =
             {
                 if(object.fcInternal.object == this.globalObject.document)
                 {
-                    propertyValue = object.value[property.value];
+                    if(property.value == "nodeType")
+                    {
+                        propertyValue = this.globalObject.origDocument.nodeType;
+                    }
+                    else
+                    {
+                        propertyValue = object.value[property.value];
+                    }
                 }
                 else
                 {
