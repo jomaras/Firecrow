@@ -20,17 +20,22 @@ fcModel.Document = function(documentFragment, globalObject)
 
         //Extend the fragment just to support createElement function
         this.documentFragment.createElement = this.globalObject.origDocument.createElement;
+        this.documentFragment.createTextNode = this.globalObject.origDocument.createTextNode;
         this.documentFragment.createDocumentFragment = this.globalObject.origDocument.createDocumentFragment;
         this.documentFragment.getElementById = this.globalObject.origDocument.getElementById;
         this.documentFragment.getElementsByClassName = this.globalObject.origDocument.getElementsByClassName;
         this.documentFragment.getElementsByTagName = this.globalObject.origDocument.getElementsByTagName;
         this.documentFragment.evaluate = this.globalObject.origDocument.evaluate;
         this.documentFragment.createComment = this.globalObject.origDocument.createComment;
+        this.documentFragment.defaultView = this.globalObject;
 
         this.fcInternal = { object: this };
         this.htmlElementToFcMapping = {};
+
         this.addProperty("location", this.globalObject.getPropertyValue("location"));
         this.addProperty("nodeType", new fcModel.JsValue(this.globalObject.origDocument.nodeType, new fcModel.FcInternal()));
+        this.addProperty("defaultView", this.globalObject);
+
         this.nodeType = this.globalObject.origDocument.nodeType;
 
         this.getElementByXPath = function(xPath)
@@ -183,7 +188,8 @@ fcModel.DocumentExecutor =
         var fcThisValue =  thisObject.fcInternal.object;
         var globalObject = fcThisValue.globalObject;
 
-        if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
+             if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
+        else if (functionName == "createTextNode") { return globalObject.internalExecutor.createTextNode(callExpression, arguments[0].value);}
         else if(functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
         else if(functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }
         else if (functionName == "createDocumentFragment") { return globalObject.internalExecutor.createDocumentFragment(callExpression, globalObject); }

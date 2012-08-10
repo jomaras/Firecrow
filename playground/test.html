@@ -15,6 +15,9 @@
                 }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
                 rnotwhite = /\S/,
                 rwebkit = /(webkit)[ \/]([\w.]+)/,
+                ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
+                rmsie = /(msie) ([\w.]+)/,
+                rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/,
                 userAgent = navigator.userAgent,
                 browserMatch, readyList, DOMContentLoaded, toString = Object.prototype.toString,
                 class2type = {};
@@ -41,6 +44,7 @@
                             elem = document.getElementById(match[2]);
                             if (elem && elem.parentNode)
                             {
+                                this.length = 1;
                                 this[0] = elem;
                             }
                             return this;
@@ -52,6 +56,7 @@
                     return rootjQuery.ready(selector);
                 }
             },
+            length: null,
             ready: function (fn)
             {
                 jQuery.bindReady();
@@ -114,6 +119,10 @@
                     {
                         return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
                     },
+                    nodeName: function (elem, name)
+                    {
+                        return elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
+                    },
                     each: function (object, callback, args)
                     {
                         var i = 0,
@@ -134,13 +143,25 @@
                     },
                     access: function (elems, fn, key, value, chainable, emptyGet, pass)
                     {
-                        var bulk = key == null;
-                        return chainable ? 0 : bulk ? fn.call(elems) : 0;
+                        var exec, bulk = key == null;
+                        if (key);
+                        else if (value !== undefined)
+                        {
+                            exec = pass === undefined && jQuery.isFunction(value);
+                            if (bulk)
+                            {
+                                if (exec);
+                                else
+                                {
+                                    fn.call(elems, value);
+                                }
+                            }
+                        }
                     },
                     uaMatch: function (ua)
                     {
                         ua = ua.toLowerCase();
-                        var match = rwebkit.exec(ua);
+                        var match = rwebkit.exec(ua) || ropera.exec(ua) || rmsie.exec(ua) || ua.indexOf('compatible') < 0 && rmozilla.exec(ua);
                         return {
                             browser: match[1]
                         };
@@ -152,10 +173,6 @@
             class2type[('[object ' + name) + ']'] = name.toLowerCase();
         });
         browserMatch = jQuery.uaMatch(userAgent);
-        if (browserMatch.browser)
-        {
-            jQuery.browser[browserMatch.browser] = true;
-        }
         if (rnotwhite.test(' '));
         rootjQuery = jQuery(document);
         if (document.addEventListener)
@@ -237,6 +254,7 @@
     jQuery.support = (function ()
     {
         var support, all, a, select, opt, input, div = document.createElement('div');
+        div.setAttribute('className', 't');
         div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
         all = div.getElementsByTagName('*');
         a = div.getElementsByTagName('a')[0];
@@ -254,16 +272,23 @@
             enctype: !(!(document.createElement('form').enctype)),
             submitBubbles: true,
             changeBubbles: true,
-            focusinBubbles: null,
-            reliableMarginRight: true
+            focusinBubbles: null
         };
         jQuery(function ()
         {
-            var container, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+            var container, marginDiv, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
             paddingMarginBorder = 'padding:0;margin:0;border:';
             container = document.createElement('div');
             div = document.createElement('div');
+            container.appendChild(div);
             div.innerHTML = ('<table><tr><td style=\'' + paddingMarginBorder) + '0;display:none\'></td><td>t</td></tr></table>';
+            if (window.getComputedStyle)
+            {
+                div.innerHTML = '';
+                marginDiv = document.createElement('div');
+                div.appendChild(marginDiv);
+                support.reliableMarginRight = (parseInt((window.getComputedStyle(marginDiv, null)).marginRight, 10) || 0) === 0;
+            }
         });
         return support;
     })();
@@ -277,36 +302,19 @@
     {
         var Sizzle = function (selector, context, results, seed)
         {};
-        var getText = Sizzle.getText = function (elem)
-        {
-            var i, node, nodeType = elem.nodeType,
-                    ret = '';
-            if (nodeType)
-            {
-                if (nodeType === 1)
-                {
-                    if (typeof (elem.textContent) === 'string')
-                    {
-                        return elem.textContent;
-                    }
-                }
-            }
-            else
-            {
-                for (i = 0; node = elem[i]; i++)
-                {
-                    if (node.nodeType !== 8)
-                    {
-                        ret += getText(node);
-                    }
-                }
-            }
-            return ret;
-        };
         var Expr = Sizzle.selectors = {
             match: {},
             filters: {}
         };
+        (function ()
+        {
+            var form = document.createElement('div'),
+                    id = 'script' + (new Date()).getTime(),
+                    root = document.documentElement;
+            root.insertBefore(form, root.firstChild);
+            if (document.getElementById(id));
+            root.removeChild(form);
+        })();
         if (document.querySelectorAll)
         {
             (function ()
@@ -324,7 +332,6 @@
             })();
         }
         jQuery.expr = Sizzle.selectors;
-        jQuery.text = Sizzle.getText;
     })();
     jQuery.fn.extend(
             {
@@ -332,8 +339,100 @@
                 {
                     return jQuery.access(this, function (value)
                     {
-                        return value === undefined ? jQuery.text(this) : 0;
+                        return false ? 0 : this.empty().append((this[0] && this[0].ownerDocument).createTextNode(value));
                     }, null, value, arguments.length);
+                },
+                append: function ()
+                {
+                    return this.domManip(arguments, true, function (elem)
+                    {
+                        if (this.nodeType === 1)
+                        {
+                            this.appendChild(elem);
+                        }
+                    });
+                },
+                empty: function ()
+                {
+                    for (var i = 0, elem;
+                         (elem = this[i]) != null; i++)
+                    {
+                        while (elem.firstChild)
+                        {
+                            elem.removeChild(elem.firstChild);
+                        }
+                    }
+                    return this;
+                },
+                domManip: function (args, table, callback)
+                {
+                    var results, first, fragment, scripts = [];
+                    if (this[0])
+                    {
+                        if (jQuery.support.parentNode);
+                        else
+                        {
+                            results = jQuery.buildFragment(args, this, scripts);
+                        }
+                        fragment = results.fragment;
+                        if (fragment.childNodes.length === 1)
+                        {
+                            first = fragment = fragment.firstChild;
+                        }
+                        if (first)
+                        {
+                            table = table && jQuery.nodeName(first, 'tr');
+                            for (var i = 0, l = this.length; i < l; i++)
+                            {
+                                callback.call(table ? 0 : this[i], results.cacheable || l > 1 ? 0 : fragment);
+                            }
+                        }
+                    }
+                }
+            });
+    jQuery.buildFragment = function (args, nodes, scripts)
+    {
+        var fragment, cacheable, doc, first = args[0];
+        if (nodes && nodes[0])
+        {
+            doc = nodes[0].ownerDocument;
+        }
+        if (args.length === 1 && typeof first === 'string');
+        if (!fragment)
+        {
+            fragment = doc.createDocumentFragment();
+            jQuery.clean(args, doc, fragment, scripts);
+        }
+        return {
+            fragment: fragment,
+            cacheable: cacheable
+        };
+    };
+    jQuery.extend(
+            {
+                clean: function (elems, context, fragment, scripts)
+                {
+                    var script, ret = [];
+                    for (var i = 0, elem;
+                         (elem = elems[i]) != null; i++)
+                    {
+                        if (elem.nodeType)
+                        {
+                            ret.push(elem);
+                        }
+                    }
+                    if (fragment)
+                    {
+                        for (i = 0; ret[i]; i++)
+                        {
+                            script = ret[i];
+                            if (scripts && jQuery.nodeName(script, 'script'));
+                            else
+                            {
+                                fragment.appendChild(script);
+                            }
+                        }
+                    }
                 }
             });
     jQuery(function ()
@@ -367,16 +466,12 @@
 
 <body>
 <script>
-    var a1;
     var jDocument = $(document);
     jDocument.ready(function ()
     {
-        var cont = $('#container');
-        a1 = cont.text();
-        a1;
+        $('#container1').text('Page loaded');
     });
 </script>
-<div id="container">2</div>
+<div id="container1">Text</div>
 </body>
-
 </html>

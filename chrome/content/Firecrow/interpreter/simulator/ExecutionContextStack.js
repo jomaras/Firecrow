@@ -1016,10 +1016,14 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)) { return this.globalObject; }
+            if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)
+            || ASTHelper.isLogicalExpression(codeConstruct) || ASTHelper.isConditionalExpression(codeConstruct)) { return this.globalObject; }
             else if (ASTHelper.isMemberExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.object); }
             else if (ASTHelper.isCallExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.callee); }
-            else { this.notifyError("Not handling getting base object on other expressions"); return this.globalObject; }
+            else
+            {
+                this.notifyError("Not handling getting base object on other expressions"); return this.globalObject;
+            }
         }
         catch(e) { this.notifyError("Error when getting base object: " + e); }
     },

@@ -204,6 +204,7 @@ fcSimulator.InternalExecutor.prototype =
         try
         {
             var jsElement = this.globalObject.origDocument.createElement(tagName);
+
             jsElement.creationPoint =
             {
                 codeConstruct: creationCodeConstruct,
@@ -223,6 +224,25 @@ fcSimulator.InternalExecutor.prototype =
         catch(e) { this.notifyError("Error when creating html element: " + e);}
     },
 
+    createTextNode: function(creationCodeConstruct, textContent)
+    {
+        try
+        {
+            var jsTextNode = this.globalObject.origDocument.createTextNode(textContent);
+
+            return new fcModel.JsValue
+            (
+                jsTextNode,
+                new fcModel.FcInternal
+                (
+                    creationCodeConstruct,
+                    new fcModel.TextNode(jsTextNode, this.globalObject, creationCodeConstruct)
+                )
+            );
+        }
+        catch(e) { }
+    },
+
     createDocumentFragment: function(creationCodeConstruct, tagName)
     {
         try
@@ -238,10 +258,10 @@ fcSimulator.InternalExecutor.prototype =
             (
                 jsElement,
                 new fcModel.FcInternal
-                    (
-                        creationCodeConstruct,
-                        new fcModel.HtmlElement(jsElement, this.globalObject, creationCodeConstruct)
-                    )
+                (
+                    creationCodeConstruct,
+                    new fcModel.HtmlElement(jsElement, this.globalObject, creationCodeConstruct)
+                )
             );
         }
         catch(e) { this.notifyError("Error when creating html element: " + e);}
@@ -363,6 +383,7 @@ fcSimulator.InternalExecutor.prototype =
             }
             else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject.fcInternal.globalObject.jsFcDocument, functionObject, arguments, callExpression);}
             else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, CSSStyleDeclaration)) { return fcModel.CSSStyleDeclarationExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, Date)) { return fcModel.DateExecutor.executeInternalDateMethod(thisObject, functionObject, arguments, callExpression); }
             else if (thisObject.value == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeFunctionMethod(thisObject, functionObject, arguments, callExpression, this.globalObject); }
             else if (thisObject.value == this.globalObject.fcMath) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }

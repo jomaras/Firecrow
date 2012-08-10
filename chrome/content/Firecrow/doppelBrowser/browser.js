@@ -402,9 +402,11 @@ Browser.prototype =
                         var fcHtmlElement = event.fcHtmlElement;
                         var xPath = this._getElementXPath(fcHtmlElement.htmlElement);
 
-                        if(xPath != eventTrace.args.targetXPath) { continue; }
+                        if(xPath != eventTrace.args.targetXPath
+                        && xPath != eventTrace.thisValue.xPath ) { continue; }
 
-                        if(eventTrace.args.type == event.eventType || "on" + eventTrace.args.type == event.eventType)
+                        if(eventTrace.args.type == event.eventType || "on" + eventTrace.args.type == event.eventType
+                        || eventTrace.args.type == "elementEvent")
                         {
                             var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 

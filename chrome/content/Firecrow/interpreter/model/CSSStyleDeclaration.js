@@ -30,6 +30,17 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
             this.addProperty(propertyName, cssStyleDeclaration[propertyName], codeConstruct, true);
         }
 
+        var methods = fcModel.CSSStyleDeclaration.CONST.INTERNAL_PROPERTIES.METHODS;
+
+        for(var i = 0, length = methods.length; i < length; i++)
+        {
+            var method = methods[i];
+
+            this.globalObject.internalExecutor.expandWithInternalFunction(this.cssStyleDeclaration, method);
+
+            this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.cssStyleDeclaration[method], method, this, true), codeConstruct);
+        }
+
         this.registerAddPropertyCallback(function(propertyName, propertyValue, codeConstruct)
         {
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
@@ -72,4 +83,31 @@ fcModel.CSSStyleDeclaration.CONST =
         ]
     }
 };
+
+fcModel.CSSStyleDeclarationExecutor =
+{
+    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+    {
+        if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when css declaration method!"); return; }
+
+        var functionObjectValue = functionObject.value;
+        var thisObjectValue = thisObject.value;
+        var functionName = functionObjectValue.name;
+        var fcThisValue =  thisObject.fcInternal.object;
+        var globalObject = fcThisValue.globalObject;
+        var jsArguments =  arguments.map(function(argument){ return argument.value;});
+
+        switch(functionName)
+        {
+            case "getPropertyPriority":
+            case "getPropertyValue":
+            case "item":
+                return new fcModel.JsValue(thisObjectValue[functionName].apply(thisObjectValue, jsArguments), new fcModel.FcInternal(callExpression));
+            case "removeProperty":
+            case "setProperty":
+            default:
+                alert("Unhandled internal method in cssStyleDeclaration:" + functionName); return;
+        }
+    }
+}
 }});

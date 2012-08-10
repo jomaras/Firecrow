@@ -82,7 +82,6 @@ Firecrow.JsRecorder = function ()
                                 xPath: that.getElementXPath(frame.thisValue.getWrappedValue())
                             };
 
-
                             var propArray = {}, length = {};
                             frame.callee.getProperties(propArray, length);
                             var calleeProperties = propArray.value;
@@ -106,7 +105,8 @@ Firecrow.JsRecorder = function ()
                                 clientY: firstArgument != null ? firstArgument.clientY : 0,
                                 screenX: firstArgument != null ? firstArgument.screenX : 0,
                                 screenY:firstArgument != null ?  firstArgument.screenY : 0,
-                                type: firstArgument != null ? firstArgument.type : ""
+                                type: firstArgument != null ? firstArgument.type
+                                                            : trace.thisValue.xPath != "" ? "elementEvent" : ""
                             };
 
                             that.executionTrace.push(trace);

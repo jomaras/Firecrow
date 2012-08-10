@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="../jQuery.js"></script>
+        <style>
+            #container
+            {
+                width: 200px;
+                height: 200px;
+                background-color: red;
+            }
+        </style>
+    </head>
+    <body>
+
+    <script>
+        var jDocument = $(document);
+
+        jDocument.ready(function()
+        {
+            $("#container1").text("Fade starting");
+
+            $("#container").fadeOut(function()
+            {
+                $("#container1").text("Fade finished");
+            });
+        });
+    </script>
+    <div id="container1">Text</div>
+    <div id="container">2</div>
+    </body>
+</html>

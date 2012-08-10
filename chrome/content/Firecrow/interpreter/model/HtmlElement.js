@@ -51,7 +51,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
             this.htmlElement.style.jsValue = styleValue;
         }
 
-        this.htmlElement.attributeModificationPoints = [];
+        this.htmlElement.elementModificationPoints = [];
 
         this.addPrimitiveProperties(htmlElement, codeConstruct);
         this.addMethods(codeConstruct);
@@ -115,7 +115,7 @@ fcModel.HtmlElementProto =
         {
             if(codeConstruct == null) { return; }
 
-            var modifications = this.htmlElement.attributeModificationPoints;
+            var modifications = this.htmlElement.elementModificationPoints;
 
             for(var i = 0, length = modifications.length; i < length; i++)
             {
@@ -245,7 +245,7 @@ fcModel.HtmlElementProto =
 
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
 
-            this.htmlElement.attributeModificationPoints.push({ codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
+            this.htmlElement.elementModificationPoints.push({ codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
 
             this.proto.addProperty.call(this, propertyName, propertyValue, codeConstruct, isEnumerable);
         }
@@ -343,7 +343,7 @@ fcModel.HtmlElementExecutor =
 
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
-        if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing string method!"); return; }
+        if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing html method!"); return; }
 
         var functionObjectValue = functionObject.value;
         var thisObjectValue = thisObject.value;
@@ -371,12 +371,14 @@ fcModel.HtmlElementExecutor =
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
             case "setAttribute":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
                 fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
                 return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression, null));
             case "appendChild":
             case "removeChild":
             case "insertBefore":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
                 fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
                 /*fcThisValue.setChildRelatedProperties(callExpression);*/
                 for(var i = 0; i < arguments.length; i++)
@@ -392,6 +394,7 @@ fcModel.HtmlElementExecutor =
                 return this.wrapToFcElement(clonedNode, globalObject, callExpression);
             case "addEventListener":
                 fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
+                thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
                 globalObject.registerHtmlElementEventHandler
                 (
                     fcThisValue,
@@ -408,7 +411,7 @@ fcModel.HtmlElementExecutor =
                 var result = false;
                 try { result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments); }
                 catch(e) {}
-                return fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
+                return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
         }
@@ -489,20 +492,20 @@ fcModel.HtmlElementExecutor =
                 );
             }
 
-            if(element.attributeModificationPoints != null)
+            if(element.elementModificationPoints != null)
             {
-                var attributeModificationPoints = element.attributeModificationPoints;
+                var elementModificationPoints = element.elementModificationPoints;
 
-                for(var i = 0, length = attributeModificationPoints.length; i < length; i++)
+                for(var i = 0, length = elementModificationPoints.length; i < length; i++)
                 {
-                    var attributeModificationPoint = attributeModificationPoints[i];
+                    var elementModificationPoint = elementModificationPoints[i];
 
                     globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         codeConstruct,
-                        attributeModificationPoint.codeConstruct,
+                        elementModificationPoint.codeConstruct,
                         evaluationPositionId,
-                        attributeModificationPoint.evaluationPositionId
+                        elementModificationPoint.evaluationPositionId
                     );
                 }
             }

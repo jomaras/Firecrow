@@ -77,7 +77,7 @@ fcModel.Object.prototype =
                 }
             });
         }
-        catch(e) { this.notifyError("Error when adding event listener"); }
+        catch(e) { fcModel.Object.notifyError("Error when adding event listener"); }
     },
 
     removeEventListener: function(arguments, callExpression, globalObject)
@@ -102,7 +102,7 @@ fcModel.Object.prototype =
                 }
             }
         }
-        catch(e) { this.notifyError("Error when removing event listener"); }
+        catch(e) { fcModel.Object.notifyError ("Error when removing event listener"); }
     },
 
     registerGetPropertyCallback: function(callback, thisValue)
@@ -125,7 +125,7 @@ fcModel.Object.prototype =
 
             this.modifications.push(modificationDescription);
         }
-        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when adding modification:" + e);}
+        catch(e) { fcModel.Object.notifyError("Error when adding modification:" + e);}
     },
 
     setProto: function(proto, codeConstruct)
@@ -139,7 +139,7 @@ fcModel.Object.prototype =
                 this.addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
             }
         }
-        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when setting proto: " + e); }
+        catch(e) { fcModel.Object.notifyError("Error when setting proto: " + e); }
     },
 
     addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
@@ -186,7 +186,7 @@ fcModel.Object.prototype =
         }
         catch(e)
         {
-            Firecrow.Interpreter.Model.notifyError("Error when adding property:" + e);
+            fcModel.Object.notifyError("Error when adding property:" + e);
         }
     },
 
@@ -205,14 +205,14 @@ fcModel.Object.prototype =
 
             for(var i = 0; i < this.enumeratedProperties.length; i++)
             {
-                if(this.properties[i].name == propertyName)
+                if(this.enumeratedProperties[i].name == propertyName)
                 {
-                    ValueTypeHelper.removeFromArrayByIndex(this.properties, i);
+                    ValueTypeHelper.removeFromArrayByIndex(this.enumeratedProperties, i);
                     break;
                 }
             }
         }
-        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when deleting property:" + e);}
+        catch(e) { fcModel.Object.notifyError("Error when deleting property:" + e);}
     },
 
     getOwnProperty: function(propertyName)
@@ -229,7 +229,7 @@ fcModel.Object.prototype =
                 }
             );
         }
-        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when getting own property:" + e);}
+        catch(e) { fcModel.Object.notifyError("Error when getting own property:" + e);}
     },
 
     getProperty: function(propertyName, readPropertyConstruct)
@@ -295,7 +295,7 @@ fcModel.Object.prototype =
         }
         catch(e)
         {
-            Firecrow.Interpreter.Model.notifyError("Error when getting property:" + e);
+            fcModel.Object.notifyError("Error when getting property:" + e);
         }
     },
 
@@ -323,16 +323,16 @@ fcModel.Object.prototype =
         return properties;
     },
 
-    getPropertyValue: function(propertyName)
+    getPropertyValue: function(propertyName, codeConstruct)
     {
         try
         {
-            var property = this.getProperty(propertyName);
+            var property = this.getProperty(propertyName, codeConstruct);
 
             return property != null ? property.value
                                     : null;
         }
-        catch(e) { Firecrow.Interpreter.Model.notifyError("Error when getting property value:" + e);}
+        catch(e) { fcModel.Object.notifyError("Error when getting property value:" + e);}
     },
 
     isOwnProperty: function(propertyName)

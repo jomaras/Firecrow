@@ -17,6 +17,8 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.origWindow = Firecrow.getWindow();
         this.origDocument = Firecrow.getDocument();
 
+        this.jsValue = this;
+        this.value = this;
         this.fcInternal = new fcModel.FcInternal(null, this);
         this.internalExecutor = new Firecrow.Interpreter.Simulator.InternalExecutor(this);
 
@@ -58,6 +60,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addProperty("Math", this.math, null);
         this.addProperty("window", this, null);
         this.addProperty("undefined", new fcModel.JsValue(undefined, new fcModel.FcInternal()));
+        this.addProperty("Infinity", new fcModel.JsValue(Infinity, new fcModel.FcInternal()));
         this.addProperty("location", this.internalExecutor.createLocationObject());
         this.addProperty("navigator", this.internalExecutor.createNavigatorObject());
 
@@ -104,6 +107,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
             try
             {
                 if(htmlElement == null) { return false; }
+                if(!(htmlElement instanceof HTMLElement)) { return false; }
                 if(this.domModificationSlicingCriteria.length == 0) { return false; }
 
                 for(var i = 0; i < this.domModificationSlicingCriteria.length; i++)
@@ -269,6 +273,8 @@ fcModel.GlobalObject = function(browser, documentFragment)
             }
         };
 
+        this.isPrimitive = function() { return false;}
+
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
     catch(e)
@@ -290,7 +296,8 @@ fcModel.GlobalObject.CONST =
             "decodeURI", "decodeURIComponent", "encodeURI",
             "encodeURIComponent", "eval", "isFinite", "isNaN",
             "parseFloat", "parseInt", "addEventListener", "removeEventListener",
-            "setTimeout", "clearTimeout", "setInterval", "clearInterval"
+            "setTimeout", "clearTimeout", "setInterval", "clearInterval",
+            "getComputedStyle"
         ]
     }
 }
@@ -334,6 +341,17 @@ fcModel.GlobalObjectExecutor =
 
 
                 return new fcModel.JsValue(undefined, new fcModel.FcInternal());
+            }
+            else if (fcFunction.value.name == "getComputedStyle")
+            {
+                var jsHtmlElement = arguments[0];
+
+                if(!(jsHtmlElement.value instanceof HTMLElement)) { this.notifyError("Wrong argument when getting computed style");}
+
+                var htmlElement = jsHtmlElement.value;
+                var computedStyle = globalObject.origWindow[fcFunction.value.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.value; }));
+
+                return new fcModel.JsValue(computedStyle, new fcModel.FcInternal(callExpression, new fcModel.CSSStyleDeclaration(htmlElement, computedStyle, globalObject, callExpression)));
             }
 
             return new fcModel.JsValue
