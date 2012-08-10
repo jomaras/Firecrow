@@ -18,8 +18,12 @@
                 ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
                 rmsie = /(msie) ([\w.]+)/,
                 rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/,
-                userAgent = navigator.userAgent,
+                rdashAlpha = /-([a-z]|[0-9])/gi,
+                rmsPrefix = /^-ms-/,
+                fcamelCase = function (all, letter)
+                {}, userAgent = navigator.userAgent,
                 browserMatch, readyList, DOMContentLoaded, toString = Object.prototype.toString,
+                push = Array.prototype.push,
                 class2type = {};
         jQuery.fn = jQuery.prototype = {
             init: function (selector, context, rootjQuery)
@@ -27,6 +31,8 @@
                 var match, elem;
                 if (selector.nodeType)
                 {
+                    this[0] = selector;
+                    this.length = 1;
                     return this;
                 }
                 if (typeof selector === 'string')
@@ -36,7 +42,7 @@
                     {
                         match = quickExpr.exec(selector);
                     }
-                    if (match && match[1] || !context)
+                    if (match && (match[1] || !context))
                     {
                         if (match[1]);
                         else
@@ -56,7 +62,12 @@
                     return rootjQuery.ready(selector);
                 }
             },
+            jquery: '1.7.2',
             length: null,
+            each: function (callback, args)
+            {
+                return jQuery.each(this, callback, args);
+            },
             ready: function (fn)
             {
                 jQuery.bindReady();
@@ -70,6 +81,7 @@
                     i = 1,
                     length = arguments.length,
                     deep = false;
+            if (typeof target !== 'object');
             if (length === i)
             {
                 target = this;
@@ -90,6 +102,7 @@
                     }
                 }
             }
+            return target;
         };
         jQuery.extend(
                 {
@@ -97,10 +110,14 @@
                     readyWait: 1,
                     ready: function (wait)
                     {
-                        if (wait === true || wait !== true && !(jQuery.isReady))
+                        if (wait === true || (wait !== true && !(jQuery.isReady)))
                         {
                             if (wait !== true && --jQuery.readyWait > 0);
                             readyList.fireWith(document, [null]);
+                            if (jQuery.fn.trigger)
+                            {
+                                jQuery(document).trigger('ready').off(null);
+                            }
                         }
                     },
                     bindReady: function ()
@@ -115,9 +132,17 @@
                     {
                         return jQuery.type(obj) === 'function';
                     },
+                    isArray: Array.isArray || function (obj)
+                    {
+                        return jQuery.type(obj) === 'array';
+                    },
                     type: function (obj)
                     {
                         return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
+                    },
+                    camelCase: function (string)
+                    {
+                        return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
                     },
                     nodeName: function (elem, name)
                     {
@@ -125,13 +150,19 @@
                     },
                     each: function (object, callback, args)
                     {
-                        var i = 0,
+                        var name, i = 0,
                                 length = object.length,
                                 isObj = length === undefined || jQuery.isFunction(object);
                         if (args);
                         else
                         {
-                            if (isObj);
+                            if (isObj)
+                            {
+                                for (name in object)
+                                {
+                                    if (callback.call(object[name], name, object[name]));
+                                }
+                            }
                             else
                             {
                                 for (; i < length;)
@@ -140,6 +171,19 @@
                                 }
                             }
                         }
+                    },
+                    makeArray: function (array, results)
+                    {
+                        var ret = results || [];
+                        if (array != null)
+                        {
+                            var type = jQuery.type(array);
+                            if (array.length == null || type === 'string' || type === 'function')
+                            {
+                                push.call(ret, array);
+                            }
+                        }
+                        return ret;
                     },
                     access: function (elems, fn, key, value, chainable, emptyGet, pass)
                     {
@@ -158,10 +202,14 @@
                             }
                         }
                     },
+                    now: function ()
+                    {
+                        return (new Date()).getTime();
+                    },
                     uaMatch: function (ua)
                     {
                         ua = ua.toLowerCase();
-                        var match = rwebkit.exec(ua) || ropera.exec(ua) || rmsie.exec(ua) || ua.indexOf('compatible') < 0 && rmozilla.exec(ua);
+                        var match = rwebkit.exec(ua) || ropera.exec(ua) || rmsie.exec(ua) || (ua.indexOf('compatible') < 0 && rmozilla.exec(ua));
                         return {
                             browser: match[1]
                         };
@@ -289,14 +337,162 @@
                 div.appendChild(marginDiv);
                 support.reliableMarginRight = (parseInt((window.getComputedStyle(marginDiv, null)).marginRight, 10) || 0) === 0;
             }
+            if (window.getComputedStyle)
+            {
+                support.pixelMargin = (window.getComputedStyle(div, null)).marginTop !== '1%';
+            }
         });
         return support;
     })();
+    jQuery.extend(
+            {
+                cache: {},
+                uuid: null,
+                expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
+                noData: {},
+                data: function (elem, name, data, pvt)
+                {
+                    if (!(jQuery.acceptData(elem)));
+                    var thisCache, ret, internalKey = jQuery.expando,
+                            getByName = typeof name === 'string',
+                            isNode = elem.nodeType,
+                            cache = isNode ? jQuery.cache : 0,
+                            id = isNode ? elem[internalKey] : 0,
+                            isEvents = name === 'events';
+                    if ((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
+                    {
+                        return;
+                    }
+                    if (!id)
+                    {
+                        if (isNode)
+                        {
+                            elem[internalKey] = id = ++jQuery.uuid;
+                        }
+                    }
+                    if (!(cache[id]))
+                    {
+                        cache[id] = {};
+                    }
+                    thisCache = cache[id];
+                    if (data !== undefined)
+                    {
+                        thisCache[jQuery.camelCase(name)] = data;
+                    }
+                    if (getByName)
+                    {
+                        ret = thisCache[name];
+                        if (ret == null)
+                        {
+                            ret = thisCache[jQuery.camelCase(name)];
+                        }
+                    }
+                    return ret;
+                },
+                _data: function (elem, name, data)
+                {
+                    return jQuery.data(elem, name, data, true);
+                },
+                acceptData: function (elem)
+                {
+                    if (elem.nodeName)
+                    {
+                        var match = jQuery.noData[elem.nodeName.toLowerCase()];
+                    }
+                    return true;
+                }
+            });
+    jQuery.extend(
+            {
+                queue: function (elem, type, data)
+                {
+                    var q;
+                    if (elem)
+                    {
+                        type = type + 'queue';
+                        q = jQuery._data(elem, type);
+                        if (data)
+                        {
+                            if (!q)
+                            {
+                                q = jQuery._data(elem, type, jQuery.makeArray(data));
+                            }
+                        }
+                        return q;
+                    }
+                },
+                dequeue: function (elem, type)
+                {
+                    type = type;
+                    var queue = jQuery.queue(elem, type),
+                            fn = queue.shift(),
+                            hooks = {};
+                    if (fn)
+                    {
+                        if (type === 'fx')
+                        {
+                            queue.unshift('inprogress');
+                        }
+                        jQuery._data(elem, type + '.run', hooks);
+                        fn.call(elem, function ()
+                        {}, hooks);
+                    }
+                }
+            });
+    jQuery.fn.extend(
+            {
+                queue: function (type, data)
+                {
+                    return false ? 0 : this.each(function ()
+                    {
+                        var queue = jQuery.queue(this, type, data);
+                        if (type === 'fx' && queue[0] !== 'inprogress')
+                        {
+                            jQuery.dequeue(this, type);
+                        }
+                    });
+                }
+            });
     var getSetAttribute = jQuery.support.getSetAttribute;
+    jQuery.event = {
+        trigger: function (event, data, elem, onlyHandlers)
+        {
+            var type = event.type || event,
+                    i, cur, special, eventPath;
+            event = typeof event === 'object' ? 0 : new jQuery.Event(type);
+            special = jQuery.event.special[type];
+            eventPath = [
+                [elem, special.bindType || type]
+            ];
+            for (i = 0; i < eventPath.length && !(event.isPropagationStopped()); i++)
+            {
+                cur = eventPath[i][0];
+                (jQuery._data(cur, 'events'))[event.type];
+            }
+        },
+        special: {
+            ready: {}
+        }
+    };
+    jQuery.Event = function (src, props)
+    {};
+
+    function returnFalse()
+    {
+        return false;
+    }
+    jQuery.Event.prototype = {
+        isPropagationStopped: returnFalse
+    };
     jQuery.fn.extend(
             {
                 trigger: function (type, data)
-                {}
+                {
+                    return this.each(function ()
+                    {
+                        jQuery.event.trigger(type, data, this);
+                    });
+                }
             });
     (function ()
     {
@@ -339,7 +535,7 @@
                 {
                     return jQuery.access(this, function (value)
                     {
-                        return false ? 0 : this.empty().append((this[0] && this[0].ownerDocument).createTextNode(value));
+                        return false ? 0 : this.empty().append(((this[0] && this[0].ownerDocument)).createTextNode(value));
                     }, null, value, arguments.length);
                 },
                 append: function ()
@@ -435,6 +631,92 @@
                     }
                 }
             });
+    var rupper = /([A-Z]|^ms)/g,
+            rrelNum = /^([\-+])=([\-+.\de]+)/,
+            curCSS, getComputedStyle;
+    jQuery.extend(
+            {
+                cssHooks: {
+                    opacity: {
+                        get: function (elem, computed)
+                        {
+                            if (computed)
+                            {
+                                var ret = curCSS(elem, 'opacity');
+                                return ret === '' ? 0 : ret;
+                            }
+                            else
+                            {
+                                return elem.style.opacity;
+                            }
+                        }
+                    }
+                },
+                cssNumber: {
+                    'opacity': true
+                },
+                cssProps: {},
+                style: function (elem, name, value, extra)
+                {
+                    var ret, type, origName = jQuery.camelCase(name),
+                            style = elem.style,
+                            hooks = jQuery.cssHooks[origName];
+                    name = jQuery.cssProps[origName] || origName;
+                    if (value !== undefined)
+                    {
+                        type = typeof value;
+                        if (type === 'string' && (ret = rrelNum.exec(value)));
+                        if (value == null || type === 'number');
+                        if (!hooks || !('set' in hooks))
+                        {
+                            try
+                            {
+                                style[name] = value;
+                            }
+                            catch (e)
+                            {}
+                        }
+                    }
+                    else
+                    {
+                        if (hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined)
+                        {
+                            return ret;
+                        }
+                    }
+                },
+                css: function (elem, name, extra)
+                {
+                    var ret, hooks;
+                    name = jQuery.camelCase(name);
+                    hooks = jQuery.cssHooks[name];
+                    name = jQuery.cssProps[name] || name;
+                    if (hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
+                    {
+                        return ret;
+                    }
+                    else if (curCSS)
+                    {
+                        return curCSS(elem, name);
+                    }
+                }
+            });
+    if (document.defaultView && document.defaultView.getComputedStyle)
+    {
+        getComputedStyle = function (elem, name)
+        {
+            var ret, defaultView, computedStyle;
+            name = name.replace(rupper, '-$1').toLowerCase();
+            if ((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
+            {
+                ret = computedStyle.getPropertyValue(name);
+                if (ret === '');
+            }
+            if (!(jQuery.support.pixelMargin));
+            return ret;
+        };
+    }
+    curCSS = getComputedStyle;
     jQuery(function ()
     {});
     jQuery.extend(
@@ -459,9 +741,281 @@
                     ajax: !(!xhr)
                 });
     })(jQuery.ajaxSettings.xhr());
+    var rfxtypes = /^(?:toggle|show|hide)$/,
+            timerId, fxAttrs = [
+                ['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'],
+                ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'],
+                ['opacity']
+            ],
+            fxNow;
+    jQuery.fn.extend(
+            {
+                hide: function (speed, easing, callback)
+                {
+                    if (speed || speed === 0);
+                    else
+                    {
+                        var elem, display, i = 0,
+                                j = this.length;
+                        for (; i < j; i++)
+                        {
+                            elem = this[i];
+                            if (elem.style)
+                            {
+                                display = jQuery.css(elem, 'display');
+                                if (display !== 'none' && !(jQuery._data(elem, 'olddisplay')))
+                                {
+                                    jQuery._data(elem, 'olddisplay', display);
+                                }
+                            }
+                        }
+                        for (i = 0; i < j; i++)
+                        {
+                            if (this[i].style)
+                            {
+                                this[i].style.display = 'none';
+                            }
+                        }
+                    }
+                },
+                animate: function (prop, speed, easing, callback)
+                {
+                    var optall = jQuery.speed(speed, easing, callback);
+                    prop = jQuery.extend(
+                            {}, prop);
+
+                    function doAnimation()
+                    {
+                        var opt = jQuery.extend(
+                                        {}, optall),
+                                name, val, p, e, method;
+                        opt.animatedProperties = {};
+                        for (p in prop)
+                        {
+                            jQuery.camelCase(p);
+                        }
+                        for (name in prop)
+                        {
+                            val = prop[name];
+                            if (jQuery.isArray(val));
+                            else
+                            {
+                                opt.animatedProperties[name] = opt.specialEasing || opt.easing || 'swing';
+                            }
+                        }
+                        for (p in prop)
+                        {
+                            e = new jQuery.fx(this, opt, p);
+                            val = prop[p];
+                            if (rfxtypes.test(val))
+                            {
+                                method = jQuery._data(this, 'toggle' + p) || (val === 'toggle' ? 0 : 0);
+                                if (method);
+                                else
+                                {
+                                    e[val]();
+                                }
+                            }
+                        }
+                    }
+                    return false ? 0 : this.queue(optall.queue, doAnimation);
+                }
+            });
+
+    function createFxNow()
+    {
+        setTimeout(clearFxNow, 0);
+        return fxNow = jQuery.now();
+    }
+
+    function clearFxNow()
+    {
+        fxNow = undefined;
+    }
+    jQuery.each(
+            {
+                fadeOut: {
+                    opacity: 'hide'
+                },
+                fadeToggle: {}
+            }, function (name, props)
+            {
+                jQuery.fn[name] = function (speed, easing, callback)
+                {
+                    return this.animate(props, speed, easing, callback);
+                };
+            });
+    jQuery.extend(
+            {
+                speed: function (speed, easing, fn)
+                {
+                    var opt = speed && typeof speed === 'object' ? 0 : {
+                        complete: fn || (!fn && easing) || (jQuery.isFunction(speed) && speed),
+                        duration: speed,
+                        easing: fn || easing
+                    };
+                    opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? 0 : opt.duration in jQuery.fx.speeds ? 0 : jQuery.fx.speeds._default;
+                    if (opt.queue == null)
+                    {
+                        opt.queue = 'fx';
+                    }
+                    opt.old = opt.complete;
+                    opt.complete = function (noUnmark)
+                    {
+                        if (jQuery.isFunction(opt.old))
+                        {
+                            opt.old.call(this);
+                        }
+                    };
+                    return opt;
+                },
+                easing: {
+                    swing: function (p)
+                    {
+                        return (-(Math.cos(p * Math.PI)) / 2) + 0.5;
+                    }
+                },
+                timers: [],
+                fx: function (elem, options, prop)
+                {
+                    this.options = options;
+                    this.elem = elem;
+                    this.prop = prop;
+                    options.orig = options.orig || {};
+                }
+            });
+    jQuery.fx.prototype = {
+        update: function ()
+        {
+            jQuery.fx.step[this.prop](this);
+        },
+        cur: function ()
+        {
+            var parsed, r = jQuery.css(this.elem, this.prop);
+            return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
+        },
+        custom: function (from, to, unit)
+        {
+            var self = this,
+                    fx = jQuery.fx;
+            this.startTime = fxNow || createFxNow();
+            this.end = to;
+            this.start = from;
+            this.unit = unit || this.unit || (jQuery.cssNumber[this.prop] ? '' : 0);
+
+            function t(gotoEnd)
+            {
+                return self.step(gotoEnd);
+            }
+            if (t() && jQuery.timers.push(t) && !timerId)
+            {
+                timerId = setInterval(fx.tick, fx.interval);
+            }
+        },
+        hide: function ()
+        {
+            this.options.orig[this.prop] = jQuery._data(this.elem, 'fxshow' + this.prop) || jQuery.style(this.elem, this.prop);
+            this.options.hide = true;
+            this.custom(this.cur(), 0);
+        },
+        step: function (gotoEnd)
+        {
+            var p, n, complete, t = fxNow || createFxNow(),
+                    done = true,
+                    elem = this.elem,
+                    options = this.options;
+            if (gotoEnd || t >= (options.duration + this.startTime))
+            {
+                this.now = this.end;
+                this.update();
+                options.animatedProperties[this.prop] = true;
+                for (p in options.animatedProperties)
+                {}
+                if (done)
+                {
+                    if (options.hide)
+                    {
+                        jQuery(elem).hide();
+                    }
+                    if (options.hide)
+                    {
+                        for (p in options.animatedProperties)
+                        {
+                            jQuery.style(elem, p, options.orig[p]);
+                        }
+                    }
+                    complete = options.complete;
+                    if (complete)
+                    {
+                        complete.call(elem);
+                    }
+                }
+                return false;
+            }
+            else
+            {
+                if (options.duration == Infinity);
+                else
+                {
+                    n = t - this.startTime;
+                    this.state = n / options.duration;
+                    this.pos = jQuery.easing[options.animatedProperties[this.prop]](this.state, n, 0, 1, options.duration);
+                    this.now = this.start + ((this.end - this.start) * this.pos);
+                }
+                this.update();
+            }
+            return true;
+        }
+    };
+    jQuery.extend(jQuery.fx,
+            {
+                tick: function ()
+                {
+                    var timer, timers = jQuery.timers,
+                            i = 0;
+                    for (; i < timers.length; i++)
+                    {
+                        timer = timers[i];
+                        if (!(timer()) && timers[i] === timer)
+                        {
+                            timers.splice(i--, 1);
+                        }
+                    }
+                    if (!(timers.length))
+                    {
+                        jQuery.fx.stop();
+                    }
+                },
+                interval: 13,
+                stop: function ()
+                {
+                    clearInterval(timerId);
+                },
+                speeds: {
+                    _default: 400
+                },
+                step: {}
+            });
+    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function (i, prop)
+    {
+        if (prop.indexOf('margin'))
+        {
+            jQuery.fx.step[prop] = function (fx)
+            {
+                jQuery.style(fx.elem, prop, Math.max(0, fx.now) + fx.unit);
+            };
+        }
+    });
     window.$ = jQuery;
 })(window);
 </script>
+<style>
+    #container {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+    }
+</style>
 </head>
 
 <body>
@@ -469,9 +1023,15 @@
     var jDocument = $(document);
     jDocument.ready(function ()
     {
-        $('#container1').text('Page loaded');
+        $('#container1').text('Fade starting');
+        $('#container').fadeOut(function ()
+        {
+            $('#container1').text('Fade finished');
+        });
     });
 </script>
 <div id="container1">Text</div>
+<div id="container">2</div>
 </body>
+
 </html>

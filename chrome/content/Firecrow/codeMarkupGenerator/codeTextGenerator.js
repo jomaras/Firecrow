@@ -431,7 +431,8 @@ Firecrow.CodeTextGenerator.prototype =
             if(leftSide.length == 0) { return rightSide;}
             if(rightSide.length == 0) { return leftSide; }
 
-            var shouldBeSurrounded = ASTHelper.isBinaryExpression(assignmentExpression.parent);
+            var shouldBeSurrounded = ASTHelper.isBinaryExpression(assignmentExpression.parent)
+                                  || ASTHelper.isLogicalExpression(assignmentExpression.parent);
 
             return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftSide + " " + assignmentExpression.operator + " " + rightSide + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
         }
@@ -492,11 +493,12 @@ Firecrow.CodeTextGenerator.prototype =
             var leftCode = this.generateJsCode(logicalExpression.left);
             var rightCode = this.generateJsCode(logicalExpression.right);
 
-            var isWithinBinaryExpression = ASTHelper.isBinaryExpression(logicalExpression.parent);
+            var shouldBeSurrounded = ASTHelper.isBinaryExpression(logicalExpression.parent)
+                                  || (ASTHelper.isLogicalExpression(logicalExpression.parent) && logicalExpression.parent.operator != logicalExpression.operator);
 
             if(leftCode.length != 0 && rightCode.length != 0)
             {
-                return (isWithinBinaryExpression ? this._LEFT_PARENTHESIS : "") + leftCode + " " + logicalExpression.operator + " " + rightCode + (isWithinBinaryExpression ? this._RIGHT_PARENTHESIS : "");
+                return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftCode + " " + logicalExpression.operator + " " + rightCode + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
             }
 
             if(leftCode.length != 0) { return leftCode; }
