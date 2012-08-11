@@ -572,6 +572,8 @@ Browser.prototype =
 
     callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo)
     {
+        if(sourceNode == null || targetNode == null) { return; }
+
         this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo);
@@ -626,21 +628,27 @@ Browser.prototype =
     {
         var arguments = [];
 
-        var eventInfo = new fcModel.Object(this.globalObject);
+        var eventInfoJsObject = new fcModel.Object(this.globalObject);
+        var eventInfo = {};
 
         for(var propName in eventTraceArgs)
         {
             if(propName.indexOf("XPath") != -1)
             {
-                eventInfo.addProperty(propName.replace("XPath", ""), this.globalObject.document.getElementByXPath(eventTraceArgs[propName]));
+                var element =  this.globalObject.document.getElementByXPath(eventTraceArgs[propName]);
+                propName = propName.replace("XPath", "");
+                eventInfoJsObject.addProperty(propName, element);
+                eventInfo[propName] = element;
             }
             else
             {
-                eventInfo.addProperty(propName.replace("XPath", ""), new fcModel.JsValue(eventTraceArgs[propName], new fcModel.FcInternal()));
+                var value = new fcModel.JsValue(eventTraceArgs[propName], new fcModel.FcInternal());
+                eventInfoJsObject.addProperty(propName, value);
+                eventInfo[propName] = value;
             }
         }
 
-        arguments.push(eventInfo);
+        arguments.push(new fcModel.JsValue(eventInfo, new fcModel.FcInternal(null, eventInfoJsObject)));
 
         return arguments;
     },

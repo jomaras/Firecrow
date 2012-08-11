@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+
+    function test()
+    {
+        return test1.apply(this, arguments);
+    }
+
+    function test1(arg1,arg2)
+    {
+       return arg1 + arg2;
+    }
+
+    var a1 = test(2,3);
+    a1;
+</script>
+</body>
+</html>

@@ -44,10 +44,6 @@ fcSimulator.ExecutionContext.prototype =
     {
         try
         {
-            if(codeConstruct.nodeId == 10121)
-            {
-                var a = 3;
-            }
             this.codeConstructValuesMapping[codeConstruct.nodeId] = value
         }
         catch(e) { this.notifyError("Error when setting codeConstruct value:" + e);}
@@ -613,12 +609,16 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                     for(var i = 0, length = formalParameters.length; i < length; i++)
                     {
                         var arrayItem = fcArray.getProperty(i);
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            formalParameters[i].value.fcInternal.codeConstruct,
-                            arrayItem != null ? arrayItem.lastModificationConstruct.codeConstruct : null,
-                            evaluationPosition
-                        );
+
+                        if(arrayItem != null && arrayItem.lastModificationConstruct != null)
+                        {
+                            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                            (
+                                formalParameters[i].value.fcInternal.codeConstruct,
+                                arrayItem.lastModificationConstruct.codeConstruct,
+                                evaluationPosition
+                            );
+                        }
 
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks
                         (
@@ -690,7 +690,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 }
             }
         }
-        catch(e) { this.notifyError("Error when establishing dependencies between function parameters and call expression arguments: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when establishing dependencies between function parameters and call expression arguments: " + e);
+        }
     },
 
     _getFormalParameters: function(functionConstruct)
