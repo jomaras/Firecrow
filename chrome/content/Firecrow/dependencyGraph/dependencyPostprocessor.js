@@ -335,7 +335,9 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
             memberExpression.object.shouldBeIncluded = true;
 
-            if(!ASTHelper.isCallExpression(memberExpression.parent))
+            if(!ASTHelper.isCallExpression(memberExpression.parent)
+            && !ASTHelper.isCallExpression(memberExpression.object)
+            && !ASTHelper.isLogicalExpression(memberExpression.object))
             {
                 memberExpression.property.shouldBeIncluded = true;
             }

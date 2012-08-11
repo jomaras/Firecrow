@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    var a = {
+        test1: function()
+        {
+            this.value = 3;
+            this.otherValue = "b";
+            return this;
+        },
+        test2: function()
+        {
+
+            return this;
+        },
+        "b": 3
+    };
+
+    a.test1()[a.otherValue];
+
+    var a1 = a.value;
+    a1;
+</script>
+</body>
+</html>
