@@ -371,13 +371,16 @@ fcSimulator.Evaluator.prototype =
             var binaryExpression = evalBinaryExpressionCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(binaryExpression.loc.start.line == 4216)
-            {
-                var a = 3;
-            }
-
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, evaluationPosition);
+            if(ASTHelper.isMemberExpression(binaryExpression.left))
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left.property, evaluationPosition, evaluationPosition, true);
+            }
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right, evaluationPosition);
+            if(ASTHelper.isMemberExpression(binaryExpression.right))
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right.property, evaluationPosition, evaluationPosition, true);
+            }
 
             var leftExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
             var rightExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
@@ -825,8 +828,14 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(conditionalConstruct, bodyExpressionValue);
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test, this.globalObject.getPreciseEvaluationPositionId());
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.body, this.globalObject.getPreciseEvaluationPositionId());
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test, evaluationPosition);
+            if(ASTHelper.isMemberExpression(conditionalExpressionCommand.codeConstruct.test))
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test.property, evaluationPosition, evaluationPosition, true);
+            }
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.body, evaluationPosition);
         }
         catch(e) { this.notifyError(conditionalExpressionCommand, "Error when evaluating conditional expression command: " + e); }
     },
@@ -932,15 +941,30 @@ fcSimulator.Evaluator.prototype =
         {
             var logicalExpression = evaluateEndLogicalExpressionCommand.codeConstruct;
             var executedItemsCommands = evaluateEndLogicalExpressionCommand.executedLogicalItemExpressionCommands;
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             for(var i = 0, length = executedItemsCommands.length; i < length; i++)
             {
+                var executedLogicalExpressionItemConstruct = executedItemsCommands[i].codeConstruct;
+
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
                     logicalExpression,
-                    executedItemsCommands[i].codeConstruct,
-                    this.globalObject.getPreciseEvaluationPositionId()
+                    executedLogicalExpressionItemConstruct,
+                    evaluationPosition
                 );
+
+                if(ASTHelper.isMemberExpression(executedLogicalExpressionItemConstruct))
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        logicalExpression,
+                        executedLogicalExpressionItemConstruct.property,
+                        evaluationPosition,
+                        evaluationPosition,
+                        true
+                    );
+                }
             }
         }
         catch(e) { this.notifyError(evaluateEndLogicalExpressionCommand, "Error when evaluating end logical expression item command: " + e); }
@@ -958,7 +982,13 @@ fcSimulator.Evaluator.prototype =
 
             if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument, this.globalObject.getPreciseEvaluationPositionId());
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId()
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument, evaluationPosition);
+            if(ASTHelper.isMemberExpression(unaryExpression.argument))
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument.property, evaluationPosition, evaluationPosition, true);
+            }
 
                  if (unaryExpression.operator == "-") { expressionValue = -argumentValue.value; }
             else if (unaryExpression.operator == "+") { expressionValue = +argumentValue.value; }

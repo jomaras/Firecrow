@@ -385,7 +385,7 @@
                     handleObj = matched.matches[j];
                     if (run_all)
                     {
-                        ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+                        ((jQuery.event.special[handleObj.origType] || {}).handler || handleObj.handler).apply(matched.elem, args);
                     }
                 }
             }

@@ -570,13 +570,13 @@ Browser.prototype =
         });
     },
 
-    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo)
+    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies)
     {
         if(sourceNode == null || targetNode == null) { return; }
 
         this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
         {
-            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo);
+            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies);
         });
     },
 

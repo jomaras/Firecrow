@@ -283,6 +283,12 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             || ASTHelper.isIfStatement(topConstruct))
             {
                 topConstruct.blockStackConstructs = [topConstruct.test];
+
+                if(ASTHelper.isMemberExpression(topConstruct.test))
+                {
+                    topConstruct.blockStackConstructs.push(topConstruct.test.property);
+                }
+
                 return topConstruct.blockStackConstructs;
             }
             else if(ASTHelper.isWithStatement(topConstruct))

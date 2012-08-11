@@ -46,7 +46,7 @@ DependencyGraph.prototype.handleNodeInserted = function(nodeModelObject, parentN
     }
 };
 
-DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo)
+DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency)
 {
     try
     {
@@ -56,12 +56,12 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
         {
             for(var i = 0; i < targetNodeModelObject.length; i++)
             {
-                sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject[i].graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo);
+                sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject[i].graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
             }
         }
         else
         {
-            sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo);
+            sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
         }
     }
     catch(e)
@@ -208,6 +208,12 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
             else if (dependencyEdge.isReturnDependency || dependencyEdge.shouldAlwaysBeFollowed)
             {
                 dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
+            }
+
+            if(dependencyEdge.shouldNotFollowDependency)
+            {
+                dependencyEdge.destinationNode.model.shouldBeIncluded = true;
+                continue;
             }
 
             this.traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);
