@@ -153,6 +153,11 @@ fcSimulator.Evaluator.prototype =
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
+            if(assignmentExpression.loc.start.line == 2955)
+            {
+                var a = 3;
+            }
+
             var operator = evalAssignmentExpressionCommand.operator;
             var finalValue = null;
 
@@ -1001,6 +1006,11 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(callInternalFunctionCommand, Firecrow.Interpreter.Commands.Command) || !callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
 
             var callExpression = callInternalFunctionCommand.codeConstruct;
+
+            if(callInternalFunctionCommand != null && callInternalFunctionCommand.id == 27849)
+            {
+                var a = 3;
+            }
 
             var thisObject = callInternalFunctionCommand.thisObject;
             var args = [];

@@ -502,13 +502,14 @@
             context = context;
             var m, ret, parts = [],
                     soFar = selector;
-            {
+            do {
                 m = chunker.exec(soFar);
                 if (m)
                 {
                     parts.push(m[1]);
                 }
             }
+            while (false)
             if (parts.length > 1);
             else
             {

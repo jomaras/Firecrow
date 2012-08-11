@@ -129,20 +129,20 @@ fcModel.ArrayProto =
         catch(e) { this.notifyError("Error when popping item: " + e); }
     },
 
-    reverse: function(jsArray, arguments, codeConstruct)
+    reverse: function(jsArray, arguments, codeConstruct, jsValue)
     {
         try
         {
             this.addDependenciesToAllProperties(codeConstruct);
             this.items.reverse();
-            jsArray.reverse()
+            jsArray.reverse();
 
             for(var i = 0; i < this.items.length; i++)
             {
                 this.addProperty(i, this.items[i], codeConstruct);
             }
 
-            return jsArray;
+            return jsValue;
         }
         catch(e) { this.notifyError("Error when reversing the array: " + e); }
     },
@@ -196,7 +196,7 @@ fcModel.ArrayProto =
         catch(e) { this.notifyError("Error when unshifting items in array: " + e); }
     },
 
-    sort: function(jsArray, arguments, codeConstruct)
+    sort: function(jsArray, arguments, codeConstruct, jsValue)
     {
         this.addDependenciesToAllProperties(codeConstruct);
 
@@ -220,7 +220,7 @@ fcModel.ArrayProto =
             this.addProperty(i, this.items[i], codeConstruct);
         }
 
-        return jsArray;
+        return jsValue;
     },
 
     splice: function(jsArray, arguments, codeConstruct)
@@ -516,7 +516,7 @@ fcModel.ArrayExecutor =
                 case "splice":
                 case "join":
                 case "sort":
-                    return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression]);
+                    return fcThisValue[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression, thisObject]);
                 case "forEach":
                 case "filter":
                 case "every":

@@ -44,6 +44,10 @@ fcSimulator.ExecutionContext.prototype =
     {
         try
         {
+            if(codeConstruct.nodeId == 10121)
+            {
+                var a = 3;
+            }
             this.codeConstructValuesMapping[codeConstruct.nodeId] = value
         }
         catch(e) { this.notifyError("Error when setting codeConstruct value:" + e);}
