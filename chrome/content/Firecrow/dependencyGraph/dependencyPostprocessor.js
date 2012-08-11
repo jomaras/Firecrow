@@ -334,7 +334,11 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             memberExpression.shouldBeIncluded = true;
 
             memberExpression.object.shouldBeIncluded = true;
-            memberExpression.property.shouldBeIncluded = true;
+
+            if(!ASTHelper.isCallExpression(memberExpression.parent))
+            {
+                memberExpression.property.shouldBeIncluded = true;
+            }
 
             this.processElement(memberExpression.object);
             this.processElement(memberExpression.property);

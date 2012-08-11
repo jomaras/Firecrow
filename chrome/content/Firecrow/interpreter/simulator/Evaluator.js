@@ -461,6 +461,10 @@ fcSimulator.Evaluator.prototype =
             this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
             this.addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.codeConstruct);
+
+            //If return is in event handler function
+            if(evalReturnExpressionCommand.parentFunctionCommand == null) { return; }
+
             evalReturnExpressionCommand.parentFunctionCommand.executedReturnCommand = evalReturnExpressionCommand;
 
             if(evalReturnExpressionCommand.parentFunctionCommand.isExecuteCallbackCommand())

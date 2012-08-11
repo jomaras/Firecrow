@@ -581,8 +581,13 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.generateJsCode(callExpression.callee)
-                + this._LEFT_PARENTHESIS
+            var calleeCode = this.generateJsCode(callExpression.callee);
+
+            //TODO HACKY WAY
+            if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
+
+            return calleeCode
+                +  this._LEFT_PARENTHESIS
                     +  this.getSequenceCode(callExpression.arguments)
                 +  this._RIGHT_PARENTHESIS;
         }

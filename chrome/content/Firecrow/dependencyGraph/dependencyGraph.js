@@ -167,7 +167,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
 {
     try
     {
-        if(codeConstruct.nodeId == 19)
+        if(codeConstruct.nodeId == 33)
         {
             var a = 3;
         }

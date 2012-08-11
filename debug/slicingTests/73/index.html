@@ -2,18 +2,21 @@
 <html>
 <body>
 <script>
+    var a = {
+        test1: function()
+        {
+            this.value = 3;
+            return this;
+        },
+        test2: function()
+        {
+            return this;
+        }
+    };
 
-    function test()
-    {
-        return test1.apply(this, arguments);
-    }
+    a.test1().test2();
 
-    function test1(arg1,arg2)
-    {
-       return arg1 + arg2;
-    }
-
-    var a1 = test(2,3);
+    var a1 = a.value;
     a1;
 </script>
 </body>
