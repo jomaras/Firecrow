@@ -333,7 +333,23 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             if(!this.inclusionFinder.isIncludedMemberExpression(memberExpression)) { return; }
 
             memberExpression.shouldBeIncluded = true;
-            memberExpression.object.shouldBeIncluded = true;
+
+            if(!ASTHelper.isMemberExpression(memberExpression.parent)
+            && !ASTHelper.isCallExpression(memberExpression.parent)
+            && !ASTHelper.isCallExpression(memberExpression.object))
+            {
+                memberExpression.object.shouldBeIncluded = true;
+                memberExpression.property.shouldBeIncluded = true;
+            }
+            else
+            {
+                if(ASTHelper.isIdentifier(memberExpression.property)
+                && !ASTHelper.isCallExpression(memberExpression.parent))
+                {
+                    memberExpression.object.shouldBeIncluded = true;
+                    memberExpression.property.shouldBeIncluded = true;
+                }
+            }
 
             this.processElement(memberExpression.object);
             this.processElement(memberExpression.property);

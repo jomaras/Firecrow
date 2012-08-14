@@ -103,7 +103,7 @@ DependencyGraph.prototype.handleControlDependencyEstablished = function(sourceNo
 
 DependencyGraph.prototype.handleControlFlowConnection = function(sourceNode)
 {
-    sourceNode.hasBeenExecuted = true;
+    //sourceNode.hasBeenExecuted = true;
 };
 
 DependencyGraph.prototype.handleImportantConstructReached = function(sourceNode)

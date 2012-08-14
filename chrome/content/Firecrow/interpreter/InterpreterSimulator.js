@@ -44,11 +44,30 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 this.processCommand(command);
 
-                if(command.codeConstruct.loc != null && command.codeConstruct.loc.start.line >= 4175
-                && command.codeConstruct.loc.start.line <= 4263 && command.isEvalIdentifierCommand())
+                if(command.codeConstruct != null)
                 {
-                    console.log("ExCommand@" + command.getLineNo() + "-" + command.executionId + ":" + command.type);
+                    command.codeConstruct.hasBeenExecuted = true;
+
+                    if(command.codeConstruct.property != null) { command.codeConstruct.property.hasBeenExecuted = true;}
+                    if(ASTHelper.isForInStatement(command.codeConstruct))
+                    {
+                        command.codeConstruct.right.hasBeenExecuted = true;
+                        command.codeConstruct.left.hasBeenExecuted = true;
+                        if(ASTHelper.isVariableDeclaration(command.codeConstruct.left))
+                        {
+                            command.codeConstruct.left.declarations[0].id.hasBeenExecuted = true;
+                        }
+                    }
+                    if(command.codeConstruct.argument != null) {command.codeConstruct.argument.hasBeenExecuted = true; }
+                    if(command.isDeclareVariableCommand())
+                    {
+                        if(ASTHelper.isForInStatement(command.codeConstruct.parent.parent))
+                        {
+                            command.codeConstruct.parent.parent.right.hasBeenExecuted = true;
+                        }
+                    }
                 }
+
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
 
                 this.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + "-" + command.executionId + ":" + command.type);

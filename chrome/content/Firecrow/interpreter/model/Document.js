@@ -115,7 +115,7 @@ fcModel.Document.CONST =
             "dir", "doctype", "documentElement", "documentURI", "documentURIObject", "domain", "embeds",
             "fgColor", "fileSize", "firstChild", "firstChild", "forms", "head", "height","images", "implementation",
             "inputEncoding", "lastChild", "lastModified", "links", "localName", "location", "namespaceURI",
-            "nextSibling", "nodeName", "nodeType", "nodeValue", "ownerDocument", "parentNode", "plugins",
+            "nextSibling", "nodeName", "nodeType", "nodeValue", "parentNode", "plugins",
             "popupNode", "preferredStyleSheetSet", "prefix", "previousSibling", "readyState", "scripts", "styleSheets",
             "textContent", "title", "tooltipNode", "URL"
         ]

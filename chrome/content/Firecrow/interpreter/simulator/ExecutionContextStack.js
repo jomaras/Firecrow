@@ -283,12 +283,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             || ASTHelper.isIfStatement(topConstruct))
             {
                 topConstruct.blockStackConstructs = [topConstruct.test];
-
-                if(ASTHelper.isMemberExpression(topConstruct.test))
-                {
-                    topConstruct.blockStackConstructs.push(topConstruct.test.property);
-                }
-
                 return topConstruct.blockStackConstructs;
             }
             else if(ASTHelper.isWithStatement(topConstruct))
@@ -465,8 +459,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(command, fcCommands.Command)) { this.notifyError("Argument must be a command when executing command"); return; }
-
             if (command.isEnterFunctionContextCommand())
             {
                 this.functionContextCommandsStack.push(command);

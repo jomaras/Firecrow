@@ -610,14 +610,18 @@ Firecrow.CodeTextGenerator.prototype =
 
             if(!isInBrackets)
             {
-                if(propertyCode.indexOf(' ') != -1)
+                if(propertyCode.indexOf(' ') != -1 || propertyCode == ":")
                 {
                     propertyCode = "'" + propertyCode + "'";
                     isInBrackets = true;
                 }
             }
 
-            return (isNotSimpleMemberExpression ? this._LEFT_PARENTHESIS : "") + this.generateJsCode(memberExpression.object) + (isNotSimpleMemberExpression ? this._RIGHT_PARENTHESIS : "")
+            var objectCode = this.generateJsCode(memberExpression.object);
+
+            if(objectCode === "") { return "";}
+
+            return (isNotSimpleMemberExpression ? this._LEFT_PARENTHESIS : "") + objectCode + (isNotSimpleMemberExpression ? this._RIGHT_PARENTHESIS : "")
                 + (isInBrackets ? ( propertyCode !== "" ? (this._LEFT_BRACKET + propertyCode + this._RIGHT_BRACKET) : "") : (this._DOT + propertyCode));
         }
         catch(e) { this.notifyError("Error when generating code from member expression:" + e); }

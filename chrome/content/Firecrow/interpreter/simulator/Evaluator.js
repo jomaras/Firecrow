@@ -372,15 +372,7 @@ fcSimulator.Evaluator.prototype =
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, evaluationPosition);
-            if(ASTHelper.isMemberExpression(binaryExpression.left))
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left.property, evaluationPosition, evaluationPosition, true);
-            }
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right, evaluationPosition);
-            if(ASTHelper.isMemberExpression(binaryExpression.right))
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right.property, evaluationPosition, evaluationPosition, true);
-            }
 
             var leftExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
             var rightExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
@@ -545,11 +537,6 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 6932)
-            {
-                var a = 3;
-            }
-
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
@@ -564,10 +551,8 @@ fcSimulator.Evaluator.prototype =
             {
                 if(object.fcInternal.object == this.globalObject.document)
                 {
-                    if(property.value == "nodeType")
-                    {
-                        propertyValue = this.globalObject.origDocument.nodeType;
-                    }
+                    if(property.value == "nodeType") { propertyValue = this.globalObject.origDocument.nodeType; }
+                    else if (property.value == "ownerDocument") { propertyValue = new fcModel.JsValue(null, fcModel.FcInternal()); }
                     else
                     {
                         propertyValue = object.value[property.value];
@@ -598,6 +583,8 @@ fcSimulator.Evaluator.prototype =
                 }
             }
 
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
             if(property != null && object != null)
             {
                 if(object.fcInternal != null && object.fcInternal.object != null)
@@ -612,7 +599,7 @@ fcSimulator.Evaluator.prototype =
                             (
                                 memberExpression.property,
                                 fcProperty.lastModificationConstruct.codeConstruct,
-                                this.globalObject.getPreciseEvaluationPositionId(),
+                                evaluationPosition,
                                 fcProperty.lastModificationConstruct.evaluationPositionId
                             );
                         }
@@ -622,7 +609,7 @@ fcSimulator.Evaluator.prototype =
                             (
                                 memberExpression.property,
                                 fcProperty.declarationConstruct.codeConstruct,
-                                this.globalObject.getPreciseEvaluationPositionId(),
+                                evaluationPosition,
                                 fcProperty.declarationConstruct.evaluationPositionId
                             );
                         }
@@ -636,7 +623,11 @@ fcSimulator.Evaluator.prototype =
             //to constructs where the property was not null
             if(propertyExists || !ASTHelper.isIdentifier(memberExpression.property) || ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, this.globalObject.getPreciseEvaluationPositionId());
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition);
+            }
+            else
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition, evaluationPosition, true);
             }
 
             this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
@@ -831,10 +822,6 @@ fcSimulator.Evaluator.prototype =
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test, evaluationPosition);
-            if(ASTHelper.isMemberExpression(conditionalExpressionCommand.codeConstruct.test))
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test.property, evaluationPosition, evaluationPosition, true);
-            }
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.body, evaluationPosition);
         }
         catch(e) { this.notifyError(conditionalExpressionCommand, "Error when evaluating conditional expression command: " + e); }
@@ -953,18 +940,6 @@ fcSimulator.Evaluator.prototype =
                     executedLogicalExpressionItemConstruct,
                     evaluationPosition
                 );
-
-                if(ASTHelper.isMemberExpression(executedLogicalExpressionItemConstruct))
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        logicalExpression,
-                        executedLogicalExpressionItemConstruct.property,
-                        evaluationPosition,
-                        evaluationPosition,
-                        true
-                    );
-                }
             }
         }
         catch(e) { this.notifyError(evaluateEndLogicalExpressionCommand, "Error when evaluating end logical expression item command: " + e); }
@@ -985,10 +960,6 @@ fcSimulator.Evaluator.prototype =
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId()
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument, evaluationPosition);
-            if(ASTHelper.isMemberExpression(unaryExpression.argument))
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument.property, evaluationPosition, evaluationPosition, true);
-            }
 
                  if (unaryExpression.operator == "-") { expressionValue = -argumentValue.value; }
             else if (unaryExpression.operator == "+") { expressionValue = +argumentValue.value; }
