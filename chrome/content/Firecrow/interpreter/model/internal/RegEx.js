@@ -22,6 +22,38 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
         this.addProperty("global", new fcModel.JsValue(jsRegExp.global, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         this.addProperty("multiline", new fcModel.JsValue(jsRegExp.multiline, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         this.addProperty("source", new fcModel.JsValue(jsRegExp.source, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+
+        this.modifications = [];
+
+        this.registerGetPropertyCallback(function(getPropertyConstruct)
+        {
+            this.addDependenciesToAllModifications(getPropertyConstruct);
+        }, this);
+
+        this.addDependenciesToAllModifications = function(codeConstruct)
+        {
+            try
+            {
+                if(codeConstruct == null) { return; }
+
+                for(var i = 0, length = this.modifications.length; i < length; i++)
+                {
+                    var modification = this.modifications[i];
+
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        codeConstruct,
+                        modification.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        modification.evaluationPositionId
+                    );
+                }
+            }
+            catch(e)
+            {
+                Firecrow.Interpreter.Model.RegEx.notifyError("Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source);
+            }
+        }
     }
     catch(e) { Firecrow.Interpreter.Model.RegEx.notifyError("Error when creating RegExp object: " + e); }
 };
@@ -96,10 +128,12 @@ fcModel.RegExExecutor =
                     var result = thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.value;}));
                     fcThisValue.addProperty("lastIndex", new fcModel.JsValue(thisObjectValue.lastIndex, new fcModel.FcInternal(callExpression)),callExpression);
 
+                    fcThisValue.addDependenciesToAllModifications(callExpression);
+                    fcThisValue.modifications.push({codeConstruct: callExpression, evaluationPositionId: fcThisValue.globalObject.getPreciseEvaluationPositionId()});
+
                     if(result == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
                     else if (ValueTypeHelper.isArray(result)){ return fcThisValue.globalObject.internalExecutor.createArray(callExpression, result);}
                     else { this.notifyError("Unknown result when exec regexp"); return null; }
-
                 case "test":
                     return new fcModel.JsValue
                     (

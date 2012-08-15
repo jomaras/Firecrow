@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+   var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g;
+   var m, parts = [], soFar = ":hidden";
+   do
+   {
+       chunker.exec('');
+       m = chunker.exec(soFar);
+       if(m)
+       {
+           soFar = m[3];
+           parts.push(m[1]);
+       }
+   }
+   while(m)
+
+    var a1 = parts[0] == ":hidden";
+    a1;
+</script>
+</body>
+</html>

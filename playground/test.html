@@ -488,6 +488,7 @@
             var m, ret, parts = [], soFar = selector;
             do
             {
+                chunker.exec('');
                 m = chunker.exec(soFar);
                 if(m)
                 {
