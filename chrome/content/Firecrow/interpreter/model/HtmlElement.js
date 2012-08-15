@@ -419,7 +419,16 @@ fcModel.HtmlElementExecutor =
                 {
                     result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 }
-                catch(e) {}
+                catch(e)
+                {
+                    globalObject.executionContextStack.callExceptionCallbacks
+                    (
+                        {
+                            exceptionGeneratingConstruct: callExpression,
+                            isMatchesSelectorException: true
+                        }
+                    );
+                }
 
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
             default:

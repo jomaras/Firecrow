@@ -425,8 +425,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             );
 
+            var endIfCommand = new fcCommands.Command(ifStatementCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.EndIf, parentFunctionCommand);
+            endIfCommand.startCommand = ifStatementCommand;
+
             commands.push(ifStatementCommand);
-            commands.push(new fcCommands.Command(ifStatementCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.EndIf, parentFunctionCommand));
+            commands.push(endIfCommand);
         }
         catch(e) { this.notifyError("Error when generating if statement commands:" + e);}
 
@@ -783,19 +786,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         {
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.WhileStatement,
-                parentFunctionCommand
-            ));
+            var startLoopCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.WhileStatement, parentFunctionCommand);
+            var endLoopCommand = new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement, parentFunctionCommand);
 
-            commands.push(new fcCommands.Command
-            (
-                sourceElement,
-                fcCommands.Command.COMMAND_TYPE.EndLoopStatement,
-                parentFunctionCommand
-            ));
+            commands.push(startLoopCommand);
+            commands.push(endLoopCommand);
         }
         catch(e) { this.notifyError("Error when generating while statement commands:" + e); }
 
@@ -859,8 +854,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands(sourceElement.body, parentFunctionCommand));
             ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
-            commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.DoWhileStatement, parentFunctionCommand));
-            commands.push(new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement, parentFunctionCommand));
+            var startCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.DoWhileStatement, parentFunctionCommand);
+            var endCommand = new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement, parentFunctionCommand);
+            endCommand.startCommand = startCommand;
+
+            commands.push(startCommand);
+            commands.push(endCommand);
         }
         catch(e) { this.notifyError("Error when generating while statement commands:" + e); }
 
@@ -945,8 +944,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             var forStatementCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.ForStatement, parentFunctionCommand);
             forStatementCommand.isFirstLoopExecution = true;
 
+            var endForStatementCommand = new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement,parentFunctionCommand);
+            endForStatementCommand.startCommand = forStatementCommand;
+
             commands.push(forStatementCommand);
-            commands.push(new fcCommands.Command(sourceElement,fcCommands.Command.COMMAND_TYPE.EndLoopStatement,parentFunctionCommand));
+            commands.push(endForStatementCommand);
         }
         catch(e) { this.notifyError("Error when generating for statement commands:" + e);}
 

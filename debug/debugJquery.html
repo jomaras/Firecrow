@@ -73,6 +73,12 @@
 
         .clearer { clear: both;}
 
+        #slicedSourceTextContainer
+        {
+            width: 1000px;
+            height: 800px;
+        }
+
     </style>
 </head>
 <body>
@@ -85,7 +91,7 @@
 <span id="resultTitle">Result:</span>
 <br/>
 <div id="slicedCodeContainer">
-    <pre id="slicedSourceTextContainer"></pre>
+    <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
 
@@ -117,7 +123,7 @@
 
     checkForErrors(browser, htmlModel);
 
-    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
+    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
 
     function setTitle(url)
     {

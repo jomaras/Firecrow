@@ -116,6 +116,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
             if(command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterException(command); }
 
             this.executionContextStack.executeCommand(command);
+            command.hasBeenExecuted = true;
 
             if (command.removesCommands) { this.processRemovingCommandsCommand(command); }
             if (command.generatesNewCommands) { this.processGeneratingNewCommandsCommand(command); }
@@ -217,7 +218,10 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            this.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line);
+            if(exceptionGeneratingArgument == null || !exceptionGeneratingArgument.isMatchesSelectorException)
+            {
+                this.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line);
+            }
 
             if(this.tryStack.length == 0)
             {
@@ -231,6 +235,11 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 if(command.isEndTryStatementCommand()) { break; }
                 if(command.isExitFunctionContextCommand()) { i++; continue;}
+
+                if(command.isEndIfCommand() || command.isEndLoopStatementCommand())
+                {
+                    if(command.startCommand != null && command.startCommand.hasBeenExecuted) { i++; continue; }
+                }
 
                 ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
             }

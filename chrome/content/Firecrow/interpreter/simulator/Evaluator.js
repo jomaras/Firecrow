@@ -313,11 +313,6 @@ fcSimulator.Evaluator.prototype =
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 4692)
-            {
-                var a = 3;
-            }
-
             var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
             var identifierValue = identifier != null ? identifier.value : null;
 

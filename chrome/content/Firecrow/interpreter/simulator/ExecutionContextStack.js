@@ -103,6 +103,7 @@ fcSimulator.ExecutionContextStack = function(globalObject, handlerInfo)
     {
         if(globalObject == null) { this.notifyError("GlobalObject can not be null when constructing execution context stack!"); return; }
         this.globalObject = globalObject;
+        this.globalObject.executionContextStack = this;
 
         this.stack = [];
         this.activeContext = null;
@@ -121,7 +122,7 @@ fcSimulator.ExecutionContextStack = function(globalObject, handlerInfo)
 
         this.evaluator.registerExceptionCallback(function(exceptionInfo)
         {
-            this._callExceptionCallbacks(exceptionInfo);
+            this.callExceptionCallbacks(exceptionInfo);
         }, this);
 
         this.exceptionCallbacks = [];
@@ -227,11 +228,27 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping if commands from block stack - empty stack!"); return; }
 
-            if(this.blockCommandStack[this.blockCommandStack.length-1].codeConstruct != ifCommand.codeConstruct) { this.notifyError("The top command has to be if command when popping commands from block stack"); return; }
+            if(this.blockCommandStack[this.blockCommandStack.length-1].codeConstruct != ifCommand.codeConstruct)
+            {
+                this.notifyError("The top command has to be if command when popping commands from block stack"); return;
+            }
 
             this.blockCommandStack.pop();
         }
         catch(e) { this.notifyError("Error when popping if command from block stack: " + e);}
+    },
+
+    _popTillCatchCommandFromBlockStack: function(catchCommand)
+    {
+        try
+        {
+            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping catch commands from block stack - empty stack!"); return; }
+
+            if(this.blockCommandStack[this.blockCommandStack.length-1].codeConstruct != catchCommand.codeConstruct) { this.notifyError("The top command has to be catch command when popping commands from block stack"); return; }
+
+            this.blockCommandStack.pop();
+        }
+        catch(e) { this.notifyError("Error when popping catch command from block stack: " + e);}
     },
 
     _popTillSwitchStatementCommand: function(switchCommand)
@@ -274,7 +291,9 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             var topConstruct = topCommand.codeConstruct;
 
             if(topCommand.isEnterFunctionContextCommand() && topCommand.blockStackConstructs != null) { return topCommand.blockStackConstructs; }
-            if(topCommand.isStartSwitchStatementCommand() && topCommand.blockStackConstructs != null) { return topCommand.blockStackConstructs; }
+            else if(topCommand.isStartSwitchStatementCommand() && topCommand.blockStackConstructs != null) { return topCommand.blockStackConstructs; }
+            else if(topCommand.isStartCatchStatementCommand() && topCommand.blockStackConstructs != null) { return topCommand.blockStackConstructs; }
+
             if(topConstruct.blockStackConstructs != null) { return topConstruct.blockStackConstructs; }
 
             if(ASTHelper.isForStatement(topConstruct)
@@ -316,6 +335,11 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                     }
                 }
 
+                return topCommand.blockStackConstructs;
+            }
+            else if (topCommand.isStartCatchStatementCommand())
+            {
+                topCommand.blockStackConstructs = [topCommand.exceptionArgument.exceptionGeneratingConstruct];
                 return topCommand.blockStackConstructs;
             }
 
@@ -502,6 +526,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isEndSwitchStatementCommand()) { this._popTillSwitchStatementCommand(command);}
             else if (command.isCaseCommand()) {}
             else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
+            else if (command.isStartCatchStatementCommand()){ this._addToBlockCommandStack(command);}
+            else if (command.isEndCatchStatementCommand()) { this._popTillCatchCommandFromBlockStack(command);}
             else if (command.isEvalNewExpressionCommand()){ this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isStartLogicalExpressionCommand()) {}
             else if (command.isCallInternalConstructorCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
@@ -1053,7 +1079,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { this.notifyError("Error when registering exception callback: " + e); }
     },
 
-    _callExceptionCallbacks: function(exceptionInfo)
+    callExceptionCallbacks: function(exceptionInfo)
     {
         this.exceptionCallbacks.forEach(function(callbackObject)
         {
