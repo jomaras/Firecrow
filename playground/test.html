@@ -433,7 +433,7 @@
     jQuery.fn.extend({
         queue: function (type, data)
         {
-            return false ? 0 : this.each(function ()
+            return data === undefined ? 0 : this.each(function ()
             {
                 var queue = jQuery.queue(this, type, data);
                 if(type === 'fx' && queue[0] !== 'inprogress')
@@ -505,7 +505,7 @@
                         expr: parts.pop(),
                         set: makeArray(seed)
                     } : 0;
-                    true ? Sizzle.filter(ret.expr, ret.set) : 0;
+                    ret.expr ? Sizzle.filter(ret.expr, ret.set) : 0;
                 }
             }
         };
@@ -564,7 +564,7 @@
                 }
             }
         };
-        var fescape = function (all, num)
+        var origPOS = Expr.match.POS, fescape = function (all, num)
         {
             return '\\' + ((num - 0) + 1);
         };
@@ -574,6 +574,7 @@
             Expr.leftMatch[type] = new RegExp(/(^(?:.|\r|\n)*?)/.source + Expr.match[type].source.replace(/\\(\d+)/g, fescape));
         }
 
+        Expr.match.globalPOS = origPOS;
         var makeArray = function (array, results)
         {
             array = Array.prototype.slice.call(array, 0);
@@ -627,16 +628,17 @@
         jQuery.find = Sizzle;
         jQuery.expr = Sizzle.selectors;
     })();
+    var POS = jQuery.expr.match.globalPOS;
     jQuery.fn.extend({
         is: function (selector)
         {
-            return (true ? false ? 0 : jQuery.filter(selector, this).length : 0);
+            return (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this).length : 0);
         }
     });
     jQuery.extend({
         filter: function (expr, elems, not)
         {
-            return true ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : 0 : 0;
+            return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : 0 : 0;
         }
     });
     jQuery.fn.extend({
@@ -644,7 +646,7 @@
         {
             return jQuery.access(this, function (value)
             {
-                return false ? 0 : this.empty().append(((this[0] && this[0].ownerDocument)).createTextNode(value));
+                return value === undefined ? 0 : this.empty().append(((this[0] && this[0].ownerDocument)).createTextNode(value));
             }, null, value, arguments.length);
         },
         append: function ()
@@ -923,7 +925,7 @@
                     }
                 }
             }
-            return false ? 0 : this.queue(optall.queue, doAnimation);
+            return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
         }
     });
     function createFxNow ()

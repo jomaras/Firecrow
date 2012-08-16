@@ -238,6 +238,22 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         catch(e) { this.notifyError("Error when popping if command from block stack: " + e);}
     },
 
+    _popTillConditionalExpressionCommand: function(conditionalCommand)
+    {
+        try
+        {
+            if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping conditional commands from block stack - empty stack!"); return; }
+
+            if(this.blockCommandStack[this.blockCommandStack.length-1].codeConstruct != conditionalCommand.codeConstruct)
+            {
+                this.notifyError("The top command has to be conditional command when popping commands from block stack"); return;
+            }
+
+            this.blockCommandStack.pop();
+        }
+        catch(e) { this.notifyError("Error when popping conditional command from block stack: " + e);}
+    },
+
     _popTillCatchCommandFromBlockStack: function(catchCommand)
     {
         try
@@ -299,7 +315,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             if(ASTHelper.isForStatement(topConstruct)
             || ASTHelper.isWhileStatement(topConstruct)
             || ASTHelper.isDoWhileStatement(topConstruct)
-            || ASTHelper.isIfStatement(topConstruct))
+            || ASTHelper.isIfStatement(topConstruct)
+            || ASTHelper.isConditionalExpression(topConstruct))
             {
                 topConstruct.blockStackConstructs = [topConstruct.test];
                 return topConstruct.blockStackConstructs;
@@ -517,6 +534,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isEndIfCommand()) { this._popTillIfCommand(command);}
             else if (command.isEndLoopStatementCommand()) { this._popTillLoopCommandFromBlockStack(command);}
             else if (command.isEvalConditionalExpressionBodyCommand()) { }
+            else if (command.isEvalConditionalExpressionCommand()) { this._addToBlockCommandStack(command); }
             else if (command.isEvalBreakCommand() || command.isEvalContinueCommand())
             {
                 this.evaluator.evaluateBreakContinueCommand(command );
@@ -536,11 +554,13 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isExecuteCallbackCommand()) {}
             else
             {
-                if(command.isEvalForInWhereCommand())
+                if (command.isEndEvalConditionalExpressionCommand()) { this._popTillConditionalExpressionCommand(command); }
+                else if(command.isEvalForInWhereCommand())
                 {
                     this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct.right);
                     this._addToBlockCommandStack(command);
                 }
+
                 this.evaluator.evaluateCommand(command);
             }
         }

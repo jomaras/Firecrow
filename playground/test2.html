@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #container {
+            height: 100px;
+            width: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+<div id="container">1</div>
+<script type="text/javascript">
+    var makeArray = function (array, results)
+    {
+        array = Array.prototype.slice.call(array, 0);
+        return array;
+    };
+    var test = {
+        is: function (selector)
+        {
+            return !(!selector) && (typeof selector === 'string' ? false ? 0 : this.filter1(selector, [document.getElementById('container')]).length > 0 : 0);
+        },
+        filter1: function (expr, elems)
+        {
+            return elems.length === 1 ? this.matchesSelector(elems[0], expr) ? 0 : [] : 0;
+        },
+        matchesSelector: function (node, expr)
+        {
+            expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, '=\'$1\']');
+            return this.Sizzle(expr, null, null, [node]).length > 0;
+        },
+        Sizzle: function (query, context, extra, seed)
+        {
+            return this.oldSizzle(query, document, extra, seed);
+        },
+        oldSizzle: function (selector, context, results, seed)
+        {
+            results = results || [];
+            context = context;
+            var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g;
+            var m, set, checkSet, ret, prune = true,
+                    parts = [],
+                    soFar = selector;
+            do {
+                chunker.exec('');
+                m = chunker.exec(soFar);
+                if (m)
+                {
+                    soFar = m[3];
+                    parts.push(m[1]);
+                }
+            }
+            while (m)
+            if (parts.length > 1);
+            else
+            {
+                if (context)
+                {
+                    ret = seed ? {
+                        expr: parts.pop(),
+                        set: makeArray(seed)
+                    } : 0;
+                    set = ret.expr ? this.filter(ret.expr, ret.set) : 0;
+                }
+            }
+            if (!checkSet)
+            {
+                checkSet = set;
+            }
+            if (Object.prototype.toString.call(checkSet) === '[object Array]')
+            {}
+            return results;
+        },
+        filter: function (expr, set, inplace, not)
+        {
+            var match, anyFound, type, found, item, filter, left, i, result = [],
+                    curLoop = set;
+            while (expr && set.length)
+            {
+                for (type in Expr.filter)
+                {
+                    if ((match = Expr.leftMatch[type].exec(expr)) != null && match[2])
+                    {
+                        filter = Expr.filter[type];
+                        left = match[1];
+                        anyFound = false;
+                        match.splice(1, 1);
+                        if (left.substr(left.length - 1) === '\\');
+                        if (Expr.preFilter[type])
+                        {
+                            match = Expr.preFilter[type](match, curLoop, inplace, result, not);
+                        }
+                        if (match)
+                        {
+                            for (i = 0;
+                                 (item = curLoop[i]) != null; i++)
+                            {
+                                if (item)
+                                {
+                                    found = filter(item, match, i, curLoop);
+                                }
+                            }
+                        }
+                        if (found !== undefined)
+                        {
+                            if (!anyFound)
+                            {
+                                return [];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var Expr = {
+        match: {
+            ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,
+            CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,
+            NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/,
+            ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/,
+            TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/,
+            CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/,
+            POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/,
+            PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/
+        },
+        leftMatch: {},
+        preFilter: {
+            PSEUDO: function (match, curLoop, inplace, result, not)
+            {
+                if (match[1] === 'not');
+                else if (Expr.match.POS.test(match[0]) || Expr.match.CHILD.test(match[0]));
+                return match;
+            }
+        },
+        filter: {
+            PSEUDO: function (elem, match, i, array)
+            {
+                var name = match[1],
+                        filter = Expr.filter[name];
+                if (filter)
+                {
+                    return filter(elem, i, match, array);
+                }
+            },
+            hidden: function (elem)
+            {
+                var width = elem.offsetWidth;
+                return width === 0;
+            }
+        }
+    };
+    var fescape = function (all, num)
+    {
+        return '\\' + ((num - 0) + 1);
+    };
+    for (var type in Expr.match)
+    {
+        Expr.match[type] = new RegExp(Expr.match[type].source + /(?![^\[]*\])(?![^\(]*\))/.source);
+        Expr.leftMatch[type] = new RegExp(/(^(?:.|\r|\n)*?)/.source + Expr.match[type].source.replace(/\\(\d+)/g, fescape));
+    }
+    var a1 = test.is(':hidden');
+    a1;
+</script>
+</body>
+
+</html>

@@ -50,7 +50,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isArrayExpressionItemCreationCommand()) { this._evaluateArrayExpressionItemCreationCommand(command);}
             else if (command.isFunctionExpressionCreationCommand()) { this._evaluateFunctionExpressionCreationCommand(command); }
             else if (command.isEvalForInWhereCommand()) { this._evaluateForInWhereCommand(command); }
-            else if (command.isEvalConditionalExpressionCommand()) { this._evaluateConditionalExpressionCommand(command);}
+            else if (command.isEndEvalConditionalExpressionCommand()) { this._evaluateConditionalExpressionCommand(command);}
             else if (command.isStartCatchStatementCommand()) { this._evaluateStartCatchStatementCommand(command);}
             else if (command.isEndCatchStatementCommand()) { this._evaluateEndCatchStatementCommand(command);}
             else if (command.isEvalLogicalExpressionItemCommand()) { this._evaluateLogicalExpressionItemCommand(command);}
@@ -807,9 +807,9 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(conditionalExpressionCommand, Firecrow.Interpreter.Commands.Command) || !conditionalExpressionCommand.isEvalConditionalExpressionCommand()) { this.notifyError(conditionalExpressionCommand, "Argument has to be an eval conditional expression command!"); return; }
+            if(!ValueTypeHelper.isOfType(conditionalExpressionCommand, Firecrow.Interpreter.Commands.Command) || !conditionalExpressionCommand.isEndEvalConditionalExpressionCommand()) { this.notifyError(conditionalExpressionCommand, "Argument has to be an eval conditional expression command!"); return; }
 
-            var bodyExpressionValue = this.executionContextStack.getExpressionValue(conditionalExpressionCommand.body);
+            var bodyExpressionValue = this.executionContextStack.getExpressionValue(conditionalExpressionCommand.startCommand.body);
             var conditionalConstruct = conditionalExpressionCommand.codeConstruct;
 
             this.executionContextStack.setExpressionValue(conditionalConstruct, bodyExpressionValue);
@@ -817,7 +817,7 @@ fcSimulator.Evaluator.prototype =
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test, evaluationPosition);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.body, evaluationPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.startCommand.body, evaluationPosition);
         }
         catch(e) { this.notifyError(conditionalExpressionCommand, "Error when evaluating conditional expression command: " + e); }
     },

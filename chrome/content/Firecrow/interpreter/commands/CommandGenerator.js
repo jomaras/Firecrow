@@ -1480,6 +1480,8 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 executeConditionalExpressionBodyCommand.codeConstruct.parentFunctionCommand
             );
 
+            commands.push(evalConditionalExpressionCommand);
+
             if(willConsequentBeExecuted)
             {
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands
@@ -1500,7 +1502,14 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 evalConditionalExpressionCommand.body = executeConditionalExpressionBodyCommand.codeConstruct.alternate;
             }
 
-            commands.push(evalConditionalExpressionCommand);
+            var endConditionalExpressionCommand = new fcCommands.Command
+            (
+                executeConditionalExpressionBodyCommand.codeConstruct,
+                fcCommands.Command.COMMAND_TYPE.EndEvalConditionalExpression,
+                executeConditionalExpressionBodyCommand.codeConstruct.parentFunctionCommand
+            );
+            endConditionalExpressionCommand.startCommand = evalConditionalExpressionCommand;
+            commands.push(endConditionalExpressionCommand);
         }
         catch(e) { this.notifyError("Error while generating conditional expression commands:" + e);}
 
@@ -1890,6 +1899,7 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isEvalContinueCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalContinue; },
 
     isEvalConditionalExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalConditionalExpression; },
+    isEndEvalConditionalExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndEvalConditionalExpression; },
     isEvalConditionalExpressionBodyCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalConditionalExpressionBody; },
 
     isEvalNewExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalNewExpression; },
@@ -1986,6 +1996,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EndEvalLogicalExpression: "EndEvalLogicalExpression",
 
     EvalConditionalExpression: "EvalConditionalExpression",
+    EndEvalConditionalExpression: "EndEvalConditionalExpression",
     EvalNewExpression: "EvalNewExpression",
     EvalCallExpression: "EvalCallExpression",
 
