@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+   var arrayLike = {};
+    arrayLike[0] = "a";
+    arrayLike[1] = "b";
+    arrayLike.length = 2;
+
+    var res = Array.prototype.splice.call(arrayLike, 1);
+    var a1 = res[0];
+    a1;
+</script>
+</body>
+</html>

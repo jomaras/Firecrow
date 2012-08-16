@@ -87,6 +87,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
     }
     catch(e) { fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e); }
 };
+fcModel.HtmlElement.accessedProperties = {};
 
 fcModel.HtmlElement.notifyError = function(message) { alert("HtmlElement - " + message); }
 
@@ -200,6 +201,8 @@ fcModel.HtmlElementProto =
 
     getHtmlPropertyValue: function(propertyName, codeConstruct)
     {
+        fcModel.HtmlElement.accessedProperties[propertyName] = true;
+
         if(propertyName == "childNodes")
         {
             var childNodes = this.getChildNodes(codeConstruct);
@@ -222,7 +225,13 @@ fcModel.HtmlElementProto =
         }
         else if(propertyName == "offsetHeight" || propertyName == "offsetWidth")
         {
+            console.log("Warning, working with offset!");
             //TODO: HUGE HACK
+            if(this.getPropertyValue("style").value.display == "none")
+            {
+                return new fcModel.JsValue(0, new fcModel.FcInternal());
+            }
+
             return new fcModel.JsValue(10, new fcModel.FcInternal());
         }
 

@@ -532,6 +532,12 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
+            if(memberExpression.loc.start.line == 6935)
+            {
+                var a = 3;
+                a++;
+            }
+
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
