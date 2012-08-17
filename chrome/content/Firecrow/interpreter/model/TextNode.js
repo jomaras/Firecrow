@@ -77,6 +77,17 @@ fcModel.TextNodeProto =
         catch(e) { this.notifyError("Error when getting child nodes:" + e);}
     },
 
+    getTextNodePropertyValue: function(propertyName, codeConstruct)
+    {
+        if (propertyName == "body" || propertyName == "parentNode"
+        || propertyName == "nextSibling" || propertyName == "previousSibling")
+        {
+            this.addProperty.call(this, propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct));
+        }
+
+        return this.getPropertyValue(propertyName, codeConstruct);
+    },
+
     notifyElementInsertedIntoDom: function(callExpression)
     {},
 

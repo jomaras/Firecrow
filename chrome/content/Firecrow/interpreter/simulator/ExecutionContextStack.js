@@ -500,6 +500,11 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
     {
         try
         {
+            if(!command.isEnterFunctionContextCommand())
+            {
+                this.activeContext.lastCommand = command;
+            }
+
             if (command.isEnterFunctionContextCommand())
             {
                 this.functionContextCommandsStack.push(command);

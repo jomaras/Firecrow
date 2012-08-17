@@ -330,7 +330,7 @@ fcModel.Object.prototype =
             var property = this.getProperty(propertyName, codeConstruct);
 
             return property != null ? property.value
-                                    : null;
+                                    : undefined;
         }
         catch(e) { fcModel.Object.notifyError("Error when getting property value:" + e);}
     },

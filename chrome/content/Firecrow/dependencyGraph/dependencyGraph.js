@@ -216,6 +216,11 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
                 continue;
             }
 
+            if(dependencyEdge.index == 37420)
+            {
+                var a = 3;
+            }
+
             this.traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);
         }
     }

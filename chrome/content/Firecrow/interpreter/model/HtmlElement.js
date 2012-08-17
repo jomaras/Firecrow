@@ -27,7 +27,9 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         if(htmlElement != null)
         {
             htmlElement.fcHtmlElementId = this.id;
-            this.globalObject.document.htmlElementToFcMapping[this.id] = this;
+            this.globalObject.document.htmlElementToFcMapping[this.id] = this
+            this.proto.addProperty.call(this, "rel", new fcModel.JsValue(htmlElement.rel, new fcModel.FcInternal()), codeConstruct);
+            this.proto.addProperty.call(this, "checked", new fcModel.JsValue(htmlElement.checked, new fcModel.FcInternal()), codeConstruct);
         }
 
         for(var prop in fcModel.HtmlElementProto)
@@ -117,6 +119,8 @@ fcModel.HtmlElementProto =
             if(codeConstruct == null) { return; }
 
             var modifications = this.htmlElement.elementModificationPoints;
+
+            if(modifications == null || modifications.length == 0) { return; }
 
             for(var i = 0, length = modifications.length; i < length; i++)
             {
@@ -233,6 +237,10 @@ fcModel.HtmlElementProto =
             }
 
             return new fcModel.JsValue(10, new fcModel.FcInternal());
+        }
+        else if (propertyName == "checked")
+        {
+            return new fcModel.JsValue(this.htmlElement.checked, new fcModel.FcInternal());
         }
 
         return this.getPropertyValue(propertyName, codeConstruct);
@@ -355,6 +363,17 @@ fcModel.HtmlElementExecutor =
         }
     },
 
+    addDependenciesToAllDescendantsModifications: function(htmlElement, codeConstruct, globalObject)
+    {
+        fcModel.HtmlElementProto.addDependenciesToAllModifications.call({htmlElement: htmlElement, globalObject:globalObject}, codeConstruct);
+        var childNodes = htmlElement.childNodes;
+
+        for(var i = 0, length = childNodes.length; i < length; i++)
+        {
+            this.addDependenciesToAllDescendantsModifications(childNodes[i], codeConstruct, globalObject);
+        }
+    },
+
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
         if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing html method!"); return; }
@@ -404,6 +423,7 @@ fcModel.HtmlElementExecutor =
                 }
                 return arguments[0];
             case "cloneNode":
+                this.addDependenciesToAllDescendantsModifications(thisObjectValue, callExpression, globalObject);
                 var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 return this.wrapToFcElement(clonedNode, globalObject, callExpression);
             case "addEventListener":

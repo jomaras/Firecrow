@@ -109,7 +109,8 @@ Firecrow.CodeTextGenerator.prototype =
             if(this.isSlicing && !htmlElement.shouldBeIncluded){ return htmlElementContent; }
 
             var code = this.whitespace + this.generateStartHtmlTagString(htmlElement.type)
-                     + this.generateHtmlElementAttributes(htmlElement) + ">";
+                     + this.generateHtmlElementAttributes(htmlElement)
+                     + ((htmlElement.type == "img" || htmlElement.type == "br") ? "/>" : ">");
 
             var hasOnlyTextContent = false;
 
@@ -1205,6 +1206,8 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateEndHtmlTagString: function(tagName)
     {
+        if(tagName == "img" || tagName == "br") { return "";}
+
         return "</" + tagName + ">";
     },
 

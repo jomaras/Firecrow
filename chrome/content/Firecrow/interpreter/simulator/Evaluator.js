@@ -153,7 +153,7 @@ fcSimulator.Evaluator.prototype =
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(assignmentExpression.loc.start.line == 2955)
+            if(evalAssignmentExpressionCommand.id == 26444)
             {
                 var a = 3;
             }
@@ -223,6 +223,15 @@ fcSimulator.Evaluator.prototype =
                 else if (object == this.globalObject)
                 {
                     this.globalObject.addProperty(property.value, finalValue.value,  assignmentExpression);
+                }
+                else if (ValueTypeHelper.isArray(object.value) && property.value == "length")
+                {
+                    if(object.value[property.value] !== finalValue.value)
+                    {
+                        console.log("Warning: Directly modifying array lenght property!");
+                    }
+
+                    object.value[property.value] = finalValue.value;
                 }
                 else
                 {
@@ -532,7 +541,7 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 4857)
+            if(memberExpression.loc.start.line == 6478)
             {
                 var a = 3;
             }
@@ -547,6 +556,7 @@ fcSimulator.Evaluator.prototype =
 
             if(object == this.globalObject) { propertyValue = this.globalObject.getPropertyValue(property.value); }
             else if (ValueTypeHelper.isOfType(object.value, HTMLElement)) { propertyValue = object.fcInternal.object.getHtmlPropertyValue(property.value, memberExpression); }
+            else if (ValueTypeHelper.isOfType(object.value, Text)) { propertyValue = object.fcInternal.object.getTextNodePropertyValue(property.value, memberExpression); }
             else if (ValueTypeHelper.isOfType(object.value, DocumentFragment))
             {
                 if(object.fcInternal.object == this.globalObject.document)
@@ -628,6 +638,22 @@ fcSimulator.Evaluator.prototype =
             else
             {
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition, evaluationPosition, true);
+
+                if(memberExpression.computed && ASTHelper.isIdentifier(memberExpression.property))
+                {
+                    var identifier = this.executionContextStack.getIdentifier(memberExpression.property.name);
+                    if(identifier != null && identifier.declarationConstruct != null)
+                    {
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            memberExpression,
+                            identifier.declarationConstruct.codeConstruct,
+                            evaluationPosition,
+                            identifier.declarationConstruct.evaluationPositionId,
+                            true
+                        );
+                    }
+                }
             }
 
             this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
@@ -955,6 +981,11 @@ fcSimulator.Evaluator.prototype =
             var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
             var expressionValue = null;
 
+            if(unaryExpression.loc.start.line == 6296)
+            {
+                var a = 3;
+            }
+
             if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
 
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId()
@@ -1146,6 +1177,11 @@ fcSimulator.Evaluator.prototype =
     {
         var topBlockConstructs = this.executionContextStack.getTopBlockCommandConstructs();
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        if(currentConstruct.loc != null && currentConstruct.loc.start.line == 6061)
+        {
+            var a = 3;
+        }
 
         for(var i = 0, length = topBlockConstructs.length; i < length; i++)
         {

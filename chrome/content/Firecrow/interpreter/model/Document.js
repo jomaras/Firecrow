@@ -190,17 +190,22 @@ fcModel.DocumentExecutor =
 
              if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
         else if (functionName == "createTextNode") { return globalObject.internalExecutor.createTextNode(callExpression, arguments[0].value);}
-        else if(functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
-        else if(functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }
+        else if (functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
+        else if (functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }
         else if (functionName == "createDocumentFragment") { return globalObject.internalExecutor.createDocumentFragment(callExpression, globalObject); }
         else if (functionName == "createComment") { return new fcModel.JsValue(globalObject.origDocument.createComment(""), new fcModel.FcInternal(callExpression))}
         else
         {
             var result;
             if(functionName == "getElementsByTagName"
-            || functionName == "querySelectorAll")
+            || functionName == "querySelectorAll"
+            || functionName == "getElementsByClassName")
             {
-                var elements = thisObjectValue.querySelectorAll(arguments[0].value);
+                var selector = arguments[0].value;
+
+                if(functionName == "getElementsByClassName") { selector = "." + selector; }
+
+                var elements = thisObjectValue.querySelectorAll(selector);
 
                 for(var i = 0, length = elements.length; i < length; i++)
                 {

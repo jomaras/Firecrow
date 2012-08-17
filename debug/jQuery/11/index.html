@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="../jQuery.js"></script>
+        <style>
+            #container
+            {
+                width: 200px;
+                height: 200px;
+                background-color: red;
+            }
+
+            .clickableContainer
+            {
+                width: 100px;
+                height: 100px;
+                background-color: blue;
+            }
+        </style>
+    </head>
+    <body>
+
+    <div id="container1">Text</div>
+    <div id="container">2</div>
+    <div id="container3">
+        <div class="clickableContainer"></div>
+    </div>
+
+    <script>
+        var jContainer = $("#container3");
+        var clickContainerChildren = jContainer.children();
+        clickContainerChildren.text("jQuery javascript text");
+    </script>
+    </body>
+</html>
