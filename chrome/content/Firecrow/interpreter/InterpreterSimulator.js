@@ -12,6 +12,8 @@ var CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 
+var logExecution = false;
+
 Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, handlerInfo)
 {
     this.programAst = programAst;
@@ -47,6 +49,23 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 if(command.codeConstruct != null)
                 {
                     command.codeConstruct.hasBeenExecuted = true;
+
+                    if(command.codeConstruct.loc != null)
+                    {
+                        if(command.codeConstruct.loc.start.line == 32)
+                        {
+                            logExecution = true;
+                        }
+                        else if (command.codeConstruct.loc.start.line == 33)
+                        {
+                            logExecution = false;
+                        }
+
+                        if(logExecution)
+                        {
+                            console.log(command.getLineNo() + "-" + command.type);
+                        }
+                    }
 
                     if(command.codeConstruct.property != null) { command.codeConstruct.property.hasBeenExecuted = true;}
                     if(ASTHelper.isForInStatement(command.codeConstruct))

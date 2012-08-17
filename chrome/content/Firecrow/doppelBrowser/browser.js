@@ -102,6 +102,7 @@ Browser.prototype =
         try
         {
             var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
+            htmlModelElement.hasBeenExecuted = true;
 
             this._setAttributes(htmlDomElement, htmlModelElement);
             this._insertIntoDom(htmlDomElement, parentDomElement);
@@ -215,6 +216,7 @@ Browser.prototype =
             cssHtmlElementModelNode.cssRules = cssHtmlElementModelNode.pathAndModel.model.rules;
             cssHtmlElementModelNode.cssRules.forEach(function(cssRule)
             {
+                cssRule.hasBeenExecuted = true;
                 this._callNodeCreatedCallbacks(cssRule, "css", false);
                 this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
                 this.cssRules.push(cssRule);

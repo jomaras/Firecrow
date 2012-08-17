@@ -7,8 +7,8 @@
     arrayLike[1] = "b";
     arrayLike.length = 2;
 
-    var res = Array.prototype.splice.call(arrayLike, 1);
-    var a1 = res[0];
+    Array.prototype.push.call(arrayLike, "c");
+    var a1 = arrayLike[2];
     a1;
 </script>
 </body>
