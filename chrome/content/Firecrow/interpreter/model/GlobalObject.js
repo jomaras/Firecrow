@@ -79,6 +79,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
 
         this.identifierSlicingCriteria = [];
         this.domModificationSlicingCriteria = [];
+        this.includeAllDomModifications = false;
 
         this.registerSlicingCriteria = function(slicingCriteria)
         {
@@ -97,6 +98,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
                 }
                 else if (criterion.type == Firecrow.DependencyGraph.SlicingCriterion.TYPES.DOM_MODIFICATION)
                 {
+                    if(criterion.cssSelector === "all") { this.includeAllDomModifications = true; }
                     this.domModificationSlicingCriteria.push(criterion);
                 }
             }
@@ -109,6 +111,8 @@ fcModel.GlobalObject = function(browser, documentFragment)
                 if(htmlElement == null) { return false; }
                 if(!(htmlElement instanceof HTMLElement)) { return false; }
                 if(this.domModificationSlicingCriteria.length == 0) { return false; }
+
+                if(this.includeAllDomModifications) { return true; }
 
                 for(var i = 0; i < this.domModificationSlicingCriteria.length; i++)
                 {

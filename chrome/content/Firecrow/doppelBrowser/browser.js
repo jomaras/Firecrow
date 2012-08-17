@@ -104,6 +104,8 @@ Browser.prototype =
             var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
             htmlModelElement.hasBeenExecuted = true;
 
+            htmlModelElement.shouldBeIncluded = this.globalObject.checkIfSatisfiesDomSlicingCriteria(htmlDomElement);
+
             this._setAttributes(htmlDomElement, htmlModelElement);
             this._insertIntoDom(htmlDomElement, parentDomElement);
 
@@ -140,15 +142,6 @@ Browser.prototype =
         {
             var attribute = attributes[i];
             htmlDomElement.setAttribute(attribute.name, attribute.value);
-        }
-
-        var calculatedProperties = htmlModelElement.calculatedProperties;
-
-        if(calculatedProperties == null) { return; }
-
-        for(var i = 0, length = attributes.length; i < length; i++)
-        {
-
         }
     },
 
