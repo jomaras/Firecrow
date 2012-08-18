@@ -107,7 +107,7 @@ fcModel.ArrayProto =
 
             for(var i = 0, argsLength = arguments.length; i < argsLength; i++)
             {
-                var argument = arguments[0];
+                var argument = arguments[i];
 
                 if(isCalledOnArray)
                 {

@@ -6654,7 +6654,7 @@
                     // Wrapped to prevent IE from throwing errors when 'invalid' values are provided
                     // Fixes bug #5509
                     try {
-                        style[ name ] = value;
+                        style[ name ] = value; console.log(value);
                     } catch(e) {}
                 }
 

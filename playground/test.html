@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>
+<title>ProgressIDE</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+</meta>
+<meta content="Component, Component based development, CBD, CBSE, tool, IDE, integrated development environment" name="keywords">
+</meta>
+<script type="text/javascript">
 (function (window, undefined)
 {
     var document = window.document, navigator = window.navigator;
@@ -10,13 +15,22 @@
         var jQuery = function (selector, context)
         {
             return new jQuery.fn.init(selector, context, rootjQuery);
-        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rnotwhite = /\S/, rwebkit = /(webkit)[ \/]([\w.]+)/, ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/, rmsie = /(msie) ([\w.]+)/, rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/, userAgent = navigator.userAgent, browserMatch, readyList, DOMContentLoaded, toString = Object.prototype.toString, class2type = {};
+        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rnotwhite = /\S/, rwebkit = /(webkit)[ \/]([\w.]+)/, ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/, rmsie = /(msie) ([\w.]+)/, rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function (all, letter)
+        {}, userAgent = navigator.userAgent, browserMatch, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
         jQuery.fn = jQuery.prototype = {
+            constructor: jQuery,
             init: function (selector, context, rootjQuery)
             {
                 var match, elem;
+                if(!selector)
+                {
+                    return this;
+                }
+
                 if(selector.nodeType)
                 {
+                    this[0] = selector;
+                    this.length = 1;
                     return this;
                 }
 
@@ -43,23 +57,49 @@
                             return this;
                         }
                     }
+                    else if(!context)
+                    {
+                        return (context || rootjQuery).find(selector);
+                    }
                 }
                 else if(jQuery.isFunction(selector))
                 {
                     return rootjQuery.ready(selector);
                 }
             },
+            jquery: '1.7.2',
             length: null,
+            pushStack: function (elems, name, selector)
+            {
+                var ret = this.constructor();
+                if(jQuery.isArray(elems))
+                {
+                    push.apply(ret, elems);
+                }
+                else
+                {
+                    jQuery.merge(ret, elems);
+                }
+
+                return ret;
+            },
+            each: function (callback, args)
+            {
+                return jQuery.each(this, callback, args);
+            },
             ready: function (fn)
             {
                 jQuery.bindReady();
                 readyList.add(fn);
-            }
+            },
+            push: push
         };
         jQuery.fn.init.prototype = jQuery.fn;
         jQuery.extend = jQuery.fn.extend = function ()
         {
             var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
+            if(typeof target !== 'object');
+
             if(length === i)
             {
                 target = this;
@@ -81,6 +121,8 @@
                     }
                 }
             }
+
+            return target;
         };
         jQuery.extend({
             isReady: null,
@@ -92,6 +134,10 @@
                     if(wait !== true && --jQuery.readyWait > 0);
 
                     readyList.fireWith(document, [null]);
+                    if(jQuery.fn.trigger)
+                    {
+                        jQuery(document).trigger('ready').off('ready');
+                    }
                 }
             },
             bindReady: function ()
@@ -106,9 +152,17 @@
             {
                 return jQuery.type(obj) === 'function';
             },
+            isArray: Array.isArray || function (obj)
+            {
+                return jQuery.type(obj) === 'array';
+            },
             type: function (obj)
             {
                 return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
+            },
+            camelCase: function (string)
+            {
+                return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
             },
             nodeName: function (elem, name)
             {
@@ -116,19 +170,45 @@
             },
             each: function (object, callback, args)
             {
-                var i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
+                var name, i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
                 if(args);
                 else
                 {
-                    if(isObj);
+                    if(isObj)
+                    {
+                        for(name in object)
+                        {
+                            if(callback.call(object[name], name, object[name]));
+                        }
+                    }
                     else
                     {
                         for(;i < length;)
                         {
-                            if(callback.call(object[i], i, object[i++]));
+                            if(callback.call(object[i], i, object[i++]) === false);
                         }
                     }
                 }
+
+                return object;
+            },
+            trim: trim ? function (text)
+            {
+                return text == null ? 0 : trim.call(text);
+            } : 0,
+            makeArray: function (array, results)
+            {
+                var ret = results || [];
+                if(array != null)
+                {
+                    var type = jQuery.type(array);
+                    if(array.length == null || type === 'string' || type === 'function')
+                    {
+                        push.call(ret, array);
+                    }
+                }
+
+                return ret;
             },
             merge: function (first, second)
             {
@@ -141,7 +221,30 @@
                     }
                 }
 
+                first.length = i;
                 return first;
+            },
+            map: function (elems, callback, arg)
+            {
+                var value, ret = [], i = 0, length = elems.length, isArray = elems instanceof jQuery;
+                if(isArray)
+                {
+                    for(;i < length;i++)
+                    {
+                        value = callback(elems[i], i, arg);
+                        if(value != null)
+                        {
+                            ret[ret.length] = value;
+                        }
+                    }
+                }
+
+                return ret.concat.apply([], ret);
+            },
+            guid: 1,
+            now: function ()
+            {
+                return (new Date()).getTime();
             },
             uaMatch: function (ua)
             {
@@ -239,7 +342,7 @@
     };
     jQuery.support = (function ()
     {
-        var support, all, a, select, opt, input, fragment, tds, div = document.createElement('div');
+        var support, all, a, select, opt, input, fragment, tds, isSupported, div = document.createElement('div');
         div.setAttribute('className', 't');
         div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
         all = div.getElementsByTagName('*');
@@ -260,10 +363,12 @@
             submitBubbles: true,
             changeBubbles: true,
             focusinBubbles: null,
+            deleteExpando: true,
             noCloneEvent: true
         };
         input.checked = true;
         support.noCloneChecked = input.cloneNode(true).checked;
+        select.disabled = true;
         input = document.createElement('input');
         input.value = 't';
         input.setAttribute('type', 'radio');
@@ -275,24 +380,30 @@
         support.checkClone = fragment.cloneNode(true).cloneNode(true).lastChild.checked;
         jQuery(function ()
         {
-            var container, outer, inner, marginDiv, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+            var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+            conMarginTop = 1;
             paddingMarginBorder = 'padding:0;margin:0;border:';
             positionTopLeftWidthHeight = 'position:absolute;top:0;left:0;width:1px;height:1px;';
             paddingMarginBorderVisibility = paddingMarginBorder + '0;visibility:hidden;';
             style = (('style=\'' + positionTopLeftWidthHeight) + paddingMarginBorder) + '5px solid #000;';
             html = ((((((('<div ' + style) + 'display:block;\'><div style=\'') + paddingMarginBorder) + '0;display:block;overflow:hidden;\'></div></div>') + '<table ') + style) + '\' cellpadding=\'0\' cellspacing=\'0\'>') + '<tr><td></td></tr></table>';
             container = document.createElement('div');
+            container.style.cssText = ((paddingMarginBorderVisibility + 'width:0;height:0;position:static;top:0;margin-top:') + conMarginTop) + 'px';
             body.insertBefore(container, body.firstChild);
             div = document.createElement('div');
             container.appendChild(div);
             div.innerHTML = ('<table><tr><td style=\'' + paddingMarginBorder) + '0;display:none\'></td><td>t</td></tr></table>';
             tds = div.getElementsByTagName('td');
+            isSupported = tds[0].offsetHeight === 0;
             tds[0].style.display = '';
             tds[1].style.display = 'none';
+            support.reliableHiddenOffsets = isSupported && tds[0].offsetHeight === 0;
             if(window.getComputedStyle)
             {
                 div.innerHTML = '';
                 marginDiv = document.createElement('div');
+                marginDiv.style.width = '0';
+                marginDiv.style.marginRight = '0';
                 div.style.width = '2px';
                 div.appendChild(marginDiv);
                 support.reliableMarginRight = (parseInt((window.getComputedStyle(marginDiv, null)).marginRight, 10) || 0) === 0;
@@ -310,32 +421,558 @@
             if(window.getComputedStyle)
             {
                 div.style.marginTop = '1%';
+                support.pixelMargin = (window.getComputedStyle(div, null)).marginTop !== '1%';
             }
 
             body.removeChild(container);
         });
         return support;
     })();
-    var getSetAttribute = jQuery.support.getSetAttribute;
+    jQuery.extend({
+        cache: {},
+        uuid: null,
+        expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
+        noData: {},
+        data: function (elem, name, data, pvt)
+        {
+            if(!(jQuery.acceptData(elem)));
+
+            var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
+            if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
+            {
+                return ;
+            }
+
+            if(!id)
+            {
+                if(isNode)
+                {
+                    elem[internalKey] = id = ++jQuery.uuid;
+                }
+            }
+
+            if(!(cache[id]))
+            {
+                cache[id] = {};
+            }
+
+            thisCache = cache[id];
+            if(data !== undefined)
+            {
+                thisCache[jQuery.camelCase(name)] = data;
+            }
+
+            if(getByName)
+            {
+                ret = thisCache[name];
+                if(ret == null)
+                {
+                    ret = thisCache[jQuery.camelCase(name)];
+                }
+            }
+            else
+            {
+                ret = thisCache;
+            }
+
+            return ret;
+        },
+        removeData: function (elem, name, pvt)
+        {
+            if(!(jQuery.acceptData(elem)));
+
+            var thisCache, i, l, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
+            if(!(cache[id]))
+            {
+                return ;
+            }
+
+            if(name)
+            {
+                thisCache = pvt ? cache[id] : 0;
+                if(thisCache)
+                {
+                    if(!(jQuery.isArray(name)))
+                    {
+                        if(name in thisCache);
+                        else
+                        {
+                            name = jQuery.camelCase(name);
+                            if(name in thisCache);
+                            else
+                            {
+                                name = name.split(' ');
+                            }
+                        }
+                    }
+
+                    for(i = 0, l = name.length;i < l;i++);
+                    if(!((pvt ? isEmptyDataObject : 0)(thisCache)))
+                    {
+                        return ;
+                    }
+                }
+            }
+
+            if(isNode)
+            {}
+        },
+        _data: function (elem, name, data)
+        {
+            return jQuery.data(elem, name, data, true);
+        },
+        acceptData: function (elem)
+        {
+            if(elem.nodeName)
+            {
+                var match = jQuery.noData[elem.nodeName.toLowerCase()];
+            }
+
+            return true;
+        }
+    });
+    function isEmptyDataObject (obj)
+    {
+        for(var name in obj)
+        {
+            if(name === 'data');
+
+            if(name !== 'toJSON')
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    function handleQueueMarkDefer (elem, type, src)
+    {
+        var deferDataKey = type + 'defer', defer = jQuery._data(elem, deferDataKey);
+        if(defer);
+    }
+    jQuery.extend({
+        queue: function (elem, type, data)
+        {
+            var q;
+            if(elem)
+            {
+                type = type + 'queue';
+                q = jQuery._data(elem, type);
+                if(data)
+                {
+                    if(!q || jQuery.isArray(data))
+                    {
+                        q = jQuery._data(elem, type, jQuery.makeArray(data));
+                    }
+                    else
+                    {
+                        q.push(data);
+                    }
+                }
+
+                return q || [];
+            }
+        },
+        dequeue: function (elem, type)
+        {
+            type = type;
+            var queue = jQuery.queue(elem, type), fn = queue.shift(), hooks = {};
+            if(fn === 'inprogress')
+            {
+                fn = queue.shift();
+            }
+
+            if(fn)
+            {
+                if(type === 'fx')
+                {
+                    queue.unshift('inprogress');
+                }
+
+                jQuery._data(elem, type + '.run', hooks);
+                fn.call(elem, function ()
+                {}, hooks);
+            }
+
+            if(!(queue.length))
+            {
+                jQuery.removeData(elem, ((type + 'queue ') + type) + '.run', true);
+                handleQueueMarkDefer(elem, type, 'queue');
+            }
+        }
+    });
     jQuery.fn.extend({
+        queue: function (type, data)
+        {
+            return data === undefined ? 0 : this.each(function ()
+            {
+                var queue = jQuery.queue(this, type, data);
+                if(type === 'fx' && queue[0] !== 'inprogress')
+                {
+                    jQuery.dequeue(this, type);
+                }
+            });
+        }
+    });
+    var getSetAttribute = jQuery.support.getSetAttribute;
+    jQuery.extend({
+        attrFn: {}
+    });
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rkeyEvent = /^key/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function (events)
+    {
+        return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
+    };
+    jQuery.event = {
+        add: function (elem, types, handler, data, selector)
+        {
+            var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
+            if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
+
+            if(!(handler.guid))
+            {
+                handler.guid = jQuery.guid++;
+            }
+
+            events = elemData.events;
+            if(!events)
+            {
+                elemData.events = events = {};
+            }
+
+            eventHandle = elemData.handle;
+            if(!eventHandle)
+            {
+                elemData.handle = eventHandle = function (e)
+                {
+                    return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
+                };
+                eventHandle.elem = elem;
+            }
+
+            types = jQuery.trim(hoverHack(types)).split(' ');
+            for(t = 0;t < types.length;t++)
+            {
+                tns = rtypenamespace.exec(types[t]);
+                type = tns[1];
+                special = jQuery.event.special[type] || {};
+                type = (selector ? 0 : special.bindType) || type;
+                special = jQuery.event.special[type] || {};
+                handleObj = jQuery.extend({
+                    origType: tns[1],
+                    handler: handler
+                }, handleObjIn);
+                handlers = events[type];
+                if(!handlers)
+                {
+                    handlers = events[type] = [];
+                    handlers.delegateCount = 0;
+                    if(!(special.setup))
+                    {
+                        if(elem.addEventListener)
+                        {
+                            elem.addEventListener(type, eventHandle, false);
+                        }
+                    }
+                }
+
+                if(selector);
+                else
+                {
+                    handlers.push(handleObj);
+                }
+            }
+        },
+        trigger: function (event, data, elem, onlyHandlers)
+        {
+            var type = event.type || event, i, cur, special, eventPath;
+            event = typeof event === 'object' ? 0 : new jQuery.Event(type);
+            special = jQuery.event.special[type];
+            eventPath = [[elem, special.bindType || type]];
+            for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
+            {
+                cur = eventPath[i][0];
+                (jQuery._data(cur, 'events'))[event.type];
+            }
+        },
+        dispatch: function (event)
+        {
+            event = jQuery.event.fix(event);
+            var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, matched, handleObj;
+            args[0] = event;
+            if(handlers.length > delegateCount)
+            {
+                handlerQueue.push({
+                    elem: this,
+                    matches: handlers.slice(delegateCount)
+                });
+            }
+
+            for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
+            {
+                matched = handlerQueue[i];
+                event.currentTarget = matched.elem;
+                for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
+                {
+                    handleObj = matched.matches[j];
+                    if(run_all)
+                    {
+                        ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+                    }
+                }
+            }
+        },
+        props: 'attrChange attrName relatedNode srcElement altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which'.split(' '),
+        fixHooks: {},
+        mouseHooks: {
+            props: 'button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement'.split(' '),
+            filter: function (event, original)
+            {
+                var button = original.button;
+                return event;
+            }
+        },
+        fix: function (event)
+        {
+            var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type], copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
+            event = jQuery.Event(originalEvent);
+            for(i = copy.length;i;)
+            {
+                prop = copy[--i];
+                event[prop] = originalEvent[prop];
+            }
+
+            if(!(event.target))
+            {
+                event.target = originalEvent.srcElement || document;
+            }
+
+            return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
+        },
+        special: {
+            ready: {}
+        }
+    };
+    jQuery.Event = function (src, props)
+    {
+        if(!(this instanceof jQuery.Event))
+        {
+            return new jQuery.Event(src, props);
+        }
+
+        if(src && src.type)
+        {
+            this.type = src.type;
+        }
+    };
+    function returnFalse ()
+    {
+        return false;
+    }
+    jQuery.Event.prototype = {
+        isPropagationStopped: returnFalse,
+        isImmediatePropagationStopped: returnFalse
+    };
+    jQuery.fn.extend({
+        on: function (types, selector, data, fn, one)
+        {
+            return this.each(function ()
+            {
+                jQuery.event.add(this, types, fn, data, selector);
+            });
+        },
+        off: function (types, selector, fn)
+        {
+            return this.each(function ()
+            {});
+        },
         trigger: function (type, data)
-        {}
+        {
+            return this.each(function ()
+            {
+                jQuery.event.trigger(type, data, this);
+            });
+        }
+    });
+    jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function (i, name)
+    {
+        jQuery.fn[name] = function (data, fn)
+        {
+            if(fn == null)
+            {
+                fn = data;
+                data = null;
+            }
+
+            return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
+        };
+        if(rkeyEvent.test(name));
+
+        if(rmouseEvent.test(name))
+        {
+            jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
+        }
     });
     (function ()
     {
+        var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g, toString = Object.prototype.toString;
         var Sizzle = function (selector, context, results, seed)
-        {};
+        {
+            results = results || [];
+            context = context;
+            var m, set, checkSet, extra, ret, prune, parts = [], soFar = selector;
+            do
+            {
+                chunker.exec('');
+                m = chunker.exec(soFar);
+                if(m)
+                {
+                    soFar = m[3];
+                    parts.push(m[1]);
+                }
+            }
+            while(m)
+            if(parts.length > 1);
+            else
+            {
+                if(!seed);
+
+                if(context)
+                {
+                    ret = seed ? {
+                        expr: parts.pop(),
+                        set: makeArray(seed)
+                    } : 0;
+                    set = ret.expr ? Sizzle.filter(ret.expr, ret.set) : 0;
+                    if(parts.length > 0);
+                    else
+                    {
+                        prune = false;
+                    }
+                }
+            }
+
+            if(!checkSet)
+            {
+                checkSet = set;
+            }
+
+            if(toString.call(checkSet) === '[object Array]')
+            {
+                if(!prune)
+                {
+                    results.push.apply(results, checkSet);
+                }
+            }
+
+            return results;
+        };
+        Sizzle.filter = function (expr, set, inplace, not)
+        {
+            var match, anyFound, type, found, item, filter, left, i, pass, result = [], curLoop = set, isXMLFilter = set && set[0] && Sizzle.isXML(set[0]);
+            while(expr && set.length)
+            {
+                for(type in Expr.filter)
+                {
+                    if((match = Expr.leftMatch[type].exec(expr)) != null && match[2])
+                    {
+                        filter = Expr.filter[type];
+                        left = match[1];
+                        anyFound = false;
+                        match.splice(1, 1);
+                        if(left.substr(left.length - 1) === '\\');
+
+                        if(Expr.preFilter[type])
+                        {
+                            match = Expr.preFilter[type](match, curLoop, inplace, result, not, isXMLFilter);
+                        }
+
+                        if(match)
+                        {
+                            for(i = 0;(item = curLoop[i]) != null;i++)
+                            {
+                                if(item)
+                                {
+                                    found = filter(item, match, i, curLoop);
+                                    pass = not ^ found;
+                                }
+                            }
+                        }
+
+                        if(found !== undefined)
+                        {
+                            if(!anyFound)
+                            {
+                                return [];
+                            }
+                        }
+                    }
+                }
+            }
+        };
         var Expr = Sizzle.selectors = {
-            match: {},
-            filters: {}
+            match: {ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/, ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/, TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/, CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/, POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/, PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/},
+            leftMatch: {},
+            find: {},
+            preFilter: {
+                PSEUDO: function (match, curLoop, inplace, result, not)
+                {
+                    if(match[1] === 'not');
+                    else if(Expr.match.POS.test(match[0]) || Expr.match.CHILD.test(match[0]));
+
+
+                    return match;
+                }
+            },
+            filters: {},
+            filter: {
+                PSEUDO: function (elem, match, i, array)
+                {
+                    var name = match[1], filter = Expr.filters[name];
+                    if(filter)
+                    {
+                        return filter(elem, i, match, array);
+                    }
+                }
+            }
+        };
+        var origPOS = Expr.match.POS, fescape = function (all, num)
+        {
+            return '\\' + ((num - 0) + 1);
+        };
+        for(var type in Expr.match)
+        {
+            Expr.match[type] = new RegExp(Expr.match[type].source + /(?![^\[]*\])(?![^\(]*\))/.source);
+            Expr.leftMatch[type] = new RegExp(/(^(?:.|\r|\n)*?)/.source + Expr.match[type].source.replace(/\\(\d+)/g, fescape));
+        }
+
+        Expr.match.globalPOS = origPOS;
+        var makeArray = function (array, results)
+        {
+            array = Array.prototype.slice.call(array, 0);
+            if(results)
+            {
+                results.push.apply(results, array);
+            }
+
+            return array;
         };
         (function ()
         {
             var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
+            form.innerHTML = ('<a name=\'' + id) + '\'/>';
             root.insertBefore(form, root.firstChild);
             if(document.getElementById(id));
 
             root.removeChild(form);
+        })();
+        (function ()
+        {
+            var div = document.createElement('div');
+            div.appendChild(document.createComment(''));
+            if(div.getElementsByTagName('*').length > 0);
+
+            div.innerHTML = '<a href=\'#\'></a>';
+            if(div.firstChild && typeof (div.firstChild.getAttribute) !== 'undefined' && div.firstChild.getAttribute('href') !== '#');
         })();
         if(document.querySelectorAll)
         {
@@ -346,7 +983,32 @@
                 if(div.querySelectorAll && div.querySelectorAll('.TEST').length === 0);
 
                 Sizzle = function (query, context, extra, seed)
-                {};
+                {
+                    context = context || document;
+                    if(!seed && !(Sizzle.isXML(context)))
+                    {
+                        var match = /^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/.exec(query);
+                        if(match && (context.nodeType === 1 || context.nodeType === 9))
+                        {
+                            if(match[1]);
+                            else if(match[2] && Expr.find.CLASS && context.getElementsByClassName)
+                            {
+                                return makeArray(context.getElementsByClassName(match[2]), extra);
+                            }
+                        }
+
+                        if(context.nodeType === 9)
+                        {
+                            try
+                            {
+                                return makeArray(context.querySelectorAll(query), extra);
+                            }
+                            catch(qsaError){}
+                        }
+                    }
+
+                    return oldSizzle(query, context, extra, seed);
+                };
                 for(var prop in oldSizzle)
                 {
                     Sizzle[prop] = oldSizzle[prop];
@@ -354,8 +1016,116 @@
             })();
         }
 
+        (function ()
+        {
+            var html = document.documentElement, matches = html.matchesSelector || html.mozMatchesSelector;
+            if(matches)
+            {
+                var pseudoWorks;
+                try
+                {
+                    matches.call(document.documentElement, '[test!=\'\']:sizzle');
+                }
+                catch(pseudoError)
+                {
+                    pseudoWorks = true;
+                }
+                Sizzle.matchesSelector = function (node, expr)
+                {
+                    expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, '=\'$1\']');
+                    if(!(Sizzle.isXML(node)))
+                    {
+                        try
+                        {
+                            if(pseudoWorks);
+                        }
+                        catch(e){}
+                    }
+
+                    return Sizzle(expr, null, null, [node]).length > 0;
+                };
+            }
+        })();
+        (function ()
+        {
+            var div = document.createElement('div');
+            div.innerHTML = '<div class=\'test e\'></div><div class=\'test\'></div>';
+            if(!(div.getElementsByClassName) || div.getElementsByClassName('e').length === 0);
+
+            div.lastChild.className = 'e';
+            if(div.getElementsByClassName('e').length === 1);
+
+            Expr.find.CLASS = function (match, context, isXML)
+            {};
+        })();
+        Sizzle.isXML = function (elem)
+        {
+            var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
+        };
+        jQuery.find = Sizzle;
         jQuery.expr = Sizzle.selectors;
     })();
+    var runtil = /Until$/, rmultiselector = /,/, slice = Array.prototype.slice, POS = jQuery.expr.match.globalPOS;
+    jQuery.fn.extend({
+        find: function (selector)
+        {
+            var i, l;
+            var ret = this.pushStack('', 'find', selector);
+            for(i = 0, l = this.length;i < l;i++)
+            {
+                jQuery.find(selector, this[i], ret);
+            }
+
+            return ret;
+        },
+        is: function (selector)
+        {
+            return !(!selector) && (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this).length > 0 : 0);
+        }
+    });
+    jQuery.each({
+        children: function (elem)
+        {
+            return jQuery.sibling(elem.firstChild);
+        },
+        contents: function (elem)
+        {}
+    }, function (name, fn)
+    {
+        jQuery.fn[name] = function (until, selector)
+        {
+            var ret = jQuery.map(this, fn, until);
+            if(!(runtil.test(name)))
+            {
+                selector = until;
+            }
+
+            ret = this.length > 1 ? 0 : ret;
+            if((this.length > 1 || rmultiselector.test(selector)));
+
+            return this.pushStack(ret, name, slice.call(arguments).join(','));
+        };
+    });
+    jQuery.extend({
+        filter: function (expr, elems, not)
+        {
+            return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : [] : 0;
+        },
+        sibling: function (n, elem)
+        {
+            var r = [];
+            for(;n;n = n.nextSibling)
+            {
+                if(n.nodeType === 1 && n !== elem)
+                {
+                    r.push(n);
+                }
+            }
+
+            return r;
+        }
+    });
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rhtml = /<|&#?\w+;/, rnocache = /<(?:script|object|embed|option|style)/i, wrapMap = {
         _default: [0, '', '']
     };
@@ -370,9 +1140,23 @@
                 }
             });
         },
+        empty: function ()
+        {
+            for(var i = 0, elem;(elem = this[i]) != null;i++)
+            {
+                while(elem.firstChild)
+                {
+                    elem.removeChild(elem.firstChild);
+                }
+            }
+        },
         domManip: function (args, table, callback)
         {
-            var results, first, fragment, scripts = [];
+            var results, first, fragment, value = args[0], scripts = [];
+            if(!(jQuery.support.checkClone));
+
+            if(jQuery.isFunction(value));
+
             if(this[0])
             {
                 if(jQuery.support.parentNode);
@@ -396,6 +1180,8 @@
                     }
                 }
             }
+
+            return this;
         }
     });
     jQuery.buildFragment = function (args, nodes, scripts)
@@ -487,8 +1273,100 @@
             }
         }
     });
+    var rupper = /([A-Z]|^ms)/g, rrelNum = /^([\-+])=([\-+.\de]+)/, curCSS, getComputedStyle;
+    jQuery.extend({
+        cssHooks: {
+            opacity: {
+                get: function (elem, computed)
+                {
+                    if(computed)
+                    {
+                        var ret = curCSS(elem, 'opacity');
+                        return ret === '' ? 0 : ret;
+                    }
+                    else
+                    {
+                        return elem.style.opacity;
+                    }
+                }
+            }
+        },
+        cssNumber: {'opacity': true},
+        cssProps: {},
+        style: function (elem, name, value, extra)
+        {
+            var ret, type, origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
+            name = jQuery.cssProps[origName] || origName;
+            if(value !== undefined)
+            {
+                type = typeof value;
+                if(type === 'string' && (ret = rrelNum.exec(value)));
+
+                if(value == null || type === 'number');
+
+                if(!hooks || !('set' in hooks))
+                {
+                    try
+                    {
+                        style[name] = value;
+                    }
+                    catch(e){}
+                }
+            }
+            else
+            {
+                if(hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined)
+                {
+                    return ret;
+                }
+            }
+        },
+        css: function (elem, name, extra)
+        {
+            var ret, hooks;
+            name = jQuery.camelCase(name);
+            hooks = jQuery.cssHooks[name];
+            name = jQuery.cssProps[name] || name;
+            if(hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
+            {
+                return ret;
+            }
+            else if(curCSS)
+            {
+                return curCSS(elem, name);
+            }
+        }
+    });
+    if(document.defaultView && document.defaultView.getComputedStyle)
+    {
+        getComputedStyle = function (elem, name)
+        {
+            var ret, defaultView, computedStyle;
+            name = name.replace(rupper, '-$1').toLowerCase();
+            if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
+            {
+                ret = computedStyle.getPropertyValue(name);
+                if(ret === '');
+            }
+
+            if(!(jQuery.support.pixelMargin));
+
+            return ret;
+        };
+    }
+
+    curCSS = getComputedStyle;
     jQuery(function ()
     {});
+    if(jQuery.expr && jQuery.expr.filters)
+    {
+        jQuery.expr.filters.hidden = function (elem)
+        {
+            var width = elem.offsetWidth;
+            return width === 0 || !(jQuery.support.reliableHiddenOffsets);
+        };
+    }
+
     jQuery.extend({
         ajaxSettings: {}
     });
@@ -507,16 +1385,697 @@
             ajax: !(!xhr)
         });
     })(jQuery.ajaxSettings.xhr());
+    var rfxtypes = /^(?:toggle|show|hide)$/, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
+    jQuery.fn.extend({
+        hide: function (speed, easing, callback)
+        {
+            if(speed || speed === 0);
+            else
+            {
+                var elem, display, i = 0, j = this.length;
+                for(;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = jQuery.css(elem, 'display');
+                        if(display !== 'none' && !(jQuery._data(elem, 'olddisplay')))
+                        {
+                            jQuery._data(elem, 'olddisplay', display);
+                        }
+                    }
+                }
+
+                for(i = 0;i < j;i++)
+                {
+                    if(this[i].style)
+                    {
+                        this[i].style.display = 'none';
+                    }
+                }
+            }
+        },
+        animate: function (prop, speed, easing, callback)
+        {
+            var optall = jQuery.speed(speed, easing, callback);
+            prop = jQuery.extend({}, prop);
+            function doAnimation ()
+            {
+                var opt = jQuery.extend({}, optall), isElement = this.nodeType === 1, hidden = isElement && jQuery(this).is(':hidden'), name, val, p, e, method;
+                opt.animatedProperties = {};
+                for(p in prop)
+                {
+                    jQuery.camelCase(p);
+                }
+
+                for(name in prop)
+                {
+                    val = prop[name];
+                    if(jQuery.isArray(val));
+                    else
+                    {
+                        opt.animatedProperties[name] = opt.specialEasing || opt.easing || 'swing';
+                    }
+
+                    if(val === 'hide' || (val === 'show' && !hidden))
+                    {
+                        return opt.complete.call(this);
+                    }
+                }
+
+                for(p in prop)
+                {
+                    e = new jQuery.fx(this, opt, p);
+                    val = prop[p];
+                    if(rfxtypes.test(val))
+                    {
+                        method = jQuery._data(this, 'toggle' + p) || (val === 'toggle' ? 0 : 0);
+                        if(method);
+                        else
+                        {
+                            e[val]();
+                        }
+                    }
+                }
+            }
+            return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
+        }
+    });
+    function createFxNow ()
+    {
+        setTimeout(clearFxNow, 0);
+        return fxNow = jQuery.now();
+    }
+    function clearFxNow ()
+    {
+        fxNow = undefined;
+    }
+    jQuery.each({
+        fadeIn: {opacity: 'show'},
+        fadeOut: {opacity: 'hide'},
+        fadeToggle: {}
+    }, function (name, props)
+    {
+        jQuery.fn[name] = function (speed, easing, callback)
+        {
+            return this.animate(props, speed, easing, callback);
+        };
+    });
+    jQuery.extend({
+        speed: function (speed, easing, fn)
+        {
+            var opt = speed && typeof speed === 'object' ? 0 : {
+                complete: fn || (!fn && easing) || jQuery.isFunction(speed),
+                duration: speed,
+                easing: fn || easing && !(jQuery.isFunction(easing))
+            };
+            opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : 0;
+            if(opt.queue == null)
+            {
+                opt.queue = 'fx';
+            }
+
+            opt.old = opt.complete;
+            opt.complete = function (noUnmark)
+            {
+                if(jQuery.isFunction(opt.old))
+                {
+                    opt.old.call(this);
+                }
+
+                if(opt.queue)
+                {
+                    jQuery.dequeue(this, opt.queue);
+                }
+            };
+            return opt;
+        },
+        easing: {
+            swing: function (p)
+            {
+                return (-(Math.cos(p * Math.PI)) / 2) + 0.5;
+            }
+        },
+        timers: [],
+        fx: function (elem, options, prop)
+        {
+            this.options = options;
+            this.elem = elem;
+            this.prop = prop;
+            options.orig = options.orig || {};
+        }
+    });
+    jQuery.fx.prototype = {
+        update: function ()
+        {
+            jQuery.fx.step[this.prop](this);
+        },
+        cur: function ()
+        {
+            var parsed, r = jQuery.css(this.elem, this.prop);
+            return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
+        },
+        custom: function (from, to, unit)
+        {
+            var self = this, fx = jQuery.fx;
+            this.startTime = fxNow || createFxNow();
+            this.end = to;
+            this.start = from;
+            this.unit = unit || this.unit || (jQuery.cssNumber[this.prop] ? '' : 0);
+            function t (gotoEnd)
+            {
+                return self.step(gotoEnd);
+            }
+            if(t() && jQuery.timers.push(t) && !timerId)
+            {
+                timerId = setInterval(fx.tick, fx.interval);
+            }
+        },
+        hide: function ()
+        {
+            this.options.orig[this.prop] = jQuery._data(this.elem, 'fxshow' + this.prop) || jQuery.style(this.elem, this.prop);
+            this.options.hide = true;
+            this.custom(this.cur(), 0);
+        },
+        step: function (gotoEnd)
+        {
+            var p, n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
+            if(gotoEnd || t >= (options.duration + this.startTime))
+            {
+                this.now = this.end;
+                this.update();
+                options.animatedProperties[this.prop] = true;
+                for(p in options.animatedProperties)
+                {}
+
+                if(done)
+                {
+                    if(options.hide)
+                    {
+                        jQuery(elem).hide();
+                    }
+
+                    if(options.hide)
+                    {
+                        for(p in options.animatedProperties)
+                        {
+                            jQuery.style(elem, p, options.orig[p]);
+                            jQuery.removeData(elem, 'fxshow' + p, true);
+                            jQuery.removeData(elem, 'toggle' + p, true);
+                        }
+                    }
+
+                    complete = options.complete;
+                    if(complete)
+                    {
+                        complete.call(elem);
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                if(options.duration == Infinity);
+                else
+                {
+                    n = t - this.startTime;
+                    this.state = n / options.duration;
+                    this.pos = jQuery.easing[options.animatedProperties[this.prop]](this.state, n, 0, 1, options.duration);
+                    this.now = this.start + ((this.end - this.start) * this.pos);
+                }
+
+                this.update();
+            }
+
+            return true;
+        }
+    };
+    jQuery.extend(jQuery.fx, {
+        tick: function ()
+        {
+            var timer, timers = jQuery.timers, i = 0;
+            for(;i < timers.length;i++)
+            {
+                timer = timers[i];
+                if(!(timer()) && timers[i] === timer)
+                {
+                    timers.splice(i--, 1);
+                }
+            }
+
+            if(!(timers.length))
+            {
+                jQuery.fx.stop();
+            }
+        },
+        interval: 13,
+        stop: function ()
+        {
+            clearInterval(timerId);
+        },
+        step: {}
+    });
+    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function (i, prop)
+    {
+        if(prop.indexOf('margin'))
+        {
+            jQuery.fx.step[prop] = function (fx)
+            {
+                jQuery.style(fx.elem, prop, Math.max(0, fx.now) + fx.unit);
+            };
+        }
+    });
     window.$ = jQuery;
 })(window);
 </script>
+<link href="styles/mainStyle.css" type="text/css" rel="Stylesheet">
+</link>
 </head>
 <body>
-<div id="container3">
+<div id="pageContainer">
+<div id="header">
+    <table cellspacing="0px" cellpadding="0px" style="width:100%; height: 100%">
+        <tbody>
+        <tr>
+            <td>
+                <div id="logoContainer">
+                    <a href="http://www.mrtc.mdh.se/progress/">
+                        <img alt="mdhlogo" src="images/Progress - title.png" id="mdhLogo"/>
+
+                    </a>
+                </div>
+                <div id="socialContainer">
+                    <ul>
+                        <li>
+                            <a style="visibility: hidden;" href="http://www.facebook.com">
+                                <img alt="facebook" src="images/facebook_icon.png"/>
+
+                            </a>
+                        </li>
+                        <li>
+                            <a style="visibility: hidden;" href="http://www.twitter.com">
+                                <img alt="twitter" src="images/twitter_icon.png"/>
+
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://feeds.feedburner.com/PrideRssFeed">
+                                <img width="32px" alt="rss" src="images/rss_icon.png"/>
+
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="bottom">
+                <div id="menuContainer">
+                    <ul id="menu">
+                        <li class="home_active">
+                            <a href="?id=home"></a>
+                        </li>
+                        <li class="features">
+                            <a href="?id=features"></a>
+                        </li>
+                        <li class="download">
+                            <a href="?id=download"></a>
+                        </li>
+                        <li class="documentation">
+                            <a href="?id=documentation"></a>
+                        </li>
+                        <li class="roadmap">
+                            <a href="?id=roadmap"></a>
+                        </li>
+                        <li class="team">
+                            <a href="?id=team">nbsp;</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="breadCrumbContainer">
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-<script>
-    var jContainer = $('#container3');
-    jContainer.append('<div class=\'clickableContainer\'>Newly created container!</div>');
-</script>
+<div id="mainContent">
+<table>
+<tbody>
+<tr>
+<td>
+    <div class="sideContainer">
+        <div class="sideContainerTop">
+            <img class="title" alt="title" src="images/Download.png"/>
+
+        </div>
+        <div class="sideContainerMiddle">
+            <ul>
+                <li style="border-bottom-style: none; border-bottom-width: 0pt;">
+                    <div class="sideItem">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td align="left" style="padding-top: 5px; width:45px;">
+                                    <a href="?id=download">
+                                        <img alt="image" src="images/Download-icon.png"/>
+
+                                    </a>
+                                </td>
+                                <td class="descriptionContainer">
+                                    <a href="?id=download" class="sideDescription">
+                                        <span style="font-size:13">RIDE</span>
+                                        <br/>
+
+                                        <span class="description">public release</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="sideContainerBottom">
+        </div>
+    </div>
+</td>
+<td style="width: 733px;">
+    <div id="slider">
+        <table>
+            <tbody>
+            <tr>
+                <td id="featureContainer" colspan="2">
+                    <img alt="picture" src="images/features/PrIDE.png"/>
+
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                          <span style="padding-top:-5px;" class="featureTitle">
+                            <span style="font-size: 14">RIDE</span>
+                          </span>
+                    <div style="margin-top: -3px;" class="featureDescription">
+                        <div style="padding-top:5px;">An environment dedicated to the development of distributed embedded systems</div>
+                    </div>
+                </td>
+                <td valign="bottom" align="right" id="featureSelectorContainer">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <a class="active" rel="0" href="#">
+                                </a>
+                            </td>
+                            <td>
+                                <a rel="1" href="#">
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin: 10px; padding-right: 5px;" id="itemListContainer">
+        <ul>
+            <li style="">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td width="80px" valign="top" style="width: 80px">
+                            <img style="" alt="newsIcon" src="images/news.png"/>
+
+                        </td>
+                        <td>
+                            <h4>
+                                <span style="font-size:13">RIDE</span>
+                            </h4>
+                            <div class="newsItemDate">16 June 2011</div>
+                            <div class="newsContent">
+                                <span style="font-size:13">RIDE</span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li style="">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td width="80px" valign="top" style="width: 80px">
+                            <img style="" alt="newsIcon" src="images/video.png"/>
+
+                        </td>
+                        <td>
+                            <h4>
+                                <span style="font-size:13">RIDE</span>
+                            </h4>
+                            <div class="newsItemDate">22 February 2011</div>
+                            <div class="newsContent">
+                                <span style="font-size:13">RIDE</span>
+                                <a href="http://www.wicsa.net/">WICSA 2011</a>
+                                <a href="http://www.youtube.com/watch?v=Y1dkUCuqzrA" class="videoItemLink">View</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li style="">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td width="80px" valign="top" style="width: 80px">
+                            <img style="" alt="newsIcon" src="images/news.png"/>
+
+                        </td>
+                        <td>
+                            <h4>
+                                <span style="font-size:13">RIDE</span>
+                            </h4>
+                            <div class="newsItemDate">02 February 2011</div>
+                            <div class="newsContent">
+                                <span style="font-size:13">RIDE</span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            var activeButtons = $('#featureSelectorContainer .active');
+            var clickedButton;
+            if(activeButtons.length > 0)
+            {
+                clickedButton = activeButtons[0];
+            }
+
+            var featuresArray = [{imagePath: 'images/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, null];
+            var buttons = $('#featureSelectorContainer a');
+            buttons.click(function (eventArgs)
+            {
+                if(clickedButton != null)
+                {
+                    var previousButton = clickedButton;
+                }
+
+                clickedButton = eventArgs.currentTarget;
+                var buttonIndex = clickedButton.rel;
+                if(previousButton != null)
+                {
+                    previousButton.className = '';
+                }
+
+                clickedButton.className = 'active';
+                changeFeature(buttonIndex);
+            });
+            function changeFeature (newFeatureIndex)
+            {
+                var feature = featuresArray[newFeatureIndex];
+                var featureContainerChildren = $('#featureContainer').children();
+                var titles = $('.featureTitle');
+                var descriptions = $('.featureDescription');
+                featureContainerChildren.fadeOut(200, function ()
+                {
+                    $('#featureContainer').empty();
+                    if(feature.imagePath != null)
+                    {
+                        $('#featureContainer').append(('<img src=\'' + feature.imagePath) + '\'></img>').fadeIn(100);
+                    }
+                });
+                titles.fadeOut(200, function ()
+                {
+                    if(titles.length > 0)
+                    {
+                        titles[0].textContent = feature.title;
+                    }
+
+                    titles.fadeIn(100);
+                });
+                descriptions.fadeOut(200, function ()
+                {
+                    if(descriptions.length > 0)
+                    {
+                        descriptions[0].textContent = feature.description;
+                    }
+
+                    descriptions.fadeIn(100);
+                });
+            }
+        });
+    </script>
+    <div class="modalContent">
+        <div class="video">
+            <object width="800" height="460">
+                <param value="http://www.youtube.com/v/Y1dkUCuqzrA?fs=1&hl=hr_HR&hd=1" name="movie">
+                </param>
+                <param value="true" name="allowFullScreen">
+                </param>
+                <param value="always" name="allowscriptaccess">
+                </param>
+                <embed width="800" height="460" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash" src="http://www.youtube.com/v/Y1dkUCuqzrA?fs=1&hl=en_US;hd=1">
+                </embed>
+            </object>
+        </div>
+    </div>
+</td>
+<td>
+    <div class="sideContainer">
+        <div class="sideContainerTop">
+            <img class="title" alt="title" src="images/contact.png"/>
+
+        </div>
+        <div class="sideContainerMiddle">
+            <ul>
+                <li style="">
+                    <div class="sideItem">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td align="left" style="padding-top: 5px; width:45px;">
+                                    <a href="mailto:pg-ide@mdh.se?subject=[PRIDE]">
+                                        <img alt="image" src="images/mail.png"/>
+
+                                    </a>
+                                </td>
+                                <td class="descriptionContainer">
+                                    <a href="mailto:pg-ide@mdh.se?subject=[PRIDE]" class="sideDescription">
+                                        <br/>
+
+                                        <span class="description">Send us a message</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+                <li style="border-bottom-style: none; border-bottom-width: 0pt;">
+                    <div class="sideItem">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td align="left" style="padding-top: 5px; width:45px;">
+                                    <a href="http://bugzilla.mdh.se/bugzilla/">
+                                        <img alt="image" src="images/mail-bug.png"/>
+
+                                    </a>
+                                </td>
+                                <td class="descriptionContainer">
+                                    <a href="http://bugzilla.mdh.se/bugzilla/" class="sideDescription">
+                                        <br/>
+
+                                        <span class="description">Report a bug</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="sideContainerBottom">
+        </div>
+    </div>
+    <div class="sideContainer">
+        <div class="sideContainerTop">
+            <img class="title" alt="title" src="images/links.png"/>
+
+        </div>
+        <div class="sideContainerMiddle">
+            <ul>
+                <li style="">
+                    <div class="sideItem">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td align="left" style="padding-top: 5px; width:45px;">
+                                    <a href="http://www.mdh.se">
+                                        <img alt="image" src="images/mdh.png"/>
+
+                                    </a>
+                                </td>
+                                <td class="descriptionContainer">
+                                    <a href="http://www.mdh.se" class="sideDescription">
+                                        <br/>
+
+                                        <span class="description">Mälardalen University, SWE</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+                <li style="">
+                    <div class="sideItem">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td align="left" style="padding-top: 5px; width:45px;">
+                                    <a href="http://www.mrtc.mdh.se/progress/">
+                                        <img alt="image" src="images/Progress.png"/>
+
+                                    </a>
+                                </td>
+                                <td class="descriptionContainer">
+                                    <a href="http://www.mrtc.mdh.se/progress/" class="sideDescription">
+                                        <br/>
+
+                                        <span class="description">Research center</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="sideContainerBottom">
+        </div>
+    </div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="footer">
+    <div>Malardalen University, School of Innovation, Design and Engineering | Box 883 | 721 23 Västerås/Eskilstuna</div>
+</div>
+<div id="testDiv">
+</div>
+</div>
 </body>
 </html>

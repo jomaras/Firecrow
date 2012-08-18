@@ -332,7 +332,18 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         {
             if(!this.inclusionFinder.isIncludedMemberExpression(memberExpression)) { return; }
 
-            memberExpression.shouldBeIncluded = true;
+            if(memberExpression.loc.start.line == 3208)
+            {
+                var a = 3;
+            }
+
+            var areChildrenIncluded = this.inclusionFinder.isIncludedElement(memberExpression.object)
+                                   || this.inclusionFinder.isIncludedElement(memberExpression.property)
+
+            if(areChildrenIncluded)
+            {
+                memberExpression.shouldBeIncluded = true;
+            }
 
             if(!ASTHelper.isMemberExpression(memberExpression.parent)
             && !ASTHelper.isCallExpression(memberExpression.parent)
@@ -344,7 +355,8 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             else
             {
                 if(ASTHelper.isIdentifier(memberExpression.property)
-                && !ASTHelper.isCallExpression(memberExpression.parent))
+                && !ASTHelper.isCallExpression(memberExpression.parent)
+                && areChildrenIncluded)
                 {
                     memberExpression.object.shouldBeIncluded = true;
                     memberExpression.property.shouldBeIncluded = true;

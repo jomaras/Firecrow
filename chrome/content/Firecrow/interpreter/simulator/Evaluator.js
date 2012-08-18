@@ -541,7 +541,7 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 6478)
+            if(memberExpression.loc.start.line == 179)
             {
                 var a = 3;
             }
