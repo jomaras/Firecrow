@@ -153,7 +153,7 @@ fcSimulator.Evaluator.prototype =
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(evalAssignmentExpressionCommand.id == 26444)
+            if(evalAssignmentExpressionCommand.codeConstruct.loc.start.line == 36)
             {
                 var a = 3;
             }

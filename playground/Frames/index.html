@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frame test</title>
+    <style>
+        .testClass
+        {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="myTestFrame" width="1000px" height="1000px" src="frame.html"/>
+    <div class="testClass" id="myDiv">Moj DIV</div>
+    <script type="text/javascript">
+        var frame = frames[0];
+        var fDocument = frame.contentWindow.document;
+    </script>
+</body>
+</html>

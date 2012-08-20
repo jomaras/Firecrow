@@ -863,6 +863,8 @@ Firecrow.CodeTextGenerator.prototype =
 
             if(leftPart === "" && forInBody === "") { return ""; }
 
+            if(leftPart === "") { leftPart = Firecrow.CodeTextGenerator.generateJsCode(forInStatement.left); }
+
             forInBody = forInBody.length != 0 ? forInBody : this._SEMI_COLON;
 
             return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
