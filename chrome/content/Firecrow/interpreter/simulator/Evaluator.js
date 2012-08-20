@@ -216,7 +216,7 @@ fcSimulator.Evaluator.prototype =
 
                 if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
-                if(ValueTypeHelper.isOfType(object.value, HTMLElement))
+                if(ValueTypeHelper.isOfType(object.value, Node))
                 {
                     object.value[property.value] = finalValue.value;
                 }
@@ -320,6 +320,10 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
 
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
+            if(identifierConstruct.loc != null && (identifierConstruct.loc.start.line == 456 || identifierConstruct.loc.start.line == 85 || identifierConstruct.loc.start.line == 67))
+            {
+                var a = 3;
+            }
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
@@ -433,9 +437,9 @@ fcSimulator.Evaluator.prototype =
             {
                 var compareWith = null;
 
-                if(rightExpressionValue == this.globalObject.arrayFunction) { compareWith = Array; }
-                else if (rightExpressionValue == this.globalObject.stringFunction) { compareWith = String; }
-                else if (rightExpressionValue == this.globalObject.regExFunction) { compareWith = RegExp; }
+                if(rightExpressionValue == this.globalObject.arrayFunction || rightExpressionValue.value == this.globalObject.arrayFunction) { compareWith = Array; }
+                else if (rightExpressionValue == this.globalObject.stringFunction || rightExpressionValue.value == this.globalObject.stringFunction) { compareWith = String; }
+                else if (rightExpressionValue == this.globalObject.regExFunction || rightExpressionValue.value == this.globalObject.regExFunction) { compareWith = RegExp; }
                 else if (rightExpressionValue.value != undefined) { compareWith = rightExpressionValue.value; }
                 else
                 {
@@ -448,7 +452,10 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.JsValue(result, new fcModel.FcInternal(binaryExpression)));
         }
-        catch(e) { this.notifyError(evalBinaryExpressionCommand, "Error when evaluating binary expression: " + e);}
+        catch(e)
+        {
+            this.notifyError(evalBinaryExpressionCommand, "Error when evaluating binary expression: " + e);
+        }
     },
 
     _evaluateReturnExpressionCommand: function(evalReturnExpressionCommand)
@@ -541,7 +548,7 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 179)
+            if(memberExpression.loc.start.line == 68)
             {
                 var a = 3;
             }
@@ -981,11 +988,6 @@ fcSimulator.Evaluator.prototype =
             var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
             var expressionValue = null;
 
-            if(unaryExpression.loc.start.line == 6296)
-            {
-                var a = 3;
-            }
-
             if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
 
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId()
@@ -1200,9 +1202,9 @@ fcSimulator.Evaluator.prototype =
             );
         }
 
-       // this.executionContextStack.addDependencyToLastExecutedBlockStatement(currentConstruct);
+        /*this.executionContextStack.addDependencyToLastExecutedBlockStatement(currentConstruct);
 
-        /*if(currentConstruct.previousCondition != null)
+        if(currentConstruct.previousCondition != null)
         {
             this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, currentConstruct.previousCondition, evaluationPosition);
         }*/

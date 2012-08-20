@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
   <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="chrome://Firecrow/content/initFBL.js" type="application/x-javascript"/>
-  <script src="chrome://Firecrow/content/helpers/valueTypeHelper.js" type="application/x-javascript"/>
-  <script src="chrome://Firecrow/content/helpers/java/LiveConnectUtils.js" type="application/x-javascript"/>
-  <script src="chrome://Firecrow/content/helpers/java/JavaInvoker.js" type="application/x-javascript"/>
-  <script src="chrome://Firecrow/content/helpers/ASTHelper.js" type="application/x-javascript"/>
-  <script src="chrome://Firecrow/content/helpers/fileHelper.js" type="application/x-javascript"/>
-  <script src="chrome://Firecrow/content/helpers/htmlHelper.js" type="application/x-javascript"/>
-  <script src="chrome://Firecrow/content/helpers/fbHelper.js" type="application/x-javascript"/>
+    <script src="chrome://Firecrow/content/initFBL.js" type="application/x-javascript"/>
+    <script src="chrome://Firecrow/content/helpers/valueTypeHelper.js" type="application/x-javascript"/>
+    <script src="chrome://Firecrow/content/helpers/java/LiveConnectUtils.js" type="application/x-javascript"/>
+    <script src="chrome://Firecrow/content/helpers/java/JavaInvoker.js" type="application/x-javascript"/>
+    <script src="chrome://Firecrow/content/helpers/ASTHelper.js" type="application/x-javascript"/>
+    <script src="chrome://Firecrow/content/helpers/fileHelper.js" type="application/x-javascript"/>
+    <script src="chrome://Firecrow/content/helpers/htmlHelper.js" type="application/x-javascript"/>
+    <script src="chrome://Firecrow/content/helpers/fbHelper.js" type="application/x-javascript"/>
 
     <script src="chrome://Firecrow/content/helpers/valueTypeHelper.js"></script>
     <script src="chrome://Firecrow/content/helpers/ASTHelper.js"></script>
@@ -29,11 +29,13 @@
     <script src="chrome://Firecrow/content/interpreter/model/Object.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/GlobalObject.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/Array.js"></script>
+    <script src="chrome://Firecrow/content/interpreter/model/XMLHttpRequest.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/Math.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/internal/RegEx.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/Function.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/Identifier.js"></script>
 
+    <script src="chrome://Firecrow/content/interpreter/model/internal/Date.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/internal/Boolean.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/internal/Number.js"></script>
     <script src="chrome://Firecrow/content/interpreter/model/internal/String.js"></script>

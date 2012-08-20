@@ -787,10 +787,10 @@ Firecrow.CodeTextGenerator.prototype =
                 }
             }
 
-            if(ifBodyCode === "" && elseBodyCode === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(ifStatement.test))
+            /*if(ifBodyCode === "" && elseBodyCode === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(ifStatement.test))
             {
                 return "";
-            }
+            }*/
 
             return code;
         }
@@ -1107,7 +1107,7 @@ Firecrow.CodeTextGenerator.prototype =
             if(valueTypeHelper.isNull(literal.value)) { return "null"; }
             if (valueTypeHelper.isString(literal.value))
             {
-                return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace() + "'";
+                return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/, "\\n") + "'";
             }
             else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
             else if(valueTypeHelper.isObject(literal.value))

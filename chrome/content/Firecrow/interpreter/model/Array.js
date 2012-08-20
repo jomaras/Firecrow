@@ -46,7 +46,10 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
     catch(e) { this.notifyError("Error when creating array object: " + e + codeConstruct.loc.source); }
 };
 
-Firecrow.Interpreter.Model.Array.notifyError = function(message) { alert("Array - " + message); }
+Firecrow.Interpreter.Model.Array.notifyError = function(message)
+{
+    alert("Array - " + message);
+}
 
 fcModel.ArrayProto =
 {
@@ -65,7 +68,7 @@ fcModel.ArrayProto =
             {
                 var property = properties[i];
 
-                if(property.lastModificationConstruct == null) { continue; }
+                if(property == undefined || property.lastModificationConstruct == null) { continue; }
 
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
@@ -89,7 +92,7 @@ fcModel.ArrayProto =
         }
         catch(e)
         {
-            this.notifyError("Error when registering getPropertyCallback: " + e + " " + codeConstruct.loc.source);
+            this.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source);
         }
     },
 

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="../../URI.js"></script>
+</head>
+<body>
+    <script>
+        var u = new URI('http://example.org/foo/bar/baz.html');
+        u.path('foo/bar/baz.html');
+        u.normalizePath();
+        var a1 = u.path() == '/foo/bar/baz.html';
+        a1;
+    </script>
+</body>
+</html>

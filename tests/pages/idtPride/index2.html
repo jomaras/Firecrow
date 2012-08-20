@@ -34,6 +34,8 @@
                     return this;
                 }
 
+                if(selector === 'body');
+
                 if(typeof selector === 'string')
                 {
                     if(selector.charAt(0) === '<');
@@ -50,6 +52,8 @@
                             elem = document.getElementById(match[2]);
                             if(elem && elem.parentNode)
                             {
+                                if(elem.id !== match[2]);
+
                                 this.length = 1;
                                 this[0] = elem;
                             }
@@ -81,6 +85,10 @@
                     jQuery.merge(ret, elems);
                 }
 
+                if(name === 'find');
+                else if(name);
+
+
                 return ret;
             },
             each: function (callback, args)
@@ -91,6 +99,7 @@
             {
                 jQuery.bindReady();
                 readyList.add(fn);
+                return this;
             },
             push: push
         };
@@ -98,7 +107,9 @@
         jQuery.extend = jQuery.fn.extend = function ()
         {
             var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
-            if(typeof target !== 'object');
+            if(typeof target === 'boolean');
+
+            if(typeof target !== 'object' && !(jQuery.isFunction(target)));
 
             if(length === i)
             {
@@ -113,6 +124,8 @@
                     for(name in options)
                     {
                         copy = options[name];
+                        if(target === copy);
+
                         if(deep);
                         else if(copy !== undefined)
                         {
@@ -125,12 +138,18 @@
             return target;
         };
         jQuery.extend({
+            noConflict: function (deep)
+            {},
             isReady: null,
             readyWait: 1,
+            holdReady: function (hold)
+            {},
             ready: function (wait)
             {
                 if(wait === true || (wait !== true && !(jQuery.isReady)))
                 {
+                    if(!(document.body));
+
                     if(wait !== true && --jQuery.readyWait > 0);
 
                     readyList.fireWith(document, [null]);
@@ -142,7 +161,11 @@
             },
             bindReady: function ()
             {
+                if(readyList);
+
                 readyList = jQuery.Callbacks('once memory');
+                if(document.readyState === 'complete');
+
                 if(document.addEventListener)
                 {
                     document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
@@ -156,10 +179,35 @@
             {
                 return jQuery.type(obj) === 'array';
             },
+            isWindow: function (obj)
+            {
+                return obj != null && obj == obj.window;
+            },
+            isNumeric: function (obj)
+            {},
             type: function (obj)
             {
                 return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
             },
+            isPlainObject: function (obj)
+            {},
+            isEmptyObject: function (obj)
+            {
+                for(var name in obj)
+                {
+                    return false;
+                }
+            },
+            error: function (msg)
+            {},
+            parseJSON: function (data)
+            {},
+            parseXML: function (data)
+            {},
+            noop: function ()
+            {},
+            globalEval: function (data)
+            {},
             camelCase: function (string)
             {
                 return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
@@ -178,7 +226,7 @@
                     {
                         for(name in object)
                         {
-                            if(callback.call(object[name], name, object[name]));
+                            if(callback.call(object[name], name, object[name]) === false);
                         }
                     }
                     else
@@ -210,6 +258,8 @@
 
                 return ret;
             },
+            inArray: function (elem, array, i)
+            {},
             merge: function (first, second)
             {
                 var i = first.length, j = 0;
@@ -224,6 +274,8 @@
                 first.length = i;
                 return first;
             },
+            grep: function (elems, callback, inv)
+            {},
             map: function (elems, callback, arg)
             {
                 var value, ret = [], i = 0, length = elems.length, isArray = elems instanceof jQuery;
@@ -242,6 +294,10 @@
                 return ret.concat.apply([], ret);
             },
             guid: 1,
+            proxy: function (fn, context)
+            {},
+            access: function (elems, fn, key, value, chainable, emptyGet, pass)
+            {},
             now: function ()
             {
                 return (new Date()).getTime();
@@ -254,6 +310,8 @@
                     browser: match[1]
                 };
             },
+            sub: function ()
+            {},
             browser: {}
         });
         jQuery.each('Boolean Number String Function Array Date RegExp Object'.split(' '), function (i, name)
@@ -261,6 +319,10 @@
             class2type[('[object ' + name) + ']'] = name.toLowerCase();
         });
         browserMatch = jQuery.uaMatch(userAgent);
+        if(browserMatch.browser);
+
+        if(jQuery.browser.webkit);
+
         if(rnotwhite.test(' '));
 
         rootjQuery = jQuery(document);
@@ -317,14 +379,20 @@
             }
 
             if(list)
-            {}
+            {
+                if(!(flags.once));
+            }
         }, self = {
             add: function ()
             {
                 if(list)
                 {
                     add(arguments);
+                    if(firing);
+                    else if(memory);
                 }
+
+                return this;
             },
             fireWith: function (context, args)
             {
@@ -336,6 +404,8 @@
                         fire(context, args);
                     }
                 }
+
+                return this;
             }
         };
         return self;
@@ -347,10 +417,14 @@
         div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
         all = div.getElementsByTagName('*');
         a = div.getElementsByTagName('a')[0];
+        if(!all || !(all.length) || !a);
+
         select = document.createElement('select');
         opt = select.appendChild(document.createElement('option'));
         input = div.getElementsByTagName('input')[0];
         support = {
+            leadingWhitespace: div.firstChild.nodeType === 3,
+            tbody: !(div.getElementsByTagName('tbody').length),
             htmlSerialize: !(!(div.getElementsByTagName('link').length)),
             style: /top/.test(a.getAttribute('style')),
             hrefNormalized: a.getAttribute('href') === '/a',
@@ -369,6 +443,8 @@
         input.checked = true;
         support.noCloneChecked = input.cloneNode(true).checked;
         select.disabled = true;
+        if(!(div.addEventListener));
+
         input = document.createElement('input');
         input.value = 't';
         input.setAttribute('type', 'radio');
@@ -378,9 +454,14 @@
         fragment = document.createDocumentFragment();
         fragment.appendChild(div.lastChild);
         support.checkClone = fragment.cloneNode(true).cloneNode(true).lastChild.checked;
+        support.appendChecked = input.checked;
+        if(div.attachEvent);
+
         jQuery(function ()
         {
             var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+            if(!body);
+
             conMarginTop = 1;
             paddingMarginBorder = 'padding:0;margin:0;border:';
             positionTopLeftWidthHeight = 'position:absolute;top:0;left:0;width:1px;height:1px;';
@@ -409,6 +490,8 @@
                 support.reliableMarginRight = (parseInt((window.getComputedStyle(marginDiv, null)).marginRight, 10) || 0) === 0;
             }
 
+            if(typeof (div.style.zoom) !== 'undefined');
+
             div.style.cssText = positionTopLeftWidthHeight + paddingMarginBorderVisibility;
             div.innerHTML = html;
             outer = div.firstChild;
@@ -424,6 +507,8 @@
                 support.pixelMargin = (window.getComputedStyle(div, null)).marginTop !== '1%';
             }
 
+            if(typeof (container.style.zoom) !== 'undefined');
+
             body.removeChild(container);
         });
         return support;
@@ -433,6 +518,8 @@
         uuid: null,
         expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
         noData: {},
+        hasData: function (elem)
+        {},
         data: function (elem, name, data, pvt)
         {
             if(!(jQuery.acceptData(elem)));
@@ -454,13 +541,20 @@
             if(!(cache[id]))
             {
                 cache[id] = {};
+                if(!isNode);
             }
 
+            if(typeof name === 'object' || typeof name === 'function');
+
             thisCache = cache[id];
+            if(!pvt);
+
             if(data !== undefined)
             {
                 thisCache[jQuery.camelCase(name)] = data;
             }
+
+            if(isEvents && !(thisCache[name]));
 
             if(getByName)
             {
@@ -514,6 +608,8 @@
                 }
             }
 
+            if(!pvt);
+
             if(isNode)
             {}
         },
@@ -526,6 +622,7 @@
             if(elem.nodeName)
             {
                 var match = jQuery.noData[elem.nodeName.toLowerCase()];
+                if(match);
             }
 
             return true;
@@ -551,6 +648,10 @@
         if(defer);
     }
     jQuery.extend({
+        _mark: function (elem, type)
+        {},
+        _unmark: function (force, elem, type)
+        {},
         queue: function (elem, type, data)
         {
             var q;
@@ -604,6 +705,11 @@
     jQuery.fn.extend({
         queue: function (type, data)
         {
+            var setter = 2;
+            if(typeof type !== 'string');
+
+            if(arguments.length < setter);
+
             return data === undefined ? 0 : this.each(function ()
             {
                 var queue = jQuery.queue(this, type, data);
@@ -612,13 +718,43 @@
                     jQuery.dequeue(this, type);
                 }
             });
-        }
+        },
+        dequeue: function (type)
+        {},
+        delay: function (time, type)
+        {},
+        clearQueue: function (type)
+        {},
+        promise: function (type, object)
+        {}
     });
     var getSetAttribute = jQuery.support.getSetAttribute;
     jQuery.extend({
-        attrFn: {}
+        valHooks: {},
+        attrFn: {},
+        attr: function (elem, name, value, pass)
+        {},
+        removeAttr: function (elem, value)
+        {},
+        attrHooks: {},
+        propFix: {},
+        prop: function (elem, name, value)
+        {},
+        propHooks: {}
     });
-    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rkeyEvent = /^key/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function (events)
+    if(!getSetAttribute);
+
+    if(!(jQuery.support.hrefNormalized));
+
+    if(!(jQuery.support.style));
+
+    if(!(jQuery.support.optSelected));
+
+    if(!(jQuery.support.enctype));
+
+    if(!(jQuery.support.checkOn));
+
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rkeyEvent = /^key/, rmouseEvent = /^(?:mouse|contextmenu)|click/, rfocusMorph = /^(?:focusinfocus|focusoutblur)$/, hoverHack = function (events)
     {
         return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
     };
@@ -627,6 +763,8 @@
         {
             var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
             if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
+
+            if(handler.handler);
 
             if(!(handler.guid))
             {
@@ -675,6 +813,8 @@
                     }
                 }
 
+                if(special.add);
+
                 if(selector);
                 else
                 {
@@ -682,17 +822,60 @@
                 }
             }
         },
+        customEvent: {},
         trigger: function (event, data, elem, onlyHandlers)
         {
-            var type = event.type || event, i, cur, special, eventPath;
+            if(elem && (elem.nodeType === 3 || elem.nodeType === 8));
+
+            var type = event.type || event, i, cur, old, ontype, special, handle, eventPath, bubbleType;
+            if(rfocusMorph.test(type + jQuery.event.triggered));
+
+            if(type.indexOf('!') >= 0);
+
+            if(type.indexOf('.') >= 0);
+
+            if((!elem || jQuery.event.customEvent[type]));
+
             event = typeof event === 'object' ? 0 : new jQuery.Event(type);
+            ontype = type.indexOf(':') < 0 ? 'on' + type : 0;
+            if(!elem);
+
+            event.result = undefined;
+            if(!(event.target));
+
             special = jQuery.event.special[type];
+            if(special.trigger);
+
             eventPath = [[elem, special.bindType || type]];
+            if(!onlyHandlers && !(special.noBubble) && !(jQuery.isWindow(elem)))
+            {
+                bubbleType = special.delegateType || type;
+                cur = rfocusMorph.test(bubbleType + type) ? 0 : elem.parentNode;
+                old = null;
+                for(;cur;cur = cur.parentNode);
+                if(old);
+            }
+
             for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
             {
                 cur = eventPath[i][0];
-                (jQuery._data(cur, 'events'));
+                event.type = eventPath[i][1];
+                handle = (jQuery._data(cur, 'events') || {})[event.type];
+                if(handle);
+
+                handle = ontype && cur[ontype];
+                if(handle);
             }
+
+            if(!onlyHandlers && !(event.isDefaultPrevented()))
+            {
+                if(!(special._default) && !(type === 'click') && jQuery.acceptData(elem))
+                {
+                    if(ontype && elem[type]);
+                }
+            }
+
+            return event.result;
         },
         dispatch: function (event)
         {
@@ -700,6 +883,8 @@
             var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), special = jQuery.event.special[event.type] || {}, handlerQueue = [], i, j, ret, matched, handleObj;
             args[0] = event;
             if(special.preDispatch);
+
+            if(delegateCount);
 
             if(handlers.length > delegateCount)
             {
@@ -722,10 +907,13 @@
                         if(ret !== undefined)
                         {
                             event.result = ret;
+                            if(ret === false);
                         }
                     }
                 }
             }
+
+            if(special.postDispatch);
 
             return event.result;
         },
@@ -736,11 +924,19 @@
             filter: function (event, original)
             {
                 var button = original.button;
+                if(event.pageX == null && original.clientX != null);
+
+                if(!(event.relatedTarget));
+
+                if(!(event.which) && button !== undefined);
+
                 return event;
             }
         },
         fix: function (event)
         {
+            if(event[jQuery.expando]);
+
             var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type], copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
             event = jQuery.Event(originalEvent);
             for(i = copy.length;i;)
@@ -753,6 +949,10 @@
             {
                 event.target = originalEvent.srcElement || document;
             }
+
+            if(event.target.nodeType === 3);
+
+            if(event.metaKey === undefined);
 
             return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
         },
@@ -771,35 +971,84 @@
         {
             this.type = src.type;
         }
+
+        if(props);
     };
     function returnFalse ()
     {
         return false;
     }
     jQuery.Event.prototype = {
+        isDefaultPrevented: returnFalse,
         isPropagationStopped: returnFalse,
         isImmediatePropagationStopped: returnFalse
     };
+    if(!(jQuery.support.submitBubbles));
+
+    if(!(jQuery.support.changeBubbles));
+
+    if(!(jQuery.support.focusinBubbles));
+
     jQuery.fn.extend({
         on: function (types, selector, data, fn, one)
         {
+            if(typeof types === 'object');
+
+            if(data == null && fn == null);
+            else if(fn == null);
+
+
+            if(fn === false);
+            else if(!fn);
+
+
+            if(one === 1);
+
             return this.each(function ()
             {
                 jQuery.event.add(this, types, fn, data, selector);
             });
         },
+        one: function (types, selector, data, fn)
+        {},
         off: function (types, selector, fn)
         {
+            if(types && types.preventDefault);
+
+            if(typeof types === 'object');
+
+            if(selector === false || typeof selector === 'function');
+
+            if(fn === false);
+
             return this.each(function ()
             {});
         },
+        bind: function (types, data, fn)
+        {},
+        unbind: function (types, fn)
+        {},
+        live: function (types, data, fn)
+        {},
+        die: function (types, fn)
+        {},
+        delegate: function (selector, types, data, fn)
+        {},
+        undelegate: function (selector, types, fn)
+        {},
         trigger: function (type, data)
         {
             return this.each(function ()
             {
                 jQuery.event.trigger(type, data, this);
             });
-        }
+        },
+        triggerHandler: function (type, data)
+        {},
+        toggle: function (fn)
+        {},
+        hover: function (fnOver, fnOut)
+        {}
     });
     jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function (i, name)
     {
@@ -813,6 +1062,8 @@
 
             return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
         };
+        if(jQuery.attrFn);
+
         if(rkeyEvent.test(name));
 
         if(rmouseEvent.test(name))
@@ -827,6 +1078,10 @@
         {
             results = results || [];
             context = context;
+            if(context.nodeType !== 1 && context.nodeType !== 9);
+
+            if(!selector || typeof selector !== 'string');
+
             var m, set, checkSet, extra, ret, prune, parts = [], soFar = selector;
             do
             {
@@ -836,6 +1091,7 @@
                 {
                     soFar = m[3];
                     parts.push(m[1]);
+                    if(m[2]);
                 }
             }
             while(m)
@@ -864,6 +1120,8 @@
                 checkSet = set;
             }
 
+            if(!checkSet);
+
             if(toString.call(checkSet) === '[object Array]')
             {
                 if(!prune)
@@ -871,6 +1129,8 @@
                     results.push.apply(results, checkSet);
                 }
             }
+
+            if(extra);
 
             return results;
         };
@@ -889,9 +1149,13 @@
                         match.splice(1, 1);
                         if(left.substr(left.length - 1) === '\\');
 
+                        if(curLoop === result);
+
                         if(Expr.preFilter[type])
                         {
                             match = Expr.preFilter[type](match, curLoop, inplace, result, not, isXMLFilter);
+                            if(!match);
+                            else if(match === true);
                         }
 
                         if(match)
@@ -902,12 +1166,16 @@
                                 {
                                     found = filter(item, match, i, curLoop);
                                     pass = not ^ found;
+                                    if(inplace);
+                                    else if(pass);
                                 }
                             }
                         }
 
                         if(found !== undefined)
                         {
+                            if(!inplace);
+
                             if(!anyFound)
                             {
                                 return [];
@@ -960,6 +1228,7 @@
             if(results)
             {
                 results.push.apply(results, array);
+                return results;
             }
 
             return array;
@@ -1007,6 +1276,10 @@
 
                         if(context.nodeType === 9)
                         {
+                            if(query === 'body');
+                            else if(match);
+
+
                             try
                             {
                                 return makeArray(context.querySelectorAll(query), extra);
@@ -1066,6 +1339,8 @@
             Expr.find.CLASS = function (match, context, isXML)
             {};
         })();
+        if(document.documentElement.contains);
+
         Sizzle.isXML = function (elem)
         {
             var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
@@ -1079,20 +1354,57 @@
         find: function (selector)
         {
             var i, l;
+            if(typeof selector !== 'string');
+
             var ret = this.pushStack('', 'find', selector);
             for(i = 0, l = this.length;i < l;i++)
             {
                 jQuery.find(selector, this[i], ret);
+                if(i > 0);
             }
 
             return ret;
         },
+        has: function (target)
+        {},
+        not: function (selector)
+        {},
+        filter: function (selector)
+        {},
         is: function (selector)
         {
             return !(!selector) && (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this).length > 0 : 0);
-        }
+        },
+        closest: function (selectors, context)
+        {},
+        index: function (elem)
+        {},
+        add: function (selector, context)
+        {},
+        andSelf: function ()
+        {}
     });
     jQuery.each({
+        parent: function (elem)
+        {},
+        parents: function (elem)
+        {},
+        parentsUntil: function (elem, i, until)
+        {},
+        next: function (elem)
+        {},
+        prev: function (elem)
+        {},
+        nextAll: function (elem)
+        {},
+        prevAll: function (elem)
+        {},
+        nextUntil: function (elem, i, until)
+        {},
+        prevUntil: function (elem, i, until)
+        {},
+        siblings: function (elem)
+        {},
         children: function (elem)
         {
             return jQuery.sibling(elem.firstChild);
@@ -1109,6 +1421,8 @@
                 selector = until;
             }
 
+            if(selector);
+
             ret = this.length > 1 ? 0 : ret;
             if((this.length > 1 || rmultiselector.test(selector)));
 
@@ -1118,8 +1432,14 @@
     jQuery.extend({
         filter: function (expr, elems, not)
         {
+            if(not);
+
             return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : [] : 0;
         },
+        dir: function (elem, dir, until)
+        {},
+        nth: function (cur, result, dir, elem)
+        {},
         sibling: function (n, elem)
         {
             var r = [];
@@ -1134,10 +1454,29 @@
             return r;
         }
     });
+    function createSafeFragment (document)
+    {
+        var safeFrag = document.createDocumentFragment();
+        if(safeFrag.createElement);
+
+        return safeFrag;
+    }
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rhtml = /<|&#?\w+;/, rnocache = /<(?:script|object|embed|option|style)/i, wrapMap = {
         _default: [0, '', '']
-    };
+    }, safeFragment = createSafeFragment(document);
+    if(!(jQuery.support.htmlSerialize));
+
     jQuery.fn.extend({
+        text: function (value)
+        {},
+        wrapAll: function (html)
+        {},
+        wrapInner: function (html)
+        {},
+        wrap: function (html)
+        {},
+        unwrap: function ()
+        {},
         append: function ()
         {
             return this.domManip(arguments, true, function (elem)
@@ -1148,16 +1487,36 @@
                 }
             });
         },
+        prepend: function ()
+        {},
+        before: function ()
+        {},
+        after: function ()
+        {},
+        remove: function (selector, keepData)
+        {},
         empty: function ()
         {
             for(var i = 0, elem;(elem = this[i]) != null;i++)
             {
+                if(elem.nodeType === 1);
+
                 while(elem.firstChild)
                 {
                     elem.removeChild(elem.firstChild);
                 }
             }
+
+            return this;
         },
+        clone: function (dataAndEvents, deepDataAndEvents)
+        {},
+        html: function (value)
+        {},
+        replaceWith: function (value)
+        {},
+        detach: function (selector)
+        {},
         domManip: function (args, table, callback)
         {
             var results, first, fragment, value = args[0], scripts = [];
@@ -1187,6 +1546,8 @@
                         callback.call(table ? 0 : this[i], results.cacheable ? jQuery.clone(fragment, true, true) : 0);
                     }
                 }
+
+                if(scripts.length);
             }
 
             return this;
@@ -1200,10 +1561,13 @@
             doc = nodes[0].ownerDocument;
         }
 
+        if(!(doc.createDocumentFragment));
+
         if(args.length === 1 && typeof first === 'string' && first.length < 512 && doc === document && first.charAt(0) === '<' && !(rnocache.test(first)) && jQuery.support.checkClone && jQuery.support.html5Clone)
         {
             cacheable = true;
             cacheresults = jQuery.fragments[first];
+            if(cacheresults);
         }
 
         if(!fragment)
@@ -1211,6 +1575,8 @@
             fragment = doc.createDocumentFragment();
             jQuery.clean(args, doc, fragment, scripts);
         }
+
+        if(cacheable);
 
         return {
             fragment: fragment,
@@ -1247,19 +1613,42 @@
         {
             var script, ret = [];
             context = context;
+            if(typeof (context.createElement) === 'undefined');
+
             for(var i = 0, elem;(elem = elems[i]) != null;i++)
             {
+                if(typeof elem === 'number');
+
+                if(!elem);
+
                 if(typeof elem === 'string')
                 {
                     if(!(rhtml.test(elem)));
                     else
                     {
                         elem = elem.replace(rxhtmlTag, '<$1></$2>');
-                        var tag, wrap = wrapMap[tag] || wrapMap._default, div = context.createElement('div');
+                        var tag, wrap = wrapMap[tag] || wrapMap._default, depth = wrap[0], div = context.createElement('div'), safeChildNodes = safeFragment.childNodes;
+                        if(context === document)
+                        {
+                            safeFragment.appendChild(div);
+                        }
+
                         div.innerHTML = (wrap[1] + elem) + wrap[2];
+                        while(depth--);
+                        if(!(jQuery.support.tbody));
+
+                        if(!(jQuery.support.leadingWhitespace));
+
                         elem = div.childNodes;
+                        if(div)
+                        {
+                            div.parentNode.removeChild(div);
+                            if(safeChildNodes.length > 0);
+                        }
                     }
                 }
+
+                if(!(jQuery.support.appendChecked));
 
                 if(elem.nodeType);
                 else
@@ -1276,11 +1665,17 @@
                     if(scripts && jQuery.nodeName(script, 'script'));
                     else
                     {
+                        if(script.nodeType === 1);
+
                         fragment.appendChild(script);
                     }
                 }
             }
-        }
+
+            return ret;
+        },
+        cleanData: function (elems)
+        {}
     });
     var rupper = /([A-Z]|^ms)/g, rrelNum = /^([\-+])=([\-+.\de]+)/, curCSS, getComputedStyle;
     jQuery.extend({
@@ -1304,6 +1699,8 @@
         cssProps: {},
         style: function (elem, name, value, extra)
         {
+            if(!elem || elem.nodeType === 3 || elem.nodeType === 8 || !(elem.style));
+
             var ret, type, origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
             name = jQuery.cssProps[origName] || origName;
             if(value !== undefined)
@@ -1312,6 +1709,8 @@
                 if(type === 'string' && (ret = rrelNum.exec(value)));
 
                 if(value == null || type === 'number');
+
+                if(type === 'number');
 
                 if(!hooks || !('set' in hooks))
                 {
@@ -1336,6 +1735,8 @@
             name = jQuery.camelCase(name);
             hooks = jQuery.cssHooks[name];
             name = jQuery.cssProps[name] || name;
+            if(name === 'cssFloat');
+
             if(hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
             {
                 return ret;
@@ -1344,7 +1745,9 @@
             {
                 return curCSS(elem, name);
             }
-        }
+        },
+        swap: function (elem, options, callback)
+        {}
     });
     if(document.defaultView && document.defaultView.getComputedStyle)
     {
@@ -1364,9 +1767,15 @@
         };
     }
 
+    if(document.documentElement.currentStyle);
+
     curCSS = getComputedStyle;
+    if(!(jQuery.support.opacity));
+
     jQuery(function ()
-    {});
+    {
+        if(!(jQuery.support.reliableMarginRight));
+    });
     if(jQuery.expr && jQuery.expr.filters)
     {
         jQuery.expr.filters.hidden = function (elem)
@@ -1376,8 +1785,26 @@
         };
     }
 
+    var prefilters = {}, transports = {};
+    function addToPrefiltersOrTransports (structure)
+    {
+        return function (dataTypeExpression, func)
+        {};
+    }
     jQuery.extend({
-        ajaxSettings: {}
+        getScript: function (url, callback)
+        {},
+        getJSON: function (url, data, callback)
+        {},
+        ajaxSetup: function (target, settings)
+        {},
+        ajaxSettings: {},
+        ajaxPrefilter: addToPrefiltersOrTransports(prefilters),
+        ajaxTransport: addToPrefiltersOrTransports(transports),
+        ajax: function (url, options)
+        {},
+        param: function (a, traditional)
+        {}
     });
     function createStandardXHR ()
     {
@@ -1391,11 +1818,16 @@
     (function (xhr)
     {
         jQuery.extend(jQuery.support, {
-            ajax: !(!xhr)
+            ajax: !(!xhr),
+            cors: !(!xhr) && 'withCredentials' in xhr
         });
     })(jQuery.ajaxSettings.xhr());
+    if(jQuery.support.ajax);
+
     var rfxtypes = /^(?:toggle|show|hide)$/, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
     jQuery.fn.extend({
+        show: function (speed, easing, callback)
+        {},
         hide: function (speed, easing, callback)
         {
             if(speed || speed === 0);
@@ -1422,19 +1854,33 @@
                         this[i].style.display = 'none';
                     }
                 }
+
+                return this;
             }
         },
+        _toggle: jQuery.fn.toggle,
+        toggle: function (fn, fn2, callback)
+        {},
+        fadeTo: function (speed, to, easing, callback)
+        {},
         animate: function (prop, speed, easing, callback)
         {
             var optall = jQuery.speed(speed, easing, callback);
+            if(jQuery.isEmptyObject(prop));
+
             prop = jQuery.extend({}, prop);
             function doAnimation ()
             {
-                var opt = jQuery.extend({}, optall), isElement = this.nodeType === 1, hidden = isElement && jQuery(this).is(':hidden'), name, val, p, e, method;
+                if(optall.queue === false);
+
+                var opt = jQuery.extend({}, optall), isElement = this.nodeType === 1, hidden = isElement && jQuery(this).is(':hidden'), name, val, p, e, hooks, method;
                 opt.animatedProperties = {};
                 for(p in prop)
                 {
-                    jQuery.camelCase(p);
+                    name = jQuery.camelCase(p);
+                    if(p !== name);
+
+                    if((hooks = jQuery.cssHooks[name]) && 'expand' in hooks);
                 }
 
                 for(name in prop)
@@ -1446,11 +1892,15 @@
                         opt.animatedProperties[name] = opt.specialEasing || opt.easing || 'swing';
                     }
 
-                    if(val === 'hide' || (val === 'show' && !hidden))
+                    if((val === 'hide' && hidden) || (val === 'show' && !hidden))
                     {
                         return opt.complete.call(this);
                     }
+
+                    if(isElement && (name === 'height' || name === 'width'));
                 }
+
+                if(opt.overflow != null);
 
                 for(p in prop)
                 {
@@ -1466,9 +1916,13 @@
                         }
                     }
                 }
+
+                return true;
             }
             return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
-        }
+        },
+        stop: function (type, clearQueue, gotoEnd)
+        {}
     });
     function createFxNow ()
     {
@@ -1479,7 +1933,15 @@
     {
         fxNow = undefined;
     }
+    function genFx (type, num)
+    {
+        var obj = {};
+        return obj;
+    }
     jQuery.each({
+        slideDown: genFx('show', 1),
+        slideUp: genFx('hide', 1),
+        slideToggle: genFx('toggle', 1),
         fadeIn: {opacity: 'show'},
         fadeOut: {opacity: 'hide'},
         fadeToggle: {}
@@ -1537,10 +1999,14 @@
     jQuery.fx.prototype = {
         update: function ()
         {
+            if(this.options.step);
+
             jQuery.fx.step[this.prop](this);
         },
         cur: function ()
         {
+            if(this.elem[this.prop] != null);
+
             var parsed, r = jQuery.css(this.elem, this.prop);
             return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
         },
@@ -1575,10 +2041,14 @@
                 this.update();
                 options.animatedProperties[this.prop] = true;
                 for(p in options.animatedProperties)
-                {}
+                {
+                    if(options.animatedProperties[p] !== true);
+                }
 
                 if(done)
                 {
+                    if(options.overflow != null);
+
                     if(options.hide)
                     {
                         jQuery(elem).hide();
@@ -1644,6 +2114,7 @@
             clearInterval(timerId);
             timerId = null;
         },
+        speeds: {},
         step: {}
     });
     jQuery.each(fxAttrs.concat.apply([], fxAttrs), function (i, prop)
@@ -1656,7 +2127,10 @@
             };
         }
     });
+    if(jQuery.expr && jQuery.expr.filters);
+
     window.$ = jQuery;
+    if(typeof define === 'function');
 })(window);
 </script>
 <link href="styles/mainStyle.css" type="text/css" rel="Stylesheet">

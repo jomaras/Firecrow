@@ -191,6 +191,14 @@ FBL.ns(function() { with (FBL) {
                     Firecrow.CodeTextGenerator.generateSlicedCode(model)
                 );
 
+                var profiledPageUrl = slicedPageUrl.replace("sliced", "profiled");
+
+                Firecrow.FileHelper.writeToFile
+                (
+                    profiledPageUrl.replace("file:///",""),
+                    Firecrow.CodeTextGenerator.generateProfiledCode(model)
+                );
+
                 this.getErrorsString(browser, slicedPageUrl, slicingVariables, callbackFunction, callbackThis);
             }
             catch(e) { alert("Error when slicing page: " + e); }
@@ -340,7 +348,9 @@ FBL.ns(function() { with (FBL) {
                 }
                 else
                 {
-                    FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-executionTrace.txt", JSON.stringify(this.jsRecorder.getEventTrace()));
+                    var eventTrace = this.jsRecorder.getEventTrace();
+                    FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-executionTrace.txt", JSON.stringify(eventTrace));
+                    alert(eventTrace.length);
                 }
 
                 this.recordOnlyEventHandlerEntries = false;

@@ -78,11 +78,10 @@ DependencyGraph.prototype.handleControlDependencyEstablished = function(sourceNo
 
         if(dependencyCreationInfo != null && dependencyCreationInfo.isReturnDependency)
         {
-            var lastDependency = sourceNodeModelObject.graphNode.dataDependencies[sourceNodeModelObject.graphNode.dataDependencies.length - 1];
-            if(lastDependency != null)
+            var enterFunctionPoints = sourceNodeModelObject.graphNode.enterFunctionPoints;
+            if(enterFunctionPoints != null)
             {
-                dependencyCreationInfo.callDependencyMaxIndex = lastDependency.callDependencyMaxIndex == null ? lastDependency.index
-                                                                                                              : lastDependency.callDependencyMaxIndex;
+                dependencyCreationInfo.callDependencyMaxIndex = enterFunctionPoints[enterFunctionPoints.length - 1].lastDependencyIndex;
             }
         }
 
@@ -180,7 +179,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
         if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
         codeConstruct.includedByNodes.push(includedByNode);*/
 
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 8504)
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 11)
         {
             var a = 3;
         }
@@ -216,7 +215,7 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
                 continue;
             }
 
-            if(dependencyEdge.index == 37420)
+            if(dependencyEdge.index == 3692)
             {
                 var a = 3;
             }

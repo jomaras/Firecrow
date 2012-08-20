@@ -23,8 +23,24 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
         this.textNode = textNode;
         this.__proto__ = new fcModel.Object(globalObject);
 
+        this.textNode.elementModificationPoints = [];
+
         this.setChildRelatedProperties(codeConstruct);
         this.addPrimitiveProperties(textNode, codeConstruct);
+
+        this.registerGetPropertyCallback(function(getPropertyConstruct)
+        {
+            var evaluationPositionId = this.globalObject.getPreciseEvaluationPositionId();
+
+            this.addDependenciesToAllModifications(getPropertyConstruct);
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                getPropertyConstruct,
+                this.textNode.modelElement,
+                evaluationPositionId
+            );
+        }, this);
     }
     catch(e) { alert("Error when creating TextNode object: " + e); }
 };
@@ -33,6 +49,37 @@ fcModel.TextNode.prototype = new fcModel.Object(null);
 
 fcModel.TextNodeProto =
 {
+    addDependenciesToAllModifications: function(codeConstruct)
+    {
+        try
+        {
+            if(codeConstruct == null) { return; }
+
+            var modifications = this.textNode.elementModificationPoints;
+
+            if(modifications == null || modifications.length == 0) { return; }
+
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+            for(var i = 0, length = modifications.length; i < length; i++)
+            {
+                var modification = modifications[i];
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    codeConstruct,
+                    modification.codeConstruct,
+                    evaluationPosition,
+                    modification.evaluationPositionId
+                );
+            }
+        }
+        catch(e)
+        {
+            this.notifyError("Error when adding dependencies to all modifications " + e);
+        }
+    },
+
     setChildRelatedProperties: function(codeConstruct)
     {
         this.addProperty.call(this, "childNodes", this.getChildNodes(codeConstruct), codeConstruct);

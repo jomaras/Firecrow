@@ -12,17 +12,16 @@
 <h2 class="testClass">Title</h2>
 <a id="container" rel="1">1</a>
 <div id="cont">
-      <div id="firstChild"></div>
-      <div id="secondChild">2</div>
+    <div id="firstChild">3</div>
+    <div id="secondChild">2</div>
 </div>
 <script type ="text/javascript">
-    var arr = [0,1];
-
     var first = document.getElementById("firstChild");
-    var second = first.nextSibling;
-
-    var a1 = second.textContent;
-    a1;
+    var txtNd = first.childNodes[0];
+    txtNd.textContent = "4";
+    var a1 = txtNd.textContent;
+    var a2 = first.textContent;
+    a1;a2;
 </script>
 </body>
 </html>

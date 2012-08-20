@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      (function (undefined)
+      {
+        var URI = function (url, base)
+        {
+          this.href(url);
+          return this;
+        }, p = URI.prototype;
+        URI.recodePath = function (string)
+        {
+          var segments = string.split('/');
+          for(var i = 0, length = segments.length;i < length;i++);
+          return segments.join('/');
+        };
+        URI.parse = function (string)
+        {
+          var pos, parts = {};
+          pos = string.indexOf('#');
+          pos = string.indexOf('?');
+          if(string.substring(0, 2) === '//');
+          else 
+          {
+            pos = string.indexOf(':');
+            if(pos > -1)
+            {
+              if(string.substring(pos + 1, pos + 3) === '//');
+            }
+          }
+
+          return parts;
+        };
+        p.pathname = function (v, build)
+        {
+          if(v === undefined || v === true)
+          {
+            var res = this._parts.path;
+            return v ? 0 : res;
+          }
+          else 
+          {
+            this._parts.path = v ? URI.recodePath(v) : 0;
+          }
+        };
+        p.path = p.pathname;
+        p.href = function (href, build)
+        {
+          if(href === undefined);
+          else 
+          {
+            if(typeof href === 'string')
+            {
+              this._parts = URI.parse(href);
+            }
+          }
+        };
+        p.normalizePath = function (build)
+        {
+          var _path = this._parts.path;
+          if(_path[0] !== '/')
+          {
+            _path = '/' + _path;
+          }
+
+          _path = _path.replace(/(\/(\.\/)+)|\/{2,}/g, '/');
+          _path = URI.recodePath(_path);
+          this._parts.path = _path;
+        };
+        typeof module !== 'undefined' ? 0 : window.URI = URI;
+      })();
+    </script>
+  </head>
+  <body>
+    <script>
+      var u = new URI('http://example.org/foo/bar/baz.html');
+      u.path('foo/bar/baz.html');
+      u.normalizePath();
+      var a1 = u.path() == '/foo/bar/baz.html';
+      a1;
+    </script>
+  </body>
+</html>

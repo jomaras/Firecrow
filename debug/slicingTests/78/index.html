@@ -8,16 +8,15 @@
     function test()
     {
         a.a = 4;
+        a.b = 3;
+
+        if(a.b)
+        {
+            a.b++;
+        }
     }
 
-    var results = { cacheable: true};
-    var l = 0;
-    var i = 3;
-    var lastIndex = 3;
-
-    results.cacheable || ( l > 1 && i < lastIndex ) ?
-            test() :
-            0;
+    test();
     var a1 = a.a;
     a1;
 </script>

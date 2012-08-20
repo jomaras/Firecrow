@@ -53,9 +53,13 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                     if(command.codeConstruct.loc != null)
                     {
-                        if(command.codeConstruct.loc.start.line == 33)
+                        if(command.codeConstruct.loc.start.line == 42)
                         {
                             logExecution = true;
+                        }
+                        else if(command.codeConstruct.loc.start.line == 43)
+                        {
+                            logExecution = false;
                         }
 
                         if(logExecution)

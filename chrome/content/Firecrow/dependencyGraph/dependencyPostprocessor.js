@@ -502,6 +502,8 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             this.processElement(forInStatement.left);
             this.processElement(forInStatement.right);
             this.processElement(forInStatement.body);
+
+            if(forInStatement.right.shouldBeIncluded) { forInStatement.left.shouldBeIncluded; }
         }
         catch(e) { this.notifyError("Error when processing code from for...in statement:" + e); }
     },

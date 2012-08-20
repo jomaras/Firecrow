@@ -392,10 +392,6 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             {
                 codeConstruct = codeConstruct.object;
             }
-            else if(ASTHelper.isForInStatement(codeConstruct))
-            {
-                codeConstruct = codeConstruct.right;
-            }
             else if (ASTHelper.isSwitchStatement(codeConstruct))
             {
                 codeConstruct = codeConstruct.discriminant;
@@ -578,6 +574,23 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(!ValueTypeHelper.isOfType(enterFunctionContextCommand, fcCommands.Command) || !enterFunctionContextCommand.isEnterFunctionContextCommand()) { this.notifyError("Argument must be a enterFunctionContext command"); return; }
             if(enterFunctionContextCommand.callee == null) { this.notifyError("When processing enter function context the callee can not be null!"); return; }
+
+            if(enterFunctionContextCommand.parentFunctionCommand != null)
+            {
+                var graphNode = enterFunctionContextCommand.parentFunctionCommand.codeConstruct.graphNode;
+
+                if(graphNode != null)
+                {
+                    var dataDependencies = graphNode.dataDependencies;
+
+                    if(dataDependencies.length > 0)
+                    {
+                        if(graphNode.enterFunctionPoints == null) { graphNode.enterFunctionPoints = []; }
+
+                        graphNode.enterFunctionPoints.push({lastDependencyIndex: dataDependencies[dataDependencies.length - 1].index});
+                    }
+                }
+            }
 
             var functionConstruct = enterFunctionContextCommand.callee.fcInternal.codeConstruct;
             var formalParameters = this._getFormalParameters(functionConstruct);
@@ -830,13 +843,13 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             var callFunctionCommand = exitFunctionContextCommand.parentFunctionCommand;
 
             //NOTICE - related to evalReturn in Evaluator
-            if(callFunctionCommand.executedReturnCommand == null)
-            {
+            //if(callFunctionCommand.executedReturnCommand == null)
+            //{
                 var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
                 evaluationPosition.isReturnDependency = true;
 
                 this.addDependenciesToPreviouslyExecutedBlockConstructs(callFunctionCommand.codeConstruct, evaluationPosition);
-            }
+            //}
         }
         catch(e) { this.notifyError("Error when exiting function context: " + e); }
     },

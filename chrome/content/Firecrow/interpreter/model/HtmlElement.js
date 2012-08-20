@@ -21,20 +21,18 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.proto = new fcModel.Object(this.globalObject);
         this.__proto__ = this.proto;
 
+        for(var prop in fcModel.HtmlElementProto)
+        {
+            this[prop] = fcModel.HtmlElementProto[prop];
+        }
+
         this.globalObject = globalObject;
         this.htmlElement = htmlElement;
 
         if(htmlElement != null)
         {
             htmlElement.fcHtmlElementId = this.id;
-            this.globalObject.document.htmlElementToFcMapping[this.id] = this
-            this.proto.addProperty.call(this, "rel", new fcModel.JsValue(htmlElement.rel, new fcModel.FcInternal()), codeConstruct);
-            this.proto.addProperty.call(this, "checked", new fcModel.JsValue(htmlElement.checked, new fcModel.FcInternal()), codeConstruct);
-        }
-
-        for(var prop in fcModel.HtmlElementProto)
-        {
-            this[prop] = fcModel.HtmlElementProto[prop];
+            this.globalObject.document.htmlElementToFcMapping[this.id] = this;
         }
 
         this.constructor = fcModel.HtmlElement;
@@ -122,6 +120,8 @@ fcModel.HtmlElementProto =
 
             if(modifications == null || modifications.length == 0) { return; }
 
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
             for(var i = 0, length = modifications.length; i < length; i++)
             {
                 var modification = modifications[i];
@@ -130,7 +130,7 @@ fcModel.HtmlElementProto =
                 (
                     codeConstruct,
                     modification.codeConstruct,
-                    this.globalObject.getPreciseEvaluationPositionId(),
+                    evaluationPosition,
                     modification.evaluationPositionId
                 );
             }
@@ -205,6 +205,7 @@ fcModel.HtmlElementProto =
 
     getHtmlPropertyValue: function(propertyName, codeConstruct)
     {
+        //TODO - HACKY - REWRITE, especially the offset and textContent part
         fcModel.HtmlElement.accessedProperties[propertyName] = true;
 
         if(propertyName == "childNodes")
@@ -241,6 +242,10 @@ fcModel.HtmlElementProto =
         else if (propertyName == "checked")
         {
             return new fcModel.JsValue(this.htmlElement.checked, new fcModel.FcInternal());
+        }
+        else if(propertyName == "textContent")
+        {
+            this.proto.addProperty.call(this, "textContent", new fcModel.JsValue(this.htmlElement.textContent, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         }
 
         return this.getPropertyValue(propertyName, codeConstruct);
@@ -342,7 +347,8 @@ fcModel.HtmlElement.CONST =
             "localName", "name", "namespaceURI", "nodeName", "nodeType",
             "nodeValue", "offsetHeight", "offsetLeft", "offsetTop", "offsetWidth", "outerHTML",
             "prefix", "schemaTypeInfo", "scrollHeight", "scrollLeft",
-            "scrollTop", "scrollWidth", "spellcheck", "tabIndex", "tagName", "textContent", "title"
+            "scrollTop", "scrollWidth", "spellcheck", "tabIndex", "tagName", "textContent", "title",
+            "rel", "checked"
         ],
         COMPLEX_PROPERTIES:
         [
