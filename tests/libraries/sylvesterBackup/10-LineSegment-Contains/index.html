@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>
+      var segment = Sylvester.Line.Segment.create([5,5,5], [10,10,10]);
+      var segment2 = Sylvester.Line.Segment.create([1,1,0], [1,2,0]);
+
+    	var a1 = segment.contains(segment.midpoint());
+      var a2 = segment.contains([5,5,5]);
+      var a3 = segment.contains([10,10,10]);
+      var a4 = ! segment.contains([4.9999,4.9999,4.9999]);
+      var a5 = ! segment.contains([10.00001, 10.00001, 10.00001]);
+      var a6 = segment.contains(Sylvester.Line.Segment.create([5,5,5], [8,8,8]));
+      var a7 = segment.contains(Sylvester.Line.Segment.create([7,7,7], [10,10,10]));
+      var a8 = ! segment.contains(Sylvester.Line.Segment.create([4,4,4], [8,8,8]));
+
+      a1;
+      a2;
+      a3;
+      a4;
+      a5;
+      a6;
+      a7;
+      a8;
+   </script>
+</body>
+</html>

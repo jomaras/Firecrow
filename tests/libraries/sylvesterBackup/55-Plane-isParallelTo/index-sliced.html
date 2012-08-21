@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      Sylvester.Vector.Zero = function (n)
+      {
+        var elements = [];
+        while(n--)
+        {
+          elements.push(0);
+        }
+
+        return Sylvester.Vector.create(elements);
+      };
+      Sylvester.Vector.prototype = {
+        modulus: function ()
+        {
+          return Math.sqrt(this.dot(this));
+        }, 
+        dup: function ()
+        {
+          return Sylvester.Vector.create(this.elements);
+        }, 
+        forEach: function (fn, context)
+        {
+          var n = this.elements.length;
+          for(var i = 0;i < n;i++)
+          {
+            fn.call(context, this.elements[i], i + 1);
+          }
+        }, 
+        angleFrom: function (vector)
+        {
+          var V = vector.elements;
+          var n = this.elements.length;
+          var dot = 0, mod1 = 0, mod2 = 0;
+          this.each(function (x, i)
+          {
+            dot += x * V[i - 1];
+            mod1 += x * x;
+            mod2 += V[i - 1] * V[i - 1];
+          });
+          mod1 = Math.sqrt(mod1);
+          mod2 = Math.sqrt(mod2);
+          var theta = dot / (mod1 * mod2);
+          return Math.acos(theta);
+        }, 
+        isPerpendicularTo: function (vector)
+        {
+          var dot = this.dot(vector);
+          return dot === null ? 0 : Math.abs(dot) <= Sylvester.precision;
+        }, 
+        dot: function (vector)
+        {
+          var V = vector.elements;
+          var product = 0, n = this.elements.length;
+          while(n--)
+          {
+            product += this.elements[n] * V[n];
+          }
+
+          return product;
+        }, 
+        to3D: function ()
+        {
+          var V = this.dup();
+          return V;
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+      Sylvester.Vector.prototype.each = Sylvester.Vector.prototype.forEach;
+      Sylvester.Vector.i = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Vector.j = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Vector.k = Sylvester.Vector.create([0, 0, 1]);
+      Sylvester.Line = function ()
+      {};
+      Sylvester.Line.prototype = {
+        setVectors: function (anchor, direction)
+        {
+          anchor = Sylvester.Vector.create(anchor);
+          direction = Sylvester.Vector.create(direction);
+          var mod = direction.modulus();
+          this.direction = Sylvester.Vector.create([direction.elements[0] / mod, direction.elements[1] / mod, direction.elements[2] / mod]);
+          return this;
+        }
+      };
+      Sylvester.Line.create = function (anchor, direction)
+      {
+        var L = new Sylvester.Line();
+        return L.setVectors(anchor, direction);
+      };
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+      Sylvester.Plane = function ()
+      {};
+      Sylvester.Plane.prototype = {
+        dup: function ()
+        {
+          return Sylvester.Plane.create(this.anchor, this.normal);
+        }, 
+        translate: function (vector)
+        {
+          var V = vector.elements || vector;
+          return Sylvester.Plane.create([this.anchor.elements[0] + V[0], this.anchor.elements[1] + V[1], this.anchor.elements[2] + V[2]], this.normal);
+        }, 
+        isParallelTo: function (obj)
+        {
+          var theta;
+          if(obj.normal)
+          {
+            theta = this.normal.angleFrom(obj.normal);
+            return Math.abs(theta) <= Sylvester.precision;
+          }
+          else if(obj.direction)
+          {
+            return this.normal.isPerpendicularTo(obj.direction);
+          }
+        }, 
+        setVectors: function (anchor, v1, v2)
+        {
+          anchor = Sylvester.Vector.create(anchor);
+          anchor = anchor.to3D();
+          v1 = Sylvester.Vector.create(v1);
+          v1 = v1.to3D();
+          if(typeof v2 === 'undefined')
+          {
+            v2 = null;
+          }
+
+          var v11 = v1.elements[0], v12 = v1.elements[1], v13 = v1.elements[2];
+          var normal, mod;
+          if(v2 !== null);
+          else 
+          {
+            mod = Math.sqrt(((v11 * v11) + (v12 * v12)) + (v13 * v13));
+            normal = Sylvester.Vector.create([v1.elements[0] / mod, v1.elements[1] / mod, v1.elements[2] / mod]);
+          }
+
+          this.anchor = anchor;
+          this.normal = normal;
+          return this;
+        }
+      };
+      Sylvester.Plane.create = function (anchor, v1, v2)
+      {
+        var P = new Sylvester.Plane();
+        return P.setVectors(anchor, v1, v2);
+      };
+      Sylvester.Plane.XY = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+      Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+      Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+    </script>
+  </head>
+  <body>
+    <script>
+      var Plane = Sylvester.Plane;
+      var a1 = Plane.XY.dup().translate([5, 12, -14]).isParallelTo(Plane.XY);
+      var a2 = Plane.XY.isParallelTo(Sylvester.Line.create([4, 8, 10], [2, -6, 0]));
+      a1;
+      a2;
+    </script>
+  </body>
+</html>

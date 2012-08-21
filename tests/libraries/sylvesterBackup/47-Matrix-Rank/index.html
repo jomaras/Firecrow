@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+       	var M = $M([
+      [1,9,4,6],
+      [9,2,7,4],
+      [18,4,14,8]
+    ])
+    var a1 = 2 == M.rk();
+
+    a1;
+   </script>
+</body>
+</html>

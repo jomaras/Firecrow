@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      var $M;
+      Sylvester.Matrix.prototype = {
+        eql: function (matrix)
+        {
+          var M = matrix.elements;
+          var i = this.elements.length, nj = this.elements[0].length, j;
+          while(i--)
+          {
+            j = nj;
+            while(j--)
+            {
+              if(Math.abs(this.elements[i][j] - M[i][j]) > Sylvester.precision)
+              {
+                return false;
+              }
+            }
+          }
+
+          return true;
+        }, 
+        dup: function ()
+        {
+          return Sylvester.Matrix.create(this.elements);
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var $M = Matrix.create;
+      var M1 = $M([[2, 3, 8], [7, 0, 2], [6, 3, 0]]);
+      var M2 = M1.dup();
+      var a1 = M1.eql(M2);
+      M2.elements[1][1] = 99;
+      var a2 = !(M1.eql(M2));
+      var a3 = 0 === M1.elements[1][1];
+      a1;
+      a2;
+      a3;
+    </script>
+  </body>
+</html>

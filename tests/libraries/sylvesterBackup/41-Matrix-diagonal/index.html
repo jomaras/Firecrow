@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+    	var M = $M([[9,2,9],[2,0,2],[1,8,1]]);
+    	var a1 = M.diagonal().eql([9,0,1]);
+      a1; 
+   </script>
+</body>
+</html>

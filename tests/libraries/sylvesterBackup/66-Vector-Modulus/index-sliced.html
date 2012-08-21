@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      var $V;
+      Sylvester.Vector.Zero = function (n)
+      {
+        var elements = [];
+        while(n--);
+        return Sylvester.Vector.create(elements);
+      };
+      Sylvester.Vector.prototype = {
+        modulus: function ()
+        {
+          return Math.sqrt(this.dot(this));
+        }, 
+        dot: function (vector)
+        {
+          var V = vector.elements;
+          var product = 0, n = this.elements.length;
+          while(n--)
+          {
+            product += this.elements[n] * V[n];
+          }
+
+          return product;
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+      Sylvester.Vector.i = Sylvester.Vector.create([1, 0, 0]);
+      Sylvester.Vector.j = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Vector.k = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Line = function ()
+      {};
+      Sylvester.Line.prototype = {
+        setVectors: function (anchor, direction)
+        {
+          direction = Sylvester.Vector.create(direction);
+          var mod = direction.modulus();
+        }
+      };
+      Sylvester.Line.create = function (anchor, direction)
+      {
+        var L = new Sylvester.Line();
+        return L.setVectors(anchor, direction);
+      };
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+    </script>
+  </head>
+  <body>
+    <script>
+      var Vector = Sylvester.Vector;
+      var $V = Vector.create;
+      var a1 = Math.sqrt(50) == $V([0, 3, 4, 5]).modulus();
+      var a2 = 1 == Vector.i.modulus();
+      a1;
+      a2;
+    </script>
+  </body>
+</html>

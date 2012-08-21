@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+       var a1 = $M([
+        [2,3,8],
+        [7,0,2],
+        [6,3,0]
+      ]).map(function(x, i, j) { return x + j }).eql([
+        [3,5,11],
+        [8,2,5],
+        [7,5,3]
+      ]);
+
+      a1;    
+   </script>
+</body>
+</html>

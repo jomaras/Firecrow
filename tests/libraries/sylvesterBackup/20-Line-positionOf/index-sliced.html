@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      Sylvester.Vector.Zero = function (n)
+      {
+        var elements = [];
+        while(n--);
+        return Sylvester.Vector.create(elements);
+      };
+      Sylvester.Vector.prototype = {
+        modulus: function ()
+        {
+          return Math.sqrt(this.dot(this));
+        }, 
+        dot: function (vector)
+        {
+          var V = vector.elements;
+          var product = 0, n = this.elements.length;
+          while(n--)
+          {
+            product += this.elements[n] * V[n];
+          }
+
+          return product;
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+      Sylvester.Vector.i = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Vector.j = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Vector.k = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Line = function ()
+      {};
+      Sylvester.Line.prototype = {
+        distanceFrom: function (obj)
+        {
+          if(obj.direction)
+          {
+            var A;
+          }
+          else 
+          {
+            var P = obj.elements || obj;
+            var A = this.anchor.elements, D = this.direction.elements;
+            var PA1 = P[0] - A[0], PA2 = P[1] - A[1], PA3 = P[2] - A[2];
+            var modPA = Math.sqrt(((PA1 * PA1) + (PA2 * PA2)) + (PA3 * PA3));
+            var cosTheta = (((PA1 * D[0]) + (PA2 * D[1])) + (PA3 * D[2])) / modPA;
+            var sin2 = 1 - (cosTheta * cosTheta);
+            return Math.abs(modPA * Math.sqrt(sin2 < 0 ? 0 : 0));
+          }
+        }, 
+        contains: function (obj)
+        {
+          var dist = this.distanceFrom(obj);
+          return dist !== null && dist <= Sylvester.precision;
+        }, 
+        positionOf: function (point)
+        {
+          if(!(this.contains(point)));
+
+          var P = point.elements || point;
+          var A = this.anchor.elements, D = this.direction.elements;
+          return (((P[0] - A[0]) * D[0]) + ((P[1] - A[1]) * D[1])) + ((P[2] - A[2]) * D[2]);
+        }, 
+        setVectors: function (anchor, direction)
+        {
+          anchor = Sylvester.Vector.create(anchor);
+          direction = Sylvester.Vector.create(direction);
+          var mod = direction.modulus();
+          this.anchor = anchor;
+          this.direction = Sylvester.Vector.create([direction.elements[0] / mod, direction.elements[1] / mod, direction.elements[2] / mod]);
+          return this;
+        }
+      };
+      Sylvester.Line.create = function (anchor, direction)
+      {
+        var L = new Sylvester.Line();
+        return L.setVectors(anchor, direction);
+      };
+      var $L = Sylvester.Line.create;
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+    </script>
+  </head>
+  <body>
+    <script>
+      var a1 = ($L([0, 0, 0], [1, 1, -1]).positionOf([3, 3, -3]) - Math.sqrt(27)) <= Sylvester.precision;
+      a1;
+    </script>
+  </body>
+</html>

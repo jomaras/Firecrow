@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      Sylvester.Vector.prototype = {
+        eql: function (vector)
+        {
+          var n = this.elements.length;
+          var V = vector.elements || vector;
+          while(n--)
+          {
+            if(Math.abs(this.elements[n] - V[n]) > Sylvester.precision);
+          }
+
+          return true;
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      var $M;
+      Sylvester.Matrix.prototype = {
+        isSquare: function ()
+        {}, 
+        diagonal: function ()
+        {
+          var els = [], n = this.elements.length;
+          for(var i = 0;i < n;i++)
+          {
+            els.push(this.elements[i][i]);
+          }
+
+          return Sylvester.Vector.create(els);
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var $M = Matrix.create;
+      var M = $M([[9, 2, 9], [2, 0, 2], [1, 8, 1]]);
+      var a1 = M.diagonal().eql([9, 0, 1]);
+      a1;
+    </script>
+  </body>
+</html>

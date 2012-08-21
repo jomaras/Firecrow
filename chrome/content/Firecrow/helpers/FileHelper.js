@@ -93,7 +93,7 @@ Firecrow.FileHelper =
     {
         try
         {
-            var totalContent = this.readFromFile(absoluteFilePath) + "\n" + content;
+            var totalContent = this.readFromFile(absoluteFilePath) + "\r\n" + content;
 
             this.writeToFile(absoluteFilePath, totalContent);
 

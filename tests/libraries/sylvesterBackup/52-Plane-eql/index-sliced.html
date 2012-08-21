@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      Sylvester.Vector.Zero = function (n)
+      {
+        var elements = [];
+        while(n--)
+        {
+          elements.push(0);
+        }
+
+        return Sylvester.Vector.create(elements);
+      };
+      Sylvester.Vector.prototype = {
+        dup: function ()
+        {
+          return Sylvester.Vector.create(this.elements);
+        }, 
+        forEach: function (fn, context)
+        {
+          var n = this.elements.length;
+          for(var i = 0;i < n;i++)
+          {
+            fn.call(context, this.elements[i], i + 1);
+          }
+        }, 
+        angleFrom: function (vector)
+        {
+          var V = vector.elements;
+          var n = this.elements.length;
+          var dot = 0, mod1 = 0, mod2 = 0;
+          this.each(function (x, i)
+          {
+            dot += x * V[i - 1];
+            mod1 += x * x;
+            mod2 += V[i - 1] * V[i - 1];
+          });
+          mod1 = Math.sqrt(mod1);
+          mod2 = Math.sqrt(mod2);
+          var theta = dot / (mod1 * mod2);
+          return Math.acos(theta);
+        }, 
+        to3D: function ()
+        {
+          var V = this.dup();
+          return V;
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+      Sylvester.Vector.prototype.each = Sylvester.Vector.prototype.forEach;
+      Sylvester.Vector.i = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Vector.j = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Vector.k = Sylvester.Vector.create([0, 0, 1]);
+      (Sylvester.Vector.Zero(3), null);
+      (Sylvester.Vector.Zero(3), null);
+      (Sylvester.Vector.Zero(3), null);
+      Sylvester.Plane = function ()
+      {};
+      Sylvester.Plane.prototype = {
+        eql: function (plane)
+        {
+          return this.contains(plane.anchor) && this.isParallelTo(plane);
+        }, 
+        dup: function ()
+        {
+          return Sylvester.Plane.create(this.anchor, this.normal);
+        }, 
+        isParallelTo: function (obj)
+        {
+          var theta;
+          if(obj.normal)
+          {
+            theta = this.normal.angleFrom(obj.normal);
+            return Math.abs(theta) <= Sylvester.precision || Math.abs(Math.PI - theta) <= Sylvester.precision;
+          }
+        }, 
+        contains: function (obj)
+        {
+          if(obj.direction);
+          else 
+          {
+            var P = obj.elements;
+            var A = this.anchor.elements, N = this.normal.elements;
+            var diff = Math.abs(((N[0] * (A[0] - P[0])) + (N[1] * (A[1] - P[1]))) + (N[2] * (A[2] - (P[2] || 0))));
+            return diff <= Sylvester.precision;
+          }
+        }, 
+        setVectors: function (anchor, v1, v2)
+        {
+          anchor = Sylvester.Vector.create(anchor);
+          anchor = anchor.to3D();
+          v1 = Sylvester.Vector.create(v1);
+          v1 = v1.to3D();
+          if(typeof v2 === 'undefined')
+          {
+            v2 = null;
+          }
+
+          var v11 = v1.elements[0], v12 = v1.elements[1], v13 = v1.elements[2];
+          var normal, mod;
+          if(v2 !== null);
+          else 
+          {
+            mod = Math.sqrt(((v11 * v11) + (v12 * v12)) + (v13 * v13));
+            normal = Sylvester.Vector.create([v1.elements[0] / mod, v1.elements[1] / mod, v1.elements[2] / mod]);
+          }
+
+          this.anchor = anchor;
+          this.normal = normal;
+          return this;
+        }
+      };
+      Sylvester.Plane.create = function (anchor, v1, v2)
+      {
+        var P = new Sylvester.Plane();
+        return P.setVectors(anchor, v1, v2);
+      };
+      var $P;
+      Sylvester.Plane.XY = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+      Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+      Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+    </script>
+  </head>
+  <body>
+    <script>
+      var Plane = Sylvester.Plane;
+      var $P = Plane.create;
+      var a1 = Plane.XY.dup().eql($P([34, -99, 0], [0, 0, -4]));
+      var a2 = !(Plane.XY.dup().eql($P([34, -99, 1], [0, 0, -4])));
+      var a3 = !(Plane.XY.dup().eql($P([34, -99, 0], [1, 0, -4])));
+      var a4 = !(Plane.XY.dup().eql($P([34, -99, 0], [0, -1, -4])));
+      a1;
+      a2;
+      a3;
+      a4;
+    </script>
+  </body>
+</html>

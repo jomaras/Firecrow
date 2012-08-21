@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      Sylvester.Matrix.I = function (n)
+      {
+        var els = [], i = n, j;
+        while(i--)
+        {
+          j = n;
+          els[i] = [];
+          while(j--)
+          {
+            els[i][j] = i === j ? 1 : 0;
+          }
+        }
+
+        return Sylvester.Matrix.create(els);
+      };
+      Sylvester.Matrix.Diagonal = function (elements)
+      {
+        var i = elements.length;
+        var M = Sylvester.Matrix.I(i);
+        while(i--)
+        {
+          M.elements[i][i] = elements[i];
+        }
+
+        return M;
+      };
+      Sylvester.Matrix.prototype = {
+        eql: function (matrix)
+        {
+          var M = matrix.elements || matrix;
+          var i = this.elements.length, nj = this.elements[0].length, j;
+          while(i--)
+          {
+            j = nj;
+            while(j--)
+            {
+              if(Math.abs(this.elements[i][j] - M[i][j]) > Sylvester.precision);
+            }
+          }
+
+          return true;
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var a1 = Matrix.Diagonal([3, 9, 5, 7]).eql([[3, 0, 0, 0], [0, 9, 0, 0], [0, 0, 5, 0], [0, 0, 0, 7]]);
+      a1;
+    </script>
+  </body>
+</html>

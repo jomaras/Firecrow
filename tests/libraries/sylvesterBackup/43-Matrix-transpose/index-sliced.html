@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      var $M;
+      Sylvester.Matrix.prototype = {
+        eql: function (matrix)
+        {
+          var M = matrix.elements;
+          var i = this.elements.length, nj = this.elements[0].length, j;
+          while(i--)
+          {
+            j = nj;
+            while(j--)
+            {
+              if(Math.abs(this.elements[i][j] - M[i][j]) > Sylvester.precision);
+            }
+          }
+
+          return true;
+        }, 
+        transpose: function ()
+        {
+          var rows = this.elements.length, i, cols = this.elements[0].length, j;
+          var elements = [], i = cols;
+          while(i--)
+          {
+            j = rows;
+            elements[i] = [];
+            while(j--)
+            {
+              elements[i][j] = this.elements[j][i];
+            }
+          }
+
+          return Sylvester.Matrix.create(elements);
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var $M = Matrix.create;
+      var M1 = $M([[3, 9, 8, 4], [2, 0, 1, 5]]);
+      var M2 = $M([[3, 2], [9, 0], [8, 1], [4, 5]]);
+      var a1 = M1.transpose().eql(M2);
+      var a2 = M2.transpose().eql(M1);
+      a1;
+      a2;
+    </script>
+  </body>
+</html>

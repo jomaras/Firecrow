@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      Sylvester.Matrix.Random = function (n, m)
+      {
+        return Sylvester.Matrix.Zero(n, m).map(function ()
+        {
+          return Math.random();
+        });
+      };
+      Sylvester.Matrix.Zero = function (n, m)
+      {
+        var els = [], i = n, j;
+        while(i--)
+        {
+          j = m;
+          els[i] = [];
+          while(j--)
+          {
+            els[i][j] = 0;
+          }
+        }
+
+        return Sylvester.Matrix.create(els);
+      };
+      Sylvester.Matrix.prototype = {
+        map: function (fn, context)
+        {
+          var els = [], i = this.elements.length, nj = this.elements[0].length, j;
+          while(i--)
+          {
+            j = nj;
+            els[i] = [];
+            while(j--)
+            {
+              els[i][j] = fn.call(context, this.elements[i][j], i + 1, j + 1);
+            }
+          }
+
+          return Sylvester.Matrix.create(els);
+        }, 
+        isSameSizeAs: function (matrix)
+        {
+          var M = matrix.elements;
+          return this.elements.length === M.length && this.elements[0].length === M[0].length;
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var a1 = Matrix.Random(2, 5).isSameSizeAs(Matrix.Zero(2, 5));
+      var a2 = !(Matrix.Random(2, 6).isSameSizeAs(Matrix.Zero(2, 5)));
+      var a3 = !(Matrix.Random(1, 5).isSameSizeAs(Matrix.Zero(2, 5)));
+      a1;
+      a2;
+      a3;
+    </script>
+  </body>
+</html>

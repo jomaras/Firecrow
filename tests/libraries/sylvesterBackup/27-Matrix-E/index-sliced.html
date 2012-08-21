@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      var $M;
+      Sylvester.Matrix.prototype = {
+        e: function (i, j)
+        {
+          if(i < 1 || i > this.elements.length || j < 1 || j > this.elements[0].length)
+          {
+            return null;
+          }
+
+          return this.elements[i - 1][j - 1];
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var $M = Matrix.create;
+      var M = $M([[0, 3, 4, 8], [3, 9, 7, 3]]);
+      var a1 = 0 === M.e(1, 1);
+      var a2 = 8 === M.e(1, 4);
+      var a3 = M.e(2, 6) == null;
+      a1;
+      a2;
+      a3;
+    </script>
+  </body>
+</html>

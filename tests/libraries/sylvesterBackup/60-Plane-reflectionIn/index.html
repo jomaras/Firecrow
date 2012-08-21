@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Plane = Sylvester.Plane;
+    	var $P = Plane.create;
+		var a1 = Plane.XY.reflectionIn(Sylvester.Vector.create([12,65,-4])).eql($P([0,0,-8], Sylvester.Vector.k));
+	    var a2 = Plane.XY.reflectionIn(Sylvester.Line.Z).eql(Plane.XY);
+	    var a3 = Plane.XY.reflectionIn(Sylvester.Line.create([0,0,0], [1,0,1])).eql(Plane.YZ);
+	    var a4 = $P([5,0,0], [1,1,0]).reflectionIn($P([5,0,0], [0,1,0])).eql($P([5,0,0], [-1,1,0]));
+	    var a5 = $P([0,5,0], [0,1,1]).reflectionIn($P([0,5,0], [0,0,1])).eql($P([0,5,0], [0,-1,1]));
+	    var a6 = $P([0,0,5], [1,0,1]).reflectionIn($P([0,0,5], [1,0,0])).eql($P([0,0,5], [1,0,-1]));
+	    a1;
+	    a2;
+	    a3;
+	    a4;
+	    a5;
+	    a6;
+   </script>
+</body>
+</html>

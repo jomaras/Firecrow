@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      var $V;
+      Sylvester.Vector.prototype = {
+        e: function (i)
+        {
+          return i < 1 || i > this.elements.length ? null : this.elements[i - 1];
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Vector = Sylvester.Vector;
+      var $V = Vector.create;
+      var V = $V([0, 3, 4, 5]);
+      var a1 = 0 == V.e(1);
+      var a2 = 5 == V.e(4);
+      var a3 = null == V.e(5);
+      a1;
+      a2;
+      a3;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>
+       segment = Sylvester.Line.Segment.create([5,5,5], [10,10,10]);
+       segment2 = Sylvester.Line.Segment.create([1,1,0], [1,2,0]);
+       var a1 = segment.length() - Math.sqrt(75) <= Sylvester.precision;
+       a1;
+   </script>
+</body>
+</html>

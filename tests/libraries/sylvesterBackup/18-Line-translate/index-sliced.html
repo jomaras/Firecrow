@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      Sylvester.Vector.Zero = function (n)
+      {
+        var elements = [];
+        while(n--)
+        {
+          elements.push(0);
+        }
+
+        return Sylvester.Vector.create(elements);
+      };
+      Sylvester.Vector.prototype = {
+        modulus: function ()
+        {
+          return Math.sqrt(this.dot(this));
+        }, 
+        forEach: function (fn, context)
+        {
+          var n = this.elements.length;
+          for(var i = 0;i < n;i++)
+          {
+            fn.call(context, this.elements[i], i + 1);
+          }
+        }, 
+        angleFrom: function (vector)
+        {
+          var V = vector.elements;
+          var n = this.elements.length;
+          var dot = 0, mod1 = 0, mod2 = 0;
+          this.each(function (x, i)
+          {
+            dot += x * V[i - 1];
+            mod1 += x * x;
+            mod2 += V[i - 1] * V[i - 1];
+          });
+          mod1 = Math.sqrt(mod1);
+          mod2 = Math.sqrt(mod2);
+          var theta = dot / (mod1 * mod2);
+          return Math.acos(theta);
+        }, 
+        dot: function (vector)
+        {
+          var V = vector.elements;
+          var product = 0, n = this.elements.length;
+          while(n--)
+          {
+            product += this.elements[n] * V[n];
+          }
+
+          return product;
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+      Sylvester.Vector.prototype.each = Sylvester.Vector.prototype.forEach;
+      Sylvester.Vector.i = Sylvester.Vector.create([1, 0, 0]);
+      Sylvester.Vector.j = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Vector.k = Sylvester.Vector.create([null, null, null]);
+      Sylvester.Line = function ()
+      {};
+      Sylvester.Line.prototype = {
+        eql: function (line)
+        {
+          return this.isParallelTo(line) && this.contains(line.anchor);
+        }, 
+        dup: function ()
+        {
+          return Sylvester.Line.create(this.anchor, this.direction);
+        }, 
+        translate: function (vector)
+        {
+          var V = vector.elements || vector;
+          return Sylvester.Line.create([this.anchor.elements[0] + V[0], this.anchor.elements[1] + V[1], this.anchor.elements[2] + V[2]], this.direction);
+        }, 
+        isParallelTo: function (obj)
+        {
+          var theta = this.direction.angleFrom(obj.direction);
+          return Math.abs(theta) <= Sylvester.precision;
+        }, 
+        distanceFrom: function (obj)
+        {
+          if(obj.direction)
+          {
+            var A;
+          }
+          else 
+          {
+            var P = obj.elements;
+            var A = this.anchor.elements;
+            var PA1 = P[0] - A[0], PA2 = P[1] - A[1], PA3 = P[2] - A[2];
+            var modPA = Math.sqrt(((PA1 * PA1) + (PA2 * PA2)) + (PA3 * PA3));
+            if(modPA === 0)
+            return 0;
+          }
+        }, 
+        contains: function (obj)
+        {
+          var dist = this.distanceFrom(obj);
+          return dist !== null && dist <= Sylvester.precision;
+        }, 
+        setVectors: function (anchor, direction)
+        {
+          anchor = Sylvester.Vector.create(anchor);
+          direction = Sylvester.Vector.create(direction);
+          var mod = direction.modulus();
+          this.anchor = anchor;
+          this.direction = Sylvester.Vector.create([direction.elements[0] / mod, direction.elements[1] / mod, direction.elements[2] / mod]);
+          return this;
+        }
+      };
+      Sylvester.Line.create = function (anchor, direction)
+      {
+        var L = new Sylvester.Line();
+        return L.setVectors(anchor, direction);
+      };
+      var $L = Sylvester.Line.create;
+      Sylvester.Line.X = Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+      Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+    </script>
+  </head>
+  <body>
+    <script>
+      var Line = Sylvester.Line;
+      var a1 = Line.X.dup().translate([0, 0, 12]).eql($L([0, 0, 12], Sylvester.Vector.i));
+      a1;
+    </script>
+  </body>
+</html>

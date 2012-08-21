@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      Sylvester.Matrix.Random = function (n, m)
+      {
+        return Sylvester.Matrix.Zero(n, m).map(function ()
+        {
+          return Math.random();
+        });
+      };
+      Sylvester.Matrix.Zero = function (n, m)
+      {
+        var els = [], i = n, j;
+        while(i--)
+        {
+          j = m;
+          els[i] = [];
+          while(j--)
+          {
+            els[i][j] = 0;
+          }
+        }
+
+        return Sylvester.Matrix.create(els);
+      };
+      Sylvester.Matrix.prototype = {
+        rows: function ()
+        {
+          return this.elements.length;
+        }, 
+        cols: function ()
+        {
+          return this.elements[0].length;
+        }, 
+        map: function (fn, context)
+        {
+          var els = [], i = this.elements.length, nj = this.elements[0].length, j;
+          while(i--)
+          {
+            j = nj;
+            els[i] = [];
+            while(j--)
+            {
+              els[i][j] = fn.call(context, this.elements[i][j], i + 1, j + 1);
+            }
+          }
+
+          return Sylvester.Matrix.create(els);
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var M;
+      var results = [];
+      for(var i = 1;i < 5;i++)
+      {
+        M = Matrix.Random(4, i);
+        var b1 = 4 == M.rows();
+        var b2 = i == M.cols();
+        M = Matrix.Random(i, 3);
+        var b3 = i == M.rows();
+        var b4 = 3 == M.cols();
+        results.push(b1 && b2 && b3 && b4);
+      }
+
+      var a1 = results[0];
+      var a2 = results[1];
+      var a3 = results[2];
+      var a4 = results[3];
+      a1;
+      a2;
+      a3;
+      a4;
+    </script>
+  </body>
+</html>

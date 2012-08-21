@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      var $M;
+      Sylvester.Matrix.Zero = function (n, m)
+      {
+        var els = [], i = n, j;
+        while(i--)
+        {
+          j = m;
+          els[i] = [];
+          while(j--)
+          {
+            els[i][j] = 0;
+          }
+        }
+
+        return Sylvester.Matrix.create(els);
+      };
+      Sylvester.Matrix.prototype = {
+        eql: function (matrix)
+        {
+          var M = matrix.elements || matrix;
+          var i = this.elements.length, nj = this.elements[0].length, j;
+          while(i--)
+          {
+            j = nj;
+            while(j--)
+            {
+              if(Math.abs(this.elements[i][j] - M[i][j]) > Sylvester.precision);
+            }
+          }
+
+          return true;
+        }, 
+        map: function (fn, context)
+        {
+          var els = [], i = this.elements.length, nj = this.elements[0].length, j;
+          while(i--)
+          {
+            j = nj;
+            els[i] = [];
+            while(j--)
+            {
+              els[i][j] = fn.call(context, this.elements[i][j], i + 1, j + 1);
+            }
+          }
+
+          return Sylvester.Matrix.create(els);
+        }, 
+        isSameSizeAs: function (matrix)
+        {
+          var M = matrix.elements || matrix;
+          return this.elements.length === M.length && this.elements[0].length === M[0].length;
+        }, 
+        add: function (matrix)
+        {
+          var M = matrix.elements;
+          if(!(this.isSameSizeAs(M)))
+          {
+            return null;
+          }
+
+          return this.map(function (x, i, j)
+          {
+            return x + M[i - 1][j - 1];
+          });
+        }, 
+        subtract: function (matrix)
+        {
+          var M = matrix.elements;
+          if(!(this.isSameSizeAs(M)))
+          {
+            return null;
+          }
+
+          return this.map(function (x, i, j)
+          {
+            return x - M[i - 1][j - 1];
+          });
+        }, 
+        multiply: function (matrix)
+        {
+          if(!(matrix.elements))
+          {
+            return this.map(function (x)
+            {
+              return x * matrix;
+            });
+          }
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+      Sylvester.Matrix.prototype.x = Sylvester.Matrix.prototype.multiply;
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var $M = Matrix.create;
+      var M1 = $M([[2, 5, 9, 3], [9, 2, 8, 5]]);
+      var M2 = $M([[7, 1, 0, 8], [0, 4, 3, 8]]);
+      var M = $M([[9, 6, 9, 11], [9, 6, 11, 13]]);
+      var a1 = M1.add(M2).eql(M);
+      var a2 = M2.add(M1).eql(M);
+      var a3 = M1.add(Matrix.Zero(2, 5)) == null;
+      M = $M([[-5, 4, 9, -5], [9, -2, 5, -3]]);
+      var a4 = M1.subtract(M2).eql(M);
+      var a5 = M2.subtract(M1).eql(M.x(-1));
+      var a6 = M1.subtract(Matrix.Zero(2, 7)) == null;
+      var a7 = M2.x(3).eql([[21, 3, 0, 24], [0, 12, 9, 24]]);
+      a1;
+      a2;
+      a3;
+      a4;
+      a5;
+      a6;
+      a7;
+    </script>
+  </body>
+</html>

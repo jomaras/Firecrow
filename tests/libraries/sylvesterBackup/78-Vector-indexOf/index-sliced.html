@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      var $V;
+      Sylvester.Vector.prototype = {
+        max: function ()
+        {
+          var m = 0, i = this.elements.length;
+          while(i--)
+          {
+            if(Math.abs(this.elements[i]) > Math.abs(m))
+            {
+              m = this.elements[i];
+            }
+          }
+
+          return m;
+        }, 
+        indexOf: function (x)
+        {
+          var index = null, n = this.elements.length;
+          for(var i = 0;i < n;i++)
+          {
+            if(index === null && this.elements[i] === x)
+            {
+              index = i + 1;
+            }
+          }
+
+          return index;
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Vector = Sylvester.Vector;
+      var $V = Vector.create;
+      var V = $V([2, 6, 0, 3]);
+      var a1 = 1 == V.indexOf(2);
+      var a2 = 4 == V.indexOf(3);
+      var a3 = 2 == V.indexOf(V.max());
+      var a4 = V.indexOf(7) == null;
+      a1;
+      a2;
+      a3;
+      a4;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Vector = Sylvester.Vector
+    	var $V = Vector.create
+    	var k = Sylvester.precision;
+    
+    	var a1 = Math.PI/2 == Vector.i.angleFrom(Vector.j);
+    	var a2 = Math.round((Math.PI/4)*k)/k == Math.round(($V([1,0]).angleFrom($V([1,1])))*k)/k;
+    	var a3 = Vector.i.angleFrom([1,6,3,5]) == null;
+
+      a1;
+      a2;
+      a3;
+   </script>
+</body>
+</html>

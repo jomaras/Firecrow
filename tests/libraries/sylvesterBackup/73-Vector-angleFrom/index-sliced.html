@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      var $V;
+      Sylvester.Vector.prototype = {
+        forEach: function (fn, context)
+        {
+          var n = this.elements.length;
+          for(var i = 0;i < n;i++)
+          {
+            fn.call(context, this.elements[i], i + 1);
+          }
+        }, 
+        angleFrom: function (vector)
+        {
+          var V = vector.elements || vector;
+          var n = this.elements.length;
+          if(n !== V.length)
+          {
+            return null;
+          }
+
+          var dot = 0, mod1 = 0, mod2 = 0;
+          this.each(function (x, i)
+          {
+            dot += x * V[i - 1];
+            mod1 += x * x;
+            mod2 += V[i - 1] * V[i - 1];
+          });
+          mod1 = Math.sqrt(mod1);
+          mod2 = Math.sqrt(mod2);
+          var theta = dot / (mod1 * mod2);
+          return Math.acos(theta);
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+      Sylvester.Vector.prototype.each = Sylvester.Vector.prototype.forEach;
+      Sylvester.Vector.i = Sylvester.Vector.create([1, 0, 0]);
+      Sylvester.Vector.j = Sylvester.Vector.create([0, 1, 0]);
+    </script>
+  </head>
+  <body>
+    <script>
+      var Vector = Sylvester.Vector;
+      var $V = Vector.create;
+      var k = Sylvester.precision;
+      var a1 = (Math.PI / 2) == Vector.i.angleFrom(Vector.j);
+      var a2 = (Math.round((Math.PI / 4) * k) / k) == (Math.round($V([1, 0]).angleFrom($V([1, 1])) * k) / k);
+      var a3 = Vector.i.angleFrom([1, 6, 3, 5]) == null;
+      a1;
+      a2;
+      a3;
+    </script>
+  </body>
+</html>

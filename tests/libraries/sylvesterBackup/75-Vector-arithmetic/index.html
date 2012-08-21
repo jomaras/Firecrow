@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Vector = Sylvester.Vector
+    	var $V = Vector.create
+
+    	var V1 = $V([2,9,4]);
+    	var V2 = $V([5,13,7])
+    	var a1 = V1.add(V2).eql([7,22,11])
+    	var a2 = V1.subtract(V2).eql([-3,-4,-3])
+    	var a3 = null == V1.add([2,8])
+    	var a4 = null == V1.subtract([9,3,6,1,7])
+    	var a5 = V1.x(4).eql([8,36,16]);
+
+      a1;
+      a2;
+      a3;
+      a4;
+      a5;
+   </script>
+</body>
+</html>

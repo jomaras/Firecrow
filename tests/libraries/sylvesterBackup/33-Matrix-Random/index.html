@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Matrix = Sylvester.Matrix;
+    	var $M = Matrix.create;
+       
+        var M;
+        var results = [];
+    	
+    	for (var i = 1; i < 5; i++) 
+    	{
+      		M = Matrix.Random(4,i)
+      		var b1 =  4 == M.rows();
+      		var b2 =  i == M.cols();
+      		M = Matrix.Random(i,3)
+      		var b3 =  i == M.rows();
+      		var b4 =  3 == M.cols();
+      		results.push(b1 && b2 && b3 && b4);
+    	}
+
+    	var a1 = results[0];
+    	var a2 = results[1];
+    	var a3 = results[2];
+    	var a4 = results[3];
+
+      a1;
+      a2;
+      a3;
+      a4;
+   </script>
+</body>
+</html>

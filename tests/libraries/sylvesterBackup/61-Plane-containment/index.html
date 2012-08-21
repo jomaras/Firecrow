@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Plane = Sylvester.Plane;
+    	var $P = Plane.create;
+    	var i, P1, P2, L1, L2, Vector = Sylvester.Vector
+    	var a1 = true;
+    	for (i = 0; i < 2; i++) 
+    	{
+      		P1 = $P(Vector.create([-50,-50,-50]).add(Vector.Random(3).x(100)), Vector.create([-50,-50,-50]).add(Vector.Random(3).x(100)));
+      		P2 = $P(Vector.create([-50,-50,-50]).add(Vector.Random(3).x(100)), Vector.create([-50,-50,-50]).add(Vector.Random(3).x(100)));
+      		
+      		if (P1.intersects(P2)) 
+      		{
+        		L1 = P1.intersectionWith(P2);
+        		L2 = P2.intersectionWith(P1);
+        		a1 = a1 && L1.eql(L2);
+        		a1 = a1 && L1.liesIn(P1);
+        		a1 = a1 && P2.contains(L1);
+      		}
+    	}
+
+      a1;
+   </script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sylvester - test</title>
+    <script>
+      var Sylvester = {precision: 0.000001};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      var $V = Sylvester.Vector.create;
+      Sylvester.Vector.Random = function (n)
+      {};
+      Sylvester.Vector.Zero = function (n)
+      {
+        var elements = [];
+        while(n--)
+        {
+          elements.push(0);
+        }
+
+        return Sylvester.Vector.create(elements);
+      };
+      Sylvester.Vector.prototype = {
+        e: function (i)
+        {}, 
+        dimensions: function ()
+        {}, 
+        modulus: function ()
+        {
+          return Math.sqrt(this.dot(this));
+        }, 
+        eql: function (vector)
+        {
+          var n = this.elements.length;
+          var V = vector.elements || vector;
+          while(n--)
+          {
+            if(Math.abs(this.elements[n] - V[n]) > Sylvester.precision);
+          }
+
+          return true;
+        }, 
+        dup: function ()
+        {
+          return Sylvester.Vector.create(this.elements);
+        }, 
+        map: function (fn, context)
+        {}, 
+        forEach: function (fn, context)
+        {}, 
+        toUnitVector: function ()
+        {}, 
+        angleFrom: function (vector)
+        {}, 
+        isParallelTo: function (vector)
+        {}, 
+        isAntiparallelTo: function (vector)
+        {}, 
+        isPerpendicularTo: function (vector)
+        {}, 
+        add: function (vector)
+        {}, 
+        subtract: function (vector)
+        {}, 
+        multiply: function (k)
+        {}, 
+        dot: function (vector)
+        {
+          var V = vector.elements;
+          var i, product = 0, n = this.elements.length;
+          while(n--)
+          {
+            product += this.elements[n] * V[n];
+          }
+
+          return product;
+        }, 
+        cross: function (vector)
+        {}, 
+        max: function ()
+        {}, 
+        indexOf: function (x)
+        {}, 
+        toDiagonalMatrix: function ()
+        {}, 
+        round: function ()
+        {}, 
+        snapTo: function (x)
+        {}, 
+        distanceFrom: function (obj)
+        {}, 
+        liesOn: function (line)
+        {}, 
+        liesIn: function (plane)
+        {}, 
+        rotate: function (t, obj)
+        {}, 
+        reflectionIn: function (obj)
+        {}, 
+        to3D: function ()
+        {
+          var V = this.dup();
+          switch(V.elements.length)
+          {
+            case 3:
+              break;
+          }
+          return V;
+        }, 
+        inspect: function ()
+        {}, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+      Sylvester.Vector.prototype.x = Sylvester.Vector.prototype.multiply;
+      Sylvester.Vector.prototype.each = Sylvester.Vector.prototype.forEach;
+      Sylvester.Vector.i = Sylvester.Vector.create([1, 0, 0]);
+      Sylvester.Vector.j = Sylvester.Vector.create([0, 1, 0]);
+      Sylvester.Vector.k = Sylvester.Vector.create([0, 0, 1]);
+      Sylvester.Line = function ()
+      {};
+      Sylvester.Line.prototype = {
+        eql: function (line)
+        {}, 
+        dup: function ()
+        {}, 
+        translate: function (vector)
+        {}, 
+        isParallelTo: function (obj)
+        {}, 
+        distanceFrom: function (obj)
+        {}, 
+        contains: function (obj)
+        {}, 
+        positionOf: function (point)
+        {}, 
+        liesIn: function (plane)
+        {}, 
+        intersects: function (obj)
+        {}, 
+        intersectionWith: function (obj)
+        {}, 
+        pointClosestTo: function (obj)
+        {}, 
+        rotate: function (t, line)
+        {}, 
+        reverse: function ()
+        {}, 
+        reflectionIn: function (obj)
+        {}, 
+        setVectors: function (anchor, direction)
+        {
+          anchor = Sylvester.Vector.create(anchor);
+          direction = Sylvester.Vector.create(direction);
+          var mod = direction.modulus();
+          this.anchor = anchor;
+          this.direction = Sylvester.Vector.create([direction.elements[0] / mod, direction.elements[1] / mod, direction.elements[2] / mod]);
+          return this;
+        }
+      };
+      Sylvester.Line.create = function (anchor, direction)
+      {
+        var L = new Sylvester.Line();
+        return L.setVectors(anchor, direction);
+      };
+      var $L = Sylvester.Line.create;
+      Sylvester.Line.X = Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+      Sylvester.Line.Y = Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+      Sylvester.Line.Z = Sylvester.Line.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+      Sylvester.Line.Segment = function ()
+      {};
+      Sylvester.Line.Segment.prototype = {
+        eql: function (segment)
+        {}, 
+        dup: function ()
+        {}, 
+        length: function ()
+        {}, 
+        toVector: function ()
+        {}, 
+        midpoint: function ()
+        {}, 
+        bisectingPlane: function ()
+        {}, 
+        translate: function (vector)
+        {}, 
+        isParallelTo: function (obj)
+        {}, 
+        distanceFrom: function (obj)
+        {}, 
+        contains: function (obj)
+        {}, 
+        intersects: function (obj)
+        {}, 
+        intersectionWith: function (obj)
+        {}, 
+        pointClosestTo: function (obj)
+        {}, 
+        setPoints: function (startPoint, endPoint)
+        {}
+      };
+      Sylvester.Line.Segment.create = function (v1, v2)
+      {};
+      Sylvester.LinkedList = function ()
+      {};
+      Sylvester.LinkedList.prototype = {
+        length: null, 
+        first: null, 
+        last: null, 
+        forEach: function (fn, context)
+        {}, 
+        at: function (i)
+        {}, 
+        randomNode: function ()
+        {}, 
+        toArray: function ()
+        {}
+      };
+      Sylvester.LinkedList.prototype.each = Sylvester.LinkedList.prototype.forEach;
+      Sylvester.LinkedList.Node = function (data)
+      {};
+      Sylvester.LinkedList.Circular = function ()
+      {};
+      Sylvester.LinkedList.Circular.Methods = {
+        append: function (node)
+        {}, 
+        prepend: function (node)
+        {}, 
+        insertAfter: function (node, newNode)
+        {}, 
+        insertBefore: function (node, newNode)
+        {}, 
+        remove: function (node)
+        {}, 
+        withData: function (data)
+        {}
+      };
+      Sylvester.LinkedList.Circular.prototype = new Sylvester.LinkedList();
+      for(var method in Sylvester.LinkedList.Circular.Methods)
+      {
+        Sylvester.LinkedList.Circular.prototype[method] = Sylvester.LinkedList.Circular.Methods[method];
+      }
+
+      Sylvester.LinkedList.Circular.fromArray = function (list, useNodes)
+      {};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      var $M = Sylvester.Matrix.create;
+      Sylvester.Matrix.I = function (n)
+      {};
+      Sylvester.Matrix.Diagonal = function (elements)
+      {};
+      Sylvester.Matrix.Rotation = function (theta, a)
+      {};
+      Sylvester.Matrix.RotationX = function (t)
+      {};
+      Sylvester.Matrix.RotationY = function (t)
+      {};
+      Sylvester.Matrix.RotationZ = function (t)
+      {};
+      Sylvester.Matrix.Random = function (n, m)
+      {};
+      Sylvester.Matrix.Zero = function (n, m)
+      {};
+      Sylvester.Matrix.prototype = {
+        e: function (i, j)
+        {}, 
+        row: function (i)
+        {}, 
+        col: function (j)
+        {}, 
+        dimensions: function ()
+        {}, 
+        rows: function ()
+        {}, 
+        cols: function ()
+        {}, 
+        eql: function (matrix)
+        {}, 
+        dup: function ()
+        {}, 
+        map: function (fn, context)
+        {}, 
+        isSameSizeAs: function (matrix)
+        {}, 
+        add: function (matrix)
+        {}, 
+        subtract: function (matrix)
+        {}, 
+        canMultiplyFromLeft: function (matrix)
+        {}, 
+        multiply: function (matrix)
+        {}, 
+        minor: function (a, b, c, d)
+        {}, 
+        transpose: function ()
+        {}, 
+        isSquare: function ()
+        {}, 
+        max: function ()
+        {}, 
+        indexOf: function (x)
+        {}, 
+        diagonal: function ()
+        {
+          var els = [], n = this.elements.length;
+          for(var i = 0;i < n;i++)
+          {
+            els.push(this.elements[i][i]);
+          }
+
+          return Sylvester.Vector.create(els);
+        }, 
+        toRightTriangular: function ()
+        {}, 
+        determinant: function ()
+        {}, 
+        isSingular: function ()
+        {}, 
+        trace: function ()
+        {}, 
+        rank: function ()
+        {}, 
+        augment: function (matrix)
+        {}, 
+        inverse: function ()
+        {}, 
+        round: function ()
+        {}, 
+        snapTo: function (x)
+        {}, 
+        inspect: function ()
+        {}, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+
+          var n;
+        }
+      };
+      Sylvester.Matrix.prototype.toUpperTriangular = Sylvester.Matrix.prototype.toRightTriangular;
+      Sylvester.Matrix.prototype.det = Sylvester.Matrix.prototype.determinant;
+      Sylvester.Matrix.prototype.tr = Sylvester.Matrix.prototype.trace;
+      Sylvester.Matrix.prototype.rk = Sylvester.Matrix.prototype.rank;
+      Sylvester.Matrix.prototype.inv = Sylvester.Matrix.prototype.inverse;
+      Sylvester.Matrix.prototype.x = Sylvester.Matrix.prototype.multiply;
+      Sylvester.Plane = function ()
+      {};
+      Sylvester.Plane.prototype = {
+        eql: function (plane)
+        {}, 
+        dup: function ()
+        {}, 
+        translate: function (vector)
+        {}, 
+        isParallelTo: function (obj)
+        {}, 
+        isPerpendicularTo: function (plane)
+        {}, 
+        distanceFrom: function (obj)
+        {}, 
+        contains: function (obj)
+        {}, 
+        intersects: function (obj)
+        {}, 
+        intersectionWith: function (obj)
+        {}, 
+        pointClosestTo: function (point)
+        {}, 
+        rotate: function (t, line)
+        {}, 
+        reflectionIn: function (obj)
+        {}, 
+        setVectors: function (anchor, v1, v2)
+        {
+          anchor = Sylvester.Vector.create(anchor);
+          anchor = anchor.to3D();
+          v1 = Sylvester.Vector.create(v1);
+          v1 = v1.to3D();
+          if(typeof v2 === 'undefined')
+          {
+            v2 = null;
+          }
+
+          var A1 = anchor.elements[0], A2 = anchor.elements[1], A3 = anchor.elements[2];
+          var v11 = v1.elements[0], v12 = v1.elements[1], v13 = v1.elements[2];
+          var normal, mod;
+          if(v2 !== null)
+          {
+            var v21, v22, v23;
+          }
+          else 
+          {
+            mod = Math.sqrt(((v11 * v11) + (v12 * v12)) + (v13 * v13));
+            normal = Sylvester.Vector.create([v1.elements[0] / mod, v1.elements[1] / mod, v1.elements[2] / mod]);
+          }
+
+          this.anchor = anchor;
+          this.normal = normal;
+          return this;
+        }
+      };
+      Sylvester.Plane.create = function (anchor, v1, v2)
+      {
+        var P = new Sylvester.Plane();
+        return P.setVectors(anchor, v1, v2);
+      };
+      var $P = Sylvester.Plane.create;
+      Sylvester.Plane.XY = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.k);
+      Sylvester.Plane.YZ = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.i);
+      Sylvester.Plane.ZX = Sylvester.Plane.create(Sylvester.Vector.Zero(3), Sylvester.Vector.j);
+      Sylvester.Plane.YX = Sylvester.Plane.XY;
+      Sylvester.Plane.ZY = Sylvester.Plane.YZ;
+      Sylvester.Plane.XZ = Sylvester.Plane.ZX;
+      Sylvester.Plane.fromPoints = function (points)
+      {};
+      Sylvester.Polygon = function ()
+      {};
+      Sylvester.Polygon.prototype = {
+        v: function (i)
+        {}, 
+        nodeFor: function (vertex)
+        {}, 
+        dup: function ()
+        {}, 
+        translate: function (vector)
+        {}, 
+        rotate: function (t, line)
+        {}, 
+        scale: function (k, point)
+        {}, 
+        updateTrianglePlanes: function (fn)
+        {}, 
+        isTriangle: function ()
+        {}, 
+        trianglesForSurfaceIntegral: function ()
+        {}, 
+        area: function ()
+        {}, 
+        centroid: function ()
+        {}, 
+        projectionOn: function (plane)
+        {}, 
+        removeVertex: function (vertex)
+        {}, 
+        contains: function (point)
+        {}, 
+        containsByWindingNumber: function (point)
+        {}, 
+        hasEdgeContaining: function (point)
+        {}, 
+        toTriangles: function ()
+        {}, 
+        triangulateByEarClipping: function ()
+        {}, 
+        setVertices: function (points, plane)
+        {}, 
+        populateVertexTypeLists: function ()
+        {}, 
+        copyVertices: function ()
+        {}, 
+        clearCache: function ()
+        {}, 
+        setCache: function (key, value)
+        {}, 
+        inspect: function ()
+        {}
+      };
+      Sylvester.Polygon.create = function (points, plane)
+      {};
+      Sylvester.Polygon.Vertex = function (point)
+      {};
+      Sylvester.Polygon.Vertex.prototype = new Sylvester.Vector();
+      Sylvester.Polygon.Vertex.prototype.isConvex = function (polygon)
+      {};
+      Sylvester.Polygon.Vertex.prototype.isReflex = function (polygon)
+      {};
+      Sylvester.Polygon.Vertex.prototype.type = function (polygon)
+      {};
+      Sylvester.Polygon.Vertex.convert = function (points)
+      {};
+    </script>
+  </head>
+  <body>
+    <h2>Sylvester - test</h2>
+    <div id="resultContainer">
+    </div>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var $M = Matrix.create;
+      var M = $M([[9, 2, 9], [2, 0, 2], [1, 8, 1]]);
+      var a1 = M.diagonal().eql([9, 0, 1]);
+      a1;
+    </script>
+  </body>
+</html>

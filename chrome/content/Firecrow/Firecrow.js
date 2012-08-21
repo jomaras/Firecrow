@@ -103,10 +103,25 @@ FBL.ns(function() { with (FBL) {
 
                         var slicingVars = this.getDefaultSlicingVariablesFromWindow(window);
 
+                        var startTime = new Date();
+
                         this.slicePage(currentPageUrl, model, slicingVars, function(errors)
                         {
-                            errors == "" ? this.addMessageToCurrentDocument("OK - "  + subdirectory)
-                                         : this.addMessageToCurrentDocument("ERROR - " + subdirectory + "  -> " + errors)
+                            if(errors === "")
+                            {
+                                this.addMessageToCurrentDocument
+                                (
+                                    "OK - "  + subdirectory
+                                 + ";=; slicingTime: " + this.getTimeDifference(startTime, new Date())
+                                 +  ";=;originalFileLineCount: " + Firecrow.FileHelper.getFileLinesFromUrl(currentPageUrl).length
+                                 +  ";=;slicedFileLineCount: " + Firecrow.FileHelper.getFileLinesFromUrl(currentPageUrl.replace("index.html", "index-sliced.html")).length
+                                 +  ";=;profiledFileLineCount: " + Firecrow.FileHelper.getFileLinesFromUrl(currentPageUrl.replace("index.html", "index-profiled.html")).length
+                                );
+                            }
+                            else
+                            {
+                                this.addMessageToCurrentDocument("ERROR - " + subdirectory + "  -> " + errors)
+                            }
 
                             this.addMessageToCurrentDocument("********************************************************");
 
@@ -273,6 +288,17 @@ FBL.ns(function() { with (FBL) {
             catch(e) { alert("Error:" + e);}
         },
 
+        getTimeDifference: function(startTime, endTime)
+        {
+            var timeDiff = (endTime - startTime) / 1000;
+            var seconds = Math.round(timeDiff % 60);
+            timeDiff /= Math.round(60);
+            var minutes = Math.round(timeDiff % 60);
+
+            return (minutes.toString().length == 1 ? "0" + minutes : minutes)
+                + ":" + (seconds.toString().length == 1 ? "0" + seconds : seconds)
+        },
+
         onFirecrowASTButtonPress: function()
         {
             this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(window, htmlJson)
@@ -350,7 +376,8 @@ FBL.ns(function() { with (FBL) {
                 {
                     var eventTrace = this.jsRecorder.getEventTrace();
                     FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-executionTrace.txt", JSON.stringify(eventTrace));
-                    alert(eventTrace.length);
+                    prompt("Number of executions: ", eventTrace.length);
+                    FileHelper.appendToFile("C:\\GitWebStorm\\Firecrow\\tests\\libraries\\sylvester\\executions.txt", fbHelper.getCurrentUrl() + " -- " + eventTrace.length);
                 }
 
                 this.recordOnlyEventHandlerEntries = false;

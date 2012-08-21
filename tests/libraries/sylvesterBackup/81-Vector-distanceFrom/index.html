@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Vector = Sylvester.Vector
+    	var $V = Vector.create
+    	var a1 = $V([1,9,0,13]).modulus() == $V([3,9,4,6]).distanceFrom([2,0,4,-7]);
+    	var a2 = Math.sqrt(64 + 49) == $V([2,8,7]).distanceFrom(Sylvester.Line.X);
+    	var a3 = 78 == $V([28,-43,78]).distanceFrom(Sylvester.Plane.XY);
+    	var a4 = 5 == $V([7,4,0]).distanceFrom(Sylvester.Line.Segment.create([0,0,0], [4,0,0]));
+      a1;
+      a2;
+      a3;
+      a4;
+   </script>
+</body>
+</html>

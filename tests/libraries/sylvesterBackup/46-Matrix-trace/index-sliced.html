@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {};
+      Sylvester.Matrix = function ()
+      {};
+      Sylvester.Matrix.create = function (elements)
+      {
+        var M = new Sylvester.Matrix();
+        return M.setElements(elements);
+      };
+      var $M;
+      Sylvester.Matrix.Random = function (n, m)
+      {
+        return Sylvester.Matrix.Zero(n, m).map(function ()
+        {
+          return Math.random();
+        });
+      };
+      Sylvester.Matrix.Zero = function (n, m)
+      {
+        var els = [], i = n, j;
+        while(i--)
+        {
+          j = m;
+          els[i] = [];
+          while(j--)
+          {
+            els[i][j] = 0;
+          }
+        }
+
+        return Sylvester.Matrix.create(els);
+      };
+      Sylvester.Matrix.prototype = {
+        map: function (fn, context)
+        {
+          var els = [], i = this.elements.length, nj = this.elements[0].length, j;
+          while(i--)
+          {
+            j = nj;
+            els[i] = [];
+            while(j--)
+            {
+              els[i][j] = fn.call(context, this.elements[i][j], i + 1, j + 1);
+            }
+          }
+
+          return Sylvester.Matrix.create(els);
+        }, 
+        isSquare: function ()
+        {
+          var cols = this.elements.length === 0 ? 0 : this.elements[0].length;
+          return this.elements.length === cols;
+        }, 
+        trace: function ()
+        {
+          if(!(this.isSquare()))
+          {
+            return null;
+          }
+
+          var tr = this.elements[0][0], n = this.elements.length;
+          for(var i = 1;i < n;i++)
+          {
+            tr += this.elements[i][i];
+          }
+
+          return tr;
+        }, 
+        setElements: function (els)
+        {
+          var i, j, elements = els.elements || els;
+          if(elements[0] && typeof (elements[0][0]) !== 'undefined')
+          {
+            i = elements.length;
+            this.elements = [];
+            while(i--)
+            {
+              j = elements[i].length;
+              this.elements[i] = [];
+              while(j--)
+              {
+                this.elements[i][j] = elements[i][j];
+              }
+            }
+
+            return this;
+          }
+        }
+      };
+      Sylvester.Matrix.prototype.tr = Sylvester.Matrix.prototype.trace;
+    </script>
+  </head>
+  <body>
+    <script>
+      var Matrix = Sylvester.Matrix;
+      var $M = Matrix.create;
+      var M = $M([[8, 1, 6], [0, 1, 7], [0, 1, 5]]);
+      var a1 = 14 == M.tr();
+      var a2 = Matrix.Random(4, 5).tr() == null;
+      a1;
+      a2;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var Sylvester = {};
+      Sylvester.Vector = function ()
+      {};
+      Sylvester.Vector.create = function (elements)
+      {
+        var V = new Sylvester.Vector();
+        return V.setElements(elements);
+      };
+      Sylvester.Vector.Random = function (n)
+      {
+        var elements = [];
+        while(n--)
+        {
+          elements.push(Math.random());
+        }
+
+        return Sylvester.Vector.create(elements);
+      };
+      Sylvester.Vector.prototype = {
+        dimensions: function ()
+        {
+          return this.elements.length;
+        }, 
+        setElements: function (els)
+        {
+          this.elements = (els.elements || els).slice();
+          return this;
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script>
+      var Vector = Sylvester.Vector;
+      var a1 = 1 == Vector.Random(1).dimensions();
+      var a2 = 2 == Vector.Random(2).dimensions();
+      var a3 = 3 == Vector.Random(3).dimensions();
+      a1;
+      a2;
+      a3;
+    </script>
+  </body>
+</html>

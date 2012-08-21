@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sylvester - test</title>
+    <script src="../sylvester.src.js"></script>
+</head>
+<body>
+   <h2>Sylvester - test</h2>
+   <div id="resultContainer"></div>
+   <script>       
+		var Vector = Sylvester.Vector
+    	var $V = Vector.create
+		var V = $V([3,4,5])
+    	var dup = V.dup()
+    	var a1 = V.eql(dup);
+    	dup.elements[0] = 24
+    	var a2 = V.eql([3,4,5])
+    	var a3 = dup.eql([24,4,5]);
+
+      a1;
+      a2;
+      a3;
+   </script>
+</body>
+</html>
