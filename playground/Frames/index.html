@@ -12,11 +12,22 @@
     </style>
 </head>
 <body>
-    <iframe id="myTestFrame" width="1000px" height="1000px" src="frame.html"/>
-    <div class="testClass" id="myDiv">Moj DIV</div>
-    <script type="text/javascript">
-        var frame = frames[0];
-        var fDocument = frame.contentWindow.document;
+    <iframe id="firecrowFrame"></iframe>
+    <script>
+        window.onload = function()
+        {
+            var fDocument = frames[0].document;
+            var newDiv = fDocument.createElement("div");
+            newDiv.textContent = "a";
+            fDocument.body.appendChild(newDiv);
+
+            var style = fDocument.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = '.cssClass { background-color: #F00; width:500px; height:500px; }';
+            fDocument.head.appendChild(style);
+            newDiv.className = 'cssClass';
+        }
     </script>
+    <div class="testClass" id="myDiv">Moj DIV</div>
 </body>
 </html>

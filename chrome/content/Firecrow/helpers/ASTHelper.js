@@ -584,14 +584,35 @@ FBL.ns(function () { with (FBL) {
                 || element == ">>>";
         },
 
-        isBinaryObjectOperator:function (element)
+        isBinaryObjectOperator: function (element)
         {
             return element == "in" || element == "instanceof";
         },
 
-        isBinaryXmlOperator:function (element)
+        isBinaryXmlOperator: function (element)
         {
             return element == "..";
+        },
+
+        getSimpleSortingFunctionReturnArg: function(functionConstruct)
+        {
+            if(!this.isFunction(functionConstruct)) { return false; }
+
+            if(functionConstruct.params.length != 2) { return false; }
+            if(functionConstruct.body.body.length != 1) { return false; }
+
+            if(!this.isReturnStatement(functionConstruct.body.body[0])) { return false; }
+
+            var returnStatement = functionConstruct.body.body[0];
+
+            if(!this.isBinaryExpression(returnStatement.argument)) { return false; }
+
+            if(!this.isIdentifier(returnStatement.argument.left) || !this.isIdentifier(returnStatement.argument.right))
+            {
+                return false;
+            }
+
+            return returnStatement.argument;
         },
 
         CONST :

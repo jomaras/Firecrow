@@ -7,6 +7,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
 
 fcModel.Array = function(jsArray, globalObject, codeConstruct)
 {
@@ -288,15 +289,41 @@ fcModel.ArrayProto =
 
         for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
-        if(arguments.length > 0) { console.log("Still not handling parametrized sort - " + codeConstruct.loc.start.line); }
+        var sortFunction = null;
 
-        var sortFunction = function(a, b)
+        if(arguments.length > 0)
         {
-            //just sort lexicographically
-            if(a.value == b.value) { return 0;}
+            var arg = arguments[0];
+            var functionConstruct = arg.fcInternal.codeConstruct;
+            var returnArg = ASTHelper.getSimpleSortingFunctionReturnArg(functionConstruct);
 
-            return a.value < b.value ? -1 : 1;
-        };
+            if(returnArg)
+            {
+                functionConstruct.isSortingFunction = true;
+                var paramsCode = functionConstruct.params.map(function (param) { return param.name; }).join(",");
+                sortFunction = eval("(function (" + paramsCode + ") {" + "return " + returnArg.left.name + ".value" + returnArg.operator + returnArg.right.name + ".value;})");
+                var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, returnArg, evaluationPosition);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, returnArg.left, evaluationPosition);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, returnArg.right, evaluationPosition);
+            }
+            else
+            {
+                console.log("Still not handling parametrized sort - " + codeConstruct.loc.start.line);
+            }
+        }
+
+        if(sortFunction == null)
+        {
+            sortFunction = function(a, b)
+            {
+                //just sort lexicographically
+                if(a.value == b.value) { return 0;}
+
+                return a.value < b.value ? -1 : 1;
+            };
+        }
 
         this.items.sort(sortFunction);
         jsArray.sort(sortFunction);
