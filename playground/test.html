@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>Test Page</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+</meta>
 <script>
 (function (window, undefined)
 {
@@ -10,7 +13,8 @@
         var jQuery = function (selector, context)
         {
             return new jQuery.fn.init(selector, context, rootjQuery);
-        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rnotwhite = /\S/, rwebkit = /(webkit)[ \/]([\w.]+)/, ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/, rmsie = /(msie) ([\w.]+)/, rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/, userAgent = navigator.userAgent, browserMatch, readyList, DOMContentLoaded, toString = Object.prototype.toString, trim = String.prototype.trim, class2type = {};
+        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rnotwhite = /\S/, rwebkit = /(webkit)[ \/]([\w.]+)/, ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/, rmsie = /(msie) ([\w.]+)/, rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function (all, letter)
+        {}, userAgent = navigator.userAgent, browserMatch, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
         jQuery.fn = jQuery.prototype = {
             init: function (selector, context, rootjQuery)
             {
@@ -67,7 +71,6 @@
             {
                 jQuery.bindReady();
                 readyList.add(fn);
-                return this;
             }
         };
         jQuery.fn.init.prototype = jQuery.fn;
@@ -76,7 +79,7 @@
             var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
             if(typeof target === 'boolean');
 
-            if(typeof target !== 'object');
+            if(typeof target !== 'object' && !(jQuery.isFunction(target)));
 
             if(length === i)
             {
@@ -115,24 +118,16 @@
             {
                 if(wait === true || (wait !== true && !(jQuery.isReady)))
                 {
-                    if(!(document.body));
-
-                    if(wait !== true && --jQuery.readyWait > 0);
-
                     readyList.fireWith(document, [null]);
                     if(jQuery.fn.trigger)
                     {
-                        jQuery(document).trigger('ready');
+                        jQuery(document).trigger('ready').off('ready');
                     }
                 }
             },
             bindReady: function ()
             {
-                if(readyList);
-
                 readyList = jQuery.Callbacks('once memory');
-                if(document.readyState === 'complete');
-
                 if(document.addEventListener)
                 {
                     document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
@@ -143,11 +138,11 @@
                 return jQuery.type(obj) === 'function';
             },
             isArray: Array.isArray || function (obj)
-            {},
-            isWindow: function (obj)
             {
-                return obj != null && obj == obj.window;
+                return jQuery.type(obj) === 'array';
             },
+            isWindow: function (obj)
+            {},
             isNumeric: function (obj)
             {},
             type: function (obj)
@@ -169,18 +164,26 @@
             globalEval: function (data)
             {},
             camelCase: function (string)
-            {},
+            {
+                return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
+            },
             nodeName: function (elem, name)
             {
                 return elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
             },
             each: function (object, callback, args)
             {
-                var i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
+                var name, i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
                 if(args);
                 else
                 {
-                    if(isObj);
+                    if(isObj)
+                    {
+                        for(name in object)
+                        {
+                            if(callback.call(object[name], name, object[name]) === false);
+                        }
+                    }
                     else
                     {
                         for(;i < length;)
@@ -193,11 +196,21 @@
                 return object;
             },
             trim: trim ? function (text)
-            {
-                return text == null ? 0 : trim.call(text);
-            } : 0,
+            {} : 0,
             makeArray: function (array, results)
-            {},
+            {
+                var ret = results || [];
+                if(array != null)
+                {
+                    var type = jQuery.type(array);
+                    if(array.length == null || type === 'string' || type === 'function')
+                    {
+                        push.call(ret, array);
+                    }
+                }
+
+                return ret;
+            },
             inArray: function (elem, array, i)
             {},
             merge: function (first, second)
@@ -222,20 +235,14 @@
                         else
                         {
                             fn.call(elems, value);
-                            fn = null;
                         }
                     }
-
-                    if(fn);
-
-                    chainable = 1;
                 }
-
-
-                return chainable ? elems : 0;
             },
             now: function ()
-            {},
+            {
+                return (new Date()).getTime();
+            },
             uaMatch: function (ua)
             {
                 ua = ua.toLowerCase();
@@ -304,17 +311,11 @@
         }, fire = function (context, args)
         {
             args = args;
-            memory = !(flags.memory) || [null, null];
             firingIndex = firingStart || 0;
             firingLength = list.length;
             for(;list && firingIndex < firingLength;firingIndex++)
             {
                 if(list[firingIndex].apply(context, args) === false);
-            }
-
-            if(list)
-            {
-                if(!(flags.once));
             }
         }, self = {
             add: function ()
@@ -322,11 +323,7 @@
                 if(list)
                 {
                     add(arguments);
-                    if(firing);
-                    else if(memory);
                 }
-
-                return this;
             },
             fireWith: function (context, args)
             {
@@ -338,15 +335,13 @@
                         fire(context, args);
                     }
                 }
-
-                return this;
             }
         };
         return self;
     };
     jQuery.support = (function ()
     {
-        var support, all, a, select, opt, input, fragment, div = document.createElement('div');
+        var support, all, a, select, input, fragment, tds, div = document.createElement('div');
         div.setAttribute('className', 't');
         div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
         all = div.getElementsByTagName('*');
@@ -354,21 +349,11 @@
         if(!all || !(all.length) || !a);
 
         select = document.createElement('select');
-        opt = select.appendChild(document.createElement('option'));
+        select.appendChild(document.createElement('option'));
         input = div.getElementsByTagName('input')[0];
-        support = {
-            htmlSerialize: !(!(div.getElementsByTagName('link').length)),
-            style: /top/.test(a.getAttribute('style')),
-            hrefNormalized: a.getAttribute('href') === '/a',
-            opacity: /^0.55/.test(a.style.opacity),
-            checkOn: input.value === 'on',
-            optSelected: opt.selected,
-            getSetAttribute: div.className !== 't',
-            enctype: !(!(document.createElement('form').enctype)),
-            submitBubbles: true,
-            changeBubbles: true,
-            focusinBubbles: null
-        };
+        support = {};
+        input.checked = true;
+        select.disabled = true;
         if(!(div.addEventListener));
 
         input = document.createElement('input');
@@ -379,36 +364,54 @@
         div.appendChild(input);
         fragment = document.createDocumentFragment();
         fragment.appendChild(div.lastChild);
-        support.checkClone = fragment.cloneNode(true).cloneNode(true).lastChild.checked;
-        support.appendChecked = input.checked;
         fragment.removeChild(input);
         fragment.appendChild(div);
         if(div.attachEvent);
 
         jQuery(function ()
         {
-            var container, marginDiv, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
-            if(!body);
-
+            var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+            conMarginTop = 1;
             paddingMarginBorder = 'padding:0;margin:0;border:';
+            positionTopLeftWidthHeight = 'position:absolute;top:0;left:0;width:1px;height:1px;';
+            paddingMarginBorderVisibility = paddingMarginBorder + '0;visibility:hidden;';
+            style = (('style=\'' + positionTopLeftWidthHeight) + paddingMarginBorder) + '5px solid #000;';
+            html = ((((((('<div ' + style) + 'display:block;\'><div style=\'') + paddingMarginBorder) + '0;display:block;overflow:hidden;\'></div></div>') + '<table ') + style) + '\' cellpadding=\'0\' cellspacing=\'0\'>') + '<tr><td></td></tr></table>';
             container = document.createElement('div');
+            container.style.cssText = ((paddingMarginBorderVisibility + 'width:0;height:0;position:static;top:0;margin-top:') + conMarginTop) + 'px';
             body.insertBefore(container, body.firstChild);
             div = document.createElement('div');
             container.appendChild(div);
             div.innerHTML = ('<table><tr><td style=\'' + paddingMarginBorder) + '0;display:none\'></td><td>t</td></tr></table>';
+            tds = div.getElementsByTagName('td');
+            tds[0].style.display = '';
+            tds[1].style.display = 'none';
             if(window.getComputedStyle)
             {
                 div.innerHTML = '';
                 marginDiv = document.createElement('div');
+                marginDiv.style.width = '0';
+                marginDiv.style.marginRight = '0';
+                div.style.width = '2px';
                 div.appendChild(marginDiv);
-                support.reliableMarginRight = (parseInt((window.getComputedStyle(marginDiv, null)).marginRight, 10) || 0) === 0;
             }
 
-            if(typeof (div.style.zoom) !== 'undefined');
+            div.style.cssText = positionTopLeftWidthHeight + paddingMarginBorderVisibility;
+            div.innerHTML = html;
+            outer = div.firstChild;
+            inner = outer.firstChild;
+            inner.style.position = 'fixed';
+            inner.style.top = '20px';
+            inner.style.position = inner.style.top = '';
+            outer.style.overflow = 'hidden';
+            outer.style.position = 'relative';
+            if(window.getComputedStyle)
+            {
+                div.style.marginTop = '1%';
+                support.pixelMargin = (window.getComputedStyle(div, null)).marginTop !== '1%';
+            }
 
-            if(window.getComputedStyle);
-
-            if(typeof (container.style.zoom) !== 'undefined');
+            body.removeChild(container);
         });
         return support;
     })();
@@ -424,7 +427,7 @@
             if(!(jQuery.acceptData(elem)));
 
             var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
-            if((!id || !(cache[id]) || !isEvents) && getByName && data === undefined)
+            if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
             {
                 return ;
             }
@@ -448,24 +451,43 @@
             thisCache = cache[id];
             if(!pvt);
 
-            if(data !== undefined);
+            if(data !== undefined)
+            {
+                thisCache[jQuery.camelCase(name)] = data;
+            }
 
-            if(isEvents && !(thisCache[name]));
+            if(isEvents);
 
             if(getByName)
             {
                 ret = thisCache[name];
-                if(ret == null);
-            }
-            else
-            {
-                ret = thisCache;
+                if(ret == null)
+                {
+                    ret = thisCache[jQuery.camelCase(name)];
+                }
             }
 
             return ret;
         },
         removeData: function (elem, name, pvt)
-        {},
+        {
+            var thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
+            if(name)
+            {
+                thisCache = pvt ? cache[id] : 0;
+                if(thisCache)
+                {
+                    if(!(jQuery.isArray(name)))
+                    {
+                        if(name in thisCache);
+                        else
+                        {
+                            jQuery.camelCase(name);
+                        }
+                    }
+                }
+            }
+        },
         _data: function (elem, name, data)
         {
             return jQuery.data(elem, name, data, true);
@@ -481,282 +503,112 @@
             return true;
         }
     });
-    var getSetAttribute = jQuery.support.getSetAttribute;
     jQuery.extend({
-        valHooks: {},
-        attrFn: {},
-        attr: function (elem, name, value, pass)
+        _mark: function (elem, type)
         {},
-        removeAttr: function (elem, value)
+        _unmark: function (force, elem, type)
         {},
-        attrHooks: {},
-        propFix: {},
-        prop: function (elem, name, value)
-        {},
-        propHooks: {}
-    });
-    if(!getSetAttribute);
-
-    if(!(jQuery.support.hrefNormalized));
-
-    if(!(jQuery.support.style));
-
-    if(!(jQuery.support.optSelected));
-
-    if(!(jQuery.support.enctype));
-
-    if(!(jQuery.support.checkOn));
-
-    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rkeyEvent = /^key/, rmouseEvent = /^(?:mouse|contextmenu)|click/, rfocusMorph = /^(?:focusinfocus|focusoutblur)$/, hoverHack = function (events)
-    {
-        return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
-    };
-    jQuery.event = {
-        add: function (elem, types, handler, data, selector)
+        queue: function (elem, type, data)
         {
-            var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
-            if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
-
-            if(handler.handler);
-
-            if(!(handler.guid));
-
-            events = elemData.events;
-            if(!events)
+            var q;
+            if(elem)
             {
-                elemData.events = events = {};
-            }
-
-            eventHandle = elemData.handle;
-            if(!eventHandle)
-            {
-                eventHandle = function (e)
+                type = type + 'queue';
+                q = jQuery._data(elem, type);
+                if(data)
                 {
-                    return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
-                };
-                eventHandle.elem = elem;
-            }
-
-            types = jQuery.trim(hoverHack(types)).split(' ');
-            for(t = 0;t < types.length;t++)
-            {
-                tns = rtypenamespace.exec(types[t]);
-                type = tns[1];
-                special = jQuery.event.special[type] || {};
-                type = (selector ? 0 : special.bindType) || type;
-                special = jQuery.event.special[type] || {};
-                handleObj = jQuery.extend({
-                    origType: tns[1],
-                    handler: handler
-                }, handleObjIn);
-                handlers = events[type];
-                if(!handlers)
-                {
-                    handlers = events[type] = [];
-                    handlers.delegateCount = 0;
-                    if(!(special.setup))
+                    if(!q || jQuery.isArray(data))
                     {
-                        if(elem.addEventListener)
-                        {
-                            elem.addEventListener(type, eventHandle, false);
-                        }
+                        q = jQuery._data(elem, type, jQuery.makeArray(data));
+                    }
+                    else
+                    {
+                        q.push(data);
                     }
                 }
 
-                if(special.add);
-
-                if(selector);
-                else
-                {
-                    handlers.push(handleObj);
-                }
+                return q;
             }
         },
-        customEvent: {},
-        trigger: function (event, data, elem, onlyHandlers)
+        dequeue: function (elem, type)
         {
-            if(elem && (elem.nodeType === 3 || elem.nodeType === 8));
-
-            var type = event.type || event, i, cur, old, ontype, special, handle, eventPath, bubbleType;
-            if(rfocusMorph.test(type + jQuery.event.triggered));
-
-            if(type.indexOf('!') >= 0);
-
-            if(type.indexOf('.') >= 0);
-
-            if((!elem || jQuery.event.customEvent[type]));
-
-            event = typeof event === 'object' ? 0 : new jQuery.Event(type);
-            ontype = type.indexOf(':') < 0 ? 'on' + type : 0;
-            if(!elem);
-
-            event.result = undefined;
-            if(!(event.target));
-
-            special = jQuery.event.special[type];
-            if(special.trigger);
-
-            eventPath = [[elem, special.bindType || type]];
-            if(!onlyHandlers && !(special.noBubble) && !(jQuery.isWindow(elem)))
+            type = type;
+            var queue = jQuery.queue(elem, type), fn = queue.shift(), hooks = {};
+            if(fn === 'inprogress')
             {
-                bubbleType = special.delegateType || type;
-                cur = rfocusMorph.test(bubbleType + type) ? 0 : elem.parentNode;
-                old = null;
-                for(;cur;cur = cur.parentNode);
-                if(old);
+                fn = queue.shift();
             }
 
+            if(fn)
+            {
+                if(type === 'fx')
+                {
+                    queue.unshift('inprogress');
+                }
+
+                jQuery._data(elem, type + '.run', hooks);
+                fn.call(elem, function ()
+                {}, hooks);
+            }
+        }
+    });
+    jQuery.fn.extend({
+        queue: function (type, data)
+        {
+            return data === undefined ? 0 : this.each(function ()
+            {
+                var queue = jQuery.queue(this, type, data);
+                if(type === 'fx' && queue[0] !== 'inprogress')
+                {
+                    jQuery.dequeue(this, type);
+                }
+            });
+        },
+        dequeue: function (type)
+        {},
+        delay: function (time, type)
+        {},
+        clearQueue: function (type)
+        {},
+        promise: function (type, object)
+        {}
+    });
+    jQuery.event = {
+        trigger: function (event, data, elem, onlyHandlers)
+        {
+            var type = event.type || event, i, cur, special, eventPath;
+            event = typeof event === 'object' ? 0 : new jQuery.Event(type);
+            special = jQuery.event.special[type];
+            eventPath = [[elem, special.bindType || type]];
             for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
             {
                 cur = eventPath[i][0];
-                event.type = eventPath[i][1];
-                handle = (jQuery._data(cur, 'events') || {})[event.type];
-                if(handle);
-
-                handle = ontype && cur[ontype];
-                if(handle);
+                (jQuery._data(cur, 'events'));
             }
-
-            if(!onlyHandlers && !(event.isDefaultPrevented()))
-            {
-                if(!(special._default) && !(type === 'click') && jQuery.acceptData(elem))
-                {
-                    if(ontype && elem[type]);
-                }
-            }
-
-            return event.result;
-        },
-        dispatch: function (event)
-        {
-            event = jQuery.event.fix(event);
-            var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), special = jQuery.event.special[event.type] || {}, handlerQueue = [], i, j, ret, matched, handleObj;
-            if(special.preDispatch);
-
-            if(delegateCount);
-
-            if(handlers.length > delegateCount)
-            {
-                handlerQueue.push({
-                    elem: this,
-                    matches: handlers.slice(delegateCount)
-                });
-            }
-
-            for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
-            {
-                matched = handlerQueue[i];
-                for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
-                {
-                    handleObj = matched.matches[j];
-                    if(run_all)
-                    {
-                        ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
-                        if(ret !== undefined);
-                    }
-                }
-            }
-
-            if(special.postDispatch);
-
-            return event.result;
-        },
-        props: 'attrChange attrName relatedNode srcElement altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which'.split(' '),
-        fixHooks: {},
-        mouseHooks: {
-            props: 'button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement'.split(' '),
-            filter: function (event, original)
-            {
-                var button = original.button;
-                if(event.pageX == null && original.clientX != null);
-
-                if(!(event.relatedTarget));
-
-                if(!(event.which) && button !== undefined);
-
-                return event;
-            }
-        },
-        fix: function (event)
-        {
-            if(event[jQuery.expando]);
-
-            var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type], copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
-            event = jQuery.Event(originalEvent);
-            for(i = copy.length;i;)
-            {
-                prop = copy[--i];
-                event[prop] = originalEvent[prop];
-            }
-
-            if(!(event.target))
-            {
-                event.target = originalEvent.srcElement || document;
-            }
-
-            if(event.target.nodeType === 3);
-
-            if(event.metaKey === undefined);
-
-            return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
         },
         special: {
             ready: {}
         }
     };
     jQuery.Event = function (src, props)
-    {
-        if(!(this instanceof jQuery.Event))
-        {
-            return new jQuery.Event(src, props);
-        }
-
-        if(src && src.type)
-        {
-            this.type = src.type;
-        }
-
-        if(props);
-    };
+    {};
     function returnFalse ()
     {
         return false;
     }
     jQuery.Event.prototype = {
-        isDefaultPrevented: returnFalse,
-        isPropagationStopped: returnFalse,
-        isImmediatePropagationStopped: returnFalse
+        isPropagationStopped: returnFalse
     };
-    if(!(jQuery.support.submitBubbles));
-
-    if(!(jQuery.support.changeBubbles));
-
-    if(!(jQuery.support.focusinBubbles));
-
     jQuery.fn.extend({
         on: function (types, selector, data, fn, one)
-        {
-            if(typeof types === 'object');
-
-            if(data == null && fn == null);
-            else if(fn == null);
-
-
-            if(fn === false);
-            else if(!fn);
-
-
-            if(one === 1);
-
-            return this.each(function ()
-            {
-                jQuery.event.add(this, types, fn, data, selector);
-            });
-        },
+        {},
         one: function (types, selector, data, fn)
         {},
         off: function (types, selector, fn)
-        {},
+        {
+            return this.each(function ()
+            {});
+        },
         bind: function (types, data, fn)
         {},
         unbind: function (types, fn)
@@ -783,55 +635,37 @@
         hover: function (fnOver, fnOut)
         {}
     });
-    jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function (i, name)
-    {
-        jQuery.fn[name] = function (data, fn)
-        {
-            if(fn == null)
-            {
-                fn = data;
-                data = null;
-            }
-
-            return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
-        };
-        if(jQuery.attrFn);
-
-        if(rkeyEvent.test(name));
-
-        if(rmouseEvent.test(name))
-        {
-            jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
-        }
-    });
     (function ()
     {
-        var Sizzle = function (selector, context, results, seed)
-        {};
-        var Expr = Sizzle.selectors = {
-            filters: {}
-        };
+        (function ()
+        {
+            var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
+            form.innerHTML = ('<a name=\'' + id) + '\'/>';
+            root.insertBefore(form, root.firstChild);
+            root.removeChild(form);
+        })();
+        (function ()
+        {
+            var div = document.createElement('div');
+            div.appendChild(document.createComment(''));
+            div.innerHTML = '<a href=\'#\'></a>';
+        })();
         if(document.querySelectorAll)
         {
             (function ()
             {
-                var oldSizzle = Sizzle, div = document.createElement('div');
+                var div = document.createElement('div');
                 div.innerHTML = '<p class=\'TEST\'></p>';
-                if(div.querySelectorAll && div.querySelectorAll('.TEST').length === 0);
-
-                Sizzle = function (query, context, extra, seed)
-                {};
-                for(var prop in oldSizzle)
-                {
-                    Sizzle[prop] = oldSizzle[prop];
-                }
             })();
         }
 
-        jQuery.expr = Sizzle.selectors;
+        (function ()
+        {
+            var div = document.createElement('div');
+            div.innerHTML = '<div class=\'test e\'></div><div class=\'test\'></div>';
+            div.lastChild.className = 'e';
+        })();
     })();
-    if(!(jQuery.support.htmlSerialize));
-
     jQuery.fn.extend({
         text: function (value)
         {
@@ -890,11 +724,7 @@
         {},
         domManip: function (args, table, callback)
         {
-            var results, first, fragment, value = args[0], scripts = [];
-            if(!(jQuery.support.checkClone));
-
-            if(jQuery.isFunction(value));
-
+            var results, first, fragment, scripts = [];
             if(this[0])
             {
                 if(jQuery.support.parentNode);
@@ -917,11 +747,7 @@
                         callback.call(table ? 0 : this[i], results.cacheable || l > 1 ? 0 : fragment);
                     }
                 }
-
-                if(scripts.length);
             }
-
-            return this;
         }
     });
     jQuery.buildFragment = function (args, nodes, scripts)
@@ -955,19 +781,8 @@
         clean: function (elems, context, fragment, scripts)
         {
             var script, ret = [];
-            context = context;
-            if(typeof (context.createElement) === 'undefined');
-
             for(var i = 0, elem;(elem = elems[i]) != null;i++)
             {
-                if(typeof elem === 'number');
-
-                if(!elem);
-
-                if(typeof elem === 'string');
-
-                if(!(jQuery.support.appendChecked));
-
                 if(elem.nodeType)
                 {
                     ret.push(elem);
@@ -982,73 +797,421 @@
                     if(scripts && jQuery.nodeName(script, 'script'));
                     else
                     {
-                        if(script.nodeType === 1);
-
                         fragment.appendChild(script);
                     }
                 }
             }
-
-            return ret;
         },
         cleanData: function (elems)
         {}
     });
-    if(document.defaultView && document.defaultView.getComputedStyle);
-
-    if(document.documentElement.currentStyle);
-
-    if(!(jQuery.support.opacity));
-
-    jQuery(function ()
-    {
-        if(!(jQuery.support.reliableMarginRight));
-    });
-    if(jQuery.expr && jQuery.expr.filters);
-
-    var prefilters = {}, transports = {};
-    function addToPrefiltersOrTransports (structure)
-    {
-        return function (dataTypeExpression, func)
-        {};
-    }
+    var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
     jQuery.extend({
-        getScript: function (url, callback)
-        {},
-        getJSON: function (url, data, callback)
-        {},
-        ajaxSetup: function (target, settings)
-        {},
-        ajaxSettings: {},
-        ajaxPrefilter: addToPrefiltersOrTransports(prefilters),
-        ajaxTransport: addToPrefiltersOrTransports(transports),
-        ajax: function (url, options)
-        {},
-        param: function (a, traditional)
+        cssHooks: {
+            opacity: {
+                get: function (elem, computed)
+                {
+                    if(computed)
+                    {
+                        var ret = curCSS(elem, 'opacity');
+                        return ret === '' ? 0 : ret;
+                    }
+                    else
+                    {
+                        return elem.style.opacity;
+                    }
+                }
+            }
+        },
+        cssNumber: {'opacity': true},
+        cssProps: {},
+        style: function (elem, name, value, extra)
+        {
+            if(!elem || elem.nodeType === 3 || elem.nodeType === 8 || !(elem.style));
+
+            var ret, origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
+            name = jQuery.cssProps[origName] || origName;
+            if(value !== undefined)
+            {
+                if(!hooks || !('set' in hooks))
+                {
+                    try
+                    {
+                        style[name] = value;
+                    }
+                    catch(e){}
+                }
+            }
+            else
+            {
+                if(hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined)
+                {
+                    return ret;
+                }
+            }
+        },
+        css: function (elem, name, extra)
+        {
+            var ret, hooks;
+            name = jQuery.camelCase(name);
+            hooks = jQuery.cssHooks[name];
+            name = jQuery.cssProps[name] || name;
+            if(name === 'cssFloat');
+
+            if(hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
+            {
+                return ret;
+            }
+            else if(curCSS)
+            {
+                return curCSS(elem, name);
+            }
+        },
+        swap: function (elem, options, callback)
         {}
     });
-    function createStandardXHR ()
+    if(document.defaultView && document.defaultView.getComputedStyle)
     {
-        try
+        getComputedStyle = function (elem, name)
         {
-            return new window.XMLHttpRequest();
-        }
-        catch(e){}
+            var ret, defaultView, computedStyle;
+            name = name.replace(rupper, '-$1').toLowerCase();
+            if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
+            {
+                ret = computedStyle.getPropertyValue(name);
+                if(ret === '');
+            }
+
+            if(!(jQuery.support.pixelMargin));
+
+            return ret;
+        };
     }
-    jQuery.ajaxSettings.xhr = window.ActiveXObject ? 0 : createStandardXHR;
-    (function (xhr)
+
+    curCSS = getComputedStyle;
+    jQuery(function ()
+    {});
+    var rfxtypes = /^(?:toggle|show|hide)$/, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
+    jQuery.fn.extend({
+        show: function (speed, easing, callback)
+        {
+            var elem, display;
+            if(speed || speed === 0);
+            else
+            {
+                for(var i = 0, j = this.length;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        if(!(jQuery._data(elem, 'olddisplay')));
+                    }
+                }
+
+                for(i = 0;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = elem.style.display;
+                        if(display === '' || display === 'none')
+                        {
+                            elem.style.display = jQuery._data(elem, 'olddisplay');
+                        }
+                    }
+                }
+            }
+        },
+        hide: function (speed, easing, callback)
+        {
+            if(speed || speed === 0);
+            else
+            {
+                var elem, display, i = 0, j = this.length;
+                for(;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = jQuery.css(elem, 'display');
+                        if(display !== 'none' && !(jQuery._data(elem, 'olddisplay')))
+                        {
+                            jQuery._data(elem, 'olddisplay', display);
+                        }
+                    }
+                }
+
+                for(i = 0;i < j;i++)
+                {
+                    if(this[i].style)
+                    {
+                        this[i].style.display = 'none';
+                    }
+                }
+            }
+        },
+        _toggle: jQuery.fn.toggle,
+        toggle: function (fn, fn2, callback)
+        {},
+        fadeTo: function (speed, to, easing, callback)
+        {},
+        animate: function (prop, speed, easing, callback)
+        {
+            var optall = jQuery.speed(speed, easing, callback);
+            prop = jQuery.extend({}, prop);
+            function doAnimation ()
+            {
+                var opt = jQuery.extend({}, optall), name, val, p, e, method;
+                opt.animatedProperties = {};
+                for(p in prop)
+                {
+                    jQuery.camelCase(p);
+                }
+
+                for(name in prop)
+                {
+                    val = prop[name];
+                    if(jQuery.isArray(val));
+                    else
+                    {
+                        opt.animatedProperties[name] = opt.specialEasing || opt.easing || 'swing';
+                    }
+                }
+
+                for(p in prop)
+                {
+                    e = new jQuery.fx(this, opt, p);
+                    val = prop[p];
+                    if(rfxtypes.test(val))
+                    {
+                        method = jQuery._data(this, 'toggle' + p) || (val === 'toggle' ? 0 : 0);
+                        if(method);
+                        else
+                        {
+                            e[val]();
+                        }
+                    }
+                }
+            }
+            return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
+        },
+        stop: function (type, clearQueue, gotoEnd)
+        {}
+    });
+    function createFxNow ()
     {
-        jQuery.extend(jQuery.support, {
-            ajax: !(!xhr),
-            cors: !(!xhr) && 'withCredentials' in xhr
-        });
-    })(jQuery.ajaxSettings.xhr());
-    if(jQuery.support.ajax);
+        setTimeout(clearFxNow, 0);
+        return fxNow = jQuery.now();
+    }
+    function clearFxNow ()
+    {
+        fxNow = undefined;
+    }
+    function genFx (type, num)
+    {
+        var obj = {};
+        return obj;
+    }
+    jQuery.each({
+        slideDown: genFx('show', 1),
+        slideUp: genFx('hide', 1),
+        slideToggle: genFx('toggle', 1),
+        fadeIn: {opacity: 'show'},
+        fadeOut: {opacity: 'hide'},
+        fadeToggle: {}
+    }, function (name, props)
+    {
+        jQuery.fn[name] = function (speed, easing, callback)
+        {
+            return this.animate(props, speed, easing, callback);
+        };
+    });
+    jQuery.extend({
+        speed: function (speed, easing, fn)
+        {
+            var opt = speed && typeof speed === 'object' ? 0 : {
+                complete: fn || (!fn && easing),
+                duration: speed,
+                easing: fn || easing && !(jQuery.isFunction(easing))
+            };
+            opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : 0;
+            if(opt.queue == null)
+            {
+                opt.queue = 'fx';
+            }
 
-    if(jQuery.expr && jQuery.expr.filters);
+            opt.old = opt.complete;
+            opt.complete = function (noUnmark)
+            {
+                if(jQuery.isFunction(opt.old))
+                {
+                    opt.old.call(this);
+                }
 
+                if(opt.queue)
+                {
+                    jQuery.dequeue(this, opt.queue);
+                }
+            };
+            return opt;
+        },
+        easing: {
+            swing: function (p)
+            {
+                return (-(Math.cos(p * Math.PI)) / 2) + 0.5;
+            }
+        },
+        timers: [],
+        fx: function (elem, options, prop)
+        {
+            this.options = options;
+            this.elem = elem;
+            this.prop = prop;
+            options.orig = options.orig || {};
+        }
+    });
+    jQuery.fx.prototype = {
+        update: function ()
+        {
+            jQuery.fx.step[this.prop](this);
+        },
+        cur: function ()
+        {
+            if(this.elem[this.prop] != null);
+
+            var parsed, r = jQuery.css(this.elem, this.prop);
+            return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
+        },
+        custom: function (from, to, unit)
+        {
+            var self = this, fx = jQuery.fx;
+            this.startTime = fxNow || createFxNow();
+            this.end = to;
+            this.start = from;
+            this.unit = unit || this.unit || (jQuery.cssNumber[this.prop] ? '' : 0);
+            function t (gotoEnd)
+            {
+                return self.step(gotoEnd);
+            }
+            if(t() && jQuery.timers.push(t) && !timerId)
+            {
+                timerId = setInterval(fx.tick, fx.interval);
+            }
+        },
+        show: function ()
+        {
+            var dataShow = jQuery._data(this.elem, 'fxshow' + this.prop);
+            this.options.orig[this.prop] = dataShow || jQuery.style(this.elem, this.prop);
+            this.options.show = true;
+            if(dataShow !== undefined);
+            else
+            {
+                this.custom(this.prop === 'width' || this.prop === 'height' ? 0 : 0, this.cur());
+            }
+
+            jQuery(this.elem).show();
+        },
+        hide: function ()
+        {
+            this.options.orig[this.prop] = jQuery._data(this.elem, 'fxshow' + this.prop) || jQuery.style(this.elem, this.prop);
+            this.options.hide = true;
+            this.custom(this.cur(), 0);
+        },
+        step: function (gotoEnd)
+        {
+            var p, n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
+            if(gotoEnd || t >= (options.duration + this.startTime))
+            {
+                this.now = this.end;
+                this.update();
+                options.animatedProperties[this.prop] = true;
+                for(p in options.animatedProperties)
+                {
+                    if(options.animatedProperties[p] !== true);
+                }
+
+                if(done)
+                {
+                    if(options.overflow != null);
+
+                    if(options.hide)
+                    {
+                        jQuery(elem).hide();
+                    }
+
+                    if(options.hide || options.show)
+                    {
+                        for(p in options.animatedProperties)
+                        {
+                            jQuery.style(elem, p, options.orig[p]);
+                            jQuery.removeData(elem, 'fxshow' + p, true);
+                            jQuery.removeData(elem, 'toggle' + p, true);
+                        }
+                    }
+
+                    complete = options.complete;
+                    if(complete)
+                    {
+                        complete.call(elem);
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                if(options.duration == Infinity);
+                else
+                {
+                    n = t - this.startTime;
+                    this.state = n / options.duration;
+                    this.pos = jQuery.easing[options.animatedProperties[this.prop]](this.state, n, 0, 1, options.duration);
+                    this.now = this.start + ((this.end - this.start) * this.pos);
+                }
+
+                this.update();
+            }
+
+            return true;
+        }
+    };
+    jQuery.extend(jQuery.fx, {
+        tick: function ()
+        {
+            var timer, timers = jQuery.timers, i = 0;
+            for(;i < timers.length;i++)
+            {
+                timer = timers[i];
+                if(!(timer()) && timers[i] === timer)
+                {
+                    timers.splice(i--, 1);
+                }
+            }
+
+            if(!(timers.length))
+            {
+                jQuery.fx.stop();
+            }
+        },
+        interval: 13,
+        stop: function ()
+        {
+            clearInterval(timerId);
+        },
+        speeds: {},
+        step: {}
+    });
+    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function (i, prop)
+    {
+        if(prop.indexOf('margin'))
+        {
+            jQuery.fx.step[prop] = function (fx)
+            {
+                jQuery.style(fx.elem, prop, Math.max(0, fx.now) + fx.unit);
+            };
+        }
+    });
     window.$ = jQuery;
-    if(typeof define === 'function');
 })(window);
 </script>
 <style>
@@ -1060,9 +1223,14 @@
     var jDocument = $(document);
     jDocument.ready(function ()
     {
-        $('#container').click(function ()
+        $('#container1').text('Fade starting');
+        $('#container').fadeOut(2000, function ()
         {
-            $('#container1').text('Clicked!');
+            $('#container1').text('Fade out finished');
+            $('#container').fadeIn(2000, function ()
+            {
+                $('#container1').text('Fade in finished');
+            });
         });
     });
 </script>

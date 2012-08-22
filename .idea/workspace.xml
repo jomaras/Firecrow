@@ -6,9 +6,447 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/jQuery/18/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/jQuery/19/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/libraries/gauss/tests/gauss.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/htmlMapping.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/libraries/medialize/tests/stanje" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/pages/idtPride/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/pages/proposable/index.html" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\00-tests\index-sliced-w.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\00-tests\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\02-mutatingProtocol\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\03-mutatingUsername\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\02-LineSegment-eql\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\02-LineSegment-eql\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\02-LineSegment-eql\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\02-LineSegment-eql\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\02-LineSegment-eql\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\03-LineSegment-dup\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\03-LineSegment-dup\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\03-LineSegment-dup\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\03-LineSegment-dup\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\03-LineSegment-dup\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\04-LineSegment-length\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\04-LineSegment-length\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\04-LineSegment-length\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\04-LineSegment-length\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\04-LineSegment-length\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\05-LineSegment-toVector\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\05-LineSegment-toVector\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\05-LineSegment-toVector\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\05-LineSegment-toVector\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\05-LineSegment-toVector\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\06-LineSegment-midpoint\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\06-LineSegment-midpoint\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\06-LineSegment-midpoint\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\06-LineSegment-midpoint\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\06-LineSegment-midpoint\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\07-LineSegment-bisectingPlane\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\07-LineSegment-bisectingPlane\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\07-LineSegment-bisectingPlane\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\07-LineSegment-bisectingPlane\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\07-LineSegment-bisectingPlane\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\08-LineSegment-translate\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\08-LineSegment-translate\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\08-LineSegment-translate\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\08-LineSegment-translate\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\08-LineSegment-translate\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\09-LineSegment-IsParallelTo\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\09-LineSegment-IsParallelTo\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\09-LineSegment-IsParallelTo\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\09-LineSegment-IsParallelTo\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\09-LineSegment-IsParallelTo\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\10-LineSegment-Contains\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\10-LineSegment-Contains\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\10-LineSegment-Contains\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\10-LineSegment-Contains\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\10-LineSegment-Contains\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\11-LineSegment-distanceFrom\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\11-LineSegment-distanceFrom\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\11-LineSegment-distanceFrom\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\11-LineSegment-distanceFrom\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\11-LineSegment-distanceFrom\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\12-LineSegment-intersection\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\12-LineSegment-intersection\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\12-LineSegment-intersection\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\12-LineSegment-intersection\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\12-LineSegment-intersection\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\13-LineSegment-pointClosestTo\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\13-LineSegment-pointClosestTo\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\13-LineSegment-pointClosestTo\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\13-LineSegment-pointClosestTo\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\13-LineSegment-pointClosestTo\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\14-Line-dup\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\14-Line-dup\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\14-Line-dup\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\14-Line-dup\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\14-Line-dup\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\15-Line-eql\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\15-Line-eql\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\15-Line-eql\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\15-Line-eql\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\15-Line-eql\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\16-Line-contains\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\16-Line-contains\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\16-Line-contains\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\16-Line-contains\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\16-Line-contains\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\17-Line-isParallelTo\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\17-Line-isParallelTo\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\17-Line-isParallelTo\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\17-Line-isParallelTo\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\17-Line-isParallelTo\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\18-Line-translate\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\18-Line-translate\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\18-Line-translate\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\18-Line-translate\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\18-Line-translate\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\19-Line-intersectionWith\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\19-Line-intersectionWith\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\19-Line-intersectionWith\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\19-Line-intersectionWith\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\19-Line-intersectionWith\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\20-Line-positionOf\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\20-Line-positionOf\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\20-Line-positionOf\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\20-Line-positionOf\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\20-Line-positionOf\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\21-Line-pointClosestTo\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\21-Line-pointClosestTo\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\21-Line-pointClosestTo\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\21-Line-pointClosestTo\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\21-Line-pointClosestTo\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\22-Line-distanceFrom\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\22-Line-distanceFrom\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\22-Line-distanceFrom\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\22-Line-distanceFrom\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\22-Line-distanceFrom\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\23-Line-reflectionIn\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\23-Line-reflectionIn\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\23-Line-reflectionIn\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\23-Line-reflectionIn\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\23-Line-reflectionIn\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\24-Line-rotate\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\24-Line-rotate\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\24-Line-rotate\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\24-Line-rotate\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\24-Line-rotate\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\25-Matrix-create\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\25-Matrix-create\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\25-Matrix-create\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\25-Matrix-create\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\25-Matrix-create\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\26-Matrix-I\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\26-Matrix-I\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\26-Matrix-I\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\26-Matrix-I\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\26-Matrix-I\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\27-Matrix-E\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\27-Matrix-E\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\27-Matrix-E\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\27-Matrix-E\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\27-Matrix-E\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\28-Matrix-RowAndColumns\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\28-Matrix-RowAndColumns\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\28-Matrix-RowAndColumns\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\28-Matrix-RowAndColumns\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\28-Matrix-RowAndColumns\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\29-Matrix-Dimensions\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\29-Matrix-Dimensions\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\29-Matrix-Dimensions\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\29-Matrix-Dimensions\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\29-Matrix-Dimensions\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\30-Matrix-Dup\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\30-Matrix-Dup\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\30-Matrix-Dup\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\30-Matrix-Dup\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\30-Matrix-Dup\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\31-Matrix-eql\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\31-Matrix-eql\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\31-Matrix-eql\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\32-Matrix-map\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\32-Matrix-map\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\32-Matrix-map\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\32-Matrix-map\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\32-Matrix-map\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\33-Matrix-Random\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\33-Matrix-Random\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\33-Matrix-Random\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\33-Matrix-Random\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\33-Matrix-Random\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\34-Matrix-Zero\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\34-Matrix-Zero\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\34-Matrix-Zero\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\34-Matrix-Zero\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\34-Matrix-Zero\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\35-Matrix-IsSameSizeAs\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\35-Matrix-IsSameSizeAs\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\35-Matrix-IsSameSizeAs\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\35-Matrix-IsSameSizeAs\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\35-Matrix-IsSameSizeAs\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\36-Matrix-arithmetic\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\36-Matrix-arithmetic\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\36-Matrix-arithmetic\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\36-Matrix-arithmetic\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\36-Matrix-arithmetic\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\37-Matrix-multiplication\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\37-Matrix-multiplication\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\37-Matrix-multiplication\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\37-Matrix-multiplication\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\37-Matrix-multiplication\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\38-Matrix-minor\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\38-Matrix-minor\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\38-Matrix-minor\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\38-Matrix-minor\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\38-Matrix-minor\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\39-Matrix-isSquare\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\39-Matrix-isSquare\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\39-Matrix-isSquare\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\39-Matrix-isSquare\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\39-Matrix-isSquare\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\40-Matrix-MaxAndIndex\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\40-Matrix-MaxAndIndex\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\40-Matrix-MaxAndIndex\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\40-Matrix-MaxAndIndex\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\40-Matrix-MaxAndIndex\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\41-Matrix-diagonal\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\41-Matrix-diagonal\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\41-Matrix-diagonal\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\41-Matrix-diagonal\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\41-Matrix-diagonal\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\42-Matrix-toRightTriangular\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\42-Matrix-toRightTriangular\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\42-Matrix-toRightTriangular\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\42-Matrix-toRightTriangular\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\42-Matrix-toRightTriangular\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\43-Matrix-transpose\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\43-Matrix-transpose\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\43-Matrix-transpose\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\43-Matrix-transpose\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\43-Matrix-transpose\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\44-Matrix-determinant\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\44-Matrix-determinant\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\44-Matrix-determinant\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\44-Matrix-determinant\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\44-Matrix-determinant\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\45-Matrix-isSingular\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\45-Matrix-isSingular\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\45-Matrix-isSingular\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\45-Matrix-isSingular\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\45-Matrix-isSingular\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\46-Matrix-trace\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\46-Matrix-trace\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\46-Matrix-trace\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\46-Matrix-trace\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\47-Matrix-Rank\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\47-Matrix-Rank\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\47-Matrix-Rank\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\47-Matrix-Rank\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\47-Matrix-Rank\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\48-Matrix-augment\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\48-Matrix-augment\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\48-Matrix-augment\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\48-Matrix-augment\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\48-Matrix-augment\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\49-Matrix-inverse\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\49-Matrix-inverse\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\49-Matrix-inverse\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\49-Matrix-inverse\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\49-Matrix-inverse\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\50-Matrix-Rotation\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\50-Matrix-Rotation\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\50-Matrix-Rotation\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\50-Matrix-Rotation\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\50-Matrix-Rotation\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\51-Matrix-Diagonal\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\51-Matrix-Diagonal\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\51-Matrix-Diagonal\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\51-Matrix-Diagonal\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\51-Matrix-Diagonal\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\52-Plane-eql\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\52-Plane-eql\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\52-Plane-eql\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\52-Plane-eql\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\52-Plane-eql\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\53-Plane-dup\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\53-Plane-dup\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\53-Plane-dup\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\53-Plane-dup\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\53-Plane-dup\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\54-Plane-translate\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\54-Plane-translate\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\54-Plane-translate\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\54-Plane-translate\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\54-Plane-translate\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\55-Plane-isParallelTo\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\55-Plane-isParallelTo\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\55-Plane-isParallelTo\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\55-Plane-isParallelTo\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\55-Plane-isParallelTo\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\56-Plane-distanceFrom\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\56-Plane-distanceFrom\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\56-Plane-distanceFrom\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\56-Plane-distanceFrom\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\56-Plane-distanceFrom\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\57-Plane-contains\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\57-Plane-contains\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\57-Plane-contains\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\57-Plane-contains\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\57-Plane-contains\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\58-Plane-pointClosestTo\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\58-Plane-pointClosestTo\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\58-Plane-pointClosestTo\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\58-Plane-pointClosestTo\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\58-Plane-pointClosestTo\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\59-Plane-rotate\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\59-Plane-rotate\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\59-Plane-rotate\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\59-Plane-rotate\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\59-Plane-rotate\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\60-Plane-reflectionIn\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\60-Plane-reflectionIn\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\60-Plane-reflectionIn\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\60-Plane-reflectionIn\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\60-Plane-reflectionIn\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\61-Plane-containment\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\61-Plane-containment\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\61-Plane-containment\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\61-Plane-containment\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\61-Plane-containment\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\62-Vector-create\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\62-Vector-create\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\62-Vector-create\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\62-Vector-create\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\62-Vector-create\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\63-Vector-e\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\63-Vector-e\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\63-Vector-e\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\63-Vector-e\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\63-Vector-e\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\64-Vector-Zero\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\64-Vector-Zero\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\64-Vector-Zero\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\64-Vector-Zero\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\64-Vector-Zero\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\65-Vector-Random\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\65-Vector-Random\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\65-Vector-Random\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\65-Vector-Random\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\65-Vector-Random\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\66-Vector-Modulus\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\66-Vector-Modulus\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\66-Vector-Modulus\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\66-Vector-Modulus\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\66-Vector-Modulus\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\67-Vector-Dimensions\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\67-Vector-Dimensions\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\67-Vector-Dimensions\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\67-Vector-Dimensions\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\67-Vector-Dimensions\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\68-Vector-eql\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\68-Vector-eql\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\68-Vector-eql\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\68-Vector-eql\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\68-Vector-eql\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\69-Vector-singleElement\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\69-Vector-singleElement\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\69-Vector-singleElement\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\69-Vector-singleElement\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\69-Vector-singleElement\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\70-Vector-dup\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\70-Vector-dup\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\70-Vector-dup\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\70-Vector-dup\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\70-Vector-dup\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\71-Vector-map\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\71-Vector-map\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\71-Vector-map\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\71-Vector-map\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\71-Vector-map\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\72-Vector-normalize\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\72-Vector-normalize\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\72-Vector-normalize\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\72-Vector-normalize\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\72-Vector-normalize\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\73-Vector-angleFrom\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\73-Vector-angleFrom\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\73-Vector-angleFrom\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\73-Vector-angleFrom\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\73-Vector-angleFrom\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\74-Vector-angleTypes\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\74-Vector-angleTypes\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\74-Vector-angleTypes\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\74-Vector-angleTypes\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\74-Vector-angleTypes\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\75-Vector-arithmetic\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\75-Vector-arithmetic\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\75-Vector-arithmetic\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\75-Vector-arithmetic\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\75-Vector-arithmetic\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\76-Vector-products\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\76-Vector-products\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\76-Vector-products\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\76-Vector-products\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\76-Vector-products\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\77-Vector-max\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\77-Vector-max\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\77-Vector-max\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\77-Vector-max\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\77-Vector-max\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\78-Vector-indexOf\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\78-Vector-indexOf\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\78-Vector-indexOf\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\78-Vector-indexOf\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\78-Vector-indexOf\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\79-Vector-toDiagonalMatrix\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\79-Vector-toDiagonalMatrix\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\79-Vector-toDiagonalMatrix\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\79-Vector-toDiagonalMatrix\index-slicedB.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\79-Vector-toDiagonalMatrix\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\79-Vector-toDiagonalMatrix\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\80-Vector-round\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\80-Vector-round\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\80-Vector-round\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\80-Vector-round\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\80-Vector-round\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\81-Vector-distanceFrom\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\81-Vector-distanceFrom\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\81-Vector-distanceFrom\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\81-Vector-distanceFrom\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\81-Vector-distanceFrom\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\82-Vector-liesIn\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\82-Vector-liesIn\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\82-Vector-liesIn\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\82-Vector-liesIn\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\82-Vector-liesIn\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\83-Vector-reflectionIn\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\83-Vector-reflectionIn\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\83-Vector-reflectionIn\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\83-Vector-reflectionIn\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\83-Vector-reflectionIn\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\84-Vector-rotate\index-profiled.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\84-Vector-rotate\index-sliced.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\84-Vector-rotate\index-sliced.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\84-Vector-rotate\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\84-Vector-rotate\index.html-executionTrace.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\mappingInfrastructure.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\sylvester-autohotkey.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\sylvester.src - orig.js" afterPath="" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\01-construct\index.html" afterPath="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/index.html" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\index-results - sliced.txt" afterPath="$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping14.js" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\index-results.txt" afterPath="$PROJECT_DIR$/tests/libraries/gauss/tests/Stanje" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\tests\libraries\sylvesterBackup\sylvester.src.js" afterPath="$PROJECT_DIR$/tests/libraries/sylvester/sylvester.src.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugJquery.html" afterPath="$PROJECT_DIR$/debug/debugJquery.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping6.js" afterPath="$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping6.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/test.html" afterPath="$PROJECT_DIR$/playground/test.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/libraries/gauss/tests/cases/21-Distribution-AbsoluteFrequency/index.html" afterPath="$PROJECT_DIR$/tests/libraries/gauss/tests/cases/21-Distribution-AbsoluteFrequency/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/libraries/gauss/tests/cases/22-Distribution-RelativeFrequency/index.html" afterPath="$PROJECT_DIR$/tests/libraries/gauss/tests/cases/22-Distribution-RelativeFrequency/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/pages/idtPride/index2.html" afterPath="$PROJECT_DIR$/tests/pages/idtPride/index2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/pages/idtPride/jQuery.js" afterPath="$PROJECT_DIR$/tests/pages/idtPride/jQuery.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,17 +493,7 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="Array.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="80" column="19" selection-start="3061" selection-end="3061" vertical-scroll-proportion="0.36461127">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -79,22 +507,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/tests/libraries/gauss/tests/cases/21-Distribution-AbsoluteFrequency/index.html" />
+        <option value="$PROJECT_DIR$/tests/libraries/gauss/tests/cases/22-Distribution-RelativeFrequency/index.html" />
+        <option value="$PROJECT_DIR$/tests/libraries/gauss/tests/Stanje" />
+        <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/stanje" />
+        <option value="$PROJECT_DIR$/debug/domTests/31/index.html" />
+        <option value="$PROJECT_DIR$/tests/pages/proposable/stylesheets/marketing.css" />
+        <option value="$PROJECT_DIR$/tests/pages/proposable/stylesheets/facebox.css" />
+        <option value="$PROJECT_DIR$/tests/pages/proposable/index.html" />
+        <option value="$PROJECT_DIR$/debug/jQuery/04/index.html" />
+        <option value="$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping14.js" />
         <option value="$PROJECT_DIR$/playground/test.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
-        <option value="$PROJECT_DIR$/debug/jQuery/17/index.html" />
-        <option value="$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping13.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/TextNode.js" />
+        <option value="$PROJECT_DIR$/debug/jQuery/19/index.html" />
+        <option value="$PROJECT_DIR$/tests/pages/idtPride/jQuery.js" />
+        <option value="$PROJECT_DIR$/tests/pages/idtPride/index.html" />
         <option value="$PROJECT_DIR$/debug/debugJquery.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
         <option value="$PROJECT_DIR$/tests/pages/idtPride/index2.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
       </list>
     </option>
   </component>
@@ -237,7 +665,109 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jQueryModelMappings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jQuery" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jQuery" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="19" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jQuery" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="18" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -273,18 +803,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\domTests\31" />
       <recent name="C:\GitWebStorm\Firecrow\debug\jQuery" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\80" />
       <recent name="C:\GitWebStorm\Firecrow\debug\domTests" />
       <recent name="C:\GitWebStorm\Firecrow\tests\libraries" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\79" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\tests\libraries\sylvester" />
+      <recent name="C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases" />
+      <recent name="C:\GitWebStorm\Firecrow\tests\libraries\gauss\tests" />
+      <recent name="C:\GitWebStorm\Firecrow\tests\pages\idtPride" />
       <recent name="C:\GitWebStorm\Firecrow\playground" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\jQueryModelMappings" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\jQuery\01" />
-      <recent name="C:\GitWebStorm\Firecrow\tests\libraries" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\gauss\tests" />
     </key>
   </component>
   <component name="RunManager" selected="JsTestDriver.slicing.jstd">
@@ -1202,7 +1732,11 @@
       <created>1345660313694</created>
       <updated>1345660313694</updated>
     </task>
-    <option name="localTasksCounter" value="209" />
+    <task id="LOCAL-00209" summary="Less Array connections">
+      <created>1345660460033</created>
+      <updated>1345660460034</updated>
+    </task>
+    <option name="localTasksCounter" value="210" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1239,18 +1773,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.494863" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49657536" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16530156" sideWeight="0.7037671" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25837678" sideWeight="0.4520548" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29623288" sideWeight="0.51451975" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5479452" sideWeight="0.57185405" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29623288" sideWeight="0.48026806" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5479452" sideWeight="0.42963514" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5479452" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29623288" sideWeight="0.47728965" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270548" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1349,74 +1883,118 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/jQuery.js">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/stanje">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6656" column="47" selection-start="252651" selection-end="252651" vertical-scroll-proportion="0.94009215" />
+        <state line="0" column="14" selection-start="14" selection-end="14" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/jQuery/jQuery.js">
+    <entry file="file://$PROJECT_DIR$/debug/domTests/30/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="21" selection-start="603" selection-end="603" vertical-scroll-proportion="0.41129032" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="72" selection-start="5036" selection-end="5036" vertical-scroll-proportion="-17.0" />
+        <state line="411" column="18" selection-start="18708" selection-end="18708" vertical-scroll-proportion="0.36263737">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/01/index.html">
+    <entry file="file://$PROJECT_DIR$/tests/pages/proposable/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="31" selection-start="185" selection-end="185" vertical-scroll-proportion="0.17894737" />
+        <state line="20" column="40" selection-start="1373" selection-end="1373" vertical-scroll-proportion="0.65384614">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js">
+    <entry file="file://$PROJECT_DIR$/tests/pages/proposable/stylesheets/marketing.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="4" selection-start="1699" selection-end="1699" vertical-scroll-proportion="0.0" />
+        <state line="407" column="98" selection-start="44189" selection-end="44189" vertical-scroll-proportion="1.9092742">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js">
+    <entry file="file://$PROJECT_DIR$/tests/pages/proposable/stylesheets/facebox.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="22" selection-start="238" selection-end="278" vertical-scroll-proportion="0.0" />
+        <state line="109" column="47" selection-start="1615" selection-end="1615" vertical-scroll-proportion="3.3937728">
+          <folding>
+            <marker date="1345666184713" expanded="true" signature="-1:-1" placeholder="{...}" />
+          </folding>
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js">
+    <entry file="file://$PROJECT_DIR$/debug/jQuery/04/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="2247" selection-end="2247" vertical-scroll-proportion="0.0" />
+        <state line="24" column="36" selection-start="0" selection-end="792" vertical-scroll-proportion="-10.038462">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/54/index.html">
+    <entry file="file://$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping14.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="53" selection-start="22" selection-end="22" vertical-scroll-proportion="0.0" />
+        <state line="8" column="2" selection-start="21173" selection-end="21173" vertical-scroll-proportion="0.24908425">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+    <entry file="file://$PROJECT_DIR$/debug/jQuery/18/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="477" column="16" selection-start="27911" selection-end="27911" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="5.8846154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="4" selection-start="317" selection-end="386" vertical-scroll-proportion="0.19615385">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/index2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="69" selection-start="340" selection-end="340" vertical-scroll-proportion="0.034" />
+        <state line="8" column="69" selection-start="340" selection-end="340" vertical-scroll-proportion="-59.251923">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugJquery.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="116" selection-start="5789" selection-end="5789" vertical-scroll-proportion="0.031135531" />
+        <state line="21" column="74" selection-start="1207" selection-end="1207" vertical-scroll-proportion="0.5884615">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+    <entry file="file://$PROJECT_DIR$/playground/test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="580" column="164" selection-start="26375" selection-end="26419" vertical-scroll-proportion="0.031135531" />
+        <state line="1240" column="0" selection-start="39082" selection-end="39082" vertical-scroll-proportion="0.9346154">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
+    <entry file="file://$PROJECT_DIR$/debug/jQuery/19/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="373" column="37" selection-start="14641" selection-end="14641" vertical-scroll-proportion="0.031135531" />
+        <state line="28" column="76" selection-start="704" selection-end="704" vertical-scroll-proportion="0.48968107">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
+    <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/jQuery.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="19" selection-start="3061" selection-end="3061" vertical-scroll-proportion="0.36461127">
+        <state line="7032" column="9" selection-start="266453" selection-end="266453" vertical-scroll-proportion="0.36263737">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="5" selection-start="21879" selection-end="43052" vertical-scroll-proportion="0.77838826">
           <folding />
         </state>
       </provider>

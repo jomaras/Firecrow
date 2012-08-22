@@ -127,7 +127,6 @@ DependencyGraph.prototype.markGraph = function(model)
 {
     try
     {
-        alert(this.dependencyEdgesCounter);
         var importantConstructDependencyIndexMapping = this.importantConstructDependencyIndexMapping;
         var breakContinueMapping = [];
         this.previouslyExecutedBlockDependencies = [];
