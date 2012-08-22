@@ -151,12 +151,13 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalAssignmentExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalAssignmentExpressionCommand.isEvalAssignmentExpressionCommand()) { this.notifyError(evalAssignmentExpressionCommand, "Argument is not an EvalAssignmentExpressionCommand"); return; }
 
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(evalAssignmentExpressionCommand.codeConstruct.loc.start.line == 36)
+            if(assignmentExpression.loc.start.line == 6657)
             {
                 var a = 3;
             }
+
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var operator = evalAssignmentExpressionCommand.operator;
             var finalValue = null;
@@ -216,45 +217,32 @@ fcSimulator.Evaluator.prototype =
 
                 if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
-                if(ValueTypeHelper.isOfType(object.value, Node))
+                if (object.value == this.globalObject
+                ||  ValueTypeHelper.isOneOfTypes(object.value, [Document, DocumentFragment, HTMLElement, Text, Attr, CSSStyleDeclaration]))
                 {
-                    object.value[property.value] = finalValue.value;
+                    object.fcInternal.object.addJsProperty(property.value, finalValue, assignmentExpression);
                 }
-                else if (object == this.globalObject)
+                else if (ValueTypeHelper.isArray(object.value))
                 {
-                    this.globalObject.addProperty(property.value, finalValue.value,  assignmentExpression);
-                }
-                else if (ValueTypeHelper.isArray(object.value) && property.value == "length")
-                {
-                    if(object.value[property.value] !== finalValue.value)
+                    object.fcInternal.object.updateItem(property.value, finalValue, assignmentExpression);
+
+                    if(property.value == "length")
                     {
-                        console.log("Warning: Directly modifying array lenght property!");
+                        if(object.value[property.value] !== finalValue.value)
+                        {
+                            console.log("Warning: Directly modifying array length property!");
+                        }
                     }
 
                     object.value[property.value] = finalValue.value;
                 }
                 else
                 {
+                    object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
                     object.value[property.value] = finalValue;
                 }
 
-                if(property.value == "__proto__" || property.value == "prototype")
-                {
-                    object.value[property.value] = finalValue.value;
-                }
-
-                object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
-
-                if(ValueTypeHelper.isArray(object.value)) { object.fcInternal.object.updateItem(property.value, finalValue, assignmentExpression); }
-                else if (ValueTypeHelper.isOfType(object.value, HTMLElement))
-                {
-                   this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                   (
-                       object.fcInternal.object.htmlElement.modelElement,
-                       assignmentExpression,
-                       this.globalObject.getPreciseEvaluationPositionId()
-                   );
-                }
+                if(property.value == "__proto__" || property.value == "prototype") { object.value[property.value] = finalValue.value; }
             }
 
             this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
@@ -557,28 +545,15 @@ fcSimulator.Evaluator.prototype =
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
+            //TODO: check dom test 13 Object.constructor.prototype not working as it should!
             var property = this.executionContextStack.getExpressionValue(memberExpression.property);
 
             var propertyValue;
 
-            if(object == this.globalObject) { propertyValue = this.globalObject.getPropertyValue(property.value); }
-            else if (ValueTypeHelper.isOfType(object.value, HTMLElement)) { propertyValue = object.fcInternal.object.getHtmlPropertyValue(property.value, memberExpression); }
-            else if (ValueTypeHelper.isOfType(object.value, Text)) { propertyValue = object.fcInternal.object.getTextNodePropertyValue(property.value, memberExpression); }
-            else if (ValueTypeHelper.isOfType(object.value, DocumentFragment))
+            if(object.value == this.globalObject
+            || ValueTypeHelper.isOneOfTypes(object.value, [HTMLElement, Text, Document, DocumentFragment, CSSStyleDeclaration, Attr, Array, RegExp]))
             {
-                if(object.fcInternal.object == this.globalObject.document)
-                {
-                    if(property.value == "nodeType") { propertyValue = this.globalObject.origDocument.nodeType; }
-                    else if (property.value == "ownerDocument") { propertyValue = new fcModel.JsValue(null, fcModel.FcInternal()); }
-                    else
-                    {
-                        propertyValue = object.value[property.value];
-                    }
-                }
-                else
-                {
-                    propertyValue = object.fcInternal.object.getHtmlPropertyValue(property.value, memberExpression);
-                }
+                propertyValue = object.fcInternal.object.getJsPropertyValue(property.value, memberExpression);
             }
             else { propertyValue = object.value[property.value]; }
 
@@ -586,13 +561,13 @@ fcSimulator.Evaluator.prototype =
 
             if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue))
             {
-                if(ValueTypeHelper.isPrimitive(propertyValue))
-                {
-                     propertyValue = new fcModel.JsValue(propertyValue, new fcModel.FcInternal(memberExpression));
-                }
-                else if(propertyValue != null && propertyValue.jsValue != null)
+                if(propertyValue != null && propertyValue.jsValue != null && !ValueTypeHelper.isPrimitive(propertyValue))
                 {
                     propertyValue = propertyValue.jsValue;
+                }
+                else if (ValueTypeHelper.isPrimitive(propertyValue))
+                {
+                    propertyValue = new fcModel.JsValue(propertyValue, new fcModel.FcInternal(memberExpression));
                 }
                 else
                 {
@@ -602,34 +577,31 @@ fcSimulator.Evaluator.prototype =
 
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            if(property != null && object != null)
+            if(object.fcInternal != null && object.fcInternal.object != null)
             {
-                if(object.fcInternal != null && object.fcInternal.object != null)
-                {
-                    var fcProperty = object.fcInternal.object.getProperty(property.value, memberExpression);
+                var fcProperty = object.fcInternal.object.getProperty(property.value, memberExpression);
 
-                    if(fcProperty != null && !ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
+                if(fcProperty != null && !ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
+                {
+                    if(fcProperty.lastModificationConstruct != null)
                     {
-                        if(fcProperty.lastModificationConstruct != null)
-                        {
-                            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                            (
-                                memberExpression.property,
-                                fcProperty.lastModificationConstruct.codeConstruct,
-                                evaluationPosition,
-                                fcProperty.lastModificationConstruct.evaluationPositionId
-                            );
-                        }
-                        else  if(fcProperty.declarationConstruct != null)
-                        {
-                            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                            (
-                                memberExpression.property,
-                                fcProperty.declarationConstruct.codeConstruct,
-                                evaluationPosition,
-                                fcProperty.declarationConstruct.evaluationPositionId
-                            );
-                        }
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            memberExpression.property,
+                            fcProperty.lastModificationConstruct.codeConstruct,
+                            evaluationPosition,
+                            fcProperty.lastModificationConstruct.evaluationPositionId
+                        );
+                    }
+                    else  if(fcProperty.declarationConstruct != null)
+                    {
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                        (
+                            memberExpression.property,
+                            fcProperty.declarationConstruct.codeConstruct,
+                            evaluationPosition,
+                            fcProperty.declarationConstruct.evaluationPositionId
+                        );
                     }
                 }
             }
@@ -651,21 +623,17 @@ fcSimulator.Evaluator.prototype =
                     var identifier = this.executionContextStack.getIdentifier(memberExpression.property.name);
                     if(identifier != null && identifier.declarationConstruct != null)
                     {
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            memberExpression,
-                            identifier.declarationConstruct.codeConstruct,
-                            evaluationPosition,
-                            identifier.declarationConstruct.evaluationPositionId,
-                            true
-                        );
+                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, identifier.declarationConstruct.codeConstruct, evaluationPosition, identifier.declarationConstruct.evaluationPositionId, true);
                     }
                 }
             }
 
             this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
         }
-        catch(e) { this.notifyError(evalMemberExpressionCommand, "Error when evaluating member expression: " + e); }
+        catch(e)
+        {
+            this.notifyError(evalMemberExpressionCommand, "Error when evaluating member expression: " + e);
+        }
     },
 
     _evaluateMemberExpressionPropertyCommand: function(evalMemberExpressionPropertyCommand)

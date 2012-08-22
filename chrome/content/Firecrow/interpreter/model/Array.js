@@ -535,6 +535,11 @@ fcModel.ArrayProto =
         catch(e) { this.notifyError("Error when updating item: " + e); }
     },
 
+    getJsPropertyValue: function(propertyName, codeConstruct)
+    {
+        return this.getPropertyValue(propertyName, codeConstruct);
+    },
+
     notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
 };
 

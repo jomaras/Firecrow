@@ -122,7 +122,7 @@ fcSimulator.InternalExecutor.prototype =
     {
         var internalNamedFunction = fcModel.Function.createInternalNamedFunction(this.globalObject, functionName, parentObject);
 
-        if(!dontExpandCallApply)
+        if(!dontExpandCallApply && functionObject != null)
         {
             this.expandWithInternalFunction(functionObject, "call");
             this.expandWithInternalFunction(functionObject, "apply");
@@ -139,7 +139,10 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            if(object == null) { this.notifyError("Argument object can not be null when expanding with internal function: " + this.globalObject.browser.htmlWebFile.url)}
+            if(object == null)
+            {
+                this.notifyError("Argument object can not be null when expanding with internal function: " + this.globalObject.browser.htmlWebFile.url)
+            }
 
             if(object[functionName] && !object[functionName].hasOwnProperty("jsValue"))
             {
@@ -204,6 +207,8 @@ fcSimulator.InternalExecutor.prototype =
         try
         {
             var jsElement = this.globalObject.origDocument.createElement(tagName);
+            jsElement.modelElement = { type: "DummyCodeElement" };
+            this.globalObject.browser.callNodeCreatedCallbacks(jsElement.modelElement, "html", true);
 
             jsElement.creationPoint =
             {
@@ -363,26 +368,17 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            if(thisObject == null) { this.notifyError("This object can not be null when executing function!"); return; }
+            if(thisObject == null)
+            {
+                this.notifyError("This object can not be null when executing function!"); return;
+            }
 
                  if (callCommand.isCall || callCommand.isApply) { return this._executeCallApplyFunction(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (ValueTypeHelper.isOfType(thisObject.value, Array)) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (ValueTypeHelper.isString(thisObject.value)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (ValueTypeHelper.isOfType(thisObject.value, RegExp)) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
-            else if (ValueTypeHelper.isOfType(thisObject.value, DocumentFragment))
-            {
-                //Is documentFragment acting as a document
-                if(thisObject == this.globalObject.jsFcDocument)
-                {
-                    return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);
-                }
-                else//is standard document fragment, created in application code
-                {
-                    return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);
-                }
-            }
-            else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject.fcInternal.globalObject.jsFcDocument, functionObject, arguments, callExpression);}
-            else if (ValueTypeHelper.isOfType(thisObject.value, HTMLElement)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (ValueTypeHelper.isOfType(thisObject.value, Document)){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression);}
+            else if (ValueTypeHelper.isOneOfTypes(thisObject.value, [HTMLElement, DocumentFragment])) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, CSSStyleDeclaration)) { return fcModel.CSSStyleDeclarationExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (ValueTypeHelper.isOfType(thisObject.value, Date)) { return fcModel.DateExecutor.executeInternalDateMethod(thisObject, functionObject, arguments, callExpression); }
             else if (thisObject.value == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeFunctionMethod(thisObject, functionObject, arguments, callExpression, this.globalObject); }
@@ -466,7 +462,6 @@ fcSimulator.InternalExecutor.prototype =
             this._expandStringMethods();
             this._expandDocumentMethods();
             this._expandDocument();
-            this._expandDocumentFragment();
             this._expandMathMethods();
             this._expandGlobalObjectMethods();
         }
@@ -483,7 +478,6 @@ fcSimulator.InternalExecutor.prototype =
         this._removeStringMethods();
         this._removeDocumentMethods();
         this._removeDocument();
-        this._removeDocumentFragment();
         this._removeMathMethods();
         this._removeGlobalObjectMethods();
     },
@@ -835,17 +829,6 @@ fcSimulator.InternalExecutor.prototype =
         fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
             this.expandWithInternalFunction(this.globalObject.documentFragment, propertyName);
-        }, this);
-    },
-
-    _removeDocumentFragment: function()
-    {
-        fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
-        {
-            if(this.globalObject.documentFragment[propertyName] != null)
-            {
-                this.globalObject.documentFragment[propertyName].jsValue = null;
-            }
         }, this);
     },
 

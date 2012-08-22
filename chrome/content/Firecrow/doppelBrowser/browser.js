@@ -23,9 +23,9 @@ Firecrow.DoppelBrowser.Browser = function(pageModel)
     {
         this.pageModel = pageModel;
         this.hostDocument = Firecrow.getDocument();
-        this.documentFragment = this.hostDocument.createDocumentFragment();
+        this.htmlWebFile = pageModel;
 
-        this.globalObject = new GlobalObject(this, this.documentFragment);
+        this.globalObject = new GlobalObject(this, this.hostDocument);
 
         this.nodeCreatedCallbacks = [];
         this.nodeInsertedCallbacks = [];
@@ -160,12 +160,24 @@ Browser.prototype =
 
     _createStaticHtmlNode: function(htmlModelNode)
     {
-        var htmlDomElement = this.hostDocument.createElement(htmlModelNode.type);
+        var htmlDomElement = null;
+        if(htmlModelNode.type == "html")
+        {
+            htmlDomElement = this.hostDocument.documentElement;
+        }
+        else if (htmlModelNode.type == "head" || htmlModelNode.type == "body")
+        {
+            htmlDomElement = this.hostDocument[htmlModelNode.type];
+        }
+        else
+        {
+            htmlDomElement = this.hostDocument.createElement(htmlModelNode.type);
+        }
 
         htmlDomElement.modelElement = htmlModelNode;
         htmlModelNode.domElement = htmlDomElement;
 
-        this._callNodeCreatedCallbacks(htmlModelNode, "html", false);
+        this.callNodeCreatedCallbacks(htmlModelNode, "html", false);
 
         return htmlDomElement;
     },
@@ -175,7 +187,6 @@ Browser.prototype =
         try
         {
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
-            this.globalObject.document.reevaluateProperties();
 
             interpreter.registerMessageGeneratedCallback(function(message)
             {
@@ -196,7 +207,15 @@ Browser.prototype =
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)
     {
-        parentDomElement == null ? this.documentFragment.appendChild(htmlDomElement)
+        if (htmlDomElement.tagName.toUpperCase() == "HTML"
+         || htmlDomElement.tagName.toUpperCase() == "HEAD"
+         || htmlDomElement.tagName.toUpperCase() == "BODY")
+        {
+            //already inserted, ignore
+            return;
+        }
+
+        parentDomElement == null ? this.hostDocument.appendChild(htmlDomElement)
                                  : parentDomElement.appendChild(htmlDomElement);
 
         this._callNodeInsertedCallbacks(htmlDomElement.modelElement, parentDomElement != null ? parentDomElement.modelElement : null);
@@ -210,7 +229,7 @@ Browser.prototype =
             cssHtmlElementModelNode.cssRules.forEach(function(cssRule)
             {
                 cssRule.hasBeenExecuted = true;
-                this._callNodeCreatedCallbacks(cssRule, "css", false);
+                this.callNodeCreatedCallbacks(cssRule, "css", false);
                 this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
                 this.cssRules.push(cssRule);
             }, this);
@@ -247,7 +266,7 @@ Browser.prototype =
             var that = this;
             ASTHelper.traverseAst(scriptHtmlElementModelNode.pathAndModel.model, function(currentNode, nodeName, parentNode)
             {
-                that._callNodeCreatedCallbacks(currentNode, "js", false);
+                that.callNodeCreatedCallbacks(currentNode, "js", false);
                 that._callNodeInsertedCallbacks(currentNode, ASTHelper.isProgram(parentNode) ? scriptHtmlElementModelNode : parentNode);
             });
         }
@@ -426,8 +445,6 @@ Browser.prototype =
                                         registrationPoint: event.registrationPoint
                                     }
                                 );
-
-                                ValueTypeHelper.removeFromArrayByIndex(htmlElementEvents, j);
                                 break;
                             }
                         }
@@ -517,7 +534,7 @@ Browser.prototype =
         });
     },
 
-    _callNodeCreatedCallbacks: function(nodeModelObject, nodeType, isDynamic)
+    callNodeCreatedCallbacks: function(nodeModelObject, nodeType, isDynamic)
     {
         this.nodeCreatedCallbacks.forEach(function(callbackObject)
         {

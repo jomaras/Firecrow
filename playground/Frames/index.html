@@ -12,12 +12,55 @@
     </style>
 </head>
 <body>
-    <iframe id="firecrowFrame"></iframe>
+    <iframe id="firecrowFrame" height="100" width="100"></iframe>
     <script>
+
+        window.getMatchedCSSRules = function (element /*, pseudo, author_only*/) {
+            var style_sheets, sheet, sheet_media,
+                    rules, rule,
+                    result = [];
+            // get stylesheets and convert to a regular Array
+            style_sheets = [].slice.call(document.styleSheets);
+
+            while ( sheet = style_sheets.shift() ) {
+                sheet_media = sheet.media.mediaText;
+                // if this sheet is disabled skip it
+                if ( sheet.disabled ) continue;
+                // if this sheet's media is specified and doesn't match the viewport then skip it
+                if ( sheet_media.length && ! window.matchMedia(sheet_media).matches ) continue;
+                // get the style rules of this sheet
+                rules = [].slice.call(sheet.cssRules);
+                // loop the rules
+                while ( rule = rules.shift() ) {
+                    // if this is an @import rule
+                    if ( rule.stylesheet ) {
+                        // add imported stylesheet to the stylesheets array
+                        style_sheets.push(rule.stylesheet);
+                        // and skip this rule
+                        continue;
+                    }
+                    else if ( rule.media ) {
+                        // add this rule to the stylesheets array since it quacks like a stylesheet (has media & cssRules attibutes)
+                        style_sheets.push(rule);
+                        // and skip it
+                        continue;
+                    }
+                    //TODO: for now only polyfilling Gecko
+                    // check if this element matches this rule's selector
+                    if ( element.mozMatchesSelector(rule.selectorText) ) {
+                        // push the rule to the results set
+                        result.push(rule);
+                    }
+                }
+            }
+            return result;
+        };
+
+        var fDocument, newDiv;
         window.onload = function()
         {
-            var fDocument = frames[0].document;
-            var newDiv = fDocument.createElement("div");
+            fDocument = frames[0].document;
+            newDiv = fDocument.createElement("div");
             newDiv.textContent = "a";
             fDocument.body.appendChild(newDiv);
 

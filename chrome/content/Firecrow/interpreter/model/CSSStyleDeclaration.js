@@ -12,23 +12,13 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
 {
     try
     {
-        this.notifyError = function(message) { alert("CSSStyleDeclaration - " + message)};
-
-        this.globalObject = globalObject;
-        this.cssStyleDeclaration = cssStyleDeclaration;
-        this.htmlElement = htmlElement;
         this.__proto__ = new fcModel.Object(globalObject);
 
-        if(cssStyleDeclaration == null) { return; }
+        this.htmlElement = htmlElement;
+        this.globalObject = globalObject;
+        this.cssStyleDeclaration = cssStyleDeclaration || this.htmlElement.style;
 
-        var properties = fcModel.CSSStyleDeclaration.CONST.INTERNAL_PROPERTIES.PROPERTIES;
-
-        for(var i = 0, length = properties.length; i < length; i++)
-        {
-            var propertyName = properties[propertyName];
-
-            this.addProperty(propertyName, cssStyleDeclaration[propertyName], codeConstruct, true);
-        }
+        this.constructor = fcModel.CSSStyleDeclaration;
 
         var methods = fcModel.CSSStyleDeclaration.CONST.INTERNAL_PROPERTIES.METHODS;
 
@@ -45,9 +35,35 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
         {
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
         }, this);
+
+        this.getJsPropertyValue = function(propertyName, codeConstruct)
+        {
+            if(ValueTypeHelper.isPrimitive(this.cssStyleDeclaration[propertyName]))
+            {
+                return new fcModel.JsValue(this.cssStyleDeclaration[propertyName], new fcModel.FcInternal());
+            }
+
+            return this.getPropertyValue(propertyName, codeConstruct);
+        };
+
+        this.addJsProperty = function(propertyName, value, codeConstruct)
+        {
+            this.cssStyleDeclaration[propertyName] = value.value;
+            this.addProperty(propertyName, value, codeConstruct);
+        };
     }
-    catch(e) { this.notifyError("Error when creating Document object: " + e); }
+    catch(e)
+    {
+        fcModel.CSSStyleDeclaration.notifyError("Error when creating CSSStyleDeclaration " + e);
+    }
 };
+
+fcModel.CSSStyleDeclaration.createStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalObject, codeConstruct)
+{
+    var styleDeclaration = new fcModel.CSSStyleDeclaration(htmlElement, cssStyleDeclaration, globalObject, codeConstruct);
+    return new fcModel.JsValue(cssStyleDeclaration, new fcModel.FcInternal(codeConstruct, styleDeclaration));
+};
+fcModel.CSSStyleDeclaration.notifyError =  function (message){ alert("CSSStyleDeclaration - " + message); }
 
 fcModel.CSSStyleDeclaration.prototype = new fcModel.Object(null);
 fcModel.CSSStyleDeclaration.CONST =

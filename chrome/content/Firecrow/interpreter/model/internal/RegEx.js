@@ -23,12 +23,23 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
         this.addProperty("multiline", new fcModel.JsValue(jsRegExp.multiline, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         this.addProperty("source", new fcModel.JsValue(jsRegExp.source, new fcModel.FcInternal(codeConstruct)), codeConstruct);
 
+        fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+        {
+            var internalFunction = globalObject.internalExecutor.createInternalFunction(this.jsRegExp[propertyName], propertyName, this, true);
+            this.addProperty(propertyName, internalFunction, null, false);
+        }, this);
+
         this.modifications = [];
 
         this.registerGetPropertyCallback(function(getPropertyConstruct)
         {
             this.addDependenciesToAllModifications(getPropertyConstruct);
         }, this);
+
+        this.getJsPropertyValue = function(propertyName, codeConstruct)
+        {
+            return this.getPropertyValue(propertyName, codeConstruct);
+        };
 
         this.addDependenciesToAllModifications = function(codeConstruct)
         {
@@ -132,7 +143,13 @@ fcModel.RegExExecutor =
                     fcThisValue.modifications.push({codeConstruct: callExpression, evaluationPositionId: fcThisValue.globalObject.getPreciseEvaluationPositionId()});
 
                     if(result == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
-                    else if (ValueTypeHelper.isArray(result)){ return fcThisValue.globalObject.internalExecutor.createArray(callExpression, result);}
+                    else if (ValueTypeHelper.isArray(result))
+                    {
+                        return fcThisValue.globalObject.internalExecutor.createArray(callExpression, result.map(function(arg)
+                        {
+                            return new fcModel.JsValue(arg, new fcModel.FcInternal(callExpression));
+                        }));
+                    }
                     else { this.notifyError("Unknown result when exec regexp"); return null; }
                 case "test":
                     return new fcModel.JsValue

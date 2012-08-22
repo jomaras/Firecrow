@@ -8,6 +8,19 @@ Firecrow.ValueTypeHelper =
         return variable instanceof className;
     },
 
+    isOneOfTypes: function(variable, classNames)
+    {
+        for(var i = 0, length = classNames.length; i < length; i++)
+        {
+            if(this.isOfType(variable, classNames[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
     isPrimitive: function(variable)
     {
         return typeof variable == "undefined" || typeof variable == "number"

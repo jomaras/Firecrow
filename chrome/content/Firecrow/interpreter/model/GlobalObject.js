@@ -44,9 +44,8 @@ fcModel.GlobalObject = function(browser, documentFragment)
 
         this.fcMath = new fcModel.Math(this);
         this.math = new fcModel.JsValue(this.fcMath, new fcModel.FcInternal(null, this.fcMath));
-        this.documentFragment = documentFragment;
-        this.document = new fcModel.Document(documentFragment, this);
-        this.jsFcDocument = new fcModel.JsValue(documentFragment, new fcModel.FcInternal(null, this.document));
+        this.document = new fcModel.Document(this.origDocument, this);
+        this.jsFcDocument = new fcModel.JsValue(this.origDocument, new fcModel.FcInternal(null, this.document));
 
         this.addProperty("Array", new fcModel.JsValue(this.arrayFunction, new fcModel.FcInternal(null, this.arrayFunction)) , null);
         this.addProperty("RegExp", new fcModel.JsValue(this.regExFunction, new fcModel.FcInternal(null, this.regExFunction)) , null);
@@ -66,9 +65,12 @@ fcModel.GlobalObject = function(browser, documentFragment)
 
         this.currentCommand = null;
 
+        var methods = fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS;
+        function _isMethod(method) { return methods.indexOf(method) != -1; }
+
         this.internalExecutor.expandInternalFunctions();
 
-        fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(methodName)
+        methods.forEach(function(methodName)
         {
             try
             {
@@ -80,6 +82,16 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.identifierSlicingCriteria = [];
         this.domModificationSlicingCriteria = [];
         this.includeAllDomModifications = false;
+
+        this.getJsPropertyValue = function(propertyName, codeConstruct)
+        {
+            return this.getPropertyValue(propertyName, codeConstruct);
+        };
+
+        this.addJsProperty = function(propertyName, value, codeConstruct)
+        {
+            this.addProperty(propertyName, value, codeConstruct);
+        };
 
         this.registerSlicingCriteria = function(slicingCriteria)
         {
@@ -112,7 +124,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
                 if(!(htmlElement instanceof HTMLElement)) { return false; }
                 if(this.domModificationSlicingCriteria.length == 0) { return false; }
 
-                if(this.includeAllDomModifications) { return true; }
+                if(this.includeAllDomModifications && this.globalObject.origDocument.contains(htmlElement)) { return true; }
 
                 for(var i = 0; i < this.domModificationSlicingCriteria.length; i++)
                 {
@@ -355,7 +367,7 @@ fcModel.GlobalObjectExecutor =
                 var htmlElement = jsHtmlElement.value;
                 var computedStyle = globalObject.origWindow[fcFunction.value.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.value; }));
 
-                return new fcModel.JsValue(computedStyle, new fcModel.FcInternal(callExpression, new fcModel.CSSStyleDeclaration(htmlElement, computedStyle, globalObject, callExpression)));
+                return fcModel.CSSStyleDeclaration.createStyleDeclaration(htmlElement, computedStyle, globalObject, callExpression);
             }
 
             return new fcModel.JsValue

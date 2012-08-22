@@ -82,6 +82,7 @@
     </style>
 </head>
 <body>
+<iframe id="firecrowFrame" height="1" width="1"></iframe>
 <h1>Firecrow - Debugging DOM Slicing</h1>
 <div>
     <a id="testIdContainer"></a>
@@ -104,7 +105,7 @@
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/29/index.html";
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/30/index.html";
         var htmlModel = HtmlModelMapping.getWholeFileModel(url);
         var slicingCriteria = htmlModel.results.map(function(result)
         {

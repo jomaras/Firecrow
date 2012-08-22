@@ -31,8 +31,8 @@ FBL.ns(function () { with (FBL)
         },
         IsDebugMode: true,
 
-        getWindow: function() { return window;},
-        getDocument: function() { return document; }
+        getWindow: function() { return frames[0] || window;},
+        getDocument: function() { return this.getWindow().document; }
     };
 }});
 

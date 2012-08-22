@@ -436,7 +436,7 @@ FBL.ns(function() { with (FBL) {
 
     Firebug.registerModule(Firebug.FirecrowModule);
 
-    Firecrow.getWindow = function() { return Firecrow.fbHelper.getWindow(); };
-    Firecrow.getDocument = function() { return Firecrow.fbHelper.getDocument(); }
+    Firecrow.getWindow = function() { return Firecrow.fbHelper.getWindowForSimulating(); };
+    Firecrow.getDocument = function() { return Firecrow.fbHelper.getDocumentForSimulating(); }
 // ************************************************************************************************
 }});

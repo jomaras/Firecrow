@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .testClass { color: green; }
+        #cont { height: 100px; width: 100px; background-color: red;}
+    </style>
+</head>
+<body>
+<h2 class="testClass">Title</h2>
+<a id="container" rel="1">1</a>
+<div id="cont">
+    <div id="firstChild">3</div>
+    <div id="secondChild">2</div>
+</div>
+<script type ="text/javascript">
+    var cont = document.getElementById("cont");
+    var a1 = cont.offsetHeight;
+    a1;
+</script>
+</body>
+</html>

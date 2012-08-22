@@ -16,6 +16,8 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
         this.htmlElement = htmlElement;
         this.attr = attr;
 
+        this.constructor = fcModel.Attr;
+
         this.__proto__ = new fcModel.Object(this.globalObject);
 
         this.addProperty("isId", new fcModel.JsValue(this.attr.isId, new fcModel.FcInternal(null)), null);
@@ -33,6 +35,16 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
         {
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
         }, this);
+
+        this.getJsPropertyValue = function(propertyName, codeConstruct)
+        {
+            alert("get property Attr");
+        };
+
+        this.addJsProperty = function(propertyName, value, codeConstruct)
+        {
+            alert("add property Attr");
+        };
 
         this.notifyError = function(message) { alert("Attr - " + message); }
     }
@@ -87,10 +99,7 @@ fcModel.Attr.CONST =
 {
     INTERNAL_PROPERTIES :
     {
-        METHODS:
-        [
-
-        ],
+        METHODS:[],
         PROPERTIES:
         [
             "childNodes", "firstChild", "isId", "lastChild", "localName", "name", "namespaceURI",

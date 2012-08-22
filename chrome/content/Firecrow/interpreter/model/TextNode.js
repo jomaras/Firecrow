@@ -25,6 +25,8 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
 
         this.textNode.elementModificationPoints = [];
 
+        this.addProperty("nodeType", new fcModel.JsValue(this.textNode.nodeType, new fcModel.FcInternal()));
+
         this.setChildRelatedProperties(codeConstruct);
         this.addPrimitiveProperties(textNode, codeConstruct);
 
@@ -82,7 +84,7 @@ fcModel.TextNodeProto =
 
     setChildRelatedProperties: function(codeConstruct)
     {
-        this.addProperty.call(this, "childNodes", this.getChildNodes(codeConstruct), codeConstruct);
+        this.addProperty("childNodes", this.getChildNodes(codeConstruct), codeConstruct);
     },
 
     addPrimitiveProperties: function(textNode, codeConstruct)
@@ -124,15 +126,36 @@ fcModel.TextNodeProto =
         catch(e) { this.notifyError("Error when getting child nodes:" + e);}
     },
 
-    getTextNodePropertyValue: function(propertyName, codeConstruct)
+    getJsPropertyValue: function(propertyName, codeConstruct)
     {
-        if (propertyName == "body" || propertyName == "parentNode"
-        || propertyName == "nextSibling" || propertyName == "previousSibling")
+        fcModel.TextNode.accessedProperties[propertyName] = true;
+
+        if (propertyName == "parentNode" || propertyName == "nextSibling" || propertyName == "previousSibling")
         {
-            this.addProperty.call(this, propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct));
+            this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct));
+        }
+        else if(propertyName == "textContent" || propertyName == "nodeType")
+        {
+            return this.getPropertyValue(propertyName, codeConstruct);
+        }
+        else
+        {
+            alert("Text node get element property not yet handled: " + propertyName);
+        }
+    },
+
+    addJsProperty: function(propertyName, propertyJsValue, codeConstruct)
+    {
+        fcModel.TextNode.accessedProperties[propertyName] = true;
+
+        if(propertyName == "textContent")
+        {
+            this.textNode[propertyName] = propertyJsValue.value;
+            this.addProperty(propertyName, propertyJsValue, codeConstruct);
+            return;
         }
 
-        return this.getPropertyValue(propertyName, codeConstruct);
+        alert("add property to text node not yet implemented");
     },
 
     notifyElementInsertedIntoDom: function(callExpression)
@@ -140,7 +163,7 @@ fcModel.TextNodeProto =
 
     notifyError: function(message) { alert("TextNode - " + message); }
 };
-
+fcModel.TextNode.accessedProperties = {};
 //https://developer.mozilla.org/en/DOM/element
 fcModel.TextNode.CONST =
 {

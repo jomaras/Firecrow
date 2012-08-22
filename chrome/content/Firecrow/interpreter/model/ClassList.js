@@ -38,8 +38,24 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
             this.globalObject.internalExecutor.expandWithInternalFunction(classList.remove, "remove");
             this.globalObject.internalExecutor.expandWithInternalFunction(classList.toggle, "toggle");
         }
+
+        this.getJsPropertyValue = function(propertyName, codeConstruct)
+        {
+            alert("get property Class");
+        };
+
+        this.addJsProperty = function(propertyName, value, codeConstruct)
+        {
+            alert("add property Class");
+        };
     }
     catch(e) { Firecrow.Interpreter.Model.ClassList.notifyError("Error when creating ClassList: " + e); }
+};
+
+fcModel.ClassList.createClassList = function(htmlElement, globalObject, codeConstruct)
+{
+    var jClassList = new fcModel.ClassList(htmlElement, globalObject, codeConstruct);
+    return new fcModel.JsValue(jClassList, new fcModel.FcInternal(codeConstruct, jClassList));
 };
 
 fcModel.ClassList.prototype = new fcModel.Object(null);

@@ -186,7 +186,19 @@ Firecrow.fbHelper =
     },
 
     getDocument: function() { return this.getCurrentPageDocument(); },
+    getDocumentForSimulating: function()
+    {
+        var fWindow = this.getWindowForSimulating();
 
+        return fWindow != null ? fWindow.document : null;
+    },
+    getWindowForSimulating: function()
+    {
+        var fcFrame = this.getFcFrame();
+
+        return fcFrame != null ? fcFrame.contentWindow : null;
+    },
+    getFcFrame: function() { return this.getElementByID("fcIFrame"); },
     getCurrentPageDocument: function()
     {
         try { return content.document; }
