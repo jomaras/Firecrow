@@ -210,7 +210,9 @@
                     return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
                 },
                 nodeName: function (elem, name)
-                {},
+                {
+                    return elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
+                },
                 each: function (object, callback, args)
                 {
                     var name, i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
@@ -260,7 +262,10 @@
                     var i = first.length, j = 0;
                     if(typeof (second.length) === 'number')
                     {
-                        for(var l = second.length;j < l;j++);
+                        for(var l = second.length;j < l;j++)
+                        {
+                            first[i++] = second[j];
+                        }
                     }
 
                     first.length = i;
@@ -276,7 +281,10 @@
                         for(;i < length;i++)
                         {
                             value = callback(elems[i], i, arg);
-                            if(value != null);
+                            if(value != null)
+                            {
+                                ret[ret.length] = value;
+                            }
                         }
                     }
 
@@ -412,6 +420,8 @@
             opt = select.appendChild(document.createElement('option'));
             input = div.getElementsByTagName('input')[0];
             support = {
+                leadingWhitespace: div.firstChild.nodeType === 3,
+                tbody: !(div.getElementsByTagName('tbody').length),
                 htmlSerialize: !(!(div.getElementsByTagName('link').length)),
                 style: /top/.test(a.getAttribute('style')),
                 hrefNormalized: a.getAttribute('href') === '/a',
@@ -420,11 +430,14 @@
                 optSelected: opt.selected,
                 getSetAttribute: div.className !== 't',
                 enctype: !(!(document.createElement('form').enctype)),
+                html5Clone: document.createElement('nav').cloneNode(true).outerHTML !== '<:nav></:nav>',
                 submitBubbles: true,
                 changeBubbles: true,
-                focusinBubbles: null
+                focusinBubbles: null,
+                noCloneEvent: true
             };
             input.checked = true;
+            support.noCloneChecked = input.cloneNode(true).checked;
             select.disabled = true;
             if(!(div.addEventListener));
 
@@ -436,6 +449,8 @@
             div.appendChild(input);
             fragment = document.createDocumentFragment();
             fragment.appendChild(div.lastChild);
+            support.checkClone = fragment.cloneNode(true).cloneNode(true).lastChild.checked;
+            support.appendChecked = input.checked;
             fragment.removeChild(input);
             fragment.appendChild(div);
             if(div.attachEvent);
@@ -639,7 +654,7 @@
                         }
                     }
 
-                    return q;
+                    return q || [];
                 }
             },
             dequeue: function (elem, type)
@@ -1430,14 +1445,241 @@
                 var r = [];
                 for(;n;n = n.nextSibling)
                 {
-                    if(n.nodeType === 1);
+                    if(n.nodeType === 1 && n !== elem)
+                    {
+                        r.push(n);
+                    }
                 }
 
                 return r;
             }
         });
+        function createSafeFragment (document)
+        {
+            var safeFrag = document.createDocumentFragment();
+            if(safeFrag.createElement);
+
+            return safeFrag;
+        }
+        var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rhtml = /<|&#?\w+;/, rnocache = /<(?:script|object|embed|option|style)/i, wrapMap = {
+            _default: [0, '', '']
+        }, safeFragment = createSafeFragment(document);
         if(!(jQuery.support.htmlSerialize));
 
+        jQuery.fn.extend({
+            text: function (value)
+            {},
+            wrapAll: function (html)
+            {},
+            wrapInner: function (html)
+            {},
+            wrap: function (html)
+            {},
+            unwrap: function ()
+            {},
+            append: function ()
+            {
+                return this.domManip(arguments, true, function (elem)
+                {
+                    if(this.nodeType === 1)
+                    {
+                        this.appendChild(elem);
+                    }
+                });
+            },
+            prepend: function ()
+            {},
+            before: function ()
+            {},
+            after: function ()
+            {},
+            remove: function (selector, keepData)
+            {},
+            empty: function ()
+            {
+                for(var i = 0, elem;(elem = this[i]) != null;i++)
+                {
+                    if(elem.nodeType === 1);
+
+                    while(elem.firstChild)
+                    {
+                        elem.removeChild(elem.firstChild);
+                    }
+                }
+
+                return this;
+            },
+            clone: function (dataAndEvents, deepDataAndEvents)
+            {},
+            html: function (value)
+            {},
+            replaceWith: function (value)
+            {},
+            detach: function (selector)
+            {},
+            domManip: function (args, table, callback)
+            {
+                var results, first, fragment, value = args[0], scripts = [];
+                if(!(jQuery.support.checkClone));
+
+                if(jQuery.isFunction(value));
+
+                if(this[0])
+                {
+                    if(jQuery.support.parentNode);
+                    else
+                    {
+                        results = jQuery.buildFragment(args, this, scripts);
+                    }
+
+                    fragment = results.fragment;
+                    if(fragment.childNodes.length === 1)
+                    {
+                        first = fragment = fragment.firstChild;
+                    }
+
+                    if(first)
+                    {
+                        table = table && jQuery.nodeName(first, 'tr');
+                        for(var i = 0, l = this.length;i < l;i++)
+                        {
+                            callback.call(table ? 0 : this[i], results.cacheable ? jQuery.clone(fragment, true, true) : 0);
+                        }
+                    }
+
+                    if(scripts.length);
+                }
+
+                return this;
+            }
+        });
+        jQuery.buildFragment = function (args, nodes, scripts)
+        {
+            var fragment, cacheable, cacheresults, doc, first = args[0];
+            if(nodes && nodes[0])
+            {
+                doc = nodes[0].ownerDocument;
+            }
+
+            if(!(doc.createDocumentFragment));
+
+            if(args.length === 1 && typeof first === 'string' && first.length < 512 && doc === document && first.charAt(0) === '<' && !(rnocache.test(first)) && jQuery.support.checkClone && jQuery.support.html5Clone)
+            {
+                cacheable = true;
+                cacheresults = jQuery.fragments[first];
+                if(cacheresults && cacheresults !== 1);
+            }
+
+            if(!fragment)
+            {
+                fragment = doc.createDocumentFragment();
+                jQuery.clean(args, doc, fragment, scripts);
+            }
+
+            if(cacheable)
+            {
+                jQuery.fragments[first] = cacheresults ? 0 : 1;
+            }
+
+            return {
+                fragment: fragment,
+                cacheable: cacheable
+            };
+        };
+        jQuery.fragments = {};
+        function getAll (elem)
+        {
+            if(typeof (elem.getElementsByTagName) !== 'undefined')
+            {
+                return elem.getElementsByTagName('*');
+            }
+        }
+        jQuery.extend({
+            clone: function (elem, dataAndEvents, deepDataAndEvents)
+            {
+                var srcElements, i, clone = jQuery.support.html5Clone ? elem.cloneNode(true) : 0;
+                if((!(jQuery.support.noCloneEvent) || !(jQuery.support.noCloneChecked)));
+
+                if(dataAndEvents)
+                {
+                    if(deepDataAndEvents)
+                    {
+                        srcElements = getAll(elem);
+                        getAll(clone);
+                        for(;srcElements[i];++i);
+                    }
+                }
+
+                return clone;
+            },
+            clean: function (elems, context, fragment, scripts)
+            {
+                var script, ret = [];
+                context = context;
+                if(typeof (context.createElement) === 'undefined');
+
+                for(var i = 0, elem;(elem = elems[i]) != null;i++)
+                {
+                    if(typeof elem === 'number');
+
+                    if(!elem);
+
+                    if(typeof elem === 'string')
+                    {
+                        if(!(rhtml.test(elem)));
+                        else
+                        {
+                            elem = elem.replace(rxhtmlTag, '<$1></$2>');
+                            var tag, wrap = wrapMap[tag] || wrapMap._default, depth = wrap[0], div = context.createElement('div'), safeChildNodes = safeFragment.childNodes;
+                            if(context === document)
+                            {
+                                safeFragment.appendChild(div);
+                            }
+
+                            div.innerHTML = (wrap[1] + elem) + wrap[2];
+                            while(depth--);
+                            if(!(jQuery.support.tbody));
+
+                            if(!(jQuery.support.leadingWhitespace));
+
+                            elem = div.childNodes;
+                            if(div)
+                            {
+                                div.parentNode.removeChild(div);
+                                if(safeChildNodes.length > 0);
+                            }
+                        }
+                    }
+
+                    if(!(jQuery.support.appendChecked));
+
+                    if(elem.nodeType);
+                    else
+                    {
+                        ret = jQuery.merge(ret, elem);
+                    }
+                }
+
+                if(fragment)
+                {
+                    for(i = 0;ret[i];i++)
+                    {
+                        script = ret[i];
+                        if(scripts && jQuery.nodeName(script, 'script'));
+                        else
+                        {
+                            if(script.nodeType === 1);
+
+                            fragment.appendChild(script);
+                        }
+                    }
+                }
+
+                return ret;
+            },
+            cleanData: function (elems)
+            {}
+        });
         var rupper = /([A-Z]|^ms)/g, rrelNum = /^([\-+])=([\-+.\de]+)/, curCSS, getComputedStyle;
         jQuery.extend({
             cssHooks: {
@@ -1477,6 +1719,7 @@
                     {
                         try
                         {
+                            console.log(value);
                             style[name] = value;
                         }
                         catch(e){}
@@ -1685,7 +1928,10 @@
                             opt.animatedProperties[name] = opt.specialEasing || opt.easing || 'swing';
                         }
 
-                        if((val === 'hide' && hidden) || (val === 'show' && !hidden));
+                        if((val === 'hide' && hidden) || (val === 'show' && !hidden))
+                        {
+                            return opt.complete.call(this);
+                        }
 
                         if(isElement && (name === 'height' || name === 'width'));
                     }
@@ -2084,63 +2330,69 @@
         </ul>
     </div>
     <script type="text/javascript">
-    $(document).ready(function ()
-    {
-        var activeButtons = $('#featureSelectorContainer .active');
-        var clickedButton;
-        if(activeButtons.length > 0)
+        $(document).ready(function ()
         {
-            clickedButton = activeButtons[0];
-        }
-
-        var featuresArray = [{title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
-        var buttons = $('#featureSelectorContainer a');
-        buttons.click(function (eventArgs)
-        {
-            if(clickedButton != null)
+            var activeButtons = $('#featureSelectorContainer .active');
+            var clickedButton;
+            if(activeButtons.length > 0)
             {
-                var previousButton = clickedButton;
+                clickedButton = activeButtons[0];
             }
 
-            clickedButton = eventArgs.currentTarget;
-            var buttonIndex = clickedButton.rel;
-            if(previousButton != null)
+            var featuresArray = [{imagePath: 'images/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {imagePath: 'images/features/PrIDE0.5.png', title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
+            var buttons = $('#featureSelectorContainer a');
+            buttons.click(function (eventArgs)
             {
-                previousButton.className = '';
-            }
+                if(clickedButton != null)
+                {
+                    var previousButton = clickedButton;
+                }
 
-            clickedButton.className = 'active';
-            changeFeature(buttonIndex);
-            return false;
+                clickedButton = eventArgs.currentTarget;
+                var buttonIndex = clickedButton.rel;
+                if(previousButton != null)
+                {
+                    previousButton.className = '';
+                }
+
+                clickedButton.className = 'active';
+                changeFeature(buttonIndex);
+                return false;
+            });
+            function changeFeature (newFeatureIndex)
+            {
+                var feature = featuresArray[newFeatureIndex];
+                var featureContainerChildren = $('#featureContainer').children();
+                var titles = $('.featureTitle');
+                var descriptions = $('.featureDescription');
+                featureContainerChildren.fadeOut(500, function ()
+                {
+                    $('#featureContainer').empty();
+                    if(feature.imagePath != null)
+                    {
+                        $('#featureContainer').append(('<img src=\'' + feature.imagePath) + '\'></img>').fadeIn(100);
+                    }
+                });
+                titles.fadeOut(500, function ()
+                {
+                    if(titles.length > 0)
+                    {
+                        titles[0].textContent = feature.title;
+                    }
+
+                    titles.fadeIn(100);
+                });
+                descriptions.fadeOut(500, function ()
+                {
+                    if(descriptions.length > 0)
+                    {
+                        descriptions[0].textContent = feature.description;
+                    }
+
+                    descriptions.fadeIn(100);
+                });
+            }
         });
-        function changeFeature (newFeatureIndex)
-        {
-            var feature = featuresArray[newFeatureIndex];
-            var featureContainerChildren = $('#featureContainer').children();
-            var titles = $('.featureTitle');
-            var descriptions = $('.featureDescription');
-            featureContainerChildren.fadeOut(200, function ()
-            {});
-            titles.fadeOut(200, function ()
-            {
-                if(titles.length > 0)
-                {
-                    titles[0].textContent = feature.title;
-                }
-
-                titles.fadeIn(100);
-            });
-            descriptions.fadeOut(200, function ()
-            {
-                if(descriptions.length > 0)
-                {
-                    descriptions[0].textContent = feature.description;
-                }
-
-                descriptions.fadeIn(100);
-            });
-        }
-    });
     </script>
 
     <div class="modalContent">

@@ -152,7 +152,7 @@ fcSimulator.Evaluator.prototype =
 
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
 
-            if(assignmentExpression.loc.start.line == 188)
+            if(assignmentExpression.loc.start.line == 206)
             {
                 var a = 3;
             }
@@ -294,7 +294,7 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
 
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
-            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 25)
+            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 212)
             {
                 var a = 3;
             }
@@ -522,7 +522,7 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 3312)
+            if(memberExpression.loc.start.line == 206)
             {
                 var a = 3;
             }

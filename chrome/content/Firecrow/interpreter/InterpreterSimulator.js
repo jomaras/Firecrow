@@ -53,11 +53,11 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                     if(command.codeConstruct.loc != null)
                     {
-                        if(command.codeConstruct.loc.start.line == 2940)
+                        if(command.codeConstruct.loc.start.line == 33 && ASTHelper.isMemberExpression(command.codeConstruct))
                         {
                             logExecution = true;
                         }
-                        else if(command.codeConstruct.loc.start.line == 43)
+                        else if(command.codeConstruct.loc.start.line == 35)
                         {
                             logExecution = false;
                         }

@@ -134,7 +134,7 @@ fcModel.TextNodeProto =
 
         if (propertyName == "parentNode" || propertyName == "nextSibling" || propertyName == "previousSibling")
         {
-            this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct));
+            return fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct);
         }
         else if(propertyName == "textContent" || propertyName == "nodeType" || propertyName == "nodeName" || propertyName == "ownerDocument")
         {

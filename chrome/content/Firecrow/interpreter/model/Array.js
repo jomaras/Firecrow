@@ -28,9 +28,11 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
         if(codeConstruct != null) { this.modifications.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});}
 
+        this.addProperty("length", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+
         for(var i = 0; i < this.jsArray.length; i++)
         {
-            this.push(jsArray, this.jsArray[i], codeConstruct, false);
+            this.push(jsArray, this.jsArray[i], codeConstruct, this, false);
         }
 
         //For RegEx result arrays
@@ -97,7 +99,7 @@ fcModel.ArrayProto =
         }
     },
 
-    push: function(jsArray, arguments, codeConstruct, dontFillJsArray)
+    push: function(jsArray, arguments, codeConstruct, jsValue, dontFillJsArray)
     {
         try
         {
@@ -539,7 +541,7 @@ fcModel.ArrayProto =
         {
             if(propertyName == "length")
             {
-                if(object.value[propertyName] !== propertyValue.value)
+                if(this.jsArray[propertyName] !== propertyValue.value)
                 {
                     console.log("Warning: Directly modifying array length property!");
                 }
