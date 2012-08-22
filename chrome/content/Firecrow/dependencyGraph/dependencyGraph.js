@@ -70,7 +70,7 @@ DependencyGraph.prototype.handleDataDependencyEstablished = function(sourceNodeM
     }
 };
 
-DependencyGraph.prototype.handleControlDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo)
+DependencyGraph.prototype.handleControlDependencyEstablished = function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo, isPreviouslyExecutedBlockStatementDependency)
 {
     try
     {
@@ -91,7 +91,9 @@ DependencyGraph.prototype.handleControlDependencyEstablished = function(sourceNo
             true,
             this.dependencyEdgesCounter++,
             dependencyCreationInfo,
-            destinationNodeDependencyInfo
+            destinationNodeDependencyInfo,
+            false,
+            isPreviouslyExecutedBlockStatementDependency
         );
     }
     catch(e)
@@ -127,6 +129,8 @@ DependencyGraph.prototype.markGraph = function(model)
     {
         var importantConstructDependencyIndexMapping = this.importantConstructDependencyIndexMapping;
         var breakContinueMapping = [];
+        this.previouslyExecutedBlockDependencies = [];
+
         for(var i = 0, length = importantConstructDependencyIndexMapping.length; i < length; i++)
         {
             var mapping = importantConstructDependencyIndexMapping[i];
@@ -153,6 +157,18 @@ DependencyGraph.prototype.markGraph = function(model)
                 this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
             }
         }
+        var inclusionFinder = new Firecrow.DependencyGraph.InclusionFinder();
+
+        for(var i = 0, length = this.previouslyExecutedBlockDependencies.length; i < length; i++)
+        {
+            var blockDependency = this.previouslyExecutedBlockDependencies[i];
+            //Because the dependency is added to the condition, and here, we want to traverse it
+            //only if some of at least one sub-expression is already included in the previous phases
+            if(inclusionFinder.isIncludedElement(blockDependency.codeConstruct.parent))
+            {
+                this.traverseAndMark(blockDependency.codeConstruct, blockDependency.maxDependencyIndex, blockDependency.dependencyConstraint, blockDependency.includedByNode);
+            }
+        }
 
         var postProcessor = new Firecrow.DependencyGraph.DependencyPostprocessor();
         postProcessor.processHtmlElement(model);
@@ -160,30 +176,10 @@ DependencyGraph.prototype.markGraph = function(model)
     catch(e) { this.notifyError("Error occurred when marking graph:" + e);}
 };
 
-_GLOBAL_HELPER = [];
-
 DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependencyIndex, dependencyConstraint, includedByNode)
 {
     try
     {
-        if(codeConstruct.nodeId == 33)
-        {
-            var a = 3;
-        }
-/*        if(includedByNode != null)
-        {
-            if(includedByNode.includesNodes == null) { includedByNode.includesNodes = []; }
-            includedByNode.includesNodes.push(codeConstruct);
-        }
-
-        if(codeConstruct.includedByNodes == null) { codeConstruct.includedByNodes = [];}
-        codeConstruct.includedByNodes.push(includedByNode);*/
-
-        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 11)
-        {
-            var a = 3;
-        }
-
         codeConstruct.shouldBeIncluded = true;
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
@@ -215,9 +211,17 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
                 continue;
             }
 
-            if(dependencyEdge.index == 3692)
+            if(dependencyEdge.isPreviouslyExecutedBlockStatementDependency)
             {
-                var a = 3;
+                this.previouslyExecutedBlockDependencies.push(
+                {
+                    codeConstruct:dependencyEdge.destinationNode.model,
+                    maxDependencyIndex: dependencyEdge.index,
+                    dependencyConstraint: dependencyConstraintToFollow,
+                    includedByNode:  dependencyEdge.sourceNode.model
+                });
+
+                continue;
             }
 
             this.traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);

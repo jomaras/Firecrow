@@ -422,7 +422,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 codeConstruct,
                 mapping.codeConstruct,
                 evaluationPositionId,
-                mapping.evaluationPositionId
+                mapping.evaluationPositionId,
+                true
             );
         }
     },
@@ -842,14 +843,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
 
             var callFunctionCommand = exitFunctionContextCommand.parentFunctionCommand;
 
-            //NOTICE - related to evalReturn in Evaluator
-            //if(callFunctionCommand.executedReturnCommand == null)
-            //{
-                var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-                evaluationPosition.isReturnDependency = true;
+            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+            evaluationPosition.isReturnDependency = true;
 
-                this.addDependenciesToPreviouslyExecutedBlockConstructs(callFunctionCommand.codeConstruct, evaluationPosition);
-            //}
+            this.addDependenciesToPreviouslyExecutedBlockConstructs(callFunctionCommand.codeConstruct, evaluationPosition);
         }
         catch(e) { this.notifyError("Error when exiting function context: " + e); }
     },

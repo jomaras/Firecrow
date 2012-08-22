@@ -6,14 +6,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping13.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/jQuery/17/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/TextNode.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/TextNode.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugJquery.html" afterPath="$PROJECT_DIR$/debug/debugJquery.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/pages/idtPride/index2.html" afterPath="$PROJECT_DIR$/tests/pages/idtPride/index2.html" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -61,7 +60,98 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="ExecutionContextStack.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="373" column="37" selection-start="14641" selection-end="14641" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="browser.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="580" column="164" selection-start="26375" selection-end="26419" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dependencyGraph.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="156" column="116" selection-start="5789" selection-end="5789" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index2.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/index2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="69" selection-start="340" selection-end="340" vertical-scroll-proportion="0.16152018">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="4" selection-start="317" selection-end="386" vertical-scroll-proportion="-3.9230769">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inclusionFinder.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="59" column="4" selection-start="1699" selection-end="1699" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dependencyPostprocessor.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="22" selection-start="238" selection-end="278" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="node.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="43" column="0" selection-start="2247" selection-end="2247" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/slicingTests/54/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="53" selection-start="22" selection-end="22" vertical-scroll-proportion="-0.65384614">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Evaluator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="477" column="16" selection-start="27911" selection-end="27911" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -75,21 +165,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js" />
-        <option value="$PROJECT_DIR$/debug/debugDom.html" />
-        <option value="$PROJECT_DIR$/debug/jQuery/16/index.html" />
-        <option value="$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping12.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js" />
         <option value="$PROJECT_DIR$/playground/test.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/debug/jQuery/17/index.html" />
         <option value="$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping13.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/TextNode.js" />
         <option value="$PROJECT_DIR$/debug/debugJquery.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
+        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
         <option value="$PROJECT_DIR$/tests/pages/idtPride/index2.html" />
       </list>
     </option>
@@ -224,64 +314,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jQueryModelMappings" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jQuery" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jQuery" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="17" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1262,7 +1294,11 @@
       <created>1345624811199</created>
       <updated>1345624811199</updated>
     </task>
-    <option name="localTasksCounter" value="207" />
+    <task id="LOCAL-00207" summary="Fade still not working as it should :-/&#10;&#10;Backup before implementing the algorithm that will include dependecies from the exit context only if they refer to code that would be included!">
+      <created>1345631993075</created>
+      <updated>1345631993075</updated>
+    </task>
+    <option name="localTasksCounter" value="208" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1287,14 +1323,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-290" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.494863" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49657536" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5187638" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16596258" sideWeight="0.45143488" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16596258" sideWeight="0.4812362" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270548" sideWeight="0.4996277" order="11" side_tool="true" content_ui="tabs" />
@@ -1348,7 +1384,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fully implemented replaced documentFragment with document" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fade still not working as it should :-/&#10;&#10;Backup before implementing the algorithm that will include dependecies from the exit context only if they refer to code that would be included!" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1361,7 +1397,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Plugin supports profiling every execution" />
     <MESSAGE value="Dom modifications as slicing criteria implemented" />
     <MESSAGE value="CSSStyle declarations method read methods implemented;&#10;When recording event traces - FF doesn't give function parameters if not explicitly stated - so if this value has an xPath expression (meaning a html element raised the event) and there is no argument - then the event gets a generic name, and this is also handled on the re-interpretation&#10;&#10;Added getComputedStyle function&#10;&#10;Fixed a bug with keeping all  modifications of html elements (were not present on function calls such as appendChild..)" />
     <MESSAGE value="There are still problems with fade - it works, but there are errors" />
@@ -1386,6 +1421,7 @@
     <MESSAGE value="Backup before replacing documentFragment with document" />
     <MESSAGE value="Replacing the documentFragment with the document" />
     <MESSAGE value="Fully implemented replaced documentFragment with document" />
+    <MESSAGE value="Fade still not working as it should :-/&#10;&#10;Backup before implementing the algorithm that will include dependecies from the exit context only if they refer to code that would be included!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1397,104 +1433,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/jQuery/12/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/jQuery/13/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="35" selection-start="0" selection-end="894" vertical-scroll-proportion="0.39766082">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/jQuery/11/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/jQuery/10/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="724" selection-end="21877" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/jQueryModelMappings/jQueryModelMapping13.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="2" selection-start="21153" selection-end="21153" vertical-scroll-proportion="0.15668203">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="40" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="487" column="4" selection-start="22167" selection-end="22167" vertical-scroll-proportion="0.3329493">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/TextNode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="57" selection-start="4834" selection-end="4834" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugJquery.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="75" selection-start="1135" selection-end="1135" vertical-scroll-proportion="-13.076923">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/jQuery/17/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="4" selection-start="663" selection-end="700" vertical-scroll-proportion="0.6362573">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="122.11539">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/index2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2384" column="38" selection-start="87202" selection-end="87202" vertical-scroll-proportion="0.756426">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="543" column="31" selection-start="20020" selection-end="20020" vertical-scroll-proportion="1.1947005">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/jQuery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6656" column="47" selection-start="252651" selection-end="252651" vertical-scroll-proportion="0.94009215">
@@ -1510,6 +1448,104 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/55/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="16" selection-start="145" selection-end="145" vertical-scroll-proportion="-5.269231">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="72" selection-start="5036" selection-end="5036" vertical-scroll-proportion="-17.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/01/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="31" selection-start="185" selection-end="185" vertical-scroll-proportion="0.17894737">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/54/index-sliced.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="8" selection-start="84" selection-end="84" vertical-scroll-proportion="0.11929824">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/54/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="53" selection-start="22" selection-end="22" vertical-scroll-proportion="-0.65384614">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="477" column="16" selection-start="27911" selection-end="27911" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="580" column="164" selection-start="26375" selection-end="26419" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="0" selection-start="2247" selection-end="2247" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="22" selection-start="238" selection-end="278" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="373" column="37" selection-start="14641" selection-end="14641" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="4" selection-start="1699" selection-end="1699" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="116" selection-start="5789" selection-end="5789" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="4" selection-start="317" selection-end="386" vertical-scroll-proportion="-3.9230769">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/pages/idtPride/index2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="69" selection-start="340" selection-end="340" vertical-scroll-proportion="0.16152018">
+          <folding />
         </state>
       </provider>
     </entry>
