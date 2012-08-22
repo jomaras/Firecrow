@@ -35,6 +35,10 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         {
             htmlElement.fcHtmlElementId = this.id;
             this.globalObject.document.htmlElementToFcMapping[this.id] = this;
+
+            this.addProperty("nodeType", new fcModel.JsValue(this.htmlElement.nodeType, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+            this.addProperty("nodeName", new fcModel.JsValue(this.htmlElement.nodeName, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+            this.addProperty("ownerDocument", this.globalObject.jsFcDocument, codeConstruct);
         }
 
         this.htmlElement.elementModificationPoints = [];
@@ -175,7 +179,7 @@ fcModel.HtmlElementProto =
               || propertyName == "parentNode" || propertyName == "lastChild"
               || propertyName == "nextSibling" || propertyName == "previousSibling")
         {
-            if(propertyValue == null || propertyValue.value.fcHtmlElementId != this.htmlElement[propertyName].fcHtmlElementId)
+            if(propertyValue == null || this.htmlElement[propertyName] == null || propertyValue.value.fcHtmlElementId == undefined || propertyValue.value.fcHtmlElementId != this.htmlElement[propertyName].fcHtmlElementId)
             {
                 propertyValue = fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct);
                 this.addProperty(propertyName, propertyValue, this.creationConstruct);
@@ -186,8 +190,9 @@ fcModel.HtmlElementProto =
               || propertyName == "offsetWidth" || propertyName == "offsetHeight" || propertyName == "offsetTop" || propertyName == "rel"
               || propertyName == "selected" || propertyName == "className" || propertyName == "enctype"
               || propertyName == "outerHTML" || propertyName == "disabled" || propertyName == "nodeName"
-              || propertyName == "test" || propertyName == "attachEvent" || propertyName == "matchesSelector"
               || propertyName == "scrollLeft" || propertyName == "scrollTop" || propertyName == "clientTop" || propertyName == "clientLeft"
+              //TODO - remove this jQuery stuff below
+              || propertyName == "test" || propertyName == "attachEvent" || propertyName == "matchesSelector" || propertyName == "opacity"
               || propertyName == "createElement" || propertyName == "currentStyle" || propertyName.indexOf("jQuery") != -1)
         {
             if(propertyValue == null || this.htmlElement[propertyName] != propertyValue.value)
@@ -204,7 +209,7 @@ fcModel.HtmlElementProto =
                 this.addProperty(propertyName, propertyValue, this.creationConstruct);
             }
         }
-        else if(propertyName == "onclick")
+        else if(propertyName == "onclick" || propertyName == "ownerDocument")
         {
             //nothing
         }
@@ -441,6 +446,7 @@ fcModel.HtmlElementExecutor =
             case "mozMatchesSelector":
             case "webkitMatchesSelector":
             case "compareDocumentPosition":
+            case "contains":
                 var result = false;
                 try
                 {

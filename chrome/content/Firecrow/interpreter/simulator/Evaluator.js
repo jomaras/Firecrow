@@ -152,7 +152,7 @@ fcSimulator.Evaluator.prototype =
 
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
 
-            if(assignmentExpression.loc.start.line == 6657)
+            if(assignmentExpression.loc.start.line == 188)
             {
                 var a = 3;
             }
@@ -218,23 +218,9 @@ fcSimulator.Evaluator.prototype =
                 if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
                 if (object.value == this.globalObject
-                ||  ValueTypeHelper.isOneOfTypes(object.value, [Document, DocumentFragment, HTMLElement, Text, Attr, CSSStyleDeclaration]))
+                ||  ValueTypeHelper.isOneOfTypes(object.value, [Document, DocumentFragment, HTMLElement, Text, Attr, CSSStyleDeclaration, Array]))
                 {
                     object.fcInternal.object.addJsProperty(property.value, finalValue, assignmentExpression);
-                }
-                else if (ValueTypeHelper.isArray(object.value))
-                {
-                    object.fcInternal.object.updateItem(property.value, finalValue, assignmentExpression);
-
-                    if(property.value == "length")
-                    {
-                        if(object.value[property.value] !== finalValue.value)
-                        {
-                            console.log("Warning: Directly modifying array length property!");
-                        }
-                    }
-
-                    object.value[property.value] = finalValue.value;
                 }
                 else
                 {
@@ -308,7 +294,7 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
 
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
-            if(identifierConstruct.loc != null && (identifierConstruct.loc.start.line == 456 || identifierConstruct.loc.start.line == 85 || identifierConstruct.loc.start.line == 67))
+            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 25)
             {
                 var a = 3;
             }
@@ -536,7 +522,7 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 68)
+            if(memberExpression.loc.start.line == 3312)
             {
                 var a = 3;
             }

@@ -515,29 +515,38 @@ fcModel.ArrayProto =
         catch(e) { this.notifyError("When join array: " + e); }
     },
 
-    updateItem: function(propertyName, newItem, codeConstruct)
-    {
-        try
-        {
-            if(ValueTypeHelper.isInteger(propertyName))
-            {
-                this.addDependenciesToAllProperties(codeConstruct);
-                var oldLength = this.items.length;
-                this.items[propertyName] = newItem;
-                this.addProperty(propertyName, newItem, codeConstruct);
-
-                if(this.items.length != oldLength)
-                {
-                    this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
-                }
-            }
-        }
-        catch(e) { this.notifyError("Error when updating item: " + e); }
-    },
-
     getJsPropertyValue: function(propertyName, codeConstruct)
     {
         return this.getPropertyValue(propertyName, codeConstruct);
+    },
+
+    addJsProperty: function(propertyName, propertyValue, codeConstruct)
+    {
+        if(ValueTypeHelper.isInteger(propertyName))
+        {
+            this.addDependenciesToAllProperties(codeConstruct);
+            var oldLength = this.items.length;
+            this.items[propertyName] = propertyValue;
+            this.jsArray[propertyName] = propertyValue;
+            this.addProperty(propertyName, propertyValue, codeConstruct);
+
+            if(this.items.length != oldLength)
+            {
+                this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
+            }
+        }
+        else
+        {
+            if(propertyName == "length")
+            {
+                if(object.value[propertyName] !== propertyValue.value)
+                {
+                    console.log("Warning: Directly modifying array length property!");
+                }
+            }
+
+            this.addProperty(propertyName, propertyValue, codeConstruct);
+        }
     },
 
     notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }

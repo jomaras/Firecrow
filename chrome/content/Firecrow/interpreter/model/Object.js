@@ -225,7 +225,7 @@ fcModel.Object.prototype =
                 propertyName,
                 function(property, propertyName)
                 {
-                    return property.name === propertyName;
+                    return property.name == propertyName;
                 }
             );
         }

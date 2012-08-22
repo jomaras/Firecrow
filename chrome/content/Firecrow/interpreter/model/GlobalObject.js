@@ -124,7 +124,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
                 if(!(htmlElement instanceof HTMLElement)) { return false; }
                 if(this.domModificationSlicingCriteria.length == 0) { return false; }
 
-                if(this.includeAllDomModifications && this.globalObject.origDocument.contains(htmlElement)) { return true; }
+                if(this.includeAllDomModifications) { return true; }
 
                 for(var i = 0; i < this.domModificationSlicingCriteria.length; i++)
                 {
