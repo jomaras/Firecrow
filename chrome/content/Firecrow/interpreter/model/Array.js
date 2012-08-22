@@ -78,7 +78,6 @@ fcModel.ArrayProto =
         try
         {
             if(codeConstruct == null) { return; }
-            a++;
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
