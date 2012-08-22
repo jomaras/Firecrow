@@ -407,7 +407,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         return constructsEvalPositions;
     },
 
-    addDependenciesToPreviouslyExecutedBlockConstructs: function(codeConstruct, evaluationPositionId)
+    addDependenciesToPreviouslyExecutedBlockConstructs: function(codeConstruct, evaluationPositionId, markAsPreviouslyExecutedBlockStatements)
     {
         var previouslyExecutedBlockConstructs = this.getPreviouslyExecutedBlockConstructs();
 
@@ -423,7 +423,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 mapping.codeConstruct,
                 evaluationPositionId,
                 mapping.evaluationPositionId,
-                true
+                markAsPreviouslyExecutedBlockStatements
             );
         }
     },
@@ -846,7 +846,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
             evaluationPosition.isReturnDependency = true;
 
-            this.addDependenciesToPreviouslyExecutedBlockConstructs(callFunctionCommand.codeConstruct, evaluationPosition);
+            this.addDependenciesToPreviouslyExecutedBlockConstructs(callFunctionCommand.codeConstruct, evaluationPosition, true);
         }
         catch(e) { this.notifyError("Error when exiting function context: " + e); }
     },

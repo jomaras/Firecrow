@@ -127,6 +127,7 @@ DependencyGraph.prototype.markGraph = function(model)
 {
     try
     {
+        alert(this.dependencyEdgesCounter);
         var importantConstructDependencyIndexMapping = this.importantConstructDependencyIndexMapping;
         var breakContinueMapping = [];
         this.previouslyExecutedBlockDependencies = [];
@@ -159,7 +160,7 @@ DependencyGraph.prototype.markGraph = function(model)
         }
         var inclusionFinder = new Firecrow.DependencyGraph.InclusionFinder();
 
-        for(var i = 0, length = this.previouslyExecutedBlockDependencies.length; i < length; i++)
+        for(var i = 0; i < this.previouslyExecutedBlockDependencies.length; i++)
         {
             var blockDependency = this.previouslyExecutedBlockDependencies[i];
             //Because the dependency is added to the condition, and here, we want to traverse it
