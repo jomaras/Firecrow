@@ -6,13 +6,11 @@
 </head>
 <body>
     <script>
-        var u = new URI("http://example.org/foobar.html?query=string");
+        u = new URI("../some/directory/foo.html");
 
-        u.pathname('/~userhome/@mine;is %2F and/');
-
-        var pathName = u.pathname();
-
-        var a1 = pathName == '/~userhome/@mine;is%20%2F%20and/';
+        u.path("/some/directory/foo.html");
+        u.directory('/~userhome/@mine;is %2F and/');
+        var a1 = u.path() =='/~userhome/@mine;is%20%2F%20and/foo.html';
 
         a1;
     </script>

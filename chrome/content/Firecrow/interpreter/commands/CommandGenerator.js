@@ -1205,14 +1205,12 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 //If it is directly gotten from mdc parser
                 if(sourceElement.value.constructor != null && sourceElement.value.constructor.name === "RegExp")
                 {
-                    regExCommand.regExLiteral = sourceElement.value.toString();
+                    regExCommand.regExLiteral = sourceElement.value;
                 }
                 else //over JSON conversion
                 {
-                    regExCommand.regExLiteral = atob(sourceElement.value.RegExpBase64);
+                    regExCommand.regExLiteral = ValueTypeHelper.adjustForRegExBug(sourceElement.value, atob(sourceElement.value.RegExpBase64));
                 }
-
-                regExCommand.regExLiteral = ValueTypeHelper.adjustForRegExBug(sourceElement.value, regExCommand.regExLiteral);
 
                 commands.push(regExCommand);
 

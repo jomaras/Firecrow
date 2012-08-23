@@ -6,7 +6,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/20-addQuery/index-sliced-b.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" afterPath="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/00-tests/index.html" afterPath="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/00-tests/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,22 +74,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/pages/line25AnimatedMenu/js/jquery.min.js" />
-        <option value="$PROJECT_DIR$/debug/pages/fancyCheckbox/index.html" />
-        <option value="$PROJECT_DIR$/debug/pages/fancyCheckbox/style.css.html" />
-        <option value="$PROJECT_DIR$/debug/pages/fancyCheckbox/style.css" />
-        <option value="$PROJECT_DIR$/debug/pages/ZebraAccordion/index.html" />
-        <option value="$PROJECT_DIR$/debug/pages/ZebraAccordion/javascript/jQuery.js" />
-        <option value="$PROJECT_DIR$/debug/pages/humanTypist/jQuery.js" />
-        <option value="$PROJECT_DIR$/debug/pages/ZebraAccordion/css/zebra_accordion.css" />
-        <option value="$PROJECT_DIR$/debug/pages/codeBubble/index.html" />
-        <option value="$PROJECT_DIR$/debug/pages/tabs/index.html" />
         <option value="$PROJECT_DIR$/debug/pages/modelMappings/codeBubble.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
         <option value="$PROJECT_DIR$/debug/pages/codeBubble/index-sliced.html" />
         <option value="$PROJECT_DIR$/debug/pages/modelMappings/fancyCheckbox.js" />
         <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/00-tests/index.html" />
+        <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/16-mutatingDirectory/index-sliced.html" />
+        <option value="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" />
+        <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/24-normalizePath/index-sliced.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
+        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
+        <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/20-addQuery/index-sliced.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       </list>
     </option>
   </component>
@@ -147,6 +154,198 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="medialize" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="medialize" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cases" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="medialize" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cases" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="24-normalizePath" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="medialize" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cases" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="16-mutatingDirectory" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -179,11 +378,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\20-addQuery" />
       <recent name="C:\GitWebStorm\Firecrow\debug\pages\tabs\js" />
       <recent name="C:\GitWebStorm\Firecrow\debug\pages\codeBubble\scripts" />
       <recent name="C:\GitWebStorm\Firecrow\debug\pages\ZebraAccordion\javascript" />
       <recent name="C:\GitWebStorm\Firecrow\debug\pages\line25AnimatedMenu\js" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\pages\jquerySlideshow\js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\debug\pages\ZebraAccordion\javascript" />
@@ -1128,7 +1327,11 @@
       <created>1345733345186</created>
       <updated>1345733345186</updated>
     </task>
-    <option name="localTasksCounter" value="214" />
+    <task id="LOCAL-00214" summary="added more test pages; Array slice on non-array objects; Expansions in HTMLElement">
+      <created>1345740911532</created>
+      <updated>1345740911532</updated>
+    </task>
+    <option name="localTasksCounter" value="215" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1167,6 +1370,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49448124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49657536" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
@@ -1182,7 +1386,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5187638" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.6474359" order="3" side_tool="false" content_ui="combo" />
@@ -1275,84 +1478,116 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/pages/jQueryCarousel/script/jQuery.js">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/16-mutatingDirectory/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2020" column="16" selection-start="77327" selection-end="77327" vertical-scroll-proportion="0.35253456" />
+        <state line="302" column="7" selection-start="9329" selection-end="9329" vertical-scroll-proportion="6.4923077">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/ZebraAccordion/index.html">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/24-normalizePath/index-sliced-b.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="41" selection-start="138" selection-end="138" vertical-scroll-proportion="-3.2692308" />
+        <state line="1" column="67" selection-start="22" selection-end="22" vertical-scroll-proportion="-0.65384614">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DR12.200/examples/public/css/style.css">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="34" selection-start="0" selection-end="1524" vertical-scroll-proportion="0.44381386" />
+        <state line="850" column="134" selection-start="35591" selection-end="35591" vertical-scroll-proportion="-10.76">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/ZebraAccordion/css/zebra_accordion.css">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/24-normalizePath/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="104" selection-start="496" selection-end="496" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/codeBubble/scripts/jQuery.js">
+    <entry file="file://$PROJECT_DIR$/debug/slicingModelMappingLarge.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="16" selection-start="1429" selection-end="1429" vertical-scroll-proportion="0.5875576" />
+        <state line="5" column="43" selection-start="250" selection-end="250" vertical-scroll-proportion="0.15567766">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/tabs/js/jQuery.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="187" column="22" selection-start="7193" selection-end="7193" vertical-scroll-proportion="0.37179488">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/tabs/index.html">
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="73" selection-start="2515" selection-end="2515" vertical-scroll-proportion="0.3942993" />
+        <state line="107" column="72" selection-start="5036" selection-end="5036" vertical-scroll-proportion="0.03269231">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/modelMappings/codeBubble.js">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/stanje">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="2" selection-start="21153" selection-end="21153" vertical-scroll-proportion="0.15668203" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/20-addQuery/index-sliced-b.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="107" selection-start="2998" selection-end="2998" vertical-scroll-proportion="0.0" />
+        <state line="26" column="21" selection-start="582" selection-end="582" vertical-scroll-proportion="-17.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/codeBubble/index.html">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/20-addQuery/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="26" selection-start="255" selection-end="2447" vertical-scroll-proportion="-22.23077" />
+        <state line="111" column="72" selection-start="3103" selection-end="3103" vertical-scroll-proportion="-10.846154">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/codeBubble/index-sliced.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="5" selection-start="2173" selection-end="2173" vertical-scroll-proportion="0.95961994" />
+        <state line="5" column="4" selection-start="72" selection-end="72" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="63" selection-start="8422" selection-end="8422" vertical-scroll-proportion="0.41129032" />
+        <state line="187" column="4" selection-start="6833" selection-end="6833" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="724" selection-end="21877" vertical-scroll-proportion="0.0" />
+        <state line="141" column="57" selection-start="8482" selection-end="8482" vertical-scroll-proportion="-15.08">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/modelMappings/fancyCheckbox.js">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/24-normalizePath/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="116" selection-end="116" vertical-scroll-proportion="0.09792627" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.095684804">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/fancyCheckbox/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="20" selection-start="2516" selection-end="2516" vertical-scroll-proportion="0.48456058" />
+        <state line="1215" column="44" selection-start="45429" selection-end="45429" vertical-scroll-proportion="0.76739925">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="53" selection-start="303" selection-end="303" vertical-scroll-proportion="0.19883041" />
+        <state line="416" column="62" selection-start="16996" selection-end="16996" vertical-scroll-proportion="0.52014655">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>

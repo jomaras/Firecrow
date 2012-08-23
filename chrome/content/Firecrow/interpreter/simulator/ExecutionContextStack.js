@@ -847,6 +847,16 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             evaluationPosition.isReturnDependency = true;
 
             this.addDependenciesToPreviouslyExecutedBlockConstructs(callFunctionCommand.codeConstruct, evaluationPosition, true);
+
+            if(callFunctionCommand.executedReturnCommand != null && callFunctionCommand.executedReturnCommand.codeConstruct.argument == null)
+            {
+                this.globalObject.browser.callControlDependencyEstablishedCallbacks
+                (
+                    callFunctionCommand.codeConstruct,
+                    callFunctionCommand.executedReturnCommand.codeConstruct,
+                    this.globalObject.getReturnExpressionPreciseEvaluationPositionId()
+                );
+            }
         }
         catch(e) { this.notifyError("Error when exiting function context: " + e); }
     },

@@ -133,7 +133,8 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(evalRegExCommand, Firecrow.Interpreter.Commands.Command) || !evalRegExCommand.isEvalRegExCommand()) { this.notifyError(evalRegExCommand, "Argument is not an EvalRegExCommand"); return; }
 
-            var regEx = eval(evalRegExCommand.regExLiteral);
+            var regEx = evalRegExCommand.regExLiteral instanceof RegExp ? evalRegExCommand.regExLiteral
+                                                                        : eval(evalRegExCommand.regExLiteral);
 
             this.executionContextStack.setExpressionValue
             (
