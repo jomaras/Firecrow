@@ -152,11 +152,6 @@ fcSimulator.Evaluator.prototype =
 
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
 
-            if(assignmentExpression.loc.start.line == 206)
-            {
-                var a = 3;
-            }
-
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var operator = evalAssignmentExpressionCommand.operator;
@@ -475,7 +470,6 @@ fcSimulator.Evaluator.prototype =
             }
             else
             {
-                this.executionContextStack.addDependenciesToPreviouslyExecutedBlockConstructs(evalReturnExpressionCommand.codeConstruct, false);
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getReturnExpressionPreciseEvaluationPositionId());
 
                 this.executionContextStack.setExpressionValueInPreviousContext
@@ -515,7 +509,7 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(memberExpression.loc.start.line == 206)
+            if(evalMemberExpressionCommand.id == 28830)
             {
                 var a = 3;
             }

@@ -1,0 +1,447 @@
+/*---------------*/
+/*-----Reset-----*/
+/*---------------*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{
+margin:0; padding:0; border:0; font-weight:inherit; font-style:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; line-height:inherit;
+}
+
+/*-----------------------*/
+/*-----Global Layout-----*/
+/*-----------------------*/
+
+body{font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; color:#fff; background:#333333 url(../img/body-bg.png) repeat-x;}
+  h1,h2,h3,h4,h5{}
+  h1{text-indent:-9999px;}
+  h2{font-size:27px; color:#8fedef;}
+  h3{font-size:17px; color:#8fedef;}
+  p{font-size:13px; line-height:26px;}
+  a{color:#f78a4e; text-decoration:underline;}
+  a:hover{text-decoration:none;}
+  a:focus{outline:0;}
+  ul{list-style-type:none;}
+  li{line-height:26px;}
+  em{font-style:italic;}
+  strong{font-weight:bold;}
+  input[type='text'], input[type='password'], input[type='file'], textarea, input.text{font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; color:#252525; font-size:15px; width:290px; height:21px; border:solid 1px #1a1a1a; padding:5px 0 5px 5px; margin-bottom:12px; background:#fff url(../img/form-bg.png) left top repeat-x;}
+  input[type='radio']{margin:12px 0 12px 0;}
+  select{margin:9px 0 12px 0;}
+  form{float:left; margin:15px 0 30px 0;}
+  #form_submit{margin-top:5px;}
+  table{float:left; margin-left:15px; border-collapse:collapse; border-spacing:0;}
+  table th{width:20%; padding:6px 8px 0 0; text-align:right; vertical-align:top; white-space:nowrap;}
+  table td{width:80%;}
+  span.errors input{color:#af5641; margin-bottom:6px; border-color:#af5641;}
+  span.formError{display:block; clear:both; font-size:13px; color:#af5641; width:277px; margin-bottom:16px; padding:5px 10px; background-color:#ffc9bc;}
+  .blue{color:#8fedef;}
+  .clear{clear:both;}
+
+/*-----Facebox-----*/
+
+#facebox .b {display:none;}
+#facebox .tl {display:none;}
+#facebox .tr {display:none;}
+#facebox .bl {display:none;}
+#facebox .br {display:none;}
+
+/*-----Minimal-----*/
+
+#minimalContainer{position:relative; width:496px; height:350px; margin:130px auto auto auto;}
+  #minimalContent{float:left; display:block; width:496px; padding-top:30px; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #minimalContent .logo{float:left; display:block; margin-left:82px;}
+  #minimalContent .logoError{float:left; display:block; margin:-51px 0 0 76px;}
+  h3.loginSubTitle{float:left; display:block; width:141px; height:37px; margin:30px 0 0 -15px; background:url('../img/login-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.forgotPasswordSubTitle{float:left; display:block; width:265px; height:37px; margin:30px 0 0 -15px; background:url('../img/forgot-password-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.errorSubTitle{float:left; display:block; width:134px; height:37px; margin:30px 0 0 -15px; background:url('../img/error-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.thankYouSubTitle{float:left; display:block; width:172px; height:37px; margin:30px 0 0 -15px; background:url('../img/thank-you-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.changePasswordSubTitle{float:left; display:block; width:243px; height:37px; margin:30px 0 0 -15px; background:url('../img/change-password-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.passwordChangedSubTitle{float:left; display:block; width:255px; height:37px; margin:30px 0 0 -15px; background:url('../img/password-changed-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.trialExpiredSubTitle{float:left; display:block; width:197px; height:37px; margin:30px 0 0 -15px; background:url('../img/trial-expired-sub-title.png') no-repeat; text-indent:-9999px;}
+  #minimalContent .content{float:left; display:block; width:464px; margin:30px 0 30px 15px;}
+  #minimalContent .content p{font-size:15px;}
+  .accountHolder{margin-top:15px;}
+  #minimalContent p.right{font-size:13px; text-align:right; margin-top:30px;}
+  #minimalContent .contentMessage{float:left; display:block; width:464px; margin:15px 0 0 15px;}
+  #minimalContent .contentMessage p{font-size:15px;}
+  #minimalContent .contentError{float:left; display:block; width:444px; margin:30px 0 30px 15px; text-align:center; padding:10px 10px; background-color:#ffc9bc;}
+  #minimalContent .contentError h2{margin-bottom:15px; color:#af5641;}
+  #minimalContent .contentError p{color:#af5641;}
+  #minimalContent input[type='image']{margin-bottom:16px;}
+  #minimalContent input.errors{color:#af5641; border-color:#af5641;}
+  td.verifyEmail{color:#8fedef; padding-bottom:15px;}
+  p.errors{display:block; clear:both; font-size:13px; color:#af5641; margin:0 0 15px 15px; padding:5px 10px; background-color:#ffc9bc;}
+  #minimalContent .content.cancelAccount{text-align:left;}
+  #minimalContent .content.cancelAccount p{text-align:left; line-height:18px; margin:0 0 12px 0; font-size:14px;}
+  #minimalContent .content.cancelAccount h2{margin:0 0 12px 0;}
+
+/*-----Minimal Large-----*/
+
+#minimalLargeContainer{position:relative; width:1000px; margin:0 auto auto auto;}
+  #minimalLargeContent{float:left; display:block; width:1000px;}
+  #minimalLargeContent .logo{float:left; display:block; margin:30px 0;}
+  .expiredMessage{float:left; display:block; width:968px; clear:both; padding:10px 15px; margin-bottom:30px; background-color:#ffc9bc; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  .expiredMessage h2{color:#af5641;}
+  .expiredMessage p{font-size:15px; color:#af5641;}
+  #minimalLargeContent .columnSeven{float:left; display:block; width:322px; margin-right:15px;}
+  #minimalLargeContent .columnEight{float:left; display:block; width:322px; margin-right:15px;}
+  #minimalLargeContent .columnNine{float:left; display:block; width:322px;}
+  #minimalLargeContent .columnOne{float:left; display:block; width:1000px; margin:15px 0 30px 0; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #minimalLargeContent .columnOne table{width:960px;}
+  #minimalLargeContent .columnOne td p{padding:0; margin:0;}
+  #minimalLargeContent .columnOne .hr{float:left; display:block; width:968px; height:1px; margin:15px 0 30px 15px; background:transparent url(../img/hr-dotted.png) repeat-x;}
+  input#account_terms{margin-top:-3px;}
+  h3.editYourCreditCardInformationSubTitle{float:left; display:block; width:400px; height:37px; margin:15px 0 15px -15px; background:url('../img/edit-your-credit-card-information-sub-title.png') no-repeat; text-indent:-9999px;}
+
+/*-----Header-----*/
+
+#colorBar{float:left; display:block; width:100%; height:6px; margin:0 auto; background:url(../img/color-bar-bg.png) repeat-x;}
+#headerContainer{float:left; display:block; width:100%; height:110px; margin:0 auto auto auto; background:url(../img/header-container-bg.png) repeat-x;}
+  #headerContent{position:relative; width:1000px; margin:0 auto auto auto; padding:0 40px;}
+  #headerContent .logo{float:left; display:block; margin-top:38px;}
+  .twitterButton{float:right; display:block; overflow:hidden; height:21px; width:171px; margin-top:15px; text-indent:-9999px;}
+  .twitterButton a{float:right; display:block; height:21px; width:171px; background:url(../img/follow-us-on-twitter-button.png) no-repeat left;}
+  .twitterButton a:hover{background-position:right;}
+  #navigationContent{float:right; display:block; margin-top:17px;}
+  .homeButton{float:left; display:block; overflow:hidden; height:33px; width:78px; text-indent:-9999px;}
+  .homeButtonRO{float:left; display:block; overflow:hidden; height:33px; width:78px; text-indent:-9999px; background:url(../img/home-button.png) no-repeat right;}
+  .homeButton a{float:left; display:block; height:33px; width:78px; background:url(../img/home-button.png) no-repeat left;}
+  .homeButton a:hover{background-position:right;}
+  .featuresButton{float:left; display:block; overflow:hidden; height:33px; width:92px; margin-left:11px; text-indent:-9999px;}
+  .featuresButtonRO{float:left; display:block; overflow:hidden; height:33px; width:92px; margin-left:11px; text-indent:-9999px; background:url(../img/features-button.png) no-repeat right;}
+  .featuresButton a{float:left; display:block; height:33px; width:92px; background:url(../img/features-button.png) no-repeat left;}
+  .featuresButton a:hover{background-position:right;}
+  .pressButton{float:left; display:block; overflow:hidden; height:33px; width:68px; margin-left:11px; text-indent:-9999px;}
+  .pressButtonRO{float:left; display:block; overflow:hidden; height:33px; width:68px; margin-left:11px; text-indent:-9999px; background:url(../img/press-button.png) no-repeat right;}
+  .pressButton a{float:left; display:block; height:33px; width:68px; background:url(../img/press-button.png) no-repeat left;}
+  .pressButton a:hover{background-position:right;}
+  .blogButton{float:left; display:block; overflow:hidden; height:33px; width:60px; margin-left:11px; text-indent:-9999px;}
+  .blogButtonRO{float:left; display:block; overflow:hidden; height:33px; width:60px; margin-left:11px; text-indent:-9999px; background:url(../img/blog-button.png) no-repeat right;}
+  .blogButton a{float:left; display:block; height:33px; width:60px; background:url(../img/blog-button.png) no-repeat left;}
+  .blogButton a:hover{background-position:right;}
+  .pricingSignUpButton{float:left; display:block; overflow:hidden; height:33px; width:157px; margin-left:22px; text-indent:-9999px;}
+  .pricingSignUpButtonRO{float:left; display:block; overflow:hidden; height:33px; width:157px; margin-left:22px; text-indent:-9999px; background:url(../img/pricing-sign-up-button.png) no-repeat right;}
+  .pricingSignUpButton a{float:left; display:block; height:33px; width:157px; background:url(../img/pricing-sign-up-button.png) no-repeat left;}
+  .pricingSignUpButton a:hover{background-position:right;}
+  .loginButton{float:left; display:block; overflow:hidden; height:33px; width:66px; margin-left:11px; text-indent:-9999px;}
+  .loginButton a{float:left; display:block; height:33px; width:66px; background:url(../img/login-button.png) no-repeat left;}
+  .loginButton a:hover{background-position:right;}
+  .dashboardButton{float:left; display:block; overflow:hidden; height:33px; width:112px; margin-left:22px; text-indent:-9999px;}
+  .dashboardButton a{float:left; display:block; height:33px; width:112px; background:url(../img/dashboard-button.png) no-repeat left;}
+  .dashboardButton a:hover{background-position:right;}
+  .logoutButton{float:left; display:block; overflow:hidden; height:33px; width:82px; margin-left:11px; text-indent:-9999px;}
+  .logoutButton a{float:left; display:block; height:33px; width:82px; background:url(../img/logout_button.png) no-repeat left;}
+  .logoutButton a:hover{background-position:right;}
+
+/*-----Top Home Content-----*/
+
+#topHomeContentContainer{float:left; display:block; width:100%; height:430px; margin:0 auto auto auto; background:#80f0f2 url(../img/top-home-content-bg.png) no-repeat top center;}
+  #topHomeContentContent{position:relative; width:1000px; height:430px; margin:0 auto auto auto; padding:0 40px;}
+  #topHomeContentContent .columnOne{float:left; display:block; width:395px;}
+  h1.painlessProposalsTitle{width:466px; height:71px; margin:30px 0 15px 0; background:url('../img/painless-proposals-title.png') no-repeat;}
+  #topHomeContentContent .columnOne p{font-size:17px; margin-bottom:30px;}
+  .freeTrialButton{float:left; display:block; overflow:hidden; height:78px; width:320px; text-indent:-9999px; margin: -20px 0 0 0;}
+  .freeTrialButton a{float:left; display:block; height:78px; width:320px; background:url(../img/free-trial-button.png) no-repeat left;}
+  .freeTrialButton a:hover{background-position:right;}
+  .learnAboutProposableButton{float:left; display:block; overflow:hidden; height:77px; width:320px; margin-top:10px; text-indent:-9999px;}
+  .learnAboutProposableButton a{float:left; display:block; height:77px; width:320px; background:url(../img/learn-about-proposable-button.png) no-repeat left;}
+  .learnAboutProposableButton a:hover{background-position:right;}
+  #topHomeContentContent .columnTwo{float:left; display:block; width:575px; margin-left:30px;}
+  .macScreenShot{margin-top:30px;}
+
+/*-----Middle Home Content-----*/
+
+#middleHomeContentContainer{float:left; display:block; width:100%; height:250px; margin:0 auto auto auto; background:#006e7a url(../img/middle-container-bg.png) repeat-x;}
+  #middleHomeContentContent{position:relative; width:1000px; height:250px; margin:30px auto auto auto; padding:0 40px;}
+  #middleHomeContentContent h2{text-indent:-9999px; margin-bottom:15px;}
+  h2.createTitle{width:131px; height:25px; background:url('../img/create-title.png') no-repeat;}
+  h2.deliverTitle{width:139px; height:25px; background:url('../img/deliver-title.png') no-repeat;}
+  h2.analyzeTitle{width:152px; height:25px; background:url('../img/analyze-title.png') no-repeat;}
+  #middleHomeContentContent .columnOne{float:left; display:block; width:312px;}
+  #middleHomeContentContent .columnTwo{float:left; display:block; width:312px;}
+  #middleHomeContentContent .columnThree{float:left; display:block; width:312px;}
+  #middleHomeContentContent .vr{float:left; display:block; width:1px; height:190px; margin:0 20px 0 10px; background:transparent url(../img/vr-dotted.png) repeat-y;}
+
+/*-----Top Content-----*/
+
+#topContentContainer{float:left; display:block; width:100%; height:91px; margin:0 auto auto auto; background:#8fedef url(../img/top-content-bg.png) no-repeat top center;}
+  #topContentContent{position:relative; width:1000px; height:91px; margin:0 auto auto auto; padding:0 40px;}
+  #topContentContent .columnOne{float:left; display:block; width:1000px;}
+  h1.featuresTitle{float:left; display:block; width:209px; height:33px; margin:30px 0 15px 0; background:url('../img/features-title.png') no-repeat;}
+  h1.pricingSignUpTitle{float:left; display:block; width:385px; height:33px; margin:30px 0 15px 0; background:url('../img/pricing-sign-up-title.png') no-repeat;}
+  h1.pressTitle{float:left; display:block; width:132px; height:33px; margin:30px 0 15px 0; background:url('../img/press-title.png') no-repeat;}
+  h1.privacyPolicyTitle{float:left; display:block; width:336px; height:33px; margin:30px 0 15px 0; background:url('../img/privacy-policy-title.png') no-repeat;}
+  h1.termsConditionsTitle{float:left; display:block; width:667px; height:33px; margin:30px 0 15px 0; background:url('../img/terms-and-conditions-title.png') no-repeat;}
+  h1.signUpJoinTitle{float:left; display:block; width:368px; height:33px; margin:30px 0 15px 0; background:url('../img/sign-up-join-title.png') no-repeat;}
+  #topContentContent .columnOne p{float:left; font-size:17px;}
+
+/*-----Middle Content-----*/
+
+#middleContentContainer{float:left; display:block; width:100%; height:200px; margin:0 auto auto auto; background:#006e7a url(../img/middle-container-bg.png) repeat-x;}
+  #middleContentContent{position:relative; width:1000px; height:200px; margin:30px auto auto auto; padding:0 40px;}
+  #middleContentContent h2{text-indent:-9999px; margin-bottom:15px;}
+  h2.createTitle{width:131px; height:25px; background:url('../img/create-title.png') no-repeat;}
+  h2.deliverTitle{width:139px; height:25px; background:url('../img/deliver-title.png') no-repeat;}
+  h2.analyzeTitle{width:152px; height:25px; background:url('../img/analyze-title.png') no-repeat;}
+  #middleContentContent .columnOne{float:left; display:block; width:312px;}
+  #middleContentContent .columnTwo{float:left; display:block; width:312px;}
+  #middleContentContent .columnThree{float:left; display:block; width:312px;}
+  #middleContentContent .vr{float:left; display:block; width:1px; height:140px; margin:0 20px 0 10px; background:transparent url(../img/vr-dotted.png) repeat-y;}
+
+/*-----Bottom Content-----*/
+
+#bottomContentContainer{float:left; display:block; width:100%; margin:0 auto auto auto; background:#333333 url(../img/bottom-container-bg.png) repeat-x;}
+  #bottomContentContent{position:relative; width:1000px; margin:0 auto auto auto; padding:0 40px;}
+  #bottomContentContent .hr{float:left; display:block; width:650px; height:1px; margin-bottom:30px; background:transparent url(../img/hr-dotted.png) repeat-x;}
+  #bottomContentContent .columnOne{float:left; display:block; width:1000px; margin-top:30px;}
+  #bottomContentContent .columnOne .article{float:left; display:block; width:293px; min-height:262px; margin:0 15px 15px 0; padding:15px; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #bottomContentContent .columnOne .last{width:294px; margin-right:0;}
+  #bottomContentContent .columnOne .article img{margin-bottom:15px;}
+  #bottomContentContent .columnOne .article strong{color:#f78a4e;}
+  #bottomContentContent .columnTwo{float:left; display:block; width:662px; margin-top:30px;}
+  #bottomContentContent .columnTwo .title{margin-bottom:15px;}
+  #bottomContentContent .columnTwo .article{float:left; display:block; width:662px; margin-bottom:15px;}
+  #bottomContentContent .columnTwo .article img{display: none;}
+  #bottomContentContent .columnTwo h3{font-size:21px;}
+  #bottomContentContent .columnTwo p{margin-bottom:15px;}
+  #bottomContentContent .columnTwo p.postTime{margin-bottom:0;}
+  ul.tags{padding-left:30px; margin-bottom:15px; background:url('../img/tag-icon-graphic.png') no-repeat 0 6px;}
+  ul.tags li{display:inline; font-size:13px;}
+  ul.permalink{list-style-type:none; width:468px; padding-left:20px; margin-bottom:15px; background:url('../img/permalink-icon-graphic.png') no-repeat 0 8px;}
+  ul.permalink a{font-size:13px;}
+  .viewArticleButton{float:left; display:block; overflow:hidden; height:31px; width:105px; margin-top:15px; text-indent:-9999px;}
+  .viewArticleButton a{float:left; display:block; height:31px; width:105px; background:url(../img/view-article-button.png) no-repeat left;}
+  .viewArticleButton a:hover{background-position:right;}
+  #bottomContentContent .columnThree{float:left; display:block; width:323px; margin:30px 0 30px 15px;}
+  #bottomContentContent .columnThree .article{float:left; display:block; width:293px; padding:15px; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  h3.signUpUpdatesSubTitle{float:left; display:block; width:263px; height:37px; margin:0 0 15px -30px; background:url('../img/sign-up-updates-sub-title.png') no-repeat; text-indent:-9999px;}
+  #bottomContentContent .columnThree .article form{float:left; display:block; margin:0;}
+  #bottomContentContent .columnThree .article table{margin:0;}
+  h3.fromTwitterSubTitle{float:left; display:block; width:162px; height:29px; margin-top:15px; background:url('../img/from-twitter-sub-title.png') no-repeat; text-indent:-9999px;}
+  .whatsBeingSaidQuoteLeft{float:left; width:20px;}
+  .whatsBeingSaidQuoteRight{float:right; width:20px;}
+  #whatsBeingSaidText{float:left; width:240px;}
+  #whatsBeingSaidText ul{text-align:center;}
+  #whatsBeingSaidText a{color:#8fedef; text-decoration:none;}
+  #whatsBeingSaidText .loader{float:left; display:block; margin:5px 10px 0 60px;}
+  #whatsBeingSaidText .loaderText{font-size:15px;}
+  #bottomContentContent .columnFour{float:right; display:block; width:340px; margin-top:30px;}
+  #bottomContentContent .columnFour .createFeatureTitleContent{float:left; display:block; width:320px; height:56px; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #bottomContentContent .columnFour .createFeatureTitleContentRO{float:left; display:block; width:340px; height:56px; background-color:#404040; border-radius:10px 0 0 10px; -moz-border-radius:10px 0 0 10px; -webkit-border-top-left-radius:10px; -webkit-border-bottom-left-radius:10px;}
+  h2.createFeatureTitle{width:131px; height:25px; margin:15px 0 0 15px;background:url('../img/create-feature-title.png') no-repeat; text-indent:-9999px;}
+  .proposalBuilderFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; margin-top:17px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .proposalBuilderFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/proposal-builder-feature-button.png) no-repeat left;}
+  .proposalBuilderFeatureButton a:hover{background-position:right;}
+  .proposalBuilderFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; margin-top:17px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .proposalBuilderFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/proposal-builder-feature-button.png) no-repeat right;}
+  .richMediaFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .richMediaFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/rich-media-feature-button.png) no-repeat left;}
+  .richMediaFeatureButton a:hover{background-position:right;}
+  .richMediaFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .richMediaFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/rich-media-feature-button.png) no-repeat right;}
+  .templatesFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .templatesFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/templates-feature-button.png) no-repeat left;}
+  .templatesFeatureButton a:hover{background-position:right;}
+  .templatesFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .templatesFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/templates-feature-button.png) no-repeat right;}
+  .libraryFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; border-bottom:1px solid #404040; text-indent:-9999px;}
+  .libraryFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/library-feature-button.png) no-repeat left;}
+  .libraryFeatureButton a:hover{background-position:right;}
+  .libraryFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; border-bottom:1px solid #404040; text-indent:-9999px;}
+  .libraryFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/library-feature-button.png) no-repeat right;}
+  #bottomContentContent .columnFour .deliverFeatureTitleContent{float:left; display:block; width:320px; height:56px; margin-top:30px; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #bottomContentContent .columnFour .deliverFeatureTitleContentRO{float:left; display:block; width:340px; height:56px; margin-top:30px; background-color:#404040; border-radius:10px 0 0 10px; -moz-border-radius:10px 0 0 10px; -webkit-border-top-left-radius:10px; -webkit-border-bottom-left-radius:10px;}
+  h2.deliverFeatureTitle{width:141px; height:25px; margin:15px 0 0 15px;background:url('../img/deliver-feature-title.png') no-repeat; text-indent:-9999px;}
+  .brandingFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; margin-top:17px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .brandingFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/branding-feature-button.png) no-repeat left;}
+  .brandingFeatureButton a:hover{background-position:right;}
+  .brandingFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; margin-top:17px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .brandingFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/branding-feature-button.png) no-repeat right;}
+  .commentsFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .commentsFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/comments-feature-button.png) no-repeat left;}
+  .commentsFeatureButton a:hover{background-position:right;}
+  .commentsFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .commentsFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/comments-feature-button.png) no-repeat right;}
+  .realTimeEditingFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .realTimeEditingFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/real-time-editing-feature-button.png) no-repeat left;}
+  .realTimeEditingFeatureButton a:hover{background-position:right;}
+  .realTimeEditingFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .realTimeEditingFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/real-time-editing-feature-button.png) no-repeat right;}
+  .securityFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; border-bottom:1px solid #404040; text-indent:-9999px;}
+  .securityFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/security-feature-button.png) no-repeat left;}
+  .securityFeatureButton a:hover{background-position:right;}
+  .securityFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; border-bottom:1px solid #404040; text-indent:-9999px;}
+  .securityFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/security-feature-button.png) no-repeat right;}
+  #bottomContentContent .columnFour .analyzeFeatureTitleContent{float:left; display:block; width:320px; height:56px; margin-top:30px; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #bottomContentContent .columnFour .analyzeFeatureTitleContentRO{float:left; display:block; width:340px; height:56px; margin-top:30px; background-color:#404040; border-radius:10px 0 0 10px; -moz-border-radius:10px 0 0 10px; -webkit-border-top-left-radius:10px; -webkit-border-bottom-left-radius:10px;}
+  h2.analyzeFeatureTitle{width:153px; height:25px; margin:15px 0 0 15px;background:url('../img/analyze-feature-title.png') no-repeat; text-indent:-9999px;}
+  .notificationsFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; margin-top:17px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .notificationsFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/notifications-feature-button.png) no-repeat left;}
+  .notificationsFeatureButton a:hover{background-position:right;}
+  .notificationsFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; margin-top:17px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .notificationsFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/notifications-feature-button.png) no-repeat right;}
+  .analyticsFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .analyticsFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/analytics-feature-button.png) no-repeat left;}
+  .analyticsFeatureButton a:hover{background-position:right;}
+  .analyticsFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; text-indent:-9999px;}
+  .analyticsFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/analytics-feature-button.png) no-repeat right;}
+  .salesManagersFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; border-bottom:1px solid #404040; text-indent:-9999px;}
+  .salesManagersFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/sales-managers-feature-button.png) no-repeat left;}
+  .salesManagersFeatureButton a:hover{background-position:right;}
+  .salesManagersFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; border-top:1px solid #404040; border-bottom:1px solid #404040; text-indent:-9999px;}
+  .salesManagersFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/sales-managers-feature-button.png) no-repeat right;}
+  #bottomContentContent .columnFour .extrasFeatureTitleContent{float:left; display:block; width:320px; height:56px; margin-top:30px; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #bottomContentContent .columnFour .extrasFeatureTitleContentRO{float:left; display:block; width:340px; height:56px; margin-top:30px; background-color:#404040; border-radius:10px 0 0 10px; -moz-border-radius:10px 0 0 10px; -webkit-border-top-left-radius:10px; -webkit-border-bottom-left-radius:10px;}
+  h2.extrasFeatureTitle{width:130px; height:26px; margin:15px 0 0 15px;background:url('../img/extras-feature-title.png') no-repeat; text-indent:-9999px;}
+  .integrationFeatureButton{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; margin:17px 0 20px 0; border-top:1px solid #404040; border-bottom:1px solid #404040; text-indent:-9999px;}
+  .integrationFeatureButton a{float:left; display:block; height:36px; width:368px; background:url(../img/integration-feature-button.png) no-repeat left;}
+  .integrationFeatureButton a:hover{background-position:right;}
+  .integrationFeatureButtonRO{float:left; display:block; overflow:hidden; height:36px; width:368px; padding:3px 0 1px 0; margin:17px 0 20px 0; border-top:1px solid #404040; border-bottom:1px solid #404040; text-indent:-9999px;}
+  .integrationFeatureButtonRO a{float:left; display:block; height:36px; width:368px; background:url(../img/integration-feature-button.png) no-repeat right;}
+  #bottomContentContent .columnFive{float:right; display:block; width:660px; height:1000px; margin:30px 0 30px 0; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #bottomContentContent .columnFive h2{margin:15px 0 15px 45px;}
+  #bottomContentContent .columnFive p{font-size:15px; margin:15px 15px 15px 45px;}
+  #bottomContentContent .columnFive p.comments{margin-top:55px;}
+  #bottomContentContent .columnFive p.realTimeEditing{margin-top:33px;}
+  #bottomContentContent .columnFive p.breadCrumbs{font-size:13px; padding-bottom:5px; border-bottom:1px solid #737373;}
+  #bottomContentContent .columnFive ol{float:left; width:510px; margin-left:20px;}
+  #bottomContentContent .columnFive li{margin-bottom:15px;}
+  #bottomContentContent .columnFive img{float:left; margin:0 15px 15px 40px;}
+  #bottomContentContent .columnFive img.viewProposalGraphic{float:none; margin:2px 0 15px 0;}
+  #bottomContentContent .columnFive img.securityGraphic{float:left;}
+  #bottomContentContent .columnFiveCreate{float:right; display:block; width:660px; height:1000px; margin:30px 0 30px 0; background-color:#404040; border-radius:0 10px 10px 10px; -moz-border-radius:0 10px 10px 10px; -webkit-border-top-right-radius:10px; -webkit-border-bottom-right-radius:10px; -webkit-border-bottom-left-radius:10px;}
+  #bottomContentContent .columnFiveCreate h2{margin:15px 0 15px 45px;}
+  #bottomContentContent .columnFiveCreate p{font-size:15px; margin:15px 15px 15px 45px;}
+  #bottomContentContent .columnFiveCreate p.breadCrumbs{font-size:13px; padding-bottom:5px; border-bottom:1px solid #737373;}
+  #bottomContentContent .columnFiveCreate img{float:left; margin:0 15px 15px 40px;}
+  #bottomContentContent .columnSix{float:left; display:block; width:1000px; margin:30px 0; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #bottomContentContent .columnSix table{width:960px;}
+  #bottomContentContent .columnSix #form_submit{margin-top:10px;}
+  #bottomContentContent .columnSix .hr{float:left; display:block; width:968px; height:1px; margin:15px 0 30px 15px; background:transparent url(../img/hr-dotted.png) repeat-x;}
+  #bottomContentContent .integrationImage {float:left; margin:0 15px 15px 1px !important;}
+  input#account_terms{margin-top:-3px;}
+  h3.enterYourAccountInformationSubTitle{float:left; display:block; width:385px; height:37px; margin:15px 0 15px -15px; background:url('../img/enter-your-account-information-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.enterYourUserInformationSubTitle{float:left; display:block; width:349px; height:37px; margin:0 0 15px -15px; background:url('../img/enter-your-user-information-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.enterYourCreditCardInformationSubTitle{float:left; display:block; width:415px; height:37px; margin:0 0 15px -15px; background:url('../img/enter-your-credit-card-information-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.enterYourUserInformationTeamAccountSubTitle{float:left; display:block; width:349px; height:37px; margin:15px 0 15px -15px; background:url('../img/enter-your-user-information-sub-title.png') no-repeat; text-indent:-9999px;}
+  h3.recentPressSubTitle{float:left; display:block; width:202px; height:37px; margin:15px 0 15px -15px; background:url('../img/recent-press-sub-title.png') no-repeat; text-indent:-9999px;}
+  .recentPressContent{float:left; display:block; width:968px; margin:0 0 15px 16px;}
+  .recentPressContent .recentPressContentColumn{float:left; display:block; width:968px;}
+  .recentPressContent .logo{margin:0 0 15px -8px;}
+  .pressQuoteLeft{float:left; width:20px; margin:0 10px 0 0;}
+  .pressQuoteRight{float:right; width:20px; margin:0;}
+  .pressQuoteText{float:left; width:908px;}
+  .recentPressContent p{text-align:right;}
+  p.quote{text-align:center; font-size:17px; color:#8fedef; margin-bottom:10px;}
+  .pressQuoteInfo{float:left; width:968px;}
+  h3.proprosablePressKitSubTitle{float:left; display:block; width:279px; height:37px; margin:15px 0 15px -15px; background:url('../img/proposable-press-kit-sub-title.png') no-repeat; text-indent:-9999px;}
+  #pressKitContent{float:left; display:block; width:968px; margin-left:16px;}
+  #pressKitContent .vr{float:left; display:block; width:1px; height:370px; margin:0 16px 30px 16px; background:transparent url(../img/vr-dotted.png) repeat-y;}
+  #pressKitContent .pressKitContentColumn{float:left; display:block; width:300px;}
+  #pressKitContent .pressKitContentColumn img{float:left; display:block; margin:23px 0 0 -8px;}
+  #pressKitContent .pressKitContentColumn ul{float:left; display:block; margin-top:16px;}
+  #pressKitContent .pressKitContentColumn ul.download li{padding-left:16px; margin-bottom:10px; background:url('../img/download-icon-graphic.png') no-repeat 0 6px;}
+  #pressKitContent .pressKitContentColumn ul.biography li{padding-left:16px; margin:8px 0 10px 8px; background:url('../img/download-icon-graphic.png') no-repeat 0 6px;}
+  #pressKitContent .pressKitContentColumn ul.pressRelease li{padding-left:20px; margin-bottom:10px; background:url('../img/link-icon-graphic.png') no-repeat 0 6px;}
+  h3.downloadableLogosSubTitle{float:left; display:block; width:209px; height:16px; margin-top:16px; background:url('../img/downloadable-logos-sub-title.png') no-repeat; text-indent:-9999px;}
+  .downloadAllLogoVersionsButton{float:left; display:block; overflow:hidden; width:220px; height:31px; margin-top:16px; text-indent:-9999px;}
+  .downloadAllLogoVersionsButton a{float:left; display:block; width:220px; height:31px; background:url(../img/download-all-logo-versions-button.png) no-repeat left;}
+  .downloadAllLogoVersionsButton a:hover{background-position:right;}
+  h3.founderBiographyImageSubTitle{float:left; display:block; width:259px; height:16px; margin-top:16px; background:url('../img/founder-biography-image-sub-title.png') no-repeat; text-indent:-9999px;}
+  .downloadFounderBiographyImageButton{float:left; display:block; overflow:hidden; width:280px; height:31px; margin-top:30px; text-indent:-9999px;}
+  .downloadFounderBiographyImageButton a{float:left; display:block; width:280px; height:31px; background:url(../img/download-founder-biography-image-button.png) no-repeat left;}
+  .downloadFounderBiographyImageButton a:hover{background-position:right;}
+  h3.pressReleaseSubTitle{float:left; display:block; width:138px; height:16px; margin-top:16px; background:url('../img/press-release-sub-title.png') no-repeat; text-indent:-9999px;}
+  .downloadPdfVersionButton{float:left; display:block; overflow:hidden; width:176px; height:31px; margin-top:16px; text-indent:-9999px;}
+  .downloadPdfVersionButton a{float:left; display:block; width:176px; height:31px; background:url(../img/download-pdf-version-button.png) no-repeat left;}
+  .downloadPdfVersionButton a:hover{background-position:right;}
+  #bottomContentContent .columnSeven{float:left; display:block; width:322px; margin:30px 15px 15px 0;}
+  #bottomContentContent .columnEight{float:left; display:block; width:322px; margin:30px 15px 30px 0;}
+  #bottomContentContent .columnNine{float:left; display:block; width:322px; margin:30px 0;}
+  h2.basicPricingPlanTitle{width:322px; height:78px; margin:0; background:url('../img/basic-pricing-plan-title.png') no-repeat; text-indent:-9999px;}
+  h2.proPricingPlanTitle{width:322px; height:78px; margin:0; background:url('../img/pro-pricing-plan-title.png') no-repeat; text-indent:-9999px;}
+  h2.teamPricingPlanTitle{width:322px; height:78px; margin:0; background:url('../img/team-pricing-plan-title.png') no-repeat; text-indent:-9999px;}
+  .pricingButtonContent{float:left; display:block; width:322px; background-color:#404040;}
+  .pricingContent{float:left; display:block; width:322px; min-height:570px; background-color:#404040; border-radius:0 0 10px 10px; -moz-border-radius:0 0 10px 10px; -webkit-border-bottom-right-radius:10px; -webkit-border-bottom-left-radius:10px;}
+  .pricingContent ul{width:290px; margin-left:15px;}
+  .pricingContent li{border-bottom:1px solid #737373; padding:14px 0 14px 22px; background:url('../img/check-icon-graphic.png') no-repeat 0px 22px;}
+  .pricingContent li.top{border-top:1px solid #737373; border-bottom:1px solid #737373; margin-top:15px; padding:14px 0 14px 22px;}
+  .pricingContent li.bottom{border-bottom:none;}
+  .pricingContent li.asterisk{border:none; margin:15px 0; padding:0; background:none; color:#8fedef; font-size:13px; line-height:15px;}
+  .choosePlanBasicPricingButton{display:block; overflow:hidden; height:33px; margin:15px 0 0 0; text-indent:-9999px;}
+  .choosePlanBasicPricingButtonRO{display:block; overflow:hidden; width:149px; height:33px; margin:15px auto 0 auto; text-indent:-9999px; background:url(../img/selected-plan-basic-pricing-plan-button.png) no-repeat left;}
+  .choosePlanBasicPricingButton a{display:block; height:33px; width:138px; background:url(../img/choose-plan-basic-pricing-plan-button.png) no-repeat left; margin: 0 auto;}
+  .choosePlanBasicPricingButton a:hover{background-position:right;}
+  .choosePlanProPricingButton{display:block; overflow:hidden; height:33px; margin:15px 0 0 0; text-indent:-9999px;}
+  .choosePlanProPricingButtonRO{display:block; overflow:hidden; width:149px; height:33px; margin:15px auto 0 auto; text-indent:-9999px; background:url(../img/selected-plan-pro-pricing-plan-button.png) no-repeat left;}
+  .choosePlanProPricingButton a{display:block; height:33px; width:138px; background:url(../img/choose-plan-pro-pricing-plan-button.png) no-repeat left; margin: 0 auto;}
+  .choosePlanProPricingButton a:hover{background-position:right;}
+  .choosePlanTeamPricingButton{display:block; height:33px; margin:15px 0 0 0; text-indent:-9999px;}
+  .choosePlanTeamPricingButtonRO{display:block; width:149px; height:33px; margin:15px auto 0 auto; text-indent:-9999px; background:url(../img/selected-plan-team-pricing-plan-button.png) no-repeat left;}
+  .choosePlanTeamPricingButton a{display:block; height:33px; width:138px; background:url(../img/choose-plan-team-pricing-plan-button.png) no-repeat left; margin: 0 auto;}
+  .choosePlanTeamPricingButton a:hover{background-position:right;}
+  .changePlanBasicPricingButton{display:block; overflow:hidden; height:33px;  margin:15px 0 0 0; text-indent:-9999px;}
+  .changePlanBasicPricingButtonRO{ display:block; overflow:hidden; width:149px; height:33px; margin:15px auto 0 auto; text-indent:-9999px; background:url(../img/selected-plan-basic-pricing-plan-button.png) no-repeat left;}
+  .changePlanBasicPricingButton a{ display:block; height:33px; width:123px; background:url(../img/change-plan-basic-pricing-plan-button.png) no-repeat left; margin: 0 auto;}
+  .changePlanBasicPricingButton a:hover{background-position:right;}
+  .changePlanProPricingButton{display:block; overflow:hidden; height:33px; margin:15px 0 0 0; text-indent:-9999px;}
+  .changePlanProPricingButtonRO{display:block; overflow:hidden; width:149px; height:33px; margin:15px auto 0 auto; text-indent:-9999px; background:url(../img/selected-plan-pro-pricing-plan-button.png) no-repeat left;}
+  .changePlanProPricingButton a{display:block; height:33px; width:123px; background:url(../img/change-plan-pro-pricing-plan-button.png) no-repeat left; margin: 0 auto;}
+  .changePlanProPricingButton a:hover{background-position:right;}
+  .changePlanTeamPricingButton{display:block; height:33px; margin:15px 0 0 0; text-indent:-9999px;}
+  .changePlanTeamPricingButtonRO{display:block; width:149px; height:33px; margin:15px auto 0 auto; text-indent:-9999px; background:url(../img/selected-plan-team-pricing-plan-button.png) no-repeat left;}
+  .changePlanTeamPricingButton a{display:block; height:33px; width:123px; background:url(../img/change-plan-team-pricing-plan-button.png) no-repeat left; margin: 0 auto;}
+  .changePlanTeamPricingButton a:hover{background-position:right;}
+  #bottomContentContent .columnTen{float:left; display:block; width:1000px; margin:30px 0; padding:15px 15px 30px 15px; background-color:#404040; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+  #bottomContentContent .columnTen h2{margin:0;}
+  #bottomContentContent .columnTen h3{color:#f78a4e; margin-top:15px;}
+  #bottomContentContent .columnTen p{font-size:15px; margin-top:15px;}
+  #bottomContentContent .columnTen ul{padding-left:45px; color:#8fedef;}
+  #bottomContentContent .columnTen li{margin-top:15px; list-style-type:disc;}
+  #bottomContentContent .columnEleven{float:left; display:block; width:1000px; margin-top:30px;}
+  #bottomContentContent .columnEleven h3{font-weight:bold; font-style:italic;}
+  #bottomContentContent .columnEleven p{font-size:17px; margin-bottom:15px;}
+
+/*-----Footer-----*/
+
+#footerContainer{float:left; display:block; width:100%; min-height:234px; margin:0 auto auto auto; background:#006e7a url(../img/footer-container-bg.png) repeat-x;}
+  #footerContent{position:relative; width:1000px; margin:0 auto auto auto; padding:0 40px;}
+  #footerContent .columnOne{float:left; display:block; margin:30px 0;}
+  #footerContent .columnOne a{color:#fff; font-size:11px; text-transform:uppercase; text-decoration:none;}
+  #footerContent .columnOne a:hover{text-decoration:underline;}
+  #footerContent .columnTwo{float:left; display:block; width:210px; margin:30px 0 0 30px;}
+  #footerContent .columnThree{float:left; display:block; margin:30px 0 0 30px;}
+  #footerContent .vr{float:left; display:block; width:1px; height:180px; margin:10px 30px 0 30px; background:transparent url(../img/vr-dotted.png) repeat-y;}
+  #footerContent p{font-size:11px; line-height:16px;}
+  #footerContent ul{float:left; display:block;}
+  .giveUsFeedbackButton{float:left; display:block; overflow:hidden; height:71px; width:210px; margin-bottom:15px; text-indent:-9999px;}
+  .giveUsFeedbackButton a{float:left; display:block; height:71px; width:210px; background:url(../img/give-us-feedback-button.png) no-repeat left;}
+  .giveUsFeedbackButton a:hover{background-position:right;}
+  
+  /* Testimonials */
+  #testimonials {
+  margin:10px auto;
+
+  }
+  #testimonials blockquote{
+  padding:0px;
+  width:550px !important;
+  font-style:italic;
+  font-size:13px;
+  color:#fff;
+  display:block;
+  }
+
+  #testimonials blockquote p{
+  margin: 0 !important;padding: 0px!important;
+
+  }
+  #testimonials blockquote cite {
+  font-style: normal;
+  display: block;
+
+  font-weight: bold;
+  font-style:italic;
+  color: #fff;
+  padding-left:5px;
+  margin-top:5px;
+  }

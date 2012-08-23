@@ -1212,6 +1212,8 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                     regExCommand.regExLiteral = atob(sourceElement.value.RegExpBase64);
                 }
 
+                regExCommand.regExLiteral = ValueTypeHelper.adjustForRegExBug(sourceElement.value, regExCommand.regExLiteral);
+
                 commands.push(regExCommand);
 
                 return commands;

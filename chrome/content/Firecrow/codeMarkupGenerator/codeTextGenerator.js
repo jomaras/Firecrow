@@ -128,7 +128,7 @@ Firecrow.CodeTextGenerator.prototype =
             }
             else if (htmlElement.type == "textNode")
             {
-                return valueTypeHelper.trim(htmlElement.textContent);
+                return htmlElement.textContent;
             }
             else
             {
@@ -136,7 +136,7 @@ Firecrow.CodeTextGenerator.prototype =
 
                 if(children.length == 1 && children[0].type == "textNode")
                 {
-                    htmlElementContent = valueTypeHelper.trim(children[0].textContent);
+                    htmlElementContent = children[0].textContent;
                     hasOnlyTextContent = true;
                 }
                 else
@@ -1114,14 +1114,17 @@ Firecrow.CodeTextGenerator.prototype =
             else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
             else if(valueTypeHelper.isObject(literal.value))
             {
+                var regExString = "";
                 if(literal.value.constructor != null && literal.value.constructor.name === "RegExp")
                 {
-                    return literal.value.toString();
+                    regExString = literal.value.toString();
                 }
                 else //over JSON conversion
                 {
-                    return atob(literal.value.RegExpBase64);
+                    regExString = atob(literal.value.RegExpBase64);
                 }
+
+                return valueTypeHelper.adjustForRegExBug(literal.value, regExString);
             }
         }
         catch(e) { this.notifyError("Error when generating from literal:" + e);}

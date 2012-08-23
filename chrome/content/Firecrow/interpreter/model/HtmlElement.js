@@ -179,7 +179,9 @@ fcModel.HtmlElementProto =
               || propertyName == "parentNode" || propertyName == "lastChild"
               || propertyName == "nextSibling" || propertyName == "previousSibling")
         {
-            if(propertyValue == null || this.htmlElement[propertyName] == null || propertyValue.value.fcHtmlElementId == undefined || propertyValue.value.fcHtmlElementId != this.htmlElement[propertyName].fcHtmlElementId)
+            if(propertyValue == null || propertyValue.value == null || this.htmlElement[propertyName] == null
+            || propertyValue.value.fcHtmlElementId == undefined
+            || propertyValue.value.fcHtmlElementId != this.htmlElement[propertyName].fcHtmlElementId)
             {
                 propertyValue = fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct);
                 this.addProperty(propertyName, propertyValue, this.creationConstruct);

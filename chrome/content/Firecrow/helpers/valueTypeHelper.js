@@ -303,6 +303,21 @@ Firecrow.ValueTypeHelper =
     {
         var indexOf = string.substring(startpos || 0).search(regex);
         return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+    },
+
+    //TODO - quickfixing the Firefox create RegEx from literal bug
+    adjustForRegExBug: function(regExElement, regExString)
+    {
+        if(regExElement == null || regExElement.parent == null
+        || regExElement.parent.loc == null || regExElement.parent.loc.source.indexOf("medialize") == -1)
+        {
+            return regExString;
+        }
+
+        //IT seems that Firefox regEx functionality differs if it /someRegEx/gi or /someRegEx/ig -> bug, iritating bug
+        //but in the parse tree it does not show //ig but //gi regardless of what is put
+        //So if it is part of the medialize library that i'm testing do that replacement
+        return regExString.replace(/\/gi$/, "/ig");
     }
 }
 /******/

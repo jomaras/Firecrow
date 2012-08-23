@@ -10,14 +10,14 @@
 <script type="text/javascript">
 (function (window, undefined)
 {
-    var document = window.document, navigator = window.navigator;
+    var document = window.document;
     var jQuery = (function ()
     {
         var jQuery = function (selector, context)
         {
             return new jQuery.fn.init(selector, context, rootjQuery);
-        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rnotwhite = /\S/, rwebkit = /(webkit)[ \/]([\w.]+)/, ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/, rmsie = /(msie) ([\w.]+)/, rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function (all, letter)
-        {}, userAgent = navigator.userAgent, browserMatch, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
+        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function (all, letter)
+        {}, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
         jQuery.fn = jQuery.prototype = {
             constructor: jQuery,
             init: function (selector, context, rootjQuery)
@@ -35,8 +35,6 @@
                     return this;
                 }
 
-                if(selector === 'body');
-
                 if(typeof selector === 'string')
                 {
                     if(selector.charAt(0) === '<');
@@ -53,8 +51,6 @@
                             elem = document.getElementById(match[2]);
                             if(elem && elem.parentNode)
                             {
-                                if(elem.id !== match[2]);
-
                                 this.length = 1;
                                 this[0] = elem;
                             }
@@ -108,10 +104,6 @@
         jQuery.extend = jQuery.fn.extend = function ()
         {
             var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
-            if(typeof target === 'boolean');
-
-            if(typeof target !== 'object' && !(jQuery.isFunction(target)));
-
             if(length === i)
             {
                 target = this;
@@ -125,8 +117,6 @@
                     for(name in options)
                     {
                         copy = options[name];
-                        if(target === copy);
-
                         if(deep);
                         else if(copy !== undefined)
                         {
@@ -277,13 +267,7 @@
                 return (new Date()).getTime();
             },
             uaMatch: function (ua)
-            {
-                ua = ua.toLowerCase();
-                var match = rwebkit.exec(ua) || ropera.exec(ua) || rmsie.exec(ua) || (ua.indexOf('compatible') < 0 && rmozilla.exec(ua));
-                return {
-                    browser: match[1]
-                };
-            },
+            {},
             sub: function ()
             {},
             browser: {}
@@ -292,13 +276,6 @@
         {
             class2type[('[object ' + name) + ']'] = name.toLowerCase();
         });
-        browserMatch = jQuery.uaMatch(userAgent);
-        if(browserMatch.browser);
-
-        if(jQuery.browser.webkit);
-
-        if(rnotwhite.test(' '));
-
         rootjQuery = jQuery(document);
         if(document.addEventListener)
         {
@@ -372,35 +349,22 @@
         };
         return self;
     };
-    jQuery.support = (function ()
+    (function ()
     {
-        var support, all, a, select, input, fragment, tds, div = document.createElement('div');
+        var select, input, tds, div = document.createElement('div');
         div.setAttribute('className', 't');
         div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
-        all = div.getElementsByTagName('*');
-        a = div.getElementsByTagName('a')[0];
-        if(!all || !(all.length) || !a);
-
         select = document.createElement('select');
         select.appendChild(document.createElement('option'));
         input = div.getElementsByTagName('input')[0];
-        support = {};
         input.checked = true;
         select.disabled = true;
-        if(!(div.addEventListener));
-
         input = document.createElement('input');
         input.value = 't';
         input.setAttribute('type', 'radio');
         input.setAttribute('checked', 'checked');
         input.setAttribute('name', 't');
         div.appendChild(input);
-        fragment = document.createDocumentFragment();
-        fragment.appendChild(div.lastChild);
-        fragment.removeChild(input);
-        fragment.appendChild(div);
-        if(div.attachEvent);
-
         jQuery(function ()
         {
             var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
@@ -441,12 +405,10 @@
             if(window.getComputedStyle)
             {
                 div.style.marginTop = '1%';
-                support.pixelMargin = (window.getComputedStyle(div, null)).marginTop !== '1%';
             }
 
             body.removeChild(container);
         });
-        return support;
     })();
     jQuery.extend({
         cache: {},
@@ -457,8 +419,6 @@
         {},
         data: function (elem, name, data, pvt)
         {
-            if(!(jQuery.acceptData(elem)));
-
             var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
             if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
             {
@@ -476,20 +436,13 @@
             if(!(cache[id]))
             {
                 cache[id] = {};
-                if(!isNode);
             }
 
-            if(typeof name === 'object' || typeof name === 'function');
-
             thisCache = cache[id];
-            if(!pvt);
-
             if(data !== undefined)
             {
                 thisCache[jQuery.camelCase(name)] = data;
             }
-
-            if(isEvents && !(thisCache[name]));
 
             if(getByName)
             {
@@ -530,15 +483,7 @@
             return jQuery.data(elem, name, data, true);
         },
         acceptData: function (elem)
-        {
-            if(elem.nodeName)
-            {
-                var match = jQuery.noData[elem.nodeName.toLowerCase()];
-                if(match);
-            }
-
-            return true;
-        }
+        {}
     });
     jQuery.extend({
         _mark: function (elem, type)
@@ -738,12 +683,8 @@
         dispatch: function (event)
         {
             event = jQuery.event.fix(event);
-            var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), special = jQuery.event.special[event.type] || {}, handlerQueue = [], i, j, ret, matched, handleObj;
+            var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, ret, matched, handleObj;
             args[0] = event;
-            if(special.preDispatch);
-
-            if(delegateCount);
-
             if(handlers.length > delegateCount)
             {
                 handlerQueue.push({
@@ -765,53 +706,24 @@
                         if(ret !== undefined)
                         {
                             event.result = ret;
-                            if(ret === false);
                         }
                     }
                 }
             }
 
-            if(special.postDispatch);
-
             return event.result;
         },
-        props: 'attrChange attrName relatedNode srcElement altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which'.split(' '),
         fixHooks: {},
         mouseHooks: {
-            props: 'button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement'.split(' '),
             filter: function (event, original)
             {
-                var button = original.button;
-                if(event.pageX == null && original.clientX != null);
-
-                if(!(event.relatedTarget));
-
-                if(!(event.which) && button !== undefined);
-
                 return event;
             }
         },
         fix: function (event)
         {
-            if(event[jQuery.expando]);
-
-            var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type], copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
+            var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
             event = jQuery.Event(originalEvent);
-            for(i = copy.length;i;)
-            {
-                prop = copy[--i];
-                event[prop] = originalEvent[prop];
-            }
-
-            if(!(event.target))
-            {
-                event.target = originalEvent.srcElement || document;
-            }
-
-            if(event.target.nodeType === 3);
-
-            if(event.metaKey === undefined);
-
             return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
         },
         special: {
@@ -978,13 +890,10 @@
         find: function (selector)
         {
             var i, l;
-            if(typeof selector !== 'string');
-
             var ret = this.pushStack('', 'find', selector);
             for(i = 0, l = this.length;i < l;i++)
             {
                 jQuery.find(selector, this[i], ret);
-                if(i > 0);
             }
 
             return ret;
@@ -1028,8 +937,6 @@
         cssProps: {},
         style: function (elem, name, value, extra)
         {
-            if(!elem || elem.nodeType === 3 || elem.nodeType === 8 || !(elem.style));
-
             var ret, origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
             name = jQuery.cssProps[origName] || origName;
             if(value !== undefined)
@@ -1057,8 +964,6 @@
             name = jQuery.camelCase(name);
             hooks = jQuery.cssHooks[name];
             name = jQuery.cssProps[name] || name;
-            if(name === 'cssFloat');
-
             if(hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
             {
                 return ret;
@@ -1080,10 +985,7 @@
             if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
             {
                 ret = computedStyle.getPropertyValue(name);
-                if(ret === '');
             }
-
-            if(!(jQuery.support.pixelMargin));
 
             return ret;
         };
@@ -1278,8 +1180,6 @@
         },
         cur: function ()
         {
-            if(this.elem[this.prop] != null);
-
             var parsed, r = jQuery.css(this.elem, this.prop);
             return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
         },
@@ -1326,15 +1226,8 @@
                 this.now = this.end;
                 this.update();
                 options.animatedProperties[this.prop] = true;
-                for(p in options.animatedProperties)
-                {
-                    if(options.animatedProperties[p] !== true);
-                }
-
                 if(done)
                 {
-                    if(options.overflow != null);
-
                     if(options.hide)
                     {
                         jQuery(elem).hide();
