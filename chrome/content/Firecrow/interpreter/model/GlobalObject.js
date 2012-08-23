@@ -36,6 +36,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.booleanFunction = new fcModel.BooleanFunction(this);
         this.stringFunction = new fcModel.StringFunction(this);
         this.arrayFunction = new fcModel.ArrayFunction(this);
+        this.imageFunction = new fcModel.ImageFunction(this);
         this.regExFunction = new fcModel.RegExFunction(this);
         this.objectFunction = new fcModel.ObjectFunction(this);
         this.numberFunction = new fcModel.NumberFunction(this);
@@ -48,6 +49,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.jsFcDocument = new fcModel.JsValue(this.origDocument, new fcModel.FcInternal(null, this.document));
 
         this.addProperty("Array", new fcModel.JsValue(this.arrayFunction, new fcModel.FcInternal(null, this.arrayFunction)) , null);
+        this.addProperty("Image", new fcModel.JsValue(this.imageFunction, new fcModel.FcInternal(null, this.imageFunction)) , null);
         this.addProperty("RegExp", new fcModel.JsValue(this.regExFunction, new fcModel.FcInternal(null, this.regExFunction)) , null);
         this.addProperty("String", new fcModel.JsValue(this.stringFunction, new fcModel.FcInternal(null, this.stringFunction)) , null);
         this.addProperty("Object", new fcModel.JsValue(this.objectFunction, new fcModel.FcInternal(null, this.objectFunction)) , null);
@@ -121,7 +123,6 @@ fcModel.GlobalObject = function(browser, documentFragment)
             try
             {
                 if(htmlElement == null) { return false; }
-                if(!(htmlElement instanceof HTMLElement)) { return false; }
                 if(this.domModificationSlicingCriteria.length == 0) { return false; }
 
                 if(this.includeAllDomModifications) { return true; }
@@ -393,6 +394,21 @@ fcModel.GlobalObjectExecutor =
     {
         return globalObject.origWindow[functionName] != null && ValueTypeHelper.isFunction(globalObject.origWindow[functionName]);
     }
+};
+
+fcModel.ImageFunction = function(globalObject)
+{
+    try
+    {
+        this.__proto__ = new fcModel.Object(globalObject);
+
+        this.addProperty("src", new fcModel.JsValue("", new fcModel.FcInternal()));
+
+        this.isInternalFunction = true;
+        this.name = "Image";
+        this.fcInternal = { object: this };
+    }
+    catch(e){ fcModel.GlobalObject.notifyError("Error when createing  image function: " + e); }
 };
 
 /*************************************************************************************/

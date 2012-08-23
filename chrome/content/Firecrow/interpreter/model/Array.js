@@ -99,10 +99,24 @@ fcModel.ArrayProto =
             fcModel.ArrayProto.addDependenciesToAllProperties.call(this, codeConstruct);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
-            if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
+            var lengthProperty = this.getProperty("length");
+            var length = lengthProperty != null && lengthProperty.value != null ? lengthProperty.value.value : 0;
 
-            var lengthProperty = this.getPropertyValue("length");
-            var length = lengthProperty != null ? lengthProperty.value : 0;
+            if(!isCalledOnArray)
+            {
+                this.addDependencyToAllModifications(codeConstruct);
+
+                if(lengthProperty != null && lengthProperty.lastModificationConstruct != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        codeConstruct,
+                        lengthProperty.lastModificationConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        lengthProperty.lastModificationConstruct.evaluationPositionId
+                    );
+                }
+            }
 
             arguments = ValueTypeHelper.isArray(arguments) ? arguments : [arguments];
 
@@ -422,15 +436,41 @@ fcModel.ArrayProto =
             fcModel.ArrayProto.addDependenciesToAllProperties.call(this, callExpression);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
-            if(!isCalledOnArray) { alert("Slice called on non-array!");}
+            var lengthProperty = this.getProperty("length");
+            var length = lengthProperty != null && lengthProperty.value != null ? lengthProperty.value.value : 0;
 
-            var lengthProperty = this.getPropertyValue("length");
-            var length = lengthProperty != null ? lengthProperty.value : 0;
+            if(!isCalledOnArray)
+            {
+                this.addDependencyToAllModifications(callExpression);
+
+                if(lengthProperty != null && lengthProperty.lastModificationConstruct != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        callExpression,
+                        lengthProperty.lastModificationConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        lengthProperty.lastModificationConstruct.evaluationPositionId
+                    );
+                }
+
+                var indexProperties = this.getPropertiesWithIndexNames();
+
+                var substituteObject = {};
+
+                for(var i = 0; i < indexProperties.length; i++)
+                {
+                    var property = indexProperties[i];
+                    substituteObject[property.name] = property.value;
+                }
+
+                substituteObject.length = length;
+            }
 
             return this.globalObject.internalExecutor.createArray
             (
                 callExpression,
-                jsArray.slice.apply(jsArray, callArguments.map(function(argument){ return argument.value}))
+                [].slice.apply((isCalledOnArray ? jsArray : substituteObject), callArguments.map(function(argument){ return argument.value}))
             );
         }
         catch(e) { this.notifyError("When slicing array: " + e);}

@@ -374,8 +374,8 @@ fcSimulator.Evaluator.prototype =
             else if (operator == ">>>") { result = leftExpressionValue.value >>> rightExpressionValue.value; }
             else if (operator == "+")
             {
-                if(typeof leftExpressionValue.value == "object" && !(leftExpressionValue.value instanceof String)
-                || (typeof rightExpressionValue.value == "object" && !(rightExpressionValue.value instanceof String)))
+                if(typeof leftExpressionValue.value == "object" && !(leftExpressionValue.value instanceof String) && leftExpressionValue.value != null
+                || (typeof rightExpressionValue.value == "object" && !(rightExpressionValue.value instanceof String) && rightExpressionValue.value != null))
                 {
                     //TODO - temp jQuery hack
                     if(ValueTypeHelper.isArray(leftExpressionValue.value) && ValueTypeHelper.isArray(rightExpressionValue.value))

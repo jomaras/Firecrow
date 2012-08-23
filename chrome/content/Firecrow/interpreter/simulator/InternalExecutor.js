@@ -324,6 +324,11 @@ fcSimulator.InternalExecutor.prototype =
             {
                 return this.createArray(constructorConstruct, Array.apply(null, arguments));
             }
+            else if(internalConstructor.value == this.globalObject.imageFunction)
+            {
+                var obj = {};
+                return new fcModel.JsValue(obj, new fcModel.FcInternal(constructorConstruct, new fcModel.Object(this.globalObject, constructorConstruct, obj)));
+            }
             else if(internalConstructor.value == this.globalObject.regExFunction)
             {
                 return this.createRegEx(constructorConstruct, RegExp.apply(null, arguments.map(function(item) { return item.value; })));

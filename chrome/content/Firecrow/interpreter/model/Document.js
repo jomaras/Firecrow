@@ -71,8 +71,8 @@ fcModel.Document = function(document, globalObject)
         {
             if(_isMethod(propertyName) || propertyName == "nodeType"
              || propertyName == "compatMode" || propertyName == "parentNode"
-             || propertyName == "nodeName" || propertyName.indexOf("jQuery") != -1
-             || propertyName == "onready" || propertyName == "ownerDocument")
+             || propertyName == "nodeName"  || propertyName == "onready" || propertyName == "ownerDocument"
+             || propertyName == "oninit"|| propertyName == "init" || propertyName.toLowerCase().indexOf("jquery") != -1) //jQuery property accessors - remove
             {
                 return this.getPropertyValue(propertyName, codeConstruct);
             }
@@ -220,8 +220,21 @@ fcModel.DocumentExecutor =
             var selector = arguments[0].value;
 
             if(functionName == "getElementsByClassName") { selector = "." + selector; }
-
-            var elements = thisObjectValue.querySelectorAll(selector);
+            var elements = [];
+            try
+            {
+                elements = thisObjectValue.querySelectorAll(selector);
+            }
+            catch(e)
+            {
+                globalObject.executionContextStack.callExceptionCallbacks
+                (
+                    {
+                        exceptionGeneratingConstruct: callExpression,
+                        isMatchesSelectorException: true
+                    }
+                );
+            }
 
             for(var i = 0, length = elements.length; i < length; i++)
             {
@@ -236,7 +249,21 @@ fcModel.DocumentExecutor =
 
             if(functionName == "getElementById") { selector = "#" + selector; }
 
-            var element = thisObjectValue.querySelector(selector);
+            var element = null;
+            try
+            {
+                element = thisObjectValue.querySelector(selector);
+            }
+            catch(e)
+            {
+                globalObject.executionContextStack.callExceptionCallbacks
+                (
+                    {
+                        exceptionGeneratingConstruct: callExpression,
+                        isMatchesSelectorException: true
+                    }
+                );
+            }
 
             if(element == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
 

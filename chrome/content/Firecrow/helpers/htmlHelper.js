@@ -60,6 +60,8 @@ Firecrow.htmlHelper =
                 nodeId: this._lastUsedId++
             };
 
+            if(elem.type == null) { return null;}
+
             var that = this;
 
             if(rootElement instanceof Text
@@ -181,7 +183,12 @@ Firecrow.htmlHelper =
         {
             for(var i = 0; i < rootElement.childNodes.length;i++)
             {
-                allNodes.push(this.getSimplifiedElement(rootElement.childNodes[i], scriptPathsAndModels, stylesPathsAndModels));
+                var simplifiedNode = this.getSimplifiedElement(rootElement.childNodes[i], scriptPathsAndModels, stylesPathsAndModels);
+
+                if(simplifiedNode != null)
+                {
+                    allNodes.push(simplifiedNode);
+                }
             }
         }
         catch(e) {alert("Children:" + e);}

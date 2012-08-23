@@ -195,7 +195,8 @@ fcModel.HtmlElementProto =
               || propertyName == "scrollLeft" || propertyName == "scrollTop" || propertyName == "clientTop" || propertyName == "clientLeft"
               //TODO - remove this jQuery stuff below
               || propertyName == "test" || propertyName == "attachEvent" || propertyName == "matchesSelector" || propertyName == "opacity"
-              || propertyName == "createElement" || propertyName == "currentStyle" || propertyName.indexOf("jQuery") != -1)
+              || propertyName == "createElement" || propertyName == "currentStyle" || propertyName.toLowerCase().indexOf("jquery") != -1
+              || propertyName == "left" || propertyName == "top")
         {
             if(propertyValue == null || this.htmlElement[propertyName] != propertyValue.value)
             {
@@ -394,7 +395,22 @@ fcModel.HtmlElementExecutor =
             case "getElementsByTagName":
             case "getElementsByClassName":
             case "querySelectorAll":
-                var elements = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                var elements = [];
+
+                try
+                {
+                    elements = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                }
+                catch(e)
+                {
+                    globalObject.executionContextStack.callExceptionCallbacks
+                    (
+                        {
+                            exceptionGeneratingConstruct: callExpression,
+                            isMatchesSelectorException: true
+                        }
+                    );
+                }
 
                 for(var i = 0, length = elements.length; i < length; i++)
                 {
@@ -404,9 +420,10 @@ fcModel.HtmlElementExecutor =
                 return this.wrapToFcElements(globalObject, callExpression, elements);
             case "getAttribute":
                 var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                this.addDependencies(result, callExpression, globalObject);
+                this.addDependencies(thisObjectValue, callExpression, globalObject);
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
             case "setAttribute":
+            case "removeAttribute":
                 thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
                 fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
@@ -432,8 +449,6 @@ fcModel.HtmlElementExecutor =
                 var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 return this.wrapToFcElement(clonedNode, globalObject, callExpression);
             case "addEventListener":
-                fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
-                thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
                 globalObject.registerHtmlElementEventHandler
                 (
                     fcThisValue,
@@ -444,6 +459,10 @@ fcModel.HtmlElementExecutor =
                         evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
                     }
                 );
+            case "removeEventListener":
+                fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
+                thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+                return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
             case "matchesSelector":
             case "mozMatchesSelector":
             case "webkitMatchesSelector":
@@ -484,7 +503,10 @@ fcModel.HtmlElementExecutor =
 
             return globalObject.internalExecutor.createArray(codeConstruct, fcItems);
         }
-        catch(e) { fcModel.HtmlElement.notifyError("HtmlElementExecutor - error when wrapping: " + e);}
+        catch(e)
+        {
+            fcModel.HtmlElement.notifyError("HtmlElementExecutor - error when wrapping: " + e);
+        }
     },
 
     wrapToFcElement: function(item, globalObject, codeConstruct)
@@ -504,10 +526,17 @@ fcModel.HtmlElementExecutor =
            {
                return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, new fcModel.TextNode(item, globalObject, codeConstruct)));
            }
+           else if (ValueTypeHelper.isOfType(item, Document))
+           {
+               return globalObject.jsFcDocument;
+           }
 
-           fcModel.HtmlElement.notifyError("HtmlElementExecutor - when wrapping should not be here: " + e);
+           fcModel.HtmlElement.notifyError("HtmlElementExecutor - when wrapping should not be here: ");
        }
-       catch(e) { fcModel.HtmlElement.notifyError("HtmlElementExecutor - error when wrapping: " + e); }
+       catch(e)
+       {
+           fcModel.HtmlElement.notifyError("HtmlElementExecutor - error when wrapping: " + e);
+       }
     },
 
     addDependencies: function(element, codeConstruct, globalObject)

@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Custom designed fancy check boxes and radio buttons with CSS and JavaScript</title>
+    <meta name="Description" content="Custom designed HTML checkboxes and radio controls with CSS 3.0 and JavaScript." />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<div id="sizer">
+    <form action="#" method="get" accept-charset="utf-8">
+        <fieldset class="checkboxes">
+            <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" checked /> I agree to the terms &#38; conditions.</label>
+            <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="1" type="checkbox" /> Please send me regular updates.</label>
+        </fieldset>
+        <fieldset class="radios">
+            <label class="label_radio" for="radio-01"><input name="sample-radio" id="radio-01" value="1" type="radio" checked /> This is option A...</label>
+            <label class="label_radio" for="radio-02"><input name="sample-radio" id="radio-02" value="1" type="radio" /> and this is option B...</label>
+            <label class="label_radio" for="radio-03"><input name="sample-radio" id="radio-03" value="1" type="radio" /> or simply choose option C</label>
+        </fieldset>
+    </form>
+    <div id="footer">
+        <a href="http://www.maratz.com/blog/archives/2006/06/11/fancy-checkboxes-and-radio-buttons/">&#8592; Full how-to article</a>
+        <a href="jquery.html">jQuery version &#8594;</a>
+    </div>
+</div>
+
+<script>
+    var d = document;
+    var safari = (navigator.userAgent.toLowerCase().indexOf('safari') != -1) ? true : false;
+    var gebtn = function(parEl,child) { return parEl.getElementsByTagName(child); };
+    onload = function() {
+
+        var body = gebtn(d,'body')[0];
+        body.className = body.className && body.className != '' ? body.className + ' has-js' : 'has-js';
+
+        if (!d.getElementById || !d.createTextNode) return;
+        var ls = gebtn(d,'label');
+        for (var i = 0; i < ls.length; i++) {
+            var l = ls[i];
+            if (l.className.indexOf('label_') == -1) continue;
+            var inp = gebtn(l,'input')[0];
+            if (l.className == 'label_check') {
+                l.className = (safari && inp.checked == true || inp.checked) ? 'label_check c_on' : 'label_check c_off';
+                l.onclick = check_it;
+            };
+            if (l.className == 'label_radio') {
+                l.className = (safari && inp.checked == true || inp.checked) ? 'label_radio r_on' : 'label_radio r_off';
+                l.onclick = turn_radio;
+            };
+        };
+    };
+    var check_it = function() {
+        var inp = gebtn(this,'input')[0];
+        if (this.className == 'label_check c_off' || (!safari && inp.checked)) {
+            this.className = 'label_check c_on';
+            if (safari) inp.click();
+        } else {
+            this.className = 'label_check c_off';
+            if (safari) inp.click();
+        };
+    };
+    var turn_radio = function() {
+        var inp = gebtn(this,'input')[0];
+        if (this.className == 'label_radio r_off' || inp.checked) {
+            var ls = gebtn(this.parentNode,'label');
+            for (var i = 0; i < ls.length; i++) {
+                var l = ls[i];
+                if (l.className.indexOf('label_radio') == -1)  continue;
+                l.className = 'label_radio r_off';
+            };
+            this.className = 'label_radio r_on';
+            if (safari) inp.click();
+        } else {
+            this.className = 'label_radio r_off';
+            if (safari) inp.click();
+        };
+    };
+</script>
+</body>
+</html>

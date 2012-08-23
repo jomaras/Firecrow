@@ -195,12 +195,12 @@ fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
                 if(this.addPropertyCallbackDescriptor != null)
                 {
                     this.addPropertyCallbackDescriptor.callback.call
-                        (
-                            this.addPropertyCallbackDescriptor.thisValue || this,
-                            propertyName,
-                            propertyValue,
-                            codeConstruct
-                        );
+                    (
+                        this.addPropertyCallbackDescriptor.thisValue || this,
+                        propertyName,
+                        propertyValue,
+                        codeConstruct
+                    );
                 }
             }
             catch(e)
@@ -239,14 +239,14 @@ fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
             try
             {
                 return ValueTypeHelper.findInArray
-                    (
-                        this.properties,
-                        propertyName,
-                        function(property, propertyName)
-                        {
-                            return property.name == propertyName;
-                        }
-                    );
+                (
+                    this.properties,
+                    propertyName,
+                    function(property, propertyName)
+                    {
+                        return property.name == propertyName;
+                    }
+                );
             }
             catch(e) { fcModel.Object.notifyError("Error when getting own property:" + e);}
         },
@@ -290,23 +290,23 @@ fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
                     if(this.prototypeDefinitionConstruct != null)
                     {
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                            (
-                                readPropertyConstruct,
-                                this.prototypeDefinitionConstruct.codeConstruct,
-                                this.globalObject.getPreciseEvaluationPositionId(),
-                                this.prototypeDefinitionConstruct.evaluationPositionId
-                            );
+                        (
+                            readPropertyConstruct,
+                            this.prototypeDefinitionConstruct.codeConstruct,
+                            this.globalObject.getPreciseEvaluationPositionId(),
+                            this.prototypeDefinitionConstruct.evaluationPositionId
+                        );
                     }
 
                     if(property.lastModificationConstruct != null)
                     {
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                            (
-                                readPropertyConstruct,
-                                property.lastModificationConstruct.codeConstruct,
-                                this.globalObject.getPreciseEvaluationPositionId(),
-                                property.lastModificationConstruct.evaluationPositionId
-                            );
+                        (
+                            readPropertyConstruct,
+                            property.lastModificationConstruct.codeConstruct,
+                            this.globalObject.getPreciseEvaluationPositionId(),
+                            property.lastModificationConstruct.evaluationPositionId
+                        );
                     }
                 }
 
@@ -321,10 +321,25 @@ fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
         getPropertyNameAtIndex: function(index, codeConstruct)
         {
             return new fcModel.JsValue
-                (
-                    this._getEnumeratedPropertiesFromImplementationObject()[index],
-                    new fcModel.FcInternal(codeConstruct)
-                );
+            (
+                this._getEnumeratedPropertiesFromImplementationObject()[index],
+                new fcModel.FcInternal(codeConstruct)
+            );
+        },
+
+        getPropertiesWithIndexNames: function()
+        {
+            var indexProperties = [];
+
+            for(var i = 0; i < this.properties.length; i++)
+            {
+                if(ValueTypeHelper.isInteger(this.properties[i].name))
+                {
+                    indexProperties.push(this.properties[i]);
+                }
+            }
+
+            return indexProperties;
         },
 
         _getEnumeratedPropertiesFromImplementationObject: function()

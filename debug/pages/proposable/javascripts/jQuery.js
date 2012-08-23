@@ -314,7 +314,23 @@
             // For internal use only.
             // Behaves like an Array's method, not like a jQuery method.
             push: push,
-            sort: [].sort,
+            sort: function(callbackFunction)
+            {
+                var arr = this;
+
+                for(var i = 0, length = arr.length; i < length - 1; i++)
+                {
+                    for(var j = i + 1; j < length; j++)
+                    {
+                        if(callbackFunction(arr[i], arr[j]) > 0)
+                        {
+                            var temp = arr[i];
+                            arr[i] = arr[j];
+                            arr[j] = temp;
+                        }
+                    }
+                }
+            },
             splice: [].splice
         };
 
@@ -4114,6 +4130,7 @@
         Sizzle.uniqueSort = function( results ) {
             if ( sortOrder ) {
                 hasDuplicate = baseHasDuplicate;
+
                 results.sort( sortOrder );
 
                 if ( hasDuplicate ) {
