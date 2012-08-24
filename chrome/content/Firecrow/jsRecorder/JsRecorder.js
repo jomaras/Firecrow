@@ -21,6 +21,7 @@ Firecrow.JsRecorder = function ()
         this.setScriptsToTrack(scriptsToTrack);
 
         var returnContinue = CI.jsdIExecutionHook.RETURN_CONTINUE;
+        this.executionTrace = [];
 
         this.jsDebugger.interruptHook =
         {
@@ -135,12 +136,15 @@ Firecrow.JsRecorder = function ()
             this.jsDebugger.off();
             this.isRecording = false;
             this.jsDebugger.functionHook = {};
+            this.resultExecutionTrace = this.executionTrace;
+            this.executionTrace = [];
         }
         catch(e) { alert("Error when stopping jsDebugger " + e); }
     };
 
     this.setScriptsToTrack = function(scriptsToTrack)
     {
+        this.jsDebugger.clearFilters();
         scriptsToTrack.forEach(function(scriptToTrack)
         {
             this.jsDebugger.appendFilter(this.getFilterForFile(scriptToTrack.path));
@@ -176,7 +180,7 @@ Firecrow.JsRecorder = function ()
 
     this.getProfilingSummary = function()
     {
-       var executionTrace = this.executionTrace;
+       var executionTrace = this.resultExecutionTrace;
        var summary = {pcNum:0};
        for(var i = 0, length = executionTrace.length; i < length; i++)
        {
@@ -212,20 +216,20 @@ Firecrow.JsRecorder = function ()
 
     this.getEventTrace = function()
     {
-        return this.executionTrace;
+        return this.resultExecutionTrace;
     };
 
     this.getExecutionSummary = function()
     {
-        if(this.executionTrace == null || this.executionTrace.length == 0) { return {}; }
+        if(this.resultExecutionTrace == null || this.resultExecutionTrace.length == 0) { return {}; }
 
         var executionSummary = [];
         var files = [];
 
-        for(var i = 0; i < this.executionTrace.length; i++)
+        for(var i = 0; i < this.resultExecutionTrace.length; i++)
         {
-            var lastExecutionTrace = i > 0 ? this.executionTrace[i - 1] : null;
-            var currentExecutionTrace = this.executionTrace[i];
+            var lastExecutionTrace = i > 0 ? this.resultExecutionTrace[i - 1] : null;
+            var currentExecutionTrace = this.resultExecutionTrace[i];
 
             if(!this.filePathAllreadyExists(files, currentExecutionTrace.filePath))
             {

@@ -6,11 +6,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/libraries/gauss/tests/cases/testResults.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/test.html" afterPath="$PROJECT_DIR$/playground/test.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/libraries/gauss/tests/Stanje" afterPath="$PROJECT_DIR$/tests/libraries/gauss/tests/Stanje" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/libraries/medialize/tests/stanje" afterPath="$PROJECT_DIR$/tests/libraries/medialize/tests/stanje" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/libraries/sylvester/executions.txt" afterPath="$PROJECT_DIR$/tests/libraries/sylvester/executions.txt" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,37 +57,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/libraries/gauss/tests/cases/12-Mode-Majority/index.html">
+      <file leaf-file-name="JsRecorder.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="29" column="19" selection-start="889" selection-end="889" vertical-scroll-proportion="0.40976164">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/10-mutatingHost/index.html">
+        <entry file="file://$PROJECT_DIR$/debug/domTests/09/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stanje" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/stanje">
+      <file leaf-file-name="Firecrow.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="298" column="0" selection-start="7215" selection-end="7215" vertical-scroll-proportion="0.0">
+            <state line="25" column="92" selection-start="764" selection-end="764" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/playground/test.html">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/domTests/06/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="49" selection-start="1432" selection-end="1432" vertical-scroll-proportion="0.425">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/domTests/08/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="26" selection-start="272" selection-end="272" vertical-scroll-proportion="-5.8846154">
               <folding />
             </state>
           </provider>
@@ -108,8 +116,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/00-tests/index.html" />
-        <option value="$PROJECT_DIR$/debug/slicingModelMappingLarge.js" />
         <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/24-normalizePath/index-sliced.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
@@ -124,15 +130,17 @@
         <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/cases/16-mutatingDirectory/index-sliced.html" />
         <option value="$PROJECT_DIR$/tests/libraries/medialize/tests/stanje" />
         <option value="$PROJECT_DIR$/playground/test.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="x" value="1358" />
+    <option name="y" value="-290" />
+    <option name="width" value="1696" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -160,16 +168,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -198,7 +196,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
+              <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -212,29 +210,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
+              <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="pages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
+              <option name="myItemId" value="domTests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -248,19 +228,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
+              <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
+              <option name="myItemId" value="domTests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="gauss" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
+              <option name="myItemId" value="09" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -274,23 +250,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
+              <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
+              <option name="myItemId" value="domTests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="gauss" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cases" />
+              <option name="myItemId" value="08" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -318,6 +286,16 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -334,17 +312,17 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="240" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="910" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="914" />
     <property name="DefaultHtmlFileTemplate" value="Html" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="914" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="910" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="235" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="234" />
     <property name="GoToClass.includeJavaFiles" value="true" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="234" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1305,7 +1283,11 @@
       <created>1345747682442</created>
       <updated>1345747682442</updated>
     </task>
-    <option name="localTasksCounter" value="216" />
+    <task id="LOCAL-00216" summary="Fixed a bug with RegExp - mozilla caused">
+      <created>1345753790774</created>
+      <updated>1345753790774</updated>
+    </task>
+    <option name="localTasksCounter" value="217" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1341,13 +1323,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <frame x="1358" y="-290" width="1696" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49448124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49657536" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25763217" sideWeight="0.4812362" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2088111" sideWeight="0.4812362" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5479452" sideWeight="0.42963514" order="11" side_tool="true" content_ui="tabs" />
@@ -1452,31 +1434,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/07-mutatingPath/index-sliced.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="214" column="50" selection-start="6851" selection-end="6851" vertical-scroll-proportion="-6.769231" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/07-mutatingPath/index-profiled.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="19.76923" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/07-mutatingPath/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="3.1538463" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/16-mutatingDirectory/index-profiled.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="335.80768" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/16-mutatingDirectory/index-sliced.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="192.61539" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/16-mutatingDirectory/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="33.23077" />
@@ -1512,9 +1469,18 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-5.766" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/libraries/gauss/tests/cases/12-Mode-Majority/index.html">
+    <entry file="file://$PROJECT_DIR$/playground/test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="13" column="49" selection-start="1432" selection-end="1432" vertical-scroll-proportion="0.2624703">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/stanje">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="298" column="0" selection-start="7215" selection-end="7215" vertical-scroll-proportion="0.8824885">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/cases/10-mutatingHost/index.html">
@@ -1522,16 +1488,42 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/libraries/medialize/tests/stanje">
+    <entry file="file://$PROJECT_DIR$/tests/libraries/gauss/tests/cases/12-Mode-Majority/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="298" column="0" selection-start="7215" selection-end="7215" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/domTests/08/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="26" selection-start="272" selection-end="272" vertical-scroll-proportion="-5.8846154">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/playground/test.html">
+    <entry file="file://$PROJECT_DIR$/debug/domTests/06/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="49" selection-start="1432" selection-end="1432" vertical-scroll-proportion="0.425">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/domTests/09/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="92" selection-start="764" selection-end="764" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="19" selection-start="889" selection-end="889" vertical-scroll-proportion="0.40976164">
           <folding />
         </state>
       </provider>

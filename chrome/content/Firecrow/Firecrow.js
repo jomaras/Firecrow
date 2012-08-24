@@ -334,7 +334,11 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                this.jsRecorder = new JsRecorder();
+                if(this.jsRecorder == null)
+                {
+                    this.jsRecorder = new JsRecorder();
+                }
+
                 this.persistedState.isRecording = true;
                 if(this.recordOnlyEventHandlerEntries) { this.jsRecorder.start(scriptsToTrack); }
                 else { this.jsRecorder.startProfiling(scriptsToTrack); }
