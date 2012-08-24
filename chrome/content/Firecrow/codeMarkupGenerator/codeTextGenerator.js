@@ -100,6 +100,15 @@ Firecrow.CodeTextGenerator.prototype =
         return docTypeHtml + ">";
     },
 
+    emptyElementTypes: ["img", "br", "input", "meta"],
+
+    isEmptyElementType: function(type)
+    {
+       if(type == null) { return false; }
+
+        return this.emptyElementTypes.indexOf(type) != -1;
+    },
+
     generateCodeFromHtmlElement: function(htmlElement)
     {
         try
@@ -110,7 +119,7 @@ Firecrow.CodeTextGenerator.prototype =
 
             var code = this.whitespace + this.generateStartHtmlTagString(htmlElement.type)
                      + this.generateHtmlElementAttributes(htmlElement)
-                     + ((htmlElement.type == "img" || htmlElement.type == "br") ? "/>" : ">");
+                     + (this.isEmptyElementType(htmlElement.type) ? "/>" : ">");
 
             var hasOnlyTextContent = false;
 
@@ -152,7 +161,7 @@ Firecrow.CodeTextGenerator.prototype =
             }
 
             code += htmlElementContent;
-            code += (hasOnlyTextContent ? "" : this.whitespace) + this.generateEndHtmlTagString(htmlElement.type) + this.newLine;
+            code += (hasOnlyTextContent ? "" : "") + this.generateEndHtmlTagString(htmlElement.type) + this.newLine;
 
             return code;
         }
@@ -1211,9 +1220,8 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateEndHtmlTagString: function(tagName)
     {
-        if(tagName == "img" || tagName == "br") { return "";}
-
-        return "</" + tagName + ">";
+        return this.isEmptyElementType(tagName) ? ""
+                                                : "</" + tagName + ">";
     },
 
     whitespace: "",

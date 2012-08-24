@@ -78,9 +78,11 @@ Firecrow.JsRecorder = function ()
                         {
                             var trace = { filePath: frame.script.fileName, line: frame.line };
 
+                            var thisElement = frame.thisValue.getWrappedValue();
+
                             trace.thisValue =
                             {
-                                xPath: that.getElementXPath(frame.thisValue.getWrappedValue())
+                                xPath: that.getElementXPath(thisElement)
                             };
 
                             var propArray = {}, length = {};
@@ -107,7 +109,8 @@ Firecrow.JsRecorder = function ()
                                 screenX: firstArgument != null ? firstArgument.screenX : 0,
                                 screenY:firstArgument != null ?  firstArgument.screenY : 0,
                                 type: firstArgument != null ? firstArgument.type
-                                                            : trace.thisValue.xPath != "" ? "elementEvent" : ""
+                                                            : trace.thisValue.xPath != "" ? "elementEvent" : "",
+                                currentInputStates: that.getCurrentInputStates(thisElement)
                             };
 
                             that.executionTrace.push(trace);
@@ -321,6 +324,39 @@ Firecrow.JsRecorder = function ()
         }
 
         return paths.length ? "/" + paths.join("/") : "";
+    }
+
+    this.getCurrentInputStates = function(element)
+    {
+        var inputStates = [];
+
+        if(element == null) { return inputStates; }
+
+        var doc = null;
+
+        if(element.nodeType === undefined) { doc = element.document; }
+        else if(element.nodeType == 9) { doc = element; }
+        else { doc = element.ownerDocument; }
+
+        if(doc == null) { return inputStates; }
+
+        var allInputElements = doc.querySelectorAll("input");
+
+        for(var i = 0, length = allInputElements.length; i < length; i++)
+        {
+            var input = allInputElements[i];
+
+            alert(this.getElementXPath(input));
+
+            inputStates.push
+            ({
+                elementXPath : this.getElementXPath(input),
+                checked : input.checked,
+                value: input.value
+            });
+        }
+
+        return inputStates;
     }
 
     /********* UTILS ********************/

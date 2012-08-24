@@ -309,7 +309,7 @@ Browser.prototype =
                                 handlerConstruct.body,
                                 {
                                     functionHandler: domContentReadyInfo.handler,
-                                    thisObject: this.globalObject.document,
+                                    thisObject: this.globalObject.jsFcDocument,
                                     argumentValues: [],
                                     registrationPoint: domContentReadyInfo.registrationPoint
                                 }
@@ -401,15 +401,15 @@ Browser.prototype =
                             && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                         {
                             this._interpretJsCode
-                                (
-                                    handlerConstruct.body,
-                                    {
-                                        functionHandler: event.handler,
-                                        thisObject: this.globalObject,
-                                        argumentValues: event.callArguments,
-                                        registrationPoint: event.registrationPoint
-                                    }
-                                );
+                            (
+                                handlerConstruct.body,
+                                {
+                                    functionHandler: event.handler,
+                                    thisObject: this.globalObject,
+                                    argumentValues: event.callArguments,
+                                    registrationPoint: event.registrationPoint
+                                }
+                            );
 
                             ValueTypeHelper.removeFromArrayByIndex(timeoutEvents, j);
                             break;
@@ -435,12 +435,13 @@ Browser.prototype =
                             if(handlerConstruct.loc.source.replace("///", "/") == eventFile
                             && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                             {
+                                this._adjustCurrentInputStates(eventTrace.args.currentInputStates);
                                 this._interpretJsCode
                                 (
                                     handlerConstruct.body,
                                     {
                                         functionHandler: event.handler,
-                                        thisObject: fcHtmlElement,
+                                        thisObject: new fcModel.JsValue(fcHtmlElement.htmlElement, new fcModel.FcInternal(null, fcHtmlElement)),
                                         argumentValues: this._getArguments(eventTrace.args),
                                         registrationPoint: event.registrationPoint
                                     }
@@ -455,6 +456,26 @@ Browser.prototype =
         catch(e) { this.notifyError("Error when handling events: " + e); }
     },
 
+    _adjustCurrentInputStates: function(currentInputStates)
+    {
+        if(currentInputStates == null || currentInputStates.length == 0) { return; }
+
+        for(var i = 0, length = currentInputStates.length; i < length; i++)
+        {
+            var inputState = currentInputStates[i];
+
+            console.log(inputState.elementXPath);
+
+            var wrappedElement = this.globalObject.document.getElementByXPath(inputState.elementXPath)
+
+            if(wrappedElement != null && wrappedElement.value != null)
+            {
+                var element = wrappedElement.value;
+                element.checked = inputState.checked;
+                element.value = inputState.value;
+            }
+        }
+    },
 
     registerNodeCreatedCallback: function(callback, thisObject)
     {

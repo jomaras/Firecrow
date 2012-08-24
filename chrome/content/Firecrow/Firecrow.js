@@ -379,9 +379,9 @@ FBL.ns(function() { with (FBL) {
                 else
                 {
                     var eventTrace = this.jsRecorder.getEventTrace();
+                    alert(eventTrace.length);
                     FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-executionTrace.txt", JSON.stringify(eventTrace));
-                    prompt("Number of executions: ", eventTrace.length);
-                    FileHelper.appendToFile("C:\\GitWebStorm\\Firecrow\\tests\\libraries\\sylvester\\executions.txt", fbHelper.getCurrentUrl() + " -- " + eventTrace.length);
+                    FileHelper.appendToFile("C:\\GitWebStorm\\Firecrow\\tests\\libraries\\executions.txt", fbHelper.getCurrentUrl() + " -- " + eventTrace.length);
                 }
 
                 this.recordOnlyEventHandlerEntries = false;
