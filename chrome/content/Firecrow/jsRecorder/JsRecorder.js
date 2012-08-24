@@ -346,8 +346,6 @@ Firecrow.JsRecorder = function ()
         {
             var input = allInputElements[i];
 
-            alert(this.getElementXPath(input));
-
             inputStates.push
             ({
                 elementXPath : this.getElementXPath(input),

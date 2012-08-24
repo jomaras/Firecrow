@@ -7,9 +7,7 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html" afterPath="$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,10 +73,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index-sliced.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index-sliced.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="51" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.5249406">
+            <state line="26" column="51" selection-start="1670" selection-end="1670" vertical-scroll-proportion="-17.0">
               <folding />
             </state>
           </provider>
@@ -111,10 +109,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JsRecorder.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="JsRecorder.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="352" column="28" selection-start="11920" selection-end="11932" vertical-scroll-proportion="0.0">
+            <state line="338" column="56" selection-start="11567" selection-end="11567" vertical-scroll-proportion="0.35187286">
               <folding />
             </state>
           </provider>
@@ -154,11 +152,11 @@
         <option value="$PROJECT_DIR$/tests/libraries/executions.txt" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
         <option value="$PROJECT_DIR$/debug/pages/modelMappings/fancyCheckbox.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
         <option value="$PROJECT_DIR$/debug/pages/fancyCheckbox/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
         <option value="$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
       </list>
     </option>
   </component>
@@ -1322,7 +1320,11 @@
       <created>1345799455382</created>
       <updated>1345799455382</updated>
     </task>
-    <option name="localTasksCounter" value="219" />
+    <task id="LOCAL-00219" summary="Generating html content changed">
+      <created>1345800475241</created>
+      <updated>1345800475242</updated>
+    </task>
+    <option name="localTasksCounter" value="220" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1420,7 +1422,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="When recording an event trace, upon each triggered event, all states of input elements are logged - added support for that thought the project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Generating html content changed" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1433,7 +1435,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="There is a problem with for example: a.test1().test2(); where something in test1() is important, but test2() isn't - now it would, in the post-processing phase also include .test2() - i removed that, but could be done cleaner" />
     <MESSAGE value="There is a problem with for example: a.test1()[a] - where a.test1() does something usefull, but [a] doesn't - fixed it, also a bit hacky" />
     <MESSAGE value="Added a new property to the dependency edge that marks that there is a dependency (so that codeConstruct can be included), but that its dependencies should not be followed - this was needed in order to add depencies to properties that are null - the code construct should be included but any previous dependencies of that code construct should not be followed" />
     <MESSAGE value="Can generate profiled code" />
@@ -1458,6 +1459,7 @@
     <MESSAGE value="Fixed a bug with RegExp - mozilla caused" />
     <MESSAGE value="Record can be called multiple times without restarting Firefox" />
     <MESSAGE value="When recording an event trace, upon each triggered event, all states of input elements are logged - added support for that thought the project" />
+    <MESSAGE value="Generating html content changed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1532,13 +1534,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="352" column="28" selection-start="11920" selection-end="11932" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="511" column="4" selection-start="22973" selection-end="22973" vertical-scroll-proportion="0.0">
@@ -1576,7 +1571,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="51" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.5249406">
+        <state line="26" column="51" selection-start="1670" selection-end="1670" vertical-scroll-proportion="-17.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="338" column="56" selection-start="11567" selection-end="11567" vertical-scroll-proportion="0.35187286">
           <folding />
         </state>
       </provider>
