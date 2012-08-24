@@ -1,35 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
-
     <title>Custom designed fancy check boxes and radio buttons with CSS and JavaScript</title>
     <meta content="Custom designed HTML checkboxes and radio controls with CSS 3.0 and JavaScript." name="Description"/>
-
-    <link href="style.css" type="text/css" rel="stylesheet">
-    </link>
+    <link href="style.css" type="text/css" rel="stylesheet"></link>
 </head>
 <body>
 <div id="sizer">
     <form accept-charset="utf-8" method="get" action="#">
         <fieldset class="checkboxes">
-            <label for="checkbox-01" class="label_check">
-                <input type="checkbox" checked="" value="1" id="checkbox-01" name="sample-checkbox-01"/>
-            </label>
-            <label for="checkbox-02" class="label_check">
-                <input type="checkbox" value="1" id="checkbox-02" name="sample-checkbox-02"/>
-            </label>
+            <label for="checkbox-01" class="label_check"><input type="checkbox" checked="" value="1" id="checkbox-01" name="sample-checkbox-01"/> I agree to the terms & conditions.</label>
+            <label for="checkbox-02" class="label_check"><input type="checkbox" value="1" id="checkbox-02" name="sample-checkbox-02"/> Please send me regular updates.</label>
         </fieldset>
         <fieldset class="radios">
-            <label for="radio-01" class="label_radio">
-                <input type="radio" checked="" value="1" id="radio-01" name="sample-radio"/>
-            </label>
-            <label for="radio-02" class="label_radio">
-                <input type="radio" value="1" id="radio-02" name="sample-radio"/>
-            </label>
-            <label for="radio-03" class="label_radio">
-                <input type="radio" value="1" id="radio-03" name="sample-radio"/>
-            </label>
+            <label for="radio-01" class="label_radio"><input type="radio" checked="" value="1" id="radio-01" name="sample-radio"/> This is option A...</label>
+            <label for="radio-02" class="label_radio"><input type="radio" value="1" id="radio-02" name="sample-radio"/> and this is option B...</label>
+            <label for="radio-03" class="label_radio"><input type="radio" value="1" id="radio-03" name="sample-radio"/> or simply choose option C</label>
         </fieldset>
     </form>
     <div id="footer">
@@ -37,6 +23,7 @@
         <a href="jquery.html">jQuery version â†’</a>
     </div>
 </div>
+
 <script>
     var d = document;
     var safari = navigator.userAgent.toLowerCase().indexOf('safari') != -1 ? 0 : false;
@@ -81,5 +68,5 @@
     var turn_radio = function ()
     {};
 </script>
-</body>
-</html>
+
+</body></html>

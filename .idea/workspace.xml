@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" line="923" />
+    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" line="909" />
     <bookmark url="file://$PROJECT_DIR$/debug/slicingTests/78/index.html" line="23" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/libraries/executions.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/pages/fancyCheckbox/index.html" afterPath="$PROJECT_DIR$/debug/pages/fancyCheckbox/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/pages/modelMappings/fancyCheckbox.js" afterPath="$PROJECT_DIR$/debug/pages/modelMappings/fancyCheckbox.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html" afterPath="$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,25 +69,25 @@
       <file leaf-file-name="codeTextGenerator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="163" column="49" selection-start="5872" selection-end="5872" vertical-scroll-proportion="0.0">
+            <state line="135" column="32" selection-start="4895" selection-end="4895" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index-sliced.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index-sliced.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="50" selection-start="640" selection-end="640" vertical-scroll-proportion="-10.461538">
+            <state line="26" column="51" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.5249406">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="browser.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="browser.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="12" selection-start="7670" selection-end="7704" vertical-scroll-proportion="0.48963133">
+            <state line="211" column="11" selection-start="9596" selection-end="9596" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -160,9 +155,9 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
         <option value="$PROJECT_DIR$/debug/pages/modelMappings/fancyCheckbox.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
+        <option value="$PROJECT_DIR$/debug/pages/fancyCheckbox/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-        <option value="$PROJECT_DIR$/debug/pages/fancyCheckbox/index.html" />
         <option value="$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html" />
       </list>
     </option>
@@ -1323,7 +1318,11 @@
       <created>1345787175399</created>
       <updated>1345787175400</updated>
     </task>
-    <option name="localTasksCounter" value="218" />
+    <task id="LOCAL-00218" summary="When recording an event trace, upon each triggered event, all states of input elements are logged - added support for that thought the project">
+      <created>1345799455382</created>
+      <updated>1345799455382</updated>
+    </task>
+    <option name="localTasksCounter" value="219" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1421,7 +1420,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Record can be called multiple times without restarting Firefox" />
+    <option name="LAST_COMMIT_MESSAGE" value="When recording an event trace, upon each triggered event, all states of input elements are logged - added support for that thought the project" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1434,7 +1433,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Fixed an error when creating event handler arguments from the trace" />
     <MESSAGE value="There is a problem with for example: a.test1().test2(); where something in test1() is important, but test2() isn't - now it would, in the post-processing phase also include .test2() - i removed that, but could be done cleaner" />
     <MESSAGE value="There is a problem with for example: a.test1()[a] - where a.test1() does something usefull, but [a] doesn't - fixed it, also a bit hacky" />
     <MESSAGE value="Added a new property to the dependency edge that marks that there is a dependency (so that codeConstruct can be included), but that its dependencies should not be followed - this was needed in order to add depencies to properties that are null - the code construct should be included but any previous dependencies of that code construct should not be followed" />
@@ -1459,6 +1457,7 @@
     <MESSAGE value="added more test pages; Array slice on non-array objects; Expansions in HTMLElement" />
     <MESSAGE value="Fixed a bug with RegExp - mozilla caused" />
     <MESSAGE value="Record can be called multiple times without restarting Firefox" />
+    <MESSAGE value="When recording an event trace, upon each triggered event, all states of input elements are logged - added support for that thought the project" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1554,6 +1553,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="211" column="11" selection-start="9596" selection-end="9596" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/debug/pages/fancyCheckbox/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="32" selection-start="555" selection-end="555" vertical-scroll-proportion="-8.5">
@@ -1561,23 +1567,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="50" selection-start="640" selection-end="640" vertical-scroll-proportion="-10.461538">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="163" column="49" selection-start="5872" selection-end="5872" vertical-scroll-proportion="0.0">
+        <state line="135" column="32" selection-start="4895" selection-end="4895" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+    <entry file="file://$PROJECT_DIR$/debug/pages/fancyCheckbox/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="12" selection-start="7670" selection-end="7704" vertical-scroll-proportion="0.48963133">
+        <state line="26" column="51" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.5249406">
           <folding />
         </state>
       </provider>

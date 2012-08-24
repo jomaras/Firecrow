@@ -117,7 +117,7 @@ Firecrow.CodeTextGenerator.prototype =
 
             if(this.isSlicing && !htmlElement.shouldBeIncluded){ return htmlElementContent; }
 
-            var code = this.whitespace + this.generateStartHtmlTagString(htmlElement.type)
+            var code = this.generateStartHtmlTagString(htmlElement.type)
                      + this.generateHtmlElementAttributes(htmlElement)
                      + (this.isEmptyElementType(htmlElement.type) ? "/>" : ">");
 
@@ -143,27 +143,13 @@ Firecrow.CodeTextGenerator.prototype =
             {
                 var children = htmlElement.childNodes;
 
-                if(children.length == 1 && children[0].type == "textNode")
+                for(var i = 0, length = children.length; i < length; i++)
                 {
-                    htmlElementContent = children[0].textContent;
-                    hasOnlyTextContent = true;
-                }
-                else
-                {
-                    htmlElementContent += this.newLine;
-                    this.indent();
-                    for(var i = 0, length = children.length; i < length; i++)
-                    {
-                        htmlElementContent += this.generateCodeFromHtmlElement(children[i]);
-                    }
-                    this.deIndent();
+                    htmlElementContent += this.generateCodeFromHtmlElement(children[i]);
                 }
             }
 
-            code += htmlElementContent;
-            code += (hasOnlyTextContent ? "" : "") + this.generateEndHtmlTagString(htmlElement.type) + this.newLine;
-
-            return code;
+            return code + htmlElementContent + this.generateEndHtmlTagString(htmlElement.type);
         }
         catch(e) { this.notifyError("Error when generating htmlElement: " + e); }
     },

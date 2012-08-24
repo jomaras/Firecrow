@@ -151,10 +151,7 @@ Browser.prototype =
 
         for(var i = 0, length = childNodes.length; i < length; i++)
         {
-            var childNode = childNodes[i];
-
-            if(childNode.type != "textNode") { this._buildSubtree(childNode, htmlDomElement); }
-            else { htmlDomElement.appendChild(this.hostDocument.createTextNode(childNode.textContent)); }
+            this._buildSubtree(childNodes[i], htmlDomElement);
         }
     },
 
@@ -168,6 +165,10 @@ Browser.prototype =
         else if (htmlModelNode.type == "head" || htmlModelNode.type == "body")
         {
             htmlDomElement = this.hostDocument[htmlModelNode.type];
+        }
+        else if (htmlModelNode.type == "textNode")
+        {
+            htmlDomElement = this.hostDocument.createTextNode(htmlModelNode.textContent)
         }
         else
         {
@@ -207,9 +208,10 @@ Browser.prototype =
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)
     {
-        if (htmlDomElement.tagName.toUpperCase() == "HTML"
+        if (htmlDomElement.tagName != null
+         &&(htmlDomElement.tagName.toUpperCase() == "HTML"
          || htmlDomElement.tagName.toUpperCase() == "HEAD"
-         || htmlDomElement.tagName.toUpperCase() == "BODY")
+         || htmlDomElement.tagName.toUpperCase() == "BODY"))
         {
             //already inserted, ignore
             return;
@@ -239,6 +241,8 @@ Browser.prototype =
 
     _createDependenciesBetweenHtmlNodeAndCssNodes: function(htmlModelNode)
     {
+        if(htmlModelNode.type == "textNode") { return; }
+
         var cssRules = this.cssRules;
 
         for(var i = 0, length = cssRules.length; i < length; i++)
