@@ -21,6 +21,7 @@ Firecrow.Slicer = {
         browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
         browser.registerControlFlowConnectionCallback(dependencyGraph.handleControlFlowConnection, dependencyGraph);
         browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
+        browser.registerBreakContinueReturnEventReached(dependencyGraph.handleBreakContinueReturnEventReached, dependencyGraph);
 
         browser.evaluatePage();
         browser.clean();

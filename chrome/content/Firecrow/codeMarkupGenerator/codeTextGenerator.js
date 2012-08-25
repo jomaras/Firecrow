@@ -100,7 +100,7 @@ Firecrow.CodeTextGenerator.prototype =
         return docTypeHtml + ">";
     },
 
-    emptyElementTypes: ["img", "br", "input", "meta"],
+    emptyElementTypes: ["img", "br", "input", "meta", "link"],
 
     isEmptyElementType: function(type)
     {

@@ -439,7 +439,15 @@ fcSimulator.Evaluator.prototype =
             this.addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.codeConstruct);
 
             //If return is in event handler function
-            if(evalReturnExpressionCommand.parentFunctionCommand == null) { return; }
+            if(evalReturnExpressionCommand.parentFunctionCommand == null)
+            {
+                this.globalObject.browser.callBreakContinueReturnEventCallbacks
+                (
+                    evalReturnExpressionCommand.codeConstruct,
+                    this.globalObject.getPreciseEvaluationPositionId()
+                );
+                return;
+            }
 
             evalReturnExpressionCommand.parentFunctionCommand.executedReturnCommand = evalReturnExpressionCommand;
 
@@ -510,7 +518,7 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(evalMemberExpressionCommand.id == 28830)
+            if(evalMemberExpressionCommand.codeConstruct != null && evalMemberExpressionCommand.codeConstruct.loc.start.line == 84)
             {
                 var a = 3;
             }

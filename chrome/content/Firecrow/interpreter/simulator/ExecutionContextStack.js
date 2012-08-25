@@ -115,7 +115,8 @@ fcSimulator.ExecutionContextStack = function(globalObject, handlerInfo)
         }
         else
         {
-            this._enterFunctionContext(fcCommands.Command.createEnterEventHandlerContextCommand(handlerInfo));
+            this.enterEventHandlerContextCommand = fcCommands.Command.createEnterEventHandlerContextCommand(handlerInfo);
+            this._enterFunctionContext(this.enterEventHandlerContextCommand);
         }
 
         this.evaluator = new Firecrow.Interpreter.Simulator.Evaluator(this);

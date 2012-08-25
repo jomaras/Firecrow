@@ -15,6 +15,7 @@ Firecrow.DependencyGraph.DependencyGraph = function()
     this.controlFlow = [];
     this.importantConstructDependencyIndexMapping = [];
     this.controlDependencies = [];
+    this.breakContinueReturnEventsMapping = [];
 
     this.dependencyEdgesCounter = 0;
     this.inculsionFinder = new Firecrow.DependencyGraph.InclusionFinder();
@@ -123,6 +124,22 @@ DependencyGraph.prototype.handleImportantConstructReached = function(sourceNode)
     catch(e){ this.notifyError("Error when handling important construct reached:" + e);}
 };
 
+DependencyGraph.prototype.handleBreakContinueReturnEventReached = function(sourceNode)
+{
+    try
+    {
+        var dataDependencies = sourceNode.graphNode.dataDependencies;
+        this.breakContinueReturnEventsMapping.push
+        (
+            {
+                codeConstruct: sourceNode,
+                dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
+            }
+        );
+    }
+    catch(e){ this.notifyError("Error when handling important construct reached:" + e);}
+};
+
 DependencyGraph.prototype.markGraph = function(model)
 {
     try
@@ -135,7 +152,10 @@ DependencyGraph.prototype.markGraph = function(model)
         {
             var mapping = importantConstructDependencyIndexMapping[i];
 
-            if(ASTHelper.isBreakStatement(mapping.codeConstruct) || ASTHelper.isContinueStatement(mapping.codeConstruct))
+            //TODO - remove this way of handling break and continue,
+            //do them like return from event handlers
+            if(ASTHelper.isBreakStatement(mapping.codeConstruct)
+            || ASTHelper.isContinueStatement(mapping.codeConstruct))
             {
                 breakContinueMapping.push(mapping);
             }
@@ -157,6 +177,7 @@ DependencyGraph.prototype.markGraph = function(model)
                 this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
             }
         }
+
         var inclusionFinder = new Firecrow.DependencyGraph.InclusionFinder();
 
         for(var i = 0; i < this.previouslyExecutedBlockDependencies.length; i++)
@@ -167,6 +188,25 @@ DependencyGraph.prototype.markGraph = function(model)
             if(inclusionFinder.isIncludedElement(blockDependency.codeConstruct.parent))
             {
                 this.traverseAndMark(blockDependency.codeConstruct, blockDependency.maxDependencyIndex, blockDependency.dependencyConstraint, blockDependency.includedByNode);
+            }
+        }
+
+        for(var i = 0; i < this.breakContinueReturnEventsMapping.length; i++)
+        {
+            var mapping = this.breakContinueReturnEventsMapping[i];
+
+            if(ASTHelper.isReturnStatement(mapping.codeConstruct))
+            {
+                var functionParent = ASTHelper.getFunctionParent(mapping.codeConstruct);
+
+                if(inclusionFinder.isIncludedElement(functionParent))
+                {
+                    this.traverseAndMark(mapping.codeConstruct, mapping.maxDependencyIndex, null, null)
+                }
+            }
+            else
+            {
+                alert("Still not handling other return statements");
             }
         }
 

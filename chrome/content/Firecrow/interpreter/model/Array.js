@@ -24,13 +24,14 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         this.globalObject = globalObject;
         this.items = [];
         this.modifications = [];
+        this.implementationObject = jsArray;
         this.constructor = fcModel.Array;
         this.dummyDependencyNode = { type: "DummyCodeElement" };
         this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
 
         if(codeConstruct != null) { this.modifications.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});}
 
-        this.addProperty("length", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+        this.addProperty("length", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
 
         for(var i = 0; i < this.jsArray.length; i++)
         {
@@ -134,7 +135,7 @@ fcModel.ArrayProto =
                     jsArray[length] = argument;
                 }
 
-                this.addProperty(length++, argument, codeConstruct);
+                this.addProperty(length++, argument, codeConstruct, true);
             }
 
             var lengthValue = new fcModel.JsValue(length, new fcModel.FcInternal(codeConstruct));
@@ -205,7 +206,7 @@ fcModel.ArrayProto =
 
                 for(var i = 0; i < length; i++)
                 {
-                    this.addProperty(i, this.items[i], codeConstruct);
+                    this.addProperty(i, this.items[i], codeConstruct, true);
                 }
             }
             else { alert("Not handling reverse on non arrays!"); }
@@ -236,7 +237,7 @@ fcModel.ArrayProto =
 
                 for(var i = 0; i < this.items.length; i++)
                 {
-                    this.addProperty(i, this.items[i], codeConstruct);
+                    this.addProperty(i, this.items[i], codeConstruct, true);
                 }
             }
             else
@@ -245,7 +246,7 @@ fcModel.ArrayProto =
 
                 for(var i = 1; i < length; i++)
                 {
-                    this.addProperty(i - 1, this.getPropertyValue(i), codeConstruct);
+                    this.addProperty(i - 1, this.getPropertyValue(i), codeConstruct, true);
                 }
             }
 
@@ -280,7 +281,7 @@ fcModel.ArrayProto =
 
             for(var i = 0; i < this.items.length; i++)
             {
-                this.addProperty(i, this.items[i], callExpression);
+                this.addProperty(i, this.items[i], callExpression, true);
             }
 
             var lengthValue =  new fcModel.JsValue(this.items.length, new fcModel.FcInternal(callExpression));
@@ -347,7 +348,7 @@ fcModel.ArrayProto =
 
         for(var i = 0; i < this.items.length; i++)
         {
-            this.addProperty(i, this.items[i], codeConstruct);
+            this.addProperty(i, this.items[i], codeConstruct, true);
         }
 
         return jsValue;
@@ -378,7 +379,7 @@ fcModel.ArrayProto =
             var splicedItems = this.items.splice.apply(this.items, argumentValues);
             jsArray.splice.apply(jsArray, argumentValues);
 
-            for(i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct); }
+            for(i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct, true); }
 
             this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
 
@@ -571,7 +572,7 @@ fcModel.ArrayProto =
             var oldLength = this.items.length;
             this.items[propertyName] = propertyValue;
             this.jsArray[propertyName] = propertyValue;
-            this.addProperty(propertyName, propertyValue, codeConstruct);
+            this.addProperty(propertyName, propertyValue, codeConstruct, true);
 
             if(this.items.length != oldLength)
             {
@@ -588,7 +589,7 @@ fcModel.ArrayProto =
                 }
             }
 
-            this.addProperty(propertyName, propertyValue, codeConstruct);
+            this.addProperty(propertyName, propertyValue, codeConstruct, propertyName != "length");
         }
     },
 

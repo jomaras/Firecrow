@@ -11,7 +11,7 @@
     <script src="jQueryModelMappings/jqueryModelMapping2.js"></script>
     <script src="jQueryModelMappings/jqueryModelMapping3.js"></script>
     <script src="jQueryModelMappings/jqueryModelMapping4.js"></script>
-    <script src="jQueryModelMappings/jqueryModelMapping5.js"></script> -->
+    <script src="jQueryModelMappings/jqueryModelMapping5.js"></script>
     <script src="jQueryModelMappings/jqueryModelMapping6.js"></script>
     <!--<script src="jQueryModelMappings/jqueryModelMapping7.js"></script>
     <script src="jQueryModelMappings/jqueryModelMapping8.js"></script>
@@ -20,6 +20,7 @@
     <script src="jQueryModelMappings/jqueryModelMapping12.js"></script>
     <script src="jQueryModelMappings/jqueryModelMapping13.js"></script>
     <script src="jQueryModelMappings/jqueryModelMapping14.js"></script>-->
+    <script src="jQueryModelMappings/jqueryModelMapping20.js"></script>
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
@@ -107,7 +108,7 @@
 <script>
     var Firecrow = FBL.Firecrow;
 
-    var url = "file:///C:/GitWebStorm/Firecrow/debug/jQuery/09/index.html";
+    var url = "file:///C:/GitWebStorm/Firecrow/debug/jQuery/20/index.html";
     var htmlModel = HtmlModelMapping.getWholeFileModel(url);
     var slicingCriteria = htmlModel.results.map(function(result)
     {
@@ -130,8 +131,6 @@
 
     var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
 
-    checkForErrors(browser, htmlModel);
-
     document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
 
     function setTitle(url)
@@ -139,64 +138,6 @@
         var testIdContainer = document.getElementById("testIdContainer");
         testIdContainer.textContent = url;
         testIdContainer.href = url;
-    }
-
-    function checkForErrors(browser, htmlModel)
-    {
-        var messageContainer = document.getElementById("messageContainer");
-        var globalObjectProperties = browser.globalObject.properties;
-
-        var errors = "";
-
-        var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
-        var specifiedCode = atob(htmlModel.slicingResult);
-
-        if(generatedCode != specifiedCode) { errors += "Slicing does not match!"; }
-
-        htmlModel.results.forEach(function(result)
-        {
-            for(var propName in result)
-            {
-                var hasBeenFound = false;
-                for(var i = 0; i < globalObjectProperties.length; i++)
-                {
-                    var property = globalObjectProperties[i];
-                    var propertyValue = property.value;
-
-                    if(property.name == propName)
-                    {
-                        hasBeenFound = true;
-
-                        if(propertyValue == null)
-                        {
-                            errors += propName + " is null, and should be: " + result[propName] + "\n";
-                            break;
-                        }
-
-                        if(propertyValue.value != result[propName])
-                        {
-                            errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
-                        }
-
-                        break;
-                    }
-                }
-
-                if(!hasBeenFound)
-                {
-                    errors += propName + " could not be found in global object!\n";
-                }
-            }
-        });
-
-        if(errors != "") { alert("Errors on validating result:\n" + errors); }
-        else
-        {
-            var newDiv = document.createElement("div");
-            newDiv.style.color = "green";
-            newDiv.textContent = "Test successful";
-            messageContainer.appendChild(newDiv);
-        }
     }
 </script>
 </body>

@@ -37,6 +37,7 @@ Firecrow.DoppelBrowser.Browser = function(pageModel)
         this.controlFlowConnectionCallbacks = [];
         this.importantConstructReachedCallbacks = [];
         this.documentReadyCallbacks = [];
+        this.breakContinueReturnEventsCallbacks = [];
 
         this.errorMessages = [];
         this.cssRules = [];
@@ -468,8 +469,6 @@ Browser.prototype =
         {
             var inputState = currentInputStates[i];
 
-            console.log(inputState.elementXPath);
-
             var wrappedElement = this.globalObject.document.getElementByXPath(inputState.elementXPath)
 
             if(wrappedElement != null && wrappedElement.value != null)
@@ -544,6 +543,13 @@ Browser.prototype =
         this.importantConstructReachedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerBreakContinueReturnEventReached: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - break continue return event construct reached callback has to be a function!"); return; }
+
+        this.breakContinueReturnEventsCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     registerDocumentReadyCallback: function(callback, thisObject)
     {
         if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - important document ready callback has to be a function!"); return; }
@@ -614,6 +620,14 @@ Browser.prototype =
         this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies);
+        });
+    },
+    //TODO - think about new name
+    callBreakContinueReturnEventCallbacks: function(node, evaluationPosition)
+    {
+        this.breakContinueReturnEventsCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, node, evaluationPosition);
         });
     },
 

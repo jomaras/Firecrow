@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-type">
-</meta>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
 <title>Coda Bubble Example</title>
 <style media="screen" type="text/css">
     * {
@@ -86,6 +84,7 @@
         color: #333;
     }
 </style>
+
 <script type="text/javascript">
 (function (window, undefined)
 {
@@ -521,7 +520,12 @@
         {},
         data: function (elem, name, data, pvt)
         {
-            var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
+            var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
+            if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
+            {
+                return ;
+            }
+
             if(!id)
             {
                 if(isNode)
@@ -1249,6 +1253,7 @@
     window.$ = jQuery;
 })(window);
 </script>
+
 <script type="text/javascript">
     $(function ()
     {
@@ -1280,16 +1285,13 @@
                 return false;
             }).mouseout(function ()
                     {
-                        setTimeout(function ()
+                        info.animate({
+                            top: ('-=' + distance) + 'px',
+                            opacity: 0
+                        }, time, 'swing', function ()
                         {
-                            info.animate({
-                                top: ('-=' + distance) + 'px',
-                                opacity: null
-                            }, time, 'swing', function ()
-                            {
-                                info.css('display', 'none');
-                            });
-                        }, hideDelay);
+                            info.css('display', 'none');
+                        });
                         return false;
                     });
         });
@@ -1298,77 +1300,58 @@
 </head>
 <body id="page">
 <h1>Coda Bubble Example</h1>
-<p>
-    <a href="http://www.panic.com/coda/">Coda web site</a>
-</p>
+<p>This shows a demonstration of the 'puff' popup bubble effect as seen over the download link on the <a href="http://www.panic.com/coda/">Coda web site</a>.</p>
 <p>Roll the mouse over and out from the download image to see the popup fade in and out of view, while gently gliding upwards.</p>
-<p>
-    <a href="http://jqueryfordesigners.com/coda-popup-bubbles">Read the article, and see the screencast this demonstration relates to</a>
-</p>
-<p>
-    <small>Note that the transparency doesn't work in IE - this is the same on the Coda web site where the images were sourced.</small>
-</p>
+<p><a href="http://jqueryfordesigners.com/coda-popup-bubbles">Read the article, and see the screencast this demonstration relates to</a></p>
+<p><small>Note that the transparency doesn't work in IE - this is the same on the Coda web site where the images were sourced.</small></p>
+
+
 <div class="bubbleInfo">
     <div>
         <img id="download" src="images/nav-download.png" class="trigger"/>
-
     </div>
     <table class="popup" id="dpop">
-        <tbody>
-        <tr>
-            <td class="corner" id="topleft">
-            </td>
-            <td class="top">
-            </td>
-            <td class="corner" id="topright">
-            </td>
+        <tbody><tr>
+            <td class="corner" id="topleft"></td>
+            <td class="top"></td>
+            <td class="corner" id="topright"></td>
         </tr>
+
         <tr>
-            <td class="left">
-            </td>
-            <td>
-                <table class="popup-contents">
-                    <tbody>
-                    <tr>
-                        <th>File:</th>
-                        <td>coda 1.1.zip</td>
-                    </tr>
-                    <tr>
-                        <th>Date:</th>
-                        <td>11/30/07</td>
-                    </tr>
-                    <tr>
-                        <th>Size:</th>
-                        <td>17 MB</td>
-                    </tr>
-                    <tr>
-                        <th>Req:</th>
-                        <td>Mac OS X 10.4+</td>
-                    </tr>
-                    <tr id="release-notes">
-                        <th>Read the release notes:</th>
-                        <td>
-                            <a href="./releasenotes.html" title="Read the release notes">release notes</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td class="right">
-            </td>
-        </tr>
-        <tr>
-            <td id="bottomleft" class="corner">
-            </td>
-            <td class="bottom">
-                <img width="30" height="29" src="images/bubble-tail2.png" alt="popup tail"/>
+            <td class="left"></td>
+            <td><table class="popup-contents">
+                <tbody><tr>
+                    <th>File:</th>
+                    <td>coda 1.1.zip</td>
+                </tr>
+                <tr>
+                    <th>Date:</th>
+                    <td>11/30/07</td>
+                </tr>
+                <tr>
+                    <th>Size:</th>
+                    <td>17 MB</td>
+                </tr>
+                <tr>
+                    <th>Req:</th>
+                    <td>Mac OS X 10.4+</td>
+                </tr>
+                <tr id="release-notes">
+                    <th>Read the release notes:</th>
+                    <td><a href="./releasenotes.html" title="Read the release notes">release notes</a></td>
+                </tr>
+                </tbody></table>
 
             </td>
-            <td class="corner" id="bottomright">
-            </td>
+            <td class="right"></td>
         </tr>
-        </tbody>
-    </table>
+
+        <tr>
+            <td id="bottomleft" class="corner"></td>
+            <td class="bottom"><img width="30" height="29" src="images/bubble-tail2.png" alt="popup tail"/></td>
+            <td class="corner" id="bottomright"></td>
+        </tr>
+        </tbody></table>
 </div>
-</body>
-</html>
+
+</body></html>

@@ -193,10 +193,14 @@ fcModel.HtmlElementProto =
               || propertyName == "selected" || propertyName == "className" || propertyName == "enctype"
               || propertyName == "outerHTML" || propertyName == "disabled" || propertyName == "nodeName"
               || propertyName == "scrollLeft" || propertyName == "scrollTop" || propertyName == "clientTop" || propertyName == "clientLeft"
+              || propertyName == "href"
               //TODO - remove this jQuery stuff below
               || propertyName == "test" || propertyName == "attachEvent" || propertyName == "matchesSelector" || propertyName == "opacity"
               || propertyName == "createElement" || propertyName == "currentStyle" || propertyName.toLowerCase().indexOf("jquery") != -1
-              || propertyName == "left" || propertyName == "top")
+              || propertyName == "left" || propertyName == "top" || propertyName == "width" || propertyName == "height" || propertyName == "hash"
+              || propertyName == "is" || propertyName == "window" || propertyName == "paddingTop" || propertyName == "paddingBottom" || propertyName == "marginTop"
+              || propertyName == "marginBottom" || propertyName == "marginLeft"|| propertyName == "marginRight" || propertyName == "ai" || propertyName == "si"
+              || this.htmlElement instanceof HTMLFormElement)
         {
             if(propertyValue == null || this.htmlElement[propertyName] != propertyValue.value)
             {
@@ -212,7 +216,9 @@ fcModel.HtmlElementProto =
                 this.addProperty(propertyName, propertyValue, this.creationConstruct);
             }
         }
-        else if(propertyName == "onclick" || propertyName == "ownerDocument")
+        else if(propertyName == "onclick" || propertyName == "ownerDocument"
+             || propertyName == "onkeyup" || propertyName == "onmousedown"
+             || propertyName == "onselectstart" || propertyName == "onsubmit")
         {
             //nothing
         }
@@ -230,7 +236,7 @@ fcModel.HtmlElementProto =
         {
             fcModel.HtmlElement.accessedProperties[propertyName] = "writes";
 
-            if(propertyName == "onclick")
+            if(propertyName == "onclick" || propertyName == "onkeyup" || propertyName == "onmousedown" || propertyName == "onselectstart")
             {
                 this.globalObject.registerHtmlElementEventHandler
                 (
@@ -246,7 +252,7 @@ fcModel.HtmlElementProto =
             else if (propertyName == "textContent" || propertyName == "id" || propertyName == "value"
                   || propertyName == "checked" || propertyName == "innerHTML" || propertyName == "selected"
                   || propertyName == "className" || propertyName == "enctype" || propertyName == "outerHTML"
-                  || propertyName == "disabled" || propertyName.indexOf("jQuery") != -1)
+                  || propertyName == "disabled" || propertyName.indexOf("jQuery") != -1 || propertyName == "ai" || propertyName == "si")
             {
                 this.htmlElement[propertyName] = propertyValue.value;
             }
@@ -321,7 +327,7 @@ fcModel.HtmlElement.CONST =
         [
             "addEventListener", "appendChild","blur", "click", "cloneNode", "compareDocumentPosition",
             "dispatchEvent", "focus", "getAttribute", "getAttributeNS", "getAttributeNode", "getAttributeNodeNS",
-            "getBoundingRect", "getClientRects", "getElementsByClassName", "getElementsByTagName", "getElementsByTagNameNS",
+            "getBoundingRect", "getClientRects", "getBoundingClientRect", "getElementsByClassName", "getElementsByTagName", "getElementsByTagNameNS",
             "getFeature", "getUserData", "hasAttribute", "hasAttributeNS", "hasAttributes", "hasChildNodes", "insertBefore",
             "isDefaultNamespace", "isEqualNode", "isSameNode", "isSupported", "lookupNamespaceURI", "lookupPrefix", "mozMatchesSelector",
             "mozRequestFullScreen", "normalize", "querySelector", "querySelectorAll", "removeAttribute", "removeAttributeNS", "removeAttributeNode",
@@ -484,6 +490,35 @@ fcModel.HtmlElementExecutor =
                     );
                 }
                 return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
+            case "getBoundingClientRect":
+                try
+                {
+                    var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+
+                    var nativeObj = {
+                        bottom: new fcModel.JsValue(result.bottom, new fcModel.FcInternal(callExpression)),
+                        top: new fcModel.JsValue(result.top, new fcModel.FcInternal(callExpression)),
+                        left: new fcModel.JsValue(result.left, new fcModel.FcInternal(callExpression)),
+                        right: new fcModel.JsValue(result.right, new fcModel.FcInternal(callExpression)),
+                        height: new fcModel.JsValue(result.height, new fcModel.FcInternal(callExpression)),
+                        width: new fcModel.JsValue(result.width, new fcModel.FcInternal(callExpression))
+                    };
+                    var fcObj = new fcModel.Object(this.globalObject, callExpression, nativeObj);
+                    fcObj.addProperty("bottom", nativeObj.bottom, callExpression);
+                    fcObj.addProperty("top", nativeObj.top, callExpression);
+                    fcObj.addProperty("left", nativeObj.left, callExpression);
+                    fcObj.addProperty("right", nativeObj.right, callExpression);
+                    fcObj.addProperty("height", nativeObj.height, callExpression);
+                    fcObj.addProperty("width", nativeObj.width, callExpression);
+
+                    return new fcModel.JsValue(nativeObj, new fcModel.FcInternal(callExpression, fcObj));
+                }
+                catch(e)
+                {
+                    alert("Error when executing getBoundingClientRect");
+                }
+
+                return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
         }

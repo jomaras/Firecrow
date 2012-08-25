@@ -86,6 +86,33 @@ fcModel.Document = function(document, globalObject)
             {
                 return fcModel.DocumentExecutor.wrapToFcHtmlElement(this.document[propertyName], codeConstruct, globalObject)
             }
+            else if (propertyName == "forms")
+            {
+                var implObj = {};
+                var fcObj = new fcModel.Object(this.globalObject, codeConstruct, implObj);
+                for(var i = document.forms.length - 1; i >= 0; i--)
+                {
+                    var htmlForm = document.forms[i];
+                    var wrappedForm = this.wrapToFcHtmlElement(htmlForm, codeConstruct, this.globalObject);
+
+                    implObj[i] = wrappedForm;
+                    fcObj.addProperty(i, wrappedForm, codeConstruct);
+
+                    if(htmlForm.name != "")
+                    {
+                        implObj[htmlForm.name] = wrappedForm;
+                        fcObj.addProperty(htmlForm.name, wrappedForm, codeConstruct);
+                    }
+
+                    if(htmlForm.id != "")
+                    {
+                        implObj[htmlForm.id] = wrappedForm;
+                        fcObj.addProperty(htmlForm.id, wrappedForm, codeConstruct);
+                    }
+                }
+
+                return new fcModel.JsValue(implObj, new fcModel.FcInternal(codeConstruct, fcObj));
+            }
             else if (propertyName == "window")
             {
                 return this.globalObject;

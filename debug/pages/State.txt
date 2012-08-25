@@ -1,0 +1,22 @@
+fancyCheckbox - two test cases, both work
+humanTypist - works
+idt - works
+tabs - works (but somewhere a return expression from click is not returned - check it out!
+jsRGBPassword - works (maybe i also add with below 4 passwords)
+tinySlider - works 4 cases (only arrows, only thumbnails, auto, all together)
+
+codeBubble - animate, the opacity fu*ks something up - see jQuery test20 for an example
+validate.js - needs some work on it, not sure how to test it, maybe make a number of different web pages
+              where each tests only a subset of rules
+
+idubitablee - on prototype (probably nothing out of it)
+jQueryCarousel - passes tests, but makes heavy modifications of the UI - so something gets lost
+line25AnimatedMenu - uses an old jQuery version, not sure if i want to get into it
+line25JQuerySlideshow - something is heavily screwed up
+
+proposable - not yet tested
+sketchdock - not yet tested; but is on prototype
+
+Zebra Accordion - not yet tested
+
+tinySlider - uses new Function!; and add support for onclick directly in html
