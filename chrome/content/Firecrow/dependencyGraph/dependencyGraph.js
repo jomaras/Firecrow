@@ -206,7 +206,7 @@ DependencyGraph.prototype.markGraph = function(model)
             }
             else
             {
-                alert("Still not handling other return statements");
+                alert("Still not handling other break continue in this way");
             }
         }
 
