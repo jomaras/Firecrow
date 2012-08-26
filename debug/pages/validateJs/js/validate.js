@@ -43,6 +43,10 @@
      * Define the regular expressions that will be used
      */
 
+
+
+
+
     var ruleRegex = /^(.+)\[(.+)\]$/,
         numericRegex = /^[0-9]+$/,
         integerRegex = /^\-?[0-9]+$/,
@@ -181,7 +185,7 @@
             }
         }
 
-        return true;
+        return false;
     };
 
     /*

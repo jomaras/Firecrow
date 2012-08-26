@@ -110,7 +110,7 @@ Browser.prototype =
             this._setAttributes(htmlDomElement, htmlModelElement);
             this._insertIntoDom(htmlDomElement, parentDomElement);
 
-            if(htmlModelElement.type == "script" || htmlModelElement.type == "style")
+            if(htmlModelElement.type == "script" || htmlModelElement.type == "style" || htmlModelElement.type == "link")
             {
                 if(htmlModelElement.type == "script")
                 {
@@ -123,7 +123,10 @@ Browser.prototype =
                     this._buildCssNodes(htmlModelElement);
                 }
 
-                htmlDomElement.textContent = htmlModelElement.textContent
+                if(htmlModelElement.textContent != null)
+                {
+                    htmlDomElement.textContent = htmlModelElement.textContent
+                }
             }
 
             this._createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
@@ -159,6 +162,7 @@ Browser.prototype =
     _createStaticHtmlNode: function(htmlModelNode)
     {
         var htmlDomElement = null;
+
         if(htmlModelNode.type == "html")
         {
             htmlDomElement = this.hostDocument.documentElement;
@@ -173,7 +177,14 @@ Browser.prototype =
         }
         else
         {
-            htmlDomElement = this.hostDocument.createElement(htmlModelNode.type);
+            if(this._isExternalStyleLink(htmlModelNode))
+            {
+                htmlDomElement = this.hostDocument.createElement("style");
+            }
+            else
+            {
+                htmlDomElement = this.hostDocument.createElement(htmlModelNode.type);
+            }
         }
 
         htmlDomElement.modelElement = htmlModelNode;
@@ -182,6 +193,22 @@ Browser.prototype =
         this.callNodeCreatedCallbacks(htmlModelNode, "html", false);
 
         return htmlDomElement;
+    },
+
+    _isExternalStyleLink: function(htmlModelElement)
+    {
+        if(htmlModelElement == null || htmlModelElement.type != "link"
+        || htmlModelElement.attributes == null || htmlModelElement.attributes.length == 0) { return false; }
+
+        for(var i = 0; i < htmlModelElement.attributes.length; i++)
+        {
+            var attribute = htmlModelElement.attributes[i];
+
+            if(attribute.name == "type" && attribute.value == "text/css") { return true; }
+            else if (attribute.name == "rel" && attribute.value == "stylesheet") { return true; }
+        }
+
+        return false;
     },
 
     _interpretJsCode: function(codeModel, handlerInfo)
@@ -230,13 +257,20 @@ Browser.prototype =
         try
         {
             cssHtmlElementModelNode.cssRules = cssHtmlElementModelNode.pathAndModel.model.rules;
+            var cssText = "";
             cssHtmlElementModelNode.cssRules.forEach(function(cssRule)
             {
                 cssRule.hasBeenExecuted = true;
                 this.callNodeCreatedCallbacks(cssRule, "css", false);
                 this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
+                cssText += cssRule.cssText;
                 this.cssRules.push(cssRule);
             }, this);
+
+            if(this._isExternalStyleLink(cssHtmlElementModelNode))
+            {
+                cssHtmlElementModelNode.domElement.textContent = cssText;
+            }
         }
         catch(e) { this.notifyError("DoppelBrowser.browser error when building css nodes: " + e);}
     },

@@ -1,11 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title></title>
+    <title>validate.js</title>
+    <meta name="description" content="Lightweight form validation library in JavaScript ready to include in any web application." />
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/JQuery.js"></script>
+    <script type="text/javascript" src="js/validate.js"></script>
 </head>
 <body>
-    <form name="firstForm"></form>
-    <form id="firstForm"></form>
+<h1>validate.js</h1>
+<div id="content">
+    <div style="clear:both;"></div>
+    <h3><span>Example</span></h3>
 
+    <div class="success_box">All of the fields were successfully validated!</div>
+    <div class="error_box"></div>
+
+    <form name="example_form" action="#" method="POST">
+        <label for="req">Required field:</label>
+        <input name="req" id="req" />
+
+        <button class="button gray" type="submit" name="submit">Submit</button>
+    </form>
+
+    <script type="text/javascript">
+        new FormValidator('example_form', [{
+            name: 'req',
+            display: 'required',
+            rules: 'required'
+        }], function(errors, event)
+        {
+            var SELECTOR_ERRORS = $('.error_box'),
+                SELECTOR_SUCCESS = $('.success_box');
+
+            if (errors.length > 0)
+            {
+                SELECTOR_ERRORS.empty();
+
+                for (var i = 0, errorLength = errors.length; i < errorLength; i++)
+                {
+                    SELECTOR_ERRORS.append(errors[i].message + '<br />');
+                }
+
+                SELECTOR_ERRORS.fadeIn(200);
+
+
+                SELECTOR_ERRORS;
+            }
+            else
+            {
+                SELECTOR_SUCCESS.fadeIn(200);
+            }
+
+            if (event && event.preventDefault)
+            {
+                event.preventDefault();
+            }
+            else if (event)
+            {
+                event.returnValue = false;
+            }
+
+            return false;
+        });
+    </script>
+</div>
 </body>
 </html>

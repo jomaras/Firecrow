@@ -53,12 +53,12 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                     if(command.codeConstruct.loc != null)
                     {
-                        if(command.codeConstruct.loc.start.line == 72)
+                        if(command.codeConstruct.loc.start.line == 8498)
                         {
                             logExecution = true;
                         }
 
-                        if(logExecution)
+                        if(command.codeConstruct.loc.start.line >= 8498 && command.codeConstruct.loc.start.line <= 8621)
                         {
                             Firecrow.Interpreter.InterpreterSimulator.log += command.getLineNo() + "-" + command.type + "\n";
                         }
