@@ -13,9 +13,11 @@
 <a id="link" href="http://www.google.com">google</a>
 <div id="cont"></div>
 <script type ="text/javascript">
-    document.getElementById("link").onclick = function()
+    document.getElementById("link").onclick = function(e)
     {
         document.getElementById("cont").textContent = "Someones trying to cliiick";
+        e.preventDefault();
+        e.stopPropagation();
         return false;
     }
 </script>

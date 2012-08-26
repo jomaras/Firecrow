@@ -201,10 +201,11 @@ Browser.prototype =
             }, this);
 
             interpreter.runSync();
-
-            if(interpreter.executionContextStack.blockCommandStack.length != 0) { this.notifyError("There are still commands in the block command stack" + scriptModelNode.pathAndModel.path); }
         }
-        catch(e) { this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e); }
+        catch(e)
+        {
+            this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e);
+        }
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)
@@ -441,13 +442,14 @@ Browser.prototype =
                             && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                             {
                                 this._adjustCurrentInputStates(eventTrace.args.currentInputStates);
+                                var eventThisObject = new fcModel.JsValue(fcHtmlElement.htmlElement, new fcModel.FcInternal(null, fcHtmlElement));
                                 this._interpretJsCode
                                 (
                                     handlerConstruct.body,
                                     {
                                         functionHandler: event.handler,
-                                        thisObject: new fcModel.JsValue(fcHtmlElement.htmlElement, new fcModel.FcInternal(null, fcHtmlElement)),
-                                        argumentValues: this._getArguments(eventTrace.args),
+                                        thisObject: eventThisObject,
+                                        argumentValues: this._getArguments(eventTrace.args, eventThisObject),
                                         registrationPoint: event.registrationPoint
                                     }
                                 );
@@ -675,12 +677,12 @@ Browser.prototype =
         return paths.length ? "/" + paths.join("/") : "";
     },
 
-    _getArguments: function(eventTraceArgs)
+    _getArguments: function(eventTraceArgs, thisValue)
     {
         var arguments = [];
 
-        var eventInfoJsObject = new fcModel.Object(this.globalObject);
         var eventInfo = {};
+        var eventInfoJsObject = new fcModel.Event(eventInfo, this.globalObject, thisValue);
 
         for(var propName in eventTraceArgs)
         {

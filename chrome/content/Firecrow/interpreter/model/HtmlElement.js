@@ -177,7 +177,8 @@ fcModel.HtmlElementProto =
         }
         else if (propertyName == "body" || propertyName == "firstChild"
               || propertyName == "parentNode" || propertyName == "lastChild"
-              || propertyName == "nextSibling" || propertyName == "previousSibling")
+              || propertyName == "nextSibling" || propertyName == "previousSibling"
+              || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
         {
             if(propertyValue == null || propertyValue.value == null || this.htmlElement[propertyName] == null
             || propertyValue.value.fcHtmlElementId == undefined
@@ -200,7 +201,7 @@ fcModel.HtmlElementProto =
               || propertyName == "left" || propertyName == "top" || propertyName == "width" || propertyName == "height" || propertyName == "hash"
               || propertyName == "is" || propertyName == "window" || propertyName == "paddingTop" || propertyName == "paddingBottom" || propertyName == "marginTop"
               || propertyName == "marginBottom" || propertyName == "marginLeft"|| propertyName == "marginRight" || propertyName == "ai" || propertyName == "si"
-              || this.htmlElement instanceof HTMLFormElement)
+              || propertyName == "type")
         {
             if(propertyValue == null || this.htmlElement[propertyName] != propertyValue.value)
             {
@@ -236,7 +237,8 @@ fcModel.HtmlElementProto =
         {
             fcModel.HtmlElement.accessedProperties[propertyName] = "writes";
 
-            if(propertyName == "onclick" || propertyName == "onkeyup" || propertyName == "onmousedown" || propertyName == "onselectstart")
+            if(propertyName == "onclick" || propertyName == "onkeyup" || propertyName == "onmousedown"
+            || propertyName == "onselectstart"|| propertyName == "onsubmit")
             {
                 this.globalObject.registerHtmlElementEventHandler
                 (
@@ -423,7 +425,7 @@ fcModel.HtmlElementExecutor =
                     this.addDependencies(elements[i], callExpression, globalObject);
                 }
 
-                return this.wrapToFcElements(globalObject, callExpression, elements);
+                return this.wrapToFcElements(elements, globalObject, callExpression);
             case "getAttribute":
                 var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 this.addDependencies(thisObjectValue, callExpression, globalObject);
@@ -524,7 +526,7 @@ fcModel.HtmlElementExecutor =
         }
     },
 
-    wrapToFcElements: function(globalObject, codeConstruct, items)
+    wrapToFcElements: function(items, globalObject, codeConstruct)
     {
         try
         {

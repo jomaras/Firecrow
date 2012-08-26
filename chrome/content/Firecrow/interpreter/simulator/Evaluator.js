@@ -214,7 +214,8 @@ fcSimulator.Evaluator.prototype =
                 if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
                 if (object.value == this.globalObject
-                ||  ValueTypeHelper.isOneOfTypes(object.value, [Document, DocumentFragment, HTMLElement, Text, Attr, CSSStyleDeclaration, Array]))
+                ||  ValueTypeHelper.isOneOfTypes(object.value, [Document, DocumentFragment, HTMLElement, Text, Attr, CSSStyleDeclaration, Array])
+                ||  (object.fcInternal != null && object.fcInternal.object != null && object.fcInternal.object.constructor == fcModel.Event))
                 {
                     object.fcInternal.object.addJsProperty(property.value, finalValue, assignmentExpression);
                 }
@@ -518,11 +519,6 @@ fcSimulator.Evaluator.prototype =
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
-            if(evalMemberExpressionCommand.codeConstruct != null && evalMemberExpressionCommand.codeConstruct.loc.start.line == 84)
-            {
-                var a = 3;
-            }
-
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
@@ -533,7 +529,8 @@ fcSimulator.Evaluator.prototype =
             var propertyValue;
 
             if(object.value == this.globalObject
-            || ValueTypeHelper.isOneOfTypes(object.value, [HTMLElement, Text, Document, DocumentFragment, CSSStyleDeclaration, Attr, Array, RegExp]))
+            || ValueTypeHelper.isOneOfTypes(object.value, [HTMLElement, Text, Document, DocumentFragment, CSSStyleDeclaration, Attr, Array, RegExp])
+                ||  (object.fcInternal != null && object.fcInternal.object != null && object.fcInternal.object.constructor == fcModel.Event))
             {
                 propertyValue = object.fcInternal.object.getJsPropertyValue(property.value, memberExpression);
             }

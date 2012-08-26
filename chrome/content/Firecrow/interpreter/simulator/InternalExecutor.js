@@ -388,6 +388,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (ValueTypeHelper.isOfType(thisObject.value, Date)) { return fcModel.DateExecutor.executeInternalDateMethod(thisObject, functionObject, arguments, callExpression); }
             else if (thisObject.value == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeFunctionMethod(thisObject, functionObject, arguments, callExpression, this.globalObject); }
             else if (thisObject.value == this.globalObject.fcMath) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (thisObject.fcInternal != null && thisObject.fcInternal.object != null && thisObject.fcInternal.object.constructor == fcModel.Event){ return fcModel.EventExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
             else if (functionObject.fcInternal.isInternalFunction) { return this._executeInternalFunction(thisObject, functionObject, arguments, callExpression, callCommand); }
             else
             {

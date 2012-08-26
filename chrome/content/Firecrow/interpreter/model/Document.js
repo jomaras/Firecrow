@@ -84,7 +84,7 @@ fcModel.Document = function(document, globalObject)
             }
             else if (propertyName == "documentElement" || propertyName == "body" || propertyName == "head")
             {
-                return fcModel.DocumentExecutor.wrapToFcHtmlElement(this.document[propertyName], codeConstruct, globalObject)
+                return fcModel.HtmlElementExecutor.wrapToFcElement(this.document[propertyName], this.globalObject, codeConstruct)
             }
             else if (propertyName == "forms")
             {
@@ -93,7 +93,7 @@ fcModel.Document = function(document, globalObject)
                 for(var i = document.forms.length - 1; i >= 0; i--)
                 {
                     var htmlForm = document.forms[i];
-                    var wrappedForm = this.wrapToFcHtmlElement(htmlForm, codeConstruct, this.globalObject);
+                    var wrappedForm = fcModel.HtmlElementExecutor.wrapToFcElement(htmlForm, this.globalObject, codeConstruct);
 
                     implObj[i] = wrappedForm;
                     fcObj.addProperty(i, wrappedForm, codeConstruct);
@@ -268,7 +268,7 @@ fcModel.DocumentExecutor =
                 fcModel.HtmlElementExecutor.addDependencies(elements[i], callExpression, globalObject);
             }
 
-            return this.wrapToFcHtmlElements(elements, callExpression, globalObject);
+            return fcModel.HtmlElementExecutor.wrapToFcElements(elements, globalObject, callExpression);
         }
         else if(functionName == "getElementById" || functionName == "querySelector")
         {
@@ -296,44 +296,12 @@ fcModel.DocumentExecutor =
 
             fcModel.HtmlElementExecutor.addDependencies(element, callExpression, globalObject);
 
-            return this.wrapToFcHtmlElement(element, callExpression, globalObject);
+            return fcModel.HtmlElementExecutor.wrapToFcElement(element, globalObject, callExpression);
         }
 
         this.notifyError("Unknown document method: " +  functionName);
+
         return null;
-    },
-
-    wrapToFcHtmlElements: function(items, callExpression, globalObject)
-    {
-        try
-        {
-            var elements = [];
-
-            for(var i = 0, length = items.length; i < length; i++)
-            {
-                elements.push(this.wrapToFcHtmlElement(items[i], callExpression, globalObject));
-            }
-
-            return globalObject.internalExecutor.createArray(callExpression, elements);
-        }
-        catch(e) { this.notifyError("Error when wrapping to htmlElements:" + e); }
-    },
-
-    wrapToFcHtmlElement: function(htmlElement, callExpression, globalObject)
-    {
-        try
-        {
-            return new fcModel.JsValue
-            (
-                htmlElement,
-                new fcModel.FcInternal
-                (
-                    callExpression,
-                    new fcModel.HtmlElement(htmlElement, globalObject, callExpression)
-                )
-            );
-        }
-        catch(e) { this.notifyError("Error when wrapping to fcHtmlElement:" + e); }
     },
 
     notifyError: function(message) { alert("DocumentExecutor - " + message);}
