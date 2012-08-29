@@ -291,7 +291,7 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
 
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
-            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 212)
+            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 8877 && identifierConstruct.name == "gotoEnd")
             {
                 var a = 3;
             }
@@ -521,9 +521,9 @@ fcSimulator.Evaluator.prototype =
 
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
-            if(memberExpression.loc.start.line == 8545)
+            if(memberExpression.loc.start.line == 8875)
             {
-                var a = 3;
+                console.log("8951")
             }
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }

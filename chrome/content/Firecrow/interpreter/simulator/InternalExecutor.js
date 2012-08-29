@@ -351,7 +351,7 @@ fcSimulator.InternalExecutor.prototype =
             }
             else if (internalConstructor.value == this.globalObject.dateFunction)
             {
-                return fcModel.DateExecutor.executeConstructor(constructorConstruct, arguments);
+                return fcModel.DateExecutor.executeConstructor(constructorConstruct, arguments, this.globalObject);
             }
             else if (internalConstructor.value == this.globalObject.xmlHttpRequestFunction)
             {

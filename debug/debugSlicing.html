@@ -95,11 +95,11 @@
 <br>
 <div id="lineNumberContainer"></div>
 <div id="codeContainer">
-    <pre id="sourceTextContainer">
-    </pre>
+    <textarea id="sourceTextContainer">
+    </textarea>
 </div>
 <div id="slicedCodeContainer">
-    <pre id="slicedSourceTextContainer"></pre>
+    <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
 
@@ -130,8 +130,8 @@
 
         checkForErrors(browser, htmlModel);
 
-        document.getElementById("sourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.model);
-        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+        document.getElementById("sourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.model);
+        document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
 
         function setTitle(url)
         {

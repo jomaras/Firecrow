@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        .container
+        {
+            width:100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container"></div>
+<script>
+
+    var cont = document.querySelector(".container");
+
+    cont.addEventListener("mouseover", function(e)
+    {
+        cont.textContent += "Over";
+    });
+</script>
+</body>
+</html>

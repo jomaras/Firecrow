@@ -12,7 +12,7 @@ var CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 
-var logExecution = false;
+Firecrow.Interpreter.logExecution = false;
 
 Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, handlerInfo)
 {
@@ -39,6 +39,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
+            var lastLoggedCommandLine = 0;
             for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
             {
                 var command = this.commands[this.currentCommandIndex];
@@ -53,14 +54,17 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                     if(command.codeConstruct.loc != null)
                     {
-                        if(command.codeConstruct.loc.start.line == 8498)
+                        if(command.codeConstruct.loc.start.line == 8834)
                         {
-                            logExecution = true;
+                            Firecrow.Interpreter.logExecution = true;
                         }
 
-                        if(command.codeConstruct.loc.start.line >= 8498 && command.codeConstruct.loc.start.line <= 8621)
+                        if(Firecrow.Interpreter.logExecution && lastLoggedCommandLine != command.getLineNo() && !command.isDeclareVariableCommand()
+                        && !command.isEnterFunctionContextCommand() && !command.isExitFunctionContextCommand() && !command.isEndIfCommand()
+                        && !command.isEndLoopStatementCommand())
                         {
-                            Firecrow.Interpreter.InterpreterSimulator.log += command.getLineNo() + "-" + command.type + "\n";
+                            Firecrow.Interpreter.InterpreterSimulator.log += command.getLineNo() + ";\n";// + command.type + "\n";
+                            lastLoggedCommandLine = command.getLineNo();
                         }
                     }
 

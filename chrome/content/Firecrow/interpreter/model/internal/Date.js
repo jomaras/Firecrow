@@ -109,11 +109,20 @@ fcModel.DateExecutor =
         catch(e) { fcModel.Date.notifyError("Date - error when executing Date functions:" + e); }
     },
 
-    executeConstructor: function(callExpression, arguments)
+    executeConstructor: function(callExpression, arguments, globalObject)
     {
         try
         {
-            var date = arguments.length == 0 ? new Date() : new Date(arguments[0].value);
+            var date;
+
+            if(arguments.length == 0)
+            {
+                date =  new Date();
+            }
+            else
+            {
+                date = new Date(arguments[0].value)
+            }
 
             return new fcModel.JsValue(date, new fcModel.FcInternal(callExpression, new fcModel.Date(date)));
         }

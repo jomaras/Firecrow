@@ -309,7 +309,7 @@ Firecrow.ValueTypeHelper =
     adjustForRegExBug: function(regExElement, regExString)
     {
         if(regExElement == null || regExElement.parent == null
-        || regExElement.parent.loc == null || regExElement.parent.loc.source.indexOf("medialize") == -1)
+        || regExElement.parent.loc == null || regExElement.parent.loc.source == null || regExElement.parent.loc.source.indexOf("medialize") == -1)
         {
             return regExString;
         }

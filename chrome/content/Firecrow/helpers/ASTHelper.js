@@ -130,7 +130,8 @@ FBL.ns(function () { with (FBL) {
                         || propName == "previousCondition"
                         || propName == "includesNodes"
                         || propName == "includedByNodes"
-                        || propName == "type") { continue; }
+                        || propName == "type"
+                        || propName == "eventTraces") { continue; }
 
                     var propertyValue = astElement[propName];
 

@@ -1187,7 +1187,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { this.notifyError("Error while generating identifier commands:" + e);}
+        catch(e)
+        {
+            this.notifyError("Error while generating identifier commands:" + e);
+        }
 
         return commands;
     },
@@ -1224,7 +1227,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 parentFunctionCommand
             ));
         }
-        catch(e) { this.notifyError("Error while generating identifier commands:" + e);}
+        catch(e)
+        {
+            this.notifyError("Error while generating literal commands:" + e);
+        }
 
         return commands;
     },

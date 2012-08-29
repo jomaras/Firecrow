@@ -25,7 +25,7 @@
             background-color: red;
         }
     </style>
-    <script src="../jQuery.js"></script>
+    <script src="jQuery.js"></script>
 </head>
 <body>
 <div class="bubbleInfo">
@@ -36,12 +36,11 @@
 
 </div>
 <script>
-
+    GLOBAL = 0;
     $(document).ready(function()
     {
         var popup = $(".popup");
         var container =  $(".container");
-
         container.mouseover(function()
         {
             popup.animate({top: '-=10px', opacity: 0},250, 'swing');

@@ -323,7 +323,12 @@ Browser.prototype =
 
             var documentDomContentReadyMethods = this.globalObject.document.eventListenerInfo["DOMContentLoaded"] || [];
             var windowDomContentReadyMethods = this.globalObject.eventListenerInfo["DOMContentLoaded"] || [];
+            var onLoadFunctions =  this.globalObject.eventListenerInfo["load"] || [];
             var onLoadFunction = this.globalObject.getPropertyValue("onload");
+            if(onLoadFunction != null)
+            {
+                onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.globalObject.getProperty("onload").lastModificationConstruct });
+            }
             var htmlElementEvents = this.globalObject.htmlElementEventHandlingRegistrations;
             var timeoutEvents = this.globalObject.timeoutHandlers;
             var intervalEvents = this.globalObject.intervalHandlers;
@@ -332,8 +337,10 @@ Browser.prototype =
             {
                 var eventTrace = eventTraces[i];
                 var eventFile = eventTrace.filePath;
+                this.globalObject.currentEventTime = eventTrace.currentTime;
 
-                if(eventTrace.args.type == "")
+                if(eventTrace.args.type == "" || eventTrace.args.type == "load"
+                 ||eventTrace.args.type == "DOMContentLoaded")
                 {
                     var domContentReadyInfo = documentDomContentReadyMethods[0];
 
@@ -341,8 +348,8 @@ Browser.prototype =
                     {
                         var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
 
-                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
-                        && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
+                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                         {
                             this._interpretJsCode
                             (
@@ -355,6 +362,8 @@ Browser.prototype =
                                 }
                             );
 
+                            eventTrace.hasBeenHandled = true;
+
                             documentDomContentReadyMethods.shift();
                             continue;
                         }
@@ -366,8 +375,8 @@ Browser.prototype =
                     {
                         var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
 
-                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
-                        && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
+                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                         {
                             this._interpretJsCode
                             (
@@ -380,30 +389,36 @@ Browser.prototype =
                                 }
                             );
 
+                            eventTrace.hasBeenHandled = true;
+
                             windowDomContentReadyMethods.shift();
                             continue;
                         }
                     }
 
-                    if(onLoadFunction != null)
-                    {
-                        var handlerConstruct = onLoadFunction.fcInternal.object.codeConstruct;
+                    var onLoadInfo = onLoadFunctions[0];
 
-                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
-                        && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                    if(onLoadInfo != null)
+                    {
+                        var handlerConstruct = onLoadInfo.handler.fcInternal.object.codeConstruct;
+
+                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
+                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                         {
                             this._interpretJsCode
                             (
                                 handlerConstruct.body,
                                 {
-                                    functionHandler: onLoadFunction,
+                                    functionHandler: onLoadInfo.handler,
                                     thisObject: this.globalObject,
                                     argumentValues: [],
-                                    registrationPoint: this.globalObject.getProperty("onload").lastModificationConstruct
+                                    registrationPoint: onLoadInfo.registrationPoint
                                 }
                             );
 
-                            onLoadFunction = null;
+                            eventTrace.hasBeenHandled = true;
+
+                            onLoadFunctions.shift();
                             continue;
                         }
                     }
@@ -414,8 +429,8 @@ Browser.prototype =
 
                         var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 
-                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
-                        && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
+                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                         {
                             this._interpretJsCode
                             (
@@ -427,6 +442,9 @@ Browser.prototype =
                                     registrationPoint: event.registrationPoint
                                 }
                             );
+
+                            eventTrace.hasBeenHandled = true;
+
                             break;
                         }
                     }
@@ -437,8 +455,8 @@ Browser.prototype =
 
                         var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 
-                        if(handlerConstruct.loc.source.replace("///", "/") == eventFile
-                            && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
+                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                         {
                             this._interpretJsCode
                             (
@@ -450,6 +468,8 @@ Browser.prototype =
                                     registrationPoint: event.registrationPoint
                                 }
                             );
+
+                            eventTrace.hasBeenHandled = true;
 
                             ValueTypeHelper.removeFromArrayByIndex(timeoutEvents, j);
                             break;
@@ -472,8 +492,8 @@ Browser.prototype =
                         {
                             var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 
-                            if(handlerConstruct.loc.source.replace("///", "/") == eventFile
-                            && eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                            //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
+                            if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
                             {
                                 this._adjustCurrentInputStates(eventTrace.args.currentInputStates);
                                 var eventThisObject = new fcModel.JsValue(fcHtmlElement.htmlElement, new fcModel.FcInternal(null, fcHtmlElement));
@@ -487,14 +507,24 @@ Browser.prototype =
                                         registrationPoint: event.registrationPoint
                                     }
                                 );
+
+                                eventTrace.hasBeenHandled = true;
                                 break;
                             }
                         }
                     }
                 }
+
+                if(!eventTrace.hasBeenHandled)
+                {
+                    console.log("A not handled event!");
+                }
             }
         }
-        catch(e) { this.notifyError("Error when handling events: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when handling events: " + e);
+        }
     },
 
     _adjustCurrentInputStates: function(currentInputStates)

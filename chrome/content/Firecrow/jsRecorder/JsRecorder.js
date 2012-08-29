@@ -80,20 +80,34 @@ Firecrow.JsRecorder = function ()
 
                             var thisElement = frame.thisValue.getWrappedValue();
 
+                            trace.currentTime = (new Date()).getTime();
+
                             trace.thisValue =
                             {
                                 xPath: that.getElementXPath(thisElement)
                             };
 
                             var propArray = {}, length = {};
-                            frame.callee.getProperties(propArray, length);
-                            var calleeProperties = propArray.value;
 
-                            var firstArgument = null;
+                            var args = frame.callee.getProperty("arguments").value.getWrappedValue();
+                            var firstArgument = args != null ? args[0] : null;
 
-                            if(calleeProperties != null && calleeProperties.length > 0)
+                            if(firstArgument == null)
                             {
-                                firstArgument = calleeProperties[calleeProperties.length - 1].value.getWrappedValue();
+                                var propArray = {}, length = {};
+                                frame.callee.getProperties(propArray, length);
+                                var calleeProperties = propArray.value;
+
+                                for(var i = 0; i < calleeProperties != null && i < calleeProperties.length; i++)
+                                {
+                                    var value = calleeProperties[i].value.getWrappedValue();
+
+                                    if(value instanceof Event)
+                                    {
+                                        firstArgument = value;
+                                        break;
+                                    }
+                                }
                             }
 
                             trace.args =
@@ -112,6 +126,11 @@ Firecrow.JsRecorder = function ()
                                                             : trace.thisValue.xPath != "" ? "elementEvent" : "",
                                 currentInputStates: that.getCurrentInputStates(thisElement)
                             };
+
+                            if(trace.args.type == "elementEvent")
+                            {
+                                alert("Fuck");
+                            }
 
                             that.executionTrace.push(trace);
                         }
