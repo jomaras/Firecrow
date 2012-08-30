@@ -1,7 +1,28 @@
 <!DOCTYPE html>
 <html><head>
 <style>
-    .container { width: 100px; height: 100px; background-color: red; }
+    .bubbleInfo {
+        position: relative;
+        top: 150px;
+        left: 100px;
+        width: 500px;
+        background-color: red;
+    }
+
+    .popup {
+        position: absolute;
+        z-index: 50;
+        border-collapse: collapse;
+        width:100px;
+        height:100px;
+        background-color: blue;
+    }
+
+    .container{
+        width: 100px;
+        height: 100px;
+        background-color: red;
+    }
 </style>
 <script>
 (function (window, undefined)
@@ -12,7 +33,8 @@
         var jQuery = function (selector, context)
         {
             return new jQuery.fn.init(selector, context, rootjQuery);
-        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, readyList, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
+        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function (all, letter)
+        {}, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
         jQuery.fn = jQuery.prototype = {
             constructor: jQuery,
             init: function (selector, context, rootjQuery)
@@ -84,7 +106,7 @@
         jQuery.fn.init.prototype = jQuery.fn;
         jQuery.extend = jQuery.fn.extend = function ()
         {
-            var options, name, copy, target, i = 1, length = arguments.length, deep = false;
+            var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
             if(length === i)
             {
                 target = this;
@@ -106,6 +128,8 @@
                     }
                 }
             }
+
+            return target;
         };
         jQuery.extend({
             noConflict: function (deep)
@@ -119,6 +143,10 @@
                 if(wait === true || (wait !== true && !(jQuery.isReady)))
                 {
                     readyList.fireWith(document, [null]);
+                    if(jQuery.fn.trigger)
+                    {
+                        jQuery(document).trigger('ready').off('ready');
+                    }
                 }
             },
             bindReady: function ()
@@ -126,7 +154,7 @@
                 readyList = jQuery.Callbacks('once memory');
                 if(document.addEventListener)
                 {
-                    window.addEventListener('load', jQuery.ready, false);
+                    document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
                 }
             },
             isFunction: function (obj)
@@ -160,7 +188,9 @@
             globalEval: function (data)
             {},
             camelCase: function (string)
-            {},
+            {
+                return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
+            },
             nodeName: function (elem, name)
             {},
             each: function (object, callback, args)
@@ -178,13 +208,27 @@
                         }
                     }
                 }
+
+                return object;
             },
             trim: trim ? function (text)
             {
                 return text == null ? 0 : trim.call(text);
             } : 0,
             makeArray: function (array, results)
-            {},
+            {
+                var ret = results || [];
+                if(array != null)
+                {
+                    var type = jQuery.type(array);
+                    if(array.length == null || type === 'string' || type === 'function')
+                    {
+                        push.call(ret, array);
+                    }
+                }
+
+                return ret;
+            },
             inArray: function (elem, array, i)
             {},
             merge: function (first, second)
@@ -202,7 +246,9 @@
             access: function (elems, fn, key, value, chainable, emptyGet, pass)
             {},
             now: function ()
-            {},
+            {
+                return (new Date()).getTime();
+            },
             uaMatch: function (ua)
             {},
             sub: function ()
@@ -214,6 +260,14 @@
             class2type[('[object ' + name) + ']'] = name.toLowerCase();
         });
         rootjQuery = jQuery(document);
+        if(document.addEventListener)
+        {
+            DOMContentLoaded = function ()
+            {
+                jQuery.ready();
+            };
+        }
+
         return jQuery;
     })();
     var flagsCache = {};
@@ -353,7 +407,12 @@
         {},
         data: function (elem, name, data, pvt)
         {
-            var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
+            var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
+            if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
+            {
+                return ;
+            }
+
             if(!id)
             {
                 if(isNode)
@@ -368,7 +427,15 @@
             }
 
             thisCache = cache[id];
-            if(getByName);
+            if(data !== undefined)
+            {
+                thisCache[jQuery.camelCase(name)] = data;
+            }
+
+            if(getByName)
+            {
+                ret = thisCache[name];
+            }
             else
             {
                 ret = thisCache;
@@ -385,20 +452,76 @@
         acceptData: function (elem)
         {}
     });
-    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, hoverHack = function (events)
+    jQuery.extend({
+        _mark: function (elem, type)
+        {},
+        _unmark: function (force, elem, type)
+        {},
+        queue: function (elem, type, data)
+        {
+            var q;
+            if(elem)
+            {
+                type = type + 'queue';
+                q = jQuery._data(elem, type);
+                if(data)
+                {
+                    if(!q)
+                    {
+                        q = jQuery._data(elem, type, jQuery.makeArray(data));
+                    }
+                }
+
+                return q;
+            }
+        },
+        dequeue: function (elem, type)
+        {
+            type = type;
+            var queue = jQuery.queue(elem, type), fn = queue.shift(), hooks = {};
+            if(fn)
+            {
+                jQuery._data(elem, type + '.run', hooks);
+                fn.call(elem, function ()
+                {}, hooks);
+            }
+        }
+    });
+    jQuery.fn.extend({
+        queue: function (type, data)
+        {
+            return data === undefined ? 0 : this.each(function ()
+            {
+                var queue = jQuery.queue(this, type, data);
+                if(type === 'fx' && queue[0] !== 'inprogress')
+                {
+                    jQuery.dequeue(this, type);
+                }
+            });
+        },
+        dequeue: function (type)
+        {},
+        delay: function (time, type)
+        {},
+        clearQueue: function (type)
+        {},
+        promise: function (type, object)
+        {}
+    });
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function (events)
     {
         return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
     };
     jQuery.event = {
         add: function (elem, types, handler, data, selector)
         {
-            var elemData, eventHandle, events, t, tns, type, handlers, special;
+            var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
             if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
 
             events = elemData.events;
             if(!events)
             {
-                events = {};
+                elemData.events = events = {};
             }
 
             eventHandle = elemData.handle;
@@ -419,9 +542,15 @@
                 special = jQuery.event.special[type] || {};
                 type = (selector ? 0 : special.bindType) || type;
                 special = jQuery.event.special[type] || {};
+                handleObj = jQuery.extend({
+                    origType: tns[1],
+                    handler: handler
+                }, handleObjIn);
                 handlers = events[type];
                 if(!handlers)
                 {
+                    handlers = events[type] = [];
+                    handlers.delegateCount = 0;
                     if(!(special.setup))
                     {
                         if(elem.addEventListener)
@@ -430,21 +559,69 @@
                         }
                     }
                 }
+
+                if(selector);
+                else
+                {
+                    handlers.push(handleObj);
+                }
+            }
+        },
+        trigger: function (event, data, elem, onlyHandlers)
+        {
+            var type = event.type || event, i, cur, special, eventPath;
+            event = typeof event === 'object' ? 0 : new jQuery.Event(type);
+            special = jQuery.event.special[type];
+            eventPath = [[elem, special.bindType || type]];
+            for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
+            {
+                cur = eventPath[i][0];
+                (jQuery._data(cur, 'events'));
             }
         },
         dispatch: function (event)
         {
             event = jQuery.event.fix(event);
+            var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, matched, handleObj;
+            if(handlers.length > delegateCount)
+            {
+                handlerQueue.push({
+                    elem: this,
+                    matches: handlers.slice(delegateCount)
+                });
+            }
+
+            for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
+            {
+                matched = handlerQueue[i];
+                for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
+                {
+                    handleObj = matched.matches[j];
+                    if(run_all)
+                    {
+                        ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+                    }
+                }
+            }
+
             return event.result;
         },
         fixHooks: {},
+        mouseHooks: {
+            filter: function (event, original)
+            {
+                return event;
+            }
+        },
         fix: function (event)
         {
-            var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type] || {};
+            var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
             event = jQuery.Event(originalEvent);
-            return fixHook.filter ? 0 : event;
+            return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
         },
-        special: {}
+        special: {
+            ready: {}
+        }
     };
     jQuery.Event = function (src, props)
     {
@@ -452,8 +629,20 @@
         {
             return new jQuery.Event(src, props);
         }
+
+        if(src && src.type)
+        {
+            this.type = src.type;
+        }
     };
-    jQuery.Event.prototype = {};
+    function returnFalse ()
+    {
+        return false;
+    }
+    jQuery.Event.prototype = {
+        isPropagationStopped: returnFalse,
+        isImmediatePropagationStopped: returnFalse
+    };
     jQuery.fn.extend({
         on: function (types, selector, data, fn, one)
         {
@@ -465,7 +654,10 @@
         one: function (types, selector, data, fn)
         {},
         off: function (types, selector, fn)
-        {},
+        {
+            return this.each(function ()
+            {});
+        },
         bind: function (types, data, fn)
         {},
         unbind: function (types, fn)
@@ -479,7 +671,12 @@
         undelegate: function (selector, types, fn)
         {},
         trigger: function (type, data)
-        {},
+        {
+            return this.each(function ()
+            {
+                jQuery.event.trigger(type, data, this);
+            });
+        },
         triggerHandler: function (type, data)
         {},
         toggle: function (fn)
@@ -499,6 +696,10 @@
 
             return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
         };
+        if(rmouseEvent.test(name))
+        {
+            jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
+        }
     });
     (function ()
     {
@@ -602,8 +803,281 @@
         andSelf: function ()
         {}
     });
+    var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
+    jQuery.extend({
+        cssHooks: {
+            opacity: {
+                get: function (elem, computed)
+                {
+                    if(computed)
+                    {
+                        var ret = curCSS(elem, 'opacity');
+                        return ret === '' ? 0 : ret;
+                    }
+                }
+            }
+        },
+        cssNumber: {'opacity': true},
+        cssProps: {},
+        style: function (elem, name, value, extra)
+        {
+            var origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
+            name = jQuery.cssProps[origName] || origName;
+            if(value !== undefined)
+            {
+                if(!hooks || !('set' in hooks))
+                {
+                    try
+                    {
+                        style[name] = value;
+                    }
+                    catch(e){}
+                }
+            }
+        },
+        css: function (elem, name, extra)
+        {
+            var ret, hooks;
+            name = jQuery.camelCase(name);
+            hooks = jQuery.cssHooks[name];
+            name = jQuery.cssProps[name] || name;
+            if(hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
+            {
+                return ret;
+            }
+            else if(curCSS)
+            {
+                return curCSS(elem, name);
+            }
+        },
+        swap: function (elem, options, callback)
+        {}
+    });
+    if(document.defaultView && document.defaultView.getComputedStyle)
+    {
+        getComputedStyle = function (elem, name)
+        {
+            var ret, defaultView, computedStyle;
+            name = name.replace(rupper, '-$1').toLowerCase();
+            if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
+            {
+                ret = computedStyle.getPropertyValue(name);
+            }
+
+            return ret;
+        };
+    }
+
+    curCSS = getComputedStyle;
     jQuery(function ()
     {});
+    var rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
+    jQuery.fn.extend({
+        show: function (speed, easing, callback)
+        {},
+        hide: function (speed, easing, callback)
+        {},
+        _toggle: jQuery.fn.toggle,
+        toggle: function (fn, fn2, callback)
+        {},
+        fadeTo: function (speed, to, easing, callback)
+        {},
+        animate: function (prop, speed, easing, callback)
+        {
+            var optall = jQuery.speed(speed, easing, callback);
+            prop = jQuery.extend({}, prop);
+            function doAnimation ()
+            {
+                var opt = jQuery.extend({}, optall), name, val, p, e, parts, start, end, unit;
+                opt.animatedProperties = {};
+                for(p in prop)
+                {
+                    jQuery.camelCase(p);
+                }
+
+                for(name in prop)
+                {
+                    val = prop[name];
+                    if(jQuery.isArray(val));
+                    else
+                    {
+                        opt.animatedProperties[name] = opt.specialEasing || opt.easing;
+                    }
+                }
+
+                for(p in prop)
+                {
+                    e = new jQuery.fx(this, opt, p);
+                    val = prop[p];
+                    if(rfxtypes.test(val));
+                    else
+                    {
+                        parts = rfxnum.exec(val);
+                        start = e.cur();
+                        if(parts)
+                        {
+                            end = parseFloat(parts[2]);
+                            unit = parts[3] || (jQuery.cssNumber[p] ? '' : 0);
+                            if(unit !== 'px')
+                            {
+                                jQuery.style(this, p, (end || 1) + unit);
+                                start = ((end || 1) / e.cur()) * start;
+                                jQuery.style(this, p, start + unit);
+                            }
+
+                            if(parts[1])
+                            {
+                                end = ((parts[1] === '-=' ? -1 : 0) * end) + start;
+                            }
+
+                            e.custom(start, end, unit);
+                        }
+                    }
+                }
+            }
+            return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
+        },
+        stop: function (type, clearQueue, gotoEnd)
+        {}
+    });
+    function createFxNow ()
+    {
+        setTimeout(clearFxNow, 0);
+        return fxNow = jQuery.now();
+    }
+    function clearFxNow ()
+    {
+        fxNow = undefined;
+    }
+    jQuery.extend({
+        speed: function (speed, easing, fn)
+        {
+            var opt = speed && typeof speed === 'object' ? 0 : {
+                complete: fn || (!fn && easing),
+                duration: speed,
+                easing: fn || (easing && !(jQuery.isFunction(easing)) && easing)
+            };
+            opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : 0;
+            if(opt.queue == null)
+            {
+                opt.queue = 'fx';
+            }
+
+            opt.old = opt.complete;
+            opt.complete = function (noUnmark)
+            {};
+            return opt;
+        },
+        easing: {
+            swing: function (p)
+            {
+                return (-(Math.cos(p * Math.PI)) / 2) + 0.5;
+            }
+        },
+        timers: [],
+        fx: function (elem, options, prop)
+        {
+            this.options = options;
+            this.elem = elem;
+            this.prop = prop;
+        }
+    });
+    jQuery.fx.prototype = {
+        update: function ()
+        {
+            (jQuery.fx.step[this.prop] || jQuery.fx.step._default)(this);
+        },
+        cur: function ()
+        {
+            var parsed, r = jQuery.css(this.elem, this.prop);
+            return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
+        },
+        custom: function (from, to, unit)
+        {
+            var self = this, fx = jQuery.fx;
+            this.startTime = fxNow || createFxNow();
+            this.end = to;
+            this.start = from;
+            this.unit = unit || this.unit || (jQuery.cssNumber[this.prop] ? '' : 0);
+            function t (gotoEnd)
+            {
+                return self.step(gotoEnd);
+            }
+            if(t() && jQuery.timers.push(t) && !timerId)
+            {
+                timerId = setInterval(fx.tick, fx.interval);
+            }
+        },
+        step: function (gotoEnd)
+        {
+            var n, t = fxNow || createFxNow(), options = this.options;
+            if(gotoEnd || t >= (options.duration + this.startTime))
+            {
+                this.now = this.end;
+                this.update();
+                return false;
+            }
+            else
+            {
+                if(options.duration == Infinity);
+                else
+                {
+                    n = t - this.startTime;
+                    this.state = n / options.duration;
+                    this.pos = jQuery.easing[options.animatedProperties[this.prop]](this.state, n, 0, 1, options.duration);
+                    this.now = this.start + ((this.end - this.start) * this.pos);
+                }
+
+                this.update();
+            }
+
+            return true;
+        }
+    };
+    jQuery.extend(jQuery.fx, {
+        tick: function ()
+        {
+            var timer, timers = jQuery.timers, i = 0;
+            for(;i < timers.length;i++)
+            {
+                timer = timers[i];
+                if(!(timer()) && timers[i] === timer)
+                {
+                    timers.splice(i--, 1);
+                }
+            }
+
+            if(!(timers.length))
+            {
+                jQuery.fx.stop();
+            }
+        },
+        interval: 13,
+        stop: function ()
+        {
+            clearInterval(timerId);
+        },
+        speeds: {},
+        step: {
+            _default: function (fx)
+            {
+                if(fx.elem.style && fx.elem.style[fx.prop] != null)
+                {
+                    fx.elem.style[fx.prop] = fx.now + fx.unit;
+                }
+            }
+        }
+    });
+    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function (i, prop)
+    {
+        if(prop.indexOf('margin'))
+        {
+            jQuery.fx.step[prop] = function (fx)
+            {
+                jQuery.style(fx.elem, prop, Math.max(0, fx.now) + fx.unit);
+            };
+        }
+    });
     window.$ = jQuery;
 })(window);
 </script>
@@ -622,7 +1096,9 @@
         var popup = $('.popup');
         var container = $('.container');
         container.mouseover(function ()
-        {});
+        {
+            popup.animate({top: '-=10px', opacity: 0}, 250, 'swing');
+        });
     });
 </script>
 

@@ -291,14 +291,16 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
 
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
-            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 8877 && identifierConstruct.name == "gotoEnd")
-            {
-                var a = 3;
-            }
+
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
             var identifierValue = identifier != null ? identifier.value : null;
+
+            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 8872)
+            {
+
+            }
 
             this.executionContextStack.setExpressionValue(identifierConstruct, identifierValue);
 
@@ -523,7 +525,7 @@ fcSimulator.Evaluator.prototype =
 
             if(memberExpression.loc.start.line == 8875)
             {
-                console.log("8951")
+
             }
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }

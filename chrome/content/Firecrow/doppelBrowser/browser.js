@@ -517,7 +517,7 @@ Browser.prototype =
 
                 if(!eventTrace.hasBeenHandled)
                 {
-                    console.log("A not handled event!");
+                    console.log(eventTrace.args.type + "@" + eventTrace.line + " not handled!");
                 }
             }
         }

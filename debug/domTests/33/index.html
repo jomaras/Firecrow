@@ -15,12 +15,23 @@
 <div class="container"></div>
 <script>
 
-    var cont = document.querySelector(".container");
-
-    cont.addEventListener("mouseover", function(e)
+    var a = 3;
+    setTimeout(function()
     {
-        cont.textContent += "Over";
-    });
+        console.log("timeout");
+    }, 0);
+
+    console.log(a);
+    console.log(a);
+    console.log(a);
+    console.log(a);
+    console.log(a);
+
+    for(var i = 0; i < 10; i++)
+    {
+        console.log(i);
+    }
+
 </script>
 </body>
 </html>

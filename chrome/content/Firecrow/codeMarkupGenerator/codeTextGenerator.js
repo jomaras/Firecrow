@@ -492,7 +492,8 @@ Firecrow.CodeTextGenerator.prototype =
             var rightCode = this.generateJsCode(logicalExpression.right);
 
             var shouldBeSurrounded = ASTHelper.isBinaryExpression(logicalExpression.parent)
-                                  || (ASTHelper.isLogicalExpression(logicalExpression.parent) && logicalExpression.parent.operator != logicalExpression.operator);
+                                  || (ASTHelper.isLogicalExpression(logicalExpression.parent) && logicalExpression.parent.operator != logicalExpression.operator)
+                                  || (ASTHelper.isCallExpression(logicalExpression.parent) && logicalExpression.parent.callee == logicalExpression);
 
             if(leftCode.length != 0 && rightCode.length != 0)
             {
@@ -706,7 +707,9 @@ Firecrow.CodeTextGenerator.prototype =
             if (property.kind == "init")
             {
                 code += this.generateJsCode(property.key);
-                var valueCode = this.generateJsCode(property.value) || "null";
+                var valueCode = this.generateJsCode(property.value);
+
+                if(valueCode === "") { valueCode = "null"; }
                 if(this.isSlicing && !property.shouldBeIncluded) {}
                 else
                 {
@@ -758,7 +761,7 @@ Firecrow.CodeTextGenerator.prototype =
             var ifBodyCode = this.generateJsCode(ifStatement.consequent);
             var testCode = this.generateJsCode(ifStatement.test);
             var elseBodyCode = "";
-            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + (testCode || "false" )  + this._RIGHT_PARENTHESIS;
+            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + (testCode === "" ? "false" : testCode )  + this._RIGHT_PARENTHESIS;
 
             code += ifBodyCode.length != 0 ? this.newLine + ifBodyCode : this._SEMI_COLON + this.newLine;
 

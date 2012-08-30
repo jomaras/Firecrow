@@ -8936,7 +8936,7 @@
                     // Perform the easing function, defaults to swing
                     this.pos = jQuery.easing[ options.animatedProperties[this.prop] ]( this.state, n, 0, 1, options.duration );
                     this.now = this.start + ( (this.end - this.start) * this.pos );
-                }
+                } console.log("calling update: " + this.prop + " - " + this.now);
                 // Perform the next step of the animation
                 this.update();
             }
