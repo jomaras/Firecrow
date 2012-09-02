@@ -770,6 +770,21 @@ fcModel.ArrayExecutor =
         catch(e) { this.notifyError("Error when executing internal array method: " + e); }
     },
 
+    isInternalArrayMethod: function(potentialFunction)
+    {
+        var methods = fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS;
+
+        for(var i = 0; i < methods.length; i++)
+        {
+            if(Array.prototype[methods[i]] === potentialFunction)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
     notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
 };
 }});

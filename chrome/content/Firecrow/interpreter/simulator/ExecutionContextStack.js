@@ -1094,7 +1094,8 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         try
         {
             if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)
-            || ASTHelper.isLogicalExpression(codeConstruct) || ASTHelper.isConditionalExpression(codeConstruct)) { return this.globalObject; }
+            || ASTHelper.isLogicalExpression(codeConstruct) || ASTHelper.isConditionalExpression(codeConstruct)
+            || ASTHelper.isThisExpression(codeConstruct)) { return this.globalObject; }
             else if (ASTHelper.isMemberExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.object); }
             else if (ASTHelper.isCallExpression(codeConstruct)) { return this.getExpressionValue(codeConstruct.callee); }
             else

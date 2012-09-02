@@ -119,7 +119,7 @@ fcModel.DateExecutor =
             {
                 if(globalObject.currentEventTime != null)
                 {
-                    date = new Date(globalObject.currentEventTime);
+                    date = new Date();
                 }
                 else
                 {

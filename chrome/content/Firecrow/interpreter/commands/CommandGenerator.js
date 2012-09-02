@@ -1282,7 +1282,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             sourceElement.properties.forEach(function(property)
             {
-                ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(property.value));
+                ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(property.value, parentFunctionCommand));
 
                 if(property.kind == "get" || property.kind == "set") { this.notifyError("Getters and setters not supported!"); }
 

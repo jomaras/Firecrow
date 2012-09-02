@@ -235,12 +235,11 @@ fcModel.GlobalObject = function(browser, documentFragment)
             {
                 if(this.timeoutHandlers[i].timeoutId == timeoutId)
                 {
-
                     this.browser.callDataDependencyEstablishedCallbacks
                     (
                         this.timeoutHandlers[i].registrationPoint.codeConstruct,
                         codeConstruct,
-                        dependencyCreationInfo,
+                        this.timeoutHandlers[i].registrationPoint.evaluationPositionId,
                         this.getPreciseEvaluationPositionId()
                     );
 

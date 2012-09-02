@@ -78,7 +78,7 @@ Firecrow.fbHelper =
                 );
             }
         }
-        catch(e) { alert("fbHelper: an error has occurred when trying to get styles path and model!"); }
+        catch(e) { alert("fbHelper: an error has occurred when trying to get styles path and model: " + e); }
 
         return returnValue;
     },
@@ -89,18 +89,25 @@ Firecrow.fbHelper =
 
         var model = { rules: [] };
 
-        var cssRules = styleSheet.cssRules;
-
-        for(var i = 0; i < cssRules.length; i++)
+        try
         {
-            var cssRule = cssRules[i];
-            model.rules.push
-            (
-                {
-                    selector: cssRule.selectorText,
-                    cssText: cssRule.cssText
-                }
-            );
+            var cssRules = styleSheet.cssRules;
+
+            for(var i = 0; i < cssRules.length; i++)
+            {
+                var cssRule = cssRules[i];
+                model.rules.push
+                (
+                    {
+                        selector: cssRule.selectorText,
+                        cssText: cssRule.cssText
+                    }
+                );
+            }
+        }
+        catch(e)
+        {
+            alert("Error when getting stylesheet model: " + e);
         }
 
         return model;

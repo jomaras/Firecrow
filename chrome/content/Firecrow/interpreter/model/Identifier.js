@@ -35,7 +35,10 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
             this.modificationConstructs.push(this.declarationConstruct);
         }
     }
-    catch(e) { Firecrow.Interpreter.Model.Identifier.notifyError("Error when constructing: " + e ); }
+    catch(e)
+    {
+        Firecrow.Interpreter.Model.Identifier.notifyError("Error when constructing: " + e );
+    }
 };
 
 Firecrow.Interpreter.Model.Identifier.notifyError = function(message) { alert("Identifier - " + message); };

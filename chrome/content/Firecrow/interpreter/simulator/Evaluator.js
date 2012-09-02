@@ -387,6 +387,11 @@ fcSimulator.Evaluator.prototype =
                        result = (leftExpressionValue.value.map(function(item) { return item.value})).join("")
                               + (rightExpressionValue.value.map(function(item) { return item.value})).join("")
                     }
+                    else if (ValueTypeHelper.isObject(rightExpressionValue.value) || ValueTypeHelper.isObject(leftExpressionValue.value))
+                    {
+                        console.log("Concatenating strings from object!");
+                        result = leftExpressionValue.value + rightExpressionValue.value;
+                    }
                     else
                     {
                         this.notifyError(evalBinaryExpressionCommand, "Still not handling implicit toString conversion in binary expression!");
@@ -523,9 +528,9 @@ fcSimulator.Evaluator.prototype =
 
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
-            if(memberExpression.loc.start.line == 8875)
+            if(memberExpression.loc.start.line == 3282)
             {
-
+                var a = 3;
             }
 
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
@@ -748,6 +753,13 @@ fcSimulator.Evaluator.prototype =
 
             var currentPropertyIndex = evalForInWhereCommand.currentPropertyIndex;
 
+            if(whereObject.fcInternal.object == null)
+            {
+                console.log("Where object is not an object -  ");
+                evalForInWhereCommand.willBodyBeExecuted = false;
+                return;
+            }
+
             var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(currentPropertyIndex + 1);
 
             this.addDependenciesToTopBlockConstructs(forInWhereConstruct.left);
@@ -792,7 +804,10 @@ fcSimulator.Evaluator.prototype =
                 evalForInWhereCommand.willBodyBeExecuted = false;
             }
         }
-        catch(e) { this.notifyError(evalForInWhereCommand, "Error when evaluating for in where command: " + e); }
+        catch(e)
+        {
+            this.notifyError(evalForInWhereCommand, "Error when evaluating for in where command: " + e);
+        }
     },
 
     _evaluateConditionalExpressionCommand: function(conditionalExpressionCommand)
@@ -939,6 +954,10 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evaluateUnaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evaluateUnaryExpressionCommand.isEvalUnaryExpressionCommand()) { this.notifyError(evaluateUnaryExpressionCommand, "Argument has to be an eval unary item command!"); return; }
 
             var unaryExpression = evaluateUnaryExpressionCommand.codeConstruct;
+            if(unaryExpression.loc.start.line == 886)
+            {
+                var a = 3;
+            }
             var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
             var expressionValue = null;
 

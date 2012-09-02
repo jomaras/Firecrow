@@ -160,6 +160,15 @@ fcModel.HtmlElementProto =
     {
         fcModel.HtmlElement.accessedProperties[propertyName] = true;
 
+        if(propertyName == "attributes")
+        {
+            this.addProperty("attributes", fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), codeConstruct);
+        }
+        else if(propertyName == "style")
+        {
+            this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct), this.creationConstruct);
+        }
+
         var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
 
         if(this.isMethod(propertyName)) { return propertyValue; }
@@ -194,14 +203,16 @@ fcModel.HtmlElementProto =
               || propertyName == "selected" || propertyName == "className" || propertyName == "enctype"
               || propertyName == "outerHTML" || propertyName == "disabled" || propertyName == "nodeName"
               || propertyName == "scrollLeft" || propertyName == "scrollTop" || propertyName == "clientTop" || propertyName == "clientLeft"
-              || propertyName == "href"
+              || propertyName == "href" || propertyName == "src" || propertyName == "namespaceURI"
               //TODO - remove this jQuery stuff below
               || propertyName == "test" || propertyName == "attachEvent" || propertyName == "matchesSelector" || propertyName == "opacity"
               || propertyName == "createElement" || propertyName == "currentStyle" || propertyName.toLowerCase().indexOf("jquery") != -1
               || propertyName == "left" || propertyName == "top" || propertyName == "width" || propertyName == "height" || propertyName == "hash"
               || propertyName == "is" || propertyName == "window" || propertyName == "paddingTop" || propertyName == "paddingBottom" || propertyName == "marginTop"
               || propertyName == "marginBottom" || propertyName == "marginLeft"|| propertyName == "marginRight" || propertyName == "ai" || propertyName == "si"
-              || propertyName == "type")
+              || propertyName == "type" || propertyName == "cycleStop" || propertyName == "cycleTimeout" || propertyName == "cyclePause"
+              || propertyName == "cycleH" || propertyName == "cycleW" || propertyName == "ontooltiprender" || propertyName == "tooltiprender"
+              || propertyName == "ontooltipshow" || propertyName == "tooltipshow" || propertyName == "ontooltipfocus" || propertyName == "tooltipfocus")
         {
             if(propertyValue == null || this.htmlElement[propertyName] != propertyValue.value)
             {
@@ -209,23 +220,16 @@ fcModel.HtmlElementProto =
                 this.addProperty(propertyName, propertyValue, this.creationConstruct);
             }
         }
-        else if(propertyName == "style")
-        {
-            if(propertyValue == null)
-            {
-                propertyValue = fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct);
-                this.addProperty(propertyName, propertyValue, this.creationConstruct);
-            }
-        }
         else if(propertyName == "onclick" || propertyName == "ownerDocument"
              || propertyName == "onkeyup" || propertyName == "onmousedown"
-             || propertyName == "onselectstart" || propertyName == "onsubmit")
+             || propertyName == "onselectstart" || propertyName == "onsubmit"
+             || propertyName == "attributes" || propertyName == "style" || propertyName == "getContext")
         {
             //nothing
         }
         else
         {
-            alert("Unhandled get html property: " + propertyName);
+            alert("Unhandled get html property: " + propertyName + "@" + codeConstruct.loc.start.line);
         }
 
         return propertyValue;
@@ -253,8 +257,10 @@ fcModel.HtmlElementProto =
             }
             else if (propertyName == "textContent" || propertyName == "id" || propertyName == "value"
                   || propertyName == "checked" || propertyName == "innerHTML" || propertyName == "selected"
-                  || propertyName == "className" || propertyName == "enctype" || propertyName == "outerHTML"
-                  || propertyName == "disabled" || propertyName.indexOf("jQuery") != -1 || propertyName == "ai" || propertyName == "si")
+                  || propertyName == "className" || propertyName == "enctype" || propertyName == "outerHTML" || propertyName == "src"
+                  || propertyName == "disabled" || propertyName.indexOf("jQuery") != -1 || propertyName == "ai" || propertyName == "si"
+                  || propertyName == "cycleStop" || propertyName == "cycleTimeout" || propertyName == "cyclePause"
+                  || propertyName == "cycleH" || propertyName == "cycleW")
             {
                 this.htmlElement[propertyName] = propertyValue.value;
             }
@@ -505,7 +511,7 @@ fcModel.HtmlElementExecutor =
                         height: new fcModel.JsValue(result.height, new fcModel.FcInternal(callExpression)),
                         width: new fcModel.JsValue(result.width, new fcModel.FcInternal(callExpression))
                     };
-                    var fcObj = new fcModel.Object(this.globalObject, callExpression, nativeObj);
+                    var fcObj = new fcModel.Object(globalObject, callExpression, nativeObj);
                     fcObj.addProperty("bottom", nativeObj.bottom, callExpression);
                     fcObj.addProperty("top", nativeObj.top, callExpression);
                     fcObj.addProperty("left", nativeObj.left, callExpression);

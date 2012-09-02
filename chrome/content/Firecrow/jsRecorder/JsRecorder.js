@@ -123,13 +123,13 @@ Firecrow.JsRecorder = function ()
                                 screenX: firstArgument != null ? firstArgument.screenX : 0,
                                 screenY:firstArgument != null ?  firstArgument.screenY : 0,
                                 type: firstArgument != null ? firstArgument.type
-                                                            : trace.thisValue.xPath != "" ? "elementEvent" : "",
+                                                            : trace.thisValue.xPath !== "" ? "elementEvent" : "",
                                 currentInputStates: that.getCurrentInputStates(thisElement)
                             };
 
                             if(trace.args.type == "elementEvent")
                             {
-                                alert("Fuck");
+                                alert("Shit - elementEvent: " + trace.thisValue.xPath + " " + trace.line);
                             }
 
                             that.executionTrace.push(trace);

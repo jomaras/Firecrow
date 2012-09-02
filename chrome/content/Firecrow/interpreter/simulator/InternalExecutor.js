@@ -447,6 +447,7 @@ fcSimulator.InternalExecutor.prototype =
                  if (functionObject.value == this.globalObject.arrayFunction) { return this.createArray(callExpression, Array.apply(null, arguments)); }
             else if (functionObject.value == this.globalObject.regExFunction) { return this.createRegEx(callExpression, Array.apply(null, arguments.map(function(item){ return item.value; }))); }
             else if (functionObject.value != null && functionObject.value.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+            else if (fcModel.ArrayExecutor.isInternalArrayMethod(functionObject.value))  { fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
             else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.value.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, arguments, callExpression, this.globalObject); }
             else
             {

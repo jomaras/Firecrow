@@ -4,8 +4,7 @@ idt - works
 tabs - works
 jsRGBPassword - works (maybe i also add with below 4 passwords)
 tinySlider - works 4 cases (only arrows, only thumbnails, auto, all together)
-
-codeBubble - animate, the opacity fu*ks something up - see jQuery test20 for an example
+codeBubbl
 validate.js - needs some work on it, not sure how to test it, maybe make a number of different web pages
               where each tests only a subset of rules; the problem is recording the case - onsubmit redirects
               to another page - maybe rework the case so that in all cases it returns false, just says everything

@@ -70,9 +70,10 @@ fcModel.Document = function(document, globalObject)
         this.getJsPropertyValue = function(propertyName, codeConstruct)
         {
             if(_isMethod(propertyName) || propertyName == "nodeType"
-             || propertyName == "compatMode" || propertyName == "parentNode"
+             || propertyName == "compatMode" || propertyName == "parentNode" || propertyName == "namespaceURI"
              || propertyName == "nodeName"  || propertyName == "onready" || propertyName == "ownerDocument"
-             || propertyName == "oninit"|| propertyName == "init" || propertyName.toLowerCase().indexOf("jquery") != -1) //jQuery property accessors - remove
+             || propertyName == "oninit"|| propertyName == "init" || propertyName.toLowerCase().indexOf("jquery") != -1
+             || propertyName == "ontooltiprender" || propertyName == "ontooltipshow" || propertyName == "ontooltipfocus") //jQuery property accessors - remove
             {
                 return this.getPropertyValue(propertyName, codeConstruct);
             }
@@ -118,7 +119,7 @@ fcModel.Document = function(document, globalObject)
                 return this.globalObject;
             }
 
-            alert("Unhandled document property: " + propertyName);
+            alert("Unhandled document property: " + propertyName + "@" + codeConstruct.loc.start.line);
         };
 
         this.addJsProperty = function(propertyName, value, codeConstruct)
@@ -198,7 +199,10 @@ fcModel.SimpleXPath.prototype =
     {
         var indexRegEx = new RegExp("\\[[^\\]]\\]");
 
-        var match = this.xPathExpression.match(indexRegEx);
+        var currentTag = this.xPathExpression.substring((this.xPathExpression[0] === "/" ? 1 : 0));
+        currentTag = currentTag.substring(0, currentTag.indexOf("/"));
+
+        var match = currentTag.match(indexRegEx);
 
         if(match != null)
         {
@@ -217,7 +221,13 @@ fcModel.SimpleXPath.prototype =
 
     removeLevel: function()
     {
-        this.xPathExpression = this.xPathExpression.substring(this.getCurrentTag().length + 1); // +1 because xPath goes like /html..
+        var startsWithSlash = this.xPathExpression[0] === "/";
+        var currentTag = this.xPathExpression.substring(startsWithSlash ? 1 : 0);
+        var indexOfSlash = currentTag.indexOf("/");
+        currentTag = currentTag.substring(0, indexOfSlash != -1 ? indexOfSlash : currentTag.length);
+
+        this.xPathExpression = this.xPathExpression.substring(currentTag.length + (startsWithSlash ? 1 : 0));
+
         return this;
     },
 

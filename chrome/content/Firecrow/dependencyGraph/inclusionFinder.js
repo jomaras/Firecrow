@@ -38,7 +38,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             }
             else if (htmlElement.type == "textNode")
             {
-                return htmlElement.shouldBeIncluded;
+                return htmlElement.shouldBeIncluded || (htmlElement.parent != null && htmlElement.parent.shouldBeIncluded);
             }
             else
             {

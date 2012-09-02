@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Cultured Code</title>
+
+    <!-- STYLES -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/welcome.css">
+
+    <script src="js/jQuery.js"></script>
+    <script src="js/script.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.appbuttons-link').bind('mouseenter', function() {
+                var $this = $(this);
+                var $target;
+                if ($this.hasClass('for-mac')) {
+                    $target = $('.appicons-item.for-mac');
+                }
+                else if ($this.hasClass('for-iphone')) {
+                    $target = $('.appicons-item.for-iphone');
+                }
+                else if ($this.hasClass('for-ipad')) {
+                    $target = $('.appicons-item.for-ipad');
+                }
+                $target.addClass('is-highlighted');
+            });
+            $('.appbuttons-link').bind('mouseleave', function() {
+                var $this = $(this);
+                var $target;
+                if ($this.hasClass('for-mac')) {
+                    $target = $('.appicons-item.for-mac');
+                }
+                else if ($this.hasClass('for-iphone')) {
+                    $target = $('.appicons-item.for-iphone');
+                }
+                else if ($this.hasClass('for-ipad')) {
+                    $target = $('.appicons-item.for-ipad');
+                }
+                $target.removeClass('is-highlighted');
+            });
+        });
+    </script>
+</head>
+<body>
+
+
+
+<div class="section" id="header-section">
+    <div class="wrapper" id="header-wrapper">
+
+        <div class="navigation style-light">
+            <ul class="navigation-bar">
+                <li class="navigation-item for-culturedcode">
+                    <a href="/">
+                        <span class="navigation-icon"></span>
+                        <span class="navigation-title">Cultured Code</span>
+                    </a>
+                </li>
+                <li class="navigation-item for-thingsmac">
+                    <a href="/things/">
+                        <span class="navigation-icon"></span>
+                        <span class="navigation-title">Things Mac</span>
+                    </a>
+                </li>
+                <li class="navigation-item for-thingsiphone">
+                    <a href="/things/iphone/">
+                        <span class="navigation-icon"></span>
+                        <span class="navigation-title">Things iPhone</span>
+                    </a>
+                </li>
+                <li class="navigation-item for-thingsipad">
+                    <a href="/things/ipad/">
+                        <span class="navigation-icon"></span>
+                        <span class="navigation-title">Things iPad</span>
+                    </a>
+                </li>
+                <li class="navigation-item for-support">
+                    <a href="/support/">
+                        <span class="navigation-icon"></span>
+                        <span class="navigation-title">Support</span>
+                    </a>
+                </li>
+                <li class="navigation-item for-blog">
+                    <a href="/things/blog/">
+                        <span class="navigation-icon"></span>
+                        <span class="navigation-title">Blog</span>
+                    </a>
+                </li>
+                <li class="navigation-item for-about">
+                    <a href="/about/">
+                        <span class="navigation-icon"></span>
+                        <span class="navigation-title">About</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="navigation-shadow"></div>
+        </div>
+
+    </div>
+
+    <div id="header-headline">
+        <h1>Things 2</h1>
+        <p>A major update to your productivity.</p>
+    </div>
+
+
+    <div id="header-hero">
+
+
+        <div class="appicons-wrapper">
+            <div class="appicons-list">
+                <div class="appicons-item for-mac">
+                    <div class="appicons-icon"></div>
+                </div>
+                <div class="appicons-item for-iphone">
+                    <div class="appicons-icon"></div>
+                </div>
+                <div class="appicons-item for-ipad">
+                    <div class="appicons-icon"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="frontcloud"></div>
+
+        <div class="appbuttons-wrapper">
+            <ul class="appbuttons-list">
+                <li class="appbuttons-item">
+                    <a class="appbuttons-link for-mac" href="/things/">
+                        <div class="appbuttons-button">for Mac</div>
+                    </a>
+                </li>
+                <li class="appbuttons-item">
+                    <a class="appbuttons-link for-iphone" href="/things/iphone/">
+                        <div class="appbuttons-button">for iPhone</div>
+                    </a>
+                </li>
+                <li class="appbuttons-item">
+                    <a class="appbuttons-link for-ipad" href="/things/ipad/">
+                        <div class="appbuttons-button">for iPad</div>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div class="section" id="main-section">
+    <div class="wrapper" id="main-wrapper">
+
+
+        <div id="awards-image"></div>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="section" id="footer-section">
+    <div class="wrapper" id="footer-wrapper">
+
+
+        <div class="footer">
+
+            <div class="footer-row">
+
+                <div class="footer-column">
+                    <h2 class="footer-headline">Products</h2>
+                    <ul>
+                        <li><a class="footer-link" href="/things/">Things for Mac</a></li>
+                        <li><a class="footer-link" href="/things/iphone/">Things for iPhone</a></li>
+                        <li><a class="footer-link" href="/things/ipad/">Things for iPad</a></li>
+                        <li><a class="footer-link" href="/things/cloud/">Things Cloud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h2 class="footer-headline">Support</h2>
+                    <ul>
+                        <li><a class="footer-link" href="/about/contact/">Contact</a></li>
+                        <li><a class="footer-link" href="/support/">Help</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h2 class="footer-headline">News</h2>
+                    <ul>
+                        <li><a class="footer-link" href="/blog/">Blog</a></li>
+                        <li><a class="footer-link" href="/twitter/">Twitter</a></li>
+                        <li><a class="footer-link" href="/status/">Status Board</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h2 class="footer-headline">Company</h2>
+                    <ul>
+                        <li><a class="footer-link" href="/about/">About Us</a></li>
+                        <li><a class="footer-link" href="/jobs/">Jobs <span class="footer-link-badge">1</span></a></li>
+                        <li><a class="footer-link" href="/privacy/">Privacy Policy</a></li>
+                        <li><a class="footer-link" href="/terms/">Terms</a></li>
+                        <li><a class="footer-link" href="/press/">Press</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+            <div class="footer-culturedcode">
+                <a class="footer-culturedcode-link" href="/">Cultured Code</a>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>
