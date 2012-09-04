@@ -187,6 +187,7 @@ fcModel.HtmlElementProto =
         else if (propertyName == "body" || propertyName == "firstChild"
               || propertyName == "parentNode" || propertyName == "lastChild"
               || propertyName == "nextSibling" || propertyName == "previousSibling"
+              || propertyName == "offsetParent"
               || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
         {
             if(propertyValue == null || propertyValue.value == null || this.htmlElement[propertyName] == null
@@ -201,9 +202,9 @@ fcModel.HtmlElementProto =
               || propertyName == "value" || propertyName == "innerHTML" || propertyName == "nodeType"
               || propertyName == "offsetWidth" || propertyName == "offsetHeight" || propertyName == "offsetTop" || propertyName == "rel"
               || propertyName == "selected" || propertyName == "className" || propertyName == "enctype"
-              || propertyName == "outerHTML" || propertyName == "disabled" || propertyName == "nodeName"
+              || propertyName == "outerHTML" || propertyName == "disabled" || propertyName == "nodeName" || propertyName == "tagName"
               || propertyName == "scrollLeft" || propertyName == "scrollTop" || propertyName == "clientTop" || propertyName == "clientLeft"
-              || propertyName == "href" || propertyName == "src" || propertyName == "namespaceURI"
+              || propertyName == "href" || propertyName == "src" || propertyName == "namespaceURI" || propertyName == "clientHeight" || propertyName == "clientWidth"
               //TODO - remove this jQuery stuff below
               || propertyName == "test" || propertyName == "attachEvent" || propertyName == "matchesSelector" || propertyName == "opacity"
               || propertyName == "createElement" || propertyName == "currentStyle" || propertyName.toLowerCase().indexOf("jquery") != -1
@@ -212,7 +213,8 @@ fcModel.HtmlElementProto =
               || propertyName == "marginBottom" || propertyName == "marginLeft"|| propertyName == "marginRight" || propertyName == "ai" || propertyName == "si"
               || propertyName == "type" || propertyName == "cycleStop" || propertyName == "cycleTimeout" || propertyName == "cyclePause"
               || propertyName == "cycleH" || propertyName == "cycleW" || propertyName == "ontooltiprender" || propertyName == "tooltiprender"
-              || propertyName == "ontooltipshow" || propertyName == "tooltipshow" || propertyName == "ontooltipfocus" || propertyName == "tooltipfocus")
+              || propertyName == "ontooltipshow" || propertyName == "tooltipshow" || propertyName == "ontooltipfocus" || propertyName == "tooltipfocus"
+              || propertyName == "bottom" || propertyName == "ssbound" || propertyName == "onnotify" || propertyName == "notify")
         {
             if(propertyValue == null || this.htmlElement[propertyName] != propertyValue.value)
             {
@@ -260,7 +262,7 @@ fcModel.HtmlElementProto =
                   || propertyName == "className" || propertyName == "enctype" || propertyName == "outerHTML" || propertyName == "src"
                   || propertyName == "disabled" || propertyName.indexOf("jQuery") != -1 || propertyName == "ai" || propertyName == "si"
                   || propertyName == "cycleStop" || propertyName == "cycleTimeout" || propertyName == "cyclePause"
-                  || propertyName == "cycleH" || propertyName == "cycleW")
+                  || propertyName == "cycleH" || propertyName == "cycleW" || propertyName == "ssbound" || propertyName == "scrollLeft" || propertyName == "scrollTop")
             {
                 this.htmlElement[propertyName] = propertyValue.value;
             }

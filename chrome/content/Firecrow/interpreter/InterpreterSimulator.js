@@ -52,7 +52,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                 {
                     command.codeConstruct.hasBeenExecuted = true;
 
-                    if(command.codeConstruct.loc != null)
+                    /*if(command.codeConstruct.loc != null)
                     {
                         if(command.codeConstruct.loc.start.line == 13)
                         {
@@ -66,7 +66,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
                             Firecrow.Interpreter.InterpreterSimulator.log += command.getLineNo() + ";\n";// + command.type + "\n";
                             lastLoggedCommandLine = command.getLineNo();
                         }
-                    }
+                    }*/
 
                     if(command.codeConstruct.property != null) { command.codeConstruct.property.hasBeenExecuted = true;}
                     if(ASTHelper.isForInStatement(command.codeConstruct))

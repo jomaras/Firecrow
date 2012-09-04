@@ -121,9 +121,10 @@ Firecrow.JsRecorder = function ()
                                 clientX: firstArgument != null ? firstArgument.clientX : 0,
                                 clientY: firstArgument != null ? firstArgument.clientY : 0,
                                 screenX: firstArgument != null ? firstArgument.screenX : 0,
-                                screenY:firstArgument != null ?  firstArgument.screenY : 0,
+                                screenY: firstArgument != null ?  firstArgument.screenY : 0,
                                 type: firstArgument != null ? firstArgument.type
                                                             : trace.thisValue.xPath !== "" ? "elementEvent" : "",
+                                keyCode: firstArgument != null ?  firstArgument.keyCode : 0,
                                 currentInputStates: that.getCurrentInputStates(thisElement)
                             };
 

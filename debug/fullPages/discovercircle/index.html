@@ -1,0 +1,155 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# discover_circle: http://ogp.me/ns/fb/discover_circle#">
+    <meta charset="UTF-8" />
+    <meta property="fb:app_id" content="320142681344288" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Circle - Who's Around You" />
+    <meta property="og:description" content="Circle, an iPhone App Featured by Apple in 50+ Countries, tells you when your friends and people in your networks (college, work, groups) are nearby." />
+    <meta property="og:image" content="http://discovercircle.com/images/fb_share_light.png" />
+    <meta property="og:url" content="http://discovercircle.com/" />
+
+    <title>Who's Around You</title>
+
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <script src="js/jQuery.js"></script>
+    <script type="text/javascript">
+        var track_url = null;
+    </script>
+
+
+</head>
+<body>
+<div class="header_bg grid">
+    <div class="row grid header">
+        <div class="w575 header_content">
+            <div id="slide_text" class="header_texts slide">
+                <ul>
+                    <li>
+                        <hgroup class="r100">
+                            <h1>Circle</h1>
+                            <h2>Always know when Friends<br> and Networks are nearby</h2>
+                        </hgroup>
+                    </li>
+                    <li style="display:none">
+                        <hgroup class="r100">
+                            <h1>Friends</h1>
+                            <h2>Circle tells you anytime<br>your friends are nearby</h2>
+                        </hgroup>
+                    </li>
+                    <li style="display:none">
+                        <hgroup class="r100">
+                            <h1>Networks</h1>
+                            <h2>Connect with nearby networks <br> you really care about</h2>
+                        </hgroup>
+                    </li>
+                    <li style="display:none">
+                        <hgroup class="r100">
+                            <h1>Privacy</h1>
+                            <h2>You have full control over who<br>can see or message you</h2>
+                        </hgroup>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="w435 header_iphone_hold">
+            <div class="header_iphone">
+
+                <div class="iphone_screen">
+                    <div class="screen_overlay"></div>
+                    <div id='slider' class="screens slide">
+                        <ul>
+                            <li style='background: url(images/1.jpg);'>                </li>
+                            <li style='display:none; background: url(images/2.jpg);'>                </li>
+                            <li style='display:none; background: url(images/3.jpg);'>                </li>
+                            <li style='display:none; background: url(images/4.jpg);'>                </li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="javascript:" class="home_button" id="easter_egg">
+                    <input id="speech_input" class="home_button" style="display:none" type="text" x-webkit-speech />
+                </a>        </div>
+        </div>
+    </div>
+
+    <div class="header_divider">
+        <div class="row grid">
+
+            <!-- STATE 1 -->
+            <div class="w575 grid dl_wrapper" id="state_welcome">
+                <a class="b dl_button grid sms" href="#" onClick="recordOutboundLink(this, 'Clicks on SMS', 'Before report');return false;">
+                    <div class="left iphone_icon"></div>
+                    <h2>Get the App</h2>
+                </a>
+                <div class="left dl_text links">
+                    <h4>Available for
+                        <a href="/download/iphone" class="dl_button" onClick="recordOutboundLink(this, 'Clicks on AppStore', 'Before report');return true;">iPhone</a>
+                        &amp;
+                        <a href="/download/android" class="dl_button" onClick="recordOutboundLink(this, 'Clicks on GooglePlay', 'Before report');return true;">Android</a>
+                    </h4>
+                </div>
+            </div>
+
+            <!-- STATE 2 -->
+            <div class="w575 grid dl_wrapper sms" id="state_sms" style="display:none;">
+                <label>Text (US) / Email me the link:</label>
+                <input type="text" id="cellnumber" class="placeholder" c_placeholder="Phone No. / Email">
+                <a class="b dl_button grid sms" href="#" onClick="recordOutboundLink(this, 'Send SMS', 'Before report');return false;">
+                    <div class="left iphone_icon"></div>
+                </a>
+                <a class="b dl_button grid close" href="#" onClick="recordOutboundLink(this, 'Close SMS', 'Before report');return false;">
+                    <div class="left iphone_icon close"></div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <a href="javascript:" style="display:none" class="arrow arrow_left"></a>
+    <a href="javascript:" style="display:none" class="arrow arrow_right"></a>
+</div>
+
+<div class="section_bg">
+    <section class="row grid">
+        <a href="https://play.google.com/store/apps/details?id=com.discovercircle" id="googleplay"><span>Get it on Google Play</span></a>
+        <a href="http://itunes.apple.com/us/app/circle-whos-around-you/id488720081?mt=8" id="appstore"><span>Available in AppStore</span></a>
+        <div class="w585 r100 adjust_top">
+            <div class="slide_nav slide">
+                <ul id="slide_nav" class="grid"></ul>
+            </div>
+        </div>
+        <div class="w435">
+            <p id="footer">Copyright &copy; Hawthorne Labs, Inc. &nbsp;&bull;&nbsp; <a href="mailto:evan@discovercircle.com?Subject=Partnership">Partnership</a> &nbsp;&bull;&nbsp;
+                <a href="http://discovercircle.com/circle-press-kit.zip">Press Kit</a> &nbsp;&bull;&nbsp; <a href="home/privacy/">Privacy</a> </p>
+        </div>
+    </section>
+</div>
+
+
+<script src="js/app.js"></script>
+
+<script type="text/html" id="text_tmpl">
+    <li style="display:none">
+        <hgroup class="r100">
+            <h1>{{= h1 }}</h1>
+            <h2>{{= h2 }}</h2>
+        </hgroup>
+    </li>
+</script>
+
+<div type="text/html" id="screen_tmpl" style="display:none;">
+    <li style="display:none; background: url('{{= img }}');"></li>
+</div>
+
+
+<script>
+    (function(){var b={};this.tmpl=function e(a,c){var d=!/\W/.test(a)?b[a]=b[a]||e(document.getElementById(a).innerHTML):new Function("obj","var p=[],print=function(){p.push.apply(p,arguments);};with(obj){p.push('"+a.replace(/[\r\t\n]/g," ").split("{{").join("\t").replace(/((^|}})[^\t]*)'/g,"$1\r").replace(/\t=(.*?)}}/g,"',$1,'").split("\t").join("');").split("}}").join("p.push('").split("\r").join("\\'")+"');}return p.join('');");return c?d(c):d}})();
+</script>
+
+</body>
+</html>

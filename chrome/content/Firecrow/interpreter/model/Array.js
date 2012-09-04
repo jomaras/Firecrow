@@ -484,17 +484,50 @@ fcModel.ArrayProto =
             fcModel.ArrayProto.addDependenciesToAllProperties.call(this, callExpression);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
-            if(!isCalledOnArray) { alert("IndexOf called on non-array!");}
+            var lengthProperty = this.getProperty("length");
+            var lengthPropertyValue = lengthProperty.value;
+            var length = lengthPropertyValue != null ? lengthProperty.value.value : 0;
 
-            var lengthProperty = this.getPropertyValue("length");
-            var length = lengthProperty != null ? lengthProperty.value : 0;
+            var searchObject = jsArray;
+
+            if(!isCalledOnArray)
+            {
+                this.addDependencyToAllModifications(callExpression);
+
+                if(lengthProperty != null && lengthProperty.lastModificationConstruct != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        callExpression,
+                        lengthProperty.lastModificationConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        lengthProperty.lastModificationConstruct.evaluationPositionId
+                    );
+                }
+
+                var indexProperties = this.getPropertiesWithIndexNames();
+
+                var substituteObject = {};
+
+                for(var i = 0; i < indexProperties.length; i++)
+                {
+                    var property = indexProperties[i];
+                    substituteObject[property.name] = property.value;
+                }
+
+                substituteObject.length = length;
+
+                searchObject = substituteObject;
+            }
 
             var searchForItem = callArguments[0];
             var fromIndex = callArguments[1] != null ? callArguments[1].value : 0;
 
-            for(var i = fromIndex; i < jsArray.length; i++)
+            if(fromIndex == null) { fromIndex = 0; }
+
+            for(var i = fromIndex; i < length; i++)
             {
-                if(jsArray[i].value === searchForItem.value)
+                if(searchObject[i].value === searchForItem.value)
                 {
                     return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
                 }

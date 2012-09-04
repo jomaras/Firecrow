@@ -62,16 +62,18 @@
     <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
     <style>
-        #codeContainer
+        #sourceTextContainer
         {
             float: left;
             width: 600px;
+            height: 800px;
         }
 
-        #slicedCodeContainer
+        #slicedSourceTextContainer
         {
             float:left;
             width: 600px;
+            height: 800px;
         }
 
         .selected { background-color: green; }
@@ -106,7 +108,7 @@
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/99/index.html";
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/82/index.html";
         var htmlModel = HtmlModelMapping.getWholeFileModel(url);
         var slicingCriteria = htmlModel.results.map(function(result)
         {

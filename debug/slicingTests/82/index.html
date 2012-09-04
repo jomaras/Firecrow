@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<script>
+    var a1 = 0;
+    var a2 = 0;
+    var control;
+
+    function func(test)
+    {
+        a1++;
+
+        test = test || { a: 3};
+
+        a2 += test.a;
+    }
+
+    var obj = {a:3};
+
+    func(null);
+    func(obj);
+
+    a1;
+    a2;
+</script>
+</body>
+</html>

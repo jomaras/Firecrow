@@ -24,6 +24,8 @@ Firecrow.DependencyGraph.DependencyGraph = function()
 var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
 
 DependencyGraph.notifyError = function(message) { alert("DependencyGraph - " + message); };
+DependencyGraph.log = "";
+DependencyGraph.shouldLog = false;
 
 DependencyGraph.prototype.addNode = function(node)
 {
@@ -222,6 +224,24 @@ DependencyGraph.prototype.traverseAndMark = function(codeConstruct, maxDependenc
     {
         codeConstruct.shouldBeIncluded = true;
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
+
+        if(codeConstruct.loc != null && codeConstruct.loc.start.line == 818)
+        {
+            var a = 3;
+        }
+
+        /*if(DependencyGraph.shouldLog && codeConstruct.loc != null && codeConstruct.loc.start.line == 3968)
+        {
+            var a = 3;
+        }
+
+        if(DependencyGraph.shouldLog)
+        {
+            if(codeConstruct.loc != null)
+            {
+                DependencyGraph.log += codeConstruct.loc.start.line + ";";
+            }
+        }*/
 
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
 

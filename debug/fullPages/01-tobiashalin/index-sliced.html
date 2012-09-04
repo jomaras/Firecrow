@@ -1069,7 +1069,7 @@
         var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g, toString = Object.prototype.toString, rBackslash = /\\/g;
         var Sizzle = function (selector, context, results, seed)
         {
-            results = results;
+            results = results || [];
             context = context;
             var m, set, checkSet, ret, i, prune = true, contextXML = Sizzle.isXML(context), parts = [], soFar = selector;
             do

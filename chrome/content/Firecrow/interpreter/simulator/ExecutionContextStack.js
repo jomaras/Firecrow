@@ -397,6 +397,10 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             {
                 codeConstruct = codeConstruct.discriminant;
             }
+            else if (ASTHelper.isLogicalExpression(codeConstruct))
+            {
+
+            }
             else
             {
                 codeConstruct = null;
@@ -453,15 +457,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
         {
             if(command.isLoopStatementCommand() || command.isIfStatementCommand())
             {
-                var topFunctionContextCommand = this.functionContextCommandsStack[this.functionContextCommandsStack.length - 1];
-                if(topFunctionContextCommand != null)
-                {
-                    topFunctionContextCommand.functionContextBlockCommandsEvalPositions.push(
-                    {
-                        command: command,
-                        evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
-                    });
-                }
+                this._addToFunctionContextBlockCommands(command);
             }
 
             this.blockCommandStack.push(command);
@@ -472,6 +468,19 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             }
         }
         catch(e) { this.notifyError("Error when adding to block command stack: " + e); }
+    },
+
+    _addToFunctionContextBlockCommands: function(command)
+    {
+        var topFunctionContextCommand = this.functionContextCommandsStack[this.functionContextCommandsStack.length - 1];
+        if(topFunctionContextCommand != null)
+        {
+            topFunctionContextCommand.functionContextBlockCommandsEvalPositions.push(
+            {
+                command: command,
+                evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+            });
+        }
     },
 
     _reevaluateEvaluationPositionId: function()
@@ -550,7 +559,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isStartCatchStatementCommand()){ this._addToBlockCommandStack(command);}
             else if (command.isEndCatchStatementCommand()) { this._popTillCatchCommandFromBlockStack(command);}
             else if (command.isEvalNewExpressionCommand()){ this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
-            else if (command.isStartLogicalExpressionCommand()) {}
+            else if (command.isStartLogicalExpressionCommand()) { }
             else if (command.isCallInternalConstructorCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isCallCallbackMethodCommand()) {}
             else if (command.isEvalCallExpressionCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
@@ -562,6 +571,17 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                 {
                     this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct.right);
                     this._addToBlockCommandStack(command);
+                }
+                else if (command.isEndLogicalExpressionCommand())
+                {
+                    if(command.codeConstruct.loc.start.line == 818)
+                    {
+                        var a = 3;
+                    }
+                    if(ASTHelper.isAssignmentExpression(command.codeConstruct.parent))
+                    {
+                        this._addToFunctionContextBlockCommands(command);
+                    }
                 }
 
                 this.evaluator.evaluateCommand(command);

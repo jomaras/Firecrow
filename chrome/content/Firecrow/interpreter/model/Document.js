@@ -73,7 +73,8 @@ fcModel.Document = function(document, globalObject)
              || propertyName == "compatMode" || propertyName == "parentNode" || propertyName == "namespaceURI"
              || propertyName == "nodeName"  || propertyName == "onready" || propertyName == "ownerDocument"
              || propertyName == "oninit"|| propertyName == "init" || propertyName.toLowerCase().indexOf("jquery") != -1
-             || propertyName == "ontooltiprender" || propertyName == "ontooltipshow" || propertyName == "ontooltipfocus") //jQuery property accessors - remove
+             || propertyName == "ontooltiprender" || propertyName == "ontooltipshow" || propertyName == "ontooltipfocus"
+             || propertyName == "onclick" || propertyName == "onnotify"  || propertyName == "notify") //jQuery property accessors - remove
             {
                 return this.getPropertyValue(propertyName, codeConstruct);
             }

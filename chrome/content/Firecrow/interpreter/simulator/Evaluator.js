@@ -870,6 +870,11 @@ fcSimulator.Evaluator.prototype =
             var wholeLogicalExpression = parentExpressionCommand.codeConstruct;
             var logicalExpressionItem = evaluateLogicalExpressionItemCommand.codeConstruct;
 
+            if(wholeLogicalExpression.loc.start.line == 818)
+            {
+                var a = 3;
+            }
+
             evaluateLogicalExpressionItemCommand.parentEndLogicalExpressionCommand.executedLogicalItemExpressionCommands.push(evaluateLogicalExpressionItemCommand);
 
             var value = this.executionContextStack.getExpressionValue(logicalExpressionItem);

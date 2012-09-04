@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <!-- <meta name="viewport" content="initial-scale=1.0,width=device-width" /> -->
+    <title>Oliver Lisher - graphic and web interface designer and developer</title>
+    <meta name="description" content="The digital home of Oliver Lisher. A graphic designer and front end website developer."/>
+    <link rel="stylesheet" href="css/normailze.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/fonts.css"/>
+
+    <!-- include jQuery library -->
+    <script src="js/jQuery.js"></script>
+    <script src="js/jquery.cycle.all.js"></script>
+    <script>
+
+        $(function() {
+
+            $.getJSON("http://api.dribbble.com/players/olilish/shots?callback=?", function(data) {
+
+                $.each(data.shots, function(index, shot) {
+                    $("#dribbble-shots").append("<div><img src='" + shot.image_url + "' /></div>");
+                });
+
+                $('.slideshow').cycle({
+                    fx: 'fade' // choose your transition type, ex: fade, scrollUp, shuffle, etc...
+                });
+
+            });
+        });
+    </script>
+    <!-- include Cycle plugin -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-28004327-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+</head>
+<body>
+<div class="design-wrapper">
+    <section class="design">
+        <p class="this-is">This <br/>is</p>
+        <p class="the-website-of">The website of</p>
+        <h1>Oliver Lisher</h1>
+        <p class="i-am-a">I am a</p>
+        <h2>Designer</h2>
+    </section>
+</div>
+
+<div class="dev-wrapper">
+    <section class="dev">
+        <p class="hex-amp"><span>&amp;</span></p>
+
+        <p class="website">Website</p>
+        <h2>Developer</h2>
+        <p class="i-like">I like</p>
+        <ul class="dev-list">
+            <li><span>Html</span>5</li>
+            <li class="css3"><span>Css</span>3</li>
+            <li class="responsive-design"><span>Responsive</span>design</li>
+        </ul>
+    </section>
+</div>
+
+<div class="dribbble-wrapper">
+    <section class="dribbble">
+        <div class="dribbble-title">
+            <h2>You can often find me dribbbling</h2>
+        </div>
+
+        <div class="dribbble-img">
+            <div class="dribbble-over">
+                <p>Dribbble is an invite only show and tell for designers. It acts as a brief portfolio of sorts, where 'shots' from design projects are shared with the design community and potential clients.</p>
+            </div>
+            <div class="slideshow" id="dribbble-shots"></div>
+        </div>
+
+        <a href="http://www.dribbble.com/olilish" class="see-more">See more</a>
+    </section>
+</div>
+
+<div class="connect-wrapper">
+    <section class="connect">
+        <h2>find, follow or friend me</h2>
+        <ul>
+            <li><a href="http://www.designdiary.co.uk">My Blog</a></li>
+            <li><a href="http://www.twitter.com/olilish">Twitter</a></li>
+            <li><a href="http://www.dribbble.com/olilish">Dribbble</a></li>
+            <li><a href="http://uk.linkedin.com/in/olilish">LinkedIn</a></li>
+            <li><a href="mailto:olilish@gmail.com">Email</a></li>
+        </ul>
+        <p class="sign-off">Oliver Lisher 2012</p>
+    </section>
+</div>
+
+</body>
+</html>

@@ -313,7 +313,7 @@ fcModel.GlobalObject.CONST =
             "encodeURIComponent", "eval", "isFinite", "isNaN",
             "parseFloat", "parseInt", "addEventListener", "removeEventListener",
             "setTimeout", "clearTimeout", "setInterval", "clearInterval",
-            "getComputedStyle"
+            "getComputedStyle", "unescape"
         ]
     }
 }
