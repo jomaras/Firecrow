@@ -1,11 +1,12 @@
 *********************************************
-(almost)http://tobiasahlin.com - downloaded; goes through but in Sizzle: results.push.apply(results, checkSet) -> results is null :-/
+(does not work)http://tobiasahlin.com - downloaded; goes through but in Sizzle: results.push.apply(results, checkSet) -> results is null :-/
 (hmm)http://kennymeyers.com/ - downloaded, likely to work  -> uses canvas :-/ getContext (pa možda da i implementiran cavas metode?)
+
 (works)http://www.makalumedia.com/aerospace/ - WORKS; 2 UI controls extracted
 (works)http://disposable.hipstamatic.com/ - WORKS; 1 UI control extracted
 (works)http://mailboxing.com/ - 2/3 UI controls work (trim down to see what is wrong with the third one - the bottom slider)
 (works)http://sipp.cc/ - works (errors on escape!?), maybe even two UI controls (mail validation)
-(practically)http://www.blip.me/broadcast/ - almost working, only one logical expression to go
+(works)http://www.blip.me/broadcast/ - almost working, only one logical expression to go
 (hmm)proposable - downloaded, likely to work - error with removing block commands from stack trace
 (works)idt.mdh.se - works
 (works)http://www.instagalleryapp.com/ - works
@@ -13,7 +14,7 @@
 (works)http://www.irisapp.cc/
 (works)indubitable
 
-9 working
+10 working
 *********************************************
 
 Have potential:

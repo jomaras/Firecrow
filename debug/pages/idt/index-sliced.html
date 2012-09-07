@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html><head>
 <title>ProgressIDE</title>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-</meta>
-<meta content="Component, Component based development, CBD, CBSE, tool, IDE, integrated development environment" name="keywords">
-</meta>
-<link rel="Stylesheet" type="text/css" href="styles/mainStyle.css" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+<meta content="Component, Component based development, CBD, CBSE, tool, IDE, integrated development environment" name="keywords"/>
 <script type="text/javascript">
 (function (window, undefined)
 {
@@ -70,7 +66,7 @@
             },
             selector: '',
             jquery: '1.7.2',
-            length: null,
+            length: 0,
             pushStack: function (elems, name, selector)
             {
                 var ret = this.constructor();
@@ -131,7 +127,7 @@
         jQuery.extend({
             noConflict: function (deep)
             {},
-            isReady: null,
+            isReady: false,
             readyWait: 1,
             holdReady: function (hold)
             {},
@@ -351,7 +347,7 @@
     };
     (function ()
     {
-        var select, input, tds, div = document.createElement('div');
+        var select, input, fragment, tds, div = document.createElement('div'), documentElement = document.documentElement;
         div.setAttribute('className', 't');
         div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
         select = document.createElement('select');
@@ -365,6 +361,11 @@
         input.setAttribute('checked', 'checked');
         input.setAttribute('name', 't');
         div.appendChild(input);
+        fragment = document.createDocumentFragment();
+        fragment.appendChild(div.lastChild);
+        fragment.removeChild(input);
+        fragment.appendChild(div);
+        fragment.removeChild(div);
         jQuery(function ()
         {
             var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
@@ -412,7 +413,7 @@
     })();
     jQuery.extend({
         cache: {},
-        uuid: null,
+        uuid: 0,
         expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
         noData: {},
         hasData: function (elem)
@@ -475,6 +476,11 @@
                             jQuery.camelCase(name);
                         }
                     }
+
+                    if(!((pvt ? isEmptyDataObject : 0)(thisCache)))
+                    {
+                        return ;
+                    }
                 }
             }
         },
@@ -485,6 +491,16 @@
         acceptData: function (elem)
         {}
     });
+    function isEmptyDataObject (obj)
+    {
+        for(var name in obj)
+        {
+            if(name !== 'toJSON')
+            {
+                return false;
+            }
+        }
+    }
     jQuery.extend({
         _mark: function (elem, type)
         {},
@@ -677,7 +693,8 @@
             for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
             {
                 cur = eventPath[i][0];
-                (jQuery._data(cur, 'events'));
+                event.type = eventPath[i][1];
+                (jQuery._data(cur, 'events') || {})[event.type];
             }
         },
         dispatch: function (event)
@@ -706,6 +723,11 @@
                         if(ret !== undefined)
                         {
                             event.result = ret;
+                            if(ret === false)
+                            {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
                         }
                     }
                 }
@@ -739,6 +761,7 @@
 
         if(src && src.type)
         {
+            this.originalEvent = src;
             this.type = src.type;
         }
     };
@@ -747,6 +770,22 @@
         return false;
     }
     jQuery.Event.prototype = {
+        preventDefault: function ()
+        {
+            var e = this.originalEvent;
+            if(e.preventDefault)
+            {
+                e.preventDefault();
+            }
+        },
+        stopPropagation: function ()
+        {
+            var e = this.originalEvent;
+            if(e.stopPropagation)
+            {
+                e.stopPropagation();
+            }
+        },
         isPropagationStopped: returnFalse,
         isImmediatePropagationStopped: returnFalse
     };
@@ -823,6 +862,11 @@
                 results.push.apply(results, array);
             }
         };
+        try
+        {
+            (document.documentElement.childNodes, null).nodeType;
+        }
+        catch(e){}
         (function ()
         {
             var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
@@ -1309,42 +1353,86 @@
     window.$ = jQuery;
 })(window);
 </script>
-<link href="styles/mainStyle.css" type="text/css" rel="Stylesheet">
-</link>
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        var activeButtons = $('#featureSelectorContainer .active');
+        var clickedButton;
+        if(activeButtons.length > 0)
+        {
+            clickedButton = activeButtons[0];
+        }
+
+        var featuresArray = [{imagePath: 'images/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {imagePath: 'images/features/PrIDE0.5.png', title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
+        var buttons = $('#featureSelectorContainer a');
+        buttons.click(function (eventArgs)
+        {
+            if(clickedButton != null)
+            {
+                var previousButton = clickedButton;
+            }
+
+            clickedButton = eventArgs.currentTarget;
+            var buttonIndex = clickedButton.rel;
+            if(previousButton != null)
+            {
+                previousButton.className = '';
+            }
+
+            clickedButton.className = 'active';
+            changeFeature(buttonIndex);
+            return false;
+        });
+        function changeFeature (newFeatureIndex)
+        {
+            var feature = featuresArray[newFeatureIndex];
+            var titles = $('.featureTitle');
+            var descriptions = $('.featureDescription');
+            $('#featureContainer').fadeOut(200, function ()
+            {
+                $('#featureContainer img').attr('src', feature.imagePath);
+                $('#featureContainer').fadeIn(100);
+            });
+            titles.fadeOut(200, function ()
+            {
+                if(titles.length > 0)
+                {
+                    titles[0].textContent = feature.title;
+                }
+
+                titles.fadeIn(100);
+            });
+            descriptions.fadeOut(200, function ()
+            {
+                if(descriptions.length > 0)
+                {
+                    descriptions[0].textContent = feature.description;
+                }
+
+                descriptions.fadeIn(100);
+            });
+        }
+    });
+</script>
+<link href="styles/mainStyle.css" type="text/css" rel="Stylesheet"/>
 </head>
+
 <body>
 <div id="pageContainer">
 <div id="header">
     <table cellspacing="0px" cellpadding="0px" style="width:100%; height: 100%">
-        <tbody>
-        <tr>
+        <tbody><tr>
             <td>
                 <div id="logoContainer">
                     <a href="http://www.mrtc.mdh.se/progress/">
                         <img alt="mdhlogo" src="images/Progress - title.png" id="mdhLogo"/>
-
                     </a>
                 </div>
                 <div id="socialContainer">
                     <ul>
-                        <li>
-                            <a style="visibility: hidden;" href="http://www.facebook.com">
-                                <img alt="facebook" src="images/facebook_icon.png"/>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a style="visibility: hidden;" href="http://www.twitter.com">
-                                <img alt="twitter" src="images/twitter_icon.png"/>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://feeds.feedburner.com/PrideRssFeed">
-                                <img width="32px" alt="rss" src="images/rss_icon.png"/>
-
-                            </a>
-                        </li>
+                        <li><a style="visibility: hidden;" href="http://www.facebook.com"><img alt="facebook" src="images/facebook_icon.png"/></a></li>
+                        <li><a style="visibility: hidden;" href="http://www.twitter.com"><img alt="twitter" src="images/twitter_icon.png"/></a></li>
+                        <li><a href="http://feeds.feedburner.com/PrideRssFeed"><img width="32px" alt="rss" src="images/rss_icon.png"/></a></li>
                     </ul>
                 </div>
             </td>
@@ -1353,386 +1441,209 @@
             <td valign="bottom">
                 <div id="menuContainer">
                     <ul id="menu">
-                        <li class="home_active">
-                            <a href="?id=home"></a>
-                        </li>
+                        <li class="home_active"> <a href="?id=home"> </a></li>
                         <li class="features">
-                            <a href="?id=features"></a>
+                            <a href="?id=features"> </a>
                         </li>
                         <li class="download">
-                            <a href="?id=download"></a>
+                            <a href="?id=download"> </a>
                         </li>
                         <li class="documentation">
-                            <a href="?id=documentation"></a>
+                            <a href="?id=documentation"> </a>
                         </li>
                         <li class="roadmap">
-                            <a href="?id=roadmap"></a>
+                            <a href="?id=roadmap"> </a>
                         </li>
                         <li class="team">
                             <a href="?id=team">nbsp;</a>
                         </li>
                     </ul>
                 </div>
-                <div id="breadCrumbContainer">
-                </div>
+                <div id="breadCrumbContainer"></div>
             </td>
         </tr>
-        </tbody>
-    </table>
+        </tbody></table>
 </div>
+
 <div id="mainContent">
-<table>
-<tbody>
-<tr>
-<td>
-    <div class="sideContainer">
-        <div class="sideContainerTop">
-            <img class="title" alt="title" src="images/Download.png"/>
-
-        </div>
-        <div class="sideContainerMiddle">
-            <ul>
-                <li style="border-bottom-style: none; border-bottom-width: 0pt;">
-                    <div class="sideItem">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td align="left" style="padding-top: 5px; width:45px;">
-                                    <a href="?id=download">
-                                        <img alt="image" src="images/Download-icon.png"/>
-
-                                    </a>
-                                </td>
-                                <td class="descriptionContainer">
-                                    <a href="?id=download" class="sideDescription">
-                                        <span style="font-size:13">RIDE</span>
-                                        <br/>
-
-                                        <span class="description">public release</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="sideContainerBottom">
-        </div>
-    </div>
-</td>
-<td style="width: 733px;">
-    <div id="slider">
-        <table>
-            <tbody>
-            <tr>
-                <td id="featureContainer" colspan="2">
-                    <img alt="picture" src="images/features/PrIDE.png"/>
-
-                </td>
-            </tr>
-            <tr>
-                <td align="left">
-                          <span style="padding-top:-5px;" class="featureTitle">
-                            <span style="font-size: 14">RIDE</span>
-                          </span>
-                    <div style="margin-top: -3px;" class="featureDescription">
-                        <div style="padding-top:5px;">An environment dedicated to the development of distributed embedded systems</div>
-                    </div>
-                </td>
-                <td valign="bottom" align="right" id="featureSelectorContainer">
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <a class="active" rel="0" href="#">
-                                </a>
-                            </td>
-                            <td>
-                                <a rel="1" href="#">
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div style="margin: 10px; padding-right: 5px;" id="itemListContainer">
-        <ul>
-            <li style="">
-                <table cellspacing="0" cellpadding="0">
-                    <tbody>
-                    <tr>
-                        <td width="80px" valign="top" style="width: 80px">
-                            <img style="" alt="newsIcon" src="images/news.png"/>
-
-                        </td>
-                        <td>
-                            <h4>
-                                <span style="font-size:13">RIDE</span>
-                            </h4>
-                            <div class="newsItemDate">16 June 2011</div>
-                            <div class="newsContent">
-                                <span style="font-size:13">RIDE</span>
+    <table>
+        <tbody><tr>
+            <td><div class="sideContainer">
+                <div class="sideContainerTop">
+                    <img class="title" alt="title" src="images/Download.png"/></div>
+                <div class="sideContainerMiddle">
+                    <ul>
+                        <li style="border-bottom-style: none; border-bottom-width: 0pt;">
+                            <div class="sideItem">
+                                <table>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=download"><img alt="image" src="images/Download-icon.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="?id=download" class="sideDescription">Download P<span style="font-size:13">RIDE</span><br/>
+                                            <span class="description">public release</span></a></td>
+                                    </tr>
+                                    </tbody></table>
                             </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sideContainerBottom"></div>
+            </div></td>
+            <td style="width: 733px;">	<div id="slider">
+                <table>
+                    <tbody><tr>
+                        <td id="featureContainer" colspan="2">
+                            <img alt="picture" src="images/features/PrIDE.png"/></td>
+                    </tr>
+                    <tr>
+                        <td align="left">
+                            <span style="padding-top:-5px;" class="featureTitle">P<span style="font-size: 14">RIDE</span></span>
+                            <div style="margin-top: -3px;" class="featureDescription"><div style="padding-top:5px;">An environment dedicated to the development of distributed embedded systems</div></div>
+                        </td>
+                        <td valign="bottom" align="right" id="featureSelectorContainer">
+                            <table>
+                                <tbody><tr>
+                                    <td><a class="active" rel="0" href="#"></a></td>
+                                    <td><a rel="1" href="#"></a></td>
+                                </tr>
+                                </tbody></table>
                         </td>
                     </tr>
-                    </tbody>
-                </table>
-            </li>
-            <li style="">
-                <table cellspacing="0" cellpadding="0">
-                    <tbody>
-                    <tr>
-                        <td width="80px" valign="top" style="width: 80px">
-                            <img style="" alt="newsIcon" src="images/video.png"/>
+                    </tbody></table>
+            </div>
 
-                        </td>
-                        <td>
-                            <h4>
-                                <span style="font-size:13">RIDE</span>
-                            </h4>
-                            <div class="newsItemDate">22 February 2011</div>
-                            <div class="newsContent">
-                                <span style="font-size:13">RIDE</span>
-                                <a href="http://www.wicsa.net/">WICSA 2011</a>
-                                <a href="http://www.youtube.com/watch?v=Y1dkUCuqzrA" class="videoItemLink">View</a>
+                <div style="margin: 10px; padding-right: 5px;" id="itemListContainer">
+                    <ul>
+                        <li style="">
+                            <table cellspacing="0" cellpadding="0">
+                                <tbody><tr>
+                                    <td width="80px" valign="top" style="width: 80px">
+                                        <img style="" alt="newsIcon" src="images/news.png"/>
+                                    </td>
+                                    <td>
+                                        <h4>P<span style="font-size:13">RIDE</span> 0.5.0 ready for download</h4>
+                                        <div class="newsItemDate">16 June 2011</div>
+                                        <div class="newsContent">P<span style="font-size:13">RIDE</span> 0.5.0 is now available for Windows</div>
+                                    </td>
+                                </tr>
+                                </tbody></table>
+                        </li>
+                        <li style="">
+                            <table cellspacing="0" cellpadding="0">
+                                <tbody><tr>
+                                    <td width="80px" valign="top" style="width: 80px">
+                                        <img style="" alt="newsIcon" src="images/video.png"/>
+                                    </td>
+                                    <td>
+                                        <h4>P<span style="font-size:13">RIDE</span> WICSA video</h4>
+                                        <div class="newsItemDate">22 February 2011</div>
+                                        <div class="newsContent">P<span style="font-size:13">RIDE</span> video that will be submitted to <a href="http://www.wicsa.net/">WICSA 2011</a> is now available. <a href="http://www.youtube.com/watch?v=Y1dkUCuqzrA" class="videoItemLink">View</a></div>
+                                    </td>
+                                </tr>
+                                </tbody></table>
+                        </li>
+
+
+
+                        <li style="">
+                            <table cellspacing="0" cellpadding="0">
+                                <tbody><tr>
+                                    <td width="80px" valign="top" style="width: 80px">
+                                        <img style="" alt="newsIcon" src="images/news.png"/>
+                                    </td>
+                                    <td>
+                                        <h4>P<span style="font-size:13">RIDE</span> 0.4.1 ready for download</h4>
+                                        <div class="newsItemDate">02 February 2011</div>
+                                        <div class="newsContent">P<span style="font-size:13">RIDE</span> 0.4.1 is now available</div>
+                                    </td>
+                                </tr>
+                                </tbody></table>
+                        </li>
+                    </ul>
+                </div>
+                <script type="text/javascript">
+                </script>
+
+                <div class="modalContent">
+                    <div class="video">
+                        <object width="800" height="460">
+                            <param value="http://www.youtube.com/v/Y1dkUCuqzrA?fs=1&hl=hr_HR&hd=1" name="movie"></param>
+                            <param value="true" name="allowFullScreen"></param>
+                            <param value="always" name="allowscriptaccess"></param>
+                            <embed width="800" height="460" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash" src="http://www.youtube.com/v/Y1dkUCuqzrA?fs=1&hl=en_US;hd=1"></embed>
+                        </object>
+                    </div>
+                </div>
+            </td>
+            <td><div class="sideContainer">
+                <div class="sideContainerTop">
+                    <img class="title" alt="title" src="images/contact.png"/></div>
+                <div class="sideContainerMiddle">
+                    <ul>
+                        <li style="">
+                            <div class="sideItem">
+                                <table>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="mailto:pg-ide@mdh.se?subject=[PRIDE]"><img alt="image" src="images/mail.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="mailto:pg-ide@mdh.se?subject=[PRIDE]" class="sideDescription"> Message<br/>
+                                            <span class="description">  Send us a message</span></a></td>
+                                    </tr>
+                                    </tbody></table>
                             </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </li>
-            <li style="">
-                <table cellspacing="0" cellpadding="0">
-                    <tbody>
-                    <tr>
-                        <td width="80px" valign="top" style="width: 80px">
-                            <img style="" alt="newsIcon" src="images/news.png"/>
+                        </li>
 
-                        </td>
-                        <td>
-                            <h4>
-                                <span style="font-size:13">RIDE</span>
-                            </h4>
-                            <div class="newsItemDate">02 February 2011</div>
-                            <div class="newsContent">
-                                <span style="font-size:13">RIDE</span>
+                        <li style="border-bottom-style: none; border-bottom-width: 0pt;">
+                            <div class="sideItem">
+                                <table>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="http://bugzilla.mdh.se/bugzilla/"><img alt="image" src="images/mail-bug.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="http://bugzilla.mdh.se/bugzilla/" class="sideDescription"> Bugs<br/>
+                                            <span class="description">  Report a bug</span></a></td>
+                                    </tr>
+                                    </tbody></table>
                             </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </li>
-        </ul>
-    </div>
-    <script type="text/javascript">
-        $(document).ready(function ()
-        {
-            var activeButtons = $('#featureSelectorContainer .active');
-            var clickedButton;
-            if(activeButtons.length > 0)
-            {
-                clickedButton = activeButtons[0];
-            }
+                        </li>
+                    </ul>
+                </div>
+                <div class="sideContainerBottom"></div>
+            </div><div class="sideContainer">
+                <div class="sideContainerTop">
+                    <img class="title" alt="title" src="images/links.png"/></div>
+                <div class="sideContainerMiddle">
+                    <ul>
+                        <li style="">
+                            <div class="sideItem">
+                                <table>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="http://www.mdh.se"><img alt="image" src="images/mdh.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="http://www.mdh.se" class="sideDescription">MDH<br/>
+                                            <span class="description">Mälardalen University, SWE</span></a></td>
+                                    </tr>
+                                    </tbody></table>
+                            </div>
+                        </li>
+                        <li style="">
+                            <div class="sideItem">
+                                <table>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="http://www.mrtc.mdh.se/progress/"><img alt="image" src="images/Progress.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="http://www.mrtc.mdh.se/progress/" class="sideDescription">Progress<br/>
+                                            <span class="description">Research center</span></a></td>
+                                    </tr>
+                                    </tbody></table>
+                            </div>
+                        </li>
 
-            var featuresArray = [{imagePath: 'images/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {imagePath: 'images/features/PrIDE0.5.png', title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
-            var buttons = $('#featureSelectorContainer a');
-            buttons.click(function (eventArgs)
-            {
-                if(clickedButton != null)
-                {
-                    var previousButton = clickedButton;
-                }
-
-                clickedButton = eventArgs.currentTarget;
-                var buttonIndex = clickedButton.rel;
-                if(previousButton != null)
-                {
-                    previousButton.className = '';
-                }
-
-                clickedButton.className = 'active';
-                changeFeature(buttonIndex);
-                return false;
-            });
-            function changeFeature (newFeatureIndex)
-            {
-                var feature = featuresArray[newFeatureIndex];
-                var titles = $('.featureTitle');
-                var descriptions = $('.featureDescription');
-                $('#featureContainer').fadeOut(200, function ()
-                {
-                    $('#featureContainer img').attr('src', feature.imagePath);
-                    $('#featureContainer').fadeIn(100);
-                });
-                titles.fadeOut(200, function ()
-                {
-                    if(titles.length > 0)
-                    {
-                        titles[0].textContent = feature.title;
-                    }
-
-                    titles.fadeIn(100);
-                });
-                descriptions.fadeOut(200, function ()
-                {
-                    if(descriptions.length > 0)
-                    {
-                        descriptions[0].textContent = feature.description;
-                    }
-
-                    descriptions.fadeIn(100);
-                });
-            }
-        });
-    </script>
-    <div class="modalContent">
-        <div class="video">
-            <object width="800" height="460">
-                <param value="http://www.youtube.com/v/Y1dkUCuqzrA?fs=1&hl=hr_HR&hd=1" name="movie">
-                </param>
-                <param value="true" name="allowFullScreen">
-                </param>
-                <param value="always" name="allowscriptaccess">
-                </param>
-                <embed width="800" height="460" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash" src="http://www.youtube.com/v/Y1dkUCuqzrA?fs=1&hl=en_US;hd=1">
-                </embed>
-            </object>
-        </div>
-    </div>
-</td>
-<td>
-    <div class="sideContainer">
-        <div class="sideContainerTop">
-            <img class="title" alt="title" src="images/contact.png"/>
-
-        </div>
-        <div class="sideContainerMiddle">
-            <ul>
-                <li style="">
-                    <div class="sideItem">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td align="left" style="padding-top: 5px; width:45px;">
-                                    <a href="mailto:pg-ide@mdh.se?subject=[PRIDE]">
-                                        <img alt="image" src="images/mail.png"/>
-
-                                    </a>
-                                </td>
-                                <td class="descriptionContainer">
-                                    <a href="mailto:pg-ide@mdh.se?subject=[PRIDE]" class="sideDescription">
-                                        <br/>
-
-                                        <span class="description">Send us a message</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </li>
-                <li style="border-bottom-style: none; border-bottom-width: 0pt;">
-                    <div class="sideItem">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td align="left" style="padding-top: 5px; width:45px;">
-                                    <a href="http://bugzilla.mdh.se/bugzilla/">
-                                        <img alt="image" src="images/mail-bug.png"/>
-
-                                    </a>
-                                </td>
-                                <td class="descriptionContainer">
-                                    <a href="http://bugzilla.mdh.se/bugzilla/" class="sideDescription">
-                                        <br/>
-
-                                        <span class="description">Report a bug</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="sideContainerBottom">
-        </div>
-    </div>
-    <div class="sideContainer">
-        <div class="sideContainerTop">
-            <img class="title" alt="title" src="images/links.png"/>
-
-        </div>
-        <div class="sideContainerMiddle">
-            <ul>
-                <li style="">
-                    <div class="sideItem">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td align="left" style="padding-top: 5px; width:45px;">
-                                    <a href="http://www.mdh.se">
-                                        <img alt="image" src="images/mdh.png"/>
-
-                                    </a>
-                                </td>
-                                <td class="descriptionContainer">
-                                    <a href="http://www.mdh.se" class="sideDescription">
-                                        <br/>
-
-                                        <span class="description">Mälardalen University, SWE</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </li>
-                <li style="">
-                    <div class="sideItem">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td align="left" style="padding-top: 5px; width:45px;">
-                                    <a href="http://www.mrtc.mdh.se/progress/">
-                                        <img alt="image" src="images/Progress.png"/>
-
-                                    </a>
-                                </td>
-                                <td class="descriptionContainer">
-                                    <a href="http://www.mrtc.mdh.se/progress/" class="sideDescription">
-                                        <br/>
-
-                                        <span class="description">Research center</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="sideContainerBottom">
-        </div>
-    </div>
-</td>
-</tr>
-</tbody>
-</table>
+                    </ul>
+                </div>
+                <div class="sideContainerBottom"></div>
+            </div></td>
+        </tr>
+        </tbody></table>
 </div>
 <div id="footer">
     <div>Malardalen University, School of Innovation, Design and Engineering | Box 883 | 721 23 Västerås/Eskilstuna</div>
 </div>
-<div id="testDiv">
+<div id="testDiv"></div>
 </div>
-</div>
-</body>
-</html>
+
+</body></html>

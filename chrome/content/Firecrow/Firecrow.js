@@ -10,10 +10,37 @@ FBL.ns(function() { with (FBL) {
     var CommandGenerator = Firecrow.CommandGenerator;
     var ASTHelper = Firecrow.ASTHelper;
 
+    var panelName = "Firecrow";
+
     Firebug.FirecrowModule = extend(Firebug.Module,
     {
         jsRecorder: null,
         persistedState: {},
+
+        showPanel: function(browser, panel)
+        {
+            try
+            {
+                var isCdvPanel = panel && panel.name == panelName;
+
+                // Chrome changes in Firebug version 1.4
+                var chrome = browser.chrome ? browser.chrome : Firebug.chrome;
+
+                var cdvButtons = chrome.$("fcButtons");
+
+                collapse(cdvButtons, !isCdvPanel);
+            }
+            catch(e) { }
+        },
+
+        getPanelContentContainer: function()
+        {
+            var context = Firebug.currentContext;
+            var panel = context.getPanel(panelName);
+            var parentNode = panel.panelNode;
+
+            return parentNode;
+        },
 
         initialize: function()
         {
@@ -438,6 +465,19 @@ FBL.ns(function() { with (FBL) {
         }
     });
 
+    Firebug.FirecrowPanel = function() {};
+    Firebug.FirecrowPanel.prototype = extend(Firebug.Panel,
+    {
+        name: panelName,
+        title: panelName,
+
+        initialize: function()
+        {
+            Firebug.Panel.initialize.apply(this, arguments);
+        }
+    });
+
+    Firebug.registerPanel(Firebug.FirecrowPanel);
     Firebug.registerModule(Firebug.FirecrowModule);
 
     Firecrow.getWindow = function() { return Firecrow.fbHelper.getWindow(); };

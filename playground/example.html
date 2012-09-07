@@ -1,24 +1,34 @@
 <html>
 <head>
     <style>
-        .fav { }
-        .noFav{}
-        #star{}
+        .fav {
+        }
+
+        .noFav {
+        }
+
+        #star {
+        }
     </style>
 </head>
 <body>
-    <div class="imageRaterContainer">
-        <img alt="image" src=""/><br/>
-        <div id="star" class="noFav">Note</div>
-    </div>
-    <div id="notif"></div>
-    <script>
-        var star = document.getElementById("star");
-        var notif = document.getElementById("notif");
-        star.onclick = function(){
-            var dec = star.className == "noFav" ? "fav" : "noFav";
-            star.className = dec;
-        }
-    </script>
+<div class="imageRaterContainer">
+    <img alt="image" src=""/><br/>
+
+    <div id="star" class="noFav">Note</div>
+</div>
+<div id="notif"></div>
+<script>
+    var star = document.getElementById("star");
+    var notif = document.getElementById("notif");
+    star.onclick = function () {
+        var dec = star.className == "noFav" ? "fav" : "noFav";
+        star.className = dec;
+    }
+</script>
+<div>
+    Hello, and now for something
+</div>
+
 </body>
 </html>

@@ -100,7 +100,8 @@ Firecrow.fbHelper =
                 (
                     {
                         selector: cssRule.selectorText,
-                        cssText: cssRule.cssText
+                        cssText: cssRule.cssText,
+                        declarations: this.getStyleDeclarations(cssRule)
                     }
                 );
             }
@@ -111,6 +112,22 @@ Firecrow.fbHelper =
         }
 
         return model;
+    },
+
+    getStyleDeclarations: function(cssRule)
+    {
+        var declarations = {};
+
+        if(cssRule == null || cssRule.style == null) { return declarations;}
+
+        var style = cssRule.style;
+
+        for(var i = 0; i < style.length; i++)
+        {
+            declarations[style[i]] = style[style[i]];
+        }
+
+        return declarations;
     },
 
     getScriptsPathsAndModels: function(document)

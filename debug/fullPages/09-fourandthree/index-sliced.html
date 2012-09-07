@@ -845,7 +845,8 @@
             for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
             {
                 cur = eventPath[i][0];
-                (jQuery._data(cur, 'events'));
+                event.type = eventPath[i][1];
+                (jQuery._data(cur, 'events') || {})[event.type];
             }
         },
         dispatch: function (event)

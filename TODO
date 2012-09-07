@@ -1,16 +1,9 @@
 To Do List:
 - implicit call toString method of an object if participating in a binary expression!
-- working with DOM events - and extending the model with recordings
-
-Errors on:
-    - C:\GitWebStorm\Firecrow\tests\libraries\gauss\tests\cases\11-Mode-Tie\     - Konceptualni problem! (test 65)
-    - C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\07-mutatingPath\
-    - C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\16-mutatingDirectory\
-    - C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\19-mutatingObject\
-    - C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\20-addQuery\
-    - C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\21-removeQuery\
-    - C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\24-normalizePath\
-    - C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\25-normalizeQuery\
-    - C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\31-equals\
+- ES5 stuff (Object.defineProperty, etc.), canvas
+- refactor
 
 
+- Make a separate tab for Firecrow in Firebug
+- Incorporate DependencyVisualizer in it
+- Add the extraction wizard (

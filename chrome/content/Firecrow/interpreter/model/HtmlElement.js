@@ -204,7 +204,8 @@ fcModel.HtmlElementProto =
               || propertyName == "selected" || propertyName == "className" || propertyName == "enctype"
               || propertyName == "outerHTML" || propertyName == "disabled" || propertyName == "nodeName" || propertyName == "tagName"
               || propertyName == "scrollLeft" || propertyName == "scrollTop" || propertyName == "clientTop" || propertyName == "clientLeft"
-              || propertyName == "href" || propertyName == "src" || propertyName == "namespaceURI" || propertyName == "clientHeight" || propertyName == "clientWidth"
+              || propertyName == "href" || propertyName == "src" || propertyName == "namespaceURI" || propertyName == "clientHeight"
+              || propertyName == "clientWidth" || propertyName == "scrollWidth"
               //TODO - remove this jQuery stuff below
               || propertyName == "test" || propertyName == "attachEvent" || propertyName == "matchesSelector" || propertyName == "opacity"
               || propertyName == "createElement" || propertyName == "currentStyle" || propertyName.toLowerCase().indexOf("jquery") != -1

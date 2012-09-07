@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>TinySlider - JavaScript Slideshow</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
-<script type="text/javascript" src="script.js"></script>
+<link rel="stylesheet" type="text/css" href="styles/style.css" />
+<script type="text/javascript" src="scripts/script.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -27,37 +27,6 @@
 		</ul>
 	</div>
 </div>
-<script type="text/javascript">
-var slideshow=new TINY.slider.slide('slideshow',{
-	id:'slider',
-	auto:5,
-	resume:false,
-	vertical:false,
-	navid:'pagination',
-	activeclass:'current',
-	position:0,
-	rewind:false,
-	elastic:true,
-	left:'slideleft',
-	right:'slideright'
-});
-
-document.getElementById("slideleft").onclick = function() { slideshow.move(-1); }
-document.getElementById("slideright").onclick = function() { slideshow.move(1); }
-
-var pages = document.querySelectorAll("#pagination li");
-
-for(var i = 0; i < pages.length; i++)
-{
-    (function(index)
-    {
-        pages[index].onclick = function()
-        {
-            slideshow.pos(index);
-        }
-    })(i);
-}
-
-</script>
+<script type="text/javascript" src="scripts/page.js"></script>
 </body>
 </html>

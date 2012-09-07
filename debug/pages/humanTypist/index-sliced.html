@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html><head>
 <script type="text/javascript">
 (function (window, undefined)
 {
@@ -51,7 +50,7 @@
                     return rootjQuery.ready(selector);
                 }
             },
-            length: null,
+            length: 0,
             each: function (callback, args)
             {
                 return jQuery.each(this, callback, args);
@@ -93,7 +92,7 @@
         jQuery.extend({
             noConflict: function (deep)
             {},
-            isReady: null,
+            isReady: false,
             readyWait: 1,
             holdReady: function (hold)
             {},
@@ -284,7 +283,7 @@
     };
     jQuery.support = (function ()
     {
-        var support, select, input, tds, div = document.createElement('div');
+        var support, select, input, fragment, tds, div = document.createElement('div'), documentElement = document.documentElement;
         div.setAttribute('className', 't');
         div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
         select = document.createElement('select');
@@ -299,6 +298,11 @@
         input.setAttribute('checked', 'checked');
         input.setAttribute('name', 't');
         div.appendChild(input);
+        fragment = document.createDocumentFragment();
+        fragment.appendChild(div.lastChild);
+        fragment.removeChild(input);
+        fragment.appendChild(div);
+        fragment.removeChild(div);
         jQuery(function ()
         {
             var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
@@ -375,6 +379,11 @@
 
             return ret;
         };
+        try
+        {
+            (document.documentElement.childNodes, null).nodeType;
+        }
+        catch(e){}
         (function ()
         {
             var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
@@ -591,5 +600,6 @@
 </head>
 <body>
 <p id="example"> Lorem ipsum </p>
-</body>
-</html>
+
+
+</body></html>

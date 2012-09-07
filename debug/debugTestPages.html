@@ -8,7 +8,7 @@
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
 
     <script src="pages/modelMapping.js"></script>
-    <script src="pages/modelMappings/blip.js"></script>
+    <script src="pages/modelMappings/line25Slideshow.js"></script>
 
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
@@ -117,7 +117,7 @@
 
     var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
 
-    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
 </script>
 </body>
 </html>

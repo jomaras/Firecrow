@@ -3,7 +3,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
     <title>Custom designed fancy check boxes and radio buttons with CSS and JavaScript</title>
     <meta content="Custom designed HTML checkboxes and radio controls with CSS 3.0 and JavaScript." name="Description"/>
-    <link href="style.css" type="text/css" rel="stylesheet"></link>
+    <link href="style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <div id="sizer">
@@ -19,11 +19,10 @@
         </fieldset>
     </form>
     <div id="footer">
-        <a href="http://www.maratz.com/blog/archives/2006/06/11/fancy-checkboxes-and-radio-buttons/">â† Full how-to article</a>
-        <a href="jquery.html">jQuery version â†’</a>
+        <a href="http://www.maratz.com/blog/archives/2006/06/11/fancy-checkboxes-and-radio-buttons/">← Full how-to article</a>
+        <a href="jquery.html">jQuery version →</a>
     </div>
 </div>
-
 <script>
     var d = document;
     var safari = navigator.userAgent.toLowerCase().indexOf('safari') != -1 ? 0 : false;
@@ -66,7 +65,20 @@
         }
     };
     var turn_radio = function ()
-    {};
+    {
+        var inp = gebtn(this, 'input')[0];
+        if(this.className == 'label_radio r_off' || inp.checked)
+        {
+            var ls = gebtn(this.parentNode, 'label');
+            for(var i = 0;i < ls.length;i++)
+            {
+                var l = ls[i];
+                l.className = 'label_radio r_off';
+            }
+
+            this.className = 'label_radio r_on';
+        }
+    };
 </script>
 
 </body></html>

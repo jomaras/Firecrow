@@ -4,28 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <title>Lamborghini jQuery Slideshow</title>
-
     <link href="style.css" rel="stylesheet" />
-
     <script src="js/jQuery.js"></script>
     <script src="js/jquery.scrollTo.js"></script>
     <script src="js/jquery.localscroll.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#slideshow").css("overflow", "hidden");
-            $("#slideshow-nav").css("visibility", "visible");
-            $("#slideshow-nav a[href=#lambo1]").addClass("active");
-
-            $("#slideshow-nav").localScroll({
-                target:'#slideshow', axis: 'x'
-            });
-
-            $("#slideshow-nav a").click(function(){
-                $("#slideshow-nav a").removeClass("active");
-                $(this).addClass("active");
-            });
-        });
-    </script>
+    <script src="js/page.js"></script>
 </head>
 
 <body>

@@ -74,7 +74,7 @@
   
   <toolbar id="fbToolbar" align="center">
     <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center">
-       <hbox id="fbHTMLButtons" collapsed="false">
+       <hbox id="fcButtons" collapsed="false">
          <toolbarbutton id="recordButton" class="toolbar-text-button" label="Record" tooltiptext="Start execution recording process" command="cmd_FirecrowRecordPress"/>
          <toolbarbutton id="profileButton" class="toolbar-text-button" label="Profile" tooltiptext="Start profiling process" command="cmd_FirecrowProfilePress"/>
          <toolbarbutton id="modelButton" class="toolbar-text-button" label="AST" tooltiptext="Get page AST model" command="cmd_FirecrowASTButtonPress"/>
