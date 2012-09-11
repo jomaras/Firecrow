@@ -21,16 +21,15 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                var isCdvPanel = panel && panel.name == panelName;
+                collapse(fbHelper.getElementByID("fcButtons"), !panel || panel.name != panelName);
 
-                // Chrome changes in Firebug version 1.4
-                var chrome = browser.chrome ? browser.chrome : Firebug.chrome;
+                var menuPopup = fbHelper.getElementByID("fcSourceFilesMenuPopup");
+                fbHelper.clearChildren(menuPopup);
 
-                var cdvButtons = chrome.$("fcButtons");
-
-                collapse(cdvButtons, !isCdvPanel);
+                menuPopup.appendChild(fbHelper.createMenuItem(fbHelper.getCurrentPageName(), fbHelper.getCurrentUrl(), true));
+                fbHelper.getElementByID("fcSourceFilesList").selectedIndex = 0;
             }
-            catch(e) { }
+            catch(e) { alert("Error when showing panel"); }
         },
 
         getPanelContentContainer: function()
@@ -74,6 +73,35 @@ FBL.ns(function() { with (FBL) {
 
                 fbHelper.asyncSetPluginInstallLocation("Firecrow@fesb.hr");
             }catch(e) { alert("Error when loading context: " + e); }
+        },
+
+        onFirecrowShowCodePress: function()
+        {
+            try
+            {
+                var communicationObject = { message: "Creating page model<br/>", setMessage: function(message) { this.message += message + "<br/>"; } };
+                var window = fbHelper.openWindow("chrome://firecrow/content/windows/notificationWindow.html", "Firecrow", communicationObject);
+
+                this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(window, htmlJson)
+                {
+                    try
+                    {
+                        communicationObject.setMessage("Setting parent child relationship");
+                        ASTHelper.setParentsChildRelationships(htmlJson);
+                    }
+                    catch(e) { alert("Error when trying to show code of the current page:" + e)};
+                }, this);
+
+            } catch(e) { alert("Error when pressing show code button"); }
+        },
+
+        onFirecrowPress: function()
+        {
+            try
+            {
+                fbHelper.openWindow("chrome://firecrow/content/windows/notificationWindow.html", "Firecrow", {});
+            }
+            catch(e) { alert("Error when handling Firecrow press"); }
         },
 
         onFirecrowProfilePress: function()
@@ -479,6 +507,8 @@ FBL.ns(function() { with (FBL) {
 
     Firebug.registerPanel(Firebug.FirecrowPanel);
     Firebug.registerModule(Firebug.FirecrowModule);
+
+    Firebug.registerStylesheet("chrome://Firecrow/skin/style.css");
 
     Firecrow.getWindow = function() { return Firecrow.fbHelper.getWindow(); };
     Firecrow.getDocument = function() { return Firecrow.fbHelper.getDocumentForSimulating(); }

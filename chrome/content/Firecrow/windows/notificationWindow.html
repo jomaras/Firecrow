@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firecrow</title>
+    <link rel="stylesheet" type="text/css" href="style/mainWindowStyle.css"/>
+    <script>
+        var sentArgument = window.arguments[0].wrappedJSObject;
+
+        sentArgument.setMessage = function(message)
+        {
+            if(sentArgument.message == null) { sentArgument.message = ""; }
+
+            sentArgument.message += message + "<br/>";
+
+            if(messageContainer != null)
+            {
+                messageContainer.innerHTML = sentArgument.message;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="fcWindow" id="notificationWindow">
+        <div class="header"><h1>Firecrow</h1></div>
+        <div class="contentWrapper">
+
+        </div>
+        <div class="footer">
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var messageContainer = document.querySelector(".contentWrapper");
+        sentArgument.setMessage("");
+    </script>
+</body>
+</html>

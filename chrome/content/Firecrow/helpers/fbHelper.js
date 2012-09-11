@@ -10,7 +10,7 @@ var ASTHelper = Firecrow.ASTHelper;
 Firecrow.fbHelper =
 {
     installLocation: "",
-    openWindow: function (pathToWindowXul, windowTitle, args)
+    openWindow: function (pathToWindow, windowTitle, args)
     {
         try
         {
@@ -18,10 +18,12 @@ Firecrow.fbHelper =
 
             var windowWatcher = CC["@mozilla.org/embedcomp/window-watcher;1"].getService(CI.nsIWindowWatcher);
 
+            Firecrow.args = args;
+
             return windowWatcher.openWindow
             (
                 null,
-                pathToWindowXul,
+                pathToWindow,
                 windowTitle,
                 "chrome,centerscreen",
                 args
@@ -34,6 +36,38 @@ Firecrow.fbHelper =
     {
         try{ return Firebug.chrome.$(elementID); }
         catch(e) { alert("Error when getting element by id: " + e);}
+    },
+
+    createMenuItem: function(label, value, selected)
+    {
+       try
+       {
+           const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+           var menuItem = document.createElementNS(XUL_NS, "menuitem");
+
+           if (label != undefined) { menuItem.setAttribute("label", label); }
+           if (value != undefined) { menuItem.setAttribute("value", value); }
+           if (selected != undefined) { menuItem.setAttribute("selected", selected); }
+
+
+           return menuItem;
+       }
+       catch(e) { alert("Error when creating menu item"); }
+    },
+
+    clearChildren: function(element)
+    {
+        try
+        {
+            if(element == null) { return; }
+
+            while (element.childNodes.length >= 1 )
+            {
+                element.removeChild(element.firstChild);
+            }
+        }
+        catch(e) { alert("Error when clearing children");}
     },
 
     getExternalScriptPaths: function()
@@ -124,7 +158,14 @@ Firecrow.fbHelper =
 
         for(var i = 0; i < style.length; i++)
         {
-            declarations[style[i]] = style[style[i]];
+            var key = style[i];
+            declarations[key] = style[key];
+
+            if(declarations[key] == null)
+            {
+                var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
+                declarations[key] = style[newKey];
+            }
         }
 
         return declarations;
@@ -233,6 +274,17 @@ Firecrow.fbHelper =
     {
         try { return this.getCurrentPageDocument().baseURI; }
         catch(e) { alert("Error when getting current url: " + e); }
+    },
+
+    getCurrentPageName: function()
+    {
+        try
+        {
+            var currentUrl = this.getCurrentUrl();
+
+            return currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
+        }
+        catch(e) { alert("Error when getting current page name");}
     },
 
     reloadPage: function ()
