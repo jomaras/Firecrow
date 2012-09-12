@@ -6,6 +6,7 @@ var CI = Components.interfaces;
 var fileHelper = Firecrow.FileHelper;
 var valueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
+Firecrow.UnrecognizedCssProperties = {};
 
 Firecrow.fbHelper =
 {
@@ -163,8 +164,26 @@ Firecrow.fbHelper =
 
             if(declarations[key] == null)
             {
-                var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
+                if(key == "float")
+                {
+                    declarations[key] = style["cssFloat"];
+                }
+                else
+                {
+                    var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
+                    declarations[key] = style[newKey];
+                }
+            }
+
+            if(declarations[key] == null)
+            {
+                newKey = newKey.replace("Value", "");
                 declarations[key] = style[newKey];
+            }
+
+            if(declarations[key] == null)
+            {
+                Firecrow.UnrecognizedCssProperties[key] = "1";
             }
         }
 

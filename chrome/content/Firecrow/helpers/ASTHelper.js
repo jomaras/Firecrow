@@ -84,6 +84,100 @@ FBL.ns(function () { with (FBL) {
             return false;
         },
 
+        getCssRules: function(codeModel)
+        {
+            var cssRules = [];
+
+            var styleElements = this.getStyleElements(codeModel.htmlElement);
+
+            for(var i = 0; i < styleElements.length; i++)
+            {
+                var cssElement = styleElements[i];
+
+                var jCssRules = this.getCssRulesFromElement(cssElement);
+
+                if(jCssRules == null) { continue; }
+
+                for(var j = 0; j < jCssRules.length; j++)
+                {
+                    var rule = jCssRules[j];
+                    var properties = [];
+
+                    for(var propName in rule.declarations)
+                    {
+                        if(propName == "parent") { continue; }
+
+                        properties.push({key: propName, value: rule.declarations[propName]});
+                    }
+
+                    cssRules.push({
+                       selector: rule.selector,
+                       properties: properties,
+                       rule: rule
+                    });
+                }
+            }
+
+            return cssRules;
+        },
+
+        getCssRulesFromElement: function(cssElement)
+        {
+            if(cssElement == null) { return null; }
+
+            var pathAndModel = cssElement.pathAndModel;
+
+            if(pathAndModel == null) { return null; }
+
+            var model = pathAndModel.model;
+
+            if(model == null) { return null; }
+
+            return model.rules;
+        },
+
+        getStyleElements: function(element)
+        {
+            var styleElements = [];
+
+            if(element == null) { return styleElements; }
+
+            var elementType = element.type.toLowerCase();
+
+            if(elementType == "style" || (elementType == "link" && this.hasAttribute(element, "rel", "stylesheet")))
+            {
+                styleElements.push(element);
+            }
+            else
+            {
+                var children = element.childNodes;
+
+                for(var i = 0; i < children.length; i++)
+                {
+                    ValueTypeHelper.pushAll(styleElements, this.getStyleElements(children[i]));
+                }
+            }
+
+            return styleElements;
+        },
+
+        hasAttribute: function(element, key, value)
+        {
+            if(element == null) { return false; }
+            if(element.attributes == null) { return false; }
+
+            var attributes = element.attributes;
+
+            for(var i = 0; i < attributes.length; i++)
+            {
+                var attribute = attributes[i];
+
+                if(attribute.name == key && attribute.value == value) { return true; }
+            }
+
+            return false;
+        },
+
         getTypeExpressionsFromProgram: function(program, types)
         {
             try

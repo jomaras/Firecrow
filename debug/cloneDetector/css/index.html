@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Clone Detector</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="../models/hipstamatic.js"></script>
+    <script src="../../../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="../../../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../../../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../../../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+
+    <script src="../../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../../../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
+    <script src="../../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="../../../chrome/content/Firecrow/cloneDetector/CloneDetector.js"></script>
+    <script src="../../../chrome/content/Firecrow/cloneDetector/CombinationsGenerator.js"></script>
+    <script src="../../../chrome/content/Firecrow/cloneDetector/VectorGenerator.js"></script>
+    <script src="../../../chrome/content/Firecrow/cloneDetector/CharacteristicVector.js"></script>
+    <style>
+        #cssTable td { width: 400px;}
+        #cssTable .cssRule { padding-left: 10px;}
+        #cssTable .cssSelector { font-weight: bolder; }
+        #cssTable .cssKey { color: green; }
+        #cssTable .cssValue { color: red;}
+        td { vertical-align: top; }
+    </style>
+</head>
+<body>
+    <h2>CSS viewer</h2>
+    <table id="cssTable">
+        <th>
+            <tr>
+                <td valign='top'>CSS rule A</td>
+                <td valign='top'>CSS rule B</td>
+                <td valign='top'>Matching declarations</td>
+            </tr>
+        </th>
+
+        <tbody id="cssTableMainContent">
+
+        </tbody>
+    </table>
+
+    <table style="display: none;" id="templateTable">
+        <tr>
+            <td class="ruleACell"></td>
+            <td class="ruleBCell"></td>
+            <td class="matchingDeclarationsCell"></td>
+        </tr>
+        <tr>
+            <td colspan='3'><hr/></td>
+        </tr>
+    </table>
+    <script>
+        var possibleClones = FBL.Firecrow.CloneDetector.CssCloneDetector.getPossibleClones(model);
+
+        window.onload = function()
+        {
+            var mainContainer = document.querySelector("#cssTableMainContent");
+            var templateRows = document.querySelectorAll("#templateTable tr");
+
+            function getTemplateRowsClones()
+            {
+                var cloned = [];
+
+                for(var i = 0; i < templateRows.length; i++)
+                {
+                    cloned.push(templateRows[i].cloneNode(true));
+                }
+
+                return cloned;
+            }
+
+            function getCssRuleMarkup(cssRule)
+            {
+                return "<div class='cssSelector'>" + cssRule.selector + "</div>"
+                     + "{"
+                        + getCssPropertiesMarkup(cssRule.properties)
+                     + "}"
+            }
+
+            function getCssPropertiesMarkup(properties)
+            {
+                var html = "<div class = 'cssRule'>";
+
+                for(var i = 0; i < properties.length; i++)
+                {
+                    var property = properties[i];
+                    html += "<span class='cssKey'>" + property.key + "</span>"
+                         + " : "
+                         + "<span class='cssValue'>" + property.value + "</span>"
+                         + "<br/>";
+                }
+
+                return html + "</div>";
+            }
+
+            for(var i = 0, length = possibleClones.length; i < length; i++)
+            {
+                var clonedRows = getTemplateRowsClones();
+                var possibleClone = possibleClones[i];
+
+                clonedRows[0].querySelector(".ruleACell").innerHTML = getCssRuleMarkup(possibleClone.ruleA);
+                clonedRows[0].querySelector(".ruleBCell").innerHTML = getCssRuleMarkup(possibleClone.ruleB);
+                clonedRows[0].querySelector(".matchingDeclarationsCell").innerHTML = getCssPropertiesMarkup(possibleClone.properties);
+
+                mainContainer.appendChild(clonedRows[0]);
+                mainContainer.appendChild(clonedRows[1]);
+            }
+        };
+    </script>
+</body>
+</html>

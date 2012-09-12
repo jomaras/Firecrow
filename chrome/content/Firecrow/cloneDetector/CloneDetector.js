@@ -1,65 +1,124 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcValueTypeHelper = Firecrow.ValueTypeHelper;
+var fcASTHelper = Firecrow.ASTHelper;
 
-Firecrow.CloneDetector =
+Firecrow.CloneDetector = {};
+
+Firecrow.CloneDetector.CssCloneDetector =
 {
-    getClones: function(pageModel)
+    getPossibleClones: function(codeModel)
     {
-        Firecrow.ASTHelper.setParentsChildRelationships(pageModel);
+        var cssRules = fcASTHelper.getCssRules(codeModel);
 
-        Firecrow.CloneDetector.VectorGenerator.generateFromPageModel(pageModel);
+        var possibleClones = [];
 
-        return Firecrow.CloneDetector.NodeCombinationsGenerator.getPotentialCandidates
-        (
-            Firecrow.CloneDetector.NodeCombinationsGenerator.groupCombinationsByTokenNum
-            (
-                Firecrow.CloneDetector.NodeCombinationsGenerator.generateCombinations
-                (
-                    Firecrow.CloneDetector.NodeCombinationsGenerator.generateAllMergeCombinations(pageModel)
-                )
-            ),
-            0.07,
-            0.99
-        );
-    },
-
-    asyncGetClones: function(pageModel, finishedCallbackFunction, messageCallbackFunction)
-    {
-        Firecrow.ASTHelper.setParentsChildRelationships(pageModel);
-
-        setTimeout(function()
+        for(var i = 0; i < cssRules.length - 1; i++)
         {
-            messageCallbackFunction("Has set parent child relationships!");
-            Firecrow.CloneDetector.VectorGenerator.generateFromPageModel(pageModel);
-            messageCallbackFunction("Has generated characteristic vectors!");
+            var iThRule = cssRules[i];
 
-            setTimeout(function()
+            for(var j = i + 1; j < cssRules.length; j++)
             {
-                Firecrow.CloneDetector.NodeCombinationsGenerator.asyncGenerateAllMergeCombinations(pageModel, function(mergeCombinations)
+                var jThRule = cssRules[j];
+
+                var possibleClone = this.getPossibleClone(iThRule, jThRule);
+
+                if(possibleClone != null)
                 {
-                    setTimeout(function()
-                    {
-                        var combinations = Firecrow.CloneDetector.NodeCombinationsGenerator.generateCombinations(mergeCombinations);
-                        messageCallbackFunction("Has generated combinations!");
+                    possibleClones.push(possibleClone);
+                }
+            }
+        }
 
-                        setTimeout(function()
-                        {
-                            var groupedCombinations = Firecrow.CloneDetector.NodeCombinationsGenerator.groupCombinationsByTokenNum(combinations);
-                            messageCallbackFunction("Has grouped combinations!");
+        possibleClones.sort(function(a, b)
+        {
+            return a.properties.length - b.properties.length;
+        });
 
-                            setTimeout(function()
-                            {
-                                Firecrow.CloneDetector.NodeCombinationsGenerator.asyncProcessPotentialCandidates(groupedCombinations, 0.04, 0.99, finishedCallbackFunction, messageCallbackFunction);
-                            }, 50);
-                        }, 50);
-                    }, 50);
-                }, messageCallbackFunction);
-            }, 50);
-        }, 50);
+        return possibleClones;
     },
 
-    notifyError: function(message) { alert(message); }
+    getPossibleClone: function(iThRule, jThRule)
+    {
+        var ithProperties = iThRule.properties;
+        var jthProperties = jThRule.properties;
+
+        var sameProperties = {};
+
+        for(var i = 0; i < ithProperties.length; i++)
+        {
+            var ithProperty = ithProperties[i];
+
+            var foundProperty = this.findProperty(jThRule, ithProperty.key + ithProperty.value);
+
+            if(foundProperty != null)
+            {
+                var foundPropertyKeyValue = foundProperty.key + foundProperty.value;
+                if(sameProperties[foundPropertyKeyValue] == null)
+                {
+                    sameProperties[foundPropertyKeyValue] = foundProperty;
+                }
+            }
+        }
+
+        for(var j = 0; j < jthProperties.length; j++)
+        {
+            var jthProperty = jthProperties[j];
+            var foundProperty = this.findProperty(iThRule, jthProperty.key + jthProperty.value);
+
+            if(foundProperty != null)
+            {
+                var foundPropertyKeyValue = foundProperty.key + foundProperty.value;
+                if(sameProperties[foundPropertyKeyValue] == null)
+                {
+                    sameProperties[foundPropertyKeyValue] = foundProperty;
+                }
+            }
+        }
+
+        var sharedProperties = [];
+
+        for(var propName in sameProperties)
+        {
+            sharedProperties.push(sameProperties[propName]);
+        }
+
+        return sharedProperties.length > Firecrow.CloneDetector.CssCloneDetector.MIN_NUMBER_OF_RULES
+            ? new Firecrow.CloneDetector.CssCloneDetector.CssCloneItem(iThRule, jThRule, sharedProperties)
+            : null;
+    },
+
+    findProperty: function(cssRule, propertyNameValue)
+    {
+        if(cssRule == null || cssRule.properties == null) { return null; }
+
+        var properties = cssRule.properties;
+
+        for(var i = 0; i < properties.length; i++)
+        {
+            var property = properties[i];
+
+            if(propertyNameValue == property.key + property.value)
+            {
+                return property;
+            }
+        }
+
+        return null;
+    }
+};
+
+Firecrow.CloneDetector.CssCloneDetector.MIN_NUMBER_OF_RULES = 5;
+
+Firecrow.CloneDetector.CssCloneDetector.CssCloneItem = function(ruleA, ruleB, properties)
+{
+    this.ruleA = ruleA;
+    this.ruleB = ruleB;
+    this.properties = properties;
+
+    this.ruleAShared = properties.length/ruleA.properties.length;
+    this.ruleBShared = properties.length/ruleB.properties.length;
+    this.jointShared = this.ruleAShared + this.ruleBShared;
 };
 /*************************************************************************************/
 }});
