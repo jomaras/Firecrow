@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS Clone Detector</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="../models/hipstamatic.js"></script>
+    <script src="../../../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="../../../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../../../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../../../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+
+    <script src="../../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../../../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
+    <script src="../../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="../../../chrome/content/Firecrow/cloneDetector/CloneDetector.js"></script>
+    <script src="../../../chrome/content/Firecrow/cloneDetector/CombinationsGenerator.js"></script>
+    <script src="../../../chrome/content/Firecrow/cloneDetector/CharacteristicVector.js"></script>
+    <script src="../../../chrome/content/Firecrow/cloneDetector/VectorGenerator.js"></script>
+    <style>
+        #jsTable td { width: 550px; max-width:550px; overflow: auto;}
+        td { vertical-align: top; }
+    </style>
+</head>
+<body>
+    <h2>CSS viewer</h2>
+    <table id="jsTable">
+        <th>
+            <tr>
+                <td valign='top'>Clone A</td>
+                <td valign='top'>Clone B</td>
+            </tr>
+        </th>
+
+        <tbody id="jsTableMainContent">
+
+        </tbody>
+    </table>
+
+    <table style="display: none;" id="templateTable">
+        <tr><td colspan='2' class="similarityCell"></td></tr>
+        <tr>
+            <td>
+                <pre class='cloneAContainer'></pre>
+            </td>
+            <td><pre class='cloneBContainer'></pre></td>
+        </tr>
+        <tr>
+            <td colspan='2'><hr/></td>
+    </table>
+    <script>
+        var startTime = new Date();
+        var endTime = null;
+        var possibleClones = FBL.Firecrow.CloneDetector.JsCloneDetector.getPossibleClones(model);
+        window.onload = function()
+        {
+            var mainContainer = document.querySelector("#jsTableMainContent");
+            var templateRows = document.querySelectorAll("#templateTable tr");
+
+            function getTemplateRowsClones()
+            {
+                var cloned = [];
+
+                for(var i = 0; i < templateRows.length; i++)
+                {
+                    cloned.push(templateRows[i].cloneNode(true));
+                }
+
+                return cloned;
+            }
+
+            function generateCode(statements)
+            {
+                var code = "";
+
+                for(var i = 0; i < statements.length; i++)
+                {
+                    code += FBL.Firecrow.CodeTextGenerator.generateJsCode(statements[i]) + "\n";
+                }
+
+                return code;
+            }
+
+            for(var i = 0, length = possibleClones.length; i < length; i++)
+            {
+                var clonedRows = getTemplateRowsClones();
+                var possibleClone = possibleClones[i];
+
+                clonedRows[0].querySelector(".similarityCell").textContent = "Similarity: " + possibleClone.similarity;
+                clonedRows[1].querySelector(".cloneAContainer").innerHTML = generateCode(possibleClone.candidateA.statements);
+                clonedRows[1].querySelector(".cloneBContainer").innerHTML = generateCode(possibleClone.candidateB.statements);
+
+                mainContainer.appendChild(clonedRows[0]);
+                mainContainer.appendChild(clonedRows[1]);
+                mainContainer.appendChild(clonedRows[2]);
+            }
+
+            endTime = new Date();
+        };
+    </script>
+</body>
+</html>

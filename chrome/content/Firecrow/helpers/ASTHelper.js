@@ -161,6 +161,29 @@ FBL.ns(function () { with (FBL) {
             return styleElements;
         },
 
+        getScriptElements: function(element)
+        {
+            var scriptElements = [];
+
+            if(element == null) { return scriptElements; }
+
+            if(element.type.toLowerCase() == "script")
+            {
+                scriptElements.push(element);
+            }
+            else
+            {
+                var children = element.childNodes;
+
+                for(var i = 0; i < children.length; i++)
+                {
+                    ValueTypeHelper.pushAll(scriptElements, this.getScriptElements(children[i]));
+                }
+            }
+
+            return scriptElements;
+        },
+
         hasAttribute: function(element, key, value)
         {
             if(element == null) { return false; }
@@ -176,6 +199,45 @@ FBL.ns(function () { with (FBL) {
             }
 
             return false;
+        },
+
+        getChildStatements: function(blockStatement)
+        {
+            if(this.isFunction(blockStatement))
+            {
+                return blockStatement.body.body;
+            }
+            else if (this.isIfStatement(blockStatement) || this.isLoopStatement(blockStatement))
+            {
+                var body = this.isIfStatement(blockStatement) ? blockStatement.consequent
+                                                              : blockStatement.body;
+
+                return body.body || [body];
+            }
+            else if (this.isBlockStatement(blockStatement) || this.isProgram(blockStatement))
+            {
+                return blockStatement.body;
+            }
+            else if (this.isObjectExpression(blockStatement))
+            {
+                return blockStatement.properties;
+            }
+            else if (this.isSwitchStatement(blockStatement))
+            {
+                var cases = blockStatement.cases;
+                var items = [];
+
+                for(var i = 0; i < cases.length; i++)
+                {
+                    ValueTypeHelper.pushAll(items, cases[i].consequent);
+                }
+            }
+            else
+            {
+                alert("Unhandled block statement command");
+            }
+
+            return [];
         },
 
         getTypeExpressionsFromProgram: function(program, types)
@@ -432,6 +494,25 @@ FBL.ns(function () { with (FBL) {
                  && element.parent.parent.left == element.parent && element.parent.parent.operator.length == 1;
         },
 
+        areRelated: function(statements1, statements2)
+        {
+            for(var i = 0; i < statements1.length; i++)
+            {
+                var firstStatement = statements1[i];
+                for(var j = 0; j < statements2.length; j++)
+                {
+                    var secondStatement = statements2[j];
+
+                    if(this.isAncestor(firstStatement, secondStatement) || this.isAncestor(secondStatement, firstStatement))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        },
+
         getLastLoopOrBranchingConditionInFunctionBody: function(element)
         {
             if(!this.isFunction(element)){ return null; }
@@ -447,6 +528,21 @@ FBL.ns(function () { with (FBL) {
             }
 
             return null;
+        },
+
+        getAllElementsOfType: function(codeElement, types)
+        {
+            var elementsOfType = [];
+
+            this.traverseAst(codeElement, function(currentElement, propertyName, parentElement)
+            {
+                if(types.indexOf(currentElement.type) != -1)
+                {
+                    elementsOfType.push(currentElement);
+                }
+            });
+
+            return elementsOfType;
         },
 
         containsCallOrUpdateOrAssignmentExpression: function(element)

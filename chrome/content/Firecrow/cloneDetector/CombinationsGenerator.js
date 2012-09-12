@@ -5,6 +5,9 @@
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
+
+var fcValueTypeHelper = Firecrow.ValueTypeHelper;
+
 Firecrow.CloneDetector.CombinationsGenerator =
 {
     generateCombinations: function(endNumber)
@@ -15,7 +18,7 @@ Firecrow.CloneDetector.CombinationsGenerator =
 
         for(var windowSize = 1; windowSize <= endNumber; windowSize++)
         {
-            ValueTypeHelper.pushAll(combinations, this.generateCombinationsInWindow(endNumber, windowSize));
+            fcValueTypeHelper.pushAll(combinations, this.generateCombinationsInWindow(endNumber, windowSize));
         }
 
         return combinations;

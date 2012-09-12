@@ -131,6 +131,33 @@ Firecrow.ValueTypeHelper =
         return false;
     },
 
+    flattenArray: function(array)
+    {
+        var flattened = [];
+
+        for(var i = 0; i < array.length; i++)
+        {
+            var item = array[i];
+
+            this.isArray(item) ? this.pushAll(flattened, item)
+                               : flattened.push(item);
+        }
+
+        return flattened;
+    },
+
+    getSubList: function(array, startIndex, endIndex)
+    {
+        var subList = [];
+
+        for(var i = startIndex; i < endIndex; i++)
+        {
+            subList.push(array[i]);
+        }
+
+        return subList;
+    },
+
     cleanDuplicatesFromArray: function(array)
     {
         var cleansedArray = [];

@@ -14,9 +14,16 @@ fcCloneDetector.VectorGenerator =
 {
     generateFromPageModel: function(pageModel)
     {
+        if(pageModel.hasCharacteristicVectorBeenGenerated)
+        {
+            return;
+        }
+
         var htmlElement = pageModel.htmlElement;
 
         this.generateForHtmlNode(htmlElement);
+
+        pageModel.hasCharacteristicVectorBeenGenerated = true;
     },
 
     generateForHtmlNode: function(htmlElement)
@@ -500,7 +507,7 @@ fcCloneDetector.VectorGenerator =
         {
             var expression = expressions[i];
             this.generateForJsNode(expression);
-            fcCharacteristicVector.join(sequenceExpression.characteristicVector, expressions.characteristicVector);
+            fcCharacteristicVector.join(sequenceExpression.characteristicVector, expression.characteristicVector);
         }
     },
 
@@ -554,7 +561,7 @@ fcCloneDetector.VectorGenerator =
         else if(ValueTypeHelper.isString(literal.value)) { literal.characteristicVector["StringLiteral"] = 1; }
         else if(ValueTypeHelper.isNumber(literal.value)) { literal.characteristicVector["NumberLiteral"] = 1; }
         else if(ValueTypeHelper.isBoolean(literal.value)){ literal.characteristicVector["BooleanLiteral"] = 1; }
-        else if(ValueTypeHelper.isRegExp(literal.value)){ literal.characteristicVector["RegExLiteral"] = 1; }
+        else if(ValueTypeHelper.isObject(literal.value)){ literal.characteristicVector["RegExLiteral"] = 1; }
         else {alert("Unknown literal when generating vector!"); return; }
     },
 

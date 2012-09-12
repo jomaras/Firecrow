@@ -7,7 +7,10 @@ fcCloneDetector.CharacteristicVector = function() { };
 
 fcCloneDetector.CharacteristicVector.sum = function(characteristicVector)
 {
-    if(characteristicVector == null ) { this.notifyError("CharacteristicVector can not be null in sum"); return; }
+    if(characteristicVector == null )
+    {
+        this.notifyError("CharacteristicVector can not be null in sum"); return;
+    }
     if(!(characteristicVector instanceof fcCloneDetector.CharacteristicVector)) { this.notifyError("Arguments are not CharacteristicVector in calculate similarity"); return; }
 
     var sum = 0;
@@ -19,7 +22,10 @@ fcCloneDetector.CharacteristicVector.sum = function(characteristicVector)
 
 fcCloneDetector.CharacteristicVector.join = function(firstCharacteristicVector, secondCharacteristicVector)
 {
-    if(firstCharacteristicVector == null || secondCharacteristicVector == null) { alert("CharacteristicVector can not be null in join"); return; }
+    if(firstCharacteristicVector == null || secondCharacteristicVector == null)
+    {
+        alert("CharacteristicVector can not be null in join"); return;
+    }
     if(!(firstCharacteristicVector instanceof fcCloneDetector.CharacteristicVector) || !(secondCharacteristicVector instanceof fcCloneDetector.CharacteristicVector)) { alert("Arguments are not CharacteristicVector in join"); return; }
 
     var processedProperties = { };
