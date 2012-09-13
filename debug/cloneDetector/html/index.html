@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JS Clone Detector</title>
+    <title>Html Clone Detector</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script>
         var FBL = undefined;
@@ -21,13 +21,18 @@
     <script src="../../../chrome/content/Firecrow/cloneDetector/CharacteristicVector.js"></script>
     <script src="../../../chrome/content/Firecrow/cloneDetector/VectorGenerator.js"></script>
     <style>
-        #jsTable td { width: 600px; max-width:600px; overflow: auto;}
+        #htmlTable td { width: 600px; max-width:600px; overflow: auto;}
         td { vertical-align: top; }
+
+        #htmlTable .htmlElement { margin-left:10px; }
+        #htmlTable .attributeName { font-weight: bolder;}
+        #htmlTable .attributeValue { color: red; }
+        #htmlTable .elementType { font-weight: bolder;}
     </style>
 </head>
 <body>
     <h2>CSS viewer</h2>
-    <table id="jsTable">
+    <table id="htmlTable">
         <th>
             <tr>
                 <td valign='top'>Clone A</td>
@@ -35,7 +40,7 @@
             </tr>
         </th>
 
-        <tbody id="jsTableMainContent">
+        <tbody id="htmlTableMainContent">
 
         </tbody>
     </table>
@@ -43,10 +48,8 @@
     <table style="display: none;" id="templateTable">
         <tr><td colspan='2' class="similarityCell"></td></tr>
         <tr>
-            <td>
-                <pre class='cloneAContainer'></pre>
-            </td>
-            <td><pre class='cloneBContainer'></pre></td>
+            <td class='cloneAContainer'></td>
+            <td class='cloneBContainer'></td>
         </tr>
         <tr>
             <td colspan='2'><hr/></td>
@@ -54,10 +57,10 @@
     <script>
         var startTime = new Date();
         var endTime = null;
-        var possibleClones = FBL.Firecrow.CloneDetector.JsCloneDetector.getPotentialClones(model);
+        var possibleClones = FBL.Firecrow.CloneDetector.HtmlCloneDetector.getPotentialClones(model);
         window.onload = function()
         {
-            var mainContainer = document.querySelector("#jsTableMainContent");
+            var mainContainer = document.querySelector("#htmlTableMainContent");
             var templateRows = document.querySelectorAll("#templateTable tr");
 
             function getTemplateRowsClones()
@@ -72,26 +75,14 @@
                 return cloned;
             }
 
-            function generateCode(statements)
-            {
-                var code = "";
-
-                for(var i = 0; i < statements.length; i++)
-                {
-                    code += FBL.Firecrow.CodeTextGenerator.generateJsCode(statements[i]) + "\n";
-                }
-
-                return code;
-            }
-
             for(var i = 0, length = possibleClones.length; i < length; i++)
             {
                 var clonedRows = getTemplateRowsClones();
                 var possibleClone = possibleClones[i];
 
                 clonedRows[0].querySelector(".similarityCell").textContent = "Similarity: " + possibleClone.similarity;
-                clonedRows[1].querySelector(".cloneAContainer").innerHTML = generateCode(possibleClone.candidateA.statements);
-                clonedRows[1].querySelector(".cloneBContainer").innerHTML = generateCode(possibleClone.candidateB.statements);
+                clonedRows[1].querySelector(".cloneAContainer").innerHTML = possibleClone.generateNodeACode();
+                clonedRows[1].querySelector(".cloneBContainer").innerHTML = possibleClone.generateNodeBCode();
 
                 mainContainer.appendChild(clonedRows[0]);
                 mainContainer.appendChild(clonedRows[1]);

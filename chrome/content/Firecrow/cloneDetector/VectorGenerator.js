@@ -33,6 +33,13 @@ fcCloneDetector.VectorGenerator =
 
         htmlElement.characteristicVector[htmlElement.type] = 1;
 
+        var attributes = htmlElement.attributes;
+
+        for(var i = 0; i < attributes.length; i++)
+        {
+            htmlElement.characteristicVector[attributes[i].name] = 1;
+        }
+
         if(htmlElement.type == "script")
         {
             this.generateForJsNode(htmlElement.pathAndModel.model);

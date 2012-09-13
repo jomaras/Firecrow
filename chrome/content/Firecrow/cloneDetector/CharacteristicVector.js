@@ -11,11 +11,15 @@ fcCloneDetector.CharacteristicVector.sum = function(characteristicVector)
     {
         this.notifyError("CharacteristicVector can not be null in sum"); return;
     }
+
     if(!(characteristicVector instanceof fcCloneDetector.CharacteristicVector)) { this.notifyError("Arguments are not CharacteristicVector in calculate similarity"); return; }
 
     var sum = 0;
 
-    for(var propertyName in characteristicVector) { sum += characteristicVector[propertyName]; }
+    for(var propertyName in characteristicVector)
+    {
+        sum += characteristicVector[propertyName];
+    }
 
     return sum;
 }

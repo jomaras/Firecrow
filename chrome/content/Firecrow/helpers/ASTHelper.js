@@ -161,6 +161,24 @@ FBL.ns(function () { with (FBL) {
             return styleElements;
         },
 
+        getAllHtmlNodes: function(element)
+        {
+            var htmlElements = [];
+
+            if(element == null || element.type == "textNode") { return htmlElements; }
+
+            htmlElements.push(element);
+
+            var children = element.childNodes;
+
+            for(var i = 0; i < children.length; i++)
+            {
+                ValueTypeHelper.pushAll(htmlElements, this.getAllHtmlNodes(children[i]));
+            }
+
+            return htmlElements;
+        },
+
         getScriptElements: function(element)
         {
             var scriptElements = [];
@@ -496,6 +514,11 @@ FBL.ns(function () { with (FBL) {
 
         areRelated: function(statements1, statements2)
         {
+            if(!ValueTypeHelper.isArray(statements1) && !ValueTypeHelper.isArray(statements2))
+            {
+                return this.isAncestor(statements1, statements2) || this.isAncestor(statements2, statements1)
+            }
+
             for(var i = 0; i < statements1.length; i++)
             {
                 var firstStatement = statements1[i];

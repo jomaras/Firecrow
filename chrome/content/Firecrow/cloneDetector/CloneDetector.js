@@ -7,7 +7,7 @@ Firecrow.CloneDetector = {};
 
 Firecrow.CloneDetector.CssCloneDetector =
 {
-    getPossibleClones: function(codeModel)
+    getPotentialClones: function(codeModel)
     {
         var cssRules = fcASTHelper.getCssRules(codeModel);
 
@@ -21,7 +21,7 @@ Firecrow.CloneDetector.CssCloneDetector =
             {
                 var jThRule = cssRules[j];
 
-                var possibleClone = this.getPossibleClone(iThRule, jThRule);
+                var possibleClone = this.getPotentialClone(iThRule, jThRule);
 
                 if(possibleClone != null)
                 {
@@ -38,7 +38,7 @@ Firecrow.CloneDetector.CssCloneDetector =
         return possibleClones;
     },
 
-    getPossibleClone: function(iThRule, jThRule)
+    getPotentialClone: function(iThRule, jThRule)
     {
         var ithProperties = iThRule.properties;
         var jthProperties = jThRule.properties;
@@ -127,7 +127,7 @@ Firecrow.CloneDetector.JsCloneDetector =
     _SIMILARITY_THRESHOLD: 0.95,
     _MIN_NUMBER_OF_ITEMS: 10,
 
-    getPossibleClones: function(codeModel)
+    getPotentialClones: function(codeModel)
     {
         fcASTHelper.setParentsChildRelationships(codeModel);
         Firecrow.CloneDetector.VectorGenerator.generateFromPageModel(codeModel);
@@ -378,6 +378,115 @@ Firecrow.CloneDetector.JsCloneDetector.JsCloneItem.areStatementsSubsets = functi
     }
 
     return true;
+};
+
+
+Firecrow.CloneDetector.HtmlCloneDetector =
+{
+    _MIN_NUMBER_OF_NODES : 6,
+    _SIMILARITY_THRESHOLD: 0.9,
+
+    getPotentialClones: function(codeModel)
+    {
+        var potentialClones = [];
+
+        fcASTHelper.setParentsChildRelationships(codeModel);
+        Firecrow.CloneDetector.VectorGenerator.generateFromPageModel(codeModel);
+
+        var htmlNodes = fcASTHelper.getAllHtmlNodes(codeModel.htmlElement);
+
+        for(var i = 0, length = htmlNodes.length; i < length; i++)
+        {
+            var htmlNode = htmlNodes[i];
+            var firstCharacteristicVector = htmlNode.characteristicVector;
+
+            if(Firecrow.CloneDetector.CharacteristicVector.sum(firstCharacteristicVector) < this._MIN_NUMBER_OF_NODES) { continue; }
+
+            for(var j = i + 1; j < length; j++)
+            {
+                var compareWithNode = htmlNodes[j];
+
+                var secondCharacteristicVector = compareWithNode.characteristicVector;
+
+                if(Firecrow.CloneDetector.CharacteristicVector.sum(secondCharacteristicVector) < this._MIN_NUMBER_OF_NODES) { continue; }
+
+                if(!fcASTHelper.areRelated(htmlNode, compareWithNode))
+                {
+                    var similarity = Firecrow.CloneDetector.CharacteristicVector.calculateSimilarity(firstCharacteristicVector, secondCharacteristicVector);
+
+                    if(similarity >= this._SIMILARITY_THRESHOLD)
+                    {
+                        potentialClones.push(new Firecrow.CloneDetector.HtmlCloneDetector.HtmlCloneItem(htmlNode, compareWithNode, similarity));
+                    }
+                }
+            }
+        }
+
+        return potentialClones.sort(function(cloneA, cloneB)
+        {
+            return cloneA.similarity - cloneB.similarity;
+        });
+    }
+};
+
+Firecrow.CloneDetector.HtmlCloneDetector.HtmlCloneItem = function(nodeA, nodeB, similarity)
+{
+    this.nodeA = nodeA;
+    this.nodeB = nodeB;
+    this.similarity = similarity;
+};
+
+Firecrow.CloneDetector.HtmlCloneDetector.HtmlCloneItem.prototype =
+{
+    generateNodeACode: function() { return this.generateCode(this.nodeA); },
+    generateNodeBCode: function() { return this.generateCode(this.nodeB); },
+
+    generateCode: function(node)
+    {
+        var code = "";
+
+        if(node.type == "textNode") { return node.textContent; }
+
+        code += "<div class='htmlElement'>"
+             + "&lt; <span class='elementType'>" + node.type + "</span>" + this.generateAttributes(node) + "&gt;"
+             + this.generateChildNodesCode(node)
+             + "&lt;/ <span class='elementType'>" + node.type + "</span>&gt;"
+             + "</div>";
+
+        return code;
+    },
+
+    generateAttributes: function(node)
+    {
+        var code = "";
+
+        var attributes = node.attributes;
+
+        for(var i = 0; i < attributes.length; i++)
+        {
+            var attribute = attributes[i];
+
+            code += "<span class='attributeName'> " + attribute.name + " </span>"
+                 + " = "
+                 + "<span class='attributeValue'>'" + attribute.value + "'</span> ";
+        }
+
+        return code;
+    },
+
+    generateChildNodesCode: function(node)
+    {
+        var code = "";
+
+        var childNodes = node.childNodes;
+
+        for(var i = 0; i < childNodes.length; i++)
+        {
+            code += this.generateCode(childNodes[i]);
+        }
+
+        return code;
+    }
 };
 /*************************************************************************************/
 }});
