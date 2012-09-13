@@ -372,9 +372,9 @@ Firecrow.CloneDetector.JsCloneDetector.JsCloneItem.areStatementsSubsets = functi
                 isContained = true;
                 break;
             }
-
-            if(!isContained) { return false; }
         }
+
+        if(!isContained) { return false; }
     }
 
     return true;
