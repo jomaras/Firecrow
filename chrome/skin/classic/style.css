@@ -182,3 +182,13 @@ body
     padding-left: 20px;
 }
 .clearer { clear: both;}
+
+
+.BlockStatement, .BlockStatement > *
+{
+    margin-left: 20px;
+}
+.BlockStatement > .Bracket
+{
+    margin-left: 0px;
+}

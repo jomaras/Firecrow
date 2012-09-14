@@ -142,7 +142,7 @@ Firecrow.CloneDetector.JsCloneDetector =
                 fcASTHelper.CONST.STATEMENT.ForStatement, fcASTHelper.CONST.STATEMENT.ForInStatement,
                 fcASTHelper.CONST.STATEMENT.WhileStatement, fcASTHelper.CONST.STATEMENT.DoWhileStatement,
                 fcASTHelper.CONST.STATEMENT.SwitchStatement, fcASTHelper.CONST.Program,
-                fcASTHelper.CONST.STATEMENT.IfStatement
+                fcASTHelper.CONST.STATEMENT.IfStatement, fcASTHelper.CONST.STATEMENT.TryStatement
             ]
         )));
 
@@ -188,7 +188,7 @@ Firecrow.CloneDetector.JsCloneDetector =
 
         return this.removeSmallerFragments(cloneItems).sort(function(cloneItemA, cloneItemB)
         {
-            return cloneItemA.getTotalNumberOfStatements() - cloneItemB.getTotalNumberOfStatements();
+            return cloneItemB.getTotalNumberOfStatements() - cloneItemA.getTotalNumberOfStatements();
         });
     },
 

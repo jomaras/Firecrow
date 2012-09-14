@@ -59,17 +59,17 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
     <script src="../chrome/content/Firecrow/Slicer.js"></script>
 
-    <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
+    <link href="../chrome/skin/classic/style.css" rel="stylesheet" type="text/css">
 
     <style>
-        #sourceTextContainer
+        #codeContainer
         {
             float: left;
             width: 600px;
             height: 800px;
         }
 
-        #slicedSourceTextContainer
+        #slicedCodeContainer, #slicedSourceTextContainer
         {
             float:left;
             width: 600px;
@@ -97,8 +97,6 @@
 <br>
 <div id="lineNumberContainer"></div>
 <div id="codeContainer">
-    <textarea id="sourceTextContainer">
-    </textarea>
 </div>
 <div id="slicedCodeContainer">
     <textarea id="slicedSourceTextContainer"></textarea>
@@ -132,7 +130,7 @@
 
         checkForErrors(browser, htmlModel);
 
-        document.getElementById("sourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.model);
+        document.getElementById("codeContainer").innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
         document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
 
         function setTitle(url)

@@ -327,372 +327,296 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromFunction: function(functionDecExp)
     {
-        try
-        {
-            if(functionDecExp == null || (this.isSlicing && !functionDecExp.shouldBeIncluded)) { return "";}
+        if(functionDecExp == null || (this.isSlicing && !functionDecExp.shouldBeIncluded)) { return "";}
 
-            var functionBodyCode = this.generateFromFunctionBody(functionDecExp);
+        var functionBodyCode = this.generateFromFunctionBody(functionDecExp);
 
-            var shouldBeInParentheses = ASTHelper.isFunctionExpression(functionDecExp)
-                                     && ASTHelper.isCallExpressionCallee(functionDecExp);
+        var shouldBeInParentheses = ASTHelper.isFunctionExpression(functionDecExp)
+                                 && ASTHelper.isCallExpressionCallee(functionDecExp);
 
-            return (shouldBeInParentheses ? this._LEFT_PARENTHESIS : "")
-                 +  this._FUNCTION_KEYWORD + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) + " " : "")
-                 +  this.generateFunctionParameters(functionDecExp)
-                 +  this.newLine + functionBodyCode
-                 +  (shouldBeInParentheses ? this._RIGHT_PARENTHESIS : "");
-        }
-        catch(e) { this.notifyError("Error when generating code from a function:" + e); }
+        return (shouldBeInParentheses ? this._LEFT_PARENTHESIS : "")
+             +  this._FUNCTION_KEYWORD + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) + " " : "")
+             +  this.generateFunctionParameters(functionDecExp)
+             +  this.newLine + functionBodyCode
+             +  (shouldBeInParentheses ? this._RIGHT_PARENTHESIS : "");
     },
 
     generateFunctionParameters: function(functionDecExp)
     {
-        try
+        var code = this._LEFT_PARENTHESIS;
+
+        var params = functionDecExp.params;
+        for(var i = 0, length = params.length; i < length; i++)
         {
-            var code = this._LEFT_PARENTHESIS;
+            var param = params[i];
 
-            var params = functionDecExp.params;
-            for(var i = 0, length = params.length; i < length; i++)
-            {
-                var param = params[i];
+            if(i != 0) { code += ", "; }
 
-                if(i != 0) { code += ", "; }
-
-                code += this.generateFromPattern(param);
-            }
-
-            return code + this._RIGHT_PARENTHESIS;
+            code += this.generateFromPattern(param);
         }
-        catch(e) { this.notifyError("Error when generating code from function parameters:" + e);}
+
+        return code + this._RIGHT_PARENTHESIS;
     },
 
     generateFromFunctionBody: function(functionDeclExp)
     {
-        try
-        {
-            return this.generateJsCode(functionDeclExp.body);
-        }
-        catch(e) { this.notifyError("Error when generating code from function body:" + e); }
+        return this.generateJsCode(functionDeclExp.body);
     },
 
     generateFromBlockStatement: function(blockStatement)
     {
-        try
+        var code = "";
+
+        this.indent();
+
+        var body = blockStatement.body;
+        for(var i = 0, length = body.length; i < length; i++)
         {
-            var code = "";
-
-            this.indent();
-
-            var body = blockStatement.body;
-            for(var i = 0, length = body.length; i < length; i++)
-            {
-                code += this.generateJsCode(body[i]);
-            }
-
-            this.deIndent();
-
-            if(code === "") { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
-
-            code = code.replace(/((\r)?\n)+$/g, this.newLine);
-
-            return this._LEFT_GULL_WING + this.newLine + code + this.whitespace + this._RIGHT_GULL_WING;
+            code += this.generateJsCode(body[i]);
         }
-        catch(e) { this.notifyError("Error when generating from block statement:" + e);}
+
+        this.deIndent();
+
+        if(code === "") { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
+
+        code = code.replace(/((\r)?\n)+$/g, this.newLine);
+
+        return this._LEFT_GULL_WING + this.newLine + code + this.whitespace + this._RIGHT_GULL_WING;
     },
 
     generateFromEmptyStatement: function(emptyStatement)
     {
-        try
-        {
-            return this._SEMI_COLON;
-        }
-        catch(e) { this.notifyError("Error when generating from empty statement:" + e); }
+        return this._SEMI_COLON;
     },
 
     generateFromExpressionStatement: function(expressionStatement)
     {
-        try
-        {
-            return this.generateJsCode(expressionStatement.expression);
-        }
-        catch(e) { this.notifyError("Error when generating from expression statement:" + e); }
+        return this.generateJsCode(expressionStatement.expression);
     },
 
     generateFromAssignmentExpression: function(assignmentExpression)
     {
-        try
-        {
-            var leftSide = this.generateJsCode(assignmentExpression.left);
-            var rightSide = this.generateJsCode(assignmentExpression.right);
+        var leftSide = this.generateJsCode(assignmentExpression.left);
+        var rightSide = this.generateJsCode(assignmentExpression.right);
 
-            if(leftSide.length == 0) { return rightSide;}
-            if(rightSide.length == 0) { return leftSide; }
+        if(leftSide.length == 0) { return rightSide;}
+        if(rightSide.length == 0) { return leftSide; }
 
-            var shouldBeSurrounded = ASTHelper.isBinaryExpression(assignmentExpression.parent)
-                                  || ASTHelper.isLogicalExpression(assignmentExpression.parent);
+        var shouldBeSurrounded = ASTHelper.isBinaryExpression(assignmentExpression.parent)
+                              || ASTHelper.isLogicalExpression(assignmentExpression.parent);
 
-            return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftSide + " " + assignmentExpression.operator + " " + rightSide + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
-        }
-        catch(e) { this.notifyError("Error when generating code from assignment expression:" + e); }
+        return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftSide + " " + assignmentExpression.operator + " " + rightSide + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
     },
 
     generateFromUnaryExpression: function(unaryExpression)
     {
-        try
-        {
-            var code = "";
+        var code = "";
 
-            if(unaryExpression.prefix) { code += unaryExpression.operator;}
+        if(unaryExpression.prefix) { code += unaryExpression.operator;}
 
-            if(unaryExpression.operator == "typeof"
-                || unaryExpression.operator == "void"
-                || unaryExpression.operator == "delete") { code += " "; }
+        if(unaryExpression.operator == "typeof"
+            || unaryExpression.operator == "void"
+            || unaryExpression.operator == "delete") { code += " "; }
 
-            var isComplexArgument = !(ASTHelper.isLiteral(unaryExpression.argument) || ASTHelper.isIdentifier(unaryExpression.argument));
+        var isComplexArgument = !(ASTHelper.isLiteral(unaryExpression.argument) || ASTHelper.isIdentifier(unaryExpression.argument));
 
-            code += (isComplexArgument ? this._LEFT_PARENTHESIS : "")
-                        + this.generateExpression(unaryExpression.argument)
-                  + (isComplexArgument ? this._RIGHT_PARENTHESIS : "");
+        code += (isComplexArgument ? this._LEFT_PARENTHESIS : "")
+                    + this.generateExpression(unaryExpression.argument)
+              + (isComplexArgument ? this._RIGHT_PARENTHESIS : "");
 
-            if(!unaryExpression.prefix) { code += unaryExpression.operator; }
+        if(!unaryExpression.prefix) { code += unaryExpression.operator; }
 
-            return code;
-        }
-        catch(e) { this.notifyError("Error when generating code from unary expression:" + e); }
+        return code;
     },
 
     generateFromBinaryExpression: function(binaryExpression)
     {
-        try
+        var leftCode = this.generateJsCode(binaryExpression.left);
+        var rightCode = this.generateJsCode(binaryExpression.right);
+
+        var shouldBeSurrounded = ASTHelper.isBinaryExpression(binaryExpression.parent);
+
+        if(leftCode.length != 0 && rightCode.length != 0)
         {
-            var leftCode = this.generateJsCode(binaryExpression.left);
-            var rightCode = this.generateJsCode(binaryExpression.right);
-
-            var shouldBeSurrounded = ASTHelper.isBinaryExpression(binaryExpression.parent);
-
-            if(leftCode.length != 0 && rightCode.length != 0)
-            {
-                return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftCode + " " + binaryExpression.operator + " " + rightCode + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
-            }
-
-            if(leftCode.length != 0) { return leftCode; }
-            if(rightCode.length != 0) { return rightCode; }
-
-            return "";
+            return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftCode + " " + binaryExpression.operator + " " + rightCode + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
         }
-        catch(e) { this.notifyError("Error when generating code from binary expression:" + e); }
+
+        if(leftCode.length != 0) { return leftCode; }
+        if(rightCode.length != 0) { return rightCode; }
+
+        return "";
     },
 
     generateFromLogicalExpression: function(logicalExpression)
     {
-        try
+        var leftCode = this.generateJsCode(logicalExpression.left);
+        var rightCode = this.generateJsCode(logicalExpression.right);
+
+        var shouldBeSurrounded = ASTHelper.isBinaryExpression(logicalExpression.parent)
+                              || (ASTHelper.isLogicalExpression(logicalExpression.parent) && logicalExpression.parent.operator != logicalExpression.operator)
+                              || (ASTHelper.isCallExpression(logicalExpression.parent) && logicalExpression.parent.callee == logicalExpression);
+
+        if(leftCode.length != 0 && rightCode.length != 0)
         {
-            var leftCode = this.generateJsCode(logicalExpression.left);
-            var rightCode = this.generateJsCode(logicalExpression.right);
-
-            var shouldBeSurrounded = ASTHelper.isBinaryExpression(logicalExpression.parent)
-                                  || (ASTHelper.isLogicalExpression(logicalExpression.parent) && logicalExpression.parent.operator != logicalExpression.operator)
-                                  || (ASTHelper.isCallExpression(logicalExpression.parent) && logicalExpression.parent.callee == logicalExpression);
-
-            if(leftCode.length != 0 && rightCode.length != 0)
-            {
-                return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftCode + " " + logicalExpression.operator + " " + rightCode + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
-            }
-
-            if(leftCode.length != 0) { return leftCode; }
-            if(rightCode.length != 0) { return rightCode; }
-
-            return "";
+            return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftCode + " " + logicalExpression.operator + " " + rightCode + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
         }
-        catch(e) { this.notifyError("Error when generating code from logical expression:" + e); }
+
+        if(leftCode.length != 0) { return leftCode; }
+        if(rightCode.length != 0) { return rightCode; }
+
+        return "";
     },
 
     generateFromUpdateExpression: function(updateExpression)
     {
-        try
-        {
-            var code = "";
-            // if prefixed e.g.: ++i
-            if(updateExpression.prefix) { code += updateExpression.operator;}
+        var code = "";
+        // if prefixed e.g.: ++i
+        if(updateExpression.prefix) { code += updateExpression.operator;}
 
-            code += this.generateJsCode(updateExpression.argument);
+        code += this.generateJsCode(updateExpression.argument);
 
-            // if postfixed e.g.: i++
-            if(!updateExpression.prefix) code += updateExpression.operator;
+        // if postfixed e.g.: i++
+        if(!updateExpression.prefix) code += updateExpression.operator;
 
-            return code;
-        }
-        catch(e) { this.notifyError("Error when generating from update expression:" + e); }
+        return code;
     },
 
     generateFromNewExpression: function(newExpression)
     {
-        try
-        {
-            return "new " + this.generateJsCode(newExpression.callee) + this._LEFT_PARENTHESIS
-                + this.getSequenceCode(newExpression.arguments)
-                + this._RIGHT_PARENTHESIS;
-        }
-        catch(e) { this.notifyError("Error when generating code from new expression:" + e); }
+        return "new " + this.generateJsCode(newExpression.callee) + this._LEFT_PARENTHESIS
+            + this.getSequenceCode(newExpression.arguments)
+            + this._RIGHT_PARENTHESIS;
     },
 
     generateFromConditionalExpression: function(conditionalExpression)
     {
-        try
-        {
-            var testCode = this.generateJsCode(conditionalExpression.test);
-            var consequentCode = this.generateJsCode(conditionalExpression.consequent);
-            var alternateCode = this.generateJsCode(conditionalExpression.alternate);
+        var testCode = this.generateJsCode(conditionalExpression.test);
+        var consequentCode = this.generateJsCode(conditionalExpression.consequent);
+        var alternateCode = this.generateJsCode(conditionalExpression.alternate);
 
-            if(testCode === "" && consequentCode === "" && alternateCode === "") { return ""; }
+        if(testCode === "" && consequentCode === "" && alternateCode === "") { return ""; }
 
-            if(testCode === "" && consequentCode !== "" && alternateCode === "") { testCode = "true"; alternateCode = "0";}
-            if(testCode === "" && consequentCode === "" && alternateCode !== "") { testCode = "false"; consequentCode = "0"; }
+        if(testCode === "" && consequentCode !== "" && alternateCode === "") { testCode = "true"; alternateCode = "0";}
+        if(testCode === "" && consequentCode === "" && alternateCode !== "") { testCode = "false"; consequentCode = "0"; }
 
-            if(consequentCode === "") { consequentCode = "0"; }
-            if(alternateCode === "") { alternateCode = "0";}
+        if(consequentCode === "") { consequentCode = "0"; }
+        if(alternateCode === "") { alternateCode = "0";}
 
-            var shouldBeSurroundedWithParenthesis = ASTHelper.isBinaryExpression(conditionalExpression.parent)
-                                                 || ASTHelper.isLogicalExpression(conditionalExpression.parent)
-                                                 || ASTHelper.isCallExpressionCallee(conditionalExpression);
+        var shouldBeSurroundedWithParenthesis = ASTHelper.isBinaryExpression(conditionalExpression.parent)
+                                             || ASTHelper.isLogicalExpression(conditionalExpression.parent)
+                                             || ASTHelper.isCallExpressionCallee(conditionalExpression);
 
-            var code =  testCode + " " + this._QUESTION_MARK + " " + consequentCode
-                                 + " " + this._COLON + " " + alternateCode;
+        var code =  testCode + " " + this._QUESTION_MARK + " " + consequentCode
+                             + " " + this._COLON + " " + alternateCode;
 
-            return shouldBeSurroundedWithParenthesis ? (this._LEFT_PARENTHESIS + code + this._RIGHT_PARENTHESIS) : code;
-        }
-        catch(e) { this.notifyError("Error when generating code from conditional expression:" + e); }
+        return shouldBeSurroundedWithParenthesis ? (this._LEFT_PARENTHESIS + code + this._RIGHT_PARENTHESIS) : code;
     },
 
     generateFromThisExpression: function(thisExpression)
     {
-        try
-        {
-            return "this";
-        }
-        catch(e) { this.notifyError("Error when generating code from this expression:" + e); }
+        return "this";
     },
 
     generateFromCallExpression: function(callExpression)
     {
-        try
-        {
-            var calleeCode = this.generateJsCode(callExpression.callee);
+        var calleeCode = this.generateJsCode(callExpression.callee);
 
-            //TODO HACKY WAY
-            if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
+        //TODO HACKY WAY
+        if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
 
-            return calleeCode
-                +  this._LEFT_PARENTHESIS
-                    +  this.getSequenceCode(callExpression.arguments)
-                +  this._RIGHT_PARENTHESIS;
-        }
-        catch(e) { this.notifyError("Error when generating code from call expression:" + e); }
+        return calleeCode
+            +  this._LEFT_PARENTHESIS
+                +  this.getSequenceCode(callExpression.arguments)
+            +  this._RIGHT_PARENTHESIS;
     },
 
     generateFromMemberExpression: function(memberExpression)
     {
-        try
+        var isNotSimpleMemberExpression = !ASTHelper.isIdentifier(memberExpression.object)
+                                        &&!ASTHelper.isCallExpression(memberExpression.object)
+                                        &&!ASTHelper.isLiteral(memberExpression.object)
+                                        &&!ASTHelper.isThisExpression(memberExpression.object)
+                                        &&!ASTHelper.isMemberExpression(memberExpression.object);
+
+        var propertyCode = this.generateJsCode(memberExpression.property);
+
+        var isInBrackets = memberExpression.computed;
+
+        if(!isInBrackets)
         {
-            var isNotSimpleMemberExpression = !ASTHelper.isIdentifier(memberExpression.object)
-                                            &&!ASTHelper.isCallExpression(memberExpression.object)
-                                            &&!ASTHelper.isLiteral(memberExpression.object)
-                                            &&!ASTHelper.isThisExpression(memberExpression.object)
-                                            &&!ASTHelper.isMemberExpression(memberExpression.object);
-
-            var propertyCode = this.generateJsCode(memberExpression.property);
-
-            var isInBrackets = memberExpression.computed;
-
-            if(!isInBrackets)
+            if(propertyCode.indexOf(' ') != -1 || propertyCode == ":")
             {
-                if(propertyCode.indexOf(' ') != -1 || propertyCode == ":")
-                {
-                    propertyCode = "'" + propertyCode + "'";
-                    isInBrackets = true;
-                }
+                propertyCode = "'" + propertyCode + "'";
+                isInBrackets = true;
             }
-
-            var objectCode = this.generateJsCode(memberExpression.object);
-
-            if(objectCode === "") { return "";}
-
-            return (isNotSimpleMemberExpression ? this._LEFT_PARENTHESIS : "") + objectCode + (isNotSimpleMemberExpression ? this._RIGHT_PARENTHESIS : "")
-                + (isInBrackets ? ( propertyCode !== "" ? (this._LEFT_BRACKET + propertyCode + this._RIGHT_BRACKET) : "") : (this._DOT + propertyCode));
         }
-        catch(e) { this.notifyError("Error when generating code from member expression:" + e); }
+
+        var objectCode = this.generateJsCode(memberExpression.object);
+
+        if(objectCode === "") { return "";}
+
+        return (isNotSimpleMemberExpression ? this._LEFT_PARENTHESIS : "") + objectCode + (isNotSimpleMemberExpression ? this._RIGHT_PARENTHESIS : "")
+            + (isInBrackets ? ( propertyCode !== "" ? (this._LEFT_BRACKET + propertyCode + this._RIGHT_BRACKET) : "") : (this._DOT + propertyCode));
     },
 
     generateFromSequenceExpression: function(sequenceExpression)
     {
-        try
-        {
-            return this.getSequenceCode(sequenceExpression.expressions);
-        }
-        catch(e) { this.notifyError("Error when generating code from member expression:" + e); }
+        return this.getSequenceCode(sequenceExpression.expressions);
     },
 
     generateFromArrayExpression: function(arrayExpression)
     {
-        try
-        {
-            return this._LEFT_BRACKET
-                    + this.getSequenceCode(arrayExpression.elements)
-                   + this._RIGHT_BRACKET;
-        }
-        catch(e) { this.notifyError("Error when generating code from array expression:" + e); }
+        return this._LEFT_BRACKET
+                + this.getSequenceCode(arrayExpression.elements)
+               + this._RIGHT_BRACKET;
     },
 
     generateFromObjectExpression: function(objectExpression)
     {
-        try
+        if (objectExpression.properties.length == 0) { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
+
+        var code = this._LEFT_GULL_WING;
+        var containsOnlySimpleProperties = this._objectExpressionContainsOnlySimpleProperties(objectExpression);
+
+        if(!containsOnlySimpleProperties)
         {
-            if (objectExpression.properties.length == 0) { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
-
-            var code = this._LEFT_GULL_WING;
-            var containsOnlySimpleProperties = this._objectExpressionContainsOnlySimpleProperties(objectExpression);
-
-            if(!containsOnlySimpleProperties)
-            {
-                this.indent();
-                code += this.newLine + this.whitespace;
-            }
-
-            var properties = objectExpression.properties;
-            var generatedProperties = 0;
-            for (var i = 0, length = properties.length; i < length; i++)
-            {
-                var property = properties[i];
-
-                if(this.isSlicing && !property.shouldBeIncluded) { continue; }
-
-                if(generatedProperties != 0)
-                {
-                    code += ", " + (containsOnlySimpleProperties ? "" : this.newLine + this.whitespace);
-                }
-
-                code += this.generateFromObjectExpressionProperty(property);
-
-                var lastGeneratedProperty = property;
-                generatedProperties++;
-            }
-
-            if(lastGeneratedProperty != null && !containsOnlySimpleProperties) //&& ASTHelper.isFunctionExpression(lastGeneratedProperty.value))
-            {
-                code += this.newLine;
-            }
-
-            if(!containsOnlySimpleProperties)
-            {
-                this.deIndent();
-                code += this.whitespace;
-            }
-
-            code += this._RIGHT_GULL_WING;
-
-            return code;
+            this.indent();
+            code += this.newLine + this.whitespace;
         }
-        catch(e) { this.notifyError("Error when generating from object expression:" + e); }
+
+        var properties = objectExpression.properties;
+        var generatedProperties = 0;
+        for (var i = 0, length = properties.length; i < length; i++)
+        {
+            var property = properties[i];
+
+            if(this.isSlicing && !property.shouldBeIncluded) { continue; }
+
+            if(generatedProperties != 0)
+            {
+                code += ", " + (containsOnlySimpleProperties ? "" : this.newLine + this.whitespace);
+            }
+
+            code += this.generateFromObjectExpressionProperty(property);
+
+            var lastGeneratedProperty = property;
+            generatedProperties++;
+        }
+
+        if(lastGeneratedProperty != null && !containsOnlySimpleProperties) //&& ASTHelper.isFunctionExpression(lastGeneratedProperty.value))
+        {
+            code += this.newLine;
+        }
+
+        if(!containsOnlySimpleProperties)
+        {
+            this.deIndent();
+            code += this.whitespace;
+        }
+
+        code += this._RIGHT_GULL_WING;
+
+        return code;
     },
 
     generateFromObjectExpressionProperty: function(property)
@@ -755,376 +679,291 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromIfStatement: function(ifStatement)
     {
-        try
+        var ifBodyCode = this.generateJsCode(ifStatement.consequent);
+        var testCode = this.generateJsCode(ifStatement.test);
+        var elseBodyCode = "";
+        var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + (testCode === "" ? "false" : testCode )  + this._RIGHT_PARENTHESIS;
+
+        code += ifBodyCode.length != 0 ? this.newLine + ifBodyCode : this._SEMI_COLON + this.newLine;
+
+        if(ifStatement.alternate != null)
         {
-            var ifBodyCode = this.generateJsCode(ifStatement.consequent);
-            var testCode = this.generateJsCode(ifStatement.test);
-            var elseBodyCode = "";
-            var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + (testCode === "" ? "false" : testCode )  + this._RIGHT_PARENTHESIS;
-
-            code += ifBodyCode.length != 0 ? this.newLine + ifBodyCode : this._SEMI_COLON + this.newLine;
-
-            if(ifStatement.alternate != null)
+            if(this.isSlicing && !ifStatement.alternate.shouldBeIncluded)
             {
-                if(this.isSlicing && !ifStatement.alternate.shouldBeIncluded)
+                if(ifBodyCode === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(ifStatement.test))
                 {
-                    if(ifBodyCode === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(ifStatement.test))
-                    {
-                        return "";
-                    }
-
-                    return code;
+                    return "";
                 }
 
-                elseBodyCode = this.generateJsCode(ifStatement.alternate);
-
-                if(elseBodyCode !== "")
-                {
-                    code += this.whitespace + this._ELSE_KEYWORD + " " + (! ASTHelper.isIfStatement(ifStatement.alternate) ? this.newLine : "") + elseBodyCode;
-                }
+                return code;
             }
 
-            /*if(ifBodyCode === "" && elseBodyCode === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(ifStatement.test))
-            {
-                return "";
-            }*/
+            elseBodyCode = this.generateJsCode(ifStatement.alternate);
 
-            return code;
+            if(elseBodyCode !== "")
+            {
+                code += this.whitespace + this._ELSE_KEYWORD + " " + (! ASTHelper.isIfStatement(ifStatement.alternate) ? this.newLine : "") + elseBodyCode;
+            }
         }
-        catch(e) { this.notifyError("Error when generating code from if statement:" + e); }
+
+        return code;
     },
 
     generateFromWhileStatement: function(whileStatement)
     {
-        try
-        {
-            var whileBody = this.generateJsCode(whileStatement.body);
-            var whileTest = this.generateJsCode(whileStatement.test);
+        var whileBody = this.generateJsCode(whileStatement.body);
+        var whileTest = this.generateJsCode(whileStatement.test);
 
-            if(whileBody === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(whileStatement.test)) { return ""; }
+        if(whileBody === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(whileStatement.test)) { return ""; }
 
-            return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + whileTest  + this._RIGHT_PARENTHESIS
-                + (whileBody.length != 0 ? this.newLine + whileBody : this._SEMI_COLON);
-        }
-        catch(e) { this.notifyError("Error when generating code from while statement:" + e); }
+        return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + whileTest  + this._RIGHT_PARENTHESIS
+            + (whileBody.length != 0 ? this.newLine + whileBody : this._SEMI_COLON);
     },
 
     generateFromDoWhileStatement: function(doWhileStatement)
     {
-        try
-        {
-            var doWhileBody = this.generateJsCode(doWhileStatement.body);
-            var doWhileTest = this.generateJsCode(doWhileStatement.test);
+        var doWhileBody = this.generateJsCode(doWhileStatement.body);
+        var doWhileTest = this.generateJsCode(doWhileStatement.test);
 
-            if(doWhileBody === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(doWhileStatement.test)) { return ""; }
-            if(doWhileTest === "") { doWhileTest = "false"; }
+        if(doWhileBody === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(doWhileStatement.test)) { return ""; }
+        if(doWhileTest === "") { doWhileTest = "false"; }
 
-            doWhileBody = doWhileBody.length != 0 ? doWhileBody : this._SEMI_COLON;
+        doWhileBody = doWhileBody.length != 0 ? doWhileBody : this._SEMI_COLON;
 
-            return this._DO_KEYWORD + this.newLine + doWhileBody
-                +  this.whitespace + this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + doWhileTest + this._RIGHT_PARENTHESIS;
-        }
-        catch(e) { this.notifyError("Error when generating code from do while statement:" + e); }
+        return this._DO_KEYWORD + this.newLine + doWhileBody
+            +  this.whitespace + this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + doWhileTest + this._RIGHT_PARENTHESIS;
     },
 
     generateFromForStatement: function(forStatement)
     {
-        try
+        var forBody = this.generateJsCode(forStatement.body);
+        var forInit = this.generateJsCode(forStatement.init);
+        var forTest = this.generateJsCode(forStatement.test);
+        var forUpdate = this.generateJsCode(forStatement.update);
+
+        if(forBody === "" && forUpdate === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(forTest))
         {
-            var forBody = this.generateJsCode(forStatement.body);
-            var forInit = this.generateJsCode(forStatement.init);
-            var forTest = this.generateJsCode(forStatement.test);
-            var forUpdate = this.generateJsCode(forStatement.update);
-
-            if(forBody === "" && forUpdate === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(forTest))
-            {
-                return forInit +  this._SEMI_COLON;
-            }
-
-            return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
-                +  forInit + this._SEMI_COLON
-                +  forTest + this._SEMI_COLON
-                +  forUpdate + this._RIGHT_PARENTHESIS
-                +  (forBody.length != 0 ? (this.newLine + forBody) : this._SEMI_COLON);
+            return forInit +  this._SEMI_COLON;
         }
-        catch(e) { this.notifyError("Error when generating code from for statement:" + e); }
+
+        return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
+            +  forInit + this._SEMI_COLON
+            +  forTest + this._SEMI_COLON
+            +  forUpdate + this._RIGHT_PARENTHESIS
+            +  (forBody.length != 0 ? (this.newLine + forBody) : this._SEMI_COLON);
     },
 
     generateFromForInStatement: function(forInStatement)
     {
-        try
-        {
-            var forInBody = this.generateJsCode(forInStatement.body);
-            var leftPart = this.generateJsCode(forInStatement.left);
-            var rightPart = this.generateJsCode(forInStatement.right);
+        var forInBody = this.generateJsCode(forInStatement.body);
+        var leftPart = this.generateJsCode(forInStatement.left);
+        var rightPart = this.generateJsCode(forInStatement.right);
 
-            if(leftPart === "" && forInBody === "") { return ""; }
+        if(leftPart === "" && forInBody === "") { return ""; }
 
-            if(leftPart === "") { leftPart = Firecrow.CodeTextGenerator.generateJsCode(forInStatement.left); }
+        if(leftPart === "") { leftPart = Firecrow.CodeTextGenerator.generateJsCode(forInStatement.left); }
 
-            forInBody = forInBody.length != 0 ? forInBody : this._SEMI_COLON;
+        forInBody = forInBody.length != 0 ? forInBody : this._SEMI_COLON;
 
-            return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
-                +  leftPart + " " +  this._IN_KEYWORD + " "
-                +  rightPart + this._RIGHT_PARENTHESIS
-                +  this.newLine + forInBody;
-        }
-        catch(e) { this.notifyError("Error when generating code from for...in statement:" + e); }
+        return this._FOR_KEYWORD + this._LEFT_PARENTHESIS
+            +  leftPart + " " +  this._IN_KEYWORD + " "
+            +  rightPart + this._RIGHT_PARENTHESIS
+            +  this.newLine + forInBody;
     },
 
     generateFromBreakStatement: function(breakStatement)
     {
-        try
-        {
-            return this._BREAK_KEYWORD + (breakStatement.label != null ? this.generateFromIdentifier(breakStatement.label) : "");
-        }
-        catch(e) { this.notifyError("Error when generating code from break statement:" + e); }
+        return this._BREAK_KEYWORD + (breakStatement.label != null ? this.generateFromIdentifier(breakStatement.label) : "");
     },
 
     generateFromContinueStatement: function(continueStatement)
     {
-        try
-        {
-            return this._CONTINUE_KEYWORD + (continueStatement.label != null ? this.generateFromIdentifier(continueStatement.label) : "");
-        }
-        catch(e) { this.notifyError("Error when generating code from continue statement:" + e); }
+        return this._CONTINUE_KEYWORD + (continueStatement.label != null ? this.generateFromIdentifier(continueStatement.label) : "");
     },
 
     generateFromReturnStatement: function(returnStatement)
     {
-        try
-        {
-            return this._RETURN_KEYWORD + " " + (returnStatement.argument != null ? this.generateExpression(returnStatement.argument) : "");
-        }
-        catch(e) { this.notifyError("Error when generating code from return statement:" + e); }
+        return this._RETURN_KEYWORD + " " + (returnStatement.argument != null ? this.generateExpression(returnStatement.argument) : "");
     },
 
     generateFromWithStatement: function(withStatement)
     {
-        try
-        {
-            var withBody = this.generateStatement(withStatement.body);
+        var withBody = this.generateStatement(withStatement.body);
 
-            withBody = withBody.length != 0 ? withBody : this._SEMI_COLON;
+        withBody = withBody.length != 0 ? withBody : this._SEMI_COLON;
 
-            return this._WITH_KEYWORD + this._LEFT_PARENTHESIS
-                 + this.generateExpression(withStatement.object) + this._RIGHT_PARENTHESIS
-                 + withBody;
-        }
-        catch(e) { this.notifyError("Error when generating code from with statement:" + e); }
+        return this._WITH_KEYWORD + this._LEFT_PARENTHESIS
+             + this.generateExpression(withStatement.object) + this._RIGHT_PARENTHESIS
+             + withBody;
     },
 
     generateFromThrowStatement: function(throwStatement)
     {
-        try
-        {
-            return this._THROW_KEYWORD + " " + this.generateExpression(throwStatement.argument);
-        }
-        catch(e) { this.notifyError("Error when generating code from throw statement:" + e); }
+        return this._THROW_KEYWORD + " " + this.generateExpression(throwStatement.argument);
     },
 
     generateFromSwitchStatement: function(switchStatement)
     {
-        try
+        var code = this._SWITCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateExpression(switchStatement.discriminant) + this._RIGHT_PARENTHESIS;
+
+        code += this.newLine + this.whitespace + this._LEFT_GULL_WING + this.newLine;
+
+        this.indent();
+
+        for(var i = 0; i < switchStatement.cases.length; i++)
         {
-            var code = this._SWITCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateExpression(switchStatement.discriminant) + this._RIGHT_PARENTHESIS;
+            var caseClause = switchStatement.cases[i];
 
-            code += this.newLine + this.whitespace + this._LEFT_GULL_WING + this.newLine;
+            if(this.isSlicing && !caseClause.shouldBeIncluded) { continue; }
 
-            this.indent();
-
-            for(var i = 0; i < switchStatement.cases.length; i++)
-            {
-                var caseClause = switchStatement.cases[i];
-
-                if(this.isSlicing && !caseClause.shouldBeIncluded) { continue; }
-
-                code += this.generateFromSwitchCase(caseClause);
-            }
-
-            this.deIndent();
-
-            code += this.whitespace + this._RIGHT_GULL_WING;
-
-            return code;
+            code += this.generateFromSwitchCase(caseClause);
         }
-        catch(e) { this.notifyError("Error when generating code from switch statement:" + e); }
+
+        this.deIndent();
+
+        code += this.whitespace + this._RIGHT_GULL_WING;
+
+        return code;
     },
 
     generateFromSwitchCase: function(switchCase)
     {
-        try
+        var code = "";
+        if(switchCase.test === null)
         {
-            var code = "";
-            if(switchCase.test === null)
-            {
-                code += this.whitespace + this._DEFAULT_KEYWORD + this._COLON + this.newLine;
-            }
-            else
-            {
-                code += this.whitespace + this._CASE_KEYWORD + " " + this.generateExpression(switchCase.test) + this._COLON + this.newLine;
-            }
-
-            this.indent();
-            for(var i = 0; i < switchCase.consequent.length; i++)
-            {
-                var statementCode = this.generateStatement(switchCase.consequent[i]);
-
-                if(statementCode !== "")
-                {
-                    code += this.whitespace + statementCode + this.newLine;
-                }
-            }
-            this.deIndent();
-
-            return code;
+            code += this.whitespace + this._DEFAULT_KEYWORD + this._COLON + this.newLine;
         }
-        catch(e) { this.notifyError("Error when generating code from switch case:" + e); }
+        else
+        {
+            code += this.whitespace + this._CASE_KEYWORD + " " + this.generateExpression(switchCase.test) + this._COLON + this.newLine;
+        }
+
+        this.indent();
+        for(var i = 0; i < switchCase.consequent.length; i++)
+        {
+            var statementCode = this.generateStatement(switchCase.consequent[i]);
+
+            if(statementCode !== "")
+            {
+                code += this.whitespace + statementCode + this.newLine;
+            }
+        }
+        this.deIndent();
+
+        return code;
     },
 
     generateFromTryStatement: function(tryStatement)
     {
-        try
+        var code = this._TRY_KEYWORD + this.newLine + (this.generateJsCode(tryStatement.block) || (this._LEFT_GULL_WING + this._RIGHT_GULL_WING));
+
+        // catch clauses
+        for(var i = 0; i < tryStatement.handlers.length; i++)
         {
-            var code = this._TRY_KEYWORD + this.newLine + (this.generateJsCode(tryStatement.block) || (this._LEFT_GULL_WING + this._RIGHT_GULL_WING));
-
-            // catch clauses
-            for(var i = 0; i < tryStatement.handlers.length; i++)
-            {
-                code += this.generateFromCatchClause(tryStatement.handlers[i]);
-            }
-
-            if(tryStatement.finalizer != null)
-            {
-                var finalizerBody = this.generateJsCode(tryStatement.finalizer);
-
-                if(finalizerBody.length != 0)
-                {
-                    code += this._FINALLY_KEYWORD + finalizerBody;
-                }
-            }
-
-            return code;
+            code += this.generateFromCatchClause(tryStatement.handlers[i]);
         }
-        catch(e) { this.notifyError("Error when generating code from try statement:" + e); }
+
+        if(tryStatement.finalizer != null)
+        {
+            var finalizerBody = this.generateJsCode(tryStatement.finalizer);
+
+            if(finalizerBody.length != 0)
+            {
+                code += this._FINALLY_KEYWORD + finalizerBody;
+            }
+        }
+
+        return code;
     },
 
     generateFromLabeledStatement: function(labeledStatement)
     {
-        try
-        {
-            return this.generateFromIdentifier(labeledStatement.label) + this._SEMI_COLON
-                + this.generateJsCode(labeledStatement.body);
-        }
-        catch(e) { this.notifyError("Error when generating code from labeled statement:" + e); }
+        return this.generateFromIdentifier(labeledStatement.label) + this._SEMI_COLON
+            + this.generateJsCode(labeledStatement.body);
     },
 
     generateFromVariableDeclaration: function(variableDeclaration)
     {
-        try
+        var code = this._VAR_KEYWORD + " ";
+
+        var declarators = variableDeclaration.declarations;
+        var generatedDeclarators = 0;
+        for (var i = 0, length = declarators.length; i < length; i++)
         {
-            var code = this._VAR_KEYWORD + " ";
+            var declarator = declarators[i];
 
-            var declarators = variableDeclaration.declarations;
-            var generatedDeclarators = 0;
-            for (var i = 0, length = declarators.length; i < length; i++)
-            {
-                var declarator = declarators[i];
+            if(this.isSlicing && !declarator.shouldBeIncluded) { continue; }
 
-                if(this.isSlicing && !declarator.shouldBeIncluded) { continue; }
+            if(generatedDeclarators != 0) { code += this._COMMA + " "; }
 
-                if(generatedDeclarators != 0) { code += this._COMMA + " "; }
+            generatedDeclarators++;
 
-                generatedDeclarators++;
-
-                code += this.generateFromVariableDeclarator(declarator);
-            }
-
-            return code;
+            code += this.generateFromVariableDeclarator(declarator);
         }
-        catch(e) { this.notifyError("Error when generating code from variable declaration:" + e);}
+
+        return code;
     },
 
     generateFromVariableDeclarator: function(variableDeclarator)
     {
-        try
+        var initCode = "";
+
+        if(variableDeclarator.init)
         {
-            var initCode = "";
-
-            if(variableDeclarator.init)
+            if(this.isSlicing && !variableDeclarator.init.shouldBeIncluded) {}
+            else
             {
-                if(this.isSlicing && !variableDeclarator.init.shouldBeIncluded) {}
-                else
-                {
-                    initCode = " = " + this.generateJsCode(variableDeclarator.init);
-                }
+                initCode = " = " + this.generateJsCode(variableDeclarator.init);
             }
-
-            return this.generateFromPattern(variableDeclarator.id) + initCode;
         }
-        catch(e) { this.notifyError("Error when generating code from variableDeclarator - CodeMarkupGenerator:" + e);}
+
+        return this.generateFromPattern(variableDeclarator.id) + initCode;
     },
 
     generateFromPattern: function(pattern)
     {
-        try
-        {
-            if(ASTHelper.isIdentifier(pattern)) { return this.generateFromIdentifier(pattern);}
-        }
-        catch(e) { this.notifyError("Error when generating code from pattern:" + e);}
+        if(ASTHelper.isIdentifier(pattern)) { return this.generateFromIdentifier(pattern);}
     },
 
     generateFromCatchClause: function(catchClause)
     {
-        try
-        {
-            var body = this.generateStatement(catchClause.body);
+        var body = this.generateStatement(catchClause.body);
 
-            body = body.length != 0 ? body : this._LEFT_GULL_WING + this._RIGHT_GULL_WING;
+        body = body.length != 0 ? body : this._LEFT_GULL_WING + this._RIGHT_GULL_WING;
 
-            catchClause.param.shouldBeIncluded = true;
+        catchClause.param.shouldBeIncluded = true;
 
-            return this.whitespace + this._CATCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(catchClause.param) + this._RIGHT_PARENTHESIS
-                 + (body != (this._LEFT_GULL_WING + this._RIGHT_GULL_WING) ? this.newLine + this.whitespace : "" ) + body;
-        }
-        catch(e) { this.notifyError("Error when generating code from catch clause:" + e);}
+        return this.whitespace + this._CATCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(catchClause.param) + this._RIGHT_PARENTHESIS
+             + (body != (this._LEFT_GULL_WING + this._RIGHT_GULL_WING) ? this.newLine + this.whitespace : "" ) + body;
     },
 
     generateFromIdentifier: function(identifier)
     {
-        try
-        {
-            return identifier.name;
-        }
-        catch(e) { this.notifyError("Error when generating code from an identifier:" + e);}
+        return identifier.name;
     },
 
     generateFromLiteral: function(literal)
     {
-        try
+        if(valueTypeHelper.isNull(literal.value)) { return "null"; }
+        if (valueTypeHelper.isString(literal.value))
         {
-            if(valueTypeHelper.isNull(literal.value)) { return "null"; }
-            if (valueTypeHelper.isString(literal.value))
-            {
-                return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/, "\\n") + "'";
-            }
-            else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
-            else if(valueTypeHelper.isObject(literal.value))
-            {
-                var regExString = "";
-                if(literal.value.constructor != null && literal.value.constructor.name === "RegExp")
-                {
-                    regExString = literal.value.toString();
-                }
-                else //over JSON conversion
-                {
-                    regExString = atob(literal.value.RegExpBase64);
-                }
-
-                return valueTypeHelper.adjustForRegExBug(literal.value, regExString);
-            }
+            return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/, "\\n") + "'";
         }
-        catch(e) { this.notifyError("Error when generating from literal:" + e);}
+        else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
+        else if(valueTypeHelper.isObject(literal.value))
+        {
+            var regExString = "";
+            if(literal.value.constructor != null && literal.value.constructor.name === "RegExp")
+            {
+                regExString = literal.value.toString();
+            }
+            else //over JSON conversion
+            {
+                regExString = atob(literal.value.RegExpBase64);
+            }
+
+            return valueTypeHelper.adjustForRegExBug(literal.value, regExString);
+        }
     },
 
     getSequenceCode: function(sequence)

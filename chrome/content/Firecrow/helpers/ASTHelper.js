@@ -687,6 +687,7 @@ FBL.ns(function () { with (FBL) {
         isCatchClause: function(element) { return this.isElementOfType(element, this.CONST.CatchClause); },
         isIdentifier: function(element) { return this.isElementOfType(element, this.CONST.Identifier); },
         isLiteral: function(element) { return this.isElementOfType(element, this.CONST.Literal); },
+        isStringLiteral: function(element) { return this.isLiteral(element) && ValueTypeHelper.isString(element.value);},
 
         isStatement: function(element)
         {
