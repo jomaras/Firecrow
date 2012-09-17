@@ -187,7 +187,7 @@ Firecrow.CloneDetector.JsCloneDetector =
             }
         }
 
-        return this.removeSmallerFragments(cloneItems).sort(function(cloneItemA, cloneItemB)
+        return this.removeChildren(this.removeSmallerFragments(cloneItems)).sort(function(cloneItemA, cloneItemB)
         {
             return cloneItemB.getTotalNumberOfStatements() - cloneItemA.getTotalNumberOfStatements();
         });
@@ -253,6 +253,41 @@ Firecrow.CloneDetector.JsCloneDetector =
         }
 
         return groups;
+    },
+
+    removeChildren: function(cloneItems)
+    {
+        var trimmedList = [];
+
+        for(var i = 0, length = cloneItems.length; i < length; i++)
+        {
+            var currentItem = cloneItems[i];
+            var itemToAdd = currentItem;
+
+            for(var j = i + 1; j < length; j++)
+            {
+                var compareItem = cloneItems[j];
+
+                if((Firecrow.ASTHelper.areRelated(currentItem.candidateA.statements, compareItem.candidateA.statements) && Firecrow.ASTHelper.areRelated(currentItem.candidateB.statements, compareItem.candidateB.statements))
+                || (Firecrow.ASTHelper.areRelated(currentItem.candidateA.statements, compareItem.candidateB.statements) && Firecrow.ASTHelper.areRelated(currentItem.candidateB.statements, compareItem.candidateA.statements)))
+                {
+                    if(Firecrow.ASTHelper.areAncestors(currentItem.candidateA.statements, compareItem.candidateA.statements)
+                    || Firecrow.ASTHelper.areAncestors(currentItem.candidateB.statements, compareItem.candidateB.statements)
+                    || Firecrow.ASTHelper.areAncestors(currentItem.candidateB.statements, compareItem.candidateA.statements)
+                    || Firecrow.ASTHelper.areAncestors(currentItem.candidateA.statements, compareItem.candidateB.statements))
+                    {
+                        itemToAdd = null;
+                    }
+                }
+            }
+
+            if(itemToAdd != null)
+            {
+                trimmedList.push(itemToAdd);
+            }
+        }
+
+        return trimmedList;
     },
 
     getCandidates: function(blockStatements)

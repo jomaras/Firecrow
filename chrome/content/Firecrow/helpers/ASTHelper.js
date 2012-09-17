@@ -544,6 +544,26 @@ FBL.ns(function () { with (FBL) {
             return false;
         },
 
+        areAncestors: function(statements1, statements2)
+        {
+            for(var i = 0; i < statements1.length; i++)
+            {
+                var firstStatement = statements1[i];
+
+                for(var j = 0; j < statements2.length; j++)
+                {
+                    var secondStatement = statements2[j];
+
+                    if(this.isAncestor(firstStatement, secondStatement))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        },
+
         getLastLoopOrBranchingConditionInFunctionBody: function(element)
         {
             if(!this.isFunction(element)){ return null; }
