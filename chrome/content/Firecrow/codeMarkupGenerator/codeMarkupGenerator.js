@@ -55,8 +55,8 @@ FBL.ns(function () { with (FBL) {
             html += '&#60;<span class="node htmlTag">' + elementType + '</span>';
             for (var i = 0; i < elementAttributes.length; i++)
             {
-                html += '<span class="node htmlAttributeName"> ' + elementAttributes[i].name + '</span>=';
-                html += '<span class="node htmlAttributeValue"> "' + elementAttributes[i].value + '"</span>';
+                html += '<span class="node htmlAttributeName"> ' + elementAttributes[i].name + '</span> = ';
+                html += '<span class="node htmlAttributeValue">"' + elementAttributes[i].value + '"</span>';
             }
             // generate >
             html += '&#62;';
@@ -288,16 +288,18 @@ FBL.ns(function () { with (FBL) {
                 var _id = "node" + this.formatId(functionDecExp.nodeId);
                 var _style = this.getStyle(functionDecExp);
 
+                var nodeType = ASTHelper.isFunctionExpression(functionDecExp) ? "span" : "div";
+
                 var shouldBeInParentheses = ASTHelper.isFunctionExpression(functionDecExp)
                                          && ASTHelper.isCallExpressionCallee(functionDecExp);
 
-                return this.getStartElementHtml("div", { class: _class, id : _id, style: _style })
+                return this.getStartElementHtml(nodeType, { class: _class, id : _id, style: _style })
                      + (shouldBeInParentheses ? this._LEFT_PARENTHESIS : "")
                      + this.getElementHtml("span", {class: "keyword"}, this._FUNCTION_KEYWORD) + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) + " " : "")
                      + this.generateFunctionParametersHtml(functionDecExp)
                      + this.generateFromFunctionBody(functionDecExp)
                      + (shouldBeInParentheses ? this._RIGHT_PARENTHESIS : "")
-                     + this.getEndElementHtml("div");
+                     + this.getEndElementHtml(nodeType);
             }
             catch(e) { alert("Error when generating HTML from a function:" + e); }
         },
@@ -417,7 +419,7 @@ FBL.ns(function () { with (FBL) {
                        id: "node" + this.formatId(binaryExpression.nodeId)
                    })
                    + this.generateHtml(binaryExpression.left)
-                   + " " + binaryExpression.operator + " ";
+                   + " " + binaryExpression.operator + " "
                    + this.generateHtml(binaryExpression.right)
                    + this.getEndElementHtml("span");
         },
@@ -635,8 +637,6 @@ FBL.ns(function () { with (FBL) {
                 {
                     var property = properties[i];
 
-                    if(i != 0) { html += ", "; }
-
                     html += '<div class="objectProperty" id="node' + this.formatId(property.nodeId) +  '" style ="' + _propertyContainerStyle + '">';
 
                     if (property.kind == "init")
@@ -649,6 +649,9 @@ FBL.ns(function () { with (FBL) {
                         html += this.getElementHtml("span", {class: "keyword"}, property.kind) + " " + this.generateHtml(property.key)
                               + this.generateExpression(property.value);
                     }
+
+
+                    if(i != properties.length - 1) { html += ", "; }
 
                     html += '</div>';
                 }
@@ -1004,9 +1007,10 @@ FBL.ns(function () { with (FBL) {
         {
             var _class = ASTHelper.CONST.Identifier + " node";
             var _id = "node" + this.formatId(identifier.nodeId);
-            var _padding = this.getStyle(identifier);
+            //var _padding = this.getStyle(identifier);
 
-            return this.getElementHtml("span", {class: _class, id: _id, style: _padding}, identifier.name);
+            //, style: _padding
+            return this.getElementHtml("span", {class: _class, id: _id}, identifier.name);
         },
 
         generateFromLiteral: function(literal)
