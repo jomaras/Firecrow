@@ -184,7 +184,8 @@ body
 .clearer { clear: both;}
 
 
-.BlockStatement, .BlockStatement > *
+.BlockStatement > *,
+.IfStatement > .BlockStatement
 {
     margin-left: 20px;
 }

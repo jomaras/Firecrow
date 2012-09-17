@@ -7,12 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/cloneDetector/models/google.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome.manifest" afterPath="$PROJECT_DIR$/chrome.manifest" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/cloneDetector/all.html" afterPath="$PROJECT_DIR$/debug/cloneDetector/all.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/skin/classic/style.css" afterPath="$PROJECT_DIR$/chrome/skin/classic/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/simpleHtml.html" afterPath="$PROJECT_DIR$/playground/simpleHtml.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,7 +71,16 @@
       <file leaf-file-name="codeMarkupGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="32" selection-start="3871" selection-end="3871" vertical-scroll-proportion="0.13407822">
+            <state line="292" column="76" selection-start="15481" selection-end="15481" vertical-scroll-proportion="0.50574714">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/skin/classic/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="187" column="30" selection-start="2310" selection-end="2310" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -84,6 +91,21 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="1" column="32" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="simpleHtml.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/playground/simpleHtml.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="32" column="102" selection-start="890" selection-end="901" vertical-scroll-proportion="-9.795918">
+              <folding>
+                <element signature="n#style#0;n#div#0;n#span#1;n#span#0;n#div#2;n#div#0;n#div#0;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#span#1;n#span#0;n#div#2;n#div#0;n#div#0;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#span#1;n#span#1;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#span#1;n#span#1;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -119,9 +141,7 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
-        <option value="$PROJECT_DIR$/chrome/skin/classic/style.css" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/cloneDetector/VectorGenerator.js" />
         <option value="$PROJECT_DIR$/debug/cloneDetector/html/index.html" />
         <option value="$PROJECT_DIR$/debug/cloneDetector/js/index.html" />
@@ -134,6 +154,8 @@
         <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/chrome.manifest" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js" />
+        <option value="$PROJECT_DIR$/playground/simpleHtml.html" />
+        <option value="$PROJECT_DIR$/chrome/skin/classic/style.css" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
       </list>
     </option>
@@ -187,6 +209,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="skin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="classic" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1289,7 +1333,11 @@
       <created>1347884345653</created>
       <updated>1347884345654</updated>
     </task>
-    <option name="localTasksCounter" value="239" />
+    <task id="LOCAL-00239" summary="Style included in Firecrow panel">
+      <created>1347887932969</created>
+      <updated>1347887932969</updated>
+    </task>
+    <option name="localTasksCounter" value="240" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1385,7 +1433,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="First steps towards counting all clones" />
+    <option name="LAST_COMMIT_MESSAGE" value="Style included in Firecrow panel" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1398,7 +1446,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Fade still not working as it should :-/&#10;&#10;Backup before implementing the algorithm that will include dependecies from the exit context only if they refer to code that would be included!" />
     <MESSAGE value="Less Array connections" />
     <MESSAGE value="Mior bug fix - new tests" />
     <MESSAGE value="added more test pages; Array slice on non-array objects; Expansions in HTMLElement" />
@@ -1423,6 +1470,7 @@
     <MESSAGE value="Generates a joint report; Prints the ration between cloned and non-cloned nodes" />
     <MESSAGE value="Remove clones witch are children of other clones" />
     <MESSAGE value="First steps towards counting all clones" />
+    <MESSAGE value="Style included in Firecrow panel" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1435,27 +1483,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/html/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="13" selection-start="2617" selection-end="3642" vertical-scroll-proportion="0.84841627">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/css/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="13" selection-start="2548" selection-end="4362" vertical-scroll-proportion="0.8303167">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/cloneDetector/models/simpleJs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/cloneDetector/js/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="57" column="79" selection-start="2236" selection-end="2236" vertical-scroll-proportion="11.25">
@@ -1530,13 +1557,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome.manifest">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="32" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="515" column="55" selection-start="20703" selection-end="20703" vertical-scroll-proportion="0.0">
@@ -1544,9 +1564,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/playground/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome.manifest">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="32" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground/simpleHtml.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="102" selection-start="890" selection-end="901" vertical-scroll-proportion="-9.795918">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#span#1;n#span#0;n#div#2;n#div#0;n#div#0;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#span#1;n#span#0;n#div#2;n#div#0;n#div#0;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#span#1;n#span#1;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#span#1;n#span#1;n#div#0;n#span#2;n#div#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/skin/classic/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="187" column="30" selection-start="2310" selection-end="2310" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="32" selection-start="3871" selection-end="3871" vertical-scroll-proportion="0.13407822">
+        <state line="292" column="76" selection-start="15481" selection-end="15481" vertical-scroll-proportion="0.50574714">
           <folding />
         </state>
       </provider>

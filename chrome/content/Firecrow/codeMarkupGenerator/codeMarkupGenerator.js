@@ -52,7 +52,7 @@ FBL.ns(function () { with (FBL) {
 
             // generate <elementType attribute[0].name="attribute[0].value" ... attribute[N].name="attribute[N].value">
             // <elementType
-            html += '&#60;' + '<span class="node htmlTag">' + elementType + '</span>';
+            html += '&#60;<span class="node htmlTag">' + elementType + '</span>';
             for (var i = 0; i < elementAttributes.length; i++)
             {
                 html += '<span class="node htmlAttributeName"> ' + elementAttributes[i].name + '</span>=';
@@ -68,13 +68,15 @@ FBL.ns(function () { with (FBL) {
         {
             if(elementType === "textNode") { return "" };
 
-            return '&#60;<span class="node htmlTag">&#47;' + elementType + "</span>&#62;";
+            return '&#60;&#47;<span class="node htmlTag">' + elementType + "</span>&#62;";
         },
 
         generateHtmlElement: function(element)
         {
             try
             {
+                if(element.type == "textNode") { return element.textContent; }
+
                 var html = '<div class="node ' + element.type + " indented" + '" id="node' + this.formatId(element.nodeId) + '">'
                           + this.generateOpeningTags(element.type, element.attributes);
 
@@ -110,7 +112,7 @@ FBL.ns(function () { with (FBL) {
 
                     for(var i=0; i < element.childNodes.length; i++)
                     {
-                        html += '<span class="node htmlContent">' + this.generateHtmlElement(element.childNodes[i]) + '</span>';
+                        html += this.generateHtmlElement(element.childNodes[i]);
                     }
                 }
 
@@ -119,7 +121,7 @@ FBL.ns(function () { with (FBL) {
                     html += this.generateClosingTags(element.type);
                 }
 
-                html += "</div>";
+                html += '</div>';
 
                 return html;
             }
@@ -223,7 +225,7 @@ FBL.ns(function () { with (FBL) {
                     html += this.generateHtml(body[i]);
                 }
 
-                return "</div>";
+                return html + "</div>";
             }
             catch(e) { alert("Error when generating program HTML"); }
         },
@@ -286,12 +288,11 @@ FBL.ns(function () { with (FBL) {
                 var _id = "node" + this.formatId(functionDecExp.nodeId);
                 var _style = this.getStyle(functionDecExp);
 
-                var html = this.getStartElementHtml("div", { class: _class, id : _id, style: _style });
-
                 var shouldBeInParentheses = ASTHelper.isFunctionExpression(functionDecExp)
                                          && ASTHelper.isCallExpressionCallee(functionDecExp);
 
-                return (shouldBeInParentheses ? this._LEFT_PARENTHESIS : "")
+                return this.getStartElementHtml("div", { class: _class, id : _id, style: _style })
+                     + (shouldBeInParentheses ? this._LEFT_PARENTHESIS : "")
                      + this.getElementHtml("span", {class: "keyword"}, this._FUNCTION_KEYWORD) + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) + " " : "")
                      + this.generateFunctionParametersHtml(functionDecExp)
                      + this.generateFromFunctionBody(functionDecExp)
