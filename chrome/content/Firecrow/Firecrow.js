@@ -80,7 +80,7 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 var communicationObject = { message: "Creating page model<br/>", setMessage: function(message) { this.message += message + "<br/>"; } };
-                var window = fbHelper.openWindow("chrome://firecrow/content/windows/notificationWindow.html", "Firecrow", communicationObject);
+                var notificationWindow = fbHelper.openWindow("chrome://firecrow/content/windows/notificationWindow.html", "Firecrow", communicationObject);
 
                 this.loadUrlInHiddenIFrame(fbHelper.getCurrentUrl(), false, function(window, htmlJson)
                 {
@@ -88,6 +88,11 @@ FBL.ns(function() { with (FBL) {
                     {
                         communicationObject.setMessage("Setting parent child relationship");
                         ASTHelper.setParentsChildRelationships(htmlJson);
+                        communicationObject.setMessage("Generating code");
+
+                        this.getPanelContentContainer().innerHTML = Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlJson);
+
+                        notificationWindow.close();
                     }
                     catch(e) { alert("Error when trying to show code of the current page:" + e)};
                 }, this);

@@ -1,3 +1,4 @@
 content Firecrow chrome/content/Firecrow/ xpcnativewrappers=no
+skin    Firecrow classic/1.0    chrome/skin/classic/
 overlay chrome://firebug/content/firebugOverlay.xul         chrome://Firecrow/content/Firecrow.xul
 resource Firecrow modules/
