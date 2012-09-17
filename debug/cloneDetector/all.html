@@ -202,6 +202,9 @@
             var clonedRows = getHtmlTemplateRowsClones();
             var clone = htmlClones[i];
 
+            markElementAsClones(clone.nodeA);
+            markElementAsClones(clone.nodeB);
+
             clonedRows[0].querySelector(".similarityCell").textContent = "Similarity: " + possibleClone.similarity;
             clonedRows[1].querySelector(".cloneAContainer").innerHTML = clone.generateNodeACode();
             clonedRows[1].querySelector(".cloneBContainer").innerHTML = clone.generateNodeBCode();
@@ -252,6 +255,9 @@
             var clonedRows = getCssTemplateRowsClones();
             var cssClone = cssClones[i];
 
+            markElementAsClones(cssClone.ruleA, cssClone.properties.length);
+            markElementAsClones(cssClone.ruleB, cssClone.properties.length);
+
             clonedRows[0].querySelector(".ruleACell").innerHTML = getCssRuleMarkup(cssClone.ruleA);
             clonedRows[0].querySelector(".ruleBCell").innerHTML = getCssRuleMarkup(cssClone.ruleB);
             clonedRows[0].querySelector(".matchingDeclarationsCell").innerHTML = getCssPropertiesMarkup(cssClone.properties);
@@ -262,22 +268,43 @@
 
         var clonesInfo = determineRatioOfClones(model);
 
+        var reportHtml = "";
+
         reportInfoContainer.innerHTML = "Total number of elements: <b>" + clonesInfo.allElements + "</b><br/>"
                                       + "Total number of clones: <b>" + clonesInfo.clones + "</b><br/>"
-                                      + "Ratio: <b>" + (clonesInfo.clones / clonesInfo.allElements) + "</b><br/>";
+                                      + "Ratio all: <b>" + (clonesInfo.clones / clonesInfo.allElements) + "</b><br/>"
+
+                                      + "Total number of html elements: <b>" + clonesInfo.htmlAllNodes + "</b><br/>"
+                                      + "Total number of html clones: <b>" + clonesInfo.htmlClones + "</b><br/>"
+                                      + "Ratio html: <b>" + (clonesInfo.htmlClones / clonesInfo.htmlAllNodes) + "</b><br/>"
+
+                                      + "Total number of js elements: <b>" + clonesInfo.jsAllNodes + "</b><br/>"
+                                      + "Total number of js clones: <b>" + clonesInfo.jsClones + "</b><br/>"
+                                      + "Ratio js: <b>" + (clonesInfo.jsClones / clonesInfo.jsAllNodes) + "</b><br/>"
+
+                                      + "Total number of css elements: <b>" + clonesInfo.cssAllNodes + "</b><br/>"
+                                      + "Total number of css clones: <b>" + clonesInfo.cssClones + "</b><br/>"
+                                      + "Ratio css: <b>" + (clonesInfo.cssClones / clonesInfo.cssAllNodes) + "</b><br/>";
+
 
 
         endTime = new Date();
     };
 
+    function markElementAsClones(element, numberOfClones)
+    {
+        FBL.Firecrow.ASTHelper.traverseAst(element, function(currentElement, propertyName, parentElement)
+        {
+            currentElement.isInClone = true;
+            currentElement.numberOfClones = numberOfClones
+        }, ["pathAndModel"]);
+    }
+
     function markStatementsAsClones(statements)
     {
         for(var i = 0; i < statements.length; i++)
         {
-            FBL.Firecrow.ASTHelper.traverseAst(statements[i], function(currentElement, propertyName, parentElement)
-            {
-                currentElement.isInClone = true;
-            });
+            markElementAsClones(statements[i]);
         }
     }
 
@@ -285,17 +312,53 @@
     {
         var clonesCounter = 0;
         var allElementCounter = 0;
+
+        var htmlClonesCounter = 0;
+        var allHtmlNodesCounter = 0;
+
+        var cssCloneCounter =  0;
+        var allCssNodesCounter = 0;
+
+        var jsCloneCounter = 0;
+        var allJsNodesCounter = 0;
+
         FBL.Firecrow.ASTHelper.traverseAst(model, function(currentElement, propertyName, parentElement)
         {
+            if(currentElement.type == "textNode") { return; }
+            if(currentElement.pathAndModel != null) { return; }
+
+            var isJsElement = FBL.Firecrow.ASTHelper.isJsElement(currentElement);
+            var isHtmlElement = !isJsElement && currentElement.type != null;
+            var isCssRule = !isJsElement && !isHtmlElement && currentElement.declarations != null;
+
             if(currentElement.isInClone)
             {
                 clonesCounter++;
+
+                if(isJsElement) { jsCloneCounter++ }
+                else if (isHtmlElement) { htmlClonesCounter++; }
+                else if (isCssRule) { cssCloneCounter += currentElement.numberOfClones;}
+            }
+
+            if(isJsElement) { allJsNodesCounter++; }
+            else if (isHtmlElement) { allHtmlNodesCounter++; }
+            else if (isCssRule)
+            {
+                var counter = 0;
+                for(var propName in currentElement.declarations) { counter++;}
+
+                allCssNodesCounter += counter;
             }
 
             allElementCounter++;
         });
 
-        return { clones: clonesCounter, allElements: allElementCounter };
+        return {
+                clones: clonesCounter, allElements: allElementCounter,
+                jsClones: jsCloneCounter, jsAllNodes: allJsNodesCounter,
+                htmlClones: htmlClonesCounter, htmlAllNodes: allHtmlNodesCounter,
+                cssClones: cssCloneCounter, cssAllNodes: allCssNodesCounter
+        };
     }
 </script>
 </body>

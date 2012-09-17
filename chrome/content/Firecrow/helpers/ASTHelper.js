@@ -292,7 +292,7 @@ FBL.ns(function () { with (FBL) {
             catch(e) { alert("Error while getting type expressions from program in ASTHelper: " + e);}
         },
 
-        traverseAst: function(astElement, processElementFunction)
+        traverseAst: function(astElement, processElementFunction, ignoreProperties)
         {
             try
             {
@@ -313,7 +313,8 @@ FBL.ns(function () { with (FBL) {
                         || propName == "includesNodes"
                         || propName == "includedByNodes"
                         || propName == "type"
-                        || propName == "eventTraces") { continue; }
+                        || propName == "eventTraces"
+                        || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
                     var propertyValue = astElement[propName];
 
@@ -326,14 +327,14 @@ FBL.ns(function () { with (FBL) {
                             if(ValueTypeHelper.isObject(propertyValue[i]))
                             {
                                 processElementFunction(propertyValue[i], propName, astElement, i);
-                                this.traverseAst(propertyValue[i], processElementFunction);
+                                this.traverseAst(propertyValue[i], processElementFunction, ignoreProperties);
                             }
                         }
                     }
                     else if (ValueTypeHelper.isObject(propertyValue))
                     {
                         processElementFunction(propertyValue, propName, astElement);
-                        this.traverseAst(propertyValue, processElementFunction);
+                        this.traverseAst(propertyValue, processElementFunction, ignoreProperties);
                     }
                 }
             }
@@ -704,6 +705,13 @@ FBL.ns(function () { with (FBL) {
         {
             return element != null ? this.CONST.EXPRESSION[element.type] != null
                 : false;
+        },
+
+        isJsElement: function(element)
+        {
+            if(element == null || element.type == null) { return false; }
+
+            return this.CONST[element.type] != null || this.CONST.STATEMENT[element.type] != null || this.CONST.EXPRESSION[element.type] != null;
         },
 
         isProgram: function(element) { return this.isElementOfType(element, this.CONST.Program); },
