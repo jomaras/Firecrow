@@ -250,6 +250,14 @@ FBL.ns(function () { with (FBL) {
                     ValueTypeHelper.pushAll(items, cases[i].consequent);
                 }
             }
+            else if (this.isTryStatement(blockStatement))
+            {
+                return blockStatement.block.body;
+            }
+            else if (this.isCatchClause(blockStatement))
+            {
+                return blockStatement.body.body;
+            }
             else
             {
                 alert("Unhandled block statement command");

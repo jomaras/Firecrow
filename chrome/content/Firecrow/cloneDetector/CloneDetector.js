@@ -142,7 +142,8 @@ Firecrow.CloneDetector.JsCloneDetector =
                 fcASTHelper.CONST.STATEMENT.ForStatement, fcASTHelper.CONST.STATEMENT.ForInStatement,
                 fcASTHelper.CONST.STATEMENT.WhileStatement, fcASTHelper.CONST.STATEMENT.DoWhileStatement,
                 fcASTHelper.CONST.STATEMENT.SwitchStatement, fcASTHelper.CONST.Program,
-                fcASTHelper.CONST.STATEMENT.IfStatement, fcASTHelper.CONST.STATEMENT.TryStatement
+                fcASTHelper.CONST.STATEMENT.IfStatement, fcASTHelper.CONST.STATEMENT.TryStatement,
+                fcASTHelper.CONST.CatchClause
             ]
         )));
 

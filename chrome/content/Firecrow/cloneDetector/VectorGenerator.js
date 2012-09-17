@@ -629,6 +629,7 @@ fcCloneDetector.VectorGenerator =
 
         if (ifStatement.alternate != null)
         {
+            ifStatement.characteristicVector["else"] = 1;
             this.generateForJsNode(ifStatement.alternate);
             fcCharacteristicVector.join(ifStatement.characteristicVector, ifStatement.alternate.characteristicVector);
         }

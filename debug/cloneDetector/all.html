@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS Clone Detector</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="models/hipstamatic.js"></script>
+    <script src="../../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+
+    <script src="../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
+    <script src="../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="../../chrome/content/Firecrow/cloneDetector/CloneDetector.js"></script>
+    <script src="../../chrome/content/Firecrow/cloneDetector/CombinationsGenerator.js"></script>
+    <script src="../../chrome/content/Firecrow/cloneDetector/CharacteristicVector.js"></script>
+    <script src="../../chrome/content/Firecrow/cloneDetector/VectorGenerator.js"></script>
+    <style>
+        #jsTable td { width: 600px; max-width:600px; overflow: auto;}
+        td { vertical-align: top; }
+
+        #htmlTable td { width: 600px; max-width:600px; overflow: auto;}
+        #htmlTable .htmlElement { margin-left:10px; }
+        #htmlTable .attributeName { font-weight: bolder;}
+        #htmlTable .attributeValue { color: red; }
+        #htmlTable .elementType { font-weight: bolder;}
+
+        #cssTable td { width: 400px;}
+        #cssTable .cssRule { padding-left: 10px;}
+        #cssTable .cssSelector { font-weight: bolder; }
+        #cssTable .cssKey { color: green; }
+        #cssTable .cssValue { color: red;}
+    </style>
+</head>
+<body>
+<h2>Clone viewer</h2>
+<p id="reportInfoContainer"></p>
+
+<a href="#htmlClones">HTML clones</a>
+<a href="#cssClones">CSS clones</a>
+
+<h2>JS Clones</h2>
+<table id="jsTable">
+    <th>
+        <tr>
+            <td valign='top'>Clone A</td>
+            <td valign='top'>Clone B</td>
+        </tr>
+    </th>
+
+    <tbody id="jsTableMainContent">
+
+    </tbody>
+</table>
+
+<a name="htmlClones"><h2>HTML Clones</h2></a>
+<table id="htmlTable">
+    <th>
+        <tr>
+            <td valign='top'>Clone A</td>
+            <td valign='top'>Clone B</td>
+        </tr>
+    </th>
+
+    <tbody id="htmlTableMainContent">
+
+    </tbody>
+</table>
+
+<a name="cssClones"><h2>CSS clones</h2></a>
+<table id="cssTable">
+    <th>
+        <tr>
+            <td valign='top'>CSS rule A</td>
+            <td valign='top'>CSS rule B</td>
+            <td valign='top'>Matching declarations</td>
+        </tr>
+    </th>
+
+    <tbody id="cssTableMainContent">
+
+    </tbody>
+</table>
+
+<table style="display: none;" id="jsTemplateTable">
+    <tr><td colspan='2' class="similarityCell"></td></tr>
+    <tr>
+        <td>
+            <pre class='cloneAContainer'></pre>
+        </td>
+        <td><pre class='cloneBContainer'></pre></td>
+    </tr>
+    <tr>
+        <td colspan='2'><hr/></td>
+</table>
+
+<table style="display: none;" id="htmlTemplateTable">
+    <tr><td colspan='2' class="similarityCell"></td></tr>
+    <tr>
+        <td class='cloneAContainer'></td>
+        <td class='cloneBContainer'></td>
+    </tr>
+    <tr>
+        <td colspan='2'><hr/></td>
+</table>
+
+<table style="display: none;" id="cssTemplateTable">
+    <tr>
+        <td class="ruleACell"></td>
+        <td class="ruleBCell"></td>
+        <td class="matchingDeclarationsCell"></td>
+    </tr>
+    <tr>
+        <td colspan='3'><hr/></td>
+    </tr>
+</table>
+
+
+<script>
+    var startTime = new Date();
+    var endTime = null;
+
+    var jsClones = FBL.Firecrow.CloneDetector.JsCloneDetector.getPotentialClones(model);
+    var htmlClones = FBL.Firecrow.CloneDetector.HtmlCloneDetector.getPotentialClones(model);
+    var cssClones = FBL.Firecrow.CloneDetector.CssCloneDetector.getPotentialClones(model);
+
+    window.onload = function()
+    {
+        var mainJsContainer = document.querySelector("#jsTableMainContent");
+        var mainHtmlContainer = document.querySelector("#htmlTableMainContent");
+        var mainCssContainer = document.querySelector("#cssTableMainContent");
+
+        var jsTemplateRows = document.querySelectorAll("#jsTemplateTable tr");
+        var htmlTemplateRows = document.querySelectorAll("#htmlTemplateTable tr");
+        var cssTemplateRows = document.querySelectorAll("#cssTemplateTable tr");
+
+        var reportInfoContainer = document.querySelector("#reportInfoContainer");
+
+        function getJsTemplateRowsClones()
+        {
+            var cloned = [];
+
+            for(var i = 0; i < jsTemplateRows.length; i++)
+            {
+                cloned.push(jsTemplateRows[i].cloneNode(true));
+            }
+
+            return cloned;
+        }
+
+        function getHtmlTemplateRowsClones()
+        {
+            var cloned = [];
+
+            for(var i = 0; i < htmlTemplateRows.length; i++)
+            {
+                cloned.push(htmlTemplateRows[i].cloneNode(true));
+            }
+
+            return cloned;
+        }
+
+        function generateJsCode(statements)
+        {
+            var code = "";
+
+            for(var i = 0; i < statements.length; i++)
+            {
+                code += FBL.Firecrow.CodeTextGenerator.generateJsCode(statements[i]) + "\n";
+            }
+
+            return code;
+        }
+
+        for(var i = 0, length = jsClones.length; i < length; i++)
+        {
+            var clonedRows = getJsTemplateRowsClones();
+            var possibleClone = jsClones[i];
+
+            var candidateAStatements = possibleClone.candidateA.statements;
+            var candidateBStatements = possibleClone.candidateB.statements;
+
+            markStatementsAsClones(candidateAStatements);
+            markStatementsAsClones(candidateBStatements);
+
+            clonedRows[0].querySelector(".similarityCell").textContent = "Similarity: " + possibleClone.similarity;
+            clonedRows[1].querySelector(".cloneAContainer").innerHTML = generateJsCode(candidateAStatements);
+            clonedRows[1].querySelector(".cloneBContainer").innerHTML = generateJsCode(candidateBStatements);
+
+            mainJsContainer.appendChild(clonedRows[0]);
+            mainJsContainer.appendChild(clonedRows[1]);
+            mainJsContainer.appendChild(clonedRows[2]);
+        }
+
+        for(var i = 0, length = htmlClones.length; i < length; i++)
+        {
+            var clonedRows = getHtmlTemplateRowsClones();
+            var clone = htmlClones[i];
+
+            clonedRows[0].querySelector(".similarityCell").textContent = "Similarity: " + possibleClone.similarity;
+            clonedRows[1].querySelector(".cloneAContainer").innerHTML = clone.generateNodeACode();
+            clonedRows[1].querySelector(".cloneBContainer").innerHTML = clone.generateNodeBCode();
+
+            mainHtmlContainer.appendChild(clonedRows[0]);
+            mainHtmlContainer.appendChild(clonedRows[1]);
+            mainHtmlContainer.appendChild(clonedRows[2]);
+        }
+
+        function getCssTemplateRowsClones()
+        {
+            var cloned = [];
+
+            for(var i = 0; i < cssTemplateRows.length; i++)
+            {
+                cloned.push(cssTemplateRows[i].cloneNode(true));
+            }
+
+            return cloned;
+        }
+
+        function getCssRuleMarkup(cssRule)
+        {
+            return "<div class='cssSelector'>" + cssRule.selector + "</div>"
+                    + "{"
+                         + getCssPropertiesMarkup(cssRule.properties)
+                    + "}"
+        }
+
+        function getCssPropertiesMarkup(properties)
+        {
+            var html = "<div class = 'cssRule'>";
+
+            for(var i = 0; i < properties.length; i++)
+            {
+                var property = properties[i];
+                html += "<span class='cssKey'>" + property.key + "</span>"
+                        + " : "
+                        + "<span class='cssValue'>" + property.value + "</span>"
+                        + "<br/>";
+            }
+
+            return html + "</div>";
+        }
+
+        for(var i = 0, length = cssClones.length; i < length; i++)
+        {
+            var clonedRows = getCssTemplateRowsClones();
+            var cssClone = cssClones[i];
+
+            clonedRows[0].querySelector(".ruleACell").innerHTML = getCssRuleMarkup(cssClone.ruleA);
+            clonedRows[0].querySelector(".ruleBCell").innerHTML = getCssRuleMarkup(cssClone.ruleB);
+            clonedRows[0].querySelector(".matchingDeclarationsCell").innerHTML = getCssPropertiesMarkup(cssClone.properties);
+
+            mainCssContainer.appendChild(clonedRows[0]);
+            mainCssContainer.appendChild(clonedRows[1]);
+        }
+
+        var clonesInfo = determineRatioOfClones(model);
+
+        reportInfoContainer.innerHTML = "Total number of elements: <b>" + clonesInfo.allElements + "</b><br/>"
+                                      + "Total number of clones: <b>" + clonesInfo.clones + "</b><br/>"
+                                      + "Ratio: <b>" + (clonesInfo.clones / clonesInfo.allElements) + "</b><br/>";
+
+
+        endTime = new Date();
+    };
+
+    function markStatementsAsClones(statements)
+    {
+        for(var i = 0; i < statements.length; i++)
+        {
+            FBL.Firecrow.ASTHelper.traverseAst(statements[i], function(currentElement, propertyName, parentElement)
+            {
+                currentElement.isInClone = true;
+            });
+        }
+    }
+
+    function determineRatioOfClones(model)
+    {
+        var clonesCounter = 0;
+        var allElementCounter = 0;
+        FBL.Firecrow.ASTHelper.traverseAst(model, function(currentElement, propertyName, parentElement)
+        {
+            if(currentElement.isInClone)
+            {
+                clonesCounter++;
+            }
+
+            allElementCounter++;
+        });
+
+        return { clones: clonesCounter, allElements: allElementCounter };
+    }
+</script>
+</body>
+</html>
