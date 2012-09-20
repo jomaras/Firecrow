@@ -319,6 +319,8 @@ Browser.prototype =
         {
             if(this.pageModel.eventTraces == null) { return; }
 
+            this.globalObject.document.addProperty("readyState", new fcModel.JsValue("complete", new fcModel.FcInternal()));
+
             var eventTraces = this.pageModel.eventTraces;
 
             var documentDomContentReadyMethods = this.globalObject.document.eventListenerInfo["DOMContentLoaded"] || [];

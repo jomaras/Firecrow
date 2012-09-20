@@ -13,6 +13,7 @@ Firecrow.Slicer = {
 
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
         var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
+        Firecrow.Slicer.browser = browser;
 
         browser.registerSlicingCriteria(slicingCriteria);
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);

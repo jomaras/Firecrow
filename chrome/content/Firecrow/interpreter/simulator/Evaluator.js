@@ -297,9 +297,9 @@ fcSimulator.Evaluator.prototype =
             var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
             var identifierValue = identifier != null ? identifier.value : null;
 
-            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 8872)
+            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 6791)
             {
-
+                var a = 3;
             }
 
             this.executionContextStack.setExpressionValue(identifierConstruct, identifierValue);

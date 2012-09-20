@@ -29,7 +29,7 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, h
     this.messageGeneratedCallbacks = [];
     this.controlFlowConnectionCallbacks = [];
 };
-Firecrow.Interpreter.InterpreterSimulator.log = "";
+Firecrow.Interpreter.InterpreterSimulator.log = [];
 
 Firecrow.Interpreter.InterpreterSimulator.notifyError = function(message) { alert("InterpreterSimulator - " + message); }
 
@@ -39,18 +39,23 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
     {
         try
         {
-            var lastLoggedCommandLine = 0;
             for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
             {
                 var command = this.commands[this.currentCommandIndex];
 
                 this.globalObject.setCurrentCommand(command);
 
+
                 this.processCommand(command);
 
                 if(command.codeConstruct != null)
                 {
                     command.codeConstruct.hasBeenExecuted = true;
+
+                    if(command.codeConstruct.loc != null)
+                    {
+                        Firecrow.Interpreter.InterpreterSimulator.log.push(command.codeConstruct.loc.start.line);
+                    }
 
                     /*if(command.codeConstruct.loc != null)
                     {

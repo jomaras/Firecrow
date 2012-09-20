@@ -804,7 +804,9 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromSwitchStatement: function(switchStatement)
     {
-        var code = this._SWITCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateExpression(switchStatement.discriminant) + this._RIGHT_PARENTHESIS;
+        var discriminant = this.generateExpression(switchStatement.discriminant);
+
+        var code = this._SWITCH_KEYWORD + this._LEFT_PARENTHESIS + (discriminant != "" ? discriminant : "null") + this._RIGHT_PARENTHESIS;
 
         code += this.newLine + this.whitespace + this._LEFT_GULL_WING + this.newLine;
 

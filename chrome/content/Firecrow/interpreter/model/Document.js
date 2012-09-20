@@ -4,317 +4,379 @@
  * Time: 08:03
  */
 FBL.ns(function() { with (FBL) {
-/*************************************************************************************/
-var fcModel = Firecrow.Interpreter.Model;
-var ValueTypeHelper = Firecrow.ValueTypeHelper;
+    /*************************************************************************************/
+    var fcModel = Firecrow.Interpreter.Model;
+    var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcModel.Document = function(document, globalObject)
-{
-    try
+    fcModel.DOM_PROPERTIES =
     {
-        this.globalObject = globalObject;
-        this.document = document;
-        this.constructor = fcModel.Document;
-
-        this.__proto__ = new fcModel.Object(globalObject);
-
-        this.fcInternal = { object: this };
-        this.htmlElementToFcMapping = {};
-
-        var methodNames = fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS;
-
-        methodNames.forEach(function(method)
+        DOCUMENT:
         {
-            this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.document[method], method, this, true));
-        }, this);
+            ELEMENT: ["activeElement", "body", "documentElement", "head", "mozFullScreenElement"],
+            ELEMENTS: ["anchors", "embeds", "forms", "images", "links", "scripts"],
+            PRIMITIVES:
+            [
+                "async", "characterSet", "compatMode", "contentType",
+                "cookie", "designMode", "dir", "documentURI", "domain",
+                "inputEncoding", "lastModified", "lastStyleSheetSet",
+                "mozSyntheticDocument", "mozFullScreen", "mozFullScreenEnabled",
+                "preferredStyleSheetSet", "readyState", "referrer", "selectedStyleSheetSet",
+                "title", "URL", "vlinkColor"
+            ],
+            OTHER:
+            [
+                "defaultView", "location", "ownerDocument", "plugins", "readyState",
+                "doctype", "implementation", "styleSheetSets", "styleSheets"
+            ],
+            UNPREDICTED: {}
+        },
 
-        this.addProperty("nodeType", new fcModel.JsValue(this.document.nodeType, new fcModel.FcInternal()));
-        this.addProperty("compatMode", new fcModel.JsValue(this.document.compatMode, new fcModel.FcInternal()));
-        this.addProperty("parentNode", new fcModel.JsValue(this.document.parentNode, new fcModel.FcInternal()));
-        this.addProperty("nodeName", new fcModel.JsValue(this.document.nodeName, new fcModel.FcInternal()));
-        this.addProperty("ownerDocument", new fcModel.JsValue(this.document.ownerDocument, new fcModel.FcInternal()));
-
-        function _getChild(htmlElement, tagName, index)
+        NODE:
         {
-            if(htmlElement == null) { return null;}
-            var tagChildren = [];
+            ELEMENT: ["firstChild", "lastChild", "nextSibling", "previousSibling", "parentNode", "parentElement"],
+            ELEMENTS:  ["childNodes"],
+            PRIMITIVES:
+            [
+                "baseURI", "localName", "textContent", "namespaceURI", "nodeName",
+                "nodeName", "nodeType", "nodeValue", "prefix"
+            ],
+            OTHER: ["attributes", "ownerDocument"]
+        },
 
-            for(var i = 0; i < htmlElement.children.length; i++)
+        setPrimitives: function(fcObject, object, names)
+        {
+            for(var i = 0, length = names.length; i < length; i++)
             {
-                var child = htmlElement.children[i];
+                var name = names[i];
+                fcObject.addProperty(name, new fcModel.JsValue(object[name], new fcModel.FcInternal()));
+            }
+        }
+    };
 
-                if(child.nodeName.toUpperCase() == tagName.toUpperCase())
+    fcModel.Document = function(document, globalObject)
+    {
+        try
+        {
+            this.globalObject = globalObject;
+            this.document = document;
+            this.constructor = fcModel.Document;
+
+            this.__proto__ = new fcModel.Object(globalObject);
+
+            this.fcInternal = { object: this };
+            this.htmlElementToFcMapping = { };
+
+            var methodNames = fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS;
+
+            methodNames.forEach(function(method)
+            {
+                this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.document[method], method, this, true));
+            }, this);
+
+            fcModel.DOM_PROPERTIES.setPrimitives(this, document, fcModel.DOM_PROPERTIES.DOCUMENT.PRIMITIVES);
+            fcModel.DOM_PROPERTIES.setPrimitives(this, document, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
+
+            this.addProperty("readyState", new fcModel.JsValue("loading", new fcModel.FcInternal()));
+            this.addProperty("location", globalObject.internalExecutor.createLocationObject());
+
+            function _getChild(htmlElement, tagName, index)
+            {
+                if(htmlElement == null) { return null;}
+                var tagChildren = [];
+
+                for(var i = 0; i < htmlElement.children.length; i++)
                 {
-                    tagChildren.push(child);
+                    var child = htmlElement.children[i];
+
+                    if(child.nodeName.toUpperCase() == tagName.toUpperCase())
+                    {
+                        tagChildren.push(child);
+                    }
                 }
-            }
 
-            return tagChildren[index];
-        };
+                return tagChildren[index];
+            };
 
-        this.getElementByXPath = function(xPath)
-        {
-            var simpleXPath = new fcModel.SimpleXPath(xPath);
-            simpleXPath.removeLevel();
-            var foundElement = this.document.childNodes[0];
-
-            while(!simpleXPath.isEmpty() && foundElement != null)
+            this.getElementByXPath = function(xPath)
             {
-                foundElement = _getChild(foundElement, simpleXPath.getCurrentTag(), simpleXPath.getIndex());
+                var simpleXPath = new fcModel.SimpleXPath(xPath);
                 simpleXPath.removeLevel();
-            }
+                var foundElement = this.document.childNodes[0];
 
-            return fcModel.HtmlElementExecutor.wrapToFcElement(foundElement, this.globalObject, null);
-        };
+                while(!simpleXPath.isEmpty() && foundElement != null)
+                {
+                    foundElement = _getChild(foundElement, simpleXPath.getCurrentTag(), simpleXPath.getIndex());
+                    simpleXPath.removeLevel();
+                }
 
-        this.getJsPropertyValue = function(propertyName, codeConstruct)
-        {
-            if(_isMethod(propertyName) || propertyName == "nodeType"
-             || propertyName == "compatMode" || propertyName == "parentNode" || propertyName == "namespaceURI"
-             || propertyName == "nodeName"  || propertyName == "onready" || propertyName == "ownerDocument"
-             || propertyName == "oninit"|| propertyName == "init" || propertyName.toLowerCase().indexOf("jquery") != -1
-             || propertyName == "ontooltiprender" || propertyName == "ontooltipshow" || propertyName == "ontooltipfocus"
-             || propertyName == "onclick" || propertyName == "onnotify"  || propertyName == "notify" || propertyName == "all") //jQuery property accessors - remove
-            {
-                return this.getPropertyValue(propertyName, codeConstruct);
-            }
+                return fcModel.HtmlElementExecutor.wrapToFcElement(foundElement, this.globalObject, null);
+            };
 
-            if(propertyName == "defaultView") { return this.globalObject; }
-            else if (propertyName == "readyState" || propertyName == "ready")
-            {
-                return new fcModel.JsValue(document[propertyName], new fcModel.FcInternal());
-            }
-            else if (propertyName == "documentElement" || propertyName == "body" || propertyName == "head")
-            {
-                return fcModel.HtmlElementExecutor.wrapToFcElement(this.document[propertyName], this.globalObject, codeConstruct)
-            }
-            else if (propertyName == "forms")
+            this.getElements = function(propertyName, codeConstruct)
             {
                 var implObj = {};
                 var fcObj = new fcModel.Object(this.globalObject, codeConstruct, implObj);
-                for(var i = document.forms.length - 1; i >= 0; i--)
+                var returnObj = new fcModel.JsValue(implObj, new fcModel.FcInternal(codeConstruct, fcObj));
+
+                var items = document[propertyName];
+
+                if(items == null) { return returnObj; }
+
+                for(var i = items.length - 1; i >= 0; i--)
                 {
-                    var htmlForm = document.forms[i];
-                    var wrappedForm = fcModel.HtmlElementExecutor.wrapToFcElement(htmlForm, this.globalObject, codeConstruct);
+                    var htmlItem = items[i];
+                    var wrappedElement = fcModel.HtmlElementExecutor.wrapToFcElement(htmlItem, this.globalObject, codeConstruct);
 
-                    implObj[i] = wrappedForm;
-                    fcObj.addProperty(i, wrappedForm, codeConstruct);
+                    implObj[i] = wrappedElement;
+                    fcObj.addProperty(i, wrappedElement, codeConstruct);
 
-                    if(htmlForm.name != "")
+                    if(htmlItem.name != "")
                     {
-                        implObj[htmlForm.name] = wrappedForm;
-                        fcObj.addProperty(htmlForm.name, wrappedForm, codeConstruct);
+                        implObj[htmlItem.name] = wrappedElement;
+                        fcObj.addProperty(htmlItem.name, wrappedElement, codeConstruct);
                     }
 
-                    if(htmlForm.id != "")
+                    if(htmlItem.id != "")
                     {
-                        implObj[htmlForm.id] = wrappedForm;
-                        fcObj.addProperty(htmlForm.id, wrappedForm, codeConstruct);
+                        implObj[htmlItem.id] = wrappedElement;
+                        fcObj.addProperty(htmlItem.id, wrappedElement, codeConstruct);
                     }
                 }
 
-                return new fcModel.JsValue(implObj, new fcModel.FcInternal(codeConstruct, fcObj));
-            }
-            else if (propertyName == "window")
+                fcObj.addProperty(item.length, new fcModel.FcInternal(codeConstruct));
+
+                return returnObj;
+            };
+
+            this.getJsPropertyValue = function(propertyName, codeConstruct)
             {
-                return this.globalObject;
-            }
+                if (fcModel.DOM_PROPERTIES.DOCUMENT.ELEMENT.indexOf(propertyName) != -1
+                 || fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1)
+                {
+                    return fcModel.HtmlElementExecutor.wrapToFcElement(this.document[propertyName], this.globalObject, codeConstruct)
+                }
+                else if (fcModel.DOM_PROPERTIES.DOCUMENT.ELEMENTS.indexOf(propertyName) != -1
+                      || fcModel.DOM_PROPERTIES.NODE.ELEMENTS.indexOf(propertyName) != -1)
+                {
+                    return this.getElements(propertyName);
+                }
+                else if(fcModel.DOM_PROPERTIES.DOCUMENT.PRIMITIVES.indexOf(propertyName) != -1
+                     || fcModel.DOM_PROPERTIES.NODE.PRIMITIVES.indexOf(propertyName) != -1)
+                {
+                    return this.getPropertyValue(propertyName, codeConstruct);
+                }
+                else if(fcModel.DOM_PROPERTIES.DOCUMENT.OTHER.indexOf(propertyName) != -1
+                     || fcModel.DOM_PROPERTIES.NODE.OTHER.indexOf(propertyName) != -1)
+                {
+                    if(propertyName == "defaultView") { return this.globalObject; }
 
-            alert("Unhandled document property: " + propertyName + "@" + codeConstruct.loc.start.line);
-        };
+                    if (propertyName == "readyState" || propertyName == "location")
+                    {
+                        return this.getPropertyValue(propertyName, codeConstruct);
+                    }
+                    else if (propertyName == "ownerDocument" || propertyName == "attributes")
+                    {
+                        return new fcModel.JsValue(null, new fcModel.FcInternal(codeConstruct));
+                    }
+                    else
+                    {
+                        alert("Unhandled document property: " +  propertyName);
+                    }
+                }
 
-        this.addJsProperty = function(propertyName, value, codeConstruct)
-        {
-            if(propertyName.indexOf("jQuery") != -1)
+                if(!_isMethod(propertyName))
+                {
+                    fcModel.DOM_PROPERTIES.DOCUMENT.UNPREDICTED[propertyName] = propertyName;
+                }
+
+                return this.getPropertyValue(propertyName, codeConstruct);
+            };
+
+            this.addJsProperty = function(propertyName, value, codeConstruct)
             {
                 this.addProperty(propertyName, value, codeConstruct);
-            }
-            else
-            {
-                alert("add property document");
-            }
-        };
+            };
 
-        function _isMethod(methodName){ return methodNames.indexOf(methodName) != -1; }
+            function _isMethod(methodName){ return methodNames.indexOf(methodName) != -1; }
+        }
+        catch(e) { fcModel.Document.notifyError("Error when creating Document object: " + e); }
+    };
+    fcModel.Document.notifyError = function(message) { alert("Document: " + message);}
+
+    fcModel.Document.prototype = new fcModel.Object(null);
+
+    fcModel.Document.CONST =
+    {
+        INTERNAL_PROPERTIES :
+        {
+            METHODS:
+            [
+                "addEventListener", "adoptNode", "appendChild", "appendChild", "captureEvents",
+                "cloneNode", "close", "compareDocumentPosition", "createAttribute", "createAttributeNS",
+                "createCDATASection", "createComment", "createDocumentFragment", "createElement", "createElementNS",
+                "createEvent", "createExpression", "createNSResolver", "createTextNode", "elementFromPoint",
+                "getElementById", "getElementsByClassName", "getElementsByName", "getElementsByTagName",
+                "hasAttributes", "hasChildNodes", "hasFocus", "importNode", "insertBefore", "isEqualNode", "isSameNode",
+                "isSupported", "querySelector", "querySelectorAll", "removeChild", "releaseEvents", "removeEventListener",
+                "replaceChild", "routeEvent", "write", "writeln"
+            ],
+            PROPERTIES:
+            [
+                "activeElement", "alinkColor", "anchors", "async", "attributes", "baseURI", "baseURIObject",
+                "body", "characterSet", "childNodes", "compatMode", "cookie", "defaultView", "designMode",
+                "dir", "doctype", "documentElement", "documentURI", "documentURIObject", "domain", "embeds",
+                "fgColor", "fileSize", "firstChild", "firstChild", "forms", "head", "height","images", "implementation",
+                "inputEncoding", "lastChild", "lastModified", "links", "localName", "location", "namespaceURI",
+                "nextSibling", "nodeName", "nodeType", "nodeValue", "parentNode", "plugins",
+                "popupNode", "preferredStyleSheetSet", "prefix", "previousSibling", "readyState", "scripts", "styleSheets",
+                "textContent", "title", "tooltipNode", "URL"
+            ]
+        }
+    };
+
+    fcModel.SimpleXPath = function(xPathExpression)
+    {
+        this.xPathExpression = xPathExpression;
+    };
+    fcModel.SimpleXPath.prototype =
+    {
+        getCurrentTag: function()
+        {
+            var elementRegEx = new RegExp("^/([^/[])*");
+
+            var match = this.xPathExpression.match(elementRegEx);
+
+            if(match != null)
+            {
+                var matchedString = match[0];
+
+                if(matchedString == null) { return ""; }
+
+                if(matchedString.indexOf("/") == 0) { return matchedString.substring(1);}
+            }
+
+            return "";
+        },
+
+        getIndex: function()
+        {
+            var indexRegEx = new RegExp("\\[[^\\]]\\]");
+
+            var currentTag = this.xPathExpression.substring((this.xPathExpression[0] === "/" ? 1 : 0));
+            currentTag = currentTag.substring(0, currentTag.indexOf("/"));
+
+            var match = currentTag.match(indexRegEx);
+
+            if(match != null)
+            {
+                var matchedString = match[0];
+
+                if(matchedString != null)
+                {
+                    var result =  matchedString.replace(/\]$/, "").replace(/^\[/,"");
+
+                    if(result != "") { return result - 1; }
+                }
+            }
+
+            return 0;
+        },
+
+        removeLevel: function()
+        {
+            var startsWithSlash = this.xPathExpression[0] === "/";
+            var currentTag = this.xPathExpression.substring(startsWithSlash ? 1 : 0);
+            var indexOfSlash = currentTag.indexOf("/");
+            currentTag = currentTag.substring(0, indexOfSlash != -1 ? indexOfSlash : currentTag.length);
+
+            this.xPathExpression = this.xPathExpression.substring(currentTag.length + (startsWithSlash ? 1 : 0));
+
+            return this;
+        },
+
+        isEmpty: function() { return this.xPathExpression == ""; }
+    };
+
+    fcModel.DocumentExecutor =
+    {
+        executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+        {
+            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing document method!"); return; }
+
+            var functionObjectValue = functionObject.value;
+            var thisObjectValue = thisObject.value;
+            var functionName = functionObjectValue.name;
+            var fcThisValue =  thisObject.fcInternal.object;
+            var globalObject = fcThisValue.globalObject;
+
+            if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
+            else if (functionName == "createTextNode") { return globalObject.internalExecutor.createTextNode(callExpression, arguments[0].value);}
+            else if (functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
+            else if (functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }
+            else if (functionName == "createDocumentFragment") { return globalObject.internalExecutor.createDocumentFragment(callExpression, globalObject); }
+            else if (functionName == "createComment") { return new fcModel.JsValue(globalObject.origDocument.createComment(""), new fcModel.FcInternal(callExpression))}
+            else if (functionName == "getElementsByTagName" || functionName == "querySelectorAll" || functionName == "getElementsByClassName")
+            {
+                var selector = arguments[0].value;
+
+                if(functionName == "getElementsByClassName") { selector = "." + selector; }
+                var elements = [];
+                try
+                {
+                    elements = thisObjectValue.querySelectorAll(selector);
+                }
+                catch(e)
+                {
+                    globalObject.executionContextStack.callExceptionCallbacks
+                        (
+                            {
+                                exceptionGeneratingConstruct: callExpression,
+                                isMatchesSelectorException: true
+                            }
+                        );
+                }
+
+                for(var i = 0, length = elements.length; i < length; i++)
+                {
+                    fcModel.HtmlElementExecutor.addDependencies(elements[i], callExpression, globalObject);
+                }
+
+                return fcModel.HtmlElementExecutor.wrapToFcElements(elements, globalObject, callExpression);
+            }
+            else if(functionName == "getElementById" || functionName == "querySelector")
+            {
+                var selector = arguments[0].value;
+
+                if(functionName == "getElementById") { selector = "#" + selector; }
+
+                var element = null;
+                try
+                {
+                    element = thisObjectValue.querySelector(selector);
+                }
+                catch(e)
+                {
+                    globalObject.executionContextStack.callExceptionCallbacks
+                        (
+                            {
+                                exceptionGeneratingConstruct: callExpression,
+                                isMatchesSelectorException: true
+                            }
+                        );
+                }
+
+                if(element == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
+
+                fcModel.HtmlElementExecutor.addDependencies(element, callExpression, globalObject);
+
+                return fcModel.HtmlElementExecutor.wrapToFcElement(element, globalObject, callExpression);
+            }
+
+            this.notifyError("Unknown document method: " +  functionName);
+
+            return null;
+        },
+
+        notifyError: function(message) { alert("DocumentExecutor - " + message);}
     }
-    catch(e) { fcModel.Document.notifyError("Error when creating Document object: " + e); }
-};
-fcModel.Document.notifyError = function(message) { alert("Document: " + message);}
-
-fcModel.Document.prototype = new fcModel.Object(null);
-
-fcModel.Document.CONST =
-{
-    INTERNAL_PROPERTIES :
-    {
-        METHODS:
-        [
-            "addEventListener", "adoptNode", "appendChild", "appendChild", "captureEvents",
-            "cloneNode", "close", "compareDocumentPosition", "createAttribute", "createAttributeNS",
-            "createCDATASection", "createComment", "createDocumentFragment", "createElement", "createElementNS",
-            "createEvent", "createExpression", "createNSResolver", "createTextNode", "elementFromPoint",
-            "getElementById", "getElementsByClassName", "getElementsByName", "getElementsByTagName",
-            "hasAttributes", "hasChildNodes", "hasFocus", "importNode", "insertBefore", "isEqualNode", "isSameNode",
-            "isSupported", "querySelector", "querySelectorAll", "removeChild", "releaseEvents", "removeEventListener",
-            "replaceChild", "routeEvent", "write", "writeln"
-        ],
-        PROPERTIES:
-        [
-            "activeElement", "alinkColor", "anchors", "async", "attributes", "baseURI", "baseURIObject",
-            "body", "characterSet", "childNodes", "compatMode", "cookie", "defaultView", "designMode",
-            "dir", "doctype", "documentElement", "documentURI", "documentURIObject", "domain", "embeds",
-            "fgColor", "fileSize", "firstChild", "firstChild", "forms", "head", "height","images", "implementation",
-            "inputEncoding", "lastChild", "lastModified", "links", "localName", "location", "namespaceURI",
-            "nextSibling", "nodeName", "nodeType", "nodeValue", "parentNode", "plugins",
-            "popupNode", "preferredStyleSheetSet", "prefix", "previousSibling", "readyState", "scripts", "styleSheets",
-            "textContent", "title", "tooltipNode", "URL"
-        ]
-    }
-};
-
-fcModel.SimpleXPath = function(xPathExpression)
-{
-    this.xPathExpression = xPathExpression;
-};
-fcModel.SimpleXPath.prototype =
-{
-    getCurrentTag: function()
-    {
-        var elementRegEx = new RegExp("^/([^/[])*");
-
-        var match = this.xPathExpression.match(elementRegEx);
-
-        if(match != null)
-        {
-            var matchedString = match[0];
-
-            if(matchedString == null) { return ""; }
-
-            if(matchedString.indexOf("/") == 0) { return matchedString.substring(1);}
-        }
-
-        return "";
-    },
-
-    getIndex: function()
-    {
-        var indexRegEx = new RegExp("\\[[^\\]]\\]");
-
-        var currentTag = this.xPathExpression.substring((this.xPathExpression[0] === "/" ? 1 : 0));
-        currentTag = currentTag.substring(0, currentTag.indexOf("/"));
-
-        var match = currentTag.match(indexRegEx);
-
-        if(match != null)
-        {
-            var matchedString = match[0];
-
-            if(matchedString != null)
-            {
-                var result =  matchedString.replace(/\]$/, "").replace(/^\[/,"");
-
-                if(result != "") { return result - 1; }
-            }
-        }
-
-        return 0;
-    },
-
-    removeLevel: function()
-    {
-        var startsWithSlash = this.xPathExpression[0] === "/";
-        var currentTag = this.xPathExpression.substring(startsWithSlash ? 1 : 0);
-        var indexOfSlash = currentTag.indexOf("/");
-        currentTag = currentTag.substring(0, indexOfSlash != -1 ? indexOfSlash : currentTag.length);
-
-        this.xPathExpression = this.xPathExpression.substring(currentTag.length + (startsWithSlash ? 1 : 0));
-
-        return this;
-    },
-
-    isEmpty: function() { return this.xPathExpression == ""; }
-};
-
-fcModel.DocumentExecutor =
-{
-    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
-    {
-        if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing document method!"); return; }
-
-        var functionObjectValue = functionObject.value;
-        var thisObjectValue = thisObject.value;
-        var functionName = functionObjectValue.name;
-        var fcThisValue =  thisObject.fcInternal.object;
-        var globalObject = fcThisValue.globalObject;
-
-             if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
-        else if (functionName == "createTextNode") { return globalObject.internalExecutor.createTextNode(callExpression, arguments[0].value);}
-        else if (functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
-        else if (functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }
-        else if (functionName == "createDocumentFragment") { return globalObject.internalExecutor.createDocumentFragment(callExpression, globalObject); }
-        else if (functionName == "createComment") { return new fcModel.JsValue(globalObject.origDocument.createComment(""), new fcModel.FcInternal(callExpression))}
-        else if (functionName == "getElementsByTagName" || functionName == "querySelectorAll" || functionName == "getElementsByClassName")
-        {
-            var selector = arguments[0].value;
-
-            if(functionName == "getElementsByClassName") { selector = "." + selector; }
-            var elements = [];
-            try
-            {
-                elements = thisObjectValue.querySelectorAll(selector);
-            }
-            catch(e)
-            {
-                globalObject.executionContextStack.callExceptionCallbacks
-                (
-                    {
-                        exceptionGeneratingConstruct: callExpression,
-                        isMatchesSelectorException: true
-                    }
-                );
-            }
-
-            for(var i = 0, length = elements.length; i < length; i++)
-            {
-                fcModel.HtmlElementExecutor.addDependencies(elements[i], callExpression, globalObject);
-            }
-
-            return fcModel.HtmlElementExecutor.wrapToFcElements(elements, globalObject, callExpression);
-        }
-        else if(functionName == "getElementById" || functionName == "querySelector")
-        {
-            var selector = arguments[0].value;
-
-            if(functionName == "getElementById") { selector = "#" + selector; }
-
-            var element = null;
-            try
-            {
-                element = thisObjectValue.querySelector(selector);
-            }
-            catch(e)
-            {
-                globalObject.executionContextStack.callExceptionCallbacks
-                (
-                    {
-                        exceptionGeneratingConstruct: callExpression,
-                        isMatchesSelectorException: true
-                    }
-                );
-            }
-
-            if(element == null) { return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression)); }
-
-            fcModel.HtmlElementExecutor.addDependencies(element, callExpression, globalObject);
-
-            return fcModel.HtmlElementExecutor.wrapToFcElement(element, globalObject, callExpression);
-        }
-
-        this.notifyError("Unknown document method: " +  functionName);
-
-        return null;
-    },
-
-    notifyError: function(message) { alert("DocumentExecutor - " + message);}
-}
 }});
