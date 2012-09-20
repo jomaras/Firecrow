@@ -28,6 +28,17 @@ FBL.ns(function() { with (FBL) {
                 "defaultView", "location", "ownerDocument", "plugins", "readyState",
                 "doctype", "implementation", "styleSheetSets", "styleSheets"
             ],
+            METHODS:
+            [
+                "addEventListener", "adoptNode", "appendChild", "appendChild", "captureEvents",
+                "cloneNode", "close", "compareDocumentPosition", "createAttribute", "createAttributeNS",
+                "createCDATASection", "createComment", "createDocumentFragment", "createElement", "createElementNS",
+                "createEvent", "createExpression", "createNSResolver", "createTextNode", "elementFromPoint",
+                "getElementById", "getElementsByClassName", "getElementsByName", "getElementsByTagName",
+                "hasAttributes", "hasChildNodes", "hasFocus", "importNode", "insertBefore", "isEqualNode", "isSameNode",
+                "isSupported", "querySelector", "querySelectorAll", "removeChild", "releaseEvents", "removeEventListener",
+                "replaceChild", "routeEvent", "write", "writeln"
+            ],
             UNPREDICTED: {}
         },
 
@@ -38,9 +49,36 @@ FBL.ns(function() { with (FBL) {
             PRIMITIVES:
             [
                 "baseURI", "localName", "textContent", "namespaceURI", "nodeName",
-                "nodeName", "nodeType", "nodeValue", "prefix"
+                "nodeName", "nodeType", "nodeValue", "prefix", "childElementCount"
             ],
             OTHER: ["attributes", "ownerDocument"]
+        },
+
+        ELEMENT:
+        {
+            ELEMENT: ["firstElementChild", "lastElementChild", "nextElementSibling", "previousElementSibling", "form", "tHead", "tFoot"],
+            ELEMENTS: ["children", "elements", "options", "labels", "list", "rows", "tBodies", "cells"],
+            PRIMITIVES:
+            [
+                "className", "clientHeight", "clientLeft", "clientTop",
+                "clientWidth", "contentEditable", "id", "innerHTML",
+                "isContentEditable", "lang", "name", "text",
+                "offsetHeight", "offsetLeft", "offsetParent", "offsetTop", "offsetWWidth",
+                "outerHTML", "scrollHeight", "scrollLeft", "scrollTop", "scrollWidth",
+                "spellcheck", "tabIndex", "tagName", "textContent", "title",
+                "charset", "disabled", "href", "hreflang", "media", "rel", "rev", "target", "type",
+                "content", "httpEquiv", "scheme", "autocomplete", "action", "acceptCharset",
+                "encoding", "enctype", "length", "method", "noValidate", "autofocus", "disabled",
+                "multiple", "required", "selectedIndex", "size", "validationMessage", "willValidate",
+                "accept", "alt", "checked", "defaultChecked", "defaultValue", "formAction", "formEncType",
+                "formMethod", "formNoValidate", "formTarget", "height", "indeterminate", "max", "maxLength",
+                "min", "multiple", "pattern", "placeholder", "readOnly", "selectionDirection", "selectionEnd", "selectionStart",
+                "src", "useMap", "validationMessage", "validity", "valueAsNumber", "width", "cols", "rows", "wrap",
+                "htmlFor", "hash", "coords", "host", "hreflang", "pathname", "port", "protocol", "rev", "search",
+                "shape", "caption", "align", "bgColor", "border", "cellPadding", "cellSpacing", "frame", "rules",
+                "summary", "ch", "chOff", "rowIndex", "sectionRowIndex", "vAlign"
+            ],
+            OTHER: ["dataset", "style", "classList", "files", "valueAsDate"]
         },
 
         setPrimitives: function(fcObject, object, names)
@@ -66,7 +104,7 @@ FBL.ns(function() { with (FBL) {
             this.fcInternal = { object: this };
             this.htmlElementToFcMapping = { };
 
-            var methodNames = fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS;
+            var methodNames = fcModel.DOM_PROPERTIES.DOCUMENT.METHODS;
 
             methodNames.forEach(function(method)
             {
@@ -204,35 +242,6 @@ FBL.ns(function() { with (FBL) {
     fcModel.Document.notifyError = function(message) { alert("Document: " + message);}
 
     fcModel.Document.prototype = new fcModel.Object(null);
-
-    fcModel.Document.CONST =
-    {
-        INTERNAL_PROPERTIES :
-        {
-            METHODS:
-            [
-                "addEventListener", "adoptNode", "appendChild", "appendChild", "captureEvents",
-                "cloneNode", "close", "compareDocumentPosition", "createAttribute", "createAttributeNS",
-                "createCDATASection", "createComment", "createDocumentFragment", "createElement", "createElementNS",
-                "createEvent", "createExpression", "createNSResolver", "createTextNode", "elementFromPoint",
-                "getElementById", "getElementsByClassName", "getElementsByName", "getElementsByTagName",
-                "hasAttributes", "hasChildNodes", "hasFocus", "importNode", "insertBefore", "isEqualNode", "isSameNode",
-                "isSupported", "querySelector", "querySelectorAll", "removeChild", "releaseEvents", "removeEventListener",
-                "replaceChild", "routeEvent", "write", "writeln"
-            ],
-            PROPERTIES:
-            [
-                "activeElement", "alinkColor", "anchors", "async", "attributes", "baseURI", "baseURIObject",
-                "body", "characterSet", "childNodes", "compatMode", "cookie", "defaultView", "designMode",
-                "dir", "doctype", "documentElement", "documentURI", "documentURIObject", "domain", "embeds",
-                "fgColor", "fileSize", "firstChild", "firstChild", "forms", "head", "height","images", "implementation",
-                "inputEncoding", "lastChild", "lastModified", "links", "localName", "location", "namespaceURI",
-                "nextSibling", "nodeName", "nodeType", "nodeValue", "parentNode", "plugins",
-                "popupNode", "preferredStyleSheetSet", "prefix", "previousSibling", "readyState", "scripts", "styleSheets",
-                "textContent", "title", "tooltipNode", "URL"
-            ]
-        }
-    };
 
     fcModel.SimpleXPath = function(xPathExpression)
     {

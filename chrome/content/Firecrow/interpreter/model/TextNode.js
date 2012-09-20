@@ -25,8 +25,7 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
 
         this.textNode.elementModificationPoints = [];
 
-        this.addProperty("nodeType", new fcModel.JsValue(this.textNode.nodeType, new fcModel.FcInternal(codeConstruct)));
-        this.addProperty("nodeName", new fcModel.JsValue(this.textNode.nodeName, new fcModel.FcInternal(codeConstruct)));
+        fcModel.DOM_PROPERTIES.setPrimitives(this, this.textNode, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
         this.addProperty("ownerDocument", this.globalObject.jsFcDocument, codeConstruct);
 
         this.setChildRelatedProperties(codeConstruct);
@@ -132,11 +131,11 @@ fcModel.TextNodeProto =
     {
         fcModel.TextNode.accessedProperties[propertyName] = true;
 
-        if (propertyName == "parentNode" || propertyName == "nextSibling" || propertyName == "previousSibling")
+        if (fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1)
         {
-            return fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct);
+            return fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct)
         }
-        else if(propertyName == "textContent" || propertyName == "nodeType" || propertyName == "nodeName" || propertyName == "ownerDocument")
+        else if(fcModel.DOM_PROPERTIES.NODE.PRIMITIVES.indexOf(propertyName) != -1)
         {
             return this.getPropertyValue(propertyName, codeConstruct);
         }

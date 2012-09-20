@@ -778,7 +778,7 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            fcModel.DOM_PROPERTIES.DOCUMENT.METHODS.forEach(function(propertyName)
             {
                 this.expandWithInternalFunction(this.globalObject.origDocument, propertyName);
             }, this);
@@ -790,7 +790,7 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+            fcModel.DOM_PROPERTIES.DOCUMENT.METHODS.forEach(function(propertyName)
             {
                 if(this.globalObject.origDocument[propertyName] != null)
                 {
@@ -829,14 +829,6 @@ fcSimulator.InternalExecutor.prototype =
             this.globalObject.origDocument.jsValue = null;
         }
         catch(e) { this.notifyError("Error when removing document: " + e); }
-    },
-
-    _expandDocumentFragment: function()
-    {
-        fcModel.Document.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
-        {
-            this.expandWithInternalFunction(this.globalObject.documentFragment, propertyName);
-        }, this);
     },
 
     notifyError: function(message) { Firecrow.Interpreter.Simulator.InternalExecutor.notifyError(message);}

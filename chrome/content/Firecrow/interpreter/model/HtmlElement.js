@@ -36,8 +36,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
             htmlElement.fcHtmlElementId = this.id;
             this.globalObject.document.htmlElementToFcMapping[this.id] = this;
 
-            this.addProperty("nodeType", new fcModel.JsValue(this.htmlElement.nodeType, new fcModel.FcInternal(codeConstruct)), codeConstruct);
-            this.addProperty("nodeName", new fcModel.JsValue(this.htmlElement.nodeName, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+            fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
             this.addProperty("ownerDocument", this.globalObject.jsFcDocument, codeConstruct);
         }
 
