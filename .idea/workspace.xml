@@ -7,19 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/fullPages/05-mailboxing/compare.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/fullPages/05-mailboxing/newDocument.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/fullPages/05-mailboxing/oldDocument.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/notes.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Slicer.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Slicer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/fullPages/05-mailboxing/index-sliced.html" afterPath="$PROJECT_DIR$/debug/fullPages/05-mailboxing/index-sliced.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -71,7 +60,7 @@
       <file leaf-file-name="Document.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="12" selection-start="565" selection-end="1012" vertical-scroll-proportion="-5.1123347">
+            <state line="36" column="80" selection-start="1440" selection-end="1440" vertical-scroll-proportion="0.5947136">
               <folding />
             </state>
           </provider>
@@ -1258,7 +1247,11 @@
       <created>1347891790653</created>
       <updated>1347891790653</updated>
     </task>
-    <option name="localTasksCounter" value="242" />
+    <task id="LOCAL-00242" summary="Document refactoring accessing document properties">
+      <created>1348133388873</created>
+      <updated>1348133388873</updated>
+    </task>
+    <option name="localTasksCounter" value="243" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1354,7 +1347,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Document refactoring accessing document properties" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1367,7 +1360,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="added more test pages; Array slice on non-array objects; Expansions in HTMLElement" />
     <MESSAGE value="Fixed a bug with RegExp - mozilla caused" />
     <MESSAGE value="Record can be called multiple times without restarting Firefox" />
     <MESSAGE value="When recording an event trace, upon each triggered event, all states of input elements are logged - added support for that thought the project" />
@@ -1392,6 +1384,7 @@
     <MESSAGE value="Style included in Firecrow panel" />
     <MESSAGE value="Fixed a bug in code markup generator" />
     <MESSAGE value="minor bug fixes" />
+    <MESSAGE value="Document refactoring accessing document properties" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1520,7 +1513,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="12" selection-start="565" selection-end="1012" vertical-scroll-proportion="-5.1123347">
+        <state line="36" column="80" selection-start="1440" selection-end="1440" vertical-scroll-proportion="0.5947136">
           <folding />
         </state>
       </provider>
