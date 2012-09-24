@@ -1,0 +1,9 @@
+Firecrow - tool for extracting code from client-side web applications
+
+Prerequisites:
+ - Firefox 15
+ - Firebug
+ - Install the Firecrow plugin (zip the content of the repository, rename the extension to .xpi and drag drop to Firefox)
+
+Usage:
+ - Can be run stand-alone without the plugin (see Firecrow/debug/DebugSlicing.html or similar files in that folder)
