@@ -29,7 +29,6 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
         this.addProperty("ownerDocument", this.globalObject.jsFcDocument, codeConstruct);
 
         this.setChildRelatedProperties(codeConstruct);
-        this.addPrimitiveProperties(textNode, codeConstruct);
 
         this.registerGetPropertyCallback(function(getPropertyConstruct)
         {
@@ -178,26 +177,6 @@ fcModel.TextNode.CONST =
             "compareDocumentPosition","lookupPrefix","isDefaultNamespace","lookupNamespaceURI",
             "isEqualNode","setUserData","getUserData","contains","substringData",
             "appendData","insertData","deleteData","replaceData"
-        ],
-
-        PROPERTIES:
-        [
-            "constructor", "baseURI", "childNodes", "length", "lastChild", "lastElementChild",
-            "localName", "name", "namespaceURI", "nextSibling", "nextElementSibling", "nodeName",
-            "nodePrincipal", "nodeType", "nodeValue", "ownerDocument", "wholeText",
-            "parentNode", "prefix", "spellcheck", "tagName", "textContent", "title"
-        ],
-        PRIMITIVE_PROPERTIES:
-        [
-            "baseURI", "isContentEditable", "length", "localName", "name", "namespaceURI", "nodeName", "nodeType",
-            "nodeValue", "prefix", "schemaTypeInfo", "spellcheck", "tabIndex", "tagName", "textContent", "title",
-            "wholeText"
-        ],
-        COMPLEX_PROPERTIES:
-        [
-            "attributes","childNodes", "children", "classList", "dataset", "firstChild", "lastChild",
-            "lastElementChild", "nextSibling", "nextElementSibling", "nodePrincipal", "offsetParent",
-            "ownerDocument", "parentNode", "previousSibling", "previousElementSibling", "style"
         ]
     }
 };

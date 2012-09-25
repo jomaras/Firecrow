@@ -34,9 +34,11 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         if(htmlElement != null)
         {
             htmlElement.fcHtmlElementId = this.id;
-            this.globalObject.document.htmlElementToFcMapping[this.id] = this;
+            this .globalObject.document.htmlElementToFcMapping[this.id] = this;
 
             fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
+            fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.ELEMENT.PRIMITIVES);
+
             this.addProperty("ownerDocument", this.globalObject.jsFcDocument, codeConstruct);
         }
 
@@ -68,7 +70,10 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
             }
         }, this);
     }
-    catch(e) { fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e); }
+    catch(e)
+    {
+        fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e);
+    }
 };
 fcModel.HtmlElement.accessedProperties = {};
 
@@ -107,6 +112,21 @@ fcModel.HtmlElementProto =
         {
             this.notifyError("Error when adding dependencies to all modifications " + e);
         }
+    },
+
+    getElements: function(propertyName, codeConstruct)
+    {
+        var array = [];
+        var items = this.htmlElement[propertyName];
+
+        if(items == null) { return array; }
+
+        for(var i = 0, length = items.length; i < length; i++)
+        {
+            array.push(fcModel.HtmlElementExecutor.wrapToFcElement(items[i], this.globalObject, codeConstruct));
+        }
+
+        return array;
     },
 
     getChildNodes: function(codeConstruct)
@@ -159,82 +179,42 @@ fcModel.HtmlElementProto =
     {
         fcModel.HtmlElement.accessedProperties[propertyName] = true;
 
-        if(propertyName == "attributes")
-        {
-            this.addProperty("attributes", fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), codeConstruct);
-        }
-        else if(propertyName == "style")
-        {
-            this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct), this.creationConstruct);
-        }
+        if(this.isMethod(propertyName)) { return this.getPropertyValue(propertyName, codeConstruct); }
 
-        var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
-
-        if(this.isMethod(propertyName)) { return propertyValue; }
-
-        if(propertyName == "childNodes"
-        || propertyName == "children")
+        if(fcModel.DOM_PROPERTIES.ELEMENT.OTHER.indexOf(propertyName) != -1
+        || fcModel.DOM_PROPERTIES.NODE.OTHER.indexOf(propertyName) != -1)
         {
-            var childNodes = this.getChildNodes(codeConstruct);
-            propertyValue = this.globalObject.internalExecutor.createArray
-            (
-                this.creationConstruct,
-                propertyName == "childNodes" ? childNodes : this.getChildren(childNodes)
-            );
-            this.addProperty(propertyName, propertyValue, this.creationConstruct);
-        }
-        else if (propertyName == "body" || propertyName == "firstChild"
-              || propertyName == "parentNode" || propertyName == "lastChild"
-              || propertyName == "nextSibling" || propertyName == "previousSibling"
-              || propertyName == "offsetParent"
-              || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
-        {
-            if(propertyValue == null || propertyValue.value == null || this.htmlElement[propertyName] == null
-            || propertyValue.value.fcHtmlElementId == undefined
-            || propertyValue.value.fcHtmlElementId != this.htmlElement[propertyName].fcHtmlElementId)
+            if(propertyName == "ownerDocument") { return this.getPropertyValue(propertyName, codeConstruct); }
+            else if(propertyName == "attributes")
             {
-                propertyValue = fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct);
-                this.addProperty(propertyName, propertyValue, this.creationConstruct);
+                return fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct);
+            }
+            else if(propertyName == "style")
+            {
+                return fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct);
             }
         }
-        else if (propertyName == "textContent"  || propertyName == "id" || propertyName == "checked"
-              || propertyName == "value" || propertyName == "innerHTML" || propertyName == "nodeType"
-              || propertyName == "offsetWidth" || propertyName == "offsetHeight" || propertyName == "offsetTop" || propertyName == "rel"
-              || propertyName == "selected" || propertyName == "className" || propertyName == "enctype"
-              || propertyName == "outerHTML" || propertyName == "disabled" || propertyName == "nodeName" || propertyName == "tagName"
-              || propertyName == "scrollLeft" || propertyName == "scrollTop" || propertyName == "clientTop" || propertyName == "clientLeft"
-              || propertyName == "href" || propertyName == "src" || propertyName == "namespaceURI" || propertyName == "clientHeight"
-              || propertyName == "clientWidth" || propertyName == "scrollWidth"
-              //TODO - remove this jQuery stuff below
-              || propertyName == "test" || propertyName == "attachEvent" || propertyName == "matchesSelector" || propertyName == "opacity"
-              || propertyName == "createElement" || propertyName == "currentStyle" || propertyName.toLowerCase().indexOf("jquery") != -1
-              || propertyName == "left" || propertyName == "top" || propertyName == "width" || propertyName == "height" || propertyName == "hash"
-              || propertyName == "is" || propertyName == "window" || propertyName == "paddingTop" || propertyName == "paddingBottom" || propertyName == "marginTop"
-              || propertyName == "marginBottom" || propertyName == "marginLeft"|| propertyName == "marginRight" || propertyName == "ai" || propertyName == "si"
-              || propertyName == "type" || propertyName == "cycleStop" || propertyName == "cycleTimeout" || propertyName == "cyclePause"
-              || propertyName == "cycleH" || propertyName == "cycleW" || propertyName == "ontooltiprender" || propertyName == "tooltiprender"
-              || propertyName == "ontooltipshow" || propertyName == "tooltipshow" || propertyName == "ontooltipfocus" || propertyName == "tooltipfocus"
-              || propertyName == "bottom" || propertyName == "ssbound" || propertyName == "onnotify" || propertyName == "notify")
+
+        if(fcModel.DOM_PROPERTIES.NODE.ELEMENTS.indexOf(propertyName) != -1
+        || fcModel.DOM_PROPERTIES.ELEMENT.ELEMENTS.indexOf(propertyName) != -1)
         {
-            if(propertyValue == null || this.htmlElement[propertyName] != propertyValue.value)
-            {
-                propertyValue = new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationConstruct));
-                this.addProperty(propertyName, propertyValue, this.creationConstruct);
-            }
-        }
-        else if(propertyName == "onclick" || propertyName == "ownerDocument"
-             || propertyName == "onkeyup" || propertyName == "onmousedown"
-             || propertyName == "onselectstart" || propertyName == "onsubmit"
-             || propertyName == "attributes" || propertyName == "style" || propertyName == "getContext")
-        {
-            //nothing
-        }
-        else
-        {
-            alert("Unhandled get html property: " + propertyName + "@" + codeConstruct.loc.start.line);
+            return this.globalObject.internalExecutor.createArray(codeConstruct, this.getElements(propertyName, codeConstruct));
         }
 
-        return propertyValue;
+        if(fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1
+        || fcModel.DOM_PROPERTIES.ELEMENT.ELEMENT.indexOf(propertyName) != -1
+        || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
+        {
+            return fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct);
+        }
+
+        if(fcModel.DOM_PROPERTIES.NODE.PRIMITIVES.indexOf(propertyName) != -1
+        || fcModel.DOM_PROPERTIES.ELEMENT.PRIMITIVES.indexOf(propertyName) != -1)
+        {
+            return new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationConstruct));
+        }
+
+        return this.getPropertyValue(propertyName, codeConstruct);
     },
 
     addJsProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
@@ -243,8 +223,7 @@ fcModel.HtmlElementProto =
         {
             fcModel.HtmlElement.accessedProperties[propertyName] = "writes";
 
-            if(propertyName == "onclick" || propertyName == "onkeyup" || propertyName == "onmousedown"
-            || propertyName == "onselectstart"|| propertyName == "onsubmit")
+            if(fcModel.DOM_PROPERTIES.ELEMENT.EVENT_PROPERTIES.indexOf(propertyName) != -1)
             {
                 this.globalObject.registerHtmlElementEventHandler
                 (
@@ -257,19 +236,8 @@ fcModel.HtmlElementProto =
                     }
                 );
             }
-            else if (propertyName == "textContent" || propertyName == "id" || propertyName == "value"
-                  || propertyName == "checked" || propertyName == "innerHTML" || propertyName == "selected"
-                  || propertyName == "className" || propertyName == "enctype" || propertyName == "outerHTML" || propertyName == "src"
-                  || propertyName == "disabled" || propertyName.indexOf("jQuery") != -1 || propertyName == "ai" || propertyName == "si"
-                  || propertyName == "cycleStop" || propertyName == "cycleTimeout" || propertyName == "cyclePause"
-                  || propertyName == "cycleH" || propertyName == "cycleW" || propertyName == "ssbound" || propertyName == "scrollLeft" || propertyName == "scrollTop")
-            {
-                this.htmlElement[propertyName] = propertyValue.value;
-            }
-            else
-            {
-                alert("Unhandled add property to html element " + propertyName);
-            }
+
+            this.htmlElement[propertyName] = propertyValue.value;
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
@@ -344,32 +312,6 @@ fcModel.HtmlElement.CONST =
             "removeChild", "removeEventListener", "replaceChild", "scrollIntoView", "setAttribute", "setAttributeNS", "setAttributeNode",
             "setAttributeNodeNS", "setCapture", "setIdAttribute", "setIdAttributeNS", "setIdAttributeNode", "setUserData", "insertAdjacentHTML",
             "mozMatchesSelector", "webkitMatchesSelector", "contains"
-        ],
-        PROPERTIES:
-        [
-            "attributes", "baseURI", "childElementCount", "childNodes", "children",
-            "classList", "className", "clientHeight", "clientLeft", "clientTop", "clientWidth", "contentEditable",
-            "dataset", "dir", "firstChild", "id", "innerHTML", "isContentEditable", "lang", "lastChild", "lastElementChild",
-            "localName", "name", "namespaceURI", "nextSibling", "nextElementSibling", "nodeName", "nodePrincipal", "nodeType",
-            "nodeValue", "offsetHeight", "offsetLeft", "offsetParent", "offsetTop", "offsetWidth", "outerHTML", "ownerDocument",
-            "parentNode", "prefix", "previousSibling", "previousElementSibling", "schemaTypeInfo", "scrollHeight", "scrollLeft",
-            "scrollTop", "scrollWidth", "spellcheck", "style", "tabIndex", "tagName", "textContent", "title"
-        ],
-        PRIMITIVE_PROPERTIES:
-        [
-            "baseURI", "childElementCount", "className", "clientHeight", "clientLeft", "clientTop", "clientWidth",
-            "contentEditable","dir", "id", "innerHTML", "isContentEditable", "lang",
-            "localName", "name", "namespaceURI", "nodeName", "nodeType",
-            "nodeValue", "offsetHeight", "offsetLeft", "offsetTop", "offsetWidth", "outerHTML",
-            "prefix", "schemaTypeInfo", "scrollHeight", "scrollLeft",
-            "scrollTop", "scrollWidth", "spellcheck", "tabIndex", "tagName", "textContent", "title",
-            "rel", "checked"
-        ],
-        COMPLEX_PROPERTIES:
-        [
-            "attributes","childNodes", "children", "classList", "dataset", "firstChild", "lastChild",
-            "lastElementChild", "nextSibling", "nextElementSibling", "nodePrincipal", "offsetParent",
-            "ownerDocument", "parentNode", "previousSibling", "previousElementSibling", "style"
         ]
     }
 };

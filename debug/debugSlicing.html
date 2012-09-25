@@ -105,8 +105,8 @@
 
     <script>
         var Firecrow = FBL.Firecrow;
-                                                                //82
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/15/index.html";
+
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/65/index.html";
         var htmlModel = HtmlModelMapping.getWholeFileModel(url);
         var slicingCriteria = htmlModel.results.map(function(result)
         {
@@ -131,7 +131,7 @@
         checkForErrors(browser, htmlModel);
 
         document.getElementById("codeContainer").innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
-        document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
+        document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
 
         function setTitle(url)
         {
@@ -150,7 +150,7 @@
             var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
             var specifiedCode = atob(htmlModel.slicingResult);
 
-            if(generatedCode != specifiedCode) { errors += "Slicing does not match!"; }
+            if(generatedCode.replace(/(\r|\n| )+/g, "") != specifiedCode.replace(/(\r|\n| )+/g, "")) { errors += "Slicing does not match!"; }
 
 
             htmlModel.results.forEach(function(result)

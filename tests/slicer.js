@@ -34,7 +34,7 @@ HtmlModelMapping.models.forEach(function(htmlModel, index)
 
         Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
 
-        assertEquals(Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model), atob(htmlModel.slicingResult));
+        assertEquals(Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model).replace(/(\r|\n| )+/g, ""), atob(htmlModel.slicingResult).replace(/(\r|\n| )+/g, ""));
     };
 });
 

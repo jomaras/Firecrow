@@ -1,12 +1,26 @@
+Testing TO-DO list:
+- Test 35 - array problems
+- Test 53 - includes return where not necessary
+-
+
+- make a test suite for testing the interpreter, does not do slicing,
+  just performs operations, and in the end compares the state of the variables
+  with some predefined
+
+- smaller, but more effective test suite
+- delete all unnecessary tests
+- enable all tests!
+- make one unified test that tests both debugSlicing and debugDOM tests
+
 To Do List:
+
+- eval
 - implicit call toString method of an object if participating in a binary expression!
 - ES5 stuff (Object.defineProperty, etc.), canvas
 - refactor
 
-- go through mdc and add everything for document, htmlElement, documentFragment
-    - https://developer.mozilla.org/en-US/docs/DOM/document
-
 - Incorporate DependencyVisualizer in it (working on it)
 - Add the extraction wizard
+***********************************************************************************************************************
+- Detecting conflicts on dependency graphs
 
--

@@ -45,7 +45,6 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
 
                 this.globalObject.setCurrentCommand(command);
 
-
                 this.processCommand(command);
 
                 if(command.codeConstruct != null)

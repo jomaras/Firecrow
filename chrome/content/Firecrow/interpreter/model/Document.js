@@ -56,14 +56,14 @@ FBL.ns(function() { with (FBL) {
 
         ELEMENT:
         {
-            ELEMENT: ["firstElementChild", "lastElementChild", "nextElementSibling", "previousElementSibling", "form", "tHead", "tFoot"],
+            ELEMENT: ["firstElementChild", "lastElementChild", "nextElementSibling", "previousElementSibling", "form", "tHead", "tFoot", "offsetParent"],
             ELEMENTS: ["children", "elements", "options", "labels", "list", "rows", "tBodies", "cells"],
             PRIMITIVES:
             [
                 "className", "clientHeight", "clientLeft", "clientTop",
                 "clientWidth", "contentEditable", "id", "innerHTML",
                 "isContentEditable", "lang", "name", "text",
-                "offsetHeight", "offsetLeft", "offsetParent", "offsetTop", "offsetWWidth",
+                "offsetHeight", "offsetLeft", "offsetTop", "offsetWWidth",
                 "outerHTML", "scrollHeight", "scrollLeft", "scrollTop", "scrollWidth",
                 "spellcheck", "tabIndex", "tagName", "textContent", "title",
                 "charset", "disabled", "href", "hreflang", "media", "rel", "rev", "target", "type",
@@ -72,21 +72,35 @@ FBL.ns(function() { with (FBL) {
                 "multiple", "required", "selectedIndex", "size", "validationMessage", "willValidate",
                 "accept", "alt", "checked", "defaultChecked", "defaultValue", "formAction", "formEncType",
                 "formMethod", "formNoValidate", "formTarget", "height", "indeterminate", "max", "maxLength",
-                "min", "multiple", "pattern", "placeholder", "readOnly", "selectionDirection", "selectionEnd", "selectionStart",
-                "src", "useMap", "validationMessage", "validity", "valueAsNumber", "width", "cols", "rows", "wrap",
+                "min", "multiple", "pattern", "placeholder", "readOnly", "src", "useMap", "validationMessage",
+                "validity", "valueAsNumber", "width", "cols", "rows", "wrap",
                 "htmlFor", "hash", "coords", "host", "hreflang", "pathname", "port", "protocol", "rev", "search",
                 "shape", "caption", "align", "bgColor", "border", "cellPadding", "cellSpacing", "frame", "rules",
                 "summary", "ch", "chOff", "rowIndex", "sectionRowIndex", "vAlign"
+            ],
+            EVENT_PROPERTIES:
+            [
+                "oncopy", "oncut", "onpaste", "onbeforeunload", "onblur", "onchange", "onclick",
+                "oncontextmenu", "ondblclick", "onfocus", "onkeydown", "onkeypress", "onkeyup",
+                "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onresize",
+                "onscroll", "onwheel"
             ],
             OTHER: ["dataset", "style", "classList", "files", "valueAsDate"]
         },
 
         setPrimitives: function(fcObject, object, names)
         {
-            for(var i = 0, length = names.length; i < length; i++)
+            try
             {
-                var name = names[i];
-                fcObject.addProperty(name, new fcModel.JsValue(object[name], new fcModel.FcInternal()));
+                for(var i = 0, length = names.length; i < length; i++)
+                {
+                    var name = names[i];
+                    fcObject.addProperty(name, new fcModel.JsValue(object[name], new fcModel.FcInternal()));
+                }
+            }
+            catch(e)
+            {
+                alert("Error when setting primitives: " + e);
             }
         }
     };
@@ -318,7 +332,7 @@ FBL.ns(function() { with (FBL) {
             var fcThisValue =  thisObject.fcInternal.object;
             var globalObject = fcThisValue.globalObject;
 
-            if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
+                 if (functionName == "createElement") { return globalObject.internalExecutor.createHtmlElement(callExpression, arguments[0].value); }
             else if (functionName == "createTextNode") { return globalObject.internalExecutor.createTextNode(callExpression, arguments[0].value);}
             else if (functionName == "addEventListener") { return globalObject.document.addEventListener(arguments, callExpression, globalObject); }
             else if (functionName == "removeEventListener") { return globalObject.document.removeEventListener(arguments, callExpression, globalObject); }

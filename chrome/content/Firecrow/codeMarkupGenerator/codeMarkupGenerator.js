@@ -13,7 +13,6 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-
                 return "<div class='htmlRepresentation'>" //generate the main container
                         + this.generateHtmlDocumentTypeTags(root.docType) // generate the HTML Document Type Definition
                         + this.generateHtmlElement(root.htmlElement)

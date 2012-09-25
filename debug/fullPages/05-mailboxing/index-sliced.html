@@ -1192,7 +1192,9 @@
     var rclass = /[\n\t\r]/g, rspace = /\s+/, rreturn = /\r/g, rtype = /^(?:button|input)$/i, rfocusable = /^(?:button|input|object|select|textarea)$/i, rclickable = /^a(?:rea)?$/i, rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i, getSetAttribute = jQuery.support.getSetAttribute, nodeHook, boolHook, fixSpecified;
     jQuery.fn.extend({
         attr: function (name, value)
-        {},
+        {
+            return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
+        },
         removeAttr: function (name)
         {},
         prop: function (name, value)
@@ -1286,7 +1288,29 @@
         },
         attrFn: {val: true, css: true, html: true, text: true, data: true, width: true, height: true, offset: true},
         attr: function (elem, name, value, pass)
-        {},
+        {
+            var ret, hooks, notxml, nType = elem.nodeType;
+            if(!elem || nType === 3 || nType === 8 || nType === 2);
+
+            if(pass);
+
+            if(typeof (elem.getAttribute) === 'undefined');
+
+            notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
+            if(notxml)
+            {
+                name = name.toLowerCase();
+                hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? 0 : nodeHook);
+            }
+
+            if(value !== undefined);
+            else if(hooks);
+            else
+            {
+                ret = elem.getAttribute(name);
+                return ret === null ? undefined : 0;
+            }
+        },
         removeAttr: function (elem, value)
         {},
         attrHooks: {
@@ -1324,11 +1348,26 @@
 
     if(!(jQuery.support.style));
 
-    if(!(jQuery.support.optSelected));
+    if(!(jQuery.support.optSelected))
+    {
+        jQuery.propHooks.selected = jQuery.extend(jQuery.propHooks.selected, {
+            get: function (elem)
+            {}
+        });
+    }
 
     if(!(jQuery.support.enctype));
 
-    if(!(jQuery.support.checkOn));
+    if(!(jQuery.support.checkOn))
+    {
+        jQuery.each(['radio', 'checkbox'], function ()
+        {
+            jQuery.valHooks[this] = {
+                get: function (elem)
+                {}
+            };
+        });
+    }
 
     jQuery.each(['radio', 'checkbox'], function ()
     {
@@ -2501,7 +2540,7 @@
                 expr = (':not(' + expr) + ')';
             }
 
-            return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? [elems[0]] : [] : jQuery.find.matches(expr, elems);
+            return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : [] : jQuery.find.matches(expr, elems);
         },
         dir: function (elem, dir, until)
         {
@@ -2909,22 +2948,7 @@
             }
         },
         swap: function (elem, options, callback)
-        {
-            var old = {}, ret, name;
-            for(name in options)
-            {
-                old[name] = elem.style[name];
-                elem.style[name] = options[name];
-            }
-
-            ret = callback.call(elem);
-            for(name in options)
-            {
-                elem.style[name] = old[name];
-            }
-
-            return ret;
-        }
+        {}
     });
     jQuery.curCSS = jQuery.css;
     if(document.defaultView && document.defaultView.getComputedStyle)
@@ -2972,6 +2996,16 @@
 
             return val + 'px';
         }
+
+        val = curCSS(elem, name);
+        if(val < 0 || val == null);
+
+        if(rnumnonpx.test(val));
+
+        val = parseFloat(val) || 0;
+        if(extra);
+
+        return val + 'px';
     }
     jQuery.each(['height', 'width'], function (i, name)
     {
@@ -2983,13 +3017,6 @@
                     if(elem.offsetWidth !== 0)
                     {
                         return getWidthOrHeight(elem, name, extra);
-                    }
-                    else
-                    {
-                        return jQuery.swap(elem, cssShow, function ()
-                        {
-                            return getWidthOrHeight(elem, name, extra);
-                        });
                     }
                 }
             },
@@ -3010,7 +3037,7 @@
         jQuery.expr.filters.hidden = function (elem)
         {
             var width = elem.offsetWidth, height = elem.offsetHeight;
-            return (width === 0 && height === 0) || !(jQuery.support.reliableHiddenOffsets);
+            return width === 0 || !(jQuery.support.reliableHiddenOffsets);
         };
         jQuery.expr.filters.visible = function (elem)
         {};
@@ -3296,7 +3323,10 @@
                         opt.animatedProperties[name] = opt.specialEasing || opt.easing || 'swing';
                     }
 
-                    if((val === 'hide' && hidden) || (val === 'show' && !hidden));
+                    if((val === 'hide' && hidden) || (val === 'show' && !hidden))
+                    {
+                        return opt.complete.call(this);
+                    }
 
                     if(isElement && (name === 'height' || name === 'width'));
                 }
@@ -3457,18 +3487,7 @@
             }
         },
         show: function ()
-        {
-            var dataShow = jQuery._data(this.elem, 'fxshow' + this.prop);
-            this.options.orig[this.prop] = dataShow || jQuery.style(this.elem, this.prop);
-            this.options.show = true;
-            if(dataShow !== undefined);
-            else
-            {
-                this.custom(this.prop === 'width' || this.prop === 'height' ? 0 : 0, this.cur());
-            }
-
-            jQuery(this.elem).show();
-        },
+        {},
         hide: function ()
         {
             this.options.orig[this.prop] = jQuery._data(this.elem, 'fxshow' + this.prop) || jQuery.style(this.elem, this.prop);
@@ -3818,7 +3837,7 @@
         $slides.each(function ()
         {
             var $el = $(this);
-            this.cycleH = opts.fit ? 0 : $el.height();
+            this.cycleH = opts.fit ? 0 : $el.height() || this.offsetHeight || this.height || $el.attr('height') || 0;
             this.cycleW = opts.fit ? 0 : $el.width();
             if($el.is('img'))
             {
@@ -3970,9 +3989,9 @@
         {
             changed = true;
             var fx = opts.fx;
-            curr.cycleH = curr.cycleH;
+            curr.cycleH = curr.cycleH || $(curr).height();
             curr.cycleW = curr.cycleW;
-            next.cycleH = next.cycleH;
+            next.cycleH = next.cycleH || $(next).height();
             next.cycleW = next.cycleW;
             if(opts.multiFx);
 
