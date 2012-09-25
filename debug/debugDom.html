@@ -68,10 +68,11 @@
             width: 600px;
         }
 
-        #slicedCodeContainer
+        #slicedCodeContainer, #slicedSourceTextContainer
         {
             float:left;
             width: 600px;
+            height: 800px;
         }
 
         .selected { background-color: green; }
@@ -99,15 +100,15 @@
     </pre>
 </div>
 <div id="slicedCodeContainer">
-    <pre id="slicedSourceTextContainer"></pre>
+    <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
 
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/32/index.html";
-        var htmlModel = HtmlModelMapping.getWholeFileModel(url);
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/23/index.html";
+        var htmlModel = DomHtmlModelMapping.getWholeFileModel(url);
         var slicingCriteria = htmlModel.results.map(function(result)
         {
             for(var propName in result)
@@ -150,7 +151,7 @@
             var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
             var specifiedCode = atob(htmlModel.slicingResult);
 
-            if(generatedCode != specifiedCode) { errors += "Slicing does not match!"; }
+            if(generatedCode.replace(/(\r|\n| )+/g, "") != specifiedCode.replace(/(\r|\n| )+/g, "")) { errors += "Slicing does not match!"; }
 
 
             htmlModel.results.forEach(function(result)

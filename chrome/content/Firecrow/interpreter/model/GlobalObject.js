@@ -122,7 +122,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         {
             try
             {
-                if(htmlElement == null) { return false; }
+                if(htmlElement == null || htmlElement instanceof Text) { return false; }
                 if(this.domModificationSlicingCriteria.length == 0) { return false; }
 
                 if(this.includeAllDomModifications) { return true; }
@@ -299,7 +299,10 @@ fcModel.GlobalObject = function(browser, documentFragment)
     }
 };
 
-fcModel.GlobalObject.notifyError = function(message) { alert("GlobalObject - " + message); }
+fcModel.GlobalObject.notifyError = function(message)
+{
+    alert("GlobalObject - " + message);
+}
 
 fcModel.GlobalObject.prototype = new fcModel.Object(null);
 

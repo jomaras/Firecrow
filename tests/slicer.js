@@ -5,9 +5,9 @@
  */
 var testObject = {};
 
-HtmlModelMapping.models.forEach(function(htmlModel, index)
+var modelTestFunction = function(htmlModel, index)
 {
-    testObject["test test" + (index + 1)] = function()
+    testObject["test " + testName + (index + 1)] = function()
     {
         var Firecrow = FBL.Firecrow;
         var WebFile = Firecrow.DoppelBrowser.WebFile;
@@ -36,6 +36,12 @@ HtmlModelMapping.models.forEach(function(htmlModel, index)
 
         assertEquals(Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model).replace(/(\r|\n| )+/g, ""), atob(htmlModel.slicingResult).replace(/(\r|\n| )+/g, ""));
     };
-});
+};
+
+var testName = "slicing";
+HtmlModelMapping.models.forEach(modelTestFunction);
+
+testName = "dom";
+DomHtmlModelMapping.models.forEach(modelTestFunction);
 
 TestCase("SlicerTest", testObject);

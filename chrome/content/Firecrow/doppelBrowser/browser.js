@@ -82,7 +82,10 @@ Firecrow.DoppelBrowser.Browser = function(pageModel)
     catch(e) { Firecrow.DoppelBrowser.Browser.notifyError("Error when initialising Doppel Browser.Browser: " + e); }
 };
 
-Firecrow.DoppelBrowser.Browser.notifyError = function(message) { alert("Browser - " + message); };
+Firecrow.DoppelBrowser.Browser.notifyError = function(message)
+{
+    alert("Browser - " + message);
+};
 
 var Browser = Firecrow.DoppelBrowser.Browser;
 
@@ -294,7 +297,7 @@ Browser.prototype =
 
     matchesSelector: function(htmlElement, selector)
     {
-        if(this._matchesSelector == null) { return false; }
+        if(this._matchesSelector == null || htmlElement instanceof DocumentFragment || htmlElement instanceof Text) { return false; }
 
         return this._matchesSelector.call(htmlElement, selector);
     },

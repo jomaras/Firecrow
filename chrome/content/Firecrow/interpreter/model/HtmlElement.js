@@ -54,7 +54,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, this.htmlElement.modelElement, evaluationPositionId);
 
-            if(propertyName == "children" || propertyName == "childNodes")
+            if(fcModel.DOM_PROPERTIES.ELEMENT.ELEMENTS.indexOf(propertyName) != -1)
             {
                 var descendents = this.htmlElement[propertyName];
 
@@ -68,6 +68,11 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
                     );
                 }
             }
+            else if (propertyName == "")
+            {
+
+            }
+
         }, this);
     }
     catch(e)
