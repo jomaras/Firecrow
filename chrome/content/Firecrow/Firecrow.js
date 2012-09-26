@@ -75,7 +75,7 @@ FBL.ns(function() { with (FBL) {
             }catch(e) { alert("Error when loading context: " + e); }
         },
 
-        onFirecrowShowCodePress: function()
+        onFirecrowShowDependenciesPress: function()
         {
             try
             {
@@ -88,11 +88,16 @@ FBL.ns(function() { with (FBL) {
                     {
                         communicationObject.setMessage("Setting parent child relationship");
                         ASTHelper.setParentsChildRelationships(htmlJson);
-                        communicationObject.setMessage("Generating code");
 
+                        communicationObject.setMessage("Generating code");
                         this.getPanelContentContainer().innerHTML = Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlJson);
 
-                        notificationWindow.close();
+                        communicationObject.setMessage("Simulating execution and bulding the dependency graph");
+                        var result = Firecrow.Slicer.slice(htmlJson);
+                        var browser = result.browser;
+                        var dependencyGraph = result.dependencyGraph;
+
+                        notificationWindow.close("");
                     }
                     catch(e) { alert("Error when trying to show code of the current page:" + e)};
                 }, this);
@@ -254,7 +259,7 @@ FBL.ns(function() { with (FBL) {
                     });
                 }
 
-                var browser = Firecrow.Slicer.slice(model, slicingCriteria);
+                var browser = Firecrow.Slicer.slice(model, slicingCriteria).browser;
 
                 var slicedPageLocation = currentPageLocation.substring(currentPageLocation.lastIndexOf("/") + 1, currentPageLocation.length);
 

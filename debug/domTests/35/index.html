@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UI control</title>
+    <meta charset="UTF-8">
+    <style>
+        #thumbnails
+        {
+            background-color: red;
+        }
+        #ignored
+        {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+
+<div id="thumbnails">
+    Some content;
+</div>
+
+<div id="ignored">
+    Ignored content
+</div>
+
+<script>
+    var thumb = document.getElementById("thumbnails");
+    thumb.textContent += " added with javascript";
+</script>
+</body>
+</html>

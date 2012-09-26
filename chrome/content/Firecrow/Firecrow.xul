@@ -65,7 +65,7 @@
   <script src="chrome://Firecrow/content/Firecrow.js" type="application/x-javascript"/>
   
   <commandset id="mainCommandSet">
-    <command id="cmd_FirecrowShowCodePress" oncommand="Firebug.FirecrowModule.onFirecrowShowCodePress()"/>
+    <command id="cmd_FirecrowShowDependenciesPress" oncommand="Firebug.FirecrowModule.onFirecrowShowDependenciesPress()"/>
     <command id="cmd_FirecrowPress" oncommand="Firebug.FirecrowModule.onFirecrowPress()"/>
     <command id="cmd_FirecrowRecordPress" oncommand="Firebug.FirecrowModule.onFirecrowRecordPress()"/>
     <command id="cmd_FirecrowProfilePress" oncommand="Firebug.FirecrowModule.onFirecrowProfilePress()"/>
@@ -84,6 +84,7 @@
            </menupopup>
          </menulist>
          <toolbarbutton id="showCodeButton" class="toolbar-text-button" label="Show Code" tooltiptext="Show Web Application Code" command="cmd_FirecrowShowCodePress"/>
+         <toolbarbutton id="calculateDependenciesButton" class="toolbar-text-button" label="Calculate dependencies" tooltiptext="Calculate Dependencies" command="cmd_FirecrowCalculateDependenciesPress"/>
          <toolbarbutton id="firecrowButton" class="toolbar-text-button" label="Firecrow" tooltiptext="Firecrow" command="cmd_FirecrowPress"/>
          <toolbarbutton id="recordButton" class="toolbar-text-button" label="Record" tooltiptext="Start execution recording process" command="cmd_FirecrowRecordPress"/>
          <toolbarbutton id="profileButton" class="toolbar-text-button" label="Profile" tooltiptext="Start profiling process" command="cmd_FirecrowProfilePress"/>

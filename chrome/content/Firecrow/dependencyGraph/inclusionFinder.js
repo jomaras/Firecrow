@@ -27,8 +27,10 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             {
                 return this.isIncludedElement(htmlElement.pathAndModel.model);
             }
-            else if(htmlElement.type == "style")
+            else if(htmlElement.type == "style" || htmlElement.type == "link")
             {
+                if(htmlElement.cssRules == null) { return false; }
+
                 var rules = htmlElement.cssRules;
 
                 for(var i = 0, length = rules.length; i < length; i++)

@@ -116,7 +116,7 @@
         });
     }
 
-    var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
+    var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria).browser;
 
     document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
 </script>

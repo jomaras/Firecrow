@@ -29,7 +29,10 @@ Firecrow.Slicer = {
 
         dependencyGraph.markGraph(htmlModel.htmlElement);
 
-        return browser;
+        return {
+            browser: browser,
+            dependencyGraph: dependencyGraph
+        }
     }
 };
 // ************************************************************************************************

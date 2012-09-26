@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Firecrow - Debug Slicing</title>
-    <meta charset="UTF-8">
+    <title>Firecrow - Debug Dependencies</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script>
         var FBL = undefined;
     </script>
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="domModelMapping.js"></script>
     <script src="../chrome/content/Firecrow/esprima/esprima.js"></script>
-    <script src="slicingModelMapping.js"></script>
-    <script src="slicingModelMappingLarge.js"></script>
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
@@ -38,8 +37,8 @@
     <script src="../chrome/content/Firecrow/interpreter/model/Function.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
 
-    <script src="../chrome/content/Firecrow/interpreter/model/internal/Date.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/Boolean.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Date.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/Number.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
 
@@ -62,14 +61,13 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
     <script src="../chrome/content/Firecrow/Slicer.js"></script>
 
-    <link href="../chrome/skin/classic/style.css" rel="stylesheet" type="text/css">
+    <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
     <style>
         #codeContainer
         {
             float: left;
             width: 600px;
-            height: 800px;
         }
 
         #slicedCodeContainer, #slicedSourceTextContainer
@@ -88,8 +86,8 @@
     </style>
 </head>
 <body>
-<h1>Firecrow - Debugging Slicing</h1>
 <iframe id="firecrowFrame" height="1" width="1"></iframe>
+<h1>Firecrow - Debugging DOM Slicing</h1>
 <div>
     <a id="testIdContainer"></a>
 </div>
@@ -98,28 +96,15 @@
 <span id="resultTitle">Result:</span>
 <div id="messageContainer"></div>
 <br>
-<div id="lineNumberContainer"></div>
 <div id="codeContainer">
-</div>
-<div id="slicedCodeContainer">
-    <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
 
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var pageIndex = 65;
-
-        var href = document.location.href;
-
-        if(href.indexOf("?") != -1)
-        {
-            pageIndex = href.substring(href.indexOf("?") + 1);
-        }
-
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/" + pageIndex + "/index.html";
-        var htmlModel = HtmlModelMapping.getWholeFileModel(url);
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/35/index.html";
+        var htmlModel = DomHtmlModelMapping.getWholeFileModel(url);
         var slicingCriteria = htmlModel.results.map(function(result)
         {
             for(var propName in result)
@@ -139,16 +124,12 @@
         setTitle(url);
 
         var result = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
-
         var browser = result.browser;
         var dependencyGraph = result.dependencyGraph;
-
-        checkForErrors(browser, htmlModel);
 
         var codeContainer = document.getElementById("codeContainer");
 
         codeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
-        document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
 
         (new FBL.Firecrow.DependencyGraph.DependencyHighlighter(codeContainer, dependencyGraph));
 
@@ -157,65 +138,6 @@
             var testIdContainer = document.getElementById("testIdContainer");
             testIdContainer.textContent = url;
             testIdContainer.href = url;
-        }
-
-        function checkForErrors(browser, htmlModel)
-        {
-            var messageContainer = document.getElementById("messageContainer");
-            var globalObjectProperties = browser.globalObject.properties;
-
-            var errors = "";
-
-            var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
-            var specifiedCode = atob(htmlModel.slicingResult);
-
-            if(generatedCode.replace(/(\r|\n| )+/g, "") != specifiedCode.replace(/(\r|\n| )+/g, "")) { errors += "Slicing does not match!"; }
-
-
-            htmlModel.results.forEach(function(result)
-            {
-                for(var propName in result)
-                {
-                    var hasBeenFound = false;
-                    for(var i = 0; i < globalObjectProperties.length; i++)
-                    {
-                        var property = globalObjectProperties[i];
-                        var propertyValue = property.value;
-
-                        if(property.name == propName)
-                        {
-                            hasBeenFound = true;
-
-                            if(propertyValue == null)
-                            {
-                                errors += propName + " is null, and should be: " + result[propName] + "\n";
-                                break;
-                            }
-
-                            if(propertyValue.value != result[propName])
-                            {
-                                errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
-                            }
-
-                            break;
-                        }
-                    }
-
-                    if(!hasBeenFound)
-                    {
-                        errors += propName + " could not be found in global object!\n";
-                    }
-                }
-            });
-
-            if(errors != "") { alert("Errors on validating result:\n" + errors); }
-            else
-            {
-                var newDiv = document.createElement("div");
-                newDiv.style.color = "green";
-                newDiv.textContent = "Test successful";
-                messageContainer.appendChild(newDiv);
-            }
         }
     </script>
 </body>

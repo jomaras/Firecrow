@@ -54,7 +54,7 @@ FBL.ns(function () { with (FBL) {
             html += '&#60;<span class="node htmlTag">' + elementType + '</span>';
             for (var i = 0; i < elementAttributes.length; i++)
             {
-                html += '<span class="node htmlAttributeName"> ' + elementAttributes[i].name + '</span> = ';
+                html += '<span class="node htmlAttributeName"> ' + elementAttributes[i].name + '</span>=';
                 html += '<span class="node htmlAttributeValue">"' + elementAttributes[i].value + '"</span>';
             }
             // generate >
