@@ -2,6 +2,7 @@ load:
   - ../chrome/content/Firecrow/initFBL.js
   - ../debug/slicingModelMapping.js
   - ../debug/domModelMapping.js
+  - ../chrome/content/Firecrow/esprima/esprima.js
   - ../chrome/content/Firecrow/helpers/valueTypeHelper.js
   - ../chrome/content/Firecrow/helpers/ASTHelper.js
   - ../chrome/content/Firecrow/helpers/htmlHelper.js
