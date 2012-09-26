@@ -108,10 +108,10 @@ Browser.prototype =
             var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
             htmlModelElement.hasBeenExecuted = true;
 
-            htmlModelElement.shouldBeIncluded = this.globalObject.checkIfSatisfiesDomSlicingCriteria(htmlDomElement);
-
             this._setAttributes(htmlDomElement, htmlModelElement);
             this._insertIntoDom(htmlDomElement, parentDomElement);
+
+            htmlModelElement.shouldBeIncluded = this.globalObject.checkIfSatisfiesDomSlicingCriteria(htmlDomElement);
 
             if(htmlModelElement.type == "script" || htmlModelElement.type == "style" || htmlModelElement.type == "link")
             {

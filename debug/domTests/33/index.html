@@ -1,37 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>UI control</title>
+    <meta charset="UTF-8">
     <style>
-        .container
+        #thumbnails
         {
-            width:100px;
-            height: 100px;
             background-color: red;
+        }
+
+        #ignored
+        {
+            background-color: blue;
         }
     </style>
 </head>
 <body>
-<div class="container"></div>
-<script>
 
-    var a = 3;
-    setTimeout(function()
-    {
-        console.log("timeout");
-    }, 0);
+<div id="thumbnails">
+    <ul>
+        <li>1</li>
+        <li>2</li>
+    </ul>
+</div>
 
-    console.log(a);
-    console.log(a);
-    console.log(a);
-    console.log(a);
-    console.log(a);
-
-    for(var i = 0; i < 10; i++)
-    {
-        console.log(i);
-    }
-
-</script>
+<div id="ignored">
+    Ignored content
+</div>
 </body>
 </html>

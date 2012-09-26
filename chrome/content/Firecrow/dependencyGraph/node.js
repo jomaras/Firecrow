@@ -49,6 +49,8 @@ FBL.ns(function() { with (FBL) {
         var selectedDependencies = [];
         var returnDependencies = {};
 
+        if(maxIndex == null && destinationConstraint == null) { return this.dataDependencies; }
+
         var dependencies = this.dataDependencies;
 
         for(var i = dependencies.length - 1; i >= 0; i--)

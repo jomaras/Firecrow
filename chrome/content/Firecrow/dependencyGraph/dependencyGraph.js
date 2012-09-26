@@ -12,6 +12,7 @@ var Node = Firecrow.DependencyGraph.Node;
 Firecrow.DependencyGraph.DependencyGraph = function()
 {
     this.nodes = [];
+    this.htmlNodes = [];
     this.controlFlow = [];
     this.importantConstructDependencyIndexMapping = [];
     this.controlDependencies = [];
@@ -32,6 +33,11 @@ DependencyGraph.prototype.addNode = function(node)
     if(!ValueTypeHelper.isOfType(node, Node)) { this.notifyError("Node is not of type DependencyGraph.Node!"); }
 
     this.nodes.push(node);
+
+    if(node.type == "html")
+    {
+        this.htmlNodes.push(node);
+    }
 };
 
 DependencyGraph.prototype.handleNodeCreated = function(nodeModelObject, type, isDynamic)
@@ -178,6 +184,15 @@ DependencyGraph.prototype.markGraph = function(model)
             {
                 this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
             }
+        }
+
+        for(var i = 0, length = this.htmlNodes.length; i < length; i++)
+        {
+            var htmlModelNode =  this.htmlNodes[i].model;
+
+            if(!htmlModelNode.shouldBeIncluded) { continue; }
+
+            this.traverseAndMark(htmlModelNode);
         }
 
         var inclusionFinder = new Firecrow.DependencyGraph.InclusionFinder();
