@@ -7,27 +7,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\debug\fullPages\koves\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\debug\jQueryModelMappings\jQueryModelMapping6.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\humanTypist\examples\example.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\humanTypist\examples\test.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\humanTypist\lib\jQuery.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\humanTypist\lib\jquery.min.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\humanTypist\src\jquery.humanTypist.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\idtPride\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\idtPride\index2.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\idtPride\jQuery.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\idtPride\test.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\proposable\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\tests\pages\test\index.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDom.html" afterPath="$PROJECT_DIR$/debug/debugDom.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/domModelMapping.js" afterPath="$PROJECT_DIR$/debug/domModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/slicer.js" afterPath="$PROJECT_DIR$/tests/slicer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/slicing.jstd" afterPath="$PROJECT_DIR$/tests/slicing.jstd" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/fullPages/05-mailboxing/index-sliced.html" afterPath="$PROJECT_DIR$/debug/fullPages/05-mailboxing/index-sliced.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,7 +63,71 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="HtmlElement.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="58" column="34" selection-start="2297" selection-end="2297" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="browser.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="495" column="13" selection-start="21149" selection-end="21149" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jQuery.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/fullPages/05-mailboxing/js/jQuery.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="116" column="25" selection-start="3934" selection-end="3934" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jquery.cycle.all.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/fullPages/05-mailboxing/js/jquery.cycle.all.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="116" column="27" selection-start="3620" selection-end="3620" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="js.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/fullPages/05-mailboxing/js/js.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="54" selection-start="349" selection-end="349" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="String.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="103" column="67" selection-start="3878" selection-end="3878" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Array.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="750" column="59" selection-start="28580" selection-end="28580" vertical-scroll-proportion="0.5445026">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -88,10 +140,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/interpreterTests/01/index.html" />
-        <option value="$PROJECT_DIR$/debug/domTests/35/index.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-        <option value="$PROJECT_DIR$/playground/1.txt" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
         <option value="$PROJECT_DIR$/TODO" />
@@ -99,20 +147,24 @@
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/tests/slicing.jstd" />
         <option value="$PROJECT_DIR$/tests/slicer.js" />
-        <option value="$PROJECT_DIR$/debug/domModelMapping.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
         <option value="$PROJECT_DIR$/debug/debugDom.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js" />
+        <option value="$PROJECT_DIR$/debug/domModelMapping.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js" />
+        <option value="$PROJECT_DIR$/debug/fullPages/05-mailboxing/index-sliced.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1358" />
-    <option name="y" value="-290" />
-    <option name="width" value="1696" />
-    <option name="height" value="1066" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -194,7 +246,87 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fullPages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fullPages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="05-mailboxing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fullPages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="05-mailboxing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -299,10 +431,10 @@
       <method />
     </configuration>
     <list size="4">
-      <item index="0" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
-      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.interpreter.jstd" />
-      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
-      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.slicing2.jstd" />
+      <item index="0" class="java.lang.String" itemvalue="JsTestDriver.interpreter.jstd" />
+      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
+      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.slicing2.jstd" />
+      <item index="3" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -1316,7 +1448,11 @@
       <created>1348571183849</created>
       <updated>1348571183849</updated>
     </task>
-    <option name="localTasksCounter" value="246" />
+    <task id="LOCAL-00246" summary="Changed project properties, deleted folders">
+      <created>1348577606676</created>
+      <updated>1348577606677</updated>
+    </task>
+    <option name="localTasksCounter" value="247" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1352,17 +1488,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-290" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49448124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49624866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13518406" sideWeight="0.4619507" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18466121" sideWeight="0.46516612" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20257826" sideWeight="0.42963514" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5380493" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.53483385" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29581994" sideWeight="0.47728965" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14683816" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1412,7 +1548,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Deleted some unnecessary files; slicing tests operational again" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed project properties, deleted folders" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1425,7 +1561,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="When recording an event trace, upon each triggered event, all states of input elements are logged - added support for that thought the project" />
     <MESSAGE value="Generating html content changed" />
     <MESSAGE value="Includes event handler return expression if the event handler is included" />
     <MESSAGE value="Included event method calls in the slicing" />
@@ -1450,6 +1585,7 @@
     <MESSAGE value="Document refactoring accessing document properties" />
     <MESSAGE value="Text nodes property accesses" />
     <MESSAGE value="Deleted some unnecessary files; slicing tests operational again" />
+    <MESSAGE value="Changed project properties, deleted folders" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1462,100 +1598,114 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/playground/2.txt">
+    <entry file="file://$PROJECT_DIR$/debug/domTests/32/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TODO">
+    <entry file="file://$PROJECT_DIR$/debug/domTests/32/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="23" selection-start="832" selection-end="832" vertical-scroll-proportion="0.39647576" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/domTests/01/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="20" selection-start="385" selection-end="385" vertical-scroll-proportion="-10.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/slicing.jstd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="16" selection-start="100" selection-end="100" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/domTests/02/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/slicer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="83" selection-start="1216" selection-end="1243" vertical-scroll-proportion="0.5947136" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="8" selection-start="4229" selection-end="4374" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/domTests/17/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/domTests/20/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="2" selection-start="254" selection-end="254" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="48" selection-start="6149" selection-end="6149" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="307" column="69" selection-start="12800" selection-end="12800" vertical-scroll-proportion="0.016759777">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Document.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="36" selection-start="2329" selection-end="2329" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="39" selection-start="2708" selection-end="2708" vertical-scroll-proportion="0.066079296">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/domModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="236" column="36" selection-start="266492" selection-end="266492" vertical-scroll-proportion="0.0">
+        <state line="67" column="58" selection-start="3359" selection-end="3359" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="35" selection-start="4990" selection-end="4990" vertical-scroll-proportion="0.016968327">
+        <state line="109" column="68" selection-start="5201" selection-end="5201" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/tests.js">
+    <entry file="file://$PROJECT_DIR$/debug/domModelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="304" column="32" selection-start="501338" selection-end="501338" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="319" column="76" selection-start="11665" selection-end="11665" vertical-scroll-proportion="-16.28">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/fullPages/05-mailboxing/index-sliced.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4396" column="14" selection-start="129436" selection-end="129436" vertical-scroll-proportion="1.4339964">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/HtmlElement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="34" selection-start="2297" selection-end="2297" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="495" column="13" selection-start="21149" selection-end="21149" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/fullPages/05-mailboxing/js/jQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="116" column="25" selection-start="3934" selection-end="3934" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/fullPages/05-mailboxing/js/jquery.cycle.all.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="116" column="27" selection-start="3620" selection-end="3620" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/fullPages/05-mailboxing/js/mailing-list.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/fullPages/05-mailboxing/js/js.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="54" selection-start="349" selection-end="349" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="67" selection-start="3878" selection-end="3878" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="750" column="59" selection-start="28580" selection-end="28580" vertical-scroll-proportion="0.5445026">
           <folding />
         </state>
       </provider>

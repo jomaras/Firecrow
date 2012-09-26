@@ -54,25 +54,39 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, this.htmlElement.modelElement, evaluationPositionId);
 
-            if(fcModel.DOM_PROPERTIES.ELEMENT.ELEMENTS.indexOf(propertyName) != -1)
+            if(fcModel.DOM_PROPERTIES.ELEMENT.ELEMENTS.indexOf(propertyName) != -1
+            || fcModel.DOM_PROPERTIES.NODE.ELEMENTS.indexOf(propertyName) != -1)
             {
                 var descendents = this.htmlElement[propertyName];
 
                 for(var i = 0; i < descendents.length; i++)
                 {
+                    var descendant = descendents[i];
+
+                    if(descendant == null) { continue; }
+
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         getPropertyConstruct,
-                        descendents[i].modelElement,
+                        descendant.modelElement,
                         evaluationPositionId
                     );
                 }
             }
-            else if (propertyName == "")
+            else if (fcModel.DOM_PROPERTIES.ELEMENT.ELEMENT.indexOf(propertyName) != -1
+                  || fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1)
             {
+                var element = this.htmlElement[propertyName];
 
+                if(element == null) { return}
+
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    getPropertyConstruct,
+                    element.modelElement,
+                    evaluationPositionId
+                );
             }
-
         }, this);
     }
     catch(e)
@@ -172,7 +186,11 @@ fcModel.HtmlElementProto =
            {
                var child = childNodes[i];
 
-               if(ValueTypeHelper.isOfType(child.value, HTMLElement) || ValueTypeHelper.isOfType(child.value, DocumentFragment)) { children.push(child); }
+               if(ValueTypeHelper.isOfType(child.value, HTMLElement)
+               || ValueTypeHelper.isOfType(child.value, DocumentFragment))
+               {
+                   children.push(child);
+               }
            }
         }
         catch(e) { fcModel.HtmlElement.notifyError("Error when getting children from child nodes: " + e); }
@@ -183,40 +201,48 @@ fcModel.HtmlElementProto =
     getJsPropertyValue: function(propertyName, codeConstruct)
     {
         fcModel.HtmlElement.accessedProperties[propertyName] = true;
+        //TODO - it is a bad idea to create objects on each access, maybe utilize DOM level2 events
+        //So that they are only created on attribute changed, or DOM modified!?
 
-        if(this.isMethod(propertyName)) { return this.getPropertyValue(propertyName, codeConstruct); }
+        if(this.isMethod(propertyName))
+        {
+            return this.getPropertyValue(propertyName, codeConstruct);
+        }
 
         if(fcModel.DOM_PROPERTIES.ELEMENT.OTHER.indexOf(propertyName) != -1
         || fcModel.DOM_PROPERTIES.NODE.OTHER.indexOf(propertyName) != -1)
         {
-            if(propertyName == "ownerDocument") { return this.getPropertyValue(propertyName, codeConstruct); }
+            if(propertyName == "ownerDocument")
+            {
+                return this.getPropertyValue(propertyName, codeConstruct);
+            }
             else if(propertyName == "attributes")
             {
-                return fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct);
+                this.addProperty(propertyName, fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), this.creationConstruct);
             }
             else if(propertyName == "style")
             {
-                return fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct);
+                this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct), this.creationConstruct);
             }
         }
 
         if(fcModel.DOM_PROPERTIES.NODE.ELEMENTS.indexOf(propertyName) != -1
         || fcModel.DOM_PROPERTIES.ELEMENT.ELEMENTS.indexOf(propertyName) != -1)
         {
-            return this.globalObject.internalExecutor.createArray(codeConstruct, this.getElements(propertyName, codeConstruct));
+            this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this.getElements(propertyName, codeConstruct)), this.creationConstruct);
         }
 
         if(fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1
         || fcModel.DOM_PROPERTIES.ELEMENT.ELEMENT.indexOf(propertyName) != -1
         || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
         {
-            return fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct);
+            this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct), this.creationConstruct);
         }
 
         if(fcModel.DOM_PROPERTIES.NODE.PRIMITIVES.indexOf(propertyName) != -1
         || fcModel.DOM_PROPERTIES.ELEMENT.PRIMITIVES.indexOf(propertyName) != -1)
         {
-            return new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationConstruct));
+            this.addProperty(propertyName, new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationConstruct)), this.creationConstruct);
         }
 
         return this.getPropertyValue(propertyName, codeConstruct);

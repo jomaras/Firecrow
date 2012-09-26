@@ -63,7 +63,7 @@ FBL.ns(function() { with (FBL) {
                 "className", "clientHeight", "clientLeft", "clientTop",
                 "clientWidth", "contentEditable", "id", "innerHTML",
                 "isContentEditable", "lang", "name", "text",
-                "offsetHeight", "offsetLeft", "offsetTop", "offsetWWidth",
+                "offsetHeight", "offsetLeft", "offsetTop", "offsetWidth",
                 "outerHTML", "scrollHeight", "scrollLeft", "scrollTop", "scrollWidth",
                 "spellcheck", "tabIndex", "tagName", "textContent", "title",
                 "charset", "disabled", "href", "hreflang", "media", "rel", "rev", "target", "type",
@@ -202,20 +202,24 @@ FBL.ns(function() { with (FBL) {
 
             this.getJsPropertyValue = function(propertyName, codeConstruct)
             {
+                var hasBeenHandled = false;
                 if (fcModel.DOM_PROPERTIES.DOCUMENT.ELEMENT.indexOf(propertyName) != -1
                  || fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1)
                 {
-                    return fcModel.HtmlElementExecutor.wrapToFcElement(this.document[propertyName], this.globalObject, codeConstruct)
+                    this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.document[propertyName], this.globalObject, codeConstruct));
+                    hasBeenHandled = true;
                 }
                 else if (fcModel.DOM_PROPERTIES.DOCUMENT.ELEMENTS.indexOf(propertyName) != -1
                       || fcModel.DOM_PROPERTIES.NODE.ELEMENTS.indexOf(propertyName) != -1)
                 {
-                    return this.getElements(propertyName);
+                    this.addProperty(propertyName, this.getElements(propertyName));
+                    hasBeenHandled = true;
                 }
                 else if(fcModel.DOM_PROPERTIES.DOCUMENT.PRIMITIVES.indexOf(propertyName) != -1
                      || fcModel.DOM_PROPERTIES.NODE.PRIMITIVES.indexOf(propertyName) != -1)
                 {
-                    return this.getPropertyValue(propertyName, codeConstruct);
+                    this.addProperty(propertyName, this.getPropertyValue(propertyName, codeConstruct));
+                    hasBeenHandled = true;
                 }
                 else if(fcModel.DOM_PROPERTIES.DOCUMENT.OTHER.indexOf(propertyName) != -1
                      || fcModel.DOM_PROPERTIES.NODE.OTHER.indexOf(propertyName) != -1)
@@ -224,19 +228,21 @@ FBL.ns(function() { with (FBL) {
 
                     if (propertyName == "readyState" || propertyName == "location")
                     {
-                        return this.getPropertyValue(propertyName, codeConstruct);
+                        this.addProperty(propertyName, this.getPropertyValue(propertyName, codeConstruct));
+                        hasBeenHandled = true;
                     }
                     else if (propertyName == "ownerDocument" || propertyName == "attributes")
                     {
-                        return new fcModel.JsValue(null, new fcModel.FcInternal(codeConstruct));
+                        this.addProperty(propertyName, new fcModel.JsValue(null, new fcModel.FcInternal(codeConstruct)));
+                        hasBeenHandled = true;
                     }
                     else
                     {
-                        alert("Unhandled document property: " +  propertyName);
+                        //alert("Unhandled document property: " +  propertyName);
                     }
                 }
 
-                if(!_isMethod(propertyName))
+                if(!_isMethod(propertyName) && !hasBeenHandled)
                 {
                     fcModel.DOM_PROPERTIES.DOCUMENT.UNPREDICTED[propertyName] = propertyName;
                 }

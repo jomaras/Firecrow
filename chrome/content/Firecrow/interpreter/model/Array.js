@@ -742,7 +742,7 @@ fcModel.ArrayExecutor =
 
             var isCalledOnArray = fcThisValue.constructor === fcModel.Array;
 
-            if(!isCalledOnArray)
+            if(!isCalledOnArray && functionName != "push" && functionName != "slice")
             {
                 console.log(functionName + " called on a non-array object!");
             }

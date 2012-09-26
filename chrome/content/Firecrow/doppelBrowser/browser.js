@@ -316,6 +316,30 @@ Browser.prototype =
         catch(e) { this.notifyError("DoppelBrowser.browser error when building js nodes: " + e); }
     },
 
+    _isExecutionWithinHandler: function(eventTrace, handlerConstruct)
+    {
+        if(eventTrace == null || handlerConstruct == null) { return false; }
+
+        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
+        return eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line;
+    },
+
+    _isLoadEvent: function(eventTrace)
+    {
+        if (eventTrace == null || eventTrace.args == null) { return false; }
+
+        return eventTrace.args.type === "" || eventTrace.args.type == "load"
+            || eventTrace.args.type == "DOMContentLoaded";
+    },
+
+    _isElementEvent: function(eventTrace, eventType)
+    {
+        if (eventTrace == null || eventTrace.args == null) { return false; }
+
+        return eventTrace.args.type == eventType || "on" + eventTrace.args.type == eventType
+            || eventTrace.args.type == "elementEvent"
+    },
+
     _handleEvents: function()
     {
         try
@@ -341,11 +365,11 @@ Browser.prototype =
             for(var i = 0, length = eventTraces.length; i < length; i++)
             {
                 var eventTrace = eventTraces[i];
+                this._adjustCurrentInputStates(eventTrace.args.currentInputStates);
                 var eventFile = eventTrace.filePath;
                 this.globalObject.currentEventTime = eventTrace.currentTime;
 
-                if(eventTrace.args.type == "" || eventTrace.args.type == "load"
-                 ||eventTrace.args.type == "DOMContentLoaded")
+                if(this._isLoadEvent(eventTrace))
                 {
                     var domContentReadyInfo = documentDomContentReadyMethods[0];
 
@@ -353,8 +377,7 @@ Browser.prototype =
                     {
                         var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
 
-                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
-                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
                         {
                             this._interpretJsCode
                             (
@@ -380,8 +403,7 @@ Browser.prototype =
                     {
                         var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
 
-                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
-                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
                         {
                             this._interpretJsCode
                             (
@@ -407,8 +429,7 @@ Browser.prototype =
                     {
                         var handlerConstruct = onLoadInfo.handler.fcInternal.object.codeConstruct;
 
-                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
-                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
                         {
                             this._interpretJsCode
                             (
@@ -434,8 +455,7 @@ Browser.prototype =
 
                         var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 
-                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
-                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
                         {
                             this._interpretJsCode
                             (
@@ -460,8 +480,7 @@ Browser.prototype =
 
                         var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 
-                        //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
-                        if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
                         {
                             this._interpretJsCode
                             (
@@ -489,18 +508,14 @@ Browser.prototype =
                         var fcHtmlElement = event.fcHtmlElement;
                         var xPath = this._getElementXPath(fcHtmlElement.htmlElement);
 
-                        if(xPath != eventTrace.args.targetXPath
-                        && xPath != eventTrace.thisValue.xPath ) { continue; }
+                        if(xPath != eventTrace.args.targetXPath && xPath != eventTrace.thisValue.xPath ) { continue; }
 
-                        if(eventTrace.args.type == event.eventType || "on" + eventTrace.args.type == event.eventType
-                        || eventTrace.args.type == "elementEvent")
+                        if(this._isElementEvent(eventTrace, event.eventType))
                         {
                             var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
 
-                            //TODO FF15 removed source: handlerConstruct.loc.source.replace("///", "/") == eventFile add this also when compensate
-                            if(eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line)
+                            if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
                             {
-                                this._adjustCurrentInputStates(eventTrace.args.currentInputStates);
                                 var eventThisObject = new fcModel.JsValue(fcHtmlElement.htmlElement, new fcModel.FcInternal(null, fcHtmlElement));
                                 this._interpretJsCode
                                 (
