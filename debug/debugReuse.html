@@ -108,7 +108,7 @@
 <script>
     var Firecrow = FBL.Firecrow;
 
-    var htmlModel = models[0];
+    var htmlModel = models[3];
 
     var slicingCriteria = [];
 
@@ -120,7 +120,7 @@
         });
     }
 
-    var extractedAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseAppModel, htmlModel.selectors.map(function(selector)
+    var extractedAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseAppModel, htmlModel.reuseSelectors.map(function(selector)
     {
         return Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector);
     }));
@@ -131,10 +131,15 @@
     document.getElementById("extractedSlicedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.reuseAppModel);
 
     document.getElementById("fullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.reuseIntoAppModel);
-    document.getElementById("reusedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode
+    document.getElementById("reusedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(Firecrow.Reuser.getMergedModel
     (
-        Firecrow.Reuser.getMergedModel(htmlModel.reuseAppModel, htmlModel.reuseIntoAppModel, extractedAppSlicingResult.dependencyGraph, fullAppSlicingResult.dependencyGraph)
-    );
+        htmlModel.reuseAppModel,
+        htmlModel.reuseIntoAppModel,
+        extractedAppSlicingResult.dependencyGraph,
+        fullAppSlicingResult.dependencyGraph,
+        htmlModel.reuseSelectors,
+        htmlModel.reuseIntoDestinationSelectors
+    ));
 </script>
 </body>
 </html>

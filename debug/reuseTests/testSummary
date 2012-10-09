@@ -1,1 +1,8 @@
-01 - simple merging of HTML code; there is no CSS or JavaScript code; merging on body level (just appending)
+01 - simple merging of HTML code; no CSS or JavaScript; merging on body level (just appending)
+02 - simple merging of HTML code; no CSS or JavaScript; merging on first inner node level
+
+03 - simple merging of HTML code; no CSS or JavaScript; conflict in id
+04 - simple merging of HTML code; no CSS or JavaScript; conflict in css
+
+------------------------------------------------------------------------
+conflicts with id and class caused by dynamically created html nodes

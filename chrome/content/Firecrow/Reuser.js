@@ -7,7 +7,7 @@ FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
 Firecrow.Reuser =
 {
-    getMergedModel: function(reusedAppModel, reuseIntoAppModel, reuseAppGraph, reuseIntoAppGraph)
+    getMergedModel: function(reusedAppModel, reuseIntoAppModel, reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseIntoDestinationSelectors)
     {
         try
         {
@@ -16,6 +16,8 @@ Firecrow.Reuser =
             if((reusedAppModel.children == null || reusedAppModel.children.length == 0) && (reuseIntoAppModel.children == null || reuseIntoAppModel.children.length == 0)) { return null; }
             if(reusedAppModel.children == null || reusedAppModel.children.length == 0) { return reuseIntoAppModel; }
             if(reuseIntoAppModel.children == null || reuseIntoAppModel.children.length == 0) { return reusedAppModel; }
+
+            Firecrow.ConflictFixer.fixHtmlConflicts(reuseAppGraph, reuseIntoAppGraph, reuseSelectors);
 
             //The head and the body nodes will be kept, and that all other nodes will be appended
             //Elements contained in the head or body nodes of the reused app will be added after the elements from the reuseInto application
@@ -47,9 +49,127 @@ Firecrow.Reuser =
             this._createChildren(mergedBodyNode, reuseIntoBodyNode);
             this._createChildren(mergedBodyNode, reusedBodyNode, "reuse");
 
+            if(!this._areSelectorsSupported(reuseSelectors.concat(reuseIntoDestinationSelectors)))
+            {
+                alert("Used selectors are not supported in Reuser - only simple selectors by class and id!");
+            }
+
+            this._moveNodesTo(mergedModel, reuseSelectors, reuseIntoDestinationSelectors);
+
             return mergedModel;
 
         }catch(e) { alert("Error when creating merged model:" + e); }
+    },
+
+    _moveNodesTo: function(mergedModel, reuseSelectors, reuseIntoDestinationSelectors)
+    {
+        var nodesToMove = this._getNodesBySelectors(mergedModel, reuseSelectors);
+        var newParents = this._getNodesBySelectors(mergedModel, reuseIntoDestinationSelectors);
+
+        if(nodesToMove == null || nodesToMove.length == 0) { return; }
+        if(newParents == null || newParents.length != 1) { alert("A node should be moved to only one parent!"); return; }
+
+        var newParent = newParents[0];
+
+        for(var i = 0; i < nodesToMove.length; i++)
+        {
+            var node = nodesToMove[i];
+
+            //remove from previous position
+            Firecrow.ValueTypeHelper.removeFromArrayByElement(node.parent.children, node);
+
+            newParent.children.push(node);
+            node.parent = newParent;
+        }
+    },
+
+    _getNodesBySelectors: function(node, selectors)
+    {
+        if(node == null || node.children == null || node.children.length == 0) { return []; }
+
+        var resultingNodes = [];
+
+        for(var i = 0; i < node.children.length; i++)
+        {
+            var child = node.children[i];
+
+            if(this._matchesSelectors(child, selectors))
+            {
+                resultingNodes.push(child);
+            }
+
+            Firecrow.ValueTypeHelper.pushAll(resultingNodes, this._getNodesBySelectors(child, selectors));
+        }
+
+        return resultingNodes;
+    },
+
+    _matchesSelectors: function(node, selectors)
+    {
+        if(node == null || selectors == null || selectors.length == 0) { return false; }
+
+        for(var i = 0; i < selectors.length; i++)
+        {
+            if(this._matchesSelector(node, selectors[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _matchesSelector: function(node, selector)
+    {
+        if(node == null || selector == null) { return false; }
+
+        //TODO - make bulletproof; should break classes into sections...
+        if(this._isClassSelector(selector))
+        {
+            var classAttr = this._getAttribute(node, "class");
+
+            if(classAttr == null) { return false; }
+
+            return classAttr.value == selector.substring(1);
+        }
+        else if (this._isIdSelector(selector))
+        {
+            var idAttr = this._getAttribute(node, "id");
+
+            if(idAttr == null) { return false; }
+
+            return idAttr.value == selector.substring(1);
+        }
+        else
+        {
+            return node.type == selector;
+        }
+    },
+
+    _isClassSelector: function(selector) { return selector != null && selector.indexOf(".") == 0; },
+    _isIdSelector: function(selector) { return selector != null && selector.indexOf("#") == 0; },
+
+    _areSelectorsSupported: function(selectors)
+    {
+        if(selectors == null || selectors.length == 0) { return true; }
+
+        for(var i = 0; i < selectors.length; i++)
+        {
+            if(!this._isSelectorSupported(selectors[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    _isSelectorSupported: function(selector)
+    {
+        if(selector == null || selector == "") { return false; }
+
+        //TODO - currently supports only select by class and by ID
+        return selector.match(/(\.|#)?([0-9]?)([a-z|A-Z])+/) != null;
     },
 
     _createChildren: function(mergedNode, originalNode, origin)
@@ -132,7 +252,7 @@ Firecrow.Reuser =
         {
             var attribute = clonedNode.attributes[i];
 
-            var conflictedAttribute = this._findAttribute(conflictedNode, attribute.name);
+            var conflictedAttribute = this._getAttribute(conflictedNode, attribute.name);
 
             if(conflictedAttribute != null)
             {
@@ -169,7 +289,7 @@ Firecrow.Reuser =
         return clonedNode;
     },
 
-    _findAttribute: function(node, attributeName)
+    _getAttribute: function(node, attributeName)
     {
         if(node == null || node.attributes == null || node.attributes.length == 0 || attributeName == null || attributeName == "") { return null; }
 
@@ -181,6 +301,85 @@ Firecrow.Reuser =
         }
 
         return null;
+    }
+};
+
+Firecrow.ConflictFixer =
+{
+    fixHtmlConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseSelectors)
+    {
+        if(reusedAppGraph == null || reuseIntoAppGraph == null) { return null; }
+
+        var reusedHtmlNodes = reusedAppGraph.htmlNodes;
+        var reuseIntoHtmlNodes = reuseIntoAppGraph.htmlNodes;
+
+        var changes = [];
+
+        for(var i = 0; i < reusedHtmlNodes.length; i++)
+        {
+            var reusedNode = reusedHtmlNodes[i].model;
+
+            for(var j = 0; j < reuseIntoHtmlNodes.length; j++)
+            {
+                var reuseIntoNode = reuseIntoHtmlNodes[j].model;
+
+                var conflictingAttributes = this._getClassesAndIdsWithEqualValue(reusedNode, reuseIntoNode);
+
+                conflictingAttributes.forEach(function(conflictingArgument)
+                {
+                    changes.push({oldValue:conflictingArgument.value, newValue: this._generatePrefix() + conflictingArgument.value});
+                    conflictingArgument.value = this._generatePrefix() + conflictingArgument.value;
+                }, this);
+            }
+        }
+
+        for(var i = 0; i < changes.length; i++)
+        {
+            var change = changes[i];
+
+            //TODO - SELECTOR HAZARD!
+            for(var j = 0; j < reuseSelectors.length; j++)
+            {
+                reuseSelectors[j] = reuseSelectors[j].replace(change.oldValue, change.newValue);
+            }
+        }
+    },
+
+    _generatePrefix: function()
+    {
+        return "_RU_";
+    },
+
+    _getClassesAndIdsWithEqualValue: function(reusedNode, reuseIntoNode)
+    {
+        if(reusedNode == null || reuseIntoNode == null) { return []; }
+        if(reusedNode.attributes == null || reusedNode.attributes.length == 0) { return []; }
+        if(reuseIntoNode.attributes == null || reuseIntoNode.attributes.length == 0) { return []; }
+
+        var reusedAttributes = reusedNode.attributes;
+        var reusedIntoAttributes = reuseIntoNode.attributes;
+
+        var matchingAttributes = [];
+
+        for(var i = 0; i < reusedAttributes.length; i++)
+        {
+            var reusedAttribute = reusedAttributes[i];
+            if(reusedAttribute.name != "class" && reusedAttribute.name != "name" && reusedAttribute.name != "id") { continue; }
+
+            for(var j = 0; j < reusedIntoAttributes.length; j++)
+            {
+                var reusedIntoAttribute = reusedIntoAttributes[j];
+
+                if(reusedIntoAttribute.name != "class" && reusedIntoAttribute.name != "name" && reusedIntoAttribute.name != "id") { continue; }
+
+                if(reusedAttribute.value == reusedIntoAttribute.value)
+                {
+                    matchingAttributes.push(reusedAttribute);
+                }
+            }
+        }
+
+        return matchingAttributes;
     }
 };
 // ************************************************************************************************
