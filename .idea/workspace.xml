@@ -7,17 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/02/reuseApp.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/02/reuseInto.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/03/reuseApp.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/03/reuseInto.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/04/reuseApp.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/04/reuseInto.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugReuse.html" afterPath="$PROJECT_DIR$/debug/debugReuse.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" afterPath="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/reuseTests/testSummary" afterPath="$PROJECT_DIR$/debug/reuseTests/testSummary" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -67,10 +57,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="reuseModels.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="reuseModels.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="58" selection-start="10711" selection-end="10711" vertical-scroll-proportion="0.38547486">
+            <state line="25" column="5" selection-start="10765" selection-end="10765" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -88,16 +78,16 @@
       <file leaf-file-name="debugReuse.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="110" column="28" selection-start="5267" selection-end="5267" vertical-scroll-proportion="-23.75">
+            <state line="136" column="91" selection-start="6521" selection-end="6521" vertical-scroll-proportion="-28.083334">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testSummary" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="testSummary" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/reuseTests/testSummary">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="77" selection-start="328" selection-end="328" vertical-scroll-proportion="0.0">
+            <state line="4" column="73" selection-start="330" selection-end="330" vertical-scroll-proportion="0.066079296">
               <folding />
             </state>
           </provider>
@@ -106,7 +96,7 @@
       <file leaf-file-name="Reuser.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="330" column="12" selection-start="11179" selection-end="11179" vertical-scroll-proportion="0.0">
+            <state line="52" column="80" selection-start="2883" selection-end="2883" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -135,12 +125,12 @@
         <option value="$PROJECT_DIR$/debug/reuseTests/03/reuseInto.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/03/reuseApp.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-        <option value="$PROJECT_DIR$/debug/reuseTests/testSummary" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
         <option value="$PROJECT_DIR$/debug/reuseTests/04/reuseInto.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/04/reuseApp.html" />
         <option value="$PROJECT_DIR$/debug/debugReuse.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/testSummary" />
       </list>
     </option>
   </component>
@@ -249,28 +239,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="reuseTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="reuseTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="04" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1461,7 +1429,11 @@
       <created>1349771783550</created>
       <updated>1349771783551</updated>
     </task>
-    <option name="localTasksCounter" value="254" />
+    <task id="LOCAL-00254" summary="Minor refactorings in dependencyGraph;&#10;Added more simple tests, this time with conflicts in classes and ids">
+      <created>1349785295376</created>
+      <updated>1349785295376</updated>
+    </task>
+    <option name="localTasksCounter" value="255" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1557,7 +1529,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Very Simple reuse implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor refactorings in dependencyGraph;&#10;Added more simple tests, this time with conflicts in classes and ids" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1570,7 +1542,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Minor bug fixes" />
     <MESSAGE value="It seems there is the same problem with logical expressions used in an assignment expression (var a = a || {}) - handled in the same way as executing conditional expressions on exitFunctionContext" />
     <MESSAGE value="Firecrow as a separate Firebug panel" />
     <MESSAGE value="Fixes in getting css properties from css styles" />
@@ -1595,6 +1566,7 @@
     <MESSAGE value="Integrated dependency graph visualization in debugSlicing;&#10;Made a separate object for dependency highlighting" />
     <MESSAGE value="Firecrow RunTests removed" />
     <MESSAGE value="Very Simple reuse implemented" />
+    <MESSAGE value="Minor refactorings in dependencyGraph;&#10;Added more simple tests, this time with conflicts in classes and ids" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1679,20 +1651,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="330" column="12" selection-start="11179" selection-end="11179" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/testSummary">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="77" selection-start="328" selection-end="328" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/reuseTests/04/reuseInto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="17" selection-start="109" selection-end="109" vertical-scroll-proportion="-4.375">
@@ -1700,9 +1658,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="28" selection-start="5267" selection-end="5267" vertical-scroll-proportion="-23.75">
+        <state line="25" column="5" selection-start="10765" selection-end="10765" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1714,9 +1672,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="58" selection-start="10711" selection-end="10711" vertical-scroll-proportion="0.38547486">
+        <state line="136" column="91" selection-start="6521" selection-end="6521" vertical-scroll-proportion="-28.083334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="80" selection-start="2883" selection-end="2883" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/testSummary">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="73" selection-start="330" selection-end="330" vertical-scroll-proportion="0.066079296">
           <folding />
         </state>
       </provider>
