@@ -120,6 +120,11 @@ Firecrow.CodeTextGenerator.prototype =
                      + this.generateHtmlElementAttributes(htmlElement)
                      + (this.isEmptyElementType(htmlElement.type) ? "/>" : ">");
 
+            if(htmlElement.type == "html")
+            {
+                code += this.newLine;
+            }
+
             var hasOnlyTextContent = false;
 
             if(htmlElement.type == "script")
@@ -148,9 +153,12 @@ Firecrow.CodeTextGenerator.prototype =
                 }
             }
 
-            return code + htmlElementContent + this.generateEndHtmlTagString(htmlElement.type);
+            return code + htmlElementContent + (htmlElement.type == "html" ? this.newLine : "") + this.generateEndHtmlTagString(htmlElement.type);
         }
-        catch(e) { this.notifyError("Error when generating htmlElement: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when generating htmlElement: " + e);
+        }
     },
 
     generateCodeFromScriptElement: function(scriptElement)

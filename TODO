@@ -1,7 +1,6 @@
 Testing TO-DO list:
 - Test 35 - array problems
 - Test 53 - includes return where not necessary
--
 
 - make a test suite for testing the interpreter, does not do slicing,
   just performs operations, and in the end compares the state of the variables
@@ -19,8 +18,10 @@ To Do List:
 - ES5 stuff (Object.defineProperty, etc.), canvas
 - refactor
 
-- Incorporate DependencyVisualizer in it (working on it)
+***********************************************************************************************************************
 - Add the extraction wizard
+    - offer simple download
+    - offer simple profiling
+    - offer extraction
 ***********************************************************************************************************************
 - Detecting conflicts on dependency graphs
-

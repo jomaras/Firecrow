@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firecrow</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style/mainWindowStyle.css"/>
+    <script>
+        var sentArgument = window.arguments != null && window.arguments[0] != null ? window.arguments[0].wrappedJSObject
+                                                                                   : {};
+
+        sentArgument.setMessage = function(message)
+        {
+            if(sentArgument.message == null) { sentArgument.message = ""; }
+
+            sentArgument.message += message + "<br/>";
+
+            /*if(messageContainer != null)
+            {
+                messageContainer.innerHTML = sentArgument.message;
+            }*/
+        }
+    </script>
+</head>
+<body>
+<div class="fcWindow" id="firecrowWindow">
+    <div class="header"><h1>Firecrow</h1></div>
+    <div class="contentWrapper">
+
+        <form action="#" method="get" accept-charset="utf-8" id="selectActionForm">
+            <label id="labelDownload" rel="1" class="label_radio" for="radioDownload"><input name="radioDownload" id="radioDownload" type="radio" checked /> Save all code and resources</label>
+            <label id="labelProfiled" rel="2" class="label_radio" for="radioProfile"><input name="radioProfile" id="radioProfile" type="radio" /> Save profiled code and resources</label>
+            <label id="labelExtracted" rel="3" class="label_radio" for="radioExtract"><input name="radioExtract" id="radioExtract" type="radio" /> Save sliced code</label>
+        </form>
+
+        <div id="summaryInfo">
+            <table>
+                <tr valign = "top">
+                    <td class="labelCell">Chosen action: </td>
+                    <td class="chosenActionCell"></td>
+                </tr>
+
+                <tr valign = "top">
+                    <td class="labelCell">Target page: </td>
+                    <td class="targetPageCell"> <a href="">PAGE_NAME</a></td>
+                </tr>
+
+                <tr valign = "top">
+                    <td class="labelCell">External files: </td>
+                    <td class="externalFilesCell"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="additionalInfoContainer">
+            <table cellspacing='0'>
+                <thead>
+                    <tr>
+                        <td>Slicing Type</td>
+                        <td>Slicing Details</td>
+                        <td></td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>By Identifier</td>
+                        <td>a1@21</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>By DOM selectors</td>
+                        <td>#test.a</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td>
+                            <select>
+                                <option>By Identifier</option>
+                                <option>By DOM selectors</option>
+                            </select>
+                        </td>
+                        <td><input type="text" placeholder="Slicing info"></td>
+                        <td><a href="#">Add</a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="buttonOutline" style="float:right; margin:5px;">
+            <div class="button" id="buttonAction" style="width:65px;">
+                <div class="buttonLabel">&nbsp;Next&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.onload = function()
+    {
+        try
+        {
+            var messageContainer = document.querySelector(".contentWrapper");
+            var chosenActionCell = document.querySelector(".chosenActionCell");
+            var targetPageLink = document.querySelector(".targetPageCell a");
+            var externalFilesContainer = document.querySelector("#summaryInfo .externalFilesCell");
+            var additionalInfoContainer = document.querySelector("#additionalInfoContainer");
+
+            targetPageLink.href = sentArgument.targetPageLink;
+            targetPageLink.textContent = sentArgument.targetPageName;
+
+            function updateBySelectedAction()
+            {
+                var allRadioLabels = document.querySelectorAll(".label_radio");
+                var selectedLabel = document.querySelector(".label_radio.r_on");
+
+                for(var i = 0; i < allRadioLabels.length; i++)
+                {
+                    if(selectedLabel == allRadioLabels[i])
+                    {
+                        if(i == 0)
+                        {
+                            chosenActionCell.textContent = "Download";
+                            //additionalInfoContainer.classList.add("hidden");
+                        }
+                        else if (i == 1)
+                        {
+                            chosenActionCell.textContent = "Download profiled";
+                            //additionalInfoContainer.classList.add("hidden");
+                        }
+                        else if (i == 2)
+                        {
+                            chosenActionCell.textContent = "Download sliced";
+                            //additionalInfoContainer.classList.remove("hidden");
+                        }
+                        else { alert("Unknown action!");}
+                    }
+                }
+            };
+
+            (function controlLabels()
+            {
+                var labels = document.querySelectorAll("label.label_radio");
+                for (var i = 0; i < labels.length; i++)
+                {
+                    if(i == 0)
+                    {
+                        labels[i].className = 'label_radio r_on';
+                    }
+
+                    labels[i].onclick = function()
+                    {
+                        for (var i = 0; i < labels.length; i++)
+                        {
+                            labels[i].className = 'label_radio r_off';
+                        }
+
+                        this.className = 'label_radio r_on';
+
+                        updateBySelectedAction();
+                    };
+                }
+
+                updateBySelectedAction();
+            }());
+
+            (function setExternalFilesInfo()
+            {
+                var externalFiles = sentArgument.externalFiles || [];
+
+                externalFiles.forEach(function (externalFile)
+                {
+                    var externalFileLink = document.createElement("a");
+                    externalFileLink.href = externalFile;
+                    externalFileLink.textContent = externalFile;
+                    externalFilesContainer.appendChild(externalFileLink);
+                    externalFilesContainer.appendChild(document.createElement("br"));
+                });
+            }());
+
+            document.querySelector("#buttonAction").onclick = function()
+            {
+                try
+                {
+                    var currentlySelectedLabel = document.querySelector(".label_radio.r_on");
+
+                    if(currentlySelectedLabel == null) { alert("There is no selected label!"); }
+                }
+                catch(e) { alert("Error when processing action!"); }
+            }
+        }
+        catch(e)
+        {
+            alert("Error when processing onLoad in window");
+        }
+    };
+</script>
+</body>
+</html>

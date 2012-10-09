@@ -4,6 +4,7 @@ body
     padding: 0;
     margin: 0;
     background-color: #383838;
+    -moz-user-select: none;
 }
 
 h1
@@ -49,6 +50,7 @@ h3
     background-color: #383838;
     color:#BBB;
     overflow:auto;
+    padding: 5px;;
 }
 
 #notificationWindow
@@ -61,7 +63,135 @@ h3
     height: 200px;
 }
 
+#firecrowWindow
+{
+    width: 600px;
+}
+
+#firecrowWindow > .contentWrapper
+{
+    height: 400px;
+}
+
 .fcWindow > .contentWrapper > .content
 {
     margin:10px;
+}
+
+.label_radio input { margin-right: 5px; }
+label { display: block; cursor: pointer; line-height: 20px; padding-bottom: 9px; text-shadow: 0 -1px 0 rgba(0,0,0,.2); }
+
+.label_radio    { background: url(../images/radio-off.png) no-repeat; padding-left: 34px;}
+label.r_on      { background: url(../images/radio-on.png) no-repeat; }
+.label_radio input  { position: absolute; left: -9999px; }
+
+form { margin: 5px;}
+
+.footer>.buttons
+{
+    float:right;
+    margin-right:5px;
+    margin-top:8px;
+}
+
+.footer>.buttons .buttonOutline
+{
+    margin-right:3px;
+}
+
+.hidden
+{
+    display: none;
+}
+
+.buttonOutline
+{
+    height:30px;
+    border-color:#1E1E1E;
+    border-style:solid;
+    border-width:1px;
+    display:inline-block;
+    text-align:center;
+    float:left;
+    margin:1px 0px 0px 5px;
+    margin-left:5px;
+}
+.buttonOutline:hover
+{
+    cursor:pointer;
+}
+
+.buttonOutline .buttonContent
+{
+    margin-top:4px;
+}
+
+.button, .buttonActive, .buttonDisabled
+{
+    border-style:solid;
+    height:28px;
+    border-width:1px;
+    border-width:1px;
+    vertical-align:bottom;
+}
+.button
+{
+    background-image:-moz-linear-gradient(top, #A5A5A5, #858383);
+    color:#D3D3D3;
+}
+
+.button .buttonLabel,
+.buttonActive .buttonLabel,
+.buttonDisabled .buttonLabel
+{
+    margin-top: 3px;
+}
+
+.button:hover
+{
+    background-image:-moz-linear-gradient(top, #878787, #5C5C5C);
+}
+.buttonActive
+{
+    border-color:#252525;
+    background-image:-moz-linear-gradient(top, #3E3E3E, #353535);
+}
+.buttonDisabled, .buttonDisabled:hover
+{
+    border-color:#7F7F7F;
+    background-image:-moz-linear-gradient(top, rgb(108,108,108), rgb(86,86,86));
+}
+
+a:visited, a { color: white; }
+
+
+#additionalInfoContainer table
+{
+    border: #000000;
+    border-style: solid;
+    border-width: 1px;
+    width: 400px;
+    padding: 0px;
+}
+
+#additionalInfoContainer thead
+{
+    background-color: #4D4D4D;
+    border-color: #5C5C5C;
+    border-style: solid;
+    border-width: 1px;
+    color: #BBBBBB;
+    font-weight: bold;
+}
+
+#additionalInfoContainer td
+{
+    padding: 4px;
+}
+
+#additionalInfoContainer tbody
+{
+    border-bottom: #000000;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
 }

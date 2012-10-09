@@ -113,7 +113,15 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
-                fbHelper.openWindow("chrome://firecrow/content/windows/notificationWindow.html", "Firecrow", {});
+                var communicationObject =
+                {
+                    onConfigurationFinished: function(configOptions)
+                    {
+                        alert("Configuration finished");
+                    }
+                };
+
+                fbHelper.openWindow("chrome://firecrow/content/windows/firecrowWindow.html", "Firecrow", communicationObject);
             }
             catch(e) { alert("Error when handling Firecrow press"); }
         },
