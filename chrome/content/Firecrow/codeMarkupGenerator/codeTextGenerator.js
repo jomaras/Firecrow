@@ -1010,6 +1010,8 @@ Firecrow.CodeTextGenerator.prototype =
 
             var rules = styleElement.cssRules;
 
+            this.indent();
+
             for(var i = 0, length = rules.length; i < length; i++)
             {
                 var rule = rules[i];
@@ -1020,6 +1022,8 @@ Firecrow.CodeTextGenerator.prototype =
             }
 
             if(cssText !== "") { cssText += this.newLine;}
+
+            this.deIndent();
 
             return cssText;
         }

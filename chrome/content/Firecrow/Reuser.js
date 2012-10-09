@@ -190,8 +190,64 @@ Firecrow.Reuser =
 
             mergedNode.children.push(mergedChild);
 
-            this._createChildren(mergedChild, child, origin);
+            if(mergedChild.type == "script" || mergedChild.type == "style" || mergedChild.type == "link")
+            {
+                this._createChildrenForNonHtmlContent(mergedChild, child, origin);
+            }
+            else
+            {
+                this._createChildren(mergedChild, child, origin);
+            }
         }
+    },
+
+    _createChildrenForNonHtmlContent: function(mergedNode, originalNode, origin)
+    {
+        if(mergedNode == null || originalNode == null) { return; }
+
+        mergedNode.pathAndModel =
+        {
+            path: originalNode.pathAndModel.path,
+            model: this._createCodeModel(originalNode.pathAndModel.model, origin)
+        }
+
+        mergedNode.cssRules = mergedNode.pathAndModel.model.rules;
+    },
+
+    _createCodeModel: function(originalModel, origin)
+    {
+        if(originalModel == null) { return null; }
+
+        if(originalModel.rules != null)
+        {
+            return this._createCssCodeModel(originalModel, origin);
+        }
+        else
+        {
+            alert("Unknown code model!");
+        }
+    },
+
+    _createCssCodeModel: function(originalModel, origin)
+    {
+        if(originalModel == null || originalModel.rules == null) { return null; }
+
+        var shouldSlice = origin == "reuse";
+
+        var mergedRules = [];
+        var rules = originalModel.rules;
+
+        for(var i = 0; i < rules.length; i++)
+        {
+            var rule = rules[i];
+
+            if(!shouldSlice || rule.shouldBeIncluded)
+            {
+                mergedRules.push(rule);
+            }
+        }
+
+        return { rules: mergedRules };
     },
 
     _getHeadElement: function(model)
