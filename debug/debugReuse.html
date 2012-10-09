@@ -120,20 +120,20 @@
         });
     }
 
-    var extractedAppSlicingResult = Firecrow.Slicer.slice(htmlModel.toExtractModel, htmlModel.selectors.map(function(selector)
+    var extractedAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseAppModel, htmlModel.selectors.map(function(selector)
     {
         return Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector);
     }));
 
-    var fullAppSlicingResult = Firecrow.Slicer.slice(htmlModel.fullAppModel);
+    var fullAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseIntoAppModel);
 
-    document.getElementById("extractedFullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.toExtractModel);
-    document.getElementById("extractedSlicedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.toExtractModel);
+    document.getElementById("extractedFullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.reuseAppModel);
+    document.getElementById("extractedSlicedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.reuseAppModel);
 
-    document.getElementById("fullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.fullAppModel);
+    document.getElementById("fullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.reuseIntoAppModel);
     document.getElementById("reusedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode
     (
-        Firecrow.Reuser.getMergedModel(htmlModel.toExtractModel, htmlModel.fullAppModel, extractedAppSlicingResult.dependencyGraph, fullAppSlicingResult.dependencyGraph)
+        Firecrow.Reuser.getMergedModel(htmlModel.reuseAppModel, htmlModel.reuseIntoAppModel, extractedAppSlicingResult.dependencyGraph, fullAppSlicingResult.dependencyGraph)
     );
 </script>
 </body>
