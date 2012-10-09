@@ -13,6 +13,7 @@ Firecrow.DependencyGraph.DependencyGraph = function()
 {
     this.nodes = [];
     this.htmlNodes = [];
+    this.cssNodes = [];
     this.controlFlow = [];
     this.importantConstructDependencyIndexMapping = [];
     this.controlDependencies = [];
@@ -36,10 +37,8 @@ DependencyGraph.prototype =
 
         this.nodes.push(node);
 
-        if(node.type == "html")
-        {
-            this.htmlNodes.push(node);
-        }
+        if(node.type == "html") { this.htmlNodes.push(node); }
+        else if (node.type == "css") { this.cssNodes.push(node); }
     },
 
     handleNodeCreated: function(nodeModelObject, type, isDynamic)

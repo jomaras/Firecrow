@@ -18,6 +18,7 @@ Firecrow.Reuser =
             if(reuseIntoAppModel.children == null || reuseIntoAppModel.children.length == 0) { return reusedAppModel; }
 
             Firecrow.ConflictFixer.fixHtmlConflicts(reuseAppGraph, reuseIntoAppGraph, reuseSelectors);
+            var hasFixedCssConflicts = Firecrow.ConflictFixer.fixCssConflicts(reuseAppGraph, reuseIntoAppGraph);
 
             //The head and the body nodes will be kept, and that all other nodes will be appended
             //Elements contained in the head or body nodes of the reused app will be added after the elements from the reuseInto application
@@ -46,8 +47,8 @@ Firecrow.Reuser =
             this._createChildren(mergedHeadNode, reuseIntoHeadNode);
             this._createChildren(mergedHeadNode, reusedHeadNode, "reuse");
 
-            this._createChildren(mergedBodyNode, reuseIntoBodyNode);
-            this._createChildren(mergedBodyNode, reusedBodyNode, "reuse");
+            this._createChildren(mergedBodyNode, reuseIntoBodyNode, null, hasFixedCssConflicts);
+            this._createChildren(mergedBodyNode, reusedBodyNode, "reuse", hasFixedCssConflicts);
 
             if(!this._areSelectorsSupported(reuseSelectors.concat(reuseIntoDestinationSelectors)))
             {
@@ -172,7 +173,7 @@ Firecrow.Reuser =
         return selector.match(/(\.|#)?([0-9]?)([a-z|A-Z])+/) != null;
     },
 
-    _createChildren: function(mergedNode, originalNode, origin)
+    _createChildren: function(mergedNode, originalNode, origin, hasFixedCssConflicts)
     {
         if(mergedNode == null || originalNode == null || originalNode.children == null || originalNode.children.length == 0) { return; }
 
@@ -188,6 +189,11 @@ Firecrow.Reuser =
                 mergedChild.attributes.push({name:"origin", value: origin});
             }
 
+            if(mergedNode.type == "body" && hasFixedCssConflicts)
+            {
+                this._appendDifferentiatingStructureClassAttribute(mergedChild, origin);
+            }
+
             mergedNode.children.push(mergedChild);
 
             if(mergedChild.type == "script" || mergedChild.type == "style" || mergedChild.type == "link")
@@ -196,8 +202,29 @@ Firecrow.Reuser =
             }
             else
             {
-                this._createChildren(mergedChild, child, origin);
+                this._createChildren(mergedChild, child, origin, hasFixedCssConflicts);
             }
+        }
+    },
+
+    _appendDifferentiatingStructureClassAttribute: function(node, origin)
+    {
+        var classAttribute = this._getAttribute(node, "class");
+
+        //TODO possible problem with dynamically set class attributes
+        if(classAttribute == null)
+        {
+            node.attributes.push
+            ({
+                name:"class",
+                value: origin == "reuse" ? Firecrow.ConflictFixer.generateReusePrefix()
+                                         : Firecrow.ConflictFixer.generateOriginalPrefix()
+            });
+        }
+        else
+        {
+            classAttribute.value += (origin == "reuse" ? Firecrow.ConflictFixer.generateReusePrefix()
+                                                       : Firecrow.ConflictFixer.generateOriginalPrefix()) + " ";
         }
     },
 
@@ -383,8 +410,8 @@ Firecrow.ConflictFixer =
 
                 conflictingAttributes.forEach(function(conflictingArgument)
                 {
-                    changes.push({oldValue:conflictingArgument.value, newValue: this._generatePrefix() + conflictingArgument.value});
-                    conflictingArgument.value = this._generatePrefix() + conflictingArgument.value;
+                    changes.push({oldValue:conflictingArgument.value, newValue: this.generateReusePrefix() + conflictingArgument.value});
+                    conflictingArgument.value = this.generateReusePrefix() + conflictingArgument.value;
                 }, this);
             }
         }
@@ -398,10 +425,85 @@ Firecrow.ConflictFixer =
             {
                 reuseSelectors[j] = reuseSelectors[j].replace(change.oldValue, change.newValue);
             }
+
+            for(var j = 0; j < reusedAppGraph.cssNodes.length; j++)
+            {
+                var cssNode = reusedAppGraph.cssNodes[j].model;
+
+                cssNode.selector = cssNode.selector.replace(change.oldValue, change.newValue);
+                cssNode.cssText = cssNode.cssText.replace(change.oldValue, change.newValue);
+            }
         }
     },
 
-    _generatePrefix: function()
+    fixCssConflicts: function(reusedAppGraph, reuseIntoAppGraph)
+    {
+        var reusedCssNodes = reusedAppGraph.cssNodes;
+        var reuseIntoCssNodes = reuseIntoAppGraph.cssNodes;
+
+        var reusedCssSelectors = this._getTypeSelectors(reusedCssNodes);
+        var reuseIntoCssSelectors = this._getTypeSelectors(reuseIntoCssNodes);
+
+        if(reusedCssSelectors.length == 0 && reuseIntoCssSelectors == 0) { return false; }
+
+        for(var i = 0; i < reusedCssSelectors.length; i++)
+        {
+           var cssSelector = reusedCssSelectors[i];
+
+           //TODO CSS SELECTORS HAZARD
+           cssSelector.cssText = "." + this.generateReusePrefix() + " " + cssSelector.selector + ", "
+                               + cssSelector.selector + "." + this.generateReusePrefix() + cssSelector.cssText.replace(cssSelector.selector, "");
+
+           cssSelector.selector = "." + this.generateReusePrefix() + " " + cssSelector.selector + ", "
+                                + cssSelector.selector + this.generateReusePrefix();
+        }
+
+        for(var i = 0; i < reuseIntoCssSelectors.length; i++)
+        {
+            var cssSelector = reuseIntoCssSelectors[i];
+
+            //TODO CSS SELECTORS HAZARD
+            cssSelector.cssText = "." + this.generateOriginalPrefix() + " " + cssSelector.selector + ", "
+                                + cssSelector.selector + "." + this.generateOriginalPrefix() + cssSelector.cssText.replace(cssSelector.selector, "");
+
+            cssSelector.selector = "." + this.generateOriginalPrefix() + " " + cssSelector.selector + ", "
+                                 + cssSelector.selector + this.generateOriginalPrefix();
+        }
+
+        return true;
+    },
+
+    _getTypeSelectors: function(cssNodes)
+    {
+        var typeSelectors = [];
+
+        for(var i = 0; i < cssNodes.length; i++)
+        {
+            var cssSelector = cssNodes[i].model;
+
+            //TODO CSS SELECTORS HAZARD
+            if(this._isTypeSelector(cssSelector.selector))
+            {
+                typeSelectors.push(cssSelector);
+            }
+        }
+
+        return typeSelectors;
+    },
+
+    _isTypeSelector: function(selector)
+    {
+        if(selector == null || selector == "") { return false; }
+
+        return selector.indexOf(".") == -1 && selector.indexOf("#") == -1;
+    },
+
+    generateOriginalPrefix: function()
+    {
+        return "_OR_";
+    },
+
+    generateReusePrefix: function()
     {
         return "_RU_";
     },
