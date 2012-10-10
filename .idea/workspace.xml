@@ -7,10 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/10/reuseApp.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/10/reuseInto.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/11/reuseApp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/11/reuseInto.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugReuse.html" afterPath="$PROJECT_DIR$/debug/debugReuse.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" afterPath="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" />
@@ -66,7 +65,7 @@
       <file leaf-file-name="reuseModels.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="12" selection-start="36096" selection-end="36096" vertical-scroll-proportion="0.0">
+            <state line="63" column="0" selection-start="40006" selection-end="40006" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -75,7 +74,7 @@
       <file leaf-file-name="debugReuse.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="110" column="28" selection-start="5267" selection-end="5267" vertical-scroll-proportion="-16.25">
+            <state line="93" column="26" selection-start="4867" selection-end="4867" vertical-scroll-proportion="-5.625">
               <folding />
             </state>
           </provider>
@@ -93,7 +92,7 @@
       <file leaf-file-name="ASTHelper.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="294" column="67" selection-start="9424" selection-end="9424" vertical-scroll-proportion="0.31387666">
+            <state line="307" column="95" selection-start="9896" selection-end="9896" vertical-scroll-proportion="0.280837">
               <folding />
             </state>
           </provider>
@@ -102,25 +101,7 @@
       <file leaf-file-name="testSummary" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/reuseTests/testSummary">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="839" selection-end="839" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reuseApp.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/reuseTests/10/reuseApp.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="44" selection-start="331" selection-end="331" vertical-scroll-proportion="-7.5">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reuseInto.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/reuseTests/10/reuseInto.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="94" selection-start="560" selection-end="560" vertical-scroll-proportion="-10.0">
+            <state line="11" column="0" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -139,7 +120,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
         <option value="$PROJECT_DIR$/debug/reuseTests/06/reuseApp.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/07/reuseApp.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/07/reuseInto.html" />
@@ -150,10 +130,11 @@
         <option value="$PROJECT_DIR$/debug/reuseTests/09/reuseInto.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/10/reuseInto.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/10/reuseApp.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/testSummary" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/11/reuseApp.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" />
         <option value="$PROJECT_DIR$/debug/debugReuse.html" />
-        <option value="$PROJECT_DIR$/debug/reuseTests/testSummary" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
       </list>
     </option>
@@ -285,7 +266,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="10" />
+              <option name="myItemId" value="11" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1495,7 +1476,11 @@
       <created>1349850019915</created>
       <updated>1349850019915</updated>
     </task>
-    <option name="localTasksCounter" value="259" />
+    <task id="LOCAL-00259" summary="Reusing javascript code">
+      <created>1349857814645</created>
+      <updated>1349857814645</updated>
+    </task>
+    <option name="localTasksCounter" value="260" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1591,7 +1576,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Expanding an allready existing class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reusing javascript code" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1604,7 +1589,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Detecting CSS clones" />
     <MESSAGE value="Detecting JS clones" />
     <MESSAGE value="Detecting HTML clones" />
     <MESSAGE value="Fixed a bug in detecting JS clones" />
@@ -1629,6 +1613,7 @@
     <MESSAGE value="Test to include CSS code" />
     <MESSAGE value="Type selectors" />
     <MESSAGE value="Expanding an allready existing class" />
+    <MESSAGE value="Reusing javascript code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1641,20 +1626,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="257" column="4" selection-start="10997" selection-end="10997" vertical-scroll-proportion="0.3329609">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="47" selection-start="1259" selection-end="1259" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/reuseTests/07/reuseApp.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="13" selection-start="102" selection-end="102" vertical-scroll-proportion="0.101809956" />
@@ -1707,20 +1678,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="12" selection-start="36096" selection-end="36096" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/testSummary">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="839" selection-end="839" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/reuseTests/10/reuseApp.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="44" selection-start="331" selection-end="331" vertical-scroll-proportion="-7.5">
@@ -1728,9 +1685,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/testSummary">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/11/reuseInto.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="34" selection-start="248" selection-end="248" vertical-scroll-proportion="-6.25">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/11/reuseApp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="12" selection-start="370" selection-end="370" vertical-scroll-proportion="-8.125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="28" selection-start="5267" selection-end="5267" vertical-scroll-proportion="-16.25">
+        <state line="93" column="26" selection-start="4867" selection-end="4867" vertical-scroll-proportion="-5.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="0" selection-start="40006" selection-end="40006" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1744,7 +1729,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="294" column="67" selection-start="9424" selection-end="9424" vertical-scroll-proportion="0.31387666">
+        <state line="307" column="95" selection-start="9896" selection-end="9896" vertical-scroll-proportion="0.280837">
           <folding />
         </state>
       </provider>

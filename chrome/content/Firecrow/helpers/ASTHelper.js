@@ -303,7 +303,7 @@ FBL.ns(function () { with (FBL) {
 
             this.traverseAst(programModel, function(propertyValue, propertyName, parentElement)
             {
-                if(copyOnlyUsedElements && !parentElement.shouldBeIncluded) { return; }
+                if(copyOnlyUsedElements && (!parentElement.shouldBeIncluded || !propertyValue.shouldBeIncluded)) { return; }
 
                 var mappedParentElement = parentElement.type == "Program" ? newModel
                                                                           : mapping[parentElement.nodeId];
