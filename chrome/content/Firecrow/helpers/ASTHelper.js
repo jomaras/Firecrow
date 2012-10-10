@@ -348,7 +348,7 @@ FBL.ns(function () { with (FBL) {
 
             for(var prop in originalNode)
             {
-                if(!Firecrow.ValueTypeHelper.isObject(originalNode[prop]))
+                if(!Firecrow.ValueTypeHelper.isObject(originalNode[prop]) || originalNode[prop] instanceof RegExp)
                 {
                     clone[prop] = originalNode[prop];
                 }
