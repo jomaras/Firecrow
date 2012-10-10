@@ -183,7 +183,7 @@ Firecrow.Reuser =
         {
             var child = originalNode.children[i];
 
-            if(origin == "reuse" && child.type == "title") { continue; }
+            if(origin == "reuse" && (child.type == "title" || !child.shouldBeIncluded)) { continue; }
 
             var mergedChild = this._cloneShallow(child);
             mergedChild.parent = mergedNode;
