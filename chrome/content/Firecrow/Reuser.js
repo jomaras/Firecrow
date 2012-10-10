@@ -223,8 +223,8 @@ Firecrow.Reuser =
         }
         else
         {
-            classAttribute.value += (origin == "reuse" ? Firecrow.ConflictFixer.generateReusePrefix()
-                                                       : Firecrow.ConflictFixer.generateOriginalPrefix()) + " ";
+            classAttribute.value += " " + (origin == "reuse" ? Firecrow.ConflictFixer.generateReusePrefix()
+                                                             : Firecrow.ConflictFixer.generateOriginalPrefix()) + " ";
         }
     },
 
