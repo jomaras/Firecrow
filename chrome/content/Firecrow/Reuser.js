@@ -462,6 +462,7 @@ Firecrow.ConflictFixer =
                 if(Firecrow.ASTHelper.isLiteral(change.setConstruct.right))
                 {
                     change.setConstruct.right.value = change.setConstruct.right.value.replace(change.oldValue, change.newValue);
+                    return;
                 }
                 else if (Firecrow.ASTHelper.isIdentifier(change.setConstruct.right))
                 {
@@ -470,20 +471,18 @@ Firecrow.ConflictFixer =
                     if(identifierDeclarator != null && Firecrow.ASTHelper.isLiteral(identifierDeclarator.init))
                     {
                         identifierDeclarator.init.value = identifierDeclarator.init.value.replace(change.oldValue, change.newValue);
+                        return;
                     }
-                    else
-                    {
-                        alert("Dynamically set attribute over identifier could not be replaced in Reuser");
-                    }
-                }
-                else
-                {
-                    alert("Dynamically set attribute code construct could not be replaced in Reuser");
                 }
             }
-            else
+
+            var parentStatement = Firecrow.ASTHelper.getParentStatement(change.setConstruct);
+
+            if(parentStatement != null)
             {
-                alert("Unknown code construct when fixing html dynamic attribute conflicts");
+                if(parentStatement.comments == null) { parentStatement.comments = []; }
+
+                parentStatement.comments.push("Firecrow: Could not rename:" + change.oldValue + " -> " + change.newValue);
             }
         }
     },

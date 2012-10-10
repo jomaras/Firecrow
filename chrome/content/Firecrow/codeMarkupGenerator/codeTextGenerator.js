@@ -221,6 +221,17 @@ Firecrow.CodeTextGenerator.prototype =
                 var isElseIfStatement = ASTHelper.isElseIfStatement(element);
 
                 var statementCode = this.generateStatement(element);
+
+                if(element.comments != null)
+                {
+                    statementCode += "/*";
+                    element.comments.forEach(function(comment)
+                    {
+                        statementCode += comment + "; ";
+                    }, this);
+                    statementCode += "*/"
+                }
+
                 if(statementCode === "") { return ""; }
 
                 return (!isElseIfStatement ? this.whitespace : "")

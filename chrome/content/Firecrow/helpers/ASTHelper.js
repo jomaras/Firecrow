@@ -348,7 +348,7 @@ FBL.ns(function () { with (FBL) {
 
             for(var prop in originalNode)
             {
-                if(!Firecrow.ValueTypeHelper.isObject(originalNode[prop]) || originalNode[prop] instanceof RegExp)
+                if(!Firecrow.ValueTypeHelper.isObject(originalNode[prop]) || originalNode[prop] instanceof RegExp || prop == "comments")
                 {
                     clone[prop] = originalNode[prop];
                 }
@@ -729,6 +729,32 @@ FBL.ns(function () { with (FBL) {
             }
 
             return false;
+        },
+
+        getParentStatement: function(codeConstruct)
+        {
+            return this.getParentOfTypes
+            (
+                codeConstruct,
+                [
+                    this.CONST.STATEMENT.ExpressionStatement,
+                    this.CONST.STATEMENT.IfStatement,
+                    this.CONST.STATEMENT.LabeledStatement,
+                    this.CONST.STATEMENT.BreakStatement,
+                    this.CONST.STATEMENT.ContinueStatement,
+                    this.CONST.STATEMENT.WithStatement,
+                    this.CONST.STATEMENT.SwitchStatement,
+                    this.CONST.STATEMENT.ReturnStatement,
+                    this.CONST.STATEMENT.ThrowStatement,
+                    this.CONST.STATEMENT.TryStatement,
+                    this.CONST.STATEMENT.WhileStatement,
+                    this.CONST.STATEMENT.DoWhileStatement,
+                    this.CONST.STATEMENT.ForStatement,
+                    this.CONST.STATEMENT.ForInStatement,
+                    this.CONST.STATEMENT.LetStatement,
+                    this.CONST.STATEMENT.DebuggerStatement
+                ]
+            );
         },
 
         getFunctionParent: function(codeConstruct)
