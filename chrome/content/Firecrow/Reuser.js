@@ -449,23 +449,41 @@ Firecrow.ConflictFixer =
                 cssNode.cssText = cssNode.cssText.replace(change.oldValue, change.newValue);
             }
 
-            if(change.setConstruct != null)
+            this._fixDynamicallySetAttributes(change);
+        }
+    },
+
+    _fixDynamicallySetAttributes: function(change)
+    {
+        if(change.setConstruct != null)
+        {
+            if(Firecrow.ASTHelper.isAssignmentExpression(change.setConstruct))
             {
-                if(Firecrow.ASTHelper.isAssignmentExpression(change.setConstruct))
+                if(Firecrow.ASTHelper.isLiteral(change.setConstruct.right))
                 {
-                    if(Firecrow.ASTHelper.isLiteral(change.setConstruct.right))
+                    change.setConstruct.right.value = change.setConstruct.right.value.replace(change.oldValue, change.newValue);
+                }
+                else if (Firecrow.ASTHelper.isIdentifier(change.setConstruct.right))
+                {
+                    var identifierDeclarator = Firecrow.ASTHelper.getDeclarator(change.setConstruct.right);
+
+                    if(identifierDeclarator != null && Firecrow.ASTHelper.isLiteral(identifierDeclarator.init))
                     {
-                        change.setConstruct.right.value = change.setConstruct.right.value.replace(change.oldValue, change.newValue);
+                        identifierDeclarator.init.value = identifierDeclarator.init.value.replace(change.oldValue, change.newValue);
                     }
                     else
                     {
-                        alert("Dynamically set attribute code construct could not be replaced in Reuser");
+                        alert("Dynamically set attribute over identifier could not be replaced in Reuser");
                     }
                 }
                 else
                 {
-                    alert("Unknown code construct when fixing html dynamic attribute conflicts");
+                    alert("Dynamically set attribute code construct could not be replaced in Reuser");
                 }
+            }
+            else
+            {
+                alert("Unknown code construct when fixing html dynamic attribute conflicts");
             }
         }
     },

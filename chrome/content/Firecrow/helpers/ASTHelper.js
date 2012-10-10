@@ -695,6 +695,26 @@ FBL.ns(function () { with (FBL) {
             return containsCallOrUpdateOrAssignmentExpression;
         },
 
+        getDeclarator: function(identifier)
+        {
+           if(!this.isIdentifier(identifier)) { return null; }
+           if(identifier.graphNode == null || identifier.graphNode.dataDependencies == null || identifier.graphNode.dataDependencies.length == 0) { return null;}
+
+           var dependencies = identifier.graphNode.dataDependencies;
+
+           for(var i = 0; i < dependencies.length; i++)
+           {
+               var destinationNode = dependencies[i].destinationNode.model;
+
+               if(this.isVariableDeclarator(destinationNode) && destinationNode.id.name == identifier.name)
+               {
+                    return destinationNode;
+               }
+           }
+
+           return null;
+        },
+
         isFunctionParameter: function(element)
         {
             if(!this.isIdentifier(element)){ return false; }
