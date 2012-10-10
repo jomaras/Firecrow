@@ -714,7 +714,10 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         try
         {
-
+            if(literal.shouldBeIncluded == true && Firecrow.ValueTypeHelper.isObject(literal.value))
+            {
+                literal.value.shouldBeIncluded = true;
+            }
         }
         catch(e) { this.notifyError("Error when processing from literal:" + e);}
     },

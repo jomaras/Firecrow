@@ -380,6 +380,7 @@ FBL.ns(function () { with (FBL) {
                         || propName == "type"
                         || propName == "eventTraces"
                         || propName == "inclusionDependencyConstraint"
+                        || propName == "blockStackConstructs"
                         || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
                     var propertyValue = astElement[propName];

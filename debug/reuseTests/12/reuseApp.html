@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div id="extractContainer" class="someExtractClass">
+        This is the extracted content
+    </div>
+    <script>
+        var extractContainer = document.getElementById("extractContainer");
+        var regEx = /text/g;
+        extractContainer.textContent += " - This text is added by js";
+
+        if(extractContainer.textContent.match(regEx))
+        {
+            extractContainer.textContent += " - influenced by regEx";
+        }
+    </script>
+</body>
+</html>
