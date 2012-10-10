@@ -272,7 +272,7 @@ FBL.ns(function () { with (FBL) {
             {
                 var result = {};
 
-                var traverserFunction = function(elementValue, elementName, parentObject)
+                var traversalFunction = function(elementValue, elementName, parentObject)
                 {
                     types.forEach(function(type)
                     {
@@ -285,11 +285,76 @@ FBL.ns(function () { with (FBL) {
                     });
                 };
 
-                this.traverseAst(program, traverserFunction);
+                this.traverseAst(program, traversalFunction);
 
                 return result;
             }
             catch(e) { alert("Error while getting type expressions from program in ASTHelper: " + e);}
+        },
+
+        createCopy: function(programModel, copyOnlyUsedElements)
+        {
+            var newModel = {};
+
+            newModel.type = programModel.type;
+
+            var mapping = { };
+            var that = this;
+
+            this.traverseAst(programModel, function(propertyValue, propertyName, parentElement)
+            {
+                if(copyOnlyUsedElements && !parentElement.shouldBeIncluded) { return; }
+
+                var mappedParentElement = parentElement.type == "Program" ? newModel
+                                                                          : mapping[parentElement.nodeId];
+
+                if(mappedParentElement == null) { alert("Mapped parent element can not be null!"); return; }
+
+                var isPropertyArray = Firecrow.ValueTypeHelper.isArray(parentElement[propertyName]);
+
+                if(mappedParentElement[propertyName] == null)
+                {
+                    if(isPropertyArray)
+                    {
+                        mappedParentElement[propertyName] = [];
+                    }
+                    else
+                    {
+                        mappedParentElement[propertyName] = that._cloneShallowASTNode(propertyValue);
+                        mapping[propertyValue.nodeId] = mappedParentElement[propertyName];
+                    }
+                }
+
+                var mappedElement = mapping[propertyValue.nodeId];
+
+                if(mappedElement == null)
+                {
+                    mappedElement = that._cloneShallowASTNode(propertyValue);
+                    mapping[propertyValue.nodeId] = mappedElement;
+                }
+
+                if(isPropertyArray)
+                {
+                   mappedParentElement[propertyName].push(mappedElement);
+                }
+            });
+
+            return newModel;
+        },
+
+        _cloneShallowASTNode: function(originalNode)
+        {
+            var clone = {};
+
+            for(var prop in originalNode)
+            {
+                if(!Firecrow.ValueTypeHelper.isObject(originalNode[prop]))
+                {
+                    clone[prop] = originalNode[prop];
+                }
+            }
+
+            return clone;
         },
 
         traverseAst: function(astElement, processElementFunction, ignoreProperties)
@@ -314,6 +379,7 @@ FBL.ns(function () { with (FBL) {
                         || propName == "includedByNodes"
                         || propName == "type"
                         || propName == "eventTraces"
+                        || propName == "inclusionDependencyConstraint"
                         || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
                     var propertyValue = astElement[propName];

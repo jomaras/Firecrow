@@ -181,6 +181,8 @@ Firecrow.Reuser =
         {
             var child = originalNode.children[i];
 
+            if(origin == "reuse" && child.type == "title") { continue; }
+
             var mergedChild = this._cloneShallow(child);
             mergedChild.parent = mergedNode;
 
@@ -249,6 +251,10 @@ Firecrow.Reuser =
         {
             return this._createCssCodeModel(originalModel, origin);
         }
+        else if (originalModel.type == "Program")
+        {
+            return this._createProgramModel(originalModel, origin);
+        }
         else
         {
             alert("Unknown code model!");
@@ -275,6 +281,13 @@ Firecrow.Reuser =
         }
 
         return { rules: mergedRules };
+    },
+
+    _createProgramModel: function(originalModel, origin)
+    {
+        if(originalModel == null || originalModel.type != "Program") { return null; }
+
+        return Firecrow.ASTHelper.createCopy(originalModel, origin == "reuse");
     },
 
     _getHeadElement: function(model)
