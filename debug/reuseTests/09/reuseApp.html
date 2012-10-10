@@ -3,13 +3,14 @@
 <head>
     <title></title>
     <meta charset="UTF-8">
-    <style>
-        div { color: green; }
-    </style>
 </head>
 <body>
     <div id="extractContainer" class="someExtractClass">
         This is the extracted content
     </div>
+    <script>
+        var extractContainer = document.getElementById("extractContainer");
+        extractContainer.textContent += " - This text is added by js";
+    </script>
 </body>
 </html>

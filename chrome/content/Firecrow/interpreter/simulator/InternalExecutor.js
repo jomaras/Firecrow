@@ -207,14 +207,21 @@ fcSimulator.InternalExecutor.prototype =
         try
         {
             var jsElement = this.globalObject.origDocument.createElement(tagName);
-            jsElement.modelElement = { type: "DummyCodeElement" };
+            jsElement.modelElement = { type: "DummyCodeElement", domElement: jsElement };
             this.globalObject.browser.callNodeCreatedCallbacks(jsElement.modelElement, "html", true);
 
             jsElement.creationPoint =
             {
                 codeConstruct: creationCodeConstruct,
                 evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
-            }
+            };
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                creationCodeConstruct,
+                jsElement.modelElement,
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
 
             return new fcModel.JsValue
             (

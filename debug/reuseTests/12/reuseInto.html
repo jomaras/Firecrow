@@ -3,6 +3,10 @@
 <head>
     <title></title>
     <meta charset="UTF-8">
+    <style>
+        #mainContainer { color: blue; }
+        .jsContainer { color: red; }
+    </style>
 </head>
 <body>
     <div id="mainContainer" class="someReuseIntoClass">
@@ -14,7 +18,9 @@
         var mainContainer = document.getElementById("mainContainer");
         mainContainer.appendChild(document.createElement("br"));
         var newContainer = document.createElement("div");
+        newContainer.className = "jsContainer";
         newContainer.innerHTML = "And this was created by Javascript<br/>*********************";
+        mainContainer.appendChild(newContainer);
     </script>
 </body>
 </html>

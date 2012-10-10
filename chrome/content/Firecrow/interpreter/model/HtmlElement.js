@@ -275,6 +275,11 @@ fcModel.HtmlElementProto =
 
             this.htmlElement.elementModificationPoints.push({ codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
 
+            if(propertyName == "className" || propertyName == "id")
+            {
+                this.globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(this.htmlElement.modelElement);
+            }
+
             this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
         }
         catch(e) { fcModel.HtmlElement.notifyError("Error when adding property: " + e);}

@@ -132,7 +132,7 @@ Browser.prototype =
                 }
             }
 
-            this._createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
+            this.createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
             this._processChildren(htmlDomElement, htmlModelElement);
         }
         catch(e)
@@ -278,7 +278,7 @@ Browser.prototype =
         catch(e) { this.notifyError("DoppelBrowser.browser error when building css nodes: " + e);}
     },
 
-    _createDependenciesBetweenHtmlNodeAndCssNodes: function(htmlModelNode)
+    createDependenciesBetweenHtmlNodeAndCssNodes: function(htmlModelNode)
     {
         if(htmlModelNode.type == "textNode") { return; }
 

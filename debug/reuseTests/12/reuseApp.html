@@ -3,6 +3,17 @@
 <head>
     <title></title>
     <meta charset="UTF-8">
+    <style>
+        #extractContainer
+        {
+            color: green;
+        }
+
+        .jsContainer
+        {
+            color: #a52a2a;
+        }
+    </style>
 </head>
 <body>
     <div id="extractContainer" class="someExtractClass">
@@ -10,13 +21,11 @@
     </div>
     <script>
         var extractContainer = document.getElementById("extractContainer");
-        var regEx = /text/g;
-        extractContainer.textContent += " - This text is added by js";
 
-        if(extractContainer.textContent.match(regEx))
-        {
-            extractContainer.textContent += " - influenced by regEx";
-        }
+        var newContainer = document.createElement("div");
+        newContainer.className = "jsContainer";
+        newContainer.innerHTML = "And this was created by Javascript<br/>";
+        extractContainer.appendChild(newContainer);
     </script>
 </body>
 </html>

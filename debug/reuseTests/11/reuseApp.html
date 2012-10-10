@@ -10,9 +10,13 @@
     </div>
     <script>
         var extractContainer = document.getElementById("extractContainer");
+        var regEx = /text/g;
         extractContainer.textContent += " - This text is added by js";
-        var a = 3;
-        a++;
+
+        if(extractContainer.textContent.match(regEx))
+        {
+            extractContainer.textContent += " - influenced by regEx";
+        }
     </script>
 </body>
 </html>

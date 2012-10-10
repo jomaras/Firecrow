@@ -3,9 +3,6 @@
 <head>
     <title></title>
     <meta charset="UTF-8">
-    <style>
-        div { color: blue; }
-    </style>
 </head>
 <body>
     <div id="mainContainer" class="someReuseIntoClass">
@@ -13,5 +10,11 @@
         Which ends here<br/>
         *************************
     </div>
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+        mainContainer.appendChild(document.createElement("br"));
+        var newContainer = document.createElement("div");
+        newContainer.innerHTML = "And this was created by Javascript<br/>*********************";
+    </script>
 </body>
 </html>
