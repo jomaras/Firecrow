@@ -82,6 +82,7 @@ var models =
 /****************************************************************************************************
 13 - merging HTML code, nodes not for reuse in the reuseApp
 ------------------------------------------------------------------------
-conflicts with id and class caused by dynamically created html nodes
+conflicted dynamic attribute comes from a variable (?)
+conflicts in nodes created by innerHTML
 problems caused when the script element is before the extracted node (and that is somehow important for the node), and in the extracted code it isn't
 ******************************************************************************************************/

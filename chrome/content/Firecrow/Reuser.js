@@ -76,6 +76,8 @@ Firecrow.Reuser =
         {
             var node = nodesToMove[i];
 
+            if(node.parent == newParent) { continue; }
+
             //remove from previous position
             Firecrow.ValueTypeHelper.removeFromArrayByElement(node.parent.children, node);
 
@@ -423,7 +425,7 @@ Firecrow.ConflictFixer =
 
                 conflictingAttributes.forEach(function(conflictingArgument)
                 {
-                    changes.push({oldValue:conflictingArgument.value, newValue: this.generateReusePrefix() + conflictingArgument.value});
+                    changes.push({oldValue:conflictingArgument.value, newValue: this.generateReusePrefix() + conflictingArgument.value, setConstruct: conflictingArgument.setConstruct});
                     conflictingArgument.value = this.generateReusePrefix() + conflictingArgument.value;
                 }, this);
             }
@@ -445,6 +447,25 @@ Firecrow.ConflictFixer =
 
                 cssNode.selector = cssNode.selector.replace(change.oldValue, change.newValue);
                 cssNode.cssText = cssNode.cssText.replace(change.oldValue, change.newValue);
+            }
+
+            if(change.setConstruct != null)
+            {
+                if(Firecrow.ASTHelper.isAssignmentExpression(change.setConstruct))
+                {
+                    if(Firecrow.ASTHelper.isLiteral(change.setConstruct.right))
+                    {
+                        change.setConstruct.right.value = change.setConstruct.right.value.replace(change.oldValue, change.newValue);
+                    }
+                    else
+                    {
+                        alert("Dynamically set attribute code construct could not be replaced in Reuser");
+                    }
+                }
+                else
+                {
+                    alert("Unknown code construct when fixing html dynamic attribute conflicts");
+                }
             }
         }
     },
@@ -524,11 +545,12 @@ Firecrow.ConflictFixer =
     _getClassesAndIdsWithEqualValue: function(reusedNode, reuseIntoNode)
     {
         if(reusedNode == null || reuseIntoNode == null) { return []; }
-        if(reusedNode.attributes == null || reusedNode.attributes.length == 0) { return []; }
-        if(reuseIntoNode.attributes == null || reuseIntoNode.attributes.length == 0) { return []; }
 
-        var reusedAttributes = reusedNode.attributes;
-        var reusedIntoAttributes = reuseIntoNode.attributes;
+        var reusedAttributes = (reusedNode.attributes || []).concat(reusedNode.dynamicClasses || []).concat(reusedNode.dynamicIds || []);
+        var reusedIntoAttributes = (reuseIntoNode.attributes || []).concat(reuseIntoNode.dynamicClasses || []).concat(reuseIntoNode.dynamicIds || []);
+
+        if(reusedAttributes.length == 0) { return []; }
+        if(reusedIntoAttributes.length == 0) { return []; }
 
         var matchingAttributes = [];
 
