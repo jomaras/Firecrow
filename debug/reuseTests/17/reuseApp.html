@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #extractContainer
+        {
+            color: green;
+        }
+
+        .jsContainer
+        {
+            color: #a52a2a;
+        }
+    </style>
+</head>
+<body>
+    <div id="extractContainer" class="someExtractClass">
+        This is the extracted content
+    </div>
+    <script>
+        var extractContainer = document.getElementById("extractContainer");
+
+        var newContainer = document.createElement("div");
+        newContainer.innerHTML = "<div class='jsContainer'>And this was created by JavaScript innerHTML</div>";
+        extractContainer.appendChild(newContainer);
+    </script>
+</body>
+</html>

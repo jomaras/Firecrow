@@ -3,7 +3,7 @@ var testObject = {};
 var testName = "slicing";
 models.forEach(function(htmlModel, index)
 {
-    testObject["test " + testName + (index + 1)] = function()
+    testObject["test " + testName + (index)] = function()
     {
         var Firecrow = FBL.Firecrow;
 
