@@ -457,6 +457,15 @@ Firecrow.ConflictFixer =
     {
         if(change.setConstruct != null)
         {
+            var parentStatement = Firecrow.ASTHelper.getParentStatement(change.setConstruct);
+
+            if(parentStatement != null)
+            {
+                if(parentStatement.comments == null) { parentStatement.comments = []; }
+
+                parentStatement.comments.push("Firecrow - Rename:" + change.oldValue + " -> " + change.newValue);
+            }
+
             if(Firecrow.ASTHelper.isAssignmentExpression(change.setConstruct))
             {
                 if(Firecrow.ASTHelper.isLiteral(change.setConstruct.right))
@@ -476,14 +485,7 @@ Firecrow.ConflictFixer =
                 }
             }
 
-            var parentStatement = Firecrow.ASTHelper.getParentStatement(change.setConstruct);
-
-            if(parentStatement != null)
-            {
-                if(parentStatement.comments == null) { parentStatement.comments = []; }
-
-                parentStatement.comments.push("Firecrow: Could not rename:" + change.oldValue + " -> " + change.newValue);
-            }
+            parentStatement.comments.push("Could not rename");
         }
     },
 

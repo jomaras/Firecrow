@@ -290,10 +290,49 @@ fcModel.HtmlElementProto =
                     this.htmlElement.modelElement.dynamicClasses.push({name:'class', value: propertyValue.value, setConstruct: codeConstruct});
                 }
             }
+            else if(propertyName == "innerHTML")
+            {
+                this._createModelsForDynamicChildNodes(this.htmlElement, codeConstruct);
+            }
 
             this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
         }
         catch(e) { fcModel.HtmlElement.notifyError("Error when adding property: " + e);}
+    },
+
+    _createModelsForDynamicChildNodes: function(htmlElement, codeConstruct)
+    {
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0; i < htmlElement.childNodes.length; i++)
+        {
+            var childNode = htmlElement.childNodes[i];
+
+            childNode.creationPoint =
+            {
+                codeConstruct: codeConstruct,
+                evaluationPositionId: evaluationPosition
+            };
+
+            childNode.modelElement = { type: "DummyCodeElement", domElement: childNode };
+            this.globalObject.browser.callNodeCreatedCallbacks(childNode.modelElement, "html", true);
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(htmlElement.modelElement, childNode.modelElement, evaluationPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(childNode.modelElement, codeConstruct, evaluationPosition);
+
+            if(childNode.id != null && childNode.id != "")
+            {
+                childNode.modelElement.dynamicIds = [{name:'id', value: childNode.id, setConstruct: codeConstruct}];
+            }
+
+            if(childNode.className != null && childNode.className != "")
+            {
+                childNode.modelElement.dynamicClasses = [{name:'class', value: childNode.className, setConstruct: codeConstruct}];
+            }
+
+            this.globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(childNode.modelElement);
+            this._createModelsForDynamicChildNodes(childNode, codeConstruct);
+        }
     },
 
     addMethods: function(codeConstruct)
