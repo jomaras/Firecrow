@@ -84,10 +84,23 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.identifierSlicingCriteria = [];
         this.domModificationSlicingCriteria = [];
         this.includeAllDomModifications = false;
+        this.undefinedGlobalPropertiesAccessMap = {};
 
         this.getJsPropertyValue = function(propertyName, codeConstruct)
         {
-            return this.getPropertyValue(propertyName, codeConstruct);
+            var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
+
+            if(codeConstruct != null && propertyValue == undefined)
+            {
+                if(this.undefinedGlobalPropertiesAccessMap[propertyName] == null)
+                {
+                    this.undefinedGlobalPropertiesAccessMap[propertyName] = {};
+                }
+
+                this.undefinedGlobalPropertiesAccessMap[propertyName][codeConstruct.nodeId] = codeConstruct;
+            }
+
+            return propertyValue;
         };
 
         this.addJsProperty = function(propertyName, value, codeConstruct)

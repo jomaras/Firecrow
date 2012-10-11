@@ -224,12 +224,21 @@ Firecrow.CodeTextGenerator.prototype =
 
                 if(element.comments != null)
                 {
-                    statementCode += "/*";
+                    var commentText = "/*";
                     element.comments.forEach(function(comment)
                     {
-                        statementCode += comment + "; ";
+                        commentText += comment + "; ";
                     }, this);
-                    statementCode += "*/"
+                    commentText += "*/"
+
+                    if(ASTHelper.isLoopStatement(element) || ASTHelper.isIfStatement(element))
+                    {
+                        statementCode = commentText + this.newLine + this.whitespace + statementCode;
+                    }
+                    else
+                    {
+                        statementCode += commentText;
+                    }
                 }
 
                 if(statementCode === "") { return ""; }

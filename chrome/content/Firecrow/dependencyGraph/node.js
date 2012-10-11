@@ -10,6 +10,7 @@ FBL.ns(function() { with (FBL) {
 
         this.structuralDependencies = [];
         this.dataDependencies = [];
+        this.reverseDependencies = [];
         this.controlDependencies = [];
 
         this.model.graphNode = this;
@@ -35,13 +36,25 @@ FBL.ns(function() { with (FBL) {
     };
     Node.prototype.addDataDependency = function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency)
     {
-        this.dataDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency));
+        var edge = new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+        this.dataDependencies.push(edge);
+
+        if(destinationNode != null)
+        {
+            destinationNode.reverseDependencies.push(edge);
+        }
     };
     Node.prototype.addControlDependency = function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency, isPreviouslyExecutedBlockStatementDependency)
     {
         var edge = new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
         edge.isPreviouslyExecutedBlockStatementDependency = isPreviouslyExecutedBlockStatementDependency;
+
         this.dataDependencies.push(edge);
+
+        if(destinationNode != null)
+        {
+            destinationNode.reverseDependencies.push(edge);
+        }
     };
 
     Node.prototype.getDependencies = function(maxIndex, destinationConstraint)
