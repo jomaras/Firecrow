@@ -39,6 +39,8 @@ Firecrow.DoppelBrowser.Browser = function(pageModel)
         this.documentReadyCallbacks = [];
         this.breakContinueReturnEventsCallbacks = [];
 
+        this.domQueriesMap = {};
+
         this.errorMessages = [];
         this.cssRules = [];
 
@@ -708,6 +710,17 @@ Browser.prototype =
             callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies);
         });
     },
+
+    logDomQueried: function(methodName, selector, codeConstruct)
+    {
+        if(this.domQueriesMap[codeConstruct.nodeId] == null)
+        {
+            this.domQueriesMap[codeConstruct.nodeId] = { methodName: methodName, selectorsMap: {}, codeConstruct: codeConstruct};
+        }
+
+        this.domQueriesMap[codeConstruct.nodeId].selectorsMap[selector] = true;
+    },
+
     //TODO - think about new name
     callBreakContinueReturnEventCallbacks: function(node, evaluationPosition)
     {

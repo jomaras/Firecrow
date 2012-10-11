@@ -7,7 +7,7 @@ FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
 Firecrow.Reuser =
 {
-    getMergedModel: function(reusedAppModel, reuseIntoAppModel, reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseIntoDestinationSelectors)
+    getMergedModel: function(reusedAppModel, reuseIntoAppModel, reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseIntoDestinationSelectors, reuseAppBrowser, reuseIntoAppBrowser)
     {
         try
         {
@@ -17,7 +17,7 @@ Firecrow.Reuser =
             if(reusedAppModel.children == null || reusedAppModel.children.length == 0) { return reuseIntoAppModel; }
             if(reuseIntoAppModel.children == null || reuseIntoAppModel.children.length == 0) { return reusedAppModel; }
 
-            Firecrow.ConflictFixer.fixHtmlConflicts(reuseAppGraph, reuseIntoAppGraph, reuseSelectors);
+            Firecrow.ConflictFixer.fixHtmlConflicts(reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseAppBrowser);
             var hasFixedCssConflicts = Firecrow.ConflictFixer.fixCssConflicts(reuseAppGraph, reuseIntoAppGraph);
 
             //The head and the body nodes will be kept, and that all other nodes will be appended
@@ -32,21 +32,19 @@ Firecrow.Reuser =
             mergedModel.htmlElement = mergedHtmlElement
             mergedModel.children = [mergedHtmlElement];
 
-            var reuseIntoHeadNode = this._getHeadElement(reuseIntoAppModel);
+
             var reusedHeadNode = this._getHeadElement(reusedAppModel);
-
-            var reuseIntoBodyNode = this._getBodyElement(reuseIntoAppModel);
-            var reusedBodyNode = this._getBodyElement(reusedAppModel);
-
+            var reuseIntoHeadNode = this._getHeadElement(reuseIntoAppModel);
             var mergedHeadNode = this._cloneShallowMarkConflicts(reuseIntoHeadNode, reusedHeadNode);
-            var mergedBodyNode = this._cloneShallowMarkConflicts(reuseIntoBodyNode, reusedBodyNode);
-
             mergedHtmlElement.children.push(mergedHeadNode);
-            mergedHtmlElement.children.push(mergedBodyNode);
-
             this._createChildren(mergedHeadNode, reuseIntoHeadNode);
             this._createChildren(mergedHeadNode, reusedHeadNode, "reuse");
 
+
+            var reusedBodyNode = this._getBodyElement(reusedAppModel);
+            var reuseIntoBodyNode = this._getBodyElement(reuseIntoAppModel);
+            var mergedBodyNode = this._cloneShallowMarkConflicts(reuseIntoBodyNode, reusedBodyNode);
+            mergedHtmlElement.children.push(mergedBodyNode);
             this._createChildren(mergedBodyNode, reuseIntoBodyNode, null, hasFixedCssConflicts);
             this._createChildren(mergedBodyNode, reusedBodyNode, "reuse", hasFixedCssConflicts);
 
@@ -404,7 +402,7 @@ Firecrow.Reuser =
 
 Firecrow.ConflictFixer =
 {
-    fixHtmlConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseSelectors)
+    fixHtmlConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseSelectors, reuseAppBrowser)
     {
         if(reusedAppGraph == null || reuseIntoAppGraph == null) { return null; }
 
@@ -450,6 +448,7 @@ Firecrow.ConflictFixer =
             }
 
             this._fixDynamicallySetAttributes(change);
+            this._fixDomQueries(change, reuseAppBrowser);
         }
     },
 
@@ -457,35 +456,69 @@ Firecrow.ConflictFixer =
     {
         if(change.setConstruct != null)
         {
+            if(Firecrow.ASTHelper.isAssignmentExpression(change.setConstruct))
+            {
+                this._replaceLiteralOrDirectIdentifierValue(change, change.setConstruct.right);
+                return;
+            }
+
             var parentStatement = Firecrow.ASTHelper.getParentStatement(change.setConstruct);
 
             if(parentStatement != null)
             {
                 if(parentStatement.comments == null) { parentStatement.comments = []; }
-
-                parentStatement.comments.push("Firecrow - Rename:" + change.oldValue + " -> " + change.newValue);
+                parentStatement.comments.push("Firecrow - Could not rename: " + change.oldValue + " -> " + change.newValue);
             }
+        }
+    },
 
-            if(Firecrow.ASTHelper.isAssignmentExpression(change.setConstruct))
+    _replaceLiteralOrDirectIdentifierValue: function(change, codeConstruct)
+    {
+        var parentStatement = Firecrow.ASTHelper.getParentStatement(codeConstruct);
+
+        if(parentStatement != null)
+        {
+            if(parentStatement.comments == null) { parentStatement.comments = []; }
+
+            parentStatement.comments.push("Firecrow - Rename:" + change.oldValue + " -> " + change.newValue);
+        }
+
+        if(Firecrow.ASTHelper.isLiteral(codeConstruct))
+        {
+            codeConstruct.value = codeConstruct.value.replace(change.oldValue, change.newValue);
+            return;
+        }
+        else if (Firecrow.ASTHelper.isIdentifier(codeConstruct))
+        {
+            var identifierDeclarator = Firecrow.ASTHelper.getDeclarator(codeConstruct);
+
+            if(identifierDeclarator != null && Firecrow.ASTHelper.isLiteral(identifierDeclarator.init))
             {
-                if(Firecrow.ASTHelper.isLiteral(change.setConstruct.right))
-                {
-                    change.setConstruct.right.value = change.setConstruct.right.value.replace(change.oldValue, change.newValue);
-                    return;
-                }
-                else if (Firecrow.ASTHelper.isIdentifier(change.setConstruct.right))
-                {
-                    var identifierDeclarator = Firecrow.ASTHelper.getDeclarator(change.setConstruct.right);
+                identifierDeclarator.init.value = identifierDeclarator.init.value.replace(change.oldValue, change.newValue);
+                return;
+            }
+        }
 
-                    if(identifierDeclarator != null && Firecrow.ASTHelper.isLiteral(identifierDeclarator.init))
-                    {
-                        identifierDeclarator.init.value = identifierDeclarator.init.value.replace(change.oldValue, change.newValue);
-                        return;
-                    }
+        parentStatement.comments.push("Could not rename");
+    },
+
+    _fixDomQueries: function(change, reuseAppBrowser)
+    {
+        if(change == null || reuseAppBrowser == null) { return; }
+        if(reuseAppBrowser.domQueriesMap == null) { return;}
+
+        for(var domQueryProp in reuseAppBrowser.domQueriesMap)
+        {
+            var domQuery = reuseAppBrowser.domQueriesMap[domQueryProp];
+            var callExpressionFirstArgument = Firecrow.ASTHelper.getFirstArgumentOfCallExpression(domQuery.codeConstruct);
+
+            for(var selector in domQuery.selectorsMap)
+            {
+                if(selector.indexOf(change.oldValue) != -1)
+                {
+                    this._replaceLiteralOrDirectIdentifierValue(change, callExpressionFirstArgument);
                 }
             }
-
-            parentStatement.comments.push("Could not rename");
         }
     },
 

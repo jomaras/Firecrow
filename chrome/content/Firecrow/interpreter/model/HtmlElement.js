@@ -443,6 +443,7 @@ fcModel.HtmlElementExecutor =
 
                 try
                 {
+                    globalObject.browser.logDomQueried(functionName, arguments[0].value, callExpression);
                     elements = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
                 }
                 catch(e)
@@ -510,6 +511,7 @@ fcModel.HtmlElementExecutor =
             case "matchesSelector":
             case "mozMatchesSelector":
             case "webkitMatchesSelector":
+                globalObject.browser.logDomQueried(functionName, arguments[0].value, callExpression);
             case "compareDocumentPosition":
             case "contains":
                 var result = false;

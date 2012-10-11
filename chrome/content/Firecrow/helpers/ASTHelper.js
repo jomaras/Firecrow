@@ -632,6 +632,13 @@ FBL.ns(function () { with (FBL) {
             return false;
         },
 
+        getFirstArgumentOfCallExpression: function(element)
+        {
+            if(!this.isCallExpression(element) || element.arguments == null) { return null;}
+
+            return element.arguments[0];
+        },
+
         getLastLoopOrBranchingConditionInFunctionBody: function(element)
         {
             if(!this.isFunction(element)){ return null; }
@@ -752,7 +759,8 @@ FBL.ns(function () { with (FBL) {
                     this.CONST.STATEMENT.ForStatement,
                     this.CONST.STATEMENT.ForInStatement,
                     this.CONST.STATEMENT.LetStatement,
-                    this.CONST.STATEMENT.DebuggerStatement
+                    this.CONST.STATEMENT.DebuggerStatement,
+                    this.CONST.VariableDeclaration
                 ]
             );
         },

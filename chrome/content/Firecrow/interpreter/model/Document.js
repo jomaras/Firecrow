@@ -348,6 +348,8 @@ FBL.ns(function() { with (FBL) {
             {
                 var selector = arguments[0].value;
 
+                globalObject.browser.logDomQueried(functionName, selector, callExpression);
+
                 if(functionName == "getElementsByClassName") { selector = "." + selector; }
                 var elements = [];
                 try
@@ -375,6 +377,8 @@ FBL.ns(function() { with (FBL) {
             else if(functionName == "getElementById" || functionName == "querySelector")
             {
                 var selector = arguments[0].value;
+
+                globalObject.browser.logDomQueried(functionName, selector, callExpression);
 
                 if(functionName == "getElementById") { selector = "#" + selector; }
 

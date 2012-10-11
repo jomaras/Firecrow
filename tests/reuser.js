@@ -31,10 +31,14 @@ models.forEach(function(htmlModel, index)
             extractedAppSlicingResult.dependencyGraph,
             fullAppSlicingResult.dependencyGraph,
             htmlModel.reuseSelectors,
-            htmlModel.reuseIntoDestinationSelectors
+            htmlModel.reuseIntoDestinationSelectors,
+            extractedAppSlicingResult.browser,
+            fullAppSlicingResult.browser
         ));
 
-        assertEquals(generatedCode.replace(/(\r|\n| )+/g, ""), atob(htmlModel.result).replace(/(\r|\n| )+/g, ""));
+        var expectedResult = atob(htmlModel.result);
+
+        assertTrue("Generated code,\n expects:" + expectedResult + "\r\n******** and got **********\r\n " + generatedCode + "\r\n",  generatedCode.replace(/(\r|\n|\s)+/g, "") == expectedResult.replace(/(\r|\n|\s)+/g, ""));
     };
 });
 

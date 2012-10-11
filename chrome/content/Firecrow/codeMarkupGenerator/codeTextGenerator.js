@@ -252,6 +252,16 @@ Firecrow.CodeTextGenerator.prototype =
 
                 var variableDeclarationCode = this.generateFromVariableDeclaration(element);
 
+                if(element.comments != null)
+                {
+                    variableDeclarationCode += "/*";
+                    element.comments.forEach(function(comment)
+                    {
+                        variableDeclarationCode += comment + "; ";
+                    }, this);
+                    variableDeclarationCode += "*/"
+                }
+
                 if(isForStatementInit) { return variableDeclarationCode; }
 
                 return this.whitespace + variableDeclarationCode + this._SEMI_COLON + this.newLine;
