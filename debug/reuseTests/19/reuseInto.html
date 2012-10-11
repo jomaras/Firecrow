@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #mainContainer { color: blue; }
+        .jsContainer { color: red; }
+    </style>
+</head>
+<body>
+    <div id="mainContainer" class="someReuseIntoClass">
+        This is original content<br/>
+        Which ends here<br/>
+        *************************
+    </div>
+    <script>
+        globalVar = 3;
+        var mainContainer = document.getElementById("mainContainer");
+        mainContainer.appendChild(document.createElement("br"));
+        var newContainer = document.createElement("div");
+        newContainer.className = "jsContainer";
+        newContainer.innerHTML = "Global variable value: " + globalVar + "<br/>*********************";
+        mainContainer.appendChild(newContainer);
+    </script>
+</body>
+</html>

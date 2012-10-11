@@ -289,6 +289,22 @@ fcModel.GlobalObject = function(browser, documentFragment)
             }
         };
 
+        this.getUserSetGlobalProperties = function()
+        {
+            var userSetGlobalProperties = [];
+
+            for(var i = 0; i < this.properties.length; i++)
+            {
+                var property = this.properties[i];
+
+                if(property.declarationConstruct == null || Firecrow.ASTHelper.isVariableDeclarator(property.declarationConstruct.codeConstruct)) { continue; }
+
+                userSetGlobalProperties.push(property);
+            }
+
+            return userSetGlobalProperties;
+        };
+
         this.isPrimitive = function() { return false;}
 
         this._EXECUTION_COMMAND_COUNTER = 0;

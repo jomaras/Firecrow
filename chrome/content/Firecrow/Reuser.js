@@ -410,9 +410,92 @@ Firecrow.Reuser =
 
 Firecrow.ConflictFixer =
 {
-    fixJsConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoApp)
+    fixJsConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser)
     {
+        this._fixGlobalPropertyConflicts(reuseAppBrowser, reuseIntoAppBrowser);
+    },
 
+    _fixGlobalPropertyConflicts: function(reuseAppBrowser, reuseIntoAppBrowser)
+    {
+        var conflictedProperties = this._getConflictingProperties(reuseAppBrowser, reuseIntoAppBrowser);
+
+        conflictedProperties.forEach(function(conflictedProperty)
+        {
+            if(conflictedProperty == null || conflictedProperty.declarationConstruct == null || conflictedProperty.declarationConstruct.codeConstruct == null) { return; }
+
+            var declarationConstruct = conflictedProperty.declarationConstruct.codeConstruct;
+
+            var parentStatement = Firecrow.ASTHelper.getParentStatement(declarationConstruct);
+
+            if(parentStatement != null)
+            {
+                if(parentStatement.comments == null) { parentStatement.comments = []; }
+
+                parentStatement.comments.push("Firecrow - Rename global property");
+            }
+
+            if(Firecrow.ASTHelper.isAssignmentExpression(declarationConstruct))
+            {
+                if(Firecrow.ASTHelper.isIdentifier(declarationConstruct.left))
+                {
+                    declarationConstruct.left.name = this.generateReusePrefix() + declarationConstruct.left.name;
+                }
+                else
+                {
+                    alert("Unhandled expression when fixing global properties conflicts in assignment expression");
+                }
+            }
+            else { alert("Unhandled expression when fixing global properties conflicts"); }
+
+            var dependentEdges = declarationConstruct.graphNode.reverseDependencies;
+
+            for(var i = 0, length = dependentEdges.length; i < length; i++)
+            {
+                var edge = dependentEdges[i];
+
+                parentStatement = Firecrow.ASTHelper.getParentStatement(edge.sourceNode.model);
+
+                if(parentStatement != null)
+                {
+                    if(parentStatement.comments == null) { parentStatement.comments = []; }
+
+                    parentStatement.comments.push("Firecrow - Rename global property");
+                }
+
+                if(!Firecrow.ASTHelper.isIdentifier(edge.sourceNode.model) || edge.sourceNode.model.name != conflictedProperty.name) { continue; }
+
+                edge.sourceNode.model.name = this.generateReusePrefix() + edge.sourceNode.model.name;
+            }
+        }, this);
+
+        //TODO - see test 19; there is a problem with expressions that occur before the initialization of the global variable,
+        //e.g if(!window.globalVar) { globalVar = 3}; globalVar will be replaced; but window.globalVar won't (because it has no dependencies)
+    },
+
+    _getConflictingProperties: function(reuseAppBrowser, reuseIntoAppBrowser)
+    {
+        if(reuseAppBrowser == null || reuseIntoAppBrowser == null) { return []; }
+
+        var reuseGlobalProperties = reuseAppBrowser.globalObject.getUserSetGlobalProperties();
+        var reuseIntoGlobalProperties = reuseIntoAppBrowser.globalObject.getUserSetGlobalProperties();
+        var conflictedProperties = [];
+
+        for(var i = 0; i < reuseIntoGlobalProperties.length; i++)
+        {
+            var reuseIntoGlobal = reuseIntoGlobalProperties[i];
+
+            for(var j = 0; j < reuseGlobalProperties.length; j++)
+            {
+                var reuseGlobal = reuseGlobalProperties[j];
+
+                if(reuseGlobal.name == reuseIntoGlobal.name)
+                {
+                    conflictedProperties.push(reuseGlobal);
+                }
+            }
+        }
+
+        return conflictedProperties;
     },
 
     fixHtmlConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseSelectors, reuseAppBrowser)

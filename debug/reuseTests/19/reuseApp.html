@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #extractContainer
+        {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="extractContainer" class="someExtractClass">
+        This is the extracted content
+    </div>
+    <script>
+        var extractContainer = document.getElementById("extractContainer");
+
+        if(window.globalVar) { globalVar = 4; }
+
+        extractContainer.textContent += "Global var value: " + globalVar;
+    </script>
+</body>
+</html>
