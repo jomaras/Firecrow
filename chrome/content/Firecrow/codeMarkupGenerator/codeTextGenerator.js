@@ -364,7 +364,7 @@ Firecrow.CodeTextGenerator.prototype =
                                  && ASTHelper.isCallExpressionCallee(functionDecExp);
 
         return (shouldBeInParentheses ? this._LEFT_PARENTHESIS : "")
-             +  this._FUNCTION_KEYWORD + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) + " " : "")
+             +  this._FUNCTION_KEYWORD + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) : "")
              +  this.generateFunctionParameters(functionDecExp)
              +  this.newLine + functionBodyCode
              +  (shouldBeInParentheses ? this._RIGHT_PARENTHESIS : "");

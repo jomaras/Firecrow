@@ -342,6 +342,39 @@ FBL.ns(function () { with (FBL) {
             return newModel;
         },
 
+        wrapInSelfExecutingFunctionExpression: function(programModel)
+        {
+            if(programModel == null || programModel.body == null || programModel.body.length == 0) { return null; }
+            programModel.hasBeenWrapped = true;
+
+            var programBody = programModel.body;
+            var firstChild = programBody[0];
+            var lastChild = programBody[programBody.length - 1];
+            var nodeId = firstChild.nodeId + "-" + lastChild.nodeId;
+
+            var expressionStatement = { type: this.CONST.STATEMENT.ExpressionStatement, nodeId: "es" + nodeId};
+            expressionStatement.parent = programModel;
+
+            programModel.body = [expressionStatement]
+            programModel.children = programModel.body;
+
+            expressionStatement.expression = { type: this.CONST.EXPRESSION.CallExpression, arguments:[], nodeId: "ce" + nodeId };
+            expressionStatement.expression.parent = expressionStatement;
+            expressionStatement.children = [expressionStatement.expression];
+
+            var functionExpression = { type: this.CONST.EXPRESSION.FunctionExpression, id: { type: this.CONST.Identifier, name: "firecrowWrapper", nodeId: "feI" + nodeId}, params: [], nodeId: nodeId };
+            expressionStatement.expression.callee = functionExpression;
+            functionExpression.parent = expressionStatement.expression;
+            functionExpression.children = [expressionStatement.expression.callee];
+
+            var blockStatement = { type: this.CONST.STATEMENT.BlockStatement, nodeId: "bs" + nodeId };
+            functionExpression.body = blockStatement;
+            functionExpression.children = [blockStatement];
+
+            blockStatement.body = programBody;
+            blockStatement.children = programBody;
+        },
+
         _cloneShallowASTNode: function(originalNode)
         {
             var clone = {};

@@ -18,6 +18,7 @@ Firecrow.Reuser =
             if(reuseIntoAppModel.children == null || reuseIntoAppModel.children.length == 0) { return reusedAppModel; }
 
             Firecrow.ConflictFixer.fixHtmlConflicts(reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseAppBrowser);
+            Firecrow.ConflictFixer.fixJsConflicts(reuseAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser);
             var hasFixedCssConflicts = Firecrow.ConflictFixer.fixCssConflicts(reuseAppGraph, reuseIntoAppGraph);
 
             //The head and the body nodes will be kept, and that all other nodes will be appended
@@ -253,7 +254,14 @@ Firecrow.Reuser =
         }
         else if (originalModel.type == "Program")
         {
-            return this._createProgramModel(originalModel, origin);
+            var programModel = this._createProgramModel(originalModel, origin);
+
+            if(origin == "reuse")
+            {
+                Firecrow.ASTHelper.wrapInSelfExecutingFunctionExpression(programModel);
+            }
+
+            return programModel;
         }
         else
         {
@@ -402,6 +410,11 @@ Firecrow.Reuser =
 
 Firecrow.ConflictFixer =
 {
+    fixJsConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoApp)
+    {
+
+    },
+
     fixHtmlConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseSelectors, reuseAppBrowser)
     {
         if(reusedAppGraph == null || reuseIntoAppGraph == null) { return null; }
