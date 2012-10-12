@@ -11,11 +11,27 @@ FBL.ns(function () { with (FBL) {
             {
                 Components.utils.import("resource://gre/modules/reflect.jsm");
 
-                return Reflect.parse
+                var model = Reflect.parse
                 (
                     sourceCode,
-                    { loc:true, source: sourceCodePath, line: startLine }
+                    { loc:true, line: startLine }
                 );
+
+                if(model != null && model.loc != null)
+                {
+                    if(model.loc.start.line != startLine)
+                    {
+                        model.lineAdjuster = startLine;
+                    }
+                    else
+                    {
+                        model.lineAdjuster = 0;
+                    }
+
+                    model.source = sourceCodePath;
+                }
+
+                return model;
             }
             catch(e) { alert("Error while getting AST from source code@" + sourceCodePath + "; error: " + sourceCodePath); }
         },
@@ -27,11 +43,31 @@ FBL.ns(function () { with (FBL) {
                 if(rootElement == null || rootElement.parentChildRelationshipsHaveBeenSet) { return; }
 
                 var ASTHelper = Firecrow.ASTHelper;
+                var lineNumberAdjust = rootElement.lineAdjuster || 0;
+                var source = rootElement.source || "";
+
                 this.traverseAst(rootElement, function(currentElement, propertyName, parentElement)
                 {
                     if(currentElement != null)
                     {
                         currentElement.parent = parentElement;
+                    }
+
+                    if(ASTHelper.isProgram(currentElement))
+                    {
+                        lineNumberAdjust = currentElement.lineAdjuster || 0;
+                        source = rootElement.source || "";
+                    }
+
+                    if(currentElement.loc != null)
+                    {
+                        if(currentElement.nodeId == 28)
+                        {
+                            var a = 3;
+                        }
+                        currentElement.loc.start.line += lineNumberAdjust;
+                        currentElement.loc.end.line += lineNumberAdjust
+                        currentElement.loc.source = source;
                     }
 
                     if(parentElement != null)

@@ -70,6 +70,8 @@ fcModel.GlobalObject = function(browser, documentFragment)
         var methods = fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS;
         function _isMethod(method) { return methods.indexOf(method) != -1; }
 
+        this.isEventHandlerProperty = function(propertyName) { return fcModel.GlobalObject.isEventHandlerProperty(propertyName); }
+
         this.internalExecutor.expandInternalFunctions();
 
         methods.forEach(function(methodName)
@@ -85,12 +87,13 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.domModificationSlicingCriteria = [];
         this.includeAllDomModifications = false;
         this.undefinedGlobalPropertiesAccessMap = {};
+        this.eventHandlerPropertiesMap = {};
 
         this.getJsPropertyValue = function(propertyName, codeConstruct)
         {
             var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
 
-            if(codeConstruct != null && propertyValue == undefined)
+            if(codeConstruct != null && propertyValue == undefined && !this.isEventHandlerProperty(propertyName))
             {
                 if(this.undefinedGlobalPropertiesAccessMap[propertyName] == null)
                 {
@@ -106,6 +109,11 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.addJsProperty = function(propertyName, value, codeConstruct)
         {
             this.addProperty(propertyName, value, codeConstruct);
+
+            if(this.isEventHandlerProperty(propertyName))
+            {
+                this.eventHandlerPropertiesMap[propertyName] = codeConstruct;
+            }
         };
 
         this.registerSlicingCriteria = function(slicingCriteria)
@@ -346,8 +354,22 @@ fcModel.GlobalObject.CONST =
             "parseFloat", "parseInt", "addEventListener", "removeEventListener",
             "setTimeout", "clearTimeout", "setInterval", "clearInterval",
             "getComputedStyle", "unescape"
+        ],
+        EVENT_PROPERTIES:
+        [
+            "onabort", "onbeforeunload", "onblur", "onchange", "onclick", "onclose",
+            "oncontextmenu", "ondevicemotion", "ondeviceorientation", "ondragdrop",
+            "onerror", "onfocus", "onhaschange", "onkeydown", "onkeypress", "onkeyup",
+            "onload", "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup",
+            "onmozbeforepaint", "onpaint", "onpopstate", "onreset", "onresize", "onscroll",
+            "onselect", "onsubmit", "onunload", "onpageshow", "onpagehide"
         ]
     }
+};
+
+fcModel.GlobalObject.isEventHandlerProperty = function(propertyName)
+{
+    return fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.EVENT_PROPERTIES.indexOf(propertyName) != -1;
 }
 
 fcModel.GlobalObjectExecutor =

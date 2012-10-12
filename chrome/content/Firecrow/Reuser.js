@@ -30,7 +30,7 @@ Firecrow.Reuser =
 
             var mergedHtmlElement = this._cloneShallowMarkConflicts(reuseIntoAppModel.htmlElement, reusedAppModel.htmlElement);
 
-            mergedModel.htmlElement = mergedHtmlElement
+            mergedModel.htmlElement = mergedHtmlElement;
             mergedModel.children = [mergedHtmlElement];
 
 
@@ -413,6 +413,23 @@ Firecrow.ConflictFixer =
     fixJsConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser)
     {
         this._fixGlobalPropertyConflicts(reuseAppBrowser, reuseIntoAppBrowser);
+        this._fixEventHandlerProperties(reuseAppBrowser, reuseIntoAppBrowser);
+    },
+
+    _fixEventHandlerProperties: function(reuseAppBrowser, reuseIntoAppBrowser)
+    {
+        var conflictedHandlers = this._getConflictedHandlers(reuseAppBrowser, reuseIntoAppBrowser);
+    },
+
+    _getConflictedHandlers: function(reuseAppBrowser, reuseIntoAppBrowser)
+    {
+        if(reuseAppBrowser == null || reuseIntoAppBrowser == null || reuseAppBrowser.globalObject == null || reuseIntoAppBrowser.globalObject == null) { return []; }
+
+        var reuseHandlerPropertiesMap = reuseAppBrowser.globalObject.eventHandlerPropertiesMap;
+        var reuseIntoHandlerPropertiesMap = reuseIntoAppBrowser.globalObject.eventHandlerPropertiesMap;
+
+
+
     },
 
     _fixGlobalPropertyConflicts: function(reuseAppBrowser, reuseIntoAppBrowser)
@@ -509,7 +526,7 @@ Firecrow.ConflictFixer =
             {
                 var reuseGlobal = reuseGlobalProperties[j];
 
-                if(reuseGlobal.name == reuseIntoGlobal.name)
+                if(reuseGlobal.name == reuseIntoGlobal.name && !reuseAppBrowser.globalObject.isEventHandlerProperty(reuseGlobal.name))
                 {
                     conflictedProperties.push(reuseGlobal);
                 }

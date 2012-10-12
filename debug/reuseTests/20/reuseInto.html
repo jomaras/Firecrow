@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #mainContainer { color: blue; }
+        .jsContainer { color: red; }
+    </style>
+</head>
+<body>
+    <div id="mainContainer" class="someReuseIntoClass">
+        This is original content<br/>
+        Which ends here<br/>
+        *************************
+    </div>
+    <script>
+        window.onload = function()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+            mainContainer.textContent += "Added by JavaScript onload in main app";
+        };
+    </script>
+</body>
+</html>

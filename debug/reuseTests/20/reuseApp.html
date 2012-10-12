@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #extractContainer
+        {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="extractContainer" class="someExtractClass">
+        This is the extracted content
+    </div>
+    <script>
+        window.onload = function()
+        {
+            var extractContainer = document.getElementById("extractContainer");
+            extractContainer.textContent += "; Added by JavaScript onload in extracted app";
+        }
+    </script>
+</body>
+</html>

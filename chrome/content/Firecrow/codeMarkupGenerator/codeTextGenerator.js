@@ -284,7 +284,10 @@ Firecrow.CodeTextGenerator.prototype =
                 this.notifyError("Error while generating code unidentified ast element: "); return "";
             }
         }
-        catch(e) { this.notifyError("Error while generating code: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error while generating code: " + e);
+        }
     },
 
     generateProgram: function(programElement)
@@ -373,7 +376,7 @@ Firecrow.CodeTextGenerator.prototype =
                                  && ASTHelper.isCallExpressionCallee(functionDecExp);
 
         return (shouldBeInParentheses ? this._LEFT_PARENTHESIS : "")
-             +  this._FUNCTION_KEYWORD + " " + (functionDecExp.id != null ? this.generateFromIdentifier(functionDecExp.id) : "")
+             +  this._FUNCTION_KEYWORD + (functionDecExp.id != null ? " " + this.generateFromIdentifier(functionDecExp.id) : "")
              +  this.generateFunctionParameters(functionDecExp)
              +  this.newLine + functionBodyCode
              +  (shouldBeInParentheses ? this._RIGHT_PARENTHESIS : "");
@@ -384,13 +387,17 @@ Firecrow.CodeTextGenerator.prototype =
         var code = this._LEFT_PARENTHESIS;
 
         var params = functionDecExp.params;
-        for(var i = 0, length = params.length; i < length; i++)
+
+        if(params != null)
         {
-            var param = params[i];
+            for(var i = 0, length = params.length; i < length; i++)
+            {
+                var param = params[i];
 
-            if(i != 0) { code += ", "; }
+                if(i != 0) { code += ", "; }
 
-            code += this.generateFromPattern(param);
+                code += this.generateFromPattern(param);
+            }
         }
 
         return code + this._RIGHT_PARENTHESIS;
