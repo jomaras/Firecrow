@@ -511,7 +511,7 @@ Firecrow.ConflictFixer =
         {
             for(var reuseIntoProperty in reuseIntoHandlerPropertiesMap)
             {
-                if(reuseProperty == reuseIntoProperty)
+                if(reuseProperty == reuseIntoProperty && reuseHandlerPropertiesMap[reuseProperty].shouldBeIncluded)
                 {
                     conflictingHandlers.push({
                         reuseConflictConstruct : reuseHandlerPropertiesMap[reuseProperty],
