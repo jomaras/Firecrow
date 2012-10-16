@@ -416,9 +416,86 @@ Firecrow.ConflictFixer =
         this._fixEventHandlerProperties(reuseAppBrowser, reuseIntoAppBrowser);
     },
 
+    _CONFLICT_COUNTER: 0,
+
     _fixEventHandlerProperties: function(reuseAppBrowser, reuseIntoAppBrowser)
     {
         var conflictedHandlers = this._getConflictedHandlers(reuseAppBrowser, reuseIntoAppBrowser);
+
+        var fixes = [];
+
+        conflictedHandlers.forEach(function(conflictedHandler)
+        {
+            var reuseHandler = conflictedHandler.reuseConflictConstruct;
+            var reuseIntoHandler = conflictedHandler.reuseIntoConflictConstruct;
+
+            this._replaceWithFirecrowHandler(reuseHandler);
+            this._replaceWithFirecrowHandler(reuseIntoHandler);
+        }, this);
+
+        return fixes;
+    },
+
+    _replaceWithFirecrowHandler: function(codeConstruct)
+    {
+        var conflictCounter = this._CONFLICT_COUNTER;
+        var handlerParent = null;
+        var propertyNameParent = null;
+        var conflictTemplate = Firecrow.ValueTypeHelper.deepClone(Firecrow.Reuser.Templates._HANDLER_CONFLICT_TEMPLATE);
+
+        Firecrow.ASTHelper.traverseWholeAST(conflictTemplate, function(propertyValue, propertyName, parentObject)
+        {
+            if(propertyName == "nodeId")
+            {
+                parentObject[propertyName] = propertyValue.replace("{ID_PREFIX}", "FirecrowHandler" + conflictCounter);
+            }
+
+            if(propertyName == "value")
+            {
+                if(propertyValue != null && propertyValue.value == "{HANDLER_LITERAL_TEMPLATE}")
+                {
+                    handlerParent = parentObject;
+                }
+                else if (propertyValue == "{PROPERTY_NAME}")
+                {
+                    propertyNameParent = parentObject;
+                }
+            }
+        });
+
+        Firecrow.ASTHelper.setParentsChildRelationships(conflictTemplate);
+
+        if(handlerParent != null && propertyNameParent != null)
+        {
+            if(Firecrow.ASTHelper.isAssignmentExpression(codeConstruct))
+            {
+                var parent = codeConstruct.parent;
+
+                parent.expression = conflictTemplate;
+                parent.children = [conflictTemplate];
+
+                conflictTemplate.parent = parent;
+
+                if(Firecrow.ASTHelper.isMemberExpression(codeConstruct.left))
+                {
+                    propertyNameParent.value = codeConstruct.left.property.name;
+                }
+                else if (Firecrow.ASTHelper.isIdentifier(codeConstruct.left))
+                {
+                    propertyNameParent.value = codeConstruct.left.name;
+                }
+                else { alert("Unknown left hand side when replacing handlers");}
+
+                handlerParent.value = codeConstruct.right;
+                codeConstruct.right.parent = handlerParent;
+            }
+            else
+            {
+                alert("Unhandled expression when replacing handlers");
+            }
+        }
+
+        this._CONFLICT_COUNTER++;
     },
 
     _getConflictedHandlers: function(reuseAppBrowser, reuseIntoAppBrowser)
@@ -428,8 +505,23 @@ Firecrow.ConflictFixer =
         var reuseHandlerPropertiesMap = reuseAppBrowser.globalObject.eventHandlerPropertiesMap;
         var reuseIntoHandlerPropertiesMap = reuseIntoAppBrowser.globalObject.eventHandlerPropertiesMap;
 
+        var conflictingHandlers = [];
 
+        for(var reuseProperty in reuseHandlerPropertiesMap)
+        {
+            for(var reuseIntoProperty in reuseIntoHandlerPropertiesMap)
+            {
+                if(reuseProperty == reuseIntoProperty)
+                {
+                    conflictingHandlers.push({
+                        reuseConflictConstruct : reuseHandlerPropertiesMap[reuseProperty],
+                        reuseIntoConflictConstruct : reuseIntoHandlerPropertiesMap[reuseIntoProperty]
+                    });
+                }
+            }
+        }
 
+        return conflictingHandlers;
     },
 
     _fixGlobalPropertyConflicts: function(reuseAppBrowser, reuseIntoAppBrowser)
@@ -596,26 +688,13 @@ Firecrow.ConflictFixer =
                 return;
             }
 
-            var parentStatement = Firecrow.ASTHelper.getParentStatement(change.setConstruct);
-
-            if(parentStatement != null)
-            {
-                if(parentStatement.comments == null) { parentStatement.comments = []; }
-                parentStatement.comments.push("Firecrow - Could not rename: " + change.oldValue + " -> " + change.newValue);
-            }
+            this._addCommentToParentStatement(change.setConstruct, "Firecrow - Could not rename: " + change.oldValue + " -> " + change.newValue);
         }
     },
 
     _replaceLiteralOrDirectIdentifierValue: function(change, codeConstruct)
     {
-        var parentStatement = Firecrow.ASTHelper.getParentStatement(codeConstruct);
-
-        if(parentStatement != null)
-        {
-            if(parentStatement.comments == null) { parentStatement.comments = []; }
-
-            parentStatement.comments.push("Firecrow - Rename:" + change.oldValue + " -> " + change.newValue);
-        }
+        this._addCommentToParentStatement(codeConstruct, "Firecrow - Rename:" + change.oldValue + " -> " + change.newValue);
 
         if(Firecrow.ASTHelper.isLiteral(codeConstruct))
         {
@@ -633,7 +712,7 @@ Firecrow.ConflictFixer =
             }
         }
 
-        parentStatement.comments.push("Could not rename");
+        this._addCommentToParentStatement("Could not rename");
     },
 
     _fixDomQueries: function(change, reuseAppBrowser)

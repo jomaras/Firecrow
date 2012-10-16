@@ -131,6 +131,15 @@ Firecrow.ValueTypeHelper =
         return false;
     },
 
+    deepClone: function(object)
+    {
+        try
+        {
+            return JSON.parse(JSON.stringify(object));
+        }
+        catch(e) { alert("Error when deep cloning object:" + e);}
+    },
+
     flattenArray: function(array)
     {
         var flattened = [];

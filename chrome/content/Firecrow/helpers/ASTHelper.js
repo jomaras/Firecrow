@@ -339,12 +339,18 @@ FBL.ns(function () { with (FBL) {
 
             this.traverseAst(programModel, function(propertyValue, propertyName, parentElement)
             {
-                if(copyOnlyUsedElements && (!parentElement.shouldBeIncluded || !propertyValue.shouldBeIncluded)) { return; }
+                if(copyOnlyUsedElements && (!parentElement.shouldBeIncluded || !propertyValue.shouldBeIncluded))
+                {
+                    return;
+                }
 
                 var mappedParentElement = parentElement.type == "Program" ? newModel
                                                                           : mapping[parentElement.nodeId];
 
-                if(mappedParentElement == null) { alert("Mapped parent element can not be null!"); return; }
+                if(mappedParentElement == null)
+                {
+                    alert("Mapped parent element can not be null!"); return;
+                }
 
                 var isPropertyArray = Firecrow.ValueTypeHelper.isArray(parentElement[propertyName]);
 
@@ -424,6 +430,43 @@ FBL.ns(function () { with (FBL) {
             }
 
             return clone;
+        },
+
+        traverseWholeAST: function(astElement, processElementFunction)
+        {
+            try
+            {
+                if(astElement == null) { return; }
+
+                if(ValueTypeHelper.isString(astElement)) { return; }
+
+                for(var propName in astElement)
+                {
+                    var propertyValue = astElement[propName];
+
+                    if(ValueTypeHelper.isArray(propertyValue))
+                    {
+                        for(var i = 0; i < propertyValue.length; i++)
+                        {
+                            processElementFunction(propertyValue[i], propName, astElement, i);
+                            this.traverseWholeAST(propertyValue[i], processElementFunction);
+                        }
+                    }
+                    else if(ValueTypeHelper.isString(propertyValue))
+                    {
+                        processElementFunction(propertyValue, propName, astElement);
+                    }
+                    else
+                    {
+                        processElementFunction(propertyValue, propName, astElement);
+                        this.traverseWholeAST(propertyValue, processElementFunction);
+                    }
+                }
+            }
+            catch(e)
+            {
+                alert("Error while traversing whole AST in ASTHelper: " + e);
+            }
         },
 
         traverseAst: function(astElement, processElementFunction, ignoreProperties)

@@ -1,73 +1,130 @@
-Babić Ana
-Babić Ante
-Baković Ivan
-Barać Ante
-Barić Ivana
-Barun Ante
-Begić Marin
-Bižaca Ivan
-Bojčić Josip
-Boras Dario
-Boros Tomislav
-Cikojević Ivan
-Čulić Jelena
-Dell´Orco Nikša
-Dominis Ivan
-Duhović Davor
-Dužević Filip
-Galić Mislav
-Gašpar Karlo
-Granić Skender Jure
-Hrgović Marinko
-Ivić Ivan
-Kalinić Vido
-Kosor Neda
-Kotarac Josip
-Krstić Nediljko
-Kusić Tony
-Kvesić Dragan
-Lučić Marko
-Lukić Ivan
-Maretić Ante
-Marinović Blaž
-Marinović Hrvoje
-Marinović Marko
+model:
+{
+    "loc": { "start":{ "line":1, "column":0 }, "end":{ "line":2, "column":38 }, "source":null },
+    "type":"Program",
+    "body":
+    [
+        {
+            "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":37 }, "source":null},
+            "type":"ExpressionStatement",
+            "expression":
+            {
+                "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":37 }, "source":null },
+                "type":"AssignmentExpression",
+                "operator":"=",
+                "left":
+                {
+                    "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":32}, "source":null},
+                    "type":"Identifier",
+                    "name":"_FIRECROW_HANDLER_MAPPER",
+                    "nodeId":8
+                },
+                "right":
+                {
+                    "loc":{ "start":{ "line":2, "column":35 }, "end":{ "line":2, "column":37 }, "source":null},
+                    "type":"ArrayExpression", "elements":[], "nodeId":9
+                },
+                "nodeId":7
+            },
+            "nodeId":6
+        }
+    ],
+    "lineAdjuster":6,
+    "source":"file:///C:/GitWebStorm/Firecrow/debug/reuseTests/20/test.html"
+}
 
-Matenda Jelena
-Matenda Petar
-Matulic Sime
-Mikuličić Danijela
-Milić Petar
-Milovac Ivana
-Mišura Marko
-Modrić Stipe
-Munitić Nataša
-Nasutović Josipa
-Ninić Ferenca Marin
-Pandžić Petar
-Pavlinović Antonio
-Podrug Bruno
-Puizina Marin
-Radić Božena
-Radić Stipe
-Radmilović Marin
-Raguž Krešimir
-Roje Marko
-Rumenović Marija
-Šamija Tomislav
-Sičić Krešimir
-Sikirica Žana
-Šimić Ivan
-Smoljo Marko
-Šperac Darko
-Tafra Bojan
-Tomić Ante
-Tošić Toni
-Troskot Marino
-Trutanić Jelena
-Varenina Jakov
-Vekić Tereza
-Vrbatović Ilija
-Vrdoljak Ivo
-Žeravica Andrija
-Žilić Josip
+*************************************************************
+
+model :
+{
+    "loc":{ "start":{ "line":1, "column":0 }, "end":{ "line":2, "column":78 }, "source":null },
+    "type":"Program",
+    "body":
+    [
+        {
+            "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":77 }, "source":null },
+            "type":"ExpressionStatement",
+            "expression":
+            {
+                "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":77 }, "source":null },
+                "type":"CallExpression",
+                "callee":
+                {
+                    "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":37 }, "source":null },
+                    "type":"MemberExpression",
+                    "object":
+                    {
+                        "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":32 }, "source":null },
+                        "type":"Identifier", "name":"_FIRECROW_HANDLER_MAPPER", "nodeId":18
+                    },
+                    "property": { "loc":null, "type":"Identifier", "name":"push", "nodeId":19 }, "computed":false, "nodeId":17
+                },
+                "arguments":
+                [
+                    {
+                        "loc":{ "start":{ "line":2, "column":38 }, "end":{ "line":2, "column":76 }, "source":null },
+                        "type":"ObjectExpression",
+                        "properties":
+                        [
+                            {
+                                "loc":{ "start":{ "line":2, "column":39 }, "end":{ "line":2, "column":52 }, "source":null },
+                                "type":"Property",
+                                "key":
+                                {
+                                    "loc":{ "start":{ "line":2, "column":39 }, "end":{ "line":2, "column":43 }, "source":null },
+                                    "type":"Identifier",
+                                    "name":"type",
+                                    "nodeId":24
+                                },
+                                "value":
+                                {
+                                    "loc":{ "start":{ "line":2, "column":44 }, "end":{ "line":2, "column":52 }, "source":null },
+                                    "type":"Literal",
+                                    "value":"onload",
+                                    "nodeId":25
+                                },
+                                "kind":"init",
+                                "nodeId":23
+                            },
+                            {
+                                "loc":{ "start":{ "line":2, "column":54 }, "end":{ "line":2, "column":75 }, "source":null },
+                                "type":"Property",
+                                "key":
+                                {
+                                    "loc":{ "start":{ "line":2, "column":54 }, "end":{ "line":2, "column":61 }, "source":null },
+                                    "type":"Identifier",
+                                    "name":"handler",
+                                    "nodeId":27
+                                },
+                                "value":
+                                {
+                                    "loc":{ "start":{ "line":2, "column":63 }, "end":{ "line":2, "column":75 }, "source":null },
+                                    "type":"FunctionExpression",
+                                    "id":null,
+                                    "params":[],
+                                    "body":
+                                    {
+                                        "loc":{ "start":{ "line":2, "column":73 }, "end":{ "line":2, "column":74 }, "source":null },
+                                        "type":"BlockStatement",
+                                        "body":[],
+                                        "nodeId":30
+                                    },
+                                    "generator":false,
+                                    "expression":false,
+                                    "nodeId":28
+                                },
+                                "kind":"init",
+                                "nodeId":26
+                            }
+                        ],
+                        "nodeId":21
+                    }
+                ],
+                "nodeId":16
+            },
+            "nodeId":15
+        }
+    ],
+    "lineAdjuster":10,
+    "source":"file:///C:/GitWebStorm/Firecrow/debug/reuseTests/20/test.html"
+}
