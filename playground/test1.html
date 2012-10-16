@@ -1,74 +1,90 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Test</title>
-    </head>
+<head><script origin="Firecrow">
+    _FIRECROW_HANDLER_MAPPER = [];
+</script>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <style>
+        #mainContainer { color: blue; }
+        .jsContainer { color: red; }
+    </style>
 
-    <body>
-     <pre id="codeContainer">
-{
-    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-    "type":"ExpressionStatement",
-    "expression":
-    {
-        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-        "type":"CallExpression",
-        "callee":
+
+
+    <style origin="reuse">
+        #extractContainer { color: green; }
+    </style>
+</head><body>
+<div class="someReuseIntoClass" id="mainContainer">
+    This is original content<br/>
+    Which ends here<br/>
+    *************************
+</div>
+<script>
+    _FIRECROW_HANDLER_MAPPER.push({
+        type: 'onload',
+        handler: function()
         {
-            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-            "type":"MemberExpression",
-            "object":
+            var mainContainer = document.getElementById('mainContainer');
+            mainContainer.textContent += 'Added by JavaScript onload in main app';
+        }
+
+    });
+</script>
+
+
+<div class="someExtractClass" id="extractContainer" origin="reuse">
+    This is the extracted content
+</div>
+<script origin="reuse">
+    ((function firecrowWrapper()
+    {
+        _FIRECROW_HANDLER_MAPPER.push({
+            type: 'onload',
+            handler: function()
             {
-                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-                "type":"Identifier", "name":"_FIRECROW_HANDLER_MAPPER", "nodeId":{ID_PREFIX}-18
-            },
-            "property": { "loc":null, "type":"Identifier", "name":"push", "nodeId":{ID_PREFIX}-19 }, "computed":false, "nodeId":{ID_PREFIX}-17},
-            "arguments":
-            [{
-                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-                "type":"ObjectExpression",
-                "properties":
-                [{
-                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-                    "type":"Property",
-                    "key":
-                    {
-                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-                        "type":"Identifier",
-                        "name":"type",
-                        "nodeId":{ID_PREFIX}-24
-                    },
-                    "value":
-                    {
-                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-                        "type":"Literal",
-                        "value":"{PROPERTY_NAME}",
-                        "nodeId":{ID_PREFIX}-25
-                    },
-                    "kind":"init",
-                    "nodeId":{ID_PREFIX}-23
-                },
+                var extractContainer = document.getElementById('extractContainer');
+                extractContainer.textContent += '; Added by JavaScript onload in extracted app';
+            }
+
+        });
+    }
+            )());
+</script>
+
+<script origin="Firecrow" origin="reuse">
+    (function()
+    {
+        if(!(window._FIRECROW_HANDLER_MAPPER)) { return; }
+
+        var getHandlersOfType = function(handlerType)
+        {
+            var handlers = [];
+            for( var i = 0; i < _FIRECROW_HANDLER_MAPPER.length;i++)
+            {
+                var map = _FIRECROW_HANDLER_MAPPER[i];
+                if(handlerType == map.type)
                 {
-                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-                    "type":"Property",
-                    "key":
-                    {
-                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
-                        "type":"Identifier",
-                        "name":"handler",
-                        "nodeId":{ID_PREFIX}-27
-                    },
-                    "value": {HANDLER} ,
-                    "kind":"init",
-                    "nodeId":{ID_PREFIX}-26
+                    handlers.push(map.handler);
                 }
-            ],
-            "nodeId":{ID_PREFIX}-21
-        }],
-        "nodeId":{ID_PREFIX}-16
-    },
-    "nodeId":{ID_PREFIX}-15
-}
-        </pre>
-    </body>
+            }
+
+            return handlers;
+        };
+        var onLoadHandlers = getHandlersOfType('onload');
+        if(onLoadHandlers.length != 0)
+        {
+            window.onload = function()
+            {
+                var args = arguments;
+                var that = this;
+                onLoadHandlers.forEach(function(onloadHandler)
+                {
+                    onloadHandler.apply(that, args);
+                });
+            };
+        }
+    }());
+</script></body>
 </html>

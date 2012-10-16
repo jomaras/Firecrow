@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" line="840" />
+    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" line="853" />
     <bookmark url="file://$PROJECT_DIR$/debug/slicingTests/78/index.html" line="23" />
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/21/reuseApp.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/21/reuseInto.html" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\debug\reuseTests\20\test.html" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/20/test.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" afterPath="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/templates/reuserTemplates.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/templates/reuserTemplates.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/1.txt" afterPath="$PROJECT_DIR$/playground/1.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/test1.html" afterPath="$PROJECT_DIR$/playground/test1.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,16 +66,16 @@
       <file leaf-file-name="Reuser.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="513" column="114" selection-start="17827" selection-end="17827" vertical-scroll-proportion="0.0">
+            <state line="252" column="70" selection-start="9716" selection-end="9716" vertical-scroll-proportion="-15.36">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reuseModels.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
+      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="151" column="8" selection-start="229237" selection-end="229237" vertical-scroll-proportion="0.0">
+            <state line="460" column="17" selection-start="15894" selection-end="15894" vertical-scroll-proportion="-1.92">
               <folding />
             </state>
           </provider>
@@ -97,19 +99,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+      <file leaf-file-name="debugReuse.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="342" column="16" selection-start="11063" selection-end="11063" vertical-scroll-proportion="-12.2">
+            <state line="133" column="133" selection-start="6520" selection-end="6520" vertical-scroll-proportion="-24.958334">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugReuse.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
+      <file leaf-file-name="reuserTemplates.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/templates/reuserTemplates.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="107" column="60" selection-start="5287" selection-end="5287" vertical-scroll-proportion="0.23642534">
+            <state line="126" column="0" selection-start="5357" selection-end="5357" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test1.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/playground/test1.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="69" column="64" selection-start="1808" selection-end="1808" vertical-scroll-proportion="0.5588235">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="codeTextGenerator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="174" column="38" selection-start="6127" selection-end="6127" vertical-scroll-proportion="-18.8">
               <folding />
             </state>
           </provider>
@@ -130,20 +150,20 @@
       <list>
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" />
-        <option value="$PROJECT_DIR$/debug/reuseTests/20/test.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/20/test.js" />
-        <option value="$PROJECT_DIR$/playground/1.txt" />
         <option value="$USER_HOME$/Desktop/vjezbe/1/index.html" />
-        <option value="$PROJECT_DIR$/playground/test1.html" />
         <option value="$PROJECT_DIR$/tests/reuser.jstd" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/templates/reuserTemplates.js" />
         <option value="$PROJECT_DIR$/debug/reuseTests/21/reuseApp.html" />
         <option value="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
         <option value="$PROJECT_DIR$/debug/debugReuse.html" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/20/test.html" />
+        <option value="$PROJECT_DIR$/playground/1.txt" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/templates/reuserTemplates.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
+        <option value="$PROJECT_DIR$/playground/test1.html" />
       </list>
     </option>
   </component>
@@ -364,6 +384,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -476,11 +522,11 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JsTestDriver.interpreter.jstd" />
-      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
-      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.slicing2.jstd" />
-      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
-      <item index="4" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
+      <item index="0" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
+      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.interpreter.jstd" />
+      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
+      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.slicing2.jstd" />
+      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
     </list>
     <recent_temporary>
       <list size="2">
@@ -1619,7 +1665,11 @@
       <created>1350370134301</created>
       <updated>1350370134301</updated>
     </task>
-    <option name="localTasksCounter" value="277" />
+    <task id="LOCAL-00277" summary="Do event handler replacal only if both conflicting handlers are included in the end slice">
+      <created>1350370551538</created>
+      <updated>1350370551538</updated>
+    </task>
+    <option name="localTasksCounter" value="278" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1715,7 +1765,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Replacal of window.onload method execution" />
+    <option name="LAST_COMMIT_MESSAGE" value="Do event handler replacal only if both conflicting handlers are included in the end slice" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1728,7 +1778,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="HTML element slicing" />
     <MESSAGE value="Integrated dependency graph visualization in debugSlicing;&#10;Made a separate object for dependency highlighting" />
     <MESSAGE value="Firecrow RunTests removed" />
     <MESSAGE value="Very Simple reuse implemented" />
@@ -1753,6 +1802,7 @@
     <MESSAGE value="Ruse - log all accesses to undefined global object properties, and then replace based on that!" />
     <MESSAGE value="Compensating for the fact that FF15 Parser API ignores loc predefined values" />
     <MESSAGE value="Replacal of window.onload method execution" />
+    <MESSAGE value="Do event handler replacal only if both conflicting handlers are included in the end slice" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1765,23 +1815,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="61" selection-start="4877" selection-end="4877" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/20/reuseApp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="13" selection-start="446" selection-end="446" vertical-scroll-proportion="-12.5" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/20/reuseInto.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="601" selection-end="601" vertical-scroll-proportion="-13.75" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/playground/2.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -1792,40 +1825,51 @@
         <state line="43" column="59" selection-start="2645" selection-end="2645" vertical-scroll-proportion="0.82081914" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/playground/test1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="46" selection-start="2195" selection-end="2195" vertical-scroll-proportion="1.5083799" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="52" selection-start="3233" selection-end="3233" vertical-scroll-proportion="0.53754264" />
+        <state line="138" column="52" selection-start="3233" selection-end="3233" vertical-scroll-proportion="0.53754264">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="151" column="8" selection-start="229237" selection-end="229237" vertical-scroll-proportion="0.79888266">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/20/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="38" selection-start="101" selection-end="101" vertical-scroll-proportion="-3.125">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/playground/1.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="33" selection-start="4357" selection-end="4357" vertical-scroll-proportion="0.0">
+        <state line="5" column="48" selection-start="0" selection-end="66027" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+    <entry file="file://$PROJECT_DIR$/playground/test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="342" column="16" selection-start="11063" selection-end="11063" vertical-scroll-proportion="-12.2">
+        <state line="24" column="26" selection-start="89213" selection-end="89213" vertical-scroll-proportion="0.41331804">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/templates/reuserTemplates.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="17" selection-start="1172" selection-end="1172" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/21/reuseApp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="10" selection-start="403" selection-end="403" vertical-scroll-proportion="-13.125">
+        <state line="133" column="133" selection-start="6520" selection-end="6520" vertical-scroll-proportion="-24.958334">
           <folding />
         </state>
       </provider>
@@ -1837,30 +1881,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/21/reuseApp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="8" selection-start="229237" selection-end="229237" vertical-scroll-proportion="0.0">
+        <state line="21" column="10" selection-start="403" selection-end="403" vertical-scroll-proportion="-13.125">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="283" column="67" selection-start="11330" selection-end="11335" vertical-scroll-proportion="0.85057473">
+        <state line="460" column="17" selection-start="15894" selection-end="15894" vertical-scroll-proportion="-1.92">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="513" column="114" selection-start="17827" selection-end="17827" vertical-scroll-proportion="0.0">
+        <state line="252" column="70" selection-start="9716" selection-end="9716" vertical-scroll-proportion="-15.36">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/templates/reuserTemplates.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="60" selection-start="5287" selection-end="5287" vertical-scroll-proportion="0.23642534">
+        <state line="126" column="0" selection-start="5357" selection-end="5357" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="174" column="38" selection-start="6127" selection-end="6127" vertical-scroll-proportion="-18.8">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground/test1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="64" selection-start="1808" selection-end="1808" vertical-scroll-proportion="0.5588235">
           <folding />
         </state>
       </provider>

@@ -1,130 +1,655 @@
-model:
 {
-    "loc": { "start":{ "line":1, "column":0 }, "end":{ "line":2, "column":38 }, "source":null },
-    "type":"Program",
-    "body":
-    [
-        {
-            "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":37 }, "source":null},
-            "type":"ExpressionStatement",
-            "expression":
+        "type":"script",
+        "attributes":[{ "name":"origin", "value":"Firecrow" }],
+        "childNodes":
+        [
             {
-                "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":37 }, "source":null },
-                "type":"AssignmentExpression",
-                "operator":"=",
-                "left":
-                {
-                    "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":32}, "source":null},
-                    "type":"Identifier",
-                    "name":"_FIRECROW_HANDLER_MAPPER",
-                    "nodeId":8
-                },
-                "right":
-                {
-                    "loc":{ "start":{ "line":2, "column":35 }, "end":{ "line":2, "column":37 }, "source":null},
-                    "type":"ArrayExpression", "elements":[], "nodeId":9
-                },
-                "nodeId":7
-            },
-            "nodeId":6
-        }
-    ],
-    "lineAdjuster":6,
-    "source":"file:///C:/GitWebStorm/Firecrow/debug/reuseTests/20/test.html"
-}
-
-*************************************************************
-
-model :
-{
-    "loc":{ "start":{ "line":1, "column":0 }, "end":{ "line":2, "column":78 }, "source":null },
-    "type":"Program",
-    "body":
-    [
+                "type":"textNode", "attributes":[], "childNodes":[],
+                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-4",
+                "textContent":"\n    (function()\n    {\n        if(!window._FIRECROW_HANDLER_MAPPER) { return; }\n\n        var getHandlersOfType = function(handlerType)\n        {\n            var handlers = [];\n\n            for(var i = 0; i < _FIRECROW_HANDLER_MAPPER.length; i++)\n            {\n                var map = _FIRECROW_HANDLER_MAPPER[i];\n\n                if(handlerType == map.type)\n                {\n                    handlers.push(map.handler);\n                }\n            }\n\n            return handlers;\n        };\n\n        var onLoadHandlers = getHandlersOfType(\"onload\");\n\n        if(onLoadHandlers.length != 0)\n        {\n            window.onload = function()\n            {\n                var args = arguments;\n                var that = this;\n                onLoadHandlers.forEach(function(onloadHandler)\n                {\n                    onloadHandler.apply(that, args);\n                });\n            };\n        }\n    }());\n"
+            }
+        ],
+        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-5",
+        "textContent":"\n    (function()\n    {\n        if(!window._FIRECROW_HANDLER_MAPPER) { return; }\n\n        var getHandlersOfType = function(handlerType)\n        {\n            var handlers = [];\n\n            for(var i = 0; i < _FIRECROW_HANDLER_MAPPER.length; i++)\n            {\n                var map = _FIRECROW_HANDLER_MAPPER[i];\n\n                if(handlerType == map.type)\n                {\n                    handlers.push(map.handler);\n                }\n            }\n\n            return handlers;\n        };\n\n        var onLoadHandlers = getHandlersOfType(\"onload\");\n\n        if(onLoadHandlers.length != 0)\n        {\n            window.onload = function()\n            {\n                var args = arguments;\n                var that = this;\n                onLoadHandlers.forEach(function(onloadHandler)\n                {\n                    onloadHandler.apply(that, args);\n                });\n            };\n        }\n    }());\n",
+        "pathAndModel":
         {
-            "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":77 }, "source":null },
-            "type":"ExpressionStatement",
-            "expression":
+            "path":"",
+            "model":
             {
-                "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":77 }, "source":null },
-                "type":"CallExpression",
-                "callee":
-                {
-                    "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":37 }, "source":null },
-                    "type":"MemberExpression",
-                    "object":
-                    {
-                        "loc":{ "start":{ "line":2, "column":8 }, "end":{ "line":2, "column":32 }, "source":null },
-                        "type":"Identifier", "name":"_FIRECROW_HANDLER_MAPPER", "nodeId":18
-                    },
-                    "property": { "loc":null, "type":"Identifier", "name":"push", "nodeId":19 }, "computed":false, "nodeId":17
-                },
-                "arguments":
-                [
-                    {
-                        "loc":{ "start":{ "line":2, "column":38 }, "end":{ "line":2, "column":76 }, "source":null },
-                        "type":"ObjectExpression",
-                        "properties":
-                        [
-                            {
-                                "loc":{ "start":{ "line":2, "column":39 }, "end":{ "line":2, "column":52 }, "source":null },
-                                "type":"Property",
-                                "key":
-                                {
-                                    "loc":{ "start":{ "line":2, "column":39 }, "end":{ "line":2, "column":43 }, "source":null },
-                                    "type":"Identifier",
-                                    "name":"type",
-                                    "nodeId":24
+                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                "type":"Program",
+                "body":
+                    [{
+                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                        "type":"ExpressionStatement",
+                        "expression":
+                        {
+                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                            "type":"CallExpression",
+                            "callee":{
+                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                "type":"FunctionExpression",
+                                "id":null,
+                                "params":[],
+                                "body":{
+                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                    "type":"BlockStatement",
+                                    "body":[
+                                        {
+                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                            "type":"IfStatement",
+                                            "test":{
+                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                "type":"UnaryExpression",
+                                                "operator":"!",
+                                                "argument":{
+                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                    "type":"MemberExpression",
+                                                    "object":{
+                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                        "type":"Identifier",
+                                                        "name":"window",
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-16"
+                                                    },
+                                                    "property":{
+                                                        "loc":null,
+                                                        "type":"Identifier",
+                                                        "name":"_FIRECROW_HANDLER_MAPPER",
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-17"
+                                                    },
+                                                    "computed":false,
+                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-15"
+                                                },
+                                                "prefix":true,
+                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-14"
+                                            },
+                                            "consequent":{
+                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                "type":"BlockStatement",
+                                                "body":[
+                                                    {
+                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                        "type":"ReturnStatement",
+                                                        "argument":null,
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-20"
+                                                    }
+                                                ],
+                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-18"
+                                            },
+                                            "alternate":null,
+                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-13"
+                                        },
+                                        {
+                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                            "type":"VariableDeclaration",
+                                            "kind":"var",
+                                            "declarations":[
+                                                {
+                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                    "type":"VariableDeclarator",
+                                                    "id":{
+                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                        "type":"Identifier",
+                                                        "name":"getHandlersOfType",
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-24"
+                                                    },
+                                                    "init":{
+                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                        "type":"FunctionExpression",
+                                                        "id":null,
+                                                        "params":[
+                                                            {
+                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                "type":"Identifier",
+                                                                "name":"handlerType",
+                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-27"
+                                                            }
+                                                        ],
+                                                        "body":{
+                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                            "type":"BlockStatement",
+                                                            "body":[
+                                                                {
+                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                    "type":"VariableDeclaration",
+                                                                    "kind":"var",
+                                                                    "declarations":[
+                                                                        {
+                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                            "type":"VariableDeclarator",
+                                                                            "id":{
+                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                "type":"Identifier",
+                                                                                "name":"handlers",
+                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-33"
+                                                                            },
+                                                                            "init":{
+                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                "type":"ArrayExpression",
+                                                                                "elements":[],
+                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-34"
+                                                                            },
+                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-32"
+                                                                        }
+                                                                    ],
+                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-30"
+                                                                },
+                                                                {
+                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                    "type":"ForStatement",
+                                                                    "init":{
+                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                        "type":"VariableDeclaration",
+                                                                        "kind":"var",
+                                                                        "declarations":[
+                                                                            {
+                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                "type":"VariableDeclarator",
+                                                                                "id":{
+                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                    "type":"Identifier",
+                                                                                    "name":"i",
+                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-40"
+                                                                                },
+                                                                                "init":{
+                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                    "type":"Literal",
+                                                                                    "value":0,
+                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-41"
+                                                                                },
+                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-39"
+                                                                            }
+                                                                        ],
+                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-37"
+                                                                    },
+                                                                    "test":{
+                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                        "type":"BinaryExpression",
+                                                                        "operator":"<",
+                                                                        "left":{
+                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                            "type":"Identifier",
+                                                                            "name":"i",
+                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-43"
+                                                                        },
+                                                                        "right":{
+                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                            "type":"MemberExpression",
+                                                                            "object":{
+                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                "type":"Identifier",
+                                                                                "name":"_FIRECROW_HANDLER_MAPPER",
+                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-45"
+                                                                            },
+                                                                            "property":{
+                                                                                "loc":null,
+                                                                                "type":"Identifier",
+                                                                                "name":"length",
+                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-46"
+                                                                            },
+                                                                            "computed":false,
+                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-44"
+                                                                        },
+                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-42"
+                                                                    },
+                                                                    "update":{
+                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                        "type":"UpdateExpression",
+                                                                        "operator":"++",
+                                                                        "argument":{
+                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                            "type":"Identifier",
+                                                                            "name":"i",
+                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-48"
+                                                                        },
+                                                                        "prefix":false,
+                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-47"
+                                                                    },
+                                                                    "body":{
+                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                        "type":"BlockStatement",
+                                                                        "body":[
+                                                                            {
+                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                "type":"VariableDeclaration",
+                                                                                "kind":"var",
+                                                                                "declarations":[
+                                                                                    {
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"VariableDeclarator",
+                                                                                        "id":{
+                                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                            "type":"Identifier",
+                                                                                            "name":"map",
+                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-54"
+                                                                                        },
+                                                                                        "init":{
+                                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                            "type":"MemberExpression",
+                                                                                            "object":{
+                                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                "type":"Identifier",
+                                                                                                "name":"_FIRECROW_HANDLER_MAPPER",
+                                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-56"
+                                                                                            },
+                                                                                            "property":{
+                                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                "type":"Identifier",
+                                                                                                "name":"i",
+                                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-57"
+                                                                                            },
+                                                                                            "computed":true,
+                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-55"
+                                                                                        },
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-53"
+                                                                                    }
+                                                                                ],
+                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-51"
+                                                                            },
+                                                                            {
+                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                "type":"IfStatement",
+                                                                                "test":{
+                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                    "type":"BinaryExpression",
+                                                                                    "operator":"==",
+                                                                                    "left":{
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"Identifier",
+                                                                                        "name":"handlerType",
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-60"
+                                                                                    },
+                                                                                    "right":{
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"MemberExpression",
+                                                                                        "object":{
+                                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                            "type":"Identifier",
+                                                                                            "name":"map",
+                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-62"
+                                                                                        },
+                                                                                        "property":{
+                                                                                            "loc":null,
+                                                                                            "type":"Identifier",
+                                                                                            "name":"type",
+                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-63"
+                                                                                        },
+                                                                                        "computed":false,
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-61"
+                                                                                    },
+                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-59"
+                                                                                },
+                                                                                "consequent":{
+                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                    "type":"BlockStatement",
+                                                                                    "body":[
+                                                                                        {
+                                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                            "type":"ExpressionStatement",
+                                                                                            "expression":{
+                                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                "type":"CallExpression",
+                                                                                                "callee":{
+                                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                    "type":"MemberExpression",
+                                                                                                    "object":{
+                                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                        "type":"Identifier",
+                                                                                                        "name":"handlers",
+                                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-69"
+                                                                                                    },
+                                                                                                    "property":{
+                                                                                                        "loc":null,
+                                                                                                        "type":"Identifier",
+                                                                                                        "name":"push",
+                                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-70"
+                                                                                                    },
+                                                                                                    "computed":false,
+                                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-68"
+                                                                                                },
+                                                                                                "arguments":[
+                                                                                                    {
+                                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                        "type":"MemberExpression",
+                                                                                                        "object":{
+                                                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                            "type":"Identifier",
+                                                                                                            "name":"map",
+                                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-73"
+                                                                                                        },
+                                                                                                        "property":{
+                                                                                                            "loc":null,
+                                                                                                            "type":"Identifier",
+                                                                                                            "name":"handler",
+                                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-74"
+                                                                                                        },
+                                                                                                        "computed":false,
+                                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-72"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-67"
+                                                                                            },
+                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-66"
+                                                                                        }
+                                                                                    ],
+                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-64"
+                                                                                },
+                                                                                "alternate":null,
+                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-58"
+                                                                            }
+                                                                        ],
+                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-49"
+                                                                    },
+                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-36"
+                                                                },
+                                                                {
+                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                    "type":"ReturnStatement",
+                                                                    "argument":{
+                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                        "type":"Identifier",
+                                                                        "name":"handlers",
+                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-76"
+                                                                    },
+                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-75"
+                                                                }
+                                                            ],
+                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-28"
+                                                        },
+                                                        "generator":false,
+                                                        "expression":false,
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-25"
+                                                    },
+                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-23"
+                                                }
+                                            ],
+                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-21"
+                                        },
+                                        {
+                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                            "type":"VariableDeclaration",
+                                            "kind":"var",
+                                            "declarations":[
+                                                {
+                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                    "type":"VariableDeclarator",
+                                                    "id":{
+                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                        "type":"Identifier",
+                                                        "name":"onLoadHandlers",
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-80"
+                                                    },
+                                                    "init":{
+                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                        "type":"CallExpression",
+                                                        "callee":{
+                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                            "type":"Identifier",
+                                                            "name":"getHandlersOfType",
+                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-82"
+                                                        },
+                                                        "arguments":[
+                                                            {
+                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                "type":"Literal",
+                                                                "value":"onload",
+                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-84"
+                                                            }
+                                                        ],
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-81"
+                                                    },
+                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-79"
+                                                }
+                                            ],
+                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-77"
+                                        },
+                                        {
+                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                            "type":"IfStatement",
+                                            "test":{
+                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                "type":"BinaryExpression",
+                                                "operator":"!=",
+                                                "left":{
+                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                    "type":"MemberExpression",
+                                                    "object":{
+                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                        "type":"Identifier",
+                                                        "name":"onLoadHandlers",
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-88"
+                                                    },
+                                                    "property":{
+                                                        "loc":null,
+                                                        "type":"Identifier",
+                                                        "name":"length",
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-89"
+                                                    },
+                                                    "computed":false,
+                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-87"
+                                                },
+                                                "right":{
+                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                    "type":"Literal",
+                                                    "value":0,
+                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-90"
+                                                },
+                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-86"
+                                            },
+                                            "consequent":{
+                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                "type":"BlockStatement",
+                                                "body":[
+                                                    {
+                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                        "type":"ExpressionStatement",
+                                                        "expression":{
+                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                            "type":"AssignmentExpression",
+                                                            "operator":"=",
+                                                            "left":{
+                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                "type":"MemberExpression",
+                                                                "object":{
+                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                    "type":"Identifier",
+                                                                    "name":"window",
+                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-96"
+                                                                },
+                                                                "property":{
+                                                                    "loc":null,
+                                                                    "type":"Identifier",
+                                                                    "name":"onload",
+                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-97"
+                                                                },
+                                                                "computed":false,
+                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-95"
+                                                            },
+                                                            "right":{
+                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                "type":"FunctionExpression",
+                                                                "id":null,
+                                                                "params":[],
+                                                                "body":{
+                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                    "type":"BlockStatement",
+                                                                    "body":[
+                                                                        {
+                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                            "type":"VariableDeclaration",
+                                                                            "kind":"var",
+                                                                            "declarations":[
+                                                                                {
+                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                    "type":"VariableDeclarator",
+                                                                                    "id":{
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"Identifier",
+                                                                                        "name":"args",
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-105"
+                                                                                    },
+                                                                                    "init":{
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"Identifier",
+                                                                                        "name":"arguments",
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-106"
+                                                                                    },
+                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-104"
+                                                                                }
+                                                                            ],
+                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-102"
+                                                                        },
+                                                                        {
+                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                            "type":"VariableDeclaration",
+                                                                            "kind":"var",
+                                                                            "declarations":[
+                                                                                {
+                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                    "type":"VariableDeclarator",
+                                                                                    "id":{
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"Identifier",
+                                                                                        "name":"that",
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-110"
+                                                                                    },
+                                                                                    "init":{
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"ThisExpression",
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-111"
+                                                                                    },
+                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-109"
+                                                                                }
+                                                                            ],
+                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-107"
+                                                                        },
+                                                                        {
+                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                            "type":"ExpressionStatement",
+                                                                            "expression":{
+                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                "type":"CallExpression",
+                                                                                "callee":{
+                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                    "type":"MemberExpression",
+                                                                                    "object":{
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"Identifier",
+                                                                                        "name":"onLoadHandlers",
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-115"
+                                                                                    },
+                                                                                    "property":{
+                                                                                        "loc":null,
+                                                                                        "type":"Identifier",
+                                                                                        "name":"forEach",
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-116"
+                                                                                    },
+                                                                                    "computed":false,
+                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-114"
+                                                                                },
+                                                                                "arguments":[
+                                                                                    {
+                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                        "type":"FunctionExpression",
+                                                                                        "id":null,
+                                                                                        "params":[
+                                                                                            {
+                                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                "type":"Identifier",
+                                                                                                "name":"onloadHandler",
+                                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-120"
+                                                                                            }
+                                                                                        ],
+                                                                                        "body":{
+                                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                            "type":"BlockStatement",
+                                                                                            "body":[
+                                                                                                {
+                                                                                                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                    "type":"ExpressionStatement",
+                                                                                                    "expression":{
+                                                                                                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                        "type":"CallExpression",
+                                                                                                        "callee":{
+                                                                                                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                            "type":"MemberExpression",
+                                                                                                            "object":{
+                                                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                                "type":"Identifier",
+                                                                                                                "name":"onloadHandler",
+                                                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-126"
+                                                                                                            },
+                                                                                                            "property":{
+                                                                                                                "loc":null,
+                                                                                                                "type":"Identifier",
+                                                                                                                "name":"apply",
+                                                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-127"
+                                                                                                            },
+                                                                                                            "computed":false,
+                                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-125"
+                                                                                                        },
+                                                                                                        "arguments":[
+                                                                                                            {
+                                                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                                "type":"Identifier",
+                                                                                                                "name":"that",
+                                                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-129"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":"" },
+                                                                                                                "type":"Identifier",
+                                                                                                                "name":"args",
+                                                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-130"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-124"
+                                                                                                    },
+                                                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-123"
+                                                                                                }
+                                                                                            ],
+                                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-121"
+                                                                                        },
+                                                                                        "generator":false,
+                                                                                        "expression":false,
+                                                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-118"
+                                                                                    }
+                                                                                ],
+                                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-113"
+                                                                            },
+                                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-112"
+                                                                        }
+                                                                    ],
+                                                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-100"
+                                                                },
+                                                                "generator":false,
+                                                                "expression":false,
+                                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-98"
+                                                            },
+                                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-94"
+                                                        },
+                                                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-93"
+                                                    }
+                                                ],
+                                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-91"
+                                            },
+                                            "alternate":null,
+                                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-85"
+                                        }
+                                    ],
+                                    "nodeId":"{FIRECROW_SCRIPT_INVOKER}-11"
                                 },
-                                "value":
-                                {
-                                    "loc":{ "start":{ "line":2, "column":44 }, "end":{ "line":2, "column":52 }, "source":null },
-                                    "type":"Literal",
-                                    "value":"onload",
-                                    "nodeId":25
-                                },
-                                "kind":"init",
-                                "nodeId":23
+                                "generator":false,
+                                "expression":false,
+                                "nodeId":"{FIRECROW_SCRIPT_INVOKER}-9"
                             },
-                            {
-                                "loc":{ "start":{ "line":2, "column":54 }, "end":{ "line":2, "column":75 }, "source":null },
-                                "type":"Property",
-                                "key":
-                                {
-                                    "loc":{ "start":{ "line":2, "column":54 }, "end":{ "line":2, "column":61 }, "source":null },
-                                    "type":"Identifier",
-                                    "name":"handler",
-                                    "nodeId":27
-                                },
-                                "value":
-                                {
-                                    "loc":{ "start":{ "line":2, "column":63 }, "end":{ "line":2, "column":75 }, "source":null },
-                                    "type":"FunctionExpression",
-                                    "id":null,
-                                    "params":[],
-                                    "body":
-                                    {
-                                        "loc":{ "start":{ "line":2, "column":73 }, "end":{ "line":2, "column":74 }, "source":null },
-                                        "type":"BlockStatement",
-                                        "body":[],
-                                        "nodeId":30
-                                    },
-                                    "generator":false,
-                                    "expression":false,
-                                    "nodeId":28
-                                },
-                                "kind":"init",
-                                "nodeId":26
-                            }
-                        ],
-                        "nodeId":21
+                            "arguments":[],
+                            "nodeId":"{FIRECROW_SCRIPT_INVOKER}-8"
+                        },
+                        "nodeId":"{FIRECROW_SCRIPT_INVOKER}-7"
                     }
-                ],
-                "nodeId":16
-            },
-            "nodeId":15
+                    ],
+                "lineAdjuster":6,
+                "source":""
+            }
         }
-    ],
-    "lineAdjuster":10,
-    "source":"file:///C:/GitWebStorm/Firecrow/debug/reuseTests/20/test.html"
-}
+    }

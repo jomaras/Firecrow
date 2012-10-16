@@ -2,6 +2,52 @@ FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
 Firecrow.Reuser.Templates =
 {
+    _HANDLER_MAPPER_SCRIPT_CREATION_TEMPLATE:
+    {
+        "type":"script",
+        "attributes":[{"name":"origin", "value": "Firecrow"}],
+        "childNodes":[{"type":"textNode", "attributes":[], "childNodes":[], "nodeId":"{FIRECROW_HANDLER_MAPPER_ID}-3", "textContent":"\n        _FIRECROW_HANDLER_MAPPER = [];\n    "}],
+        "nodeId":"{FIRECROW_HANDLER_MAPPER_ID}-4",
+        "textContent":"\n        _FIRECROW_HANDLER_MAPPER = [];\n    ",
+        "pathAndModel":
+        {
+            "path":"",
+            "model":
+            {
+                "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":null},
+                "type":"Program",
+                "body":
+                [{
+                    "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":null },
+                    "type":"ExpressionStatement",
+                    "expression":
+                    {
+                        "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":null},
+                        "type":"AssignmentExpression",
+                        "operator":"=",
+                        "left":
+                        {
+                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":null },
+                            "type":"Identifier",
+                            "name":"_FIRECROW_HANDLER_MAPPER",
+                            "nodeId":"{FIRECROW_HANDLER_MAPPER_ID}-8"
+                        },
+                        "right":
+                        {
+                            "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }, "source":null },
+                            "type":"ArrayExpression",
+                            "elements":[],
+                            "nodeId":"{FIRECROW_HANDLER_MAPPER_ID}-9"
+                        },
+                        "nodeId":"{FIRECROW_HANDLER_MAPPER_ID}-7"
+                    },
+                    "nodeId":"{FIRECROW_HANDLER_MAPPER_ID}-6"
+                }],
+                "source":""
+            }
+        }
+    },
+
     _HANDLER_CONFLICT_TEMPLATE:
     {
         "loc":{ "start":{ "line":0, "column":0 }, "end":{ "line":0, "column":0 }},
@@ -77,7 +123,8 @@ Firecrow.Reuser.Templates =
             "nodeId":"{ID_PREFIX}-21"
         }],
         "nodeId":"{ID_PREFIX}-16"
-    }
+    },
+    _HANDLER_MAPPER_SCRIPT_INVOKER: "ICAgICAgICAoZnVuY3Rpb24oKQogICAgICAgIHsKICAgICAgICAgICAgaWYoISh3aW5kb3cuX0ZJUkVDUk9XX0hBTkRMRVJfTUFQUEVSKSkgeyByZXR1cm47IH0KCiAgICAgICAgICAgIHZhciBnZXRIYW5kbGVyc09mVHlwZSA9IGZ1bmN0aW9uKGhhbmRsZXJUeXBlKQogICAgICAgICAgICB7CiAgICAgICAgICAgICAgICB2YXIgaGFuZGxlcnMgPSBbXTsKICAgICAgICAgICAgICAgIGZvciggdmFyIGkgPSAwOyBpIDwgX0ZJUkVDUk9XX0hBTkRMRVJfTUFQUEVSLmxlbmd0aDtpKyspCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICAgdmFyIG1hcCA9IF9GSVJFQ1JPV19IQU5ETEVSX01BUFBFUltpXTsKICAgICAgICAgICAgICAgICAgICBpZihoYW5kbGVyVHlwZSA9PSBtYXAudHlwZSkKICAgICAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICAgICAgIGhhbmRsZXJzLnB1c2gobWFwLmhhbmRsZXIpOwogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICByZXR1cm4gaGFuZGxlcnM7CiAgICAgICAgICAgIH07CiAgICAgICAgICAgIHZhciBvbkxvYWRIYW5kbGVycyA9IGdldEhhbmRsZXJzT2ZUeXBlKCdvbmxvYWQnKTsKICAgICAgICAgICAgaWYob25Mb2FkSGFuZGxlcnMubGVuZ3RoICE9IDApCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgIHdpbmRvdy5vbmxvYWQgPSBmdW5jdGlvbigpCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICAgdmFyIGFyZ3MgPSBhcmd1bWVudHM7CiAgICAgICAgICAgICAgICAgICAgdmFyIHRoYXQgPSB0aGlzOwogICAgICAgICAgICAgICAgICAgIG9uTG9hZEhhbmRsZXJzLmZvckVhY2goZnVuY3Rpb24ob25sb2FkSGFuZGxlcikKICAgICAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICAgICAgIG9ubG9hZEhhbmRsZXIuYXBwbHkodGhhdCwgYXJncyk7CiAgICAgICAgICAgICAgICAgICAgfSk7CiAgICAgICAgICAgICAgICB9OwogICAgICAgICAgICB9CiAgICAgICAgfSgpKTsKICAgIA=="
 }
 
 }});

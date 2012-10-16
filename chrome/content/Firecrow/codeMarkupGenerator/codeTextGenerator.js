@@ -165,7 +165,17 @@ Firecrow.CodeTextGenerator.prototype =
     {
         try
         {
-            return this.newLine + this.generateJsCode(scriptElement.pathAndModel.model);
+            if(scriptElement != null && scriptElement.pathAndModel != null && scriptElement.pathAndModel.model != null)
+            {
+                return this.newLine + this.generateJsCode(scriptElement.pathAndModel.model);
+            }
+
+            if(scriptElement.sourceCode != null)
+            {
+                return this.newLine + scriptElement.sourceCode;
+            }
+
+            return "";
         }
         catch(e) { this.notifyError("Error when generating code from script element: " + e); }
     },
@@ -569,10 +579,13 @@ Firecrow.CodeTextGenerator.prototype =
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
 
-        return calleeCode
+        var shouldBeInParenthesis = ASTHelper.isFunctionExpression(callExpression.callee);
+
+        return (shouldBeInParenthesis ? this._LEFT_PARENTHESIS : "") + calleeCode
             +  this._LEFT_PARENTHESIS
                 +  this.getSequenceCode(callExpression.arguments)
-            +  this._RIGHT_PARENTHESIS;
+            +  this._RIGHT_PARENTHESIS
+            +  (shouldBeInParenthesis ? this._RIGHT_PARENTHESIS : "");
     },
 
     generateFromMemberExpression: function(memberExpression)
@@ -1019,6 +1032,8 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var code = "";
 
+            if(sequence == null) { return code; }
+
             for(var i = 0, length = sequence.length; i < length; i++)
             {
                 var item = sequence[i];
@@ -1036,7 +1051,10 @@ Firecrow.CodeTextGenerator.prototype =
 
             return code;
         }
-        catch(e) { this.notifyError("Error when generating sequence code:" + e); }
+        catch(e)
+        {
+            this.notifyError("Error when generating sequence code:" + e);
+        }
     },
 
     generateCodeFromStyleElement: function(styleElement)

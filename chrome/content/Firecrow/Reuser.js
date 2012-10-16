@@ -34,16 +34,16 @@ Firecrow.Reuser =
             mergedModel.children = [mergedHtmlElement];
 
 
-            var reusedHeadNode = this._getHeadElement(reusedAppModel);
-            var reuseIntoHeadNode = this._getHeadElement(reuseIntoAppModel);
+            var reusedHeadNode = this.getHeadElement(reusedAppModel);
+            var reuseIntoHeadNode = this.getHeadElement(reuseIntoAppModel);
             var mergedHeadNode = this._cloneShallowMarkConflicts(reuseIntoHeadNode, reusedHeadNode);
             mergedHtmlElement.children.push(mergedHeadNode);
             this._createChildren(mergedHeadNode, reuseIntoHeadNode);
             this._createChildren(mergedHeadNode, reusedHeadNode, "reuse");
 
 
-            var reusedBodyNode = this._getBodyElement(reusedAppModel);
-            var reuseIntoBodyNode = this._getBodyElement(reuseIntoAppModel);
+            var reusedBodyNode = this.getBodyElement(reusedAppModel);
+            var reuseIntoBodyNode = this.getBodyElement(reuseIntoAppModel);
             var mergedBodyNode = this._cloneShallowMarkConflicts(reuseIntoBodyNode, reusedBodyNode);
             mergedHtmlElement.children.push(mergedBodyNode);
             this._createChildren(mergedBodyNode, reuseIntoBodyNode, null, hasFixedCssConflicts);
@@ -235,13 +235,21 @@ Firecrow.Reuser =
     {
         if(mergedNode == null || originalNode == null) { return; }
 
-        mergedNode.pathAndModel =
+        if(originalNode.pathAndModel != null)
         {
-            path: originalNode.pathAndModel.path,
-            model: this._createCodeModel(originalNode.pathAndModel.model, origin)
+            mergedNode.pathAndModel =
+            {
+                path: originalNode.pathAndModel.path,
+                model: this._createCodeModel(originalNode.pathAndModel.model, origin)
+            }
+
+            mergedNode.cssRules = mergedNode.pathAndModel.model.rules;
         }
 
-        mergedNode.cssRules = mergedNode.pathAndModel.model.rules;
+        if(originalNode.sourceCode != null)
+        {
+            mergedNode.sourceCode = originalNode.sourceCode;
+        }
     },
 
     _createCodeModel: function(originalModel, origin)
@@ -298,7 +306,7 @@ Firecrow.Reuser =
         return Firecrow.ASTHelper.createCopy(originalModel, origin == "reuse");
     },
 
-    _getHeadElement: function(model)
+    getHeadElement: function(model)
     {
         if(model == null) { return null; }
         if(model.htmlElement == null) { return null; }
@@ -316,7 +324,7 @@ Firecrow.Reuser =
         return null;
     },
 
-    _getBodyElement: function(model)
+    getBodyElement: function(model)
     {
         if(model == null) { return null; }
         if(model.htmlElement == null) { return null; }
@@ -422,7 +430,7 @@ Firecrow.ConflictFixer =
     {
         var conflictedHandlers = this._getConflictedHandlers(reuseAppBrowser, reuseIntoAppBrowser);
 
-        var fixes = [];
+        if(conflictedHandlers.length == 0) { return; }
 
         conflictedHandlers.forEach(function(conflictedHandler)
         {
@@ -433,7 +441,33 @@ Firecrow.ConflictFixer =
             this._replaceWithFirecrowHandler(reuseIntoHandler);
         }, this);
 
-        return fixes;
+        this._insertFirecrowHandleConflictsCode(reuseIntoAppBrowser.pageModel, reuseAppBrowser.pageModel);
+    },
+
+    _insertFirecrowHandleConflictsCode: function(reuseIntoPageModel, reusePageModel)
+    {
+        var headElement = Firecrow.Reuser.getHeadElement(reuseIntoPageModel);
+
+        if(headElement == null) { alert("There is no head element"); return; }
+
+        var handlerMapperScript = Firecrow.ValueTypeHelper.deepClone(Firecrow.Reuser.Templates._HANDLER_MAPPER_SCRIPT_CREATION_TEMPLATE);
+
+        Firecrow.ValueTypeHelper.insertIntoArrayAtIndex(headElement.childNodes, handlerMapperScript, 0);
+        Firecrow.ValueTypeHelper.insertIntoArrayAtIndex(headElement.children, handlerMapperScript, 0);
+
+        var bodyElement = Firecrow.Reuser.getBodyElement(reusePageModel);
+
+        if(bodyElement == null) { alert("There is no body element"); return; }
+
+        var scriptInvokerScriptElement =
+        {
+            type: "script", childNodes:[], attributes:[{name:"origin", value: "Firecrow"}],
+            sourceCode: atob(Firecrow.Reuser.Templates._HANDLER_MAPPER_SCRIPT_INVOKER),
+            shouldBeIncluded: true
+        };
+
+        bodyElement.childNodes.push(scriptInvokerScriptElement);
+        bodyElement.children.push(scriptInvokerScriptElement);
     },
 
     _replaceWithFirecrowHandler: function(codeConstruct)

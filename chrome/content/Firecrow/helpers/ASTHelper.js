@@ -61,10 +61,6 @@ FBL.ns(function () { with (FBL) {
 
                     if(currentElement.loc != null)
                     {
-                        if(currentElement.nodeId == 28)
-                        {
-                            var a = 3;
-                        }
                         currentElement.loc.start.line += lineNumberAdjust;
                         currentElement.loc.end.line += lineNumberAdjust
                         currentElement.loc.source = source;
