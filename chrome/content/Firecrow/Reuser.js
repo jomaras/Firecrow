@@ -746,7 +746,7 @@ Firecrow.ConflictFixer =
             }
         }
 
-        this._addCommentToParentStatement("Could not rename");
+        this._addCommentToParentStatement(codeConstruct, "Could not rename");
     },
 
     _fixDomQueries: function(change, reuseAppBrowser)

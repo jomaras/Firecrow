@@ -579,13 +579,10 @@ Firecrow.CodeTextGenerator.prototype =
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
 
-        var shouldBeInParenthesis = ASTHelper.isFunctionExpression(callExpression.callee);
-
-        return (shouldBeInParenthesis ? this._LEFT_PARENTHESIS : "") + calleeCode
+        return calleeCode
             +  this._LEFT_PARENTHESIS
                 +  this.getSequenceCode(callExpression.arguments)
-            +  this._RIGHT_PARENTHESIS
-            +  (shouldBeInParenthesis ? this._RIGHT_PARENTHESIS : "");
+            +  this._RIGHT_PARENTHESIS;
     },
 
     generateFromMemberExpression: function(memberExpression)
