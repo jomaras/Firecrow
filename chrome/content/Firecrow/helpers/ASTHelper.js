@@ -168,6 +168,18 @@ FBL.ns(function () { with (FBL) {
             return model.rules;
         },
 
+        getCssFilePathFromDeclaration: function(cssDeclarationsObject)
+        {
+            if(cssDeclarationsObject == null || cssDeclarationsObject.parent == null
+            || cssDeclarationsObject.parent.cssText == null || cssDeclarationsObject.parent.parent == null
+            || cssDeclarationsObject.parent.parent.parent == null)
+            {
+                return null;
+            }
+
+            return cssDeclarationsObject.parent.parent.parent.path;
+        },
+
         getStyleElements: function(element)
         {
             var styleElements = [];

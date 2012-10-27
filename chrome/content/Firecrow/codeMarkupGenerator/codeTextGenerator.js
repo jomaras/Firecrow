@@ -1103,6 +1103,11 @@ Firecrow.CodeTextGenerator.prototype =
                     continue;
                 }
 
+                if(attribute.name == "id" && attribute.value == "contact")
+                {
+                    var a = 3;
+                }
+
                 attributesText += " " + attribute.name + '="' + attribute.value + '"';
             }
 

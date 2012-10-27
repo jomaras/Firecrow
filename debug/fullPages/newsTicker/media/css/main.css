@@ -1,0 +1,140 @@
+/*
+*
+* jNewsticker CSS
+*
+*/
+
+body {
+    font: 75%/1.5em 'Droid Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #dde2df;
+    color: #333;
+}
+
+.wrapper {
+    width: 860px;
+    margin: 0px auto;
+    position: relative;
+}
+
+/* Header */
+
+header {
+    background: url('../images/header_bg.png') repeat-x;
+    height: 124px;
+    padding-bottom: 17px; /* allow for logo overspill */
+}
+
+header .wrapper > div {
+    width: 100%;
+}
+
+#logo {
+    position: absolute;
+    top: 16px;
+    left: 71px;
+}
+
+/* Layer 1 */
+
+#layer_1 {
+    height: 16px;
+    padding: 14px 70px 14px;
+    text-transform: uppercase;
+}
+
+h1 a {
+    color: #6a726f;
+}
+
+h1 {
+    font-size: 1em;
+    float: right;
+}
+
+h1 span {
+    font-weight: bold;
+    padding-right: 6px;
+}
+
+h1 span:after {
+    padding-left: 6px;
+    content: "\002666";
+}
+
+/* Layer 2 */
+
+#layer_2 {
+    background: url('../images/menu_bg.png') no-repeat 10px 0px;
+    height: 69px;
+    padding: 0 70px;
+}
+
+#layer_2 nav {
+    float: right;
+    margin-top: 26px;
+}
+
+#layer_2 nav li {
+    float: left;
+}
+
+#layer_2 nav li a {
+    font-weight: bold;
+    color: #fff;
+    padding: 16px;
+    border-right: 1px solid #323b37;
+}
+
+#layer_2 nav li a.preview {
+    font-weight: normal;
+}
+
+#layer_2 nav li:last-child a {
+    border: none;
+    padding-right:0;
+}
+
+#layer_2 nav li a:hover,
+#layer_2 nav li a.active {
+    color: #f7e382;
+}
+
+/* Main content area */
+
+#main {
+    padding: 60px 0 100px 140px;
+}
+
+.demo {
+    margin-top: 2em;
+    margin-bottom: 3em;
+}
+
+.screenshot {
+    width: auto;
+    margin: 1em auto;
+}
+
+h2 {
+    margin-bottom: 1em;
+}
+
+h3 {
+    margin: 1.5em 0 1em;
+    font-style: italic;
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #46709c;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+h4 {
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+}

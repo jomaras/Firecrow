@@ -1,0 +1,101 @@
+
+<!DOCTYPE html> 
+<html dir="ltr" lang="en-US"> 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>jNewsticker - jQuery news ticker</title>
+    <meta description="jNewsticker is a powerful jQuery news ticker with three animation styles, professionally designed skins and easy methods for pulling in news items from RSS feeds, Twitter, Facebook, Pinterest, Last.fm or Tumblr" />    
+    <link rel="profile" href="http://gmpg.org/xfn/11" />
+    <link rel="stylesheet" type="text/css" media="all" href="media/css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="media/css/main.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="media/js/jnewsticker/skins/dark.css" id="newsticker_skin" />
+    
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="media/js/jnewsticker/newsticker.jquery.js"></script>
+       
+    <script type="text/javascript">
+    (function($){
+      
+      $(document).ready(function() {                                      
+
+          $('#newsticker_demo_scroll').newsticker( {
+              'style'         : 'scroll',
+              'tickerTitle'   : 'Tunes',
+              'lastfm'        : 'ericnicolaas', 
+              'lastfmCount'   : 5, 
+              'lastfmFormat'  : '<a href="%link%">%title%</a> listened to %timeago%',
+              'excerptLength' : 100, // 100 characters
+              'sortBy'        : 'timestamp',
+              'reverseOrder'  : true,
+              'scrollSpeed'   : 50,        
+              'autoStart'     : true,
+              'slideSpeed'    : 1000,
+              'slideEasing'   : 'swing',
+              'showControls'  : true
+          });
+          
+      })
+            
+    })(jQuery);    
+    </script>
+</head>
+
+<body>
+  
+    <header>      
+        
+        <div class="wrapper">
+          
+            <img id="logo" src="media/images/logo.png" alt="Studio 164a logo" />            
+          
+            <div id="layer_1">
+                <h1><a href="http://164a.com/jnewsticker/"><span>j News ticker</span> Powerful jQuery plugin</a></h1> 
+            </div>
+            
+            <div id="layer_2">
+                
+                <nav>
+                    <ul>
+						<li><a id="home" href="http://164a.com/jnewsticker/">jQuery plugin</a></li>
+                        <li><a id="wp" href="wordpress.html">Wordpress news ticker</a></li>
+                        <li><a id="dark" href="dark.html" class="preview">Dark Theme</a></li>
+                        <li><a id="clean_red" href="red.html" class="preview">Red Theme</a></li>
+                        <li><a id="corporate_blue" href="blue.html" class="preview">Blue Theme</a></li>
+                        <!--<li><a href="/documentation/">Documentation</a></li>-->
+                        <li><a href="http://codecanyon.net/item/jnewsticker-jquery-news-ticker/2137525?ref=Studio164a">Purchase</a></li>                        
+                    </ul>                                        
+                </nav>
+              
+            </div>
+          
+        </div>
+      
+    </header>
+      
+    <div id="main" class="wrapper">
+      
+        <h2>jNewsticker</h2>
+
+        <p>jNewsticker is a powerful jQuery plugin designed to seamlessly integrate into your website. 
+        Pre-packed with three news ticker styles and three skins, you can easily create your own skins.</p>
+
+        <p>Developers will find the plugin easily extendible. If you understand Javascript and jQuery, 
+        you can create your own news ticker styles to sit on top of jNewsticker.</p>
+
+        <p>Want to integrate jNewsticker into your Wordpress site? <a href="wordpress.html">jNewsticker for Wordpress</a> is a custom Wordpress plugin that will allow you to easily add news tickers into your website with widgets, shortcodes or PHP code.</p>   
+
+        <p><strong><a href="http://codecanyon.net/item/jnewsticker-jquery-news-ticker/2137525?ref=Studio164a">  jNewsticker is available exclusively from CodeCanyon</a></strong></p>      
+
+        <section class="demo">       
+            <h4>Scrolling news ticker</h4>
+            <p>The news ticker below uses the 'scroll' animation. It is showing the last 5 tracks I scrobbled to Last.fm (using the built-in <em>lastfm</em> setting for jNewsticker).</p>
+            <ul id="newsticker_demo_scroll" class="newsticker"></ul>                     
+        </section>            
+
+        <p>For demos of the other animation styles and skins, click the links in the navigation above.</p>
+
+    </div>      
+    
+</body>
+</html>

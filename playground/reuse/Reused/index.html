@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Application B</title>
+    <meta charset="UTF-8"/>
+    <script>
+        var HANDLER = {
+            fullApp:{},
+            reusedApp:{}
+        };
+    </script>
+    <style>
+        .fullApp img:not(.reused) { border: dashed; }
+        .myImage { width: 300px; }
+    </style>
+    <script>
+        SRCS = ["img/P.jpg", "img/T.jpg"];
+        var history = [];
+        var proto = HTMLImageElement.prototype
+        proto.toggleSrc = function(srcs, cont) {
+            this.src = this.src.indexOf(srcs[0]) == -1 ? srcs[0] : srcs[1]
+            history.push(this.getAttribute("src"));
+
+            var summ = {};
+            /*ERROR - additional properties*/
+            for(var i in history)
+            {
+                var item = history[i];
+                if(!summ[item])
+                    summ[item] = 0;
+
+                summ[item]++;
+            }
+
+            cont.textContent = JSON.stringify(summ);
+        };
+
+        HANDLER.fullApp.onload = function() {
+            var im = document.querySelectorAll(".fullApp img:not(.reused)")
+            var inf = document.querySelector("#info")
+            for(var i = 0; i < im.length; i++)
+                im[i].onmouseover = function() {
+                    this.toggleSrc(SRCS, inf);
+                }
+        };
+    </script>
+    <style>
+        .reused img { border: solid; }
+        .reused_myImage { width: 200px; }
+    </style>
+    <script>
+        REUSED_SRCS = ["reused_img/C.jpg", "reused_img/D.jpg"];
+
+        var aProto = Array.prototype;
+        aProto.next = function(curr){
+            var i = this.indexOf(curr);
+            var next = 0;
+
+            if(i >= 0 && i < this.length - 1)
+                next = i + 1;
+
+            return this[next];
+        };
+
+        var iProto = HTMLImageElement.prototype
+        iProto.reused_toggleSrc = function(s) {
+            this.src = s.next(this.getAttribute("src"));
+        };
+
+        HANDLER.reusedApp.onload = function() {
+            var im = document.querySelectorAll(".reused img");
+            for(var i = 0; i < im.length; i++)
+                im[i].onclick = function() {
+                    this.reused_toggleSrc(REUSED_SRCS);
+                }
+        };
+    </script>
+</head>
+<body>
+<div id="imageContainer" class="fullApp">
+    <img class="myImage" src="img/P.jpg"/>
+    <img class="myImage" src="img/T.jpg"/>
+    <div id="info"></div>
+</div>
+
+<div id="reused_imageContainer" class="reused">
+    <img class="reused reused_myImage" src="reused_img/C.jpg">
+    <img class="reused reused_myImage" src="reused_img/D.jpg">
+</div>
+
+<script>
+    window.onload = function() {
+        HANDLER.fullApp.onload.apply(this, arguments);
+        HANDLER.reusedApp.onload.apply(this, arguments);
+    };
+</script>
+</body>
+</html>

@@ -5,6 +5,7 @@ load:
   - ../chrome/content/Firecrow/helpers/valueTypeHelper.js
   - ../chrome/content/Firecrow/helpers/ASTHelper.js
   - ../chrome/content/Firecrow/helpers/htmlHelper.js
+  - ../chrome/content/Firecrow/helpers/UriHelper.js
   - ../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js
   - ../chrome/content/Firecrow/dependencyGraph/node.js
   - ../chrome/content/Firecrow/dependencyGraph/edge.js

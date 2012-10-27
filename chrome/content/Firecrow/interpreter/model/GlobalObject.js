@@ -88,6 +88,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
         this.includeAllDomModifications = false;
         this.undefinedGlobalPropertiesAccessMap = {};
         this.eventHandlerPropertiesMap = {};
+        this.resourceSetterPropertiesMap = {};
 
         this.getJsPropertyValue = function(propertyName, codeConstruct)
         {

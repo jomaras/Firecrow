@@ -296,6 +296,14 @@ fcModel.HtmlElementProto =
             }
 
             this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
+
+            if(propertyName == "src")
+            {
+                this.globalObject.resourceSetterPropertiesMap[codeConstruct.nodeId] = {
+                    codeConstruct: codeConstruct,
+                    resourceValue: propertyValue.value
+                };
+            }
         }
         catch(e) { fcModel.HtmlElement.notifyError("Error when adding property: " + e);}
     },
@@ -314,7 +322,7 @@ fcModel.HtmlElementProto =
                 evaluationPositionId: evaluationPosition
             };
 
-            childNode.modelElement = { type: "DummyCodeElement", domElement: childNode };
+            childNode.modelElement = { type: childNode.nodeName.toLowerCase(), domElement: childNode , isDummyElement: true};
             this.globalObject.browser.callNodeCreatedCallbacks(childNode.modelElement, "html", true);
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(htmlElement.modelElement, childNode.modelElement, evaluationPosition);

@@ -153,38 +153,49 @@ Firecrow.fbHelper =
     {
         var declarations = {};
 
-        if(cssRule == null || cssRule.style == null) { return declarations;}
-
-        var style = cssRule.style;
-
-        for(var i = 0; i < style.length; i++)
+        try
         {
-            var key = style[i];
-            declarations[key] = style[key];
+            //type == 1 for styles, so far we don't care about others
+            if(cssRule == null || cssRule.style == null || cssRule.type != 1) { return declarations;}
 
-            if(declarations[key] == null)
+            var style = cssRule.style;
+
+            for(var i = 0; i < style.length; i++)
             {
-                if(key == "float")
+                var key = style[i];
+                declarations[key] = style[key];
+
+                if(declarations[key] == null)
                 {
-                    declarations[key] = style["cssFloat"];
+                    if(key == "float")
+                    {
+                        declarations[key] = style["cssFloat"];
+                    }
+                    else
+                    {
+                        var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
+                        declarations[key] = style[newKey];
+                    }
                 }
-                else
+
+                if(declarations[key] == null)
                 {
-                    var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
+                    newKey = newKey.replace("Value", "");
                     declarations[key] = style[newKey];
                 }
-            }
 
-            if(declarations[key] == null)
-            {
-                newKey = newKey.replace("Value", "");
-                declarations[key] = style[newKey];
+                if(declarations[key] == null)
+                {
+                    Firecrow.UnrecognizedCssProperties[key] = "1";
+                }
             }
-
-            if(declarations[key] == null)
-            {
-                Firecrow.UnrecognizedCssProperties[key] = "1";
-            }
+        }
+        catch(e)
+        {
+            alert("Error when getting style declarations: " + e  + " " + key + " " + newKey);
+            Firecrow._KEY = key;
+            Firecrow._NEW_KEY = newKey;
+            Firecrow._STYLE = style;
         }
 
         return declarations;

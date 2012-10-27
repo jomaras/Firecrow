@@ -115,6 +115,11 @@ Browser.prototype =
 
             htmlModelElement.shouldBeIncluded = this.globalObject.checkIfSatisfiesDomSlicingCriteria(htmlDomElement);
 
+            if(htmlModelElement.shouldBeIncluded && htmlModelElement.nodeId == 46337)
+            {
+                alert("Included in browser");
+            }
+
             if(htmlModelElement.type == "script" || htmlModelElement.type == "style" || htmlModelElement.type == "link")
             {
                 if(htmlModelElement.type == "script")

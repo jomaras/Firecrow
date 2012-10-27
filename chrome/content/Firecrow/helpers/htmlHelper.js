@@ -21,6 +21,8 @@ Firecrow.htmlHelper =
             serialized.htmlElement = htmlElement != null ? this.getSimplifiedElement(htmlElement, scriptPathsAndModels, stylesPathsAndModels)
                                                          : "null";
 
+            serialized.pageUrl = Firecrow.fbHelper.getCurrentUrl();
+
             return serialized;
         }
         catch(e) { alert("Error when serializing to HTML JSON:" + e);}

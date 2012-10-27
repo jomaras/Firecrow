@@ -17,6 +17,7 @@ Firecrow.Reuser =
             if(reusedAppModel.children == null || reusedAppModel.children.length == 0) { return reuseIntoAppModel; }
             if(reuseIntoAppModel.children == null || reuseIntoAppModel.children.length == 0) { return reusedAppModel; }
 
+            Firecrow.ConflictFixer.fixResourceConflicts(reuseAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser);
             Firecrow.ConflictFixer.fixHtmlConflicts(reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseAppBrowser);
             Firecrow.ConflictFixer.fixJsConflicts(reuseAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser);
             var hasFixedCssConflicts = Firecrow.ConflictFixer.fixCssConflicts(reuseAppGraph, reuseIntoAppGraph);
@@ -418,6 +419,129 @@ Firecrow.Reuser =
 
 Firecrow.ConflictFixer =
 {
+    fixResourceConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser)
+    {
+        try
+        {
+            this._fixResourceConflictsInCss(reusedAppGraph, reuseAppBrowser);
+            this._fixResourceConflictsInHtml(reusedAppGraph, reuseAppBrowser);
+            this._fixResourceConflictsInJs(reusedAppGraph, reuseAppBrowser);
+        }
+        catch(e) { alert("Error when fixing resource conflicts: " + e); }
+    },
+
+    _fixResourceConflictsInCss: function(reusedAppGraph, reuseAppBrowser)
+    {
+        var cssNodes = reusedAppGraph.cssNodes;
+
+        for(var i = 0, length = cssNodes.length; i < length; i++)
+        {
+            var cssNode = cssNodes[i];
+            if(cssNode.model == null || cssNode.model.declarations == null) { continue; }
+
+            var declarations = cssNode.model.declarations;
+
+            this._replaceImageUrlInCss(declarations, "background");
+            this._replaceImageUrlInCss(declarations, "background-image");
+            this._replaceImageUrlInCss(declarations, "list-style-image");
+        }
+    },
+
+    _replaceImageUrlInCss: function(cssDeclarationsObject, propertyName)
+    {
+        var propertyValue = cssDeclarationsObject[propertyName];
+
+        if(propertyValue == null) { return; }
+
+        var currentUrl = this._getPathFromCssUrl(propertyValue);
+
+        if(currentUrl == null) { return; }
+
+        var cssFilePath = Firecrow.ASTHelper.getCssFilePathFromDeclaration(cssDeclarationsObject);
+        var relativePath = this._getRelativePath(currentUrl, cssFilePath);
+
+        cssDeclarationsObject[propertyName] = propertyValue.replace(currentUrl, this._wrapInReuseFolder(relativePath));
+        cssDeclarationsObject.parent.cssText = cssDeclarationsObject.parent.cssText.replace(propertyValue, "url('" + this._wrapInReuseFolder(relativePath) + "')");
+    },
+
+    _getRelativePath: function(path, basePath)
+    {
+        return Firecrow.UriHelper.getRelativeFrom(Firecrow.UriHelper.getAbsoluteUrl(path, basePath), basePath);
+    },
+
+    _getPathFromCssUrl: function(cssUrl)
+    {
+        if(cssUrl == null) { return null; }
+
+        var startRegEx = /url(\s)*\(('|")?/gi;
+        var usedStartRegExQuery = cssUrl.match(startRegEx);
+
+        if(usedStartRegExQuery == null) { return null; }
+
+        var usedStart = usedStartRegExQuery[0];
+
+        var startUrlIndex = cssUrl.indexOf(usedStart) + usedStart.length;
+
+        var endUrlChar = usedStart[usedStart.length - 1] == "(" ? ")" : usedStart[usedStart.length - 1];
+        var endUrlIndex = cssUrl.indexOf(endUrlChar, startUrlIndex);
+
+        return cssUrl.substring(startUrlIndex, endUrlIndex);
+    },
+
+    _fixResourceConflictsInHtml: function(reusedAppGraph, reuseAppBrowser)
+    {
+        var htmlNodes = reusedAppGraph.htmlNodes;
+
+        for(var i = 0, length = htmlNodes.length; i < length; i++)
+        {
+            var htmlNode = htmlNodes[i];
+
+            if(htmlNode.model == null || htmlNode.model.type != "img"){ continue; }
+
+            htmlNode.model.attributes.forEach(function(attribute)
+            {
+                if(attribute.name == "src")
+                {
+                    attribute.value = this._wrapInReuseFolder(this._getRelativePath(attribute.value, reuseAppBrowser.pageModel.pageUrl));
+                }
+            }, this);
+        }
+    },
+
+    _wrapInReuseFolder: function(path)
+    {
+        return "reuse/" + path;
+    },
+
+    _fixResourceConflictsInJs: function(reusedAppGraph, reusedAppBrowser)
+    {
+        if(reusedAppBrowser == null || reusedAppBrowser.globalObject == null)
+
+        var map = reusedAppBrowser.globalObject.resourceSetterPropertiesMap;
+
+        var a = 3;
+        a++;
+
+        for(var prop in map)
+        {
+            var setObject = map[prop];
+
+            var change =
+            {
+                oldValue: setObject.resourceValue,
+                newValue: this._wrapInReuseFolder(this._getRelativePath(setObject.resourceValue, reusedAppBrowser.pageModel.pageUrl))
+            };
+
+            if(Firecrow.ASTHelper.isAssignmentExpression(setObject.codeConstruct))
+            {
+                this._replaceLiteralOrDirectIdentifierValue(change, setObject.codeConstruct.right);
+                continue;
+            }
+
+            this._addCommentToParentStatement(setObject.codeConstruct, "Firecrow - Could not rename " + change.oldValue + " -> " + change.newValue);
+        }
+    },
+
     fixJsConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser)
     {
         this._fixGlobalPropertyConflicts(reuseAppBrowser, reuseIntoAppBrowser);
