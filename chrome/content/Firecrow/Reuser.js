@@ -517,14 +517,13 @@ Firecrow.ConflictFixer =
     {
         if(reusedAppBrowser == null || reusedAppBrowser.globalObject == null)
 
-        var map = reusedAppBrowser.globalObject.resourceSetterPropertiesMap;
+        var mapping;
 
-        var a = 3;
-        a++;
+        mapping = reusedAppBrowser.globalObject.resourceSetterPropertiesMap;
 
-        for(var prop in map)
+        for(var prop in mapping)
         {
-            var setObject = map[prop];
+            var setObject = mapping[prop];
 
             var change =
             {

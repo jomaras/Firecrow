@@ -6,12 +6,19 @@
 <body>
 
 <script>
-    var a = {b:3, d:4};
 
-    for(var prop in a)
+    function run(obj)
     {
-        console.log(prop);
+        var b = obj;
+
+        for(var prop in b)
+        {
+            console.log(prop);
+        }
     }
+    var a = {b:3, d:4};
+    run(a);
+
 </script>
 </body>
 </html>
