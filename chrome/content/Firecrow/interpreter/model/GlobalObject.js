@@ -319,7 +319,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
             {
                 var property = this.properties[i];
 
-                if(property.declarationConstruct == null || Firecrow.ASTHelper.isVariableDeclarator(property.declarationConstruct.codeConstruct)) { continue; }
+                if(property.declarationConstruct == null) { continue; }
 
                 userSetGlobalProperties.push(property);
             }

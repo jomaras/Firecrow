@@ -263,14 +263,7 @@ Firecrow.Reuser =
         }
         else if (originalModel.type == "Program")
         {
-            var programModel = this._createProgramModel(originalModel, origin);
-
-            if(origin == "reuse")
-            {
-                Firecrow.ASTHelper.wrapInSelfExecutingFunctionExpression(programModel);
-            }
-
-            return programModel;
+            return this._createProgramModel(originalModel, origin);
         }
         else
         {
@@ -705,6 +698,10 @@ Firecrow.ConflictFixer =
                 {
                     alert("Unhandled expression when fixing global properties conflicts in assignment expression");
                 }
+            }
+            else if (Firecrow.ASTHelper.isVariableDeclarator(declarationConstruct))
+            {
+                declarationConstruct.id.name = newName;
             }
             else { alert("Unhandled expression when fixing global properties conflicts"); }
 

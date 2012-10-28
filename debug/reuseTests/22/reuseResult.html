@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <style>
+        #mainContainer { color: blue; }
+        .jsContainer { color: red; }
+    </style>
+
+
+
+    <style origin="reuse">
+        #cssImage1 { background-image: url('reuse/img/Desert.jpg'); width: 100px; height: 100px; }
+        #cssImage2 { background-image: url('reuse/img/Desert.jpg'); width: 100px; height: 100px; }
+    </style>
+</head><body>
+<div class="someReuseIntoClass" id="mainContainer">
+    This is original content<br/>
+    Which ends here<br/>
+    *************************
+</div>
+
+
+<div id="extractContainer" origin="reuse">
+    This is the extracted content
+    <img width="100px" src="reuse/img/Koala.jpg" origin="reuse"/>
+    <img width="100px" src="reuse/img/Koala.jpg" origin="reuse"/>
+    <div id="cssImage1" origin="reuse"></div>
+    <div id="cssImage2" origin="reuse"></div>
+    <img width="100px" id="jsImage1" origin="reuse"/>
+    <img width="100px" id="jsImage2" origin="reuse"/>
+</div>
+<script origin="reuse">
+    document.querySelector('#jsImage1').src = 'reuse/img/Desert.jpg';/*Firecrow - Rename:img/Desert.jpg -> reuse/img/Desert.jpg; */
+    document.querySelector('#jsImage2').src = 'reuse/img/Desert.jpg';/*Firecrow - Rename:file:///C:/GitWebStorm/Firecrow/debug/reuseTests/22/img/Desert.jpg -> reuse/img/Desert.jpg; */
+</script>
+
+</body>
+</html>
