@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #extractContainer
+        {
+            color: green;
+        }
+
+        .jsContainer
+        {
+            color: #a52a2a;
+        }
+    </style>
+</head>
+<body>
+    <div id="extractContainer" class="someExtractClass">
+        This is the extracted content
+        <img id="image" width="100"/>
+    </div>
+    <script>
+        var extractContainer = document.getElementById("extractContainer");
+
+        var className = ["jsContainer"];
+
+        var newContainer = document.createElement("div");
+        newContainer.className = className[0];
+        newContainer.innerHTML = "And this was created by Javascript<br/>";
+        extractContainer.appendChild(newContainer);
+
+        var imageSources = ["img/Koala.jpg"];
+        document.getElementById("image").src = imageSources[0];
+    </script>
+</body>
+</html>

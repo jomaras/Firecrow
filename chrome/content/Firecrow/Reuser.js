@@ -851,11 +851,12 @@ Firecrow.ConflictFixer =
 
     _replaceLiteralOrDirectIdentifierValue: function(change, codeConstruct)
     {
-        this._addCommentToParentStatement(codeConstruct, "Firecrow - Rename:" + change.oldValue + " -> " + change.newValue);
+        var renameMessage = "Firecrow - Rename:" + change.oldValue + " -> " + change.newValue;
 
         if(Firecrow.ASTHelper.isLiteral(codeConstruct))
         {
             codeConstruct.value = codeConstruct.value.replace(change.oldValue, change.newValue);
+            this._addCommentToParentStatement(codeConstruct, renameMessage);
             return;
         }
         else if (Firecrow.ASTHelper.isIdentifier(codeConstruct))
@@ -865,7 +866,30 @@ Firecrow.ConflictFixer =
             if(identifierDeclarator != null && Firecrow.ASTHelper.isLiteral(identifierDeclarator.init))
             {
                 identifierDeclarator.init.value = identifierDeclarator.init.value.replace(change.oldValue, change.newValue);
+                this._addCommentToParentStatement(identifierDeclarator, renameMessage);
                 return;
+            }
+        }
+        else if(Firecrow.ASTHelper.isMemberExpression(codeConstruct))
+        {
+            if(codeConstruct.property != null && codeConstruct.property.graphNode != null)
+            {
+                var dependencies = codeConstruct.property.graphNode.dataDependencies;
+                var hasReplaced = false;
+
+                for(var i = 0; i < dependencies.length; i++)
+                {
+                    var dependency = dependencies[i];
+
+                    if(Firecrow.ASTHelper.isLiteral(dependency.destinationNode.model))
+                    {
+                        dependency.destinationNode.model.value = dependency.destinationNode.model.value.replace(change.oldValue, change.newValue);
+                        this._addCommentToParentStatement(dependency.destinationNode.model, renameMessage);
+                        hasReplaced = true;
+                    }
+                }
+
+                if(hasReplaced) { return; }
             }
         }
 
