@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECMAScript Conformance test</title>
+    <meta charset="UTF-8"/>
+    <!--
+    Expected result:
+      a1 -> true
+      a2 -> false
+      a3 -> true
+      a4 -> true
+      a5 -> true
+      a6 -> true
+      a7 -> true
+      a8 -> true
+      a9 -> true
+      a10 -> true
+    -->
+</head>
+<body>
+    <h1>ECMAScript Conformance tests 8.3: The Boolean Type</h1>
+    <script>
+        var a1 = true;
+        var a2 = false;
+        var a3 = typeof(true) === "boolean";
+        var a4 = typeof(true) == "boolean";
+        var a5 = typeof(false) === "boolean";
+        var a6 = typeof(false) == "boolean";
+        var a7 = true !== false;
+        var a8 = true != false;
+        var a9 = false !== true;
+        var a10 = false != true;
+    </script>
+</body>
+</html>

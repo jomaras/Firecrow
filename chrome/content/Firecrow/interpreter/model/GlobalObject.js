@@ -464,6 +464,5 @@ fcModel.ImageFunction = function(globalObject)
     }
     catch(e){ fcModel.GlobalObject.notifyError("Error when createing  image function: " + e); }
 };
-
 /*************************************************************************************/
 }});

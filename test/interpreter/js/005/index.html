@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECMAScript Conformance test</title>
+    <meta charset="UTF-8"/>
+    <!--
+    Expected result:
+      a1 -> true
+      ...
+      a39 -> true
+    -->
+</head>
+<body>
+    <h1>ECMAScript Conformance tests 8.6: Object type</h1>
+    <script>
+
+        var __e = Math.E;
+        Math.E = 1;
+
+        var a1 = Math.E ===__e;
+
+        var count=0;
+        for (p in Number) count++;
+
+        var a2 = count == 0;
+
+        var a3 = delete Number.NaN === false;
+        var a4 = typeof(Number.NaN) !== "undefined";
+
+        var __obj = {};
+
+        var a5 = Object.prototype.isPrototypeOf(__obj);
+
+        var protoObj={};
+        function FooObj(){};
+
+        var obj__= new FooObj;
+
+        var a6 = Object.prototype.isPrototypeOf(obj__);
+        var a7 = FooObj.prototype.isPrototypeOf(obj__);
+        var a8 = !protoObj.isPrototypeOf(obj__);
+
+
+        FooObj.prototype=protoObj;
+
+        var a9 = !protoObj.isPrototypeOf(obj__);
+
+        var __foo=new FooObj;
+
+        var a10 = Object.prototype.isPrototypeOf(__foo);
+        var a11 = FooObj.prototype.isPrototypeOf(__foo);
+        var a12 = protoObj.isPrototypeOf(__foo);
+
+        function FooObj(){};
+        FooObj.prototype.prop="some";
+
+        var foo = new FooObj;
+
+        var a13 = foo.prop === "some";
+        foo.prop=true;
+        var foo__ = new FooObj;
+
+        var a14 = foo__.prop === "some";
+
+        var __obj={};
+        var a15 = __obj.toString() === "[object " + 'Object' + "]";
+
+        var __obj={};
+
+        var a16 = __obj instanceof Object;
+        var a17 = !(__obj instanceof Function);
+        var a18 = !(__obj instanceof String);
+        var a19 = !(__obj instanceof Number);
+        var a20 = !(__obj instanceof Array);
+
+        this.count=0;
+
+        var testScreen = { touch:function(){count++}};
+        testScreen.touch();
+        var a21 = count === 1;
+        testScreen['touch']();
+        var a22 = count === 2;
+
+        this.position=0;
+        var seat = {};
+        seat['move']=function(){position++};
+        seat.move();
+
+        var a23 = position === 1;
+        seat['move']();
+        var a24 = position === 2;
+
+        var count = 0;
+        var knock = function(){ count++ };
+        knock();
+
+        var a25 = count ===1;
+        this['knock']();
+        var a26 = count ===2;
+
+        var __count=0;
+
+        this["beep"] = function(){ __count++ };
+        beep();
+        var a27 = __count ===1;
+
+        this["beep"]();
+        var a28 = __count ===2;
+
+
+        var objInstance = new Object;
+        var a29 = objInstance.constructor === Object;
+
+        var numInstance = new Number;
+        var a30 = numInstance.constructor === Number;
+        /**/
+
+        var __map= { foo:"bar"};
+
+        __map.foo++;
+        var a31 = isNaN(__map.foo);
+        /**/
+        var __map={};
+
+        var a32 = isNaN(__map.foo++);
+        var a33 = "foo" in __map;
+
+        /**/
+        var __map={foo:'bar'};
+
+        ++__map.foo;
+        var a34 = isNaN(__map.foo);
+        /**/
+        var __map={};
+
+        var a35 = isNaN(++__map.foo)
+        var a36 = "foo" in __map;
+
+        /**/
+        var obj = {bar:true, some:1, foo:"a"};
+
+        var count = 0;
+
+        for (var property in obj)	count++;
+
+        var a37 = count === 3;
+        var obj_ = {bar:true};
+        obj_.some = 1;
+        obj_.foo = "a";
+
+        count = 0;
+
+        for (property in obj_) count++;
+
+        var a38 = count === 3;
+
+        var obj__ = new Object();
+        obj__.bar = true;
+        obj__.some = 1;
+        obj__.foo = "a";
+
+        count=0;
+
+        for (property in obj__)
+            count++;
+
+        var a39 = count === 3;
+    </script>
+</body>
+</html>

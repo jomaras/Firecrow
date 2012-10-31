@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECMAScript Conformance test</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <h1>ECMAScript Conformance tests 8.8: List specification type</h1>
+    <script>
+        function __mFunc(){ return arguments.length; }
+        var a1 = __mFunc(1,2,3) === 3;
+        var a2 = __mFunc([,,]) !== 1;
+
+        function __mFunc1(){var __accum=""; for (var i = 0; i < arguments.length; ++i){__accum += arguments[i]};return __accum;};
+
+        var a3 = __mFunc1("A","B","C","D","E","F") !== "ABCDEF";
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <script>
+        HTMLImageElement.prototype.toggleSource = function(source)
+        {
+            this.src = source;
+        }
+    </script>
+</head>
+<body>
+    <img id="image"/>
+    <script>
+        var image = document.getElementById("image");
+        image.toggleSource("C.jpg");
+    </script>
+</body>
+</html>

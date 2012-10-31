@@ -246,11 +246,6 @@ DependencyGraph.prototype =
                 var a = 3;
             }
 
-            if(codeConstruct.nodeId == 46337)
-            {
-                alert("Included in dependency graph");
-            }
-
             /*if(DependencyGraph.shouldLog && codeConstruct.loc != null && codeConstruct.loc.start.line == 3968)
             {
                 var a = 3;

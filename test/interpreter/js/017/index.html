@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECMAScript Conformance test</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <h1>ECMAScript Conformance tests 9.9: Type Conversion and Testing - ToObject</h1>
+    <script>
+        /*************************************************/
+        var a1 = Object(true).valueOf() === true;
+        var a2 = typeof Object(true) === "object";
+        var a3 = Object(true).constructor.prototype === Boolean.prototype;
+        var a4 = Object(false).valueOf() === false;
+        var a5 = typeof Object(false) === "object";
+        var a6 = Object(false).constructor.prototype === Boolean.prototype;
+        /*************************************************/
+        var a7 = Object(0).valueOf() === 0;
+        var a8 = typeof Object(0) === "object";
+        var a9 = Object(0).constructor.prototype === Number.prototype;
+        var a10 = Object(-0).valueOf() === -0;
+        var a11 = typeof Object(-0) === "object";
+        var a12 = Object(-0).constructor.prototype === Number.prototype;
+        var a13 = Object(1).valueOf() === 1;
+        var a14 = typeof Object(1) === "object";
+        var a15 = Object(1).constructor.prototype === Number.prototype;
+        var a16 = Object(-1).valueOf() === -1;
+        var a17 = typeof Object(-1) === "object";
+        var a18 = Object(-1).constructor.prototype === Number.prototype;
+        var a19 = Object(Number.MIN_VALUE).valueOf() === Number.MIN_VALUE;
+        var a20 = typeof Object(Number.MIN_VALUE) === "object";
+        var a21 = Object(Number.MIN_VALUE).constructor.prototype === Number.prototype;
+        var a22 = Object(Number.MAX_VALUE).valueOf() === Number.MAX_VALUE;
+        var a23 = typeof Object(Number.MAX_VALUE) === "object";
+        var a24 = Object(Number.MAX_VALUE).constructor.prototype === Number.prototype;
+        var a25 = Object(Number.POSITIVE_INFINITY).valueOf() === Number.POSITIVE_INFINITY;
+        var a26 = typeof Object(Number.POSITIVE_INFINITY) === "object";
+        var a27 = Object(Number.POSITIVE_INFINITY).constructor.prototype === Number.prototype;
+        var a28 = Object(Number.NEGATIVE_INFINITY).valueOf() === Number.NEGATIVE_INFINITY;
+        var a29 = typeof Object(Number.NEGATIVE_INFINITY) === "object";
+        var a30 = Object(Number.NEGATIVE_INFINITY).constructor.prototype === Number.prototype;
+        var a31 = isNaN(Object(Number.NaN).valueOf()) === true;
+        var a32 = typeof Object(Number.NaN) === "object";
+        var a33 = Object(Number.NaN).constructor.prototype === Number.prototype;
+        var a34 = Object(1.2345).valueOf() === 1.2345;
+        var a35 = typeof Object(1.2345) === "object";
+        var a36 = Object(1.2345).constructor.prototype === Number.prototype;
+        var a37 = Object(-1.2345).valueOf() === -1.2345;
+        var a38 = typeof Object(-1.2345) === "object";
+        var a39 = Object(-1.2345).constructor.prototype === Number.prototype;
+        /*************************************************/
+        var a40 = Object("some string").valueOf() === "some string";
+        var a41 = typeof Object("some string") === "object";
+        var a42 = Object("some string").constructor.prototype === String.prototype;
+        var a43 = Object("").valueOf() === "";
+        var a44 = typeof Object("") === "object";
+        var a45 = Object("").constructor.prototype === String.prototype;
+        var a46 = Object("\r\t\b\n\v\f").valueOf() === "\r\t\b\n\v\f";
+        var a47 = typeof Object("\r\t\b\n\v\f") === "object";
+        var a48 = Object("\r\t\b\n\v\f").constructor.prototype === String.prototype;
+        var a49 = Object(String(10)).valueOf() === "10";
+        var a50 = typeof Object(String(10)) === "object";
+        var a51 = Object(String(10)).constructor.prototype === String.prototype;
+        /*************************************************/
+        function MyObject( val ) {
+            this.value = val;
+            this.valueOf = function (){ return this.value; }
+        }
+
+        var x = new MyObject(1);
+        var y = Object(x);
+
+        var a52 = y.valueOf() === x.valueOf();
+        var a53 = typeof y === typeof x;
+        var a54 = y.constructor.prototype === x.constructor.prototype;
+        var a55 = y === x;
+        /*************************************************/
+        /*************************************************/
+    </script>
+</body>
+</html>

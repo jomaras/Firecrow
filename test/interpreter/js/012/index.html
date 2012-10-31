@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECMAScript Conformance test</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <h1>ECMAScript Conformance tests 9.4: ToInteger</h1>
+    <script>
+        var a1 = "abc".charAt(Number.NaN) === "a";
+        var a2 = "abc".charAt("x") === "a";
+        /**********************************/
+        var a3 = "abc".charAt(0.0) === "a";
+        var a4 = "abc".charAt(-0.0) === "a";
+        /**********************************/
+        var d1 = new Date(6.54321);
+        var d2 = new Date(-6.54321);
+        var d3 = new Date(6.54321e2);
+        var d4 = new Date(-6.54321e2);
+        var d5 = new Date(0.654321e1);
+        var d6 = new Date(-0.654321e1);
+        var d7 = new Date(true);
+        var d8 = new Date(false);
+        var d9 = new Date(1.23e15);
+        var d10 = new Date(-1.23e15);
+        var d11 = new Date(1.23e-15);
+        var d12 = new Date(-1.23e-15);
+
+        var a5 = d1.valueOf() === 6;
+        var a6 = d2.valueOf() === -6;
+        var a7 = d3.valueOf() === 654;
+        var a8 = d4.valueOf() === -654;
+        var a9 = d5.valueOf() === 6;
+        var a10 = d6.valueOf() === -6;
+        var a11 = d7.valueOf() === 1;
+        var a12 = d8.valueOf() === 0;
+        var a13 = d9.valueOf() === 1.23e15;
+        var a14 = d10.valueOf() === -1.23e15;
+        var a15 = d11.valueOf() === 0;
+        var a16 = d12.valueOf() === -0;
+        /**********************************/
+        var d1 = new Date(Number.NaN);
+        var d2 = new Date(Infinity);
+        var d3 = new Date(-Infinity);
+        var d4 = new Date(0);
+        var d5 = new Date(-0);
+
+        var a17 = !isNaN(d1.valueOf());
+        var a18 = !isNaN(d2.valueOf());
+        var a19 = !isNaN(d3.valueOf());
+        var a20 = d4.valueOf() === 0;
+        var a21 = d5.valueOf() === -0;
+    </script>
+</body>
+</html>

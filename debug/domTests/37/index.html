@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <script>
+        Array.prototype.sum = function()
+        {
+            var sum = 0;
+            for(var i = 0; i < this.length; i++)
+            {
+                sum += this[i];
+            }
+            return sum;
+        }
+    </script>
+</head>
+<body>
+    <img id="image"/>
+    <div id="msg"/>
+    <script>
+        var a = [1,2,3];
+        document.getElementById("msg").textContent = a.sum();
+    </script>
+</body>
+</html>

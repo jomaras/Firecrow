@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+   <input id="offsetInput"/>
+   <div style="float:left;">
+       <label style="vertical-align: top;">Input:</label>
+       <textarea cols="50" rows="20" id="inputContainer"></textarea>
+   </div>
+
+   <div style="float:left;">
+       <label style="vertical-align: top;">Output:</label>
+       <textarea cols="50" rows="20" id="outputContainer"></textarea>
+   </div>
+   <div style="clear:both"></div>
+   <button id="convertButton" value="Convert" onclick="convert()">Convert</button>
+    <script>
+        function convert()
+        {
+            var input = document.getElementById("inputContainer").value;
+            var offset = parseInt(document.getElementById("offsetInput").value);
+            if(isNaN(offset)) { offset = 0; }
+            var lines = input.split(/(\r)?\n/);
+            var outputLines = [];
+
+
+            lines.forEach(function(line)
+            {
+                if(!line) { return; }
+
+                if(line.trim().indexOf("if") == 0)
+                {
+                    var working = line.replace(/if(\s)*\(/gi, "var a" + (outputLines.length + offset) + " = ").replace(/\)(\s)*{/gi, ";");
+                    if(working.indexOf("===") != -1)
+                    {
+                        working = working.replace("===", "!==");
+                    }
+                    else if (working.indexOf("!==") != -1)
+                    {
+                        working = working.replace("!==", "===");
+                    }
+                    else if(working.indexOf("==") != -1)
+                    {
+                        working = working.replace("==", "!=");
+                    }
+                    else if (working.indexOf("!=") != -1)
+                    {
+                        working = working.replace("!=", "==");
+                    }
+
+                    outputLines.push(working);
+                }
+
+              document.getElementById("outputContainer").value = outputLines.join("\n");
+              document.getElementById("offsetInput").value = outputLines.length + offset;
+
+                /*
+                * for(var i = 0; i < 99; i++) { if(!window["a"+i]){console.log(i)}}
+                * */
+            });
+        }
+    </script>
+</body>
+</html>

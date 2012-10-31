@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        img { border: solid; }
+        .myImage { width: 200px; }
+    </style>
+    <script>
+        SRCS = ["imgA/C.jpg", "imgA/D.jpg"];
+
+        var aProto = Array.prototype;
+        aProto.getNext = function(curr){
+            var i = this.indexOf(curr);
+            var next = 0;
+
+            if(i >= 0 && i < this.length - 1)
+                next = i + 1;
+
+            return this[next];
+        };
+
+        var iProto = HTMLImageElement.prototype
+        iProto.toggleSrc = function(s)
+        {
+            this.src = s.getNext(this.getAttribute("src"));
+        };
+
+        window.onload = function()
+        {
+            var im = document.querySelectorAll("img");
+            for(var i = 0; i < im.length; i++)
+                im[i].onclick = function() {
+                    this.toggleSrc(SRCS);
+                }
+        };
+    </script>
+</head>
+<body>
+<div id="imageContainer">
+    <img class="myImage" src="imgA/C.jpg"/>
+    <img class="myImage" src="imgA/D.jpg"/>
+</div>
+</body>
+</html>

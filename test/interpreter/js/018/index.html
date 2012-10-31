@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECMAScript Conformance test</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <h1>ECMAScript Conformance tests 10.1: Executable Code and Execution Contexts - Types of Executable Code</h1>
+    <script>
+        function f1(){
+            return 1;
+        }
+        var a1 = typeof(f1)==="function";
+        /******************************************************/
+
+        var x=function f1(){return 1;}();
+        var y=function  (){return 2;}();
+        var z = (function(){return 3;})();
+
+        var a2 = x===1;
+        var a3 = y===2;
+        var a4 = z===3;
+        /******************************************************/
+        var x=new function f1(){return 1;};
+
+        var a5 = typeof(x.constructor)==="function";
+        /******************************************************/
+        var a6 = typeof(Math.exp)==="function";
+        var a7 = typeof(parseInt)==="function";
+        /******************************************************/
+        function f2(a){
+            delete a;
+            return a;
+        }
+        var a8 = (f2(1) !== 1);
+        /******************************************************/
+        var ARG_STRING = "value of the argument property";
+
+        function f3() {
+            this.constructor.prototype.arguments = ARG_STRING;
+            return arguments;
+        }
+
+        var x = new f3(1,2,3,4,5);
+        var a9 = (new f3(1,2,3,4,5)).length === 5;
+        var a10 = (new f3(1,2,3,4,5))[3] === 4;
+        var a11 = delete x[3] === true;
+        var a12 = x[3] !== 4;
+        /******************************************************/
+        var a13 = delete this !== true;
+        /******************************************************/
+        /******************************************************/
+
+    </script>
+</body>
+</html>
