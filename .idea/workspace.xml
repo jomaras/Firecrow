@@ -7,28 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/playground/domTests/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/interpreter/My/summary.txt" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\000\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\001\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\002\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\003\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\004\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\005\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\006\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\007\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\008\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\009\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\010\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\011\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\012\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\013\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\014\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\015\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\016\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\017\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\018\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\test\interpreter\js\Tasks.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -1544,7 +1522,11 @@
       <created>1351679970109</created>
       <updated>1351679970109</updated>
     </task>
-    <option name="localTasksCounter" value="285" />
+    <task id="LOCAL-00285" summary="Great backup before  introducing tests and performing refactoring">
+      <created>1351952248983</created>
+      <updated>1351952248983</updated>
+    </task>
+    <option name="localTasksCounter" value="286" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1583,6 +1565,7 @@
     <frame x="1358" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49448124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49624866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
@@ -1598,7 +1581,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37942123" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.6474359" order="3" side_tool="false" content_ui="combo" />
@@ -1640,7 +1622,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ECMAScript conformance tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Great backup before  introducing tests and performing refactoring" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1653,7 +1635,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Reusing javascript code" />
     <MESSAGE value="Test when there is extra code" />
     <MESSAGE value="Test for RegEx" />
     <MESSAGE value="HtmlElement dynamically change class bug fix" />
@@ -1678,6 +1659,7 @@
     <MESSAGE value="Renaming string literals in arrays" />
     <MESSAGE value="Updating test expected values" />
     <MESSAGE value="Added ECMAScript conformance tests" />
+    <MESSAGE value="Great backup before  introducing tests and performing refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
