@@ -244,7 +244,7 @@ Firecrow.Interpreter.InterpreterSimulator.prototype =
         {
             if(exceptionGeneratingArgument == null || !exceptionGeneratingArgument.isMatchesSelectorException)
             {
-                this.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line);
+                this.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + this.globalObject.browser.url);
             }
 
             if(this.tryStack.length == 0)

@@ -6,7 +6,7 @@
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
 Firecrow.Slicer = {
-    slice: function(htmlModel, slicingCriteria)
+    slice: function(htmlModel, slicingCriteria, url)
     {
         var Firecrow = FBL.Firecrow;
         Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
@@ -14,6 +14,7 @@ Firecrow.Slicer = {
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
         var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
         Firecrow.Slicer.browser = browser;
+        browser.url = url;
 
         browser.registerSlicingCriteria(slicingCriteria);
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);

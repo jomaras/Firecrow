@@ -10,9 +10,6 @@ var modelTestFunction = function(htmlModel, index)
     testObject["test " + testName + (index + 1)] = function()
     {
         var Firecrow = FBL.Firecrow;
-        var WebFile = Firecrow.DoppelBrowser.WebFile;
-        var Browser = Firecrow.DoppelBrowser.Browser;
-        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
 
         testObject.currentUrl = htmlModel.url;
 
@@ -32,7 +29,7 @@ var modelTestFunction = function(htmlModel, index)
             });
         }
 
-        Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
+        Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, htmlModel.url);
 
         assertEquals(Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model).replace(/(\r|\n| )+/g, ""), atob(htmlModel.slicingResult).replace(/(\r|\n| )+/g, ""));
     };

@@ -613,8 +613,10 @@ fcModel.HtmlElementExecutor =
            {
                return globalObject.jsFcDocument;
            }
-
-           fcModel.HtmlElement.notifyError("HtmlElementExecutor - when wrapping should not be here: ");
+           else
+           {
+               fcModel.HtmlElement.notifyError("HtmlElementExecutor - when wrapping should not be here: " + globalObject.browser.url);
+           }
        }
        catch(e)
        {

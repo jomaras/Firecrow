@@ -17,6 +17,7 @@ load:
   - ../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js
   - ../chrome/content/Firecrow/interpreter/model/JsValue.js
   - ../chrome/content/Firecrow/interpreter/model/Object.js
+  - ../chrome/content/Firecrow/interpreter/model/Event.js
   - ../chrome/content/Firecrow/interpreter/model/GlobalObject.js
   - ../chrome/content/Firecrow/interpreter/model/internal/RegEx.js
   - ../chrome/content/Firecrow/interpreter/model/Array.js

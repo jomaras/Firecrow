@@ -134,6 +134,7 @@ FBL.ns(function() { with (FBL) {
             function _getChild(htmlElement, tagName, index)
             {
                 if(htmlElement == null) { return null;}
+                if(htmlElement.children == null) { return null;}
                 var tagChildren = [];
 
                 for(var i = 0; i < htmlElement.children.length; i++)
@@ -151,6 +152,8 @@ FBL.ns(function() { with (FBL) {
 
             this.getElementByXPath = function(xPath)
             {
+                if(xPath == null || xPath == "") { return new fcModel.JsValue(null, new fcModel.FcInternal(null));}
+
                 var simpleXPath = new fcModel.SimpleXPath(xPath);
                 simpleXPath.removeLevel();
                 var foundElement = this.document.childNodes[0];

@@ -550,7 +550,7 @@ Browser.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error when handling events: " + e);
+            this.notifyError("Error when handling events: " + e + this.url + e.fileName +  e.lineNumber );
         }
     },
 
