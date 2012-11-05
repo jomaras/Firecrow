@@ -12,6 +12,7 @@ load:
   - ../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js
   - ../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js
   - ../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js
+  - ../chrome/content/Firecrow/interpreter/commands/Command.js
   - ../chrome/content/Firecrow/interpreter/model/JsValue.js
   - ../chrome/content/Firecrow/interpreter/model/Object.js
   - ../chrome/content/Firecrow/interpreter/model/GlobalObject.js
