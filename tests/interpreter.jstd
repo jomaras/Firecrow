@@ -35,6 +35,8 @@ load:
   - ../chrome/content/Firecrow/interpreter/model/DOM/Attribute.js
   - ../chrome/content/Firecrow/interpreter/model/DOM/ClassList.js
   - ../chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js
+  - ../chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js
+  - ../chrome/content/Firecrow/interpreter/model/DOM/SimpleXPath.js
   - ../chrome/content/Firecrow/interpreter/model/internal/Date.js
   - ../chrome/content/Firecrow/interpreter/model/internal/Boolean.js
   - ../chrome/content/Firecrow/interpreter/model/internal/Number.js
