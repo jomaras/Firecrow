@@ -1,10 +1,5 @@
 /**
  * User: Jomaras
- * Date: 06.06.12.
- * Time: 08:15
- */
-/**
- * User: Jomaras
  * Date: 05.06.12.
  * Time: 16:03
  */
