@@ -15,7 +15,8 @@ fcModel.HtmlElementExecutor =
 
     addDependenciesToAllDescendantsModifications: function(htmlElement, codeConstruct, globalObject)
     {
-        fcModel.HtmlElementProto.addDependenciesToAllModifications.call({htmlElement: htmlElement, globalObject:globalObject}, codeConstruct);
+        fcModel.Object.prototype.addDependencyToAllModifications.call({htmlElement:htmlElement, globalObject:globalObject}, codeConstruct, htmlElement.elementModificationPoints);
+
         var childNodes = htmlElement.childNodes;
 
         for(var i = 0, length = childNodes.length; i < length; i++)

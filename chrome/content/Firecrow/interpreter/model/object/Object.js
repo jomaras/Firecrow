@@ -245,16 +245,22 @@ fcModel.Object.prototype =
     //</editor-fold>
 
     //<editor-fold desc="Dependencies to Modifications">
-    addDependencyToAllModifications: function(codeConstruct)
+    addDependencyToAllModifications: function(codeConstruct, modifications)
     {
-        for(var i = 0, length = this.modifications.length; i < length; i++)
+        modifications = modifications || this.modifications;
+        if(codeConstruct == null || modifications == null || modifications.length == 0) { return; }
+
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0, length = modifications.length; i < length; i++)
         {
-            var modification = this.modifications[i];
+            var modification = modifications[i];
+
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
                 codeConstruct,
                 modification.codeConstruct,
-                this.globalObject.getPreciseEvaluationPositionId(),
+                evaluationPosition,
                 modification.evaluationPositionId
             );
         }

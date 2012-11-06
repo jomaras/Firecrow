@@ -17,23 +17,19 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
         this.htmlElement = htmlElement;
 
-        if(this.htmlElement == null) { return; }
+        if(this.htmlElement != null)
+        {
+            this.htmlElement.fcHtmlElementId = this.id;
+            this.globalObject.document.htmlElementToFcMapping[this.id] = this;
 
-        this.htmlElement.fcHtmlElementId = this.id;
-        this.globalObject.document.htmlElementToFcMapping[this.id] = this;
-
-        this._expandWithDefaultProperties();
+            this._expandWithDefaultProperties();
+        }
     }
-    catch(e)
-    {
-        fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e);
-    }
+    catch(e) { fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e); }
 };
+
 fcModel.HtmlElement.accessedProperties = {};
-
 fcModel.HtmlElement.notifyError = function(message) { alert("HtmlElement - " + message); }
-
-fcModel.HtmlElement.prototype = new fcModel.Object(null);
 
 fcModel.HtmlElementProto =
 {
@@ -41,7 +37,7 @@ fcModel.HtmlElementProto =
     {
         var evaluationPositionId = this.globalObject.getPreciseEvaluationPositionId();
 
-        this.addDependenciesToAllModifications(getPropertyConstruct);
+        this.addDependencyToAllModifications(getPropertyConstruct, this.htmlElement.elementModificationPoints);
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, this.htmlElement.modelElement, evaluationPositionId);
 
@@ -70,11 +66,11 @@ fcModel.HtmlElementProto =
             if(element == null) { return}
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    getPropertyConstruct,
-                    element.modelElement,
-                    evaluationPositionId
-                );
+            (
+                getPropertyConstruct,
+                element.modelElement,
+                evaluationPositionId
+            );
         }
     },
 
@@ -87,37 +83,6 @@ fcModel.HtmlElementProto =
         this.addMethods(this.creationCodeConstruct);
 
         this.htmlElement.elementModificationPoints = [];
-    },
-
-    addDependenciesToAllModifications: function(codeConstruct)
-    {
-        try
-        {
-            if(codeConstruct == null) { return; }
-
-            var modifications = this.htmlElement.elementModificationPoints;
-
-            if(modifications == null || modifications.length == 0) { return; }
-
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            for(var i = 0, length = modifications.length; i < length; i++)
-            {
-                var modification = modifications[i];
-
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    codeConstruct,
-                    modification.codeConstruct,
-                    evaluationPosition,
-                    modification.evaluationPositionId
-                );
-            }
-        }
-        catch(e)
-        {
-            this.notifyError("Error when adding dependencies to all modifications " + e);
-        }
     },
 
     getElements: function(propertyName, codeConstruct)
