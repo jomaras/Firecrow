@@ -312,6 +312,27 @@ fcModel.Object.prototype =
             );
         }
     },
+
+    addDependenciesToAllProperties: function(codeConstruct)
+    {
+        try
+        {
+            if(codeConstruct == null) { return; }
+            if(this.dummyDependencyNode == null)
+            {
+                this.dummyDependencyNode = { type: "DummyCodeElement" };
+                this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
+            }
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                codeConstruct,
+                this.dummyDependencyNode,
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
+        }
+        catch(e) { fcModel.Object.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source); }
+    },
     //</editor-fold>
 
     //<editor-fold desc="'Private' methods">

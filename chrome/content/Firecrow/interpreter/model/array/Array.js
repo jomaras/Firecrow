@@ -25,7 +25,6 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         this._addDefaultProperties();
         this._addPreexistingObjects();
 
-        this._createDummyDependencyNode();
         this._registerCallbacks();
     }
     catch(e) { this.notifyError("Error when creating array object: " + e + codeConstruct.loc.source); }
@@ -40,7 +39,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, codeConstruct);
+            this.addDependenciesToAllProperties(codeConstruct);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             var lengthProperty = this.getProperty("length");
@@ -101,7 +100,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, codeConstruct);
+            this.addDependenciesToAllProperties(codeConstruct);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
@@ -134,7 +133,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, codeConstruct);
+            this.addDependenciesToAllProperties(codeConstruct);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
@@ -163,7 +162,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, codeConstruct);
+            this.addDependenciesToAllProperties(codeConstruct);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
@@ -206,7 +205,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, callExpression);
+            this.addDependenciesToAllProperties(callExpression);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             if(!isCalledOnArray) { alert("Unshift called on non-array!");}
@@ -238,15 +237,13 @@ fcModel.ArrayProto =
 
     sort: function(jsArray, arguments, codeConstruct, jsValue)
     {
-        fcModel.ArrayProto.addDependenciesToAllProperties.call(this, codeConstruct);
+        this.addDependenciesToAllProperties(codeConstruct);
         var isCalledOnArray = this.constructor === fcModel.Array;
 
         if(!isCalledOnArray) { alert("Sort called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
         var length = lengthProperty != null ? lengthProperty.value : 0;
-
-        this.addDependenciesToAllProperties(codeConstruct);
 
         for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
@@ -301,7 +298,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, codeConstruct);
+            this.addDependenciesToAllProperties(codeConstruct);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             if(!isCalledOnArray) { alert("Splice called on non-array!");}
@@ -335,7 +332,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, callExpression);
+            this.addDependenciesToAllProperties(callExpression);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             if(!isCalledOnArray) { alert("Concat called on non-array!");}
@@ -377,7 +374,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, callExpression);
+            this.addDependenciesToAllProperties(callExpression);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             var lengthProperty = this.getProperty("length");
@@ -424,7 +421,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, callExpression);
+            this.addDependenciesToAllProperties(callExpression);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             var lengthProperty = this.getProperty("length");
@@ -485,7 +482,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, callExpression);
+            this.addDependenciesToAllProperties(callExpression);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             if(!isCalledOnArray) { alert("lastIndexOf called on non-array!");}
@@ -513,7 +510,7 @@ fcModel.ArrayProto =
     {
         try
         {
-            fcModel.ArrayProto.addDependenciesToAllProperties.call(this, callExpression);
+            this.addDependenciesToAllProperties(callExpression);
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             if(!isCalledOnArray) { alert("join called on non-array!");}
@@ -572,31 +569,7 @@ fcModel.ArrayProto =
     },
     //</editor-fold>
 
-    //<editor-fold desc="Adding Dependencies to properties">
-    addDependenciesToAllProperties: function(codeConstruct)
-    {
-        try
-        {
-            if(codeConstruct == null) { return; }
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                codeConstruct,
-                this.dummyDependencyNode,
-                this.globalObject.getPreciseEvaluationPositionId()
-            );
-        }
-        catch(e) { fcModel.Array.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source); }
-    },
-    //</editor-fold>
-
     //<editor-fold desc="'Private' methods">
-    _createDummyDependencyNode: function()
-    {
-        this.dummyDependencyNode = { type: "DummyCodeElement" };
-        this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
-    },
-
     _registerCallbacks: function()
     {
         this.registerGetPropertyCallback(function(getPropertyConstruct) { this.addDependenciesToAllProperties(getPropertyConstruct); }, this);

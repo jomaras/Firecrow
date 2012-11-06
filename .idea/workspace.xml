@@ -7,21 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayFunction.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayPrototype.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDom.html" afterPath="$PROJECT_DIR$/debug/debugDom.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugReuse.html" afterPath="$PROJECT_DIR$/debug/debugReuse.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/interpreter.jstd" afterPath="$PROJECT_DIR$/tests/interpreter.jstd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/reuser.jstd" afterPath="$PROJECT_DIR$/tests/reuser.jstd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/slicing.jstd" afterPath="$PROJECT_DIR$/tests/slicing.jstd" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,7 +57,32 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="Object.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="32" selection-start="835" selection-end="835" vertical-scroll-proportion="0.60192615">
+              <folding>
+                <element signature="e#1130#1169#0" expanded="false" />
+                <element signature="e#1217#1430#0" expanded="false" />
+                <element signature="e#1479#1544#0" expanded="false" />
+                <element signature="e#2772#2944#0" expanded="false" />
+                <element signature="e#3009#3527#0" expanded="false" />
+                <element signature="e#4165#4204#0" expanded="false" />
+                <element signature="e#6002#6041#0" expanded="false" />
+                <element signature="e#6104#6841#0" expanded="false" />
+                <element signature="e#6869#6901#0" expanded="false" />
+                <element signature="e#8171#8209#0" expanded="false" />
+                <element signature="e#9930#9982#0" expanded="false" />
+                <element signature="e#10571#11303#0" expanded="false" />
+                <element signature="e#11331#11371#0" expanded="false" />
+                <element signature="e#11444#11905#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -86,9 +99,7 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayPrototype.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayFunction.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" />
         <option value="$PROJECT_DIR$/debug/debugDom.html" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
@@ -98,6 +109,8 @@
         <option value="$PROJECT_DIR$/tests/interpreter.jstd" />
         <option value="$PROJECT_DIR$/tests/reuser.jstd" />
         <option value="$PROJECT_DIR$/tests/slicing.jstd" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" />
       </list>
     </option>
   </component>
@@ -238,62 +251,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1652,7 +1609,11 @@
       <created>1352195797758</created>
       <updated>1352195797759</updated>
     </task>
-    <option name="localTasksCounter" value="297" />
+    <task id="LOCAL-00297" summary="Each object from array to different file">
+      <created>1352197204915</created>
+      <updated>1352197204915</updated>
+    </task>
+    <option name="localTasksCounter" value="298" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1689,14 +1650,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49448124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49624866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37942123" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16656609" sideWeight="0.69453377" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16837658" sideWeight="0.69453377" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39875388" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20130932" sideWeight="0.42963514" order="11" side_tool="true" content_ui="tabs" />
@@ -1748,7 +1709,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="First refactoring on array" />
+    <option name="LAST_COMMIT_MESSAGE" value="Each object from array to different file" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1761,7 +1722,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Reuse - Conflicts in nodes created over innerHTML; reports all changes in source code" />
     <MESSAGE value="Reuse - when renaming selectors and ids - fix also query selectors when getElementById, querySelector, etc." />
     <MESSAGE value="Reuse - wrap reused code in a function expression; in that way conflicts on variable level are taken care of" />
     <MESSAGE value="Reuse - conflicting global variables, but not enirely done!" />
@@ -1786,6 +1746,7 @@
     <MESSAGE value="Object refactoring finished" />
     <MESSAGE value="Minor refactorings" />
     <MESSAGE value="First refactoring on array" />
+    <MESSAGE value="Each object from array to different file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1805,25 +1766,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="59" selection-start="4376" selection-end="4376" vertical-scroll-proportion="0.23465703">
-          <folding>
-            <element signature="e#1130#1169#0" expanded="false" />
-            <element signature="e#1217#1430#0" expanded="false" />
-            <element signature="e#1479#1544#0" expanded="false" />
-            <element signature="e#2772#2944#0" expanded="false" />
-            <element signature="e#3009#3527#0" expanded="false" />
-            <element signature="e#6002#6041#0" expanded="false" />
-            <element signature="e#6104#6841#0" expanded="false" />
-            <element signature="e#6869#6901#0" expanded="false" />
-            <element signature="e#8171#8209#0" expanded="false" />
-            <element signature="e#9930#9982#0" expanded="false" />
-            <element signature="e#10645#11106#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayFunction.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="45" selection-start="609" selection-end="609" vertical-scroll-proportion="0.433213">
@@ -1852,32 +1794,6 @@
         <state line="44" column="42" selection-start="1720" selection-end="1720" vertical-scroll-proportion="1.0830325">
           <folding>
             <element signature="e#0#58#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="180" selection-end="221" vertical-scroll-proportion="0.18953069">
-          <folding>
-            <element signature="e#1046#1091#0" expanded="false" />
-            <element signature="e#1176#3267#0" expanded="false" />
-            <element signature="e#3327#4351#0" expanded="false" />
-            <element signature="e#4424#5336#0" expanded="false" />
-            <element signature="e#5398#6785#0" expanded="false" />
-            <element signature="e#8113#10472#0" expanded="false" />
-            <element signature="e#10535#11875#0" expanded="false" />
-            <element signature="e#11943#13462#0" expanded="false" />
-            <element signature="e#13529#15321#0" expanded="false" />
-            <element signature="e#15390#17584#0" expanded="false" />
-            <element signature="e#19635#19676#0" expanded="false" />
-            <element signature="e#20922#20978#0" expanded="false" />
-            <element signature="e#21043#21518#0" expanded="false" />
-            <element signature="e#21546#21586#0" expanded="false" />
-            <element signature="e#21634#21804#0" expanded="false" />
-            <element signature="e#21846#22491#0" expanded="false" />
-            <element signature="e#22536#22811#0" expanded="false" />
-            <element signature="e#22865#23274#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1949,6 +1865,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="68" selection-start="1722" selection-end="1722" vertical-scroll-proportion="0.24187726">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="376" column="17" selection-start="13266" selection-end="13266" vertical-scroll-proportion="0.3592233">
+          <folding>
+            <element signature="e#21288#21563#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="32" selection-start="835" selection-end="835" vertical-scroll-proportion="0.60192615">
+          <folding>
+            <element signature="e#1130#1169#0" expanded="false" />
+            <element signature="e#1217#1430#0" expanded="false" />
+            <element signature="e#1479#1544#0" expanded="false" />
+            <element signature="e#2772#2944#0" expanded="false" />
+            <element signature="e#3009#3527#0" expanded="false" />
+            <element signature="e#4165#4204#0" expanded="false" />
+            <element signature="e#6002#6041#0" expanded="false" />
+            <element signature="e#6104#6841#0" expanded="false" />
+            <element signature="e#6869#6901#0" expanded="false" />
+            <element signature="e#8171#8209#0" expanded="false" />
+            <element signature="e#9930#9982#0" expanded="false" />
+            <element signature="e#10571#11303#0" expanded="false" />
+            <element signature="e#11331#11371#0" expanded="false" />
+            <element signature="e#11444#11905#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
