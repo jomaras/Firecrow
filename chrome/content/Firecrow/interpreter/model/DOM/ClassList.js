@@ -1,8 +1,3 @@
-/**
- * User: Jomaras
- * Date: 05.06.12.
- * Time: 16:03
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
