@@ -33,11 +33,25 @@ fcModel.Object.LAST_ID = 0;
 fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
 fcModel.Object.prototype =
 {
-    registerObjectModifiedCallbackDescriptor: function(descriptor)
+    registerObjectModifiedCallbackDescriptor: function(callback, thisValue)
     {
         if(this.objectModifiedCallbackDescriptors == null) { this.objectModifiedCallbackDescriptors = [];}
 
-        this.objectModifiedCallbackDescriptors.push(descriptor);
+        this.objectModifiedCallbackDescriptors.push({callback: callback, thisValue: thisValue});
+    },
+
+    registerGetPropertyCallback: function(callback, thisValue)
+    {
+        if(this.getPropertyCallbackDescriptors == null) { this.getPropertyCallbackDescriptors = []; }
+
+        this.getPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
+    },
+
+    registerAddPropertyCallback: function(callback, thisValue)
+    {
+        if(this.addPropertyCallbackDescriptors == null) { this.addPropertyCallbackDescriptors = []; }
+
+        this.addPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
     },
 
     addDependencyToAllModifications: function(codeConstruct)
@@ -121,20 +135,6 @@ fcModel.Object.prototype =
             }
         }
         catch(e) { fcModel.Object.notifyError ("Error when removing event listener: " + e); }
-    },
-
-    registerGetPropertyCallback: function(callback, thisValue)
-    {
-        if(this.getPropertyCallbackDescriptors == null) { this.getPropertyCallbackDescriptors = []; }
-
-        this.getPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
-    },
-
-    registerAddPropertyCallback: function(callback, thisValue)
-    {
-        if(this.addPropertyCallbackDescriptors == null) { this.addPropertyCallbackDescriptors = []; }
-
-        this.addPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
     },
 
     addModification: function(codeConstruct, evaluationPositionId)

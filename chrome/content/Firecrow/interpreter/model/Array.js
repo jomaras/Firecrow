@@ -50,8 +50,8 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
         }, this);
 
         this.registerObjectModifiedCallbackDescriptor
-        ({
-            callback: function(modification)
+        (
+            function(modification)
             {
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
@@ -61,8 +61,8 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
                     modification.evaluationPositionId
                 );
             },
-            thisValue: this
-        });
+            this
+        );
     }
     catch(e) { this.notifyError("Error when creating array object: " + e + codeConstruct.loc.source); }
 };
