@@ -1,7 +1,7 @@
 /**
  * User: Jomaras
- * Date: 07.05.12.
- * Time: 09:56
+ * Date: 06.11.12.
+ * Time: 08:50
  */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
@@ -28,10 +28,9 @@ fcModel.ObjectExecutor =
         }
         catch(e)
         {
-            Firecrow.Interpreter.Model.Object.notifyError("Error when executing internal method:" + e);
+            fcModel.Object.notifyError("Error when executing internal method:" + e);
         }
     }
 };
-
 /*************************************************************************************/
 }});
