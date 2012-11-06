@@ -43,7 +43,7 @@ fcModel.ArrayProto =
             var isCalledOnArray = this.constructor === fcModel.Array;
 
             var lengthProperty = this.getProperty("length");
-            var length = lengthProperty != null && lengthProperty.value != null ? lengthProperty.value.value : 0;
+            var length = lengthProperty != null ? lengthProperty.value.value : 0;
 
             if(!isCalledOnArray)
             {
@@ -70,7 +70,7 @@ fcModel.ArrayProto =
                 if(isCalledOnArray)
                 {
                     this.items.push(argument);
-                    if(dontFillJsArray !== false) { jsArray.push(argument); }
+                    if(!dontFillJsArray) { jsArray.push(argument); }
                 }
                 else
                 {
@@ -81,12 +81,9 @@ fcModel.ArrayProto =
             }
 
             var lengthValue = new fcModel.JsValue(length, new fcModel.FcInternal(codeConstruct));
-            this.addProperty("length", lengthValue, codeConstruct, false);
+            this.addProperty("length", lengthValue, codeConstruct);
 
-            if(!isCalledOnArray)
-            {
-                jsArray.length = lengthValue;
-            }
+            if(!isCalledOnArray) { jsArray.length = lengthValue; }
 
             return lengthValue;
         }
@@ -608,9 +605,9 @@ fcModel.ArrayProto =
     {
         for(var i = 0; i < this.jsArray.length; i++)
         {
-            this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, false);
+            this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, true);
         }
-    },
+    }
     //</editor-fold>
 };
 }});

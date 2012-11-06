@@ -528,11 +528,6 @@ fcSimulator.Evaluator.prototype =
 
             var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 
-            if(memberExpression.loc.start.line == 3282)
-            {
-                var a = 3;
-            }
-
             if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
             //TODO: check dom test 13 Object.constructor.prototype not working as it should!
