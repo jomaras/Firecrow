@@ -13,51 +13,20 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 {
     try
     {
-        this.__proto__ = new fcModel.Object(this.globalObject, codeConstruct);
-
-        for(var prop in fcModel.ArrayProto)
-        {
-            this[prop] = fcModel.ArrayProto[prop];
-        }
-
         this.jsArray = jsArray || [];
-        this.globalObject = globalObject;
-        this.items = [];
-        this.implementationObject = jsArray;
+
+        this.__proto__ = new fcModel.Object(globalObject, codeConstruct, this.jsArray);
+        for(var prop in fcModel.ArrayProto) { this[prop] = fcModel.ArrayProto[prop]; }
+
         this.constructor = fcModel.Array;
 
-        this.dummyDependencyNode = { type: "DummyCodeElement" };
-        this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
+        this.items = [];
 
-        this.addProperty("length", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
+        this._addDefaultProperties();
+        this._addPreexistingObjects();
 
-        for(var i = 0; i < this.jsArray.length; i++)
-        {
-            this.push(jsArray, this.jsArray[i], codeConstruct, this, false);
-        }
-
-        //For RegEx result arrays
-        if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", new fcModel.JsValue(this.jsArray.index, new fcModel.FcInternal(codeConstruct)), codeConstruct); }
-        if(this.jsArray.hasOwnProperty("input")) { this.addProperty("input", new fcModel.JsValue(this.jsArray.input, new fcModel.FcInternal(codeConstruct)), codeConstruct); }
-
-        this.addProperty("__proto__", globalObject.arrayPrototype);
-
-        this.registerGetPropertyCallback(function(getPropertyConstruct) { this.addDependenciesToAllProperties(getPropertyConstruct); }, this);
-
-        this.registerObjectModifiedCallbackDescriptor
-        (
-            function(modification)
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    this.dummyDependencyNode,
-                    modification.codeConstruct,
-                    this.globalObject.getPreciseEvaluationPositionId(),
-                    modification.evaluationPositionId
-                );
-            },
-            this
-        );
+        this._createDummyDependencyNode();
+        this._registerCallbacks();
     }
     catch(e) { this.notifyError("Error when creating array object: " + e + codeConstruct.loc.source); }
 };
@@ -615,6 +584,54 @@ fcModel.ArrayProto =
             }
 
             this.addProperty(propertyName, propertyValue, codeConstruct, propertyName != "length");
+        }
+    },
+
+    _createDummyDependencyNode: function()
+    {
+        this.dummyDependencyNode = { type: "DummyCodeElement" };
+        this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
+    },
+
+    _registerCallbacks: function()
+    {
+        this.registerGetPropertyCallback(function(getPropertyConstruct) { this.addDependenciesToAllProperties(getPropertyConstruct); }, this);
+
+        this.registerObjectModifiedCallbackDescriptor
+        (
+            function(modification)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    this.dummyDependencyNode,
+                    modification.codeConstruct,
+                    this.globalObject.getPreciseEvaluationPositionId(),
+                    modification.evaluationPositionId
+                );
+            },
+            this
+        );
+    },
+
+    _addDefaultProperties: function()
+    {
+        this.addProperty("length", new fcModel.JsValue(0, new fcModel.FcInternal(this.creationCodeConstruct)), this.creationCodeConstruct, false);
+        this.addProperty("__proto__", this.globalObject.arrayPrototype);
+
+        this._addRegExResultArrayProperties();
+    },
+
+    _addRegExResultArrayProperties: function()
+    {
+        if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", new fcModel.JsValue(this.jsArray.index, new fcModel.FcInternal(this.creationCodeConstruct)), this.creationCodeConstruct); }
+        if(this.jsArray.hasOwnProperty("input")) { this.addProperty("input", new fcModel.JsValue(this.jsArray.input, new fcModel.FcInternal(this.creationCodeConstruct)), this.creationCodeConstruct); }
+    },
+
+    _addPreexistingObjects: function()
+    {
+        for(var i = 0; i < this.jsArray.length; i++)
+        {
+            this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, false);
         }
     },
 

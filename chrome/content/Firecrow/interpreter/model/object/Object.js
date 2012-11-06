@@ -8,6 +8,7 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject, pro
 
     this.globalObject = globalObject;
     this.implementationObject = implementationObject;
+    this.creationCodeConstruct = codeConstruct;
 
     this.properties = [];
     this.enumeratedProperties = [];
