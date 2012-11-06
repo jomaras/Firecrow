@@ -13,23 +13,21 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 {
     try
     {
-        /**************************************************************************************************************/
+        this.__proto__ = new fcModel.Object(this.globalObject, codeConstruct);
+
         for(var prop in fcModel.ArrayProto)
         {
             this[prop] = fcModel.ArrayProto[prop];
         }
-        /*******************************************************************************/
-        this.__proto__ = new fcModel.Object(this.globalObject);
+
         this.jsArray = jsArray || [];
         this.globalObject = globalObject;
         this.items = [];
-        this.modifications = [];
         this.implementationObject = jsArray;
         this.constructor = fcModel.Array;
+
         this.dummyDependencyNode = { type: "DummyCodeElement" };
         this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
-
-        if(codeConstruct != null) { this.modifications.push({codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});}
 
         this.addProperty("length", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
 
@@ -44,10 +42,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
         this.addProperty("__proto__", globalObject.arrayPrototype);
 
-        this.registerGetPropertyCallback(function(getPropertyConstruct)
-        {
-           this.addDependenciesToAllProperties(getPropertyConstruct);
-        }, this);
+        this.registerGetPropertyCallback(function(getPropertyConstruct) { this.addDependenciesToAllProperties(getPropertyConstruct); }, this);
 
         this.registerObjectModifiedCallbackDescriptor
         (

@@ -23,8 +23,6 @@ fcModel.ObjectPrototype = function(globalObject)
     this.fcInternal = { object: this };
 };
 
-fcModel.ObjectPrototype.prototype = new fcModel.Object(null);
-
 fcModel.ObjectPrototype.CONST =
 {
     INTERNAL_PROPERTIES :

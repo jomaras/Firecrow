@@ -21,7 +21,5 @@ fcModel.ObjectFunction = function(globalObject)
     }
     catch(e){ Firecrow.Interpreter.Model.Object.notifyError("Error when creating Object Function:" + e); }
 };
-
-fcModel.ObjectFunction.prototype = new fcModel.Object(null);
 /*************************************************************************************/
 }});

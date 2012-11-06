@@ -20,7 +20,7 @@ load:
   - ../chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js
   - ../chrome/content/Firecrow/interpreter/model/GlobalObject.js
   - ../chrome/content/Firecrow/interpreter/model/internal/RegEx.js
-  - ../chrome/content/Firecrow/interpreter/model/Array.js
+  - ../chrome/content/Firecrow/interpreter/model/array/Array.js
   - ../chrome/content/Firecrow/interpreter/model/XMLHttpRequest.js
   - ../chrome/content/Firecrow/interpreter/model/Math.js
   - ../chrome/content/Firecrow/interpreter/model/Function.js
