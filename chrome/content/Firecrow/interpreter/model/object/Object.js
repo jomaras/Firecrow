@@ -23,8 +23,6 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject, pro
         this._addModification(codeConstruct, globalObject.getPreciseEvaluationPositionId());
     }
 
-    this.eventListenerInfo = {};
-
     this.objectModifiedCallbackDescriptors = null;
     this.addPropertyCallbackDescriptors = null;
     this.getPropertyCallbackDescriptors = null;
@@ -243,57 +241,6 @@ fcModel.Object.prototype =
             var callbackDescriptor = callbackDescriptors[i];
             callbackDescriptor.callback.apply(callbackDescriptor.thisValue, args);
         }
-    },
-    //</editor-fold>
-
-    //<editor-fold desc="Event listeners">
-    addEventListener: function(args, callExpression, globalObject)
-    {
-        try
-        {
-            if(args.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); return; }
-
-            var eventTypeName = args[0].value;
-            var handler = args[1];
-
-            if(this.eventListenerInfo[eventTypeName] == null) { this.eventListenerInfo[eventTypeName] = []; }
-
-            this.eventListenerInfo[eventTypeName].push
-                ({
-                    handler: handler,
-                    registrationPoint:
-                    {
-                        codeConstruct: callExpression,
-                        evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
-                    }
-                });
-        }
-        catch(e) { fcModel.Object.notifyError("Error when adding event listener: " + e); }
-    },
-
-    removeEventListener: function(args, callExpression, globalObject)
-    {
-        try
-        {
-            if(args.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); return;}
-
-            var eventTypeName = args[0].value;
-            var handler = args[1].value;
-
-            var eventHandlers = this.eventListenerInfo[eventTypeName];
-
-            if(eventHandlers == null) { return; }
-
-            for(var i = 0; i < eventHandlers.length; i++)
-            {
-                if(eventHandlers[i].handler === handler)
-                {
-                    ValueTypeHelper.removeFromArrayByIndex(eventHandlers, i);
-                    i--;
-                }
-            }
-        }
-        catch(e) { fcModel.Object.notifyError ("Error when removing event listener: " + e); }
     },
     //</editor-fold>
 

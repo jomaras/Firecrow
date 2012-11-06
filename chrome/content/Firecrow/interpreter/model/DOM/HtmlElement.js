@@ -15,6 +15,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
         this.proto = new fcModel.Object(this.globalObject);
         this.__proto__ = this.proto;
+        fcModel.EventListenerMixin.expand(this);
         this.constructor = fcModel.HtmlElement;
         this.creationConstruct = codeConstruct;
 

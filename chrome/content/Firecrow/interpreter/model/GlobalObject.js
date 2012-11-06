@@ -12,6 +12,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
     try
     {
         this.__proto__ = new fcModel.Object(this);
+        fcModel.EventListenerMixin.expand(this);
         this.browser = browser;
 
         this.origWindow = Firecrow.getWindow();
