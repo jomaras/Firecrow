@@ -5,9 +5,15 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 fcModel.Object = function(globalObject, codeConstruct, implementationObject, prototype)
 {
     this.id = fcModel.Object.LAST_ID++;
+
     this.globalObject = globalObject;
     this.implementationObject = implementationObject;
-    this.proto = prototype != null ? prototype : null;
+
+    this.properties = [];
+    this.enumeratedProperties = [];
+
+    this.prototype = prototype;
+    this.prototypeDefinitionConstruct = null;
 
     this.modifications = [];
 
@@ -16,19 +22,20 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject, pro
         this.addModification(codeConstruct, globalObject.getPreciseEvaluationPositionId());
     }
 
-    this.prototypeDefinitionConstruct = null;
-
-    this.properties = [];
-    this.enumeratedProperties = [];
-
     this.eventListenerInfo = {};
+    this.objectModifiedCallbackDescriptors = null;
 };
 
 fcModel.Object.LAST_ID = 0;
 fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
 fcModel.Object.prototype =
 {
-    objectModifiedCallbackDescriptor: null,
+    registerObjectModifiedCallbackDescriptor: function(descriptor)
+    {
+        if(this.objectModifiedCallbackDescriptors == null) { this.objectModifiedCallbackDescriptors = [];}
+
+        this.objectModifiedCallbackDescriptors.push(descriptor);
+    },
 
     addDependencyToAllModifications: function(codeConstruct)
     {
@@ -68,7 +75,7 @@ fcModel.Object.prototype =
     {
         try
         {
-            if(arguments.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); }
+            if(arguments.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); return; }
 
             var eventTypeName = arguments[0].value;
             var handler = arguments[1];
@@ -132,20 +139,27 @@ fcModel.Object.prototype =
             var modificationDescription = { codeConstruct: codeConstruct, evaluationPositionId: evaluationPositionId };
 
             this.modifications.push(modificationDescription);
-
-            if(this.objectModifiedCallbackDescriptor != null)
-            {
-                this.objectModifiedCallbackDescriptor.callback.call(this.objectModifiedCallbackDescriptor.thisValue, modificationDescription);
-            }
+            this._callModificationCallbacks(modificationDescription);
         }
         catch(e) { fcModel.Object.notifyError("Error when adding modification:" + e);}
     },
 
-    setProto: function(proto, codeConstruct)
+    _callModificationCallbacks: function(modificationDescription)
+    {
+        if(this.objectModifiedCallbackDescriptors == null || this.objectModifiedCallbackDescriptors.length == 0) { return; }
+
+        for(var i = 0, length = this.objectModifiedCallbackDescriptors.length; i < length; i++)
+        {
+            var objectModifiedCallbackDescriptor = this.objectModifiedCallbackDescriptors[i];
+            objectModifiedCallbackDescriptor.callback.call(objectModifiedCallbackDescriptor.thisValue, modificationDescription);
+        }
+    },
+
+    setProto: function(prototype, codeConstruct)
     {
         try
         {
-            this.proto = proto;
+            this.prototype = prototype;
 
             if(codeConstruct != null)
             {
@@ -264,19 +278,19 @@ fcModel.Object.prototype =
                 }
                 return property;
             }
-            if(this.proto == null) { return null; }
+            if(this.prototype == null) { return null; }
 
-            if(this.proto.fcInternal == null && this.proto.jsValue == null) { return null; }
+            if(this.prototype .fcInternal == null && this.prototype .jsValue == null) { return null; }
 
             var property = null;
 
-            if(this.proto.fcInternal != null && this.proto.fcInternal.object != null)
+            if(this.prototype .fcInternal != null && this.prototype .fcInternal.object != null)
             {
-                property = this.proto.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+                property = this.prototype .fcInternal.object.getProperty(propertyName, readPropertyConstruct);
             }
-            else if (this.proto.jsValue != null && this.proto.jsValue.fcInternal.object != null)
+            else if (this.prototype .jsValue != null && this.prototype .jsValue.fcInternal.object != null)
             {
-                property = this.proto.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+                property = this.prototype .jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
             }
 
             if(property != null)
