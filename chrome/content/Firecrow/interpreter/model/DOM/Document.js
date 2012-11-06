@@ -15,16 +15,7 @@ fcModel.Document = function(document, globalObject)
         this.fcInternal = { object: this };
         this.htmlElementToFcMapping = { };
 
-        fcModel.DOM_PROPERTIES.DOCUMENT.METHODS.forEach(function(method)
-        {
-            this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.document[method], method, this, true));
-        }, this);
-
-        fcModel.DOM_PROPERTIES.setPrimitives(this, document, fcModel.DOM_PROPERTIES.DOCUMENT.PRIMITIVES);
-        fcModel.DOM_PROPERTIES.setPrimitives(this, document, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
-
-        this.addProperty("readyState", new fcModel.JsValue("loading", new fcModel.FcInternal()));
-        this.addProperty("location", globalObject.internalExecutor.createLocationObject());
+        this._createDefaultProperties();
     }
     catch(e) { fcModel.Document.notifyError("Error when creating Document object: " + e); }
 };
@@ -102,6 +93,20 @@ fcModel.DocumentProto =
     //</editor-fold>
 
     //<editor-fold desc="'Private' methods">
+    _createDefaultProperties: function()
+    {
+        fcModel.DOM_PROPERTIES.DOCUMENT.METHODS.forEach(function(method)
+        {
+            this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.document[method], method, this, true));
+        }, this);
+
+        fcModel.DOM_PROPERTIES.setPrimitives(this, this.document, fcModel.DOM_PROPERTIES.DOCUMENT.PRIMITIVES);
+        fcModel.DOM_PROPERTIES.setPrimitives(this, this.document, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
+
+        this.addProperty("readyState", new fcModel.JsValue("loading", new fcModel.FcInternal()));
+        this.addProperty("location", this.globalObject.internalExecutor.createLocationObject());
+    },
+
     _getElements: function(propertyName, codeConstruct)
     {
         var implObj = {};
