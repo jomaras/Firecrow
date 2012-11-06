@@ -15,7 +15,7 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
         this.name = name;
         this.value = value;
         this.modificationConstructs = [];
-        this.lastModificationConstruct = null;
+        this.lastModificationPosition = null;
         this.globalObject = globalObject;
 
         if(codeConstruct != null)
@@ -25,11 +25,11 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
             if(ASTHelper.isVariableDeclarator(codeConstruct)) {}
             if(ASTHelper.isObjectExpressionPropertyValue(codeConstruct))
             {
-                this.lastModificationConstruct = { codeConstruct: codeConstruct.value, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+                this.lastModificationPosition = { codeConstruct: codeConstruct.value, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
             }
             else
             {
-                this.lastModificationConstruct = this.declarationConstruct;
+                this.lastModificationPosition = this.declarationConstruct;
             }
 
             this.modificationConstructs.push(this.declarationConstruct);
@@ -53,7 +53,7 @@ Firecrow.Interpreter.Model.Identifier.prototype =
 
             if(modificationConstruct != null)
             {
-                this.lastModificationConstruct = { codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
+                this.lastModificationPosition = { codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
                 this.modificationConstructs.push({ codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
             }
         }

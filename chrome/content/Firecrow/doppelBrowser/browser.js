@@ -363,7 +363,7 @@ Browser.prototype =
             var onLoadFunction = this.globalObject.getPropertyValue("onload");
             if(onLoadFunction != null)
             {
-                onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.globalObject.getProperty("onload").lastModificationConstruct });
+                onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.globalObject.getProperty("onload").lastModificationPosition });
             }
             var htmlElementEvents = this.globalObject.htmlElementEventHandlingRegistrations;
             var timeoutEvents = this.globalObject.timeoutHandlers;

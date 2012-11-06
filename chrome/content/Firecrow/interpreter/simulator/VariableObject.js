@@ -29,7 +29,7 @@ fcSimulator.VariableObject.prototype =
             var existingIdentifier = this.getIdentifier(identifier.name);
 
             if(existingIdentifier == null) { this.identifiers.push(identifier); }
-            else { existingIdentifier.setValue(identifier.value, identifier.lastModificationConstruct.codeConstruct); }
+            else { existingIdentifier.setValue(identifier.value, identifier.lastModificationPosition.codeConstruct); }
         }
         catch(e) { this.notifyError("Error when registering identifier:" + e);}
     },

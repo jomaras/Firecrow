@@ -308,19 +308,19 @@ fcSimulator.Evaluator.prototype =
             {
                 if(!ASTHelper.isAssignmentExpression(identifierConstruct.parent) || identifierConstruct.parent.left != identifierConstruct || identifierConstruct.parent.operator.length == 2)
                 {
-                    if(identifier.lastModificationConstruct != null)
+                    if(identifier.lastModificationPosition != null)
                     {
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks
                         (
                             identifierConstruct,
-                            identifier.lastModificationConstruct.codeConstruct,
+                            identifier.lastModificationPosition.codeConstruct,
                             evaluationPosition,
-                            identifier.lastModificationConstruct.evaluationPositionId
+                            identifier.lastModificationPosition.evaluationPositionId
                         );
                     }
                 }
 
-                if(identifier.declarationConstruct != null && identifier.declarationConstruct != identifier.lastModificationConstruct)
+                if(identifier.declarationConstruct != null && identifier.declarationConstruct != identifier.lastModificationPosition)
                 {
                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
                    (
@@ -569,14 +569,14 @@ fcSimulator.Evaluator.prototype =
 
                 if(fcProperty != null && !ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
                 {
-                    if(fcProperty.lastModificationConstruct != null)
+                    if(fcProperty.lastModificationPosition != null)
                     {
                         this.globalObject.browser.callDataDependencyEstablishedCallbacks
                         (
                             memberExpression.property,
-                            fcProperty.lastModificationConstruct.codeConstruct,
+                            fcProperty.lastModificationPosition.codeConstruct,
                             evaluationPosition,
-                            fcProperty.lastModificationConstruct.evaluationPositionId
+                            fcProperty.lastModificationPosition.evaluationPositionId
                         );
                     }
                     else  if(fcProperty.declarationConstruct != null)
@@ -771,9 +771,9 @@ fcSimulator.Evaluator.prototype =
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         forInWhereConstruct.left,
-                        property.lastModificationConstruct.codeConstruct,
+                        property.lastModificationPosition.codeConstruct,
                         evaluationPosition,
-                        property.lastModificationConstruct.evaluationPositionId
+                        property.lastModificationPosition.evaluationPositionId
                     );
                 }
 

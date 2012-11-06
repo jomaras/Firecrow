@@ -99,9 +99,9 @@ fcModel.Object.prototype =
         {
             var property = this.getProperty(propertyNames[i], codeConstruct);
 
-            if(property != null && property.lastModificationConstruct != null)
+            if(property != null && property.lastModificationPosition != null)
             {
-                lastModifications.push(property.lastModificationConstruct);
+                lastModifications.push(property.lastModificationPosition);
             }
         }
 
@@ -366,14 +366,14 @@ fcModel.Object.prototype =
             );
         }
 
-        if(property.lastModificationConstruct != null)
+        if(property.lastModificationPosition != null)
         {
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
                 readPropertyConstruct,
-                property.lastModificationConstruct.codeConstruct,
+                property.lastModificationPosition.codeConstruct,
                 this.globalObject.getPreciseEvaluationPositionId(),
-                property.lastModificationConstruct.evaluationPositionId
+                property.lastModificationPosition.evaluationPositionId
             );
         }
     },

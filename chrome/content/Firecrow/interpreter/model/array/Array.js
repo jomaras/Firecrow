@@ -49,14 +49,14 @@ fcModel.ArrayProto =
             {
                 this.addDependencyToAllModifications(codeConstruct);
 
-                if(lengthProperty != null && lengthProperty.lastModificationConstruct != null)
+                if(lengthProperty != null && lengthProperty.lastModificationPosition != null)
                 {
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         codeConstruct,
-                        lengthProperty.lastModificationConstruct.codeConstruct,
+                        lengthProperty.lastModificationPosition.codeConstruct,
                         this.globalObject.getPreciseEvaluationPositionId(),
-                        lengthProperty.lastModificationConstruct.evaluationPositionId
+                        lengthProperty.lastModificationPosition.evaluationPositionId
                     );
                 }
             }
@@ -381,14 +381,14 @@ fcModel.ArrayProto =
             {
                 this.addDependencyToAllModifications(callExpression);
 
-                if(lengthProperty != null && lengthProperty.lastModificationConstruct != null)
+                if(lengthProperty != null && lengthProperty.lastModificationPosition != null)
                 {
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         callExpression,
-                        lengthProperty.lastModificationConstruct.codeConstruct,
+                        lengthProperty.lastModificationPosition.codeConstruct,
                         this.globalObject.getPreciseEvaluationPositionId(),
-                        lengthProperty.lastModificationConstruct.evaluationPositionId
+                        lengthProperty.lastModificationPosition.evaluationPositionId
                     );
                 }
 
@@ -431,14 +431,14 @@ fcModel.ArrayProto =
             {
                 this.addDependencyToAllModifications(callExpression);
 
-                if(lengthProperty != null && lengthProperty.lastModificationConstruct != null)
+                if(lengthProperty != null && lengthProperty.lastModificationPosition != null)
                 {
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         callExpression,
-                        lengthProperty.lastModificationConstruct.codeConstruct,
+                        lengthProperty.lastModificationPosition.codeConstruct,
                         this.globalObject.getPreciseEvaluationPositionId(),
-                        lengthProperty.lastModificationConstruct.evaluationPositionId
+                        lengthProperty.lastModificationPosition.evaluationPositionId
                     );
                 }
 

@@ -694,12 +694,12 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
                     {
                         var arrayItem = fcArray.getProperty(i);
 
-                        if(arrayItem != null && arrayItem.lastModificationConstruct != null)
+                        if(arrayItem != null && arrayItem.lastModificationPosition != null)
                         {
                             this.globalObject.browser.callDataDependencyEstablishedCallbacks
                             (
                                 formalParameters[i].value.fcInternal.codeConstruct,
-                                arrayItem.lastModificationConstruct.codeConstruct,
+                                arrayItem.lastModificationPosition.codeConstruct,
                                 evaluationPosition
                             );
                         }
