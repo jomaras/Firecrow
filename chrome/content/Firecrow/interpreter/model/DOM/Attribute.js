@@ -12,13 +12,12 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        this.globalObject = globalObject;
+        this.__proto__ = new fcModel.Object(this.globalObject, codeConstruct, attr);
+
         this.htmlElement = htmlElement;
         this.attr = attr;
 
         this.constructor = fcModel.Attr;
-
-        this.__proto__ = new fcModel.Object(this.globalObject);
 
         this.addProperty("isId", new fcModel.JsValue(this.attr.isId, new fcModel.FcInternal(null)), null);
         this.addProperty("localName", new fcModel.JsValue(this.attr.localName, new fcModel.FcInternal(null)), null);
@@ -36,32 +35,18 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
         }, this);
 
-        this.getJsPropertyValue = function(propertyName, codeConstruct)
-        {
-            alert("get property Attr");
-        };
-
-        this.addJsProperty = function(propertyName, value, codeConstruct)
-        {
-            alert("add property Attr");
-        };
-
-        this.notifyError = function(message) { alert("Attr - " + message); }
+        this.getJsPropertyValue = function(propertyName, codeConstruct) { fcModel.Attr.notifyError("get property Attr not yet handled"); };
+        this.addJsProperty = function(propertyName, value, codeConstruct) { fcModel.Attr.notifyError("add property Attr not yet handled"); };
     }
-    catch(e)
-    {
-        Firecrow.Interpreter.Model.Attr.notifyError("Error when creating HtmlElement object: " + e);
-    }
+    catch(e) { fcModel.Attr.notifyError("Error when creating Html Attr object: " + e); }
 };
-Firecrow.Interpreter.Model.Attr.notifyError = function(message) { alert("Attr - " + message); }
-
-fcModel.Attr.prototype = new fcModel.Object(null);
+fcModel.Attr.notifyError = function(message) { alert("Attr - " + message); }
 
 fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment)) { Firecrow.Interpreter.Model.Attr.notifyError("Attr - when creating attribute list, the argument has to be an HTMLElement!"); }
+        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment))  {  fcModel.Attr.notifyError("Attr - when creating attribute list, the argument has to be an HTMLElement!"); }
 
         var attributeList = [];
         var attributes = htmlElement.attributes;
@@ -88,10 +73,7 @@ fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConst
 
         return globalObject.internalExecutor.createArray(codeConstruct, attributeList);
     }
-    catch(e)
-    {
-        Firecrow.Interpreter.Model.Attr.notifyError("Attr - error when creating attribute list:" + e);
-    }
+    catch(e) { fcModel.Attr.notifyError("Attr - error when creating attribute list:" + e); }
 };
 
 //https://developer.mozilla.org/en/DOM/element
