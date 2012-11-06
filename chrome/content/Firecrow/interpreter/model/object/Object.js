@@ -2,7 +2,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
-fcModel.Object = function(globalObject, codeConstruct, implementationObject, prototype)
+fcModel.Object = function(globalObject, codeConstruct, implementationObject, proto)
 {
     this.id = fcModel.Object.LAST_ID++;
 
@@ -13,7 +13,7 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject, pro
     this.properties = [];
     this.enumeratedProperties = [];
 
-    this.prototype = prototype;
+    this.proto = proto;
     this.prototypeDefinitionConstruct = null;
 
     this.modifications = [];
@@ -63,15 +63,15 @@ fcModel.Object.prototype =
                 return property;
             }
 
-            if(this.prototype == null || (this.prototype.fcInternal == null && this.prototype.jsValue == null)) { return null; }
+            if(this.proto == null || (this.proto.fcInternal == null && this.proto.jsValue == null)) { return null; }
 
-            if(this.prototype.fcInternal != null && this.prototype.fcInternal.object != null)
+            if(this.proto.fcInternal != null && this.proto.fcInternal.object != null)
             {
-                property = this.prototype.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+                property = this.proto.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
             }
-            else if (this.prototype.jsValue != null && this.prototype.jsValue.fcInternal.object != null)
+            else if (this.proto.jsValue != null && this.proto.jsValue.fcInternal.object != null)
             {
-                property = this.prototype.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+                property = this.proto.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
             }
 
             this._addDependenciesToPrototypeProperty(property, readPropertyConstruct);
@@ -138,7 +138,7 @@ fcModel.Object.prototype =
     {
         try
         {
-            if(propertyName == "__proto__") { this.setPrototype(propertyValue, codeConstruct); return; }
+            if(propertyName == "__proto__") { this.setProto(propertyValue, codeConstruct); return; }
 
             var existingProperty = this.getOwnProperty(propertyName);
 
@@ -170,11 +170,11 @@ fcModel.Object.prototype =
         catch(e) { fcModel.Object.notifyError("Error when adding property:" + e); }
     },
 
-    setPrototype: function(prototype, codeConstruct)
+    setProto: function(proto, codeConstruct)
     {
         try
         {
-            this.prototype = prototype;
+            this.proto = proto;
 
             if(codeConstruct != null)
             {

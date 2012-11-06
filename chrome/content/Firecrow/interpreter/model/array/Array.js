@@ -35,25 +35,7 @@ fcModel.Array.notifyError = function(message) { alert("Array - " + message);}
 
 fcModel.ArrayProto =
 {
-    addDependenciesToAllProperties: function(codeConstruct)
-    {
-        try
-        {
-            if(codeConstruct == null) { return; }
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                codeConstruct,
-                this.dummyDependencyNode,
-                this.globalObject.getPreciseEvaluationPositionId()
-            );
-        }
-        catch(e)
-        {
-            fcModel.Array.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source);
-        }
-    },
-
+    //<editor-fold desc="Internal array methods">
     push: function(jsArray, arguments, codeConstruct, jsValue, dontFillJsArray)
     {
         try
@@ -552,7 +534,9 @@ fcModel.ArrayProto =
         }
         catch(e) { fcModel.Array.notifyError("When join array: " + e); }
     },
+    //</editor-fold>
 
+    //<editor-fold desc="Js Property Access">
     getJsPropertyValue: function(propertyName, codeConstruct)
     {
         return this.getPropertyValue(propertyName, codeConstruct);
@@ -586,7 +570,27 @@ fcModel.ArrayProto =
             this.addProperty(propertyName, propertyValue, codeConstruct, propertyName != "length");
         }
     },
+    //</editor-fold>
 
+    //<editor-fold desc="Adding Dependencies to properties">
+    addDependenciesToAllProperties: function(codeConstruct)
+    {
+        try
+        {
+            if(codeConstruct == null) { return; }
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                codeConstruct,
+                this.dummyDependencyNode,
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
+        }
+        catch(e) { fcModel.Array.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source); }
+    },
+    //</editor-fold>
+
+    //<editor-fold desc="'Private' methods">
     _createDummyDependencyNode: function()
     {
         this.dummyDependencyNode = { type: "DummyCodeElement" };
@@ -634,199 +638,6 @@ fcModel.ArrayProto =
             this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, false);
         }
     },
-
-    notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
-};
-
-fcModel.ArrayPrototype = function(globalObject)
-{
-    try
-    {
-        this.globalObject = globalObject;
-        this.__proto__ = new fcModel.Object(globalObject);
-        //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
-        fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
-        {
-            var internalFunction = globalObject.internalExecutor.createInternalFunction(Array.prototype[propertyName], propertyName, this);
-            this[propertyName] = internalFunction;
-            this.addProperty(propertyName, internalFunction, null, false);
-        }, this);
-
-        this.fcInternal = { object: this };
-    }
-    catch(e) { Firecrow.Interpreter.Model.Array.notifyError("Error when creating array prototype:" + e); }
-};
-
-fcModel.ArrayPrototype.prototype = new fcModel.Object(null);
-
-fcModel.ArrayPrototype.CONST =
-{
-    INTERNAL_PROPERTIES :
-    {
-        METHODS: ["pop","push","reverse","shift","sort","splice","unshift","concat","join","slice","indexOf","lastIndexOf","filter","forEach","every","map","some","reduce","reduceRight", "toString"],
-        CALLBACK_METHODS: ["filter", "forEach", "every", "map", "some", "reduce", "reduceRight"]
-    }
-};
-
-fcModel.ArrayFunction = function(globalObject)
-{
-    try
-    {
-        this.__proto__ = new fcModel.Object(globalObject);
-
-        this.prototype = new fcModel.JsValue(globalObject.arrayPrototype, new fcModel.FcInternal(null, globalObject.arrayPrototype)) ;
-        this.addProperty("prototype", globalObject.arrayPrototype);
-
-        this.isInternalFunction = true;
-        this.name = "Array";
-        this.fcInternal = { object: this };
-    }
-    catch(e){ Firecrow.Interpreter.Model.Array.notifyError("Error when creating Array Function:" + e); }
-};
-
-fcModel.ArrayFunction.prototype = new fcModel.Object(null);
-
-fcModel.ArrayCallbackEvaluator =
-{
-    evaluateCallbackReturn: function(callbackCommand, returnValue, returnExpression)
-    {
-        try
-        {
-            var originatingObject = callbackCommand.originatingObject;
-
-            if(!ValueTypeHelper.isArray(originatingObject.value)) { fcModel.Array.notifyError("When evaluating callback return the argument has to be an array!"); return; }
-
-            var callbackFunctionValue = callbackCommand.callerFunction.value;
-            var targetObject = callbackCommand.targetObject;
-            var targetObjectValue = targetObject.value;
-
-            if(callbackFunctionValue.name == "filter")
-            {
-                if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
-
-                if(returnValue != null && returnValue.value)
-                {
-                    targetObject.fcInternal.object.push(targetObjectValue, [callbackCommand.arguments[0]], returnExpression.argument);
-                }
-            }
-            else if(callbackFunctionValue.name == "map")
-            {
-                if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
-
-                targetObject.fcInternal.object.push(targetObjectValue, [returnValue], returnExpression.argument);
-            }
-            else if(callbackFunctionValue.name == "forEach") { }
-            else if(callbackFunctionValue.name == "sort") { fcModel.Array.notifyError("Still not handling evaluate return from sort!"); return; }
-            else if(callbackFunctionValue.name == "every") { fcModel.Array.notifyError("Still not handling evaluate return from every"); return; }
-            else if(callbackFunctionValue.name == "some") { fcModel.Array.notifyError("Still not handling evaluate return from some"); return; }
-            else if(callbackFunctionValue.name == "reduce") { fcModel.Array.notifyError("Still not handling evaluate return from reduce"); return; }
-            else if(callbackFunctionValue.name == "reduceRight") { fcModel.Array.notifyError("Still not handling evaluate return from reduceRight"); return; }
-            else
-            {
-                fcModel.Array.notifyError("Unknown callbackFunction!");
-            }
-        }
-        catch(e)
-        {
-            fcModel.Array.notifyError("Error when evaluating callback return!");
-        }
-    },
-
-    notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
-};
-
-fcModel.ArrayExecutor =
-{
-    executeInternalArrayMethod : function(thisObject, functionObject, arguments, callExpression, callCommand)
-    {
-        try
-        {
-            if(!functionObject.fcInternal.isInternalFunction) { fcModel.Array.notifyError("The function should be internal when executing array method!"); return; }
-
-            var functionObjectValue = functionObject.value;
-            var thisObjectValue = thisObject.value;
-            var functionName = functionObjectValue.name;
-            var fcThisValue =  thisObject.fcInternal.object;
-            var globalObject = thisObject.fcInternal.object.globalObject;
-
-            var isCalledOnArray = fcThisValue.constructor === fcModel.Array;
-
-            if(!isCalledOnArray && functionName != "push" && functionName != "slice")
-            {
-                console.log(functionName + " called on a non-array object!");
-            }
-
-            switch(functionName)
-            {
-                case "toString":
-                    return new fcModel.JsValue(isCalledOnArray ? "[object Array]" : "[object Object]", new fcModel.FcInternal(callExpression));
-                case "pop":
-                case "reverse":
-                case "shift":
-                case "push":
-                case "concat":
-                case "slice":
-                case "indexOf":
-                case "lastIndexOf":
-                case "unshift":
-                case "splice":
-                case "join":
-                case "sort":
-                    return fcModel.ArrayProto[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression, thisObject]);
-                case "forEach":
-                case "filter":
-                case "every":
-                case "some":
-                case "map":
-                    var allCallbackArguments = [];
-                    var callbackParams = callExpression.arguments != null ? callExpression.arguments[0].params : [];
-                    callbackParams = callbackParams || [];
-
-                    for(var i = 0, length = thisObjectValue.length; i < length; i++)
-                    {
-                        allCallbackArguments.push([thisObject.value[i], new fcModel.JsValue(i, new fcModel.FcInternal(callbackParams[i])), thisObject]);
-                    }
-
-                    callCommand.generatesNewCommands = true;
-                    callCommand.generatesCallbacks = true;
-                    callCommand.callbackFunction = arguments[0];
-                    callCommand.callbackArgumentGroups = allCallbackArguments;
-                    callCommand.thisObject = arguments[2] || globalObject;
-                    callCommand.originatingObject = thisObject;
-                    callCommand.callerFunction = functionObject;
-
-                    if(functionName == "filter" || functionName == "map")
-                    {
-                        callCommand.targetObject = globalObject.internalExecutor.createArray(callExpression);
-                        return callCommand.targetObject;
-                    }
-                    else
-                    {
-                        return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
-                    }
-
-                default:
-                    fcModel.Array.notifyError("Unknown internal array method: " + functionObjectValue.name);
-            }
-        }
-        catch(e) { fcModel.Array.notifyError("Error when executing internal array method: " + e + e.fileName + e.lineNumber); }
-    },
-
-    isInternalArrayMethod: function(potentialFunction)
-    {
-        var methods = fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS;
-
-        for(var i = 0; i < methods.length; i++)
-        {
-            if(Array.prototype[methods[i]] === potentialFunction)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    },
-
-    notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
+    //</editor-fold>
 };
 }});
