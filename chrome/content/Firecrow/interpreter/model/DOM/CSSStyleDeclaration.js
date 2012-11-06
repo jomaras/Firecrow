@@ -15,7 +15,6 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
         this.__proto__ = new fcModel.Object(globalObject);
 
         this.htmlElement = htmlElement;
-        this.globalObject = globalObject;
         this.cssStyleDeclaration = cssStyleDeclaration || this.htmlElement.style;
 
         this.constructor = fcModel.CSSStyleDeclaration;
@@ -31,11 +30,6 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
             this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.cssStyleDeclaration[method], method, this, true), codeConstruct);
         }
 
-        this.registerAddPropertyCallback(function(propertyName, propertyValue, codeConstruct)
-        {
-            fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
-        }, this);
-
         this.getJsPropertyValue = function(propertyName, codeConstruct)
         {
             if(ValueTypeHelper.isPrimitive(this.cssStyleDeclaration[propertyName]))
@@ -50,6 +44,8 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
         {
             this.cssStyleDeclaration[propertyName] = value.value;
             this.addProperty(propertyName, value, codeConstruct);
+
+            fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
         };
     }
     catch(e)
@@ -65,7 +61,34 @@ fcModel.CSSStyleDeclaration.createStyleDeclaration = function(htmlElement, cssSt
 };
 fcModel.CSSStyleDeclaration.notifyError =  function (message){ alert("CSSStyleDeclaration - " + message); }
 
-fcModel.CSSStyleDeclaration.prototype = new fcModel.Object(null);
+fcModel.CSSStyleDeclarationExecutor =
+{
+    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+    {
+        if(!functionObject.fcInternal.isInternalFunction) { fcModel.CSSStyleDeclaration.notifyError("The function should be internal when css declaration method!"); return; }
+
+        var functionObjectValue = functionObject.value;
+        var thisObjectValue = thisObject.value;
+        var functionName = functionObjectValue.name;
+        var fcThisValue =  thisObject.fcInternal.object;
+        var globalObject = fcThisValue.globalObject;
+        var jsArguments =  arguments.map(function(argument){ return argument.value;});
+
+        switch(functionName)
+        {
+            case "getPropertyPriority":
+            case "getPropertyValue":
+            case "item":
+                return new fcModel.JsValue(thisObjectValue[functionName].apply(thisObjectValue, jsArguments), new fcModel.FcInternal(callExpression));
+            case "removeProperty":
+            case "setProperty":
+            default:
+                fcModel.CSSStyleDeclaration.notifyError("Unhandled internal method in cssStyleDeclaration:" + functionName);
+                return;
+        }
+    }
+};
+
 fcModel.CSSStyleDeclaration.CONST =
 {
     INTERNAL_PROPERTIES :
@@ -99,31 +122,4 @@ fcModel.CSSStyleDeclaration.CONST =
         ]
     }
 };
-
-fcModel.CSSStyleDeclarationExecutor =
-{
-    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
-    {
-        if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when css declaration method!"); return; }
-
-        var functionObjectValue = functionObject.value;
-        var thisObjectValue = thisObject.value;
-        var functionName = functionObjectValue.name;
-        var fcThisValue =  thisObject.fcInternal.object;
-        var globalObject = fcThisValue.globalObject;
-        var jsArguments =  arguments.map(function(argument){ return argument.value;});
-
-        switch(functionName)
-        {
-            case "getPropertyPriority":
-            case "getPropertyValue":
-            case "item":
-                return new fcModel.JsValue(thisObjectValue[functionName].apply(thisObjectValue, jsArguments), new fcModel.FcInternal(callExpression));
-            case "removeProperty":
-            case "setProperty":
-            default:
-                alert("Unhandled internal method in cssStyleDeclaration:" + functionName); return;
-        }
-    }
-}
 }});

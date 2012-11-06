@@ -8,7 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/ClassList.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/ClassList.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,10 +66,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClassList.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/ClassList.js">
+      <file leaf-file-name="CSSStyleDeclaration.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="27" selection-start="1287" selection-end="1287" vertical-scroll-proportion="0.5081967">
+            <state line="37" column="28" selection-start="1418" selection-end="1418" vertical-scroll-proportion="0.6388443">
               <folding />
             </state>
           </provider>
@@ -88,8 +88,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" />
@@ -104,6 +102,8 @@
         <option value="$PROJECT_DIR$/tests/slicing.jstd" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Attribute.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/ClassList.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclarationExecutor.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js" />
       </list>
     </option>
   </component>
@@ -1716,7 +1716,11 @@
       <created>1352208678240</created>
       <updated>1352208678240</updated>
     </task>
-    <option name="localTasksCounter" value="303" />
+    <task id="LOCAL-00303" summary="Minor changes in ClassList">
+      <created>1352209087833</created>
+      <updated>1352209087833</updated>
+    </task>
+    <option name="localTasksCounter" value="304" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1812,7 +1816,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor changes in Attribute" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes in ClassList" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1825,7 +1829,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Replacal of window.onload method execution" />
     <MESSAGE value="Do event handler replacal only if both conflicting handlers are included in the end slice" />
     <MESSAGE value="Event handler replacer - invoker" />
     <MESSAGE value="All tests are running again" />
@@ -1850,6 +1853,7 @@
     <MESSAGE value="Renamed lastModificationConstruct to lastModificationPosition" />
     <MESSAGE value="Migrate files" />
     <MESSAGE value="Minor changes in Attribute" />
+    <MESSAGE value="Minor changes in ClassList" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1869,13 +1873,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="71" selection-start="1135" selection-end="1135" vertical-scroll-proportion="0.7382671">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="0" selection-start="425" selection-end="425" vertical-scroll-proportion="0.4093098">
@@ -1902,13 +1899,6 @@
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Event.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.5778491">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-2.154093">
           <folding />
         </state>
       </provider>
@@ -1996,6 +1986,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/ClassList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="25" selection-start="1096" selection-end="1096" vertical-scroll-proportion="0.21311475">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Attribute.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="35" column="22" selection-start="1949" selection-end="1949" vertical-scroll-proportion="0.0">
@@ -2003,9 +2000,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/ClassList.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="27" selection-start="1287" selection-end="1287" vertical-scroll-proportion="0.5081967">
+        <state line="37" column="28" selection-start="1418" selection-end="1418" vertical-scroll-proportion="0.6388443">
           <folding />
         </state>
       </provider>
