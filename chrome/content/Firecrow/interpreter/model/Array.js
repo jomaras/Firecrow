@@ -67,10 +67,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
     catch(e) { this.notifyError("Error when creating array object: " + e + codeConstruct.loc.source); }
 };
 
-Firecrow.Interpreter.Model.Array.notifyError = function(message)
-{
-    alert("Array - " + message);
-}
+fcModel.Array.notifyError = function(message) { alert("Array - " + message);}
 
 fcModel.ArrayProto =
 {
@@ -89,7 +86,7 @@ fcModel.ArrayProto =
         }
         catch(e)
         {
-            this.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source);
+            fcModel.Array.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source);
         }
     },
 
@@ -150,7 +147,7 @@ fcModel.ArrayProto =
         }
         catch(e)
         {
-            this.notifyError("Error when pushing item: " + e);
+            fcModel.Array.notifyError("Error when pushing item: " + e);
         }
     },
 
@@ -184,7 +181,7 @@ fcModel.ArrayProto =
 
             return poppedItem;
         }
-        catch(e) { this.notifyError("Error when popping item: " + e); }
+        catch(e) { fcModel.Array.notifyError("Error when popping item: " + e); }
     },
 
     reverse: function(jsArray, arguments, codeConstruct, jsValue)
@@ -213,7 +210,7 @@ fcModel.ArrayProto =
 
             return jsValue;
         }
-        catch(e) { this.notifyError("Error when reversing the array: " + e); }
+        catch(e) { fcModel.Array.notifyError("Error when reversing the array: " + e); }
     },
 
     shift: function(jsArray, arguments, codeConstruct)
@@ -256,7 +253,7 @@ fcModel.ArrayProto =
 
             return shiftedItem;
         }
-        catch(e) { this.notifyError("Error when shifting items in array: " + e); }
+        catch(e) { fcModel.Array.notifyError("Error when shifting items in array: " + e); }
     },
 
     unshift: function(jsArray, callArguments, callExpression)
@@ -290,7 +287,7 @@ fcModel.ArrayProto =
 
             return lengthValue;
         }
-        catch(e) { this.notifyError("Error when unshifting items in array: " + e); }
+        catch(e) { fcModel.Array.notifyError("Error when unshifting items in array: " + e); }
     },
 
     sort: function(jsArray, arguments, codeConstruct, jsValue)
@@ -385,7 +382,7 @@ fcModel.ArrayProto =
 
             return this.globalObject.internalExecutor.createArray(codeConstruct, splicedItems);
         }
-        catch(e) { this.notifyError("Error when splicing item: " + e); }
+        catch(e) { fcModel.Array.notifyError("Error when splicing item: " + e); }
     },
 
     concat: function(jsArray, callArguments, callExpression)
@@ -427,7 +424,7 @@ fcModel.ArrayProto =
             }
             return newArray;
         }
-        catch(e) { this.notifyError("Error when concat array: " + e);}
+        catch(e) { fcModel.Array.notifyError("Error when concat array: " + e);}
     },
 
     slice: function(jsArray, callArguments, callExpression)
@@ -474,7 +471,7 @@ fcModel.ArrayProto =
                 [].slice.apply((isCalledOnArray ? jsArray : substituteObject), callArguments.map(function(argument){ return argument.value}))
             );
         }
-        catch(e) { this.notifyError("When slicing array: " + e);}
+        catch(e) { fcModel.Array.notifyError("When slicing array: " + e);}
     },
 
     indexOf: function(jsArray, callArguments, callExpression)
@@ -535,7 +532,7 @@ fcModel.ArrayProto =
 
             return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
         }
-        catch(e) { this.notifyError("When indexOf array: " + e); }
+        catch(e) { fcModel.Array.notifyError("When indexOf array: " + e); }
     },
 
     lastIndexOf: function(jsArray, callArguments, callExpression)
@@ -563,7 +560,7 @@ fcModel.ArrayProto =
 
             return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
         }
-        catch(e) { this.notifyError("When lastIndexOf array: " + e);}
+        catch(e) { fcModel.Array.notifyError("When lastIndexOf array: " + e);}
     },
 
     join: function(jsArray, callArguments, callExpression)
@@ -589,7 +586,7 @@ fcModel.ArrayProto =
 
             return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
         }
-        catch(e) { this.notifyError("When join array: " + e); }
+        catch(e) { fcModel.Array.notifyError("When join array: " + e); }
     },
 
     getJsPropertyValue: function(propertyName, codeConstruct)
@@ -685,7 +682,7 @@ fcModel.ArrayCallbackEvaluator =
         {
             var originatingObject = callbackCommand.originatingObject;
 
-            if(!ValueTypeHelper.isArray(originatingObject.value)) { this.notifyError("When evaluating callback return the argument has to be an array!"); return; }
+            if(!ValueTypeHelper.isArray(originatingObject.value)) { fcModel.Array.notifyError("When evaluating callback return the argument has to be an array!"); return; }
 
             var callbackFunctionValue = callbackCommand.callerFunction.value;
             var targetObject = callbackCommand.targetObject;
@@ -693,7 +690,7 @@ fcModel.ArrayCallbackEvaluator =
 
             if(callbackFunctionValue.name == "filter")
             {
-                if(!ValueTypeHelper.isArray(targetObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
+                if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
 
                 if(returnValue != null && returnValue.value)
                 {
@@ -702,24 +699,24 @@ fcModel.ArrayCallbackEvaluator =
             }
             else if(callbackFunctionValue.name == "map")
             {
-                if(!ValueTypeHelper.isArray(targetObjectValue)) { this.notifyError("A new array should be created when calling filter: " + e); return; }
+                if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
 
                 targetObject.fcInternal.object.push(targetObjectValue, [returnValue], returnExpression.argument);
             }
             else if(callbackFunctionValue.name == "forEach") { }
-            else if(callbackFunctionValue.name == "sort") { this.notifyError("Still not handling evaluate return from sort!"); return; }
-            else if(callbackFunctionValue.name == "every") { this.notifyError("Still not handling evaluate return from every"); return; }
-            else if(callbackFunctionValue.name == "some") { this.notifyError("Still not handling evaluate return from some"); return; }
-            else if(callbackFunctionValue.name == "reduce") { this.notifyError("Still not handling evaluate return from reduce"); return; }
-            else if(callbackFunctionValue.name == "reduceRight") { this.notifyError("Still not handling evaluate return from reduceRight"); return; }
+            else if(callbackFunctionValue.name == "sort") { fcModel.Array.notifyError("Still not handling evaluate return from sort!"); return; }
+            else if(callbackFunctionValue.name == "every") { fcModel.Array.notifyError("Still not handling evaluate return from every"); return; }
+            else if(callbackFunctionValue.name == "some") { fcModel.Array.notifyError("Still not handling evaluate return from some"); return; }
+            else if(callbackFunctionValue.name == "reduce") { fcModel.Array.notifyError("Still not handling evaluate return from reduce"); return; }
+            else if(callbackFunctionValue.name == "reduceRight") { fcModel.Array.notifyError("Still not handling evaluate return from reduceRight"); return; }
             else
             {
-                this.notifyError("Unknown callbackFunction!");
+                fcModel.Array.notifyError("Unknown callbackFunction!");
             }
         }
         catch(e)
         {
-            this.notifyError("Error when evaluating callback return!");
+            fcModel.Array.notifyError("Error when evaluating callback return!");
         }
     },
 
@@ -732,7 +729,7 @@ fcModel.ArrayExecutor =
     {
         try
         {
-            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing array method!"); return; }
+            if(!functionObject.fcInternal.isInternalFunction) { fcModel.Array.notifyError("The function should be internal when executing array method!"); return; }
 
             var functionObjectValue = functionObject.value;
             var thisObjectValue = thisObject.value;
@@ -797,10 +794,10 @@ fcModel.ArrayExecutor =
                     }
 
                 default:
-                    this.notifyError("Unknown internal array method: " + functionObjectValue.name);
+                    fcModel.Array.notifyError("Unknown internal array method: " + functionObjectValue.name);
             }
         }
-        catch(e) { this.notifyError("Error when executing internal array method: " + e); }
+        catch(e) { fcModel.Array.notifyError("Error when executing internal array method: " + e + e.fileName + e.lineNumber); }
     },
 
     isInternalArrayMethod: function(potentialFunction)

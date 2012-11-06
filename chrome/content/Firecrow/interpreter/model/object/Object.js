@@ -19,7 +19,7 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject, pro
 
     if(codeConstruct != null && globalObject != null)
     {
-        this.addModification(codeConstruct, globalObject.getPreciseEvaluationPositionId());
+        this._addModification(codeConstruct, globalObject.getPreciseEvaluationPositionId());
     }
 
     this.eventListenerInfo = {};
@@ -33,40 +33,59 @@ fcModel.Object.LAST_ID = 0;
 fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
 fcModel.Object.prototype =
 {
-    registerObjectModifiedCallbackDescriptor: function(callback, thisValue)
+    //<editor-fold desc="Property Getters">
+    getOwnProperty: function(propertyName)
     {
-        if(this.objectModifiedCallbackDescriptors == null) { this.objectModifiedCallbackDescriptors = [];}
-
-        this.objectModifiedCallbackDescriptors.push({callback: callback, thisValue: thisValue});
+        return ValueTypeHelper.findInArray
+        (
+            this.properties,
+            propertyName,
+            function(property, propertyName) { return property.name == propertyName; }
+        );
     },
 
-    registerGetPropertyCallback: function(callback, thisValue)
+    isOwnProperty: function(propertyName)
     {
-        if(this.getPropertyCallbackDescriptors == null) { this.getPropertyCallbackDescriptors = []; }
-
-        this.getPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
+        return this.getOwnProperty(propertyName) != null;
     },
 
-    registerAddPropertyCallback: function(callback, thisValue)
+    getProperty: function(propertyName, readPropertyConstruct)
     {
-        if(this.addPropertyCallbackDescriptors == null) { this.addPropertyCallbackDescriptors = []; }
-
-        this.addPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
-    },
-
-    addDependencyToAllModifications: function(codeConstruct)
-    {
-        for(var i = 0, length = this.modifications.length; i < length; i++)
+        try
         {
-            var modification = this.modifications[i];
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                codeConstruct,
-                modification.codeConstruct,
-                this.globalObject.getPreciseEvaluationPositionId(),
-                modification.evaluationPositionId
-            );
+            var property = this.getOwnProperty(propertyName);
+
+            if(property != null)
+            {
+                this._callCallbacks(this.getPropertyCallbackDescriptors, [readPropertyConstruct, propertyName]);
+
+                return property;
+            }
+
+            if(this.prototype == null || (this.prototype.fcInternal == null && this.prototype.jsValue == null)) { return null; }
+
+            if(this.prototype.fcInternal != null && this.prototype.fcInternal.object != null)
+            {
+                property = this.prototype.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+            }
+            else if (this.prototype.jsValue != null && this.prototype.jsValue.fcInternal.object != null)
+            {
+                property = this.prototype.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
+            }
+
+            this._addDependenciesToPrototypeProperty(property, readPropertyConstruct);
+
+            return property;
         }
+        catch(e) { fcModel.Object.notifyError("Error when getting property:" + e); }
+    },
+
+    getPropertyValue: function(propertyName, codeConstruct)
+    {
+        var property = this.getProperty(propertyName, codeConstruct);
+
+        return property != null ? property.value
+                                : undefined;
     },
 
     getLastPropertyModifications: function(codeConstruct)
@@ -88,6 +107,145 @@ fcModel.Object.prototype =
         return lastModifications;
     },
 
+    getPropertyNameAtIndex: function(index, codeConstruct)
+    {
+        return new fcModel.JsValue
+        (
+            this._getEnumeratedPropertiesFromImplementationObject()[index],
+            new fcModel.FcInternal(codeConstruct)
+        );
+    },
+
+    getPropertiesWithIndexNames: function()
+    {
+        var indexProperties = [];
+
+        for(var i = 0; i < this.properties.length; i++)
+        {
+            if(ValueTypeHelper.isInteger(this.properties[i].name))
+            {
+                indexProperties.push(this.properties[i]);
+            }
+        }
+
+        return indexProperties;
+    },
+    //</editor-fold>
+
+    //<editor-fold desc="Property Setters">
+    addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
+    {
+        try
+        {
+            if(propertyName == "__proto__") { this.setPrototype(propertyValue, codeConstruct); return; }
+
+            var existingProperty = this.getOwnProperty(propertyName);
+
+            if(existingProperty == null)
+            {
+                var property = new fcModel.Identifier(propertyName, propertyValue, codeConstruct, this.globalObject);
+
+                this.properties.push(property);
+
+                if(isEnumerable) { this.enumeratedProperties.push(property); }
+            }
+            else
+            {
+                existingProperty.setValue(propertyValue, codeConstruct);
+            }
+
+            if(propertyName == "prototype" && propertyValue != null && codeConstruct != null)
+            {
+                this.prototypeDefinitionConstruct = { codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
+            }
+
+            if(codeConstruct != null)
+            {
+                this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+            }
+
+            this._callCallbacks(this.addPropertyCallbackDescriptors, [propertyName, propertyValue, codeConstruct]);
+        }
+        catch(e) { fcModel.Object.notifyError("Error when adding property:" + e); }
+    },
+
+    setPrototype: function(prototype, codeConstruct)
+    {
+        try
+        {
+            this.prototype = prototype;
+
+            if(codeConstruct != null)
+            {
+                this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+            }
+        }
+        catch(e) { fcModel.Object.notifyError("Error when setting proto: " + e); }
+    },
+    //</editor-fold>
+
+    //<editor-fold desc="Property Deleter">
+    deleteProperty: function(propertyName, codeConstruct)
+    {
+        try
+        {
+            for(var i = 0; i < this.properties.length; i++)
+            {
+                if(this.properties[i].name == propertyName)
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(this.properties, i);
+                    break;
+                }
+            }
+
+            for(var i = 0; i < this.enumeratedProperties.length; i++)
+            {
+                if(this.enumeratedProperties[i].name == propertyName)
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(this.enumeratedProperties, i);
+                    break;
+                }
+            }
+        }
+        catch(e) { fcModel.Object.notifyError("Error when deleting property:" + e);}
+    },
+    //</editor-fold>
+
+    //<editor-fold desc="Callbacks">
+    registerObjectModifiedCallbackDescriptor: function(callback, thisValue)
+    {
+        if(this.objectModifiedCallbackDescriptors == null) { this.objectModifiedCallbackDescriptors = [];}
+
+        this.objectModifiedCallbackDescriptors.push({callback: callback, thisValue: thisValue});
+    },
+
+    registerGetPropertyCallback: function(callback, thisValue)
+    {
+        if(this.getPropertyCallbackDescriptors == null) { this.getPropertyCallbackDescriptors = []; }
+
+        this.getPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
+    },
+
+    registerAddPropertyCallback: function(callback, thisValue)
+    {
+        if(this.addPropertyCallbackDescriptors == null) { this.addPropertyCallbackDescriptors = []; }
+
+        this.addPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
+    },
+
+    _callCallbacks: function(callbackDescriptors, args)
+    {
+        if(callbackDescriptors == null || callbackDescriptors.length == 0) { return; }
+
+        for(var i = 0, length = callbackDescriptors.length; i < length; i++)
+        {
+            var callbackDescriptor = callbackDescriptors[i];
+            callbackDescriptor.callback.apply(callbackDescriptor.thisValue, args);
+        }
+    },
+    //</editor-fold>
+
+    //<editor-fold desc="Event listeners">
     addEventListener: function(args, callExpression, globalObject)
     {
         try
@@ -100,14 +258,14 @@ fcModel.Object.prototype =
             if(this.eventListenerInfo[eventTypeName] == null) { this.eventListenerInfo[eventTypeName] = []; }
 
             this.eventListenerInfo[eventTypeName].push
-            ({
-                handler: handler,
-                registrationPoint:
-                {
-                    codeConstruct: callExpression,
-                    evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
-                }
-            });
+                ({
+                    handler: handler,
+                    registrationPoint:
+                    {
+                        codeConstruct: callExpression,
+                        evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
+                    }
+                });
         }
         catch(e) { fcModel.Object.notifyError("Error when adding event listener: " + e); }
     },
@@ -136,8 +294,27 @@ fcModel.Object.prototype =
         }
         catch(e) { fcModel.Object.notifyError ("Error when removing event listener: " + e); }
     },
+    //</editor-fold>
 
-    addModification: function(codeConstruct, evaluationPositionId)
+    //<editor-fold desc="Dependencies to Modifications">
+    addDependencyToAllModifications: function(codeConstruct)
+    {
+        for(var i = 0, length = this.modifications.length; i < length; i++)
+        {
+            var modification = this.modifications[i];
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                codeConstruct,
+                modification.codeConstruct,
+                this.globalObject.getPreciseEvaluationPositionId(),
+                modification.evaluationPositionId
+            );
+        }
+    },
+    //</editor-fold>
+
+    //<editor-fold desc="'Private' methods">
+    _addModification: function(codeConstruct, evaluationPositionId)
     {
         try
         {
@@ -152,194 +329,31 @@ fcModel.Object.prototype =
         catch(e) { fcModel.Object.notifyError("Error when adding modification:" + e);}
     },
 
-    _callCallbacks: function(callbackDescriptors, args)
+    _addDependenciesToPrototypeProperty: function(property, readPropertyConstruct)
     {
-        if(callbackDescriptors == null || callbackDescriptors.length == 0) { return; }
+        if(property == null) { return; }
 
-        for(var i = 0, length = callbackDescriptors.length; i < length; i++)
+        if(this.prototypeDefinitionConstruct != null)
         {
-            var callbackDescriptor = callbackDescriptors[i];
-            callbackDescriptor.callback.apply(callbackDescriptor.thisValue, args);
-        }
-    },
-
-    setProto: function(prototype, codeConstruct)
-    {
-        try
-        {
-            this.prototype = prototype;
-
-            if(codeConstruct != null)
-            {
-                this.addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
-            }
-        }
-        catch(e) { fcModel.Object.notifyError("Error when setting proto: " + e); }
-    },
-
-    addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
-    {
-        try
-        {
-            if(propertyName == "__proto__") { this.setProto(propertyValue, codeConstruct); return; }
-
-            var existingProperty = this.getOwnProperty(propertyName);
-
-            if(existingProperty == null)
-            {
-                var property = new fcModel.Identifier(propertyName, propertyValue, codeConstruct, this.globalObject);
-
-                this.properties.push(property);
-
-                if(isEnumerable) { this.enumeratedProperties.push(property); }
-            }
-            else
-            {
-                existingProperty.setValue(propertyValue, codeConstruct);
-            }
-
-            if(propertyName == "prototype" && propertyValue != null && codeConstruct != null)
-            {
-                this.prototypeDefinitionConstruct = { codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
-            }
-
-            if(codeConstruct != null)
-            {
-                this.addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
-            }
-
-            this._callCallbacks(this.addPropertyCallbackDescriptors, [propertyName, propertyValue, codeConstruct]);
-        }
-        catch(e)
-        {
-            fcModel.Object.notifyError("Error when adding property:" + e);
-        }
-    },
-
-    deleteProperty: function(propertyName, codeConstruct)
-    {
-        try
-        {
-            for(var i = 0; i < this.properties.length; i++)
-            {
-                if(this.properties[i].name == propertyName)
-                {
-                    ValueTypeHelper.removeFromArrayByIndex(this.properties, i);
-                    break;
-                }
-            }
-
-            for(var i = 0; i < this.enumeratedProperties.length; i++)
-            {
-                if(this.enumeratedProperties[i].name == propertyName)
-                {
-                    ValueTypeHelper.removeFromArrayByIndex(this.enumeratedProperties, i);
-                    break;
-                }
-            }
-        }
-        catch(e) { fcModel.Object.notifyError("Error when deleting property:" + e);}
-    },
-
-    getOwnProperty: function(propertyName)
-    {
-        try
-        {
-            return ValueTypeHelper.findInArray
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
-                this.properties,
-                propertyName,
-                function(property, propertyName)
-                {
-                    return property.name == propertyName;
-                }
+                readPropertyConstruct,
+                this.prototypeDefinitionConstruct.codeConstruct,
+                this.globalObject.getPreciseEvaluationPositionId(),
+                this.prototypeDefinitionConstruct.evaluationPositionId
             );
         }
-        catch(e) { fcModel.Object.notifyError("Error when getting own property:" + e);}
-    },
 
-    getProperty: function(propertyName, readPropertyConstruct)
-    {
-        try
+        if(property.lastModificationConstruct != null)
         {
-            var property = this.getOwnProperty(propertyName);
-
-            if(property != null)
-            {
-                this._callCallbacks(this.getPropertyCallbackDescriptors, [readPropertyConstruct, propertyName]);
-
-                return property;
-            }
-            if(this.prototype == null) { return null; }
-
-            if(this.prototype .fcInternal == null && this.prototype .jsValue == null) { return null; }
-
-            var property = null;
-
-            if(this.prototype .fcInternal != null && this.prototype .fcInternal.object != null)
-            {
-                property = this.prototype .fcInternal.object.getProperty(propertyName, readPropertyConstruct);
-            }
-            else if (this.prototype .jsValue != null && this.prototype .jsValue.fcInternal.object != null)
-            {
-                property = this.prototype .jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
-            }
-
-            if(property != null)
-            {
-                if(this.prototypeDefinitionConstruct != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        readPropertyConstruct,
-                        this.prototypeDefinitionConstruct.codeConstruct,
-                        this.globalObject.getPreciseEvaluationPositionId(),
-                        this.prototypeDefinitionConstruct.evaluationPositionId
-                    );
-                }
-
-                if(property.lastModificationConstruct != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        readPropertyConstruct,
-                        property.lastModificationConstruct.codeConstruct,
-                        this.globalObject.getPreciseEvaluationPositionId(),
-                        property.lastModificationConstruct.evaluationPositionId
-                    );
-                }
-            }
-
-            return property;
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                readPropertyConstruct,
+                property.lastModificationConstruct.codeConstruct,
+                this.globalObject.getPreciseEvaluationPositionId(),
+                property.lastModificationConstruct.evaluationPositionId
+            );
         }
-        catch(e)
-        {
-            fcModel.Object.notifyError("Error when getting property:" + e);
-        }
-    },
-
-    getPropertyNameAtIndex: function(index, codeConstruct)
-    {
-        return new fcModel.JsValue
-        (
-            this._getEnumeratedPropertiesFromImplementationObject()[index],
-            new fcModel.FcInternal(codeConstruct)
-        );
-    },
-
-    getPropertiesWithIndexNames: function()
-    {
-        var indexProperties = [];
-
-        for(var i = 0; i < this.properties.length; i++)
-        {
-            if(ValueTypeHelper.isInteger(this.properties[i].name))
-            {
-                indexProperties.push(this.properties[i]);
-            }
-        }
-
-        return indexProperties;
     },
 
     _getEnumeratedPropertiesFromImplementationObject: function()
@@ -355,24 +369,8 @@ fcModel.Object.prototype =
         }
 
         return properties;
-    },
-
-    getPropertyValue: function(propertyName, codeConstruct)
-    {
-        try
-        {
-            var property = this.getProperty(propertyName, codeConstruct);
-
-            return property != null ? property.value
-                : undefined;
-        }
-        catch(e) { fcModel.Object.notifyError("Error when getting property value:" + e);}
-    },
-
-    isOwnProperty: function(propertyName)
-    {
-        return this.getOwnProperty(propertyName) != null;
     }
+    //</editor-fold>
 };
 /*************************************************************************************/
 }});

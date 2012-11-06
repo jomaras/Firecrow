@@ -10,6 +10,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,7 +71,7 @@
       <file leaf-file-name="ObjectExecutor.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="41" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0">
+            <state line="17" column="66" selection-start="526" selection-end="526" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#58#0" expanded="false" />
               </folding>
@@ -87,31 +88,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectPrototype.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ObjectPrototype.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="0" selection-start="985" selection-end="1077" vertical-scroll-proportion="0.0">
+            <state line="24" column="45" selection-start="781" selection-end="781" vertical-scroll-proportion="0.48154092">
               <folding>
                 <element signature="e#0#58#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Object.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="80" selection-start="1164" selection-end="1164" vertical-scroll-proportion="0.29783395">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Array.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="56" selection-start="2438" selection-end="2438" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -152,8 +135,8 @@
         <option value="$PROJECT_DIR$/tests/reuser.jstd" />
         <option value="$PROJECT_DIR$/tests/slicing.jstd" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js" />
       </list>
     </option>
   </component>
@@ -1692,7 +1675,11 @@
       <created>1352191260763</created>
       <updated>1352191260763</updated>
     </task>
-    <option name="localTasksCounter" value="293" />
+    <task id="LOCAL-00293" summary="Object - callbacks behavior unified">
+      <created>1352191497040</created>
+      <updated>1352191497040</updated>
+    </task>
+    <option name="localTasksCounter" value="294" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1734,13 +1721,13 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49448124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49624866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37942123" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37942123" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16656609" sideWeight="0.62057877" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16656609" sideWeight="0.69453377" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39875388" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20130932" sideWeight="0.42963514" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30546623" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30546623" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29689175" sideWeight="0.47728965" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14683816" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1845,18 +1832,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="580" column="8" selection-start="19019" selection-end="19019" vertical-scroll-proportion="14.572865" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="469" column="33" selection-start="20261" selection-end="20261" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="35" column="97" selection-start="2168" selection-end="2168" vertical-scroll-proportion="0.42904842">
@@ -1906,9 +1881,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="56" selection-start="2438" selection-end="2438" vertical-scroll-proportion="0.0">
+        <state line="36" column="4" selection-start="59" selection-end="1166" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="192" column="27" selection-start="8850" selection-end="8850" vertical-scroll-proportion="0.3329609">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="298" column="4" selection-start="6976" selection-end="6976" vertical-scroll-proportion="0.33259913">
           <folding />
         </state>
       </provider>
@@ -1920,15 +1909,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="985" selection-end="1077" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#58#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="12" selection-start="552" selection-end="552" vertical-scroll-proportion="0.0">
@@ -1936,26 +1916,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Array.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="13" selection-start="3604" selection-end="3604" vertical-scroll-proportion="0.6803279">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="41" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0">
+        <state line="17" column="66" selection-start="526" selection-end="526" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#58#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Object.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="4" selection-start="59" selection-end="1166" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="33" column="27" selection-start="1087" selection-end="1087" vertical-scroll-proportion="0.79454255">
+          <folding>
+            <element signature="e#1094#1133#0" expanded="false" />
+            <element signature="e#1181#1394#0" expanded="false" />
+            <element signature="e#1443#1508#0" expanded="false" />
+            <element signature="e#1578#2705#0" expanded="false" />
+            <element signature="e#2772#2944#0" expanded="false" />
+            <element signature="e#3009#3527#0" expanded="false" />
+            <element signature="e#4165#4204#0" expanded="false" />
+            <element signature="e#4293#5599#0" expanded="false" />
+            <element signature="e#6022#6061#0" expanded="false" />
+            <element signature="e#6124#6861#0" expanded="false" />
+            <element signature="e#6889#6921#0" expanded="false" />
+            <element signature="e#8191#8229#0" expanded="false" />
+            <element signature="e#9950#10002#0" expanded="false" />
+            <element signature="e#10552#10592#0" expanded="false" />
+            <element signature="e#10665#11126#0" expanded="false" />
+            <element signature="e#11216#12115#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="80" selection-start="1164" selection-end="1164" vertical-scroll-proportion="0.29783395">
-          <folding />
+        <state line="24" column="45" selection-start="781" selection-end="781" vertical-scroll-proportion="0.48154092">
+          <folding>
+            <element signature="e#0#58#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
