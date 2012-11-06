@@ -36,22 +36,22 @@ fcModel.DocumentProto =
     {
         var hasBeenHandled = false;
 
-        if (fcModel.DOM_PROPERTIES.DOCUMENT.ELEMENT.indexOf(propertyName) != -1 || fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1)
+        if (fcModel.DOM_PROPERTIES.isDocumentElement(propertyName) || fcModel.DOM_PROPERTIES.isNodeElement(propertyName))
         {
             this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.document[propertyName], this.globalObject, codeConstruct));
             hasBeenHandled = true;
         }
-        else if (fcModel.DOM_PROPERTIES.DOCUMENT.ELEMENTS.indexOf(propertyName) != -1 || fcModel.DOM_PROPERTIES.NODE.ELEMENTS.indexOf(propertyName) != -1)
+        else if (fcModel.DOM_PROPERTIES.isDocumentElements(propertyName) || fcModel.DOM_PROPERTIES.isNodeElements(propertyName))
         {
             this.addProperty(propertyName, this._getElements(propertyName));
             hasBeenHandled = true;
         }
-        else if(fcModel.DOM_PROPERTIES.DOCUMENT.PRIMITIVES.indexOf(propertyName) != -1 || fcModel.DOM_PROPERTIES.NODE.PRIMITIVES.indexOf(propertyName) != -1)
+        else if(fcModel.DOM_PROPERTIES.isDocumentPrimitives(propertyName) || fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName))
         {
             this.addProperty(propertyName, this.getPropertyValue(propertyName, codeConstruct));
             hasBeenHandled = true;
         }
-        else if(fcModel.DOM_PROPERTIES.DOCUMENT.OTHER.indexOf(propertyName) != -1 || fcModel.DOM_PROPERTIES.NODE.OTHER.indexOf(propertyName) != -1)
+        else if(fcModel.DOM_PROPERTIES.isDocumentOther(propertyName) || fcModel.DOM_PROPERTIES.isNodeOther(propertyName))
         {
             if(propertyName == "defaultView") { return this.globalObject; }
 

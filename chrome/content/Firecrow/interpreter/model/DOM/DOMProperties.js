@@ -83,6 +83,26 @@ fcModel.DOM_PROPERTIES =
         OTHER: ["dataset", "style", "classList", "files", "valueAsDate"]
     },
 
+    isDocumentElement: function(propertyName) { return this._isPropertyOf(this.DOCUMENT.ELEMENT, propertyName); },
+    isDocumentElements: function(propertyName) { return this._isPropertyOf(this.DOCUMENT.ELEMENTS, propertyName); },
+    isDocumentPrimitives: function(propertyName) { return this._isPropertyOf(this.DOCUMENT.PRIMITIVES, propertyName); },
+    isDocumentOther: function(propertyName) { return this._isPropertyOf(this.DOCUMENT.OTHER, propertyName); },
+    isDocumentMethod: function(propertyName) { return this._isPropertyOf(this.DOCUMENT.METHODS, propertyName); },
+
+    isNodeElement: function(propertyName) { return this._isPropertyOf(this.NODE.ELEMENT, propertyName); },
+    isNodeElements: function(propertyName) { return this._isPropertyOf(this.NODE.ELEMENTS, propertyName); },
+    isNodePrimitives: function(propertyName) { return this._isPropertyOf(this.NODE.PRIMITIVES, propertyName); },
+    isNodeOther: function(propertyName) { return this._isPropertyOf(this.NODE.OTHER, propertyName); },
+
+    isElementElement: function(propertyName) { return this._isPropertyOf(this.ELEMENT.ELEMENT, propertyName); },
+    isElementElements: function(propertyName) { return this._isPropertyOf(this.ELEMENT.ELEMENTS, propertyName); },
+    isElementPrimitives: function(propertyName) { return this._isPropertyOf(this.ELEMENT.PRIMITIVES, propertyName); },
+    isElementOther: function(propertyName) { return this._isPropertyOf(this.ELEMENT.OTHER, propertyName); },
+    isElementEventProperty: function(propertyName) { return this._isPropertyOf(this.ELEMENT.EVENT_PROPERTIES, propertyName);},
+
+
+    _isPropertyOf: function(array, propertyName) { return array.indexOf(propertyName) != -1; },
+
     setPrimitives: function(fcObject, object, names)
     {
         for(var i = 0, length = names.length; i < length; i++)

@@ -41,7 +41,7 @@ fcModel.HtmlElementProto =
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, this.htmlElement.modelElement, evaluationPositionId);
 
-        if(fcModel.DOM_PROPERTIES.ELEMENT.ELEMENTS.indexOf(propertyName) != -1 || fcModel.DOM_PROPERTIES.NODE.ELEMENTS.indexOf(propertyName) != -1)
+        if(fcModel.DOM_PROPERTIES.isElementElements(propertyName) || fcModel.DOM_PROPERTIES.isNodeElements(propertyName))
         {
             var descendents = this.htmlElement[propertyName];
 
@@ -59,7 +59,7 @@ fcModel.HtmlElementProto =
                 );
             }
         }
-        else if (fcModel.DOM_PROPERTIES.ELEMENT.ELEMENT.indexOf(propertyName) != -1 || fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1)
+        else if (fcModel.DOM_PROPERTIES.isElementElement(propertyName) || fcModel.DOM_PROPERTIES.isNodeElement(propertyName))
         {
             var element = this.htmlElement[propertyName];
 
@@ -161,8 +161,7 @@ fcModel.HtmlElementProto =
             return this.getPropertyValue(propertyName, codeConstruct);
         }
 
-        if(fcModel.DOM_PROPERTIES.ELEMENT.OTHER.indexOf(propertyName) != -1
-        || fcModel.DOM_PROPERTIES.NODE.OTHER.indexOf(propertyName) != -1)
+        if(fcModel.DOM_PROPERTIES.isElementOther(propertyName) || fcModel.DOM_PROPERTIES.isNodeOther(propertyName))
         {
             if(propertyName == "ownerDocument")
             {
@@ -178,21 +177,18 @@ fcModel.HtmlElementProto =
             }
         }
 
-        if(fcModel.DOM_PROPERTIES.NODE.ELEMENTS.indexOf(propertyName) != -1
-        || fcModel.DOM_PROPERTIES.ELEMENT.ELEMENTS.indexOf(propertyName) != -1)
+        if(fcModel.DOM_PROPERTIES.isNodeElements(propertyName) || fcModel.DOM_PROPERTIES.isElementElements(propertyName))
         {
             this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this.getElements(propertyName, codeConstruct)), this.creationConstruct);
         }
 
-        if(fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1
-        || fcModel.DOM_PROPERTIES.ELEMENT.ELEMENT.indexOf(propertyName) != -1
+        if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName)
         || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
         {
             this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct), this.creationConstruct);
         }
 
-        if(fcModel.DOM_PROPERTIES.NODE.PRIMITIVES.indexOf(propertyName) != -1
-        || fcModel.DOM_PROPERTIES.ELEMENT.PRIMITIVES.indexOf(propertyName) != -1)
+        if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
         {
             this.addProperty(propertyName, new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationConstruct)), this.creationConstruct);
         }
@@ -206,7 +202,7 @@ fcModel.HtmlElementProto =
         {
             fcModel.HtmlElement.accessedProperties[propertyName] = "writes";
 
-            if(fcModel.DOM_PROPERTIES.ELEMENT.EVENT_PROPERTIES.indexOf(propertyName) != -1)
+            if(fcModel.DOM_PROPERTIES.isElementEventProperty(propertyName))
             {
                 this.globalObject.registerHtmlElementEventHandler
                 (
