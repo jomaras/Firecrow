@@ -23,7 +23,10 @@ fcModel.Object = function(globalObject, codeConstruct, implementationObject, pro
     }
 
     this.eventListenerInfo = {};
+
     this.objectModifiedCallbackDescriptors = null;
+    this.addPropertyCallbackDescriptors = null;
+    this.getPropertyCallbackDescriptors = null;
 };
 
 fcModel.Object.LAST_ID = 0;
@@ -71,14 +74,14 @@ fcModel.Object.prototype =
         return lastModifications;
     },
 
-    addEventListener: function(arguments, callExpression, globalObject)
+    addEventListener: function(args, callExpression, globalObject)
     {
         try
         {
-            if(arguments.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); return; }
+            if(args.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); return; }
 
-            var eventTypeName = arguments[0].value;
-            var handler = arguments[1];
+            var eventTypeName = args[0].value;
+            var handler = args[1];
 
             if(this.eventListenerInfo[eventTypeName] == null) { this.eventListenerInfo[eventTypeName] = []; }
 
@@ -92,17 +95,17 @@ fcModel.Object.prototype =
                 }
             });
         }
-        catch(e) { fcModel.Object.notifyError("Error when adding event listener"); }
+        catch(e) { fcModel.Object.notifyError("Error when adding event listener: " + e); }
     },
 
-    removeEventListener: function(arguments, callExpression, globalObject)
+    removeEventListener: function(args, callExpression, globalObject)
     {
         try
         {
-            if(arguments.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); return;}
+            if(args.length < 2) { this.notifyError("Too few arguments when executing addEventListener"); return;}
 
-            var eventTypeName = arguments[0].value;
-            var handler = arguments[1].value;
+            var eventTypeName = args[0].value;
+            var handler = args[1].value;
 
             var eventHandlers = this.eventListenerInfo[eventTypeName];
 
@@ -117,17 +120,21 @@ fcModel.Object.prototype =
                 }
             }
         }
-        catch(e) { fcModel.Object.notifyError ("Error when removing event listener"); }
+        catch(e) { fcModel.Object.notifyError ("Error when removing event listener: " + e); }
     },
 
     registerGetPropertyCallback: function(callback, thisValue)
     {
-        this.getPropertyCallbackDescriptor = { callback: callback, thisValue: thisValue};
+        if(this.getPropertyCallbackDescriptors == null) { this.getPropertyCallbackDescriptors = []; }
+
+        this.getPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
     },
 
     registerAddPropertyCallback: function(callback, thisValue)
     {
-        this.addPropertyCallbackDescriptor = { callback: callback, thisValue: thisValue};
+        if(this.addPropertyCallbackDescriptors == null) { this.addPropertyCallbackDescriptors = []; }
+
+        this.addPropertyCallbackDescriptors.push({ callback: callback, thisValue: thisValue});
     },
 
     addModification: function(codeConstruct, evaluationPositionId)
@@ -139,19 +146,20 @@ fcModel.Object.prototype =
             var modificationDescription = { codeConstruct: codeConstruct, evaluationPositionId: evaluationPositionId };
 
             this.modifications.push(modificationDescription);
-            this._callModificationCallbacks(modificationDescription);
+
+            this._callCallbacks(this.objectModifiedCallbackDescriptors, [modificationDescription]);
         }
         catch(e) { fcModel.Object.notifyError("Error when adding modification:" + e);}
     },
 
-    _callModificationCallbacks: function(modificationDescription)
+    _callCallbacks: function(callbackDescriptors, args)
     {
-        if(this.objectModifiedCallbackDescriptors == null || this.objectModifiedCallbackDescriptors.length == 0) { return; }
+        if(callbackDescriptors == null || callbackDescriptors.length == 0) { return; }
 
-        for(var i = 0, length = this.objectModifiedCallbackDescriptors.length; i < length; i++)
+        for(var i = 0, length = callbackDescriptors.length; i < length; i++)
         {
-            var objectModifiedCallbackDescriptor = this.objectModifiedCallbackDescriptors[i];
-            objectModifiedCallbackDescriptor.callback.call(objectModifiedCallbackDescriptor.thisValue, modificationDescription);
+            var callbackDescriptor = callbackDescriptors[i];
+            callbackDescriptor.callback.apply(callbackDescriptor.thisValue, args);
         }
     },
 
@@ -200,16 +208,7 @@ fcModel.Object.prototype =
                 this.addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
             }
 
-            if(this.addPropertyCallbackDescriptor != null)
-            {
-                this.addPropertyCallbackDescriptor.callback.call
-                (
-                    this.addPropertyCallbackDescriptor.thisValue || this,
-                    propertyName,
-                    propertyValue,
-                    codeConstruct
-                );
-            }
+            this._callCallbacks(this.addPropertyCallbackDescriptors, [propertyName, propertyValue, codeConstruct]);
         }
         catch(e)
         {
@@ -247,14 +246,14 @@ fcModel.Object.prototype =
         try
         {
             return ValueTypeHelper.findInArray
-                (
-                    this.properties,
-                    propertyName,
-                    function(property, propertyName)
-                    {
-                        return property.name == propertyName;
-                    }
-                );
+            (
+                this.properties,
+                propertyName,
+                function(property, propertyName)
+                {
+                    return property.name == propertyName;
+                }
+            );
         }
         catch(e) { fcModel.Object.notifyError("Error when getting own property:" + e);}
     },
@@ -267,15 +266,8 @@ fcModel.Object.prototype =
 
             if(property != null)
             {
-                if(this.getPropertyCallbackDescriptor != null)
-                {
-                    this.getPropertyCallbackDescriptor.callback.call
-                        (
-                            this.getPropertyCallbackDescriptor.thisValue || this,
-                            readPropertyConstruct,
-                            propertyName
-                        );
-                }
+                this._callCallbacks(this.getPropertyCallbackDescriptors, [readPropertyConstruct, propertyName]);
+
                 return property;
             }
             if(this.prototype == null) { return null; }
@@ -298,23 +290,23 @@ fcModel.Object.prototype =
                 if(this.prototypeDefinitionConstruct != null)
                 {
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            readPropertyConstruct,
-                            this.prototypeDefinitionConstruct.codeConstruct,
-                            this.globalObject.getPreciseEvaluationPositionId(),
-                            this.prototypeDefinitionConstruct.evaluationPositionId
-                        );
+                    (
+                        readPropertyConstruct,
+                        this.prototypeDefinitionConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        this.prototypeDefinitionConstruct.evaluationPositionId
+                    );
                 }
 
                 if(property.lastModificationConstruct != null)
                 {
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            readPropertyConstruct,
-                            property.lastModificationConstruct.codeConstruct,
-                            this.globalObject.getPreciseEvaluationPositionId(),
-                            property.lastModificationConstruct.evaluationPositionId
-                        );
+                    (
+                        readPropertyConstruct,
+                        property.lastModificationConstruct.codeConstruct,
+                        this.globalObject.getPreciseEvaluationPositionId(),
+                        property.lastModificationConstruct.evaluationPositionId
+                    );
                 }
             }
 
