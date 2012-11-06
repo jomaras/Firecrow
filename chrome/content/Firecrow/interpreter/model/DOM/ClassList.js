@@ -12,12 +12,11 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment)) { this.notifyError("Constructor argument has to be a HTMLElement");}
+        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment)) { fcModel.ClassList.notifyError("Constructor argument has to be a HTMLElement");}
 
-        this.globalObject = globalObject;
+        this.__proto__ = new fcModel.Object(this.globalObject);
+
         this.htmlElement = htmlElement;
-
-        this.__proto__ =  new fcModel.Object(this.globalObject);
 
         var classList = htmlElement.classList;
 
@@ -25,7 +24,6 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
         {
             for(var i = 0, length = classList.length; i < length; i++)
             {
-                var className = classList[i];
                 this.addProperty(i, new fcModel.JsValue(i, new fcModel.FcInternal(codeConstruct)), codeConstruct);
             }
 
@@ -34,28 +32,19 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
             this.globalObject.internalExecutor.expandWithInternalFunction(classList.toggle, "toggle");
         }
 
-        this.getJsPropertyValue = function(propertyName, codeConstruct)
-        {
-            alert("get property Class");
-        };
-
-        this.addJsProperty = function(propertyName, value, codeConstruct)
-        {
-            alert("add property Class");
-        };
+        this.getJsPropertyValue = function(propertyName, codeConstruct) { fcModel.ClassList.notifyError("get property Class not yet implemented"); };
+        this.addJsProperty = function(propertyName, value, codeConstruct) { fcModel.ClassList.notifyError("add property Class not yet implemented"); };
     }
-    catch(e) { Firecrow.Interpreter.Model.ClassList.notifyError("Error when creating ClassList: " + e); }
+    catch(e) { fcModel.ClassList.notifyError("Error when creating ClassList: " + e); }
 };
+
+fcModel.ClassList.notifyError = function(message) { alert("ClassList - " + message); };
 
 fcModel.ClassList.createClassList = function(htmlElement, globalObject, codeConstruct)
 {
     var jClassList = new fcModel.ClassList(htmlElement, globalObject, codeConstruct);
     return new fcModel.JsValue(jClassList, new fcModel.FcInternal(codeConstruct, jClassList));
 };
-
-fcModel.ClassList.prototype = new fcModel.Object(null);
-
-Firecrow.Interpreter.Model.ClassList.notifyError = function(message) { alert("ClassList - " + message); };
 
 //https://developer.mozilla.org/en/DOM/element
 fcModel.ClassList.CONST =
