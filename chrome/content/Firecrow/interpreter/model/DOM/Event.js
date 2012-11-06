@@ -1,14 +1,12 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
-var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Event = function(implementationObject, globalObject, eventThisObject)
 {
     try
     {
-        this.proto = new fcModel.Object(globalObject, null, implementationObject);
-        this.__proto__ = this.proto;
+        this.__proto__ = new fcModel.Object(globalObject, null, implementationObject);
 
         this.constructor = fcModel.Event;
         this.eventThisObject = eventThisObject;
@@ -54,7 +52,7 @@ fcModel.EventExecutor =
 {
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
-        if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing html method!"); return; }
+        if(!functionObject.fcInternal.isInternalFunction) { fcModel.Event.notifyError("The function should be internal when executing html method!"); return; }
 
         var functionObjectValue = functionObject.value;
         var thisObjectValue = thisObject.value;
@@ -63,17 +61,12 @@ fcModel.EventExecutor =
         var globalObject = fcThisValue.globalObject;
         var jsArguments =  arguments.map(function(argument){ return argument.value;});
 
-        if(fcModel.Event.CONST.INTERNAL_PROPERTIES.METHODS.indexOf(functionName) == -1)
-        {
-            this.notifyError("Unhandled event method!");
-        }
+        if(fcModel.Event.CONST.INTERNAL_PROPERTIES.METHODS.indexOf(functionName) == -1) { fcModel.Event.notifyError("Unhandled event method!"); return; }
 
         if(fcThisValue.eventThisObject != null && fcThisValue.eventThisObject.value instanceof Element)
         {
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(fcThisValue.eventThisObject.value, globalObject, callExpression);
         }
-    },
-
-    notifyError: function(message) { alert("EventExecutor - " + message); }
+    }
 }
 }});

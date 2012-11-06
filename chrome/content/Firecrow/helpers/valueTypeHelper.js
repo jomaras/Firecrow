@@ -1,8 +1,17 @@
 ﻿FBL.ns(function () { with (FBL) {
-/******/
-
+/*************************************************************/
 Firecrow.ValueTypeHelper =
 {
+    expand: function(base, expander)
+    {
+        if(base == null || expander == null) { return; }
+
+        for(var prop in expander)
+        {
+            base[prop] = expander[prop];
+        }
+    },
+
     isOfType: function (variable, className)
     {
         return variable instanceof className;

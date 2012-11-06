@@ -1,14 +1,15 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Document = function(document, globalObject)
 {
     try
     {
         this.__proto__ = new fcModel.Object(globalObject);
-        for(var prop in fcModel.DocumentProto) { this[prop] = fcModel.DocumentProto[prop]; }
-        fcModel.EventListenerMixin.expand(this);
+        ValueTypeHelper.expand(this, fcModel.DocumentProto);
+        ValueTypeHelper.expand(this, fcModel.EventListenerMixin);
 
         this.document = document;
         this.constructor = fcModel.Document;

@@ -4,20 +4,12 @@ var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 fcModel.EventListenerMixin =
 {
-    expand: function(objectToExpand)
-    {
-        if(objectToExpand == null) { return; }
-
-        objectToExpand.eventListenerInfo = {};
-        objectToExpand.addEventListener = this.addEventListener;
-        objectToExpand.removeEventListener = this.removeEventListener;
-    },
-
     addEventListener: function(args, callExpression, globalObject)
     {
         try
         {
             if(args.length < 2) { fcModel.Object.notifyError("Too few arguments when executing addEventListener"); return; }
+            if(this.eventListenerInfo == null) { this.eventListenerInfo = {}; }
 
             var eventTypeName = args[0].value;
             var handler = args[1];
@@ -42,6 +34,7 @@ fcModel.EventListenerMixin =
         try
         {
             if(args.length < 2) { fcModel.Object.notifyError("Too few arguments when executing addEventListener"); return;}
+            if(this.eventListenerInfo == null) { this.eventListenerInfo = {}; }
 
             var eventTypeName = args[0].value;
             var handler = args[1].value;
@@ -60,6 +53,13 @@ fcModel.EventListenerMixin =
             }
         }
         catch(e) { fcModel.Object.notifyError ("Error when removing event listener: " + e); }
+    },
+
+    getEventListeners: function(eventName)
+    {
+        if(this.eventListenerInfo == null) { return []; }
+
+        return this.eventListenerInfo[eventName] || [];
     }
 };
 /*************************************************************************************/

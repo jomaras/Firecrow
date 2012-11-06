@@ -357,9 +357,9 @@ Browser.prototype =
 
             var eventTraces = this.pageModel.eventTraces;
 
-            var documentDomContentReadyMethods = this.globalObject.document.eventListenerInfo["DOMContentLoaded"] || [];
-            var windowDomContentReadyMethods = this.globalObject.eventListenerInfo["DOMContentLoaded"] || [];
-            var onLoadFunctions =  this.globalObject.eventListenerInfo["load"] || [];
+            var documentDomContentReadyMethods = this.globalObject.document.getEventListeners("DOMContentLoaded");
+            var windowDomContentReadyMethods = this.globalObject.getEventListeners("DOMContentLoaded");
+            var onLoadFunctions =  this.globalObject.getEventListeners("load");
             var onLoadFunction = this.globalObject.getPropertyValue("onload");
             if(onLoadFunction != null)
             {
