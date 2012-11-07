@@ -7,7 +7,10 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        this._performInheritance(globalObject, codeConstruct);
+        this.initObject(globalObject, codeConstruct);
+        ValueTypeHelper.expand(this, fcModel.EventListenerMixin);
+
+        this.constructor = fcModel.HtmlElement;
 
         this.registerGetPropertyCallback(this._getPropertyHandler, this);
 
@@ -28,15 +31,6 @@ fcModel.HtmlElement.accessedProperties = {};
 fcModel.HtmlElement.notifyError = function(message) { alert("HtmlElement - " + message); }
 
 fcModel.HtmlElement.prototype = new fcModel.Object();
-
-fcModel.HtmlElement.prototype._performInheritance = function(globalObject, codeConstruct)
-{
-    this.initObject(globalObject, codeConstruct);
-
-    ValueTypeHelper.expand(this, fcModel.EventListenerMixin);
-
-    this.constructor = fcModel.HtmlElement;
-};
 
 fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruct, propertyName)
 {
@@ -90,7 +84,7 @@ fcModel.HtmlElement.prototype._expandWithDefaultProperties = function()
     this.htmlElement.elementModificationPoints = [];
 };
 
-fcModel.HtmlElement.prototype.getElements = function(propertyName, codeConstruct)
+fcModel.HtmlElement.prototype._getElements = function(propertyName, codeConstruct)
 {
     var array = [];
     var items = this.htmlElement[propertyName];
@@ -103,56 +97,6 @@ fcModel.HtmlElement.prototype.getElements = function(propertyName, codeConstruct
     }
 
     return array;
-};
-
-fcModel.HtmlElement.prototype.getChildNodes = function(codeConstruct)
-{
-    var childNodeList = [];
-    try
-    {
-        for(var i = 0, childNodes = this.htmlElement.childNodes, length = childNodes.length; i < length; i++)
-        {
-            var childNode = childNodes[i];
-            childNodeList.push
-            (
-                new fcModel.JsValue
-                (
-                    childNode,
-                    new fcModel.FcInternal
-                    (
-                        codeConstruct,
-                        ValueTypeHelper.isOfType(childNode, HTMLElement) || ValueTypeHelper.isOfType(childNode, DocumentFragment)
-                                                                         ?  new fcModel.HtmlElement(childNode, this.globalObject, codeConstruct)
-                                                                         :  new fcModel.TextNode(childNode, this.globalObject, codeConstruct)
-                    )
-                )
-            )
-        }
-    }
-    catch(e) { fcModel.HtmlElement.notifyError("Error when getting child nodes:" + e); }
-
-    return childNodeList;
-};
-
-fcModel.HtmlElement.prototype.getChildren = function(childNodes)
-{
-    var children = [];
-    try
-    {
-       for(var i = 0, length = childNodes.length; i < length; i++)
-       {
-           var child = childNodes[i];
-
-           if(ValueTypeHelper.isOfType(child.value, HTMLElement)
-           || ValueTypeHelper.isOfType(child.value, DocumentFragment))
-           {
-               children.push(child);
-           }
-       }
-    }
-    catch(e) { fcModel.HtmlElement.notifyError("Error when getting children from child nodes: " + e); }
-
-    return children;
 };
 
 fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
@@ -184,7 +128,7 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     if(fcModel.DOM_PROPERTIES.isNodeElements(propertyName) || fcModel.DOM_PROPERTIES.isElementElements(propertyName))
     {
-        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this.getElements(propertyName, codeConstruct)), this.creationConstruct);
+        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this._getElements(propertyName, codeConstruct)), this.creationConstruct);
     }
 
     if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName)
