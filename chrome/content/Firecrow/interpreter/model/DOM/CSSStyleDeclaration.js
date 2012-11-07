@@ -7,7 +7,7 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
 {
     try
     {
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject, codeConstruct);
 
         this.htmlElement = htmlElement;
         this.cssStyleDeclaration = cssStyleDeclaration || this.htmlElement.style;
@@ -49,11 +49,14 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
     }
 };
 
+fcModel.CSSStyleDeclaration.prototype = new fcModel.Object();
+
 fcModel.CSSStyleDeclaration.createStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalObject, codeConstruct)
 {
     var styleDeclaration = new fcModel.CSSStyleDeclaration(htmlElement, cssStyleDeclaration, globalObject, codeConstruct);
     return new fcModel.JsValue(cssStyleDeclaration, new fcModel.FcInternal(codeConstruct, styleDeclaration));
 };
+
 fcModel.CSSStyleDeclaration.notifyError =  function (message){ alert("CSSStyleDeclaration - " + message); }
 
 fcModel.CSSStyleDeclarationExecutor =

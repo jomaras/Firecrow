@@ -9,7 +9,7 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
     {
         if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment)) { fcModel.ClassList.notifyError("Constructor argument has to be a HTMLElement");}
 
-        this.__proto__ = new fcModel.Object(this.globalObject);
+        this.initObject(this.globalObject, codeConstruct);
 
         this.htmlElement = htmlElement;
 
@@ -34,6 +34,8 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
 };
 
 fcModel.ClassList.notifyError = function(message) { alert("ClassList - " + message); };
+
+fcModel.ClassList.prototype = new fcModel.Object();
 
 fcModel.ClassList.createClassList = function(htmlElement, globalObject, codeConstruct)
 {

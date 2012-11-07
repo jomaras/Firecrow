@@ -11,8 +11,7 @@ fcModel.ArrayPrototype = function(globalObject)
 {
     try
     {
-        this.globalObject = globalObject;
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject);
 
         fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
@@ -25,6 +24,8 @@ fcModel.ArrayPrototype = function(globalObject)
     }
     catch(e) { fcModel.Array.notifyError("Error when creating array prototype:" + e); }
 };
+
+fcModel.ArrayPrototype.prototype = new fcModel.Object();
 
 //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
 fcModel.ArrayPrototype.CONST =

@@ -6,36 +6,34 @@ fcModel.Event = function(implementationObject, globalObject, eventThisObject)
 {
     try
     {
-        this.__proto__ = new fcModel.Object(globalObject, null, implementationObject);
+        this.initObject(globalObject, null, implementationObject);
 
         this.constructor = fcModel.Event;
         this.eventThisObject = eventThisObject;
 
-        this.getJsPropertyValue = function (propertyName, codeConstruct)
+        fcModel.Event.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(method)
         {
-            return this.getPropertyValue(propertyName, codeConstruct);
-        };
-
-        this.addJsProperty = function(propertyName, propertyValue, codeConstruct, isEnumerable)
-        {
-            this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
-        };
-
-        var methods = fcModel.Event.CONST.INTERNAL_PROPERTIES.METHODS;
-
-        for(var i = 0, length = methods.length; i < length; i++)
-        {
-            var method = methods[i];
-
             this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction
             (
                 eval("(function " + method + "(){})"),
                 method,
                 this
             ));
-        }
+        }, this);
     }
     catch(e) { fcModel.Event.notifyError("Error when creating Event: " + e); }
+};
+
+fcModel.Event.prototype = new fcModel.Object();
+
+fcModel.Event.prototype.getJsPropertyValue = function (propertyName, codeConstruct)
+{
+    return this.getPropertyValue(propertyName, codeConstruct);
+};
+
+fcModel.Event.prototype.addJsProperty = function(propertyName, propertyValue, codeConstruct, isEnumerable)
+{
+    this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
 };
 
 fcModel.Event.notifyError = function(message) { alert("Event - " + message); }

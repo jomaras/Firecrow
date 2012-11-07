@@ -7,7 +7,7 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        this.__proto__ = new fcModel.Object(this.globalObject, codeConstruct, attr);
+        this.initObject(this.globalObject, codeConstruct, attr);
 
         this.htmlElement = htmlElement;
         this.attr = attr;
@@ -35,7 +35,9 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
     }
     catch(e) { fcModel.Attr.notifyError("Error when creating Html Attr object: " + e); }
 };
-fcModel.Attr.notifyError = function(message) { alert("Attr - " + message); }
+fcModel.Attr.notifyError = function(message) { alert("Attr - " + message); };
+
+fcModel.Attr.prototype = new fcModel.Object();
 
 fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConstruct)
 {
