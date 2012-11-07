@@ -27,10 +27,103 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
     catch(e) { fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e); }
 };
 
+//<editor-fold desc="'Static' Methods">
 fcModel.HtmlElement.accessedProperties = {};
 fcModel.HtmlElement.notifyError = function(message) { alert("HtmlElement - " + message); }
+//</editor-fold>
 
+//<editor-fold desc="Prototype Definition">
 fcModel.HtmlElement.prototype = new fcModel.Object();
+
+//<editor-fold desc="JsProperty Accessors">
+fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
+{
+    fcModel.HtmlElement.accessedProperties[propertyName] = true;
+    //TODO - it is a bad idea to create objects on each access, maybe utilize DOM level2 events
+    //So that they are only created on attribute changed, or DOM modified!?
+
+    if(this._isMethod(propertyName)) { return this.getPropertyValue(propertyName, codeConstruct); }
+
+    if(fcModel.DOM_PROPERTIES.isElementOther(propertyName) || fcModel.DOM_PROPERTIES.isNodeOther(propertyName))
+    {
+        if(propertyName == "ownerDocument") { return this.getPropertyValue(propertyName, codeConstruct); }
+        else if(propertyName == "attributes") { this.addProperty(propertyName, fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), this.creationConstruct); }
+        else if(propertyName == "style") { this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct), this.creationConstruct); }
+    }
+
+    if(fcModel.DOM_PROPERTIES.isNodeElements(propertyName) || fcModel.DOM_PROPERTIES.isElementElements(propertyName))
+    {
+        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this._getElements(propertyName, codeConstruct)), this.creationConstruct);
+    }
+
+    if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName) || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
+    {
+        this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct), this.creationConstruct);
+    }
+
+    if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
+    {
+        this.addProperty(propertyName, new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationConstruct)), this.creationConstruct);
+    }
+
+    return this.getPropertyValue(propertyName, codeConstruct);
+};
+
+fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyValue, codeConstruct, isEnumerable)
+{
+    try
+    {
+        this.htmlElement[propertyName] = propertyValue.value;
+
+        this._createDependencies(propertyName, codeConstruct);
+        this._logDynamicPropertyModification(propertyName, propertyValue, codeConstruct);
+
+        if(propertyName == "innerHTML") { this._createModelsForDynamicChildNodes(this.htmlElement, codeConstruct); }
+        else if(fcModel.DOM_PROPERTIES.isElementEventProperty(propertyName)) { this._registerEventHandler(propertyName, propertyValue, codeConstruct); }
+
+        this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
+    }
+    catch(e) { fcModel.HtmlElement.notifyError("Error when adding property: " + e);}
+};
+//</editor-fold>
+
+//<editor-fold desc="Handlers">
+fcModel.HtmlElement.prototype.notifyElementInsertedIntoDom = function(callExpression)
+{
+    try
+    {
+        this.htmlElement.domInsertionPoint =
+        {
+            codeConstruct: callExpression,
+            evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+        };
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                this.htmlElement.modelElement,
+                callExpression,
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
+
+    }
+    catch(e) { fcModel.HtmlElement.notifyError("Error when handling element inserted into dom!"); }
+};
+//</editor-fold>
+
+//<editor-fold desc="'Private' Methods">
+fcModel.HtmlElement.prototype._registerEventHandler = function (propertyName, propertyValue, codeConstruct)
+{
+    this.globalObject.registerHtmlElementEventHandler
+    (
+        this,
+        propertyName,
+        propertyValue,
+        {
+            codeConstruct: codeConstruct,
+            evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+        }
+    );
+}
 
 fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruct, propertyName)
 {
@@ -62,7 +155,7 @@ fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruc
     {
         var element = this.htmlElement[propertyName];
 
-        if(element == null) { return}
+        if(element == null) { return; }
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks
         (
@@ -79,7 +172,7 @@ fcModel.HtmlElement.prototype._expandWithDefaultProperties = function()
     fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.ELEMENT.PRIMITIVES);
 
     this.addProperty("ownerDocument", this.globalObject.jsFcDocument, this.creationCodeConstruct);
-    this.addMethods(this.creationCodeConstruct);
+    this._addMethods(this.creationCodeConstruct);
 
     this.htmlElement.elementModificationPoints = [];
 };
@@ -97,112 +190,6 @@ fcModel.HtmlElement.prototype._getElements = function(propertyName, codeConstruc
     }
 
     return array;
-};
-
-fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
-{
-    fcModel.HtmlElement.accessedProperties[propertyName] = true;
-    //TODO - it is a bad idea to create objects on each access, maybe utilize DOM level2 events
-    //So that they are only created on attribute changed, or DOM modified!?
-
-    if(this.isMethod(propertyName))
-    {
-        return this.getPropertyValue(propertyName, codeConstruct);
-    }
-
-    if(fcModel.DOM_PROPERTIES.isElementOther(propertyName) || fcModel.DOM_PROPERTIES.isNodeOther(propertyName))
-    {
-        if(propertyName == "ownerDocument")
-        {
-            return this.getPropertyValue(propertyName, codeConstruct);
-        }
-        else if(propertyName == "attributes")
-        {
-            this.addProperty(propertyName, fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), this.creationConstruct);
-        }
-        else if(propertyName == "style")
-        {
-            this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct), this.creationConstruct);
-        }
-    }
-
-    if(fcModel.DOM_PROPERTIES.isNodeElements(propertyName) || fcModel.DOM_PROPERTIES.isElementElements(propertyName))
-    {
-        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this._getElements(propertyName, codeConstruct)), this.creationConstruct);
-    }
-
-    if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName)
-    || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
-    {
-        this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct), this.creationConstruct);
-    }
-
-    if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
-    {
-        this.addProperty(propertyName, new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationConstruct)), this.creationConstruct);
-    }
-
-    return this.getPropertyValue(propertyName, codeConstruct);
-};
-
-fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyValue, codeConstruct, isEnumerable)
-{
-    try
-    {
-        fcModel.HtmlElement.accessedProperties[propertyName] = "writes";
-
-        if(fcModel.DOM_PROPERTIES.isElementEventProperty(propertyName))
-        {
-            this.globalObject.registerHtmlElementEventHandler
-            (
-                this,
-                propertyName,
-                propertyValue,
-                {
-                    codeConstruct: codeConstruct,
-                    evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
-                }
-            );
-        }
-
-        this.htmlElement[propertyName] = propertyValue.value;
-
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
-        fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
-
-        this.htmlElement.elementModificationPoints.push({ codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
-
-        if(propertyName == "className" || propertyName == "id")
-        {
-            this.globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(this.htmlElement.modelElement);
-
-            if(propertyName == "id")
-            {
-                if(this.htmlElement.modelElement.dynamicIds == null) { this.htmlElement.modelElement.dynamicIds = []; }
-                this.htmlElement.modelElement.dynamicIds.push({name:'id', value: propertyValue.value, setConstruct: codeConstruct});
-            }
-            else
-            {
-                if(this.htmlElement.modelElement.dynamicClasses == null) { this.htmlElement.modelElement.dynamicClasses = []; }
-                this.htmlElement.modelElement.dynamicClasses.push({name:'class', value: propertyValue.value, setConstruct: codeConstruct});
-            }
-        }
-        else if(propertyName == "innerHTML")
-        {
-            this._createModelsForDynamicChildNodes(this.htmlElement, codeConstruct);
-        }
-
-        this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
-
-        if(propertyName == "src")
-        {
-            this.globalObject.resourceSetterPropertiesMap[codeConstruct.nodeId] = {
-                codeConstruct: codeConstruct,
-                resourceValue: propertyValue.value
-            };
-        }
-    }
-    catch(e) { fcModel.HtmlElement.notifyError("Error when adding property: " + e);}
 };
 
 fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlElement, codeConstruct)
@@ -240,7 +227,7 @@ fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlE
     }
 };
 
-fcModel.HtmlElement.prototype.addMethods = function(codeConstruct)
+fcModel.HtmlElement.prototype._addMethods = function(codeConstruct)
 {
     try
     {
@@ -258,33 +245,48 @@ fcModel.HtmlElement.prototype.addMethods = function(codeConstruct)
     catch(e) { fcModel.HtmlElement.notifyError("Error when adding methods: " + e);}
 };
 
-fcModel.HtmlElement.prototype.isMethod = function(propertyName)
+fcModel.HtmlElement.prototype._isMethod = function(propertyName)
 {
     return fcModel.HtmlElement.CONST.INTERNAL_PROPERTIES.METHODS.indexOf(propertyName) != -1;
 };
 
-fcModel.HtmlElement.prototype.notifyElementInsertedIntoDom = function(callExpression)
+fcModel.HtmlElement.prototype._createDependencies = function(propertyName, codeConstruct)
 {
-    try
+    this.globalObject.browser.callDataDependencyEstablishedCallbacks(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+    fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
+
+    if(propertyName == "className" || propertyName == "id")
     {
-        this.htmlElement.domInsertionPoint =
-        {
-            codeConstruct: callExpression,
-            evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
-        };
-
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-        (
-            this.htmlElement.modelElement,
-            callExpression,
-            this.globalObject.getPreciseEvaluationPositionId()
-        );
-
+        this.globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(this.htmlElement.modelElement);
     }
-    catch(e) { fcModel.HtmlElement.notifyError("Error when handling element inserted into dom!"); }
 };
 
-fcModel.HtmlElement.prototype.notifyError = function(message) { alert("HtmlElement - " + message); }
+fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propertyName, propertyValue, codeConstruct)
+{
+    fcModel.HtmlElement.accessedProperties[propertyName] = true;
+    this.htmlElement.elementModificationPoints.push({ codeConstruct: codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
+
+    if(propertyName == "id")
+    {
+        if(this.htmlElement.modelElement.dynamicIds == null) { this.htmlElement.modelElement.dynamicIds = []; }
+        this.htmlElement.modelElement.dynamicIds.push({name:'id', value: propertyValue.value, setConstruct: codeConstruct});
+    }
+    else if(propertyName == "class")
+    {
+        if(this.htmlElement.modelElement.dynamicClasses == null) { this.htmlElement.modelElement.dynamicClasses = []; }
+        this.htmlElement.modelElement.dynamicClasses.push({name:'class', value: propertyValue.value, setConstruct: codeConstruct});
+    }
+    else if(propertyName == "src")
+    {
+        this.globalObject.resourceSetterPropertiesMap[codeConstruct.nodeId] =
+        {
+            codeConstruct: codeConstruct,
+            resourceValue: propertyValue.value
+        };
+    }
+};
+//</editor-fold>
+//</editor-fold>
 
 //https://developer.mozilla.org/en/DOM/element
 fcModel.HtmlElement.CONST =
