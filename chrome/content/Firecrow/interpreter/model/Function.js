@@ -1,12 +1,6 @@
-/**
- * User: Jomaras
- * Date: 15.05.12.
- * Time: 14:45
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
-var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
 {
@@ -23,14 +17,16 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
     this.fcInternal = this;
 };
 
+fcModel.Function.notifyError = function(message) { alert("Function - " + message); };
+
 fcModel.EmptyFunction = function(globalObject)
 {
     this.initObject(globalObject);
     this.name = "Empty";
 };
 
-fcModel.EmptyFunction.prototype = new fcModel.Object(null);
-fcModel.Function.prototype = new fcModel.EmptyFunction(null);
+fcModel.EmptyFunction.prototype = new fcModel.Object();
+fcModel.Function.prototype = new fcModel.EmptyFunction();
 
 fcModel.Function.createInternalNamedFunction = function(globalObject, name, ownerObject)
 {
@@ -44,10 +40,7 @@ fcModel.Function.createInternalNamedFunction = function(globalObject, name, owne
 
         return functionObject;
     }
-    catch(e)
-    {
-        alert("Function - Error when creating Internal Named Function: " + e);
-    }
+    catch(e) { fcModel.Function.notifyError("Error when creating Internal Named Function: " + e); }
 };
 
 fcModel.FunctionPrototype = function(globalObject)
@@ -55,6 +48,7 @@ fcModel.FunctionPrototype = function(globalObject)
     try
     {
         this.initObject(globalObject);
+
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
         fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
@@ -63,10 +57,10 @@ fcModel.FunctionPrototype = function(globalObject)
 
         this.fcInternal = { object: this};
     }
-    catch(e) { alert("Function - error when creating function prototype:" + e); }
+    catch(e) { fcModel.Function.notifyError ("Error when creating function prototype:" + e); }
 };
 
-fcModel.FunctionPrototype.prototype = new fcModel.Object(null);
+fcModel.FunctionPrototype.prototype = new fcModel.Object();
 
 fcModel.FunctionPrototype.CONST =
 {
@@ -75,4 +69,5 @@ fcModel.FunctionPrototype.CONST =
         METHODS: ["apply", "call", "toString", "bind"]
     }
 };
+/*************************************************************************************/
 }});

@@ -8,8 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/TextNode.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/TextNode.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Function.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Function.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,29 +57,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TextNode.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/TextNode.js">
+      <file leaf-file-name="Function.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Function.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="35" selection-start="3980" selection-end="3980" vertical-scroll-proportion="0.28156996">
-              <folding>
-                <element signature="e#279#861#0" expanded="false" />
-                <element signature="e#864#903#0" expanded="false" />
-                <element signature="e#1073#1116#0" expanded="false" />
-                <element signature="e#1169#1209#0" expanded="false" />
-                <element signature="e#1296#1780#0" expanded="false" />
-                <element signature="e#2226#2266#0" expanded="false" />
-                <element signature="e#2329#2648#0" expanded="false" />
-                <element signature="e#2732#3102#0" expanded="false" />
-                <element signature="e#4053#4613#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Object.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="264" column="22" selection-start="8708" selection-end="8739" vertical-scroll-proportion="0.0">
+            <state line="19" column="48" selection-start="638" selection-end="638" vertical-scroll-proportion="0.48634812">
               <folding />
             </state>
           </provider>
@@ -99,7 +79,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/Number.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/RegEx.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js" />
@@ -115,6 +94,7 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/TextNode.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Function.js" />
       </list>
     </option>
   </component>
@@ -298,40 +278,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DOM" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1789,7 +1735,11 @@
       <created>1352318025511</created>
       <updated>1352318025512</updated>
     </task>
-    <option name="localTasksCounter" value="322" />
+    <task id="LOCAL-00322" summary="TextNode refactored">
+      <created>1352319232591</created>
+      <updated>1352319232592</updated>
+    </task>
+    <option name="localTasksCounter" value="323" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1885,7 +1835,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring in HtmlElementExecutor - extracting methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="TextNode refactored" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1898,7 +1848,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="First refactoring on array" />
     <MESSAGE value="Each object from array to different file" />
     <MESSAGE value="Moved addDependencies to all properties from Array to object - since all Array methods can be called on array like objects" />
     <MESSAGE value="Minor changes" />
@@ -1923,6 +1872,7 @@
     <MESSAGE value="Removed unnecessary methods from HTMLElement" />
     <MESSAGE value="Minor refactorings in HtmlElement" />
     <MESSAGE value="Refactoring in HtmlElementExecutor - extracting methods" />
+    <MESSAGE value="TextNode refactored" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1935,16 +1885,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="28" selection-start="274" selection-end="274" vertical-scroll-proportion="0.14423077" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="5" selection-start="4107" selection-end="4107" vertical-scroll-proportion="2.3557692" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayFunction.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -2016,13 +1956,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="264" column="22" selection-start="8708" selection-end="8739" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="69" column="155" selection-start="3475" selection-end="3475" vertical-scroll-proportion="0.50877196">
@@ -2060,6 +1993,38 @@
             <element signature="e#2732#3102#0" expanded="false" />
             <element signature="e#4053#4613#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="629" selection-end="629" vertical-scroll-proportion="0.23037542">
+          <folding>
+            <element signature="e#245#286#0" expanded="false" />
+            <element signature="e#629#672#0" expanded="false" />
+            <element signature="e#700#12190#0" expanded="false" />
+            <element signature="e#706#750#0" expanded="false" />
+            <element signature="e#1612#1651#0" expanded="false" />
+            <element signature="e#4645#4684#0" expanded="false" />
+            <element signature="e#6482#6521#0" expanded="false" />
+            <element signature="e#7349#7381#0" expanded="false" />
+            <element signature="e#8651#8703#0" expanded="false" />
+            <element signature="e#10274#10314#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.045375217">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Function.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="48" selection-start="638" selection-end="638" vertical-scroll-proportion="0.48634812">
+          <folding />
         </state>
       </provider>
     </entry>
