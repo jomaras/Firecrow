@@ -30,7 +30,7 @@ fcSimulator.InternalExecutor.prototype =
             {
                 newObject = {};
 
-                var jsValue = new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject)));
+                var jsValue = new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, fcModel.Object.createObjectWithInit(this.globalObject, creationCodeConstruct, newObject)));
 
                 Object.defineProperty(newObject, "jsValue", {value:jsValue});
 
@@ -64,7 +64,7 @@ fcSimulator.InternalExecutor.prototype =
                     );
                 }
 
-                var jsValue = new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, new fcModel.Object(this.globalObject, creationCodeConstruct, newObject, constructorFunction.value.prototype)));
+                var jsValue = new fcModel.JsValue(newObject, new fcModel.FcInternal(creationCodeConstruct, fcModel.Object.createObjectWithInit(this.globalObject, creationCodeConstruct, newObject, constructorFunction.value.prototype)));
 
                 Object.defineProperty(newObject, "jsValue", {value:jsValue});
 
@@ -100,7 +100,7 @@ fcSimulator.InternalExecutor.prototype =
                     value: new fcModel.JsValue
                     (
                         newFunction.prototype,
-                        new fcModel.FcInternal(null,  new fcModel.Object(this.globalObject, functionCodeConstruct))
+                        new fcModel.FcInternal(null,  fcModel.Object.createObjectWithInit(this.globalObject, functionCodeConstruct))
                     )
                 }
             );
@@ -283,7 +283,7 @@ fcSimulator.InternalExecutor.prototype =
     {
         try
         {
-            var fcLocation = new fcModel.Object(this.globalObject, null, location);
+            var fcLocation = fcModel.Object.createObjectWithInit(this.globalObject, null, location);
 
             fcLocation.addProperty("hash", new fcModel.JsValue(this.globalObject.origWindow.location.hash, new fcModel.FcInternal(null)));
             fcLocation.addProperty("host", new fcModel.JsValue(this.globalObject.origWindow.location.host, new fcModel.FcInternal(null)));
@@ -296,12 +296,12 @@ fcSimulator.InternalExecutor.prototype =
 
             return new fcModel.JsValue(location, new fcModel.FcInternal(null, fcLocation));
         }
-        catch(e){ this.notifyError("Error when creating location object");}
+        catch(e) { this.notifyError("Error when creating location object: " + e); }
     },
 
     createNavigatorObject: function()
     {
-        var fcNavigator = new fcModel.Object(this.globalObject, null, navigator);
+        var fcNavigator = fcModel.Object.createObjectWithInit(this.globalObject, null, navigator);
 
         fcNavigator.addProperty("appCodeName", new fcModel.JsValue(this.globalObject.origWindow.navigator.appCodeName, new fcModel.FcInternal(null)));
         fcNavigator.addProperty("appName", new fcModel.JsValue(this.globalObject.origWindow.navigator.appName, new fcModel.FcInternal(null)));
@@ -334,7 +334,7 @@ fcSimulator.InternalExecutor.prototype =
             else if(internalConstructor.value == this.globalObject.imageFunction)
             {
                 var obj = {};
-                return new fcModel.JsValue(obj, new fcModel.FcInternal(constructorConstruct, new fcModel.Object(this.globalObject, constructorConstruct, obj)));
+                return new fcModel.JsValue(obj, new fcModel.FcInternal(constructorConstruct, fcModel.Object.createObjectWithInit(this.globalObject, constructorConstruct, obj)));
             }
             else if(internalConstructor.value == this.globalObject.regExFunction)
             {
@@ -363,7 +363,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (internalConstructor.value == this.globalObject.xmlHttpRequestFunction)
             {
                 var obj = {};
-                return new fcModel.JsValue(obj, new fcModel.FcInternal(constructorConstruct, new fcModel.Object(this.globalObject, constructorConstruct, obj)));
+                return new fcModel.JsValue(obj, new fcModel.FcInternal(constructorConstruct, fcModel.Object.createObjectWithInit(this.globalObject, constructorConstruct, obj)));
             }
             else
             {
@@ -512,7 +512,7 @@ fcSimulator.InternalExecutor.prototype =
                         value: new fcModel.JsValue
                         (
                             object,
-                            new fcModel.Object(this.globalObject)
+                            fcModel.Object.createObjectWithInit(this.globalObject)
                         )
                     }
                 );

@@ -9,9 +9,7 @@ var fcModel = Firecrow.Interpreter.Model;
 
 fcModel.ObjectPrototype = function(globalObject)
 {
-    this.globalObject = globalObject;
-
-    this.__proto__ = new fcModel.Object(globalObject);
+    this.initObject(globalObject);
 
     fcModel.ObjectPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
     {
@@ -22,6 +20,8 @@ fcModel.ObjectPrototype = function(globalObject)
 
     this.fcInternal = { object: this };
 };
+
+fcModel.ObjectPrototype.prototype = new fcModel.Object();
 
 fcModel.ObjectPrototype.CONST =
 {

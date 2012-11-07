@@ -10,8 +10,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Math = function(globalObject)
 {
-    this.globalObject = globalObject;
-    this.__proto__ = new fcModel.Object(globalObject);
+    this.initObject(globalObject);
 
     fcModel.Math.CONST.INTERNAL_PROPERTIES.PROPERTIES.forEach(function(property)
     {
@@ -27,6 +26,8 @@ fcModel.Math = function(globalObject)
         this.addProperty(propertyName, internalFunction, null, false);
     }, this);
 };
+
+Firecrow.Interpreter.Model.Math.prototype = new fcModel.Object();
 
 Firecrow.Interpreter.Model.Math.notifyError = function(message){ alert("Math - " + message); };
 

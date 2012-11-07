@@ -14,20 +14,19 @@ fcModel.String = function(value, globalObject, codeConstruct)
         this.notifyError = function(message) { alert("String - " + message); }
 
         this.value = value;
-        this.globalObject = globalObject;
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject, codeConstruct);
     }
     catch(e) { this.notifyError("Error when creating a String object: " + e); }
 };
 
 Firecrow.Interpreter.Model.String.notifyError = function(message) { alert("String - " + message); };
+Firecrow.Interpreter.Model.String.prototype = new fcModel.Object();
 
 fcModel.StringPrototype = function(globalObject)
 {
     try
     {
-        this.globalObject = globalObject;
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject);
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
         fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
@@ -54,13 +53,13 @@ fcModel.StringPrototype.CONST =
     }
 };
 
-fcModel.StringPrototype.prototype = new fcModel.Object(null);
+fcModel.StringPrototype.prototype = new fcModel.Object();
 
 fcModel.StringFunction = function(globalObject)
 {
     try
     {
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject);
 
         this.prototype = new fcModel.JsValue(globalObject.stringPrototype, new fcModel.FcInternal(null, globalObject.stringPrototype)) ;
         this.addProperty("prototype", globalObject.stringPrototype);
@@ -72,7 +71,7 @@ fcModel.StringFunction = function(globalObject)
     catch(e){ fcModel.String.notifyError("String - error when creating String Function:" + e); }
 };
 
-fcModel.StringFunction.prototype = new fcModel.Object(null);
+fcModel.StringFunction.prototype = new fcModel.Object();
 
 fcModel.StringExecutor =
 {

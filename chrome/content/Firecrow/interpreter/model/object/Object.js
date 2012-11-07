@@ -3,32 +3,11 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-//TODO: Remove code from constructor function
-fcModel.Object = function(globalObject, codeConstruct, implementationObject, proto)
+fcModel.Object = function() {};
+fcModel.Object.createObjectWithInit = function(globalObject, codeConstruct, implementationObject, proto)
 {
-    this.id = fcModel.Object.LAST_ID++;
-
-    this.globalObject = globalObject;
-    this.implementationObject = implementationObject;
-    this.creationCodeConstruct = codeConstruct;
-
-    this.properties = [];
-    this.enumeratedProperties = [];
-
-    this.proto = proto;
-    this.prototypeDefinitionConstruct = null;
-
-    this.modifications = [];
-
-    if(codeConstruct != null && globalObject != null)
-    {
-        this._addModification(codeConstruct, globalObject.getPreciseEvaluationPositionId());
-    }
-
-    this.objectModifiedCallbackDescriptors = null;
-    this.addPropertyCallbackDescriptors = null;
-    this.getPropertyCallbackDescriptors = null;
-};
+    return (new fcModel.Object()).initObject(globalObject, codeConstruct, implementationObject, proto);
+}
 fcModel.Object.LAST_ID = 0;
 fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
 
@@ -58,6 +37,8 @@ fcModel.Object.prototype =
         this.objectModifiedCallbackDescriptors = null;
         this.addPropertyCallbackDescriptors = null;
         this.getPropertyCallbackDescriptors = null;
+
+        return this;
     },
     //<editor-fold desc="Property Getters">
     getOwnProperty: function(propertyName)

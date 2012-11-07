@@ -12,20 +12,20 @@ fcModel.Date = function(value, globalObject, codeConstruct)
     try
     {
         this.value = value;
-        this.globalObject = globalObject;
-        this.__proto__ = new fcModel.Object(globalObject);
+
+        this.initObject(globalObject);
     }
     catch(e) { fcModel.Date.notifyError("Error when creating a Date object: " + e); }
 };
 
-Firecrow.Interpreter.Model.Date.notifyError = function(message) { alert("Date - " + message); };
+fcModel.Date.notifyError = function(message) { alert("Date - " + message); };
+fcModel.Date.prototype = new fcModel.Object();
 
 fcModel.DatePrototype = function(globalObject)
 {
     try
     {
-        this.globalObject = globalObject;
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject);
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date#Methods_2
         fcModel.DatePrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
@@ -73,7 +73,7 @@ fcModel.DateFunction = function(globalObject)
 {
     try
     {
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject);
 
         this.prototype = new fcModel.JsValue(globalObject.datePrototype, new fcModel.FcInternal(null, globalObject.datePrototype)) ;
         this.addProperty("prototype", globalObject.datePrototype);

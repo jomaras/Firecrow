@@ -12,10 +12,9 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
 {
     try
     {
-        this.globalObject = globalObject;
         this.jsRegExp = jsRegExp;
 
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject, codeConstruct);
 
         this.addProperty("lastIndex", new fcModel.JsValue(0, new fcModel.FcInternal(codeConstruct)), codeConstruct);
         this.addProperty("ignoreCase", new fcModel.JsValue(jsRegExp.ignoreCase, new fcModel.FcInternal(codeConstruct)), codeConstruct);
@@ -70,13 +69,13 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
 };
 
 Firecrow.Interpreter.Model.RegEx.notifyError = function(message) { alert("RegEx - " + message); }
+Firecrow.Interpreter.Model.RegEx.prototype = new fcModel.Object();
 
 fcModel.RegExPrototype = function(globalObject)
 {
     try
     {
-        this.globalObject = globalObject;
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject);
 
         fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
@@ -90,7 +89,7 @@ fcModel.RegExPrototype = function(globalObject)
     catch(e) { Firecrow.Interpreter.Model.RegEx.notifyError("Error when creating regEx prototype:" + e); }
 };
 
-fcModel.RegExPrototype.prototype = new fcModel.Object(null);
+fcModel.RegExPrototype.prototype = new fcModel.Object();
 
 fcModel.RegExPrototype.CONST =
 {
@@ -105,7 +104,7 @@ fcModel.RegExFunction = function(globalObject)
 {
     try
     {
-        this.__proto__ = new fcModel.Object(globalObject);
+        this.initObject(globalObject);
 
         this.prototype = new fcModel.JsValue(globalObject.regExPrototype, new fcModel.FcInternal(null, globalObject.regExPrototype)) ;
         this.addProperty("prototype", globalObject.regExPrototype);
@@ -117,7 +116,7 @@ fcModel.RegExFunction = function(globalObject)
     catch(e){ Firecrow.Interpreter.Model.RegEx.notifyError("Error when creating RegEx Function:" + e); }
 };
 
-fcModel.RegExFunction.prototype = new fcModel.Object(null);
+fcModel.RegExFunction.prototype = new fcModel.Object();
 
 fcModel.RegExExecutor =
 {

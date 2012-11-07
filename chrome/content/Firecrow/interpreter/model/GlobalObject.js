@@ -11,7 +11,7 @@ fcModel.GlobalObject = function(browser, documentFragment)
 {
     try
     {
-        this.__proto__ = new fcModel.Object(this);
+        this.initObject(this);
         ValueTypeHelper.expand(this, fcModel.EventListenerMixin);
         this.browser = browser;
 
@@ -455,15 +455,16 @@ fcModel.ImageFunction = function(globalObject)
 {
     try
     {
-        this.__proto__ = new fcModel.Object(globalObject);
-
+        this.initObject(globalObject);
         this.addProperty("src", new fcModel.JsValue("", new fcModel.FcInternal()));
 
         this.isInternalFunction = true;
         this.name = "Image";
         this.fcInternal = { object: this };
     }
-    catch(e){ fcModel.GlobalObject.notifyError("Error when createing  image function: " + e); }
+    catch(e){ fcModel.GlobalObject.notifyError("Error when creating image function: " + e); }
 };
+
+fcModel.ImageFunction.prototype = new fcModel.Object();
 /*************************************************************************************/
 }});

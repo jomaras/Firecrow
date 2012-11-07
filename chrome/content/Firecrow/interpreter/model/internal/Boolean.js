@@ -9,7 +9,7 @@ var fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.Interpreter.Model.BooleanFunction = function(globalObject)
 {
-    this.__proto__ = new fcModel.Object(globalObject);
+    this.initObject(globalObject);
 
     this.prototype = new fcModel.JsValue(globalObject.booleanPrototype, new fcModel.FcInternal(null, globalObject.booleanPrototype)) ;
     this.addProperty("prototype", globalObject.booleanPrototype);
@@ -19,12 +19,14 @@ Firecrow.Interpreter.Model.BooleanFunction = function(globalObject)
     this.fcInternal = this;
 };
 
+Firecrow.Interpreter.Model.BooleanFunction.prototype = new fcModel.Object();
+
 Firecrow.Interpreter.Model.BooleanPrototype = function(globalObject)
 {
-    this.globalObject = globalObject;
-    this.__proto__ = new fcModel.Object(globalObject);
-
+    this.initObject(globalObject);
     this.fcInternal = { object: this };
-}
+};
+
+Firecrow.Interpreter.Model.BooleanPrototype.prototype = new fcModel.Object();
 /*************************************************************************************/
 }});

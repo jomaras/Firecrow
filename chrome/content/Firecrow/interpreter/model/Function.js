@@ -10,9 +10,9 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
 {
-    this.__proto__ = new fcModel.Object(globalObject, codeConstruct, value);
+    this.initObject(globalObject, codeConstruct, value);
+
     this.object = this;
-    this.globalObject = globalObject;
     this.codeConstruct = codeConstruct;
     this.scopeChain = scopeChain;
     this.value = value;
@@ -25,7 +25,7 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
 
 fcModel.EmptyFunction = function(globalObject)
 {
-    this.globalObject = globalObject;
+    this.initObject(globalObject);
     this.name = "Empty";
 };
 
@@ -54,6 +54,7 @@ fcModel.FunctionPrototype = function(globalObject)
 {
     try
     {
+        this.initObject(globalObject);
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
         fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {

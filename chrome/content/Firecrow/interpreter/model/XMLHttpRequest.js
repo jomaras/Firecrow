@@ -8,11 +8,13 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 fcModel.XMLHttpRequestFunction = function(globalObject)
 {
-    this.__proto__ = new fcModel.Object(globalObject);
+    this.initObject(globalObject);
 
     this.isInternalFunction = true;
     this.name = "XMLHttpRequest";
     this.fcInternal = { object: this };
 };
+
+fcModel.XMLHttpRequestFunction.prototype = new fcModel.Object();
 /*************************************************************************************/
 }});

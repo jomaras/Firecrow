@@ -9,7 +9,7 @@ var fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.Interpreter.Model.NumberFunction = function(globalObject)
 {
-    this.__proto__ = new fcModel.Object(globalObject);
+    this.initObject(globalObject);
 
     this.prototype = new fcModel.JsValue(globalObject.numberPrototype, new fcModel.FcInternal(null, globalObject.numberPrototype)) ;
     this.addProperty("prototype", globalObject.numberPrototype);
@@ -27,13 +27,14 @@ Firecrow.Interpreter.Model.NumberFunction = function(globalObject)
     this.addProperty("NaN", new fcModel.JsValue(Number.NaN, new fcModel.FcInternal()));
 };
 
+Firecrow.Interpreter.Model.NumberFunction.prototype = new fcModel.Object();
+
 Firecrow.Interpreter.Model.NumberPrototype = function(globalObject)
 {
-    this.globalObject = globalObject;
-
-    this.__proto__ = new fcModel.Object(globalObject);
-
+    this.initObject(globalObject);
     this.fcInternal = { object: this };
-}
+};
+
+Firecrow.Interpreter.Model.NumberPrototype.prototype = new fcModel.Object();
 /*************************************************************************************/
 }});
