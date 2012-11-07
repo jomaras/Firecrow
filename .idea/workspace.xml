@@ -6,8 +6,11 @@
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="&#10;">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/play.html" afterPath="$PROJECT_DIR$/playground/play.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,85 +59,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HtmlElement.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="HtmlElement.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="174" column="25" selection-start="6446" selection-end="6446" vertical-scroll-proportion="0.9302326">
+            <state line="25" column="0" selection-start="821" selection-end="821" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DOMProperties.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="21" selection-start="6570" selection-end="6570" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#257#1948#0" expanded="false" />
-                <element signature="e#1965#2364#0" expanded="false" />
-                <element signature="e#2665#4156#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InternalExecutor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="287" column="23" selection-start="10044" selection-end="10044" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugDom.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="68" selection-start="6650" selection-end="6650" vertical-scroll-proportion="-11.291667">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HtmlElementExecutor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="175" column="42" selection-start="8881" selection-end="8881" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Document.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Document.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="120" selection-start="1301" selection-end="1301" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Object.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Object.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="0" selection-start="1063" selection-end="1087" vertical-scroll-proportion="0.0">
+            <state line="16" column="31" selection-start="588" selection-end="588" vertical-scroll-proportion="0.3846154">
               <folding>
-                <element signature="e#1096#1135#0" expanded="false" />
-                <element signature="e#1183#1396#0" expanded="false" />
-                <element signature="e#1445#1510#0" expanded="false" />
-                <element signature="e#1580#2671#0" expanded="false" />
-                <element signature="e#2738#2910#0" expanded="false" />
-                <element signature="e#2975#3491#0" expanded="false" />
-                <element signature="e#3557#3746#0" expanded="false" />
-                <element signature="e#3797#4101#0" expanded="false" />
-                <element signature="e#4129#4168#0" expanded="false" />
-                <element signature="e#5966#6005#0" expanded="false" />
-                <element signature="e#6068#6805#0" expanded="false" />
-                <element signature="e#6833#6865#0" expanded="false" />
-                <element signature="e#8998#9730#0" expanded="false" />
-                <element signature="e#9758#9798#0" expanded="false" />
-                <element signature="e#9871#10332#0" expanded="false" />
+                <element signature="e#4989#5028#0" expanded="false" />
+                <element signature="e#6826#6865#0" expanded="false" />
+                <element signature="e#7693#7725#0" expanded="false" />
+                <element signature="e#8995#9047#0" expanded="false" />
+                <element signature="e#10618#10658#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="play.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/playground/play.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="23" column="36" selection-start="301" selection-end="301" vertical-scroll-proportion="-14.375">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -152,7 +105,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/debugReuse.html" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/tests/slicing.jstd" />
         <option value="$PROJECT_DIR$/tests/interpreter.jstd" />
@@ -161,22 +113,23 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/GlobalObject.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/EventListenerMixin.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Document.js" />
         <option value="$PROJECT_DIR$/debug/debugDom.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js" />
+        <option value="$PROJECT_DIR$/playground/play.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="x" value="1358" />
+    <option name="y" value="-140" />
+    <option name="width" value="1696" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -272,6 +225,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="playground" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -287,118 +254,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DOM" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -420,17 +275,17 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="195" />
-    <property name="DefaultHtmlFileTemplate" value="Html" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="732" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="729" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="732" />
+    <property name="DefaultHtmlFileTemplate" value="Html" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="190" />
-    <property name="GoToClass.includeJavaFiles" value="true" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="190" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="GoToClass.includeJavaFiles" value="true" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1820,7 +1675,11 @@
       <created>1352232546652</created>
       <updated>1352232546652</updated>
     </task>
-    <option name="localTasksCounter" value="313" />
+    <task id="LOCAL-00313" summary="Created methods for checking whether the DOM property is in certain category">
+      <created>1352232640809</created>
+      <updated>1352232640809</updated>
+    </task>
+    <option name="localTasksCounter" value="314" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1856,25 +1715,25 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49448124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49624866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.183172" sideWeight="0.695581" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14846107" sideWeight="0.6956056" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39871383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20130932" sideWeight="0.42963514" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30441898" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29623568" sideWeight="0.47728965" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30439442" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29581994" sideWeight="0.47728965" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14683816" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37942123" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.6474359" order="3" side_tool="false" content_ui="combo" />
@@ -1966,11 +1825,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/slicing.jstd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="2" selection-start="2131" selection-end="2204" vertical-scroll-proportion="0.6982344" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/interpreter.jstd">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="75" selection-start="2040" selection-end="2040" vertical-scroll-proportion="0.3258427" />
@@ -1990,9 +1844,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/EventListenerMixin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="55" selection-start="2248" selection-end="2248" vertical-scroll-proportion="0.925">
-          <folding />
-        </state>
+        <state line="61" column="55" selection-start="2248" selection-end="2248" vertical-scroll-proportion="0.925" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
@@ -2016,34 +1868,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="1063" selection-end="1087" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#1096#1135#0" expanded="false" />
-            <element signature="e#1183#1396#0" expanded="false" />
-            <element signature="e#1445#1510#0" expanded="false" />
-            <element signature="e#1580#2671#0" expanded="false" />
-            <element signature="e#2738#2910#0" expanded="false" />
-            <element signature="e#2975#3491#0" expanded="false" />
-            <element signature="e#3557#3746#0" expanded="false" />
-            <element signature="e#3797#4101#0" expanded="false" />
-            <element signature="e#4129#4168#0" expanded="false" />
-            <element signature="e#5966#6005#0" expanded="false" />
-            <element signature="e#6068#6805#0" expanded="false" />
-            <element signature="e#6833#6865#0" expanded="false" />
-            <element signature="e#8998#9730#0" expanded="false" />
-            <element signature="e#9758#9798#0" expanded="false" />
-            <element signature="e#9871#10332#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="27" selection-start="6700" selection-end="6700" vertical-scroll-proportion="0.55851066">
-          <folding />
-        </state>
+        <state line="125" column="27" selection-start="6700" selection-end="6700" vertical-scroll-proportion="0.55851066" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
@@ -2062,7 +1889,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="68" selection-start="6650" selection-end="6650" vertical-scroll-proportion="-11.291667">
+        <state line="125" column="68" selection-start="6650" selection-end="6650" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -2077,18 +1904,34 @@
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="111" column="21" selection-start="6570" selection-end="6570" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#257#1948#0" expanded="false" />
-            <element signature="e#1965#2364#0" expanded="false" />
-            <element signature="e#2665#4156#0" expanded="false" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground/play.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="36" selection-start="301" selection-end="301" vertical-scroll-proportion="-14.375">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="174" column="25" selection-start="6446" selection-end="6446" vertical-scroll-proportion="0.9302326">
+        <state line="25" column="0" selection-start="821" selection-end="821" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="31" selection-start="588" selection-end="588" vertical-scroll-proportion="0.3846154">
+          <folding>
+            <element signature="e#4989#5028#0" expanded="false" />
+            <element signature="e#6826#6865#0" expanded="false" />
+            <element signature="e#7693#7725#0" expanded="false" />
+            <element signature="e#8995#9047#0" expanded="false" />
+            <element signature="e#10618#10658#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

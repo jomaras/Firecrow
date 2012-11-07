@@ -7,18 +7,25 @@
 
 <script>
 
-    function run(obj)
+    var Obj = function()
     {
-        var b = obj;
+        this.id = Obj.ID++;
+    };
 
-        for(var prop in b)
-        {
-            console.log(prop);
-        }
+    var Test = function()
+    {
+        this.hello = true;
     }
-    var a = {b:3, d:4};
-    run(a);
 
+    Obj.ID = 0;
+
+    var HtmlElement = function()
+    {
+        this.__proto__ = new Test();
+    };
+
+    HtmlElement.prototype = new Obj();
+    HtmlElement.prototype.test = function() { return 3; };
 </script>
 </body>
 </html>
