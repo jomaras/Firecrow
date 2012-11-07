@@ -43,7 +43,7 @@ fcModel.ArrayExecutor =
                 case "splice":
                 case "join":
                 case "sort":
-                    return fcModel.ArrayProto[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression, thisObject]);
+                    return fcModel.Array.prototype[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression, thisObject]);
                 case "forEach":
                 case "filter":
                 case "every":
