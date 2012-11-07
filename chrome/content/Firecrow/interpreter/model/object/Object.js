@@ -4,15 +4,22 @@ var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.Object = function() {};
+
+//<editor-fold desc="'Static' functions">
 fcModel.Object.createObjectWithInit = function(globalObject, codeConstruct, implementationObject, proto)
 {
     return (new fcModel.Object()).initObject(globalObject, codeConstruct, implementationObject, proto);
 }
-fcModel.Object.LAST_ID = 0;
-fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
 
+fcModel.Object.LAST_ID = 0;
+
+fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
+//</editor-fold>
+
+//<editor-fold desc="Prototype definition">
 fcModel.Object.prototype =
 {
+    //<editor-fold desc="Object Initialization">
     initObject: function(globalObject, codeConstruct, implementationObject, proto)
     {
         this.id = fcModel.Object.LAST_ID++;
@@ -40,6 +47,8 @@ fcModel.Object.prototype =
 
         return this;
     },
+    //</editor-fold>
+
     //<editor-fold desc="Property Getters">
     getOwnProperty: function(propertyName)
     {
@@ -355,5 +364,6 @@ fcModel.Object.prototype =
     }
     //</editor-fold>
 };
+//</editor-fold>
 /*************************************************************************************/
 }});

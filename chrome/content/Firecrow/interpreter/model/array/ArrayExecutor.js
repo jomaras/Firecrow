@@ -96,9 +96,7 @@ fcModel.ArrayExecutor =
         }
 
         return false;
-    },
-
-    notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
+    }
 };
 /*************************************************************************************/
 }});

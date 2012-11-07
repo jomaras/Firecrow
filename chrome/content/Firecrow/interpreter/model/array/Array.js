@@ -1,8 +1,3 @@
-/**
- * User: Jomaras
- * Date: 10.05.12.
- * Time: 09:56
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
@@ -13,12 +8,9 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 {
     try
     {
-        this.jsArray = jsArray || [];
-
-        this.initObject(globalObject, codeConstruct, this.jsArray);
+        this.initObject(globalObject, codeConstruct, (this.jsArray = jsArray || []));
 
         this.constructor = fcModel.Array;
-
         this.items = [];
 
         this._addDefaultProperties();
@@ -26,11 +18,14 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
         this._registerCallbacks();
     }
-    catch(e) { this.notifyError("Error when creating array object: " + e + codeConstruct.loc.source); }
+    catch(e) { this.notifyError("Error when creating array object: " + e); }
 };
 
+//<editor-fold desc="'Static' Methods">
 fcModel.Array.notifyError = function(message) { alert("Array - " + message);}
+//</editor-fold>
 
+//<editor-fold desc="Prototype Definition">
 fcModel.Array.prototype = new fcModel.Object();
 
 //<editor-fold desc="Internal array methods">
@@ -594,5 +589,6 @@ fcModel.Array.prototype._addPreexistingObjects = function()
         this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, true);
     }
 };
+//</editor-fold>
 //</editor-fold>
 }});

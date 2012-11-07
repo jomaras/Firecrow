@@ -46,9 +46,7 @@ fcModel.ArrayCallbackEvaluator =
         {
             fcModel.Array.notifyError("Error when evaluating callback return!");
         }
-    },
-
-    notifyError: function(message) { Firecrow.Interpreter.Model.Array.notifyError(message); }
+    }
 };
 /*************************************************************************************/
 }});
