@@ -41,74 +41,22 @@ fcModel.HtmlElementExecutor =
             case "getElementsByTagName":
             case "getElementsByClassName":
             case "querySelectorAll":
-                var elements = [];
-
-                try
-                {
-                    globalObject.browser.logDomQueried(functionName, arguments[0].value, callExpression);
-                    elements = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                }
-                catch(e)
-                {
-                    globalObject.executionContextStack.callExceptionCallbacks
-                    (
-                        {
-                            exceptionGeneratingConstruct: callExpression,
-                            isMatchesSelectorException: true
-                        }
-                    );
-                }
-
-                for(var i = 0, length = elements.length; i < length; i++)
-                {
-                    this.addDependencies(elements[i], callExpression, globalObject);
-                }
-
-                return this.wrapToFcElements(elements, globalObject, callExpression);
+                return this._getElements(functionName, globalObject, arguments[0].value, thisObjectValue, jsArguments, callExpression);
             case "getAttribute":
-                var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                this.addDependencies(thisObjectValue, callExpression, globalObject);
-                return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
+                return this._getAttribute(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "setAttribute":
             case "removeAttribute":
-                thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
-                fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
-                return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression, null));
+                return this._modifyAttribute(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "appendChild":
             case "removeChild":
             case "insertBefore":
-                thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
-                fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
-                for(var i = 0; i < arguments.length; i++)
-                {
-                    var manipulatedElement = arguments[i].fcInternal.object;
-
-                    if(manipulatedElement != null) //Because of comments
-                    {
-                        manipulatedElement.notifyElementInsertedIntoDom(callExpression);
-                    }
-                }
-                return arguments[0];
+                return this._modifyDOM(functionName, thisObjectValue, arguments, jsArguments, globalObject, callExpression);
             case "cloneNode":
-                this.addDependenciesToAllDescendantsModifications(thisObjectValue, callExpression, globalObject);
-                var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                return this.wrapToFcElement(clonedNode, globalObject, callExpression);
+                return this._cloneNode(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "addEventListener":
-                globalObject.registerHtmlElementEventHandler
-                    (
-                        fcThisValue,
-                        jsArguments[0],
-                        arguments[1],
-                        {
-                            codeConstruct: callExpression,
-                            evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
-                        }
-                    );
+                this._registerEventHandler(fcThisValue, jsArguments, arguments[1], globalObject, callExpression);
             case "removeEventListener":
-                fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
-                thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+                this._removeEventHandler(thisObjectValue, globalObject, callExpression);
                 return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
             case "matchesSelector":
             case "mozMatchesSelector":
@@ -116,51 +64,9 @@ fcModel.HtmlElementExecutor =
                 globalObject.browser.logDomQueried(functionName, arguments[0].value, callExpression);
             case "compareDocumentPosition":
             case "contains":
-                var result = false;
-                try
-                {
-                    result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                }
-                catch(e)
-                {
-                    globalObject.executionContextStack.callExceptionCallbacks
-                        (
-                            {
-                                exceptionGeneratingConstruct: callExpression,
-                                isMatchesSelectorException: true
-                            }
-                        );
-                }
-                return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
+                return this._queryDocument(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "getBoundingClientRect":
-                try
-                {
-                    var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-
-                    var nativeObj = {
-                        bottom: new fcModel.JsValue(result.bottom, new fcModel.FcInternal(callExpression)),
-                        top: new fcModel.JsValue(result.top, new fcModel.FcInternal(callExpression)),
-                        left: new fcModel.JsValue(result.left, new fcModel.FcInternal(callExpression)),
-                        right: new fcModel.JsValue(result.right, new fcModel.FcInternal(callExpression)),
-                        height: new fcModel.JsValue(result.height, new fcModel.FcInternal(callExpression)),
-                        width: new fcModel.JsValue(result.width, new fcModel.FcInternal(callExpression))
-                    };
-                    var fcObj = new fcModel.Object(globalObject, callExpression, nativeObj);
-                    fcObj.addProperty("bottom", nativeObj.bottom, callExpression);
-                    fcObj.addProperty("top", nativeObj.top, callExpression);
-                    fcObj.addProperty("left", nativeObj.left, callExpression);
-                    fcObj.addProperty("right", nativeObj.right, callExpression);
-                    fcObj.addProperty("height", nativeObj.height, callExpression);
-                    fcObj.addProperty("width", nativeObj.width, callExpression);
-
-                    return new fcModel.JsValue(nativeObj, new fcModel.FcInternal(callExpression, fcObj));
-                }
-                catch(e)
-                {
-                    alert("Error when executing getBoundingClientRect");
-                }
-
-                return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
+                return this._getBoundingClientRectangle(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
         }
@@ -260,16 +166,157 @@ fcModel.HtmlElementExecutor =
                     var elementModificationPoint = elementModificationPoints[i];
 
                     globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            codeConstruct,
-                            elementModificationPoint.codeConstruct,
-                            evaluationPositionId,
-                            elementModificationPoint.evaluationPositionId
-                        );
+                    (
+                        codeConstruct,
+                        elementModificationPoint.codeConstruct,
+                        evaluationPositionId,
+                        elementModificationPoint.evaluationPositionId
+                    );
                 }
             }
         }
         catch(e) { fcModel.HtmlElement.notifyError("Error when adding dependencies: " + e); }
+    },
+
+    _getElements: function(functionName, globalObject, argument, thisObjectValue, jsArguments, callExpression)
+    {
+        var elements = [];
+
+        try
+        {
+            globalObject.browser.logDomQueried(functionName, argument, callExpression);
+            elements = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        }
+        catch(e)
+        {
+            globalObject.executionContextStack.callExceptionCallbacks
+            (
+                {
+                    exceptionGeneratingConstruct: callExpression,
+                    isMatchesSelectorException: true
+                }
+            );
+        }
+
+        for(var i = 0, length = elements.length; i < length; i++)
+        {
+            this.addDependencies(elements[i], callExpression, globalObject);
+        }
+
+        return this.wrapToFcElements(elements, globalObject, callExpression);
+    },
+
+    _getAttribute: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
+    {
+        var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        this.addDependencies(thisObjectValue, callExpression, globalObject);
+        return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
+    },
+
+    _modifyAttribute: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
+    {
+        thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+        fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
+
+        return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression, null));
+    },
+
+    _modifyDOM: function(functionName, thisObjectValue, args, jsArguments, globalObject, callExpression)
+    {
+        thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+        fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
+        for(var i = 0; i < args.length; i++)
+        {
+            var manipulatedElement = args[i].fcInternal.object;
+
+            if(manipulatedElement != null) //Because of comments
+            {
+                manipulatedElement.notifyElementInsertedIntoDom(callExpression);
+            }
+        }
+        return arguments[0];
+    },
+
+    _cloneNode: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
+    {
+        this.addDependenciesToAllDescendantsModifications(thisObjectValue, callExpression, globalObject);
+        var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        return this.wrapToFcElement(clonedNode, globalObject, callExpression);
+    },
+
+    _registerEventHandler: function(fcThisValue, jsArguments, handler, globalObject, callExpression)
+    {
+        globalObject.registerHtmlElementEventHandler
+        (
+            fcThisValue,
+            jsArguments[0],
+            handler,
+            {
+                codeConstruct: callExpression,
+                evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
+            }
+        );
+    },
+
+    _removeEventHandler: function(thisObjectValue, globalObject, callExpression)
+    {
+        fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
+        thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+    },
+
+    _queryDocument: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
+    {
+        var result = false;
+        try
+        {
+            result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        }
+        catch(e)
+        {
+            globalObject.executionContextStack.callExceptionCallbacks
+            (
+                {
+                    exceptionGeneratingConstruct: callExpression,
+                    isMatchesSelectorException: true
+                }
+            );
+        }
+
+        return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
+    },
+
+    _getBoundingClientRectangle: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
+    {
+        try
+        {
+            var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+
+            var nativeObj =
+            {
+                bottom: new fcModel.JsValue(result.bottom, new fcModel.FcInternal(callExpression)),
+                top: new fcModel.JsValue(result.top, new fcModel.FcInternal(callExpression)),
+                left: new fcModel.JsValue(result.left, new fcModel.FcInternal(callExpression)),
+                right: new fcModel.JsValue(result.right, new fcModel.FcInternal(callExpression)),
+                height: new fcModel.JsValue(result.height, new fcModel.FcInternal(callExpression)),
+                width: new fcModel.JsValue(result.width, new fcModel.FcInternal(callExpression))
+            };
+
+            var fcObj = fcModel.Object.createObjectWithInit(globalObject, callExpression, nativeObj);
+
+            fcObj.addProperty("bottom", nativeObj.bottom, callExpression);
+            fcObj.addProperty("top", nativeObj.top, callExpression);
+            fcObj.addProperty("left", nativeObj.left, callExpression);
+            fcObj.addProperty("right", nativeObj.right, callExpression);
+            fcObj.addProperty("height", nativeObj.height, callExpression);
+            fcObj.addProperty("width", nativeObj.width, callExpression);
+
+            return new fcModel.JsValue(nativeObj, new fcModel.FcInternal(callExpression, fcObj));
+        }
+        catch(e) { fcModel.HtmlElement.notifyError("Error when adding dependencies: " + e); }
+
+        return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
     },
 
     notifyError: function(message) { alert("HtmlElementExecutor - " + message); }

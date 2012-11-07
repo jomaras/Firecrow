@@ -404,7 +404,7 @@ fcSimulator.InternalExecutor.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error when executing internal function: " + e);
+            this.notifyError("Error when executing internal function: " + e + this.globalObject.browser.url);
         }
     },
 
@@ -461,7 +461,7 @@ fcSimulator.InternalExecutor.prototype =
                 this.notifyError("Unknown internal function!");
             }
         }
-        catch(e) { this.notifyError("Error when executing internal function: " + e); }
+        catch(e) { this.notifyError("Error when executing internal function: " + e + this.globalObject.browser.url); }
     },
 
     expandInternalFunctions: function()
