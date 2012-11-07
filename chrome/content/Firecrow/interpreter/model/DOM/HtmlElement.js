@@ -47,23 +47,23 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
     if(fcModel.DOM_PROPERTIES.isElementOther(propertyName) || fcModel.DOM_PROPERTIES.isNodeOther(propertyName))
     {
         if(propertyName == "ownerDocument") { return this.getPropertyValue(propertyName, codeConstruct); }
-        else if(propertyName == "attributes") { this.addProperty(propertyName, fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), this.creationConstruct); }
-        else if(propertyName == "style") { this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationConstruct), this.creationConstruct); }
+        else if(propertyName == "attributes") { this.addProperty(propertyName, fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), this.creationCodeConstruct); }
+        else if(propertyName == "style") { this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationCodeConstruct), this.creationCodeConstruct); }
     }
 
     if(fcModel.DOM_PROPERTIES.isNodeElements(propertyName) || fcModel.DOM_PROPERTIES.isElementElements(propertyName))
     {
-        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this._getElements(propertyName, codeConstruct)), this.creationConstruct);
+        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this._getElements(propertyName, codeConstruct)), this.creationCodeConstruct);
     }
 
     if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName) || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
     {
-        this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationConstruct), this.creationConstruct);
+        this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationCodeConstruct), this.creationCodeConstruct);
     }
 
     if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
     {
-        this.addProperty(propertyName, new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationConstruct)), this.creationConstruct);
+        this.addProperty(propertyName, new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationCodeConstruct)), this.creationCodeConstruct);
     }
 
     return this.getPropertyValue(propertyName, codeConstruct);

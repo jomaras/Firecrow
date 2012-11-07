@@ -7,91 +7,73 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(textNode, Text) && !ValueTypeHelper.isOfType(textNode, Comment)) { alert("When creating TextNode the textNode must be of type TextNode"); return; }
+        if(!ValueTypeHelper.isOfType(textNode, Text) && !ValueTypeHelper.isOfType(textNode, Comment)) { fcModel.TextNode.notifyError("When creating TextNode the textNode must be of type TextNode"); return; }
 
         this.initObject(globalObject, codeConstruct);
 
         this.textNode = textNode;
-
         this.textNode.elementModificationPoints = [];
 
-        fcModel.DOM_PROPERTIES.setPrimitives(this, this.textNode, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
-        this.addProperty("ownerDocument", this.globalObject.jsFcDocument, codeConstruct);
+        this._setDefaultProperties();
 
-        this.setChildRelatedProperties(codeConstruct);
-
-        this.registerGetPropertyCallback(function(getPropertyConstruct)
-        {
-            var evaluationPositionId = this.globalObject.getPreciseEvaluationPositionId();
-
-            this.addDependenciesToAllModifications(getPropertyConstruct);
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                getPropertyConstruct,
-                this.textNode.modelElement,
-                evaluationPositionId
-            );
-        }, this);
+        this.registerGetPropertyCallback(this._getPropertyCallback, this);
     }
-    catch(e) { alert("Error when creating TextNode object: " + e); }
+    catch(e) { fcModel.TextNode.notifyError("Error when creating TextNode object: " + e); }
 };
 
-fcModel.TextNode.prototype = new fcModel.Object(null);
+//<editor-fold desc="'Static' Methods">
+fcModel.TextNode.accessedProperties = {};
+fcModel.TextNode.notifyError = function(message) { fcModel.TextNode.notifyError("TextNode - " + message); };
+//</editor-fold>
 
-fcModel.TextNode.prototype.addDependenciesToAllModifications = function(codeConstruct)
+//<editor-fold desc="Prototype Definition">
+fcModel.TextNode.prototype = new fcModel.Object();
+
+//<editor-fold desc="Property Accessor">
+fcModel.TextNode.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
 {
-    try
-    {
-        if(codeConstruct == null) { return; }
+    fcModel.TextNode.accessedProperties[propertyName] = true;
 
-        var modifications = this.textNode.elementModificationPoints;
-
-        if(modifications == null || modifications.length == 0) { return; }
-
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        for(var i = 0, length = modifications.length; i < length; i++)
-        {
-            var modification = modifications[i];
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                codeConstruct,
-                modification.codeConstruct,
-                evaluationPosition,
-                modification.evaluationPositionId
-            );
-        }
-    }
-    catch(e)
-    {
-        this.notifyError("Error when adding dependencies to all modifications " + e);
-    }
+    if (fcModel.DOM_PROPERTIES.isNodeElement(propertyName)) { return fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct) }
+    else if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName)) { return this.getPropertyValue(propertyName, codeConstruct); }
+    else { fcModel.TextNode.notifyError("Text node get element property not yet handled: " + propertyName); }
 };
 
-fcModel.TextNode.prototype.setChildRelatedProperties = function(codeConstruct)
+fcModel.TextNode.prototype.addJsProperty = function(propertyName, propertyJsValue, codeConstruct)
 {
-    this.addProperty("childNodes", this.getChildNodes(codeConstruct), codeConstruct);
-};
+    fcModel.TextNode.accessedProperties[propertyName] = true;
 
-fcModel.TextNode.prototype.addPrimitiveProperties = function(textNode, codeConstruct)
+    if(propertyName != "textContent") { fcModel.TextNode.notifyError("Add property to text node not yet implemented"); return; }
+
+    this.textNode[propertyName] = propertyJsValue.value;
+    this.addProperty(propertyName, propertyJsValue, codeConstruct);
+};
+    //</editor-fold>
+
+//<editor-fold desc="'Private' methods">
+fcModel.TextNode.prototype._setDefaultProperties = function()
 {
-    try
-    {
-        var primitiveProperties = fcModel.TextNode.CONST.INTERNAL_PROPERTIES.PRIMITIVE_PROPERTIES;
+    fcModel.DOM_PROPERTIES.setPrimitives(this, this.textNode, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
 
-        for(var i = 0, length = primitiveProperties.length; i < length; i++)
-        {
-            var propertyName = primitiveProperties[i];
-
-            this.addProperty(propertyName, new fcModel.JsValue(textNode[propertyName], new fcModel.FcInternal(codeConstruct)), codeConstruct);
-        }
-    }
-    catch(e) { this.notifyError("Error when adding primitive properties:" + e); }
+    this.addProperty("ownerDocument", this.globalObject.jsFcDocument, this.creationCodeConstruct);
+    this.addProperty("childNodes", this._getChildNodes(this.creationCodeConstruct), this.creationCodeConstruct);
 };
 
-fcModel.TextNode.prototype.getChildNodes = function(codeConstruct)
+fcModel.TextNode.prototype._getPropertyCallback = function(getPropertyConstruct)
+{
+    var evaluationPositionId = this.globalObject.getPreciseEvaluationPositionId();
+
+    this.addDependencyToAllModifications(getPropertyConstruct, this.textNode.elementModificationPoints);
+
+    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+    (
+        getPropertyConstruct,
+        this.textNode.modelElement,
+        evaluationPositionId
+    );
+};
+
+fcModel.TextNode.prototype._getChildNodes = function(codeConstruct)
 {
     try
     {
@@ -114,43 +96,10 @@ fcModel.TextNode.prototype.getChildNodes = function(codeConstruct)
     catch(e) { this.notifyError("Error when getting child nodes:" + e);}
 };
 
-fcModel.TextNode.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
-{
-    fcModel.TextNode.accessedProperties[propertyName] = true;
+fcModel.TextNode.prototype.notifyElementInsertedIntoDom = function(callExpression){ };
+    //</editor-fold>
+//</editor-fold>
 
-    if (fcModel.DOM_PROPERTIES.NODE.ELEMENT.indexOf(propertyName) != -1)
-    {
-        return fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct)
-    }
-    else if(fcModel.DOM_PROPERTIES.NODE.PRIMITIVES.indexOf(propertyName) != -1)
-    {
-        return this.getPropertyValue(propertyName, codeConstruct);
-    }
-    else
-    {
-        alert("Text node get element property not yet handled: " + propertyName);
-    }
-};
-
-fcModel.TextNode.prototype.addJsProperty = function(propertyName, propertyJsValue, codeConstruct)
-{
-    fcModel.TextNode.accessedProperties[propertyName] = true;
-
-    if(propertyName == "textContent")
-    {
-        this.textNode[propertyName] = propertyJsValue.value;
-        this.addProperty(propertyName, propertyJsValue, codeConstruct);
-        return;
-    }
-
-    alert("add property to text node not yet implemented");
-};
-
-fcModel.TextNode.prototype.notifyElementInsertedIntoDom = function(callExpression){};
-
-fcModel.TextNode.prototype.notifyError = function(message) { alert("TextNode - " + message); }
-
-fcModel.TextNode.accessedProperties = {};
 //https://developer.mozilla.org/en/DOM/element
 fcModel.TextNode.CONST =
 {
@@ -167,4 +116,5 @@ fcModel.TextNode.CONST =
         ]
     }
 };
+/*************************************************************************************/
 }});
