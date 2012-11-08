@@ -129,6 +129,7 @@ fcSimulator.ExecutionContextStack = function(globalObject, handlerInfo)
         this.exceptionCallbacks = [];
         this.blockCommandStack = [];
         this.functionContextCommandsStack = [{functionContextBlockCommandsEvalPositions:[]}];
+        this.dependencyCreator = new fcSimulator.DependencyCreator(globalObject, this);
     }
     catch(e)
     {
@@ -527,20 +528,20 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             }
             else if (command.isStartWithStatementCommand())
             {
-                this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct.object);
+                this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct.object);
                 this._addToBlockCommandStack(command);
                 this._evaluateStartWithCommand(command);
             }
             else if (command.isEndWithStatementCommand()) { this._popWithCommand(command); this._evaluateEndWithCommand(command); }
             else if (command.isForStatementCommand() || command.isWhileStatementCommand() ||  command.isDoWhileStatementCommand())
             {
-                this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct.test);
+                this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct.test);
                 this._addToBlockCommandStack(command);
             }
             else if (command.isForUpdateStatementCommand()){}
             else if (command.isIfStatementCommand())
             {
-                this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct.test);
+                this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct.test);
                 this._addToBlockCommandStack(command);
             }
             else if (command.isEndIfCommand()) { this._popTillIfCommand(command);}
@@ -558,26 +559,22 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
             else if (command.isStartCatchStatementCommand()){ this._addToBlockCommandStack(command);}
             else if (command.isEndCatchStatementCommand()) { this._popTillCatchCommandFromBlockStack(command);}
-            else if (command.isEvalNewExpressionCommand()){ this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
+            else if (command.isEvalNewExpressionCommand()){ this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isStartLogicalExpressionCommand()) { }
-            else if (command.isCallInternalConstructorCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
+            else if (command.isCallInternalConstructorCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isCallCallbackMethodCommand()) {}
-            else if (command.isEvalCallExpressionCommand()) { this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
+            else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isExecuteCallbackCommand()) {}
             else
             {
                 if (command.isEndEvalConditionalExpressionCommand()) { this._popTillConditionalExpressionCommand(command); }
                 else if(command.isEvalForInWhereCommand())
                 {
-                    this.evaluator.addDependenciesToTopBlockConstructs(command.codeConstruct.right);
+                    this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct.right);
                     this._addToBlockCommandStack(command);
                 }
                 else if (command.isEndLogicalExpressionCommand())
                 {
-                    if(command.codeConstruct.loc.start.line == 818)
-                    {
-                        var a = 3;
-                    }
                     if(ASTHelper.isAssignmentExpression(command.codeConstruct.parent))
                     {
                         this._addToFunctionContextBlockCommands(command);

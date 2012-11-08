@@ -11,6 +11,7 @@ fcSimulator.Evaluator = function(executionContextStack)
     {
         this.executionContextStack = executionContextStack;
         this.globalObject = executionContextStack.globalObject;
+        this.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, executionContextStack);
 
         this.exceptionCallbacks = [];
     }
@@ -68,7 +69,7 @@ fcSimulator.Evaluator.prototype =
         {
             if(breakContinueCommand == null || (!breakContinueCommand.isEvalBreakCommand() && !breakContinueCommand.isEvalContinueCommand())) { this.notifyError(breakContinueCommand, "Should be break or continue command"); }
 
-            this.addDependenciesToTopBlockConstructs(breakContinueCommand.codeConstruct);
+            this.dependencyCreator.addDependenciesToTopBlockConstructs(breakContinueCommand.codeConstruct);
             this.globalObject.browser.callImportantConstructReachedCallbacks(breakContinueCommand.codeConstruct);
         }
         catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
@@ -148,12 +149,7 @@ fcSimulator.Evaluator.prototype =
 
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
 
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.leftSide, evaluationPosition);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.rightSide, evaluationPosition);
-
-            this.addDependenciesToTopBlockConstructs(assignmentExpression);
+            this.dependencyCreator.createAssignmentExpressionDependencies(evalAssignmentExpressionCommand);
 
             var finalValue = this._getFinalValue(evalAssignmentExpressionCommand);
 
@@ -162,10 +158,7 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
         }
-        catch(e)
-        {
-            this.notifyError(evalAssignmentExpressionCommand, "Error when evaluating assignment expression " + e);
-        }
+        catch(e) { this.notifyError(evalAssignmentExpressionCommand, "Error when evaluating assignment expression " + e); }
     },
 
     _getFinalValue: function(assignmentCommand)
@@ -246,8 +239,7 @@ fcSimulator.Evaluator.prototype =
 
             if(currentValue == null || currentValue.value == null) { this._callExceptionCallbacks(); return; }
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
-            this.addDependenciesToTopBlockConstructs(codeConstruct);
+            this.dependencyCreator.createUpdateExpressionDependencies(codeConstruct);
 
             if(ASTHelper.isIdentifier(codeConstruct.argument))
             {
@@ -294,52 +286,11 @@ fcSimulator.Evaluator.prototype =
 
             if(identifier != null)
             {
-                this._addIdentifierDependencies(identifier, identifierConstruct, this.globalObject.getPreciseEvaluationPositionId());
+                this.dependencyCreator.createIdentifierDependencies(identifier, identifierConstruct, this.globalObject.getPreciseEvaluationPositionId());
                 this._checkSlicing(identifierConstruct);
             }
         }
         catch(e) { this.notifyError(evalIdentifierCommand, "Error when evaluating identifier: " + e); }
-    },
-
-    _addIdentifierDependencies:function(identifier, identifierConstruct, evaluationPosition)
-    {
-        if(this._willIdentifierBeReadInAssignmentExpression(identifierConstruct))
-        {
-            this._addDependencyToLastModificationPoint(identifier, identifierConstruct, evaluationPosition);
-        }
-
-        this._addDependencyToIdentifierDeclaration(identifier, identifierConstruct, evaluationPosition);
-    },
-
-    _willIdentifierBeReadInAssignmentExpression: function(identifierConstruct)
-    {
-        return !ASTHelper.isAssignmentExpression(identifierConstruct.parent) || identifierConstruct.parent.left != identifierConstruct || identifierConstruct.parent.operator.length == 2;
-    },
-
-    _addDependencyToLastModificationPoint: function(identifier, identifierConstruct, evaluationPosition)
-    {
-        if(identifier.lastModificationPosition == null) { return; }
-
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-        (
-            identifierConstruct,
-            identifier.lastModificationPosition.codeConstruct,
-            evaluationPosition,
-            identifier.lastModificationPosition.evaluationPositionId
-        );
-    },
-
-    _addDependencyToIdentifierDeclaration: function(identifier, identifierConstruct, evaluationPosition)
-    {
-        if(identifier.declarationConstruct == null || identifier.declarationConstruct == identifier.lastModificationPosition) { return; }
-
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-        (
-            identifierConstruct,
-            ASTHelper.isVariableDeclarator(identifier.declarationConstruct.codeConstruct) ? identifier.declarationConstruct.codeConstruct.id
-                                                                                          : identifier.declarationConstruct.codeConstruct,
-            evaluationPosition
-        );
     },
 
     _checkSlicing: function(identifierConstruct)
@@ -357,10 +308,8 @@ fcSimulator.Evaluator.prototype =
             if(!ValueTypeHelper.isOfType(evalBinaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalBinaryExpressionCommand.isEvalBinaryExpressionCommand()) { this.notifyError(evalBinaryExpressionCommand, "Argument is not an EvalBinaryExpressionCommand"); return;}
 
             var binaryExpression = evalBinaryExpressionCommand.codeConstruct;
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, evaluationPosition);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right, evaluationPosition);
+            this.dependencyCreator.createBinaryExpressionDependencies(binaryExpression);
 
             var leftExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
             var rightExpressionValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
@@ -456,11 +405,9 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; }
+            if(!evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; };
 
-            this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
-
-            this.addDependenciesToTopBlockConstructs(evalReturnExpressionCommand.codeConstruct);
+            this.dependencyCreator.createReturnDependencies(evalReturnExpressionCommand);
 
             //If return is in event handler function
             if(evalReturnExpressionCommand.parentFunctionCommand == null)
@@ -477,8 +424,6 @@ fcSimulator.Evaluator.prototype =
             }
             else
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(evalReturnExpressionCommand.parentFunctionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct, this.globalObject.getReturnExpressionPreciseEvaluationPositionId());
-
                 this.executionContextStack.setExpressionValueInPreviousContext
                 (
                     evalReturnExpressionCommand.parentFunctionCommand.codeConstruct,
@@ -546,7 +491,7 @@ fcSimulator.Evaluator.prototype =
             var property = this.executionContextStack.getExpressionValue(memberExpression.property);
             var propertyValue = this._getPropertyValue(object, property, memberExpression);
 
-            this._createMemberExpressionDependencies(object, property, propertyValue, memberExpression);
+            this.dependencyCreator.createMemberExpressionDependencies(object, property, propertyValue, memberExpression);
 
             this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
         }
@@ -579,64 +524,6 @@ fcSimulator.Evaluator.prototype =
         }
 
         return propertyValue;
-    },
-
-    _createMemberExpressionDependencies: function(object, property, propertyValue, memberExpression)
-    {
-        //TODO - possibly can create a problem? - for problems see slicing 54, 55, 56
-        var propertyExists = propertyValue !== undefined && propertyValue.value !== undefined;
-
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        if(object.fcInternal != null && object.fcInternal.object != null)
-        {
-            var fcProperty = object.fcInternal.object.getProperty(property.value, memberExpression);
-
-            if(fcProperty != null && !ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
-            {
-                if(fcProperty.lastModificationPosition != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        memberExpression.property,
-                        fcProperty.lastModificationPosition.codeConstruct,
-                        evaluationPosition,
-                        fcProperty.lastModificationPosition.evaluationPositionId
-                    );
-                }
-                else  if(fcProperty.declarationConstruct != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        memberExpression.property,
-                        fcProperty.declarationConstruct.codeConstruct,
-                        evaluationPosition,
-                        fcProperty.declarationConstruct.evaluationPositionId
-                    );
-                }
-            }
-        }
-
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.object, this.globalObject.getPreciseEvaluationPositionId());
-
-        //Create a dependency only if the property exists, the problem is that if we don't ignore it here, that will lead to links to constructs where the property was not null
-        if(propertyExists || !ASTHelper.isIdentifier(memberExpression.property) || ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
-        {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition);
-        }
-        else
-        {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition, evaluationPosition, true);
-
-            if(memberExpression.computed && ASTHelper.isIdentifier(memberExpression.property))
-            {
-                var identifier = this.executionContextStack.getIdentifier(memberExpression.property.name);
-                if(identifier != null && identifier.declarationConstruct != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, identifier.declarationConstruct.codeConstruct, evaluationPosition, identifier.declarationConstruct.evaluationPositionId, true);
-                }
-            }
-        }
     },
 
     _evaluateMemberExpressionPropertyCommand: function(evalMemberExpressionPropertyCommand)
@@ -734,15 +621,13 @@ fcSimulator.Evaluator.prototype =
             if(!evalForInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(evalForInWhereCommand, "Argument has to be an eval for in where command!"); return; }
 
             var forInWhereConstruct = evalForInWhereCommand.codeConstruct;
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
             var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
 
             if(whereObject.fcInternal.object == null) { evalForInWhereCommand.willBodyBeExecuted = false; return; }
 
             var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(evalForInWhereCommand.currentPropertyIndex + 1);
 
-            this._createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName, evaluationPosition);
+            this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName);
 
             evalForInWhereCommand.willBodyBeExecuted = !!nextPropertyName.value;
 
@@ -763,36 +648,6 @@ fcSimulator.Evaluator.prototype =
         catch(e) { this.notifyError(evalForInWhereCommand, "Error when evaluating for in where command: " + e); }
     },
 
-    _createDependenciesInForInWhereCommand: function(forInWhereConstruct, whereObject, nextPropertyName, evaluationPosition)
-    {
-        this.addDependenciesToTopBlockConstructs(forInWhereConstruct.left);
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, evaluationPosition);
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right, evaluationPosition);
-
-        if(!nextPropertyName || !nextPropertyName.value) { return; }
-
-        var property = whereObject.fcInternal.object.getProperty(nextPropertyName.value);
-
-        if(property != null)
-        {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                forInWhereConstruct.left,
-                property.lastModificationPosition.codeConstruct,
-                evaluationPosition,
-                property.lastModificationPosition.evaluationPositionId
-            );
-        }
-
-        if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
-        {
-            var declarator = forInWhereConstruct.left.declarations[0];
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, evaluationPosition);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator.id, forInWhereConstruct.right, evaluationPosition);
-        }
-    },
-
     _evaluateConditionalExpressionCommand: function(conditionalExpressionCommand)
     {
         try
@@ -804,16 +659,9 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(conditionalConstruct, bodyExpressionValue);
 
-            this._createDependenciesForConditionalCommand(conditionalExpressionCommand);
+            this.dependencyCreator.createDependenciesForConditionalCommand(conditionalExpressionCommand);
         }
         catch(e) { this.notifyError(conditionalExpressionCommand, "Error when evaluating conditional expression command: " + e); }
-    },
-
-    _createDependenciesForConditionalCommand: function(conditionalCommand)
-    {
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalCommand.codeConstruct, conditionalCommand.codeConstruct.test, evaluationPosition);
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalCommand.codeConstruct, conditionalCommand.startCommand.body, evaluationPosition);
     },
 
     _evaluateStartCatchStatementCommand: function(startCatchStatementCommand)
@@ -863,7 +711,7 @@ fcSimulator.Evaluator.prototype =
             {
                 this.executionContextStack.setExpressionValue(wholeLogicalExpression, this._getLogicalExpressionValue(wholeLogicalExpression));
 
-                this._createDependenciesForLogicalExpressionItemCommand(wholeLogicalExpression);
+                this.dependencyCreator.createDependenciesForLogicalExpressionItemCommand(wholeLogicalExpression);
             }
             else { this.notifyError(evaluateLogicalExpressionItemCommand, "The expression item is neither left nor right expression"); return; }
         }
@@ -890,44 +738,13 @@ fcSimulator.Evaluator.prototype =
                                                    : result === leftValue.value ? leftValue : rightValue;
     },
 
-    _createDependenciesForLogicalExpressionItemCommand: function(logicalExpression)
-    {
-        if(logicalExpression.operator == "&&")
-        {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                logicalExpression.right,
-                logicalExpression.left,
-                this.globalObject.getPreciseEvaluationPositionId()
-            );
-        }
-    },
-
     _evaluateEndLogicalExpressionCommand: function(evaluateEndLogicalExpressionCommand)
     {
         try
         {
-            this._createDependenciesForLogicalExpression(evaluateEndLogicalExpressionCommand);
+            this.dependencyCreator.createDependenciesForLogicalExpression(evaluateEndLogicalExpressionCommand);
         }
         catch(e) { this.notifyError(evaluateEndLogicalExpressionCommand, "Error when evaluating end logical expression item command: " + e); }
-    },
-
-    _createDependenciesForLogicalExpression: function(logicalExpressionCommand)
-    {
-        var executedItemsCommands = logicalExpressionCommand.executedLogicalItemExpressionCommands;
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        for(var i = 0, length = executedItemsCommands.length; i < length; i++)
-        {
-            var executedLogicalExpressionItemConstruct = executedItemsCommands[i].codeConstruct;
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                logicalExpressionCommand.codeConstruct,
-                executedLogicalExpressionItemConstruct,
-                evaluationPosition
-            );
-        }
     },
 
     _evaluateUnaryExpression: function(evaluateUnaryExpressionCommand)
@@ -941,7 +758,7 @@ fcSimulator.Evaluator.prototype =
 
             if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument, this.globalObject.getPreciseEvaluationPositionId());
+            this.dependencyCreator.createDataDependency(unaryExpression, unaryExpression.argument);
 
             var expressionValue = null;
 
@@ -996,7 +813,7 @@ fcSimulator.Evaluator.prototype =
         {
             if(!callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
 
-            this._createDependenciesForCallInternalFunction(callInternalFunctionCommand);
+            this.dependencyCreator.createDependenciesForCallInternalFunction(callInternalFunctionCommand);
 
             this.executionContextStack.setExpressionValue
             (
@@ -1044,73 +861,13 @@ fcSimulator.Evaluator.prototype =
         }, this);
     },
 
-    _createDependenciesForCallInternalFunction: function(callInternalFunctionCommand)
-    {
-        var callExpression = callInternalFunctionCommand.codeConstruct;
-
-        var args = callExpression.arguments;
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, callExpression.callee, evaluationPosition);
-
-        if(callInternalFunctionCommand.isCall || callInternalFunctionCommand.isApply)
-        {
-            this._createDependenciesToCallApplyInternalFunctionCall(callInternalFunctionCommand, args, callExpression);
-        }
-        else
-        {
-            for(var i = 0, length = args.length; i < length; i++)
-            {
-                var argument = args[i];
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, evaluationPosition);
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(argument, callExpression, evaluationPosition);
-            }
-        }
-    },
-
-    _createDependenciesToCallApplyInternalFunctionCall: function(callInternalFunctionCommand, args, callExpression)
-    {
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        if(callInternalFunctionCommand.isCall)
-        {
-            for(var i = 1, length = arguments.length; i < length; i++)
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, args[i], evaluationPosition);
-            }
-        }
-        else
-        {
-            var secondArgumentValue = this.executionContextStack.getExpressionValue(args[1]);
-
-            if(secondArgumentValue != null && ValueTypeHelper.isArray(secondArgumentValue.value))
-            {
-                secondArgumentValue.fcInternal.object.addDependenciesToAllProperties(callExpression);
-            }
-        }
-    },
-
     _evaluateCallbackFunctionCommand: function(evalCallbackFunctionCommand)
     {
         try
         {
-            this._createCallbackFunctionCommandDependencies(evalCallbackFunctionCommand);
+            this.dependencyCreator.createCallbackFunctionCommandDependencies(evalCallbackFunctionCommand);
         }
         catch(e) { this.notifyError(evalCallbackFunctionCommand, "Error has occurred when evaluating callback function command"); }
-    },
-
-    _createCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand)
-    {
-        var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
-        var callExpression = parentInitCallbackCommand.codeConstruct;
-        var arguments = callExpression.arguments;
-
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        for(var i = 0; i < arguments.length; i++)
-        {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(arguments[i], callExpression, evaluationPosition);
-        }
     },
 
     _evaluateSequenceExpression: function(evalSequenceCommand)
@@ -1122,19 +879,9 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(sequenceExpression, this.executionContextStack.getExpressionValue(lastExpression));
 
-            this._createSequenceExpressionDependencies(sequenceExpression, lastExpression);
+            this.dependencyCreator.createSequenceExpressionDependencies(sequenceExpression, lastExpression);
         }
         catch(e) { this.notifyError(evalSequenceCommand, "Error has occurred when evaluating sequence"); }
-    },
-
-    _createSequenceExpressionDependencies: function(sequenceExpression, lastExpression)
-    {
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-        (
-            sequenceExpression,
-            lastExpression,
-            this.globalObject.getPreciseEvaluationPositionId()
-        );
     },
 
     registerExceptionCallback: function(callback, thisObject)
@@ -1154,36 +901,6 @@ fcSimulator.Evaluator.prototype =
         {
             callbackObject.callback.call(callbackObject.thisObject, exceptionInfo);
         });
-    },
-
-    addDependenciesToTopBlockConstructs: function(currentConstruct)
-    {
-        var topBlockConstructs = this.executionContextStack.getTopBlockCommandConstructs();
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        for(var i = 0, length = topBlockConstructs.length; i < length; i++)
-        {
-            var topBlockConstruct = topBlockConstructs[i];
-            this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, topBlockConstruct, evaluationPosition);
-        }
-
-        if(this.executionContextStack.handlerInfo != null)
-        {
-            this.globalObject.browser.callControlDependencyEstablishedCallbacks
-            (
-                currentConstruct,
-                this.executionContextStack.handlerInfo.registrationPoint.codeConstruct,
-                evaluationPosition,
-                this.executionContextStack.handlerInfo.registrationPoint.evaluationPositionId
-            );
-        }
-
-        /*this.executionContextStack.addDependencyToLastExecutedBlockStatement(currentConstruct);
-
-        if(currentConstruct.previousCondition != null)
-        {
-            this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, currentConstruct.previousCondition, evaluationPosition);
-        }*/
     },
 
     notifyError: function(command, message)
