@@ -10,14 +10,13 @@ fcModel.GlobalObject = function(browser)
         this.initObject(this);
         ValueTypeHelper.expand(this, fcModel.EventListenerMixin);
 
-        this._setExecutionEnvironment(browser);
+        this._createJsValueProperties();
+        Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
 
-        this.jsValue = this;
-        this.value = this;
-        this.fcInternal = new fcModel.FcInternal(null, this);
         this.internalExecutor = new Firecrow.Interpreter.Simulator.InternalExecutor(this);
 
-        Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
+        this._setExecutionEnvironment(browser);
+
 
         this._createInternalPrototypes();
         this._createInternalObjects();
@@ -31,7 +30,7 @@ fcModel.GlobalObject = function(browser)
 
         this._createEvaluationPositionProperties();
 
-        this.isPrimitive = function() { return false;}
+        //this.isPrimitive = function() { return false;}
 
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
@@ -392,6 +391,13 @@ fcModel.GlobalObject.prototype._createHandlerMaps = function()
 
     this.timeoutHandlers = [];
     this.intervalHandlers = [];
+};
+
+fcModel.GlobalObject.prototype._createJsValueProperties = function()
+{
+    this.jsValue = this;
+    this.value = this;
+    this.fcInternal = new fcModel.FcInternal(null, this);
 };
 
 fcModel.GlobalObject.prototype._logAccessingUndefinedProperty = function(propertyName, codeConstruct)
