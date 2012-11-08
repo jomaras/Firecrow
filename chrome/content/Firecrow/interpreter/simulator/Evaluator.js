@@ -769,23 +769,6 @@ fcSimulator.Evaluator.prototype =
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, evaluationPosition);
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right, evaluationPosition);
 
-        if(whereObject != null && whereObject.fcInternal.object != null)
-        {
-            //TODO - not adding dependencies to all FOR-in modifications
-            /*var modifications = whereObject.fcInternal.object.getLastPropertyModifications(forInWhereConstruct.right);
-
-             for(var i = 0, length = modifications.length; i < length; i++)
-             {
-             this.globalObject.browser.callDataDependencyEstablishedCallbacks
-             (
-             forInWhereConstruct.right,
-             modifications[i].codeConstruct,
-             evaluationPosition,
-             modifications[i].evaluationPositionId
-             );
-             }*/
-        }
-
         if(!nextPropertyName || !nextPropertyName.value) { return; }
 
         var property = whereObject.fcInternal.object.getProperty(nextPropertyName.value);
@@ -821,27 +804,25 @@ fcSimulator.Evaluator.prototype =
 
             this.executionContextStack.setExpressionValue(conditionalConstruct, bodyExpressionValue);
 
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.codeConstruct.test, evaluationPosition);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalConstruct, conditionalExpressionCommand.startCommand.body, evaluationPosition);
+            this._createDependenciesForConditionalCommand(conditionalExpressionCommand);
         }
         catch(e) { this.notifyError(conditionalExpressionCommand, "Error when evaluating conditional expression command: " + e); }
+    },
+
+    _createDependenciesForConditionalCommand: function(conditionalCommand)
+    {
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalCommand.codeConstruct, conditionalCommand.codeConstruct.test, evaluationPosition);
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalCommand.codeConstruct, conditionalCommand.startCommand.body, evaluationPosition);
     },
 
     _evaluateStartCatchStatementCommand: function(startCatchStatementCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(startCatchStatementCommand, Firecrow.Interpreter.Commands.Command) || !startCatchStatementCommand.isStartCatchStatementCommand()) { this.notifyError(startCatchStatementCommand, "Argument has to be a start catch command!"); return; }
+            if(!startCatchStatementCommand.isStartCatchStatementCommand()) { this.notifyError(startCatchStatementCommand, "Argument has to be a start catch command!"); return; }
 
-            if(!ASTHelper.isIdentifier(startCatchStatementCommand.codeConstruct.param)) { this.notifyError(startCatchStatementCommand, "Catch parameter has to be an identifier!"); return; }
-
-            this.executionContextStack.setIdentifierValue
-            (
-                startCatchStatementCommand.codeConstruct.param.name,
-                startCatchStatementCommand.exceptionArgument
-            );
+            this.executionContextStack.setIdentifierValue(startCatchStatementCommand.codeConstruct.param.name, startCatchStatementCommand.exceptionArgument);
         }
         catch(e) { this.notifyError(startCatchStatementCommand, "Error when evaluating conditional expression command: " + e); }
     },
@@ -852,8 +833,6 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(endCatchStatementCommand, Firecrow.Interpreter.Commands.Command) || !endCatchStatementCommand.isEndCatchStatementCommand()) { this.notifyError(endCatchStatementCommand, "Argument has to be an end catch command!"); return; }
 
-            if(!ASTHelper.isIdentifier(endCatchStatementCommand.codeConstruct.param)) { this.notifyError(endCatchStatementCommand, "Catch parameter has to be an identifier!"); return; }
-
             this.executionContextStack.deleteIdentifier(endCatchStatementCommand.codeConstruct.param.name);
         }
         catch(e) { this.notifyError(endCatchStatementCommand, "Error when evaluating conditional expression command: " + e); }
@@ -863,70 +842,65 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evaluateLogicalExpressionItemCommand, Firecrow.Interpreter.Commands.Command) || !evaluateLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError(evaluateLogicalExpressionItemCommand, "Argument has to be an eval logical expression item command!"); return; }
+            if(!evaluateLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError(evaluateLogicalExpressionItemCommand, "Argument has to be an eval logical expression item command!"); return; }
 
             var parentExpressionCommand = evaluateLogicalExpressionItemCommand.parentLogicalExpressionCommand;
 
             var wholeLogicalExpression = parentExpressionCommand.codeConstruct;
             var logicalExpressionItem = evaluateLogicalExpressionItemCommand.codeConstruct;
 
-            if(wholeLogicalExpression.loc.start.line == 818)
-            {
-                var a = 3;
-            }
-
             evaluateLogicalExpressionItemCommand.parentEndLogicalExpressionCommand.executedLogicalItemExpressionCommands.push(evaluateLogicalExpressionItemCommand);
-
-            var value = this.executionContextStack.getExpressionValue(logicalExpressionItem);
-
-            if(value == null) { this._callExceptionCallbacks(); return; }
 
             if(logicalExpressionItem == wholeLogicalExpression.left)
             {
+                var value = this.executionContextStack.getExpressionValue(logicalExpressionItem);
+
                 this.executionContextStack.setExpressionValue(wholeLogicalExpression, value);
 
-                if((value.value && wholeLogicalExpression.operator == "||")
-                 ||(!value.value && wholeLogicalExpression.operator == "&&"))
-                {
-                    evaluateLogicalExpressionItemCommand.shouldDeleteFollowingLogicalCommands = true;
-                }
+                evaluateLogicalExpressionItemCommand.shouldDeleteFollowingLogicalCommands = this._isLogicalExpressionDoneWithEvaluation(value, wholeLogicalExpression.operator);
             }
             else if(logicalExpressionItem == wholeLogicalExpression.right)
             {
-                var leftValue = this.executionContextStack.getExpressionValue(wholeLogicalExpression.left);
-                var rightValue = this.executionContextStack.getExpressionValue(wholeLogicalExpression.right);
+                this.executionContextStack.setExpressionValue(wholeLogicalExpression, this._getLogicalExpressionValue(wholeLogicalExpression));
 
-                if(leftValue == null || rightValue == null) { this._callExceptionCallbacks(); return; }
-
-                var result = wholeLogicalExpression.operator == "&&" ? leftValue.value && rightValue.value
-                                                                     : leftValue.value || rightValue.value;
-
-                var finalExpressionValue = null;
-
-                if(ValueTypeHelper.isPrimitive(result))
-                {
-                    finalExpressionValue = new fcModel.JsValue(result, new fcModel.FcInternal(wholeLogicalExpression))
-                }
-                else
-                {
-                    finalExpressionValue = result === leftValue.value ? leftValue : rightValue;
-                }
-
-                if(wholeLogicalExpression.operator == "&&")
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        wholeLogicalExpression.right,
-                        wholeLogicalExpression.left,
-                        this.globalObject.getPreciseEvaluationPositionId()
-                    );
-                }
-
-                this.executionContextStack.setExpressionValue(wholeLogicalExpression, finalExpressionValue);
+                this._createDependenciesForLogicalExpressionItemCommand(wholeLogicalExpression);
             }
             else { this.notifyError(evaluateLogicalExpressionItemCommand, "The expression item is neither left nor right expression"); return; }
         }
         catch(e) { this.notifyError(evaluateLogicalExpressionItemCommand, "Error when evaluating logical expression item command: " + e); }
+    },
+
+    _isLogicalExpressionDoneWithEvaluation: function(value, operator)
+    {
+        return  (value.value && operator == "||")
+             || (!value.value && operator == "&&");
+    },
+
+    _getLogicalExpressionValue: function(wholeLogicalExpression)
+    {
+        var leftValue = this.executionContextStack.getExpressionValue(wholeLogicalExpression.left);
+        var rightValue = this.executionContextStack.getExpressionValue(wholeLogicalExpression.right);
+
+        if(leftValue == null || rightValue == null) { this._callExceptionCallbacks(); return; }
+
+        var result = wholeLogicalExpression.operator == "&&" ? leftValue.value && rightValue.value
+                                                             : leftValue.value || rightValue.value;
+
+        return ValueTypeHelper.isPrimitive(result) ? new fcModel.JsValue(result, new fcModel.FcInternal(wholeLogicalExpression))
+                                                   : result === leftValue.value ? leftValue : rightValue;
+    },
+
+    _createDependenciesForLogicalExpressionItemCommand: function(logicalExpression)
+    {
+        if(logicalExpression.operator == "&&")
+        {
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                logicalExpression.right,
+                logicalExpression.left,
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
+        }
     },
 
     _evaluateEndLogicalExpressionCommand: function(evaluateEndLogicalExpressionCommand)
