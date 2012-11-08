@@ -544,64 +544,9 @@ fcSimulator.Evaluator.prototype =
 
             //TODO: check dom test 13 Object.constructor.prototype not working as it should!
             var property = this.executionContextStack.getExpressionValue(memberExpression.property);
-
             var propertyValue = this._getPropertyValue(object, property, memberExpression);
 
-            //TODO - possibly can create a problem? - for problems see slicing 54, 55, 56
-            var propertyExists = propertyValue !== undefined && propertyValue.value !== undefined;
-
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            if(object.fcInternal != null && object.fcInternal.object != null)
-            {
-                var fcProperty = object.fcInternal.object.getProperty(property.value, memberExpression);
-
-                if(fcProperty != null && !ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
-                {
-                    if(fcProperty.lastModificationPosition != null)
-                    {
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            memberExpression.property,
-                            fcProperty.lastModificationPosition.codeConstruct,
-                            evaluationPosition,
-                            fcProperty.lastModificationPosition.evaluationPositionId
-                        );
-                    }
-                    else  if(fcProperty.declarationConstruct != null)
-                    {
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            memberExpression.property,
-                            fcProperty.declarationConstruct.codeConstruct,
-                            evaluationPosition,
-                            fcProperty.declarationConstruct.evaluationPositionId
-                        );
-                    }
-                }
-            }
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.object, this.globalObject.getPreciseEvaluationPositionId());
-
-            //Create a dependency only if the property exists, the problem is that if we don't ignore it here, that will lead to links
-            //to constructs where the property was not null
-            if(propertyExists || !ASTHelper.isIdentifier(memberExpression.property) || ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition);
-            }
-            else
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition, evaluationPosition, true);
-
-                if(memberExpression.computed && ASTHelper.isIdentifier(memberExpression.property))
-                {
-                    var identifier = this.executionContextStack.getIdentifier(memberExpression.property.name);
-                    if(identifier != null && identifier.declarationConstruct != null)
-                    {
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, identifier.declarationConstruct.codeConstruct, evaluationPosition, identifier.declarationConstruct.evaluationPositionId, true);
-                    }
-                }
-            }
+            this._createMemberExpressionDependencies(object, property, propertyValue, memberExpression);
 
             this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
         }
@@ -634,6 +579,65 @@ fcSimulator.Evaluator.prototype =
         }
 
         return propertyValue;
+    },
+
+    _createMemberExpressionDependencies: function(object, property, propertyValue, memberExpression)
+    {
+        //TODO - possibly can create a problem? - for problems see slicing 54, 55, 56
+        var propertyExists = propertyValue !== undefined && propertyValue.value !== undefined;
+
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        if(object.fcInternal != null && object.fcInternal.object != null)
+        {
+            var fcProperty = object.fcInternal.object.getProperty(property.value, memberExpression);
+
+            if(fcProperty != null && !ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
+            {
+                if(fcProperty.lastModificationPosition != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        memberExpression.property,
+                        fcProperty.lastModificationPosition.codeConstruct,
+                        evaluationPosition,
+                        fcProperty.lastModificationPosition.evaluationPositionId
+                    );
+                }
+                else  if(fcProperty.declarationConstruct != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        memberExpression.property,
+                        fcProperty.declarationConstruct.codeConstruct,
+                        evaluationPosition,
+                        fcProperty.declarationConstruct.evaluationPositionId
+                    );
+                }
+            }
+        }
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.object, this.globalObject.getPreciseEvaluationPositionId());
+
+        //Create a dependency only if the property exists, the problem is that if we don't ignore it here, that will lead to links
+        //to constructs where the property was not null
+        if(propertyExists || !ASTHelper.isIdentifier(memberExpression.property) || ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
+        {
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition);
+        }
+        else
+        {
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition, evaluationPosition, true);
+
+            if(memberExpression.computed && ASTHelper.isIdentifier(memberExpression.property))
+            {
+                var identifier = this.executionContextStack.getIdentifier(memberExpression.property.name);
+                if(identifier != null && identifier.declarationConstruct != null)
+                {
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, identifier.declarationConstruct.codeConstruct, evaluationPosition, identifier.declarationConstruct.evaluationPositionId, true);
+                }
+            }
+        }
     },
 
     _evaluateMemberExpressionPropertyCommand: function(evalMemberExpressionPropertyCommand)
