@@ -1094,18 +1094,23 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
-            var callExpression = parentInitCallbackCommand.codeConstruct;
-            var arguments = callExpression.arguments;
-
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            for(var i = 0; i < arguments.length; i++)
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(arguments[i], callExpression, evaluationPosition);
-            }
+            this._createCallbackFunctionCommandDependencies(evalCallbackFunctionCommand);
         }
         catch(e) { this.notifyError(evalCallbackFunctionCommand, "Error has occurred when evaluating callback function command"); }
+    },
+
+    _createCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand)
+    {
+        var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
+        var callExpression = parentInitCallbackCommand.codeConstruct;
+        var arguments = callExpression.arguments;
+
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0; i < arguments.length; i++)
+        {
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(arguments[i], callExpression, evaluationPosition);
+        }
     },
 
     _evaluateSequenceExpression: function(evalSequenceCommand)
@@ -1115,20 +1120,21 @@ fcSimulator.Evaluator.prototype =
             var sequenceExpression = evalSequenceCommand.codeConstruct;
             var lastExpression = sequenceExpression.expressions[sequenceExpression.expressions.length - 1];
 
-            this.executionContextStack.setExpressionValue
-            (
-                sequenceExpression,
-                this.executionContextStack.getExpressionValue(lastExpression)
-            );
+            this.executionContextStack.setExpressionValue(sequenceExpression, this.executionContextStack.getExpressionValue(lastExpression));
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                sequenceExpression,
-                lastExpression,
-                this.globalObject.getPreciseEvaluationPositionId()
-            );
+            this._createSequenceExpressionDependencies(sequenceExpression, lastExpression);
         }
         catch(e) { this.notifyError(evalSequenceCommand, "Error has occurred when evaluating sequence"); }
+    },
+
+    _createSequenceExpressionDependencies: function(sequenceExpression, lastExpression)
+    {
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            sequenceExpression,
+            lastExpression,
+            this.globalObject.getPreciseEvaluationPositionId()
+        );
     },
 
     registerExceptionCallback: function(callback, thisObject)
