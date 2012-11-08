@@ -320,7 +320,7 @@ fcSimulator.DependencyCreator.prototype =
             lastExpression,
             this.globalObject.getPreciseEvaluationPositionId()
         );
-    },
+    }
 };
 /*************************************************************************************/
 }});
