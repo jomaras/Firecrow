@@ -1,8 +1,3 @@
-/**
- * User: Jomaras
- * Date: 08.05.12.
- * Time: 13:19
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
@@ -19,10 +14,10 @@ fcSimulator.Evaluator = function(executionContextStack)
 
         this.exceptionCallbacks = [];
     }
-    catch(e) { Firecrow.Interpreter.Simulator.Evaluator.notifyError("Error when constructing evaluator: " + e);}
+    catch(e) { fcSimulator.Evaluator.notifyError("Error when constructing evaluator: " + e);}
 };
 
-Firecrow.Interpreter.Simulator.Evaluator.notifyError = function(message) { alert("Evaluator - " + message); };
+fcSimulator.Evaluator.notifyError = function(message) { alert("Evaluator - " + message); };
 
 fcSimulator.Evaluator.prototype =
 {
@@ -71,7 +66,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(breakContinueCommand == null || (!breakContinueCommand.isEvalBreakCommand() && !breakContinueCommand.isEvalContinueCommand())) { this.notifyError("Should be break or continue command"); }
+            if(breakContinueCommand == null || (!breakContinueCommand.isEvalBreakCommand() && !breakContinueCommand.isEvalContinueCommand())) { this.notifyError(breakContinueCommand, "Should be break or continue command"); }
 
             this.addDependenciesToTopBlockConstructs(breakContinueCommand.codeConstruct);
             this.globalObject.browser.callImportantConstructReachedCallbacks(breakContinueCommand.codeConstruct);
@@ -83,7 +78,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(declareVariableCommand, Firecrow.Interpreter.Commands.Command) || !declareVariableCommand.isDeclareVariableCommand()) { this.notifyError(declareVariableCommand, "Argument is not a DeclareVariableCommand"); return; }
+            if(!declareVariableCommand.isDeclareVariableCommand()) { this.notifyError(declareVariableCommand, "Argument is not a DeclareVariableCommand"); return; }
 
             this.executionContextStack.registerIdentifier(declareVariableCommand.codeConstruct);
         }
@@ -94,7 +89,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(declareFunctionCommand, Firecrow.Interpreter.Commands.Command) || !declareFunctionCommand.isDeclareFunctionCommand()) { this.notifyError(declareFunctionCommand, "Argument is not a DeclareFunctionCommand"); return; }
+            if(!declareFunctionCommand.isDeclareFunctionCommand()) { this.notifyError(declareFunctionCommand, "Argument is not a DeclareFunctionCommand"); return; }
 
             this.executionContextStack.registerFunctionDeclaration(declareFunctionCommand.codeConstruct);
         }
@@ -105,7 +100,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(functionExpressionCreationCommand, Firecrow.Interpreter.Commands.Command) || !functionExpressionCreationCommand.isFunctionExpressionCreationCommand()) { this.notifyError(functionExpressionCreationCommand, "Argument is not a function expression creation command"); return; }
+            if(!functionExpressionCreationCommand.isFunctionExpressionCreationCommand()) { this.notifyError(functionExpressionCreationCommand, "Argument is not a function expression creation command"); return; }
 
             this.executionContextStack.setExpressionValue
             (
@@ -120,7 +115,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalLiteralCommand, Firecrow.Interpreter.Commands.Command) || !evalLiteralCommand.isEvalLiteralCommand()) { this.notifyError(evalLiteralCommand, "Argument is not an EvalLiteralCommand"); return; }
+            if(!evalLiteralCommand.isEvalLiteralCommand()) { this.notifyError(evalLiteralCommand, "Argument is not an EvalLiteralCommand"); return; }
 
             this.executionContextStack.setExpressionValue(evalLiteralCommand.codeConstruct, new fcModel.JsValue(evalLiteralCommand.codeConstruct.value, new fcModel.FcInternal(evalLiteralCommand.codeConstruct)));
         }
@@ -131,7 +126,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalRegExCommand, Firecrow.Interpreter.Commands.Command) || !evalRegExCommand.isEvalRegExCommand()) { this.notifyError(evalRegExCommand, "Argument is not an EvalRegExCommand"); return; }
+            if(!evalRegExCommand.isEvalRegExCommand()) { this.notifyError(evalRegExCommand, "Argument is not an EvalRegExCommand"); return; }
 
             var regEx = evalRegExCommand.regExLiteral instanceof RegExp ? evalRegExCommand.regExLiteral
                                                                         : eval(evalRegExCommand.regExLiteral);
@@ -149,84 +144,21 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalAssignmentExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalAssignmentExpressionCommand.isEvalAssignmentExpressionCommand()) { this.notifyError(evalAssignmentExpressionCommand, "Argument is not an EvalAssignmentExpressionCommand"); return; }
+            if(!evalAssignmentExpressionCommand.isEvalAssignmentExpressionCommand()) { this.notifyError(evalAssignmentExpressionCommand, "Argument is not an EvalAssignmentExpressionCommand"); return; }
 
             var assignmentExpression = evalAssignmentExpressionCommand.codeConstruct;
 
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            var operator = evalAssignmentExpressionCommand.operator;
-            var finalValue = null;
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.leftSide, evaluationPosition);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(assignmentExpression, evalAssignmentExpressionCommand.rightSide, evaluationPosition);
 
             this.addDependenciesToTopBlockConstructs(assignmentExpression);
 
-            if(operator == "=")
-            {
-                finalValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.rightSide);
-            }
-            else
-            {
-                var leftValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.leftSide);
-                var rightValue = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.rightSide);
+            var finalValue = this._getFinalValue(evalAssignmentExpressionCommand);
 
-                var result = null;
-
-                if(operator == "+=") { result = leftValue.value + rightValue.value; }
-                else if (operator == "-=") { result = leftValue.value - rightValue.value; }
-                else if (operator == "*=") { result = leftValue.value * rightValue.value; }
-                else if (operator == "/=") { result = leftValue.value / rightValue.value; }
-                else if (operator == "%=") { result = leftValue.value % rightValue.value; }
-                else if (operator == "<<=") { result = leftValue.value << rightValue.value; }
-                else if (operator == ">>=") { result = leftValue.value >> rightValue.value; }
-                else if (operator == ">>>=") { result = leftValue.value >>> rightValue.value; }
-                else if (operator == "|=") { result = leftValue.value | rightValue.value; }
-                else if (operator == "^=") { result = leftValue.value ^ rightValue.value; }
-                else if (operator == "&=") { result = leftValue.value & rightValue.value; }
-                else { this.notifyError(evalAssignmentExpressionCommand, "Unknown assignment operator!"); return; }
-
-                finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(assignmentExpression, null));
-            }
-
-            finalValue = finalValue.isPrimitive() ? finalValue.createCopy(evalAssignmentExpressionCommand.rightSide) : finalValue;
-
-            if(ASTHelper.isIdentifier(evalAssignmentExpressionCommand.leftSide))
-            {
-                if(this.globalObject.satisfiesIdentifierSlicingCriteria(evalAssignmentExpressionCommand.leftSide))
-                {
-                    this.globalObject.browser.callImportantConstructReachedCallbacks(evalAssignmentExpressionCommand.leftSide);
-                }
-
-                this.executionContextStack.setIdentifierValue
-                (
-                    evalAssignmentExpressionCommand.leftSide.name,
-                    finalValue,
-                    assignmentExpression
-                );
-            }
-            else
-            {
-                var object = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.leftSide.object);
-                var property = this.executionContextStack.getExpressionValue(evalAssignmentExpressionCommand.leftSide.property);
-
-                if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
-
-                if (object.value == this.globalObject
-                ||  ValueTypeHelper.isOneOfTypes(object.value, [Document, DocumentFragment, HTMLElement, Text, Attr, CSSStyleDeclaration, Array])
-                ||  (object.fcInternal != null && object.fcInternal.object != null && object.fcInternal.object.constructor == fcModel.Event))
-                {
-                    object.fcInternal.object.addJsProperty(property.value, finalValue, assignmentExpression);
-                }
-                else
-                {
-                    object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
-                    object.value[property.value] = finalValue;
-                }
-
-                if(property.value == "__proto__" || property.value == "prototype") { object.value[property.value] = finalValue.value; }
-            }
+            if(ASTHelper.isIdentifier(evalAssignmentExpressionCommand.leftSide)) { this._assignValueToIdentifier(evalAssignmentExpressionCommand.leftSide, finalValue, assignmentExpression); }
+            else if (ASTHelper.isMemberExpression(evalAssignmentExpressionCommand.leftSide)) { this._assignValueToMemberExpression(evalAssignmentExpressionCommand.leftSide, finalValue, assignmentExpression); }
 
             this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
         }
@@ -234,6 +166,73 @@ fcSimulator.Evaluator.prototype =
         {
             this.notifyError(evalAssignmentExpressionCommand, "Error when evaluating assignment expression " + e);
         }
+    },
+
+    _getFinalValue: function(assignmentCommand)
+    {
+        var finalValue = null;
+        var operator = assignmentCommand.operator;
+
+        if(operator == "=")
+        {
+            finalValue = this.executionContextStack.getExpressionValue(assignmentCommand.rightSide);
+        }
+        else
+        {
+            var leftValue = this.executionContextStack.getExpressionValue(assignmentCommand.leftSide);
+            var rightValue = this.executionContextStack.getExpressionValue(assignmentCommand.rightSide);
+
+            var result = null;
+
+                 if (operator == "+=") { result = leftValue.value + rightValue.value; }
+            else if (operator == "-=") { result = leftValue.value - rightValue.value; }
+            else if (operator == "*=") { result = leftValue.value * rightValue.value; }
+            else if (operator == "/=") { result = leftValue.value / rightValue.value; }
+            else if (operator == "%=") { result = leftValue.value % rightValue.value; }
+            else if (operator == "<<=") { result = leftValue.value << rightValue.value; }
+            else if (operator == ">>=") { result = leftValue.value >> rightValue.value; }
+            else if (operator == ">>>=") { result = leftValue.value >>> rightValue.value; }
+            else if (operator == "|=") { result = leftValue.value | rightValue.value; }
+            else if (operator == "^=") { result = leftValue.value ^ rightValue.value; }
+            else if (operator == "&=") { result = leftValue.value & rightValue.value; }
+            else { this.notifyError(assignmentCommand, "Unknown assignment operator!"); return; }
+
+            finalValue = new fcModel.JsValue(result, new fcModel.FcInternal(assignmentCommand.codeConstruct, null));
+        }
+
+        return finalValue.isPrimitive() ? finalValue.createCopy(assignmentCommand.rightSide) : finalValue;
+    },
+
+    _assignValueToIdentifier: function(identifier, finalValue, assignmentExpression)
+    {
+        if(this.globalObject.satisfiesIdentifierSlicingCriteria(identifier))
+        {
+            this.globalObject.browser.callImportantConstructReachedCallbacks(identifier);
+        }
+
+        this.executionContextStack.setIdentifierValue(identifier.name, finalValue, assignmentExpression);
+    },
+
+    _assignValueToMemberExpression: function(memberExpression, finalValue, assignmentExpression)
+    {
+        var object = this.executionContextStack.getExpressionValue(memberExpression.object);
+        var property = this.executionContextStack.getExpressionValue(memberExpression.property);
+
+        if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
+
+        //TODO - fishy condition
+        if (object.value == this.globalObject ||  ValueTypeHelper.isOneOfTypes(object.value, [Document, DocumentFragment, HTMLElement, Text, Attr, CSSStyleDeclaration, Array])
+        ||  (object.fcInternal != null && object.fcInternal.object != null && object.fcInternal.object.constructor == fcModel.Event))
+        {
+            object.fcInternal.object.addJsProperty(property.value, finalValue, assignmentExpression);
+        }
+        else
+        {
+            object.fcInternal.object.addProperty(property.value, finalValue, assignmentExpression, true);
+            object.value[property.value] = finalValue;
+        }
+
+        if(property.value == "__proto__" || property.value == "prototype") { object.value[property.value] = finalValue.value; }
     },
 
     _evaluateUpdateExpressionCommand: function(evalUpdateExpressionCommand)
@@ -252,25 +251,21 @@ fcSimulator.Evaluator.prototype =
 
             if(ASTHelper.isIdentifier(codeConstruct.argument))
             {
-                this.executionContextStack.setIdentifierValue
+                this._assignValueToIdentifier
                 (
-                    codeConstruct.argument.name,
+                    codeConstruct.argument,
                     new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, new fcModel.FcInternal(codeConstruct)),
                     codeConstruct
                 );
             }
             else if(ASTHelper.isMemberExpression(codeConstruct.argument))
             {
-                var memberExpression = codeConstruct.argument;
-                var object = this.executionContextStack.getExpressionValue(memberExpression.object);
-                var property = this.executionContextStack.getExpressionValue(memberExpression.property);
-
-                if(object == null) { this.notifyError(evalUpdateExpressionCommand, "Can not update a property of null object!"); return; }
-
-                var newValue = new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, new fcModel.FcInternal(codeConstruct));
-
-                object.value[property.value] = newValue;
-                object.fcInternal.object.addProperty(property.value, newValue, codeConstruct, true);
+                this._assignValueToMemberExpression
+                (
+                    codeConstruct.argument,
+                    new fcModel.JsValue(codeConstruct.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, new fcModel.FcInternal(codeConstruct)),
+                    codeConstruct
+                );
             }
             else { this.notifyError(evalUpdateExpressionCommand, "Unknown code construct when updating expression!"); }
 
@@ -288,58 +283,70 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalIdentifierCommand, Firecrow.Interpreter.Commands.Command) || !evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
+            if(!evalIdentifierCommand.isEvalIdentifierCommand()) { this.notifyError(evalIdentifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
 
             var identifierConstruct = evalIdentifierCommand.codeConstruct;
 
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
             var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
             var identifierValue = identifier != null ? identifier.value : null;
-
-            if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 6791)
-            {
-                var a = 3;
-            }
 
             this.executionContextStack.setExpressionValue(identifierConstruct, identifierValue);
 
             if(identifier != null)
             {
-                if(!ASTHelper.isAssignmentExpression(identifierConstruct.parent) || identifierConstruct.parent.left != identifierConstruct || identifierConstruct.parent.operator.length == 2)
-                {
-                    if(identifier.lastModificationPosition != null)
-                    {
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            identifierConstruct,
-                            identifier.lastModificationPosition.codeConstruct,
-                            evaluationPosition,
-                            identifier.lastModificationPosition.evaluationPositionId
-                        );
-                    }
-                }
-
-                if(identifier.declarationConstruct != null && identifier.declarationConstruct != identifier.lastModificationPosition)
-                {
-                   this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                   (
-                       identifierConstruct,
-                       ASTHelper.isVariableDeclarator(identifier.declarationConstruct.codeConstruct) ? identifier.declarationConstruct.codeConstruct.id
-                                                                                                     : identifier.declarationConstruct.codeConstruct,
-                       evaluationPosition
-                   );
-                }
-
-                if(this.globalObject.satisfiesIdentifierSlicingCriteria(identifierConstruct))
-                {
-                    this.globalObject.browser.callImportantConstructReachedCallbacks(identifierConstruct);
-                }
+                this._addIdentifierDependencies(identifier, identifierConstruct, this.globalObject.getPreciseEvaluationPositionId());
+                this._checkSlicing(identifierConstruct);
             }
         }
-        catch(e)
+        catch(e) { this.notifyError(evalIdentifierCommand, "Error when evaluating identifier: " + e); }
+    },
+
+    _addIdentifierDependencies:function(identifier, identifierConstruct, evaluationPosition)
+    {
+        if(this._willIdentifierBeReadInAssignmentExpression(identifierConstruct))
         {
-            this.notifyError(evalIdentifierCommand, "Error when evaluating identifier: " + e);
+            this._addDependencyToLastModificationPoint(identifier, identifierConstruct, evaluationPosition);
+        }
+
+        this._addDependencyToIdentifierDeclaration(identifier, identifierConstruct, evaluationPosition);
+    },
+
+    _willIdentifierBeReadInAssignmentExpression: function(identifierConstruct)
+    {
+        return !ASTHelper.isAssignmentExpression(identifierConstruct.parent) || identifierConstruct.parent.left != identifierConstruct || identifierConstruct.parent.operator.length == 2;
+    },
+
+    _addDependencyToLastModificationPoint: function(identifier, identifierConstruct, evaluationPosition)
+    {
+        if(identifier.lastModificationPosition == null) { return; }
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            identifierConstruct,
+            identifier.lastModificationPosition.codeConstruct,
+            evaluationPosition,
+            identifier.lastModificationPosition.evaluationPositionId
+        );
+    },
+
+    _addDependencyToIdentifierDeclaration: function(identifier, identifierConstruct, evaluationPosition)
+    {
+        if(identifier.declarationConstruct == null || identifier.declarationConstruct == identifier.lastModificationPosition) { return; }
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            identifierConstruct,
+            ASTHelper.isVariableDeclarator(identifier.declarationConstruct.codeConstruct) ? identifier.declarationConstruct.codeConstruct.id
+                                                                                          : identifier.declarationConstruct.codeConstruct,
+            evaluationPosition
+        );
+    },
+
+    _checkSlicing: function(identifierConstruct)
+    {
+        if(this.globalObject.satisfiesIdentifierSlicingCriteria(identifierConstruct))
+        {
+            this.globalObject.browser.callImportantConstructReachedCallbacks(identifierConstruct);
         }
     },
 
@@ -361,79 +368,84 @@ fcSimulator.Evaluator.prototype =
             if(leftExpressionValue == null) { this._callExceptionCallbacks(); return; }
             if(rightExpressionValue == null) { this._callExceptionCallbacks(); return; }
 
-            var operator = binaryExpression.operator;
-
-            var result = null;
-
-                 if (operator == "==") { result = leftExpressionValue.value == rightExpressionValue.value;}
-            else if (operator == "!=") { result = leftExpressionValue.value != rightExpressionValue.value; }
-            else if (operator == "===") { result = leftExpressionValue.value === rightExpressionValue.value; }
-            else if (operator == "!==") { result = leftExpressionValue.value !== rightExpressionValue.value; }
-            else if (operator == "<") { result = leftExpressionValue.value < rightExpressionValue.value; }
-            else if (operator == "<=") { result = leftExpressionValue.value <= rightExpressionValue.value; }
-            else if (operator == ">") { result = leftExpressionValue.value > rightExpressionValue.value; }
-            else if (operator == ">=") { result = leftExpressionValue.value >= rightExpressionValue.value; }
-            else if (operator == "<<") { result = leftExpressionValue.value << rightExpressionValue.value; }
-            else if (operator == ">>") { result = leftExpressionValue.value >> rightExpressionValue.value; }
-            else if (operator == ">>>") { result = leftExpressionValue.value >>> rightExpressionValue.value; }
-            else if (operator == "+")
-            {
-                if(typeof leftExpressionValue.value == "object" && !(leftExpressionValue.value instanceof String) && leftExpressionValue.value != null
-                || (typeof rightExpressionValue.value == "object" && !(rightExpressionValue.value instanceof String) && rightExpressionValue.value != null))
-                {
-                    //TODO - temp jQuery hack
-                    if(ValueTypeHelper.isArray(leftExpressionValue.value) && ValueTypeHelper.isArray(rightExpressionValue.value))
-                    {
-                       result = (leftExpressionValue.value.map(function(item) { return item.value})).join("")
-                              + (rightExpressionValue.value.map(function(item) { return item.value})).join("")
-                    }
-                    else if (ValueTypeHelper.isObject(rightExpressionValue.value) || ValueTypeHelper.isObject(leftExpressionValue.value))
-                    {
-                        console.log("Concatenating strings from object!");
-                        result = leftExpressionValue.value + rightExpressionValue.value;
-                    }
-                    else
-                    {
-                        this.notifyError(evalBinaryExpressionCommand, "Still not handling implicit toString conversion in binary expression!");
-                        return;
-                    }
-                }
-                else
-                {
-                    result = leftExpressionValue.value + rightExpressionValue.value;
-                }
-            }
-            else if (operator == "-") { result = leftExpressionValue.value - rightExpressionValue.value; }
-            else if (operator == "*") { result = leftExpressionValue.value * rightExpressionValue.value; }
-            else if (operator == "/") { result = leftExpressionValue.value / rightExpressionValue.value; }
-            else if (operator == "%") { result = leftExpressionValue.value % rightExpressionValue.value; }
-            else if (operator == "|") { result = leftExpressionValue.value | rightExpressionValue.value; }
-            else if (operator == "^") { result = leftExpressionValue.value ^ rightExpressionValue.value; }
-            else if (operator == "&") { result = leftExpressionValue.value & rightExpressionValue.value; }
-            else if (operator == "in") { result = leftExpressionValue.value in rightExpressionValue.value; }
-            else if (operator == "instanceof")
-            {
-                var compareWith = null;
-
-                if(rightExpressionValue == this.globalObject.arrayFunction || rightExpressionValue.value == this.globalObject.arrayFunction) { compareWith = Array; }
-                else if (rightExpressionValue == this.globalObject.stringFunction || rightExpressionValue.value == this.globalObject.stringFunction) { compareWith = String; }
-                else if (rightExpressionValue == this.globalObject.regExFunction || rightExpressionValue.value == this.globalObject.regExFunction) { compareWith = RegExp; }
-                else if (rightExpressionValue.value != undefined) { compareWith = rightExpressionValue.value; }
-                else
-                {
-                    this.notifyError(evalBinaryExpressionCommand, "Unhandled instanceof");
-                }
-
-                result = leftExpressionValue.value instanceof compareWith;
-            }
-            else { this.notifyError(evalBinaryExpressionCommand, "Unknown operator when evaluating binary expression"); return; }
-
-            this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.JsValue(result, new fcModel.FcInternal(binaryExpression)));
+            this.executionContextStack.setExpressionValue
+            (
+                binaryExpression,
+                new fcModel.JsValue
+                (
+                    this._evaluateBinaryExpression(leftExpressionValue, rightExpressionValue, binaryExpression.operator),
+                    new fcModel.FcInternal(binaryExpression)
+                )
+            );
         }
-        catch(e)
+        catch(e) { this.notifyError(evalBinaryExpressionCommand, "Error when evaluating binary expression: " + e); }
+    },
+
+    _evaluateBinaryExpression: function(leftExpressionValue, rightExpressionValue, operator)
+    {
+        if (operator == "==") { return leftExpressionValue.value == rightExpressionValue.value;}
+        else if (operator == "!=") { return leftExpressionValue.value != rightExpressionValue.value; }
+        else if (operator == "===") { return leftExpressionValue.value === rightExpressionValue.value; }
+        else if (operator == "!==") { return leftExpressionValue.value !== rightExpressionValue.value; }
+        else if (operator == "<") { return leftExpressionValue.value < rightExpressionValue.value; }
+        else if (operator == "<=") { return leftExpressionValue.value <= rightExpressionValue.value; }
+        else if (operator == ">") { return leftExpressionValue.value > rightExpressionValue.value; }
+        else if (operator == ">=") { return leftExpressionValue.value >= rightExpressionValue.value; }
+        else if (operator == "<<") { return leftExpressionValue.value << rightExpressionValue.value; }
+        else if (operator == ">>") { return leftExpressionValue.value >> rightExpressionValue.value; }
+        else if (operator == ">>>") { return leftExpressionValue.value >>> rightExpressionValue.value; }
+        else if (operator == "-") { return leftExpressionValue.value - rightExpressionValue.value; }
+        else if (operator == "*") { return leftExpressionValue.value * rightExpressionValue.value; }
+        else if (operator == "/") { return leftExpressionValue.value / rightExpressionValue.value; }
+        else if (operator == "%") { return leftExpressionValue.value % rightExpressionValue.value; }
+        else if (operator == "|") { return leftExpressionValue.value | rightExpressionValue.value; }
+        else if (operator == "^") { return leftExpressionValue.value ^ rightExpressionValue.value; }
+        else if (operator == "&") { return leftExpressionValue.value & rightExpressionValue.value; }
+        else if (operator == "in") { return leftExpressionValue.value in rightExpressionValue.value; }
+        else if (operator == "+") { return this._evaluateAddExpression(leftExpressionValue, rightExpressionValue); }
+        else if (operator == "instanceof") { return this._evaluateInstanceOfExpression(leftExpressionValue, rightExpressionValue);}
+        else { this.notifyError(null, "Unknown operator when evaluating binary expression"); return; }
+    },
+
+    _evaluateAddExpression: function(leftExpressionValue, rightExpressionValue)
+    {
+        if(typeof leftExpressionValue.value == "object" && !(leftExpressionValue.value instanceof String) && leftExpressionValue.value != null
+       || (typeof rightExpressionValue.value == "object" && !(rightExpressionValue.value instanceof String) && rightExpressionValue.value != null))
         {
-            this.notifyError(evalBinaryExpressionCommand, "Error when evaluating binary expression: " + e);
+            //TODO - temp jQuery hack
+            if(ValueTypeHelper.isArray(leftExpressionValue.value) && ValueTypeHelper.isArray(rightExpressionValue.value))
+            {
+                return (leftExpressionValue.value.map(function(item) { return item.value})).join("")
+                     + (rightExpressionValue.value.map(function(item) { return item.value})).join("")
+            }
+            else if (ValueTypeHelper.isObject(rightExpressionValue.value) || ValueTypeHelper.isObject(leftExpressionValue.value))
+            {
+                console.log("Concatenating strings from object!");
+                return leftExpressionValue.value + rightExpressionValue.value;
+            }
+            else
+            {
+                this.notifyError(null, "Still not handling implicit toString conversion in binary expression!");
+                return null;
+            }
         }
+        else
+        {
+            return leftExpressionValue.value + rightExpressionValue.value;
+        }
+    },
+
+    _evaluateInstanceOfExpression: function(leftExpressionValue, rightExpressionValue)
+    {
+        var compareWith = null;
+
+        if(rightExpressionValue == this.globalObject.arrayFunction || rightExpressionValue.value == this.globalObject.arrayFunction) { compareWith = Array; }
+        else if (rightExpressionValue == this.globalObject.stringFunction || rightExpressionValue.value == this.globalObject.stringFunction) { compareWith = String; }
+        else if (rightExpressionValue == this.globalObject.regExFunction || rightExpressionValue.value == this.globalObject.regExFunction) { compareWith = RegExp; }
+        else if (rightExpressionValue.value != undefined) { compareWith = rightExpressionValue.value; }
+        else { this.notifyError(null, "Unhandled instanceof"); }
+
+        return leftExpressionValue.value instanceof compareWith;
     },
 
     _evaluateReturnExpressionCommand: function(evalReturnExpressionCommand)
