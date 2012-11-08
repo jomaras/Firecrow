@@ -37,6 +37,21 @@ Firecrow.ValueTypeHelper =
             || variable == null;
     },
 
+    arePrimitive: function()
+    {
+        if(arguments.length == 0) { return false; }
+
+        for(var i = 0; i < arguments.length; i++)
+        {
+            if(!this.isPrimitive(arguments[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    },
+
     isFunction: function(variable)
     {
         return this.isOfType(variable, Function) || (typeof variable == "function");

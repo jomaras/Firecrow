@@ -409,6 +409,12 @@ fcSimulator.Evaluator.prototype =
 
     _evaluateAddExpression: function(leftExpressionValue, rightExpressionValue)
     {
+        if(ValueTypeHelper.arePrimitive(leftExpressionValue.value, rightExpressionValue.value))
+        {
+            return leftExpressionValue.value + rightExpressionValue.value;
+        }
+
+        //TODO - this needs more tests!
         if(typeof leftExpressionValue.value == "object" && !(leftExpressionValue.value instanceof String) && leftExpressionValue.value != null
        || (typeof rightExpressionValue.value == "object" && !(rightExpressionValue.value instanceof String) && rightExpressionValue.value != null))
         {
@@ -429,10 +435,8 @@ fcSimulator.Evaluator.prototype =
                 return null;
             }
         }
-        else
-        {
-            return leftExpressionValue.value + rightExpressionValue.value;
-        }
+
+        return null;
     },
 
     _evaluateInstanceOfExpression: function(leftExpressionValue, rightExpressionValue)

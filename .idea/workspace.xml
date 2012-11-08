@@ -6,10 +6,10 @@
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Minor Refactorings in Identifier, JsValue, and Math">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Refactorings in Evaluator">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDom.html" afterPath="$PROJECT_DIR$/debug/debugDom.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,7 +61,7 @@
       <file leaf-file-name="Evaluator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="449" column="50" selection-start="25275" selection-end="25275" vertical-scroll-proportion="0.43719414">
+            <state line="417" column="39" selection-start="23379" selection-end="23379" vertical-scroll-proportion="0.31484503">
               <folding />
             </state>
           </provider>
@@ -80,7 +80,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/Image.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/Image.js" />
@@ -95,6 +94,7 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/JsValue.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Math.js" />
         <option value="$PROJECT_DIR$/debug/debugDom.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       </list>
     </option>
@@ -1808,7 +1808,11 @@
       <created>1352373990737</created>
       <updated>1352373990737</updated>
     </task>
-    <option name="localTasksCounter" value="329" />
+    <task id="LOCAL-00329" summary="Refactorings in Evaluator">
+      <created>1352378607620</created>
+      <updated>1352378607620</updated>
+    </task>
+    <option name="localTasksCounter" value="330" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1904,7 +1908,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor Refactorings in Identifier, JsValue, and Math" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactorings in Evaluator" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1917,7 +1921,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Minor changes in Attribute" />
     <MESSAGE value="Minor changes in ClassList" />
     <MESSAGE value="Minor changes in CSSStyleDeclarations" />
     <MESSAGE value="Minor changes - deleting header comments" />
@@ -1942,6 +1945,7 @@
     <MESSAGE value="Refactoring in GlobalObject" />
     <MESSAGE value="Image removed from global object" />
     <MESSAGE value="Minor Refactorings in Identifier, JsValue, and Math" />
+    <MESSAGE value="Refactorings in Evaluator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1954,37 +1958,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="121" selection-end="162" vertical-scroll-proportion="0.047923323">
-          <folding>
-            <element signature="e#253#1127#0" expanded="false" />
-            <element signature="e#1130#1172#0" expanded="false" />
-            <element signature="e#2568#2609#0" expanded="false" />
-            <element signature="e#3237#3274#0" expanded="false" />
-            <element signature="e#3399#3618#0" expanded="false" />
-            <element signature="e#3707#4326#0" expanded="false" />
-            <element signature="e#4455#4677#0" expanded="false" />
-            <element signature="e#4768#5502#0" expanded="false" />
-            <element signature="e#5634#5844#0" expanded="false" />
-            <element signature="e#5864#5906#0" expanded="false" />
-            <element signature="e#5982#6147#0" expanded="false" />
-            <element signature="e#6241#6676#0" expanded="false" />
-            <element signature="e#6748#6949#0" expanded="false" />
-            <element signature="e#7032#7107#0" expanded="false" />
-            <element signature="e#7127#7166#0" expanded="false" />
-            <element signature="e#9612#9652#0" expanded="false" />
-            <element signature="e#9729#9853#0" expanded="false" />
-            <element signature="e#9927#10424#0" expanded="false" />
-            <element signature="e#10496#12493#0" expanded="false" />
-            <element signature="e#12563#13192#0" expanded="false" />
-            <element signature="e#13264#13451#0" expanded="false" />
-            <element signature="e#13517#13613#0" expanded="false" />
-            <element signature="e#13679#13840#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="49" selection-start="851" selection-end="851" vertical-scroll-proportion="0.017571885">
@@ -2085,9 +2058,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="20" selection-start="1242" selection-end="1242" vertical-scroll-proportion="0.78753996">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="449" column="50" selection-start="25275" selection-end="25275" vertical-scroll-proportion="0.43719414">
+        <state line="417" column="39" selection-start="23379" selection-end="23379" vertical-scroll-proportion="0.31484503">
           <folding />
         </state>
       </provider>
