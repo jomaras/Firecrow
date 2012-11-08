@@ -907,23 +907,27 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            var logicalExpression = evaluateEndLogicalExpressionCommand.codeConstruct;
-            var executedItemsCommands = evaluateEndLogicalExpressionCommand.executedLogicalItemExpressionCommands;
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            for(var i = 0, length = executedItemsCommands.length; i < length; i++)
-            {
-                var executedLogicalExpressionItemConstruct = executedItemsCommands[i].codeConstruct;
-
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    logicalExpression,
-                    executedLogicalExpressionItemConstruct,
-                    evaluationPosition
-                );
-            }
+            this._createDependenciesForLogicalExpression(evaluateEndLogicalExpressionCommand);
         }
         catch(e) { this.notifyError(evaluateEndLogicalExpressionCommand, "Error when evaluating end logical expression item command: " + e); }
+    },
+
+    _createDependenciesForLogicalExpression: function(logicalExpressionCommand)
+    {
+        var executedItemsCommands = logicalExpressionCommand.executedLogicalItemExpressionCommands;
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0, length = executedItemsCommands.length; i < length; i++)
+        {
+            var executedLogicalExpressionItemConstruct = executedItemsCommands[i].codeConstruct;
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                logicalExpressionCommand.codeConstruct,
+                executedLogicalExpressionItemConstruct,
+                evaluationPosition
+            );
+        }
     },
 
     _evaluateUnaryExpression: function(evaluateUnaryExpressionCommand)
