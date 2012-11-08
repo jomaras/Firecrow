@@ -30,8 +30,6 @@ fcModel.GlobalObject = function(browser)
 
         this._createEvaluationPositionProperties();
 
-        //this.isPrimitive = function() { return false;}
-
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
     catch(e)
@@ -40,13 +38,8 @@ fcModel.GlobalObject = function(browser)
     }
 };
 
-fcModel.GlobalObject.notifyError = function(message)
-{
-    alert("GlobalObject - " + message);
-}
-
-fcModel.GlobalObject.prototype = new fcModel.Object();
-
+//<editor-fold desc="'Static' properties">
+fcModel.GlobalObject.notifyError = function(message) { alert("GlobalObject - " + message); }
 fcModel.GlobalObject.CONST =
 {
     INTERNAL_PROPERTIES:
@@ -72,6 +65,9 @@ fcModel.GlobalObject.CONST =
     isMethod: function(methodName) { return this.INTERNAL_PROPERTIES.METHODS.indexOf(methodName) != -1; },
     isEventProperty: function(propertyName) { return this.INTERNAL_PROPERTIES.EVENT_PROPERTIES.indexOf(propertyName) != -1; }
 };
+//</editor-fold>
+
+fcModel.GlobalObject.prototype = new fcModel.Object();
 
 //<editor-fold desc="Property Accessors">
 fcModel.GlobalObject.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
@@ -299,6 +295,7 @@ fcModel.GlobalObject.prototype._createSlicingVariables = function()
 };
 //</editor-fold>
 
+//<editor-fold desc="'Private methods'">
 fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 {
     this.browser = browser;
@@ -411,98 +408,6 @@ fcModel.GlobalObject.prototype._logAccessingUndefinedProperty = function(propert
 
     this.undefinedGlobalPropertiesAccessMap[propertyName][codeConstruct.nodeId] = codeConstruct;
 };
-
-fcModel.GlobalObjectExecutor =
-{
-    executeInternalFunction: function(fcFunction, arguments, callExpression, globalObject)
-    {
-        try
-        {
-            if(fcFunction.value.name == "eval") { return _handleEval(fcFunction, arguments, callExpression, globalObject); }
-            else if (fcFunction.value.name == "addEventListener") { return globalObject.addEventListener(arguments, callExpression, globalObject); }
-            else if (fcFunction.value.name == "removeEventListener") { return globalObject.removeEventListener(arguments, callExpression, globalObject); }
-            else if (fcFunction.value.name == "setTimeout" || fcFunction.value.name == "setInterval")
-            {
-                var timeoutId = setTimeout(function(){});
-
-                var timingEventArguments = [timeoutId, arguments[0], arguments[1].value, arguments.slice(2), { codeConstruct:callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()}];
-
-                if(fcFunction.value.name == "setTimeout")
-                {
-                    globalObject.registerTimeout.apply(globalObject, timingEventArguments);
-                }
-                else if(fcFunction.value.name == "setInterval")
-                {
-                    globalObject.registerInterval.apply(globalObject, timingEventArguments);
-                }
-
-                return new fcModel.JsValue(timeoutId, new fcModel.FcInternal());
-            }
-            else if (fcFunction.value.name == "clearTimeout" || fcFunction.value.name == "clearInterval")
-            {
-                if(fcFunction.value.name == "clearTimeout")
-                {
-                    globalObject.unregisterTimeout(arguments[0] != null ? arguments[0].value : null, callExpression);
-                }
-                else
-                {
-                    globalObject.unregisterInterval(arguments[0] != null ? arguments[0].value : null, callExpression);
-                }
-
-
-                return new fcModel.JsValue(undefined, new fcModel.FcInternal());
-            }
-            else if (fcFunction.value.name == "getComputedStyle")
-            {
-                var jsHtmlElement = arguments[0];
-
-                if(!(jsHtmlElement.value instanceof HTMLElement)) { this.notifyError("Wrong argument when getting computed style");}
-
-                var htmlElement = jsHtmlElement.value;
-                var computedStyle = globalObject.origWindow[fcFunction.value.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.value; }));
-
-                return fcModel.CSSStyleDeclaration.createStyleDeclaration(htmlElement, computedStyle, globalObject, callExpression);
-            }
-
-            return new fcModel.JsValue
-                (
-                    globalObject.origWindow[fcFunction.value.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.value; })),
-                    new fcModel.FcInternal(callExpression, null)
-                )
-        }
-        catch(e)
-        {
-            fcModel.GlobalObject.notifyError("Error when executing global object function internal function: " + e);
-        }
-    },
-
-    _handleEval: function(fcFunction, arguments, callExpression, globalObject)
-    {
-        fcModel.GlobalObject.notifyError("Not handling eval function!");
-
-        return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression));
-    },
-
-    executesFunction: function(globalObject, functionName)
-    {
-        return globalObject.origWindow[functionName] != null && ValueTypeHelper.isFunction(globalObject.origWindow[functionName]);
-    }
-};
-
-fcModel.ImageFunction = function(globalObject)
-{
-    try
-    {
-        this.initObject(globalObject);
-        this.addProperty("src", new fcModel.JsValue("", new fcModel.FcInternal()));
-
-        this.isInternalFunction = true;
-        this.name = "Image";
-        this.fcInternal = { object: this };
-    }
-    catch(e){ fcModel.GlobalObject.notifyError("Error when creating image function: " + e); }
-};
-
-fcModel.ImageFunction.prototype = new fcModel.Object();
+    //</editor-fold>
 /*************************************************************************************/
 }});

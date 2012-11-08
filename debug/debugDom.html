@@ -33,7 +33,8 @@
     <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js"></script>
 
-    <script src="../chrome/content/Firecrow/interpreter/model/GlobalObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/array/Array.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js"></script>
@@ -123,7 +124,7 @@
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/24/index.html";
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/21/index.html";
         var htmlModel = DomHtmlModelMapping.getWholeFileModel(url);
         var slicingCriteria = htmlModel.results.map(function(result)
         {

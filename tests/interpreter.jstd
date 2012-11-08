@@ -18,7 +18,8 @@ load:
   - ../chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js
   - ../chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js
   - ../chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js
-  - ../chrome/content/Firecrow/interpreter/model/GlobalObject.js
+  - ../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js
+  - ../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js
   - ../chrome/content/Firecrow/interpreter/model/internal/RegEx.js
   - ../chrome/content/Firecrow/interpreter/model/array/Array.js
   - ../chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js
@@ -45,6 +46,7 @@ load:
   - ../chrome/content/Firecrow/interpreter/model/internal/Boolean.js
   - ../chrome/content/Firecrow/interpreter/model/internal/Number.js
   - ../chrome/content/Firecrow/interpreter/model/internal/String.js
+  - ../chrome/content/Firecrow/interpreter/model/internal/Image.js
   - ../chrome/content/Firecrow/interpreter/simulator/VariableObject.js
   - ../chrome/content/Firecrow/interpreter/simulator/Evaluator.js
   - ../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js
