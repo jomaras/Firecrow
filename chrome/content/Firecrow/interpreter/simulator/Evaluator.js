@@ -487,10 +487,7 @@ fcSimulator.Evaluator.prototype =
                 );
             }
         }
-        catch(e)
-        {
-            this.notifyError(evalReturnExpressionCommand, "Error when evaluating return expression: " + e);
-        }
+        catch(e) { this.notifyError(evalReturnExpressionCommand, "Error when evaluating return expression: " + e); }
     },
 
     _handleReturnFromCallbackFunction: function(returnCommand)
@@ -537,7 +534,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalMemberExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { this.notifyError(evalMemberExpressionCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
+            if(!evalMemberExpressionCommand.isEvalMemberExpressionCommand()) { this.notifyError(evalMemberExpressionCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
 
             var memberExpression = evalMemberExpressionCommand.codeConstruct;
 
@@ -548,33 +545,10 @@ fcSimulator.Evaluator.prototype =
             //TODO: check dom test 13 Object.constructor.prototype not working as it should!
             var property = this.executionContextStack.getExpressionValue(memberExpression.property);
 
-            var propertyValue;
+            var propertyValue = this._getPropertyValue(object, property, memberExpression);
 
-            if(object.value == this.globalObject
-            || ValueTypeHelper.isOneOfTypes(object.value, [HTMLElement, Text, Document, DocumentFragment, CSSStyleDeclaration, Attr, Array, RegExp])
-                ||  (object.fcInternal != null && object.fcInternal.object != null && object.fcInternal.object.constructor == fcModel.Event))
-            {
-                propertyValue = object.fcInternal.object.getJsPropertyValue(property.value, memberExpression);
-            }
-            else { propertyValue = object.value[property.value]; }
-
-            var propertyExists = propertyValue !== undefined;
-
-            if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue))
-            {
-                if(propertyValue != null && propertyValue.jsValue != null && !ValueTypeHelper.isPrimitive(propertyValue))
-                {
-                    propertyValue = propertyValue.jsValue;
-                }
-                else if (ValueTypeHelper.isPrimitive(propertyValue))
-                {
-                    propertyValue = new fcModel.JsValue(propertyValue, new fcModel.FcInternal(memberExpression));
-                }
-                else
-                {
-                    this.notifyError(evalMemberExpressionCommand, "The property value should be of type JsValue"); return;
-                }
-            }
+            //TODO - possibly can create a problem? - for problems see slicing 54, 55, 56
+            var propertyExists = propertyValue !== undefined && propertyValue.value !== undefined;
 
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
@@ -635,6 +609,31 @@ fcSimulator.Evaluator.prototype =
         {
             this.notifyError(evalMemberExpressionCommand, "Error when evaluating member expression: " + e);
         }
+    },
+
+    _getPropertyValue: function(object, property, memberExpression)
+    {
+        var propertyValue = null;
+
+        //TODO: Fishy condition
+        if(object.value == this.globalObject || ValueTypeHelper.isOneOfTypes(object.value, [HTMLElement, Text, Document, DocumentFragment, CSSStyleDeclaration, Attr, Array, RegExp])
+        ||(object.fcInternal != null && object.fcInternal.object != null && object.fcInternal.object.constructor == fcModel.Event))
+        {
+            propertyValue = object.fcInternal.object.getJsPropertyValue(property.value, memberExpression);
+        }
+        else
+        {
+            propertyValue = object.value[property.value];
+        }
+
+        if(!ValueTypeHelper.isOfType(propertyValue, fcModel.JsValue))
+        {
+            if(propertyValue != null && propertyValue.jsValue != null && !ValueTypeHelper.isPrimitive(propertyValue)) { propertyValue = propertyValue.jsValue; }
+            else if (ValueTypeHelper.isPrimitive(propertyValue)) { propertyValue = new fcModel.JsValue(propertyValue, new fcModel.FcInternal(memberExpression)); }
+            else { this.notifyError(null, "The property value should be of type JsValue"); return; }
+        }
+
+        return propertyValue;
     },
 
     _evaluateMemberExpressionPropertyCommand: function(evalMemberExpressionPropertyCommand)
