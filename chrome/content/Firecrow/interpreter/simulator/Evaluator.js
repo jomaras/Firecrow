@@ -194,7 +194,7 @@ fcSimulator.Evaluator.prototype =
 
             if(ASTHelper.isIdentifier(evalAssignmentExpressionCommand.leftSide))
             {
-                if(this.globalObject.checkIfSatisfiesIdentifierSlicingCriteria(evalAssignmentExpressionCommand.leftSide))
+                if(this.globalObject.satisfiesIdentifierSlicingCriteria(evalAssignmentExpressionCommand.leftSide))
                 {
                     this.globalObject.browser.callImportantConstructReachedCallbacks(evalAssignmentExpressionCommand.leftSide);
                 }
@@ -331,7 +331,7 @@ fcSimulator.Evaluator.prototype =
                    );
                 }
 
-                if(this.globalObject.checkIfSatisfiesIdentifierSlicingCriteria(identifierConstruct))
+                if(this.globalObject.satisfiesIdentifierSlicingCriteria(identifierConstruct))
                 {
                     this.globalObject.browser.callImportantConstructReachedCallbacks(identifierConstruct);
                 }

@@ -7,7 +7,7 @@ fcModel.HtmlElementExecutor =
 {
     addDependencyIfImportantElement: function(htmlElement, globalObject, codeConstruct)
     {
-        if(globalObject.checkIfSatisfiesDomSlicingCriteria(htmlElement))
+        if(globalObject.satisfiesDomSlicingCriteria(htmlElement))
         {
             globalObject.browser.callImportantConstructReachedCallbacks(codeConstruct);
         }

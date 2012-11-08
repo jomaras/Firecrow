@@ -113,7 +113,7 @@ Browser.prototype =
             this._setAttributes(htmlDomElement, htmlModelElement);
             this._insertIntoDom(htmlDomElement, parentDomElement);
 
-            htmlModelElement.shouldBeIncluded = this.globalObject.checkIfSatisfiesDomSlicingCriteria(htmlDomElement);
+            htmlModelElement.shouldBeIncluded = this.globalObject.satisfiesDomSlicingCriteria(htmlDomElement);
 
             if(htmlModelElement.shouldBeIncluded && htmlModelElement.nodeId == 46337)
             {
