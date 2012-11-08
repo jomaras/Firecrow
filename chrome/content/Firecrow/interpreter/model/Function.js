@@ -2,6 +2,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 
+//<editor-fold desc="Function">
 fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
 {
     this.initObject(globalObject, codeConstruct, value);
@@ -17,22 +18,11 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
     this.fcInternal = this;
 };
 
-fcModel.Function.notifyError = function(message) { alert("Function - " + message); };
-
-fcModel.EmptyFunction = function(globalObject)
-{
-    this.initObject(globalObject);
-    this.name = "Empty";
-};
-
-fcModel.EmptyFunction.prototype = new fcModel.Object();
-fcModel.Function.prototype = new fcModel.EmptyFunction();
-
 fcModel.Function.createInternalNamedFunction = function(globalObject, name, ownerObject)
 {
     try
     {
-        var functionObject = new Firecrow.Interpreter.Model.Function(globalObject, [], null);
+        var functionObject = new fcModel.Function(globalObject, []);
 
         functionObject.name = name;
         functionObject.isInternalFunction = true;
@@ -43,6 +33,11 @@ fcModel.Function.createInternalNamedFunction = function(globalObject, name, owne
     catch(e) { fcModel.Function.notifyError("Error when creating Internal Named Function: " + e); }
 };
 
+fcModel.Function.notifyError = function(message) { alert("Function - " + message); };
+fcModel.Function.prototype = new fcModel.Object();
+//</editor-fold>
+
+//<editor-fold desc="Function prototype">
 fcModel.FunctionPrototype = function(globalObject)
 {
     try
@@ -69,5 +64,6 @@ fcModel.FunctionPrototype.CONST =
         METHODS: ["apply", "call", "toString", "bind"]
     }
 };
+//</editor-fold>
 /*************************************************************************************/
 }});
