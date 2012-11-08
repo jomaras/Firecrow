@@ -44,14 +44,14 @@ fcModel.Math.CONST =
     }
 }
 
-fcModel.Math.prototype = new fcModel.Object(null);
+fcModel.Math.prototype = new fcModel.Object();
 fcModel.MathExecutor =
 {
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
         try
         {
-            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing Math method!"); return; }
+            if(!functionObject.fcInternal.isInternalFunction) { fcModel.notifyError("The function should be internal when executing Math method!"); return; }
 
             return new fcModel.JsValue
             (
@@ -59,7 +59,7 @@ fcModel.MathExecutor =
                 new fcModel.FcInternal(callExpression)
             );
         }
-        catch(e) { Firecrow.Interpreter.Model.Math.notifyError("Error when executing internal math method: " + e);}
+        catch(e) { fcModel.Math.notifyError("Error when executing internal math method: " + e);}
     }
 }
 /*************************************************************************************/

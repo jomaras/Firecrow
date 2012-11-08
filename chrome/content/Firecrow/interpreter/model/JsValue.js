@@ -1,8 +1,3 @@
-/**
- * User: Jomaras
- * Date: 25.05.12.
- * Time: 08:15
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
@@ -17,7 +12,7 @@ fcModel.JsValue = function(value, fcInternal)
         this.value = value;
         this.fcInternal = fcInternal;
     }
-    catch(e) { alert("JsValue - error when creating: " + e); }
+    catch(e) { fcModel.JsValue.notifyError("Error when creating: " + e); }
 };
 
 fcModel.JsValue.LAST_ID = 0;
@@ -29,17 +24,17 @@ fcModel.JsValue.prototype =
     isPrimitive: function() { return ValueTypeHelper.isPrimitive(this.value); },
     getPropertyValue: function(propertyName)
     {
-        if(propertyName == null || propertyName == "") { this.notifyError("When getting property value, the property name must not be empty!"); return; }
+        if(propertyName == null || propertyName == "") { fcModel.JsValue.notifyError("When getting property value, the property name must not be empty!"); return; }
 
-        if(ValueTypeHelper.isPrimitive(this.value)) { this.notifyError("Still not handling getting properties from primitives"); return; }
+        if(ValueTypeHelper.isPrimitive(this.value)) { fcModel.JsValue.notifyError("Still not handling getting properties from primitives"); return; }
+
+        return null;
     },
 
     createCopy: function(codeConstruct)
     {
         return new fcModel.JsValue(this.value, new fcModel.FcInternal(codeConstruct));
-    },
-
-    notifyError: function(message) { Firecrow.Interpreter.Model.JsValue.notifyError(message); }
+    }
 };
 
 fcModel.FcInternal = function(codeConstruct, object)

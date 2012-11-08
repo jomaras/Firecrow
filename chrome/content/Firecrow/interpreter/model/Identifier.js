@@ -7,22 +7,22 @@ FBL.ns(function() { with (FBL) {
 var ASTHelper = Firecrow.ASTHelper;
 var fcModel = Firecrow.Interpreter.Model;
 
-Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, globalObject)
+fcModel.Identifier = function(name, value, codeConstruct, globalObject)
 {
     try
     {
         this.id = fcModel.Identifier.LAST_ID++;
         this.name = name;
         this.value = value;
+        this.globalObject = globalObject;
+
         this.modificationConstructs = [];
         this.lastModificationPosition = null;
-        this.globalObject = globalObject;
 
         if(codeConstruct != null)
         {
             this.declarationConstruct = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
 
-            if(ASTHelper.isVariableDeclarator(codeConstruct)) {}
             if(ASTHelper.isObjectExpressionPropertyValue(codeConstruct))
             {
                 this.lastModificationPosition = { codeConstruct: codeConstruct.value, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
@@ -35,10 +35,7 @@ Firecrow.Interpreter.Model.Identifier = function(name, value, codeConstruct, glo
             this.modificationConstructs.push(this.declarationConstruct);
         }
     }
-    catch(e)
-    {
-        Firecrow.Interpreter.Model.Identifier.notifyError("Error when constructing: " + e );
-    }
+    catch(e) { fcModel.Identifier.notifyError("Error when constructing: " + e ); }
 };
 
 Firecrow.Interpreter.Model.Identifier.notifyError = function(message) { alert("Identifier - " + message); };
