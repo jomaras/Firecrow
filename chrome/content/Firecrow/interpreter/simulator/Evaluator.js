@@ -934,21 +934,16 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evaluateUnaryExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evaluateUnaryExpressionCommand.isEvalUnaryExpressionCommand()) { this.notifyError(evaluateUnaryExpressionCommand, "Argument has to be an eval unary item command!"); return; }
+            if(!evaluateUnaryExpressionCommand.isEvalUnaryExpressionCommand()) { this.notifyError(evaluateUnaryExpressionCommand, "Argument has to be an eval unary item command!"); return; }
 
             var unaryExpression = evaluateUnaryExpressionCommand.codeConstruct;
-            if(unaryExpression.loc.start.line == 886)
-            {
-                var a = 3;
-            }
             var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
-            var expressionValue = null;
 
             if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
 
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId()
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument, this.globalObject.getPreciseEvaluationPositionId());
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(unaryExpression, unaryExpression.argument, evaluationPosition);
+            var expressionValue = null;
 
                  if (unaryExpression.operator == "-") { expressionValue = -argumentValue.value; }
             else if (unaryExpression.operator == "+") { expressionValue = +argumentValue.value; }
@@ -956,118 +951,142 @@ fcSimulator.Evaluator.prototype =
             else if (unaryExpression.operator == "~") { expressionValue = ~argumentValue.value; }
             else if (unaryExpression.operator == "typeof") { expressionValue = argumentValue == null ? "undefined" : typeof argumentValue.value; }
             else if (unaryExpression.operator == "void") { expressionValue = void argumentValue.value;}
-            else if (unaryExpression.operator == "delete")
-            {
-                if(ASTHelper.isIdentifier(unaryExpression.argument))
-                {
-                    this.executionContextStack.deleteIdentifier(unaryExpression.argument.name);
-                }
-                else if(ASTHelper.isMemberExpression(unaryExpression.argument))
-                {
-                    var object = this.executionContextStack.getExpressionValue(unaryExpression.argument.object);
-
-                    if(object == null) { this._callExceptionCallbacks(); return; }
-
-                    var propertyName = "";
-
-                    if(unaryExpression.argument.computed)
-                    {
-                        var propertyValue = this.executionContextStack.getExpressionValue(unaryExpression.argument.property);
-                        propertyName = propertyValue != null ? propertyValue.value : "";
-                    }
-                    else
-                    {
-                        propertyName = unaryExpression.argument.property.name;
-                    }
-
-                    delete object.value[propertyName];
-                    object.fcInternal.object.deleteProperty(propertyName, unaryExpression);
-                }
-                else  { this.notifyError(evaluateUnaryExpressionCommand, "Unhandled expression when evaluating delete"); }
-
-                expressionValue = true;
-            }
+            else if (unaryExpression.operator == "delete") { expressionValue = this._evaluateDeleteExpression(unaryExpression); }
 
             this.executionContextStack.setExpressionValue(unaryExpression, new fcModel.JsValue(expressionValue, new fcModel.FcInternal(unaryExpression)));
         }
         catch(e) { this.notifyError(evaluateUnaryExpressionCommand, "Error when evaluating unary expression item command: " + e);}
     },
 
+    _evaluateDeleteExpression: function(unaryExpression)
+    {
+        if(ASTHelper.isIdentifier(unaryExpression.argument))
+        {
+            this.executionContextStack.deleteIdentifier(unaryExpression.argument.name);
+            return true;
+        }
+        else if(ASTHelper.isMemberExpression(unaryExpression.argument))
+        {
+            var object = this.executionContextStack.getExpressionValue(unaryExpression.argument.object);
+
+            if(object == null) { this._callExceptionCallbacks(); return; }
+
+            var propertyName = "";
+
+            if(unaryExpression.argument.computed)
+            {
+                var propertyValue = this.executionContextStack.getExpressionValue(unaryExpression.argument.property);
+                propertyName = propertyValue != null ? propertyValue.value : "";
+            }
+            else
+            {
+                propertyName = unaryExpression.argument.property.name;
+            }
+
+            object.fcInternal.object.deleteProperty(propertyName, unaryExpression);
+            return delete object.value[propertyName];
+        }
+
+        return false;
+    },
+
     _evaluateCallInternalFunction: function(callInternalFunctionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(callInternalFunctionCommand, Firecrow.Interpreter.Commands.Command) || !callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
+            if(!callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
 
-            var callExpression = callInternalFunctionCommand.codeConstruct;
-
-            if(callInternalFunctionCommand != null && callInternalFunctionCommand.id == 27849)
-            {
-                var a = 3;
-            }
-
-            var thisObject = callInternalFunctionCommand.thisObject;
-            var args = [];
-            var arguments = callExpression.arguments || [];
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, callExpression.callee, evaluationPosition);
-
-            if(callInternalFunctionCommand.isCall || callInternalFunctionCommand.isApply)
-            {
-                thisObject = this.executionContextStack.getExpressionValue(arguments[0]);
-
-                if(callInternalFunctionCommand.isCall)
-                {
-                    for(var i = 1, length = arguments.length; i < length; i++)
-                    {
-                        var argument = arguments[i];
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, evaluationPosition);
-                        args.push(this.executionContextStack.getExpressionValue(argument));
-                    }
-                }
-                else
-                {
-                    var secondArgumentValue = this.executionContextStack.getExpressionValue(arguments[1]);
-
-                    if(secondArgumentValue != null && secondArgumentValue.value != null)
-                    {
-                        args = secondArgumentValue.value;
-                    }
-
-                    if(ValueTypeHelper.isArray(secondArgumentValue.value))
-                    {
-                        secondArgumentValue.fcInternal.object.addDependenciesToAllProperties(callExpression);
-                    }
-                }
-            }
-            else
-            {
-                for(var i = 0, length = arguments.length; i < length; i++)
-                {
-                    var argument = arguments[i];
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, evaluationPosition);
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(argument, callExpression, evaluationPosition);
-                    args.push(this.executionContextStack.getExpressionValue(argument));
-                }
-            }
+            this._createDependenciesForCallInternalFunction(callInternalFunctionCommand);
 
             this.executionContextStack.setExpressionValue
             (
                 callInternalFunctionCommand.codeConstruct,
                 this.globalObject.internalExecutor.executeFunction
                 (
-                    thisObject,
+                    this._getThisObjectFromCallInternalFunctionCommand(callInternalFunctionCommand),
                     callInternalFunctionCommand.functionObject,
-                    args,
+                    this._getArgumentsFromInternalFunctionCall(callInternalFunctionCommand, callInternalFunctionCommand.codeConstruct.arguments),
                     callInternalFunctionCommand.codeConstruct,
                     callInternalFunctionCommand
                 )
             );
         }
-        catch(e)
+        catch(e) { this.notifyError(callInternalFunctionCommand, "Error has occurred when evaluating call internal function command:" + e); }
+    },
+
+    _getThisObjectFromCallInternalFunctionCommand: function(callInternalFunctionCommand)
+    {
+        return callInternalFunctionCommand.isCall || callInternalFunctionCommand.isApply
+            ? this.executionContextStack.getExpressionValue(callInternalFunctionCommand.codeConstruct.arguments[0])
+            : callInternalFunctionCommand.thisObject;
+    },
+
+    _getArgumentsFromInternalFunctionCall: function(callInternalFunctionCommand, callExpressionArgs)
+    {
+        if(callInternalFunctionCommand.isCall)
         {
-            this.notifyError(callInternalFunctionCommand, "Error has occurred when evaluating call internal function command:" + e);
+            return callExpressionArgs.slice(1).map(function(arg)
+            {
+                return this.executionContextStack.getExpressionValue(arg);
+            }, this);
+        }
+
+        if(callInternalFunctionCommand.isApply)
+        {
+            var secondArgumentValue = this.executionContextStack.getExpressionValue(callExpressionArgs[1]);
+
+            return secondArgumentValue != null && secondArgumentValue.value != null ? secondArgumentValue.value : [];
+        }
+
+        return callExpressionArgs.map(function(arg)
+        {
+            return this.executionContextStack.getExpressionValue(arg);
+        }, this);
+    },
+
+    _createDependenciesForCallInternalFunction: function(callInternalFunctionCommand)
+    {
+        var callExpression = callInternalFunctionCommand.codeConstruct;
+
+        var args = callExpression.arguments;
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, callExpression.callee, evaluationPosition);
+
+        if(callInternalFunctionCommand.isCall || callInternalFunctionCommand.isApply)
+        {
+            this._createDependenciesToCallApplyInternalFunctionCall(callInternalFunctionCommand, args, callExpression);
+        }
+        else
+        {
+            for(var i = 0, length = args.length; i < length; i++)
+            {
+                var argument = args[i];
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, evaluationPosition);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(argument, callExpression, evaluationPosition);
+            }
+        }
+    },
+
+    _createDependenciesToCallApplyInternalFunctionCall: function(callInternalFunctionCommand, args, callExpression)
+    {
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        if(callInternalFunctionCommand.isCall)
+        {
+            for(var i = 1, length = arguments.length; i < length; i++)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, args[i], evaluationPosition);
+            }
+        }
+        else
+        {
+            var secondArgumentValue = this.executionContextStack.getExpressionValue(args[1]);
+
+            if(secondArgumentValue != null && ValueTypeHelper.isArray(secondArgumentValue.value))
+            {
+                secondArgumentValue.fcInternal.object.addDependenciesToAllProperties(callExpression);
+            }
         }
     },
 
