@@ -1161,11 +1161,6 @@ fcSimulator.Evaluator.prototype =
         var topBlockConstructs = this.executionContextStack.getTopBlockCommandConstructs();
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-        if(currentConstruct.loc != null && currentConstruct.loc.start.line == 6061)
-        {
-            var a = 3;
-        }
-
         for(var i = 0, length = topBlockConstructs.length; i < length; i++)
         {
             var topBlockConstruct = topBlockConstructs[i];
