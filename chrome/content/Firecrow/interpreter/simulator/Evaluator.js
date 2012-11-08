@@ -456,7 +456,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalReturnExpressionCommand, Firecrow.Interpreter.Commands.Command) || !evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; }
+            if(!evalReturnExpressionCommand.isEvalReturnExpressionCommand()) { this.notifyError(evalReturnExpressionCommand, "Argument is not an EvalReturnExpressionCommand"); return; }
 
             this.globalObject.browser.callControlDependencyEstablishedCallbacks(evalReturnExpressionCommand.codeConstruct, evalReturnExpressionCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
@@ -465,11 +465,7 @@ fcSimulator.Evaluator.prototype =
             //If return is in event handler function
             if(evalReturnExpressionCommand.parentFunctionCommand == null)
             {
-                this.globalObject.browser.callBreakContinueReturnEventCallbacks
-                (
-                    evalReturnExpressionCommand.codeConstruct,
-                    this.globalObject.getPreciseEvaluationPositionId()
-                );
+                this.globalObject.browser.callBreakContinueReturnEventCallbacks(evalReturnExpressionCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
                 return;
             }
 
@@ -477,29 +473,7 @@ fcSimulator.Evaluator.prototype =
 
             if(evalReturnExpressionCommand.parentFunctionCommand.isExecuteCallbackCommand())
             {
-                var executeCallbackCommand = evalReturnExpressionCommand.parentFunctionCommand;
-
-                if(ValueTypeHelper.isArray(executeCallbackCommand.originatingObject.value))
-                {
-                    fcModel.ArrayCallbackEvaluator.evaluateCallbackReturn
-                    (
-                        executeCallbackCommand,
-                        evalReturnExpressionCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(evalReturnExpressionCommand.codeConstruct.argument)
-                                                                                   : null,
-                        evalReturnExpressionCommand.codeConstruct
-                    );
-                }
-                else if(ValueTypeHelper.isString(executeCallbackCommand.originatingObject.value))
-                {
-                    fcModel.StringExecutor.evaluateCallbackReturn
-                    (
-                        executeCallbackCommand,
-                        evalReturnExpressionCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(evalReturnExpressionCommand.codeConstruct.argument)
-                                                                                   : null,
-                        evalReturnExpressionCommand.codeConstruct,
-                        this.globalObject
-                    );
-                }
+                this._handleReturnFromCallbackFunction(evalReturnExpressionCommand);
             }
             else
             {
@@ -519,17 +493,42 @@ fcSimulator.Evaluator.prototype =
         }
     },
 
+    _handleReturnFromCallbackFunction: function(returnCommand)
+    {
+        var executeCallbackCommand = returnCommand.parentFunctionCommand;
+        var returnArgument = returnCommand.codeConstruct.argument;
+
+        if(ValueTypeHelper.isArray(executeCallbackCommand.originatingObject.value))
+        {
+            fcModel.ArrayCallbackEvaluator.evaluateCallbackReturn
+            (
+                executeCallbackCommand,
+                returnArgument != null ? this.executionContextStack.getExpressionValue(returnArgument)
+                                       : null,
+                returnCommand.codeConstruct
+            );
+        }
+        else if(ValueTypeHelper.isString(executeCallbackCommand.originatingObject.value))
+        {
+            fcModel.StringExecutor.evaluateCallbackReturn
+            (
+                executeCallbackCommand,
+                returnArgument != null ? this.executionContextStack.getExpressionValue(returnArgument)
+                                       : null,
+                returnCommand.codeConstruct,
+                this.globalObject
+            );
+        }
+        else { this.notifyError(returnCommand, "Unhandled callback function"); }
+    },
+
     _evaluateThisExpressionCommand: function(thisExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(thisExpressionCommand, Firecrow.Interpreter.Commands.Command) || !thisExpressionCommand.isThisExpressionCommand()) { this.notifyError(thisExpressionCommand, "Argument is not a ThisExpressionCommand"); return; }
+            if(!thisExpressionCommand.isThisExpressionCommand()) { this.notifyError(thisExpressionCommand, "Argument is not a ThisExpressionCommand"); return; }
 
-            this.executionContextStack.setExpressionValue
-            (
-                thisExpressionCommand.codeConstruct,
-                this.executionContextStack.activeContext.thisObject
-            );
+            this.executionContextStack.setExpressionValue(thisExpressionCommand.codeConstruct, this.executionContextStack.activeContext.thisObject);
         }
         catch(e) { this.notifyError(thisExpressionCommand, "Error when evaluating this expression: " + e); }
     },

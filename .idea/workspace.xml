@@ -6,9 +6,8 @@
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Refactorings in Evaluator">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -61,7 +60,7 @@
       <file leaf-file-name="Evaluator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="417" column="39" selection-start="23379" selection-end="23379" vertical-scroll-proportion="0.31484503">
+            <state line="495" column="12" selection-start="27663" selection-end="27663" vertical-scroll-proportion="0.8776509">
               <folding />
             </state>
           </provider>
@@ -1812,7 +1811,11 @@
       <created>1352378607620</created>
       <updated>1352378607620</updated>
     </task>
-    <option name="localTasksCounter" value="330" />
+    <task id="LOCAL-00330" summary="Refactorings in Evaluator">
+      <created>1352378916633</created>
+      <updated>1352378916633</updated>
+    </task>
+    <option name="localTasksCounter" value="331" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2067,7 +2070,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="417" column="39" selection-start="23379" selection-end="23379" vertical-scroll-proportion="0.31484503">
+        <state line="495" column="12" selection-start="27663" selection-end="27663" vertical-scroll-proportion="0.8776509">
           <folding />
         </state>
       </provider>
