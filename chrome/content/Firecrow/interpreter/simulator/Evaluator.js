@@ -619,8 +619,7 @@ fcSimulator.Evaluator.prototype =
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.object, this.globalObject.getPreciseEvaluationPositionId());
 
-        //Create a dependency only if the property exists, the problem is that if we don't ignore it here, that will lead to links
-        //to constructs where the property was not null
+        //Create a dependency only if the property exists, the problem is that if we don't ignore it here, that will lead to links to constructs where the property was not null
         if(propertyExists || !ASTHelper.isIdentifier(memberExpression.property) || ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
         {
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition);
@@ -644,33 +643,25 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalMemberExpressionPropertyCommand, Firecrow.Interpreter.Commands.Command) || !evalMemberExpressionPropertyCommand.isEvalMemberExpressionPropertyCommand()) { this.notifyError(evalMemberExpressionPropertyCommand, "Argument is not an EvalMemberExpressionPropertyCommand"); return; }
+            if(!evalMemberExpressionPropertyCommand.isEvalMemberExpressionPropertyCommand()) { this.notifyError(evalMemberExpressionPropertyCommand, "Argument is not an EvalMemberExpressionPropertyCommand"); return; }
 
-            var value = null;
             var memberExpression = evalMemberExpressionPropertyCommand.codeConstruct;
 
-            if(evalMemberExpressionPropertyCommand.codeConstruct.computed)
-            {
-                value = this.executionContextStack.getExpressionValue(memberExpression.property);
-            }
-            else
-            {
-                value = new fcModel.JsValue(memberExpression.property.name, new fcModel.FcInternal(memberExpression.property))
-            }
-
-            this.executionContextStack.setExpressionValue(memberExpression.property, value);
+            this.executionContextStack.setExpressionValue
+            (
+                memberExpression.property,
+                evalMemberExpressionPropertyCommand.codeConstruct.computed ? this.executionContextStack.getExpressionValue(memberExpression.property)
+                                                                           : new fcModel.JsValue(memberExpression.property.name, new fcModel.FcInternal(memberExpression.property))
+            );
         }
-        catch(e)
-        {
-            this.notifyError(evalMemberExpressionPropertyCommand, "Error when evaluating member expression property: " + e);
-        }
+        catch(e) { this.notifyError(evalMemberExpressionPropertyCommand, "Error when evaluating member expression property: " + e); }
     },
 
     _evaluateObjectExpressionCommand: function(objectExpressionCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(objectExpressionCommand, Firecrow.Interpreter.Commands.Command) || !objectExpressionCommand.isObjectExpressionCommand()) { this.notifyError(objectExpressionCommand, "Argument has to be an object expression creation command!"); return; }
+            if(!objectExpressionCommand.isObjectExpressionCommand()) { this.notifyError(objectExpressionCommand, "Argument has to be an object expression creation command!"); return; }
 
             var newObject = this.globalObject.internalExecutor.createObject(null, objectExpressionCommand.codeConstruct);
 
@@ -685,7 +676,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(objectPropertyCreationCommand, Firecrow.Interpreter.Commands.Command) || !objectPropertyCreationCommand.isObjectPropertyCreationCommand()) { this.notifyError(objectPropertyCreationCommand, "Argument has to be an object property creation command!"); return; }
+            if(!objectPropertyCreationCommand.isObjectPropertyCreationCommand()) { this.notifyError(objectPropertyCreationCommand, "Argument has to be an object property creation command!"); return; }
 
             var object = objectPropertyCreationCommand.objectExpressionCommand.createdObject;
 
@@ -708,7 +699,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(arrayExpressionCommand, Firecrow.Interpreter.Commands.Command) || !arrayExpressionCommand.isArrayExpressionCommand()) { this.notifyError(arrayExpressionCommand, "Argument has to be an array expression creation command!"); return; }
+            if(!arrayExpressionCommand.isArrayExpressionCommand()) { this.notifyError(arrayExpressionCommand, "Argument has to be an array expression creation command!"); return; }
 
             var newArray = this.globalObject.internalExecutor.createArray(arrayExpressionCommand.codeConstruct);
 
@@ -723,7 +714,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(arrayItemCreationCommand, Firecrow.Interpreter.Commands.Command) || !arrayItemCreationCommand.isArrayExpressionItemCreationCommand()) { this.notifyError(arrayItemCreationCommand, "Argument has to be an array expression item creation command!"); return; }
+            if(!arrayItemCreationCommand.isArrayExpressionItemCreationCommand()) { this.notifyError(arrayItemCreationCommand, "Argument has to be an array expression item creation command!"); return; }
 
             var array = arrayItemCreationCommand.arrayExpressionCommand.createdArray;
 
@@ -740,86 +731,82 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(evalForInWhereCommand, Firecrow.Interpreter.Commands.Command) || !evalForInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(evalForInWhereCommand, "Argument has to be an eval for in where command!"); return; }
+            if(!evalForInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(evalForInWhereCommand, "Argument has to be an eval for in where command!"); return; }
 
             var forInWhereConstruct = evalForInWhereCommand.codeConstruct;
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
 
-            if(whereObject != null && whereObject.fcInternal.object != null)
+            if(whereObject.fcInternal.object == null) { evalForInWhereCommand.willBodyBeExecuted = false; return; }
+
+            var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(evalForInWhereCommand.currentPropertyIndex + 1);
+
+            this._createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName, evaluationPosition);
+
+            evalForInWhereCommand.willBodyBeExecuted = !!nextPropertyName.value;
+
+            if(!nextPropertyName.value){ return; }
+
+            if(ASTHelper.isIdentifier(forInWhereConstruct.left))
             {
-                //TODO - not adding dependencies to all FOR-in modifications
-                /*var modifications = whereObject.fcInternal.object.getLastPropertyModifications(forInWhereConstruct.right);
-
-                for(var i = 0, length = modifications.length; i < length; i++)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        forInWhereConstruct.right,
-                        modifications[i].codeConstruct,
-                        evaluationPosition,
-                        modifications[i].evaluationPositionId
-                    );
-                }*/
+                this.executionContextStack.setIdentifierValue(forInWhereConstruct.left.name, nextPropertyName, forInWhereConstruct.left);
             }
-
-            var currentPropertyIndex = evalForInWhereCommand.currentPropertyIndex;
-
-            if(whereObject.fcInternal.object == null)
+            else if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
             {
-                console.log("Where object is not an object -  ");
-                evalForInWhereCommand.willBodyBeExecuted = false;
-                return;
+                var declarator = forInWhereConstruct.left.declarations[0];
+
+                this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
             }
-
-            var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(currentPropertyIndex + 1);
-
-            this.addDependenciesToTopBlockConstructs(forInWhereConstruct.left);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, evaluationPosition);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right, evaluationPosition);
-
-            if(nextPropertyName.value)
-            {
-                evalForInWhereCommand.willBodyBeExecuted = true;
-
-                var property = whereObject.fcInternal.object.getProperty(nextPropertyName.value);
-                if(property != null)
-                {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        forInWhereConstruct.left,
-                        property.lastModificationPosition.codeConstruct,
-                        evaluationPosition,
-                        property.lastModificationPosition.evaluationPositionId
-                    );
-                }
-
-                if(ASTHelper.isIdentifier(forInWhereConstruct.left))
-                {
-                    this.executionContextStack.setIdentifierValue(forInWhereConstruct.left.name, nextPropertyName, forInWhereConstruct.left);
-                }
-                else if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
-                {
-                    if(forInWhereConstruct.left.declarations.length != 1) { this.notifyError(evalForInWhereCommand, "Invalid number of variable declarations in for in statement!"); return; }
-
-                    var declarator = forInWhereConstruct.left.declarations[0];
-
-                    this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
-
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, evaluationPosition);
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator.id, forInWhereConstruct.right, evaluationPosition);
-                }
-                else { this.notifyError(evalForInWhereCommand, "Unknown forIn left statement"); }
-            }
-            else
-            {
-                evalForInWhereCommand.willBodyBeExecuted = false;
-            }
+            else { this.notifyError(evalForInWhereCommand, "Unknown forIn left statement"); }
         }
-        catch(e)
+        catch(e) { this.notifyError(evalForInWhereCommand, "Error when evaluating for in where command: " + e); }
+    },
+
+    _createDependenciesInForInWhereCommand: function(forInWhereConstruct, whereObject, nextPropertyName, evaluationPosition)
+    {
+        this.addDependenciesToTopBlockConstructs(forInWhereConstruct.left);
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, evaluationPosition);
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right, evaluationPosition);
+
+        if(whereObject != null && whereObject.fcInternal.object != null)
         {
-            this.notifyError(evalForInWhereCommand, "Error when evaluating for in where command: " + e);
+            //TODO - not adding dependencies to all FOR-in modifications
+            /*var modifications = whereObject.fcInternal.object.getLastPropertyModifications(forInWhereConstruct.right);
+
+             for(var i = 0, length = modifications.length; i < length; i++)
+             {
+             this.globalObject.browser.callDataDependencyEstablishedCallbacks
+             (
+             forInWhereConstruct.right,
+             modifications[i].codeConstruct,
+             evaluationPosition,
+             modifications[i].evaluationPositionId
+             );
+             }*/
+        }
+
+        if(!nextPropertyName || !nextPropertyName.value) { return; }
+
+        var property = whereObject.fcInternal.object.getProperty(nextPropertyName.value);
+
+        if(property != null)
+        {
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                forInWhereConstruct.left,
+                property.lastModificationPosition.codeConstruct,
+                evaluationPosition,
+                property.lastModificationPosition.evaluationPositionId
+            );
+        }
+
+        if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
+        {
+            var declarator = forInWhereConstruct.left.declarations[0];
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, evaluationPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator.id, forInWhereConstruct.right, evaluationPosition);
         }
     },
 
