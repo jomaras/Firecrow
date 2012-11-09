@@ -10,11 +10,130 @@ fcSimulator.DependencyCreator = function(globalObject, executionContextStack)
     this.executionContextStack = executionContextStack;
 };
 
+fcSimulator.DependencyCreator.notifyError = function(message) { alert("DependencyCreator - " + message);};
+
 fcSimulator.DependencyCreator.prototype =
 {
     createDataDependency: function(fromConstruct, toConstruct)
     {
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(fromConstruct, toConstruct, this.globalObject.getPreciseEvaluationPositionId());
+    },
+
+    markEnterFunctionPoints: function(enterFunctionCommand)
+    {
+        if(enterFunctionCommand == null || enterFunctionCommand.parentFunctionCommand == null) { return; }
+
+        //TODO - this should not be here!
+        var graphNode = enterFunctionCommand.parentFunctionCommand.codeConstruct.graphNode;
+
+        if(graphNode != null)
+        {
+            var dataDependencies = graphNode.dataDependencies;
+
+            if(dataDependencies.length > 0)
+            {
+                if(graphNode.enterFunctionPoints == null) { graphNode.enterFunctionPoints = []; }
+
+                graphNode.enterFunctionPoints.push({lastDependencyIndex: dataDependencies[dataDependencies.length - 1].index});
+            }
+        }
+    },
+
+    createFunctionParametersDependencies: function(callCommand, formalParams, args)
+    {
+        try
+        {
+            if(callCommand == null) { return; }
+
+            this._createArgumentsToCallDependencies(callCommand, args);
+            this._createFormalParameterDependencies(callCommand, formalParams, args);
+        }
+        catch(e) { fcSimulator.DependencyCreator.notifyError("Error establishing dependencies between function parameters and call expression arguments: " + e); }
+    },
+
+    _createArgumentsToCallDependencies: function(callCommand, args)
+    {
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0; i < args.length; i++)
+        {
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(args[i], callCommand.codeConstruct, evaluationPosition);
+        }
+    },
+
+    _createFormalParameterDependencies: function(callCommand, formalParams, args)
+    {
+        if(callCommand.isApply) { this._createFormalParameterDependenciesInApply(callCommand, formalParams, args); }
+        else if (callCommand.isCall) { this._createFormalParameterDependenciesInCall(callCommand, formalParams, args); }
+        else if (callCommand.isExecuteCallbackCommand()) {this._createFormalParameterDependenciesInCallback(callCommand, formalParams, args);}
+        else { this._createFormalParameterDependenciesInStandard(callCommand, formalParams, args); }
+    },
+
+    _createFormalParameterDependenciesInApply: function(callCommand, formalParams, args)
+    {
+        var argumentValue = this.executionContextStack.getExpressionValue(args[1]);
+
+        if(argumentValue == null) { return; }
+
+        var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
+        var fcArray = argumentValue.fcInternal.object;
+
+        for(var i = 0, length = formalParams.length; i < length; i++)
+        {
+            var arrayItem = fcArray.getProperty(i);
+            var formalParameter = formalParams[i].value.fcInternal.codeConstruct;
+
+            if(arrayItem != null && arrayItem.lastModificationPosition != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameter, arrayItem.lastModificationPosition.codeConstruct, evalPosition);
+            }
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameter, callCommand.codeConstruct, evalPosition);
+        }
+    },
+
+    _createFormalParameterDependenciesInCall: function(callCommand, formalParams, args)
+    {
+        var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0, length = formalParams.length; i < length; i++)
+        {
+            var formalParameter = formalParams[i].value.fcInternal.codeConstruct;
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameter, args[i + 1], evalPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameter, callCommand.codeConstruct, evalPosition);
+        }
+    },
+
+    _createFormalParameterDependenciesInStandard: function(callCommand, formalParams, args)
+    {
+        var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0, length = formalParams.length; i < length; i++)
+        {
+            var formalParam = formalParams[i].value.fcInternal.codeConstruct;
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParam, args[i], evalPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParam, callCommand.codeConstruct, evalPosition);
+        }
+    },
+
+    _createFormalParameterDependenciesInCallback: function(callCommand, formalParameters, args)
+    {
+        var params = callCommand.callbackFunction.fcInternal.codeConstruct.params;
+        var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0; i < params.length; i++)
+        {
+            var arg = callCommand.arguments[i];
+
+            if(arg != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], arg.fcInternal.codeConstruct, evalPosition);
+            }
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], callCommand.codeConstruct, evalPosition);
+        }
     },
 
     addDependenciesToPreviouslyExecutedBlockConstructs: function(codeConstruct, previouslyExecutedBlockConstructs)

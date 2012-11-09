@@ -285,64 +285,47 @@ fcSimulator.ExecutionContextStack.prototype =
 
     _addToBlockCommandStack: function(command)
     {
-        try
-        {
-            if(command.isLoopStatementCommand() || command.isIfStatementCommand())
-            {
-                this._addToFunctionContextBlockCommands(command);
-            }
+        if(command.isLoopStatementCommand() || command.isIfStatementCommand()) { this._addToFunctionContextBlockCommands(command); }
 
-            this.blockCommandStack.push(command);
+        this.blockCommandStack.push(command);
 
-            if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
-            {
-                this.globalObject.evaluationPositionId += "-" + command.executionId + (command.isEnterFunctionContextCommand() ? "f" : "");
-            }
-        }
-        catch(e) { this.notifyError("Error when adding to block command stack: " + e); }
+        if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand()) { this._reevaluateEvaluationPositionId(); }
     },
 
     _addToFunctionContextBlockCommands: function(command)
     {
         var topFunctionContextCommand = this.functionContextCommandsStack[this.functionContextCommandsStack.length - 1];
-        if(topFunctionContextCommand != null)
+
+        if(topFunctionContextCommand == null) { return; }
+
+        topFunctionContextCommand.functionContextBlockCommandsEvalPositions.push(
         {
-            topFunctionContextCommand.functionContextBlockCommandsEvalPositions.push(
-            {
-                command: command,
-                evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
-            });
-        }
+            command: command,
+            evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+        });
     },
 
     _reevaluateEvaluationPositionId: function()
     {
-        try
+        this.globalObject.evaluationPositionId = "root";
+
+        var blockCommandStack = this.blockCommandStack;
+
+        for(var i = 0, length = blockCommandStack.length; i < length; i++)
         {
-            this.globalObject.evaluationPositionId = "root";
-
-            var blockCommandStack = this.blockCommandStack;
-
-            for(var i = 0, length = blockCommandStack.length; i < length; i++)
+            var command = blockCommandStack[i];
+            if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
             {
-                var command = blockCommandStack[i];
-                if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand())
-                {
-                    this.globalObject.evaluationPositionId += "-" + command.executionId + (command.isEnterFunctionContextCommand() ? "f" : "");
-                }
+                this.globalObject.evaluationPositionId += "-" + command.executionId + (command.isEnterFunctionContextCommand() ? "f" : "");
             }
         }
-        catch(e) { this.notifyError("Error when reevaluating evaluation position id: " + e); }
     },
 
     executeCommand: function(command)
     {
         try
         {
-            if(!command.isEnterFunctionContextCommand())
-            {
-                this.activeContext.lastCommand = command;
-            }
+            if(!command.isEnterFunctionContextCommand()) { this.activeContext.lastCommand = command; }
 
             if (command.isEnterFunctionContextCommand())
             {
@@ -423,268 +406,116 @@ fcSimulator.ExecutionContextStack.prototype =
         this.push(fcSimulator.ExecutionContext.createGlobalExecutionContext(this.globalObject));
     },
 
-    _enterFunctionContext: function(enterFunctionContextCommand)
+    _enterFunctionContext: function(enterFunctionCommand)
     {
-        try
+        if(!ValueTypeHelper.isOfType(enterFunctionCommand, fcCommands.Command) || !enterFunctionCommand.isEnterFunctionContextCommand()) { this.notifyError("Argument must be a enterFunctionContext command"); return; }
+        if(enterFunctionCommand.callee == null) { this.notifyError("When processing enter function context the callee can not be null!"); return; }
+
+        this.dependencyCreator.markEnterFunctionPoints(enterFunctionCommand);
+
+        var functionConstruct = enterFunctionCommand.callee.fcInternal.codeConstruct;
+        var formalParameters = this._getFormalParameters(functionConstruct);
+
+        var sentArgumentsValues = null;
+        var arguments = [];
+
+        if(enterFunctionCommand.isEnterEventHandler) { sentArgumentsValues = enterFunctionCommand.argumentValues; }
+        else
         {
-            if(!ValueTypeHelper.isOfType(enterFunctionContextCommand, fcCommands.Command) || !enterFunctionContextCommand.isEnterFunctionContextCommand()) { this.notifyError("Argument must be a enterFunctionContext command"); return; }
-            if(enterFunctionContextCommand.callee == null) { this.notifyError("When processing enter function context the callee can not be null!"); return; }
+            sentArgumentsValues = this._getSentArgumentValues(enterFunctionCommand.parentFunctionCommand);
 
-            if(enterFunctionContextCommand.parentFunctionCommand != null)
+            if(!enterFunctionCommand.parentFunctionCommand.isExecuteCallbackCommand())
             {
-                var graphNode = enterFunctionContextCommand.parentFunctionCommand.codeConstruct.graphNode;
-
-                if(graphNode != null)
-                {
-                    var dataDependencies = graphNode.dataDependencies;
-
-                    if(dataDependencies.length > 0)
-                    {
-                        if(graphNode.enterFunctionPoints == null) { graphNode.enterFunctionPoints = []; }
-
-                        graphNode.enterFunctionPoints.push({lastDependencyIndex: dataDependencies[dataDependencies.length - 1].index});
-                    }
-                }
+                arguments = enterFunctionCommand.parentFunctionCommand.codeConstruct.arguments;
             }
+        }
 
-            var functionConstruct = enterFunctionContextCommand.callee.fcInternal.codeConstruct;
-            var formalParameters = this._getFormalParameters(functionConstruct);
+        this.dependencyCreator.createFunctionParametersDependencies(enterFunctionCommand.parentFunctionCommand, formalParameters, arguments);
 
-            var sentArgumentsValues = null;
-            var arguments = [];
-
-            if(enterFunctionContextCommand.isEnterEventHandler)
-            {
-                sentArgumentsValues = enterFunctionContextCommand.argumentValues;
-            }
-            else
-            {
-                sentArgumentsValues = this._getSentArgumentValues(enterFunctionContextCommand.parentFunctionCommand);
-
-                if(!enterFunctionContextCommand.parentFunctionCommand.isExecuteCallbackCommand())
-                {
-                    arguments = enterFunctionContextCommand.parentFunctionCommand.codeConstruct.arguments;
-                }
-            }
-
-            this._establishParametersDependencies(enterFunctionContextCommand.parentFunctionCommand, formalParameters, arguments);
-
-            this.push
+        this.push
+        (
+            new fcSimulator.ExecutionContext
             (
-                new fcSimulator.ExecutionContext
+                fcSimulator.VariableObject.createFunctionVariableObject
                 (
-                    fcSimulator.VariableObject.createFunctionVariableObject
-                    (
-                        functionConstruct.id != null ? new fcModel.Identifier(functionConstruct.id.name, enterFunctionContextCommand.callee, functionConstruct, this.globalObject)
-                                                     : null,
-                        formalParameters,
-                        enterFunctionContextCommand.callee,
-                        sentArgumentsValues,
-                        enterFunctionContextCommand.parentFunctionCommand,
-                        this.globalObject
-                    ),
-                    enterFunctionContextCommand.callee.fcInternal.object.scopeChain,
-                    enterFunctionContextCommand.thisObject,
-                    this.globalObject,
-                    enterFunctionContextCommand
-                )
-            );
-        }
-        catch(e)
-        {
-            this.notifyError("Error when entering function context: " + e);
-        }
-    },
-
-    _establishParametersDependencies: function(callExpressionCommand, formalParameters, arguments)
-    {
-        try
-        {
-            if(callExpressionCommand == null) { return; }
-
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            for(var i = 0; i < arguments.length; i++)
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    arguments[i],
-                    callExpressionCommand.codeConstruct,
-                    evaluationPosition
-                );
-            }
-
-            if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
-            {
-                if(callExpressionCommand.isApply)
-                {
-                    var argumentValue = this.getExpressionValue(arguments[1]);
-
-                    if(argumentValue == null) { this.notifyError("When calling apply the array argument is null!"); return; }
-                    var fcArray = argumentValue.fcInternal.object;
-
-                    for(var i = 0, length = formalParameters.length; i < length; i++)
-                    {
-                        var arrayItem = fcArray.getProperty(i);
-
-                        if(arrayItem != null && arrayItem.lastModificationPosition != null)
-                        {
-                            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                            (
-                                formalParameters[i].value.fcInternal.codeConstruct,
-                                arrayItem.lastModificationPosition.codeConstruct,
-                                evaluationPosition
-                            );
-                        }
-
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            formalParameters[i].value.fcInternal.codeConstruct,
-                            callExpressionCommand.codeConstruct,
-                            evaluationPosition
-                        );
-                    }
-                }
-                else if (callExpressionCommand.isCall)
-                {
-                    for(var i = 0, length = formalParameters.length; i < length; i++)
-                    {
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            formalParameters[i].value.fcInternal.codeConstruct,
-                            arguments[i + 1],
-                            evaluationPosition
-                        );
-
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            formalParameters[i].value.fcInternal.codeConstruct,
-                            callExpressionCommand.codeConstruct,
-                            evaluationPosition
-                        );
-                    }
-                }
-                else
-                {
-                    for(var i = 0, length = formalParameters.length; i < length; i++)
-                    {
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            formalParameters[i].value.fcInternal.codeConstruct,
-                            arguments[i],
-                            evaluationPosition
-                        );
-
-                        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                        (
-                            formalParameters[i].value.fcInternal.codeConstruct,
-                            callExpressionCommand.codeConstruct,
-                            evaluationPosition
-                        );
-                    }
-                }
-            }
-            else if (callExpressionCommand.isExecuteCallbackCommand())
-            {
-                var params = callExpressionCommand.callbackFunction.fcInternal.codeConstruct.params;
-
-                for(var i = 0; i < params.length; i++)
-                {
-                    var argument = callExpressionCommand.arguments[i];
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        params[i],
-                        argument != null ? argument.fcInternal.codeConstruct : null,
-                        evaluationPosition
-                    );
-
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        params[i],
-                        callExpressionCommand.codeConstruct,
-                        evaluationPosition
-                    );
-                }
-            }
-        }
-        catch(e)
-        {
-            this.notifyError("Error when establishing dependencies between function parameters and call expression arguments: " + e);
-        }
+                    functionConstruct.id != null ? new fcModel.Identifier(functionConstruct.id.name, enterFunctionCommand.callee, functionConstruct, this.globalObject)
+                                                 : null,
+                    formalParameters,
+                    enterFunctionCommand.callee,
+                    sentArgumentsValues,
+                    enterFunctionCommand.parentFunctionCommand,
+                    this.globalObject
+                ),
+                enterFunctionCommand.callee.fcInternal.object.scopeChain,
+                enterFunctionCommand.thisObject,
+                this.globalObject,
+                enterFunctionCommand
+            )
+        );
     },
 
     _getFormalParameters: function(functionConstruct)
     {
-        try
+        return functionConstruct.params.map(function(param)
         {
-            return functionConstruct.params.map(function(param)
-            {
-                var identifier = new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)), param, this.globalObject);
-                identifier.isFunctionFormalParameter = true;
-                return identifier
-            }, this);
-        }
-        catch(e)
-        {
-            this.notifyError("Error when getting formal function parameters: " + e);
-        }
+            var identifier = new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)), param, this.globalObject);
+            identifier.isFunctionFormalParameter = true;
+            return identifier
+        }, this);
     },
 
-    _getSentArgumentValues: function(callExpressionCommand)
+    _getSentArgumentValues: function(callCommand)
+    {
+        if(!ValueTypeHelper.isOfType(callCommand, fcCommands.Command) || (!callCommand.isEvalCallExpressionCommand() && !callCommand.isEvalNewExpressionCommand() && !callCommand.isExecuteCallbackCommand())) { this.notifyError("Argument must be a call or new Expression command"); return; }
+
+        if(callCommand.isApply) { return this._getArgumentValuesFromApply(callCommand); }
+        else if (callCommand.isCall) { return this._getArgumentValuesFromCall(callCommand); }
+        else if (callCommand.isExecuteCallbackCommand()) { return callCommand.arguments;}
+        else { return this._getArgumentValuesFromStandard(callCommand); }
+    },
+
+    _getArgumentValuesFromApply: function(callCommand)
+    {
+        var args = callCommand.codeConstruct.arguments;
+
+        if(args == null) { return []; }
+
+        var secondArgument = args[1];
+
+        if(secondArgument == null) { return []; }
+
+        var secondArgValue = this.getExpressionValue(secondArgument);
+
+        if(!ValueTypeHelper.isArray(secondArgValue.value)) { return []; }
+
+        return secondArgValue.value;
+    },
+
+    _getArgumentValuesFromCall: function(callCommand)
     {
         var values = [];
+        var args = callCommand.codeConstruct.arguments;
 
-        try
+        if(args == null) { return values; }
+
+        for(var i = 1; i < args.length; i++)
         {
-            if(!ValueTypeHelper.isOfType(callExpressionCommand, fcCommands.Command) || (!callExpressionCommand.isEvalCallExpressionCommand() && !callExpressionCommand.isEvalNewExpressionCommand() && !callExpressionCommand.isExecuteCallbackCommand())) { this.notifyError("Argument must be a call or new Expression command"); return; }
-
-            if(callExpressionCommand.isEvalCallExpressionCommand() || callExpressionCommand.isEvalNewExpressionCommand())
-            {
-                var arguments = callExpressionCommand.codeConstruct.arguments;
-
-                if(arguments != null)
-                {
-                    if(callExpressionCommand.isApply)
-                    {
-                        var secondArgument = callExpressionCommand.codeConstruct.arguments[1];
-
-                        if(secondArgument != null)
-                        {
-                            var secondArgValue = this.getExpressionValue(secondArgument);
-
-                            if(ValueTypeHelper.isArray(secondArgValue.value))
-                            {
-                                secondArgValue.value.forEach(function(item)
-                                {
-                                    values.push(item);
-                                }, this);
-                            }
-                        }
-                    }
-                    else if (callExpressionCommand.isCall)
-                    {
-                        for(var i = 1; i < arguments.length; i++)
-                        {
-                            values.push(this.getExpressionValue(arguments[i]));
-                        }
-                    }
-                    else
-                    {
-                        arguments.forEach(function(argument)
-                        {
-                            values.push(this.getExpressionValue(argument));
-                        }, this);
-                    }
-                }
-            }
-            else if (callExpressionCommand.isExecuteCallbackCommand())
-            {
-                values = callExpressionCommand.arguments;
-            }
+            values.push(this.getExpressionValue(args[i]));
         }
-        catch(e) { this.notifyError("Error when getting sent arguments: " + e); }
 
         return values;
+    },
+
+    _getArgumentValuesFromStandard: function(callCommand)
+    {
+        var args = callCommand.codeConstruct.arguments;
+
+        if(args == null) { return []; }
+
+        return args.map(function(argument)
+        {
+            return this.getExpressionValue(argument);
+        }, this);
     },
 
     _exitFunctionContext: function(exitFunctionContextCommand)

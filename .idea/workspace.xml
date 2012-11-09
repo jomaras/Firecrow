@@ -10,6 +10,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,7 +62,16 @@
       <file leaf-file-name="ExecutionContextStack.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="724" column="47" selection-start="30025" selection-end="30025" vertical-scroll-proportion="0.8154574">
+            <state line="499" column="11" selection-start="20538" selection-end="20538" vertical-scroll-proportion="0.76340693">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="debugSlicing.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="128" column="27" selection-start="7012" selection-end="7012" vertical-scroll-proportion="-13.75">
               <folding />
             </state>
           </provider>
@@ -70,7 +80,7 @@
       <file leaf-file-name="DependencyCreator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="34" selection-start="1334" selection-end="1334" vertical-scroll-proportion="0.0">
+            <state line="90" column="40" selection-start="3881" selection-end="3881" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -107,12 +117,12 @@
         <option value="$PROJECT_DIR$/tests/slicing.jstd" />
         <option value="$PROJECT_DIR$/tests/interpreter.jstd" />
         <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
-        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/debug/debugReuse.html" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/debug/debugDom.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
+        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
       </list>
     </option>
@@ -1857,7 +1867,11 @@
       <created>1352466200098</created>
       <updated>1352466200098</updated>
     </task>
-    <option name="localTasksCounter" value="344" />
+    <task id="LOCAL-00344" summary="Minor refactorings in ExecutionContextStack">
+      <created>1352472112215</created>
+      <updated>1352472112215</updated>
+    </task>
+    <option name="localTasksCounter" value="345" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1953,7 +1967,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactorings in Evaluator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor refactorings in ExecutionContextStack" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1966,7 +1980,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Minor changes - deleting header comments" />
     <MESSAGE value="Minor refactoring in Document" />
     <MESSAGE value="Refactoring the Document" />
     <MESSAGE value="Removed event registration from object because it didn't belong there to a Mixin, and using that mixing expanded HtmlElement, Document, and GlobalObject" />
@@ -1991,6 +2004,7 @@
     <MESSAGE value="Refactored to DependecyCreator - all dependency creations are now only in one place" />
     <MESSAGE value="Minor Refactorings in Evaluator - mostly name changes" />
     <MESSAGE value="Refactorings in Evaluator" />
+    <MESSAGE value="Minor refactorings in ExecutionContextStack" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2032,13 +2046,6 @@
     <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="72" column="4" selection-start="5175" selection-end="5268" vertical-scroll-proportion="0.73354733">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="4" selection-start="5288" selection-end="5381" vertical-scroll-proportion="-11.875">
           <folding />
         </state>
       </provider>
@@ -2151,14 +2158,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="34" selection-start="1334" selection-end="1334" vertical-scroll-proportion="0.0">
+        <state line="90" column="40" selection-start="3881" selection-end="3881" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="27" selection-start="7012" selection-end="7012" vertical-scroll-proportion="-13.75">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="724" column="47" selection-start="30025" selection-end="30025" vertical-scroll-proportion="0.8154574">
+        <state line="499" column="11" selection-start="20538" selection-end="20538" vertical-scroll-proportion="0.76340693">
           <folding />
         </state>
       </provider>
