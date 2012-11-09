@@ -47,7 +47,7 @@ fcSimulator.DependencyCreator.prototype =
          }*/
     },
 
-    createAssignmentExpressionDependencies: function(assignmentCommand)
+    createAssignmentDependencies: function(assignmentCommand)
     {
         var assignmentExpression = assignmentCommand.codeConstruct;
 

@@ -550,7 +550,7 @@ Firecrow.Interpreter.Simulator.ExecutionContextStack.prototype =
             else if (command.isEvalConditionalExpressionCommand()) { this._addToBlockCommandStack(command); }
             else if (command.isEvalBreakCommand() || command.isEvalContinueCommand())
             {
-                this.evaluator.evaluateBreakContinueCommand(command );
+                this.evaluator.evalBreakContinueCommand(command );
                 this._popBreakContinueFromBlockStack(command.codeConstruct);
             }
             else if (command.isStartSwitchStatementCommand()) { this._addToBlockCommandStack(command); }
