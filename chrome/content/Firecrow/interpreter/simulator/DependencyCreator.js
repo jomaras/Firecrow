@@ -17,6 +17,26 @@ fcSimulator.DependencyCreator.prototype =
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(fromConstruct, toConstruct, this.globalObject.getPreciseEvaluationPositionId());
     },
 
+    addDependenciesToPreviouslyExecutedBlockConstructs: function(codeConstruct, previouslyExecutedBlockConstructs)
+    {
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+        evaluationPosition.isReturnDependency = true;
+
+        for(var i = 0, length = previouslyExecutedBlockConstructs.length; i < length; i++)
+        {
+            var mapping = previouslyExecutedBlockConstructs[i];
+
+            this.globalObject.browser.callControlDependencyEstablishedCallbacks
+            (
+                codeConstruct,
+                mapping.codeConstruct,
+                evaluationPosition,
+                mapping.evaluationPositionId,
+                true
+            );
+        }
+    },
+
     addDependenciesToTopBlockConstructs: function(currentConstruct)
     {
         var topBlockConstructs = this.executionContextStack.getTopBlockCommandConstructs();
