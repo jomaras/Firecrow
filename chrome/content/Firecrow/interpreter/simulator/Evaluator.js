@@ -22,36 +22,47 @@ fcSimulator.Evaluator.notifyError = function(message) { alert("Evaluator - " + m
 
 fcSimulator.Evaluator.prototype =
 {
+    registerExceptionCallback: function(callback, thisObject)
+    {
+        try
+        {
+            if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError(null, "Exception callback has to be a function!"); return; }
+
+            this.exceptionCallbacks.push({callback: callback, thisObject: thisObject || this});
+        }
+        catch(e) { this.notifyError(null, "Error when registering exception callback:" + e);}
+    },
+
     evaluateCommand: function(command)
     {
         try
         {
             if(!ValueTypeHelper.isOfType(command, Firecrow.Interpreter.Commands.Command)) { this.notifyError(command, "When evaluating the argument has to be of type command"); return; }
 
-                 if (command.isDeclareVariableCommand()) { this._evalDeclareVariableCommand(command); }
-            else if (command.isDeclareFunctionCommand()) { this._evalDeclareFunctionCommand(command); }
-            else if (command.isEvalIdentifierCommand()) { this._evalIdentifierCommand(command); }
-            else if (command.isEvalLiteralCommand()) { this._evalLiteralCommand(command); }
-            else if (command.isEvalRegExCommand()) { this._evalRegExLiteralCommand(command);}
+                 if (command.isEvalIdentifierCommand()) { this._evalIdentifierCommand(command); }
             else if (command.isEvalAssignmentExpressionCommand()) { this._evalAssignmentCommand(command); }
-            else if (command.isEvalUpdateExpressionCommand()) { this._evalUpdateCommand(command); }
-            else if (command.isEvalBinaryExpressionCommand()) { this._evalBinaryCommand(command); }
-            else if (command.isEvalReturnExpressionCommand()) { this._evalReturnCommand(command); }
-            else if (command.isThisExpressionCommand()) { this._evalThisCommand(command); }
             else if (command.isEvalMemberExpressionCommand()) { this._evalMemberCommand(command); }
             else if (command.isEvalMemberExpressionPropertyCommand()) { this._evalMemberPropertyCommand(command); }
+            else if (command.isThisExpressionCommand()) { this._evalThisCommand(command); }
+            else if (command.isDeclareVariableCommand()) { this._evalDeclareVariableCommand(command); }
+            else if (command.isDeclareFunctionCommand()) { this._evalDeclareFunctionCommand(command); }
+            else if (command.isEvalLiteralCommand()) { this._evalLiteralCommand(command); }
+            else if (command.isEvalRegExCommand()) { this._evalRegExLiteralCommand(command);}
+            else if (command.isEvalUpdateExpressionCommand()) { this._evalUpdateCommand(command); }
+            else if (command.isEvalUnaryExpressionCommand()) { this._evalUnaryExpression(command); }
+            else if (command.isEvalBinaryExpressionCommand()) { this._evalBinaryCommand(command); }
+            else if (command.isEvalLogicalExpressionItemCommand()) { this._evalLogicalItemCommand(command);}
+            else if (command.isEndLogicalExpressionCommand()) { this._evalEndLogicalCommand(command); }
+            else if (command.isEvalReturnExpressionCommand()) { this._evalReturnCommand(command); }
             else if (command.isObjectExpressionCommand()) { this._evalObjectCommand(command); }
             else if (command.isObjectPropertyCreationCommand()) { this._evalObjectPropertyCreationCommand(command);}
-            else if (command.isArrayExpressionCommand()) { this._evaluateArrayExpressionCommand(command);}
-            else if (command.isArrayExpressionItemCreationCommand()) { this._evaluateArrayExpressionItemCreationCommand(command);}
+            else if (command.isArrayExpressionCommand()) { this._evalArrayExpressionCommand(command);}
+            else if (command.isArrayExpressionItemCreationCommand()) { this._evalArrayExpressionItemCreationCommand(command);}
             else if (command.isFunctionExpressionCreationCommand()) { this._evalFunctionExpressionCreationCommand(command); }
             else if (command.isEvalForInWhereCommand()) { this._evalForInWhereCommand(command); }
             else if (command.isEndEvalConditionalExpressionCommand()) { this._evalConditionalCommand(command);}
             else if (command.isStartCatchStatementCommand()) { this._evalStartCatchStatementCommand(command);}
             else if (command.isEndCatchStatementCommand()) { this._evalEndCatchCommand(command);}
-            else if (command.isEvalLogicalExpressionItemCommand()) { this._evalLogicalItemCommand(command);}
-            else if (command.isEndLogicalExpressionCommand()) { this._evalEndLogicalCommand(command); }
-            else if (command.isEvalUnaryExpressionCommand()) { this._evalUnaryExpression(command); }
             else if (command.isCallInternalFunctionCommand()) { this._evalCallInternalFunction(command); }
             else if (command.isEvalCallbackFunctionCommand()) { this._evalCallbackFunctionCommand(command); }
             else if (command.isEvalSequenceExpressionCommand()) { this._evalSequence(command); }
@@ -84,13 +95,9 @@ fcSimulator.Evaluator.prototype =
 
     _evalDeclareFunctionCommand: function(declareFunctionCommand)
     {
-        try
-        {
-            if(!declareFunctionCommand.isDeclareFunctionCommand()) { this.notifyError(declareFunctionCommand, "Argument is not a DeclareFunctionCommand"); return; }
+        if(!declareFunctionCommand.isDeclareFunctionCommand()) { this.notifyError(declareFunctionCommand, "Argument is not a DeclareFunctionCommand"); return; }
 
-            this.executionContextStack.registerFunctionDeclaration(declareFunctionCommand.codeConstruct);
-        }
-        catch(e) { this.notifyError(declareFunctionCommand, "Error when evaluating declare function: " + e); }
+        this.executionContextStack.registerFunctionDeclaration(declareFunctionCommand.codeConstruct);
     },
 
     _evalFunctionExpressionCreationCommand: function(functionCommand)
@@ -136,6 +143,339 @@ fcSimulator.Evaluator.prototype =
 
         this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
     },
+
+    _evalUpdateCommand: function(evalUpdateCommand)
+    {
+        if(!evalUpdateCommand.isEvalUpdateExpressionCommand()) { this.notifyError(evalUpdateCommand, "Argument is not an UpdateExpressionCommand"); return; }
+
+        var updateExpression = evalUpdateCommand.codeConstruct;
+        var currentValue = this.executionContextStack.getExpressionValue(updateExpression.argument);
+
+        if(currentValue == null || currentValue.value == null) { this._callExceptionCallbacks(); return; }
+
+        this.dependencyCreator.createUpdateExpressionDependencies(updateExpression);
+
+        if(ASTHelper.isIdentifier(updateExpression.argument))
+        {
+            this._assignToIdentifier(updateExpression.argument, this._getUpdateValue(currentValue, updateExpression), updateExpression);
+        }
+        else if(ASTHelper.isMemberExpression(updateExpression.argument))
+        {
+            this._assignToMemberExpression(updateExpression.argument, this._getUpdateValue(currentValue, updateExpression), updateExpression);
+        }
+        else
+        {
+            this.notifyError(evalUpdateCommand, "Unknown code construct when updating expression!");
+        }
+
+        this.executionContextStack.setExpressionValue(updateExpression, this._getUpdatedCurrentValue(currentValue, updateExpression));
+    },
+
+    _evalIdentifierCommand: function(identifierCommand)
+    {
+        if(!identifierCommand.isEvalIdentifierCommand()) { this.notifyError(identifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
+
+        var identifierConstruct = identifierCommand.codeConstruct;
+
+        var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
+        var identifierValue = identifier != null ? identifier.value : null;
+
+        this.executionContextStack.setExpressionValue(identifierConstruct, identifierValue);
+
+        if(identifier != null)
+        {
+            this.dependencyCreator.createIdentifierDependencies(identifier, identifierConstruct, this.globalObject.getPreciseEvaluationPositionId());
+            this._checkSlicing(identifierConstruct);
+        }
+    },
+
+    _evalMemberCommand: function(memberCommand)
+    {
+        if(!memberCommand.isEvalMemberExpressionCommand()) { this.notifyError(memberCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
+
+        var memberExpression = memberCommand.codeConstruct;
+
+        var object = this.executionContextStack.getExpressionValue(memberExpression.object);
+
+        if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
+
+        //TODO: check dom test 13 Object.constructor.prototype not working as it should!
+        var property = this.executionContextStack.getExpressionValue(memberExpression.property);
+        var propertyValue = this._getPropertyValue(object, property, memberExpression);
+
+        this.dependencyCreator.createMemberExpressionDependencies(object, property, propertyValue, memberExpression);
+
+        this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
+    },
+
+    _evalMemberPropertyCommand: function(memberPropertyCommand)
+    {
+        if(!memberPropertyCommand.isEvalMemberExpressionPropertyCommand()) { this.notifyError(memberPropertyCommand, "Argument is not an EvalMemberExpressionPropertyCommand"); return; }
+
+        var memberExpression = memberPropertyCommand.codeConstruct;
+
+        this.executionContextStack.setExpressionValue
+        (
+            memberExpression.property,
+            memberPropertyCommand.codeConstruct.computed ? this.executionContextStack.getExpressionValue(memberExpression.property)
+                                                         : new fcModel.JsValue(memberExpression.property.name, new fcModel.FcInternal(memberExpression.property))
+        );
+    },
+
+    _evalThisCommand: function(thisCommand)
+    {
+        if(!thisCommand.isThisExpressionCommand()) { this.notifyError(thisCommand, "Argument is not a ThisExpressionCommand"); return; }
+
+        this.executionContextStack.setExpressionValue(thisCommand.codeConstruct, this.executionContextStack.activeContext.thisObject);
+    },
+
+    _evalUnaryExpression: function(unaryCommand)
+    {
+        if(!unaryCommand.isEvalUnaryExpressionCommand()) { this.notifyError(unaryCommand, "Argument has to be an eval unary item command!"); return; }
+
+        var unaryExpression = unaryCommand.codeConstruct;
+        var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
+
+        if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
+
+        this.dependencyCreator.createDataDependency(unaryExpression, unaryExpression.argument);
+
+        var expressionValue = null;
+
+        if (unaryExpression.operator == "-") { expressionValue = -argumentValue.value; }
+        else if (unaryExpression.operator == "+") { expressionValue = +argumentValue.value; }
+        else if (unaryExpression.operator == "!") { expressionValue = !argumentValue.value; }
+        else if (unaryExpression.operator == "~") { expressionValue = ~argumentValue.value; }
+        else if (unaryExpression.operator == "typeof") { expressionValue = argumentValue == null ? "undefined" : typeof argumentValue.value; }
+        else if (unaryExpression.operator == "void") { expressionValue = void argumentValue.value;}
+        else if (unaryExpression.operator == "delete") { expressionValue = this._evalDeleteExpression(unaryExpression); }
+
+        this.executionContextStack.setExpressionValue(unaryExpression, new fcModel.JsValue(expressionValue, new fcModel.FcInternal(unaryExpression)));
+    },
+
+    _evalBinaryCommand: function(binaryCommand)
+    {
+        if(!binaryCommand.isEvalBinaryExpressionCommand()) { this.notifyError(binaryCommand, "Argument is not an EvalBinaryExpressionCommand"); return;}
+
+        var binaryExpression = binaryCommand.codeConstruct;
+
+        this.dependencyCreator.createBinaryExpressionDependencies(binaryExpression);
+
+        var leftValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
+        var rightValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
+
+        if(leftValue == null) { this._callExceptionCallbacks(); return; }
+        if(rightValue == null) { this._callExceptionCallbacks(); return; }
+
+        this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.JsValue(this._evalBinaryExpression(leftValue, rightValue, binaryExpression.operator), new fcModel.FcInternal(binaryExpression)));
+    },
+
+    _evalReturnCommand: function(returnCommand)
+    {
+        if(!returnCommand.isEvalReturnExpressionCommand()) { this.notifyError(returnCommand, "Argument is not an EvalReturnExpressionCommand"); return; };
+
+        this.dependencyCreator.createReturnDependencies(returnCommand);
+
+        //If return is in event handler function
+        if(returnCommand.parentFunctionCommand == null)
+        {
+            this.globalObject.browser.callBreakContinueReturnEventCallbacks(returnCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+            return;
+        }
+
+        returnCommand.parentFunctionCommand.executedReturnCommand = returnCommand;
+
+        if(returnCommand.parentFunctionCommand.isExecuteCallbackCommand())
+        {
+            this._handleReturnFromCallbackFunction(returnCommand);
+        }
+        else
+        {
+            this.executionContextStack.setExpressionValueInPreviousContext
+            (
+                returnCommand.parentFunctionCommand.codeConstruct,
+                returnCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(returnCommand.codeConstruct.argument)
+                                                             : null
+            );
+        }
+    },
+
+    _evalArrayExpressionCommand: function(arrayExpressionCommand)
+    {
+        if(!arrayExpressionCommand.isArrayExpressionCommand()) { this.notifyError(arrayExpressionCommand, "Argument has to be an array expression creation command!"); return; }
+
+        var newArray = this.globalObject.internalExecutor.createArray(arrayExpressionCommand.codeConstruct);
+
+        this.executionContextStack.setExpressionValue(arrayExpressionCommand.codeConstruct, newArray);
+
+        arrayExpressionCommand.createdArray = newArray;
+    },
+
+    _evalArrayExpressionItemCreationCommand: function(arrayItemCreationCommand)
+    {
+        if(!arrayItemCreationCommand.isArrayExpressionItemCreationCommand()) { this.notifyError(arrayItemCreationCommand, "Argument has to be an array expression item creation command!"); return; }
+
+        var array = arrayItemCreationCommand.arrayExpressionCommand.createdArray;
+
+        if(array == null || array.value == null) { this.notifyError(arrayItemCreationCommand, "When evaluating array expression item the array must not be null!");  return; }
+
+        var expressionItemValue = this.executionContextStack.getExpressionValue(arrayItemCreationCommand.codeConstruct);
+
+        array.fcInternal.object.push(array.value, expressionItemValue, arrayItemCreationCommand.codeConstruct);
+    },
+
+    _evalObjectCommand: function(objectCommand)
+    {
+        if(!objectCommand.isObjectExpressionCommand()) { this.notifyError(objectCommand, "Argument has to be an object expression creation command!"); return; }
+
+        var newObject = this.globalObject.internalExecutor.createObject(null, objectCommand.codeConstruct);
+
+        this.executionContextStack.setExpressionValue(objectCommand.codeConstruct, newObject);
+
+        objectCommand.createdObject = newObject;
+    },
+
+    _evalObjectPropertyCreationCommand: function(objectPropertyCreationCommand)
+    {
+        if(!objectPropertyCreationCommand.isObjectPropertyCreationCommand()) { this.notifyError(objectPropertyCreationCommand, "Argument has to be an object property creation command!"); return; }
+
+        var object = objectPropertyCreationCommand.objectExpressionCommand.createdObject;
+
+        if(object == null || object.value == null) { this.notifyError(objectPropertyCreationCommand, "When evaluating object property the object must not be null!");  return; }
+
+        var propertyCodeConstruct = objectPropertyCreationCommand.codeConstruct;
+
+        var propertyValue = this.executionContextStack.getExpressionValue(propertyCodeConstruct.value);
+
+        var propertyKey = ASTHelper.isLiteral(propertyCodeConstruct.key) ? propertyCodeConstruct.key.value
+                                                                         : propertyCodeConstruct.key.name;
+
+        object.value[propertyKey] = propertyValue;
+        object.fcInternal.object.addProperty(propertyKey, propertyValue, objectPropertyCreationCommand.codeConstruct);
+    },
+
+    _evalConditionalCommand: function(conditionalCommand)
+    {
+        if(!conditionalCommand.isEndEvalConditionalExpressionCommand()) { this.notifyError(conditionalCommand, "Argument has to be an eval conditional expression command!"); return; }
+
+        this.executionContextStack.setExpressionValue(conditionalCommand.codeConstruct, this.executionContextStack.getExpressionValue(conditionalCommand.startCommand.body));
+
+        this.dependencyCreator.createDependenciesForConditionalCommand(conditionalCommand);
+    },
+
+    _evalForInWhereCommand: function(forInWhereCommand)
+    {
+        if(!forInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(forInWhereCommand, "Argument has to be an eval for in where command!"); return; }
+
+        var forInWhereConstruct = forInWhereCommand.codeConstruct;
+        var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
+
+        if(whereObject.fcInternal.object == null) { forInWhereCommand.willBodyBeExecuted = false; return; }
+
+        var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(forInWhereCommand.currentPropertyIndex + 1);
+
+        this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName);
+
+        forInWhereCommand.willBodyBeExecuted = !!nextPropertyName.value;
+
+        if(!nextPropertyName.value){ return; }
+
+        if(ASTHelper.isIdentifier(forInWhereConstruct.left))
+        {
+            this.executionContextStack.setIdentifierValue(forInWhereConstruct.left.name, nextPropertyName, forInWhereConstruct.left);
+        }
+        else if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
+        {
+            var declarator = forInWhereConstruct.left.declarations[0];
+
+            this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
+        }
+        else { this.notifyError(forInWhereCommand, "Unknown forIn left statement"); }
+    },
+
+    _evalStartCatchStatementCommand: function(startCatchCommand)
+    {
+        if(!startCatchCommand.isStartCatchStatementCommand()) { this.notifyError(startCatchCommand, "Argument has to be a start catch command!"); return; }
+
+        this.executionContextStack.setIdentifierValue(startCatchCommand.codeConstruct.param.name, startCatchCommand.exceptionArgument);
+    },
+
+    _evalEndCatchCommand: function(endCatchCommand)
+    {
+        if(!endCatchCommand.isEndCatchStatementCommand()) { this.notifyError(endCatchCommand, "Argument has to be an end catch command!"); return; }
+
+        this.executionContextStack.deleteIdentifier(endCatchCommand.codeConstruct.param.name);
+    },
+
+    _evalLogicalItemCommand: function(evalLogicalItemCommand)
+    {
+        if(!evalLogicalItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError(evalLogicalItemCommand, "Argument has to be an eval logical expression item command!"); return; }
+
+        var parentExpressionCommand = evalLogicalItemCommand.parentLogicalExpressionCommand;
+
+        var wholeLogicalExpression = parentExpressionCommand.codeConstruct;
+        var logicalExpressionItem = evalLogicalItemCommand.codeConstruct;
+
+        evalLogicalItemCommand.parentEndLogicalExpressionCommand.executedLogicalItemExpressionCommands.push(evalLogicalItemCommand);
+
+        if(logicalExpressionItem == wholeLogicalExpression.left)
+        {
+            var value = this.executionContextStack.getExpressionValue(logicalExpressionItem);
+
+            this.executionContextStack.setExpressionValue(wholeLogicalExpression, value);
+
+            evalLogicalItemCommand.shouldDeleteFollowingLogicalCommands = this._isLogicalExpressionDoneWithEvaluation(value, wholeLogicalExpression.operator);
+        }
+        else if(logicalExpressionItem == wholeLogicalExpression.right)
+        {
+            this.executionContextStack.setExpressionValue(wholeLogicalExpression, this._getLogicalExpressionValue(wholeLogicalExpression));
+
+            this.dependencyCreator.createDependenciesForLogicalExpressionItemCommand(wholeLogicalExpression);
+        }
+        else { this.notifyError(evalLogicalItemCommand, "The expression item is neither left nor right expression"); return; }
+    },
+
+    _evalEndLogicalCommand: function(endLogicalCommand)
+    {
+        this.dependencyCreator.createDependenciesForLogicalExpression(endLogicalCommand);
+    },
+
+    _evalCallInternalFunction: function(callInternalFunctionCommand)
+    {
+        if(!callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
+
+        this.dependencyCreator.createDependenciesForCallInternalFunction(callInternalFunctionCommand);
+
+        this.executionContextStack.setExpressionValue
+        (
+            callInternalFunctionCommand.codeConstruct,
+            this.globalObject.internalExecutor.executeFunction
+            (
+                this._getThisObjectFromCallInternalFunctionCommand(callInternalFunctionCommand),
+                callInternalFunctionCommand.functionObject,
+                this._getArgumentsFromInternalFunctionCall(callInternalFunctionCommand, callInternalFunctionCommand.codeConstruct.arguments),
+                callInternalFunctionCommand.codeConstruct,
+                callInternalFunctionCommand
+            )
+        );
+    },
+
+    _evalCallbackFunctionCommand: function(callbackFunctionCommand)
+    {
+        this.dependencyCreator.createCallbackFunctionCommandDependencies(callbackFunctionCommand);
+    },
+
+    _evalSequence: function(sequenceCommand)
+    {
+        var sequenceExpression = sequenceCommand.codeConstruct;
+        var lastExpression = sequenceExpression.expressions[sequenceExpression.expressions.length - 1];
+
+        this.executionContextStack.setExpressionValue(sequenceExpression, this.executionContextStack.getExpressionValue(lastExpression));
+
+        this.dependencyCreator.createSequenceExpressionDependencies(sequenceExpression, lastExpression);
+    },
+
+
 
     _getAssignmentValue: function(assignmentCommand)
     {
@@ -201,37 +541,6 @@ fcSimulator.Evaluator.prototype =
         if(property.value == "__proto__" || property.value == "prototype") { object.value[property.value] = finalValue.value; }
     },
 
-    _evalUpdateCommand: function(evalUpdateCommand)
-    {
-        try
-        {
-            if(!evalUpdateCommand.isEvalUpdateExpressionCommand()) { this.notifyError(evalUpdateCommand, "Argument is not an UpdateExpressionCommand"); return; }
-
-            var updateExpression = evalUpdateCommand.codeConstruct;
-            var currentValue = this.executionContextStack.getExpressionValue(updateExpression.argument);
-
-            if(currentValue == null || currentValue.value == null) { this._callExceptionCallbacks(); return; }
-
-            this.dependencyCreator.createUpdateExpressionDependencies(updateExpression);
-
-            if(ASTHelper.isIdentifier(updateExpression.argument))
-            {
-                this._assignToIdentifier(updateExpression.argument, this._getUpdateValue(currentValue, updateExpression), updateExpression);
-            }
-            else if(ASTHelper.isMemberExpression(updateExpression.argument))
-            {
-                this._assignToMemberExpression(updateExpression.argument, this._getUpdateValue(currentValue, updateExpression), updateExpression);
-            }
-            else
-            {
-                this.notifyError(evalUpdateCommand, "Unknown code construct when updating expression!");
-            }
-
-            this.executionContextStack.setExpressionValue(updateExpression, this._getUpdatedCurrentValue(currentValue, updateExpression));
-        }
-        catch(e) { this.notifyError(evalUpdateCommand, "An error has occurred when updating an expression:" + e); }
-    },
-
     _getUpdateValue: function(currentValue, updateExpression)
     {
         return new fcModel.JsValue(updateExpression.operator == "++" ? currentValue.value + 1 : currentValue.value - 1, new fcModel.FcInternal(updateExpression));
@@ -249,47 +558,12 @@ fcSimulator.Evaluator.prototype =
         }
     },
 
-    _evalIdentifierCommand: function(identifierCommand)
-    {
-        if(!identifierCommand.isEvalIdentifierCommand()) { this.notifyError(identifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
-
-        var identifierConstruct = identifierCommand.codeConstruct;
-
-        var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
-        var identifierValue = identifier != null ? identifier.value : null;
-
-        this.executionContextStack.setExpressionValue(identifierConstruct, identifierValue);
-
-        if(identifier != null)
-        {
-            this.dependencyCreator.createIdentifierDependencies(identifier, identifierConstruct, this.globalObject.getPreciseEvaluationPositionId());
-            this._checkSlicing(identifierConstruct);
-        }
-    },
-
     _checkSlicing: function(identifierConstruct)
     {
         if(this.globalObject.satisfiesIdentifierSlicingCriteria(identifierConstruct))
         {
             this.globalObject.browser.callImportantConstructReachedCallbacks(identifierConstruct);
         }
-    },
-
-    _evalBinaryCommand: function(binaryCommand)
-    {
-        if(!binaryCommand.isEvalBinaryExpressionCommand()) { this.notifyError(binaryCommand, "Argument is not an EvalBinaryExpressionCommand"); return;}
-
-        var binaryExpression = binaryCommand.codeConstruct;
-
-        this.dependencyCreator.createBinaryExpressionDependencies(binaryExpression);
-
-        var leftValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
-        var rightValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
-
-        if(leftValue == null) { this._callExceptionCallbacks(); return; }
-        if(rightValue == null) { this._callExceptionCallbacks(); return; }
-
-        this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.JsValue(this._evalBinaryExpression(leftValue, rightValue, binaryExpression.operator), new fcModel.FcInternal(binaryExpression)));
     },
 
     _evalBinaryExpression: function(leftValue, rightValue, operator)
@@ -313,12 +587,12 @@ fcSimulator.Evaluator.prototype =
         else if (operator == "^") { return leftValue.value ^ rightValue.value; }
         else if (operator == "&") { return leftValue.value & rightValue.value; }
         else if (operator == "in") { return leftValue.value in rightValue.value; }
-        else if (operator == "+") { return this._evaluateAdd(leftValue.value, rightValue.value); }
+        else if (operator == "+") { return this._evalAdd(leftValue.value, rightValue.value); }
         else if (operator == "instanceof") { return this._evalInstanceOf(leftValue, rightValue);}
         else { this.notifyError(null, "Unknown operator when evaluating binary expression"); return; }
     },
 
-    _evaluateAdd: function(leftValue, rightValue)
+    _evalAdd: function(leftValue, rightValue)
     {
         if(ValueTypeHelper.arePrimitive(leftValue, rightValue))
         {
@@ -363,36 +637,6 @@ fcSimulator.Evaluator.prototype =
         return leftValue.value instanceof compareWith;
     },
 
-    _evalReturnCommand: function(returnCommand)
-    {
-        if(!returnCommand.isEvalReturnExpressionCommand()) { this.notifyError(returnCommand, "Argument is not an EvalReturnExpressionCommand"); return; };
-
-        this.dependencyCreator.createReturnDependencies(returnCommand);
-
-        //If return is in event handler function
-        if(returnCommand.parentFunctionCommand == null)
-        {
-            this.globalObject.browser.callBreakContinueReturnEventCallbacks(returnCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
-            return;
-        }
-
-        returnCommand.parentFunctionCommand.executedReturnCommand = returnCommand;
-
-        if(returnCommand.parentFunctionCommand.isExecuteCallbackCommand())
-        {
-            this._handleReturnFromCallbackFunction(returnCommand);
-        }
-        else
-        {
-            this.executionContextStack.setExpressionValueInPreviousContext
-            (
-                returnCommand.parentFunctionCommand.codeConstruct,
-                returnCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(returnCommand.codeConstruct.argument)
-                                                             : null
-            );
-        }
-    },
-
     _handleReturnFromCallbackFunction: function(returnCommand)
     {
         var executeCallbackCommand = returnCommand.parentFunctionCommand;
@@ -422,43 +666,6 @@ fcSimulator.Evaluator.prototype =
         else { this.notifyError(returnCommand, "Unhandled callback function"); }
     },
 
-    _evalThisCommand: function(thisCommand)
-    {
-        try
-        {
-            if(!thisCommand.isThisExpressionCommand()) { this.notifyError(thisCommand, "Argument is not a ThisExpressionCommand"); return; }
-
-            this.executionContextStack.setExpressionValue(thisCommand.codeConstruct, this.executionContextStack.activeContext.thisObject);
-        }
-        catch(e) { this.notifyError(thisCommand, "Error when evaluating this expression: " + e); }
-    },
-
-    _evalMemberCommand: function(memberCommand)
-    {
-        try
-        {
-            if(!memberCommand.isEvalMemberExpressionCommand()) { this.notifyError(memberCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
-
-            var memberExpression = memberCommand.codeConstruct;
-
-            var object = this.executionContextStack.getExpressionValue(memberExpression.object);
-
-            if(object == null || (object.value == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
-
-            //TODO: check dom test 13 Object.constructor.prototype not working as it should!
-            var property = this.executionContextStack.getExpressionValue(memberExpression.property);
-            var propertyValue = this._getPropertyValue(object, property, memberExpression);
-
-            this.dependencyCreator.createMemberExpressionDependencies(object, property, propertyValue, memberExpression);
-
-            this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
-        }
-        catch(e)
-        {
-            this.notifyError(memberCommand, "Error when evaluating member expression: " + e);
-        }
-    },
-
     _getPropertyValue: function(object, property, memberExpression)
     {
         var propertyValue = null;
@@ -484,155 +691,6 @@ fcSimulator.Evaluator.prototype =
         return propertyValue;
     },
 
-    _evalMemberPropertyCommand: function(memberPropertyCommand)
-    {
-        if(!memberPropertyCommand.isEvalMemberExpressionPropertyCommand()) { this.notifyError(memberPropertyCommand, "Argument is not an EvalMemberExpressionPropertyCommand"); return; }
-
-        var memberExpression = memberPropertyCommand.codeConstruct;
-
-        this.executionContextStack.setExpressionValue
-        (
-            memberExpression.property,
-            memberPropertyCommand.codeConstruct.computed ? this.executionContextStack.getExpressionValue(memberExpression.property)
-                                                         : new fcModel.JsValue(memberExpression.property.name, new fcModel.FcInternal(memberExpression.property))
-        );
-    },
-
-    _evalObjectCommand: function(objectCommand)
-    {
-        if(!objectCommand.isObjectExpressionCommand()) { this.notifyError(objectCommand, "Argument has to be an object expression creation command!"); return; }
-
-        var newObject = this.globalObject.internalExecutor.createObject(null, objectCommand.codeConstruct);
-
-        this.executionContextStack.setExpressionValue(objectCommand.codeConstruct, newObject);
-
-        objectCommand.createdObject = newObject;
-    },
-
-    _evalObjectPropertyCreationCommand: function(objectPropertyCreationCommand)
-    {
-        if(!objectPropertyCreationCommand.isObjectPropertyCreationCommand()) { this.notifyError(objectPropertyCreationCommand, "Argument has to be an object property creation command!"); return; }
-
-        var object = objectPropertyCreationCommand.objectExpressionCommand.createdObject;
-
-        if(object == null || object.value == null) { this.notifyError(objectPropertyCreationCommand, "When evaluating object property the object must not be null!");  return; }
-
-        var propertyCodeConstruct = objectPropertyCreationCommand.codeConstruct;
-
-        var propertyValue = this.executionContextStack.getExpressionValue(propertyCodeConstruct.value);
-
-        var propertyKey = ASTHelper.isLiteral(propertyCodeConstruct.key) ? propertyCodeConstruct.key.value
-                                                                         : propertyCodeConstruct.key.name;
-
-        object.value[propertyKey] = propertyValue;
-        object.fcInternal.object.addProperty(propertyKey, propertyValue, objectPropertyCreationCommand.codeConstruct);
-    },
-
-    _evaluateArrayExpressionCommand: function(arrayExpressionCommand)
-    {
-        if(!arrayExpressionCommand.isArrayExpressionCommand()) { this.notifyError(arrayExpressionCommand, "Argument has to be an array expression creation command!"); return; }
-
-        var newArray = this.globalObject.internalExecutor.createArray(arrayExpressionCommand.codeConstruct);
-
-        this.executionContextStack.setExpressionValue(arrayExpressionCommand.codeConstruct, newArray);
-
-        arrayExpressionCommand.createdArray = newArray;
-    },
-
-    _evaluateArrayExpressionItemCreationCommand: function(arrayItemCreationCommand)
-    {
-        if(!arrayItemCreationCommand.isArrayExpressionItemCreationCommand()) { this.notifyError(arrayItemCreationCommand, "Argument has to be an array expression item creation command!"); return; }
-
-        var array = arrayItemCreationCommand.arrayExpressionCommand.createdArray;
-
-        if(array == null || array.value == null) { this.notifyError(arrayItemCreationCommand, "When evaluating array expression item the array must not be null!");  return; }
-
-        var expressionItemValue = this.executionContextStack.getExpressionValue(arrayItemCreationCommand.codeConstruct);
-
-        array.fcInternal.object.push(array.value, expressionItemValue, arrayItemCreationCommand.codeConstruct);
-    },
-
-    _evalForInWhereCommand: function(forInWhereCommand)
-    {
-        if(!forInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(forInWhereCommand, "Argument has to be an eval for in where command!"); return; }
-
-        var forInWhereConstruct = forInWhereCommand.codeConstruct;
-        var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
-
-        if(whereObject.fcInternal.object == null) { forInWhereCommand.willBodyBeExecuted = false; return; }
-
-        var nextPropertyName = whereObject.fcInternal.object.getPropertyNameAtIndex(forInWhereCommand.currentPropertyIndex + 1);
-
-        this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName);
-
-        forInWhereCommand.willBodyBeExecuted = !!nextPropertyName.value;
-
-        if(!nextPropertyName.value){ return; }
-
-        if(ASTHelper.isIdentifier(forInWhereConstruct.left))
-        {
-            this.executionContextStack.setIdentifierValue(forInWhereConstruct.left.name, nextPropertyName, forInWhereConstruct.left);
-        }
-        else if (ASTHelper.isVariableDeclaration(forInWhereConstruct.left))
-        {
-            var declarator = forInWhereConstruct.left.declarations[0];
-
-            this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
-        }
-        else { this.notifyError(forInWhereCommand, "Unknown forIn left statement"); }
-    },
-
-    _evalConditionalCommand: function(conditionalCommand)
-    {
-        if(!conditionalCommand.isEndEvalConditionalExpressionCommand()) { this.notifyError(conditionalCommand, "Argument has to be an eval conditional expression command!"); return; }
-
-        this.executionContextStack.setExpressionValue(conditionalCommand.codeConstruct, this.executionContextStack.getExpressionValue(conditionalCommand.startCommand.body));
-
-        this.dependencyCreator.createDependenciesForConditionalCommand(conditionalCommand);
-    },
-
-    _evalStartCatchStatementCommand: function(startCatchCommand)
-    {
-        if(!startCatchCommand.isStartCatchStatementCommand()) { this.notifyError(startCatchCommand, "Argument has to be a start catch command!"); return; }
-
-        this.executionContextStack.setIdentifierValue(startCatchCommand.codeConstruct.param.name, startCatchCommand.exceptionArgument);
-    },
-
-    _evalEndCatchCommand: function(endCatchCommand)
-    {
-        if(!endCatchCommand.isEndCatchStatementCommand()) { this.notifyError(endCatchCommand, "Argument has to be an end catch command!"); return; }
-
-        this.executionContextStack.deleteIdentifier(endCatchCommand.codeConstruct.param.name);
-    },
-
-    _evalLogicalItemCommand: function(evalLogicalItemCommand)
-    {
-        if(!evalLogicalItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError(evalLogicalItemCommand, "Argument has to be an eval logical expression item command!"); return; }
-
-        var parentExpressionCommand = evalLogicalItemCommand.parentLogicalExpressionCommand;
-
-        var wholeLogicalExpression = parentExpressionCommand.codeConstruct;
-        var logicalExpressionItem = evalLogicalItemCommand.codeConstruct;
-
-        evalLogicalItemCommand.parentEndLogicalExpressionCommand.executedLogicalItemExpressionCommands.push(evalLogicalItemCommand);
-
-        if(logicalExpressionItem == wholeLogicalExpression.left)
-        {
-            var value = this.executionContextStack.getExpressionValue(logicalExpressionItem);
-
-            this.executionContextStack.setExpressionValue(wholeLogicalExpression, value);
-
-            evalLogicalItemCommand.shouldDeleteFollowingLogicalCommands = this._isLogicalExpressionDoneWithEvaluation(value, wholeLogicalExpression.operator);
-        }
-        else if(logicalExpressionItem == wholeLogicalExpression.right)
-        {
-            this.executionContextStack.setExpressionValue(wholeLogicalExpression, this._getLogicalExpressionValue(wholeLogicalExpression));
-
-            this.dependencyCreator.createDependenciesForLogicalExpressionItemCommand(wholeLogicalExpression);
-        }
-        else { this.notifyError(evalLogicalItemCommand, "The expression item is neither left nor right expression"); return; }
-    },
-
     _isLogicalExpressionDoneWithEvaluation: function(value, operator)
     {
         return  (value.value && operator == "||")
@@ -653,36 +711,7 @@ fcSimulator.Evaluator.prototype =
                                                    : result === leftValue.value ? leftValue : rightValue;
     },
 
-    _evalEndLogicalCommand: function(endLogicalCommand)
-    {
-        this.dependencyCreator.createDependenciesForLogicalExpression(endLogicalCommand);
-    },
-
-    _evalUnaryExpression: function(unaryCommand)
-    {
-        if(!unaryCommand.isEvalUnaryExpressionCommand()) { this.notifyError(unaryCommand, "Argument has to be an eval unary item command!"); return; }
-
-        var unaryExpression = unaryCommand.codeConstruct;
-        var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
-
-        if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
-
-        this.dependencyCreator.createDataDependency(unaryExpression, unaryExpression.argument);
-
-        var expressionValue = null;
-
-             if (unaryExpression.operator == "-") { expressionValue = -argumentValue.value; }
-        else if (unaryExpression.operator == "+") { expressionValue = +argumentValue.value; }
-        else if (unaryExpression.operator == "!") { expressionValue = !argumentValue.value; }
-        else if (unaryExpression.operator == "~") { expressionValue = ~argumentValue.value; }
-        else if (unaryExpression.operator == "typeof") { expressionValue = argumentValue == null ? "undefined" : typeof argumentValue.value; }
-        else if (unaryExpression.operator == "void") { expressionValue = void argumentValue.value;}
-        else if (unaryExpression.operator == "delete") { expressionValue = this._evaluateDeleteExpression(unaryExpression); }
-
-        this.executionContextStack.setExpressionValue(unaryExpression, new fcModel.JsValue(expressionValue, new fcModel.FcInternal(unaryExpression)));
-    },
-
-    _evaluateDeleteExpression: function(deleteExpression)
+    _evalDeleteExpression: function(deleteExpression)
     {
         if(ASTHelper.isIdentifier(deleteExpression.argument))
         {
@@ -714,26 +743,6 @@ fcSimulator.Evaluator.prototype =
         return false;
     },
 
-    _evalCallInternalFunction: function(callInternalFunctionCommand)
-    {
-        if(!callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
-
-        this.dependencyCreator.createDependenciesForCallInternalFunction(callInternalFunctionCommand);
-
-        this.executionContextStack.setExpressionValue
-        (
-            callInternalFunctionCommand.codeConstruct,
-            this.globalObject.internalExecutor.executeFunction
-            (
-                this._getThisObjectFromCallInternalFunctionCommand(callInternalFunctionCommand),
-                callInternalFunctionCommand.functionObject,
-                this._getArgumentsFromInternalFunctionCall(callInternalFunctionCommand, callInternalFunctionCommand.codeConstruct.arguments),
-                callInternalFunctionCommand.codeConstruct,
-                callInternalFunctionCommand
-            )
-        );
-    },
-
     _getThisObjectFromCallInternalFunctionCommand: function(callInternalFunctionCommand)
     {
         return callInternalFunctionCommand.isCall || callInternalFunctionCommand.isApply
@@ -762,32 +771,6 @@ fcSimulator.Evaluator.prototype =
         {
             return this.executionContextStack.getExpressionValue(arg);
         }, this);
-    },
-
-    _evalCallbackFunctionCommand: function(callbackFunctionCommand)
-    {
-        this.dependencyCreator.createCallbackFunctionCommandDependencies(callbackFunctionCommand);
-    },
-
-    _evalSequence: function(sequenceCommand)
-    {
-        var sequenceExpression = sequenceCommand.codeConstruct;
-        var lastExpression = sequenceExpression.expressions[sequenceExpression.expressions.length - 1];
-
-        this.executionContextStack.setExpressionValue(sequenceExpression, this.executionContextStack.getExpressionValue(lastExpression));
-
-        this.dependencyCreator.createSequenceExpressionDependencies(sequenceExpression, lastExpression);
-    },
-
-    registerExceptionCallback: function(callback, thisObject)
-    {
-        try
-        {
-            if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError(null, "Exception callback has to be a function!"); return; }
-
-            this.exceptionCallbacks.push({callback: callback, thisObject: thisObject || this});
-        }
-        catch(e) { this.notifyError(null, "Error when registering exception callback:" + e);}
     },
 
     _callExceptionCallbacks: function(exceptionInfo)
