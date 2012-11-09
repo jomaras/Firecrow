@@ -14,6 +14,21 @@ fcSimulator.DependencyCreator.notifyError = function(message) { alert("Dependenc
 
 fcSimulator.DependencyCreator.prototype =
 {
+    createExitFunctionDependencies: function(callFunctionCommand)
+    {
+        this.addDependenciesToPreviouslyExecutedBlockConstructs(callFunctionCommand.codeConstruct, this.executionContextStack.getPreviouslyExecutedBlockConstructs());
+
+        if(callFunctionCommand.executedReturnCommand != null && callFunctionCommand.executedReturnCommand.codeConstruct.argument == null)
+        {
+            this.globalObject.browser.callControlDependencyEstablishedCallbacks
+            (
+                callFunctionCommand.codeConstruct,
+                callFunctionCommand.executedReturnCommand.codeConstruct,
+                this.globalObject.getReturnExpressionPreciseEvaluationPositionId()
+            );
+        }
+    },
+
     createDataDependency: function(fromConstruct, toConstruct)
     {
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(fromConstruct, toConstruct, this.globalObject.getPreciseEvaluationPositionId());
