@@ -32,10 +32,7 @@ fcModel.GlobalObject = function(browser)
 
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
-    catch(e)
-    {
-        fcModel.GlobalObject.notifyError("Error when initializing global object:" + e);
-    }
+    catch(e) { fcModel.GlobalObject.notifyError("Error when initializing global object:" + e); }
 };
 
 //<editor-fold desc="'Static' properties">

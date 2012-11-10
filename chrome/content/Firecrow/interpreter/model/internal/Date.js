@@ -109,7 +109,7 @@ fcModel.DateExecutor =
         catch(e) { fcModel.Date.notifyError("Date - error when executing Date functions:" + e); }
     },
 
-    executeConstructor: function(callExpression, arguments, globalObject)
+    _executeInternalConstructor: function(callExpression, arguments, globalObject)
     {
         try
         {

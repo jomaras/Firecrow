@@ -11,7 +11,7 @@ fcSimulator.Evaluator = function(executionContextStack)
     {
         this.executionContextStack = executionContextStack;
         this.globalObject = executionContextStack.globalObject;
-        this.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, executionContextStack);
+        this.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, this.executionContextStack);
 
         this.exceptionCallbacks = [];
     }
