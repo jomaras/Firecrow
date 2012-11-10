@@ -344,6 +344,7 @@ fcSimulator.InternalExecutor.prototype =
         else { this.notifyError("Unhandled internal constructor" + constructorConstruct.loc.start.line); return; }
     },
 
+
     _createEmptyObject: function(constructorConstruct)
     {
         var obj = {};
