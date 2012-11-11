@@ -1,8 +1,3 @@
-/**
- * User: Jomaras
- * Date: 03.05.12.
- * Time: 09:11
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
@@ -310,7 +305,7 @@ Browser.prototype =
         return eventTrace.line >= handlerConstruct.loc.start.line && eventTrace.line <= handlerConstruct.loc.end.line;
     },
 
-    _isLoadEvent: function(eventTrace)
+    _isBrowserGeneratedEvent: function(eventTrace)
     {
         if (eventTrace == null || eventTrace.args == null) { return false; }
 
@@ -326,6 +321,27 @@ Browser.prototype =
             || eventTrace.args.type == "elementEvent"
     },
 
+    _getOnLoadFunctions: function()
+    {
+        var onLoadFunctions =  this.globalObject.getEventListeners("load");
+        var onLoadFunction = this.globalObject.getPropertyValue("onload");
+
+        if(onLoadFunction != null)
+        {
+            onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.globalObject.getProperty("onload").lastModificationPosition });
+        }
+
+        return onLoadFunctions;
+    },
+
+    _getDOMContentLoadedMethods: function()
+    {
+        var windowDomContentLoaded = this.globalObject.getEventListeners("DOMContentLoaded");
+        var documentDomContentLoaded = this.globalObject.document.getEventListeners("DOMContentLoaded");
+
+        return documentDomContentLoaded.concat(windowDomContentLoaded);
+    },
+
     _handleEvents: function()
     {
         try
@@ -336,14 +352,9 @@ Browser.prototype =
 
             var eventTraces = this.pageModel.eventTraces;
 
-            var documentDomContentReadyMethods = this.globalObject.document.getEventListeners("DOMContentLoaded");
-            var windowDomContentReadyMethods = this.globalObject.getEventListeners("DOMContentLoaded");
-            var onLoadFunctions =  this.globalObject.getEventListeners("load");
-            var onLoadFunction = this.globalObject.getPropertyValue("onload");
-            if(onLoadFunction != null)
-            {
-                onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.globalObject.getProperty("onload").lastModificationPosition });
-            }
+            var domContentReadyMethods = this._getDOMContentLoadedMethods();
+            var onLoadFunctions = this._getOnLoadFunctions();
+
             var htmlElementEvents = this.globalObject.htmlElementEventHandlingRegistrations;
             var timeoutEvents = this.globalObject.timeoutHandlers;
             var intervalEvents = this.globalObject.intervalHandlers;
@@ -355,170 +366,15 @@ Browser.prototype =
                 var eventFile = eventTrace.filePath;
                 this.globalObject.currentEventTime = eventTrace.currentTime;
 
-                if(this._isLoadEvent(eventTrace))
+                if(this._isBrowserGeneratedEvent(eventTrace))
                 {
-                    var domContentReadyInfo = documentDomContentReadyMethods[0];
-
-                    if(domContentReadyInfo != null)
-                    {
-                        var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
-
-                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
-                        {
-                            this._interpretJsCode
-                            (
-                                handlerConstruct.body,
-                                {
-                                    functionHandler: domContentReadyInfo.handler,
-                                    thisObject: this.globalObject.jsFcDocument,
-                                    argumentValues: [],
-                                    registrationPoint: domContentReadyInfo.registrationPoint
-                                }
-                            );
-
-                            eventTrace.hasBeenHandled = true;
-
-                            documentDomContentReadyMethods.shift();
-                            continue;
-                        }
-                    }
-
-                    domContentReadyInfo = windowDomContentReadyMethods[0];
-
-                    if(domContentReadyInfo != null)
-                    {
-                        var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
-
-                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
-                        {
-                            this._interpretJsCode
-                            (
-                                handlerConstruct.body,
-                                {
-                                    functionHandler: domContentReadyInfo.handler,
-                                    thisObject: this.globalObject,
-                                    argumentValues: [],
-                                    registrationPoint: domContentReadyInfo.registrationPoint
-                                }
-                            );
-
-                            eventTrace.hasBeenHandled = true;
-
-                            windowDomContentReadyMethods.shift();
-                            continue;
-                        }
-                    }
-
-                    var onLoadInfo = onLoadFunctions[0];
-
-                    if(onLoadInfo != null)
-                    {
-                        var handlerConstruct = onLoadInfo.handler.fcInternal.object.codeConstruct;
-
-                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
-                        {
-                            this._interpretJsCode
-                            (
-                                handlerConstruct.body,
-                                {
-                                    functionHandler: onLoadInfo.handler,
-                                    thisObject: this.globalObject,
-                                    argumentValues: [],
-                                    registrationPoint: onLoadInfo.registrationPoint
-                                }
-                            );
-
-                            eventTrace.hasBeenHandled = true;
-
-                            onLoadFunctions.shift();
-                            continue;
-                        }
-                    }
-
-                    for(var j = 0, intervalLength = intervalEvents.length; j < intervalLength; j++)
-                    {
-                        var event = intervalEvents[j];
-
-                        var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
-
-                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
-                        {
-                            this._interpretJsCode
-                            (
-                                handlerConstruct.body,
-                                {
-                                    functionHandler: event.handler,
-                                    thisObject: this.globalObject,
-                                    argumentValues: event.callArguments,
-                                    registrationPoint: event.registrationPoint
-                                }
-                            );
-
-                            eventTrace.hasBeenHandled = true;
-
-                            break;
-                        }
-                    }
-
-                    for(var j = 0, timeoutLength = timeoutEvents.length; j < timeoutLength; j++)
-                    {
-                        var event = timeoutEvents[j];
-
-                        var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
-
-                        if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
-                        {
-                            this._interpretJsCode
-                            (
-                                handlerConstruct.body,
-                                {
-                                    functionHandler: event.handler,
-                                    thisObject: this.globalObject,
-                                    argumentValues: event.callArguments,
-                                    registrationPoint: event.registrationPoint
-                                }
-                            );
-
-                            eventTrace.hasBeenHandled = true;
-
-                            ValueTypeHelper.removeFromArrayByIndex(timeoutEvents, j);
-                            break;
-                        }
-                    }
+                    if(this._handleDomContentReadyMethods(domContentReadyMethods, eventTrace)) { continue; }
+                    if(this._handleOnLoadMethod(onLoadFunctions, eventTrace)) { continue; }
+                    if(this._handleTimingEvents(intervalEvents, timeoutEvents, eventTrace)) { continue; }
                 }
                 else
                 {
-                    for(var j = 0, htmlEventsLength = htmlElementEvents.length; j < htmlEventsLength; j++)
-                    {
-                        var event = htmlElementEvents[j];
-                        var fcHtmlElement = event.fcHtmlElement;
-                        var xPath = this._getElementXPath(fcHtmlElement.htmlElement);
-
-                        if(xPath != eventTrace.args.targetXPath && xPath != eventTrace.thisValue.xPath ) { continue; }
-
-                        if(this._isElementEvent(eventTrace, event.eventType))
-                        {
-                            var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
-
-                            if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
-                            {
-                                var eventThisObject = new fcModel.JsValue(fcHtmlElement.htmlElement, new fcModel.FcInternal(null, fcHtmlElement));
-                                this._interpretJsCode
-                                (
-                                    handlerConstruct.body,
-                                    {
-                                        functionHandler: event.handler,
-                                        thisObject: eventThisObject,
-                                        argumentValues: this._getArguments(eventTrace.args, eventThisObject),
-                                        registrationPoint: event.registrationPoint
-                                    }
-                                );
-
-                                eventTrace.hasBeenHandled = true;
-                                break;
-                            }
-                        }
-                    }
+                    this._handleHtmlEvents(htmlElementEvents, eventTrace);
                 }
 
                 if(!eventTrace.hasBeenHandled)
@@ -530,6 +386,157 @@ Browser.prototype =
         catch(e)
         {
             this.notifyError("Error when handling events: " + e + this.url + e.fileName +  e.lineNumber );
+        }
+    },
+
+    _handleDomContentReadyMethods: function(domContentReadyMethods, eventTrace)
+    {
+        var domContentReadyInfo = domContentReadyMethods[0];
+
+        if(domContentReadyInfo != null)
+        {
+            var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
+
+            if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
+            {
+                this._interpretJsCode
+                (
+                    handlerConstruct.body,
+                    {
+                        functionHandler: domContentReadyInfo.handler,
+                        thisObject: domContentReadyInfo.thisObject,
+                        argumentValues: [],
+                        registrationPoint: domContentReadyInfo.registrationPoint
+                    }
+                );
+
+                eventTrace.hasBeenHandled = true;
+
+                domContentReadyMethods.shift();
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _handleOnLoadMethod: function(onLoadFunctions, eventTrace)
+    {
+        var onLoadInfo = onLoadFunctions[0];
+
+        if(onLoadInfo != null)
+        {
+            var handlerConstruct = onLoadInfo.handler.fcInternal.object.codeConstruct;
+
+            if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
+            {
+                this._interpretJsCode
+                (
+                    handlerConstruct.body,
+                    {
+                        functionHandler: onLoadInfo.handler,
+                        thisObject: this.globalObject,
+                        argumentValues: [],
+                        registrationPoint: onLoadInfo.registrationPoint
+                    }
+                );
+
+                eventTrace.hasBeenHandled = true;
+
+                onLoadFunctions.shift();
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _handleTimingEvents: function(intervalEvents, timeoutEvents, eventTrace)
+    {
+        for(var j = 0, intervalLength = intervalEvents.length; j < intervalLength; j++)
+        {
+            var event = intervalEvents[j];
+
+            var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+
+            if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
+            {
+                this._interpretJsCode
+                (
+                    handlerConstruct.body,
+                    {
+                        functionHandler: event.handler,
+                        thisObject: this.globalObject,
+                        argumentValues: event.callArguments,
+                        registrationPoint: event.registrationPoint
+                    }
+                );
+
+                eventTrace.hasBeenHandled = true;
+
+                break;
+            }
+        }
+
+        for(var j = 0, timeoutLength = timeoutEvents.length; j < timeoutLength; j++)
+        {
+            var event = timeoutEvents[j];
+
+            var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+
+            if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
+            {
+                this._interpretJsCode
+                (
+                    handlerConstruct.body,
+                    {
+                        functionHandler: event.handler,
+                        thisObject: this.globalObject,
+                        argumentValues: event.callArguments,
+                        registrationPoint: event.registrationPoint
+                    }
+                );
+
+                eventTrace.hasBeenHandled = true;
+
+                ValueTypeHelper.removeFromArrayByIndex(timeoutEvents, j);
+                break;
+            }
+        }
+    },
+
+    _handleHtmlEvents: function(htmlElementEvents, eventTrace)
+    {
+        for(var j = 0, htmlEventsLength = htmlElementEvents.length; j < htmlEventsLength; j++)
+        {
+            var event = htmlElementEvents[j];
+            var fcHtmlElement = event.fcHtmlElement;
+            var xPath = this._getElementXPath(fcHtmlElement.htmlElement);
+
+            if(xPath != eventTrace.args.targetXPath && xPath != eventTrace.thisValue.xPath ) { continue; }
+
+            if(this._isElementEvent(eventTrace, event.eventType))
+            {
+                var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+
+                if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
+                {
+                    var eventThisObject = new fcModel.JsValue(fcHtmlElement.htmlElement, new fcModel.FcInternal(null, fcHtmlElement));
+                    this._interpretJsCode
+                    (
+                        handlerConstruct.body,
+                        {
+                            functionHandler: event.handler,
+                            thisObject: eventThisObject,
+                            argumentValues: this._getArguments(eventTrace.args, eventThisObject),
+                            registrationPoint: event.registrationPoint
+                        }
+                    );
+
+                    eventTrace.hasBeenHandled = true;
+                    break;
+                }
+            }
         }
     },
 

@@ -7,25 +7,16 @@
 
 <script>
 
-    var Obj = function()
+    document.addEventListener( "DOMContentLoaded", function()
     {
-        this.id = Obj.ID++;
-    };
+        alert(this);
+    }, false);
 
-    var Test = function()
+    window.addEventListener( "DOMContentLoaded", function()
     {
-        this.hello = true;
-    }
+        alert(this);
+    }, false);
 
-    Obj.ID = 0;
-
-    var HtmlElement = function()
-    {
-        this.__proto__ = new Test();
-    };
-
-    HtmlElement.prototype = new Obj();
-    HtmlElement.prototype.test = function() { return 3; };
 </script>
 </body>
 </html>

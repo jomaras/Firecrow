@@ -19,6 +19,7 @@ fcModel.EventListenerMixin =
             this.eventListenerInfo[eventTypeName].push
             ({
                 handler: handler,
+                thisObject: this,
                 registrationPoint:
                 {
                     codeConstruct: callExpression,
