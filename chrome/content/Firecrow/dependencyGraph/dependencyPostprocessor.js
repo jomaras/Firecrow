@@ -14,6 +14,10 @@ Firecrow.DependencyGraph.DependencyPostprocessor = function()
 };
 
 Firecrow.DependencyGraph.DependencyPostprocessor.notifyError = function(message) { alert("DependencyPostprocessor - " + message); }
+Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement = function()
+{
+    (new Firecrow.DependencyGraph.DependencyPostprocessor()).processHtmlElement(model);
+};
 
 Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 {

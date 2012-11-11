@@ -1,19 +1,19 @@
-/**
- * User: Jomaras
- * Date: 03.05.12.
- * Time: 13:44
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 var Node = Firecrow.DependencyGraph.Node;
 
-Firecrow.DependencyGraph.DependencyGraph = function()
+var fcGraph = Firecrow.DependencyGraph;
+
+fcGraph.DependencyGraph = function()
 {
     this.nodes = [];
+
     this.htmlNodes = [];
     this.cssNodes = [];
+    this.jsNodes = [];
+
     this.controlFlow = [];
     this.importantConstructDependencyIndexMapping = [];
     this.controlDependencies = [];
@@ -33,12 +33,13 @@ DependencyGraph.prototype =
 {
     addNode: function(node)
     {
-        if(!ValueTypeHelper.isOfType(node, Node)) { this.notifyError("Node is not of type DependencyGraph.Node!"); }
+        if(!ValueTypeHelper.isOfType(node, Node)) { this.notifyError("Node is not of type DependencyGraph.Node!"); return; }
 
         this.nodes.push(node);
 
-        if(node.type == "html") { this.htmlNodes.push(node); }
+             if (node.type == "html") { this.htmlNodes.push(node); }
         else if (node.type == "css") { this.cssNodes.push(node); }
+        else if (node.type == "js") { this.jsNodes.push(node); }
     },
 
     handleNodeCreated: function(nodeModelObject, type, isDynamic)
@@ -58,58 +59,44 @@ DependencyGraph.prototype =
 
     handleDataDependencyEstablished: function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency)
     {
-        try
-        {
-            if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
+        if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
 
-            if(ValueTypeHelper.isArray(targetNodeModelObject))
+        if(ValueTypeHelper.isArray(targetNodeModelObject))
+        {
+            for(var i = 0; i < targetNodeModelObject.length; i++)
             {
-                for(var i = 0; i < targetNodeModelObject.length; i++)
-                {
-                    sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject[i].graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
-                }
-            }
-            else
-            {
-                sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+                sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject[i].graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
             }
         }
-        catch(e)
+        else
         {
-            this.notifyError("Error when handling data dependency established: " + e);
+            sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
         }
     },
 
     handleControlDependencyEstablished: function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo, isPreviouslyExecutedBlockStatementDependency)
     {
-        try
-        {
-            if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
+        if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
 
-            if(dependencyCreationInfo != null && dependencyCreationInfo.isReturnDependency)
+        if(dependencyCreationInfo != null && dependencyCreationInfo.isReturnDependency)
+        {
+            var enterFunctionPoints = sourceNodeModelObject.graphNode.enterFunctionPoints;
+            if(enterFunctionPoints != null)
             {
-                var enterFunctionPoints = sourceNodeModelObject.graphNode.enterFunctionPoints;
-                if(enterFunctionPoints != null)
-                {
-                    dependencyCreationInfo.callDependencyMaxIndex = enterFunctionPoints[enterFunctionPoints.length - 1].lastDependencyIndex;
-                }
+                dependencyCreationInfo.callDependencyMaxIndex = enterFunctionPoints[enterFunctionPoints.length - 1].lastDependencyIndex;
             }
+        }
 
-            sourceNodeModelObject.graphNode.addControlDependency
-            (
-                targetNodeModelObject.graphNode,
-                true,
-                this.dependencyEdgesCounter++,
-                dependencyCreationInfo,
-                destinationNodeDependencyInfo,
-                false,
-                isPreviouslyExecutedBlockStatementDependency
-            );
-        }
-        catch(e)
-        {
-            this.notifyError("Error when handling data dependency established: " + e);
-        }
+        sourceNodeModelObject.graphNode.addControlDependency
+        (
+            targetNodeModelObject.graphNode,
+            true,
+            this.dependencyEdgesCounter++,
+            dependencyCreationInfo,
+            destinationNodeDependencyInfo,
+            false,
+            isPreviouslyExecutedBlockStatementDependency
+        );
     },
 
     handleControlFlowConnection: function(sourceNode)
@@ -119,191 +106,143 @@ DependencyGraph.prototype =
 
     handleImportantConstructReached: function(sourceNode)
     {
-        try
-        {
-            var dataDependencies = sourceNode.graphNode.dataDependencies;
-            this.importantConstructDependencyIndexMapping.push
-            (
-                {
-                    codeConstruct: sourceNode,
-                    dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
-                }
-            );
-        }
-        catch(e){ this.notifyError("Error when handling important construct reached:" + e);}
+        var dataDependencies = sourceNode.graphNode.dataDependencies;
+        this.importantConstructDependencyIndexMapping.push
+        (
+            {
+                codeConstruct: sourceNode,
+                dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
+            }
+        );
     },
 
     handleBreakContinueReturnEventReached: function(sourceNode)
     {
-        try
-        {
-            var dataDependencies = sourceNode.graphNode.dataDependencies;
-            this.breakContinueReturnEventsMapping.push
-            (
-                {
-                    codeConstruct: sourceNode,
-                    dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
-                }
-            );
-        }
-        catch(e){ this.notifyError("Error when handling important construct reached:" + e);}
+        var dataDependencies = sourceNode.graphNode.dataDependencies;
+        this.breakContinueReturnEventsMapping.push
+        (
+            {
+                codeConstruct: sourceNode,
+                dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
+            }
+        );
     },
 
     markGraph: function(model)
     {
         try
         {
-            var importantConstructDependencyIndexMapping = this.importantConstructDependencyIndexMapping;
-            var breakContinueMapping = [];
             this.previouslyExecutedBlockDependencies = [];
 
-            for(var i = 0, length = importantConstructDependencyIndexMapping.length; i < length; i++)
-            {
-                var mapping = importantConstructDependencyIndexMapping[i];
+            this._traverseImportantDependencies(this.importantConstructDependencyIndexMapping);
+            this._traverseHtmlNodeDependencies(this.htmlNodes);
 
-                //TODO - remove this way of handling break and continue,
-                //do them like return from event handlers
-                if(ASTHelper.isBreakStatement(mapping.codeConstruct)
-                || ASTHelper.isContinueStatement(mapping.codeConstruct))
-                {
-                    breakContinueMapping.push(mapping);
-                }
-                else
-                {
-                    this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
-                }
-            }
+            this._traverseExecutedBlockDependencies();
+            this._traverseBreakContinueReturnEventsDependencies();
 
-            for(var i = 0, length = breakContinueMapping.length; i < length; i++)
-            {
-                var mapping = breakContinueMapping[i];
-
-                var parent = ASTHelper.isBreakStatement(mapping.codeConstruct) ? ASTHelper.getLoopOrSwitchParent(mapping.codeConstruct)
-                                                                               : ASTHelper.getLoopParent(mapping.codeConstruct);
-
-                if(this.inculsionFinder.isIncludedElement(parent))
-                {
-                    this.traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
-                }
-            }
-
-            for(var i = 0, length = this.htmlNodes.length; i < length; i++)
-            {
-                var htmlModelNode =  this.htmlNodes[i].model;
-
-                if(!htmlModelNode.shouldBeIncluded) { continue; }
-
-                this.traverseAndMark(htmlModelNode);
-            }
-
-            var inclusionFinder = new Firecrow.DependencyGraph.InclusionFinder();
-
-            for(var i = 0; i < this.previouslyExecutedBlockDependencies.length; i++)
-            {
-                var blockDependency = this.previouslyExecutedBlockDependencies[i];
-                //Because the dependency is added to the condition, and here, we want to traverse it
-                //only if some of at least one sub-expression is already included in the previous phases
-                if(inclusionFinder.isIncludedElement(blockDependency.codeConstruct.parent))
-                {
-                    this.traverseAndMark(blockDependency.codeConstruct, blockDependency.maxDependencyIndex, blockDependency.dependencyConstraint, blockDependency.includedByNode);
-                }
-            }
-
-            for(var i = 0; i < this.breakContinueReturnEventsMapping.length; i++)
-            {
-                var mapping = this.breakContinueReturnEventsMapping[i];
-
-                if(ASTHelper.isReturnStatement(mapping.codeConstruct))
-                {
-                    var functionParent = ASTHelper.getFunctionParent(mapping.codeConstruct);
-
-                    if(inclusionFinder.isIncludedElement(functionParent))
-                    {
-                        this.traverseAndMark(mapping.codeConstruct, mapping.maxDependencyIndex, null, null)
-                    }
-                }
-                else
-                {
-                    alert("Still not handling other break continue in this way");
-                }
-            }
-
-            var postProcessor = new Firecrow.DependencyGraph.DependencyPostprocessor();
-            postProcessor.processHtmlElement(model);
+            Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement(model);
         }
-        catch(e) { this.notifyError("Error occurred when marking graph:" + e);}
+        catch(e) { this.notifyError("Error when marking graph: " + e); }
     },
 
-    traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint, includedByNode)
+    _traverseImportantDependencies: function(importantConstructDependencyIndexMapping)
     {
-        try
+        for(var i = 0, length = importantConstructDependencyIndexMapping.length; i < length; i++)
         {
-            codeConstruct.shouldBeIncluded = true;
-            codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
+            var mapping = importantConstructDependencyIndexMapping[i];
 
-            if(codeConstruct.loc != null && codeConstruct.loc.start.line == 818)
+            this._traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
+        }
+    },
+
+    _traverseHtmlNodeDependencies: function(htmlNodes)
+    {
+        for(var i = 0, length = htmlNodes.length; i < length; i++)
+        {
+            var htmlModelNode =  htmlNodes[i].model;
+
+            if(!htmlModelNode.shouldBeIncluded) { continue; }
+
+            this._traverseAndMark(htmlModelNode);
+        }
+    },
+
+    _traverseExecutedBlockDependencies: function()
+    {
+        for(var i = 0, length = this.previouslyExecutedBlockDependencies.length; i < length; i++)
+        {
+            var blockDependency = this.previouslyExecutedBlockDependencies[i];
+            //Because the dependency is added to the condition, and here, we want to traverse it
+            //only if some of at least one sub-expression is already included in the previous phases
+            if(this.inclusionFinder.isIncludedElement(blockDependency.codeConstruct.parent))
             {
-                var a = 3;
-            }
-
-            /*if(DependencyGraph.shouldLog && codeConstruct.loc != null && codeConstruct.loc.start.line == 3968)
-            {
-                var a = 3;
-            }
-
-            if(DependencyGraph.shouldLog)
-            {
-                if(codeConstruct.loc != null)
-                {
-                    DependencyGraph.log += codeConstruct.loc.start.line + ";";
-                }
-            }*/
-
-            var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
-
-            for(var i = potentialDependencyEdges.length - 1; i >= 0; i--)
-            {
-                var dependencyEdge = potentialDependencyEdges[i];
-
-                if(dependencyEdge.hasBeenTraversed) { continue; }
-
-                dependencyEdge.hasBeenTraversed = true;
-
-                var dependencyConstraintToFollow = dependencyConstraint;
-
-                if(dependencyConstraintToFollow == null){ dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints; }
-                else if(dependencyEdge.destinationNodeDependencyConstraints.currentCommandId < dependencyConstraint.currentCommandId)
-                {
-                    dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
-                }
-                else if (dependencyEdge.isReturnDependency || dependencyEdge.shouldAlwaysBeFollowed)
-                {
-                    dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
-                }
-
-                if(dependencyEdge.shouldNotFollowDependency)
-                {
-                    dependencyEdge.destinationNode.model.shouldBeIncluded = true;
-                    continue;
-                }
-
-                if(dependencyEdge.isPreviouslyExecutedBlockStatementDependency)
-                {
-                    this.previouslyExecutedBlockDependencies.push(
-                    {
-                        codeConstruct:dependencyEdge.destinationNode.model,
-                        maxDependencyIndex: dependencyEdge.index,
-                        dependencyConstraint: dependencyConstraintToFollow,
-                        includedByNode:  dependencyEdge.sourceNode.model
-                    });
-
-                    continue;
-                }
-
-                this.traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);
+                this._traverseAndMark(blockDependency.codeConstruct, blockDependency.maxDependencyIndex, blockDependency.dependencyConstraint, blockDependency.includedByNode);
             }
         }
-        catch(e) { this.notifyError("Error occurred when traversing and marking the graph: " + e);}
+    },
+
+    _traverseBreakContinueReturnEventsDependencies: function()
+    {
+        for(var i = 0; i < this.breakContinueReturnEventsMapping.length; i++)
+        {
+            var mapping = this.breakContinueReturnEventsMapping[i];
+            var parent = ASTHelper.getBreakContinueReturnImportantAncestor(mapping.codeConstruct);
+
+            if(this.inclusionFinder.isIncludedElement(parent))
+            {
+                this._traverseAndMark(mapping.codeConstruct, mapping.maxDependencyIndex, null, null)
+            }
+        }
+    },
+
+    _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint, includedByNode)
+    {
+        codeConstruct.shouldBeIncluded = true;
+        codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
+
+        var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
+
+        for(var i = potentialDependencyEdges.length - 1; i >= 0; i--)
+        {
+            var dependencyEdge = potentialDependencyEdges[i];
+
+            if(dependencyEdge.hasBeenTraversed) { continue; }
+
+            dependencyEdge.hasBeenTraversed = true;
+
+            var dependencyConstraintToFollow = dependencyConstraint;
+
+            if(dependencyConstraintToFollow == null){ dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints; }
+            else if(dependencyEdge.destinationNodeDependencyConstraints.currentCommandId < dependencyConstraint.currentCommandId)
+            {
+                dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
+            }
+            else if (dependencyEdge.isReturnDependency || dependencyEdge.shouldAlwaysBeFollowed)
+            {
+                dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints;
+            }
+
+            if(dependencyEdge.shouldNotFollowDependency)
+            {
+                dependencyEdge.destinationNode.model.shouldBeIncluded = true;
+                continue;
+            }
+
+            if(dependencyEdge.isPreviouslyExecutedBlockStatementDependency)
+            {
+                this.previouslyExecutedBlockDependencies.push
+                ({
+                    codeConstruct:dependencyEdge.destinationNode.model,
+                    maxDependencyIndex: dependencyEdge.index,
+                    dependencyConstraint: dependencyConstraintToFollow,
+                    includedByNode:  dependencyEdge.sourceNode.model
+                });
+
+                continue;
+            }
+
+            this._traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);
+        }
     },
 
     notifyError: function(message)

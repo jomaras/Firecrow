@@ -81,7 +81,8 @@ fcSimulator.Evaluator.prototype =
             if(breakContinueCommand == null || (!breakContinueCommand.isEvalBreakCommand() && !breakContinueCommand.isEvalContinueCommand())) { this.notifyError(breakContinueCommand, "Should be break or continue command"); }
 
             this.dependencyCreator.addDependenciesToTopBlockConstructs(breakContinueCommand.codeConstruct);
-            this.globalObject.browser.callImportantConstructReachedCallbacks(breakContinueCommand.codeConstruct);
+            this.globalObject.browser.callBreakContinueReturnEventCallbacks(breakContinueCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+            //this.globalObject.browser.callImportantConstructReachedCallbacks(breakContinueCommand.codeConstruct);
         }
         catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
     },

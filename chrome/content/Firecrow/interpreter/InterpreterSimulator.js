@@ -16,7 +16,7 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, h
     this.tryStack = [];
 
     this.executionContextStack = new ExecutionContextStack(globalObject, handlerInfo);
-    this.executionContextStack.registerExceptionCallback(this.removeCommandsAfterException, this);
+    this.executionContextStack.registerExceptionCallback(this._removeCommandsAfterException, this);
 
     this.commands = CommandGenerator.generateCommands(programAst);
 
@@ -43,7 +43,7 @@ fcSimulator.prototype =
 
                 this.globalObject.setCurrentCommand(command);
 
-                this.processCommand(command);
+                this._processCommand(command);
 
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
 
@@ -69,7 +69,7 @@ fcSimulator.prototype =
                 }
             }
         }
-        catch(e) { this.notifyError("Error while running the InterpreterSimulator: " + e); }
+        catch(e) { fcSimulator.notifyError("Error while running the InterpreterSimulator: " + e); }
     },
 
     runAsync: function(callback)
@@ -83,7 +83,7 @@ fcSimulator.prototype =
             {
                 var command = that.commands[that.currentCommandIndex];
 
-                that.processCommand(command);
+                that._processCommand(command);
 
                 that.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
 
@@ -95,24 +95,47 @@ fcSimulator.prototype =
 
             setTimeout(asyncLoop, 10)
         }
-        catch(e) { this.notifyError("Error when executing async loop"); }
+        catch(e) { fcSimulator.notifyError("Error when executing async loop"); }
     },
 
-    processCommand: function(command)
+    _processCommand: function(command)
     {
-        if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { this.processTryCommand(command); }
-        if(command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterException(command); }
+        if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { this._processTryCommand(command); }
+        if(command.isEvalThrowExpressionCommand()) { this._removeCommandsAfterException(command); }
 
         this.executionContextStack.executeCommand(command);
         command.hasBeenExecuted = true;
 
-        if (command.removesCommands) { this.processRemovingCommandsCommand(command); }
-        if (command.generatesNewCommands) { this.processGeneratingNewCommandsCommand(command); }
+        if (command.removesCommands) { this._processRemovingCommandsCommand(command); }
+        if (command.generatesNewCommands) { this._processGeneratingNewCommandsCommand(command); }
     },
 
-    processTryCommand: function(command)
+    _processGeneratingNewCommandsCommand: function(command)
     {
-        if(!(command.isStartTryStatementCommand() || command.isEndTryStatementCommand())) { this.notifyError("The command is not a try command in InterpreterSimulator!"); return; }
+        if (command.isEvalCallbackFunctionCommand()) { this._generateCommandsAfterCallbackFunctionCommand(command); }
+        else if (command.isEvalNewExpressionCommand()) { this._generateCommandsAfterNewExpressionCommand(command); }
+        else if (command.isEvalCallExpressionCommand()) { this._generateCommandsAfterCallFunctionCommand(command); }
+        else if (command.isCallInternalFunctionCommand()) { if(command.generatesCallbacks) { this._generateCommandsAfterCallbackFunctionCommand(command); }}
+        else if (command.isLoopStatementCommand()) { this._generateCommandsAfterLoopCommand(command); }
+        else if (command.isIfStatementCommand()) { this._generateCommandsAfterIfCommand(command); }
+        else if (command.isEvalConditionalExpressionBodyCommand()) { this._generateCommandsAfterConditionalCommand(command); }
+        else if (command.isCaseCommand()) { this._generateCommandsAfterCaseCommand(command); }
+        else { fcSimulator.notifyError("Unknown generating new commands command!"); }
+    },
+
+    _processRemovingCommandsCommand: function(command)
+    {
+        if (command.isEvalReturnExpressionCommand()) { this._removeCommandsAfterReturnStatement(command); }
+        else if (command.isEvalBreakCommand()) { this._removeCommandsAfterBreak(command); }
+        else if (command.isEvalContinueCommand()) { this._removeCommandsAfterContinue(command); }
+        else if (command.isEvalThrowExpressionCommand()) { this._removeCommandsAfterException(command); }
+        else if (command.isEvalLogicalExpressionItemCommand()) { this._removeCommandsAfterLogicalExpressionItem(command); }
+        else { fcSimulator.notifyError("Unknown removing commands command: " + command.type); }
+    },
+
+    _processTryCommand: function(command)
+    {
+        if(!(command.isStartTryStatementCommand() || command.isEndTryStatementCommand())) { fcSimulator.notifyError("The command is not a try command in InterpreterSimulator!"); return; }
 
         if(command.isStartTryStatementCommand())
         {
@@ -122,23 +145,13 @@ fcSimulator.prototype =
         {
             var topCommand = this.tryStack[this.tryStack.length - 1];
 
-            if(topCommand == null || topCommand.codeConstruct != command.codeConstruct) { this.notifyError("Error while popping try command from Stack"); return; }
+            if(topCommand == null || topCommand.codeConstruct != command.codeConstruct) { fcSimulator.notifyError("Error while popping try command from Stack"); return; }
 
             this.tryStack.pop();
         }
     },
 
-    processRemovingCommandsCommand: function(command)
-    {
-             if (command.isEvalReturnExpressionCommand()) { this.removeCommandsAfterReturnStatement(command); }
-        else if (command.isEvalBreakCommand()) { this.removeCommandsAfterBreak(command); }
-        else if (command.isEvalContinueCommand()) { this.removeCommandsAfterContinue(command); }
-        else if (command.isEvalThrowExpressionCommand()) { this.removeCommandsAfterException(command); }
-        else if (command.isEvalLogicalExpressionItemCommand()) { this.removeCommandsAfterLogicalExpressionItem(command); }
-        else { this.notifyError("Unknown removing commands command: " + command.type); }
-    },
-
-    removeCommandsAfterReturnStatement: function(returnCommand)
+    _removeCommandsAfterReturnStatement: function(returnCommand)
     {
         var callExpressionCommand = returnCommand.parentFunctionCommand;
 
@@ -151,7 +164,7 @@ fcSimulator.prototype =
         }
     },
 
-    removeCommandsAfterBreak: function(breakCommand)
+    _removeCommandsAfterBreak: function(breakCommand)
     {
         for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
         {
@@ -163,7 +176,7 @@ fcSimulator.prototype =
         }
     },
 
-    removeCommandsAfterContinue: function(continueCommand)
+    _removeCommandsAfterContinue: function(continueCommand)
     {
         for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
         {
@@ -175,16 +188,16 @@ fcSimulator.prototype =
         }
     },
 
-    removeCommandsAfterException: function(exceptionGeneratingArgument)
+    _removeCommandsAfterException: function(exceptionGeneratingArgument)
     {
         if(exceptionGeneratingArgument == null || !exceptionGeneratingArgument.isMatchesSelectorException)
         {
-            this.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + this.globalObject.browser.url);
+            fcSimulator.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + this.globalObject.browser.url);
         }
 
         if(this.tryStack.length == 0)
         {
-            this.notifyError("Removing commands and there is no enclosing try catch block @ " + this.commands[this.currentCommandIndex].codeConstruct.loc.source);
+            fcSimulator.notifyError("Removing commands and there is no enclosing try catch block @ " + this.commands[this.currentCommandIndex].codeConstruct.loc.source);
             return;
         }
 
@@ -219,9 +232,9 @@ fcSimulator.prototype =
         }
     },
 
-    removeCommandsAfterLogicalExpressionItem: function(evalLogicalExpressionItemCommand)
+    _removeCommandsAfterLogicalExpressionItem: function(evalLogicalExpressionItemCommand)
     {
-        if(!evalLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError("Argument is not an eval logical expression item command"); return; }
+        if(!evalLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { fcSimulator.notifyError("Argument is not an eval logical expression item command"); return; }
 
         if(evalLogicalExpressionItemCommand.shouldDeleteFollowingLogicalCommands)
         {
@@ -238,20 +251,7 @@ fcSimulator.prototype =
         }
     },
 
-    processGeneratingNewCommandsCommand: function(command)
-    {
-             if (command.isEvalCallbackFunctionCommand()) { this.generateCommandsAfterCallbackFunctionCommand(command); }
-        else if (command.isEvalNewExpressionCommand()) { this.generateCommandsAfterNewExpressionCommand(command); }
-        else if (command.isEvalCallExpressionCommand()) { this.generateCommandsAfterCallFunctionCommand(command); }
-        else if (command.isCallInternalFunctionCommand()) { if(command.generatesCallbacks) { this.generateCommandsAfterCallbackFunctionCommand(command); }}
-        else if (command.isLoopStatementCommand()) { this.generateCommandsAfterLoopCommand(command); }
-        else if (command.isIfStatementCommand()) { this.generateCommandsAfterIfCommand(command); }
-        else if (command.isEvalConditionalExpressionBodyCommand()) { this.generateCommandsAfterConditionalCommand(command); }
-        else if (command.isCaseCommand()) { this.generateCommandsAfterCaseCommand(command); }
-        else { this.notifyError("Unknown generating new commands command!"); }
-    },
-
-    generateCommandsAfterCallbackFunctionCommand: function(callInternalFunctionCommand)
+    _generateCommandsAfterCallbackFunctionCommand: function(callInternalFunctionCommand)
     {
         ValueTypeHelper.insertElementsIntoArrayAtIndex
         (
@@ -261,9 +261,9 @@ fcSimulator.prototype =
         );
     },
 
-    generateCommandsAfterNewExpressionCommand: function(newCommand)
+    _generateCommandsAfterNewExpressionCommand: function(newCommand)
     {
-        if(!newCommand.isEvalNewExpressionCommand()) { this.notifyError("Argument is not newExpressionCommand"); return; }
+        if(!newCommand.isEvalNewExpressionCommand()) { fcSimulator.notifyError("Argument is not newExpressionCommand"); return; }
 
         var callConstruct = newCommand.codeConstruct;
         var callee = this.executionContextStack.getExpressionValue(callConstruct.callee);
@@ -291,9 +291,9 @@ fcSimulator.prototype =
         );
     },
 
-    generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)
+    _generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)
     {
-        if(!callExpressionCommand.isEvalCallExpressionCommand()) { this.notifyError("Argument is not callExpressionCommand"); return; }
+        if(!callExpressionCommand.isEvalCallExpressionCommand()) { fcSimulator.notifyError("Argument is not callExpressionCommand"); return; }
 
         var callConstruct = callExpressionCommand.codeConstruct;
 
@@ -330,9 +330,9 @@ fcSimulator.prototype =
         );
     },
 
-    generateCommandsAfterLoopCommand: function(loopCommand)
+    _generateCommandsAfterLoopCommand: function(loopCommand)
     {
-        if(!loopCommand.isLoopStatementCommand()) { this.notifyError("Argument has to be a loop command!"); return; }
+        if(!loopCommand.isLoopStatementCommand()) { fcSimulator.notifyError("Argument has to be a loop command!"); return; }
 
         ValueTypeHelper.insertElementsIntoArrayAtIndex
         (
@@ -346,9 +346,9 @@ fcSimulator.prototype =
         );
     },
 
-    generateCommandsAfterIfCommand: function(ifCommand)
+    _generateCommandsAfterIfCommand: function(ifCommand)
     {
-        if(!ifCommand.isIfStatementCommand()) { this.notifyError("Argument has to be a if command!"); return; }
+        if(!ifCommand.isIfStatementCommand()) { fcSimulator.notifyError("Argument has to be a if command!"); return; }
 
         var generatedCommands = CommandGenerator.generateIfStatementBodyCommands
         (
@@ -360,9 +360,9 @@ fcSimulator.prototype =
         ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, generatedCommands, this.currentCommandIndex + 1);
     },
 
-    generateCommandsAfterConditionalCommand: function(conditionalCommand)
+    _generateCommandsAfterConditionalCommand: function(conditionalCommand)
     {
-        if(!conditionalCommand.isEvalConditionalExpressionBodyCommand()) { this.notifyError("Argument has to be a conditional expression body command!"); return; }
+        if(!conditionalCommand.isEvalConditionalExpressionBodyCommand()) { fcSimulator.notifyError("Argument has to be a conditional expression body command!"); return; }
 
         ValueTypeHelper.insertElementsIntoArrayAtIndex
         (
@@ -376,9 +376,9 @@ fcSimulator.prototype =
         );
     },
 
-    generateCommandsAfterCaseCommand: function(caseCommand)
+    _generateCommandsAfterCaseCommand: function(caseCommand)
     {
-        if(!caseCommand.isCaseCommand()) { this.notifyError("Argument has to be a case command!"); return; }
+        if(!caseCommand.isCaseCommand()) { fcSimulator.notifyError("Argument has to be a case command!"); return; }
 
         if( caseCommand.codeConstruct.test == null
          || this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).value == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).value
@@ -427,9 +427,7 @@ fcSimulator.prototype =
         {
             callbackDescription.callback.call(callbackDescription.thisValue, codeConstruct);
         });
-    },
-
-    notifyError: function (message) { Firecrow.Interpreter.InterpreterSimulator.notifyError(message); }
+    }
 };
 /******************************************************************************************/
 }});

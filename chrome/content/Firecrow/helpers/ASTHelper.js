@@ -718,6 +718,24 @@ Firecrow.ASTHelper =
         return false;
     },
 
+    getBreakContinueReturnImportantAncestor: function(codeConstruct)
+    {
+        if(this.isReturnStatement(codeConstruct))
+        {
+            return this.getFunctionParent(codeConstruct);
+        }
+        else if (this.isBreakStatement(codeConstruct))
+        {
+            return this.getLoopOrSwitchParent(codeConstruct);
+        }
+        else if(this.isContinueStatement(codeConstruct))
+        {
+            return this.getLoopParent(codeConstruct);
+        }
+
+        return null;
+    },
+
     getFirstArgumentOfCallExpression: function(element)
     {
         if(!this.isCallExpression(element) || element.arguments == null) { return null;}

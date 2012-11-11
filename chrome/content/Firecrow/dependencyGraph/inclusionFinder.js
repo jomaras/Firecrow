@@ -61,24 +61,19 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
 
     isIncludedElement: function(element)
     {
-        try
-        {
-                 if (ASTHelper.isProgram(element)) { return this.isIncludedProgram(element); }
-            else if (ASTHelper.isStatement(element)) { return this.isIncludedStatement(element); }
-            else if (ASTHelper.isFunction(element)) { return this.isIncludedFunction(element); }
-            else if (ASTHelper.isExpression(element)) { return this.isIncludedExpression(element); }
-            else if (ASTHelper.isSwitchCase(element)) { return this.isIncludedSwitchCase(element); }
-            else if (ASTHelper.isCatchClause(element)) { return this.isIncludedCatchClause(element); }
-            else if (ASTHelper.isVariableDeclaration(element)) { return this.isIncludedVariableDeclaration(element); }
-            else if (ASTHelper.isVariableDeclarator(element)) { return this.isIncludedVariableDeclarator(element); }
-            else if (ASTHelper.isLiteral(element)) { return this.isIncludedLiteral(element); }
-            else if (ASTHelper.isIdentifier(element)) { return this.isIncludedIdentifier(element); }
-            else
-            {
-                this.notifyError("Error while finding inclusions unidentified ast element");
-            }
-        }
-        catch(e) { alert("Error while finding inclusions: " + e); }
+        if(element == null) { return false;}
+
+             if (ASTHelper.isProgram(element)) { return this.isIncludedProgram(element); }
+        else if (ASTHelper.isStatement(element)) { return this.isIncludedStatement(element); }
+        else if (ASTHelper.isFunction(element)) { return this.isIncludedFunction(element); }
+        else if (ASTHelper.isExpression(element)) { return this.isIncludedExpression(element); }
+        else if (ASTHelper.isSwitchCase(element)) { return this.isIncludedSwitchCase(element); }
+        else if (ASTHelper.isCatchClause(element)) { return this.isIncludedCatchClause(element); }
+        else if (ASTHelper.isVariableDeclaration(element)) { return this.isIncludedVariableDeclaration(element); }
+        else if (ASTHelper.isVariableDeclarator(element)) { return this.isIncludedVariableDeclarator(element); }
+        else if (ASTHelper.isLiteral(element)) { return this.isIncludedLiteral(element); }
+        else if (ASTHelper.isIdentifier(element)) { return this.isIncludedIdentifier(element); }
+        else { this.notifyError("Error while finding inclusions unidentified ast element"); }
     },
 
     isIncludedProgram: function(programElement)
