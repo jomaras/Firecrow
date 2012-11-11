@@ -1,8 +1,9 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
     var ValueTypeHelper = Firecrow.ValueTypeHelper;
+    var fcGraph = Firecrow.DependencyGraph;
 
-    Firecrow.DependencyGraph.Node = function(model, type, isDynamic)
+    fcGraph.Node = function(model, type, isDynamic)
     {
         this.model = model;
         this.type = type;
@@ -19,151 +20,129 @@ FBL.ns(function() { with (FBL) {
         this.idNum = Node.LAST_ID++;
     };
 
-    Firecrow.DependencyGraph.Node.notifyError = function(message) { alert("Node - " + message); }
+    fcGraph.Node.notifyError = function(message) { alert("Node - " + message); }
+    fcGraph.Node.LAST_ID = 0;
 
-    var Node = Firecrow.DependencyGraph.Node;
-    Node.LAST_ID = 0;
+    fcGraph.Node.createHtmlNode = function(model, isDynamic) { return new Node(model, "html", isDynamic); };
+    fcGraph.Node.createCssNode = function(model, isDynamic) { return new Node(model, "css", isDynamic); };
+    fcGraph.Node.createJsNode = function(model, isDynamic) { return new Node(model, "js", isDynamic);};
+    fcGraph.Node.createResourceNode = function(model, isDynamic) { return new Node(model, "resource", isDynamic);};
 
-    Node.prototype.isNodeOfType = function(type) { return this.type === type; };
-    Node.prototype.isHtmlNode = function() { return this.isNodeOfType("html"); };
-    Node.prototype.isCssNode = function() { return this.isNodeOfType("css"); };
-    Node.prototype.isJsNode = function() { return this.isNodeOfType("js"); };
-    Node.prototype.isResourceNode = function() { return this.isNodeOfType("resource"); };
-
-    Node.prototype.addStructuralDependency = function(destinationNode, isDynamic)
+    fcGraph.Node.prototype =
     {
-        this.structuralDependencies.push(new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic));
-    };
-    Node.prototype.addDataDependency = function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency)
-    {
-        var edge = new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
-        this.dataDependencies.push(edge);
+        isNodeOfType: function(type) { return this.type === type; },
+        isHtmlNode: function() { return this.isNodeOfType("html"); },
+        isCssNode: function() { return this.isNodeOfType("css"); },
+        isJsNode: function() { return this.isNodeOfType("js"); },
+        isResourceNode: function() { return this.isNodeOfType("resource"); },
 
-        if(destinationNode != null)
+        addStructuralDependency: function(destinationNode, isDynamic)
         {
-            destinationNode.reverseDependencies.push(edge);
-        }
-    };
-    Node.prototype.addControlDependency = function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency, isPreviouslyExecutedBlockStatementDependency)
-    {
-        var edge = new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
-        edge.isPreviouslyExecutedBlockStatementDependency = isPreviouslyExecutedBlockStatementDependency;
+            this.structuralDependencies.push(new fcGraph.Edge(this, destinationNode, isDynamic));
+        },
 
-        this.dataDependencies.push(edge);
-
-        if(destinationNode != null)
+        addDataDependency: function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency)
         {
-            destinationNode.reverseDependencies.push(edge);
-        }
-    };
+            var edge = new fcGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+            this.dataDependencies.push(edge);
 
-    Node.prototype.getDependencies = function(maxIndex, destinationConstraint)
-    {
-        var selectedDependencies = [];
-        var returnDependencies = {};
-
-        if(maxIndex == null && destinationConstraint == null) { return this.dataDependencies; }
-
-        var dependencies = this.dataDependencies;
-
-        for(var i = dependencies.length - 1; i >= 0; i--)
-        {
-            var dependency = dependencies[i];
-
-            if(dependency.isReturnDependency && dependency.callDependencyMaxIndex <= maxIndex)
+            if(destinationNode != null)
             {
-                selectedDependencies.push(dependency);
+                destinationNode.reverseDependencies.push(edge);
             }
+        },
 
-            if(dependency.shouldAlwaysBeFollowed)
+        addControlDependency: function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency, isPreviouslyExecutedBlockStatementDependency)
+        {
+            var edge = new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+            edge.isPreviouslyExecutedBlockStatementDependency = isPreviouslyExecutedBlockStatementDependency;
+
+            this.dataDependencies.push(edge);
+
+            if(destinationNode != null)
             {
-                selectedDependencies.push(dependency);
+                destinationNode.reverseDependencies.push(edge);
             }
+        },
 
-            if(dependency.index > maxIndex) { continue; }
-            if(!this.canFollowDependency(dependency, destinationConstraint)) { continue; }
+        getDependencies: function(maxIndex, destinationConstraint)
+        {
+            var selectedDependencies = [];
+            var returnDependencies = {};
 
-            selectedDependencies.push(dependency);
+            if(maxIndex == null && destinationConstraint == null) { return this.dataDependencies; }
 
-            for(var j = dependencies.length - 1; j >= 0; j--)
+            var dependencies = this.dataDependencies;
+
+            for(var i = dependencies.length - 1; i >= 0; i--)
             {
-                if(i == j) { continue; }
+                var dependency = dependencies[i];
 
-                var jThDependency = dependencies[j];
-
-                if((dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0
-                 || jThDependency.dependencyCreationInfo.groupId.indexOf(dependency.dependencyCreationInfo.groupId) == 0)
-                && this.canFollowDependency(jThDependency, destinationConstraint))
+                if(dependency.isReturnDependency && dependency.callDependencyMaxIndex <= maxIndex)
                 {
-                    selectedDependencies.push(jThDependency);
+                    selectedDependencies.push(dependency);
                 }
+
+                if(dependency.shouldAlwaysBeFollowed)
+                {
+                    selectedDependencies.push(dependency);
+                }
+
+                if(dependency.index > maxIndex) { continue; }
+                if(!this.canFollowDependency(dependency, destinationConstraint)) { continue; }
+
+                selectedDependencies.push(dependency);
+
+                for(var j = dependencies.length - 1; j >= 0; j--)
+                {
+                    if(i == j) { continue; }
+
+                    var jThDependency = dependencies[j];
+
+                    if((dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0
+                        || jThDependency.dependencyCreationInfo.groupId.indexOf(dependency.dependencyCreationInfo.groupId) == 0)
+                        && this.canFollowDependency(jThDependency, destinationConstraint))
+                    {
+                        selectedDependencies.push(jThDependency);
+                    }
+                }
+
+                break;
             }
 
-            break;
-        }
+            return selectedDependencies;
+        },
 
-        return selectedDependencies;
-    };
-
-    function containsInterestingDependencies(dependencies)
-    {
-        for(var i = 0; i < dependencies.length; i++)
+        canFollowDependency: function(dependency, destinationConstraint)
         {
-            if(dependencies[i].index == 44 || dependencies[i].index == 45
-            || dependencies[i].index == 46 || dependencies[i].index == 57)
-            {
-                return true;
-            }
-        }
+            if(destinationConstraint == null) { return true; }
 
-        return false;
-    }
+            return dependency.dependencyCreationInfo.currentCommandId <= destinationConstraint.currentCommandId;
+        },
 
-    Node.prototype.canFollowDependency = function(dependency, destinationConstraint)
-    {
-        if(destinationConstraint == null) { return true; }
+        generateId: function()
+        {
+            if(this.isHtmlNode()) { return this._generateIdForHtmlNode(); }
+            else if (this.isCssNode()) { return this._generateIdForCssNode(); }
+            else if (this.isJsNode()) { return this._generateIdForJsNode(); }
+            else { alert("Node.generateId - unknown node type!"); return ""; }
+        },
 
-        return dependency.dependencyCreationInfo.currentCommandId <= destinationConstraint.currentCommandId;
-    };
-
-    Node.createHtmlNode = function(model, isDynamic) { return new Node(model, "html", isDynamic); };
-    Node.createCssNode = function(model, isDynamic) { return new Node(model, "css", isDynamic); };
-    Node.createJsNode = function(model, isDynamic) { return new Node(model, "js", isDynamic);};
-    Node.createResourceNode = function(model, isDynamic) { return new Node(model, "resource", isDynamic);};
-
-    Node.prototype.generateId = function()
-    {
-        if(this.isHtmlNode()) { return this.generateIdForHtmlNode(); }
-        else if (this.isCssNode()) { return this.generateIdForCssNode(); }
-        else if (this.isJsNode()) { return this.generateIdForJsNode(); }
-        else { alert("Node.generateId - unknown node type!"); return ""; }
-    };
-
-    Node.prototype.generateIdForHtmlNode = function()
-    {
-        try
+        _generateIdForHtmlNode: function()
         {
             if(!this.isHtmlNode()) { return this.generateId(); }
 
             return this.idNum + ":" +  this.model.type;
-        }
-        catch(e){ alert("Node - error when generating id for html node: " + e); }
-    };
+        },
 
-    Node.prototype.generateIdForCssNode = function()
-    {
-        try
+        _generateIdForCssNode: function()
         {
-            if(!this.isCssNode()) { return this.generateId(); }
+                if(!this.isCssNode()) { return this.generateId(); }
 
-            return this.idNum + ":" + this.model.selector;
-        }
-        catch(e) { alert("Node - error when generating id for css node: " + e); }
-    };
+                return this.idNum + ":" + this.model.selector;
+        },
 
-    Node.prototype.generateIdForJsNode = function()
-    {
-        try
+        _generateIdForJsNode: function()
         {
             if(!this.isJsNode()) { return this.generateId(); }
 
@@ -174,6 +153,5 @@ FBL.ns(function() { with (FBL) {
 
             return this.idNum + ":@" + (this.model.loc != null ? this.model.loc.start.line : '?' )+  "-" + this.model.type + additionalData;
         }
-        catch(e) { alert("Node - error when generating id for js nodes: " + e); }
     };
 }});

@@ -8,7 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,8 +60,20 @@
       <file leaf-file-name="node.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="24" column="9" selection-start="763" selection-end="763" vertical-scroll-proportion="0.15991472">
+              <folding>
+                <element signature="e#274#649#0" expanded="false" />
+                <element signature="e#1234#6268#0" expanded="false" />
+                <element signature="e#1666#1775#0" expanded="false" />
+                <element signature="e#1939#2293#0" expanded="false" />
+                <element signature="e#2506#2988#0" expanded="false" />
+                <element signature="e#3066#4745#0" expanded="false" />
+                <element signature="e#4829#5017#0" expanded="false" />
+                <element signature="e#5059#5383#0" expanded="false" />
+                <element signature="e#5437#5570#0" expanded="false" />
+                <element signature="e#5623#5766#0" expanded="false" />
+                <element signature="e#5818#6262#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -79,7 +91,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
         <option value="$PROJECT_DIR$/debug/debugReuse.html" />
         <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
         <option value="$PROJECT_DIR$/debug/debugDom.html" />
@@ -95,6 +106,7 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
       </list>
     </option>
   </component>
@@ -1844,7 +1856,11 @@
       <created>1352626088137</created>
       <updated>1352626088137</updated>
     </task>
-    <option name="localTasksCounter" value="353" />
+    <task id="LOCAL-00353" summary="InclusionFinder refactoring">
+      <created>1352628305379</created>
+      <updated>1352628305379</updated>
+    </task>
+    <option name="localTasksCounter" value="354" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1881,14 +1897,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49448124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49624866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37694705" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1797575" sideWeight="0.6978193" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1797575" sideWeight="0.6978193" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39871383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20130932" sideWeight="0.42963514" order="11" side_tool="true" content_ui="tabs" />
@@ -1940,7 +1956,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor refactorings in dependency postprocessor&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="InclusionFinder refactoring" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1953,7 +1969,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Merged HtmlElement addDependenciesToModifications with the one from Object, and updated all references" />
     <MESSAGE value="Created methods for checking whether the DOM property is in certain category" />
     <MESSAGE value="Changed how inheritance from Object is done - currently only implemented on HtmlElement" />
     <MESSAGE value="Inheritance from Object performed on Array" />
@@ -1978,6 +1993,7 @@
     <MESSAGE value="Refactorings in InterpreterSimulator&#10;" />
     <MESSAGE value="DependencyGraph minor refactorings" />
     <MESSAGE value="Minor refactorings in dependency postprocessor&#10;" />
+    <MESSAGE value="InclusionFinder refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2116,8 +2132,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="24" column="9" selection-start="763" selection-end="763" vertical-scroll-proportion="0.15991472">
+          <folding>
+            <element signature="e#274#649#0" expanded="false" />
+            <element signature="e#1234#6268#0" expanded="false" />
+            <element signature="e#1666#1775#0" expanded="false" />
+            <element signature="e#1939#2293#0" expanded="false" />
+            <element signature="e#2506#2988#0" expanded="false" />
+            <element signature="e#3066#4745#0" expanded="false" />
+            <element signature="e#4829#5017#0" expanded="false" />
+            <element signature="e#5059#5383#0" expanded="false" />
+            <element signature="e#5437#5570#0" expanded="false" />
+            <element signature="e#5623#5766#0" expanded="false" />
+            <element signature="e#5818#6262#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
