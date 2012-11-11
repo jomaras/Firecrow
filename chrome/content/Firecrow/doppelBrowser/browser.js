@@ -16,8 +16,9 @@ var GlobalObject = Firecrow.Interpreter.Model.GlobalObject;
 
 var fcSimulator = Firecrow.Interpreter.Simulator;
 var fcModel = Firecrow.Interpreter.Model;
+var fcBrowser = Firecrow.DoppelBrowser;
 
-Firecrow.DoppelBrowser.Browser = function(pageModel)
+fcBrowser.Browser = function(pageModel)
 {
     try
     {
@@ -81,13 +82,10 @@ Firecrow.DoppelBrowser.Browser = function(pageModel)
             Firecrow.Interpreter.Model.Object.LAST_ID = 0;
         }
     }
-    catch(e) { Firecrow.DoppelBrowser.Browser.notifyError("Error when initialising Doppel Browser.Browser: " + e); }
+    catch(e) { fcBrowser.Browser.notifyError("Error when initialising Doppel Browser.Browser: " + e); }
 };
 
-Firecrow.DoppelBrowser.Browser.notifyError = function(message)
-{
-    alert("Browser - " + message);
-};
+fcBrowser.Browser.notifyError = function(message) { alert("Browser - " + message); };
 
 var Browser = Firecrow.DoppelBrowser.Browser;
 
@@ -105,47 +103,45 @@ Browser.prototype =
 
     _buildSubtree: function(htmlModelElement, parentDomElement)
     {
-        try
+        var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
+        htmlModelElement.hasBeenExecuted = true;
+
+        this._setAttributes(htmlDomElement, htmlModelElement);
+        this._insertIntoDom(htmlDomElement, parentDomElement);
+
+        htmlModelElement.shouldBeIncluded = this.globalObject.satisfiesDomSlicingCriteria(htmlDomElement);
+
+        if(this._isScriptNode(htmlModelElement) || this._isCssInclusionNode(htmlModelElement))
         {
-            var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
-            htmlModelElement.hasBeenExecuted = true;
+            if(this._isScriptNode(htmlModelElement)) { this._handleScriptNode(htmlModelElement); }
+            else if(this._isCssInclusionNode(htmlModelElement)) { this._buildCssNodes(htmlModelElement); }
 
-            this._setAttributes(htmlDomElement, htmlModelElement);
-            this._insertIntoDom(htmlDomElement, parentDomElement);
-
-            htmlModelElement.shouldBeIncluded = this.globalObject.satisfiesDomSlicingCriteria(htmlDomElement);
-
-            if(htmlModelElement.shouldBeIncluded && htmlModelElement.nodeId == 46337)
-            {
-                alert("Included in browser");
-            }
-
-            if(htmlModelElement.type == "script" || htmlModelElement.type == "style" || htmlModelElement.type == "link")
-            {
-                if(htmlModelElement.type == "script")
-                {
-                    this._buildJavaScriptNodes(htmlModelElement);
-                    this._interpretJsCode(htmlModelElement.pathAndModel.model, null);
-                    this._callInterpretJsCallbacks(htmlModelElement.pathAndModel.model);
-                }
-                else if(htmlModelElement.type == "style" || htmlModelElement.type == "link")
-                {
-                    this._buildCssNodes(htmlModelElement);
-                }
-
-                if(htmlModelElement.textContent != null)
-                {
-                    htmlDomElement.textContent = htmlModelElement.textContent
-                }
-            }
-
-            this.createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
-            this._processChildren(htmlDomElement, htmlModelElement);
+            htmlDomElement.textContent = htmlModelElement.textContent;
         }
-        catch(e)
-        {
-            this.notifyError("Error when building a subtree of an html element in DoppelBrowser.browser: " + e);
-        }
+
+        this.createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
+        this._processChildren(htmlDomElement, htmlModelElement);
+    },
+
+    _handleScriptNode: function(htmlModelElement)
+    {
+        this._buildJavaScriptNodes(htmlModelElement);
+        this._interpretJsCode(htmlModelElement.pathAndModel.model, null);
+        this._callInterpretJsCallbacks(htmlModelElement.pathAndModel.model);
+    },
+
+    _isScriptNode: function(htmlModelElement)
+    {
+        if(htmlModelElement == null) { return false; }
+
+        return  htmlModelElement.type == "script";
+    },
+
+    _isCssInclusionNode: function(htmlModelElement)
+    {
+        if(htmlModelElement == null) { return false; }
+
+        return htmlModelElement.type == "style" || this._isExternalStyleLink(htmlModelElement);
     },
 
     _setAttributes: function(htmlDomElement, htmlModelElement)
@@ -173,18 +169,9 @@ Browser.prototype =
     {
         var htmlDomElement = null;
 
-        if(htmlModelNode.type == "html")
-        {
-            htmlDomElement = this.hostDocument.documentElement;
-        }
-        else if (htmlModelNode.type == "head" || htmlModelNode.type == "body")
-        {
-            htmlDomElement = this.hostDocument[htmlModelNode.type];
-        }
-        else if (htmlModelNode.type == "textNode")
-        {
-            htmlDomElement = this.hostDocument.createTextNode(htmlModelNode.textContent)
-        }
+        if(htmlModelNode.type == "html") { htmlDomElement = this.hostDocument.documentElement; }
+        else if (htmlModelNode.type == "head" || htmlModelNode.type == "body") { htmlDomElement = this.hostDocument[htmlModelNode.type]; }
+        else if (htmlModelNode.type == "textNode") { htmlDomElement = this.hostDocument.createTextNode(htmlModelNode.textContent); }
         else
         {
             if(this._isExternalStyleLink(htmlModelNode))
@@ -239,20 +226,16 @@ Browser.prototype =
 
             interpreter.runSync();
         }
-        catch(e)
-        {
-            this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e);
-        }
+        catch(e) { this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e); }
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)
     {
         if (htmlDomElement.tagName != null
-         &&(htmlDomElement.tagName.toUpperCase() == "HTML"
-         || htmlDomElement.tagName.toUpperCase() == "HEAD"
-         || htmlDomElement.tagName.toUpperCase() == "BODY"))
+         &&(htmlDomElement.tagName.toLowerCase() == "html"
+         || htmlDomElement.tagName.toLowerCase() == "head"
+         || htmlDomElement.tagName.toLowerCase() == "body"))
         {
-            //already inserted, ignore
             return;
         }
 
@@ -264,25 +247,21 @@ Browser.prototype =
 
     _buildCssNodes: function(cssHtmlElementModelNode)
     {
-        try
+        cssHtmlElementModelNode.cssRules = cssHtmlElementModelNode.pathAndModel.model.rules;
+        var cssText = "";
+        cssHtmlElementModelNode.cssRules.forEach(function(cssRule)
         {
-            cssHtmlElementModelNode.cssRules = cssHtmlElementModelNode.pathAndModel.model.rules;
-            var cssText = "";
-            cssHtmlElementModelNode.cssRules.forEach(function(cssRule)
-            {
-                cssRule.hasBeenExecuted = true;
-                this.callNodeCreatedCallbacks(cssRule, "css", false);
-                this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
-                cssText += cssRule.cssText;
-                this.cssRules.push(cssRule);
-            }, this);
+            cssRule.hasBeenExecuted = true;
+            this.callNodeCreatedCallbacks(cssRule, "css", false);
+            this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
+            cssText += cssRule.cssText;
+            this.cssRules.push(cssRule);
+        }, this);
 
-            if(this._isExternalStyleLink(cssHtmlElementModelNode))
-            {
-                cssHtmlElementModelNode.domElement.textContent = cssText;
-            }
+        if(this._isExternalStyleLink(cssHtmlElementModelNode))
+        {
+            cssHtmlElementModelNode.domElement.textContent = cssText;
         }
-        catch(e) { this.notifyError("DoppelBrowser.browser error when building css nodes: " + e);}
     },
 
     createDependenciesBetweenHtmlNodeAndCssNodes: function(htmlModelNode)
