@@ -20,7 +20,7 @@ fcGraph.DependencyGraph = function()
     this.breakContinueReturnEventsMapping = [];
 
     this.dependencyEdgesCounter = 0;
-    this.inculsionFinder = new Firecrow.DependencyGraph.InclusionFinder();
+    this.inclusionFinder = new Firecrow.DependencyGraph.InclusionFinder();
 };
 
 var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
