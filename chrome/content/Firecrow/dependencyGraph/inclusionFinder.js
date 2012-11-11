@@ -1,13 +1,3 @@
-/**
- * User: Jomaras
- * Date: 16.06.12.
- * Time: 07:39
- */
-/**
- * User: Jomaras
- * Date: 15.06.12.
- * Time: 09:27
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ASTHelper = Firecrow.ASTHelper;
@@ -78,585 +68,405 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
 
     isIncludedProgram: function(programElement)
     {
-        try
+        if(programElement.body != null)
         {
-            if(programElement.body != null)
+            var body = programElement.body;
+
+            for(var i = 0, length = body.length; i < length; i++)
             {
-                var body = programElement.body;
-
-                for(var i = 0, length = body.length; i < length; i++)
-                {
-                    if(this.isIncludedElement(body[i])) { return true; }
-                }
+                if(this.isIncludedElement(body[i])) { return true; }
             }
-
-            return false;
         }
-        catch(e) { this.notifyError("Error when isIncludedProgram: " + e); }
+
+        return false;
     },
 
     isIncludedStatement: function(statement)
     {
-        try
-        {
-                 if (ASTHelper.isEmptyStatement(statement))  { return this.isIncludedEmptyStatement(statement); }
-            else if (ASTHelper.isBlockStatement(statement)) { return this.isIncludedBlockStatement(statement); }
-            else if (ASTHelper.isExpressionStatement(statement)) { return this.isIncludedExpressionStatement(statement); }
-            else if (ASTHelper.isIfStatement(statement)) { return this.isIncludedIfStatement(statement); }
-            else if (ASTHelper.isWhileStatement(statement)) { return this.isIncludedWhileStatement(statement); }
-            else if (ASTHelper.isDoWhileStatement(statement)) { return this.isIncludedDoWhileStatement(statement); }
-            else if (ASTHelper.isForStatement(statement)) { return this.isIncludedForStatement(statement); }
-            else if (ASTHelper.isForInStatement(statement)) { return this.isIncludedForInStatement(statement); }
-            else if (ASTHelper.isLabeledStatement(statement)) { return this.isIncludedLabeledStatement(statement); }
-            else if (ASTHelper.isBreakStatement(statement)) { return this.isIncludedBreakStatement(statement); }
-            else if (ASTHelper.isContinueStatement(statement)) { return this.isIncludedContinueStatement(statement); }
-            else if (ASTHelper.isReturnStatement(statement)) { return this.isIncludedReturnStatement(statement); }
-            else if (ASTHelper.isWithStatement(statement)) { return this.isIncludedWithStatement(statement); }
-            else if (ASTHelper.isTryStatement(statement)) { return this.isIncludedTryStatement(statement); }
-            else if (ASTHelper.isThrowStatement(statement)) { return this.isIncludedThrowStatement(statement); }
-            else if (ASTHelper.isSwitchStatement(statement)) { return this.isIncludedSwitchStatement(statement); }
-            else { this.notifyError("Error: AST Statement element not defined: " + statement.type);}
-        }
-        catch(e)
-        {
-            this.notifyError("Error when finding inclusions from a statement: " + e);
-        }
+             if (ASTHelper.isEmptyStatement(statement))  { return this.isIncludedEmptyStatement(statement); }
+        else if (ASTHelper.isBlockStatement(statement)) { return this.isIncludedBlockStatement(statement); }
+        else if (ASTHelper.isExpressionStatement(statement)) { return this.isIncludedExpressionStatement(statement); }
+        else if (ASTHelper.isIfStatement(statement)) { return this.isIncludedIfStatement(statement); }
+        else if (ASTHelper.isWhileStatement(statement)) { return this.isIncludedWhileStatement(statement); }
+        else if (ASTHelper.isDoWhileStatement(statement)) { return this.isIncludedDoWhileStatement(statement); }
+        else if (ASTHelper.isForStatement(statement)) { return this.isIncludedForStatement(statement); }
+        else if (ASTHelper.isForInStatement(statement)) { return this.isIncludedForInStatement(statement); }
+        else if (ASTHelper.isLabeledStatement(statement)) { return this.isIncludedLabeledStatement(statement); }
+        else if (ASTHelper.isBreakStatement(statement)) { return this.isIncludedBreakStatement(statement); }
+        else if (ASTHelper.isContinueStatement(statement)) { return this.isIncludedContinueStatement(statement); }
+        else if (ASTHelper.isReturnStatement(statement)) { return this.isIncludedReturnStatement(statement); }
+        else if (ASTHelper.isWithStatement(statement)) { return this.isIncludedWithStatement(statement); }
+        else if (ASTHelper.isTryStatement(statement)) { return this.isIncludedTryStatement(statement); }
+        else if (ASTHelper.isThrowStatement(statement)) { return this.isIncludedThrowStatement(statement); }
+        else if (ASTHelper.isSwitchStatement(statement)) { return this.isIncludedSwitchStatement(statement); }
+        else { this.notifyError("Error: AST Statement element not defined: " + statement.type);}
     },
 
     isIncludedExpression: function(expression)
     {
-        try
-        {
-                 if (ASTHelper.isAssignmentExpression(expression)) { return this.isIncludedAssignmentExpression(expression); }
-            else if (ASTHelper.isUnaryExpression(expression)) { return this.isIncludedUnaryExpression(expression); }
-            else if (ASTHelper.isBinaryExpression(expression)) { return this.isIncludedBinaryExpression(expression); }
-            else if (ASTHelper.isLogicalExpression(expression)) { return this.isIncludedLogicalExpression(expression); }
-            else if (ASTHelper.isLiteral(expression)) { return this.isIncludedLiteral(expression); }
-            else if (ASTHelper.isIdentifier(expression)) { return this.isIncludedIdentifier(expression); }
-            else if (ASTHelper.isUpdateExpression(expression)) { return this.isIncludedUpdateExpression(expression); }
-            else if (ASTHelper.isNewExpression(expression)) { return this.isIncludedNewExpression(expression); }
-            else if (ASTHelper.isConditionalExpression(expression)) { return this.isIncludedConditionalExpression(expression); }
-            else if (ASTHelper.isThisExpression(expression)) { return this.isIncludedThisExpression(expression); }
-            else if (ASTHelper.isCallExpression(expression)) { return this.isIncludedCallExpression(expression); }
-            else if (ASTHelper.isMemberExpression(expression)) { return this.isIncludedMemberExpression(expression); }
-            else if (ASTHelper.isSequenceExpression(expression)) { return this.isIncludedSequenceExpression(expression); }
-            else if (ASTHelper.isArrayExpression(expression)) { return this.isIncludedArrayExpression(expression); }
-            else if (ASTHelper.isObjectExpression(expression)) { return this.isIncludedObjectExpression(expression); }
-            else if (ASTHelper.isFunctionExpression(expression)) { return this.isIncludedFunction(expression); }
-            else { this.notifyError("Error: AST Expression element not defined: " + expression.type);  return false;}
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from an expression:" + e); }
+             if (ASTHelper.isAssignmentExpression(expression)) { return this.isIncludedAssignmentExpression(expression); }
+        else if (ASTHelper.isUnaryExpression(expression)) { return this.isIncludedUnaryExpression(expression); }
+        else if (ASTHelper.isBinaryExpression(expression)) { return this.isIncludedBinaryExpression(expression); }
+        else if (ASTHelper.isLogicalExpression(expression)) { return this.isIncludedLogicalExpression(expression); }
+        else if (ASTHelper.isLiteral(expression)) { return this.isIncludedLiteral(expression); }
+        else if (ASTHelper.isIdentifier(expression)) { return this.isIncludedIdentifier(expression); }
+        else if (ASTHelper.isUpdateExpression(expression)) { return this.isIncludedUpdateExpression(expression); }
+        else if (ASTHelper.isNewExpression(expression)) { return this.isIncludedNewExpression(expression); }
+        else if (ASTHelper.isConditionalExpression(expression)) { return this.isIncludedConditionalExpression(expression); }
+        else if (ASTHelper.isThisExpression(expression)) { return this.isIncludedThisExpression(expression); }
+        else if (ASTHelper.isCallExpression(expression)) { return this.isIncludedCallExpression(expression); }
+        else if (ASTHelper.isMemberExpression(expression)) { return this.isIncludedMemberExpression(expression); }
+        else if (ASTHelper.isSequenceExpression(expression)) { return this.isIncludedSequenceExpression(expression); }
+        else if (ASTHelper.isArrayExpression(expression)) { return this.isIncludedArrayExpression(expression); }
+        else if (ASTHelper.isObjectExpression(expression)) { return this.isIncludedObjectExpression(expression); }
+        else if (ASTHelper.isFunctionExpression(expression)) { return this.isIncludedFunction(expression); }
+        else { this.notifyError("Error: AST Expression element not defined: " + expression.type);  return false;}
     },
 
     isIncludedFunction: function(functionDecExp)
     {
-        try
-        {
-            return functionDecExp.shouldBeIncluded
-                || this.isIncludedFunctionParameters(functionDecExp)
-                || this.isIncludedFunctionBody(functionDecExp);
-        }
-        catch(e) { alert("Error when finding inclusions from a function:" + e); }
+        return functionDecExp.shouldBeIncluded
+            || this.isIncludedFunctionParameters(functionDecExp)
+            || this.isIncludedFunctionBody(functionDecExp);
     },
 
     isIncludedFunctionParameters: function(functionDecExp)
     {
-        try
+        var params = functionDecExp.params;
+
+        for(var i = 0, length = params.length; i < length; i++)
         {
-            var params = functionDecExp.params;
-
-            for(var i = 0, length = params.length; i < length; i++)
-            {
-                if(params[i].shouldBeIncluded) { return true; }
-            }
-
-            return false;
+            if(params[i].shouldBeIncluded) { return true; }
         }
-        catch(e) { this.notifyError("Error when finding inclusions from function parameters:" + e);}
+
+        return false;
     },
 
     isIncludedFunctionBody: function(functionDeclExp)
     {
-        try
-        {
-            this.isIncludedElement(functionDeclExp.body);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from function body:" + e); }
+        this.isIncludedElement(functionDeclExp.body);
     },
 
     isIncludedBlockStatement: function(blockStatement)
     {
-        try
+        var body = blockStatement.body;
+
+        for(var i = 0, length = body.length; i < length; i++)
         {
-            var body = blockStatement.body;
-
-            for(var i = 0, length = body.length; i < length; i++)
-            {
-                if(this.isIncludedElement(body[i])) { return true; };
-            }
-
-            return false;
+            if(this.isIncludedElement(body[i])) { return true; };
         }
-        catch(e) { this.notifyError("Error when isIncludedBlockStatement:" + e);}
+
+        return false;
     },
 
     isIncludedEmptyStatement: function(emptyStatement)
     {
-        try
-        {
-            return emptyStatement.shouldBeIncluded;
-        }
-        catch(e) { this.notifyError("Error when isIncludedEmptyStatement: " + e); }
+        return emptyStatement.shouldBeIncluded;
     },
 
     isIncludedExpressionStatement: function(expressionStatement)
     {
-        try
-        {
-            return this.isIncludedElement(expressionStatement.expression);
-        }
-        catch(e) { this.notifyError("Error when isIncluded HTML from expression statement:" + e); }
+        return this.isIncludedElement(expressionStatement.expression);
     },
 
     isIncludedAssignmentExpression: function(assignmentExpression)
     {
-        try
-        {
-            return assignmentExpression.shouldBeIncluded
-                || this.isIncludedElement(assignmentExpression.left)
-                || this.isIncludedElement(assignmentExpression.right)
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from assignment expression:" + e); }
+        return assignmentExpression.shouldBeIncluded
+            || this.isIncludedElement(assignmentExpression.left)
+            || this.isIncludedElement(assignmentExpression.right)
     },
 
     isIncludedUnaryExpression: function(unaryExpression)
     {
-        try
-        {
-            return unaryExpression.shouldBeIncluded
-                || this.isIncludedExpression(unaryExpression.argument);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from unary expression:" + e); }
+        return unaryExpression.shouldBeIncluded
+            || this.isIncludedExpression(unaryExpression.argument);
     },
 
     isIncludedBinaryExpression: function(binaryExpression)
     {
-        try
-        {
-            return binaryExpression.shouldBeIncluded
-                || this.isIncludedElement(binaryExpression.left)
-                || this.isIncludedElement(binaryExpression.right);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from binary expression:" + e); }
+        return binaryExpression.shouldBeIncluded
+            || this.isIncludedElement(binaryExpression.left)
+            || this.isIncludedElement(binaryExpression.right);
     },
 
     isIncludedLogicalExpression: function(logicalExpression)
     {
-        try
-        {
-            return logicalExpression.shouldBeIncluded
-                || this.isIncludedElement(logicalExpression.left)
-                || this.isIncludedElement(logicalExpression.right);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from logical expression:" + e); }
+        return logicalExpression.shouldBeIncluded
+            || this.isIncludedElement(logicalExpression.left)
+            || this.isIncludedElement(logicalExpression.right);
     },
 
     isIncludedUpdateExpression: function(updateExpression)
     {
-        try
-        {
-            return updateExpression.shouldBeIncluded
-                || this.isIncludedExpression(updateExpression.argument);
-        }
-        catch(e) { this.notifyError("Error when isIncluding from update expression:" + e); }
+        return updateExpression.shouldBeIncluded
+            || this.isIncludedExpression(updateExpression.argument);
     },
 
     isIncludedNewExpression: function(newExpression)
     {
-        try
-        {
-            return newExpression.shouldBeIncluded
-                || this.isIncludedElement(newExpression.callee)
-                || this.isSequenceIncluded(newExpression.arguments);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from new expression:" + e); }
+        return newExpression.shouldBeIncluded
+            || this.isIncludedElement(newExpression.callee)
+            || this.isSequenceIncluded(newExpression.arguments);
     },
 
     isIncludedConditionalExpression: function(conditionalExpression)
     {
-        try
-        {
-            return conditionalExpression.shouldBeIncluded
-                || this.isIncludedElement(conditionalExpression.test)
-                || this.isIncludedElement(conditionalExpression.consequent)
-                || this.isIncludedElement(conditionalExpression.alternate);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from conditional expression:" + e); }
+        return conditionalExpression.shouldBeIncluded
+            || this.isIncludedElement(conditionalExpression.test)
+            || this.isIncludedElement(conditionalExpression.consequent)
+            || this.isIncludedElement(conditionalExpression.alternate);
     },
 
     isIncludedThisExpression: function(thisExpression)
     {
-        try
-        {
-            return thisExpression.shouldBeIncluded;
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from this expression:" + e); }
+        return thisExpression.shouldBeIncluded;
     },
 
     isIncludedCallExpression: function(callExpression)
     {
-        try
-        {
-            return callExpression.shouldBeIncluded
-                || this.isIncludedElement(callExpression.callee)
-                || this.isSequenceIncluded(callExpression.arguments);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from call expression:" + e); }
+        return callExpression.shouldBeIncluded
+            || this.isIncludedElement(callExpression.callee)
+            || this.isSequenceIncluded(callExpression.arguments);
     },
 
     isIncludedMemberExpression: function(memberExpression)
     {
-        try
-        {
-            return memberExpression.shouldBeIncluded
-                || this.isIncludedElement(memberExpression.object)
-                || this.isIncludedElement(memberExpression.property);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from member expression:" + e); }
+        return memberExpression.shouldBeIncluded
+            || this.isIncludedElement(memberExpression.object)
+            || this.isIncludedElement(memberExpression.property);
     },
 
     isIncludedSequenceExpression: function(sequenceExpression)
     {
-        try
-        {
-            var isIncluded = this.isSequenceIncluded(sequenceExpression.expressions);
+        var isIncluded = this.isSequenceIncluded(sequenceExpression.expressions);
 
-            sequenceExpression.shouldBeIncluded = isIncluded;
+        sequenceExpression.shouldBeIncluded = isIncluded;
 
-            return isIncluded;
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from sequence expression:" + e); }
+        return isIncluded;
     },
 
     isIncludedArrayExpression: function(arrayExpression)
     {
-        try
-        {
-            return arrayExpression.shouldBeIncluded
-                || this.isSequenceIncluded(arrayExpression.elements);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from array expression:" + e); }
+        return arrayExpression.shouldBeIncluded
+            || this.isSequenceIncluded(arrayExpression.elements);
     },
 
     isIncludedObjectExpression: function(objectExpression)
     {
-        try
+        var properties = objectExpression.properties;
+
+        if(objectExpression.shouldBeIncluded) { return true; }
+
+        for (var i = 0, length = properties.length; i < length; i++)
         {
-            var properties = objectExpression.properties;
-
-            if(objectExpression.shouldBeIncluded) { return true; }
-
-            for (var i = 0, length = properties.length; i < length; i++)
-            {
-                if(this.isIncludedObjectExpressionProperty(properties[i])) { return true;}
-            }
-
-            return false;
+            if(this.isIncludedObjectExpressionProperty(properties[i])) { return true;}
         }
-        catch(e) { this.notifyError("Error when isIncluded object expression:" + e); }
+
+        return false;
     },
 
     isIncludedObjectExpressionProperty: function(objectExpressionProperty)
     {
-        try
-        {
-            if(objectExpressionProperty.shouldBeIncluded || objectExpressionProperty.key.shouldBeIncluded) { return true;}
+        if(objectExpressionProperty.shouldBeIncluded || objectExpressionProperty.key.shouldBeIncluded) { return true;}
 
-            return objectExpressionProperty.value != null
-                 ? this.isIncludedElement(objectExpressionProperty.value)
-                 : false;
-        }
-        catch(e) { this.notifyError("Error when isIncluded object expression property:" + e); }
+        return objectExpressionProperty.value != null
+             ? this.isIncludedElement(objectExpressionProperty.value)
+             : false;
     },
 
     isIncludedIfStatement: function(ifStatement)
     {
-        try
-        {
-            return ifStatement.shouldBeIncluded
-                || this.isIncludedElement(ifStatement.test)
-                || this.isIncludedElement(ifStatement.consequent)
-                || (ifStatement.alternate != null ? this.isIncludedElement(ifStatement.alternate) : false)
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from if statement:" + e); }
+        return ifStatement.shouldBeIncluded
+            || this.isIncludedElement(ifStatement.test)
+            || this.isIncludedElement(ifStatement.consequent)
+            || (ifStatement.alternate != null ? this.isIncludedElement(ifStatement.alternate) : false);
     },
 
     isIncludedWhileStatement: function(whileStatement)
     {
-        try
-        {
-            return whileStatement.shouldBeIncluded
-                || this.isIncludedElement(whileStatement.test)
-                || this.isIncludedElement(whileStatement.body);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from while statement:" + e); }
+        return whileStatement.shouldBeIncluded
+            || this.isIncludedElement(whileStatement.test)
+            || this.isIncludedElement(whileStatement.body);
     },
 
     isIncludedDoWhileStatement: function(doWhileStatement)
     {
-        try
-        {
-            return doWhileStatement.shouldBeIncluded
-                || this.isIncludedElement(doWhileStatement.test)
-                || this.isIncludedElement(doWhileStatement.body);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from do while statement:" + e); }
+        return doWhileStatement.shouldBeIncluded
+            || this.isIncludedElement(doWhileStatement.test)
+            || this.isIncludedElement(doWhileStatement.body);
     },
 
     isIncludedForStatement: function(forStatement)
     {
-        try
+        var testIncluded = (forStatement.test != null ? this.isIncludedElement(forStatement.test) : false);
+        var updateIncluded = (forStatement.update != null ? this.isIncludedElement(forStatement.update) : false);
+
+        //TODO: HACK!
+        if(testIncluded && !updateIncluded)
         {
-            var testIncluded = (forStatement.test != null ? this.isIncludedElement(forStatement.test) : false);
-            var updateIncluded = (forStatement.update != null ? this.isIncludedElement(forStatement.update) : false);
-
-            //TODO: HACK!
-            if(testIncluded && !updateIncluded)
+            if(forStatement.update != null)
             {
-                if(forStatement.update != null)
+                updateIncluded = true;
+                forStatement.update.shouldBeIncluded = true;
+                forStatement.update.children.forEach(function(child)
                 {
-                    updateIncluded = true;
-                    forStatement.update.shouldBeIncluded = true;
-                    forStatement.update.children.forEach(function(child)
-                    {
-                        child.shouldBeIncluded = true;
-                    });
-                }
+                    child.shouldBeIncluded = true;
+                });
             }
-            //END HACK!
-
-            return  forStatement.shouldBeIncluded
-                || (forStatement.init != null ? this.isIncludedElement(forStatement.init) : false)
-                || testIncluded
-                || updateIncluded
-                || this.isIncludedElement(forStatement.body);
         }
-        catch(e) { this.notifyError("Error when finding inclusions from for statement:" + e); }
+        //END HACK!
+
+        return  forStatement.shouldBeIncluded
+            || (forStatement.init != null ? this.isIncludedElement(forStatement.init) : false)
+            || testIncluded
+            || updateIncluded
+            || this.isIncludedElement(forStatement.body);
     },
 
     isIncludedForInStatement: function(forInStatement)
     {
-        try
-        {
-            return forInStatement.shouldBeIncluded
-                || this.isIncludedElement(forInStatement.left)
-                || this.isIncludedElement(forInStatement.right)
-                || this.isIncludedElement(forInStatement.body);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from for...in statement:" + e); }
+        return forInStatement.shouldBeIncluded
+            || this.isIncludedElement(forInStatement.left)
+            || this.isIncludedElement(forInStatement.right)
+            || this.isIncludedElement(forInStatement.body);
     },
 
     isIncludedBreakStatement: function(breakStatement)
     {
-        try
-        {
-            return breakStatement.shouldBeIncluded;
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from break statement:" + e); }
+        return breakStatement.shouldBeIncluded;
     },
 
     isIncludedContinueStatement: function(continueStatement)
     {
-        try
-        {
-            return continueStatement.shouldBeIncluded;
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from continue statement:" + e); }
+        return continueStatement.shouldBeIncluded;
     },
 
     isIncludedReturnStatement: function(returnStatement)
     {
-        try
-        {
-            return returnStatement.shouldBeIncluded
-                || (returnStatement.argument != null ? this.isIncludedExpression(returnStatement.argument) : false);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from statement:" + e); }
+        return returnStatement.shouldBeIncluded
+            || (returnStatement.argument != null ? this.isIncludedExpression(returnStatement.argument) : false);
     },
 
     isIncludedWithStatement: function(withStatement)
     {
-        try
-        {
-            return withStatement.shouldBeIncluded
-                || this.isIncludedExpression(withStatement.object)
-                || this.isIncludedStatement(withStatement.body);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from with statement:" + e); }
+        return withStatement.shouldBeIncluded
+            || this.isIncludedExpression(withStatement.object)
+            || this.isIncludedStatement(withStatement.body);
     },
 
     isIncludedThrowStatement: function(throwStatement)
     {
-        try
-        {
-            return throwStatement.shouldBeIncluded
-                || this.isIncludedExpression(throwStatement.argument);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from throw statement:" + e); }
+        return throwStatement.shouldBeIncluded
+            || this.isIncludedExpression(throwStatement.argument);
     },
 
     isIncludedSwitchStatement: function(switchStatement)
     {
-        try
+        if(switchStatement.shouldBeIncluded || this.isIncludedExpression(switchStatement.discriminant)) { return true; }
+
+        for(var i = 0; i < switchStatement.cases.length; i++)
         {
-            if(switchStatement.shouldBeIncluded || this.isIncludedExpression(switchStatement.discriminant)) { return true; }
-
-            for(var i = 0; i < switchStatement.cases.length; i++)
-            {
-                if(this.isIncludedSwitchCase(switchStatement.cases[i])) { return true; }
-            }
-
-            return false;
+            if(this.isIncludedSwitchCase(switchStatement.cases[i])) { return true; }
         }
-        catch(e) { this.notifyError("Error when finding inclusions from switch statement:" + e); }
+
+        return false;
     },
 
     isIncludedSwitchCase: function(switchCase)
     {
-        try
+        if(switchCase.shouldBeIncluded) { return true; }
+
+        if(switchCase.test != null) { if(this.isIncludedExpression(switchCase.test)) { return true;}; }
+
+        for(var i = 0; i < switchCase.consequent.length; i++)
         {
-            if(switchCase.shouldBeIncluded) { return true; }
-
-            if(switchCase.test != null) { if(this.isIncludedExpression(switchCase.test)) { return true;}; }
-
-            for(var i = 0; i < switchCase.consequent.length; i++)
-            {
-                if(this.isIncludedElement(switchCase.consequent[i])) { return true; }
-            }
-
-            return false;
+            if(this.isIncludedElement(switchCase.consequent[i])) { return true; }
         }
-        catch(e) { this.notifyError("Error when finding inclusions from switch case:" + e); }
+
+        return false;
     },
 
     isIncludedTryStatement: function(tryStatement)
     {
-        try
+        if(tryStatement.shouldBeIncluded) { return true;}
+        if(this.isIncludedElement(tryStatement.block)) { return true; }
+
+        for(var i = 0; i < tryStatement.handlers.length; i++)
         {
-            if(tryStatement.shouldBeIncluded) { return true;}
-            if(this.isIncludedElement(tryStatement.block)) { return true; }
-
-            for(var i = 0; i < tryStatement.handlers.length; i++)
-            {
-                if(this.isIncludedCatchClause(tryStatement.handlers[i])) { return true};
-            }
-
-            if(tryStatement.finalizer != null)
-            {
-                if(this.isIncludedElement(tryStatement.finalizer)) { return true;}
-            }
-
-            return false;
+            if(this.isIncludedCatchClause(tryStatement.handlers[i])) { return true};
         }
-        catch(e) { this.notifyError("Error when finding inclusions from try statement:" + e); }
+
+        if(tryStatement.finalizer != null)
+        {
+            if(this.isIncludedElement(tryStatement.finalizer)) { return true;}
+        }
+
+        return false;
     },
 
     isIncludedLabeledStatement: function(labeledStatement)
     {
-        try
-        {
-            return label.shouldBeIncluded
-                || this.isIncludedIdentifier(labeledStatement.label)
-                || this.isIncludedElement(labeledStatement.body);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from labeled statement:" + e); }
+        return label.shouldBeIncluded
+            || this.isIncludedIdentifier(labeledStatement.label)
+            || this.isIncludedElement(labeledStatement.body);
     },
 
     isIncludedVariableDeclaration: function(variableDeclaration)
     {
-        try
+        if(variableDeclaration.shouldBeIncluded) { return true; }
+
+        var declarators = variableDeclaration.declarations;
+        for (var i = 0, length = declarators.length; i < length; i++)
         {
-            if(variableDeclaration.shouldBeIncluded) { return true; }
+            var declarator = declarators[i];
 
-            var declarators = variableDeclaration.declarations;
-            for (var i = 0, length = declarators.length; i < length; i++)
-            {
-                var declarator = declarators[i];
-
-                if(this.isIncludedVariableDeclarator(declarator)) { return true; }
-            }
-
-            return false;
+            if(this.isIncludedVariableDeclarator(declarator)) { return true; }
         }
-        catch(e) { this.notifyError("Error when finding inclusions from variable declaration:" + e);}
+
+        return false;
     },
 
     isIncludedVariableDeclarator: function(variableDeclarator)
     {
-        try
-        {
-            return variableDeclarator.shouldBeIncluded
-                || this.isIncludedPattern(variableDeclarator.id)
-                || (variableDeclarator.init != null ? this.isIncludedElement(variableDeclarator.init) : false);
-        }
-        catch(e) { alert("Error when finding inclusions from variableDeclarator - CodeMarkupGenerator:" + e);}
+        return variableDeclarator.shouldBeIncluded
+            || this.isIncludedPattern(variableDeclarator.id)
+            || (variableDeclarator.init != null ? this.isIncludedElement(variableDeclarator.init) : false);
     },
 
     isIncludedPattern: function(pattern)
     {
-        try
-        {
-            if(ASTHelper.isIdentifier(pattern)) { return this.isIncludedIdentifier(pattern);}
+        if(ASTHelper.isIdentifier(pattern)) { return this.isIncludedIdentifier(pattern);}
 
-            return false;
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from pattern:" + e);}
+        return false;
     },
 
     isIncludedCatchClause: function(catchClause)
     {
-        try
-        {
-            return catchClause.shouldBeIncluded
-                || this.isIncludedStatement(catchClause.body)
-                || this.isIncludedElement(catchClause.param);
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from catch clause:" + e);}
+        return catchClause.shouldBeIncluded
+            || this.isIncludedStatement(catchClause.body)
+            || this.isIncludedElement(catchClause.param);
     },
 
     isIncludedIdentifier: function(identifier)
     {
-        try
-        {
-            return identifier.shouldBeIncluded;
-        }
-        catch(e) { this.notifyError("Error when finding inclusions from an identifier:" + e);}
+        return identifier.shouldBeIncluded;
     },
 
     isIncludedLiteral: function(literal)
     {
-        try
-        {
-            return literal.shouldBeIncluded;
-        }
-        catch(e) { this.notifyError("Error when isIncluded in literal:" + e);}
+        return literal.shouldBeIncluded;
     },
 
     isSequenceIncluded: function(sequence)
     {
-        try
+        for(var i = 0, length = sequence.length; i < length; i++)
         {
-            for(var i = 0, length = sequence.length; i < length; i++)
-            {
-                var item = sequence[i];
+            var item = sequence[i];
 
-                if(item.shouldBeIncluded
-                || this.isIncludedElement(item)) { return true; }
-            }
-
-            return false;
+            if(item.shouldBeIncluded || this.isIncludedElement(item)) { return true; }
         }
-        catch(e) { this.notifyError("Error when isIncluded sequence:" + e); }
+
+        return false;
     },
 
     notifyError:function(message) { Firecrow.DependencyGraph.InclusionFinder.notifyError(message); }
