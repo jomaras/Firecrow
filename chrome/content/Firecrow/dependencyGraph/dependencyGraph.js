@@ -142,10 +142,7 @@ DependencyGraph.prototype =
 
             Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement(model);
         }
-        catch(e)
-        {
-            this.notifyError("Error when marking graph: " + e);
-        }
+        catch(e) { this.notifyError("Error when marking graph: " + e); }
     },
 
     _traverseImportantDependencies: function(importantConstructDependencyIndexMapping)

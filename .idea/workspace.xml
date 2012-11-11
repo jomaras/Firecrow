@@ -9,7 +9,6 @@
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,7 +69,7 @@
       <file leaf-file-name="dependencyGraph.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="29" selection-start="2821" selection-end="2821" vertical-scroll-proportion="0.16228747">
+            <state line="144" column="71" selection-start="5351" selection-end="5351" vertical-scroll-proportion="0.57569295">
               <folding>
                 <element signature="e#987#1353#0" expanded="false" />
                 <element signature="e#1426#1499#0" expanded="false" />
@@ -80,12 +79,12 @@
                 <element signature="e#3900#3952#0" expanded="false" />
                 <element signature="e#4017#4365#0" expanded="false" />
                 <element signature="e#4436#4776#0" expanded="false" />
-                <element signature="e#5480#5772#0" expanded="false" />
-                <element signature="e#5834#6095#0" expanded="false" />
-                <element signature="e#6153#6852#0" expanded="false" />
-                <element signature="e#6922#7387#0" expanded="false" />
-                <element signature="e#7498#9571#0" expanded="false" />
-                <element signature="e#9613#9691#0" expanded="false" />
+                <element signature="e#5452#5744#0" expanded="false" />
+                <element signature="e#5806#6067#0" expanded="false" />
+                <element signature="e#6125#6824#0" expanded="false" />
+                <element signature="e#6894#7359#0" expanded="false" />
+                <element signature="e#7470#9543#0" expanded="false" />
+                <element signature="e#9585#9663#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -118,8 +117,8 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
       </list>
     </option>
   </component>
@@ -1857,7 +1856,11 @@
       <created>1352625331021</created>
       <updated>1352625331021</updated>
     </task>
-    <option name="localTasksCounter" value="350" />
+    <task id="LOCAL-00350" summary="DependencyGraph minor refactorings">
+      <created>1352625479343</created>
+      <updated>1352625479344</updated>
+    </task>
+    <option name="localTasksCounter" value="351" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1905,7 +1908,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39871383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20130932" sideWeight="0.42963514" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30218068" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30218068" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29283488" sideWeight="0.47728965" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14683816" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2145,7 +2148,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="29" selection-start="2821" selection-end="2821" vertical-scroll-proportion="0.16228747">
+        <state line="144" column="71" selection-start="5351" selection-end="5351" vertical-scroll-proportion="0.57569295">
           <folding>
             <element signature="e#987#1353#0" expanded="false" />
             <element signature="e#1426#1499#0" expanded="false" />
@@ -2155,12 +2158,12 @@
             <element signature="e#3900#3952#0" expanded="false" />
             <element signature="e#4017#4365#0" expanded="false" />
             <element signature="e#4436#4776#0" expanded="false" />
-            <element signature="e#5480#5772#0" expanded="false" />
-            <element signature="e#5834#6095#0" expanded="false" />
-            <element signature="e#6153#6852#0" expanded="false" />
-            <element signature="e#6922#7387#0" expanded="false" />
-            <element signature="e#7498#9571#0" expanded="false" />
-            <element signature="e#9613#9691#0" expanded="false" />
+            <element signature="e#5452#5744#0" expanded="false" />
+            <element signature="e#5806#6067#0" expanded="false" />
+            <element signature="e#6125#6824#0" expanded="false" />
+            <element signature="e#6894#7359#0" expanded="false" />
+            <element signature="e#7470#9543#0" expanded="false" />
+            <element signature="e#9585#9663#0" expanded="false" />
           </folding>
         </state>
       </provider>
