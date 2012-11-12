@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM TEST</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<select id="selectElement">
+    <option>1</option>
+    <option>2</option>
+</select>
+
+<script>
+    var option = document.createElement("option");
+    option.textContent = 3;
+
+    var selectElement = document.getElementById("selectElement");
+    var appendResult = selectElement.appendChild(option);
+
+    var a1 = selectElement.children.length;
+    a1;
+
+    var a2 = appendResult.textContent;
+    a2;
+</script>
+</body>
+</html>

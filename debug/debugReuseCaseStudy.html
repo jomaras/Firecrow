@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Firecrow - Debug Slicing</title>
-    <meta charset="UTF-8">
+    <title>Firecrow - Debug Reuse Case Studies</title>
     <script>
         var FBL = undefined;
     </script>
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
-    <script src="../chrome/content/Firecrow/esprima/esprima.js"></script>
-    <script src="slicingModelMapping.js"></script>
-    <script src="slicingModelMappingLarge.js"></script>
+
+    <script src="pages/modelMapping.js"></script>
+    <script src="pages/modelMappings/makaluNew.js"></script>
+
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/UriHelper.js"></script>
 
-    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyHighlighter.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
@@ -66,6 +65,7 @@
     <script src="../chrome/content/Firecrow/interpreter/model/DOM/EventListenerMixin.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/DOM/Event.js"></script>
 
+
     <script src="../chrome/content/Firecrow/interpreter/simulator/VariableObject.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js"></script>
@@ -79,33 +79,27 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
     <script src="../chrome/content/Firecrow/Slicer.js"></script>
 
-    <link href="../chrome/skin/classic/style.css" rel="stylesheet" type="text/css">
+    <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
     <style>
-        #codeContainer
-        {
-            float: left;
-            width: 600px;
-            height: 800px;
-        }
-
-        #slicedCodeContainer, #slicedSourceTextContainer
-        {
-            float:left;
-            width: 600px;
-            height: 800px;
-        }
-
         .selected { background-color: green; }
         .dependent { background-color: yellow; }
         .secondHandDependencies { background-color: #7FFF00;}
         .unexecuted { color: gray;}
         .executed { color: black;}
 
+        .clearer { clear: both;}
+
+        #slicedSourceTextContainer
+        {
+            width: 1000px;
+            height: 800px;
+        }
+
     </style>
 </head>
 <body>
-<h1>Firecrow - Debugging Slicing</h1>
+<h1>Firecrow - Debugging DOM Slicing</h1>
 <iframe id="firecrowFrame" height="1" width="1"></iframe>
 <div>
     <a id="testIdContainer"></a>
@@ -113,127 +107,35 @@
 
 <br/>
 <span id="resultTitle">Result:</span>
-<div id="messageContainer"></div>
-<br>
-<div id="lineNumberContainer"></div>
-<div id="codeContainer">
-</div>
+<br/>
 <div id="slicedCodeContainer">
     <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
 
-    <script>
-        var Firecrow = FBL.Firecrow;
+<script>
+    var Firecrow = FBL.Firecrow;
 
-        var pageIndex = "03";
-
-        var href = document.location.href;
-
-        if(href.indexOf("?") != -1)
+    var htmlModel = HtmlModelMapping.getFirstModelMapping();
+    var slicingCriteria = htmlModel.results.map(function(result)
+    {
+        for(var propName in result)
         {
-            pageIndex = href.substring(href.indexOf("?") + 1);
+            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
         }
+    });
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/" + pageIndex + "/index.html";
-        var htmlModel = HtmlModelMapping.getWholeFileModel(url);
-        var slicingCriteria = htmlModel.results.map(function(result)
+    if(htmlModel.model.trackedElementsSelectors != null)
+    {
+        htmlModel.model.trackedElementsSelectors.forEach(function(selector)
         {
-            for(var propName in result)
-            {
-                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
-            }
+            slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
         });
+    }
 
-        if(htmlModel.model.trackedElementsSelectors != null)
-        {
-            htmlModel.model.trackedElementsSelectors.forEach(function(selector)
-            {
-                slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
-            });
-        }
+    var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria).browser;
 
-        setTitle(url);
-
-        var result = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
-
-        var browser = result.browser;
-        var dependencyGraph = result.dependencyGraph;
-
-        checkForErrors(browser, htmlModel);
-
-        var codeContainer = document.getElementById("codeContainer");
-
-        codeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
-        document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
-
-        (new FBL.Firecrow.DependencyGraph.DependencyHighlighter(codeContainer, dependencyGraph));
-
-        function setTitle(url)
-        {
-            var testIdContainer = document.getElementById("testIdContainer");
-            testIdContainer.textContent = url;
-            testIdContainer.href = url;
-        }
-
-        function checkForErrors(browser, htmlModel)
-        {
-            var messageContainer = document.getElementById("messageContainer");
-            var globalObjectProperties = browser.globalObject.properties;
-
-            var errors = "";
-
-            var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
-            var specifiedCode = atob(htmlModel.slicingResult);
-
-            if(generatedCode.replace(/(\r|\n| )+/g, "") != specifiedCode.replace(/(\r|\n| )+/g, "")) { errors += "Slicing does not match!"; }
-
-
-            htmlModel.results.forEach(function(result)
-            {
-                for(var propName in result)
-                {
-                    var hasBeenFound = false;
-                    for(var i = 0; i < globalObjectProperties.length; i++)
-                    {
-                        var property = globalObjectProperties[i];
-                        var propertyValue = property.value;
-
-                        if(property.name == propName)
-                        {
-                            hasBeenFound = true;
-
-                            if(propertyValue == null)
-                            {
-                                errors += propName + " is null, and should be: " + result[propName] + "\n";
-                                break;
-                            }
-
-                            if(propertyValue.value != result[propName])
-                            {
-                                errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
-                            }
-
-                            break;
-                        }
-                    }
-
-                    if(!hasBeenFound)
-                    {
-                        errors += propName + " could not be found in global object!\n";
-                    }
-                }
-            });
-
-            if(errors != "") { alert("Errors on validating result:\n" + errors); }
-            else
-            {
-                var newDiv = document.createElement("div");
-                newDiv.style.color = "green";
-                newDiv.textContent = "Test successful";
-                messageContainer.appendChild(newDiv);
-            }
-        }
-    </script>
+    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+</script>
 </body>
 </html>

@@ -172,6 +172,8 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
 };
 //</editor-fold>
 
+fcModel.GlobalObject.prototype.isPrimitive = function() { return false; }
+
 //<editor-fold desc="Evaluation Position">
 fcModel.GlobalObject.prototype.getPreciseEvaluationPositionId = function()
 {

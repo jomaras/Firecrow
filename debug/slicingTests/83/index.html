@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+        var arr = [{a:1, b:2}, {a:1, b:2}, {a:1, b:2}];
+        var sum = "";
+        while(arr.length > 0)
+        {
+            for(var key in arr.shift())
+            {
+                sum += key;
+            }
+        }
+
+        var a1 = sum;
+        a1;
+    </script>
+</body>
+</html>

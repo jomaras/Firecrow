@@ -236,7 +236,7 @@ fcModel.HtmlElementExecutor =
                 manipulatedElement.notifyElementInsertedIntoDom(callExpression);
             }
         }
-        return arguments[0];
+        return args[0];
     },
 
     _cloneNode: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)

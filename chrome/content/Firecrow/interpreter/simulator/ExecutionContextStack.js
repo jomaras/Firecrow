@@ -24,6 +24,7 @@ fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, 
         this.scopeChain.push(this.variableObject);
 
         this.codeConstructValuesMapping = {};
+        this.commands = [];
     }
     catch(e) { fcSimulator.ExecutionContext.notifyError("Error when constructing execution context: " + e); }
 };
@@ -100,6 +101,7 @@ fcSimulator.ExecutionContextStack.prototype =
     {
         try
         {
+            this.activeContext.commands.push(command);
             if(!command.isEnterFunctionContextCommand()) { this.activeContext.lastCommand = command; }
 
             if (command.isEnterFunctionContextCommand())
@@ -552,7 +554,20 @@ fcSimulator.ExecutionContextStack.prototype =
     _tryPopCommand: function(baseCommand)
     {
         if(this.blockCommandStack.length == 0) { this.notifyError("Error when trying to a command from block stack - empty stack!"); return false; }
-        if(this.blockCommandStack[this.blockCommandStack.length-1].codeConstruct != baseCommand.codeConstruct) { this.notifyError("When popping commands the top command has to be the same as the base command"); return false;}
+
+        var lastCommand = this.blockCommandStack[this.blockCommandStack.length-1];
+
+        if(lastCommand != baseCommand.startCommand)
+        {
+            this.notifyError
+            (
+                "When popping commands the top command has to be the same as the base command - TopCommand@"
+                + lastCommand
+                + " Base command@" + baseCommand
+            );
+
+            return false;
+        }
 
         this.blockCommandStack.pop();
     },

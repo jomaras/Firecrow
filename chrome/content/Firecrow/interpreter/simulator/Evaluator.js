@@ -71,7 +71,10 @@ fcSimulator.Evaluator.prototype =
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
             }
         }
-        catch(e) { this.notifyError(command, "An error occurred when evaluating command: " + e);}
+        catch(e)
+        {
+            this.notifyError(command, "An error occurred when evaluating command: " + e);
+        }
     },
 
     evalBreakContinueCommand: function(breakContinueCommand)
