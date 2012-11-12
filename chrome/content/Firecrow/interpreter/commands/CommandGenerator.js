@@ -755,6 +755,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         var endLoopCommand = new fcCommands.Command(forInCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.EndLoopStatement, forInCommand.parentFunctionCommand);
         endLoopCommand.startCommand = forInCommand;
 
+        if(forInCommand.id == 64147)
+        {
+            var a = 3;
+        }
+
         if(forInCommand.willBodyBeExecuted)
         {
             ASTHelper.traverseDirectSourceElements
@@ -766,7 +771,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 },
                 false
             );
-
 
             commands.push(endLoopCommand);
             commands.push(fcCommands.Command.createForInWhereCommand(forInCommand.codeConstruct, forInCommand.currentPropertyIndex + 1, forInCommand.parentFunctionCommand));
