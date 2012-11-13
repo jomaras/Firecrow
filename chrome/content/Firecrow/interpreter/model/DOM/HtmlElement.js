@@ -271,7 +271,7 @@ fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propert
         if(this.htmlElement.modelElement.dynamicIds == null) { this.htmlElement.modelElement.dynamicIds = []; }
         this.htmlElement.modelElement.dynamicIds.push({name:'id', value: propertyValue.value, setConstruct: codeConstruct});
     }
-    else if(propertyName == "class")
+    else if(propertyName == "className")
     {
         if(this.htmlElement.modelElement.dynamicClasses == null) { this.htmlElement.modelElement.dynamicClasses = []; }
         this.htmlElement.modelElement.dynamicClasses.push({name:'class', value: propertyValue.value, setConstruct: codeConstruct});

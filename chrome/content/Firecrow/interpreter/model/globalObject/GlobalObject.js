@@ -172,7 +172,25 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
 };
 //</editor-fold>
 
+//<editor-fold desc="'Public' methods">
 fcModel.GlobalObject.prototype.isPrimitive = function() { return false; }
+
+fcModel.GlobalObject.prototype.getUserSetGlobalProperties = function()
+{
+    var userSetGlobalProperties = [];
+
+    for(var i = 0; i < this.properties.length; i++)
+    {
+        var property = this.properties[i];
+
+        if(property.declarationConstruct == null) { continue; }
+
+        userSetGlobalProperties.push(property);
+    }
+
+    return userSetGlobalProperties;
+};
+//</editor-fold>
 
 //<editor-fold desc="Evaluation Position">
 fcModel.GlobalObject.prototype.getPreciseEvaluationPositionId = function()

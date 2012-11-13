@@ -81,7 +81,10 @@ Firecrow.CodeTextGenerator.prototype =
             return this.generateDocumentType(model.docType) + this.newLine
                  + this.generateCodeFromHtmlElement(model.htmlElement);
         }
-        catch(e) { this.notifyError("Error when generating code: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when generating code: " + e);
+        }
     },
 
     generateDocumentType: function(documentType)
@@ -346,7 +349,10 @@ Firecrow.CodeTextGenerator.prototype =
             else if (ASTHelper.isVariableDeclaration(statement)) { return this.generateFromVariableDeclaration(statement); }
             else { this.notifyError("Error: AST Statement element not defined: " + statement.type);  return "";}
         }
-        catch(e) { this.notifyError("Error when generating code from a statement: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when generating code from a statement: " + e);
+        }
     },
 
     generateExpression: function(expression)
@@ -425,9 +431,13 @@ Firecrow.CodeTextGenerator.prototype =
         this.indent();
 
         var body = blockStatement.body;
-        for(var i = 0, length = body.length; i < length; i++)
+
+        if(body != null)
         {
-            code += this.generateJsCode(body[i]);
+            for(var i = 0, length = body.length; i < length; i++)
+            {
+                code += this.generateJsCode(body[i]);
+            }
         }
 
         this.deIndent();
@@ -628,7 +638,7 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromObjectExpression: function(objectExpression)
     {
-        if (objectExpression.properties.length == 0) { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
+        if (objectExpression.properties == null || objectExpression.properties.length == 0) { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
 
         var code = this._LEFT_GULL_WING;
         var containsOnlySimpleProperties = this._objectExpressionContainsOnlySimpleProperties(objectExpression);
@@ -914,10 +924,12 @@ Firecrow.CodeTextGenerator.prototype =
     {
         var code = this._TRY_KEYWORD + this.newLine + (this.generateJsCode(tryStatement.block) || (this._LEFT_GULL_WING + this._RIGHT_GULL_WING));
 
-        // catch clauses
-        for(var i = 0; i < tryStatement.handlers.length; i++)
+        if(tryStatement.handlers != null)
         {
-            code += this.generateFromCatchClause(tryStatement.handlers[i]);
+            for(var i = 0; i < tryStatement.handlers.length; i++)
+            {
+                code += this.generateFromCatchClause(tryStatement.handlers[i]);
+            }
         }
 
         if(tryStatement.finalizer != null)

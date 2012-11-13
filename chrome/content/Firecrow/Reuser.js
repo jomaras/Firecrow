@@ -5,6 +5,7 @@
  */
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
+var fcModel = Firecrow.Interpreter.Model;
 Firecrow.Reuser =
 {
     getMergedModel: function(reusedAppModel, reuseIntoAppModel, reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseIntoDestinationSelectors, reuseAppBrowser, reuseIntoAppBrowser)
@@ -59,7 +60,10 @@ Firecrow.Reuser =
 
             return mergedModel;
 
-        }catch(e) { alert("Error when creating merged model:" + e); }
+        } catch(e)
+        {
+            alert("Error when creating merged model:" + e);
+        }
     },
 
     _moveNodesTo: function(mergedModel, reuseSelectors, reuseIntoDestinationSelectors)
@@ -772,7 +776,7 @@ Firecrow.ConflictFixer =
             {
                 var reuseGlobal = reuseGlobalProperties[j];
 
-                if(reuseGlobal.name == reuseIntoGlobal.name && !reuseAppBrowser.globalObject.isEventHandlerProperty(reuseGlobal.name))
+                if(reuseGlobal.name == reuseIntoGlobal.name && !fcModel.GlobalObject.CONST.isEventProperty(reuseGlobal.name))
                 {
                     conflictedProperties.push(reuseGlobal);
                 }

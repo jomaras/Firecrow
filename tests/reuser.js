@@ -1,6 +1,6 @@
 var testObject = {};
 
-var testName = "slicing";
+var testName = "reuse";
 models.forEach(function(htmlModel, index)
 {
     testObject["test " + testName + (index)] = function()

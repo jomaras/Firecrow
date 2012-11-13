@@ -30,6 +30,8 @@ fcModel.DocumentExecutor =
 
     getElements: function(globalObject, queryType, selector, callExpression)
     {
+        globalObject.browser.logDomQueried(queryType, selector, callExpression);
+
         if(queryType == "getElementsByClassName") { selector = "." + selector; }
 
         var elements = [];
@@ -58,6 +60,8 @@ fcModel.DocumentExecutor =
 
     getElement: function(globalObject, queryType, selector, callExpression)
     {
+        globalObject.browser.logDomQueried(queryType, selector, callExpression);
+
         if(queryType == "getElementById") { selector = "#" + selector; }
 
         var element = null;

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Firecrow - Debug Reuse Case Studies</title>
+    <title>Firecrow - Debug Reuse Case Study</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script>
         var FBL = undefined;
     </script>
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
 
-    <script src="pages/modelMapping.js"></script>
-    <script src="pages/modelMappings/makaluNew.js"></script>
+    <script src="reuseCaseStudies/1/pageAModel.js"></script>
+    <script src="reuseCaseStudies/1/pageBModel.js"></script>
+    <script src="reuseCaseStudies/1/reuseModel.js"></script>
 
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
@@ -46,8 +48,8 @@
     <script src="../chrome/content/Firecrow/interpreter/model/Function.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
 
-    <script src="../chrome/content/Firecrow/interpreter/model/internal/Date.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/Boolean.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Date.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/Number.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/Image.js"></script>
@@ -65,12 +67,12 @@
     <script src="../chrome/content/Firecrow/interpreter/model/DOM/EventListenerMixin.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/DOM/Event.js"></script>
 
-
     <script src="../chrome/content/Firecrow/interpreter/simulator/VariableObject.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/simulator/Evaluator.js"></script>
+
 
     <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
 
@@ -78,64 +80,89 @@
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
     <script src="../chrome/content/Firecrow/Slicer.js"></script>
+    <script src="../chrome/content/Firecrow/Reuser.js"></script>
+    <script src="../chrome/content/Firecrow/templates/reuserTemplates.js"></script>
 
     <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
     <style>
-        .selected { background-color: green; }
-        .dependent { background-color: yellow; }
-        .secondHandDependencies { background-color: #7FFF00;}
-        .unexecuted { color: gray;}
-        .executed { color: black;}
-
-        .clearer { clear: both;}
-
-        #slicedSourceTextContainer
+        .codeContainer
         {
-            width: 1000px;
-            height: 800px;
+            float: left;
+            width: 600px;
+            height: 400px;
+        }
+
+        .codeContainer textarea
+        {
+            overflow: auto;
+            width: 590px;
+            height: 400px;
         }
 
     </style>
 </head>
 <body>
-<h1>Firecrow - Debugging DOM Slicing</h1>
 <iframe id="firecrowFrame" height="1" width="1"></iframe>
-<div>
-    <a id="testIdContainer"></a>
+
+<h1>Firecrow - Debugging reuse</h1>
+
+<div class="codeContainer">
+    <strong>Full app code:</strong>
+    <textarea id="fullAppCodeContainer"></textarea>
+</div>
+<div class="codeContainer">
+    <strong>Reused code:</strong>
+    <textarea id="reusedAppCodeContainer"></textarea>
 </div>
 
-<br/>
-<span id="resultTitle">Result:</span>
-<br/>
-<div id="slicedCodeContainer">
-    <textarea id="slicedSourceTextContainer"></textarea>
-</div>
 <div style="clear:both"/>
-
+<br/><br/>
+<div class="codeContainer">
+    <strong>App to extract full code:</strong>
+    <textarea id="extractedFullAppCodeContainer"></textarea>
+</div>
+<div class="codeContainer">
+    <strong>Extracted code:</strong>
+    <textarea id="extractedSlicedAppCodeContainer"></textarea>
+</div>
 <script>
     var Firecrow = FBL.Firecrow;
 
-    var htmlModel = HtmlModelMapping.getFirstModelMapping();
-    var slicingCriteria = htmlModel.results.map(function(result)
-    {
-        for(var propName in result)
-        {
-            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
-        }
-    });
+    var htmlModel = reuseModel;//From reuseModel.js
 
-    if(htmlModel.model.trackedElementsSelectors != null)
+    var slicingCriteria = [];
+
+    if(htmlModel.selectors != null)
     {
-        htmlModel.model.trackedElementsSelectors.forEach(function(selector)
+        htmlModel.selectors.forEach(function(selector)
         {
             slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
         });
     }
 
-    var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria).browser;
+    var extractedAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseAppModel, htmlModel.reuseSelectors.map(function(selector)
+    {
+        return Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector);
+    }));
 
-    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+    var fullAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseIntoAppModel);
+
+    document.getElementById("extractedFullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.reuseAppModel);
+    document.getElementById("extractedSlicedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.reuseAppModel);
+
+    document.getElementById("fullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.reuseIntoAppModel);
+    document.getElementById("reusedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(Firecrow.Reuser.getMergedModel
+    (
+        htmlModel.reuseAppModel,
+        htmlModel.reuseIntoAppModel,
+        extractedAppSlicingResult.dependencyGraph,
+        fullAppSlicingResult.dependencyGraph,
+        htmlModel.reuseSelectors,
+        htmlModel.reuseIntoDestinationSelectors,
+        extractedAppSlicingResult.browser,
+        fullAppSlicingResult.browser
+    ));
 </script>
 </body>
 </html>
