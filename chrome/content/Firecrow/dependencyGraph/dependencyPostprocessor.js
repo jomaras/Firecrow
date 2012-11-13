@@ -127,6 +127,17 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
         if(functionDecExp.id != null) { functionDecExp.id.shouldBeIncluded = true; }
 
+        var params = functionDecExp.params;
+
+        if(params != null)
+        {
+            for(var i = 0, length = params.length; i < length; i++)
+            {
+                params[i].shouldBeIncluded = true;
+            }
+        }
+
+
         this.processFunctionBody(functionDecExp);
     },
 
@@ -470,6 +481,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
         for(var i = 0; i < tryStatement.handlers.length; i++)
         {
+            tryStatement.handlers[i].shouldBeIncluded = true;
             this.processCatchClause(tryStatement.handlers[i]);
         }
 

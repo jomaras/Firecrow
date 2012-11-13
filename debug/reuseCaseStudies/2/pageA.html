@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Makalu Aerospace</title>
+
+    <style>
+    html, body, div, span, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, code,
+    del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, dialog, figure, footer, header,
+    hgroup, nav, section {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-weight: inherit;
+      font-style: inherit;
+      font-size: 100%;
+      font-family: inherit;
+      vertical-align: baseline; }
+
+    article, aside, dialog, figure, footer, header,
+    hgroup, nav, section {
+      display: block; }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 0; }
+
+    caption, th, td {
+      text-align: left;
+      font-weight: normal; }
+
+    table, td, th {
+      vertical-align: middle; }
+
+    blockquote:before, blockquote:after, q:before, q:after {
+      content: ""; }
+
+    blockquote, q {
+      quotes: "" ""; }
+
+    a img {
+      border: none; }
+
+    @font-face {
+      font-family: 'SyntaxBlack';
+      src: url('../fonts/SyntaxLTStd-Black.eot');
+      src: local('@'), local('@'), url('../fonts/SyntaxLTStd-Black.woff') format('woff'), url('../fonts/SyntaxLTStd-Black.ttf') format('truetype'), url('../fonts/SyntaxLTStd-Black.svg#SyntaxLTStd-Black') format('svg'); }
+
+    @font-face {
+      font-family: 'SyntaxBold';
+      src: url('../fonts/SyntaxLTStd-Bold.eot');
+      src: local('@'), local('@'), url('../fonts/SyntaxLTStd-Bold.woff') format('woff'), url('../fonts/SyntaxLTStd-Bold.ttf') format('truetype'), url('../fonts/SyntaxLTStd-Bold.svg#SyntaxLTStd-Bold') format('svg'); }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font: 14px/20px Georgia, serif;
+      color: #444444;
+      background: #e9e9e9; }
+
+    h1, h2, h3, h4 {
+      color: #222222;
+      font-family: 'SyntaxBlack', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; }
+
+    h2 {
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      z-index: 1; }
+      h2 span {
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -o-border-radius: 3px;
+        -ie-border-radius: 3px;
+        border-radius: 3px;
+        display: block;
+        padding: 10px 15px;
+        color: #fff;
+        font-family: 'SyntaxBold';
+        font-size: 18px;
+        line-height: 20px;
+        text-transform: uppercase;
+        background: #ef0000;
+      }
+
+        .safari h2 span, .gecko h2 span {
+          padding-top: 11px;
+          padding-bottom: 9px; }
+
+    h3 {
+      font-size: 18px;
+      line-height: 20px;
+      color: #444444; }
+
+    h4 {
+      font-size: 18px;
+      font-family: 'SyntaxBold'; }
+
+    em {
+      font-style: italic; }
+
+    a {
+      -webkit-transition-property: color, background-color, opacity, border-color;
+      -webkit-transition-duration: .25s;
+      color: #000; }
+    a:hover {
+      color: #EF0000; }
+
+    a.visit {
+      color: #c4c4c4;
+      text-decoration: none;
+      font-size: 16px; }
+      a.visit img {
+        position: relative;
+        bottom: -6px;
+        margin-right: 5px; }
+      a.visit span {
+        border-bottom: 2px solid #5f5f5f; }
+      a.visit:hover {
+        color: #222222; }
+
+    .container {
+      position: relative;
+      width: 940px;
+      margin: 40px auto; }
+      .container:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden; }
+      .ie .container {
+        zoom: 1; }
+
+    #wrapper {
+      position: relative;
+      padding: 30px 20px 20px 20px; }
+
+    #header {
+      position: relative;
+      height: 180px;
+      width: 400px;
+      margin: 0 auto;
+      background: url(pageAImages/header.png) no-repeat 50% 120px; }
+      #header h1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 180px;
+        height: 190px;
+        text-indent: -9999px;
+        background: url(pageAImages/logo.png) no-repeat 50% 50%; }
+      #header p {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 40px 0;
+        padding-left: 20px;
+        text-align: left;
+        color: #646464;
+        border-left: 5px solid #e3e3e3; }
+        #header p strong {
+          display: block;
+          font-family: 'SyntaxBold';
+          font-size: 18px;
+          color: #222222; }
+          #header p strong span {
+            color: #c4c4c4; }
+
+    #intro {
+      width: 100%;
+      height: 80px;
+      margin: 30px -20px;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 28px;
+      line-height: 40px;
+      background: url(pageAImages/intro-bg.png) repeat-x left top; }
+      #intro p {
+        margin: 0 auto; }
+      #intro:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden; }
+      .ie #intro {
+        zoom: 1; }
+
+    #top {
+      margin-bottom: 0; }
+
+    #news-article {
+      display: none;
+      opacity: 0;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -o-border-radius: 5px;
+      -ie-border-radius: 5px;
+      border-radius: 5px;
+      position: absolute;
+      top: 50%;
+      left: 280px;
+      margin-left: -25px;
+      z-index: 2;
+      float: left;
+      width: 20px;
+      height: 20px;
+      margin-top: -270px;
+      padding: 20px 0 0 0;
+      border: 10px solid #cfcfcf;
+      background: #dfdfdf; }
+      #news-article .arrow {
+        position: absolute;
+        top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #999; }
+        #news-article .arrow:hover {
+          color: #333; }
+      #news-article .prev {
+        left: 190px; }
+      #news-article .next {
+        right: 190px; }
+      #news-article .close {
+        opacity: .5;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -o-border-radius: 3px;
+        -ie-border-radius: 3px;
+        border-radius: 3px;
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        width: 24px;
+        height: 24px;
+        text-indent: -9999px;
+        outline: none;
+        background: #444 url(pageAImages/close.png) no-repeat 50% 6px; }
+        #news-article .close:hover {
+          opacity: 1; }
+      #news-article .post {
+        opacity: 0;
+        height: 100%;
+        padding: 0 10px; }
+        #news-article .post em.date {
+          display: block;
+          text-align: center;
+          font-size: 16px;
+          color: #888; }
+        #news-article .post h3 {
+          margin: 10px 0 20px 0;
+          padding: 0 10px; }
+        .ie #news-article .post h3 {
+          font-family: Georgia, serif; }
+        #news-article .post .entry {
+          height: 100%;
+          padding: 0 10px;
+          overflow: auto;
+          font-size: 16px; }
+          #news-article .post .entry img {
+            max-width: 100%; }
+          #news-article .post .entry p {
+            margin: 0 0 20px 0; }
+          #news-article .post .entry ul,
+          #news-article .post .entry ol {
+            margin-left: 20px; }
+            #news-article .post .entry ul p,
+            #news-article .post .entry ol p {
+              margin: 10px 0; }
+
+
+    #expertise {
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -o-border-radius: 5px;
+      -ie-border-radius: 5px;
+      border-radius: 5px;
+      position: relative;
+      z-index: 1;
+      float: left;
+      width: 540px;
+      margin-top: -270px;
+      padding: 0;
+      border: 10px solid #cfcfcf;
+      background: #dfdfdf; }
+      #expertise ol {
+        list-style: none; }
+        #expertise ol li {
+          padding: 19px 20px;
+          font-size: 16px;
+          line-height: 20px;
+          border-bottom: 1px solid #cfcfcf;
+          border-top: 1px solid #e9e9e9; }
+          #expertise ol li h3 {
+            margin-bottom: 6px; }
+          #expertise ol li p {
+            color: #646464; }
+        #expertise ol li.num1 {
+          padding-top: 49px;
+          border-top: none;
+          background: url(pageAImages/one.png) no-repeat right top; }
+        #expertise ol li.num2 {
+          background: url(pageAImages/two.png) no-repeat right top; }
+        #expertise ol li.num3 {
+          background: url(pageAImages/three.png) no-repeat right top; }
+
+    #news {
+      position: relative;
+      float: right;
+      width: 360px;
+      height: 240px;
+      padding-top: 40px;
+      margin-top: -40px;
+      overflow: hidden; }
+      #news .more {
+        opacity: 0.5;
+        filter: alpha(opacity= 50 );
+        position: absolute;
+        bottom: -50px;
+        left: 50%;
+        width: 58px;
+        height: 20px;
+        margin-left: -29px;
+        text-indent: -9999px;
+        outline: none;
+        background: url(pageAImages/more-news.png) no-repeat left top; }
+        #news .more:hover {
+          opacity: 1;
+          filter: alpha(opacity= 100 ); }
+        #news .more.back {
+          background: url(pageAImages/back-news.png) no-repeat left top; }
+      #news .shade {
+        position: absolute;
+        left: 0;
+        width: 100%; }
+        #news .shade.bottom {
+          bottom: 0;
+          height: 60px;
+          background: url(pageAImages/news-shade.png) repeat-x left top; }
+        #news .shade.top {
+          top: 0;
+          height: 40px;
+          background: url(pageAImages/news-shade-top.png) repeat-x left top; }
+      #news ul {
+        position: relative;
+        list-style: none; }
+        #news ul li {
+          margin-bottom: 20px;
+          padding-left: 65px;
+          font-family: 'SyntaxBold'; }
+          #news ul li a {
+            text-decoration: none;
+            color: #545454;
+            font-size: 16px;
+            border-bottom: 2px solid #e3e3e3; }
+            #news ul li a span.date {
+              -webkit-transition: all .25s;
+              -webkit-border-radius: 3px;
+              -moz-border-radius: 3px;
+              -o-border-radius: 3px;
+              -ie-border-radius: 3px;
+              border-radius: 3px;
+              float: left;
+              width: 45px;
+              padding: 2px 5px 0 5px;
+              margin-left: -65px;
+              text-align: center;
+              font-size: 12px;
+              color: #848484;
+              white-space: nowrap;
+              text-transform: uppercase;
+              background: #dfdfdf; }
+            #news ul li a:hover,
+            #news ul li a.active {
+              color: #222222;
+              border-color: #cfcfcf; }
+              #news ul li a:hover span.date,
+              #news ul li a.active span.date {
+                color: #fff;
+                background-color: #ef0000; }
+          #news ul li.thatsall {
+            opacity: 0;
+            filter: alpha(opacity= 0 );
+            padding: 0;
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 20px;
+            color: #c4c4c4;
+            text-align: center; }
+
+    #people {
+      position: relative;
+      padding-top: 50px;
+      background: url(pageAImages/stripes.png) repeat-x left top; }
+      #people #speechbubble {
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -o-border-radius: 10px;
+        -ie-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: #444 0 0 10px;
+        -moz-box-shadow: #444 0 0 10px;
+        box-shadow: #444 0 0 10px;
+        display: none;
+        opacity: 0;
+        z-index: 10;
+        position: absolute;
+        top: 30px;
+        left: -20px;
+        padding: 20px;
+        width: 265px;
+        font-size: 16px;
+        background: #fff; }
+        #people #speechbubble img {
+          position: absolute;
+          top: 50px;
+          left: -30px; }
+        #people #speechbubble strong {
+          display: block;
+          margin-bottom: 5px;
+          font-family: 'SyntaxBold'; }
+        #people #speechbubble .name {
+          text-transform: capitalize; }
+      #people img.tinylittle {
+        position: absolute;
+        top: 145px;
+        right: -20px; }
+      #people h2 {
+        left: 50%;
+        margin-left: -72px;
+        padding: 0 10px;
+        background: #e9e9e9; }
+      #people ul {
+        width: 100%;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background: url(pageAImages/ampersand.png) no-repeat 160px 10px; }
+        #people ul:after {
+          content: ".";
+          display: block;
+          height: 0;
+          clear: both;
+          visibility: hidden; }
+        .ie #people ul {
+          zoom: 1; }
+        #people ul li {
+          float: left;
+          width: 313px;
+          margin-bottom: 9px;
+          padding-bottom: 9px;
+          border-bottom: 2px solid #e3e3e3; }
+          #people ul li .avatar {
+            position: relative;
+            float: left;
+            width: 60px;
+            height: 60px;
+            border: 5px solid #cfcfcf;
+            background: #dfdfdf; }
+            #people ul li .avatar img {
+              width: 100%;
+              height: 100%;
+              border: none; }
+          #people ul li h4 {
+            margin: 4px 0;
+            padding: 0 0 0 85px;
+            font-family: 'SyntaxBold'; }
+          #people ul li p {
+            margin: 0;
+            padding: 0 0 0 85px;
+            font-size: 14px;
+            color: #646464;
+            line-height: 20px; }
+            #people ul li p a {
+              color: #646464;
+              text-decoration: none;
+              border-bottom: 2px solid #e3e3e3; }
+              #people ul li p a:hover {
+                color: #444444;
+                border-color: #cfcfcf; }
+          #people ul li.row2 {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border-bottom: none; }
+
+    #bottom {
+      position: relative;
+      padding: 20px;
+      margin: 0 -20px;
+      border: 10px solid #444;
+      border-width: 10px 0;
+      background: #333; }
+      #bottom:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden; }
+      .ie #bottom {
+        zoom: 1; }
+      #bottom .container {
+        margin-top: 0;
+        margin-bottom: 0; }
+
+    #portfolio {
+      position: relative;
+      float: right;
+      width: 360px; }
+      #portfolio h3 {
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -o-border-radius: 3px;
+        -ie-border-radius: 3px;
+        border-radius: 3px;
+        -webkit-transition: color .25s;
+        margin-left: -30px;
+        padding: 10px 10px 10px 30px;
+        color: #e9e9e9;
+        font-family: 'SyntaxBold';
+        font-size: 18px;
+        line-height: 20px;
+        text-transform: uppercase;
+        background: #444; }
+        #portfolio h3.dimmed {
+          color: #888; }
+        .safari #portfolio h3, .gecko #portfolio h3 {
+          padding-top: 11px;
+          padding-bottom: 9px; }
+      #portfolio ul.paginator {
+        position: absolute;
+        top: 11px;
+        right: 15px;
+        list-style: none; }
+        #portfolio ul.paginator li {
+          float: left;
+          margin-left: 9px;
+          padding-top: 2px; }
+          #portfolio ul.paginator li a {
+            -webkit-border-radius: 7px;
+            -moz-border-radius: 7px;
+            -o-border-radius: 7px;
+            -ie-border-radius: 7px;
+            border-radius: 7px;
+            display: block;
+            width: 14px;
+            height: 14px;
+            text-indent: -9999px;
+            outline: none;
+            background: #666; }
+            #portfolio ul.paginator li a:hover {
+              background: #888; }
+          #portfolio ul.paginator li.active {
+            padding: 0; }
+            #portfolio ul.paginator li.active a {
+              -webkit-border-radius: 9px;
+              -moz-border-radius: 9px;
+              -o-border-radius: 9px;
+              -ie-border-radius: 9px;
+              border-radius: 9px;
+              width: 18px;
+              height: 18px;
+              background: #ef0000; }
+      #portfolio #portfolio-mask {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden; }
+      #portfolio ul.projects {
+        position: relative;
+        left: 0;
+        width: 2880px;
+        height: 100%;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        color: #c4c4c4; }
+        #portfolio ul.projects li.project,
+        #portfolio ul.projects li.index {
+          float: left;
+          width: 360px;
+          height: 360px;
+          overflow: hidden; }
+          #portfolio ul.projects li.project:after,
+          #portfolio ul.projects li.index:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden; }
+          .ie #portfolio ul.projects li.project,
+          .ie #portfolio ul.projects li.index {
+            zoom: 1; }
+          #portfolio ul.projects li.project h4,
+          #portfolio ul.projects li.index h4 {
+            margin: 20px 0 15px 0;
+            color: #e9e9e9; }
+          #portfolio ul.projects li.project p,
+          #portfolio ul.projects li.index p {
+            margin: 0; }
+          #portfolio ul.projects li.project.index,
+          #portfolio ul.projects li.index.index {
+            line-height: 25px;
+            font-size: 18px;
+            font-style: italic; }
+            #portfolio ul.projects li.project.index p,
+            #portfolio ul.projects li.index.index p {
+              padding: 0;
+              margin: 20px 0; }
+            #portfolio ul.projects li.project.index ol,
+            #portfolio ul.projects li.index.index ol {
+              margin: 0 0 0 -10px;
+              padding: 0;
+              list-style: none; }
+              #portfolio ul.projects li.project.index ol:after,
+              #portfolio ul.projects li.index.index ol:after {
+                content: ".";
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden; }
+              .ie #portfolio ul.projects li.project.index ol,
+              .ie #portfolio ul.projects li.index.index ol {
+                zoom: 1; }
+              #portfolio ul.projects li.project.index ol li,
+              #portfolio ul.projects li.index.index ol li {
+                float: left;
+                width: 113px;
+                margin: 0 0 10px 10px; }
+                #portfolio ul.projects li.project.index ol li a,
+                #portfolio ul.projects li.index.index ol li a {
+                  overflow: hidden;
+                  display: block;
+                  height: 80px;
+                  border: 5px solid #444;
+                  background: #444; }
+                  #portfolio ul.projects li.project.index ol li a img,
+                  #portfolio ul.projects li.index.index ol li a img {
+                    -webkit-transition: opacity .25s;
+                    width: 100%;
+                    opacity: 0.65;
+                    filter: alpha(opacity=65); }
+                  #portfolio ul.projects li.project.index ol li a:hover,
+                  #portfolio ul.projects li.index.index ol li a:hover {
+                    border-color: #666; }
+                    #portfolio ul.projects li.project.index ol li a:hover img,
+                    #portfolio ul.projects li.index.index ol li a:hover img {
+                      opacity: 1;
+                      filter: alpha(opacity=100); }
+
+    #contact {
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -o-border-radius: 5px;
+      -ie-border-radius: 5px;
+      border-radius: 5px;
+      position: relative;
+      width: 880px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 10px solid #cfcfcf;
+      background: #dfdfdf; }
+      #contact:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden; }
+      .ie #contact {
+        zoom: 1; }
+      #contact .success {
+        padding: 20px 0;
+        text-align: center; }
+        #contact .success h3 {
+          font-size: 28px;
+          color: #848484; }
+      #contact .form .content {
+        clear: both;
+        float: left;
+        width: 420px;
+        margin: 0;
+        padding: 5px 40px 0 0;
+        font-size: 18px;
+        line-height: 25px;
+        color: #444444; }
+        #contact .form .content p {
+          margin-bottom: 20px; }
+      #contact form {
+        float: right;
+        width: 420px; }
+        #contact form p {
+          position: relative;
+          margin: 0 0 5px 0;
+          padding: 0;
+          line-height: 1; }
+          #contact form p label {
+            position: absolute;
+            top: 8px;
+            left: 11px;
+            color: #949494;
+            font-style: italic;
+            font-size: 18px;
+            line-height: 1; }
+            #contact form p label.dimmed {
+              opacity: 0.75;
+              filter: alpha(opacity= 75 ); }
+            .ie #contact form p label.dimmed {
+              display: none; }
+          #contact form p input {
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -o-border-radius: 3px;
+            -ie-border-radius: 3px;
+            border-radius: 3px;
+            width: 400px;
+            margin: 0;
+            padding: 7px 10px;
+            font-size: 18px;
+            color: #444444;
+            line-height: 1;
+            font-family: Georgia, serif;
+            border: none;
+            background: #cfcfcf; }
+          #contact form p textarea {
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -o-border-radius: 3px;
+            -ie-border-radius: 3px;
+            border-radius: 3px;
+            width: 400px;
+            height: 100px;
+            padding: 7px 10px;
+            margin: 0;
+            color: #444444;
+            font-size: 18px;
+            line-height: 20px;
+            font-family: Georgia, serif;
+            border: none;
+            background: #cfcfcf; }
+            .ie #contact form p textarea {
+              overflow: hidden; }
+        #contact form p.textarea {
+          height: 114px;
+          margin: 0; }
+          #contact form p.textarea a.submit {
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -o-border-radius: 3px;
+            -ie-border-radius: 3px;
+            border-radius: 3px;
+            cursor: default;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 4px 12px 0 12px;
+            line-height: 31px;
+            font-size: 14px;
+            font-family: 'SyntaxBlack';
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #e9e9e9;
+            background: #aaaaaa; }
+            #contact form p.textarea a.submit span {
+              padding-right: 17px;
+              background: url(pageAImages/raquo-white.png) no-repeat 100% 1px; }
+            #contact form p.textarea a.submit.active {
+              cursor: pointer;
+              background-color: #ef0000; }
+            #contact form p.textarea a.submit.active:hover {
+              color: #fff;
+              background: #ff1010; }
+
+    #footer {
+      position: relative;
+      margin-bottom: 0;
+      padding: 40px 0 0 0;
+      line-height: 20px;
+      text-align: center;
+      color: #b4b4b4;
+      background: url(pageAImages/footer.png) no-repeat center top; }
+      #footer a {
+        color: #999;
+        text-decoration: none;
+        border-bottom: 2px solid #e3e3e3; }
+        #footer a:hover {
+          color: #444444;
+          border-color: #cfcfcf; }
+      #footer a.twitter {
+        display: inline-block;
+        padding-left: 22px;
+        background: url(pageAImages/bird.png) no-repeat 0 3px;
+        line-height: 20px;
+        text-decoration: none;
+        border-bottom: none; }
+        #footer a.twitter span {
+          border-bottom: 2px solid #ccc; }
+      #footer a.twitter:hover {
+        background-position: 0 -17px; }
+        #footer a.twitter:hover span {
+          border-color: #999; }
+      #footer img {
+        position: absolute;
+        top: -11px;
+        left: 50%;
+        margin-left: -21px;
+        background: #e9e9e9; }
+        #footer img.interactive {
+          display: none; }
+      #footer ul {
+        width: 400px;
+        margin: 0 auto;
+        list-style: none;
+        background: url(pageAImages/arrow-double.png) no-repeat 50% 4px; }
+        #footer ul:after {
+          content: ".";
+          display: block;
+          height: 0;
+          clear: both;
+          visibility: hidden; }
+        .ie #footer ul {
+          zoom: 1; }
+        #footer ul li {
+          float: left;
+          width: 160px;
+          padding: 0 20px;
+          text-align: left; }
+          #footer ul li:first-child {
+            text-align: right; }
+      #footer p {
+        clear: both;
+        margin: 0; }
+
+    .corner {
+      position: absolute;
+      background: url(pageAImages/corners.png) no-repeat left top; }
+      #corner-top-left.corner {
+        top: 20px;
+        left: 20px;
+        width: 160px;
+        height: 160px; }
+      #corner-top-right.corner {
+        top: 20px;
+        right: 20px;
+        width: 160px;
+        height: 160px;
+        background-position: 0 -160px; }
+      #corner-bottom-left.corner {
+        bottom: 20px;
+        left: 20px;
+        width: 120px;
+        height: 100px;
+        background-position: 0 -320px; }
+      #corner-bottom-right.corner {
+        bottom: 20px;
+        right: 20px;
+        width: 120px;
+        height: 100px;
+        background-position: 0 -430px; }
+    </style>
+
+    <script type="text/javascript" src="pageAScripts/jQuery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="pageAScripts/jquery.plugins.js" charset="utf-8"></script>
+    <script type="text/javascript" src="pageAScripts/makalu.js" charset="utf-8"></script>
+
+    <style type="text/css">#wpcf fieldset { padding: 10px; border: 1px solid #666666; width: 400px; margin: auto }
+    #wpcf legend { font-weight: bold; border: 1px solid #666666; padding: 3px }
+    #wpcf label { display: block; float: left; text-align: right; width: 140px; padding-right: 10px; font-size: 100% }
+    #wpcf p { margin: 0 0 7px 0 }
+    #wpcf .field { font-size: 100%; width: 240px; padding: 0; margin: 0 }
+    #wpcf p.button { text-align: right; padding: 0 5px 0 0; }
+    #wpcf textarea { font-size: 100%; width: 240px; height: 50px }
+    #wpcf .error { background-color: #FFFF00 }
+    #wpcf .challenge { font-size: 100%; display: inline-block; display: -moz-inline-stack; text-align: left; width: 240px }
+    #wpcf p.alert { color:#FF0000; font-weight: 700; text-align: center; padding: 5px 0 10px 0 }
+    </style></head>
+<body class="home blog post-category-news">
+<!--
+http://www.makalumedia.com/aerospace    http://www.makalumedia.com/aerospace/wp-content/themes/aerospace  -->
+<div id="wrapper">
+<div id="header">
+    <h1>Makalu Aerospace</h1>
+    <p>
+        <strong>MakaluMedia <span>GmbH</span></strong>
+        Robert-Bosch Str. 7<br>
+        64293 Darmstadt, Germany<br>
+        <em>Tel:</em> (+49) 6151 872 4600<br>
+        <em>Fax:</em> (+49) 6151 872 4619<br>      </p>
+</div>
+
+<div id="intro">
+    <p class="container">
+        We design and develop mission-critical software systems, and provide engineering and scientific consultancy in the aerospace sector.      </p>
+</div>
+<div id="top" class="container">
+    <div id="news">
+        <ul>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=763">
+                    <span class="date">24 May</span> MakaluMedia at SpaceOps            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=770">
+                    <span class="date">30 Apr</span> ARTS Evolution Delivered            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=767">
+                    <span class="date">24 Mar</span> TEDIS Developments            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=765">
+                    <span class="date">24 Feb</span> Wimics Developments            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=759">
+                    <span class="date">31 Jan</span> TeleViews goes Operational            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=749">
+                    <span class="date">16 Dec</span> Electronic Logbook News            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=754">
+                    <span class="date">30 Nov</span> TeleChecks Progress            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=736">
+                    <span class="date">06 Sep</span> Makalumedia scientist contributes to WMO climate monitoring initiative            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=728">
+                    <span class="date">16 May</span> How to Archive Telemetry            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=709">
+                    <span class="date">07 Apr</span> Makalu present Archive Design at ESAW 2011            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=717">
+                    <span class="date">31 Mar</span> Makalu win ARTS evolution contract            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=713">
+                    <span class="date">08 Feb</span> Makalu Scientist makes contribution to Climate Monitoring            </a>
+            </li>
+            <li class="thatsall">
+                <em>That's all</em>
+            </li>
+        </ul>
+        <div class="shade top"></div>
+        <div class="shade bottom"></div>
+        <a href="#" class="more">More</a>
+    </div>
+</div>
+
+<div id="bottom">
+    <div class="container">
+        <div id="news-article"></div>
+        <div id="expertise">
+            <h2><span>Our Expertise</span></h2>
+            <ol>
+                <li class="num1">
+                    <h3>Web-Based Aerospace Monitoring Systems</h3>
+                    <p>
+                    <p>Makalu is a leader in the design &amp; development of innovative web-based monitoring and management systems for the aerospace industry. Applying the latest in Web 2.0 technologies with decades of specific domain knowledge, Makalu has deployed systems at EUTELSAT which archive telemetry data in a fraction of the space previously required, and provide access and visualization to that data in ways and through channels previously thought impossible.</p>
+                    </p>
+                </li>
+                <li class="num2">
+                    <h3>Engineering &#038; Scientific Consultancy</h3>
+                    <p>
+                    <p>Makalu is a recognized provider of permanent-basis, on-site engineering consultancy. At EUMETSAT, we provide consultancy services ranging from spacecraft operations, to multi-platform software engineering, to scientific research support. At ESA’s operations center (ESOC), we provide ground segment engineering and software validation &amp; verification consultancy through multiple, long-term service frame-contracts.</p>
+                    </p>
+                </li>
+                <li class="num3">
+                    <h3>Ground-Segment Systems &#038; Communications</h3>
+                    <p>
+                    <p>Makalu has considerable expertise in the satellite ground segment. We developed the embedded software for ESA’s globally-deployed satellite tracking system, as well as an advanced telemetry distribution, archiving and visualization system for Eutelsat. We have participated in studies related to monitoring and control systems, ground segment communications technologies and modern satellite tracking techniques.</p>
+                    </p>
+                </li>
+            </ol>
+        </div>
+
+        <div id="portfolio">
+            <h3>Case Studies</h3>
+            <div id="portfolio-mask">
+                <ul class="projects">
+                    <li class="index">
+                        <p>
+                        <p>REAL-WORLD EXAMPLES are often the most effective means of communicating capabilities. The following case studies provide a broad overview of Makalu Aerospace experience and capabilities.</p>
+                        </p>
+                        <ol>
+                            <li>
+                                <a href="#" title="TT&C Baseband Equipment">
+                                    <img src="pageAImages/1.png" alt="TT&C Baseband Equipment">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Engineering Consultancy">
+                                    <img src="pageAImages/2.png" alt="Engineering Consultancy">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Satellite Telemetry Distribution">
+                                    <img src="pageAImages/3.png" alt="Satellite Telemetry Distribution">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Satellite Telemetry Archiving & Visualization">
+                                    <img src="pageAImages/4.png" alt="Satellite Telemetry Archiving & Visualization">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Centralized Event Logging & Access">
+                                    <img src="pageAImages/5.png" alt="Centralized Event Logging & Access">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Quality Assurance, Issue Management & Resolution">
+                                    <img src="pageAImages/6.png" alt="Quality Assurance, Issue Management & Resolution">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Scientific Meteorogical Research">
+                                    <img src="pageAImages/7.png" alt="Scientific Meteorogical Research">
+                                </a>
+                            </li>
+                        </ol>
+                    </li>
+                    <li class="project">
+                        <h4>IFMS — ESA’s Intermediate Frequency &amp; Modem System</h4>
+                        <p>
+                        <p>Makalu developed and maintain the embedded software running inside the satellite tracking system in use today by the European Space Agency (ESA), to control and track all of its presently operational satellite missions.</p>
+                        </p>
+                    </li>
+                    <li class="project">
+                        <h4>Engineering Consultancy</h4>
+                        <p>
+                        <p>For more than a decade, Makalu has provided permanent-basis engineering support to Europe’s principal aerospace organizations — including verification &amp; validation software engineering support to ESA’s mission &amp; ground systems development efforts, as well as systems integration and power systems engineering support, through multiple, long-term consultancy frame-contracts.</p>
+                        </p>
+                    </li>
+                    <li class="project">
+                        <h4>TEDIS — Eutelsat’s Telemetry Distribution System</h4>
+                        <p>
+                        <p>Makalu developed and maintain the TEDIS system for Eutelsat. This web-based software application allows Eutelsat engineers and partners to retrieve real-time and archived raw telemetry frames from its fleet of more than 20 satellites. The system has been operational since 2007.</p>
+                        </p>
+                    </li>
+                    <li class="project">
+                        <h4>TeleViews — Eutelsat’s Telemetry Archive &#038; Visualization System</h4>
+                        <p>
+                        <p>Makalu developed the TeleViews system for Eutelsat, providing satellite engineers access to telemetry, telecommands and satellite events outside of the control centre. For this system, Makalu developed an advanced, high-performance archive that stores telemetry data in less than 10% of the disk space required by similar systems. Also developed was a sophisticated browser-based interface allowing validated users to browse data using the same displays as the satellite control system.</p>
+                        </p>
+                    </li>
+                    <li class="project">
+                        <h4>eLogBook — Eutelsat’s Central Event Log &#038; Access Facility</h4>
+                        <p>
+                        <p>Makalu are presently developing the eLogBook system for Eutelsat, replacing the current paper-based logbook for tracking all significant satellite control center events. The design of the system allows other applications — via an open API — to log events centrall, and to replicate thee data from the highly secure operational network to the office environment.</p>
+                        </p>
+                    </li>
+                    <li class="project">
+                        <h4>ARTS — ESA’s Issue Tracking, Management &#038; Resolution Tool</h4>
+                        <p>
+                        <p>In support of ESA&#8217;s ISO-9001 certification, Makalu developed ARTS, a web-based tool providing full lifecycle support for issue and action management — providing compliance with ECSS Standard Q-20-09B. ARTS is deployed across the enterprise at ESA, and extending to its industrial partners, and is used concurrently by thousands of users within the context of hundreds of projects.</p>
+                        </p>
+                    </li>
+                    <li class="project">
+                        <h4>Scientific Meteorological Research</h4>
+                        <p>
+                        <p>MakaluMedia consultant Dr. Alessio Lattanzio participates in scientific engineering research at EUMETSAT, discovering advanced applications for the use of surface albedo derived from METEOSAT satellite observations, resulting in the publication of several scientific articles.</p>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <ul class="paginator">
+                <li class="active"><a href="#" title="Index">1</a></li>
+                <li><a href="#2" title="TT&C Baseband Equipment">2</a></li>
+                <li><a href="#3" title="Engineering Consultancy">3</a></li>
+                <li><a href="#4" title="Satellite Telemetry Distribution">4</a></li>
+                <li><a href="#5" title="Satellite Telemetry Archiving & Visualization">5</a></li>
+                <li><a href="#6" title="Centralized Event Logging & Access">6</a></li>
+                <li><a href="#7" title="Quality Assurance, Issue Management & Resolution">7</a></li>
+                <li><a href="#8" title="Scientific Meteorogical Research">8</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="people" class="container">
+    <h2><span>Management</span></h2>
+    <ul>
+        <li class="row1">
+            <div class="avatar">
+                <img src="pageAImages/matt.jpg" class="color" alt="Matt Henderson">
+            </div>
+            <h4>Matt Henderson</h4>
+            <p>
+                <em>Founder & General Director</em>
+                <a href="#" class="email"></a>
+            </p>
+        </li>
+        <li class="row1">
+            <div class="avatar">
+                <img src="pageAImages/pino.jpg" class="color" alt="Pino de la Fuente">
+            </div>
+            <h4>Pino de la Fuente</h4>
+            <p>
+                <em>Founder & Financial Controller</em>
+                <a href="#" class="email"></a>
+            </p>
+        </li>
+        <li class="row1">
+            <div class="avatar">
+                <img src="pageAImages/jim.jpg" class="color" alt="Jim Holme">
+            </div>
+            <h4>Jim Holme</h4>
+            <p>
+                <em>Managing Director</em>
+                <a href="#" class="email"></a>
+            </p>
+        </li>
+        <li class="row2">
+            <div class="avatar">
+                <img src="pageAImages/rob.jpg" class="color" alt="Rob Foweraker">
+            </div>
+            <h4>Rob Foweraker</h4>
+            <p>
+                <em>Business Development Manager</em>
+                <a href="#" class="email"></a>
+            </p>
+        </li>
+        <li class="row2">
+            <div class="avatar">
+                <img src="pageAImages/michel.jpg" class="color" alt="Michel Ricart">
+            </div>
+            <h4>Michel Ricart</h4>
+            <p>
+                <em>Chief Systems Architect</em>
+                <a href="#" class="email"></a>
+            </p>
+        </li>
+    </ul>
+    <img src="pageAImages/tinylittle.png" alt="" class="tinylittle">
+    <div id="speechbubble">
+        <div class="inner">
+            <strong>Hello <span class="name"></span>!</strong>
+            Nice to meet you and thanks for your message! You should receive a reply from us within two business days.
+            <img src="pageAImages/speechbubble-tail.png" alt="">
+        </div>
+    </div>
+</div>
+<div id="contact" class="container">
+    <div class="form">
+        <div class="content">
+            <p><strong>Contact Makalu.</strong> Please feel free to contact us using the form at the right. We&#8217;ll reply within two business days (usually earlier). Or drop by our offices between 9am and 6pm Monday through Friday. We&#8217;re located in the TIZ Building, next door to the European Space Operations Centre (ESOC), in Darmstadt, Germany.</p>
+        </div>
+        <form action="/contact.php" method="post">
+            <input type="hidden" name="site" value="Aerospace">
+            <input type="hidden" name="referer" value="">
+            <p class="textfield autoclear">
+                <label for="name" class="autoclear">Your name...</label>
+                <input type="text" name="name" id="name" value="">
+            </p>
+            <p class="textfield autoclear">
+                <label for="email" class="autoclear">Your email address...</label>
+                <input type="text" name="email" id="email" value="">
+            </p>
+            <p class="textarea autoclear">
+                <label for="message" class="autoclear">What would you like to talk about?</label>
+                <textarea name="message" id="message"></textarea>
+                <a href="#" class="submit"><span>Send</span></a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<div id="footer" class="container">
+    <ul>
+        <li><span title="This is Makalu Interactive">Makalu Aerospace</span></li>
+        <li><a href="http://www.makalumedia.com/interactive" title="Go to Makalu Interactive" class="interactive">Makalu Interactive</a></li>
+    </ul>
+    <p>&copy; 2010 MakaluMedia GmbH. All Rights Reserved.</p>
+    <img class="aerospace" src="pageAImages/logo-mini.png" alt="Makalu Aerospace">
+    <img class="interactive" src="pageAImages/logo-interactive-mini.png" alt="Makalu Interactive">
+    <a class="twitter" href="http://www.twitter.com/makalu">
+        <span>Follow us on Twitter</span>
+    </a>
+</div>
+
+<div id="corner-top-left" class="corner"></div>
+<div id="corner-top-right" class="corner"></div>
+<div id="corner-bottom-left" class="corner"></div>
+<div id="corner-bottom-right" class="corner"></div>
+</div>
+</body>
+</html>

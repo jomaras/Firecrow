@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
+    
+
     <link href="css/makalu.css" rel="stylesheet"/>
 
     <script charset="utf-8" type="text/javascript">
@@ -989,8 +992,7 @@
       {
         var opt = speed && typeof speed === 'object' ? 0 : {
           complete: fn || (!fn && easing) || jQuery.isFunction(speed), 
-          duration: speed, 
-          easing: fn || easing
+          duration: speed
         };
         opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : 0;
         if(opt.queue == null)
@@ -1025,7 +1027,7 @@
       cur: function()
       {
         var parsed, r = jQuery.css(this.elem, this.prop);
-        return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
+        return isNaN(parsed = parseFloat(r)) ? !r || r === 'auto' ? 0 : 0 : parsed;
       }, 
       custom: function(from, to, unit)
       {
@@ -1456,6 +1458,11 @@
     <img alt="Makalu Interactive" src="images/logo-interactive-mini.png" class="interactive"/>
     
 </div>
+
+
+
+
+
 </div>
 
 </body>

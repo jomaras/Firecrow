@@ -12,13 +12,12 @@
         This is the extracted content
     </div>
     <script>
-         function returnString()
+         try
          {
-            return " Returned by JS function";
+             var extractContainer = document.getElementById("extractContainer");
+             extractContainer.textContent += ' Written by JS';
          }
-
-         var extractContainer = document.getElementById("extractContainer");
-         extractContainer.textContent += returnString();
+         catch(e){}
     </script>
 </body>
 </html>
