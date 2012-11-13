@@ -378,6 +378,14 @@ fcSimulator.DependencyCreator.prototype =
         {
             var declarator = forInWhereConstruct.left.declarations[0];
 
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                declarator.id,
+                property.lastModificationPosition.codeConstruct,
+                evaluationPosition,
+                property.lastModificationPosition.evaluationPositionId
+            );
+
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator, forInWhereConstruct.right, evaluationPosition);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator.id, forInWhereConstruct.right, evaluationPosition);
         }
