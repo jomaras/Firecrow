@@ -25,8 +25,14 @@
 
                 summ[item]++;
             }
+            var res = "";
 
-            cont.textContent = JSON.stringify(summ);
+            for(var i in summ)
+            {
+                res += i + " : " + summ[i] + "; ";
+            }
+
+            cont.textContent = res;
         };
 
         window.onload = function() {

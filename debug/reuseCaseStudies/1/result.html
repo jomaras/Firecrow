@@ -3,7 +3,107 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 <title>Josip Maras - Home page</title>
-<link type="text/css" rel="Stylesheet" href="styles/mainStyle.css"/>
+<style>
+    ._OR_ html, body, html, body._OR_ { height: 100%; }
+    ._OR_ body, body._OR_ { margin: 0px; padding: 0px; background-image: url("pageBImages/bodyBackground.png"); background-repeat: repeat; font-family: Verdana; color: white; border: 0px none; outline: 0px none; line-height: 1; }
+    ._OR_ body:before, body:before._OR_ { content: ""; height: 100%; float: left; width: 0px; margin-top: -32767px; }
+    #wrap { min-height: 100%; margin: 0px; padding: 0px; }
+    ._OR_ img, img._OR_ { border-width: 0px; border-style: none; }
+    ._OR_ ul, ul._OR_ { margin: 0px; list-style: none outside none; }
+    ._OR_ li, li._OR_ { list-style: none outside none; }
+    ._OR_ a, a:hover, a:visited, a, a:hover, a:visited._OR_ { color: rgb(224, 224, 224); text-decoration: none; }
+    ._OR_ a img, a img._OR_ { border: medium none; }
+    #headerContainer { width: 100%; height: 61px; background-image: url("pageBImages/headerBackground.png"); min-width: 810px; }
+    #headerContainer #menuContainer {  }
+    #menuContainer ul li { display: inline; list-style: none outside none; }
+    #menuContainer #menu li a { float: left; height: 61px; overflow: hidden; outline: medium none ! important; background-image: url("pageBImages/mainMenu.png"); background-repeat: no-repeat; text-decoration: none; }
+    #menuContainer #menu .homeMenuItem a { background-position: 0px 0px; width: 96px; }
+    #menuContainer #menu .notesMenuItem a { background-position: -96px 0px; width: 120px; }
+    #menuContainer #menu .publicationsMenuItem a { background-position: -216px 0px; width: 180px; }
+    #menuContainer #menu .appMenuItem a { background-position: -396px 0px; width: 120px; }
+    #menuContainer #menu .aboutMenuItem a { background-position: -517px 0px; width: 120px; }
+    #menuContainer #menu .homeMenuItem a:hover { background-position: 0px -61px; }
+    #menuContainer #menu .notesMenuItem a:hover { background-position: -96px -61px; }
+    #menuContainer #menu .publicationsMenuItem a:hover { background-position: -216px -61px; }
+    #menuContainer #menu .appMenuItem a:hover { background-position: -396px -61px; }
+    #menuContainer #menu .aboutMenuItem a:hover { background-position: -517px -61px; }
+    #menuContainer #menu .homeMenuItem a:active, #menuContainer #menu .homeMenuItemActive a { background-position: 0px -122px; width: 96px; }
+    #menuContainer #menu .notesMenuItem a:active, #menuContainer #menu .notesMenuItemActive a { background-position: -96px -122px; width: 120px; }
+    #menuContainer #menu .publicationsMenuItem a:active, #menuContainer #menu .publicationsMenuItemActive a { background-position: -216px -122px; width: 180px; }
+    #menuContainer #menu .appMenuItem a:active, #menuContainer #menu .appMenuItemActive a { background-position: -396px -122px; width: 120px; }
+    #menuContainer #menu .aboutMenuItem a:active, #menuContainer #menu .aboutMenuItemActive a { background-position: -517px -122px; width: 120px; }
+    #headerContainer > #breadcrumbContainer { float: right; width: 300px; height: 30px; margin: 29px 40px 0px 0px; }
+    #centralContainer { width: 1024px; background-image: url("pageBImages/content-container-background.png"); background-repeat: repeat-y; margin: 0px auto; display: table; overflow: auto; padding-bottom: 35px; height: 100%; }
+    #centralContainer #titleContainer { width: 100%; margin-left: 10px; }
+    #centralContainer > #centralContentContainer { float: left; width: 760px; }
+    #centralContainer > #sidebarContentContainer { float: left; }
+    .sideContainer { float: right; width: 215px; margin-top: 5px; display: block; color: rgb(224, 224, 224); }
+    .sideContainerTop { background-image: url("pageBImages/sidebox-top.png"); width: 246px; height: 39px; vertical-align: top; }
+    .sideContainerTop h4 { margin-left: 18px; margin-top: 2px; padding-top: 10px; }
+    .sideContainerMiddle { background-image: url("pageBImages/sidebox-middle.png"); width: 246px; background-repeat: repeat-y; }
+    .sideContainerMiddle ul { margin: 0px; padding: 0px; list-style-type: none; }
+    .sideContainerMiddle ul li { margin-left: 26px; margin-right: 26px; border-bottom: 1pt solid rgb(27, 30, 32); }
+    .sideItem a { color: rgb(224, 224, 224); text-decoration: none; font-size: 12pt; }
+    .sideItem a:visited { color: rgb(224, 224, 224); }
+    .sideItem .descriptionContainer { vertical-align: middle; }
+    .sideDescription {  }
+    .sideDescription .description { font-size: 8pt; }
+    .sideContainerBottom { background-image: url("pageBImages/sidebox-bottom.png"); background-repeat: no-repeat; width: 246px; height: 26px; }
+    #footerContainer { border-color: rgb(88, 98, 115); border-top: 1px solid rgb(88, 98, 115); background-color: rgb(71, 77, 86); height: 36px; position: relative; margin-top: -37px; clear: both; }
+    #footerContainer p { margin: 10px; }
+    #appsContent { margin: 10px; }
+    .videoContainer { margin: 10px 70px; }
+    ._OR_ h2, h2._OR_ { color: rgb(224, 224, 224); }
+    #firecrowExampleList { padding-left: 5px; }
+    #firecrowExampleList .imageLinkContainer { margin: 10px 10px 10px 0px; background-image: url("pageBImages/imageFrame.png"); position: relative; height: 148px; width: 228px; float: left; }
+    #firecrowExampleList .imageLinkContainer .imageLinkTitleContainer a { display: table; margin: 7pt auto; }
+    #firecrowExampleList .imageLinkContainer .imageLinkTitleContainer a:hover { text-decoration: underline; }
+    #firecrowExampleList .imageLinkContainer:hover { cursor: pointer; }
+    #firecrowExampleList .imageLinkContainer .maskImage { position: absolute; top: 0px; left: 0px; display: block; }
+    #firecrowExampleList .imageLinkContainer .data { display: none; }
+    #firecrowExampleList .imageLinkContainer img { margin: 7px 0px 0px 11px; }
+    .modalContent { display: none; }
+    #simplemodal-overlay { background-color: rgb(0, 0, 0); cursor: wait; }
+    #simplemodal-container { background-color: rgb(51, 51, 51); color: rgb(187, 187, 187); }
+    #simplemodal-container a.modalCloseImg { background: url("pageBImages/close.png") no-repeat scroll 0% 0% transparent; width: 30px; height: 30px; display: inline; z-index: 3200; position: absolute; top: -15px; right: -16px; cursor: pointer; }
+    #simplemodal-container .modalContent {  }
+    #gallery { box-shadow: 0px 0px 3px rgb(170, 170, 170); border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; background: url("pageBImages/slideshow/panel.jpg") repeat-x scroll center bottom rgb(255, 255, 255); width: 700px; overflow: hidden; }
+    #slides { height: 400px; width: 700px; overflow: hidden; }
+    .slide { float: left; }
+    #slideMenu { height: 45px; }
+    ._OR_ ul, ul._OR_ { margin: 0px; padding: 0px; }
+    .slideMenuItem { width: 60px; display: inline-block; list-style: none outside none; height: 45px; overflow: hidden; cursor: pointer; color: black; }
+    .slideMenuItem.act, li.act:hover { background: url("pageBImages/slideshow/active_bg.png") no-repeat scroll 0% 0% transparent; }
+    .slideMenuItem.act a { cursor: default; }
+    .fbar { width: 2px; background: url("pageBImages/slideshow/divider.png") no-repeat scroll right center transparent; }
+    .slideMenuItem a { display: block; background: url("pageBImages/slideshow/divider.png") no-repeat scroll right center transparent; height: 35px; padding-top: 10px; color: black; }
+    .slideMenuItem a:visited { color: black; }
+    ._OR_ a img, a img._OR_ { border: medium none; }
+    #galleryContainer { margin: 0px auto; text-align: center; width: 700px; height: 443px; }
+    #infoContainer { margin: 15px; }
+    #paginator { clear: both; }
+    #paginator ul { margin: 0px auto; display: table; }
+    #paginator ul li { display: inline; list-style: none outside none; margin: 2px; }
+    #paginator .pageNumber { background-color: rgb(24, 30, 41); width: 35px; height: 35px; display: inline-table; text-align: center; }
+    #paginator .selected div { text-decoration: underline; }
+    #paginator .pageNumber:hover { background-color: rgb(27, 37, 53); }
+    #paginator .selected:hover { background-color: rgb(24, 30, 41); }
+    #paginator .pageNumber div { margin-top: 8px; }
+    #slider { width: 733px; height: 395px; background-image: url("pageBImages/billboards-bg.png"); background-repeat: no-repeat; margin-left: 5px; margin-top: 5px; margin-bottom: 5px; }
+    #featureImageContainer { width: 720px; height: 325px; }
+    #featureImageContainer img { margin: 3px; width: 720px; height: 325px; }
+    #featureSelectorContainer a { background-image: url("pageBImages/billboard-pager.png"); width: 20px; height: 20px; display: block; outline: medium none; cursor: pointer; background-repeat: no-repeat; }
+    .featureTitle, .billboardTitle { height: 20px; font-weight: bold; }
+    .featureDescription { margin-left: 10px; margin-top: 7px; width: 580px; padding-top: 8px; }
+    #featureSelectorContainer .active { background-position: 0px -41px; }
+    #featureSelectorContainer a:hover { background-position: 0px -20px; }
+    #featureSelectorContainer .active:hover { background-position: 0px -41px; }
+    #slider .featureTitle { margin-top: 0px; margin-left: 10px; }
+    #disclaimerBox { width: 707px; background-image: url("pageBImages/Warning.png"); height: 136px; margin-left: 5px; }
+    #appsList { margin-left: 5px; }
+    #appsList p { text-align: justify; }
+    #appsList ul li { border-bottom: thin solid white; }
+</style>
 
 
 
@@ -289,7 +389,7 @@
         return jQuery;
     })();
     var flagsCache = {};
-    function(flags)
+    function createFlags (flags)
     {
         var object = flagsCache[flags] = {}, i, length;
         flags = flags.split(/\s+/);
@@ -436,7 +536,7 @@
         acceptData: function()
         {}
     });
-    function(obj)
+    function isEmptyDataObject (obj)
     {
         for(var name in obj)
         {
@@ -710,7 +810,7 @@
             this.type = src.type;
         }
     };
-    function()
+    function returnFalse()
     {
         return false;
     }
@@ -839,6 +939,7 @@
                             {
                                 return makeArray(context.querySelectorAll(query), extra);
                             }
+                            catch(e){}
                         }
                     }
                 };
@@ -919,6 +1020,7 @@
                     {
                         style[name] = value;
                     }
+                    catch(e) {}
                 }
             }
             else
@@ -1033,7 +1135,7 @@
         {
             var optall = jQuery.speed(speed, easing, callback);
             prop = jQuery.extend({}, prop);
-            function()
+            function doAnimation()
             {
                 var opt = jQuery.extend({}, optall), name, val, p, e, method;
                 opt.animatedProperties = {};
@@ -1072,16 +1174,16 @@
         stop: function()
         {}
     });
-    function()
+    function createFxNow()
     {
         setTimeout(clearFxNow, 0);
         return fxNow = jQuery.now();
     }
-    function()
+    function clearFxNow()
     {
         fxNow = undefined;
     }
-    function()
+    function genFx()
     {
         var obj = {};
         return obj;
@@ -1161,7 +1263,7 @@
             this.end = to;
             this.start = from;
             this.unit = unit || this.unit || (jQuery.cssNumber[this.prop] ? '' : 0);
-            function(gotoEnd)
+            function t(gotoEnd)
             {
                 return self.step(gotoEnd);
             }
@@ -1290,7 +1392,7 @@
             clickedButton = activeButtons[0];
         }
 
-        var featuresArray = [{imagePath: 'images/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {imagePath: 'images/features/PrIDE0.5.png', title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
+        var featuresArray = [{imagePath: 'pageAImages/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {imagePath: 'pageAImages/features/PrIDE0.5.png', title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
         var buttons = $('#featureSelectorContainer a');
         buttons.click(function(eventArgs)
         {
@@ -1310,7 +1412,7 @@
             changeFeature(buttonIndex);
             return false;
         });
-        function(newFeatureIndex)
+        function changeFeature(newFeatureIndex)
         {
             var feature = featuresArray[newFeatureIndex];
             var titles = $('.featureTitle');
@@ -1341,7 +1443,18 @@
         }
     });
 </script>
-<link href="styles/mainStyle.css" type="text/css" rel="Stylesheet" origin="reuse"/>
+<style origin="reuse">
+    #slider { width: 733px; height: 395px; background-image: url('pageAImages/billboards-bg.png'); background-repeat: no-repeat; margin-left: 2px; margin-top: 5px; margin-bottom: 5px; }
+    ._RU_ td, td._RU_ { vertical-align: top; }
+    #featureContainer { width: 720px; height: 325px; }
+    #featureContainer img, #featureContainer .video { margin: 3px; width: 720px; height: 325px; }
+    #featureSelectorContainer a { background-image: url('pageAImages/billboard-pager.png'); width: 20px; height: 20px; display: block; outline: medium none; }
+    .featureTitle, .billboardTitle { height: 20px; font-weight: bold; }
+    .featureDescription { margin-left: 10px; margin-top: 7px; width: 580px; }
+    #featureSelectorContainer .active { background-position: 0px -41px; }
+    #slider .featureTitle { margin-top: 0px; margin-left: 10px; }
+    #slider a { color: rgb(245, 146, 19); }
+</style>
 </head><body>
 <div id="wrap" class="_OR_">
     <div id="headerContainer">
@@ -1376,7 +1489,7 @@
                         <table origin="reuse">
                             <tbody origin="reuse"><tr origin="reuse">
                                 <td id="featureContainer" colspan="2" origin="reuse">
-                                    <img alt="picture" src="reuse/images/features/PrIDE.png" origin="reuse"/></td>
+                                    <img alt="picture" src="pageAImages/features/PrIDE.png" origin="reuse"/></td>
                             </tr>
                             <tr origin="reuse">
                                 <td align="left" origin="reuse">
@@ -1450,7 +1563,7 @@
                             <div class="sideItem">
                                 <table>
                                     <tbody><tr>
-                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-Firecrow"><img height="40px" alt="image" src="images/firecrow.png"/></a></td>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-Firecrow"><img height="40px" alt="image" src="pageBImages/firecrow.png"/></a></td>
                                         <td class="descriptionContainer"><a href="?id=app-Firecrow" class="sideDescription">Firecrow<br/>
                                             <span class="description">Firecrow web page</span></a></td>
                                     </tr>
@@ -1462,7 +1575,7 @@
                             <div class="sideItem">
                                 <table>
                                     <tbody><tr>
-                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-Firedoc"><img height="40px" alt="image" src="images/Download-icon.png"/></a></td>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-Firedoc"><img height="40px" alt="image" src="pageBImages/Download-icon.png"/></a></td>
                                         <td class="descriptionContainer"><a href="?id=app-Firedoc" class="sideDescription">Firedoc<br/>
                                             <span class="description">Firedoc web page</span></a></td>
                                     </tr>
@@ -1474,7 +1587,7 @@
                             <div class="sideItem">
                                 <table>
                                     <tbody><tr>
-                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-phpModeler"><img height="40px" alt="image" src="images/Download-icon.png"/></a></td>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-phpModeler"><img height="40px" alt="image" src="pageBImages/Download-icon.png"/></a></td>
                                         <td class="descriptionContainer"><a href="?id=app-phpModeler" class="sideDescription">phpModeler<br/>
                                             <span class="description">phpModeler web page</span></a></td>
                                     </tr>
@@ -1486,7 +1599,7 @@
                             <div class="sideItem">
                                 <table>
                                     <tbody><tr>
-                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-ase"><img height="40px" alt="image" src="images/publication.png"/></a></td>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-ase"><img height="40px" alt="image" src="pageBImages/publication.png"/></a></td>
                                         <td class="descriptionContainer"><a href="?id=app-ase" class="sideDescription">ASE 2011<br/>
                                             <span class="description">ASE materials</span></a></td>
                                     </tr>
@@ -1514,8 +1627,6 @@
             <tbody origin="reuse"><tr origin="reuse">
 
                 <td style="width: 733px;" origin="reuse">
-
-
 
 
 

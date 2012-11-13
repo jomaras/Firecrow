@@ -396,6 +396,11 @@ Firecrow.ASTHelper =
     {
         var clone = {};
 
+        if(originalNode.type == "FunctionDeclaration")
+        {
+            var a = 3;
+        }
+
         for(var prop in originalNode)
         {
             if(!Firecrow.ValueTypeHelper.isObject(originalNode[prop]) || originalNode[prop] instanceof RegExp || prop == "comments")

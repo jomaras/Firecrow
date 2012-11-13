@@ -12,16 +12,13 @@
         This is the extracted content
     </div>
     <script>
-        var extractContainer = document.getElementById("extractContainer");
-        var obj = { a: "created", b: "by Javascript For In"};
+         function returnString()
+         {
+            return " Returned by JS function";
+         }
 
-        var text = "";
-        for(var prop in obj)
-        {
-            text += obj[prop] + " ";
-        }
-
-        extractContainer.textContent += text;
+         var extractContainer = document.getElementById("extractContainer");
+         extractContainer.textContent += returnString();
     </script>
 </body>
 </html>

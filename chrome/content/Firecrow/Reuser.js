@@ -506,8 +506,9 @@ Firecrow.ConflictFixer =
     },
 
     _wrapInReuseFolder: function(path)
-    {
-        return "reuse/" + path;
+    {     //TODO
+        //return "reuse/" + path;
+        return path;
     },
 
     _fixResourceConflictsInJs: function(reusedAppGraph, reusedAppBrowser)

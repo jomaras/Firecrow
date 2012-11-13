@@ -125,7 +125,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         functionDecExp.shouldBeIncluded = true;
         functionDecExp.body.shouldBeIncluded = true;
 
-        if(functionDecExp.id != null) { functionDecExp.shouldBeIncluded = true; }
+        if(functionDecExp.id != null) { functionDecExp.id.shouldBeIncluded = true; }
 
         this.processFunctionBody(functionDecExp);
     },
