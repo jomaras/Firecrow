@@ -175,7 +175,10 @@ fcSimulator.ExecutionContextStack.prototype =
                 this.evaluator.evaluateCommand(command);
             }
         }
-        catch(e) { this.notifyError("Error when executing command: " + e); }
+        catch(e)
+        {
+            this.notifyError("Error when executing command: " + e);
+        }
     },
 
     registerIdentifier: function(variableDeclarator)

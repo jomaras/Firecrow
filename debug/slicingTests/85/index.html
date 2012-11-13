@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <img src="C.jpg" id="image"/>
+    <script>
+        var image = document.getElementById("image");
+        HTMLImageElement.prototype.getSource = function() { return this.src; }
+
+        var a1 = image.getSource().indexOf("C.jpg") != -1;
+        a1;
+    </script>
+</body>
+</html>

@@ -51,6 +51,7 @@ load:
   - ../chrome/content/Firecrow/interpreter/model/internal/Number.js
   - ../chrome/content/Firecrow/interpreter/model/internal/String.js
   - ../chrome/content/Firecrow/interpreter/model/internal/Image.js
+  - ../chrome/content/Firecrow/interpreter/model/internal/HTMLImageElement.js
   - ../chrome/content/Firecrow/interpreter/simulator/VariableObject.js
   - ../chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js
   - ../chrome/content/Firecrow/interpreter/simulator/Evaluator.js

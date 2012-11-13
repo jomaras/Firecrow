@@ -89,9 +89,17 @@ fcSimulator.InternalExecutor.prototype =
             evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
         };
 
+        var fcHtmlElement = new fcModel.HtmlElement(jsElement, this.globalObject, creationConstruct);
+
+        if(jsElement instanceof HTMLImageElement)
+        {
+            fcHtmlElement.addProperty("__proto__", this.globalObject.htmlImageElementPrototype);
+            fcHtmlElement.proto = this.globalObject.htmlImageElementPrototype;
+        }
+
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(creationConstruct, jsElement.modelElement, this.globalObject.getPreciseEvaluationPositionId());
 
-        return new fcModel.JsValue(jsElement, new fcModel.FcInternal(creationConstruct, new fcModel.HtmlElement(jsElement, this.globalObject, creationConstruct)));
+        return new fcModel.JsValue(jsElement, new fcModel.FcInternal(creationConstruct, fcHtmlElement));
     },
 
     createTextNode: function(creationConstruct, textContent)

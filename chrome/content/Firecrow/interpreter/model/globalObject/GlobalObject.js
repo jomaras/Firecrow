@@ -331,6 +331,7 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
     this.stringPrototype = new fcModel.StringPrototype(this);
     this.numberPrototype = new fcModel.NumberPrototype(this);
     this.datePrototype = new fcModel.DatePrototype(this);
+    this.htmlImageElementPrototype = new fcModel.HTMLImageElementPrototype(this);
 };
 
 fcModel.GlobalObject.prototype._createInternalFunctions = function()
@@ -384,6 +385,10 @@ fcModel.GlobalObject.prototype._createInternalObjects = function()
 
     this.addProperty("location", this.internalExecutor.createLocationObject());
     this.addProperty("navigator", this.internalExecutor.createNavigatorObject());
+
+    this.fcHTMLImageElement = new fcModel.HTMLImageElement(this);
+    this.htmlImageElement = new fcModel.JsValue(this.fcHTMLImageElement, new fcModel.FcInternal(null, this.fcHTMLImageElement));
+    this.addProperty("HTMLImageElement", this.htmlImageElement, null);
 };
 
 fcModel.GlobalObject.prototype._createInternalVariables = function()

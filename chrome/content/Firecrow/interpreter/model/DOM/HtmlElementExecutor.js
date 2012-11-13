@@ -101,7 +101,13 @@ fcModel.HtmlElementExecutor =
             if(ValueTypeHelper.isOfType(item, HTMLElement) || ValueTypeHelper.isOfType(item, DocumentFragment))
             {
                 var fcHtmlElement = globalObject.document.htmlElementToFcMapping[item.fcHtmlElementId]
-                    || new fcModel.HtmlElement(item, globalObject, codeConstruct);
+                                 || new fcModel.HtmlElement(item, globalObject, codeConstruct);
+
+                if(item instanceof HTMLImageElement)
+                {
+                    fcHtmlElement.addProperty("__proto__", globalObject.htmlImageElementPrototype);
+                    fcHtmlElement.proto = globalObject.htmlImageElementPrototype;
+                }
 
                 return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, fcHtmlElement));
             }
