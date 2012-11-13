@@ -33,13 +33,12 @@ Firecrow.Reuser =
             var mergedHtmlElement = this._cloneShallowMarkConflicts(reuseIntoAppModel.htmlElement, reusedAppModel.htmlElement);
 
             mergedModel.htmlElement = mergedHtmlElement;
-            mergedModel.children = [mergedHtmlElement];
-
+            mergedModel.childNodes = [mergedHtmlElement];
 
             var reusedHeadNode = this.getHeadElement(reusedAppModel);
             var reuseIntoHeadNode = this.getHeadElement(reuseIntoAppModel);
             var mergedHeadNode = this._cloneShallowMarkConflicts(reuseIntoHeadNode, reusedHeadNode);
-            mergedHtmlElement.children.push(mergedHeadNode);
+            mergedHtmlElement.childNodes.push(mergedHeadNode);
             this._createChildren(mergedHeadNode, reuseIntoHeadNode);
             this._createChildren(mergedHeadNode, reusedHeadNode, "reuse");
 
@@ -47,7 +46,7 @@ Firecrow.Reuser =
             var reusedBodyNode = this.getBodyElement(reusedAppModel);
             var reuseIntoBodyNode = this.getBodyElement(reuseIntoAppModel);
             var mergedBodyNode = this._cloneShallowMarkConflicts(reuseIntoBodyNode, reusedBodyNode);
-            mergedHtmlElement.children.push(mergedBodyNode);
+            mergedHtmlElement.childNodes.push(mergedBodyNode);
             this._createChildren(mergedBodyNode, reuseIntoBodyNode, null, hasFixedCssConflicts);
             this._createChildren(mergedBodyNode, reusedBodyNode, "reuse", hasFixedCssConflicts);
 
@@ -57,6 +56,8 @@ Firecrow.Reuser =
             }
 
             this._moveNodesTo(mergedModel, reuseSelectors, reuseIntoDestinationSelectors);
+
+            Firecrow.ASTHelper.setParentsChildRelationships(mergedModel);
 
             return mergedModel;
 
@@ -83,22 +84,22 @@ Firecrow.Reuser =
             if(node.parent == newParent) { continue; }
 
             //remove from previous position
-            Firecrow.ValueTypeHelper.removeFromArrayByElement(node.parent.children, node);
+            Firecrow.ValueTypeHelper.removeFromArrayByElement(node.parent.childNodes, node);
 
-            newParent.children.push(node);
+            newParent.childNodes.push(node);
             node.parent = newParent;
         }
     },
 
     _getNodesBySelectors: function(node, selectors)
     {
-        if(node == null || node.children == null || node.children.length == 0) { return []; }
+        if(node == null || node.childNodes == null || node.childNodes.length == 0) { return []; }
 
         var resultingNodes = [];
 
-        for(var i = 0; i < node.children.length; i++)
+        for(var i = 0; i < node.childNodes.length; i++)
         {
-            var child = node.children[i];
+            var child = node.childNodes[i];
 
             if(this._matchesSelectors(child, selectors))
             {
@@ -181,11 +182,11 @@ Firecrow.Reuser =
 
     _createChildren: function(mergedNode, originalNode, origin, hasFixedCssConflicts)
     {
-        if(mergedNode == null || originalNode == null || originalNode.children == null || originalNode.children.length == 0) { return; }
+        if(mergedNode == null || originalNode == null || originalNode.childNodes == null || originalNode.childNodes.length == 0) { return; }
 
-        for(var i = 0; i < originalNode.children.length; i++)
+        for(var i = 0; i < originalNode.childNodes.length; i++)
         {
-            var child = originalNode.children[i];
+            var child = originalNode.childNodes[i];
 
             if(origin == "reuse" && (child.type == "title" || !child.shouldBeIncluded)) { continue; }
 
@@ -202,7 +203,7 @@ Firecrow.Reuser =
                 this._appendDifferentiatingStructureClassAttribute(mergedChild, origin);
             }
 
-            mergedNode.children.push(mergedChild);
+            mergedNode.childNodes.push(mergedChild);
 
             if(mergedChild.type == "script" || mergedChild.type == "style" || mergedChild.type == "link")
             {
@@ -309,7 +310,7 @@ Firecrow.Reuser =
         if(model == null) { return null; }
         if(model.htmlElement == null) { return null; }
 
-        var children = model.htmlElement.children;
+        var children = model.htmlElement.childNodes;
 
         for(var i = 0; i < children.length; i++)
         {
@@ -327,7 +328,7 @@ Firecrow.Reuser =
         if(model == null) { return null; }
         if(model.htmlElement == null) { return null; }
 
-        var children = model.htmlElement.children;
+        var children = model.htmlElement.childNodes;
 
         for(var i = 0; i < children.length; i++)
         {
@@ -393,8 +394,7 @@ Firecrow.Reuser =
 
         if(node.textContent != null) { clonedNode.textContent = node.textContent; }
 
-        clonedNode.children = [];
-        clonedNode.childNodes = clonedNode.children;
+        clonedNode.childNodes = [];
 
         return clonedNode;
     },
@@ -573,7 +573,6 @@ Firecrow.ConflictFixer =
         var handlerMapperScript = Firecrow.ValueTypeHelper.deepClone(Firecrow.Reuser.Templates._HANDLER_MAPPER_SCRIPT_CREATION_TEMPLATE);
 
         Firecrow.ValueTypeHelper.insertIntoArrayAtIndex(headElement.childNodes, handlerMapperScript, 0);
-        Firecrow.ValueTypeHelper.insertIntoArrayAtIndex(headElement.children, handlerMapperScript, 0);
 
         var bodyElement = Firecrow.Reuser.getBodyElement(reusePageModel);
 
@@ -587,7 +586,6 @@ Firecrow.ConflictFixer =
         };
 
         bodyElement.childNodes.push(scriptInvokerScriptElement);
-        bodyElement.children.push(scriptInvokerScriptElement);
     },
 
     _replaceWithFirecrowHandler: function(codeConstruct)

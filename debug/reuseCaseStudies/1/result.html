@@ -486,7 +486,8 @@ function(window, undefined)
     });
     function(obj)
     {
-        for(var name in obj)
+        for(      var name;
+                in obj)
         {
             if(name !== 'toJSON')
             {

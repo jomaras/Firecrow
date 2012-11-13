@@ -103,11 +103,6 @@ fcSimulator.prototype =
         if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { this._processTryCommand(command); }
         if(command.isEvalThrowExpressionCommand()) { this._removeCommandsAfterException(command); }
 
-        if(command.id == 64149)
-        {
-            var a = 3;
-        }
-
         this.executionContextStack.executeCommand(command);
         command.hasBeenExecuted = true;
 
@@ -175,9 +170,10 @@ fcSimulator.prototype =
         {
             var command = this.commands[i];
 
-            if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand() || command.isEndLoopStatementCommand()) { break;}
+            if(!command.isEndSwitchStatementCommand() && !command.isEndLoopStatementCommand()) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
+            else{i++;}
 
-            ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+            if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) { break;}
         }
     },
 
@@ -187,9 +183,10 @@ fcSimulator.prototype =
         {
             var command = this.commands[i];
 
-            if(command.isLoopStatementCommand() || command.isForUpdateStatementCommand() || command.isEndLoopStatementCommand()) { break; }
+            if(!command.isForUpdateStatementCommand() && !command.isEndLoopStatementCommand()) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
+            else{i++;}
 
-            ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+            if(command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) { break;}
         }
     },
 
