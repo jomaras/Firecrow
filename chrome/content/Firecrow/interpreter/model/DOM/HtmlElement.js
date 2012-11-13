@@ -157,12 +157,7 @@ fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruc
 
         if(element == null) { return; }
 
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-        (
-            getPropertyConstruct,
-            element.modelElement,
-            evaluationPositionId
-        );
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, element.modelElement, evaluationPositionId);
     }
 };
 

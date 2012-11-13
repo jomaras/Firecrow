@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 <title>Josip Maras - Home page</title>
-<link type="text/css" rel="Stylesheet" href="styles/mainStyle.css" />
+<link type="text/css" rel="Stylesheet" href="styles/mainStyle.css"/>
+
+
+
+
 <script type="text/javascript" origin="reuse">
-function(window, undefined)
+(function(window, undefined)
 {
     var document = window.document;
-    var jQuery = function()
+    var jQuery = (function()
     {
         var jQuery = function(selector, context)
-                {
-                    return new jQuery.fn.init(selector, context, rootjQuery);
-                }
-                , rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function()
-                {}
-                , readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
+        {
+            return new jQuery.fn.init(selector, context, rootjQuery);
+        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function()
+        {}, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
         jQuery.fn = jQuery.prototype = {
             constructor: jQuery,
             init: function(selector, context, rootjQuery)
@@ -42,7 +44,7 @@ function(window, undefined)
                         match = quickExpr.exec(selector);
                     }
 
-                    if(match && match[1] || !context)
+                    if(match && (match[1] || !context))
                     {
                         if(match[1]);
                         else
@@ -57,17 +59,16 @@ function(window, undefined)
                             return this;
                         }
                     }
-                    else             if(!context)
+                    else if(!context)
                     {
                         return (context || rootjQuery).find(selector);
                     }
                 }
-                else           if(jQuery.isFunction(selector))
+                else if(jQuery.isFunction(selector))
                 {
                     return rootjQuery.ready(selector);
                 }
-            }
-            ,
+            },
             selector: '',
             jquery: '1.7.2',
             length: 0,
@@ -84,23 +85,20 @@ function(window, undefined)
                 ret.context = this.context;
                 if(name === 'find')
                 {
-                    ret.selector = this.selector + this.selector ? 0 : '' + selector;
+                    ret.selector = (this.selector + (this.selector ? 0 : '')) + selector;
                 }
 
                 return ret;
-            }
-            ,
+            },
             each: function(callback, args)
             {
                 return jQuery.each(this, callback, args);
-            }
-            ,
+            },
             ready: function(fn)
             {
                 jQuery.bindReady();
                 readyList.add(fn);
-            }
-            ,
+            },
             push: push
         };
         jQuery.fn.init.prototype = jQuery.fn;
@@ -115,13 +113,13 @@ function(window, undefined)
 
             for(;i < length;i++)
             {
-                if(options = arguments[i] != null)
+                if((options = arguments[i]) != null)
                 {
                     for(name in options)
                     {
                         copy = options[name];
                         if(deep);
-                        else               if(copy !== undefined)
+                        else if(copy !== undefined)
                         {
                             target[name] = copy;
                         }
@@ -130,20 +128,17 @@ function(window, undefined)
             }
 
             return target;
-        }
-        ;
+        };
         jQuery.extend({
             noConflict: function()
-            {}
-            ,
+            {},
             isReady: false,
             readyWait: 1,
             holdReady: function()
-            {}
-            ,
+            {},
             ready: function(wait)
             {
-                if(wait === true || wait !== true && !(jQuery.isReady))
+                if(wait === true || (wait !== true && !(jQuery.isReady)))
                 {
                     readyList.fireWith(document, []);
                     if(jQuery.fn.trigger)
@@ -151,8 +146,7 @@ function(window, undefined)
                         jQuery(document).trigger('ready').off('ready');
                     }
                 }
-            }
-            ,
+            },
             bindReady: function()
             {
                 readyList = jQuery.Callbacks('once memory');
@@ -160,58 +154,43 @@ function(window, undefined)
                 {
                     document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
                 }
-            }
-            ,
+            },
             isFunction: function(obj)
             {
                 return jQuery.type(obj) === 'function';
-            }
-            ,
+            },
             isArray: Array.isArray || function(obj)
             {
                 return jQuery.type(obj) === 'array';
-            }
-            ,
+            },
             isWindow: function()
-            {}
-            ,
+            {},
             isNumeric: function()
-            {}
-            ,
+            {},
             type: function(obj)
             {
                 return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
-            }
-            ,
+            },
             isPlainObject: function()
-            {}
-            ,
+            {},
             isEmptyObject: function()
-            {}
-            ,
+            {},
             error: function()
-            {}
-            ,
+            {},
             parseJSON: function()
-            {}
-            ,
+            {},
             parseXML: function()
-            {}
-            ,
+            {},
             noop: function()
-            {}
-            ,
+            {},
             globalEval: function()
-            {}
-            ,
+            {},
             camelCase: function(string)
             {
                 return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
-            }
-            ,
+            },
             nodeName: function()
-            {}
-            ,
+            {},
             each: function(object, callback, args)
             {
                 var name, i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
@@ -235,13 +214,11 @@ function(window, undefined)
                 }
 
                 return object;
-            }
-            ,
+            },
             trim: trim ? function(text)
             {
                 return text == null ? 0 : trim.call(text);
-            }
-                    : 0,
+            } : 0,
             makeArray: function(array, results)
             {
                 var ret = results || [];
@@ -255,32 +232,26 @@ function(window, undefined)
                 }
 
                 return ret;
-            }
-            ,
+            },
             inArray: function()
-            {}
-            ,
+            {},
             merge: function(first)
             {
                 var i = first.length;
                 first.length = i;
-            }
-            ,
+            },
             grep: function()
-            {}
-            ,
+            {},
             map: function()
-            {}
-            ,
+            {},
             guid: 1,
             proxy: function()
-            {}
-            ,
+            {},
             access: function(elems, fn, key, value, pass)
             {
                 var exec, i = 0, length = elems.length;
                 if(key && typeof key === 'object');
-                else           if(value !== undefined)
+                else if(value !== undefined)
                 {
                     exec = pass === undefined && jQuery.isFunction(value);
                     if(fn)
@@ -291,39 +262,32 @@ function(window, undefined)
                         }
                     }
                 }
-            }
-            ,
+            },
             now: function()
             {
                 return (new Date()).getTime();
-            }
-            ,
+            },
             uaMatch: function()
-            {}
-            ,
+            {},
             sub: function()
-            {}
-            ,
+            {},
             browser: {}
         });
         jQuery.each('Boolean Number String Function Array Date RegExp Object'.split(' '), function(name)
-                {
-                    class2type['[object ' + name + ']'] = name.toLowerCase();
-                }
-        );
+        {
+            class2type[('[object ' + name) + ']'] = name.toLowerCase();
+        });
         rootjQuery = jQuery(document);
         if(document.addEventListener)
         {
             DOMContentLoaded = function()
             {
                 jQuery.ready();
-            }
-            ;
+            };
         }
 
         return jQuery;
-    }
-            ();
+    })();
     var flagsCache = {};
     function(flags)
     {
@@ -340,77 +304,69 @@ function(window, undefined)
     {
         flags = flags ? flagsCache[flags] || createFlags(flags) : 0;
         var list = [], stack = [], memory, firing, firingStart, firingLength, firingIndex, add = function(args)
+        {
+            var i, length, elem, type;
+            for(i = 0, length = args.length;i < length;i++)
+            {
+                elem = args[i];
+                type = jQuery.type(elem);
+                if(type === 'array');
+                else if(type === 'function')
                 {
-                    var i, length, elem, type;
-                    for(i = 0, length = args.length;i < length;i++)
+                    if(!(flags.unique))
                     {
-                        elem = args[i];
-                        type = jQuery.type(elem);
-                        if(type === 'array');
-                        else           if(type === 'function')
-                        {
-                            if(!(flags.unique))
-                            {
-                                list.push(elem);
-                            }
-                        }
+                        list.push(elem);
                     }
                 }
-                , fire = function(context, args)
+            }
+        }, fire = function(context, args)
+        {
+            args = args;
+            firingIndex = firingStart || 0;
+            firingLength = list.length;
+            for(;list && firingIndex < firingLength;firingIndex++)
+            {
+                if(list[firingIndex].apply(context, args) === false);
+            }
+        }, self = {
+            add: function()
+            {
+                if(list)
                 {
-                    args = args;
-                    firingIndex = firingStart || 0;
-                    firingLength = list.length;
-                    for(;list && firingIndex < firingLength;firingIndex++)
+                    add(arguments);
+                }
+            },
+            fireWith: function(context, args)
+            {
+                if(stack)
+                {
+                    if(firing);
+                    else if(!(flags.once && memory))
                     {
-                        if(list[firingIndex].apply(context, args) === false);
+                        fire(context, args);
                     }
                 }
-                , self = {
-                    add: function()
-                    {
-                        if(list)
-                        {
-                            add(arguments);
-                        }
-                    }
-                    ,
-                    fireWith: function(context, args)
-                    {
-                        if(stack)
-                        {
-                            if(firing);
-                            else             if(!(flags.once && memory))
-                            {
-                                fire(context, args);
-                            }
-                        }
-                    }
-
-                };
+            }
+        };
         return self;
-    }
-    ;
-    function()
+    };
+    (function()
     {
         var documentElement = document.documentElement;
         jQuery(function()
-                {}
-        );
-    }
-    ();
+        {});
+    })();
     jQuery.extend({
         cache: {},
         uuid: 0,
         expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
         noData: {},
         hasData: function()
-        {}
-        ,
+        {},
         data: function(elem, name, data, pvt)
         {
             var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
-            if(!id || !(cache[id]) || !isEvents && !pvt && getByName && data === undefined)
+            if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
             {
                 return ;
             }
@@ -448,8 +404,7 @@ function(window, undefined)
             }
 
             return ret;
-        }
-        ,
+        },
         removeData: function(elem, name, pvt)
         {
             var thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
@@ -467,27 +422,23 @@ function(window, undefined)
                         }
                     }
 
-                    if(!(pvt ? isEmptyDataObject : 0(thisCache)))
+                    if(!((pvt ? isEmptyDataObject : 0)(thisCache)))
                     {
                         return ;
                     }
                 }
             }
-        }
-        ,
+        },
         _data: function(elem, name, data)
         {
             return jQuery.data(elem, name, data, true);
-        }
-        ,
+        },
         acceptData: function()
         {}
-
     });
     function(obj)
     {
-        for(      var name;
-                in obj)
+        for(var name in obj)
         {
             if(name !== 'toJSON')
             {
@@ -497,11 +448,9 @@ function(window, undefined)
     }
     jQuery.extend({
         _mark: function()
-        {}
-        ,
+        {},
         _unmark: function()
-        {}
-        ,
+        {},
         queue: function(elem, type, data)
         {
             var q;
@@ -523,8 +472,7 @@ function(window, undefined)
 
                 return q;
             }
-        }
-        ,
+        },
         dequeue: function(elem, type)
         {
             type = type;
@@ -543,70 +491,53 @@ function(window, undefined)
 
                 jQuery._data(elem, type + '.run', hooks);
                 fn.call(elem, function()
-                        {}
-                        , hooks);
+                {}, hooks);
             }
         }
-
     });
     jQuery.fn.extend({
         queue: function(type, data)
         {
             return data === undefined ? 0 : this.each(function()
-                    {
-                        var queue = jQuery.queue(this, type, data);
-                        if(type === 'fx' && queue[0] !== 'inprogress')
-                        {
-                            jQuery.dequeue(this, type);
-                        }
-                    }
-            );
-        }
-        ,
+            {
+                var queue = jQuery.queue(this, type, data);
+                if(type === 'fx' && queue[0] !== 'inprogress')
+                {
+                    jQuery.dequeue(this, type);
+                }
+            });
+        },
         dequeue: function()
-        {}
-        ,
+        {},
         delay: function()
-        {}
-        ,
+        {},
         clearQueue: function()
-        {}
-        ,
+        {},
         promise: function()
         {}
-
     });
     var rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i, nodeHook;
     jQuery.fn.extend({
         attr: function(name, value)
         {
             return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
-        }
-        ,
+        },
         removeAttr: function()
-        {}
-        ,
+        {},
         prop: function()
-        {}
-        ,
+        {},
         removeProp: function()
-        {}
-        ,
+        {},
         addClass: function()
-        {}
-        ,
+        {},
         removeClass: function()
-        {}
-        ,
+        {},
         toggleClass: function()
-        {}
-        ,
+        {},
         hasClass: function()
-        {}
-        ,
+        {},
         val: function()
         {}
-
     });
     jQuery.extend({
         valHooks: {},
@@ -618,35 +549,31 @@ function(window, undefined)
             if(notxml)
             {
                 name = name.toLowerCase();
-                hooks = jQuery.attrHooks[name] || rboolean.test(name) ? 0 : nodeHook;
+                hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? 0 : nodeHook);
             }
 
             if(value !== undefined)
             {
                 if(value === null);
-                else           if(hooks);
+                else if(hooks);
                 else
                 {
                     elem.setAttribute(name, '' + value);
                 }
             }
-        }
-        ,
+        },
         removeAttr: function()
-        {}
-        ,
+        {},
         attrHooks: {},
         propFix: {},
         prop: function()
-        {}
-        ,
+        {},
         propHooks: {}
     });
     var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
-            {
-                return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
-            }
-            ;
+    {
+        return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
+    };
     jQuery.event = {
         add: function(elem, types, handler, selector)
         {
@@ -664,9 +591,8 @@ function(window, undefined)
             {
                 eventHandle = function(e)
                 {
-                    return typeof jQuery !== 'undefined' && !e || jQuery.event.triggered !== e.type ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
-                }
-                ;
+                    return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
+                };
                 eventHandle.elem = elem;
             }
 
@@ -676,7 +602,7 @@ function(window, undefined)
                 tns = rtypenamespace.exec(types[t]);
                 type = tns[1];
                 special = jQuery.event.special[type] || {};
-                type = selector ? 0 : special.bindType || type;
+                type = (selector ? 0 : special.bindType) || type;
                 special = jQuery.event.special[type] || {};
                 handleObj = jQuery.extend({
                     origType: tns[1],
@@ -702,8 +628,7 @@ function(window, undefined)
                     handlers.push(handleObj);
                 }
             }
-        }
-        ,
+        },
         trigger: function(event, elem)
         {
             var type = event.type || event, i, cur, special, eventPath;
@@ -716,8 +641,7 @@ function(window, undefined)
                 event.type = eventPath[i][1];
                 (jQuery._data(cur, 'events') || {})[event.type];
             }
-        }
-        ,
+        },
         dispatch: function(event)
         {
             event = jQuery.event.fix(event);
@@ -755,23 +679,20 @@ function(window, undefined)
             }
 
             return event.result;
-        }
-        ,
+        },
         fixHooks: {},
         mouseHooks: {
             filter: function(event)
             {
                 return event;
             }
-
         },
         fix: function(event)
         {
             var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
             event = jQuery.Event(originalEvent);
             return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
-        }
-        ,
+        },
         special: {
             ready: {}
         }
@@ -788,8 +709,7 @@ function(window, undefined)
             this.originalEvent = src;
             this.type = src.type;
         }
-    }
-    ;
+    };
     function()
     {
         return false;
@@ -802,8 +722,7 @@ function(window, undefined)
             {
                 e.preventDefault();
             }
-        }
-        ,
+        },
         stopPropagation: function()
         {
             var e = this.originalEvent;
@@ -811,8 +730,7 @@ function(window, undefined)
             {
                 e.stopPropagation();
             }
-        }
-        ,
+        },
         isPropagationStopped: returnFalse,
         isImmediatePropagationStopped: returnFalse
     };
@@ -820,106 +738,85 @@ function(window, undefined)
         on: function(types, selector, data, fn)
         {
             return this.each(function()
-                    {
-                        jQuery.event.add(this, types, fn, data, selector);
-                    }
-            );
-        }
-        ,
+            {
+                jQuery.event.add(this, types, fn, data, selector);
+            });
+        },
         one: function()
-        {}
-        ,
+        {},
         off: function()
         {
             return this.each(function()
-                    {}
-            );
-        }
-        ,
+            {});
+        },
         bind: function()
-        {}
-        ,
+        {},
         unbind: function()
-        {}
-        ,
+        {},
         live: function()
-        {}
-        ,
+        {},
         die: function()
-        {}
-        ,
+        {},
         delegate: function()
-        {}
-        ,
+        {},
         undelegate: function()
-        {}
-        ,
+        {},
         trigger: function(type, data)
         {
             return this.each(function()
-                    {
-                        jQuery.event.trigger(type, data, this);
-                    }
-            );
-        }
-        ,
+            {
+                jQuery.event.trigger(type, data, this);
+            });
+        },
         triggerHandler: function()
-        {}
-        ,
+        {},
         toggle: function()
-        {}
-        ,
+        {},
         hover: function()
         {}
-
     });
-    jQuery.each(('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ' + 'change select submit keydown keypress keyup error contextmenu').split(' '), function(name)
+    jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function(name)
+    {
+        jQuery.fn[name] = function(data, fn)
+        {
+            if(fn == null)
             {
-                jQuery.fn[name] = function(data, fn)
-                {
-                    if(fn == null)
-                    {
-                        fn = data;
-                        data = null;
-                    }
-
-                    return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
-                }
-                ;
-                if(rmouseEvent.test(name))
-                {
-                    jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
-                }
+                fn = data;
+                data = null;
             }
-    );
-    function()
+
+            return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
+        };
+        if(rmouseEvent.test(name))
+        {
+            jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
+        }
+    });
+    (function()
     {
         var Sizzle = function()
-                {}
-                ;
+        {};
         var Expr = Sizzle.selectors = {
             find: {}
         };
         var makeArray = function(array, results)
-                {
-                    array = Array.prototype.slice.call(array, 0);
-                    if(results)
-                    {
-                        results.push.apply(results, array);
-                    }
-                }
-                ;
-        function()
+        {
+            array = Array.prototype.slice.call(array, 0);
+            if(results)
+            {
+                results.push.apply(results, array);
+            }
+        };
+        (function()
         {
             var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
-            form.innerHTML = '<a name=\'' + id + '\'/>';
+            form.innerHTML = ('<a name=\'' + id) + '\'/>';
             root.insertBefore(form, root.firstChild);
             root.removeChild(form);
-        }
-        ();
+        })();
         if(document.querySelectorAll)
         {
-            function()
+            (function()
             {
                 Sizzle = function(query, context, extra, seed)
                 {
@@ -927,10 +824,10 @@ function(window, undefined)
                     if(!seed && !(Sizzle.isXML(context)))
                     {
                         var match = /^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/.exec(query);
-                        if(match && context.nodeType === 1 || context.nodeType === 9)
+                        if(match && (context.nodeType === 1 || context.nodeType === 9))
                         {
                             if(match[1]);
-                            else                 if(match[2] && Expr.find.CLASS && context.getElementsByClassName)
+                            else if(match[2] && Expr.find.CLASS && context.getElementsByClassName)
                             {
                                 return makeArray(context.getElementsByClassName(match[2]), extra);
                             }
@@ -944,29 +841,23 @@ function(window, undefined)
                             }
                         }
                     }
-                }
-                ;
-            }
-            ();
+                };
+            })();
         }
 
-        function()
+        (function()
         {
             Expr.find.CLASS = function()
-            {}
-            ;
-        }
-        ();
+            {};
+        })();
         Sizzle.isXML = function(elem)
         {
             var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
             return documentElement ? documentElement.nodeName !== 'HTML' : 0;
-        }
-        ;
+        };
         jQuery.find = Sizzle;
         jQuery.isXMLDoc = Sizzle.isXML;
-    }
-    ();
+    })();
     jQuery.fn.extend({
         find: function(selector)
         {
@@ -978,32 +869,23 @@ function(window, undefined)
             }
 
             return ret;
-        }
-        ,
+        },
         has: function()
-        {}
-        ,
+        {},
         not: function()
-        {}
-        ,
+        {},
         filter: function()
-        {}
-        ,
+        {},
         is: function()
-        {}
-        ,
+        {},
         closest: function()
-        {}
-        ,
+        {},
         index: function()
-        {}
-        ,
+        {},
         add: function()
-        {}
-        ,
+        {},
         andSelf: function()
         {}
-
     });
     var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
     jQuery.extend({
@@ -1021,7 +903,6 @@ function(window, undefined)
                         return elem.style.opacity;
                     }
                 }
-
             }
         },
         cssNumber: {'opacity': true},
@@ -1042,32 +923,29 @@ function(window, undefined)
             }
             else
             {
-                if(hooks && 'get' in hooks && ret = hooks.get(elem, false, extra) !== undefined)
+                if(hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined)
                 {
                     return ret;
                 }
             }
-        }
-        ,
+        },
         css: function(elem, name, extra)
         {
             var ret, hooks;
             name = jQuery.camelCase(name);
             hooks = jQuery.cssHooks[name];
             name = jQuery.cssProps[name] || name;
-            if(hooks && 'get' in hooks && ret = hooks.get(elem, true, extra) !== undefined)
+            if(hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
             {
                 return ret;
             }
-            else         if(curCSS)
+            else if(curCSS)
             {
                 return curCSS(elem, name);
             }
-        }
-        ,
+        },
         swap: function()
         {}
-
     });
     if(document.defaultView && document.defaultView.getComputedStyle)
     {
@@ -1075,20 +953,18 @@ function(window, undefined)
         {
             var ret, defaultView, computedStyle;
             name = name.replace(rupper, '-$1').toLowerCase();
-            if(defaultView = elem.ownerDocument.defaultView && computedStyle = defaultView.getComputedStyle(elem, null))
+            if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
             {
                 ret = computedStyle.getPropertyValue(name);
             }
 
             return ret;
-        }
-        ;
+        };
     }
 
     curCSS = getComputedStyle;
     jQuery(function()
-            {}
-    );
+    {});
     var rfxtypes = /^(?:toggle|show|hide)$/, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
     jQuery.fn.extend({
         show: function(speed)
@@ -1097,8 +973,7 @@ function(window, undefined)
             if(speed || speed === 0);
             else
             {
-                for(          var i = 0, j = this.length;
-                        ;i < j;i++)
+                for(var i = 0, j = this.length;i < j;i++)
                 {
                     elem = this[i];
                     if(elem.style)
@@ -1120,8 +995,7 @@ function(window, undefined)
                     }
                 }
             }
-        }
-        ,
+        },
         hide: function(speed)
         {
             if(speed || speed === 0);
@@ -1149,15 +1023,12 @@ function(window, undefined)
                     }
                 }
             }
-        }
-        ,
+        },
         _toggle: jQuery.fn.toggle,
         toggle: function()
-        {}
-        ,
+        {},
         fadeTo: function()
-        {}
-        ,
+        {},
         animate: function(prop, speed, easing, callback)
         {
             var optall = jQuery.speed(speed, easing, callback);
@@ -1187,7 +1058,7 @@ function(window, undefined)
                     val = prop[p];
                     if(rfxtypes.test(val))
                     {
-                        method = jQuery._data(this, 'toggle' + p) || val === 'toggle' ? 0 : 0;
+                        method = jQuery._data(this, 'toggle' + p) || (val === 'toggle' ? 0 : 0);
                         if(method);
                         else
                         {
@@ -1197,11 +1068,9 @@ function(window, undefined)
                 }
             }
             return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
-        }
-        ,
+        },
         stop: function()
         {}
-
     });
     function()
     {
@@ -1218,26 +1087,24 @@ function(window, undefined)
         return obj;
     }
     jQuery.each({
-                slideDown: genFx('show', 1),
-                slideUp: genFx('hide', 1),
-                slideToggle: genFx('toggle', 1),
-                fadeIn: {opacity: 'show'},
-                fadeOut: {opacity: 'hide'},
-                fadeToggle: {}
-            }, function(name, props)
-            {
-                jQuery.fn[name] = function(speed, easing, callback)
-                {
-                    return this.animate(props, speed, easing, callback);
-                }
-                ;
-            }
-    );
+        slideDown: genFx('show', 1),
+        slideUp: genFx('hide', 1),
+        slideToggle: genFx('toggle', 1),
+        fadeIn: {opacity: 'show'},
+        fadeOut: {opacity: 'hide'},
+        fadeToggle: {}
+    }, function(name, props)
+    {
+        jQuery.fn[name] = function(speed, easing, callback)
+        {
+            return this.animate(props, speed, easing, callback);
+        };
+    });
     jQuery.extend({
         speed: function(speed, easing, fn)
         {
             var opt = speed && typeof speed === 'object' ? 0 : {
-                complete: fn || !fn && easing || jQuery.isFunction(speed),
+                complete: fn || (!fn && easing) || jQuery.isFunction(speed),
                 duration: speed,
                 easing: fn || easing && !(jQuery.isFunction(easing))
             };
@@ -1259,17 +1126,14 @@ function(window, undefined)
                 {
                     jQuery.dequeue(this, opt.queue);
                 }
-            }
-            ;
+            };
             return opt;
-        }
-        ,
+        },
         easing: {
             swing: function(p)
             {
-                return -(Math.cos(p * Math.PI)) / 2 + 0.5;
+                return (-(Math.cos(p * Math.PI)) / 2) + 0.5;
             }
-
         },
         timers: [],
         fx: function(elem, options, prop)
@@ -1279,27 +1143,24 @@ function(window, undefined)
             this.prop = prop;
             options.orig = options.orig || {};
         }
-
     });
     jQuery.fx.prototype = {
         update: function()
         {
             jQuery.fx.step[this.prop](this);
-        }
-        ,
+        },
         cur: function()
         {
             var parsed, r = jQuery.css(this.elem, this.prop);
             return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
-        }
-        ,
+        },
         custom: function(from, to, unit)
         {
             var self = this, fx = jQuery.fx;
             this.startTime = fxNow || createFxNow();
             this.end = to;
             this.start = from;
-            this.unit = unit || this.unit || jQuery.cssNumber[this.prop] ? '' : 0;
+            this.unit = unit || this.unit || (jQuery.cssNumber[this.prop] ? '' : 0);
             function(gotoEnd)
             {
                 return self.step(gotoEnd);
@@ -1308,8 +1169,7 @@ function(window, undefined)
             {
                 timerId = setInterval(fx.tick, fx.interval);
             }
-        }
-        ,
+        },
         show: function()
         {
             var dataShow = jQuery._data(this.elem, 'fxshow' + this.prop);
@@ -1322,19 +1182,17 @@ function(window, undefined)
             }
 
             jQuery(this.elem).show();
-        }
-        ,
+        },
         hide: function()
         {
             this.options.orig[this.prop] = jQuery._data(this.elem, 'fxshow' + this.prop) || jQuery.style(this.elem, this.prop);
             this.options.hide = true;
             this.custom(this.cur(), 0);
-        }
-        ,
+        },
         step: function(gotoEnd)
         {
             var p, n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
-            if(gotoEnd || t >= options.duration + this.startTime)
+            if(gotoEnd || t >= (options.duration + this.startTime))
             {
                 this.now = this.end;
                 this.update();
@@ -1373,7 +1231,7 @@ function(window, undefined)
                     n = t - this.startTime;
                     this.state = n / options.duration;
                     this.pos = jQuery.easing[options.animatedProperties[this.prop]](this.state, n, 0, 1, options.duration);
-                    this.now = this.start + this.end - this.start * this.pos;
+                    this.now = this.start + ((this.end - this.start) * this.pos);
                 }
 
                 this.update();
@@ -1381,7 +1239,6 @@ function(window, undefined)
 
             return true;
         }
-
     };
     jQuery.extend(jQuery.fx, {
         tick: function()
@@ -1400,103 +1257,92 @@ function(window, undefined)
             {
                 jQuery.fx.stop();
             }
-        }
-        ,
+        },
         interval: 13,
         stop: function()
         {
             clearInterval(timerId);
             timerId = null;
-        }
-        ,
+        },
         speeds: {},
         step: {}
     });
     jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(prop)
+    {
+        if(prop.indexOf('margin'))
+        {
+            jQuery.fx.step[prop] = function(fx)
             {
-                if(prop.indexOf('margin'))
-                {
-                    jQuery.fx.step[prop] = function(fx)
-                    {
-                        jQuery.style(fx.elem, prop, Math.max(0, fx.now) + fx.unit);
-                    }
-                    ;
-                }
-            }
-    );
+                jQuery.style(fx.elem, prop, Math.max(0, fx.now) + fx.unit);
+            };
+        }
+    });
     window.$ = jQuery;
-}
-(window);
+})(window);
 </script>
 <script type="text/javascript" origin="reuse">
     $(document).ready(function()
+    {
+        var activeButtons = $('#featureSelectorContainer .active');
+        var clickedButton;
+        if(activeButtons.length > 0)
+        {
+            clickedButton = activeButtons[0];
+        }
+
+        var featuresArray = [{imagePath: 'images/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {imagePath: 'images/features/PrIDE0.5.png', title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
+        var buttons = $('#featureSelectorContainer a');
+        buttons.click(function(eventArgs)
+        {
+            if(clickedButton != null)
             {
-                var activeButtons = $('#featureSelectorContainer .active');
-                var clickedButton;
-                if(activeButtons.length > 0)
-                {
-                    clickedButton = activeButtons[0];
-                }
-
-                var featuresArray = [{imagePath: 'images/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {imagePath: 'images/features/PrIDE0.5.png', title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
-                var buttons = $('#featureSelectorContainer a');
-                buttons.click(function(eventArgs)
-                        {
-                            if(clickedButton != null)
-                            {
-                                var previousButton = clickedButton;
-                            }
-
-                            clickedButton = eventArgs.currentTarget;
-                            var buttonIndex = clickedButton.rel;
-                            if(previousButton != null)
-                            {
-                                previousButton.className = '';
-                            }
-
-                            clickedButton.className = 'active';
-                            changeFeature(buttonIndex);
-                            return false;
-                        }
-                );
-                function(newFeatureIndex)
-                {
-                    var feature = featuresArray[newFeatureIndex];
-                    var titles = $('.featureTitle');
-                    var descriptions = $('.featureDescription');
-                    $('#featureContainer').fadeOut(200, function()
-                            {
-                                $('#featureContainer img').attr('src', feature.imagePath);
-                                $('#featureContainer').fadeIn(100);
-                            }
-                    );
-                    titles.fadeOut(200, function()
-                            {
-                                if(titles.length > 0)
-                                {
-                                    titles[0].textContent = feature.title;
-                                }
-
-                                titles.fadeIn(100);
-                            }
-                    );
-                    descriptions.fadeOut(200, function()
-                            {
-                                if(descriptions.length > 0)
-                                {
-                                    descriptions[0].textContent = feature.description;
-                                }
-
-                                descriptions.fadeIn(100);
-                            }
-                    );
-                }
+                var previousButton = clickedButton;
             }
-    );
+
+            clickedButton = eventArgs.currentTarget;
+            var buttonIndex = clickedButton.rel;
+            if(previousButton != null)
+            {
+                previousButton.className = '';
+            }
+
+            clickedButton.className = 'active';
+            changeFeature(buttonIndex);
+            return false;
+        });
+        function(newFeatureIndex)
+        {
+            var feature = featuresArray[newFeatureIndex];
+            var titles = $('.featureTitle');
+            var descriptions = $('.featureDescription');
+            $('#featureContainer').fadeOut(200, function()
+            {
+                $('#featureContainer img').attr('src', feature.imagePath);
+                $('#featureContainer').fadeIn(100);
+            });
+            titles.fadeOut(200, function()
+            {
+                if(titles.length > 0)
+                {
+                    titles[0].textContent = feature.title;
+                }
+
+                titles.fadeIn(100);
+            });
+            descriptions.fadeOut(200, function()
+            {
+                if(descriptions.length > 0)
+                {
+                    descriptions[0].textContent = feature.description;
+                }
+
+                descriptions.fadeIn(100);
+            });
+        }
+    });
 </script>
-<link href="styles/mainStyle.css" type="text/css" rel="Stylesheet" origin="reuse" />
-</head>
-<body>
+<link href="styles/mainStyle.css" type="text/css" rel="Stylesheet" origin="reuse"/>
+</head><body>
 <div id="wrap" class="_OR_">
     <div id="headerContainer">
         <div id="menuContainer">
@@ -1520,40 +1366,35 @@ function(window, undefined)
         </div>
         <div id="breadcrumbContainer"></div>
     </div>
+
     <div id="centralContainer">
         <div id="centralContentContainer">
             <div id="appsContent">
                 <div style="min-height: 350px; background-color: #ffffff" id="dummyContainer">
+
                     <div id="slider" origin="reuse">
                         <table origin="reuse">
-                            <tbody origin="reuse">
-                            <tr origin="reuse">
+                            <tbody origin="reuse"><tr origin="reuse">
                                 <td id="featureContainer" colspan="2" origin="reuse">
-                                    <img alt="picture" src="reuse/images/features/PrIDE.png" origin="reuse" />
-                                </td>
+                                    <img alt="picture" src="reuse/images/features/PrIDE.png" origin="reuse"/></td>
                             </tr>
                             <tr origin="reuse">
                                 <td align="left" origin="reuse">
                                     <span style="padding-top:-5px;" class="featureTitle" origin="reuse">P<span style="font-size: 14" origin="reuse">RIDE</span></span>
-                                    <div style="margin-top: -3px;" class="featureDescription" origin="reuse">
-                                        <div style="padding-top:5px;" origin="reuse">An environment dedicated to the development of distributed embedded systems</div>
-                                    </div>
+                                    <div style="margin-top: -3px;" class="featureDescription" origin="reuse"><div style="padding-top:5px;" origin="reuse">An environment dedicated to the development of distributed embedded systems</div></div>
                                 </td>
                                 <td valign="bottom" align="right" id="featureSelectorContainer" origin="reuse">
                                     <table origin="reuse">
-                                        <tbody origin="reuse">
-                                        <tr origin="reuse">
+                                        <tbody origin="reuse"><tr origin="reuse">
                                             <td origin="reuse"><a class="active" rel="0" href="#" origin="reuse"></a></td>
                                             <td origin="reuse"><a rel="1" href="#" origin="reuse"></a></td>
                                         </tr>
-                                        </tbody>
-                                    </table>
+                                        </tbody></table>
                                 </td>
                             </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                            </tbody></table>
+                    </div></div>
+
                 <div id="appsList">
                     <ul>
                         <li>
@@ -1568,6 +1409,7 @@ function(window, undefined)
                             </p>
                         </li>
                     </ul>
+
                     <ul>
                         <li>
                             <h3>Firedoc</h3>
@@ -1580,6 +1422,7 @@ function(window, undefined)
                             </p>
                         </li>
                     </ul>
+
                     <ul>
                         <li style="border-bottom-style: none;">
                             <h3>phpModeler</h3>
@@ -1602,62 +1445,55 @@ function(window, undefined)
                 </div>
                 <div class="sideContainerMiddle">
                     <ul>
+
                         <li style="">
                             <div class="sideItem">
                                 <table>
-                                    <tbody>
-                                    <tr>
-                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-Firecrow"><img height="40px" alt="image" src="images/firecrow.png" /></a></td>
-                                        <td class="descriptionContainer"><a href="?id=app-Firecrow" class="sideDescription">Firecrow<br />
-                                            <span class="description">Firecrow web page</span></a>
-                                        </td>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-Firecrow"><img height="40px" alt="image" src="images/firecrow.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="?id=app-Firecrow" class="sideDescription">Firecrow<br/>
+                                            <span class="description">Firecrow web page</span></a></td>
                                     </tr>
-                                    </tbody>
-                                </table>
+                                    </tbody></table>
                             </div>
                         </li>
+
                         <li style="">
                             <div class="sideItem">
                                 <table>
-                                    <tbody>
-                                    <tr>
-                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-Firedoc"><img height="40px" alt="image" src="images/Download-icon.png" /></a></td>
-                                        <td class="descriptionContainer"><a href="?id=app-Firedoc" class="sideDescription">Firedoc<br />
-                                            <span class="description">Firedoc web page</span></a>
-                                        </td>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-Firedoc"><img height="40px" alt="image" src="images/Download-icon.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="?id=app-Firedoc" class="sideDescription">Firedoc<br/>
+                                            <span class="description">Firedoc web page</span></a></td>
                                     </tr>
-                                    </tbody>
-                                </table>
+                                    </tbody></table>
                             </div>
                         </li>
+
                         <li style="">
                             <div class="sideItem">
                                 <table>
-                                    <tbody>
-                                    <tr>
-                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-phpModeler"><img height="40px" alt="image" src="images/Download-icon.png" /></a></td>
-                                        <td class="descriptionContainer"><a href="?id=app-phpModeler" class="sideDescription">phpModeler<br />
-                                            <span class="description">phpModeler web page</span></a>
-                                        </td>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-phpModeler"><img height="40px" alt="image" src="images/Download-icon.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="?id=app-phpModeler" class="sideDescription">phpModeler<br/>
+                                            <span class="description">phpModeler web page</span></a></td>
                                     </tr>
-                                    </tbody>
-                                </table>
+                                    </tbody></table>
                             </div>
                         </li>
+
                         <li style="border-bottom-style:none;">
                             <div class="sideItem">
                                 <table>
-                                    <tbody>
-                                    <tr>
-                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-ase"><img height="40px" alt="image" src="images/publication.png" /></a></td>
-                                        <td class="descriptionContainer"><a href="?id=app-ase" class="sideDescription">ASE 2011<br />
-                                            <span class="description">ASE materials</span></a>
-                                        </td>
+                                    <tbody><tr>
+                                        <td align="left" style="padding-top: 5px; width:45px;"><a href="?id=app-ase"><img height="40px" alt="image" src="images/publication.png"/></a></td>
+                                        <td class="descriptionContainer"><a href="?id=app-ase" class="sideDescription">ASE 2011<br/>
+                                            <span class="description">ASE materials</span></a></td>
                                     </tr>
-                                    </tbody>
-                                </table>
+                                    </tbody></table>
                             </div>
                         </li>
+
                     </ul>
                 </div>
                 <div class="sideContainerBottom"></div>
@@ -1668,17 +1504,29 @@ function(window, undefined)
 <div id="footerContainer" class="_OR_">
     <p>Josip Maras (josip.maras@fesb.hr), 2010</p>
 </div>
+
+
 <div id="pageContainer" origin="reuse" class="_RU_">
+
+
     <div id="mainContent" origin="reuse">
         <table origin="reuse">
-            <tbody origin="reuse">
-            <tr origin="reuse">
+            <tbody origin="reuse"><tr origin="reuse">
+
                 <td style="width: 733px;" origin="reuse">
+
+
+
+
+
                 </td>
+
             </tr>
-            </tbody>
-        </table>
+            </tbody></table>
     </div>
+
+
 </div>
+
 </body>
 </html>

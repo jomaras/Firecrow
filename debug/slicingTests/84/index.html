@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extending the array prototype</title>
+    <script>
+        Array.prototype.getNext = function(curr)
+        {
+            var i = this.indexOf(curr);
+            var next = 0;
+
+            if(i >= 0 && i < this.length - 1)
+                next = i + 1;
+
+            return this[next];
+        };
+
+        var a = [1,2,3];
+
+        var a1 = a.getNext(1) == 2;
+        var a2 = a.getNext(2) == 3;
+        var a3 = a.getNext(3) == 1;
+
+        a1;
+        a2;
+        a3;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

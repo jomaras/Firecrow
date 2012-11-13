@@ -29,7 +29,45 @@ var modelTestFunction = function(htmlModel, index)
             });
         }
 
-        Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, htmlModel.url);
+        var returnResult = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, htmlModel.url);
+        var browser = returnResult.browser;
+        var globalObjectProperties = browser.globalObject.properties;
+
+        htmlModel.results.forEach(function(result)
+        {
+            for(var propName in result)
+            {
+                var hasBeenFound = false;
+                for(var i = 0; i < globalObjectProperties.length; i++)
+                {
+                    var property = globalObjectProperties[i];
+                    var propertyValue = property.value;
+
+                    if(property.name == propName)
+                    {
+                        hasBeenFound = true;
+
+                        if(propertyValue == null)
+                        {
+                            assertTrue(propName + " is null, and should be: " + result[propName] + "\n", false);
+                            break;
+                        }
+
+                        if(propertyValue.value != result[propName])
+                        {
+                            assertTrue(propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n", false);
+                        }
+
+                        break;
+                    }
+                }
+
+                if(!hasBeenFound)
+                {
+                    assertTrue(propName + " could not be found in global object!\n", false) ;
+                }
+            }
+        });
 
         assertEquals(Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model).replace(/(\r|\n| )+/g, ""), atob(htmlModel.slicingResult).replace(/(\r|\n| )+/g, ""));
     };
