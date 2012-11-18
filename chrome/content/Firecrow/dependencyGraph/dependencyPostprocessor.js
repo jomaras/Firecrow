@@ -1,8 +1,3 @@
-/**
- * User: Jomaras
- * Date: 15.06.12.
- * Time: 09:27
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ASTHelper = Firecrow.ASTHelper;
@@ -24,9 +19,16 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 {
     processHtmlElement: function(htmlElement)
     {
+        if(htmlElement.nodeId == 46808 && this.inclusionFinder.isIncludedHtmlElement(htmlElement))
+        {
+            var a = 3;
+        }
+
         if(!this.inclusionFinder.isIncludedHtmlElement(htmlElement)) { return; }
 
-        htmlElement.shouldBeIncluded = true;
+        var previousValue = htmlElement.shouldBeIncluded;
+
+        Firecrow.includeNode(htmlElement);
 
         if(htmlElement.type == "script")
         {
@@ -62,7 +64,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedProgram(programElement)) { return; }
 
-        programElement.shouldBeIncluded = true;
+        Firecrow.includeNode(programElement);
 
         if(programElement.body != null)
         {
@@ -122,10 +124,10 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedFunction(functionDecExp)) { return; }
 
-        functionDecExp.shouldBeIncluded = true;
-        functionDecExp.body.shouldBeIncluded = true;
+        Firecrow.includeNode(functionDecExp);
+        Firecrow.includeNode(functionDecExp.body);
 
-        if(functionDecExp.id != null) { functionDecExp.id.shouldBeIncluded = true; }
+        if(functionDecExp.id != null) { Firecrow.includeNode(functionDecExp.id);}
 
         var params = functionDecExp.params;
 
@@ -133,7 +135,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         {
             for(var i = 0, length = params.length; i < length; i++)
             {
-                params[i].shouldBeIncluded = true;
+                Firecrow.includeNode(params[i]);
             }
         }
 
@@ -150,7 +152,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedBlockStatement(blockStatement)) { return; }
 
-        blockStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(blockStatement);
 
         var body = blockStatement.body;
 
@@ -168,7 +170,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedExpressionStatement(expressionStatement)) { return; }
 
-        expressionStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(expressionStatement);
 
         this.processElement(expressionStatement.expression);
     },
@@ -179,10 +181,10 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
         if(assignmentExpression.shouldBeIncluded)
         {
-            assignmentExpression.left.shouldBeIncluded = true;
+            Firecrow.includeNode(assignmentExpression.left);
         }
 
-        assignmentExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(assignmentExpression);
 
         this.processElement(assignmentExpression.left);
         this.processElement(assignmentExpression.right);
@@ -192,7 +194,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedUnaryExpression(unaryExpression)) { return; }
 
-        unaryExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(unaryExpression);
 
         this.processExpression(unaryExpression.argument);
     },
@@ -201,7 +203,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedBinaryExpression(binaryExpression)) { return; }
 
-        binaryExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(binaryExpression);
 
         this.processElement(binaryExpression.left);
         this.processElement(binaryExpression.right);
@@ -211,7 +213,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedLogicalExpression(logicalExpression)) { return; }
 
-        logicalExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(logicalExpression);
 
         this.processElement(logicalExpression.left);
         this.processElement(logicalExpression.right);
@@ -221,7 +223,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedUpdateExpression(updateExpression)) { return; }
 
-        updateExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(updateExpression);
 
         this.processElement(updateExpression.argument);
     },
@@ -230,8 +232,8 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedNewExpression(newExpression)) { return; }
 
-        newExpression.shouldBeIncluded = true;
-        newExpression.callee.shouldBeIncluded = true;
+        Firecrow.includeNode(newExpression);
+        Firecrow.includeNode(newExpression.callee);
 
         this.processElement(newExpression.callee);
         this.processSequence(newExpression.arguments);
@@ -241,7 +243,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedConditionalExpression(conditionalExpression)) { return; }
 
-        conditionalExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(conditionalExpression);
 
         this.processElement(conditionalExpression.test);
         this.processElement(conditionalExpression.consequent);
@@ -254,7 +256,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedCallExpression(callExpression)) { return; }
 
-        callExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(callExpression);
 
         this.processElement(callExpression.callee);
         this.processSequence(callExpression.arguments);
@@ -269,15 +271,15 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
         if(areChildrenIncluded)
         {
-            memberExpression.shouldBeIncluded = true;
+            Firecrow.includeNode(memberExpression);
         }
 
         if(!ASTHelper.isMemberExpression(memberExpression.parent)
         && !ASTHelper.isCallExpression(memberExpression.parent)
         && !ASTHelper.isCallExpression(memberExpression.object))
         {
-            memberExpression.object.shouldBeIncluded = true;
-            memberExpression.property.shouldBeIncluded = true;
+            Firecrow.includeNode(memberExpression.object);
+            Firecrow.includeNode(memberExpression.property);
         }
         else
         {
@@ -285,8 +287,8 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             && !ASTHelper.isCallExpression(memberExpression.parent)
             && areChildrenIncluded)
             {
-                memberExpression.object.shouldBeIncluded = true;
-                memberExpression.property.shouldBeIncluded = true;
+                Firecrow.includeNode(memberExpression.object);
+                Firecrow.includeNode(memberExpression.property);
             }
         }
 
@@ -298,7 +300,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedSequenceExpression(sequenceExpression)) { return; }
 
-        sequenceExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(sequenceExpression);
 
         this.processSequence(sequenceExpression.expressions);
     },
@@ -307,7 +309,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedArrayExpression(arrayExpression)) { return; }
 
-        arrayExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(arrayExpression);
 
         this.processSequence(arrayExpression.elements);
     },
@@ -316,7 +318,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedObjectExpression(objectExpression)) { return; }
 
-        objectExpression.shouldBeIncluded = true;
+        Firecrow.includeNode(objectExpression);
 
         var properties = objectExpression.properties;
 
@@ -330,8 +332,8 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedObjectExpressionProperty(objectExpressionProperty)) { return; }
 
-        objectExpressionProperty.shouldBeIncluded = true;
-        objectExpressionProperty.key.shouldBeIncluded = true;
+        Firecrow.includeNode(objectExpressionProperty);
+        Firecrow.includeNode(objectExpressionProperty.key);
 
         this.processElement(objectExpressionProperty.value);
     },
@@ -340,7 +342,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedIfStatement(ifStatement)) { return; }
 
-        ifStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(ifStatement);
 
         this.processElement(ifStatement.test);
         this.processElement(ifStatement.consequent);
@@ -355,7 +357,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedWhileStatement(whileStatement)) { return; }
 
-        whileStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(whileStatement);
 
         this.processElement(whileStatement.test);
         this.processElement(whileStatement.body);
@@ -365,7 +367,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedDoWhileStatement(doWhileStatement)) { return; }
 
-        doWhileStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(doWhileStatement);
 
         this.processElement(doWhileStatement.test);
         this.processElement(doWhileStatement.body);
@@ -375,7 +377,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedForStatement(forStatement)) { return; }
 
-        forStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(forStatement);
 
         if(forStatement.init != null) { this.processElement(forStatement.init); }
         if(forStatement.test != null) { this.processElement(forStatement.test); }
@@ -388,7 +390,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedForInStatement(forInStatement)) { return; }
 
-        forInStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(forInStatement);
 
         this.processElement(forInStatement.left);
         this.processElement(forInStatement.right);
@@ -401,21 +403,21 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedBreakStatement(breakStatement)) { return; }
 
-        breakStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(breakStatement);
     },
 
     processContinueStatement: function(continueStatement)
     {
         if(!this.inclusionFinder.isIncludedContinueStatement(continueStatement)) { return; }
 
-        continueStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(continueStatement);
     },
 
     processReturnStatement: function(returnStatement)
     {
         if(!this.inclusionFinder.isIncludedReturnStatement(returnStatement)) { return; }
 
-        returnStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(returnStatement);
 
         if(returnStatement.argument != null) { this.processExpression(returnStatement.argument); }
     },
@@ -424,7 +426,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedWithStatement(withStatement)) { return; }
 
-        withStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(withStatement);
 
         this.processExpression(withStatement.object);
         this.processStatement(withStatement.body);
@@ -434,7 +436,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedThrowStatement(throwStatement)) { return; }
 
-        throwStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(throwStatement);
 
         this.processExpression(throwStatement.argument);
     },
@@ -443,7 +445,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedSwitchStatement(switchStatement)) { return; }
 
-        switchStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(switchStatement);
 
         this.processExpression(switchStatement.discriminant);
 
@@ -457,11 +459,11 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedSwitchCase(switchCase)) { return; }
 
-        switchCase.shouldBeIncluded = true;
+        Firecrow.includeNode(switchCase);
 
         if(switchCase.test != null)
         {
-            switchCase.test.shouldBeIncluded = true;
+            Firecrow.includeNode(switchCase.test);
         }
 
 
@@ -475,13 +477,13 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedTryStatement(tryStatement)) { return; }
 
-        tryStatement.shouldBeIncluded = true;
+        Firecrow.includeNode(tryStatement);
 
         this.processElement(tryStatement.block);
 
         for(var i = 0; i < tryStatement.handlers.length; i++)
         {
-            tryStatement.handlers[i].shouldBeIncluded = true;
+            Firecrow.includeNode(tryStatement.handlers[i]);
             this.processCatchClause(tryStatement.handlers[i]);
         }
 
@@ -497,7 +499,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedVariableDeclaration(variableDeclaration)) { return; }
 
-        variableDeclaration.shouldBeIncluded = true;
+        Firecrow.includeNode(variableDeclaration);
 
         var declarators = variableDeclaration.declarations;
 
@@ -511,8 +513,8 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedVariableDeclarator(variableDeclarator)) { return; }
 
-        variableDeclarator.shouldBeIncluded = true;
-        variableDeclarator.id.shouldBeIncluded = true;
+        Firecrow.includeNode(variableDeclarator);
+        Firecrow.includeNode(variableDeclarator.id);
 
         if(variableDeclarator.init != null)
         {
@@ -529,7 +531,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedCatchClause(catchClause)) { return;}
 
-        catchClause.shouldBeIncluded = true;
+        Firecrow.includeNode(catchClause);
 
         this.processElement(catchClause.param);
         this.processStatement(catchClause.body);
@@ -541,7 +543,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(literal.shouldBeIncluded == true && Firecrow.ValueTypeHelper.isObject(literal.value))
         {
-            literal.value.shouldBeIncluded = true;
+            Firecrow.includeNode(literal.value);
         }
     },
 

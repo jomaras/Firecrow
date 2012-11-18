@@ -55,8 +55,14 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
 {
     var command = new fcCommands.Command(functionObject.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
 
+    if(functionObject == null || functionObject.fcInternal == null || !ASTHelper.isFunction(functionObject.fcInternal.codeConstruct))
+    {
+        this.notifyError("Calle code construct has to be a function");
+    }
+
     command.callee = functionObject;
     command.thisObject = thisObject;
+
 
     return command;
 };

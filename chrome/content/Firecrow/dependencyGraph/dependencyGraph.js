@@ -197,7 +197,7 @@ DependencyGraph.prototype =
 
     _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint, includedByNode)
     {
-        codeConstruct.shouldBeIncluded = true;
+        Firecrow.includeNode(codeConstruct);
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
@@ -224,7 +224,7 @@ DependencyGraph.prototype =
 
             if(dependencyEdge.shouldNotFollowDependency)
             {
-                dependencyEdge.destinationNode.model.shouldBeIncluded = true;
+                Firecrow.includeNode(dependencyEdge.destinationNode.model);
                 continue;
             }
 

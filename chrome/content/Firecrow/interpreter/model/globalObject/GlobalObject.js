@@ -17,7 +17,6 @@ fcModel.GlobalObject = function(browser)
 
         this._setExecutionEnvironment(browser);
 
-
         this._createInternalPrototypes();
         this._createInternalObjects();
         this._createInternalVariables();
@@ -324,6 +323,7 @@ fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
 {
     this.booleanPrototype = new fcModel.BooleanPrototype(this);
+    this.functionFunctionPrototype = new fcModel.FunctionFunctionPrototype(this);
     this.arrayPrototype = new fcModel.ArrayPrototype(this);
     this.objectPrototype = new fcModel.ObjectPrototype(this);
     this.functionPrototype = new fcModel.FunctionPrototype(this);
@@ -360,6 +360,9 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
     this.dateFunction = new fcModel.DateFunction(this);
     this.addProperty("Date", new fcModel.JsValue(this.dateFunction, new fcModel.FcInternal(null, this.dateFunction)), null);
 
+    this.functionFunction = new fcModel.FunctionFunction(this);
+    this.addProperty("Function", new fcModel.JsValue(this.functionFunction, new fcModel.FcInternal(null, this.functionFunction)), null);
+
     this.xmlHttpRequestFunction = new fcModel.XMLHttpRequestFunction(this);
     this.addProperty("XMLHttpRequest", new fcModel.JsValue(this.xmlHttpRequestFunction, new fcModel.FcInternal(null, this.xmlHttpRequestFunction)), null);
 
@@ -395,6 +398,8 @@ fcModel.GlobalObject.prototype._createInternalVariables = function()
 {
     this.addProperty("undefined", new fcModel.JsValue(undefined, new fcModel.FcInternal()));
     this.addProperty("Infinity", new fcModel.JsValue(Infinity, new fcModel.FcInternal()));
+    this.addProperty("mozInnerScreenX", new fcModel.JsValue(window.mozInnerScreenX, new fcModel.FcInternal()));
+    this.addProperty("mozInnerScreenY", new fcModel.JsValue(window.mozInnerScreenY, new fcModel.FcInternal()));
 };
 
 fcModel.GlobalObject.prototype._createTrackerMaps = function()

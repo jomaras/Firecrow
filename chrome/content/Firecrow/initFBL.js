@@ -32,7 +32,17 @@ FBL.ns(function () { with (FBL)
         IsDebugMode: true,
 
         getWindow: function() { return frames[0] || window;},
-        getDocument: function() { return this.getWindow().document; }
+        getDocument: function() { return this.getWindow().document; },
+
+        includeNode: function(node)
+        {
+            if(node.nodeId == 46806)
+            {
+                var a = 3;
+            }
+
+            node.shouldBeIncluded = true;
+        }
     };
 }});
 

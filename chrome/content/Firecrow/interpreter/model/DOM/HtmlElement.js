@@ -99,12 +99,11 @@ fcModel.HtmlElement.prototype.notifyElementInsertedIntoDom = function(callExpres
         };
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                this.htmlElement.modelElement,
-                callExpression,
-                this.globalObject.getPreciseEvaluationPositionId()
-            );
-
+        (
+            this.htmlElement.modelElement,
+            callExpression,
+            this.globalObject.getPreciseEvaluationPositionId()
+        );
     }
     catch(e) { fcModel.HtmlElement.notifyError("Error when handling element inserted into dom!"); }
 };

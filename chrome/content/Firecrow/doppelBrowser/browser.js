@@ -104,7 +104,10 @@ Browser.prototype =
         this._setAttributes(htmlDomElement, htmlModelElement);
         this._insertIntoDom(htmlDomElement, parentDomElement);
 
-        htmlModelElement.shouldBeIncluded = this.globalObject.satisfiesDomSlicingCriteria(htmlDomElement);
+        if(this.globalObject.satisfiesDomSlicingCriteria(htmlDomElement))
+        {
+            Firecrow.includeNode(htmlModelElement);
+        }
 
         if(this._isScriptNode(htmlModelElement) || this._isCssInclusionNode(htmlModelElement))
         {

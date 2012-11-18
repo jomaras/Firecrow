@@ -37,7 +37,10 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
                 var childNodes = htmlElement.childNodes;
                 for(var i = 0, length = childNodes.length; i < length; i++)
                 {
-                    if(this.isIncludedHtmlElement(childNodes[i])) { return true; }
+                    if(this.isIncludedHtmlElement(childNodes[i]))
+                    {
+                        return true;
+                    }
                 }
             }
 
@@ -240,7 +243,10 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         var isIncluded = this.isSequenceIncluded(sequenceExpression.expressions);
 
-        sequenceExpression.shouldBeIncluded = isIncluded;
+        if(isIncluded)
+        {
+            Firecrow.includeNode(sequenceExpression);
+        }
 
         return isIncluded;
     },
@@ -307,10 +313,10 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             if(forStatement.update != null)
             {
                 updateIncluded = true;
-                forStatement.update.shouldBeIncluded = true;
+                Firecrow.includeNode(forStatement.update);
                 forStatement.update.children.forEach(function(child)
                 {
-                    child.shouldBeIncluded = true;
+                    Firecrow.includeNode(child);
                 });
             }
         }

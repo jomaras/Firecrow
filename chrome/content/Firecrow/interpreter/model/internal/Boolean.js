@@ -1,7 +1,3 @@
-/**
- * Created by Jomaras.
- * Date: 11.03.12.@12:25
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ValueTypeHelper = Firecrow.ValueTypeHelper;

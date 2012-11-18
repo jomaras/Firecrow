@@ -125,36 +125,74 @@ fcSimulator.InternalExecutor.prototype =
     {
         var fcLocation = fcModel.Object.createObjectWithInit(this.globalObject, null, location);
 
-        fcLocation.addProperty("hash", new fcModel.JsValue(this.globalObject.origWindow.location.hash, new fcModel.FcInternal(null)));
-        fcLocation.addProperty("host", new fcModel.JsValue(this.globalObject.origWindow.location.host, new fcModel.FcInternal(null)));
-        fcLocation.addProperty("hostname", new fcModel.JsValue(this.globalObject.origWindow.location.hostname, new fcModel.FcInternal(null)));
-        fcLocation.addProperty("href", new fcModel.JsValue(this.globalObject.origWindow.location.href, new fcModel.FcInternal(null)));
-        fcLocation.addProperty("pathname", new fcModel.JsValue(this.globalObject.origWindow.location.pathname, new fcModel.FcInternal(null)));
-        fcLocation.addProperty("port", new fcModel.JsValue(this.globalObject.origWindow.location.port, new fcModel.FcInternal(null)));
-        fcLocation.addProperty("protocol", new fcModel.JsValue(this.globalObject.origWindow.location.protocol, new fcModel.FcInternal(null)));
-        fcLocation.addProperty("search", new fcModel.JsValue(this.globalObject.origWindow.location.search, new fcModel.FcInternal(null)));
+        this._createProperty(fcLocation, "hash", this.globalObject.origWindow.location.hash);
+        this._createProperty(fcLocation, "host", this.globalObject.origWindow.location.host);
+        this._createProperty(fcLocation, "hostname", this.globalObject.origWindow.location.hostname);
+        this._createProperty(fcLocation, "href", this.globalObject.origWindow.location.href);
+        this._createProperty(fcLocation, "pathname", this.globalObject.origWindow.location.pathname);
+        this._createProperty(fcLocation, "port", this.globalObject.origWindow.location.port);
+        this._createProperty(fcLocation, "protocol", this.globalObject.origWindow.location.protocol);
+        this._createProperty(fcLocation, "search", this.globalObject.origWindow.location.search);
 
-        return new fcModel.JsValue(location, new fcModel.FcInternal(null, fcLocation));
+        return new fcModel.JsValue(fcLocation, new fcModel.FcInternal(null, fcLocation));
     },
 
     createNavigatorObject: function()
     {
         var fcNavigator = fcModel.Object.createObjectWithInit(this.globalObject, null, navigator);
 
-        fcNavigator.addProperty("appCodeName", new fcModel.JsValue(this.globalObject.origWindow.navigator.appCodeName, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("appName", new fcModel.JsValue(this.globalObject.origWindow.navigator.appName, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("appVersion", new fcModel.JsValue(this.globalObject.origWindow.navigator.appVersion, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("buildID", new fcModel.JsValue(this.globalObject.origWindow.navigator.buildID, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("cookieEnabled", new fcModel.JsValue(this.globalObject.origWindow.navigator.cookieEnabled, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("doNotTrack", new fcModel.JsValue(this.globalObject.origWindow.navigator.doNotTrack, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("language", new fcModel.JsValue(this.globalObject.origWindow.navigator.language, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("oscpu", new fcModel.JsValue(this.globalObject.origWindow.navigator.oscpu, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("platform", new fcModel.JsValue(this.globalObject.origWindow.navigator.platform, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("product", new fcModel.JsValue(this.globalObject.origWindow.navigator.product, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("productSub", new fcModel.JsValue(this.globalObject.origWindow.navigator.productSub, new fcModel.FcInternal(null)));
-        fcNavigator.addProperty("userAgent", new fcModel.JsValue(this.globalObject.origWindow.navigator.userAgent, new fcModel.FcInternal(null)));
+        this._createProperty(fcNavigator, "appCodeName", this.globalObject.origWindow.navigator.appCodeName);
+        this._createProperty(fcNavigator, "appName", this.globalObject.origWindow.navigator.appName);
+        this._createProperty(fcNavigator, "appVersion", this.globalObject.origWindow.navigator.appVersion);
+        this._createProperty(fcNavigator, "buildID", this.globalObject.origWindow.navigator.buildID);
+        this._createProperty(fcNavigator, "cookieEnabled", this.globalObject.origWindow.navigator.cookieEnabled);
+        this._createProperty(fcNavigator, "doNotTrack", this.globalObject.origWindow.navigator.doNotTrack);
+        this._createProperty(fcNavigator, "language", this.globalObject.origWindow.navigator.language);
+        this._createProperty(fcNavigator, "oscpu", this.globalObject.origWindow.navigator.oscpu);
+        this._createProperty(fcNavigator, "platform", this.globalObject.origWindow.navigator.platform);
+        this._createProperty(fcNavigator, "product", this.globalObject.origWindow.navigator.product);
+        this._createProperty(fcNavigator, "productSub", this.globalObject.origWindow.navigator.productSub);
+        this._createProperty(fcNavigator, "userAgent", this.globalObject.origWindow.navigator.userAgent);
+        this._createProperty(fcNavigator, "plugins", this._createPluginsArray());
 
-        return new fcModel.JsValue(navigator, new fcModel.FcInternal(null, fcNavigator));
+        return new fcModel.JsValue(fcNavigator, new fcModel.FcInternal(null, fcNavigator));
+    },
+
+    _createPluginsArray: function()
+    {
+        var pluginsArrayObject = fcModel.Object.createObjectWithInit(this.globalObject, null, navigator.plugins);
+
+        for(var propName in navigator.plugins)
+        {
+            if(navigator.plugins[propName] instanceof Plugin)
+            {
+                this._createProperty(pluginsArrayObject, propName, this._createPluginInfo(navigator.plugins[propName]));
+            }
+        }
+
+        this._createProperty(pluginsArrayObject, 'Shockwave Flash', this._createPluginInfo(navigator.plugins['Shockwave Flash']));
+        this._createProperty(pluginsArrayObject, "length", navigator.plugins.length);
+
+        return pluginsArrayObject;
+    },
+
+    _createPluginInfo: function(plugin)
+    {
+        var pluginValue = fcModel.Object.createObjectWithInit(this.globalObject, null, plugin);
+
+        this._createProperty(pluginValue, "description", plugin.description);
+        this._createProperty(pluginValue, "filename", plugin.filename);
+        this._createProperty(pluginValue, "name", plugin.name);
+        this._createProperty(pluginValue, "version", plugin.version);
+
+        return pluginValue;
+    },
+
+    _createProperty: function(baseObject, propertyName, propertyValue)
+    {
+        var jsPropertyValue =  new fcModel.JsValue(propertyValue, new fcModel.FcInternal(null));
+        baseObject.addProperty(propertyName, jsPropertyValue);
+        baseObject[propertyName] = jsPropertyValue;
     },
 
     executeFunction: function(thisObject, functionObject, args, callExpression, callCommand)

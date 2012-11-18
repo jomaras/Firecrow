@@ -90,6 +90,13 @@ Firecrow.ValueTypeHelper =
         return (typeof variable) == "number" && variable == parseInt(variable,10);
     },
 
+    isStringInteger: function(variable)
+    {
+        if (this.isNull(variable)) { return false; }
+
+        return variable == parseInt(variable,10);
+    },
+
     isNull: function (variable)
     {
         return variable === null;

@@ -30,11 +30,14 @@ Firecrow.CodeTextGenerator.generateProfiledCode = function(model)
             {
                 if(element.parent.shouldBeIncluded || element.parent.hasBeenExecuted)
                 {
-                    element.shouldBeIncluded = true;
+                    Firecrow.includeNode(element);
                 }
             }
 
-            element.shouldBeIncluded = element.hasBeenExecuted;
+            if(element.hasBeenExecuted)
+            {
+                Firecrow.includeNode(element);
+            }
         }
     });
 
@@ -609,7 +612,7 @@ Firecrow.CodeTextGenerator.prototype =
 
         if(!isInBrackets)
         {
-            if(propertyCode.indexOf(' ') != -1 || propertyCode == ":")
+            if(propertyCode.indexOf(' ') != -1 || propertyCode == ":" || propertyCode.indexOf("-") != -1)
             {
                 propertyCode = "'" + propertyCode + "'";
                 isInBrackets = true;
@@ -905,17 +908,21 @@ Firecrow.CodeTextGenerator.prototype =
             code += this.whitespace + this._CASE_KEYWORD + " " + this.generateExpression(switchCase.test) + this._COLON + this.newLine;
         }
 
-        this.indent();
-        for(var i = 0; i < switchCase.consequent.length; i++)
+        if(switchCase.consequent)
         {
-            var statementCode = this.generateStatement(switchCase.consequent[i]);
+            this.indent();
 
-            if(statementCode !== "")
+            for(var i = 0; i < switchCase.consequent.length; i++)
             {
-                code += this.whitespace + statementCode + this.newLine;
+                var statementCode = this.generateStatement(switchCase.consequent[i]);
+
+                if(statementCode !== "")
+                {
+                    code += this.whitespace + statementCode + this.newLine;
+                }
             }
+            this.deIndent();
         }
-        this.deIndent();
 
         return code;
     },
@@ -1000,7 +1007,7 @@ Firecrow.CodeTextGenerator.prototype =
 
         body = body.length != 0 ? body : this._LEFT_GULL_WING + this._RIGHT_GULL_WING;
 
-        catchClause.param.shouldBeIncluded = true;
+        Firecrow.includeNode(catchClause.param);
 
         return this.whitespace + this._CATCH_KEYWORD + this._LEFT_PARENTHESIS + this.generateJsCode(catchClause.param) + this._RIGHT_PARENTHESIS
              + (body != (this._LEFT_GULL_WING + this._RIGHT_GULL_WING) ? this.newLine + this.whitespace : "" ) + body;
@@ -1016,7 +1023,7 @@ Firecrow.CodeTextGenerator.prototype =
         if(valueTypeHelper.isNull(literal.value)) { return "null"; }
         if (valueTypeHelper.isString(literal.value))
         {
-            return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/, "\\n") + "'";
+            return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/, "\\n").replace(/\r/, "\\r") + "'";
         }
         else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
         else if(valueTypeHelper.isObject(literal.value))

@@ -697,6 +697,10 @@ Firecrow.ConflictFixer =
                 {
                     declarationConstruct.left.name = newName;
                 }
+                else if (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.left))
+                {
+                    declarationConstruct.left.property.name = newName;
+                }
                 else
                 {
                     alert("Unhandled expression when fixing global properties conflicts in assignment expression");
@@ -817,10 +821,10 @@ Firecrow.ConflictFixer =
             var change = changes[i];
 
             //TODO - SELECTOR HAZARD!
-            for(var j = 0; j < reuseSelectors.length; j++)
+            /*for(var j = 0; j < reuseSelectors.length; j++)
             {
                 reuseSelectors[j] = reuseSelectors[j].replace(change.oldValue, change.newValue);
-            }
+            }*/
 
             for(var j = 0; j < reusedAppGraph.cssNodes.length; j++)
             {

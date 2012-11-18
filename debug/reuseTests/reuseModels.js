@@ -192,7 +192,9 @@ var models =
 - window handlers (key press, key down - register, de-register)
 - when we move the reused HTML nodes, there will be some CSS selectors that could be applied to the reused nodes, how to avoid that?
 - get the example to work
-
+- problem when conflicted css selector is contained within an unconflicting css selector
+- handle css selectors separated with ','
+- does not work if onload is written just like onload = function(){}; (compared to window.onload = .. ) ??
 - issue with body styles that get inherited (e.g. color, fonts - should be placed on the top-most reused node)
 - if conflicts in body type only styles - the original body node should be expanded with a class!
 - problems caused when the script element is before the extracted node (and that is somehow important for the node), and in the extracted code it isn't

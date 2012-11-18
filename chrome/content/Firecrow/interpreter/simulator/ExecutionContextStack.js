@@ -668,6 +668,11 @@ fcSimulator.ExecutionContextStack.prototype =
 
     _getFormalParameters: function(functionConstruct)
     {
+        if(functionConstruct == null || functionConstruct.params == null)
+        {
+            this.notifyError("Error when constructing executionContextStack: " + e);
+        }
+
         return functionConstruct.params.map(function(param)
         {
             var identifier = new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)), param, this.globalObject);
