@@ -34,8 +34,6 @@ fcModel.StringPrototype = function(globalObject)
             this[propertyName] = internalFunction;
             this.addProperty(propertyName, internalFunction, null, false);
         }, this);
-
-        this.fcInternal = { object: this };
     }
     catch(e) { fcModel.String.notifyError("StringPrototype - error when creating array prototype:" + e); }
 };
@@ -61,12 +59,10 @@ fcModel.StringFunction = function(globalObject)
     {
         this.initObject(globalObject);
 
-        this.prototype = new fcModel.JsValue(globalObject.stringPrototype, new fcModel.FcInternal(null, globalObject.stringPrototype)) ;
-        this.addProperty("prototype", globalObject.stringPrototype);
+        this.addProperty("prototype", globalObject.fcStringPrototype);
 
         this.isInternalFunction = true;
         this.name = "String";
-        this.fcInternal = this;
     }
     catch(e){ fcModel.String.notifyError("String - error when creating String Function:" + e); }
 };
@@ -81,11 +77,11 @@ fcModel.StringExecutor =
         {
             var originatingObject = callbackCommand.originatingObject;
 
-            if(!ValueTypeHelper.isString(originatingObject.value)) { this.notifyError("When evaluating callback return the argument has to be a string!"); return; }
+            if(!ValueTypeHelper.isString(originatingObject.jsValue)) { this.notifyError("When evaluating callback return the argument has to be a string!"); return; }
 
-            var callbackFunctionValue = callbackCommand.callerFunction.value;
+            var callbackFunctionValue = callbackCommand.callerFunction.jsValue;
             var targetObject = callbackCommand.targetObject;
-            var targetObjectValue = targetObject.value;
+            var targetObjectValue = targetObject.jsValue;
             var callbackArguments = callbackCommand.arguments;
 
             if(callbackFunctionValue.name == "replace")
@@ -97,20 +93,22 @@ fcModel.StringExecutor =
                     var index = 0;
                     var resultMapping = callbackCommand.parentInitCallbackCommand.intermediateResults;
 
-                    targetObject.value = targetObjectValue.replace(targetObject.replacedValue, function()
+                    targetObject.jsValue = targetObjectValue.replace(targetObject.replacedValue, function()
                     {
-                        return resultMapping[index++].value;
+                        return resultMapping[index++].jsValue;
                     });
+
+                    targetObject.iValue = targetObject.jsValue;
                 }
 
                 globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
-                    targetObject.fcInternal.codeConstruct,
+                    targetObject.codeConstruct,
                     returnExpression.argument,
                     globalObject.getPreciseEvaluationPositionId()
                 );
 
-                targetObject.fcInternal = new fcModel.FcInternal(returnExpression);
+                targetObject.codeConstruct = returnExpression;
             }
             else
             {
@@ -124,17 +122,17 @@ fcModel.StringExecutor =
     {
         try
         {
-            if(!ValueTypeHelper.isString(thisObject.value)) { this.notifyError("The called on object should be a string!"); return; }
-            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing string method!"); return; }
+            if(!ValueTypeHelper.isString(thisObject.jsValue)) { this.notifyError("The called on object should be a string!"); return; }
+            if(!functionObject.isInternalFunction) { this.notifyError("The function should be internal when executing string method!"); return; }
 
-            var functionObjectValue = functionObject.value;
-            var thisObjectValue = thisObject.value;
+            var functionObjectValue = functionObject.jsValue;
+            var thisObjectValue = thisObject.jsValue;
             var functionName = functionObjectValue.name;
-            var fcThisValue =  thisObject.fcInternal.object;
+            var fcThisValue =  thisObject.iValue;
             var globalObject = fcThisValue != null ? fcThisValue.globalObject
-                                                   : functionObjectValue.jsValue.fcInternal.object.globalObject;
+                                                   : functionObjectValue.fcValue.iValue.globalObject;
 
-            var argumentValues = arguments.map(function(argument){ return argument.value;});
+            var argumentValues = arguments.map(function(argument){ return argument.jsValue;});
 
             switch(functionName)
             {
@@ -157,41 +155,35 @@ fcModel.StringExecutor =
                 case "valueOf":
                 case "search":
                 case "slice":
-                    return new fcModel.JsValue
-                    (
-                        thisObjectValue[functionName].apply(thisObjectValue, argumentValues),
-                        new fcModel.FcInternal(callExpression)
-                    );
+                    var returnValue = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
+                    return new fcModel.fcValue(returnValue, returnValue, callExpression);
                 case "match":
                 case "split":
                     var result = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
                     if(result == null)
                     {
-                        return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression));
+                        return new fcModel.fcValue(null, null, callExpression);
                     }
                     else if (ValueTypeHelper.isArray(result))
                     {
                         return globalObject.internalExecutor.createArray(callExpression, result.map(function(item)
                         {
-                            return new fcModel.JsValue(item, new fcModel.FcInternal(callExpression));
+                            return new fcModel.fcValue(item, item, callExpression);
                         }));
                     }
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
                 case "replace":
                     if(ValueTypeHelper.isString(argumentValues[1]))
                     {
-                        return new fcModel.JsValue
-                        (
-                            thisObjectValue[functionName].apply(thisObjectValue, argumentValues),
-                            new fcModel.FcInternal(callExpression)
-                        );
+                        var returnValue = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
+                        return new fcModel.fcValue(returnValue, returnValue, callExpression);
                     }
                     else if(ValueTypeHelper.isFunction(argumentValues[1]))
                     {
                         var allCallbackArguments = [];
                         var callbackFunction = arguments[1];
 
-                        var params = callbackFunction.fcInternal.codeConstruct.params;
+                        var params = callbackFunction.codeConstruct.params;
 
                         thisObjectValue.replace(argumentValues[0], function()
                         {
@@ -199,7 +191,7 @@ fcModel.StringExecutor =
 
                             for(var i = 0; i < arguments.length; i++)
                             {
-                                currentArgs.push(new fcModel.JsValue(arguments[i], new fcModel.FcInternal(params[i])));
+                                currentArgs.push(new fcModel.fcValue(arguments[i], arguments[i], params[i]));
                             }
 
                             allCallbackArguments.push(currentArgs);
@@ -212,7 +204,7 @@ fcModel.StringExecutor =
                         callCommand.thisObject = globalObject;
                         callCommand.originatingObject = thisObject;
                         callCommand.callerFunction = functionObject;
-                        callCommand.targetObject = new fcModel.JsValue(thisObjectValue, new fcModel.FcInternal(callExpression));
+                        callCommand.targetObject = new fcModel.fcValue(thisObjectValue, thisObjectValue, callExpression);
                         callCommand.targetObject.replacedValue = argumentValues[0];
 
                         return callCommand.targetObject;

@@ -16,15 +16,14 @@ fcSimulator.DependencyCreator.prototype =
 {
     createDependencyToConstructorPrototype: function(creationCodeConstruct, constructorFunction)
     {
-        if(constructorFunction.fcInternal != null && constructorFunction.fcInternal.object != null
-        && constructorFunction.fcInternal.object.prototypeDefinitionConstruct != null)
+        if(constructorFunction.iValue != null && constructorFunction.iValue.prototypeDefinitionConstruct != null)
         {
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
                 creationCodeConstruct,
-                constructorFunction.fcInternal.object.prototypeDefinitionConstruct.codeConstruct,
+                constructorFunction.iValue.prototypeDefinitionConstruct.codeConstruct,
                 this.globalObject.getPreciseEvaluationPositionId(),
-                constructorFunction.fcInternal.object.prototypeDefinitionConstruct.evaluationPositionId
+                constructorFunction.iValue.prototypeDefinitionConstruct.evaluationPositionId
             );
         }
     },
@@ -106,12 +105,12 @@ fcSimulator.DependencyCreator.prototype =
         if(argumentValue == null) { return; }
 
         var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
-        var fcArray = argumentValue.fcInternal.object;
+        var fcArray = argumentValue.iValue;
 
         for(var i = 0, length = formalParams.length; i < length; i++)
         {
             var arrayItem = fcArray.getProperty(i);
-            var formalParameter = formalParams[i].value.fcInternal.codeConstruct;
+            var formalParameter = formalParams[i].value.codeConstruct;
 
             if(arrayItem != null && arrayItem.lastModificationPosition != null)
             {
@@ -128,7 +127,7 @@ fcSimulator.DependencyCreator.prototype =
 
         for(var i = 0, length = formalParams.length; i < length; i++)
         {
-            var formalParameter = formalParams[i].value.fcInternal.codeConstruct;
+            var formalParameter = formalParams[i].value.codeConstruct;
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameter, args[i + 1], evalPosition);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParameter, callCommand.codeConstruct, evalPosition);
@@ -141,7 +140,7 @@ fcSimulator.DependencyCreator.prototype =
 
         for(var i = 0, length = formalParams.length; i < length; i++)
         {
-            var formalParam = formalParams[i].value.fcInternal.codeConstruct;
+            var formalParam = formalParams[i].value.codeConstruct;
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParam, args[i], evalPosition);
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(formalParam, callCommand.codeConstruct, evalPosition);
@@ -150,7 +149,7 @@ fcSimulator.DependencyCreator.prototype =
 
     _createFormalParameterDependenciesInCallback: function(callCommand, formalParameters, args)
     {
-        var params = callCommand.callbackFunction.fcInternal.codeConstruct.params;
+        var params = callCommand.callbackFunction.codeConstruct.params;
         var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
 
         for(var i = 0; i < params.length; i++)
@@ -159,7 +158,7 @@ fcSimulator.DependencyCreator.prototype =
 
             if(arg != null)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], arg.fcInternal.codeConstruct, evalPosition);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], arg.codeConstruct, evalPosition);
             }
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], callCommand.codeConstruct, evalPosition);
@@ -297,13 +296,13 @@ fcSimulator.DependencyCreator.prototype =
     createMemberExpressionDependencies: function(object, property, propertyValue, memberExpression)
     {
         //TODO - possibly can create a problem? - for problems see slicing 54, 55, 56
-        var propertyExists = propertyValue !== undefined && propertyValue.value !== undefined;
+        var propertyExists = propertyValue !== undefined && propertyValue.jsValue !== undefined;
 
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-        if(object.fcInternal != null && object.fcInternal.object != null)
+        if(object.iValue != null)
         {
-            var fcProperty = object.fcInternal.object.getProperty(property.value, memberExpression);
+            var fcProperty = object.iValue.getProperty(property.jsValue, memberExpression);
 
             if(fcProperty != null && !ASTHelper.isLastPropertyInLeftHandAssignment(memberExpression.property))
             {
@@ -361,7 +360,7 @@ fcSimulator.DependencyCreator.prototype =
 
         if(!nextPropertyName || !nextPropertyName.value) { return; }
 
-        var property = whereObject.fcInternal.object.getProperty(nextPropertyName.value);
+        var property = whereObject.iValue.getProperty(nextPropertyName.value);
 
         if(property != null)
         {
@@ -468,9 +467,9 @@ fcSimulator.DependencyCreator.prototype =
         {
             var secondArgumentValue = this.executionContextStack.getExpressionValue(args[1]);
 
-            if(secondArgumentValue != null && ValueTypeHelper.isArray(secondArgumentValue.value))
+            if(secondArgumentValue != null && ValueTypeHelper.isArray(secondArgumentValue.jsValue))
             {
-                secondArgumentValue.fcInternal.object.addDependenciesToAllProperties(callExpression);
+                secondArgumentValue.iValue.addDependenciesToAllProperties(callExpression);
             }
         }
     },

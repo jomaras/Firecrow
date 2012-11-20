@@ -12,12 +12,10 @@ fcModel.ObjectFunction = function(globalObject)
     {
         this.initObject(globalObject);
 
-        this.prototype = new fcModel.JsValue(globalObject.objectPrototype, new fcModel.FcInternal(null, globalObject.objectPrototype)) ;
-        this.addProperty("prototype", globalObject.objectPrototype);
+        this.addProperty("prototype", globalObject.fcObjectPrototype);
 
         this.isInternalFunction = true;
         this.name = "Object";
-        this.fcInternal = { object: this };
     }
     catch(e){ Firecrow.Interpreter.Model.Object.notifyError("Error when creating Object Function:" + e); }
 };

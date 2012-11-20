@@ -69,7 +69,10 @@ fcSimulator.prototype =
                 }
             }
         }
-        catch(e) { fcSimulator.notifyError("Error while running the InterpreterSimulator: " + e); }
+        catch(e)
+        {
+            fcSimulator.notifyError("Error while running the InterpreterSimulator: " + e);
+        }
     },
 
     runAsync: function(callback)
@@ -309,8 +312,8 @@ fcSimulator.prototype =
         var baseObject = this.executionContextStack.getBaseObject(callConstruct.callee);
         var callFunction = this.executionContextStack.getExpressionValue(callConstruct.callee);
 
-        var baseObjectValue = baseObject.value;
-        var callFunctionValue = callFunction.value;
+        var baseObjectValue = baseObject.jsValue;
+        var callFunctionValue = callFunction.jsValue;
 
         if(ValueTypeHelper.isFunction(baseObjectValue) && ValueTypeHelper.isFunction(callFunctionValue))
         {
@@ -342,7 +345,7 @@ fcSimulator.prototype =
             CommandGenerator.generateLoopExecutionCommands
             (
                 loopCommand,
-                !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).value : null
+                !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).jsValue : null
             ),
             this.currentCommandIndex + 1
         );
@@ -355,7 +358,7 @@ fcSimulator.prototype =
         var generatedCommands = CommandGenerator.generateIfStatementBodyCommands
         (
             ifCommand,
-            this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test).value,
+            this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test).jsValue,
             ifCommand.parentFunctionCommand
         );
 
@@ -372,7 +375,7 @@ fcSimulator.prototype =
             CommandGenerator.generateConditionalExpressionEvalBodyCommands
             (
                 conditionalCommand,
-                this.executionContextStack.getExpressionValue(conditionalCommand.codeConstruct.test).value
+                this.executionContextStack.getExpressionValue(conditionalCommand.codeConstruct.test).jsValue
             ),
             this.currentCommandIndex + 1
         );
@@ -383,7 +386,7 @@ fcSimulator.prototype =
         if(!caseCommand.isCaseCommand()) { fcSimulator.notifyError("Argument has to be a case command!"); return; }
 
         if( caseCommand.codeConstruct.test == null
-         || this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).value == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).value
+         || this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).jsValue == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).value
          || caseCommand.parent.hasBeenMatched)
         {
             caseCommand.parent.hasBeenMatched = true;

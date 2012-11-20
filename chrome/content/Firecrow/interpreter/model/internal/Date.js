@@ -38,8 +38,6 @@ fcModel.DatePrototype = function(globalObject)
                 this.addProperty(propertyName, internalFunction, null, false);
             }
         }, this);
-
-        this.fcInternal = { object: this };
     }
     catch(e) { fcModel.Date.notifyError("DatePrototype - error when creating date prototype:" + e); }
 };
@@ -75,7 +73,7 @@ fcModel.DateFunction = function(globalObject)
     {
         this.initObject(globalObject);
 
-        this.prototype = new fcModel.JsValue(globalObject.datePrototype, new fcModel.FcInternal(null, globalObject.datePrototype)) ;
+        this.prototype = new fcModel.fcValue(globalObject.datePrototype, globalObject.datePrototype, null);
         this.addProperty("prototype", globalObject.datePrototype);
 
         fcModel.DatePrototype.CONST.FUNCTION_PROPERTIES.METHODS.forEach(function(propertyName)
@@ -87,7 +85,6 @@ fcModel.DateFunction = function(globalObject)
 
         this.isInternalFunction = true;
         this.name = "Date";
-        this.fcInternal = this;
     }
     catch(e){ fcModel.Date.notifyError("Date - error when creating Date Function:" + e); }
 };
@@ -100,10 +97,11 @@ fcModel.DateExecutor =
     {
         try
         {
-            return new fcModel.JsValue
+            return new fcModel.fcValue
             (
                 Date[functionObject.value.name].apply(null, arguments.map(function(item) { return item.value; })),
-                new fcModel.FcInternal(callExpression)
+                null,
+                callExpression
             );
         }
         catch(e) { fcModel.Date.notifyError("Date - error when executing Date functions:" + e); }
@@ -128,10 +126,10 @@ fcModel.DateExecutor =
             }
             else
             {
-                date = new Date(arguments[0].value)
+                date = new Date(arguments[0].jsValue)
             }
 
-            return new fcModel.JsValue(date, new fcModel.FcInternal(callExpression, new fcModel.Date(date)));
+            return new fcModel.fcValue(date, new fcModel.Date(date), callExpression);
         }
         catch(e) { fcModel.Date.notifyError("Date - error when creating Date object:" + e); }
     },
@@ -140,24 +138,26 @@ fcModel.DateExecutor =
     {
         try
         {
-            if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("The function should be internal when executing string method!"); return; }
+            if(!functionObject.isInternalFunction) { this.notifyError("The function should be internal when executing string method!"); return; }
 
-            var functionObjectValue = functionObject.value;
-            var thisObjectValue = thisObject.value;
+            var functionObjectValue = functionObject.jsValue;
+            var thisObjectValue = thisObject.jsValue;
             var functionName = functionObjectValue.name;
-            var fcThisValue =  thisObject.fcInternal.object;
+            var fcThisValue =  thisObject.iValue;
             var globalObject = fcThisValue != null ? fcThisValue.globalObject
-                                                   : functionObjectValue.jsValue.fcInternal.object.globalObject;
+                                                   : functionObjectValue.fcValue.iValue.globalObject;
 
-            var argumentValues = arguments.map(function(argument){ return argument.value;});
+            var argumentValues = arguments.map(function(argument){ return argument.jsValue;});
 
             if(functionName.indexOf("set") == 0)
             {
-                return new fcModel.JsValue(thisObjectValue[functionName].apply(thisObjectValue, argumentValues), new fcModel.FcInternal(callExpression));
+                var result = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
+                return new fcModel.fcValue(result, result, callExpression);
             }
             else
             {
-                return new fcModel.JsValue(thisObjectValue[functionName](), new fcModel.FcInternal(callExpression));
+                var result = thisObjectValue[functionName]();
+                return new fcModel.fcValue(result, result, callExpression);
             }
         }
         catch(e) {this.notifyError("Error when executing internal string method: " + e); }

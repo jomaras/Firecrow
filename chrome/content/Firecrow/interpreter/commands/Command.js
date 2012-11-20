@@ -53,9 +53,9 @@ Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeCon
 
 Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = function(functionObject, thisObject, parentFunctionCommand)
 {
-    var command = new fcCommands.Command(functionObject.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
+    var command = new fcCommands.Command(functionObject.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, parentFunctionCommand);
 
-    if(functionObject == null || functionObject.fcInternal == null || !ASTHelper.isFunction(functionObject.fcInternal.codeConstruct))
+    if(functionObject == null || !ASTHelper.isFunction(functionObject.codeConstruct))
     {
         this.notifyError("Calle code construct has to be a function");
     }
@@ -69,7 +69,7 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
 
 Firecrow.Interpreter.Commands.Command.createEnterEventHandlerContextCommand = function(handlerInfo)
 {
-    var command = new fcCommands.Command(handlerInfo.functionHandler.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, null);
+    var command = new fcCommands.Command(handlerInfo.functionHandler.codeConstruct, fcCommands.Command.COMMAND_TYPE.EnterFunctionContext, null);
 
     command.callee = handlerInfo.functionHandler;
     command.thisObject = handlerInfo.thisObject;
@@ -82,7 +82,7 @@ Firecrow.Interpreter.Commands.Command.createEnterEventHandlerContextCommand = fu
 
 Firecrow.Interpreter.Commands.Command.createExitFunctionContextCommand = function(functionObject, parentFunctionCommand)
 {
-    return new fcCommands.Command(functionObject.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
+    return new fcCommands.Command(functionObject.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExitFunctionContext, parentFunctionCommand);
 };
 
 Firecrow.Interpreter.Commands.Command.createObjectPropertyCommand = function(codeConstruct, objectExpressionCommand, parentFunctionCommand)
@@ -158,7 +158,7 @@ Firecrow.Interpreter.Commands.Command.createCallCallbackMethodCommand = function
 
 Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(callCallbackCommand, arguments)
 {
-    var command = new fcCommands.Command(callCallbackCommand.callbackFunction.fcInternal.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExecuteCallback, callCallbackCommand.parentFunctionCommand);
+    var command = new fcCommands.Command(callCallbackCommand.callbackFunction.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExecuteCallback, callCallbackCommand.parentFunctionCommand);
 
     command.callbackFunction = callCallbackCommand.callbackFunction;
     command.callbackArgumentGroups = callCallbackCommand.callbackArgumentGroups;

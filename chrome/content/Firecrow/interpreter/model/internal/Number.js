@@ -11,20 +11,18 @@ Firecrow.Interpreter.Model.NumberFunction = function(globalObject)
 {
     this.initObject(globalObject);
 
-    this.prototype = new fcModel.JsValue(globalObject.numberPrototype, new fcModel.FcInternal(null, globalObject.numberPrototype)) ;
-    this.addProperty("prototype", globalObject.numberPrototype);
+    this.addProperty("prototype", globalObject.fcNumberPrototype);
 
     this.isInternalFunction = true;
     this.name = "Number";
-    this.fcInternal = this;
 
-    this.addProperty("MIN_VALUE", new fcModel.JsValue(Number.MIN_VALUE, new fcModel.FcInternal()));
-    this.addProperty("MAX_VALUE", new fcModel.JsValue(Number.MAX_VALUE, new fcModel.FcInternal()));
+    this.addProperty("MIN_VALUE", new fcModel.fcValue(Number.MIN_VALUE, Number.MIN_VALUE, null));
+    this.addProperty("MAX_VALUE", new fcModel.fcValue(Number.MAX_VALUE, Number.MAX_VALUE, null));
 
-    this.addProperty("NEGATIVE_INFINITY", new fcModel.JsValue(Number.NEGATIVE_INFINITY, new fcModel.FcInternal()));
-    this.addProperty("POSITIVE_INFINITY", new fcModel.JsValue(Number.POSITIVE_INFINITY, new fcModel.FcInternal()));
+    this.addProperty("NEGATIVE_INFINITY", new fcModel.fcValue(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, null));
+    this.addProperty("POSITIVE_INFINITY", new fcModel.fcValue(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, null));
 
-    this.addProperty("NaN", new fcModel.JsValue(Number.NaN, new fcModel.FcInternal()));
+    this.addProperty("NaN", new fcModel.fcValue(Number.NaN, Number.NaN, null));
 };
 
 Firecrow.Interpreter.Model.NumberFunction.prototype = new fcModel.Object();
@@ -32,7 +30,6 @@ Firecrow.Interpreter.Model.NumberFunction.prototype = new fcModel.Object();
 Firecrow.Interpreter.Model.NumberPrototype = function(globalObject)
 {
     this.initObject(globalObject);
-    this.fcInternal = { object: this };
 };
 
 Firecrow.Interpreter.Model.NumberPrototype.prototype = new fcModel.Object();

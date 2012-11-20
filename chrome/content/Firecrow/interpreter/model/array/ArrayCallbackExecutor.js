@@ -10,26 +10,26 @@ fcModel.ArrayCallbackEvaluator =
         {
             var originatingObject = callbackCommand.originatingObject;
 
-            if(!ValueTypeHelper.isArray(originatingObject.value)) { fcModel.Array.notifyError("When evaluating callback return the argument has to be an array!"); return; }
+            if(!ValueTypeHelper.isArray(originatingObject.jsValue)) { fcModel.Array.notifyError("When evaluating callback return the argument has to be an array!"); return; }
 
-            var callbackFunctionValue = callbackCommand.callerFunction.value;
+            var callbackFunctionValue = callbackCommand.callerFunction.jsValue;
             var targetObject = callbackCommand.targetObject;
-            var targetObjectValue = targetObject.value;
+            var targetObjectValue = targetObject.jsValue;
 
             if(callbackFunctionValue.name == "filter")
             {
                 if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
 
-                if(returnValue != null && returnValue.value)
+                if(returnValue != null && returnValue.jsValue)
                 {
-                    targetObject.fcInternal.object.push(targetObjectValue, [callbackCommand.arguments[0]], returnExpression.argument);
+                    targetObject.iValue.push(targetObjectValue, [callbackCommand.arguments[0]], returnExpression.argument);
                 }
             }
             else if(callbackFunctionValue.name == "map")
             {
                 if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
 
-                targetObject.fcInternal.object.push(targetObjectValue, [returnValue], returnExpression.argument);
+                targetObject.iValue.push(targetObjectValue, [returnValue], returnExpression.argument);
             }
             else if(callbackFunctionValue.name == "forEach") { }
             else if(callbackFunctionValue.name == "sort") { fcModel.Array.notifyError("Still not handling evaluate return from sort!"); return; }

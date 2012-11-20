@@ -29,7 +29,7 @@
     <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/commands/Command.js"></script>
 
-    <script src="../chrome/content/Firecrow/interpreter/model/JsValue.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/FcValue.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/object/Object.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js"></script>
@@ -128,7 +128,7 @@
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var pageIndex = "86";
+        var pageIndex = "32";
 
         var href = document.location.href;
 
@@ -211,9 +211,9 @@
                                 break;
                             }
 
-                            if(propertyValue.value != result[propName])
+                            if(propertyValue.jsValue != result[propName])
                             {
-                                errors += propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n";
+                                errors += propName + " does not match: " + result[propName] + " != " + propertyValue.jsValue + "\n";
                             }
 
                             break;

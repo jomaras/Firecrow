@@ -16,11 +16,9 @@ fcModel.GlobalObjectExecutor =
             else if (fcFunction.value.name == "clearTimeout" || fcFunction.value.name == "clearInterval") { return this._clearTimingEvents(fcFunction.value.name, arguments[0].value, globalObject, callExpression); }
             else if (fcFunction.value.name == "getComputedStyle") { return this._getComputedStyle(arguments[0], arguments.map(function(argument) { return argument.value; }), globalObject, callExpression) }
 
-            return new fcModel.JsValue
-            (
-                globalObject.origWindow[fcFunction.value.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.value; })),
-                new fcModel.FcInternal(callExpression, null)
-            );
+            var result = globalObject.origWindow[fcFunction.value.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.value; }));
+
+            return new fcModel.fcValue(result, result, callExpression);
         }
         catch(e)
         {
@@ -30,9 +28,9 @@ fcModel.GlobalObjectExecutor =
 
     _getComputedStyle: function(jsHtmlElement, args, globalObject, callExpression)
     {
-        if(!(jsHtmlElement.value instanceof HTMLElement)) { this.notifyError("Wrong argument when getting computed style"); return; }
+        if(!(jsHtmlElement.jsValue instanceof HTMLElement)) { this.notifyError("Wrong argument when getting computed style"); return; }
 
-        var htmlElement = jsHtmlElement.value;
+        var htmlElement = jsHtmlElement.jsValue;
         var computedStyle = globalObject.origWindow.getComputedStyle.apply(globalObject.origWindow, args);
 
         return fcModel.CSSStyleDeclaration.createStyleDeclaration(htmlElement, computedStyle, globalObject, callExpression);
@@ -47,7 +45,7 @@ fcModel.GlobalObjectExecutor =
         if(functionName == "setTimeout") { globalObject.registerTimeout.apply(globalObject, timingEventArguments); }
         else if(functionName == "setInterval") { globalObject.registerInterval.apply(globalObject, timingEventArguments); }
 
-        return new fcModel.JsValue(timeoutId, new fcModel.FcInternal());
+        return new fcModel.fcValue(timeoutId, null, null);
     },
 
     _clearTimingEvents: function(functionName, timerId, globalObject, callExpression)
@@ -55,14 +53,14 @@ fcModel.GlobalObjectExecutor =
         if(functionName == "clearTimeout") { globalObject.unregisterTimeout(arguments[0] != null ? timerId : null, callExpression); }
         else { globalObject.unregisterInterval(arguments[0] != null ? timerId : null, callExpression); }
 
-        return new fcModel.JsValue(undefined, new fcModel.FcInternal());
+        return new fcModel.fcValue(undefined, undefined, null);
     },
 
     _handleEval: function(fcFunction, arguments, callExpression, globalObject)
     {
         fcModel.GlobalObject.notifyError("Not handling eval function!");
 
-        return new fcModel.JsValue(null, new fcModel.FcInternal(callExpression));
+        return new fcModel.fcValue(null, null, callExpression);
     },
 
     executesFunction: function(globalObject, functionName)

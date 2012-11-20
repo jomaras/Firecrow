@@ -32,8 +32,6 @@ fcModel.Object.prototype =
         this.enumeratedProperties = [];
 
         this.proto = proto;
-        this.prototypeDefinitionConstruct = null;
-
         this.modifications = [];
 
         if(codeConstruct != null && globalObject != null)
@@ -69,6 +67,11 @@ fcModel.Object.prototype =
     {
         try
         {
+            if(!propertyName)
+            {
+                alert("Invalid property name!");
+            }
+
             var property = this.getOwnProperty(propertyName);
 
             if(property != null)
@@ -78,22 +81,23 @@ fcModel.Object.prototype =
                 return property;
             }
 
-            if(this.proto == null || (this.proto.fcInternal == null && this.proto.jsValue == null)) { return null; }
+            if(this.proto == null) { return null; }
 
-            if(this.proto.fcInternal != null && this.proto.fcInternal.object != null)
-            {
-                property = this.proto.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
-            }
-            else if (this.proto.jsValue != null && this.proto.jsValue.fcInternal.object != null)
-            {
-                property = this.proto.jsValue.fcInternal.object.getProperty(propertyName, readPropertyConstruct);
-            }
+            property = this.proto.iValue.getProperty(propertyName, readPropertyConstruct);
 
             this._addDependenciesToPrototypeProperty(property, readPropertyConstruct);
 
             return property;
         }
-        catch(e) { fcModel.Object.notifyError("Error when getting property:" + e); }
+        catch(e)
+        {
+            fcModel.Object.notifyError("Error when getting property:" + e);
+        }
+    },
+
+    getJsPropertyValue: function(propertyName, codeConstruct)
+    {
+        return this.getPropertyValue(propertyName, codeConstruct);
     },
 
     getPropertyValue: function(propertyName, codeConstruct)
@@ -125,11 +129,8 @@ fcModel.Object.prototype =
 
     getPropertyNameAtIndex: function(index, codeConstruct)
     {
-        return new fcModel.JsValue
-        (
-            this._getEnumeratedPropertiesFromImplementationObject()[index],
-            new fcModel.FcInternal(codeConstruct)
-        );
+        var propertyName = this._getEnumeratedPropertiesFromImplementationObject()[index];
+        return new fcModel.fcValue(propertyName, propertyName, codeConstruct);
     },
 
     getPropertiesWithIndexNames: function()

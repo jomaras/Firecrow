@@ -27,21 +27,21 @@ fcModel.HtmlElementExecutor =
 
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
-        if(!functionObject.fcInternal.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing html method!"); return; }
+        if(!functionObject.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing html method!"); return; }
 
-        var functionObjectValue = functionObject.value;
-        var thisObjectValue = thisObject.value;
+        var functionObjectValue = functionObject.jsValue;
+        var thisObjectValue = thisObject.jsValue;
         var functionName = functionObjectValue.name;
-        var fcThisValue =  thisObject.fcInternal.object;
+        var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  arguments.map(function(argument){ return argument.value;});
+        var jsArguments =  arguments.map(function(argument){ return argument.jsValue;});
 
         switch(functionName)
         {
             case "getElementsByTagName":
             case "getElementsByClassName":
             case "querySelectorAll":
-                return this._getElements(functionName, globalObject, arguments[0].value, thisObjectValue, jsArguments, callExpression);
+                return this._getElements(functionName, globalObject, arguments[0].jsValue, thisObjectValue, jsArguments, callExpression);
             case "getAttribute":
                 return this._getAttribute(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "setAttribute":
@@ -57,11 +57,11 @@ fcModel.HtmlElementExecutor =
                 this._registerEventHandler(fcThisValue, jsArguments, arguments[1], globalObject, callExpression);
             case "removeEventListener":
                 this._removeEventHandler(thisObjectValue, globalObject, callExpression);
-                return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
+                return new fcModel.fcValue(undefined, undefined, callExpression);
             case "matchesSelector":
             case "mozMatchesSelector":
             case "webkitMatchesSelector":
-                globalObject.browser.logDomQueried(functionName, arguments[0].value, callExpression);
+                globalObject.browser.logDomQueried(functionName, arguments[0].jsValue, callExpression);
             case "compareDocumentPosition":
             case "contains":
                 return this._queryDocument(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
@@ -96,7 +96,7 @@ fcModel.HtmlElementExecutor =
     {
         try
         {
-            if(item == null) { return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct)); }
+            if(item == null) { return new fcModel.fcValue(item, item, codeConstruct); }
 
             if(ValueTypeHelper.isOfType(item, HTMLElement) || ValueTypeHelper.isOfType(item, DocumentFragment))
             {
@@ -109,11 +109,11 @@ fcModel.HtmlElementExecutor =
                     fcHtmlElement.proto = globalObject.htmlImageElementPrototype;
                 }
 
-                return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, fcHtmlElement));
+                return new fcModel.fcValue(item, fcHtmlElement, codeConstruct);
             }
             else if (ValueTypeHelper.isOfType(item, Text))
             {
-                return new fcModel.JsValue(item, new fcModel.FcInternal(codeConstruct, new fcModel.TextNode(item, globalObject, codeConstruct)));
+                return new fcModel.fcValue(item, new fcModel.TextNode(item, globalObject, codeConstruct), codeConstruct);
             }
             else if (ValueTypeHelper.isOfType(item, Document))
             {
@@ -216,7 +216,7 @@ fcModel.HtmlElementExecutor =
     {
         var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
         this.addDependencies(thisObjectValue, callExpression, globalObject);
-        return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression, null));
+        return new fcModel.fcValue(result, result, callExpression);
     },
 
     _modifyAttribute: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
@@ -225,7 +225,7 @@ fcModel.HtmlElementExecutor =
         thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
         fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
 
-        return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression, null));
+        return new fcModel.fcValue(undefined, undefined, callExpression);
     },
 
     _modifyDOM: function(functionName, thisObjectValue, args, jsArguments, globalObject, callExpression)
@@ -235,7 +235,7 @@ fcModel.HtmlElementExecutor =
         fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
         for(var i = 0; i < args.length; i++)
         {
-            var manipulatedElement = args[i].fcInternal.object;
+            var manipulatedElement = args[i].iValue;
 
             if(manipulatedElement != null) //Because of comments
             {
@@ -290,7 +290,7 @@ fcModel.HtmlElementExecutor =
             );
         }
 
-        return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
+        return new fcModel.fcValue(result, result, callExpression);
     },
 
     _getBoundingClientRectangle: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
@@ -301,12 +301,12 @@ fcModel.HtmlElementExecutor =
 
             var nativeObj =
             {
-                bottom: new fcModel.JsValue(result.bottom, new fcModel.FcInternal(callExpression)),
-                top: new fcModel.JsValue(result.top, new fcModel.FcInternal(callExpression)),
-                left: new fcModel.JsValue(result.left, new fcModel.FcInternal(callExpression)),
-                right: new fcModel.JsValue(result.right, new fcModel.FcInternal(callExpression)),
-                height: new fcModel.JsValue(result.height, new fcModel.FcInternal(callExpression)),
-                width: new fcModel.JsValue(result.width, new fcModel.FcInternal(callExpression))
+                bottom: new fcModel.fcValue(result.bottom, result.bottom, callExpression),
+                top: new fcModel.fcValue(result.top, result.top, callExpression),
+                left: new fcModel.fcValue(result.left, result.left, callExpression),
+                right: new fcModel.fcValue(result.right, result.right, callExpression),
+                height: new fcModel.fcValue(result.height, result.height, callExpression),
+                width: new fcModel.fcValue(result.width, result.width, callExpression)
             };
 
             var fcObj = fcModel.Object.createObjectWithInit(globalObject, callExpression, nativeObj);
@@ -318,11 +318,11 @@ fcModel.HtmlElementExecutor =
             fcObj.addProperty("height", nativeObj.height, callExpression);
             fcObj.addProperty("width", nativeObj.width, callExpression);
 
-            return new fcModel.JsValue(nativeObj, new fcModel.FcInternal(callExpression, fcObj));
+            return new fcModel.fcValue(nativeObj, fcObj, callExpression);
         }
         catch(e) { fcModel.HtmlElement.notifyError("Error when adding dependencies: " + e); }
 
-        return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
+        return new fcModel.fcValue(undefined, null, callExpression);
     },
 
     notifyError: function(message) { alert("HtmlElementExecutor - " + message); }

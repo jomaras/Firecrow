@@ -12,7 +12,6 @@ fcModel.XMLHttpRequestFunction = function(globalObject)
 
     this.isInternalFunction = true;
     this.name = "XMLHttpRequest";
-    this.fcInternal = { object: this };
 };
 
 fcModel.XMLHttpRequestFunction.prototype = new fcModel.Object();

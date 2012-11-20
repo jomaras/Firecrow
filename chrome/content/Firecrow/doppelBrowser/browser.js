@@ -61,7 +61,7 @@ fcBrowser.Browser = function(pageModel)
             Firecrow.Interpreter.Model.Array.notifyError = function(message) { errorMessages.push("Array - " + message); }
             Firecrow.Interpreter.Model.Attr.notifyError = function(message) { errorMessages.push("Attr - " + message); }
             Firecrow.Interpreter.Model.Identifier.notifyError = function(message) { errorMessages.push("Identifier - " + message); }
-            Firecrow.Interpreter.Model.JsValue.notifyError = function(message) { errorMessages.push("JsValue - " + message); }
+            Firecrow.Interpreter.Model.fcValue.notifyError = function(message) { errorMessages.push("FcValue - " + message); }
             Firecrow.Interpreter.Model.Object.notifyError = function(message) { errorMessages.push("Object - " + message); }
             Firecrow.Interpreter.Model.Math.notifyError = function(message) { errorMessages.push("Math - " + message); }
             Firecrow.Interpreter.Simulator.Evaluator.notifyError = function(message) { errorMessages.push("Evaluator - " + message); }
@@ -71,7 +71,7 @@ fcBrowser.Browser = function(pageModel)
             Firecrow.Interpreter.InterpreterSimulator.notifyError = function(message) { errorMessages.push("InterpreterSimulator - " + message); }
 
             Firecrow.DependencyGraph.Node.LAST_ID = 0;
-            Firecrow.Interpreter.Model.JsValue.LAST_ID = 0;
+            Firecrow.Interpreter.Model.fcValue.LAST_ID = 0;
             Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
             Firecrow.Interpreter.Model.Identifier.LAST_ID = 0;
             Firecrow.Interpreter.Model.Object.LAST_ID = 0;
@@ -351,7 +351,7 @@ Browser.prototype =
         {
             if(this.pageModel.eventTraces == null) { return; }
 
-            this.globalObject.document.addProperty("readyState", new fcModel.JsValue("complete", new fcModel.FcInternal()));
+            this.globalObject.document.addProperty("readyState", new fcModel.fcValue("complete", null, null));
 
             var eventTraces = this.pageModel.eventTraces;
 
@@ -398,7 +398,7 @@ Browser.prototype =
 
         if(domContentReadyInfo != null)
         {
-            var handlerConstruct = domContentReadyInfo.handler.fcInternal.object.codeConstruct;
+            var handlerConstruct = domContentReadyInfo.handler.codeConstruct;
 
             if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
             {
@@ -429,7 +429,7 @@ Browser.prototype =
 
         if(onLoadInfo != null)
         {
-            var handlerConstruct = onLoadInfo.handler.fcInternal.object.codeConstruct;
+            var handlerConstruct = onLoadInfo.handler.codeConstruct;
 
             if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
             {
@@ -460,7 +460,7 @@ Browser.prototype =
         {
             var event = intervalEvents[j];
 
-            var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+            var handlerConstruct = event.handler.codeConstruct;
 
             if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
             {
@@ -485,7 +485,7 @@ Browser.prototype =
         {
             var event = timeoutEvents[j];
 
-            var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+            var handlerConstruct = event.handler.codeConstruct;
 
             if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
             {
@@ -520,11 +520,11 @@ Browser.prototype =
 
             if(this._isElementEvent(eventTrace, event.eventType))
             {
-                var handlerConstruct = event.handler.fcInternal.object.codeConstruct;
+                var handlerConstruct = event.handler.codeConstruct;
 
                 if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
                 {
-                    var eventThisObject = new fcModel.JsValue(fcHtmlElement.htmlElement, new fcModel.FcInternal(null, fcHtmlElement));
+                    var eventThisObject = new fcModel.fcValue(fcHtmlElement.htmlElement, fcHtmlElement, null);
                     this._interpretJsCode
                     (
                         handlerConstruct.body,
@@ -742,10 +742,7 @@ Browser.prototype =
         this.globalObject.registerSlicingCriteria(slicingCriteria);
     },
 
-    clean: function()
-    {
-        this.globalObject.internalExecutor.removeInternalFunctions();
-    },
+    clean: function() {},
 
     _getElementXPath: function(element)
     {
@@ -786,13 +783,13 @@ Browser.prototype =
             }
             else
             {
-                var value = new fcModel.JsValue(eventTraceArgs[propName], new fcModel.FcInternal());
+                var value = new fcModel.fcValue(eventTraceArgs[propName], null, null);
                 eventInfoJsObject.addProperty(propName, value);
                 eventInfo[propName] = value;
             }
         }
 
-        arguments.push(new fcModel.JsValue(eventInfo, new fcModel.FcInternal(null, eventInfoJsObject)));
+        arguments.push(new fcModel.fcValue(eventInfo, eventInfoJsObject, null));
 
         return arguments;
     },

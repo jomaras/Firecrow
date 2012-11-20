@@ -8,11 +8,9 @@ fcModel.HTMLImageElement = function(globalObject)
     {
         this.initObject(globalObject);
 
-        this.prototype = new fcModel.JsValue(globalObject.htmlImageElementPrototype, new fcModel.FcInternal(null, globalObject.htmlImageElementPrototype)) ;
-        this.addProperty("prototype", this.prototype);
+        this.addProperty("prototype", globalObject.fcHtmlImagePrototype);
 
         this.name = "HTMLImageElement";
-        this.fcInternal = { object: this };
     }
     catch(e){ fcModel.HTMLImageElement.notifyError("Error when creating Array Function:" + e); }
 };
@@ -22,13 +20,7 @@ fcModel.HTMLImageElement.notifyError = function(message) { alert("HTMLImageEleme
 
 fcModel.HTMLImageElementPrototype = function(globalObject)
 {
-    try
-    {
-        this.initObject(globalObject);
-
-        this.fcInternal = { object: this };
-    }
-    catch(e) { fcModel.HTMLImageElement.notifyError("Error when creating array prototype:" + e); }
+    this.initObject(globalObject);
 };
 
 fcModel.HTMLImageElementPrototype.prototype = new fcModel.Object();

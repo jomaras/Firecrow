@@ -14,16 +14,16 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
 
         this.constructor = fcModel.Attr;
 
-        this.addProperty("isId", new fcModel.JsValue(this.attr.isId, new fcModel.FcInternal(null)), null);
-        this.addProperty("localName", new fcModel.JsValue(this.attr.localName, new fcModel.FcInternal(null)), null);
-        this.addProperty("name", new fcModel.JsValue(this.attr.name, new fcModel.FcInternal(null)), null);
-        this.addProperty("namespaceURI", new fcModel.JsValue(this.attr.namespaceURI, new fcModel.FcInternal(null)), null);
-        this.addProperty("nodeName", new fcModel.JsValue(this.attr.nodeName, new fcModel.FcInternal(null)), null);
-        this.addProperty("nodeType", new fcModel.JsValue(this.attr.nodeType, new fcModel.FcInternal(null)), null);
-        this.addProperty("nodeValue", new fcModel.JsValue(this.attr.nodeValue, new fcModel.FcInternal(null)), null);
-        this.addProperty("specified", new fcModel.JsValue(this.attr.specified, new fcModel.FcInternal(null)), null);
-        this.addProperty("textContent", new fcModel.JsValue(this.attr.textContent, new fcModel.FcInternal(null)), null);
-        this.addProperty("value", new fcModel.JsValue(this.attr.value, new fcModel.FcInternal(null)), null);
+        this.addProperty("isId", new fcModel.fcValue(this.attr.isId, this.attr.isId, null), null);
+        this.addProperty("localName", new fcModel.fcValue(this.attr.localName, this.attr.localName, null));
+        this.addProperty("name", new fcModel.fcValue(this.attr.name, this.attr.name, null));
+        this.addProperty("namespaceURI", new fcModel.fcValue(this.attr.namespaceURI, this.attr.namespaceURI, null));
+        this.addProperty("nodeName", new fcModel.fcValue(this.attr.nodeName, this.attr.nodeName, null));
+        this.addProperty("nodeType", new fcModel.fcValue(this.attr.nodeType, this.attr.nodeType, null));
+        this.addProperty("nodeValue", new fcModel.fcValue(this.attr.nodeValue, this.attr.nodeValue, null));
+        this.addProperty("specified", new fcModel.fcValue(this.attr.specified, this.attr.specified, null));
+        this.addProperty("textContent", new fcModel.fcValue(this.attr.textContent, this.attr.textContent, null));
+        this.addProperty("value", new fcModel.fcValue(this.attr.value, this.attr.value, null));
 
         this.registerAddPropertyCallback(function(propertyName, propertyValue, codeConstruct)
         {
@@ -55,14 +55,11 @@ fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConst
                 var attribute = attributes[i];
                 attributeList.push
                 (
-                    new fcModel.JsValue
+                    new fcModel.fcValue
                     (
                         attribute,
-                        new fcModel.FcInternal
-                        (
-                            codeConstruct,
-                            new fcModel.Attr(attribute, htmlElement, globalObject, codeConstruct)
-                        )
+                        new fcModel.Attr(attribute, htmlElement, globalObject, codeConstruct),
+                        codeConstruct
                     )
                 );
             }

@@ -10,12 +10,11 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
     this.object = this;
     this.codeConstruct = codeConstruct;
     this.scopeChain = scopeChain;
+
     this.value = value;
 
-    this.addProperty("prototype", globalObject.functionPrototype);
-    this.addProperty("__proto__", globalObject.functionPrototype);
-
-    this.fcInternal = this;
+    this.addProperty("prototype", this.globalObject.internalExecutor.createNonConstructorObject());
+    this.addProperty("__proto__", globalObject.fcObjectPrototype);
 };
 
 fcModel.Function.createInternalNamedFunction = function(globalObject, name, ownerObject)
@@ -35,6 +34,11 @@ fcModel.Function.createInternalNamedFunction = function(globalObject, name, owne
 
 fcModel.Function.notifyError = function(message) { alert("Function - " + message); };
 fcModel.Function.prototype = new fcModel.Object();
+
+fcModel.Function.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
+{
+    return this.getPropertyValue(propertyName, codeConstruct);
+};
 //</editor-fold>
 
 //<editor-fold desc="Function prototype">
@@ -49,8 +53,6 @@ fcModel.FunctionPrototype = function(globalObject)
         {
             this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
         }, this);
-
-        this.fcInternal = { object: this};
     }
     catch(e) { fcModel.Function.notifyError ("Error when creating function prototype:" + e); }
 };

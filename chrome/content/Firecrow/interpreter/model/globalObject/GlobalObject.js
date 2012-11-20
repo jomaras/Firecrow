@@ -8,9 +8,10 @@ fcModel.GlobalObject = function(browser)
     try
     {
         this.initObject(this);
+
+        this._expandToFcValue();
         ValueTypeHelper.expand(this, fcModel.EventListenerMixin);
 
-        this._createJsValueProperties();
         Firecrow.Interpreter.Simulator.VariableObject.liftToVariableObject(this);
 
         this.internalExecutor = new Firecrow.Interpreter.Simulator.InternalExecutor(this);
@@ -31,7 +32,10 @@ fcModel.GlobalObject = function(browser)
 
         this._EXECUTION_COMMAND_COUNTER = 0;
     }
-    catch(e) { fcModel.GlobalObject.notifyError("Error when initializing global object:" + e); }
+    catch(e)
+    {
+        fcModel.GlobalObject.notifyError("Error when initializing global object:" + e);
+    }
 };
 
 //<editor-fold desc="'Static' properties">
@@ -312,6 +316,15 @@ fcModel.GlobalObject.prototype._createSlicingVariables = function()
 //</editor-fold>
 
 //<editor-fold desc="'Private methods'">
+fcModel.GlobalObject.prototype._expandToFcValue = function()
+{
+    this.iValue = this;
+    this.jsValue = this;
+    this.codeConstruct = null;
+
+    this.isFunction = function() { return false; };
+    this.isPrimitive = function() { return false; };
+};
 fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 {
     this.browser = browser;
@@ -323,65 +336,79 @@ fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
 {
     this.booleanPrototype = new fcModel.BooleanPrototype(this);
-    this.functionFunctionPrototype = new fcModel.FunctionFunctionPrototype(this);
+    this.fcBooleanPrototype = new fcModel.fcValue(Boolean.prototype, this.booleanPrototype, null);
+
     this.arrayPrototype = new fcModel.ArrayPrototype(this);
+    this.fcArrayPrototype = new fcModel.fcValue(Array.prototype, this.arrayPrototype, null);
+
     this.objectPrototype = new fcModel.ObjectPrototype(this);
+    this.fcObjectPrototype = new fcModel.fcValue(Object.prototype, this.objectPrototype, null);
+
     this.functionPrototype = new fcModel.FunctionPrototype(this);
+    this.fcFunctionPrototype = new fcModel.fcValue(Function.prototype, this.functionPrototype, null);
+
     this.regExPrototype = new fcModel.RegExPrototype(this);
+    this.fcRegExPrototype = new fcModel.fcValue(RegExp.prototype, this.regExPrototype, null);
+
     this.stringPrototype = new fcModel.StringPrototype(this);
+    this.fcStringPrototype = new fcModel.fcValue(String.prototype, this.stringPrototype, null);
+
     this.numberPrototype = new fcModel.NumberPrototype(this);
+    this.fcNumberPrototype = new fcModel.fcValue(Number.prototype, this.numberPrototype, null);
+
     this.datePrototype = new fcModel.DatePrototype(this);
+    this.fcDatePrototype = new fcModel.fcValue(Date.prototype, this.datePrototype, null);
+
     this.htmlImageElementPrototype = new fcModel.HTMLImageElementPrototype(this);
+    this.fcHtmlImagePrototype = new fcModel.fcValue(HTMLImageElement.prototype, this.htmlImageElementPrototype, null);
 };
 
 fcModel.GlobalObject.prototype._createInternalFunctions = function()
 {
     this.arrayFunction = new fcModel.ArrayFunction(this);
-    this.addProperty("Array", new fcModel.JsValue(this.arrayFunction, new fcModel.FcInternal(null, this.arrayFunction)) , null);
+    this.addProperty("Array", new fcModel.fcValue(Array, this.arrayFunction, null), null);
 
     this.booleanFunction = new fcModel.BooleanFunction(this);
-    this.addProperty("Boolean", new fcModel.JsValue(this.booleanFunction, new fcModel.FcInternal(null, this.booleanFunction)) , null);
+    this.addProperty("Boolean", new fcModel.fcValue(Boolean, this.booleanFunction, null), null);
 
     this.stringFunction = new fcModel.StringFunction(this);
-    this.addProperty("String", new fcModel.JsValue(this.stringFunction, new fcModel.FcInternal(null, this.stringFunction)) , null);
+    this.addProperty("String", new fcModel.fcValue(String, this.stringFunction, null), null);
 
     this.imageFunction = new fcModel.ImageFunction(this);
-    this.addProperty("Image", new fcModel.JsValue(this.imageFunction, new fcModel.FcInternal(null, this.imageFunction)) , null);
+    this.addProperty("Image", new fcModel.fcValue(Image, this.imageFunction, null), null);
 
     this.regExFunction = new fcModel.RegExFunction(this);
-    this.addProperty("RegExp", new fcModel.JsValue(this.regExFunction, new fcModel.FcInternal(null, this.regExFunction)) , null);
+    this.addProperty("RegExp", new fcModel.fcValue(RegExp, this.regExFunction, null), null);
 
     this.objectFunction = new fcModel.ObjectFunction(this);
-    this.addProperty("Object", new fcModel.JsValue(this.objectFunction, new fcModel.FcInternal(null, this.objectFunction)) , null);
+    this.addProperty("Object", new fcModel.fcValue(Object, this.objectFunction, null), null);
 
     this.numberFunction = new fcModel.NumberFunction(this);
-    this.addProperty("Number", new fcModel.JsValue(this.numberFunction, new fcModel.FcInternal(null, this.numberFunction)) , null);
+    this.addProperty("Number", new fcModel.fcValue(Number, this.numberFunction, null), null);
 
     this.dateFunction = new fcModel.DateFunction(this);
-    this.addProperty("Date", new fcModel.JsValue(this.dateFunction, new fcModel.FcInternal(null, this.dateFunction)), null);
+    this.addProperty("Date", new fcModel.fcValue(Date, this.dateFunction, this.dateFunction), null);
 
     this.functionFunction = new fcModel.FunctionFunction(this);
-    this.addProperty("Function", new fcModel.JsValue(this.functionFunction, new fcModel.FcInternal(null, this.functionFunction)), null);
+    this.addProperty("Function", new fcModel.fcValue(Function, this.functionFunction), null);
 
     this.xmlHttpRequestFunction = new fcModel.XMLHttpRequestFunction(this);
-    this.addProperty("XMLHttpRequest", new fcModel.JsValue(this.xmlHttpRequestFunction, new fcModel.FcInternal(null, this.xmlHttpRequestFunction)), null);
-
-    this.internalExecutor.expandInternalFunctions();
+    this.addProperty("XMLHttpRequest", new fcModel.fcValue(XMLHttpRequest, this.xmlHttpRequestFunction, null), null);
 
     fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(methodName)
     {
-        this.addProperty(methodName,  this.origWindow[methodName].jsValue);
+        this.addProperty(methodName, new fcModel.fcValue(this.origWindow[methodName], this.origWindow[methodName], null));
     }, this);
 };
 
 fcModel.GlobalObject.prototype._createInternalObjects = function()
 {
     this.document = new fcModel.Document(this.origDocument, this);
-    this.jsFcDocument = new fcModel.JsValue(this.origDocument, new fcModel.FcInternal(null, this.document));
+    this.jsFcDocument = new fcModel.fcValue(this.origDocument, this.document, null);
     this.addProperty("document", this.jsFcDocument, null);
 
     this.fcMath = new fcModel.Math(this);
-    this.math = new fcModel.JsValue(this.fcMath, new fcModel.FcInternal(null, this.fcMath));
+    this.math = new fcModel.fcValue(Math, this.fcMath, null);
     this.addProperty("Math", this.math, null);
 
     this.addProperty("window", this, null);
@@ -390,16 +417,16 @@ fcModel.GlobalObject.prototype._createInternalObjects = function()
     this.addProperty("navigator", this.internalExecutor.createNavigatorObject());
 
     this.fcHTMLImageElement = new fcModel.HTMLImageElement(this);
-    this.htmlImageElement = new fcModel.JsValue(this.fcHTMLImageElement, new fcModel.FcInternal(null, this.fcHTMLImageElement));
+    this.htmlImageElement = new fcModel.fcValue(HTMLImageElement, this.fcHTMLImageElement, null);
     this.addProperty("HTMLImageElement", this.htmlImageElement, null);
 };
 
 fcModel.GlobalObject.prototype._createInternalVariables = function()
 {
-    this.addProperty("undefined", new fcModel.JsValue(undefined, new fcModel.FcInternal()));
-    this.addProperty("Infinity", new fcModel.JsValue(Infinity, new fcModel.FcInternal()));
-    this.addProperty("mozInnerScreenX", new fcModel.JsValue(window.mozInnerScreenX, new fcModel.FcInternal()));
-    this.addProperty("mozInnerScreenY", new fcModel.JsValue(window.mozInnerScreenY, new fcModel.FcInternal()));
+    this.addProperty("undefined", new fcModel.fcValue(undefined, undefined, null));
+    this.addProperty("Infinity", new fcModel.fcValue(Infinity, Infinity, null));
+    this.addProperty("mozInnerScreenX", new fcModel.fcValue(window.mozInnerScreenX, window.mozInnerScreenX, null));
+    this.addProperty("mozInnerScreenY", new fcModel.fcValue(window.mozInnerScreenY, window.mozInnerScreenY, null));
 };
 
 fcModel.GlobalObject.prototype._createTrackerMaps = function()
@@ -415,13 +442,6 @@ fcModel.GlobalObject.prototype._createHandlerMaps = function()
 
     this.timeoutHandlers = [];
     this.intervalHandlers = [];
-};
-
-fcModel.GlobalObject.prototype._createJsValueProperties = function()
-{
-    this.jsValue = this;
-    this.value = this;
-    this.fcInternal = new fcModel.FcInternal(null, this);
 };
 
 fcModel.GlobalObject.prototype._logAccessingUndefinedProperty = function(propertyName, codeConstruct)

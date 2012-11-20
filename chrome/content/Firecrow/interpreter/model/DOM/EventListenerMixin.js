@@ -11,7 +11,7 @@ fcModel.EventListenerMixin =
             if(args.length < 2) { fcModel.Object.notifyError("Too few arguments when executing addEventListener"); return; }
             if(this.eventListenerInfo == null) { this.eventListenerInfo = {}; }
 
-            var eventTypeName = args[0].value;
+            var eventTypeName = args[0].jsValue;
             var handler = args[1];
 
             if(this.eventListenerInfo[eventTypeName] == null) { this.eventListenerInfo[eventTypeName] = []; }
@@ -37,8 +37,8 @@ fcModel.EventListenerMixin =
             if(args.length < 2) { fcModel.Object.notifyError("Too few arguments when executing addEventListener"); return;}
             if(this.eventListenerInfo == null) { this.eventListenerInfo = {}; }
 
-            var eventTypeName = args[0].value;
-            var handler = args[1].value;
+            var eventTypeName = args[0].jsValue;
+            var handler = args[1].jsValue;
 
             var eventHandlers = this.eventListenerInfo[eventTypeName];
 

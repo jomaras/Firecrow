@@ -385,11 +385,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             if(functionObject == null) { this.notifyError("function object can not be null when generating commands for function execution!"); return commands; }
 
-            if(functionObject.fcInternal.isInternalFunction && !callExpressionCommand.isCall && !callExpressionCommand.isApply)
+            if(functionObject.isInternalFunction && !callExpressionCommand.isCall && !callExpressionCommand.isApply)
             {
                 return this._generateInternalFunctionExecutionCommands(callExpressionCommand, functionObject, thisObject);
             }
-            else if(functionObject.fcInternal.isInternalFunction && (callExpressionCommand.isCall || callExpressionCommand.isApply))
+            else if(functionObject.isInternalFunction && (callExpressionCommand.isCall || callExpressionCommand.isApply))
             {
                 return this._generateInternalFunctionExecutionCallApplyCommands(callExpressionCommand, functionObject, thisObject);
             }
@@ -401,7 +401,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             callExpressionCommand.exitFunctionContextCommand = exitFunctionContextCommand;
             exitFunctionContextCommand.callExpressionCommand = callExpressionCommand;
 
-            var functionConstruct = functionObject.fcInternal.codeConstruct;
+            var functionConstruct = functionObject.codeConstruct;
 
             ASTHelper.traverseDirectSourceElements
             (
@@ -446,7 +446,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         var commands = [];
 
         if(functionObject == null) { this.notifyError("function object can not be null when generating commands for internal function execution!"); return commands; }
-        if(!functionObject.fcInternal.isInternalFunction) { this.notifyError("function must be an internal function"); return commands; }
+        if(!functionObject.isInternalFunction) { this.notifyError("function must be an internal function"); return commands; }
 
         var command = null;
 
@@ -512,7 +512,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
             var evalCallbackCommand =  new fcCommands.Command
             (
-                callbackCommand.callbackFunction.fcInternal.codeConstruct,
+                callbackCommand.callbackFunction.codeConstruct,
                 fcCommands.Command.COMMAND_TYPE.EvalCallbackFunction,
                 callbackCommand
             );

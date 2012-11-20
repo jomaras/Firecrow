@@ -50,20 +50,20 @@ fcModel.EventExecutor =
 {
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
-        if(!functionObject.fcInternal.isInternalFunction) { fcModel.Event.notifyError("The function should be internal when executing html method!"); return; }
+        if(!functionObject.isInternalFunction) { fcModel.Event.notifyError("The function should be internal when executing html method!"); return; }
 
-        var functionObjectValue = functionObject.value;
-        var thisObjectValue = thisObject.value;
+        var functionObjectValue = functionObject.jsValue;
+        var thisObjectValue = thisObject.jsValue;
         var functionName = functionObjectValue.name;
-        var fcThisValue =  thisObject.fcInternal.object;
+        var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  arguments.map(function(argument){ return argument.value;});
+        var jsArguments =  arguments.map(function(argument){ return argument.jsValue;});
 
         if(fcModel.Event.CONST.INTERNAL_PROPERTIES.METHODS.indexOf(functionName) == -1) { fcModel.Event.notifyError("Unhandled event method!"); return; }
 
-        if(fcThisValue.eventThisObject != null && fcThisValue.eventThisObject.value instanceof Element)
+        if(fcThisValue.eventThisObject != null && fcThisValue.eventThisObject.jsValue instanceof Element)
         {
-            fcModel.HtmlElementExecutor.addDependencyIfImportantElement(fcThisValue.eventThisObject.value, globalObject, callExpression);
+            fcModel.HtmlElementExecutor.addDependencyIfImportantElement(fcThisValue.eventThisObject.jsValue, globalObject, callExpression);
         }
     }
 }

@@ -29,7 +29,7 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
         {
             if(ValueTypeHelper.isPrimitive(this.cssStyleDeclaration[propertyName]))
             {
-                return new fcModel.JsValue(this.cssStyleDeclaration[propertyName], new fcModel.FcInternal());
+                return new fcModel.fcValue(this.cssStyleDeclaration[propertyName], this.cssStyleDeclaration[propertyName], null);
             }
 
             return this.getPropertyValue(propertyName, codeConstruct);
@@ -37,7 +37,7 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
 
         this.addJsProperty = function(propertyName, value, codeConstruct)
         {
-            this.cssStyleDeclaration[propertyName] = value.value;
+            this.cssStyleDeclaration[propertyName] = value.jsValue;
             this.addProperty(propertyName, value, codeConstruct);
 
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
@@ -53,8 +53,12 @@ fcModel.CSSStyleDeclaration.prototype = new fcModel.Object();
 
 fcModel.CSSStyleDeclaration.createStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalObject, codeConstruct)
 {
-    var styleDeclaration = new fcModel.CSSStyleDeclaration(htmlElement, cssStyleDeclaration, globalObject, codeConstruct);
-    return new fcModel.JsValue(cssStyleDeclaration, new fcModel.FcInternal(codeConstruct, styleDeclaration));
+    return new fcModel.fcValue
+    (
+        cssStyleDeclaration,
+        new fcModel.CSSStyleDeclaration(htmlElement, cssStyleDeclaration, globalObject, codeConstruct),
+        codeConstruct
+    );
 };
 
 fcModel.CSSStyleDeclaration.notifyError =  function (message){ alert("CSSStyleDeclaration - " + message); }
@@ -63,21 +67,22 @@ fcModel.CSSStyleDeclarationExecutor =
 {
     executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
     {
-        if(!functionObject.fcInternal.isInternalFunction) { fcModel.CSSStyleDeclaration.notifyError("The function should be internal when css declaration method!"); return; }
+        if(!functionObject.isInternalFunction) { fcModel.CSSStyleDeclaration.notifyError("The function should be internal when css declaration method!"); return; }
 
-        var functionObjectValue = functionObject.value;
-        var thisObjectValue = thisObject.value;
+        var functionObjectValue = functionObject.jsValue;
+        var thisObjectValue = thisObject.jsValue;
         var functionName = functionObjectValue.name;
-        var fcThisValue =  thisObject.fcInternal.object;
+        var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  arguments.map(function(argument){ return argument.value;});
+        var jsArguments =  arguments.map(function(argument){ return argument.jsValue;});
 
         switch(functionName)
         {
             case "getPropertyPriority":
             case "getPropertyValue":
             case "item":
-                return new fcModel.JsValue(thisObjectValue[functionName].apply(thisObjectValue, jsArguments), new fcModel.FcInternal(callExpression));
+                var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+                return new fcModel.fcValue(result, result, callExpression);
             case "removeProperty":
             case "setProperty":
             default:

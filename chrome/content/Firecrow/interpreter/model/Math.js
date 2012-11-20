@@ -14,7 +14,7 @@ fcModel.Math = function(globalObject)
 
     fcModel.Math.CONST.INTERNAL_PROPERTIES.PROPERTIES.forEach(function(property)
     {
-        var propertyValue = new fcModel.JsValue(Math[property], new fcModel.FcInternal(null));
+        var propertyValue = new fcModel.fcValue(Math[property], null, null);
         this.addProperty(property, propertyValue, null);
         this[property] = propertyValue;
     }, this);
@@ -51,12 +51,13 @@ fcModel.MathExecutor =
     {
         try
         {
-            if(!functionObject.fcInternal.isInternalFunction) { fcModel.notifyError("The function should be internal when executing Math method!"); return; }
+            if(!functionObject.isInternalFunction) { fcModel.notifyError("The function should be internal when executing Math method!"); return; }
 
-            return new fcModel.JsValue
+            return new fcModel.fcValue
             (
-                Math[functionObject.value.name].apply(null, arguments.map(function(argument) { return argument.value; })),
-                new fcModel.FcInternal(callExpression)
+                Math[functionObject.jsValue.name].apply(null, arguments.map(function(argument) { return argument.jsValue; })),
+                null,
+                callExpression
             );
         }
         catch(e) { fcModel.Math.notifyError("Error when executing internal math method: " + e);}

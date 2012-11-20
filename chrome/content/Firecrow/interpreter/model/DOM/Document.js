@@ -13,7 +13,6 @@ fcModel.Document = function(document, globalObject)
         this.document = document;
         this.constructor = fcModel.Document;
 
-        this.fcInternal = { object: this };
         this.htmlElementToFcMapping = { };
 
         this._createDefaultProperties();
@@ -61,7 +60,7 @@ fcModel.Document.prototype.getJsPropertyValue = function(propertyName, codeConst
         }
         else if (propertyName == "ownerDocument" || propertyName == "attributes")
         {
-            this.addProperty(propertyName, new fcModel.JsValue(null, new fcModel.FcInternal(codeConstruct)));
+            this.addProperty(propertyName, propertyName, codeConstruct);
             hasBeenHandled = true;
         }
     }
@@ -78,7 +77,7 @@ fcModel.Document.prototype.getJsPropertyValue = function(propertyName, codeConst
 //<editor-fold desc="Fetch elements">
 fcModel.Document.prototype.getElementByXPath = function(xPath)
 {
-    if(xPath == null || xPath == "") { return new fcModel.JsValue(null, new fcModel.FcInternal(null));}
+    if(xPath == null || xPath == "") { return new fcModel.fcValue(null, null, null);}
 
     var simpleXPath = (new fcModel.SimpleXPath(xPath)).removeLevel();
     var foundElement = this.document.childNodes[0];
@@ -104,7 +103,7 @@ fcModel.Document.prototype._createDefaultProperties = function()
     fcModel.DOM_PROPERTIES.setPrimitives(this, this.document, fcModel.DOM_PROPERTIES.DOCUMENT.PRIMITIVES);
     fcModel.DOM_PROPERTIES.setPrimitives(this, this.document, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
 
-    this.addProperty("readyState", new fcModel.JsValue("loading", new fcModel.FcInternal()));
+    this.addProperty("readyState", new fcModel.fcValue("loading", "loading", null));
     this.addProperty("location", this.globalObject.internalExecutor.createLocationObject());
 };
 
@@ -112,7 +111,7 @@ fcModel.Document.prototype._getElements = function(propertyName, codeConstruct)
 {
     var implObj = {};
     var fcObj = new fcModel.Object(this.globalObject, codeConstruct, implObj);
-    var returnObj = new fcModel.JsValue(implObj, new fcModel.FcInternal(codeConstruct, fcObj));
+    var returnObj = new fcModel.fcValue(implObj, fcObj, codeConstruct);
 
     var items = document[propertyName];
 
@@ -139,7 +138,7 @@ fcModel.Document.prototype._getElements = function(propertyName, codeConstruct)
         }
     }
 
-    fcObj.addProperty(item.length, new fcModel.FcInternal(codeConstruct));
+    fcObj.addProperty(item.length, item.length, codeConstruct);
 
     return returnObj;
 };

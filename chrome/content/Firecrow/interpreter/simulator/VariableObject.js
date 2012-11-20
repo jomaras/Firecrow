@@ -13,8 +13,6 @@ fcSimulator.VariableObject = function(executionContext)
 {
     this.executionContext = executionContext;
     this.identifiers = [];
-    this.fcInternal = this;
-    this.fcInternal.object = this;
 };
 
 fcSimulator.VariableObject.notifyError = function(message) { alert("VariableObject - " + message); };
@@ -68,16 +66,16 @@ fcSimulator.VariableObject.prototype =
 //<editor-fold desc="Variable Object Mixin">
 fcSimulator.VariableObjectMixin =
 {
-    getIdentifier: function(identifierName) { return this.object.getProperty(identifierName); },
+    getIdentifier: function(identifierName) { return this.iValue.getProperty(identifierName); },
 
     getIdentifierValue: function(identifierName, readConstruct, currentContext)
     {
-        return this.object.getPropertyValue(identifierName, readConstruct, currentContext);
+        return this.iValue.getPropertyValue(identifierName, readConstruct, currentContext);
     },
 
     registerIdentifier: function(identifier)
     {
-        this.object.addProperty
+        this.iValue.addProperty
         (
             identifier.name,
             identifier.value,
@@ -87,7 +85,7 @@ fcSimulator.VariableObjectMixin =
 
     deleteIdentifier: function(identifierName, deleteConstruct)
     {
-        this.object.deleteProperty(identifierName, deleteConstruct);
+        this.iValue.deleteProperty(identifierName, deleteConstruct);
     }
 };
 //</editor-fold>
@@ -160,7 +158,7 @@ fcSimulator.VariableObject._registerFormalParameters = function(formalParameters
 
         formalParameter.setValue
         (
-            sentArguments[i] || new fcModel.JsValue(undefined, new fcModel.FcInternal(formalParameter.declarationConstruct)),
+            sentArguments[i] || new fcModel.fcValue(undefined, undefined, formalParameter.declarationConstruct),
             argumentConstructs[i]
         );
     }
@@ -168,12 +166,12 @@ fcSimulator.VariableObject._registerFormalParameters = function(formalParameters
 
 fcSimulator.VariableObject.liftToVariableObject = function(object)
 {
-    if(object == null || object.fcInternal == null || object.fcInternal.object == null) { fcSimulator.VariableObject.notifyError("Can not lift object to variable object: " + e) };
+    if(object == null || object.iValue == null) { fcSimulator.VariableObject.notifyError("Can not lift object to variable object:"); };
 
-    ValueTypeHelper.expand(object.fcInternal, fcSimulator.VariableObjectMixin);
+    ValueTypeHelper.expand(object.iValue, fcSimulator.VariableObjectMixin);
 
     return object;
 };
-    //</editor-fold>
+//</editor-fold>
 /***************************************************************************************/
 }});

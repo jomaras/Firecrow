@@ -7,22 +7,16 @@ Firecrow.Interpreter.Model.FunctionFunction = function(globalObject)
 {
     this.initObject(globalObject);
 
-    this.prototype = new fcModel.JsValue(globalObject.functionFunctionPrototype, new fcModel.FcInternal(null, globalObject.functionFunctionPrototype)) ;
-    this.addProperty("prototype", globalObject.functionFunctionPrototype);
+    this.addProperty("prototype", this.globalObject.fcFunctionPrototype);
 
     this.isInternalFunction = true;
     this.name = "Function";
-    this.fcInternal = this;
 };
 
 Firecrow.Interpreter.Model.FunctionFunction.prototype = new fcModel.Object();
-
-Firecrow.Interpreter.Model.FunctionFunctionPrototype = function(globalObject)
+Firecrow.Interpreter.Model.FunctionFunction.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
 {
-    this.initObject(globalObject);
-    this.fcInternal = { object: this };
+    return this.getPropertyValue(propertyName, codeConstruct);
 };
-
-Firecrow.Interpreter.Model.FunctionFunctionPrototype.prototype = new fcModel.Object();
 /*************************************************************************************/
 }});

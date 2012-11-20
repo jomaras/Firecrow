@@ -7,15 +7,14 @@
 
 <script>
 
-    document.addEventListener( "DOMContentLoaded", function()
-    {
-        alert(this);
-    }, false);
+    Function.prototype.test = function(){ return 3; }
 
-    window.addEventListener( "DOMContentLoaded", function()
+    function someFunction(a)
     {
-        alert(this);
-    }, false);
+        this.a = a
+    }
+
+    someFunction.prototype
 
 </script>
 </body>

@@ -39,14 +39,14 @@ fcModel.TextNode.prototype.getJsPropertyValue = function(propertyName, codeConst
     else { fcModel.TextNode.notifyError("Text node get element property not yet handled: " + propertyName); }
 };
 
-fcModel.TextNode.prototype.addJsProperty = function(propertyName, propertyJsValue, codeConstruct)
+fcModel.TextNode.prototype.addJsProperty = function(propertyName, propertyFcValue, codeConstruct)
 {
     fcModel.TextNode.accessedProperties[propertyName] = true;
 
     if(propertyName != "textContent") { fcModel.TextNode.notifyError("Add property to text node not yet implemented"); return; }
 
-    this.textNode[propertyName] = propertyJsValue.value;
-    this.addProperty(propertyName, propertyJsValue, codeConstruct);
+    this.textNode[propertyName] = propertyFcValue.jsValue;
+    this.addProperty(propertyName, propertyFcValue, codeConstruct);
 };
     //</editor-fold>
 
@@ -83,10 +83,11 @@ fcModel.TextNode.prototype._getChildNodes = function(codeConstruct)
             var childNode = childNodes[i];
             childNodeList.push
             (
-                new fcModel.JsValue
+                new fcModel.fcValue
                 (
                     childNode,
-                    new fcModel.FcInternal(codeConstruct, new fcModel.TextNode(childNode, this.globalObject, codeConstruct))
+                    new fcModel.TextNode(childNode, this.globalObject, codeConstruct),
+                    codeConstruct
                 )
             )
         }

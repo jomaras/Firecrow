@@ -12,13 +12,13 @@ fcModel.ArrayExecutor =
     {
         try
         {
-            if(!functionObject.fcInternal.isInternalFunction) { fcModel.Array.notifyError("The function should be internal when executing array method!"); return; }
+            if(!functionObject.isInternalFunction) { fcModel.Array.notifyError("The function should be internal when executing array method!"); return; }
 
-            var functionObjectValue = functionObject.value;
-            var thisObjectValue = thisObject.value;
+            var functionObjectValue = functionObject.jsValue;
+            var thisObjectValue = thisObject.jsValue;
             var functionName = functionObjectValue.name;
-            var fcThisValue =  thisObject.fcInternal.object;
-            var globalObject = thisObject.fcInternal.object.globalObject;
+            var fcThisValue =  thisObject.iValue;
+            var globalObject = thisObject.iValue.globalObject;
 
             var isCalledOnArray = fcThisValue.constructor === fcModel.Array;
 
@@ -30,7 +30,8 @@ fcModel.ArrayExecutor =
             switch(functionName)
             {
                 case "toString":
-                    return new fcModel.JsValue(isCalledOnArray ? "[object Array]" : "[object Object]", new fcModel.FcInternal(callExpression));
+                    var returnValue = isCalledOnArray ? "[object Array]" : "[object Object]";
+                    return new fcModel.fcValue(returnValue, returnValue, callExpression);
                 case "pop":
                 case "reverse":
                 case "shift":
@@ -55,7 +56,7 @@ fcModel.ArrayExecutor =
 
                     for(var i = 0, length = thisObjectValue.length; i < length; i++)
                     {
-                        allCallbackArguments.push([thisObject.value[i], new fcModel.JsValue(i, new fcModel.FcInternal(callbackParams[i])), thisObject]);
+                        allCallbackArguments.push([thisObject.jsValue[i], new fcModel.fcValue(i, i, callbackParams[i]), thisObject]);
                     }
 
                     callCommand.generatesNewCommands = true;
@@ -73,7 +74,7 @@ fcModel.ArrayExecutor =
                     }
                     else
                     {
-                        return new fcModel.JsValue(undefined, new fcModel.FcInternal(callExpression));
+                        return new fcModel.fcValue(undefined, undefined, callExpression);
                     }
 
                 default:

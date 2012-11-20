@@ -17,13 +17,14 @@ fcModel.ObjectExecutor =
             if(thisObject.value === undefined && functionObject.value.name == "hasOwnProperty")
             {
                 //TODO - jQuery hack
-                return new fcModel.JsValue(true, new fcModel.FcInternal());
+                return new fcModel.fcValue(true, true, null);
             }
 
-            return new fcModel.JsValue
+            return new fcModel.fcValue
             (
                 Object.prototype[functionObject.value.name].apply(thisObject.value, arguments.map(function(item){return item.value})),
-                new fcModel.FcInternal(callExpression)
+                null,
+                callExpression
             );
         }
         catch(e)

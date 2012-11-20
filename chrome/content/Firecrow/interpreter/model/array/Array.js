@@ -29,7 +29,7 @@ fcModel.Array.notifyError = function(message) { alert("Array - " + message);}
 fcModel.Array.prototype = new fcModel.Object();
 
 //<editor-fold desc="Internal array methods">
-fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, jsValue, dontFillJsArray)
+fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, fcValue, dontFillJsArray)
 {
     try
     {
@@ -40,7 +40,7 @@ fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, jsVal
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         arguments = ValueTypeHelper.isArray(arguments) ? arguments : [arguments];
 
@@ -61,7 +61,7 @@ fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, jsVal
             this.addProperty(length, argument, codeConstruct, true);
         }
 
-        var lengthValue = new fcModel.JsValue(length, new fcModel.FcInternal(codeConstruct));
+        var lengthValue = new fcModel.fcValue(length, length, codeConstruct);
         this.addProperty("length", lengthValue, codeConstruct);
 
         if(!isCalledOnArray) { jsArray.length = lengthValue; }
@@ -81,7 +81,7 @@ fcModel.Array.prototype.pop = function(jsArray, arguments, codeConstruct)
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         var poppedItem = null;
 
@@ -97,14 +97,14 @@ fcModel.Array.prototype.pop = function(jsArray, arguments, codeConstruct)
 
         this.deleteProperty(length - 1, codeConstruct);
 
-        this.addProperty("length", new fcModel.JsValue(length - 1, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
+        this.addProperty("length", new fcModel.fcValue(length - 1, length - 1, codeConstruct), codeConstruct, false);
 
         return poppedItem;
     }
     catch(e) { fcModel.Array.notifyError("Error when popping item: " + e); }
 };
 
-fcModel.Array.prototype.reverse = function(jsArray, arguments, codeConstruct, jsValue)
+fcModel.Array.prototype.reverse = function(jsArray, arguments, codeConstruct, fcValue)
 {
     try
     {
@@ -115,7 +115,7 @@ fcModel.Array.prototype.reverse = function(jsArray, arguments, codeConstruct, js
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         if(isCalledOnArray)
         {
@@ -129,7 +129,7 @@ fcModel.Array.prototype.reverse = function(jsArray, arguments, codeConstruct, js
         }
         else { fcModel.Array.notifyError("Not handling reverse on non arrays!"); }
 
-        return jsValue;
+        return fcValue;
     }
     catch(e) { fcModel.Array.notifyError("Error when reversing the array: " + e); }
 };
@@ -145,7 +145,7 @@ fcModel.Array.prototype.shift = function(jsArray, arguments, codeConstruct)
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         var shiftedItem = null;
 
@@ -171,7 +171,7 @@ fcModel.Array.prototype.shift = function(jsArray, arguments, codeConstruct)
 
 
         this.deleteProperty(length - 1, codeConstruct);
-        this.addProperty("length", new fcModel.JsValue(length - 1, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
+        this.addProperty("length", new fcModel.fcValue(length - 1, length - 1,codeConstruct), codeConstruct, false);
 
         return shiftedItem;
     }
@@ -189,7 +189,7 @@ fcModel.Array.prototype.unshift = function(jsArray, callArguments, callExpressio
         if(!isCalledOnArray) { alert("Unshift called on non-array!"); return;}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, callExpression); }
 
@@ -204,7 +204,7 @@ fcModel.Array.prototype.unshift = function(jsArray, callArguments, callExpressio
             this.addProperty(i, this.items[i], callExpression, true);
         }
 
-        var lengthValue =  new fcModel.JsValue(this.items.length, new fcModel.FcInternal(callExpression));
+        var lengthValue =  new fcModel.fcValue(this.items.length, this.items.length,callExpression);
 
         this.addProperty("length", lengthValue, callExpression, false);
 
@@ -213,7 +213,7 @@ fcModel.Array.prototype.unshift = function(jsArray, callArguments, callExpressio
     catch(e) { fcModel.Array.notifyError("Error when unshifting items in array: " + e); }
 };
 
-fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, jsValue)
+fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, fcValue)
 {
     this.addDependenciesToAllProperties(codeConstruct);
 
@@ -222,7 +222,7 @@ fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, jsVal
     if(!isCalledOnArray) { alert("Sort called on non-array!");}
 
     var lengthProperty = this.getPropertyValue("length");
-    var length = lengthProperty != null ? lengthProperty.value : 0;
+    var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
     for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
@@ -231,7 +231,7 @@ fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, jsVal
     if(arguments.length > 0)
     {
         var arg = arguments[0];
-        var functionConstruct = arg.fcInternal.codeConstruct;
+        var functionConstruct = arg.codeConstruct;
         var returnArg = ASTHelper.getSimpleSortingFunctionReturnArg(functionConstruct);
 
         if(returnArg)
@@ -256,9 +256,9 @@ fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, jsVal
         sortFunction = function(a, b)
         {
             //just sort lexicographically
-            if(a.value == b.value) { return 0;}
+            if(a.jsValue == b.jsValue) { return 0;}
 
-            return a.value < b.value ? -1 : 1;
+            return a.jsValue < b.jsValue ? -1 : 1;
         };
     }
 
@@ -270,7 +270,7 @@ fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, jsVal
         this.addProperty(i, this.items[i], codeConstruct, true);
     }
 
-    return jsValue;
+    return fcValue;
 };
 
 fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
@@ -284,7 +284,7 @@ fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
         if(!isCalledOnArray) { alert("Splice called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
@@ -292,7 +292,7 @@ fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
 
         for(i = 0; i < arguments.length; i++)
         {
-            if(i <= 1) { argumentValues.push(arguments[i].value);}
+            if(i <= 1) { argumentValues.push(arguments[i].jsValue);}
             else { argumentValues.push(arguments[i]); }
         }
 
@@ -301,7 +301,7 @@ fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
 
         for(i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct, true); }
 
-        this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)),codeConstruct, false);
+        this.addProperty("length", new fcModel.fcValue(this.items.length, this.items.length, codeConstruct),codeConstruct, false);
 
         return this.globalObject.internalExecutor.createArray(codeConstruct, splicedItems);
     }
@@ -319,31 +319,31 @@ fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression
         if(!isCalledOnArray) { alert("Concat called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         var newArray = this.globalObject.internalExecutor.createArray(callExpression);
 
         jsArray.forEach(function(item)
         {
-            newArray.fcInternal.object.push(newArray.value, item, callExpression);
+            newArray.iValue.push(newArray.jsValue, item, callExpression);
         });
 
         for(var i = 0; i < callArguments.length; i++)
         {
             var argument = callArguments[i];
 
-            if(ValueTypeHelper.isArray(argument.value))
+            if(ValueTypeHelper.isArray(argument.jsValue))
             {
-                argument.fcInternal.object.addDependenciesToAllProperties(callExpression);
-                for(var j = 0; j < argument.value.length; j++)
+                argument.iValue.addDependenciesToAllProperties(callExpression);
+                for(var j = 0; j < argument.jsValue.length; j++)
                 {
-                    var item = argument.value[j];
-                    newArray.fcInternal.object.push(newArray.value, item, callExpression);
+                    var item = argument.jsValue[j];
+                    newArray.iValue.push(newArray.jsValue, item, callExpression);
                 }
             }
             else
             {
-                newArray.fcInternal.object.push(newArray.value, argument, callExpression);
+                newArray.iValue.push(newArray.jsValue, argument, callExpression);
             }
         }
         return newArray;
@@ -359,7 +359,7 @@ fcModel.Array.prototype.slice = function(jsArray, callArguments, callExpression)
         var isCalledOnArray = this.constructor === fcModel.Array;
 
         var lengthProperty = this.getProperty("length");
-        var length = lengthProperty != null && lengthProperty.value != null ? lengthProperty.value.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         if(!isCalledOnArray)
         {
@@ -392,7 +392,7 @@ fcModel.Array.prototype.slice = function(jsArray, callArguments, callExpression)
         return this.globalObject.internalExecutor.createArray
         (
             callExpression,
-            [].slice.apply((isCalledOnArray ? jsArray : substituteObject), callArguments.map(function(argument){ return argument.value}))
+            [].slice.apply((isCalledOnArray ? jsArray : substituteObject), callArguments.map(function(argument){ return argument.jsValue}))
         );
     }
     catch(e) { fcModel.Array.notifyError("When slicing array: " + e);}
@@ -407,7 +407,7 @@ fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpressio
 
         var lengthProperty = this.getProperty("length");
         var lengthPropertyValue = lengthProperty.value;
-        var length = lengthPropertyValue != null ? lengthProperty.value.value : 0;
+        var length = lengthPropertyValue != null ? lengthPropertyValue.jsValue : 0;
 
         var searchObject = jsArray;
 
@@ -442,19 +442,19 @@ fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpressio
         }
 
         var searchForItem = callArguments[0];
-        var fromIndex = callArguments[1] != null ? callArguments[1].value : 0;
+        var fromIndex = callArguments[1] != null ? callArguments[1].jsValue : 0;
 
         if(fromIndex == null) { fromIndex = 0; }
 
         for(var i = fromIndex; i < length; i++)
         {
-            if(searchObject[i].value === searchForItem.value)
+            if(searchObject[i].jsValue === searchForItem.jsValue)
             {
-                return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
+                return new fcModel.fcValue(i, i, callExpression);
             }
         }
 
-        return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
+        return new fcModel.fcValue(-1, -1, callExpression);
     }
     catch(e) { fcModel.Array.notifyError("When indexOf array: " + e); }
 };
@@ -469,20 +469,20 @@ fcModel.Array.prototype.lastIndexOf = function(jsArray, callArguments, callExpre
         if(!isCalledOnArray) { alert("lastIndexOf called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
         var searchForItem = callArguments[0];
-        var fromIndex = callArguments[1] != null ? callArguments[1].value : jsArray.length - 1;
+        var fromIndex = callArguments[1] != null ? callArguments[1].jsValue : jsArray.length - 1;
 
         for(var i = fromIndex; i >= 0; i--)
         {
-            if(jsArray[i].value === searchForItem.value)
+            if(jsArray[i].jsValue === searchForItem.jsValue)
             {
-                return new fcModel.JsValue(i, new fcModel.FcInternal(callExpression));
+                return new fcModel.fcValue(i, i, callExpression);
             }
         }
 
-        return new fcModel.JsValue(-1, new fcModel.FcInternal(callExpression));
+        return new fcModel.fcValue(-1, -1, callExpression);
     }
     catch(e) { fcModel.Array.notifyError("When lastIndexOf array: " + e);}
 };
@@ -497,18 +497,18 @@ fcModel.Array.prototype.join = function(jsArray, callArguments, callExpression)
         if(!isCalledOnArray) { alert("join called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value : 0;
+        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
 
-        var glue = callArguments[0] != null ? callArguments[0].value : ",";
+        var glue = callArguments[0] != null ? callArguments[0].jsValue : ",";
         var result = "";
 
         var items = this.items;
         for(var i = 0, length = items.length; i < length; i++)
         {
-            result += (i!=0 ? glue : "") + items[i].value;
+            result += (i!=0 ? glue : "") + items[i].jsValue;
         }
 
-        return new fcModel.JsValue(result, new fcModel.FcInternal(callExpression));
+        return new fcModel.fcValue(result, result, callExpression);
     }
     catch(e) { fcModel.Array.notifyError("When join array: " + e); }
 };
@@ -532,14 +532,14 @@ fcModel.Array.prototype.addJsProperty = function(propertyName, propertyValue, co
 
         if(this.items.length != oldLength)
         {
-            this.addProperty("length", new fcModel.JsValue(this.items.length, new fcModel.FcInternal(codeConstruct)), codeConstruct, false);
+            this.addProperty("length", new fcModel.fcValue(this.items.length, this.items.length, codeConstruct), codeConstruct, false);
         }
     }
     else
     {
         if(propertyName == "length")
         {
-            if(this.jsArray[propertyName] !== propertyValue.value) { alert("Warning: Directly modifying array length property!"); }
+            if(this.jsArray[propertyName] !== propertyValue.jsValue) { alert("Warning: Directly modifying array length property!"); }
         }
 
         this.addProperty(propertyName, propertyValue, codeConstruct, propertyName != "length");
@@ -570,7 +570,7 @@ fcModel.Array.prototype._registerCallbacks = function()
 
 fcModel.Array.prototype._addDefaultProperties = function()
 {
-    this.addProperty("length", new fcModel.JsValue(0, new fcModel.FcInternal(this.creationCodeConstruct)), this.creationCodeConstruct, false);
+    this.addProperty("length", new fcModel.fcValue(0, 0, this.creationCodeConstruct), this.creationCodeConstruct, false);
     this.addProperty("__proto__", this.globalObject.arrayPrototype);
 
     this._addRegExResultArrayProperties();
@@ -578,8 +578,8 @@ fcModel.Array.prototype._addDefaultProperties = function()
 
 fcModel.Array.prototype._addRegExResultArrayProperties = function()
 {
-    if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", new fcModel.JsValue(this.jsArray.index, new fcModel.FcInternal(this.creationCodeConstruct)), this.creationCodeConstruct); }
-    if(this.jsArray.hasOwnProperty("input")) { this.addProperty("input", new fcModel.JsValue(this.jsArray.input, new fcModel.FcInternal(this.creationCodeConstruct)), this.creationCodeConstruct); }
+    if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", new fcModel.fcValue(this.jsArray.index, this.jsArray.index, this.creationCodeConstruct), this.creationCodeConstruct); }
+    if(this.jsArray.hasOwnProperty("input")) { this.addProperty("input", new fcModel.fcValue(this.jsArray.input, this.jsArray.input, this.creationCodeConstruct), this.creationCodeConstruct); }
 };
 
 fcModel.Array.prototype._addPreexistingObjects = function()

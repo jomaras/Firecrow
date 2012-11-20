@@ -19,8 +19,6 @@ fcModel.ArrayPrototype = function(globalObject)
             this[propertyName] = internalFunction;
             this.addProperty(propertyName, internalFunction, null, false);
         }, this);
-
-        this.fcInternal = { object: this };
     }
     catch(e) { fcModel.Array.notifyError("Error when creating array prototype:" + e); }
 };

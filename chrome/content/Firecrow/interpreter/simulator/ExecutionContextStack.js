@@ -54,7 +54,7 @@ fcSimulator.ExecutionContext.prototype =
 
     registerIdentifier: function(identifier)
     {
-       this.variableObject.fcInternal.registerIdentifier(identifier);
+       this.variableObject.registerIdentifier(identifier);
     },
 
     pushToScopeChain: function(variableObject)
@@ -190,7 +190,7 @@ fcSimulator.ExecutionContextStack.prototype =
             new fcModel.Identifier
             (
                 variableDeclarator.id.name,
-                new fcModel.JsValue(undefined, new fcModel.FcInternal(variableDeclarator)),
+                new fcModel.fcValue(undefined, undefined, variableDeclarator),
                 variableDeclarator,
                 this.globalObject
             )
@@ -205,7 +205,10 @@ fcSimulator.ExecutionContextStack.prototype =
 
             this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration, this.globalObject));
         }
-        catch(e) { this.notifyError("ExecutionContextStack - error when registering function declaration: " + e); }
+        catch(e)
+        {
+            this.notifyError("ExecutionContextStack - error when registering function declaration: " + e);
+        }
     },
 
     getIdentifier: function(identifierName)
@@ -218,7 +221,7 @@ fcSimulator.ExecutionContextStack.prototype =
             {
                 var variableObject = scopeChain[j];
 
-                var identifier = variableObject.fcInternal.getIdentifier(identifierName);
+                var identifier = variableObject.getIdentifier(identifierName);
 
                 if(identifier != null) { return identifier; }
             }
@@ -235,7 +238,7 @@ fcSimulator.ExecutionContextStack.prototype =
             {
                 var variableObject = scopeChain[j];
 
-                var identifier = variableObject.fcInternal.getIdentifier(identifierName);
+                var identifier = variableObject.getIdentifier(identifierName);
 
                 if(identifier != null) { return identifier.value; }
             }
@@ -252,7 +255,7 @@ fcSimulator.ExecutionContextStack.prototype =
             {
                 var variableObject = scopeChain[j];
 
-                var identifier = variableObject.fcInternal.getIdentifier(identifierName);
+                var identifier = variableObject.getIdentifier(identifierName);
 
                 if(identifier != null)
                 {
@@ -281,11 +284,11 @@ fcSimulator.ExecutionContextStack.prototype =
             {
                 var variableObject = scopeChain[j];
 
-                var identifier = variableObject.fcInternal.getIdentifier(identifierName);
+                var identifier = variableObject.getIdentifier(identifierName);
 
                 if(identifier != null)
                 {
-                    return variableObject.fcInternal.deleteIdentifier(identifier.name);
+                    return variableObject.deleteIdentifier(identifier.name);
                 }
             }
         }
@@ -311,7 +314,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
         if(returnValue == null && ASTHelper.isCallExpression(codeConstruct))
         {
-            return new fcModel.JsValue(undefined, new fcModel.FcInternal(codeConstruct));
+            return new fcModel.fcValue(undefined, undefined, codeConstruct);
         }
 
         return returnValue;
@@ -625,7 +628,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
         this.dependencyCreator.markEnterFunctionPoints(enterFunctionCommand);
 
-        var functionConstruct = enterFunctionCommand.callee.fcInternal.codeConstruct;
+        var functionConstruct = enterFunctionCommand.callee.codeConstruct;
         var formalParameters = this._getFormalParameters(functionConstruct);
 
         var sentArgumentsValues = null;
@@ -658,7 +661,7 @@ fcSimulator.ExecutionContextStack.prototype =
                     enterFunctionCommand.parentFunctionCommand,
                     this.globalObject
                 ),
-                enterFunctionCommand.callee.fcInternal.object.scopeChain,
+                enterFunctionCommand.callee.iValue.scopeChain,
                 enterFunctionCommand.thisObject,
                 this.globalObject,
                 enterFunctionCommand
@@ -675,7 +678,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
         return functionConstruct.params.map(function(param)
         {
-            var identifier = new fcModel.Identifier(param.name, new fcModel.JsValue(undefined, new fcModel.FcInternal(param)), param, this.globalObject);
+            var identifier = new fcModel.Identifier(param.name, new fcModel.fcValue(undefined, undefined, param), param, this.globalObject);
             identifier.isFunctionFormalParameter = true;
             return identifier
         }, this);
@@ -701,9 +704,9 @@ fcSimulator.ExecutionContextStack.prototype =
 
         var secondArgValue = this.getExpressionValue(secondArgument);
 
-        if(!ValueTypeHelper.isArray(secondArgValue.value)) { return []; }
+        if(!ValueTypeHelper.isArray(secondArgValue.jsValue)) { return []; }
 
-        return secondArgValue.value;
+        return secondArgValue.jsValue;
     },
 
     _getArgumentValuesFromCall: function(callCommand)

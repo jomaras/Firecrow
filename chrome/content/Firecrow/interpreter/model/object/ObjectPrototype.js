@@ -17,8 +17,6 @@ fcModel.ObjectPrototype = function(globalObject)
         this[propertyName] = internalFunction;
         this.addProperty(propertyName, internalFunction, null, false);
     }, this);
-
-    this.fcInternal = { object: this };
 };
 
 fcModel.ObjectPrototype.prototype = new fcModel.Object();

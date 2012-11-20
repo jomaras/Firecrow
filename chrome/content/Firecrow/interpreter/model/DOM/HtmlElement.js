@@ -63,7 +63,7 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
     {
-        this.addProperty(propertyName, new fcModel.JsValue(this.htmlElement[propertyName], new fcModel.FcInternal(this.creationCodeConstruct)), this.creationCodeConstruct);
+        this.addProperty(propertyName, new fcModel.fcValue(this.htmlElement[propertyName], this.htmlElement[propertyName], this.creationCodeConstruct), this.creationCodeConstruct);
     }
 
     return this.getPropertyValue(propertyName, codeConstruct);
@@ -73,7 +73,7 @@ fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyVal
 {
     try
     {
-        this.htmlElement[propertyName] = propertyValue.value;
+        this.htmlElement[propertyName] = propertyValue.jsValue;
 
         this._createDependencies(propertyName, codeConstruct);
         this._logDynamicPropertyModification(propertyName, propertyValue, codeConstruct);
@@ -263,19 +263,19 @@ fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propert
     if(propertyName == "id")
     {
         if(this.htmlElement.modelElement.dynamicIds == null) { this.htmlElement.modelElement.dynamicIds = []; }
-        this.htmlElement.modelElement.dynamicIds.push({name:'id', value: propertyValue.value, setConstruct: codeConstruct});
+        this.htmlElement.modelElement.dynamicIds.push({name:'id', value: propertyValue.jsValue, setConstruct: codeConstruct});
     }
     else if(propertyName == "className")
     {
         if(this.htmlElement.modelElement.dynamicClasses == null) { this.htmlElement.modelElement.dynamicClasses = []; }
-        this.htmlElement.modelElement.dynamicClasses.push({name:'class', value: propertyValue.value, setConstruct: codeConstruct});
+        this.htmlElement.modelElement.dynamicClasses.push({name:'class', value: propertyValue.jsValue, setConstruct: codeConstruct});
     }
     else if(propertyName == "src")
     {
         this.globalObject.resourceSetterPropertiesMap[codeConstruct.nodeId] =
         {
             codeConstruct: codeConstruct,
-            resourceValue: propertyValue.value
+            resourceValue: propertyValue.jsValue
         };
     }
 };

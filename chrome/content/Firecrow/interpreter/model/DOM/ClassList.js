@@ -19,7 +19,7 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
         {
             for(var i = 0, length = classList.length; i < length; i++)
             {
-                this.addProperty(i, new fcModel.JsValue(i, new fcModel.FcInternal(codeConstruct)), codeConstruct);
+                this.addProperty(i, new fcModel.fcValue(i, i, codeConstruct), codeConstruct);
             }
 
             this.globalObject.internalExecutor.expandWithInternalFunction(classList.add, "add");
@@ -40,7 +40,7 @@ fcModel.ClassList.prototype = new fcModel.Object();
 fcModel.ClassList.createClassList = function(htmlElement, globalObject, codeConstruct)
 {
     var jClassList = new fcModel.ClassList(htmlElement, globalObject, codeConstruct);
-    return new fcModel.JsValue(jClassList, new fcModel.FcInternal(codeConstruct, jClassList));
+    return new fcModel.fcValue(jClassList, jClassList, codeConstruct);
 };
 
 //https://developer.mozilla.org/en/DOM/element
