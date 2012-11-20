@@ -50,7 +50,7 @@ HtmlModelMapping.models.forEach(function(model, index)
                             break;
                         }
 
-                        assertEquals(webFile.url + " : Property value: " + propName, propertyValue.value, result[propName]);
+                        assertEquals(webFile.url + " : Property value: " + propName, propertyValue.jsValue, result[propName]);
 
                         break;
                     }

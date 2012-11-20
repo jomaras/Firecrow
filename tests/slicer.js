@@ -53,9 +53,9 @@ var modelTestFunction = function(htmlModel, index)
                             break;
                         }
 
-                        if(propertyValue.value != result[propName])
+                        if(propertyValue.jsValue != result[propName])
                         {
-                            assertTrue(propName + " does not match: " + result[propName] + " != " + propertyValue.value + "\n", false);
+                            assertTrue(propName + " does not match: " + result[propName] + " != " + propertyValue.jsValue + "\n", false);
                         }
 
                         break;
