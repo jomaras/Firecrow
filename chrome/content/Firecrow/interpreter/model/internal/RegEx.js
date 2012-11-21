@@ -16,16 +16,26 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
 
         this.initObject(globalObject, codeConstruct);
 
-        this.addProperty("lastIndex", new fcModel.fcValue(0, 0, codeConstruct), codeConstruct);
-        this.addProperty("ignoreCase", new fcModel.fcValue(jsRegExp.ignoreCase, jsRegExp.ignoreCase, codeConstruct), codeConstruct);
-        this.addProperty("global", new fcModel.fcValue(jsRegExp.global, jsRegExp.global, codeConstruct), codeConstruct);
-        this.addProperty("multiline", new fcModel.fcValue(jsRegExp.multiline, jsRegExp.multiline, codeConstruct), codeConstruct);
-        this.addProperty("source", new fcModel.fcValue(jsRegExp.source, jsRegExp.source, codeConstruct), codeConstruct);
+        this.addProperty("lastIndex", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, 0), codeConstruct);
+        this.addProperty("ignoreCase", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, jsRegExp.ignoreCase), codeConstruct);
+        this.addProperty("global", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, jsRegExp.global), codeConstruct);
+        this.addProperty("multiline", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, jsRegExp.multiline), codeConstruct);
+        this.addProperty("source", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, jsRegExp.source), codeConstruct);
 
         fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            var internalFunction = globalObject.internalExecutor.createInternalFunction(this.jsRegExp[propertyName], propertyName, this, true);
-            this.addProperty(propertyName, internalFunction, null, false);
+            this.addProperty
+            (
+                propertyName,
+                new fcModel.fcValue
+                (
+                    this.jsRegExp[propertyName],
+                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                    codeConstruct
+                ),
+                codeConstruct,
+                false
+            );
         }, this);
 
         this.modifications = [];
@@ -68,8 +78,8 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
     catch(e) { Firecrow.Interpreter.Model.RegEx.notifyError("Error when creating RegExp object: " + e); }
 };
 
-Firecrow.Interpreter.Model.RegEx.notifyError = function(message) { alert("RegEx - " + message); }
-Firecrow.Interpreter.Model.RegEx.prototype = new fcModel.Object();
+fcModel.RegEx.notifyError = function(message) { alert("RegEx - " + message); }
+fcModel.RegEx.prototype = new fcModel.Object();
 
 fcModel.RegExPrototype = function(globalObject)
 {
@@ -127,6 +137,7 @@ fcModel.RegExExecutor =
             var thisObjectValue = thisObject.jsValue;
             var functionName = functionObjectValue.name;
             var fcThisValue =  thisObject.iValue;
+            var globalObject = fcThisValue.globalObject;
 
             switch(functionName)
             {
@@ -142,8 +153,8 @@ fcModel.RegExExecutor =
                     {
                         return fcThisValue.globalObject.internalExecutor.createArray(callExpression, result.map(function(arg)
                         {
-                            return new fcModel.fcValue(arg, arg, callExpression);
-                        }));
+                            return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, arg);
+                        }, this));
                     }
                     else { this.notifyError("Unknown result when exec regexp"); return null; }
                 case "test":

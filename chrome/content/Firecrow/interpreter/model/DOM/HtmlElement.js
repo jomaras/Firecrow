@@ -162,8 +162,8 @@ fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruc
 
 fcModel.HtmlElement.prototype._expandWithDefaultProperties = function()
 {
-    fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
-    fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.ELEMENT.PRIMITIVES);
+    //fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
+    //fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.ELEMENT.PRIMITIVES);
 
     this.addProperty("ownerDocument", this.globalObject.jsFcDocument, this.creationCodeConstruct);
     this._addMethods(this.creationCodeConstruct);

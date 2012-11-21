@@ -16,6 +16,10 @@ fcModel.ObjectExecutor =
         {
             return this._executeHasOwnProperty(thisObject, args, callExpression);
         }
+        else if (functionObject.jsValue.name == "toString")
+        {
+            return thisObject.jsValue.toString();
+        }
         else
         {
             fcModel.Object.notifyError("Unknown ObjectExecutor method");

@@ -367,6 +367,11 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
 
 fcModel.GlobalObject.prototype._createInternalFunctions = function()
 {
+    this.objectFunction = new fcModel.ObjectFunction(this);
+    this.fcObjectFunction = new fcModel.fcValue(Object, this.objectFunction);
+    this.addProperty("Object", new fcModel.fcValue(Object, this.objectFunction, null), null);
+    this.objectPrototype.addProperty("constructor", this.fcObjectFunction, null, false);
+
     this.arrayFunction = new fcModel.ArrayFunction(this);
     this.addProperty("Array", new fcModel.fcValue(Array, this.arrayFunction, null), null);
 
@@ -382,9 +387,6 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
     this.regExFunction = new fcModel.RegExFunction(this);
     this.addProperty("RegExp", new fcModel.fcValue(RegExp, this.regExFunction, null), null);
 
-    this.objectFunction = new fcModel.ObjectFunction(this);
-    this.addProperty("Object", new fcModel.fcValue(Object, this.objectFunction, null), null);
-
     this.numberFunction = new fcModel.NumberFunction(this);
     this.addProperty("Number", new fcModel.fcValue(Number, this.numberFunction, null), null);
 
@@ -399,7 +401,18 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
 
     fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(methodName)
     {
-        this.addProperty(methodName, new fcModel.fcValue(this.origWindow[methodName], this.origWindow[methodName], null));
+        this.addProperty
+        (
+            methodName,
+            new fcModel.fcValue
+            (
+                this.origWindow[methodName],
+                fcModel.Function.createInternalNamedFunction(this, methodName, this),
+                null
+            ),
+            null,
+            false
+        );
     }, this);
 };
 

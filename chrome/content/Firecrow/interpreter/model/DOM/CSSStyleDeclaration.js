@@ -20,16 +20,25 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
         {
             var method = methods[i];
 
-            this.globalObject.internalExecutor.expandWithInternalFunction(this.cssStyleDeclaration, method);
-
-            this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.cssStyleDeclaration[method], method, this, true), codeConstruct);
+            this.addProperty
+            (
+                method,
+                new fcModel.fcValue
+                (
+                    this.cssStyleDeclaration[method],
+                    fcModel.Function.createInternalNamedFunction(globalObject, method, this),
+                    codeConstruct
+                ),
+                codeConstruct,
+                false
+            );
         }
 
         this.getJsPropertyValue = function(propertyName, codeConstruct)
         {
             if(ValueTypeHelper.isPrimitive(this.cssStyleDeclaration[propertyName]))
             {
-                return new fcModel.fcValue(this.cssStyleDeclaration[propertyName], this.cssStyleDeclaration[propertyName], null);
+                return this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.cssStyleDeclaration[propertyName])
             }
 
             return this.getPropertyValue(propertyName, codeConstruct);

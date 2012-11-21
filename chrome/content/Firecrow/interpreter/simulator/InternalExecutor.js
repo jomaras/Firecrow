@@ -31,7 +31,7 @@ fcSimulator.InternalExecutor.prototype =
         else if(typeof value == "number") { result = new fcModel.Number(value, this.globalObject, codeConstruct, true); }
         else if(typeof value == "boolean") { result = new fcModel.Boolean(value, this.globalObject, codeConstruct, true); }
         else if(value == null) { }
-        else { this.notifyError("Unknown primitive object!");}
+        else { this.notifyError("Unknown primitive object: " + value);}
 
         return new fcModel.fcValue(value, result, codeConstruct);
     },
@@ -53,12 +53,12 @@ fcSimulator.InternalExecutor.prototype =
         var newFunction = ASTHelper.isFunctionDeclaration(functionConstruct) ? eval("(function " + functionConstruct.id.name + "(){})")
                                                                              : function(){};
 
-        return new fcModel.fcValue
-        (
-            newFunction,
-            new fcModel.Function(this.globalObject, scopeChain, functionConstruct, newFunction),
-            functionConstruct
-        );
+        var fcFunction = new fcModel.Function(this.globalObject, scopeChain, functionConstruct, newFunction);
+        var fcValue = new fcModel.fcValue(newFunction, fcFunction,functionConstruct);
+
+        fcFunction.getPropertyValue("prototype").iValue.addProperty("constructor", fcValue, functionConstruct, false);
+
+        return fcValue;
     },
 
     createInternalFunction: function(functionObject, functionName, parentObject, dontExpandCallApply)
@@ -279,7 +279,11 @@ fcSimulator.InternalExecutor.prototype =
         else if (internalConstructor.iValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeInternalConstructor(constructorConstruct, arguments, this.globalObject); }
         else if (internalConstructor.iValue == this.globalObject.imageFunction
               || internalConstructor.iValue == this.globalObject.xmlHttpRequestFunction) { return this._createEmptyObject(constructorConstruct); }
-        else { this.notifyError("Unhandled internal constructor" + constructorConstruct.loc.start.line); return; }
+        else
+        {
+            this.notifyError("Unhandled internal constructor" + constructorConstruct.loc.start.line);
+            return;
+        }
     },
 
 

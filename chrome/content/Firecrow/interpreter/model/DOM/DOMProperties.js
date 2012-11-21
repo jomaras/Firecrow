@@ -108,7 +108,7 @@ fcModel.DOM_PROPERTIES =
         for(var i = 0, length = names.length; i < length; i++)
         {
             var name = names[i];
-            fcObject.addProperty(name, new fcModel.fcValue(object[name], object[name], null));
+            fcObject.addProperty(name, fcObject.globalObject.internalExecutor.createInternalPrimitiveObject(null, object[name]));
         }
     }
 };

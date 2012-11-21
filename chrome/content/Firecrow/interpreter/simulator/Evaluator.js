@@ -681,7 +681,7 @@ fcSimulator.Evaluator.prototype =
 
         propertyValue = object.iValue.getJsPropertyValue(property.jsValue, memberExpression);
 
-        if(!ValueTypeHelper.isOfType(propertyValue, fcModel.fcValue))
+        if(!ValueTypeHelper.isOfType(propertyValue, fcModel.fcValue) && propertyValue != this.globalObject)
         {
             if(propertyValue != null && propertyValue.fcValue != null && !ValueTypeHelper.isPrimitive(propertyValue)) { propertyValue = propertyValue.fcValue; }
             else if (ValueTypeHelper.isPrimitive(propertyValue)) { propertyValue = new fcModel.fcValue(propertyValue, propertyValue, memberExpression); }
@@ -693,8 +693,7 @@ fcSimulator.Evaluator.prototype =
 
     _isLogicalExpressionDoneWithEvaluation: function(value, operator)
     {
-        return  (value.jsValue && operator == "||")
-             || (!value.jsValue && operator == "&&");
+        return  (value.jsValue && operator == "||") || (!value.jsValue && operator == "&&");
     },
 
     _getLogicalExpressionValue: function(wholeLogicalExpression)

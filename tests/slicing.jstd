@@ -16,7 +16,7 @@ load:
   - ../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js
   - ../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js
   - ../chrome/content/Firecrow/interpreter/commands/Command.js
-  - ../chrome/content/Firecrow/interpreter/model/JsValue.js
+  - ../chrome/content/Firecrow/interpreter/model/FcValue.js
   - ../chrome/content/Firecrow/interpreter/model/object/Object.js
   - ../chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js
   - ../chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js
