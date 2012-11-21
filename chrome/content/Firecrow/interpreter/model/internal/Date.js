@@ -11,9 +11,11 @@ fcModel.Date = function(value, globalObject, codeConstruct)
 {
     try
     {
+        this.initObject(globalObject);
+
         this.value = value;
 
-        this.initObject(globalObject);
+        this.addProperty("__proto__", this.globalObject.fcDatePrototype);
     }
     catch(e) { fcModel.Date.notifyError("Error when creating a Date object: " + e); }
 };
@@ -29,14 +31,19 @@ fcModel.DatePrototype = function(globalObject)
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date#Methods_2
         fcModel.DatePrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            var method = Date.prototype[propertyName];
-
-            if(method != null)
-            {
-                var internalFunction = globalObject.internalExecutor.createInternalFunction(method, propertyName, this);
-                this[propertyName] = internalFunction;
-                this.addProperty(propertyName, internalFunction, null, false);
-            }
+            if(Date.prototype[propertyName] == null) { return; }
+            this.addProperty
+            (
+                propertyName,
+                new fcModel.fcValue
+                (
+                    Date.prototype[propertyName],
+                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                    null
+                ),
+                null,
+                false
+            );
         }, this);
     }
     catch(e) { fcModel.Date.notifyError("DatePrototype - error when creating date prototype:" + e); }
@@ -129,7 +136,7 @@ fcModel.DateExecutor =
                 date = new Date(arguments[0].jsValue)
             }
 
-            return new fcModel.fcValue(date, new fcModel.Date(date), callExpression);
+            return new fcModel.fcValue(date, new fcModel.Date(date, globalObject), callExpression);
         }
         catch(e) { fcModel.Date.notifyError("Date - error when creating Date object:" + e); }
     },

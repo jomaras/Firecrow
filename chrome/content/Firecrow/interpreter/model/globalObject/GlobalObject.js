@@ -422,9 +422,9 @@ fcModel.GlobalObject.prototype._createInternalObjects = function()
     this.jsFcDocument = new fcModel.fcValue(this.origDocument, this.document, null);
     this.addProperty("document", this.jsFcDocument, null);
 
-    this.fcMath = new fcModel.Math(this);
-    this.math = new fcModel.fcValue(Math, this.fcMath, null);
-    this.addProperty("Math", this.math, null);
+    this.math = new fcModel.Math(this);
+    this.fcMath = new fcModel.fcValue(Math, this.math, null);
+    this.addProperty("Math", this.fcMath, null);
 
     this.addProperty("window", this, null);
 

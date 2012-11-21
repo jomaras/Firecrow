@@ -67,11 +67,6 @@ fcModel.Object.prototype =
     {
         try
         {
-            if(propertyName == undefined || propertyName == null)
-            {
-                alert("Invalid property name!");
-            }
-
             var property = this.getOwnProperty(propertyName);
 
             if(property != null)
