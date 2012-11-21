@@ -227,7 +227,7 @@ fcSimulator.Evaluator.prototype =
         (
             property,
             memberExpression.computed ? this.executionContextStack.getExpressionValue(property)
-                                      : new fcModel.fcValue(property.name, property.name, property)
+                                      : this.globalObject.internalExecutor.createInternalPrimitiveObject(property, property.name)
         );
     },
 
@@ -259,7 +259,7 @@ fcSimulator.Evaluator.prototype =
         else if (unaryExpression.operator == "void") { expressionValue = void argumentValue.jsValue;}
         else if (unaryExpression.operator == "delete") { expressionValue = this._evalDeleteExpression(unaryExpression); }
 
-        this.executionContextStack.setExpressionValue(unaryExpression, new fcModel.fcValue(expressionValue, expressionValue, unaryExpression));
+        this.executionContextStack.setExpressionValue(unaryExpression, this.globalObject.internalExecutor.createInternalPrimitiveObject(unaryExpression, expressionValue));
     },
 
     _evalBinaryCommand: function(binaryCommand)
@@ -278,7 +278,7 @@ fcSimulator.Evaluator.prototype =
 
         var result = this._evalBinaryExpression(leftValue, rightValue, binaryExpression.operator);
 
-        this.executionContextStack.setExpressionValue(binaryExpression, new fcModel.fcValue(result, result, binaryExpression));
+        this.executionContextStack.setExpressionValue(binaryExpression, this.globalObject.internalExecutor.createInternalPrimitiveObject(binaryExpression, result));
     },
 
     _evalReturnCommand: function(returnCommand)
@@ -512,7 +512,7 @@ fcSimulator.Evaluator.prototype =
             else if (operator == "&=") { result = leftValue.jsValue & rightValue.jsValue; }
             else { this.notifyError(assignmentCommand, "jsValue assignment operator!"); return; }
 
-            finalValue = new fcModel.fcValue(result, result, assignmentCommand.codeConstruct);
+            finalValue = this.globalObject.internalExecutor.createInternalPrimitiveObject(assignmentCommand.codeConstruct, result);
         }
 
         return finalValue.isPrimitive() ? finalValue.createCopy(assignmentCommand.rightSide) : finalValue;
@@ -556,7 +556,7 @@ fcSimulator.Evaluator.prototype =
     _getUpdateValue: function(currentValue, updateExpression)
     {
         var result = updateExpression.operator == "++" ? currentValue.jsValue + 1 : currentValue.jsValue - 1;
-        return new fcModel.fcValue(result, result, updateExpression);
+        return this.globalObject.internalExecutor.createInternalPrimitiveObject(updateExpression, result);
     },
 
     _getUpdatedCurrentValue:function(currentValue, updateExpression)
@@ -564,7 +564,7 @@ fcSimulator.Evaluator.prototype =
         var result = updateExpression.prefix ? updateExpression.operator == "++" ? ++currentValue.jsValue : --currentValue.jsValue
                                              : updateExpression.operator == "++" ? currentValue.jsValue++ : currentValue.jsValue--;
 
-        return new fcModel.fcValue(result, result, updateExpression);
+        return this.globalObject.internalExecutor.createInternalPrimitiveObject(updateExpression, result);
     },
 
     _checkSlicing: function(identifierConstruct)
@@ -684,7 +684,7 @@ fcSimulator.Evaluator.prototype =
         if(!ValueTypeHelper.isOfType(propertyValue, fcModel.fcValue) && propertyValue != this.globalObject)
         {
             if(propertyValue != null && propertyValue.fcValue != null && !ValueTypeHelper.isPrimitive(propertyValue)) { propertyValue = propertyValue.fcValue; }
-            else if (ValueTypeHelper.isPrimitive(propertyValue)) { propertyValue = new fcModel.fcValue(propertyValue, propertyValue, memberExpression); }
+            else if (ValueTypeHelper.isPrimitive(propertyValue)) { propertyValue = this.globalObject.internalExecutor.createInternalPrimitiveObject(memberExpression, propertyValue);}
             else { this.notifyError(null, "The property value should be of type JsValue"); return; }
         }
 
@@ -706,7 +706,7 @@ fcSimulator.Evaluator.prototype =
         var result = wholeLogicalExpression.operator == "&&" ? leftValue.jsValue && rightValue.jsValue
                                                              : leftValue.jsValue || rightValue.jsValue;
 
-        return ValueTypeHelper.isPrimitive(result) ? new fcModel.fcValue(result, result, wholeLogicalExpression)
+        return ValueTypeHelper.isPrimitive(result) ? this.globalObject.internalExecutor.createInternalPrimitiveObject(wholeLogicalExpression, result)
                                                    : result === leftValue.jsValue ? leftValue : rightValue;
     },
 

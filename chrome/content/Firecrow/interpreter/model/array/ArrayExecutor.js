@@ -31,7 +31,7 @@ fcModel.ArrayExecutor =
             {
                 case "toString":
                     var returnValue = isCalledOnArray ? "[object Array]" : "[object Object]";
-                    return new fcModel.fcValue(returnValue, returnValue, callExpression);
+                    return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, returnValue);
                 case "pop":
                 case "reverse":
                 case "shift":
@@ -56,7 +56,7 @@ fcModel.ArrayExecutor =
 
                     for(var i = 0, length = thisObjectValue.length; i < length; i++)
                     {
-                        allCallbackArguments.push([thisObject.jsValue[i], new fcModel.fcValue(i, i, callbackParams[i]), thisObject]);
+                        allCallbackArguments.push([thisObject.jsValue[i], globalObject.internalExecutor.createInternalPrimitiveObject(callbackParams[i], i), thisObject]);
                     }
 
                     callCommand.generatesNewCommands = true;

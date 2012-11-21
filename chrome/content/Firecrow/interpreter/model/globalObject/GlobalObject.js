@@ -440,8 +440,8 @@ fcModel.GlobalObject.prototype._createInternalVariables = function()
 {
     this.addProperty("undefined", new fcModel.fcValue(undefined, undefined, null));
     this.addProperty("Infinity", new fcModel.fcValue(Infinity, Infinity, null));
-    this.addProperty("mozInnerScreenX", new fcModel.fcValue(window.mozInnerScreenX, window.mozInnerScreenX, null));
-    this.addProperty("mozInnerScreenY", new fcModel.fcValue(window.mozInnerScreenY, window.mozInnerScreenY, null));
+    this.addProperty("mozInnerScreenX", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenX));
+    this.addProperty("mozInnerScreenY", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenY));
 };
 
 fcModel.GlobalObject.prototype._createTrackerMaps = function()

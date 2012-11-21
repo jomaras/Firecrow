@@ -61,7 +61,7 @@ fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, fcVal
             this.addProperty(length, argument, codeConstruct, true);
         }
 
-        var lengthValue = new fcModel.fcValue(length, length, codeConstruct);
+        var lengthValue = this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, length);
         this.addProperty("length", lengthValue, codeConstruct);
 
         if(!isCalledOnArray) { jsArray.length = lengthValue; }
@@ -97,7 +97,7 @@ fcModel.Array.prototype.pop = function(jsArray, arguments, codeConstruct)
 
         this.deleteProperty(length - 1, codeConstruct);
 
-        this.addProperty("length", new fcModel.fcValue(length - 1, length - 1, codeConstruct), codeConstruct, false);
+        this.addProperty("length", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, length - 1), codeConstruct, false);
 
         return poppedItem;
     }
@@ -171,7 +171,7 @@ fcModel.Array.prototype.shift = function(jsArray, arguments, codeConstruct)
 
 
         this.deleteProperty(length - 1, codeConstruct);
-        this.addProperty("length", new fcModel.fcValue(length - 1, length - 1,codeConstruct), codeConstruct, false);
+        this.addProperty("length", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, length - 1), codeConstruct, false);
 
         return shiftedItem;
     }
@@ -204,7 +204,7 @@ fcModel.Array.prototype.unshift = function(jsArray, callArguments, callExpressio
             this.addProperty(i, this.items[i], callExpression, true);
         }
 
-        var lengthValue =  new fcModel.fcValue(this.items.length, this.items.length,callExpression);
+        var lengthValue = this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, this.items.length);
 
         this.addProperty("length", lengthValue, callExpression, false);
 
@@ -301,7 +301,7 @@ fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
 
         for(i = 0; i < this.items.length; i++) { this.addProperty(i, this.items[i], codeConstruct, true); }
 
-        this.addProperty("length", new fcModel.fcValue(this.items.length, this.items.length, codeConstruct),codeConstruct, false);
+        this.addProperty("length", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.items.length),codeConstruct, false);
 
         return this.globalObject.internalExecutor.createArray(codeConstruct, splicedItems);
     }
@@ -450,11 +450,11 @@ fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpressio
         {
             if(searchObject[i].jsValue === searchForItem.jsValue)
             {
-                return new fcModel.fcValue(i, i, callExpression);
+                return this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, i);
             }
         }
 
-        return new fcModel.fcValue(-1, -1, callExpression);
+        return this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, -1)
     }
     catch(e) { fcModel.Array.notifyError("When indexOf array: " + e); }
 };
@@ -478,11 +478,11 @@ fcModel.Array.prototype.lastIndexOf = function(jsArray, callArguments, callExpre
         {
             if(jsArray[i].jsValue === searchForItem.jsValue)
             {
-                return new fcModel.fcValue(i, i, callExpression);
+                return this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, i);
             }
         }
 
-        return new fcModel.fcValue(-1, -1, callExpression);
+        return this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, -1);
     }
     catch(e) { fcModel.Array.notifyError("When lastIndexOf array: " + e);}
 };
@@ -508,7 +508,7 @@ fcModel.Array.prototype.join = function(jsArray, callArguments, callExpression)
             result += (i!=0 ? glue : "") + items[i].jsValue;
         }
 
-        return new fcModel.fcValue(result, result, callExpression);
+        return this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
     }
     catch(e) { fcModel.Array.notifyError("When join array: " + e); }
 };
@@ -532,7 +532,7 @@ fcModel.Array.prototype.addJsProperty = function(propertyName, propertyValue, co
 
         if(this.items.length != oldLength)
         {
-            this.addProperty("length", new fcModel.fcValue(this.items.length, this.items.length, codeConstruct), codeConstruct, false);
+            this.addProperty("length", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.items.length), codeConstruct, false);
         }
     }
     else
@@ -570,7 +570,7 @@ fcModel.Array.prototype._registerCallbacks = function()
 
 fcModel.Array.prototype._addDefaultProperties = function()
 {
-    this.addProperty("length", new fcModel.fcValue(0, 0, this.creationCodeConstruct), this.creationCodeConstruct, false);
+    this.addProperty("length", this.globalObject.internalExecutor.createInternalPrimitiveObject(this.creationCodeConstruct, 0), this.creationCodeConstruct, false);
     this.addProperty("__proto__", this.globalObject.fcArrayPrototype, null, false);
 
     this._addRegExResultArrayProperties();
@@ -578,8 +578,8 @@ fcModel.Array.prototype._addDefaultProperties = function()
 
 fcModel.Array.prototype._addRegExResultArrayProperties = function()
 {
-    if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", new fcModel.fcValue(this.jsArray.index, this.jsArray.index, this.creationCodeConstruct), this.creationCodeConstruct); }
-    if(this.jsArray.hasOwnProperty("input")) { this.addProperty("input", new fcModel.fcValue(this.jsArray.input, this.jsArray.input, this.creationCodeConstruct), this.creationCodeConstruct); }
+    if(this.jsArray.hasOwnProperty("index")) { this.addProperty("index", this.globalObject.internalExecutor.createInternalPrimitiveObject(this.creationCodeConstruct, this.jsArray.index), this.creationCodeConstruct); }
+    if(this.jsArray.hasOwnProperty("input")) { this.addProperty("input", this.globalObject.internalExecutor.createInternalPrimitiveObject(this.creationCodeConstruct, this.jsArray.input), this.creationCodeConstruct); }
 };
 
 fcModel.Array.prototype._addPreexistingObjects = function()

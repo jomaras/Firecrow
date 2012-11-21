@@ -159,7 +159,7 @@ fcModel.RegExExecutor =
                     else { this.notifyError("Unknown result when exec regexp"); return null; }
                 case "test":
                     var result = thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.jsValue;}));
-                    return new fcModel.fcValue(result, result, callExpression);
+                    return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
                 case "toSource":
                     this.notifyError("ToSource not supported on regExp!");
                     return null;

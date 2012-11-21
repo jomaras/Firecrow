@@ -152,13 +152,13 @@ fcModel.DateExecutor =
             if(functionName.indexOf("set") == 0)
             {
                 var result = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
-                return new fcModel.fcValue(result, result, callExpression);
             }
             else
             {
                 var result = thisObjectValue[functionName]();
-                return new fcModel.fcValue(result, result, callExpression);
             }
+
+            return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
         }
         catch(e) {this.notifyError("Error when executing internal string method: " + e); }
     },

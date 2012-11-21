@@ -6,7 +6,7 @@ fcModel.ImageFunction = function(globalObject, codeConstruct)
     try
     {
         this.initObject(globalObject);
-        this.addProperty("src", new fcModel.fcValue("", "", codeConstruct));
+        this.addProperty("src", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, ""));
 
         this.isInternalFunction = true;
         this.name = "Image";

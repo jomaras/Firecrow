@@ -167,7 +167,7 @@ fcModel.StringExecutor =
                 case "search":
                 case "slice":
                     var returnValue = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
-                    return new fcModel.fcValue(returnValue, returnValue, callExpression);
+                    return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, returnValue);
                 case "match":
                 case "split":
                     var result = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
@@ -179,7 +179,7 @@ fcModel.StringExecutor =
                     {
                         return globalObject.internalExecutor.createArray(callExpression, result.map(function(item)
                         {
-                            return new fcModel.fcValue(item, new fcModel.String(item, globalObject, callExpression, true), callExpression);
+                            return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, item);
                         }));
                     }
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
@@ -187,7 +187,7 @@ fcModel.StringExecutor =
                     if(ValueTypeHelper.isString(argumentValues[1]))
                     {
                         var returnValue = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
-                        return new fcModel.fcValue(returnValue, returnValue, callExpression);
+                        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, returnValue);
                     }
                     else if(ValueTypeHelper.isFunction(argumentValues[1]))
                     {
@@ -202,7 +202,7 @@ fcModel.StringExecutor =
 
                             for(var i = 0; i < arguments.length; i++)
                             {
-                                currentArgs.push(new fcModel.fcValue(arguments[i], arguments[i], params[i]));
+                                currentArgs.push(globalObject.internalExecutor.createInternalPrimitiveObject(params[i], arguments[i]));
                             }
 
                             allCallbackArguments.push(currentArgs);
@@ -215,7 +215,7 @@ fcModel.StringExecutor =
                         callCommand.thisObject = globalObject;
                         callCommand.originatingObject = thisObject;
                         callCommand.callerFunction = functionObject;
-                        callCommand.targetObject = new fcModel.fcValue(thisObjectValue, thisObjectValue, callExpression);
+                        callCommand.targetObject = globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, thisObjectValue);
                         callCommand.targetObject.replacedValue = argumentValues[0];
 
                         return callCommand.targetObject;

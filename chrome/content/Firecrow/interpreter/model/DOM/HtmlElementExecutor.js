@@ -300,12 +300,12 @@ fcModel.HtmlElementExecutor =
 
             var nativeObj =
             {
-                bottom: new fcModel.fcValue(result.bottom, result.bottom, callExpression),
-                top: new fcModel.fcValue(result.top, result.top, callExpression),
-                left: new fcModel.fcValue(result.left, result.left, callExpression),
-                right: new fcModel.fcValue(result.right, result.right, callExpression),
-                height: new fcModel.fcValue(result.height, result.height, callExpression),
-                width: new fcModel.fcValue(result.width, result.width, callExpression)
+                bottom: globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result.bottom),
+                top: globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result.top),
+                left: globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result.left),
+                right: globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result.right),
+                height: globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result.height),
+                width: globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result.width)
             };
 
             var fcObj = fcModel.Object.createObjectWithInit(globalObject, callExpression, nativeObj);

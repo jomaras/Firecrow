@@ -14,16 +14,16 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
 
         this.constructor = fcModel.Attr;
 
-        this.addProperty("isId", new fcModel.fcValue(this.attr.isId, this.attr.isId, null), null);
-        this.addProperty("localName", new fcModel.fcValue(this.attr.localName, this.attr.localName, null));
-        this.addProperty("name", new fcModel.fcValue(this.attr.name, this.attr.name, null));
-        this.addProperty("namespaceURI", new fcModel.fcValue(this.attr.namespaceURI, this.attr.namespaceURI, null));
-        this.addProperty("nodeName", new fcModel.fcValue(this.attr.nodeName, this.attr.nodeName, null));
-        this.addProperty("nodeType", new fcModel.fcValue(this.attr.nodeType, this.attr.nodeType, null));
-        this.addProperty("nodeValue", new fcModel.fcValue(this.attr.nodeValue, this.attr.nodeValue, null));
-        this.addProperty("specified", new fcModel.fcValue(this.attr.specified, this.attr.specified, null));
-        this.addProperty("textContent", new fcModel.fcValue(this.attr.textContent, this.attr.textContent, null));
-        this.addProperty("value", new fcModel.fcValue(this.attr.value, this.attr.value, null));
+        this.addProperty("isId", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.isId), null);
+        this.addProperty("localName", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.localName), null);
+        this.addProperty("name", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.name), null);
+        this.addProperty("namespaceURI", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.namespaceURI), null);
+        this.addProperty("nodeName", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.nodeName), null);
+        this.addProperty("nodeType", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.nodeType), null);
+        this.addProperty("nodeValue", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.nodeValue), null);
+        this.addProperty("specified", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.specified), null);
+        this.addProperty("textContent", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.textContent), null);
+        this.addProperty("value", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.attr.value), null);
 
         this.registerAddPropertyCallback(function(propertyName, propertyValue, codeConstruct)
         {

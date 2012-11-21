@@ -103,7 +103,7 @@ fcModel.Document.prototype._createDefaultProperties = function()
     fcModel.DOM_PROPERTIES.setPrimitives(this, this.document, fcModel.DOM_PROPERTIES.DOCUMENT.PRIMITIVES);
     fcModel.DOM_PROPERTIES.setPrimitives(this, this.document, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
 
-    this.addProperty("readyState", new fcModel.fcValue("loading", "loading", null));
+    this.addProperty("readyState", this.globalObject.internalExecutor.createInternalPrimitiveObject(null, "loading"));
     this.addProperty("location", this.globalObject.internalExecutor.createLocationObject());
 };
 

@@ -33,13 +33,13 @@ fcModel.NumberFunction = function(globalObject)
     this.isInternalFunction = true;
     this.name = "Number";
 
-    this.addProperty("MIN_VALUE", new fcModel.fcValue(Number.MIN_VALUE, Number.MIN_VALUE, null));
-    this.addProperty("MAX_VALUE", new fcModel.fcValue(Number.MAX_VALUE, Number.MAX_VALUE, null));
+    this.addProperty("MIN_VALUE", this.globalObject.internalExecutor.createInternalPrimitiveObject(null, Number.MIN_VALUE), null);
+    this.addProperty("MAX_VALUE", this.globalObject.internalExecutor.createInternalPrimitiveObject(null, Number.MAX_VALUE), null);
 
-    this.addProperty("NEGATIVE_INFINITY", new fcModel.fcValue(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, null));
-    this.addProperty("POSITIVE_INFINITY", new fcModel.fcValue(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, null));
+    this.addProperty("NEGATIVE_INFINITY", this.globalObject.internalExecutor.createInternalPrimitiveObject(null, Number.NEGATIVE_INFINITY), null);
+    this.addProperty("POSITIVE_INFINITY", this.globalObject.internalExecutor.createInternalPrimitiveObject(null, Number.POSITIVE_INFINITY), null);
 
-    this.addProperty("NaN", new fcModel.fcValue(Number.NaN, Number.NaN, null));
+    this.addProperty("NaN", this.globalObject.internalExecutor.createInternalPrimitiveObject(null, Number.NaN), null);
 };
 
 fcModel.NumberFunction.prototype = new fcModel.Object();

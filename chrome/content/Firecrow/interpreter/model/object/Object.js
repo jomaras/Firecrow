@@ -130,7 +130,7 @@ fcModel.Object.prototype =
     getPropertyNameAtIndex: function(index, codeConstruct)
     {
         var propertyName = this._getEnumeratedPropertiesFromImplementationObject()[index];
-        return new fcModel.fcValue(propertyName, propertyName, codeConstruct);
+        return this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, propertyName);
     },
 
     getPropertiesWithIndexNames: function()

@@ -196,9 +196,14 @@ fcSimulator.InternalExecutor.prototype =
 
     _createProperty: function(baseObject, propertyName, propertyValue)
     {
-        var jsPropertyValue =  new fcModel.fcValue(propertyValue, null, null);
-        baseObject.addProperty(propertyName, jsPropertyValue);
-        baseObject[propertyName] = jsPropertyValue;
+        if(ValueTypeHelper.isPrimitive(propertyValue))
+        {
+            baseObject.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue));
+        }
+        else
+        {
+            baseObject.addProperty(propertyName, propertyValue);
+        }
     },
 
     executeFunction: function(thisObject, functionObject, args, callExpression, callCommand)
@@ -300,7 +305,7 @@ fcSimulator.InternalExecutor.prototype =
         if(ownerObject == this.globalObject.arrayPrototype) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
         else if(ownerObject == this.globalObject.regExPrototype) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
         else if (ownerObject == this.globalObject.fcMath) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
-        else if (ownerObject == this.globalObject.objectPrototype) { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+        else if (ownerObject == this.globalObject.objectPrototype) { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
         else if (ownerObject == this.globalObject.stringPrototype) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
         else if (ownerObject.constructor == fcModel.HtmlElement) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
         else { this.notifyError("Unhandled call applied internal method: " + codeConstruct.loc.source); }

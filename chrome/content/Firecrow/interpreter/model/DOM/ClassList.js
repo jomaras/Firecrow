@@ -19,7 +19,7 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
         {
             for(var i = 0, length = classList.length; i < length; i++)
             {
-                this.addProperty(i, new fcModel.fcValue(i, i, codeConstruct), codeConstruct);
+                this.addProperty(i, this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, i), codeConstruct);
             }
 
             this.globalObject.internalExecutor.expandWithInternalFunction(classList.add, "add");

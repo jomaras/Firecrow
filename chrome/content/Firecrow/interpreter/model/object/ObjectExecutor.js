@@ -10,7 +10,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.ObjectExecutor =
 {
-    executeInternalMethod: function(thisObject, functionObject, args, callExpression)
+    executeInternalMethod: function(thisObject, functionObject, args, callExpression, callCommand)
     {
         if(functionObject.jsValue.name == "hasOwnProperty")
         {
@@ -18,7 +18,17 @@ fcModel.ObjectExecutor =
         }
         else if (functionObject.jsValue.name == "toString")
         {
-            return thisObject.jsValue.toString();
+            var result = "";
+            if(callCommand != null && (callCommand.isCall || callCommand.isApply))
+            {
+                result = Object.prototype.toString.call(thisObject.jsValue);
+            }
+            else
+            {
+                result = thisObject.jsValue.toString();
+            }
+
+            return thisObject.iValue.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
         }
         else
         {
@@ -32,9 +42,8 @@ fcModel.ObjectExecutor =
 
         var result = thisObject.iValue.isOwnProperty(args[0].jsValue);
 
-        return new fcModel.fcValue(result, new fcModel.Boolean(result, thisObject.iValue.globalObject, callExpression, true));
+        return thisObject.iValue.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
     }
-
 };
 /*************************************************************************************/
 }});

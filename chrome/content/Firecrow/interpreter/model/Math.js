@@ -14,16 +14,25 @@ fcModel.Math = function(globalObject)
 
     fcModel.Math.CONST.INTERNAL_PROPERTIES.PROPERTIES.forEach(function(property)
     {
-        var propertyValue = new fcModel.fcValue(Math[property], null, null);
+        var propertyValue = this.globalObject.internalExecutor.createInternalPrimitiveObject(null, Math[property]);
         this.addProperty(property, propertyValue, null);
         this[property] = propertyValue;
     }, this);
 
     fcModel.Math.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
     {
-        var internalFunction = globalObject.internalExecutor.createInternalFunction(Math[propertyName], propertyName, this);
-        this[propertyName] = internalFunction;
-        this.addProperty(propertyName, internalFunction, null, false);
+        this.addProperty
+        (
+            propertyName,
+            new fcModel.fcValue
+            (
+                Math[propertyName],
+                fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                null
+            ),
+            null,
+            false
+        );
     }, this);
 };
 
