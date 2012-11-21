@@ -9,14 +9,22 @@ fcModel.GlobalObjectExecutor =
     {
         try
         {
-                 if (fcFunction.value.name == "eval") { return _handleEval(fcFunction, arguments, callExpression, globalObject); }
-            else if (fcFunction.value.name == "addEventListener") { return globalObject.addEventListener(arguments, callExpression, globalObject); }
-            else if (fcFunction.value.name == "removeEventListener") { return globalObject.removeEventListener(arguments, callExpression, globalObject); }
-            else if (fcFunction.value.name == "setTimeout" || fcFunction.value.name == "setInterval") { return this._setTimingEvents(fcFunction.value.name, arguments[0], arguments[1].value, arguments.slice(2), globalObject, callExpression); }
-            else if (fcFunction.value.name == "clearTimeout" || fcFunction.value.name == "clearInterval") { return this._clearTimingEvents(fcFunction.value.name, arguments[0].value, globalObject, callExpression); }
-            else if (fcFunction.value.name == "getComputedStyle") { return this._getComputedStyle(arguments[0], arguments.map(function(argument) { return argument.value; }), globalObject, callExpression) }
+                 if (fcFunction.jsValue.name == "eval") { return _handleEval(fcFunction, arguments, callExpression, globalObject); }
+            else if (fcFunction.jsValue.name == "addEventListener") { return globalObject.addEventListener(arguments, callExpression, globalObject); }
+            else if (fcFunction.jsValue.name == "removeEventListener") { return globalObject.removeEventListener(arguments, callExpression, globalObject); }
+            else if (fcFunction.jsValue.name == "setTimeout" || fcFunction.jsValue.name == "setInterval") { return this._setTimingEvents(fcFunction.jsValue.name, arguments[0], arguments[1].jsValue, arguments.slice(2), globalObject, callExpression); }
+            else if (fcFunction.jsValue.name == "clearTimeout" || fcFunction.jsValue.name == "clearInterval") { return this._clearTimingEvents(fcFunction.jsValue.name, arguments[0].jsValue, globalObject, callExpression); }
+            else if (fcFunction.jsValue.name == "getComputedStyle") { return this._getComputedStyle(arguments[0], arguments.map(function(argument) { return argument.jsValue; }), globalObject, callExpression) }
+            else if (globalObject.internalExecutor.isInternalConstructor(fcFunction))
+            {
+                return globalObject.internalExecutor.executeInternalConstructor(callExpression, fcFunction, arguments);
+            }
+            else
+            {
+                fcModel.GlobalObject.notifyError("Unhandled internal function: " + e);
+            }
 
-            var result = globalObject.origWindow[fcFunction.value.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.value; }));
+            var result = globalObject.origWindow[fcFunction.jsValue.name].apply(globalObject.origWindow, arguments.map(function(argument) { return argument.jsValue; }));
 
             return new fcModel.fcValue(result, result, callExpression);
         }

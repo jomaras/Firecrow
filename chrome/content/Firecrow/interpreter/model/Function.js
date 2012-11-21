@@ -14,7 +14,7 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
     this.value = value;
 
     this.addProperty("prototype", this.globalObject.internalExecutor.createNonConstructorObject());
-    this.addProperty("__proto__", globalObject.fcObjectPrototype);
+    this.addProperty("__proto__", globalObject.fcFunctionPrototype);
 };
 
 fcModel.Function.createInternalNamedFunction = function(globalObject, name, ownerObject)
@@ -51,7 +51,18 @@ fcModel.FunctionPrototype = function(globalObject)
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
         fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            this.addProperty(propertyName, fcModel.Function.createInternalNamedFunction(globalObject, propertyName), null, false);
+            this.addProperty
+            (
+                propertyName,
+                new fcModel.fcValue
+                (
+                    Function.prototype[propertyName],
+                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                    null
+                ),
+                null,
+                false
+            );
         }, this);
     }
     catch(e) { fcModel.Function.notifyError ("Error when creating function prototype:" + e); }

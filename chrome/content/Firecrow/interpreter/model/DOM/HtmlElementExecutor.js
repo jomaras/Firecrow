@@ -105,8 +105,7 @@ fcModel.HtmlElementExecutor =
 
                 if(item instanceof HTMLImageElement)
                 {
-                    fcHtmlElement.addProperty("__proto__", globalObject.htmlImageElementPrototype);
-                    fcHtmlElement.proto = globalObject.htmlImageElementPrototype;
+                    fcHtmlElement.addProperty("__proto__", globalObject.fcHtmlImagePrototype);
                 }
 
                 return new fcModel.fcValue(item, fcHtmlElement, codeConstruct);
@@ -144,23 +143,23 @@ fcModel.HtmlElementExecutor =
             if (element.creationPoint != null)
             {
                 globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        codeConstruct,
-                        element.creationPoint.codeConstruct,
-                        evaluationPositionId,
-                        element.creationPoint.evaluationPositionId
-                    );
+                (
+                    codeConstruct,
+                    element.creationPoint.codeConstruct,
+                    evaluationPositionId,
+                    element.creationPoint.evaluationPositionId
+                );
             }
 
             if(element.domInsertionPoint != null)
             {
                 globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        codeConstruct,
-                        element.domInsertionPoint.codeConstruct,
-                        evaluationPositionId,
-                        element.domInsertionPoint.evaluationPositionId
-                    );
+                (
+                    codeConstruct,
+                    element.domInsertionPoint.codeConstruct,
+                    evaluationPositionId,
+                    element.domInsertionPoint.evaluationPositionId
+                );
             }
 
             if(element.elementModificationPoints != null)

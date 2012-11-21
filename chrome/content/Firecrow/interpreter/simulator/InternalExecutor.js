@@ -19,8 +19,21 @@ fcSimulator.InternalExecutor.prototype =
     {
         if(this._isNonConstructorObjectCreation(constructorFunction, creationCodeConstruct)) { return this.createNonConstructorObject(creationCodeConstruct); }
         else if(this._isUserConstructorObjectCreation(constructorFunction)) { return this._createObjectFromUserFunction(constructorFunction, creationCodeConstruct, argumentValues); }
-        else if (this._isInternalConstructorCreation(constructorFunction)) { return this._executeInternalConstructor(creationCodeConstruct, constructorFunction, argumentValues); }
+        else if (this.isInternalConstructor(constructorFunction)) { return this.executeInternalConstructor(creationCodeConstruct, constructorFunction, argumentValues); }
         else { this.notifyError("Unknown state when creating object"); return null; }
+    },
+
+    createInternalPrimitiveObject: function(codeConstruct, value)
+    {
+        var result = null;
+
+             if(typeof value == "string") { result = new fcModel.String(value, this.globalObject, codeConstruct, true);}
+        else if(typeof value == "number") { result = new fcModel.Number(value, this.globalObject, codeConstruct, true); }
+        else if(typeof value == "boolean") { result = new fcModel.Boolean(value, this.globalObject, codeConstruct, true); }
+        else if(value == null) { }
+        else { this.notifyError("Unknown primitive object!");}
+
+        return new fcModel.fcValue(value, result, codeConstruct);
     },
 
     createNonConstructorObject: function(creationCodeConstruct)
@@ -40,12 +53,12 @@ fcSimulator.InternalExecutor.prototype =
         var newFunction = ASTHelper.isFunctionDeclaration(functionConstruct) ? eval("(function " + functionConstruct.id.name + "(){})")
                                                                              : function(){};
 
-        var fcFunction = new fcModel.Function(this.globalObject, scopeChain, functionConstruct, newFunction);
-
-        fcFunction.addProperty("__proto__", this.globalObject.functionPrototype);
-        fcFunction.proto = this.globalObject.functionPrototype;
-
-        return new fcModel.fcValue(newFunction, fcFunction, functionConstruct);
+        return new fcModel.fcValue
+        (
+            newFunction,
+            new fcModel.Function(this.globalObject, scopeChain, functionConstruct, newFunction),
+            functionConstruct
+        );
     },
 
     createInternalFunction: function(functionObject, functionName, parentObject, dontExpandCallApply)
@@ -224,12 +237,12 @@ fcSimulator.InternalExecutor.prototype =
 
     _isUserConstructorObjectCreation: function(constructorFunction)
     {
-        return ValueTypeHelper.isOfType(constructorFunction.jsValue, Function);
+        return ValueTypeHelper.isOfType(constructorFunction.jsValue, Function) && !constructorFunction.isInternalFunction;
     },
 
-    _isInternalConstructorCreation: function(constructorFunction)
+    isInternalConstructor: function(constructorFunction)
     {
-        return constructorFunction != null && constructorFunction.jsValue.isInternalFunction
+        return constructorFunction != null && constructorFunction.isInternalFunction;
     },
 
     _createObjectFromUserFunction: function(constructorFunction, creationCodeConstruct, argumentValues)
@@ -252,20 +265,20 @@ fcSimulator.InternalExecutor.prototype =
         );
     },
 
-    _executeInternalConstructor: function(constructorConstruct, internalConstructor, arguments)
+    executeInternalConstructor: function(constructorConstruct, internalConstructor, arguments)
     {
         if(internalConstructor == null) { this.notifyError("InternalConstructor can not be null!"); return; }
 
-        if(internalConstructor.jsValue == this.globalObject.arrayFunction){ return this.createArray(constructorConstruct, Array.apply(null, arguments)); }
+        if(internalConstructor.iValue == this.globalObject.arrayFunction){ return this.createArray(constructorConstruct, Array.apply(null, arguments)); }
 
-        else if (internalConstructor.jsValue == this.globalObject.regExFunction) { return this.createRegEx(constructorConstruct, RegExp.apply(null, arguments.map(function(item) { return item.jsValue; })));}
-        else if (internalConstructor.jsValue == this.globalObject.stringFunction) { return new fcModel.fcValue(String.apply(null, arguments), String.apply(null, arguments), constructorConstruct); }
-        else if (internalConstructor.jsValue == this.globalObject.booleanFunction) { return new fcModel.fcValue(Boolean.apply(null, arguments), Boolean.apply(null, arguments), constructorConstruct); }
-        else if (internalConstructor.jsValue == this.globalObject.numberFunction) { return new fcModel.fcValue(Number.apply(null, arguments), Number.apply(null, arguments), constructorConstruct); }
-        else if (internalConstructor.jsValue == this.globalObject.objectFunction) { return new fcModel.fcValue(Object.apply(null, arguments), Object.apply(null, arguments), constructorConstruct); }
-        else if (internalConstructor.jsValue == this.globalObject.dateFunction) { return fcModel.DateExecutor._executeInternalConstructor(constructorConstruct, arguments, this.globalObject); }
-        else if (internalConstructor.jsValue == this.globalObject.imageFunction
-              || internalConstructor.jsValue == this.globalObject.xmlHttpRequestFunction) { return this._createEmptyObject(constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.regExFunction) { return this.createRegEx(constructorConstruct, RegExp.apply(null, arguments.map(function(item) { return item.jsValue; })));}
+        else if (internalConstructor.iValue == this.globalObject.stringFunction) { return new fcModel.fcValue(String.apply(null, arguments), String.apply(null, arguments), constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.booleanFunction) { return new fcModel.fcValue(Boolean.apply(null, arguments), Boolean.apply(null, arguments), constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.numberFunction) { return new fcModel.fcValue(Number.apply(null, arguments), Number.apply(null, arguments), constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.objectFunction) { return new fcModel.fcValue(Object.apply(null, arguments), Object.apply(null, arguments), constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeInternalConstructor(constructorConstruct, arguments, this.globalObject); }
+        else if (internalConstructor.iValue == this.globalObject.imageFunction
+              || internalConstructor.iValue == this.globalObject.xmlHttpRequestFunction) { return this._createEmptyObject(constructorConstruct); }
         else { this.notifyError("Unhandled internal constructor" + constructorConstruct.loc.start.line); return; }
     },
 
@@ -293,9 +306,9 @@ fcSimulator.InternalExecutor.prototype =
     {
         if (functionObject.jsValue == this.globalObject.arrayFunction) { return this.createArray(callExpression, Array.apply(null, arguments)); }
         else if (functionObject.jsValue == this.globalObject.regExFunction) { return this.createRegEx(callExpression, Array.apply(null, arguments.map(function(item){ return item.jsValue; }))); }
-        else if (functionObject.jsValue != null && functionObject.value.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+        else if (functionObject.jsValue != null && functionObject.jsValue.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
         else if (fcModel.ArrayExecutor.isInternalArrayMethod(functionObject.jsValue))  { fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
-        else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.value.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, arguments, callExpression, this.globalObject); }
+        else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, arguments, callExpression, this.globalObject); }
         else { this.notifyError("Unknown internal function!"); }
     },
 

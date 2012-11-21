@@ -7,20 +7,22 @@ FBL.ns(function() { with (FBL) {
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var fcModel = Firecrow.Interpreter.Model;
 
-fcModel.String = function(value, globalObject, codeConstruct)
+fcModel.String = function(value, globalObject, codeConstruct, isLiteral)
 {
-    try
-    {
-        this.notifyError = function(message) { alert("String - " + message); }
+    this.initObject(globalObject, codeConstruct);
 
-        this.value = value;
-        this.initObject(globalObject, codeConstruct);
-    }
-    catch(e) { this.notifyError("Error when creating a String object: " + e); }
+    this.value = value;
+    this.isLiteral = !!isLiteral;
+
+    this.addProperty("__proto__", this.globalObject.fcStringPrototype);
 };
 
-Firecrow.Interpreter.Model.String.notifyError = function(message) { alert("String - " + message); };
-Firecrow.Interpreter.Model.String.prototype = new fcModel.Object();
+fcModel.String.notifyError = function(message) { alert("String - " + message); };
+fcModel.String.prototype = new fcModel.Object();
+fcModel.String.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
+{
+    return this.getPropertyValue(propertyName, codeConstruct);
+};
 
 fcModel.StringPrototype = function(globalObject)
 {
@@ -30,9 +32,18 @@ fcModel.StringPrototype = function(globalObject)
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
         fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            var internalFunction = globalObject.internalExecutor.createInternalFunction(String.prototype[propertyName], propertyName, this);
-            this[propertyName] = internalFunction;
-            this.addProperty(propertyName, internalFunction, null, false);
+            this.addProperty
+            (
+                propertyName,
+                new fcModel.fcValue
+                (
+                    String.prototype[propertyName],
+                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                    null
+                ),
+                null,
+                false
+            );
         }, this);
     }
     catch(e) { fcModel.String.notifyError("StringPrototype - error when creating array prototype:" + e); }
@@ -168,7 +179,7 @@ fcModel.StringExecutor =
                     {
                         return globalObject.internalExecutor.createArray(callExpression, result.map(function(item)
                         {
-                            return new fcModel.fcValue(item, item, callExpression);
+                            return new fcModel.fcValue(item, new fcModel.String(item, globalObject, callExpression, true), callExpression);
                         }));
                     }
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}

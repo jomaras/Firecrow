@@ -118,7 +118,7 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setExpressionValue
         (
             evalLiteralCommand.codeConstruct,
-            new fcModel.fcValue(evalLiteralCommand.codeConstruct.value, evalLiteralCommand.codeConstruct.value, evalLiteralCommand.codeConstruct)
+            this.globalObject.internalExecutor.createInternalPrimitiveObject(evalLiteralCommand.codeConstruct, evalLiteralCommand.codeConstruct.value)
         );
     },
 
@@ -387,9 +387,9 @@ fcSimulator.Evaluator.prototype =
 
         this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName);
 
-        forInWhereCommand.willBodyBeExecuted = !!nextPropertyName.value;
+        forInWhereCommand.willBodyBeExecuted = !!nextPropertyName.jsValue;
 
-        if(!nextPropertyName.value){ return; }
+        if(!nextPropertyName.jsValue){ return; }
 
         if(ASTHelper.isIdentifier(forInWhereConstruct.left))
         {

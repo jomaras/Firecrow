@@ -67,7 +67,7 @@ fcModel.Object.prototype =
     {
         try
         {
-            if(!propertyName)
+            if(propertyName == undefined || propertyName == null)
             {
                 alert("Invalid property name!");
             }

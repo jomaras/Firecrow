@@ -168,7 +168,7 @@ fcSimulator.VariableObject.liftToVariableObject = function(object)
 {
     if(object == null || object.iValue == null) { fcSimulator.VariableObject.notifyError("Can not lift object to variable object:"); };
 
-    ValueTypeHelper.expand(object.iValue, fcSimulator.VariableObjectMixin);
+    ValueTypeHelper.expand(object, fcSimulator.VariableObjectMixin);
 
     return object;
 };

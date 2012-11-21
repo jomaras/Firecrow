@@ -63,7 +63,7 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
     {
-        this.addProperty(propertyName, new fcModel.fcValue(this.htmlElement[propertyName], this.htmlElement[propertyName], this.creationCodeConstruct), this.creationCodeConstruct);
+        this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(this.creationCodeConstruct, this.htmlElement[propertyName]), this.creationCodeConstruct);
     }
 
     return this.getPropertyValue(propertyName, codeConstruct);
@@ -230,8 +230,6 @@ fcModel.HtmlElement.prototype._addMethods = function(codeConstruct)
         for(var i = 0, length = methods.length; i < length; i++)
         {
             var method = methods[i];
-
-            this.globalObject.internalExecutor.expandWithInternalFunction(this.htmlElement, method);
 
             this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.htmlElement[method], method, this), codeConstruct);
         }

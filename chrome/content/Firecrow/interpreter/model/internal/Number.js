@@ -7,7 +7,24 @@ FBL.ns(function() { with (FBL) {
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var fcModel = Firecrow.Interpreter.Model;
 
-Firecrow.Interpreter.Model.NumberFunction = function(globalObject)
+fcModel.Number = function(value, globalObject, codeConstruct, isLiteral)
+{
+    this.initObject(globalObject, codeConstruct);
+
+    this.value = value;
+    this.isLiteral = !!isLiteral;
+
+    this.addProperty("__proto__", this.globalObject.fcNumberPrototype);
+};
+
+fcModel.Number.notifyError = function(message) { alert("Number - " + message); };
+fcModel.Number.prototype = new fcModel.Object();
+fcModel.Number.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
+{
+    return this.getPropertyValue(propertyName, codeConstruct);
+};
+
+fcModel.NumberFunction = function(globalObject)
 {
     this.initObject(globalObject);
 
@@ -25,13 +42,13 @@ Firecrow.Interpreter.Model.NumberFunction = function(globalObject)
     this.addProperty("NaN", new fcModel.fcValue(Number.NaN, Number.NaN, null));
 };
 
-Firecrow.Interpreter.Model.NumberFunction.prototype = new fcModel.Object();
+fcModel.NumberFunction.prototype = new fcModel.Object();
 
-Firecrow.Interpreter.Model.NumberPrototype = function(globalObject)
+fcModel.NumberPrototype = function(globalObject)
 {
     this.initObject(globalObject);
 };
 
-Firecrow.Interpreter.Model.NumberPrototype.prototype = new fcModel.Object();
+fcModel.NumberPrototype.prototype = new fcModel.Object();
 /*************************************************************************************/
 }});

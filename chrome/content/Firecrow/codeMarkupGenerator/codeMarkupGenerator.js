@@ -1026,7 +1026,7 @@ FBL.ns(function () { with (FBL) {
             {
                 return this.getElementHtml("span", {class: "Number", id: "node" + this.formatId(literal.nodeId)}, literal.value);
             }
-            else if(valueTypeHelper.isRegExp(literal.value))
+            else if(valueTypeHelper.isObject(literal.value))
             {
                 var regExString = "";
 

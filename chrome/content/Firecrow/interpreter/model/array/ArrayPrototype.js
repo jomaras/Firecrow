@@ -15,9 +15,18 @@ fcModel.ArrayPrototype = function(globalObject)
 
         fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
-            var internalFunction = globalObject.internalExecutor.createInternalFunction(Array.prototype[propertyName], propertyName, this);
-            this[propertyName] = internalFunction;
-            this.addProperty(propertyName, internalFunction, null, false);
+            this.addProperty
+            (
+                propertyName,
+                new fcModel.fcValue
+                (
+                    Array.prototype[propertyName],
+                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                    null
+                ),
+                null,
+                false
+            );
         }, this);
     }
     catch(e) { fcModel.Array.notifyError("Error when creating array prototype:" + e); }

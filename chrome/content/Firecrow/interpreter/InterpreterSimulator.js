@@ -386,7 +386,7 @@ fcSimulator.prototype =
         if(!caseCommand.isCaseCommand()) { fcSimulator.notifyError("Argument has to be a case command!"); return; }
 
         if( caseCommand.codeConstruct.test == null
-         || this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).jsValue == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).value
+         || this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).jsValue == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).jsValue
          || caseCommand.parent.hasBeenMatched)
         {
             caseCommand.parent.hasBeenMatched = true;

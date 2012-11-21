@@ -10,28 +10,27 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.ObjectExecutor =
 {
-    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+    executeInternalMethod: function(thisObject, functionObject, args, callExpression)
     {
-        try
+        if(functionObject.jsValue.name == "hasOwnProperty")
         {
-            if(thisObject.value === undefined && functionObject.value.name == "hasOwnProperty")
-            {
-                //TODO - jQuery hack
-                return new fcModel.fcValue(true, true, null);
-            }
+            return this._executeHasOwnProperty(thisObject, args, callExpression);
+        }
+        else
+        {
+            fcModel.Object.notifyError("Unknown ObjectExecutor method");
+        }
+    },
 
-            return new fcModel.fcValue
-            (
-                Object.prototype[functionObject.value.name].apply(thisObject.value, arguments.map(function(item){return item.value})),
-                null,
-                callExpression
-            );
-        }
-        catch(e)
-        {
-            fcModel.Object.notifyError("Error when executing internal method:" + e);
-        }
+    _executeHasOwnProperty: function(thisObject, args, callExpression)
+    {
+        if(thisObject == null || thisObject.iValue == null || args == null || args.length <= 0) { fcModel.Object.notifyError("Invalid argument when executing hasOwnProperty");}
+
+        var result = thisObject.iValue.isOwnProperty(args[0].jsValue);
+
+        return new fcModel.fcValue(result, new fcModel.Boolean(result, thisObject.iValue.globalObject, callExpression, true));
     }
+
 };
 /*************************************************************************************/
 }});

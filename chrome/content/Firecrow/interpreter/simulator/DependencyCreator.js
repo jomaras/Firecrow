@@ -358,9 +358,9 @@ fcSimulator.DependencyCreator.prototype =
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, evaluationPosition);
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct.left, forInWhereConstruct.right, evaluationPosition);
 
-        if(!nextPropertyName || !nextPropertyName.value) { return; }
+        if(!nextPropertyName || !nextPropertyName.jsValue) { return; }
 
-        var property = whereObject.iValue.getProperty(nextPropertyName.value);
+        var property = whereObject.iValue.getProperty(nextPropertyName.jsValue);
 
         if(property != null)
         {

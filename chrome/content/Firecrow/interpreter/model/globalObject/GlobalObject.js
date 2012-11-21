@@ -335,17 +335,19 @@ fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 
 fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
 {
-    this.booleanPrototype = new fcModel.BooleanPrototype(this);
-    this.fcBooleanPrototype = new fcModel.fcValue(Boolean.prototype, this.booleanPrototype, null);
-
-    this.arrayPrototype = new fcModel.ArrayPrototype(this);
-    this.fcArrayPrototype = new fcModel.fcValue(Array.prototype, this.arrayPrototype, null);
-
     this.objectPrototype = new fcModel.ObjectPrototype(this);
     this.fcObjectPrototype = new fcModel.fcValue(Object.prototype, this.objectPrototype, null);
 
     this.functionPrototype = new fcModel.FunctionPrototype(this);
     this.fcFunctionPrototype = new fcModel.fcValue(Function.prototype, this.functionPrototype, null);
+
+    this.objectPrototype.initMethods();
+
+    this.booleanPrototype = new fcModel.BooleanPrototype(this);
+    this.fcBooleanPrototype = new fcModel.fcValue(Boolean.prototype, this.booleanPrototype, null);
+
+    this.arrayPrototype = new fcModel.ArrayPrototype(this);
+    this.fcArrayPrototype = new fcModel.fcValue(Array.prototype, this.arrayPrototype, null);
 
     this.regExPrototype = new fcModel.RegExPrototype(this);
     this.fcRegExPrototype = new fcModel.fcValue(RegExp.prototype, this.regExPrototype, null);

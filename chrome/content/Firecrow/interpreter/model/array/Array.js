@@ -40,7 +40,7 @@ fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, fcVal
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         arguments = ValueTypeHelper.isArray(arguments) ? arguments : [arguments];
 
@@ -81,7 +81,7 @@ fcModel.Array.prototype.pop = function(jsArray, arguments, codeConstruct)
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         var poppedItem = null;
 
@@ -115,7 +115,7 @@ fcModel.Array.prototype.reverse = function(jsArray, arguments, codeConstruct, fc
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         if(isCalledOnArray)
         {
@@ -145,7 +145,7 @@ fcModel.Array.prototype.shift = function(jsArray, arguments, codeConstruct)
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         var shiftedItem = null;
 
@@ -189,7 +189,7 @@ fcModel.Array.prototype.unshift = function(jsArray, callArguments, callExpressio
         if(!isCalledOnArray) { alert("Unshift called on non-array!"); return;}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, callExpression); }
 
@@ -238,7 +238,7 @@ fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, fcVal
         {
             functionConstruct.isSortingFunction = true;
             var paramsCode = functionConstruct.params.map(function (param) { return param.name; }).join(",");
-            sortFunction = eval("(function (" + paramsCode + ") {" + "return " + returnArg.left.name + ".value" + returnArg.operator + returnArg.right.name + ".value;})");
+            sortFunction = eval("(function (" + paramsCode + ") {" + "return " + returnArg.left.name + ".jsValue" + returnArg.operator + returnArg.right.name + ".jsValue;})");
             var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, returnArg, evaluationPosition);
@@ -284,7 +284,7 @@ fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
         if(!isCalledOnArray) { alert("Splice called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         for(var i = 0; i < this.items.length; i++) { this.deleteProperty(i, codeConstruct); }
 
@@ -319,7 +319,7 @@ fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression
         if(!isCalledOnArray) { alert("Concat called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         var newArray = this.globalObject.internalExecutor.createArray(callExpression);
 
@@ -469,7 +469,7 @@ fcModel.Array.prototype.lastIndexOf = function(jsArray, callArguments, callExpre
         if(!isCalledOnArray) { alert("lastIndexOf called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         var searchForItem = callArguments[0];
         var fromIndex = callArguments[1] != null ? callArguments[1].jsValue : jsArray.length - 1;
@@ -497,7 +497,7 @@ fcModel.Array.prototype.join = function(jsArray, callArguments, callExpression)
         if(!isCalledOnArray) { alert("join called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
-        var length = lengthProperty != null ? lengthProperty.value.jsValue : 0;
+        var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         var glue = callArguments[0] != null ? callArguments[0].jsValue : ",";
         var result = "";
@@ -571,7 +571,7 @@ fcModel.Array.prototype._registerCallbacks = function()
 fcModel.Array.prototype._addDefaultProperties = function()
 {
     this.addProperty("length", new fcModel.fcValue(0, 0, this.creationCodeConstruct), this.creationCodeConstruct, false);
-    this.addProperty("__proto__", this.globalObject.arrayPrototype);
+    this.addProperty("__proto__", this.globalObject.fcArrayPrototype, null, false);
 
     this._addRegExResultArrayProperties();
 };
