@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comparator</title>
+    <meta charset="UTF-8"/>
+    <script src="newLog.js"></script>
+    <script src="oldLog.js"></script>
+</head>
+<body>
+   <div id="reportContainer">
+   </div>
+    <script>
+        var reportContainer = document.getElementById("reportContainer");
+
+        var newCounter = 0;
+        var oldCounter = 0;
+        var length = Math.max(newLog.length, oldLog.length);
+
+        while(newCounter < length && oldCounter < length)
+        {
+            if(newLog[newCounter] == oldLog[oldCounter])
+            {
+                newCounter++;
+                oldCounter++;
+            }
+            else
+            {
+                reportContainer.innerHTML += "Difference old: " + oldLog[oldCounter] + "; new: " + newLog[newCounter] + "@" + newCounter + "<br/>";
+                if (newLog[newCounter + 1] == oldLog[oldCounter] ) { newCounter++;}
+                else
+                {
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

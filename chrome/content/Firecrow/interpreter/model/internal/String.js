@@ -14,7 +14,8 @@ fcModel.String = function(value, globalObject, codeConstruct, isLiteral)
     this.value = value;
     this.isLiteral = !!isLiteral;
 
-    this.addProperty("__proto__", this.globalObject.fcStringPrototype);
+    this.addProperty("__proto__", this.globalObject.fcStringPrototype, codeConstruct, false);
+    this.addProperty("length", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, value.length), codeConstruct, false);
 };
 
 fcModel.String.notifyError = function(message) { alert("String - " + message); };

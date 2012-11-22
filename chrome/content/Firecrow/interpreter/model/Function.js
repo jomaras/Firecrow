@@ -13,8 +13,7 @@ fcModel.Function = function(globalObject, scopeChain, codeConstruct, value)
 
     this.value = value;
 
-    this.addProperty("prototype", this.globalObject.internalExecutor.createNonConstructorObject());
-    this.addProperty("__proto__", globalObject.fcFunctionPrototype);
+    this._setDefaultProperties();
 };
 
 fcModel.Function.createInternalNamedFunction = function(globalObject, name, ownerObject)
@@ -38,6 +37,26 @@ fcModel.Function.prototype = new fcModel.Object();
 fcModel.Function.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
 {
     return this.getPropertyValue(propertyName, codeConstruct);
+};
+fcModel.Function.prototype._setDefaultProperties = function()
+{
+    this.addProperty("prototype", this.globalObject.internalExecutor.createNonConstructorObject());
+    this.addProperty("__proto__", this.globalObject.fcFunctionPrototype);
+
+    this._setLengthProperty();
+};
+
+fcModel.Function.prototype._setLengthProperty = function()
+{
+    var length = 0;
+
+    if(this.codeConstruct != null && this.codeConstruct.params != null)
+    {
+        length = this.codeConstruct.params.length;
+    }
+
+    this.addProperty("length", this.globalObject.internalExecutor.createInternalPrimitiveObject(this.codeConstruct, length), this.codeConstruct, false);
+
 };
 //</editor-fold>
 

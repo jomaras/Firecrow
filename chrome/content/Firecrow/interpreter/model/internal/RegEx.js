@@ -31,9 +31,9 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
                 (
                     this.jsRegExp[propertyName],
                     fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
-                    codeConstruct
+                    null
                 ),
-                codeConstruct,
+                null,
                 false
             );
         }, this);

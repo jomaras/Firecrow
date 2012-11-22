@@ -26,7 +26,7 @@ fcGraph.DependencyGraph = function()
 var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
 
 DependencyGraph.notifyError = function(message) { alert("DependencyGraph - " + message); };
-DependencyGraph.log = "";
+DependencyGraph.log = [];
 DependencyGraph.shouldLog = false;
 
 DependencyGraph.prototype =
@@ -70,6 +70,11 @@ DependencyGraph.prototype =
         }
         else
         {
+            DependencyGraph.log.push(sourceNodeModelObject.nodeId + " - " + targetNodeModelObject.nodeId);
+            if(sourceNodeModelObject.nodeId == 21923 && targetNodeModelObject.nodeId == 21924)
+            {
+                var a = 3;
+            }
             sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
         }
     },
@@ -85,6 +90,12 @@ DependencyGraph.prototype =
             {
                 dependencyCreationInfo.callDependencyMaxIndex = enterFunctionPoints[enterFunctionPoints.length - 1].lastDependencyIndex;
             }
+        }
+
+        DependencyGraph.log.push(sourceNodeModelObject.nodeId + " - " + targetNodeModelObject.nodeId);
+        if(sourceNodeModelObject.nodeId == 21923 && targetNodeModelObject.nodeId == 21924)
+        {
+            var a = 3;
         }
 
         sourceNodeModelObject.graphNode.addControlDependency

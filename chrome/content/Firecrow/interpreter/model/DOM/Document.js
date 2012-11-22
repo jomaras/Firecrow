@@ -60,8 +60,7 @@ fcModel.Document.prototype.getJsPropertyValue = function(propertyName, codeConst
         }
         else if (propertyName == "ownerDocument" || propertyName == "attributes")
         {
-            this.addProperty(propertyName, propertyName, codeConstruct);
-            hasBeenHandled = true;
+
         }
     }
 

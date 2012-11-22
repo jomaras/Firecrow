@@ -285,11 +285,6 @@ Firecrow.ValueTypeHelper =
 
             var removed = array.splice(index, 1);
 
-            if(removed != null && removed[0] != null && removed[0].id == 64149)
-            {
-                var a = 3;
-            }
-
             return removed;
         }
         catch(e) { alert("Error while removing elements from array by index: " + e);}
