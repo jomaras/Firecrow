@@ -34,6 +34,15 @@ fcModel.Function.createInternalNamedFunction = function(globalObject, name, owne
 fcModel.Function.notifyError = function(message) { alert("Function - " + message); };
 fcModel.Function.prototype = new fcModel.Object();
 
+
+fcModel.Function.prototype.bind = function(args, callExpression)
+{
+    this.isBound = true;
+    this.bounder = args[0];
+    this.argsToPrepend = args.slice(1);
+    this.bindingExpression = callExpression;
+};
+
 fcModel.Function.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
 {
     return this.getPropertyValue(propertyName, codeConstruct);

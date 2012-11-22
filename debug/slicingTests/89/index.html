@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <script>
+        var a = "1";
+        var b = {a: "2"};
+
+        function list()
+        {
+            var string = this.a;
+
+            for(var i = 0; i < arguments.length; i++)
+            {
+                string += arguments[i];
+            }
+
+            return string;
+        }
+
+        var a1 = list(4, 5, 6);
+
+        var leadingZeroList = list.bind(undefined, 3);
+
+        var a2 = leadingZeroList();
+        var a3 = leadingZeroList(4, 5, 6);
+
+        var leadingList2 = list.bind(b);
+
+        var a4 = leadingList2();
+        var a5 = leadingList2(4, 5, 6);
+
+        a1;a2;a3;a4;a5;
+
+    </script>
+
+</body>
+</html>

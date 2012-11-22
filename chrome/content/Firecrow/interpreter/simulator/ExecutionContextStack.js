@@ -15,6 +15,8 @@ fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, 
 {
     try
     {
+        this.id = fcSimulator.ExecutionContext.LAST_ID++;
+
         this.variableObject = variableObject || globalObject.globalVariableObject;
         this.thisObject = thisObject || globalObject;
 
@@ -34,6 +36,7 @@ fcSimulator.ExecutionContext.createGlobalExecutionContext = function(globalObjec
     return new fcSimulator.ExecutionContext(globalObject, [], globalObject, globalObject);
 };
 
+fcSimulator.ExecutionContext.LAST_ID = 0;
 fcSimulator.ExecutionContext.notifyError = function(message) { alert("ExecutionContextStack - " + message);}
 
 fcSimulator.ExecutionContext.prototype =
@@ -626,6 +629,7 @@ fcSimulator.ExecutionContextStack.prototype =
         if(!ValueTypeHelper.isOfType(enterFunctionCommand, fcCommands.Command) || !enterFunctionCommand.isEnterFunctionContextCommand()) { this.notifyError("Argument must be a enterFunctionContext command"); return; }
         if(enterFunctionCommand.callee == null) { this.notifyError("When processing enter function context the callee can not be null!"); return; }
 
+        var callee = enterFunctionCommand.callee.iValue;
         this.dependencyCreator.markEnterFunctionPoints(enterFunctionCommand);
 
         var functionConstruct = enterFunctionCommand.callee.codeConstruct;
@@ -642,6 +646,14 @@ fcSimulator.ExecutionContextStack.prototype =
             if(!enterFunctionCommand.parentFunctionCommand.isExecuteCallbackCommand())
             {
                 arguments = enterFunctionCommand.parentFunctionCommand.codeConstruct.arguments;
+            }
+        }
+
+        if(callee.isBound && callee.argsToPrepend != null)
+        {
+            for(var i = 0; i < callee.argsToPrepend.length; i++)
+            {
+                ValueTypeHelper.insertIntoArrayAtIndex(sentArgumentsValues, callee.argsToPrepend[i], 0);
             }
         }
 

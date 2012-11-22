@@ -8,7 +8,7 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 fcModel.ArrayExecutor =
 {
-    executeInternalArrayMethod : function(thisObject, functionObject, arguments, callExpression, callCommand)
+    executeInternalArrayMethod : function(thisObject, functionObject, args, callExpression, callCommand)
     {
         try
         {
@@ -44,7 +44,7 @@ fcModel.ArrayExecutor =
                 case "splice":
                 case "join":
                 case "sort":
-                    return fcModel.Array.prototype[functionName].apply(fcThisValue, [thisObjectValue, arguments, callExpression, thisObject]);
+                    return fcModel.Array.prototype[functionName].apply(fcThisValue, [thisObjectValue, args, callExpression, thisObject]);
                 case "forEach":
                 case "filter":
                 case "every":
@@ -61,9 +61,9 @@ fcModel.ArrayExecutor =
 
                     callCommand.generatesNewCommands = true;
                     callCommand.generatesCallbacks = true;
-                    callCommand.callbackFunction = arguments[0];
+                    callCommand.callbackFunction = args[0];
                     callCommand.callbackArgumentGroups = allCallbackArguments;
-                    callCommand.thisObject = arguments[2] || globalObject;
+                    callCommand.thisObject =  args[1] || globalObject;
                     callCommand.originatingObject = thisObject;
                     callCommand.callerFunction = functionObject;
 

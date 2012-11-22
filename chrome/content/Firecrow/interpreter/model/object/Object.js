@@ -31,7 +31,7 @@ fcModel.Object.prototype =
         this.properties = [];
         this.enumeratedProperties = [];
 
-        this.proto = proto;
+        this.setProto(proto);
         this.modifications = [];
 
         if(codeConstruct != null && globalObject != null)
@@ -151,11 +151,11 @@ fcModel.Object.prototype =
         {
             if(propertyName == "__proto__") { this.setProto(propertyValue, codeConstruct); return; }
 
-            var existingProperty = this.getOwnProperty(propertyName);
+            var property = this.getOwnProperty(propertyName);
 
-            if(existingProperty == null)
+            if(property == null)
             {
-                var property = new fcModel.Identifier(propertyName, propertyValue, codeConstruct, this.globalObject);
+                property = new fcModel.Identifier(propertyName, propertyValue, codeConstruct, this.globalObject);
 
                 this.properties.push(property);
 
@@ -163,7 +163,7 @@ fcModel.Object.prototype =
             }
             else
             {
-                existingProperty.setValue(propertyValue, codeConstruct);
+                property.setValue(propertyValue, codeConstruct);
             }
 
             if(propertyName == "prototype" && propertyValue != null && codeConstruct != null)
@@ -183,16 +183,17 @@ fcModel.Object.prototype =
 
     setProto: function(proto, codeConstruct)
     {
-        try
-        {
-            this.proto = proto;
+        this.proto = proto;
 
-            if(codeConstruct != null)
-            {
-                this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
-            }
+        if(this.implementationObject != null && proto != null)
+        {
+            this.implementationObject.__proto__ = proto.jsValue;
         }
-        catch(e) { fcModel.Object.notifyError("Error when setting proto: " + e); }
+
+        if(codeConstruct != null)
+        {
+            this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+        }
     },
     //</editor-fold>
 
@@ -352,6 +353,9 @@ fcModel.Object.prototype =
         {
             for(var property in this.implementationObject)
             {
+                //TODO - possible problem
+                if(property == "constructor" && !this.implementationObject.hasOwnProperty(property)) { continue; }
+
                 properties.push(property);
             }
         }

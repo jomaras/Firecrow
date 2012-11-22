@@ -63,6 +63,10 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
     command.callee = functionObject;
     command.thisObject = thisObject;
 
+    if(functionObject.iValue.bounder != null && functionObject.iValue.bounder.jsValue != null)
+    {
+        command.thisObject = functionObject.iValue.bounder;
+    }
 
     return command;
 };

@@ -2,20 +2,32 @@
 <html>
 <head>
     <title></title>
+
 </head>
 <body>
-
+<div id="container"></div>
 <script>
 
-    Function.prototype.test = function(){ return 3; }
+   var container = document.getElementById("container");
 
-    function someFunction(a)
-    {
-        this.a = a
-    }
+   function Test()
+   {
+        this.a = 3;
+   }
 
-    someFunction.prototype
+   Test.prototype.b = 4;
+   Test.prototype.constructor = function(){};
+   var a = new Test();
 
+   var test = "";
+   for(var prop in a)
+   {
+        test += prop;
+   }
+
+   container.innerHTML = test + "<br/>";
 </script>
+
+
 </body>
 </html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <script>
+        var ConstructorA = function()
+        {
+            this.firstProperty = "testA";
+        };
+
+        ConstructorA.prototype.protoProperty = "protoPropA";
+
+        var a = new ConstructorA();
+
+        var a1 = "";
+
+        for(var prop in a)
+        {
+            a1 += a[prop];
+        }
+
+        a1;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -75,12 +75,20 @@ fcSimulator.VariableObjectMixin =
 
     registerIdentifier: function(identifier)
     {
-        this.iValue.addProperty
-        (
-            identifier.name,
-            identifier.value,
-            identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct : null
-        );
+        var existingProperty = this.iValue.getOwnProperty(identifier.name);
+
+        //TODO - problem with overriding global properties - they are only overriden when an assignement
+        //is performed, not when a variable is declared - this mixin is only used for the globalObject
+        //so if a property already exists, don't override it
+        if(existingProperty == null)
+        {
+            this.iValue.addProperty
+            (
+                identifier.name,
+                identifier.value,
+                identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct : null
+            );
+        }
     },
 
     deleteIdentifier: function(identifierName, deleteConstruct)

@@ -363,6 +363,9 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
 
     this.htmlImageElementPrototype = new fcModel.HTMLImageElementPrototype(this);
     this.fcHtmlImagePrototype = new fcModel.fcValue(HTMLImageElement.prototype, this.htmlImageElementPrototype, null);
+
+    this.elementPrototype = new fcModel.ElementPrototype(this);
+    this.fcElementPrototype = new fcModel.fcValue(Element.prototype, this.elementPrototype, null);
 };
 
 fcModel.GlobalObject.prototype._createInternalFunctions = function()
@@ -434,6 +437,10 @@ fcModel.GlobalObject.prototype._createInternalObjects = function()
     this.fcHTMLImageElement = new fcModel.HTMLImageElement(this);
     this.htmlImageElement = new fcModel.fcValue(HTMLImageElement, this.fcHTMLImageElement, null);
     this.addProperty("HTMLImageElement", this.htmlImageElement, null);
+
+    this.fcElement = new fcModel.Element(this);
+    this.element = new fcModel.fcValue(Element, this.fcElement, null);
+    this.addProperty("Element", this.element, null);
 };
 
 fcModel.GlobalObject.prototype._createInternalVariables = function()
