@@ -314,10 +314,13 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             {
                 updateIncluded = true;
                 Firecrow.includeNode(forStatement.update);
-                forStatement.update.children.forEach(function(child)
+                if(forStatement.update.children != null)
                 {
-                    Firecrow.includeNode(child);
-                });
+                    forStatement.update.children.forEach(function(child)
+                    {
+                        Firecrow.includeNode(child);
+                    });
+                }
             }
         }
         //END HACK!
