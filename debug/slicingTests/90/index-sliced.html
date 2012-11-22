@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+    <script>
+        var Native = function(options)
+        {
+            options = options;
+            var protect = options.protect;
+            var initialize = options.initialize;
+            var object = initialize;
+            var add = function(obj, name, method, force)
+            {
+                if(!protect || force || !(obj.prototype[name]))
+                    obj.prototype[name] = method;
+            };
+            object.implement = function(a1, a2, a3)
+            {
+                if(typeof a1 == 'string');
+
+                for(var p in a1)
+                    add(this, p, a1[p], a2);
+            };
+            return object;
+        };
+        var fNative = new Native({
+            initialize: Function,
+            protect: true
+        });
+        Function.implement({
+            extend: function(properties)
+            {
+                for(var property in properties)
+                    this[property] = properties[property];
+
+                return this;
+            },
+            create: function(options)
+            {},
+            run: function(args, bind)
+            {},
+            pass: function(args, bind)
+            {},
+            bind: function(bind, args)
+            {},
+            bindWithEvent: function(bind, args)
+            {},
+            attempt: function(args, bind)
+            {},
+            delay: function(delay, bind, args)
+            {},
+            periodical: function(periodical, bind, args)
+            {}
+        });
+        function Class(params)
+        {
+            var newClass = (function()
+            {
+                var value = this.initialize ? 0 : this;
+                return value;
+            }).extend(this);
+            newClass.implement(params);
+            return newClass;
+        }
+        (new Native({
+            initialize: Class
+        })).extend({
+                    wrap: function(self, key, method)
+                    {
+                        return (function()
+                        {
+                            var result = method.apply(this, arguments);
+                            return result;
+                        }).extend({});
+                    }
+                });
+        Class.implement({
+            implement: function(key, value)
+            {
+                if(typeof key == 'object')
+                {
+                    for(var p in key)
+                        this.implement(p, key[p]);
+                }
+
+                var proto = this.prototype;
+                switch(typeof value)
+                {
+                    case 'function':
+                        proto[key] = Class.wrap(this, key, value);
+                        break;
+                }
+            }
+        });
+        var Chain = new Class({
+            chain: function()
+            {
+                return 3;
+            }
+        });
+        var chain = new Chain();
+        var a1 = chain.chain();
+        a1;
+    </script>
+</head>
+
+</html>

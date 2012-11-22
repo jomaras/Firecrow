@@ -303,7 +303,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     },
 
     isIncludedForStatement: function(forStatement)
-    {
+    {                                    arguments
         var testIncluded = (forStatement.test != null ? this.isIncludedElement(forStatement.test) : false);
         var updateIncluded = (forStatement.update != null ? this.isIncludedElement(forStatement.update) : false);
 
