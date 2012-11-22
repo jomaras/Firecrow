@@ -23,8 +23,8 @@ fcModel.BooleanFunction = function(globalObject)
 {
     this.initObject(globalObject);
 
-    this.addProperty("prototype", globalObject.booleanPrototype);
-    this.proto = globalObject.functionPrototype;
+    this.addProperty("prototype", globalObject.fcBooleanPrototype);
+    this.proto = globalObject.fcFunctionPrototype;
 
     this.isInternalFunction = true;
     this.name = "Boolean";

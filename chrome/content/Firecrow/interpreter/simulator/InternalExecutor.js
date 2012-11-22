@@ -159,14 +159,14 @@ fcSimulator.InternalExecutor.prototype =
         this._createProperty(fcNavigator, "product", this.globalObject.origWindow.navigator.product);
         this._createProperty(fcNavigator, "productSub", this.globalObject.origWindow.navigator.productSub);
         this._createProperty(fcNavigator, "userAgent", this.globalObject.origWindow.navigator.userAgent);
-        this._createProperty(fcNavigator, "plugins", this._createPluginsArray());
+        this._createProperty(fcNavigator, "plugins", this._createPluginsArray(), this.globalObject.origWindow.navigator.plugins);
 
         return new fcModel.fcValue(navigator, fcNavigator, navigator);
     },
 
     _createPluginsArray: function()
     {
-        var pluginsArrayObject = fcModel.Object.createObjectWithInit(this.globalObject, null, navigator.plugins);
+        var pluginsArrayObject = fcModel.Object.createObjectWithInit(this.globalObject, null, this.globalObject.origWindow.navigator.plugins);
 
         for(var propName in navigator.plugins)
         {
@@ -176,7 +176,7 @@ fcSimulator.InternalExecutor.prototype =
             }
         }
 
-        this._createProperty(pluginsArrayObject, 'Shockwave Flash', this._createPluginInfo(navigator.plugins['Shockwave Flash']));
+        this._createProperty(pluginsArrayObject, 'Shockwave Flash', this._createPluginInfo(navigator.plugins['Shockwave Flash']), navigator.plugins['Shockwave Flash']);
         this._createProperty(pluginsArrayObject, "length", navigator.plugins.length);
 
         return pluginsArrayObject;
@@ -194,7 +194,7 @@ fcSimulator.InternalExecutor.prototype =
         return pluginValue;
     },
 
-    _createProperty: function(baseObject, propertyName, propertyValue)
+    _createProperty: function(baseObject, propertyName, propertyValue, jsValue)
     {
         if(ValueTypeHelper.isPrimitive(propertyValue))
         {
@@ -202,7 +202,7 @@ fcSimulator.InternalExecutor.prototype =
         }
         else
         {
-            baseObject.addProperty(propertyName, propertyValue);
+            baseObject.addProperty(propertyName, new fcModel.fcValue(jsValue, propertyValue));
         }
     },
 
@@ -304,7 +304,7 @@ fcSimulator.InternalExecutor.prototype =
 
         if(ownerObject == this.globalObject.arrayPrototype) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
         else if(ownerObject == this.globalObject.regExPrototype) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, arguments, callExpression); }
-        else if (ownerObject == this.globalObject.fcMath) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
+        else if (ownerObject == this.globalObject.math) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }
         else if (ownerObject == this.globalObject.objectPrototype) { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
         else if (ownerObject == this.globalObject.stringPrototype) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, arguments, callExpression, callCommand); }
         else if (ownerObject.constructor == fcModel.HtmlElement) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, arguments, callExpression); }

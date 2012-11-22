@@ -72,6 +72,7 @@ fcModel.StringFunction = function(globalObject)
         this.initObject(globalObject);
 
         this.addProperty("prototype", globalObject.fcStringPrototype);
+        this.proto = globalObject.fcFunctionPrototype;
 
         this.isInternalFunction = true;
         this.name = "String";

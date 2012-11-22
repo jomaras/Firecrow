@@ -27,8 +27,8 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, h
 var fcSimulator = Firecrow.Interpreter.InterpreterSimulator;
 
 fcSimulator.log = [];
-fcSimulator.markExecutedConstructs = true;
-fcSimulator.logTrace = true;
+fcSimulator.markExecutedConstructs = false;
+fcSimulator.logTrace = false;
 fcSimulator.notifyError = function(message) { alert("InterpreterSimulator - " + message); }
 
 fcSimulator.prototype =

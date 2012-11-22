@@ -80,15 +80,7 @@ fcModel.DateFunction = function(globalObject)
     {
         this.initObject(globalObject);
 
-        this.prototype = new fcModel.fcValue(globalObject.datePrototype, globalObject.datePrototype, null);
-        this.addProperty("prototype", globalObject.datePrototype);
-
-        fcModel.DatePrototype.CONST.FUNCTION_PROPERTIES.METHODS.forEach(function(propertyName)
-        {
-            var internalFunction = globalObject.internalExecutor.createInternalFunction(Date[propertyName], propertyName, this);
-            this[propertyName] = internalFunction;
-            this.addProperty(propertyName, internalFunction, null, false);
-        }, this);
+        this.addProperty("prototype", globalObject.fcDatePrototype);
 
         this.isInternalFunction = true;
         this.name = "Date";
@@ -128,7 +120,7 @@ fcModel.DateExecutor =
                 }
                 else
                 {
-                    date =  new Date();
+                    date = new Date();
                 }
             }
             else

@@ -29,6 +29,7 @@ fcModel.NumberFunction = function(globalObject)
     this.initObject(globalObject);
 
     this.addProperty("prototype", globalObject.fcNumberPrototype);
+    this.proto = globalObject.fcFunctionPrototype;
 
     this.isInternalFunction = true;
     this.name = "Number";
