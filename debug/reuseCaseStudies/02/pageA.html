@@ -1,0 +1,249 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Colorful Content Accordion | Tutorialzine demo</title>
+
+    <style>
+    body,h1,h2,h3,p,quote,small,form,input,ul,li,ol,label{
+        /* Simple page reset */
+        margin:0px;
+        padding:0px;
+    }
+
+    body{
+        /* Setting default text color, background and a font stack */
+        color:#302b23c;
+        font-size:13px;
+        background: Gray;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    ul{
+        margin:0;
+        padding:0;
+    }
+
+    ul.container{
+        /* The topmost UL */
+        width:240px;
+        margin:0 auto;
+        padding:50px;
+    }
+
+    li{
+        list-style:none;
+        text-align:left;
+    }
+
+    li.menu{
+        /* The main list elements */
+        padding:5px 0;
+        width:100%;
+    }
+
+    li.button a{
+        /* The section titles */
+        display:block;
+        font-family:BPreplay,Arial,Helvetica,sans-serif;
+        font-size:21px;
+        height:34px;
+        overflow:hidden;
+        padding:10px 20px 0;
+        position:relative;
+        width:200px;
+    }
+
+    li.button a:hover{
+        /* Removing the inherited underline from the titles */
+        text-decoration:none;
+    }
+
+    li.button a span{
+        /* This span acts as the right part of the section's background */
+        height:44px;
+        position:absolute;
+        right:0;
+        top:0;
+        width:4px;
+        display:block;
+    }
+
+    /* Setting up different styles for each section color */
+
+    li.button a.blue{background:url(pageAImages/blue.png) repeat-x top left; color:#074384;}
+    li.button a.blue span{ background:url(pageAImages/blue.png) repeat-x top right;}
+
+    li.button a.green{background:url(pageAImages/green.png) repeat-x top left; color:#436800;}
+    li.button a.green span{ background:url(pageAImages/green.png) repeat-x top right;}
+
+    li.button a.orange{background:url(pageAImages/orange.png) repeat-x top left; color:#882e02;}
+    li.button a.orange span{ background:url(pageAImages/orange.png) repeat-x top right;}
+
+    li.button a.red{background:url(pageAImages/red.png) repeat-x top left; color:#641603;}
+    li.button a.red span{ background:url(pageAImages/red.png) repeat-x top right;}
+
+    /* The hover effects */
+
+    li.button a:hover{ background-position:bottom left;}
+    li.button a:hover span{ background-position:bottom right;}
+
+    .dropdown{
+        /* The expandable lists */
+        display:none;
+        padding-top:5px;
+        width:100%;
+    }
+
+    .dropdown li{
+        /* Each element in the expandable list */
+        background-color:#373128;
+        border:1px solid #40392C;
+        color:#CCCCCC;
+        margin:5px 0;
+        padding:4px 18px;
+    }
+
+
+    /* The styles below are only necessary for the demo page */
+
+    h1{
+        font-family:"Myriad Pro",Arial,Helvetica,sans-serif;
+        font-size:36px;
+        font-weight:normal;
+        margin-bottom:15px;
+    }
+
+    h2{
+        font-family:"Myriad Pro",Arial,Helvetica,sans-serif;
+        font-size:12px;
+        font-weight:normal;
+        right:0;
+        text-align:center;
+        text-transform:uppercase;
+        top:15px;
+    }
+
+    .clear{
+        clear:both;
+    }
+
+    #main{
+        /* The main container */
+        margin:15px auto;
+        text-align:center;
+        width:920px;
+        position:relative;
+    }
+
+    a, a:visited {
+        color:#0196e3;
+        text-decoration:none;
+        outline:none;
+    }
+
+    a:hover{
+        text-decoration:underline;
+    }
+
+    p{
+        /* The tut info on the bottom of the page */
+        padding:10px;
+        text-align:center;
+    }
+    </style>
+
+    <script type="text/javascript" src="pageAScripts/jQuery.js"></script>
+    <script type="text/javascript" src="pageAScripts/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="pageAScripts/script.js"></script>
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1>Colorful Accordion With<br /> CSS &amp; jQuery</h1>
+
+    <h2>View the <a href="http://tutorialzine.com/2009/12/colorful-content-accordion-css-jquery/">original tutorial &raquo;</a></h2>
+
+    <ul class="container" id="accordion">
+        <li class="menu">
+
+            <ul>
+                <li class="button"><a href="#" class="green">Kiwis <span></span></a></li>
+
+                <li class="dropdown">
+                    <ul>
+                        <li><a href="#" onclick="$('.button a').eq(2).click();return false;">Open Grapes Section</a></li>
+                        <li><a href="#" onclick="$('.dropdown').slideUp('slow');return false;">Close This Section</a></li>
+                        <li><a href="http://en.wikipedia.org/wiki/Kiwifruit">Read on Wikipedia</a></li>
+                        <li><a href="http://www.flickr.com/search/?w=all&amp;q=kiwi&amp;m=text">Flickr Stream</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </li>
+
+        <li class="menu">
+
+            <ul>
+                <li class="button"><a href="#" class="orange">Oranges <span></span></a></li>
+
+                <li class="dropdown">
+                    <ul>
+                        <li><a href="#" onclick="$('.button a:last').click();return false;">Open Last Section</a></li>
+                        <li><a href="http://en.wikipedia.org/wiki/Orange_%28fruit%29">Wikipedia Page</a></li>
+                        <li><a href="http://www.flickr.com/search/?w=all&amp;q=oranges&amp;m=text">Flickr Photos</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </li>
+
+
+        <li class="menu">
+
+            <ul>
+                <li class="button"><a href="#" class="blue">Grapes <span></span></a></li>
+
+                <li class="dropdown">
+                    <ul>
+                        <li><a href="http://en.wikipedia.org/wiki/Grapes">Wiki page</a></li>
+                        <li>Text label 1</li>
+                        <li>Text label 2</li>
+                        <li><a href="http://www.flickr.com/search/?w=all&amp;q=grapes&amp;m=text">Flickr Stream</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </li>
+
+
+        <li class="menu">
+
+            <ul>
+                <li class="button"><a href="#" class="red">Strawberries <span></span></a></li>
+
+                <li class="dropdown">
+                    <ul>
+                        <li><a href="http://en.wikipedia.org/wiki/Strawberry">Wiki page</a></li>
+                        <li><a href="http://www.flickr.com/photos/mojeecat/368540120/">Strawberry Pie</a></li>
+                        <li><a href="http://www.flickr.com/search/?w=all&amp;q=strawberries&amp;m=text">Photo Stream</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </li>
+    </ul>
+
+    <div class="clear"></div>
+
+</div>
+<p>This is a tutorialzine demo. View the <a href="http://tutorialzine.com/2009/12/colorful-content-accordion-css-jquery/">original tutorial</a> to read and download.</p>
+</body>
+</html>

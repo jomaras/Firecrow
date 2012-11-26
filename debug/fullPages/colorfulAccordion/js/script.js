@@ -1,9 +1,4 @@
 $(document).ready(function(){
-    /* This code is executed after the DOM has been completely loaded */
-
-    /* Changing thedefault easing effect - will affect the slideUp/slideDown methods: */
-    $.easing.def = "easeOutBounce";
-
     /* Binding a click event handler to the links: */
     $('li.button a').click(function(e){
 

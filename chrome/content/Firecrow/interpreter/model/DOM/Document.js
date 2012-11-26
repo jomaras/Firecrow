@@ -79,7 +79,7 @@ fcModel.Document.prototype.getElementByXPath = function(xPath)
     if(xPath == null || xPath == "") { return new fcModel.fcValue(null, null, null);}
 
     var simpleXPath = (new fcModel.SimpleXPath(xPath)).removeLevel();
-    var foundElement = this.document.childNodes[0];
+    var foundElement = this._getHtmlElement();
 
     while(!simpleXPath.isEmpty() && foundElement != null)
     {
@@ -88,6 +88,21 @@ fcModel.Document.prototype.getElementByXPath = function(xPath)
     }
 
     return fcModel.HtmlElementExecutor.wrapToFcElement(foundElement, this.globalObject, null);
+};
+
+fcModel.Document.prototype._getHtmlElement = function()
+{
+    for(var i = 0; i < this.document.childNodes.length; i++)
+    {
+        var child = this.document.childNodes[i];
+
+        if(child.tagName != null && child.tagName.toLowerCase() == "html")
+        {
+            return child;
+        }
+    }
+
+    return null;
 };
 //</editor-fold>
 

@@ -120,7 +120,7 @@ fcModel.HtmlElementExecutor =
             }
             else
             {
-                fcModel.HtmlElement.notifyError("HtmlElementExecutor - when wrapping should not be here: " + globalObject.browser.url);
+                fcModel.HtmlElement.notifyError("HtmlElementExecutor - when wrapping should not be here: " + item);
             }
         }
         catch(e)

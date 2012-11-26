@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firecrow - Debug Test Pages</title>
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="fullPages/MooToolsTabs/index.html-executionTrace.txt" type="text/javascript"></script>
+    <script src="../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
+    <script src="../chrome/content/Firecrow/initFBL.js"></script>
+
+    <script src="pages/modelMapping.js"></script>
+    <script src="pages/modelMappings/mooToolsTabs.js"></script>
+
+    <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/UriHelper.js"></script>
+
+    <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/slicingCriterion.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/commands/Command.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/FcValue.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/object/Object.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/Array.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayFunction.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayPrototype.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/XMLHttpRequest.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Math.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/RegEx.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Function.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/FunctionFunction.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Date.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Boolean.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Number.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Image.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Element.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/HTMLImageElement.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/Document.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/TextNode.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/Attribute.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/ClassList.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/SimpleXPath.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/EventListenerMixin.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/Event.js"></script>
+
+
+    <script src="../chrome/content/Firecrow/interpreter/simulator/VariableObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/Evaluator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
+
+    <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
+    <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/Slicer.js"></script>
+
+    <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
+
+    <style>
+        .selected { background-color: green; }
+        .dependent { background-color: yellow; }
+        .secondHandDependencies { background-color: #7FFF00;}
+        .unexecuted { color: gray;}
+        .executed { color: black;}
+
+        .clearer { clear: both;}
+
+        #slicedSourceTextContainer
+        {
+            width: 1000px;
+            height: 800px;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Firecrow - Debugging Test pages</h1>
+<iframe id="firecrowFrame" height="1" width="1"></iframe>
+<div>
+    <a id="testIdContainer"></a>
+</div>
+
+<br/>
+<span id="resultTitle">Result:</span>
+<br/>
+<div id="slicedCodeContainer">
+    <textarea id="slicedSourceTextContainer"></textarea>
+</div>
+<div style="clear:both"/>
+
+<script>
+    var Firecrow = FBL.Firecrow;
+
+    var htmlModel = HtmlModelMapping.getFirstModelMapping();
+    var slicingCriteria = htmlModel.results.map(function(result)
+    {
+        for(var propName in result)
+        {
+            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
+        }
+    });
+
+    if(htmlModel.model.trackedElementsSelectors != null)
+    {
+        htmlModel.model.trackedElementsSelectors.forEach(function(selector)
+        {
+            slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
+        });
+    }
+
+    var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria).browser;
+
+    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+</script>
+</body>
+</html>

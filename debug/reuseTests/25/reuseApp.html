@@ -1,23 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-    <meta charset="UTF-8">
+    <title>Reuse App</title>
+    <meta charset="UTF-8"/>
     <style>
-
+        li, my_list, #firstLi { list-style: circle; }
+        .my_list { color:black; }
     </style>
 </head>
 <body>
-    <div id="extractContainer">
-        This is the extracted content
-    </div>
-    <script>
-         try
-         {
-             var extractContainer = document.getElementById("extractContainer");
-             extractContainer.textContent += ' Written by JS';
-         }
-         catch(e){}
-    </script>
+    <ul id="reuseAppList" class="i">
+        <li id="firstLi">Reuse App 1</li>
+        <li>Reuse App 2</li>
+    </ul>
 </body>
 </html>

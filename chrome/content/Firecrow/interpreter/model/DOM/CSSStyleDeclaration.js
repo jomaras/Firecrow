@@ -91,7 +91,7 @@ fcModel.CSSStyleDeclarationExecutor =
             case "getPropertyValue":
             case "item":
                 var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
-                return new fcModel.fcValue(result, result, callExpression);
+                return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
             case "removeProperty":
             case "setProperty":
             default:

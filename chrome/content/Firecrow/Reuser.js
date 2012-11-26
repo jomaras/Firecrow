@@ -6,6 +6,8 @@
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
 var fcModel = Firecrow.Interpreter.Model;
+var fcCssSelectorParser = Firecrow.CssSelectorParser;
+
 Firecrow.Reuser =
 {
     getMergedModel: function(reusedAppModel, reuseIntoAppModel, reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseIntoDestinationSelectors, reuseAppBrowser, reuseIntoAppBrowser)
@@ -830,8 +832,7 @@ Firecrow.ConflictFixer =
             {
                 var cssNode = reusedAppGraph.cssNodes[j].model;
 
-                cssNode.selector = cssNode.selector.replace(change.oldValue, change.newValue);
-                cssNode.cssText = cssNode.cssText.replace(change.oldValue, change.newValue);
+                this._replaceSelectorInCssNode(cssNode, change.oldValue, change.newValue);
             }
 
             this._fixDynamicallySetAttributes(change);
@@ -1023,6 +1024,74 @@ Firecrow.ConflictFixer =
         }
 
         return matchingAttributes;
+    },
+
+    _replaceSelectorInCssNode: function(cssNode, oldValue, newValue)
+    {
+        var oldSelectorValue = cssNode.selector;
+        var replacedCssSelector = this._getReplacedCssSelector(oldSelectorValue, oldValue, newValue);
+
+        cssNode.selector = replacedCssSelector;
+        cssNode.cssText = cssNode.cssText.replace(this._getSelectorPartFromCssText(cssNode.cssText), replacedCssSelector + "{ ");
+    },
+
+    _getReplacedCssSelector: function(selector, oldValue, newValue)
+    {
+        var parsedSelector = Firecrow.CssSelectorParser.parse(selector);
+
+        for(var i = 0; i < parsedSelector.expressions.length; i++)
+        {
+            var expression = parsedSelector.expressions[i];
+
+            for(var j = 0; j < expression.length; j++)
+            {
+                var subExpression = expression[j];
+
+                if(subExpression.id != null && subExpression.id == oldValue)
+                {
+                    subExpression.id = newValue;
+                }
+
+                if(subExpression.tag == oldValue)
+                {
+                    subExpression.tag = newValue;
+                }
+
+                if(subExpression.classList != null && subExpression.classList.indexOf(oldValue) != -1)
+                {
+                    subExpression.classList.forEach(function(element, index)
+                    {
+                        if(element == oldValue)
+                        {
+                            subExpression.classList[index] = newValue;
+                        }
+                    });
+                }
+            }
+        }
+
+        return parsedSelector.combine();
+    },
+
+    _getSelectorComponents: function(selector)
+    {
+        var components = selector.split(/\.|(\s)+|,>/);
+
+        var cleansedComponents
+    },
+
+    _getSelectorPartFromCssText: function(cssText)
+    {
+        var parenthesisIndex = cssText.indexOf("{");
+
+        if(parenthesisIndex != -1)
+        {
+            return cssText.substring(0, parenthesisIndex + 1);
+        }
+
+        alert("There is no parenthesis in css rule!");
+
+        return "";
     }
 };
 // ************************************************************************************************

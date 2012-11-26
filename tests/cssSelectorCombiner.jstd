@@ -1,0 +1,4 @@
+load:
+  - ../chrome/content/Firecrow/initFBL.js
+  - ../chrome/content/Firecrow/parsers/CssSelectorParser.js
+  - cssSelectorCombiner.js
