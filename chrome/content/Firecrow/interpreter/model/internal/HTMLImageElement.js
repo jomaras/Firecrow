@@ -21,6 +21,7 @@ fcModel.HTMLImageElement.notifyError = function(message) { alert("HTMLImageEleme
 fcModel.HTMLImageElementPrototype = function(globalObject)
 {
     this.initObject(globalObject);
+    this.constructor = fcModel.HTMLImageElementPrototype;
 };
 
 fcModel.HTMLImageElementPrototype.prototype = new fcModel.Object();

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse App</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <div id="reuseIntoContainer">
+    </div>
+
+    <script>
+    var a = [1,2,3,4];
+
+    var sum = 0;
+
+    for(var i in a)
+    {
+        sum += a[i];
+    }
+
+    var reuseIntoContainer = document.getElementById("reuseIntoContainer");
+    reuseIntoContainer.textContent = sum;
+    </script>
+</body>
+</html>

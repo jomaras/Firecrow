@@ -10,6 +10,7 @@ var fcModel = Firecrow.Interpreter.Model;
 fcModel.ObjectPrototype = function(globalObject)
 {
     this.initObject(globalObject);
+    this.constructor = fcModel.ObjectPrototype;
 };
 
 fcModel.ObjectPrototype.prototype = new fcModel.Object();

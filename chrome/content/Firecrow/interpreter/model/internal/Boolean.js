@@ -35,6 +35,7 @@ fcModel.BooleanFunction.prototype = new fcModel.Object();
 fcModel.BooleanPrototype = function(globalObject)
 {
     this.initObject(globalObject);
+    this.constructor = fcModel.BooleanPrototype;
 };
 
 fcModel.BooleanPrototype.prototype = new fcModel.Object();

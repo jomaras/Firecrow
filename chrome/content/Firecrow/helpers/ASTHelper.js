@@ -615,6 +615,20 @@ Firecrow.ASTHelper =
         return parent;
     },
 
+    getPropertyNameFromForInStatement: function(forInStatement)
+    {
+        if(!this.isForInStatement(forInStatement)) { return; }
+
+        if(this.isVariableDeclaration(forInStatement.left))
+        {
+            return forInStatement.left.declarations[0].id.name;
+        }
+        else
+        {
+            return forInStatement.left.name;
+        }
+    },
+
     isForStatementInit: function(codeConstruct)
     {
         if(codeConstruct == null) { return false; }

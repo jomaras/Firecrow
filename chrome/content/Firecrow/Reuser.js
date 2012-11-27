@@ -545,6 +545,7 @@ Firecrow.ConflictFixer =
     {
         this._fixGlobalPropertyConflicts(reuseAppBrowser, reuseIntoAppBrowser);
         this._fixEventHandlerProperties(reuseAppBrowser, reuseIntoAppBrowser);
+        this._fixPrototypeConflicts(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser);
     },
 
     _CONFLICT_COUNTER: 0,
@@ -565,6 +566,129 @@ Firecrow.ConflictFixer =
         }, this);
 
         this._insertFirecrowHandleConflictsCode(reuseIntoAppBrowser.pageModel, reuseAppBrowser.pageModel);
+    },
+
+    _fixPrototypeConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser)
+    {
+        var reusePrototypeExtensions = this._getPrototypeExtensions(reuseAppBrowser);
+        var reuseIntoPrototypeExtensions = this._getPrototypeExtensions(reuseIntoAppBrowser);
+
+        this._fixPrototypeSpilling(reusedAppGraph, reuseAppBrowser, reuseIntoPrototypeExtensions);
+        this._fixPrototypeSpilling(reuseIntoAppGraph, reuseIntoAppBrowser, reusePrototypeExtensions);
+    },
+
+    _getPrototypeExtensions: function(browser)
+    {
+        if(browser == null || browser.globalObject == null || browser.globalObject.internalPrototypes == null) { return []; }
+
+        var extensions = [];
+
+        var prototypes = browser.globalObject.internalPrototypes;
+
+        for(var i = 0; i < prototypes.length; i++)
+        {
+            var prototype = prototypes[i];
+
+            var userDefinedProperties = prototype.getUserDefinedProperties();
+
+            if(userDefinedProperties.length > 0)
+            {
+                extensions.push({ extendedObject: prototype, extendedProperties: userDefinedProperties});
+            }
+        }
+
+        return extensions;
+    },
+
+    _fixPrototypeSpilling: function(graph, browser, prototypeExtensions)
+    {
+        for(var i = 0; i < prototypeExtensions.length; i++)
+        {
+            var prototypeExtension = prototypeExtensions[i];
+
+            this._fixIterationConstructs(browser, prototypeExtension);
+        }
+    },
+
+    _fixIterationConstructs: function(browser, prototypeExtension)
+    {
+        var forInIterations = browser.globalObject.objectForInIterations;
+
+        for(var i = 0; i < forInIterations.length; i++)
+        {
+            var forInIteration = forInIterations[i];
+
+            if(this._isInPrototypeChain(forInIteration.proto, prototypeExtension.extendedObject))
+            {
+                this._extendForInBody(forInIteration.codeConstruct, prototypeExtension.extendedProperties);
+            }
+        }
+    },
+
+    _isInPrototypeChain: function(baseObject, prototype)
+    {
+        if(baseObject == null || baseObject.iValue == null) { return false; }
+
+        if(baseObject.iValue.constructor === prototype.constructor) { return true; }
+
+        return this._isInPrototypeChain(baseObject.iValue.proto, prototype);
+    },
+
+    _extendForInBody: function(forInStatement, extendedProperties)
+    {
+        var propertyName = Firecrow.ASTHelper.getPropertyNameFromForInStatement(forInStatement);
+
+        for(var i = 0; i < extendedProperties.length; i++)
+        {
+            var extendedProperty = extendedProperties[i];
+
+            this._prependToForInBody(forInStatement, this._getSkipIterationConstruct(propertyName, extendedProperty.name));
+        }
+    },
+
+    _getSkipIterationConstruct: function(propertyName, skipPropertyName)
+    {
+        var skipIterationConstructString = atob(Firecrow.Reuser.Templates._FOR_IN_SKIPPER);
+
+        var conflictCounter = this._CONFLICT_COUNTER;
+
+        var updatedSkipIterationConstructString = skipIterationConstructString.replace("{PROPERTY_NAME}", propertyName)
+        updatedSkipIterationConstructString = updatedSkipIterationConstructString.replace("{PROPERTY_VALUE}", skipPropertyName)
+        updatedSkipIterationConstructString = updatedSkipIterationConstructString.replace(/{NODE_ID}/g, function()
+        {
+            return '"' + (propertyName +  (conflictCounter++)) + '"';
+        });
+
+        var skipIterationConstruct = JSON.parse(updatedSkipIterationConstructString);
+
+        skipIterationConstruct.myModif = 3;
+        skipIterationConstruct.shouldBeIncluded = true;
+        skipIterationConstruct.test.shouldBeIncluded = true;
+        skipIterationConstruct.test.left.shouldBeIncluded = true;
+        skipIterationConstruct.test.right.shouldBeIncluded = true;
+        skipIterationConstruct.consequent.shouldBeIncluded = true;
+
+        skipIterationConstruct.children = [skipIterationConstruct.test, skipIterationConstruct.consequent];
+
+        skipIterationConstruct.test.parent = skipIterationConstruct;
+        skipIterationConstruct.consequent.parent = skipIterationConstruct;
+
+        return skipIterationConstruct;
+    },
+
+    _prependToForInBody: function(forInStatement, skipIterationConstruct)
+    {
+        if(Firecrow.ASTHelper.isBlockStatement(forInStatement.body))
+        {
+            skipIterationConstruct.parent = forInStatement.body;
+
+            Firecrow.ValueTypeHelper.insertIntoArrayAtIndex(forInStatement.body.body, skipIterationConstruct, 0);
+            Firecrow.ValueTypeHelper.insertIntoArrayAtIndex(forInStatement.body.children, skipIterationConstruct, 0);
+        }
+        else
+        {
+            alert("Reuser - Unhandled construct when prepending to ForIn body");
+        }
     },
 
     _insertFirecrowHandleConflictsCode: function(reuseIntoPageModel, reusePageModel)

@@ -12,6 +12,7 @@ fcModel.ArrayPrototype = function(globalObject)
     try
     {
         this.initObject(globalObject);
+        this.constructor = fcModel.ArrayPrototype;
 
         fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {

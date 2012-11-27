@@ -142,6 +142,23 @@ fcModel.Object.prototype =
 
         return indexProperties;
     },
+
+    getUserDefinedProperties: function()
+    {
+        var userDefinedProperties = [];
+
+        for(var i = 0; i < this.properties.length; i++)
+        {
+            var property = this.properties[i];
+
+            if(property.declarationConstruct != null)
+            {
+                userDefinedProperties.push(property);
+            }
+        }
+
+        return userDefinedProperties;
+    },
     //</editor-fold>
 
     //<editor-fold desc="Property Setters">

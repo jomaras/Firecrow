@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse App</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <div id="reuseAppContainer">
+    </div>
+
+    <script>
+    Array.prototype.sum = function()
+    {
+        var sum = 0;
+        for(var i = 0; i < this.length; i++)
+        {
+            sum += this[i];
+        }
+        return sum;
+    };
+
+    var a = [1,2,3,4];
+
+    var reuseAppContainer = document.getElementById("reuseAppContainer");
+    reuseAppContainer.textContent = a.sum();
+    </script>
+</body>
+</html>

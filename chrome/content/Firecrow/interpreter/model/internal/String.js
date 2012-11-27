@@ -30,6 +30,8 @@ fcModel.StringPrototype = function(globalObject)
     try
     {
         this.initObject(globalObject);
+        this.constructor = fcModel.StringPrototype;
+
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
         fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {

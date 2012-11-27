@@ -21,6 +21,7 @@ fcModel.Element.notifyError = function(message) { alert("Element - " + message);
 fcModel.ElementPrototype = function(globalObject)
 {
     this.initObject(globalObject);
+    this.constructor = fcModel.ElementPrototype;
 };
 
 fcModel.ElementPrototype.prototype = new fcModel.Object();

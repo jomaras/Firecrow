@@ -366,6 +366,14 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
 
     this.elementPrototype = new fcModel.ElementPrototype(this);
     this.fcElementPrototype = new fcModel.fcValue(Element.prototype, this.elementPrototype, null);
+
+    this.internalPrototypes =
+    [
+        this.objectPrototype, this.functionPrototype, this.booleanPrototype,
+        this.arrayPrototype, this.regExPrototype, this.stringPrototype,
+        this.numberPrototype, this.datePrototype, this.htmlImageElementPrototype,
+        this.elementPrototype
+    ];
 };
 
 fcModel.GlobalObject.prototype._createInternalFunctions = function()
@@ -417,6 +425,14 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
             false
         );
     }, this);
+
+    this.internalFunctions =
+    [
+        this.objectFunction, this.arrayFunction, this.booleanFunction,
+        this.stringFunction, this.imageFunction, this.regExFunction,
+        this.numberFunction, this.dateFunction, this.functionFunction,
+        this.xmlHttpRequestFunction
+    ];
 };
 
 fcModel.GlobalObject.prototype._createInternalObjects = function()
@@ -455,6 +471,7 @@ fcModel.GlobalObject.prototype._createTrackerMaps = function()
 {
     this.undefinedGlobalPropertiesAccessMap = {};
     this.resourceSetterPropertiesMap = {};
+    this.objectForInIterations = [];
 };
 
 fcModel.GlobalObject.prototype._createHandlerMaps = function()

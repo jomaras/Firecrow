@@ -243,7 +243,10 @@ Firecrow.CodeTextGenerator.prototype =
                     var commentText = "/*";
                     element.comments.forEach(function(comment)
                     {
-                        commentText += comment + "; ";
+                        if(commentText.indexOf(comment) == -1)
+                        {
+                            commentText += comment + "; ";
+                        }
                     }, this);
                     commentText += "*/"
 

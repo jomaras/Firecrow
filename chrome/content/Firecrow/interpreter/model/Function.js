@@ -75,6 +75,7 @@ fcModel.FunctionPrototype = function(globalObject)
     try
     {
         this.initObject(globalObject);
+        this.constructor = fcModel.FunctionPrototype;
 
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
         fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)

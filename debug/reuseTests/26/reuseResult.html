@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse App</title>
+    <meta charset="UTF-8"/>
+</head><body>
+    <div id="reuseAppContainer">
+    </div>
+
+    <script>
+  Array.prototype.sum = function()
+  {
+    var sum = 0;
+    for(var i = 0;i < this.length;i++)
+    {
+      sum += this[i];
+    }
+
+    return sum;
+  };
+  var a = [1, 2, 3, 4];
+  var reuseAppContainer = document.getElementById('reuseAppContainer');
+  reuseAppContainer.textContent = a.sum();
+</script>
+
+
+    <div id="reuseIntoContainer" origin="reuse">
+    </div>
+
+    <script origin="reuse">
+  var _RU_a = [1, 2, 3, 4]/*Firecrow - Rename global property; */;
+  var sum = 0;
+  /*Firecrow - Rename global property; */
+  for(var i in _RU_a)
+  {
+    if(i === 'sum')
+    continue;
+
+    sum += _RU_a[i];/*Firecrow - Rename global property; Firecrow - Rename global property; Firecrow - Rename global property; Firecrow - Rename global property; */
+  }
+
+  var reuseIntoContainer = document.getElementById('reuseIntoContainer');
+  reuseIntoContainer.textContent = sum;
+</script>
+              
+</body>
+</html>

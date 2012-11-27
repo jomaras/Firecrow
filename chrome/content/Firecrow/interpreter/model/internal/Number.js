@@ -27,6 +27,7 @@ fcModel.Number.prototype.getJsPropertyValue = function(propertyName, codeConstru
 fcModel.NumberFunction = function(globalObject)
 {
     this.initObject(globalObject);
+    this.constructor = fcModel.NumberPrototype;
 
     this.addProperty("prototype", globalObject.fcNumberPrototype);
     this.proto = globalObject.fcFunctionPrototype;

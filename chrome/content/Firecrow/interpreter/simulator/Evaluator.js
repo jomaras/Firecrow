@@ -383,6 +383,8 @@ fcSimulator.Evaluator.prototype =
 
         if(whereObject.iValue == null) { forInWhereCommand.willBodyBeExecuted = false; return; }
 
+        this._logForInIteration(forInWhereCommand, whereObject.iValue);
+
         var nextPropertyName = whereObject.iValue.getPropertyNameAtIndex(forInWhereCommand.currentPropertyIndex + 1);
 
         this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName);
@@ -770,6 +772,17 @@ fcSimulator.Evaluator.prototype =
         {
             return this.executionContextStack.getExpressionValue(arg);
         }, this);
+    },
+
+    _logForInIteration: function(forInWhereCommand, whereObject)
+    {
+        if(forInWhereCommand == null || forInWhereCommand.currentPropertyIndex !== 0 || whereObject == null) { return; }
+
+        this.globalObject.objectForInIterations.push
+        ({
+            proto: whereObject.proto,
+            codeConstruct: forInWhereCommand.codeConstruct
+        });
     },
 
     _callExceptionCallbacks: function(exceptionInfo)

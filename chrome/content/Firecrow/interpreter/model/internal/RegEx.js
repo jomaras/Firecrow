@@ -86,6 +86,7 @@ fcModel.RegExPrototype = function(globalObject)
     try
     {
         this.initObject(globalObject);
+        this.constructor = fcModel.RegExPrototype;
 
         fcModel.RegExPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
