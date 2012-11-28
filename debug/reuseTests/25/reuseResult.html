@@ -1,43 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reuse App</title>
+    <title>Reuse Into App</title>
     <meta charset="UTF-8"/>
+    <style>
+    li, .his_list, #firstLi, #my_firstLi { list-style: disc outside none; }
+    .his_list { color: Blue; }
+</style>
+
+    
+    
+    <style origin="reuse">
+    li,  my_list,  #_RU_firstLi{   list-style: circle outside none; }
+</style>
 </head><body>
-    <div id="reuseIntoContainer">
-    </div>
+    <ul class="i _OR_" id="reuseIntoAppList">
+        <li id="firstLi">Reuse Into App 1</li>
+        <li>Reuse Into App 2</li>
+    </ul>
 
-    <script>
-  var a = [1, 2, 3, 4];
-  var sum = 0;
-  for(var i in a)
-  {
-    sum += a[i];
-  }
 
-  var reuseIntoContainer = document.getElementById('reuseIntoContainer');
-  reuseIntoContainer.textContent = sum;
-</script>
-              
-
-    <div id="reuseAppContainer" origin="reuse">
-    </div>
-
-    <script origin="reuse">
-  Array.prototype.sum = function()
-  {
-    var sum = 0;
-    for(var i = 0;i < this.length;i++)
-    {
-      sum += this[i];
-    }
-
-    return sum;
-  };
-  var _RU_a = [1, 2, 3, 4]/*Firecrow - Rename global property; */;
-  var reuseAppContainer = document.getElementById('reuseAppContainer');
-  reuseAppContainer.textContent = _RU_a.sum();/*Firecrow - Rename global property; */
-</script>
+    <ul class="_RU_i _RU_" id="reuseAppList" origin="reuse">
+        <li id="_RU_firstLi" origin="reuse">Reuse App 1</li>
+        <li origin="reuse">Reuse App 2</li>
+    </ul>
 
 </body>
 </html>

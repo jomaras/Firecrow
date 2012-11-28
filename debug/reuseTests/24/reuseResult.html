@@ -20,6 +20,9 @@
     var summ = {};
     for(var i in history)
     {
+      if(i === 'getNext')
+      continue;
+
       var item = history[i];
       if(!(summ[item]))
       summ[item] = 0;
@@ -39,7 +42,7 @@
     type: 'onload', 
     handler: function()
     {
-      var im = document.querySelectorAll('img');
+      var im = document.querySelectorAll('._OR_ img')/*Firecrow - Rename:img -> ._OR_ img; */;
       var inf = document.querySelector('#info');
       for(var i = 0;i < im.length;i++)
       im[i].onmouseover = function()
@@ -68,19 +71,19 @@
     return this[next];
   };
   var iProto = HTMLImageElement.prototype;
-  iProto.toggleSrc = function(s)
+  iProto._RU_toggleSrc = function(s)
   {
     this.src = s.getNext(this.getAttribute('src'));/*Could not rename; */
-  };
+  };/*Firecrow - Rename global property; */
   _FIRECROW_HANDLER_MAPPER.push({
     type: 'onload', 
     handler: function()
     {
-      var im = document.querySelectorAll('img');
+      var im = document.querySelectorAll('._RU_ img')/*Firecrow - Rename:img -> ._RU_ img; */;
       for(var i = 0;i < im.length;i++)
       im[i].onclick = function()
       {
-        this.toggleSrc(_RU_SRCS);/*Firecrow - Rename global property; Firecrow - Rename global property; Firecrow - Rename global property; Firecrow - Rename global property; Firecrow - Rename global property; */
+        this._RU_toggleSrc(_RU_SRCS);/*Firecrow - Rename global property; */
       };
     }
   });

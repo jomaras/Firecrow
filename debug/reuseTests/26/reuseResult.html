@@ -4,10 +4,10 @@
     <title>Reuse App</title>
     <meta charset="UTF-8"/>
 </head><body>
-    <div id="reuseAppContainer">
+    <div id="reuseAppContainer" class="_OR_">
     </div>
 
-    <script>
+    <script class="_OR_">
   Array.prototype.sum = function()
   {
     var sum = 0;
@@ -24,10 +24,10 @@
 </script>
 
 
-    <div id="reuseIntoContainer" origin="reuse">
+    <div id="reuseIntoContainer" origin="reuse" class="_RU_">
     </div>
 
-    <script origin="reuse">
+    <script origin="reuse" class="_RU_">
   var _RU_a = [1, 2, 3, 4]/*Firecrow - Rename global property; */;
   var sum = 0;
   /*Firecrow - Rename global property; */
@@ -36,7 +36,7 @@
     if(i === 'sum')
     continue;
 
-    sum += _RU_a[i];/*Firecrow - Rename global property; Firecrow - Rename global property; Firecrow - Rename global property; Firecrow - Rename global property; */
+    sum += _RU_a[i];/*Firecrow - Rename global property; */
   }
 
   var reuseIntoContainer = document.getElementById('reuseIntoContainer');

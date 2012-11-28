@@ -5,8 +5,11 @@
 </head>
 <body>
 <script>
-    for(var prop in {})
-        if(prop == "test") continue;
+    function changeBanner(bannerId)
+    {
+        console.log(bannerId);
+    }
+    setTimeout(changeBanner, 1000);
 </script>
 
 </body>

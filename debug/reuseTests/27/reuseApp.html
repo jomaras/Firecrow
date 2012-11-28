@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse App</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <div id="mainContainer">
+        <p> First paragraph in Reuse App </p>
+        <p> Second paragraph in Reuse App </p>
+        <div id="reuseAppDiv"> Reuse App div with text content </div>
+    </div>
+
+    <script>
+        var paragraphs = document.querySelectorAll("p");
+
+        for(var i = 0; i < paragraphs.length; i++)
+        {
+            paragraphs[i].textContent += " - appended by ReuseApp JavaScript";
+        }
+
+        var reuseAppDiv = document.getElementById("reuseAppDiv");
+
+        reuseAppDiv.textContent += " - appended by ReuseApp JavaScript";
+    </script>
+</body>
+</html>
