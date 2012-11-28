@@ -167,7 +167,30 @@ DependencyGraph.prototype =
             if(!htmlModelNode.shouldBeIncluded) { continue; }
 
             this._traverseAndMark(htmlModelNode);
+
+            this._markParentCssDependencies(htmlModelNode.domElement);
         }
+    },
+
+    _markParentCssDependencies: function(htmlDomNode)
+    {
+        if(htmlDomNode == null || htmlDomNode.parentNode == null
+        || htmlDomNode.parentNode.modelElement == null || htmlDomNode.parentNode.modelElement.graphNode == null) { return; }
+
+        var parentModelElement = htmlDomNode.parentNode.modelElement;
+        var dependencies = parentModelElement.graphNode.dataDependencies;
+
+        for(var i = 0; i < dependencies.length; i++)
+        {
+            var dependency = dependencies[i];
+
+            if(dependency.destinationNode.type == "css")
+            {
+                Firecrow.includeNode(dependency.destinationNode.model);
+            }
+        }
+
+        this._markParentCssDependencies(parentModelElement.domElement);
     },
 
     _traverseExecutedBlockDependencies: function()

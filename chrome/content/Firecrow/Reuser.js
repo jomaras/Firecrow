@@ -23,7 +23,7 @@ Firecrow.Reuser =
             Firecrow.ConflictFixer.fixResourceConflicts(reuseAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser);
             Firecrow.ConflictFixer.fixHtmlConflicts(reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseAppBrowser);
             Firecrow.ConflictFixer.fixJsConflicts(reuseAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser);
-            Firecrow.ConflictFixer.fixCssConflicts(reuseAppGraph, reuseIntoAppGraph);
+            Firecrow.ConflictFixer.fixCssConflicts(reuseAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseSelectors, reusedAppModel);
 
             //The head and the body nodes will be kept, and that all other nodes will be appended
             //Elements contained in the head or body nodes of the reused app will be added after the elements from the reuseInto application
@@ -604,7 +604,7 @@ Firecrow.ConflictFixer =
             for(var selector in domQuery.selectorsMap)
             {
                 //TODO - selector warning
-                if(this._isTypeSelector(selector) && (domQuery.methodName == "querySelector" || domQuery.methodName == "querySelectorAll"))
+                if(this._containsTypeSelector(selector) && (domQuery.methodName == "querySelector" || domQuery.methodName == "querySelectorAll"))
                 {
                     this._replaceLiteralOrDirectIdentifierValue
                     (
@@ -1152,66 +1152,199 @@ Firecrow.ConflictFixer =
         }
     },
 
-    fixCssConflicts: function(reusedAppGraph, reuseIntoAppGraph)
+    fixCssConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseSelectors, reuseAppModel)
     {
-        var reusedCssNodes = reusedAppGraph.cssNodes;
-        var reuseIntoCssNodes = reuseIntoAppGraph.cssNodes;
+        this._migrateNonMovableNodeAttributes(reusedAppGraph.cssNodes, reuseAppBrowser, reuseSelectors, reuseAppModel);
 
-        var reusedCssSelectors = this._getTypeSelectors(reusedCssNodes);
-        var reuseIntoCssSelectors = this._getTypeSelectors(reuseIntoCssNodes);
-
-        if(reusedCssSelectors.length == 0 && reuseIntoCssSelectors == 0) { return false; }
-
-        for(var i = 0; i < reusedCssSelectors.length; i++)
-        {
-           var cssSelector = reusedCssSelectors[i];
-
-           //TODO CSS SELECTORS HAZARD
-           cssSelector.cssText = "." + this.generateReusePrefix() + " " + cssSelector.selector + ", "
-                               + cssSelector.selector + "." + this.generateReusePrefix() + cssSelector.cssText.replace(cssSelector.selector, "");
-
-           cssSelector.selector = "." + this.generateReusePrefix() + " " + cssSelector.selector + ", "
-                                + cssSelector.selector + this.generateReusePrefix();
-        }
-
-        for(var i = 0; i < reuseIntoCssSelectors.length; i++)
-        {
-            var cssSelector = reuseIntoCssSelectors[i];
-
-            //TODO CSS SELECTORS HAZARD
-            cssSelector.cssText = "." + this.generateOriginalPrefix() + " " + cssSelector.selector + ", "
-                                + cssSelector.selector + "." + this.generateOriginalPrefix() + cssSelector.cssText.replace(cssSelector.selector, "");
-
-            cssSelector.selector = "." + this.generateOriginalPrefix() + " " + cssSelector.selector + ", "
-                                 + cssSelector.selector + this.generateOriginalPrefix();
-        }
-
-        return true;
+        this._expandTypeOnlyConflicts(reusedAppGraph.cssNodes, "reuse");
+        this._expandTypeOnlyConflicts(reuseIntoAppGraph.cssNodes);
     },
 
-    _getTypeSelectors: function(cssNodes)
+    _migrateNonMovableNodeAttributes: function(cssNodes, appBrowser, selectors, appModel)
     {
-        var typeSelectors = [];
+        var nonMovableCssSelectorNodes = this._getNonMovableTypesCssNodes(cssNodes);
+        var selectedNodes = Firecrow.Reuser._getNodesBySelectors(appModel.htmlElement, selectors);
 
-        for(var i = 0; i < cssNodes.length; i++)
+        for(var i = 0; i < nonMovableCssSelectorNodes.length; i++)
         {
-            var cssSelector = cssNodes[i].model;
+            var cssSelectorNode = nonMovableCssSelectorNodes[i];
+            var cssProperties = this._getCssPropertiesFromCssNode(cssSelectorNode);
 
-            //TODO CSS SELECTORS HAZARD
-            if(this._isTypeSelector(cssSelector.selector))
+            for(var j = 0; j < selectedNodes.length; j++)
             {
-                typeSelectors.push(cssSelector);
+                var selectedHtmlNode = selectedNodes[j];
+
+                var styleAttribute = Firecrow.Reuser._getAttribute(selectedHtmlNode, "style");
+
+                if(styleAttribute == null)
+                {
+                    selectedHtmlNode.attributes.push
+                    ({
+                        name:"style",
+                        value: cssProperties
+                    });
+                }
+                else
+                {
+                    styleAttribute.value += " " + cssProperties;
+                }
+            }
+
+            this._removeFromParent(cssSelectorNode);
+        }
+    },
+
+    _removeFromParent: function(node)
+    {
+        if(node == null) { return; }
+
+        var parent = node.parent;
+
+        if(parent == null || parent.children == null) { return; }
+
+        Firecrow.ValueTypeHelper.removeFromArrayByIndex(parent.children, parent.children.indexOf(node));
+
+        if(parent.rules == null) { return; }
+        Firecrow.ValueTypeHelper.removeFromArrayByIndex(parent.rules, parent.rules.indexOf(node));
+    },
+
+    _getCssPropertiesFromCssNode: function(cssNode)
+    {
+        var cssText = cssNode.cssText;
+
+        var startOfPropertiesIndex = cssText.indexOf("{");
+        var endOfPropertiesIndex = cssText.indexOf("}");
+
+        var properties = cssText.substring(startOfPropertiesIndex + 1, endOfPropertiesIndex);
+
+        return properties.replace(/(\r)?\n/g, " ");
+    },
+
+    _expandTypeOnlyConflicts: function(cssNodes, origin)
+    {
+        var typeCssNodes = this._getTypeCssNodes(cssNodes);
+
+        var prefix = origin == "reuse" ? this.generateReusePrefix()
+                                       : this.generateOriginalPrefix();
+
+        for(var i = 0; i < typeCssNodes.length; i++)
+        {
+            var typeCssNode = typeCssNodes[i];
+
+            var typeOnlySelectors = this._getTypeOnlySimpleSelectors(typeCssNode);
+
+            for(var j = 0; j < typeOnlySelectors.length; j++)
+            {
+                var typeOnlySelector = typeOnlySelectors[j];
+
+                if(typeOnlySelector.toLowerCase() == "body" || typeOnlySelector.toLowerCase() == "html") { continue; }
+
+                this._replaceSelectorInCssNode
+                (
+                    typeCssNode,
+                    typeOnlySelector,
+                    "." + prefix + " " + typeOnlySelector + ", " + typeOnlySelector + "." + prefix
+                );
+            }
+        }
+    },
+
+    _getTypeOnlySimpleSelectors: function(cssNode)
+    {
+        var typeOnlySimpleSelectors = [];
+
+        if(cssNode == null) { return typeOnlySimpleSelectors; }
+
+        var parsedSelector = Firecrow.CssSelectorParser.parse(cssNode.selector);
+
+        for(var i = 0; i < parsedSelector.expressions.length; i++)
+        {
+            var expression = parsedSelector.expressions[i];
+
+            for(var j = 0; j < expression.length; j++)
+            {
+                var subExpression = expression[j];
+
+                if(subExpression.id == null && subExpression.classList == null)
+                {
+                    typeOnlySimpleSelectors.push(subExpression.tag);
+                }
             }
         }
 
-        return typeSelectors;
+        return typeOnlySimpleSelectors;
     },
 
-    _isTypeSelector: function(selector)
+    _getNonMovableTypesCssNodes: function(cssNodes)
+    {
+        var nonMovableSelectorNodes = [];
+
+        for(var i = 0; i < cssNodes.length; i++)
+        {
+            var cssNode = cssNodes[i].model;
+
+            if(this._containsNonMovableTypeSelector(cssNode.selector))
+            {
+                nonMovableSelectorNodes.push(cssNode);
+            }
+        }
+
+        return nonMovableSelectorNodes;
+    },
+
+    _getTypeCssNodes: function(cssNodes)
+    {
+        var typeNodes = [];
+
+        for(var i = 0; i < cssNodes.length; i++)
+        {
+            var cssNode = cssNodes[i].model;
+
+            if(this._containsTypeSelector(cssNode.selector))
+            {
+                typeNodes.push(cssNode);
+            }
+        }
+
+        return typeNodes;
+    },
+
+    _containsTypeSelector: function(selector)
     {
         if(selector == null || selector == "") { return false; }
 
-        return selector.indexOf(".") == -1 && selector.indexOf("#") == -1;
+        var simpleSelectors = selector.split(",");
+
+        for(var i = 0; i < simpleSelectors.length; i++)
+        {
+            var simpleSelector = simpleSelectors[i].trim();
+
+            if(simpleSelector.indexOf(".") == -1 && simpleSelector.indexOf("#") == -1)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _containsNonMovableTypeSelector: function(selector)
+    {
+        if(selector == null || selector == "") { return false; }
+
+        var simpleSelectors = selector.split(",");
+
+        for(var i = 0; i < simpleSelectors.length; i++)
+        {
+            var simpleSelector = simpleSelectors[i].trim();
+
+            if(simpleSelector == "body" || simpleSelector == "html")
+            {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     generateOriginalPrefix: function()
@@ -1302,13 +1435,6 @@ Firecrow.ConflictFixer =
         }
 
         return parsedSelector.combine();
-    },
-
-    _getSelectorComponents: function(selector)
-    {
-        var components = selector.split(/\.|(\s)+|,>/);
-
-        var cleansedComponents
     },
 
     _getSelectorPartFromCssText: function(cssText)
