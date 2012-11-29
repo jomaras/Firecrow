@@ -205,7 +205,8 @@ FBL.ns(function() { with (FBL) {
 
                 for(var i = 0; i < expressions.length; i++)
                 {
-                    if(i != 0) { combined += ", "; }
+                    if(i != 0 && combined.trim() != "") { combined += ", "; }
+
                     var subExpressions = expressions[i];
 
                     for(var j = 0; j < subExpressions.length; j++)

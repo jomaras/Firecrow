@@ -1188,9 +1188,25 @@ Firecrow.ConflictFixer =
                 {
                     styleAttribute.value += " " + cssProperties;
                 }
-            }
 
-            this._removeFromParent(cssSelectorNode);
+                var processedSelector = cssSelectorNode.selector.trim().toLowerCase();
+
+                if(processedSelector == "html" || processedSelector == "body")
+                {
+                    this._removeFromParent(cssSelectorNode);
+                }
+                else
+                {
+                    if(processedSelector.indexOf("html") != -1)
+                    {
+                        this._replaceSelectorInCssNode(cssSelectorNode, "html", "");
+                    }
+                    else if(processedSelector.indexOf("body") != -1)
+                    {
+                        this._replaceSelectorInCssNode(cssSelectorNode, "body", "");
+                    }
+                }
+            }
         }
     },
 
