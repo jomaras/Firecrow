@@ -170,7 +170,8 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
         fcHtmlElement: fcHtmlElement,
         eventType: eventType,
         handler: handler,
-        registrationPoint: evaluationPosition
+        registrationPoint: evaluationPosition,
+        thisObject: fcHtmlElement
     });
 };
 //</editor-fold>
@@ -192,6 +193,29 @@ fcModel.GlobalObject.prototype.getUserSetGlobalProperties = function()
     }
 
     return userSetGlobalProperties;
+};
+
+fcModel.GlobalObject.prototype.getLoadedHandlers = function()
+{
+    return this.getDOMContentLoadedHandlers().concat(this.getOnLoadFunctions());
+};
+
+fcModel.GlobalObject.prototype.getDOMContentLoadedHandlers = function()
+{
+    return this.document.getEventListeners("DOMContentLoaded").concat(this.getEventListeners("DOMContentLoaded"));
+};
+
+fcModel.GlobalObject.prototype.getOnLoadFunctions = function()
+{
+    var onLoadFunctions =  this.getEventListeners("load");
+    var onLoadFunction = this.getPropertyValue("onload");
+
+    if(onLoadFunction != null)
+    {
+        onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.getProperty("onload").lastModificationPosition, eventType: "onload", thisObject: this });
+    }
+
+    return onLoadFunctions;
 };
 //</editor-fold>
 
@@ -367,6 +391,12 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
     this.elementPrototype = new fcModel.ElementPrototype(this);
     this.fcElementPrototype = new fcModel.fcValue(Element.prototype, this.elementPrototype, null);
 
+    this.windowPrototype = new fcModel.WindowPrototype(this);
+    this.fcWindowPrototype = new fcModel.fcValue(Window.prototype, this.windowPrototype, null);
+
+    this.documentPrototype = new fcModel.DocumentPrototype(this);
+    this.fcDocumentPrototype = new fcModel.fcValue(Document.prototype, this.documentPrototype, null);
+
     this.internalPrototypes =
     [
         this.objectPrototype, this.functionPrototype, this.booleanPrototype,
@@ -409,6 +439,12 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
 
     this.xmlHttpRequestFunction = new fcModel.XMLHttpRequestFunction(this);
     this.addProperty("XMLHttpRequest", new fcModel.fcValue(XMLHttpRequest, this.xmlHttpRequestFunction, null), null);
+
+    this.windowFunction = new fcModel.WindowFunction(this);
+    this.addProperty("Window", new fcModel.fcValue(Window, this.windowFunction, null), null);
+
+    this.documentFunction = new fcModel.DocumentFunction(this);
+    this.addProperty("Document", new fcModel.fcValue(Document, this.documentFunction, null), null);
 
     fcModel.GlobalObject.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(methodName)
     {
@@ -494,6 +530,30 @@ fcModel.GlobalObject.prototype._logAccessingUndefinedProperty = function(propert
 
     this.undefinedGlobalPropertiesAccessMap[propertyName][codeConstruct.nodeId] = codeConstruct;
 };
-    //</editor-fold>
+//</editor-fold>
+
+fcModel.WindowFunction = function(globalObject)
+{
+    try
+    {
+        this.initObject(globalObject);
+
+        this.name = "Window";
+
+        this.addProperty("prototype", globalObject.fcWindowPrototype);
+        this.proto = globalObject.fcFunctionPrototype;
+    }
+    catch(e){ fcModel.GlobalObject.notifyError("Error when creating Window Function:" + e); }
+};
+
+fcModel.WindowFunction.prototype = new fcModel.Object();
+
+fcModel.WindowPrototype = function(globalObject)
+{
+    this.initObject(globalObject);
+    this.constructor = fcModel.WindowPrototype;
+};
+
+fcModel.WindowPrototype.prototype = new fcModel.Object();
 /*************************************************************************************/
 }});

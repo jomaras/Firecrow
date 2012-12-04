@@ -181,5 +181,28 @@ fcModel.Document.prototype._isMethodName = function(name)
     return fcModel.DOM_PROPERTIES.DOCUMENT.METHODS.indexOf(name) != -1;
 };
 //</editor-fold>
+
+fcModel.DocumentFunction = function(globalObject)
+{
+    try
+    {
+        this.initObject(globalObject);
+        this.name = "Document";
+
+        this.addProperty("prototype", globalObject.fcDocumentPrototype);
+        this.proto = globalObject.fcFunctionPrototype;
+    }
+    catch(e){ fcModel.Document.notifyError("Error when creating Document Function:" + e); }
+};
+
+fcModel.DocumentFunction.prototype = new fcModel.Object();
+
+fcModel.DocumentPrototype = function(globalObject)
+{
+    this.initObject(globalObject);
+    this.constructor = fcModel.DocumentPrototype;
+};
+
+fcModel.DocumentPrototype.prototype = new fcModel.Object();
 /**************************************************************************************/
 }});

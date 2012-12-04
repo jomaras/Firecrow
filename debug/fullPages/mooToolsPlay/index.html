@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MooTools break-down</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <h1> MooTools break down </h1>
+    <div id="mainContentContainer"></div>
+    <script src="mootools-1.2.4-shorter.js"></script>
+    <script>
+        document.addEvent('domready', function() {
+            var contentContainer = document.getElementById("mainContentContainer");
+            contentContainer.textContent += "Hello from MooTools DOM ready";
+        });
+    </script>
+</body>
+</html>

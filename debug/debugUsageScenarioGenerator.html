@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Firecrow - Debug Reuse Case Study</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Usage Scenario Generator</title>
+    <meta charset="UTF-8"/>
     <script>
         var FBL = undefined;
     </script>
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
-
-    <!--<script src="reuseCaseStudies/01/pageAModel.js"></script>
-    <script src="reuseCaseStudies/01/pageBModel.js"></script>-->
-    <script src="reuseCaseStudies/01/reuseModel.js"></script>
-
+    <script src="usageScenarioGenerator/modelMapping.js"></script>
+    <script src="../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/UriHelper.js"></script>
-
-    <script src="../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
 
     <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
@@ -26,7 +22,6 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
-    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
 
     <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
@@ -91,83 +86,67 @@
     <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
     <style>
-        .codeContainer
+        #pageCodeContainer
         {
             float: left;
-            width: 600px;
-            height: 400px;
+            width: 800px;
         }
 
-        .codeContainer textarea
+        #usageScenarioTracesContainer
         {
-            overflow: auto;
-            width: 590px;
-            height: 400px;
+            float: left;
+            width: 400px;
         }
 
+        iframe
+        {
+            margin: 0;
+            border: none;
+        }
+
+        .selected { background-color: green; }
+        .dependent { background-color: yellow; }
+        .secondHandDependencies { background-color: #7FFF00;}
+        .unexecuted { color: gray;}
+        .executed { color: black;}
     </style>
 </head>
 <body>
-<iframe id="firecrowFrame" height="1" width="1"></iframe>
+    <h1>Firecrow - Debugging Usage Scenario Generator</h1>
+    <iframe id="firecrowFrame" height="1" width="1"></iframe>
 
-<h1>Firecrow - Debugging reuse</h1>
+    <div class="reportContainer" id="pageCodeContainer"></div>
+    <div class="reportContainer" id="usageScenarioTracesContainer"></div>
 
-<div class="codeContainer">
-    <strong>Full app code:</strong>
-    <textarea id="fullAppCodeContainer"></textarea>
-</div>
-<div class="codeContainer">
-    <strong>Reused code:</strong>
-    <textarea id="reusedAppCodeContainer"></textarea>
-</div>
+    <script type="text/javascript">
+        var model = models[1];
 
-<div style="clear:both"/>
-<br/><br/>
-<div class="codeContainer">
-    <strong>App to extract full code:</strong>
-    <textarea id="extractedFullAppCodeContainer"></textarea>
-</div>
-<div class="codeContainer">
-    <strong>Extracted code:</strong>
-    <textarea id="extractedSlicedAppCodeContainer"></textarea>
-</div>
-<script>
-    var Firecrow = FBL.Firecrow;
+        var pageCodeContainer = document.getElementById("pageCodeContainer");
+        var usageScenarioTracesContainer = document.getElementById("usageScenarioTracesContainer");
 
-    var htmlModel = reuseModel;//From reuseModel.js
+        var usageScenarios = FBL.Firecrow.UsageScenarioGenerator.generateUsageScenarios(model.pageModel);
 
-    var slicingCriteria = [];
+        var usageScenariosHtml = "";
 
-    if(htmlModel.selectors != null)
-    {
-        htmlModel.selectors.forEach(function(selector)
+        for(var i = 0; i < usageScenarios.length; i++)
         {
-            slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
-        });
-    }
+            var usageScenario = usageScenarios[i];
 
-    var extractedAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseAppModel, htmlModel.reuseSelectors.map(function(selector)
-    {
-        return Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector);
-    }));
+            usageScenariosHtml += "<b style='color:red;'>Usage Scenario " + i + "</b><ul>";
+            for(var j = 0; j < usageScenario.events.length; j++)
+            {
+                var event = usageScenario.events[j];
 
-    var fullAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseIntoAppModel);
+                usageScenariosHtml += "<li> <b style='color:blue'>" + event.type + "</b> on <b style='color:green;'>" + event.baseObject + "</b></li>";
+            }
 
-    document.getElementById("extractedFullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.reuseAppModel);
-    document.getElementById("extractedSlicedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.reuseAppModel);
+            usageScenariosHtml += "</ul>*********<br/>";
+        }
 
-    document.getElementById("fullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.reuseIntoAppModel);
-    document.getElementById("reusedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(Firecrow.Reuser.getMergedModel
-    (
-        htmlModel.reuseAppModel,
-        htmlModel.reuseIntoAppModel,
-        extractedAppSlicingResult.dependencyGraph,
-        fullAppSlicingResult.dependencyGraph,
-        htmlModel.reuseSelectors,
-        htmlModel.reuseIntoDestinationSelectors,
-        extractedAppSlicingResult.browser,
-        fullAppSlicingResult.browser
-    ));
-</script>
+        usageScenarioTracesContainer.innerHTML = usageScenariosHtml;
+
+        pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
+
+    </script>
 </body>
 </html>

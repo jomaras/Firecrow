@@ -96,6 +96,22 @@ Browser.prototype =
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
 
+    executeEvent: function(eventInfo)
+    {
+        var handlerConstruct = eventInfo.handler.codeConstruct;
+
+        this._interpretJsCode
+        (
+            handlerConstruct.body,
+            {
+                functionHandler: eventInfo.handler,
+                thisObject: eventInfo.thisObject,
+                argumentValues: [],
+                registrationPoint: eventInfo.registrationPoint
+            }
+        );
+    },
+
     _buildSubtree: function(htmlModelElement, parentDomElement)
     {
         var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
@@ -210,6 +226,7 @@ Browser.prototype =
     {
         try
         {
+            //console.log("Interpreting @ " + codeModel.loc.start.line);
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
 
             interpreter.registerMessageGeneratedCallback(function(message)
@@ -235,6 +252,12 @@ Browser.prototype =
          || htmlDomElement.tagName.toLowerCase() == "body"))
         {
             return;
+        }
+
+        if(htmlDomElement.tagName != null && htmlDomElement.tagName.toLowerCase() == "script")
+        {
+            //This is necessary in order to disable the automatic in-browser interpretation of script code
+            htmlDomElement.type="DONT_PROCESS_SCRIPT";
         }
 
         parentDomElement == null ? this.hostDocument.appendChild(htmlDomElement)
@@ -324,27 +347,6 @@ Browser.prototype =
             || eventTrace.args.type == "elementEvent"
     },
 
-    _getOnLoadFunctions: function()
-    {
-        var onLoadFunctions =  this.globalObject.getEventListeners("load");
-        var onLoadFunction = this.globalObject.getPropertyValue("onload");
-
-        if(onLoadFunction != null)
-        {
-            onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.globalObject.getProperty("onload").lastModificationPosition });
-        }
-
-        return onLoadFunctions;
-    },
-
-    _getDOMContentLoadedMethods: function()
-    {
-        var windowDomContentLoaded = this.globalObject.getEventListeners("DOMContentLoaded");
-        var documentDomContentLoaded = this.globalObject.document.getEventListeners("DOMContentLoaded");
-
-        return documentDomContentLoaded.concat(windowDomContentLoaded);
-    },
-
     _handleEvents: function()
     {
         try
@@ -355,8 +357,8 @@ Browser.prototype =
 
             var eventTraces = this.pageModel.eventTraces;
 
-            var domContentReadyMethods = this._getDOMContentLoadedMethods();
-            var onLoadFunctions = this._getOnLoadFunctions();
+            var domContentReadyMethods = this.globalObject.getDOMContentLoadedHandlers();
+            var onLoadFunctions = this.globalObject.getOnLoadFunctions();
 
             var htmlElementEvents = this.globalObject.htmlElementEventHandlingRegistrations;
             var timeoutEvents = this.globalObject.timeoutHandlers;

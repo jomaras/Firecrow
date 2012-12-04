@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 01</title>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        window.onload = function()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+
+            if(mainContainer)
+            {
+                mainContainer.textContent += "Window onload; ";
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', function()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+
+            if(mainContainer)
+            {
+                mainContainer.textContent += "Window DOM Content Loaded; ";
+            }
+        }, false);
+
+        document.addEventListener('DOMContentLoaded', function()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+
+            if(mainContainer)
+            {
+                mainContainer.textContent += "Document DOM Content Loaded; ";
+            }
+        }, false);
+    </script>
+</body>
+</html>

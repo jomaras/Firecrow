@@ -24,7 +24,8 @@ fcModel.EventListenerMixin =
                 {
                     codeConstruct: callExpression,
                     evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
-                }
+                },
+                eventType: eventTypeName
             });
         }
         catch(e) { fcModel.Object.notifyError("Error when adding event listener: " + e); }

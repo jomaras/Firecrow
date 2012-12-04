@@ -178,4 +178,9 @@ body
 {
     padding-left: 20px;
 }
+
+.BlockStatement > *, .IfStatement > .BlockStatement
+{
+    margin-left: 20px;
+}
 .clearer { clear: both;}
