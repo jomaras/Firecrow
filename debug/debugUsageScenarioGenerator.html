@@ -126,7 +126,7 @@
 
         var usageScenarios = FBL.Firecrow.UsageScenarioGenerator.generateUsageScenarios(model.pageModel);
 
-        var usageScenariosHtml = "";
+        var usageScenariosHtml = "<b>Expression coverage: " + usageScenarios.coverage + "</b><br/>";
 
         for(var i = 0; i < usageScenarios.length; i++)
         {

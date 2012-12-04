@@ -81,40 +81,29 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(breakContinueCommand == null || (!breakContinueCommand.isEvalBreakCommand() && !breakContinueCommand.isEvalContinueCommand())) { this.notifyError(breakContinueCommand, "Should be break or continue command"); }
-
             this.dependencyCreator.addDependenciesToTopBlockConstructs(breakContinueCommand.codeConstruct);
             this.globalObject.browser.callBreakContinueReturnEventCallbacks(breakContinueCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
-            //this.globalObject.browser.callImportantConstructReachedCallbacks(breakContinueCommand.codeConstruct);
         }
         catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
     },
 
     _evalDeclareVariableCommand: function(declareVariableCommand)
     {
-        if(!declareVariableCommand.isDeclareVariableCommand()) { this.notifyError(declareVariableCommand, "Argument is not a DeclareVariableCommand"); return; }
-
         this.executionContextStack.registerIdentifier(declareVariableCommand.codeConstruct);
     },
 
     _evalDeclareFunctionCommand: function(declareFunctionCommand)
     {
-        if(!declareFunctionCommand.isDeclareFunctionCommand()) { this.notifyError(declareFunctionCommand, "Argument is not a DeclareFunctionCommand"); return; }
-
         this.executionContextStack.registerFunctionDeclaration(declareFunctionCommand.codeConstruct);
     },
 
     _evalFunctionExpressionCreationCommand: function(functionCommand)
     {
-        if(!functionCommand.isFunctionExpressionCreationCommand()) { this.notifyError(functionCommand, "Argument is not a function expression creation command"); return; }
-
         this.executionContextStack.setExpressionValue(functionCommand.codeConstruct, this.executionContextStack.createFunctionInCurrentContext(functionCommand.codeConstruct));
     },
 
     _evalLiteralCommand: function(evalLiteralCommand)
     {
-        if(!evalLiteralCommand.isEvalLiteralCommand()) { this.notifyError(evalLiteralCommand, "Argument is not an EvalLiteralCommand"); return; }
-
         this.executionContextStack.setExpressionValue
         (
             evalLiteralCommand.codeConstruct,
@@ -124,8 +113,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalRegExLiteralCommand: function(evalRegExCommand)
     {
-        if(!evalRegExCommand.isEvalRegExCommand()) { this.notifyError(evalRegExCommand, "Argument is not an EvalRegExCommand"); return; }
-
         var regEx = evalRegExCommand.regExLiteral instanceof RegExp ? evalRegExCommand.regExLiteral
                                                                     : eval(evalRegExCommand.regExLiteral);
 
@@ -138,8 +125,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalAssignmentCommand: function(assignmentCommand)
     {
-        if(!assignmentCommand.isEvalAssignmentExpressionCommand()) { this.notifyError(assignmentCommand, "Argument is not an EvalAssignmentExpressionCommand"); return; }
-
         var assignmentExpression = assignmentCommand.codeConstruct;
 
         this.dependencyCreator.createAssignmentDependencies(assignmentCommand);
@@ -154,8 +139,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalUpdateCommand: function(evalUpdateCommand)
     {
-        if(!evalUpdateCommand.isEvalUpdateExpressionCommand()) { this.notifyError(evalUpdateCommand, "Argument is not an UpdateExpressionCommand"); return; }
-
         var updateExpression = evalUpdateCommand.codeConstruct;
         var currentValue = this.executionContextStack.getExpressionValue(updateExpression.argument);
 
@@ -181,8 +164,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalIdentifierCommand: function(identifierCommand)
     {
-        if(!identifierCommand.isEvalIdentifierCommand()) { this.notifyError(identifierCommand, "Argument is not an EvalIdentifierExpressionCommand"); return; }
-
         var identifierConstruct = identifierCommand.codeConstruct;
 
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
@@ -199,8 +180,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalMemberCommand: function(memberCommand)
     {
-        if(!memberCommand.isEvalMemberExpressionCommand()) { this.notifyError(memberCommand, "Argument is not an EvalMemberExpressionCommand"); return; }
-
         var memberExpression = memberCommand.codeConstruct;
 
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
@@ -218,8 +197,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalMemberPropertyCommand: function(memberPropertyCommand)
     {
-        if(!memberPropertyCommand.isEvalMemberExpressionPropertyCommand()) { this.notifyError(memberPropertyCommand, "Argument is not an EvalMemberExpressionPropertyCommand"); return; }
-
         var memberExpression = memberPropertyCommand.codeConstruct;
         var property = memberExpression.property;
 
@@ -233,15 +210,11 @@ fcSimulator.Evaluator.prototype =
 
     _evalThisCommand: function(thisCommand)
     {
-        if(!thisCommand.isThisExpressionCommand()) { this.notifyError(thisCommand, "Argument is not a ThisExpressionCommand"); return; }
-
         this.executionContextStack.setExpressionValue(thisCommand.codeConstruct, this.executionContextStack.activeContext.thisObject);
     },
 
     _evalUnaryExpression: function(unaryCommand)
     {
-        if(!unaryCommand.isEvalUnaryExpressionCommand()) { this.notifyError(unaryCommand, "Argument has to be an eval unary item command!"); return; }
-
         var unaryExpression = unaryCommand.codeConstruct;
         var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
 
@@ -264,8 +237,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalBinaryCommand: function(binaryCommand)
     {
-        if(!binaryCommand.isEvalBinaryExpressionCommand()) { this.notifyError(binaryCommand, "Argument is not an EvalBinaryExpressionCommand"); return;}
-
         var binaryExpression = binaryCommand.codeConstruct;
 
         this.dependencyCreator.createBinaryExpressionDependencies(binaryExpression);
@@ -283,8 +254,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalReturnCommand: function(returnCommand)
     {
-        if(!returnCommand.isEvalReturnExpressionCommand()) { this.notifyError(returnCommand, "Argument is not an EvalReturnExpressionCommand"); return; };
-
         this.dependencyCreator.createReturnDependencies(returnCommand);
 
         //If return is in event handler function
@@ -313,8 +282,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalArrayExpressionCommand: function(arrayExpressionCommand)
     {
-        if(!arrayExpressionCommand.isArrayExpressionCommand()) { this.notifyError(arrayExpressionCommand, "Argument has to be an array expression creation command!"); return; }
-
         var newArray = this.globalObject.internalExecutor.createArray(arrayExpressionCommand.codeConstruct);
 
         this.executionContextStack.setExpressionValue(arrayExpressionCommand.codeConstruct, newArray);
@@ -324,8 +291,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalArrayExpressionItemCreationCommand: function(arrayItemCreationCommand)
     {
-        if(!arrayItemCreationCommand.isArrayExpressionItemCreationCommand()) { this.notifyError(arrayItemCreationCommand, "Argument has to be an array expression item creation command!"); return; }
-
         var array = arrayItemCreationCommand.arrayExpressionCommand.createdArray;
 
         if(array == null || array.jsValue == null) { this.notifyError(arrayItemCreationCommand, "When evaluating array expression item the array must not be null!");  return; }
@@ -337,8 +302,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalObjectCommand: function(objectCommand)
     {
-        if(!objectCommand.isObjectExpressionCommand()) { this.notifyError(objectCommand, "Argument has to be an object expression creation command!"); return; }
-
         var newObject = this.globalObject.internalExecutor.createObject(null, objectCommand.codeConstruct);
 
         this.executionContextStack.setExpressionValue(objectCommand.codeConstruct, newObject);
@@ -348,8 +311,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalObjectPropertyCreationCommand: function(objectPropertyCreationCommand)
     {
-        if(!objectPropertyCreationCommand.isObjectPropertyCreationCommand()) { this.notifyError(objectPropertyCreationCommand, "Argument has to be an object property creation command!"); return; }
-
         var object = objectPropertyCreationCommand.objectExpressionCommand.createdObject;
 
         if(object == null || object.jsValue == null) { this.notifyError(objectPropertyCreationCommand, "When evaluating object property the object must not be null!");  return; }
@@ -367,8 +328,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalConditionalCommand: function(conditionalCommand)
     {
-        if(!conditionalCommand.isEndEvalConditionalExpressionCommand()) { this.notifyError(conditionalCommand, "Argument has to be an eval conditional expression command!"); return; }
-
         this.executionContextStack.setExpressionValue(conditionalCommand.codeConstruct, this.executionContextStack.getExpressionValue(conditionalCommand.startCommand.body));
 
         this.dependencyCreator.createDependenciesForConditionalCommand(conditionalCommand);
@@ -376,8 +335,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalForInWhereCommand: function(forInWhereCommand)
     {
-        if(!forInWhereCommand.isEvalForInWhereCommand()) { this.notifyError(forInWhereCommand, "Argument has to be an eval for in where command!"); return; }
-
         var forInWhereConstruct = forInWhereCommand.codeConstruct;
         var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
 
@@ -408,22 +365,16 @@ fcSimulator.Evaluator.prototype =
 
     _evalStartCatchStatementCommand: function(startCatchCommand)
     {
-        if(!startCatchCommand.isStartCatchStatementCommand()) { this.notifyError(startCatchCommand, "Argument has to be a start catch command!"); return; }
-
         this.executionContextStack.setIdentifierValue(startCatchCommand.codeConstruct.param.name, startCatchCommand.exceptionArgument);
     },
 
     _evalEndCatchCommand: function(endCatchCommand)
     {
-        if(!endCatchCommand.isEndCatchStatementCommand()) { this.notifyError(endCatchCommand, "Argument has to be an end catch command!"); return; }
-
         this.executionContextStack.deleteIdentifier(endCatchCommand.codeConstruct.param.name);
     },
 
     _evalLogicalItemCommand: function(evalLogicalItemCommand)
     {
-        if(!evalLogicalItemCommand.isEvalLogicalExpressionItemCommand()) { this.notifyError(evalLogicalItemCommand, "Argument has to be an eval logical expression item command!"); return; }
-
         var parentExpressionCommand = evalLogicalItemCommand.parentLogicalExpressionCommand;
 
         var wholeLogicalExpression = parentExpressionCommand.codeConstruct;
@@ -455,8 +406,6 @@ fcSimulator.Evaluator.prototype =
 
     _evalCallInternalFunction: function(callInternalFunctionCommand)
     {
-        if(!callInternalFunctionCommand.isCallInternalFunctionCommand()) { this.notifyError(callInternalFunctionCommand, "Argument has to be a call internal function command!"); return; }
-
         this.dependencyCreator.createDependenciesForCallInternalFunction(callInternalFunctionCommand);
 
         this.executionContextStack.setExpressionValue

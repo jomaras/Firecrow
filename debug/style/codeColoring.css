@@ -184,3 +184,13 @@ body
     margin-left: 20px;
 }
 .clearer { clear: both;}
+
+.hasBeenExecuted
+{
+    font-weight: 600;
+}
+
+.hasNotBeenExecuted
+{
+    font-weight: lighter;
+}

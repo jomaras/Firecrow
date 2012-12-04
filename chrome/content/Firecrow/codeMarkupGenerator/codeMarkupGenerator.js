@@ -283,7 +283,7 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                var _class = functionDecExp.type + " node";
+                var _class = functionDecExp.type + " node" + this._generateHasBeenExecutedClass(functionDecExp);
                 var _id = "node" + this.formatId(functionDecExp.nodeId);
                 var _style = this.getStyle(functionDecExp);
 
@@ -356,12 +356,11 @@ FBL.ns(function () { with (FBL) {
         {
             return this.getStartElementHtml("div",
                     {
-                        class: ASTHelper.CONST.STATEMENT.ExpressionStatement + " node",
+                        class: ASTHelper.CONST.STATEMENT.ExpressionStatement + " node" + this._generateHasBeenExecutedClass(expressionStatement),
                         id: "node" + this.formatId(expressionStatement.nodeId),
                         style: this.getStyle(expressionStatement)
                     })
                    + this.generateHtml(expressionStatement.expression)
-                   + this._SEMI_COLON
                    + this.getEndElementHtml("div");
         },
 
@@ -373,7 +372,7 @@ FBL.ns(function () { with (FBL) {
             return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "")
                   + this.getStartElementHtml("span",
                    {
-                       class: ASTHelper.CONST.EXPRESSION.AssignmentExpression + " node",
+                       class: ASTHelper.CONST.EXPRESSION.AssignmentExpression + " node"+ this._generateHasBeenExecutedClass(assignmentExpression),
                        id: "node" + this.formatId(assignmentExpression.nodeId)
                    })
                 + this.generateHtml(assignmentExpression.left)
@@ -425,7 +424,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromLogicalExpression: function(logicalExpression)
         {
-            var _class = ASTHelper.CONST.EXPRESSION.LogicalExpression + " node";
+            var _class = ASTHelper.CONST.EXPRESSION.LogicalExpression + " node" + this._generateHasBeenExecutedClass(logicalExpression);
             var _id = "node" + this.formatId(logicalExpression.nodeId);
 
             var shouldBeSurrounded = ASTHelper.isBinaryExpression(logicalExpression.parent)
@@ -582,7 +581,7 @@ FBL.ns(function () { with (FBL) {
         {
             var _style = this.getStyle(objectExpression);
             var _id = "node" + this.formatId(objectExpression.nodeId);
-            var _class = ASTHelper.CONST.EXPRESSION.ObjectExpression + " node";
+            var _class = ASTHelper.CONST.EXPRESSION.ObjectExpression + " node" + this._generateHasBeenExecutedClass(objectExpression);
 
             var _containerStyle = "display: block";
             var _propertyContainerStyle = "";
@@ -663,7 +662,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromIfStatement: function(ifStatement)
         {
-            var _class = ASTHelper.CONST.STATEMENT.IfStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.IfStatement + " node" + this._generateHasBeenExecutedClass(ifStatement);
             var _id = "node" + this.formatId(ifStatement.nodeId);
             var _style = "display: inline";
 
@@ -689,7 +688,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromWhileStatement: function(whileStatement)
         {
-            var _class = ASTHelper.CONST.STATEMENT.WhileStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.WhileStatement + " node" + this._generateHasBeenExecutedClass(whileStatement);
             var _id = "node" + this.formatId(whileStatement.nodeId);
 
             var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -704,7 +703,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromDoWhileStatement: function(doWhileStatement)
         {
-            var _class = ASTHelper.CONST.STATEMENT.DoWhileStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.DoWhileStatement + " node" + this._generateHasBeenExecutedClass(doWhileStatement);
             var _id = "node" + this.formatId(doWhileStatement.nodeId);
 
             var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -724,7 +723,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromForStatement: function(forStatement)
         {
-            var _class = ASTHelper.CONST.STATEMENT.ForStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.ForStatement + " node" + this._generateHasBeenExecutedClass(forStatement);
             var _id = "node" + this.formatId(forStatement.nodeId);
 
             var html = this.getStartElementHtml("div", {class: _class, id: _id});
@@ -744,7 +743,7 @@ FBL.ns(function () { with (FBL) {
         {
             if(!ASTHelper.isForInStatement(forInStatement)) { alert("Invalid element when generating for...in statement html code!"); return ""; }
 
-            var _class = ASTHelper.CONST.STATEMENT.ForInStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.ForInStatement + " node" + this._generateHasBeenExecutedClass(forInStatement);
             var _id = "node" + this.formatId(forInStatement.nodeId);
 
             var html = this.getStartElementHtml("div", {class: _class, id: _id});
@@ -770,7 +769,7 @@ FBL.ns(function () { with (FBL) {
         {
             if(!ASTHelper.isBreakStatement(breakStatement)) { alert("Invalid element when generating break statement html code!"); return ""; }
 
-            var _class = ASTHelper.CONST.STATEMENT.BreakStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.BreakStatement + " node" + this._generateHasBeenExecutedClass(breakStatement);
             var _id = "node" + this.formatId(breakStatement.nodeId);
             var _style = this.getStyle(breakStatement);
 
@@ -802,7 +801,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromReturnStatement: function(returnStatement)
         {
-            var _class = ASTHelper.CONST.STATEMENT.ReturnStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.ReturnStatement + " node" + this._generateHasBeenExecutedClass(returnStatement);
             var _id = "node" + this.formatId(returnStatement.nodeId);
             var _style = this.getStyle(returnStatement);
 
@@ -818,7 +817,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromWithStatement: function(withStatement)
         {
-            var _class = ASTHelper.CONST.STATEMENT.WithStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.WithStatement + " node" + this._generateHasBeenExecutedClass(withStatement);
             var _id = "node" + this.formatId(withStatement.nodeId);
 
             return this.getStartElementHtml("div", {class: _class, id: _id})
@@ -843,7 +842,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromSwitchStatement: function(switchStatement)
         {
-            var _class = ASTHelper.CONST.STATEMENT.SwitchStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.SwitchStatement + " node" + this._generateHasBeenExecutedClass(switchStatement);
             var _id = "node" + this.formatId(switchStatement.nodeId);
 
             var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -867,7 +866,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromSwitchCase: function(switchCase)
         {
-            var _class = ASTHelper.CONST.SwitchCase + " node";
+            var _class = ASTHelper.CONST.SwitchCase + " node" + this._generateHasBeenExecutedClass(switchCase);
             var _id = "node" + this.formatId(switchCase.nodeId);
             var _style =  "padding-left: 20px;";
 
@@ -891,7 +890,7 @@ FBL.ns(function () { with (FBL) {
         {
             if(!ASTHelper.isTryStatement(tryStatement)) { alert("Invalid element when generating try statement html code!"); return ""; }
 
-            var _class = ASTHelper.CONST.STATEMENT.TryStatement  + " node";
+            var _class = ASTHelper.CONST.STATEMENT.TryStatement  + " node" + this._generateHasBeenExecutedClass(tryStatement);
             var _id = "node" + this.formatId(tryStatement.nodeId);
 
             var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -915,7 +914,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromLabeledStatement: function(labeledStatement)
         {
-            var _class = ASTHelper.CONST.STATEMENT.LabeledStatement + " node";
+            var _class = ASTHelper.CONST.STATEMENT.LabeledStatement + " node" + this._generateHasBeenExecutedClass(labeledStatement);
             var _id = "node" + this.formatId(labeledStatement.nodeId);
 
             var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -930,7 +929,7 @@ FBL.ns(function () { with (FBL) {
         {
             var html = "";
 
-            var _class = ASTHelper.CONST.VariableDeclaration + " node";
+            var _class = ASTHelper.CONST.VariableDeclaration + " node" + this._generateHasBeenExecutedClass(variableDeclaration);
             var _id = "node" + this.formatId(variableDeclaration.nodeId);
 
             html += this.getStartElementHtml("span", {class: _class, id: _id});
@@ -964,7 +963,14 @@ FBL.ns(function () { with (FBL) {
 
         generateFromVariableDeclarator: function(variableDeclarator)
         {
-            var html = this.getStartElementHtml("span", {class: ASTHelper.CONST.VariableDeclarator, id: "node" + this.formatId(variableDeclarator.nodeId)});
+            var html = this.getStartElementHtml
+            (
+                "span",
+                {
+                    class: ASTHelper.CONST.VariableDeclarator + this._generateHasBeenExecutedClass(variableDeclarator),
+                    id: "node" + this.formatId(variableDeclarator.nodeId)
+                }
+            );
 
             html += this.generateFromPattern(variableDeclarator.id);
 
@@ -984,7 +990,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromCatchClause: function(catchClause)
         {
-            var _class = ASTHelper.CONST.CatchClause + " node";
+            var _class = ASTHelper.CONST.CatchClause + " node" + this._generateHasBeenExecutedClass(catchClause);
             var _id = "node" + this.formatId(catchClause.nodeId);
 
             var html = this.getStartElementHtml("div", {class: _class, id: _id})
@@ -1004,7 +1010,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromIdentifier: function(identifier)
         {
-            var _class = ASTHelper.CONST.Identifier + " node";
+            var _class = ASTHelper.CONST.Identifier + " node" + this._generateHasBeenExecutedClass(identifier);
             var _id = "node" + this.formatId(identifier.nodeId);
             //var _padding = this.getStyle(identifier);
 
@@ -1109,6 +1115,14 @@ FBL.ns(function () { with (FBL) {
             }
 
             return "";
+        },
+
+        _generateHasBeenExecutedClass: function(expression)
+        {
+            if(expression == null) { return ""; }
+
+            return expression.hasBeenExecuted ? " hasBeenExecuted "
+                                              : " hasNotBeenExecuted ";
         },
 
         formatId: function(currentId)

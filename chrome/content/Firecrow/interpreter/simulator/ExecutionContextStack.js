@@ -52,6 +52,8 @@ fcSimulator.ExecutionContext.prototype =
     {
         if(codeConstruct == null) { return null; }
 
+        codeConstruct.hasBeenExecuted = true;
+
         this.codeConstructValuesMapping[codeConstruct.nodeId] = value
     },
 
@@ -188,6 +190,9 @@ fcSimulator.ExecutionContextStack.prototype =
     {
         if(!ASTHelper.isVariableDeclarator(variableDeclarator)) { this.notifyError("ExecutionContextStack: When registering an identifier, the argument has to be variable declarator"); }
 
+        variableDeclarator.hasBeenExecuted = true;
+        variableDeclarator.id.hasBeenExecuted = true;
+
         this.activeContext.registerIdentifier
         (
             new fcModel.Identifier
@@ -206,6 +211,7 @@ fcSimulator.ExecutionContextStack.prototype =
         {
             if(!ASTHelper.isFunctionDeclaration(functionDeclaration)) { this.notifyError("When registering a function, the argument has to be a function declaration"); return; }
 
+            functionDeclaration.hasBeenExecuted = true;
             this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration, this.globalObject));
         }
         catch(e)

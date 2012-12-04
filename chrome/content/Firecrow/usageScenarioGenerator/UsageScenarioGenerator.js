@@ -14,6 +14,8 @@ Firecrow.UsageScenarioGenerator =
 
         this._executeEvents(browser, usageScenarios);
 
+        usageScenarios.coverage = this._calculateExpressionCoverage(pageModel);
+
         return usageScenarios;
     },
 
@@ -84,6 +86,34 @@ Firecrow.UsageScenarioGenerator =
         else { baseObject = "unknown"; }
 
         return new FBL.Firecrow.UsageScenarioEvent(event.eventType, baseObject);
+    },
+
+    _calculateExpressionCoverage: function(pageModel)
+    {
+        var ASTHelper = FBL.Firecrow.ASTHelper;
+        var scripts = ASTHelper.getScriptElements(pageModel.htmlElement);
+
+        var totalNumberOfExpressions = 0;
+        var executedNumberOfExpressions = 0;
+
+        for(var i = 0; i < scripts.length; i++)
+        {
+            var script = scripts[i];
+
+            ASTHelper.traverseAst(script.pathAndModel.model, function(astElement)
+            {
+                if(ASTHelper.isExpression(astElement))
+                {
+                    totalNumberOfExpressions++;
+                    if(astElement.hasBeenExecuted)
+                    {
+                        executedNumberOfExpressions++;
+                    }
+                }
+            });
+        }
+
+        return executedNumberOfExpressions/totalNumberOfExpressions;
     },
 
     notifyError: function(message) { alert("UsageScenarioGenerator Error: " + message); }

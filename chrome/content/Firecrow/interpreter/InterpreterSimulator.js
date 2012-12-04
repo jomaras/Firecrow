@@ -27,7 +27,6 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, h
 var fcSimulator = Firecrow.Interpreter.InterpreterSimulator;
 
 fcSimulator.log = [];
-fcSimulator.markExecutedConstructs = true;
 fcSimulator.logTrace = true;
 fcSimulator.notifyError = function(message) { alert("InterpreterSimulator - " + message); }
 
@@ -47,9 +46,7 @@ fcSimulator.prototype =
 
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
 
-                if((!fcSimulator.logTrace && !fcSimulator.markExecutedConstructs) || command.codeConstruct == null) { continue; }
-
-                command.codeConstruct.hasBeenExecuted = true;
+                if(!fcSimulator.logTrace || command.codeConstruct == null) { continue; }
 
                 if(command.codeConstruct.loc == null) { continue; }
 
