@@ -96,7 +96,7 @@ Browser.prototype =
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
 
-    executeEvent: function(eventInfo)
+    executeEvent: function(eventInfo, argumentValues)
     {
         var handlerConstruct = eventInfo.handler.codeConstruct;
 
@@ -106,7 +106,7 @@ Browser.prototype =
             {
                 functionHandler: eventInfo.handler,
                 thisObject: eventInfo.thisObject,
-                argumentValues: [],
+                argumentValues: argumentValues,
                 registrationPoint: eventInfo.registrationPoint
             }
         );
@@ -344,7 +344,7 @@ Browser.prototype =
         if (eventTrace == null || eventTrace.args == null) { return false; }
 
         return eventTrace.args.type == eventType || "on" + eventTrace.args.type == eventType
-            || eventTrace.args.type == "elementEvent"
+            || eventTrace.args.type == "elementEvent";
     },
 
     _handleEvents: function()

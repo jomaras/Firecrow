@@ -39,9 +39,55 @@ Firecrow.UsageScenarioGenerator =
         {
             var eventRegistration = eventHandlingRegistrations[i];
 
-            this._logEvent(eventRegistration, usageScenarios, browser);
-            browser.executeEvent(eventRegistration);
+            var args = this._getArguments(eventRegistration, browser);
+
+            this._logEvent(eventRegistration, args, usageScenarios, browser);
+            browser.executeEvent(eventRegistration, args);
         }
+    },
+
+    _getArguments: function(eventRegistration, browser)
+    {
+        if(eventRegistration.eventType == "onclick")
+        {
+            return this._generateClickHandlerArguments(eventRegistration, browser);
+        }
+
+        return [];
+    },
+
+    _generateClickHandlerArguments: function(eventRegistration, browser)
+    {
+        var args = [];
+        var fcModel = FBL.Firecrow.Interpreter.Model;
+
+        var eventInfo = {};
+        var eventInfoJsObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
+
+        eventInfo.target = null;
+        eventInfoJsObject.addProperty("target", new fcModel.fcValue(null));
+
+        eventInfo.currentTarget = null;
+        eventInfoJsObject.addProperty("currentTarget", new fcModel.fcValue(null));
+
+        eventInfo.clientX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0);
+        eventInfoJsObject.addProperty("clientX", eventInfo.clientX);
+
+        eventInfo.clientY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0);
+        eventInfoJsObject.addProperty("clientY", eventInfo.clientY);
+
+        eventInfo.screenX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0);
+        eventInfoJsObject.addProperty("screenX", eventInfo.screenX);
+
+        eventInfo.screenY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0);
+        eventInfoJsObject.addProperty("screenY", eventInfo.screenY);
+
+        eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, "click");
+        eventInfoJsObject.addProperty("type", eventInfo.type);
+
+        args.push(new fcModel.fcValue(eventInfo, eventInfoJsObject, null));
+
+        return args;
     },
 
     _performLoadingEvents: function(browser, usageScenarios)
@@ -60,16 +106,16 @@ Firecrow.UsageScenarioGenerator =
     {
         loadingEvents.forEach(function (loadingEvent)
         {
-            this._logEvent(loadingEvent, usageScenarios, browser);
+            this._logEvent(loadingEvent, [], usageScenarios, browser);
         }, this);
     },
 
-    _logEvent: function(event, usageScenarios, browser)
+    _logEvent: function(event, args, usageScenarios, browser)
     {
-        usageScenarios[usageScenarios.length-1].addEvent(this._generateUsageScenarioEvent(event, browser));
+        usageScenarios[usageScenarios.length-1].addEvent(this._generateUsageScenarioEvent(event, args, browser));
     },
 
-    _generateUsageScenarioEvent: function(event, browser)
+    _generateUsageScenarioEvent: function(event, args, browser)
     {
         var baseObject = "";
 
@@ -85,7 +131,24 @@ Firecrow.UsageScenarioGenerator =
         }
         else { baseObject = "unknown"; }
 
-        return new FBL.Firecrow.UsageScenarioEvent(event.eventType, baseObject);
+        var additionalInfo = "[";
+
+        for(var i = 0; i < args.length; i++)
+        {
+            var arg = args[0];
+
+            for(var prop in arg.jsValue)
+            {
+                if(arg.jsValue[prop] != null)
+                {
+                    additionalInfo += prop + " = " + arg.jsValue[prop].jsValue + "; ";
+                }
+            }
+        }
+
+        additionalInfo += "]";
+
+        return new FBL.Firecrow.UsageScenarioEvent(event.eventType, baseObject, additionalInfo);
     },
 
     _calculateExpressionCoverage: function(pageModel)
@@ -132,10 +195,11 @@ Firecrow.UsageScenario.prototype =
     }
 };
 
-Firecrow.UsageScenarioEvent = function(type, baseObject)
+Firecrow.UsageScenarioEvent = function(type, baseObject, argumentsInfo)
 {
     this.type = type;
     this.baseObject = baseObject;
+    this.argumentsInfo = argumentsInfo;
 };
 /*****************************************************/
 }});

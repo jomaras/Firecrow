@@ -677,7 +677,7 @@ FBL.ns(function () { with (FBL) {
 
             if(ifStatement.alternate != null)
             {
-                html += this.getElementHtml("span", {class:"keyword"}, "else ")
+                html += this.getElementHtml("span", {class:"keyword", style:"margin-left:20px"}, "else ")
                     + this.generateHtml(ifStatement.alternate);
             }
 

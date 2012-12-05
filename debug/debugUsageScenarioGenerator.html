@@ -113,13 +113,13 @@
 </head>
 <body>
     <h1>Firecrow - Debugging Usage Scenario Generator</h1>
-    <iframe id="firecrowFrame" height="1" width="1"></iframe>
+    <iframe id="firecrowFrame" height="1" width="1" style="overflow:scroll;"></iframe>
 
     <div class="reportContainer" id="pageCodeContainer"></div>
     <div class="reportContainer" id="usageScenarioTracesContainer"></div>
 
     <script type="text/javascript">
-        var model = models[1];
+        var model = models[2];
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var usageScenarioTracesContainer = document.getElementById("usageScenarioTracesContainer");
@@ -137,7 +137,7 @@
             {
                 var event = usageScenario.events[j];
 
-                usageScenariosHtml += "<li> <b style='color:blue'>" + event.type + "</b> on <b style='color:green;'>" + event.baseObject + "</b></li>";
+                usageScenariosHtml += "<li> <b style='color:blue'>" + event.type + "</b> on <b style='color:green;'>" + event.baseObject + "</b>" + event.argumentsInfo + "</li>";
             }
 
             usageScenariosHtml += "</ul>*********<br/>";
