@@ -68,7 +68,7 @@ fcModel.DOM_PROPERTIES =
             "accept", "alt", "checked", "defaultChecked", "defaultValue", "formAction", "formEncType",
             "formMethod", "formNoValidate", "formTarget", "height", "indeterminate", "max", "maxLength",
             "min", "multiple", "pattern", "placeholder", "readOnly", "src", "useMap", "validationMessage",
-            "validity", "valueAsNumber", "width", "cols", "rows", "wrap",
+            "validity", "valueAsNumber", "width", "cols", "rows", "wrap", "value",
             "htmlFor", "hash", "coords", "host", "hreflang", "pathname", "port", "protocol", "rev", "search",
             "shape", "caption", "align", "bgColor", "border", "cellPadding", "cellSpacing", "frame", "rules",
             "summary", "ch", "chOff", "rowIndex", "sectionRowIndex", "vAlign"

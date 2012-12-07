@@ -66,7 +66,11 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
         this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(this.creationCodeConstruct, this.htmlElement[propertyName]), this.creationCodeConstruct);
     }
 
-    return this.getPropertyValue(propertyName, codeConstruct);
+    var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
+
+    if(this._isInputElement() && propertyName == "value") { return this._expandWithSymbolic(propertyValue); }
+
+    return propertyValue;
 };
 
 fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyValue, codeConstruct, isEnumerable)
@@ -276,6 +280,21 @@ fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propert
             resourceValue: propertyValue.jsValue
         };
     }
+};
+
+fcModel.HtmlElement.prototype._isInputElement = function()
+{
+    return ValueTypeHelper.isOneOfTypes(this.htmlElement, [HTMLSelectElement, HTMLInputElement, HTMLTextAreaElement]);
+};
+
+fcModel.HtmlElement.prototype._expandWithSymbolic = function(value)
+{
+    if(value == null || value.iValue == null) { return; }
+
+    value.symbolicValue = new FBL.Firecrow.Symbolic.Identifier("value");
+    value.symbolicValue.htmlElement = this.htmlElement;
+
+    return value;
 };
 //</editor-fold>
 //</editor-fold>
