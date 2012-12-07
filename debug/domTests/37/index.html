@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM TEST</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <canvas style="width: 500px; height: 400px;" id="myCanvas"></canvas>
+    <script>
+        var myCanvas = document.getElementById("myCanvas");
+
+        var canvasContext = myCanvas.getContext("2d");
+        canvasContext.globalAlpha= 0.2;
+        canvasContext.fillStyle = 'rgb(255,255,255)';
+        canvasContext.fillRect(0,0,1000,550);
+
+        canvasContext.beginPath();
+        canvasContext.lineTo(50, 50);
+        canvasContext.lineTo(100, 100);
+        canvasContext.closePath();
+        canvasContext.fill();
+        canvasContext.stroke();
+    </script>
+</body>
+</html>

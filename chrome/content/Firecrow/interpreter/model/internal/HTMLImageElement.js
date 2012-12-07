@@ -12,7 +12,7 @@ fcModel.HTMLImageElement = function(globalObject)
 
         this.name = "HTMLImageElement";
     }
-    catch(e){ fcModel.HTMLImageElement.notifyError("Error when creating Array Function:" + e); }
+    catch(e){ fcModel.HTMLImageElement.notifyError("Error when creating HTMLImageElement Function:" + e); }
 };
 
 fcModel.HTMLImageElement.prototype = new fcModel.Object();

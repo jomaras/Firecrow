@@ -505,7 +505,7 @@ fcModel.Array.prototype.join = function(jsArray, callArguments, callExpression)
         var items = this.items;
         for(var i = 0, length = items.length; i < length; i++)
         {
-            result += (i!=0 ? glue : "") + items[i].jsValue;
+            result += (i != 0 ? glue : "") + items[i].jsValue;
         }
 
         return this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);

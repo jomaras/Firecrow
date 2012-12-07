@@ -4,6 +4,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 var fcSimulator = Firecrow.Interpreter.Simulator;
 var fcModel = Firecrow.Interpreter.Model;
+var fcSymbolic = Firecrow.Symbolic;
 
 fcSimulator.Evaluator = function(executionContextStack)
 {
@@ -249,7 +250,16 @@ fcSimulator.Evaluator.prototype =
 
         var result = this._evalBinaryExpression(leftValue, rightValue, binaryExpression.operator);
 
-        this.executionContextStack.setExpressionValue(binaryExpression, this.globalObject.internalExecutor.createInternalPrimitiveObject(binaryExpression, result));
+        this.executionContextStack.setExpressionValue
+        (
+            binaryExpression,
+            this.globalObject.internalExecutor.createInternalPrimitiveObject
+            (
+                binaryExpression,
+                result,
+                fcSymbolic.SymbolicExecutor.evalBinaryExpression(leftValue, rightValue, binaryExpression.operator)
+            )
+        );
     },
 
     _evalReturnCommand: function(returnCommand)

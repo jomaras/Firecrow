@@ -3,7 +3,7 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcModel.fcValue = function(jsValue, iValue, codeConstruct)
+fcModel.fcValue = function(jsValue, iValue, codeConstruct, symbolicValue)
 {
     try
     {
@@ -12,6 +12,7 @@ fcModel.fcValue = function(jsValue, iValue, codeConstruct)
         this.jsValue = jsValue;
         this.iValue = iValue;
         this.codeConstruct = codeConstruct;
+        this.symbolicValue = symbolicValue;
 
         if(this.iValue != null && this.iValue.isInternalFunction != undefined)
         {
@@ -28,6 +29,8 @@ fcModel.fcValue.prototype =
 {
     isFunction: function() { return ValueTypeHelper.isFunction(this.jsValue); },
     isPrimitive: function() { return ValueTypeHelper.isPrimitive(this.jsValue); },
+    isSymbolic: function() { return this.symbolicValue != null; },
+    isNotSymbolic: function() { return this.symbolicValue == null; },
 
     getPropertyValue: function(propertyName)
     {
@@ -40,7 +43,7 @@ fcModel.fcValue.prototype =
 
     createCopy: function(codeConstruct)
     {
-        return new fcModel.fcValue(this.jsValue, this.iValue, this.codeConstruct);
+        return new fcModel.fcValue(this.jsValue, this.iValue, this.codeConstruct, this.symbolicValue);
     }
 };
 }});

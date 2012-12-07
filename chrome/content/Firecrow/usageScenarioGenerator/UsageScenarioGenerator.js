@@ -60,6 +60,7 @@ Firecrow.UsageScenarioGenerator =
     {
         var args = [];
         var fcModel = FBL.Firecrow.Interpreter.Model;
+        var fcSymbolic = FBL.Firecrow.Symbolic;
 
         var eventInfo = {};
         var eventInfoJsObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
@@ -70,16 +71,16 @@ Firecrow.UsageScenarioGenerator =
         eventInfo.currentTarget = null;
         eventInfoJsObject.addProperty("currentTarget", new fcModel.fcValue(null));
 
-        eventInfo.clientX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0);
+        eventInfo.clientX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("clientX"));
         eventInfoJsObject.addProperty("clientX", eventInfo.clientX);
 
-        eventInfo.clientY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0);
+        eventInfo.clientY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("clientY"));
         eventInfoJsObject.addProperty("clientY", eventInfo.clientY);
 
-        eventInfo.screenX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0);
+        eventInfo.screenX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("screenX"));
         eventInfoJsObject.addProperty("screenX", eventInfo.screenX);
 
-        eventInfo.screenY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0);
+        eventInfo.screenY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("screenY"));
         eventInfoJsObject.addProperty("screenY", eventInfo.screenY);
 
         eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, "click");
@@ -200,6 +201,142 @@ Firecrow.UsageScenarioEvent = function(type, baseObject, argumentsInfo)
     this.type = type;
     this.baseObject = baseObject;
     this.argumentsInfo = argumentsInfo;
+};
+
+//https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API
+/*
+- Expression
+    - ThisExpression ?
+    - Identifier
+    - Literal
+    - SequenceExpression
+        - expressions: [Expression]
+    - UnaryExpression
+        - operator: UnaryOperator (- + ! ~ typeof void delete)
+        - prefix: boolean
+        - argument: Expression
+    - BinaryExpression
+        - operator: BinaryOperator (!= === !== < <= > >= << >> >>> + - * / % | ^ in instanceof ..)
+        - left: Expression
+        - right: Expression
+    - UpdateExpression
+        - operator: UpdateOperator ++ --
+        - prefix: boolean
+        - argument: Expression
+    - LogicalExpression
+        - operator (&& ||)
+        - left: Expression
+        - right: Expression
+    - ConditionalExpression ?
+        - test: Expression
+        - alternate: Expression
+        - consequent: Expression
+    - MemberExpression ?
+        - object: Expression
+        - property: Identifier | Expression
+* */
+Firecrow.Symbolic =
+{
+    CONST:
+    {
+        IDENTIFIER: "Identifier",
+        LITERAL: "Literal",
+        SEQUENCE: "Sequence",
+        UNARY: "Unary",
+        BINARY: "Binary",
+        UPDATE: "Update",
+        LOGICAL: "Logical"
+    }
+};
+var fcSymbolic = Firecrow.Symbolic;
+
+fcSymbolic.Expression = function(){};
+
+fcSymbolic.Identifier = function(name)
+{
+    this.name = name;
+
+    this.type = fcSymbolic.CONST.IDENTIFIER;
+};
+
+fcSymbolic.Literal = function(value)
+{
+    this.value = value;
+
+    this.type = fcSymbolic.CONST.LITERAL;
+};
+
+fcSymbolic.Sequence = function(expressions)
+{
+    this.expressions = expressions;
+
+    this.type = fcSymbolic.CONST.SEQUENCE;
+};
+
+fcSymbolic.Unary = function(argument, operator, prefix)
+{
+    this.argument = argument;
+    this.operator = operator;
+    this.prefix = prefix;
+
+    this.type = fcSymbolic.CONST.UNARY;
+};
+
+fcSymbolic.Binary = function(left, right, operator)
+{
+    this.left = left;
+    this.right = right;
+    this.operator = operator;
+
+    this.type = fcSymbolic.CONST.BINARY;
+};
+
+fcSymbolic.Update = function(argument, operator, prefix)
+{
+    this.argument = argument;
+    this.operator = operator;
+    this.prefix = prefix;
+
+    this.type = fcSymbolic.CONST.UPDATE;
+};
+
+fcSymbolic.Logical = function(left, right, operator)
+{
+    this.left = left;
+    this.right = right;
+    this.operator = operator;
+
+    this.type = fcSymbolic.CONST.LOGICAL;
+};
+
+fcSymbolic.SymbolicExecutor =
+{
+    evalBinaryExpression: function(left, right, operator)
+    {
+        if(left == null || right == null) { return null;}
+        if(left.isNotSymbolic() && right.isNotSymbolic()) { return null; }
+
+        return new fcSymbolic.Binary(left.symbolicValue, right.symbolicValue, operator);
+    }
+};
+
+fcSymbolic.PathConstraintItem = function(codeConstruct, constraint)
+{
+    this.codeConstruct = codeConstruct;
+    this.constraint = constraint;
+};
+
+fcSymbolic.PathConstraint = function()
+{
+    this.constraints = [];
+};
+
+fcSymbolic.PathConstraint.prototype =
+{
+    addConstraint: function(pathConstraintItem)
+    {
+        this.constraints.push(pathConstraintItem);
+    }
 };
 /*****************************************************/
 }});

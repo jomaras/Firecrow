@@ -67,6 +67,11 @@ fcModel.HtmlElementExecutor =
                 return this._queryDocument(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "getBoundingClientRect":
                 return this._getBoundingClientRectangle(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
+            case "getContext":
+                if(thisObjectValue instanceof HTMLCanvasElement)
+                {
+                    return fcModel.CanvasExecutor.executeCanvasMethod(thisObject, functionObject, arguments, callExpression);
+                }
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
         }
@@ -106,6 +111,10 @@ fcModel.HtmlElementExecutor =
                 if(item instanceof HTMLImageElement)
                 {
                     fcHtmlElement.addProperty("__proto__", globalObject.fcHtmlImagePrototype);
+                }
+                else if (item instanceof HTMLCanvasElement)
+                {
+                    fcHtmlElement.addProperty("__proto__", globalObject.fcCanvasPrototype);
                 }
 
                 return new fcModel.fcValue(item, fcHtmlElement, codeConstruct);

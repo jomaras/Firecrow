@@ -23,17 +23,19 @@ fcSimulator.InternalExecutor.prototype =
         else { this.notifyError("Unknown state when creating object"); return null; }
     },
 
-    createInternalPrimitiveObject: function(codeConstruct, value)
+    createInternalPrimitiveObject: function(codeConstruct, value, symbolicValue)
     {
         var result = null;
 
-             if(typeof value == "string") { result = new fcModel.String(value, this.globalObject, codeConstruct, true);}
+        symbolicValue = symbolicValue || new FBL.Firecrow.Symbolic.Literal(value);
+
+        if(typeof value == "string") { result = new fcModel.String(value, this.globalObject, codeConstruct, true); }
         else if(typeof value == "number") { result = new fcModel.Number(value, this.globalObject, codeConstruct, true); }
         else if(typeof value == "boolean") { result = new fcModel.Boolean(value, this.globalObject, codeConstruct, true); }
         else if(value == null) { }
-        else { this.notifyError("Unknown primitive object: " + value);}
+        else { this.notifyError("Unknown primitive object: " + value); }
 
-        return new fcModel.fcValue(value, result, codeConstruct);
+        return new fcModel.fcValue(value, result, codeConstruct, symbolicValue);
     },
 
     createNonConstructorObject: function(creationCodeConstruct)
@@ -224,6 +226,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (thisObject.jsValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeFunctionMethod(thisObject, functionObject, args, callExpression, this.globalObject); }
             else if (thisObject == this.globalObject.fcMath) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.Event){ return fcModel.EventExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
+            else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.CanvasContext){ return fcModel.CanvasContextExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (functionObject.isInternalFunction) { return this._executeInternalFunction(thisObject, functionObject, args, callExpression, callCommand); }
             else
             {

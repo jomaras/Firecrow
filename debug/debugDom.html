@@ -7,6 +7,7 @@
         var FBL = undefined;
     </script>
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js"></script>
     <script src="domModelMapping.js"></script>
     <script src="../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
@@ -53,6 +54,7 @@
     <script src="../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/Image.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/HTMLImageElement.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Canvas.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/model/internal/Element.js"></script>
 
     <script src="../chrome/content/Firecrow/interpreter/model/DOM/Document.js"></script>
@@ -106,7 +108,6 @@
     </style>
 </head>
 <body>
-<iframe id="firecrowFrame" height="1" width="1"></iframe>
 <h1>Firecrow - Debugging DOM Slicing</h1>
 <div>
     <a id="testIdContainer"></a>
@@ -124,12 +125,13 @@
 <div id="slicedCodeContainer">
     <textarea id="slicedSourceTextContainer"></textarea>
 </div>
+<iframe id="firecrowFrame" height="300px" width="300px" style="overflow: scroll"></iframe>
 <div style="clear:both"/>
 
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/32/index.html";
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/domTests/38/index.html";
         var htmlModel = DomHtmlModelMapping.getWholeFileModel(url);
         var slicingCriteria = htmlModel.results.map(function(result)
         {

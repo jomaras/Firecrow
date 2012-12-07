@@ -40,6 +40,8 @@ fcBrowser.Browser = function(pageModel)
         this.errorMessages = [];
         this.cssRules = [];
 
+        this.pathConstraints = [];
+
         this._matchesSelector = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector;
 
         if(!Firecrow.IsDebugMode)
@@ -130,7 +132,10 @@ Browser.prototype =
             if(this._isScriptNode(htmlModelElement)) { this._handleScriptNode(htmlModelElement); }
             else if(this._isCssInclusionNode(htmlModelElement)) { this._buildCssNodes(htmlModelElement); }
 
-            htmlDomElement.textContent = htmlModelElement.textContent;
+            if(htmlModelElement.textContent)
+            {
+                htmlDomElement.textContent = htmlModelElement.textContent;
+            }
         }
 
         this.createDependenciesBetweenHtmlNodeAndCssNodes(htmlModelElement);
@@ -229,6 +234,8 @@ Browser.prototype =
             //console.log("Interpreting @ " + codeModel.loc.start.line);
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
 
+            this.pathConstraints.push(new FBL.Firecrow.Symbolic.PathConstraint());
+
             interpreter.registerMessageGeneratedCallback(function(message)
             {
                 this._callInterpreterMessageGeneratedCallbacks(message);
@@ -242,6 +249,11 @@ Browser.prototype =
             interpreter.runSync();
         }
         catch(e) { this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e); }
+    },
+
+    addPathConstraint: function(codeConstruct, constraint)
+    {
+        this.pathConstraints[this.pathConstraints.length-1].addConstraint(new FBL.Firecrow.Symbolic.PathConstraintItem(codeConstruct, constraint));
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)

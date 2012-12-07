@@ -358,12 +358,11 @@ fcSimulator.prototype =
     {
         if(!ifCommand.isIfStatementCommand()) { fcSimulator.notifyError("Argument has to be a if command!"); return; }
 
-        var generatedCommands = CommandGenerator.generateIfStatementBodyCommands
-        (
-            ifCommand,
-            this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test).jsValue,
-            ifCommand.parentFunctionCommand
-        );
+        var ifConditionValue = this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test);
+
+        var generatedCommands = CommandGenerator.generateIfStatementBodyCommands(ifCommand, ifConditionValue.jsValue, ifCommand.parentFunctionCommand);
+
+        this.globalObject.browser.addPathConstraint(ifCommand.codeConstruct, ifConditionValue.symbolicValue);
 
         ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, generatedCommands, this.currentCommandIndex + 1);
     },

@@ -348,6 +348,8 @@ fcModel.GlobalObject.prototype._expandToFcValue = function()
 
     this.isFunction = function() { return false; };
     this.isPrimitive = function() { return false; };
+    this.isSymbolic = function() { return false; }
+    this.isNotSymbolic = function() { return true; }
 };
 fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 {
@@ -388,6 +390,12 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
     this.htmlImageElementPrototype = new fcModel.HTMLImageElementPrototype(this);
     this.fcHtmlImagePrototype = new fcModel.fcValue(HTMLImageElement.prototype, this.htmlImageElementPrototype, null);
 
+    this.canvasPrototype = new fcModel.CanvasPrototype(this);
+    this.fcCanvasPrototype = new fcModel.fcValue(HTMLCanvasElement.prototype, this.canvasPrototype, null);
+
+    this.canvasContextPrototype = new fcModel.CanvasContextPrototype(this);
+    this.fcCanvasContextPrototype = new fcModel.fcValue(CanvasRenderingContext2D.prototype, this.canvasContextPrototype, null);
+
     this.elementPrototype = new fcModel.ElementPrototype(this);
     this.fcElementPrototype = new fcModel.fcValue(Element.prototype, this.elementPrototype, null);
 
@@ -402,7 +410,7 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
         this.objectPrototype, this.functionPrototype, this.booleanPrototype,
         this.arrayPrototype, this.regExPrototype, this.stringPrototype,
         this.numberPrototype, this.datePrototype, this.htmlImageElementPrototype,
-        this.elementPrototype
+        this.elementPrototype, this.canvasPrototype
     ];
 };
 

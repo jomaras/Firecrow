@@ -1,6 +1,7 @@
 load:
   - ../debug/reuseTests/reuseModels.js
   - ../chrome/content/Firecrow/initFBL.js
+  - ../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js
   - ../chrome/content/Firecrow/parsers/CssSelectorParser.js
   - ../chrome/content/Firecrow/helpers/valueTypeHelper.js
   - ../chrome/content/Firecrow/helpers/ASTHelper.js
@@ -52,6 +53,7 @@ load:
   - ../chrome/content/Firecrow/interpreter/model/internal/Image.js
   - ../chrome/content/Firecrow/interpreter/model/internal/Element.js
   - ../chrome/content/Firecrow/interpreter/model/internal/HTMLImageElement.js
+  - ../chrome/content/Firecrow/interpreter/model/internal/Canvas.js
   - ../chrome/content/Firecrow/interpreter/simulator/VariableObject.js
   - ../chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js
   - ../chrome/content/Firecrow/interpreter/simulator/Evaluator.js
