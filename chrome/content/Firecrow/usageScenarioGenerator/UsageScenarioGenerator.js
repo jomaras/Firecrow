@@ -69,13 +69,15 @@ Firecrow.UsageScenarioGenerator =
 
     _getArguments: function(eventRegistration, browser)
     {
-        if(eventRegistration.eventType == "onclick")
+        switch(eventRegistration.eventType)
         {
-            return this._generateClickHandlerArguments(eventRegistration, browser);
-        }
-        else if (eventRegistration.eventType == "onkeydown")
-        {
-            return this._generateKeyHandlerArguments(eventRegistration, browser, "keydown");
+            case "onclick":
+            case "onmousemove":
+                return this._generateMouseHandlerArguments(eventRegistration, browser);
+            case "onkeydown":
+                return this._generateKeyHandlerArguments(eventRegistration, browser, eventRegistration.eventType);
+            default:
+                break;
         }
 
         return [];
@@ -86,7 +88,7 @@ Firecrow.UsageScenarioGenerator =
         return this._updateDomWithConstraintInfo(eventRegistration);
     },
 
-    _generateClickHandlerArguments: function(eventRegistration, browser)
+    _generateMouseHandlerArguments: function(eventRegistration, browser)
     {
         var args = [];
         var fcModel = FBL.Firecrow.Interpreter.Model;
@@ -101,6 +103,12 @@ Firecrow.UsageScenarioGenerator =
         eventInfo.currentTarget = null;
         eventInfoFcObject.addProperty("currentTarget", new fcModel.fcValue(null));
 
+        eventInfo.pageX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("pageX"));
+        eventInfoFcObject.addProperty("pageX", eventInfo.pageX);
+
+        eventInfo.pageY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("pageY"));
+        eventInfoFcObject.addProperty("pageY", eventInfo.pageY);
+
         eventInfo.clientX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("clientX"));
         eventInfoFcObject.addProperty("clientX", eventInfo.clientX);
 
@@ -113,7 +121,7 @@ Firecrow.UsageScenarioGenerator =
         eventInfo.screenY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("screenY"));
         eventInfoFcObject.addProperty("screenY", eventInfo.screenY);
 
-        eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, "click");
+        eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, eventRegistration.eventType);
         eventInfoFcObject.addProperty("type", eventInfo.type);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
@@ -558,6 +566,8 @@ fcSymbolic.PathConstraint.prototype =
             constraint = fcSymbolic.ConstraintResolver.getInverseConstraint(constraint);
         }
 
+        fcSymbolic.ConstraintResolver.simplifyConstraint(constraint);
+
         var pathConstraintItem = new fcSymbolic.PathConstraintItem(codeConstruct, constraint);
 
 
@@ -579,6 +589,27 @@ fcSymbolic.ConstraintResolver =
     resolveInverseConstraint: function(pathConstraintItem)
     {
         return this.resolveConstraint(this.getInverseConstraint(pathConstraintItem));
+    },
+
+    simplifyConstraint: function(constraint)
+    {
+        if(fcSymbolic.Expression.isBinary(constraint.left) && fcSymbolic.Expression.isLiteral(constraint.right))
+        {
+            var leftBinary = constraint.left;
+
+            if(fcSymbolic.Expression.isIdentifier(leftBinary.left) && fcSymbolic.Expression.isLiteral(leftBinary.right))
+            {
+                if(leftBinary.operator == "-" || leftBinary.operator == "+")
+                {
+                    constraint.left = leftBinary.left;
+                    constraint.right.value = constraint.right.value + (leftBinary.operator == "+" ? -1 * leftBinary.right.value : leftBinary.right.value);
+                }
+            }
+            else if(fcSymbolic.Expression.isIdentifier(leftBinary.left) && fcSymbolic.Expression.isIdentifier(leftBinary.right))
+            {
+                constraint.left = leftBinary.left;
+            }
+        }
     },
 
     _resolveBinaryConstraint: function(constraint)

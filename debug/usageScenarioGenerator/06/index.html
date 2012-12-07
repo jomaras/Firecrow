@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 02</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<script>
+    window.onload = function()
+    {
+        var mainContainer = document.getElementById("mainContainer");
+        var lastX = 0;
+
+        mainContainer.onmousemove = function(eventArgs)
+        {
+            var currentX = eventArgs.pageX;
+
+            if(currentX - lastX > 0)
+            {
+                mainContainer.textContent = "Going right";
+            }
+            else
+            {
+                mainContainer.textContent = "Going left";
+            }
+
+            lastX = currentX;
+
+        }
+    };
+</script>
+</body>
+</html>
