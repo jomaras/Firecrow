@@ -163,6 +163,7 @@ fcModel.GlobalObject.prototype.unregisterInterval = function(intervalId, codeCon
     }
 };
 
+fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID = 0;
 fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtmlElement, eventType, handler, evaluationPosition)
 {
     this.htmlElementEventHandlingRegistrations.push
@@ -171,7 +172,8 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
         eventType: eventType,
         handler: handler,
         registrationPoint: evaluationPosition,
-        thisObject: fcHtmlElement
+        thisObject: fcHtmlElement,
+        id: fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID++
     });
 };
 //</editor-fold>

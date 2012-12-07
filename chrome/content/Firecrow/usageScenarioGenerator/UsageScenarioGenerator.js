@@ -1,5 +1,6 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
+var fcValueTypeHelper = Firecrow.ValueTypeHelper;
 Firecrow.UsageScenarioGenerator =
 {
     generateUsageScenarios: function(pageModel)
@@ -35,7 +36,7 @@ Firecrow.UsageScenarioGenerator =
     {
         var eventHandlingRegistrations = browser.globalObject.htmlElementEventHandlingRegistrations;
 
-        for(var i = 0; i < eventHandlingRegistrations.length; i++)
+        for(var i = 0, j = 0; i < eventHandlingRegistrations.length; i++, j++)
         {
             var eventRegistration = eventHandlingRegistrations[i];
 
@@ -43,6 +44,14 @@ Firecrow.UsageScenarioGenerator =
 
             this._logEvent(eventRegistration, args, usageScenarios, browser);
             browser.executeEvent(eventRegistration, args);
+            eventRegistration.pathConstraint = browser.pathConstraints[browser.pathConstraints.length - 1];
+
+            if(j > 4) { break; }
+
+            if(eventRegistration.pathConstraint != null && eventRegistration.pathConstraint.constraints.length != 0)
+            {
+                i--; // Execute event again, but with new constrains in mind
+            }
         }
     },
 
@@ -67,30 +76,32 @@ Firecrow.UsageScenarioGenerator =
         var fcSymbolic = FBL.Firecrow.Symbolic;
 
         var eventInfo = {};
-        var eventInfoJsObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
+        var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
         eventInfo.target = null;
-        eventInfoJsObject.addProperty("target", new fcModel.fcValue(null));
+        eventInfoFcObject.addProperty("target", new fcModel.fcValue(null));
 
         eventInfo.currentTarget = null;
-        eventInfoJsObject.addProperty("currentTarget", new fcModel.fcValue(null));
+        eventInfoFcObject.addProperty("currentTarget", new fcModel.fcValue(null));
 
         eventInfo.clientX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("clientX"));
-        eventInfoJsObject.addProperty("clientX", eventInfo.clientX);
+        eventInfoFcObject.addProperty("clientX", eventInfo.clientX);
 
         eventInfo.clientY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("clientY"));
-        eventInfoJsObject.addProperty("clientY", eventInfo.clientY);
+        eventInfoFcObject.addProperty("clientY", eventInfo.clientY);
 
         eventInfo.screenX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("screenX"));
-        eventInfoJsObject.addProperty("screenX", eventInfo.screenX);
+        eventInfoFcObject.addProperty("screenX", eventInfo.screenX);
 
         eventInfo.screenY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("screenY"));
-        eventInfoJsObject.addProperty("screenY", eventInfo.screenY);
+        eventInfoFcObject.addProperty("screenY", eventInfo.screenY);
 
         eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, "click");
-        eventInfoJsObject.addProperty("type", eventInfo.type);
+        eventInfoFcObject.addProperty("type", eventInfo.type);
 
-        args.push(new fcModel.fcValue(eventInfo, eventInfoJsObject, null));
+        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration.pathConstraint, browser);
+
+        args.push(new fcModel.fcValue(eventInfo, eventInfoFcObject, null));
 
         return args;
     },
@@ -102,74 +113,93 @@ Firecrow.UsageScenarioGenerator =
         var fcSymbolic = FBL.Firecrow.Symbolic;
 
         var eventInfo = {};
-        var eventInfoJsObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
+        var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
         eventInfo.altKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("altKey"));
-        eventInfoJsObject.addProperty("altKey", eventInfo.altKey);
+        eventInfoFcObject.addProperty("altKey", eventInfo.altKey);
 
         eventInfo.bubbles = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("bubbles"));
-        eventInfoJsObject.addProperty("bubbles", eventInfo.bubbles);
+        eventInfoFcObject.addProperty("bubbles", eventInfo.bubbles);
 
         eventInfo.cancelBubble = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("cancelBubble"));
-        eventInfoJsObject.addProperty("cancelBubble", eventInfo.cancelBubble);
+        eventInfoFcObject.addProperty("cancelBubble", eventInfo.cancelBubble);
 
         eventInfo.cancelable = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("cancelable"));
-        eventInfoJsObject.addProperty("cancelable", eventInfo.cancelable);
+        eventInfoFcObject.addProperty("cancelable", eventInfo.cancelable);
 
         eventInfo.charCode = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("charCode"));
-        eventInfoJsObject.addProperty("charCode", eventInfo.charCode);
+        eventInfoFcObject.addProperty("charCode", eventInfo.charCode);
 
         eventInfo.ctrlKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("ctrlKey"));
-        eventInfoJsObject.addProperty("ctrlKey", eventInfo.ctrlKey);
+        eventInfoFcObject.addProperty("ctrlKey", eventInfo.ctrlKey);
 
         eventInfo.currentTarget = null;
-        eventInfoJsObject.addProperty("currentTarget", new fcModel.fcValue(null));
+        eventInfoFcObject.addProperty("currentTarget", new fcModel.fcValue(null));
 
         eventInfo.detail = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("detail"));
-        eventInfoJsObject.addProperty("detail", eventInfo.detail);
+        eventInfoFcObject.addProperty("detail", eventInfo.detail);
 
         eventInfo.eventPhase = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("eventPhase"));
-        eventInfoJsObject.addProperty("eventPhase", eventInfo.eventPhase);
+        eventInfoFcObject.addProperty("eventPhase", eventInfo.eventPhase);
 
         eventInfo.explicitOriginalTarget = null;
-        eventInfoJsObject.addProperty("explicitOriginalTarget", new fcModel.fcValue(null));
+        eventInfoFcObject.addProperty("explicitOriginalTarget", new fcModel.fcValue(null));
 
         eventInfo.isChar = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("isChar"));
-        eventInfoJsObject.addProperty("isChar", eventInfo.isChar);
+        eventInfoFcObject.addProperty("isChar", eventInfo.isChar);
 
         eventInfo.isTrused = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("isTrusted"));
-        eventInfoJsObject.addProperty("isTrusted", eventInfo.isTrusted);
+        eventInfoFcObject.addProperty("isTrusted", eventInfo.isTrusted);
 
         eventInfo.keyCode = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("keyCode"));
-        eventInfoJsObject.addProperty("keyCode", eventInfo.keyCode);
+        eventInfoFcObject.addProperty("keyCode", eventInfo.keyCode);
 
         eventInfo.layerX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("layerX"));
-        eventInfoJsObject.addProperty("layerX", eventInfo.layerX);
+        eventInfoFcObject.addProperty("layerX", eventInfo.layerX);
 
         eventInfo.layerY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("layerY"));
-        eventInfoJsObject.addProperty("layerY", eventInfo.layerY);
+        eventInfoFcObject.addProperty("layerY", eventInfo.layerY);
 
         eventInfo.rangeOffset = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("rangeOffset"));
-        eventInfoJsObject.addProperty("rangeOffset", eventInfo.rangeOffset);
+        eventInfoFcObject.addProperty("rangeOffset", eventInfo.rangeOffset);
 
         eventInfo.rangeParent = null;
-        eventInfoJsObject.addProperty("rangeParent", new fcModel.fcValue(null));
+        eventInfoFcObject.addProperty("rangeParent", new fcModel.fcValue(null));
 
         eventInfo.shiftKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("shiftKey"));
-        eventInfoJsObject.addProperty("shiftKey", eventInfo.shiftKey);
+        eventInfoFcObject.addProperty("shiftKey", eventInfo.shiftKey);
 
         eventInfo.target = null;
-        eventInfoJsObject.addProperty("target", new fcModel.fcValue(null));
+        eventInfoFcObject.addProperty("target", new fcModel.fcValue(null));
 
         eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, handlerType, new fcSymbolic.Identifier("type"));
-        eventInfoJsObject.addProperty("type", eventInfo.type);
+        eventInfoFcObject.addProperty("type", eventInfo.type);
 
         eventInfo.which = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("which"));
-        eventInfoJsObject.addProperty("which", eventInfo.which);
+        eventInfoFcObject.addProperty("which", eventInfo.which);
 
-        args.push(new fcModel.fcValue(eventInfo, eventInfoJsObject, null));
+        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration.pathConstraint, browser);
+
+        args.push(new fcModel.fcValue(eventInfo, eventInfoFcObject, null));
 
         return args;
+    },
+
+    _updateWithConstraintInfo: function(eventInfo, eventInfoFcObject, pathConstraint, browser)
+    {
+        if(pathConstraint == null || eventInfo == null || eventInfoFcObject == null) { return; }
+
+        var lastPathConstraint = pathConstraint.constraints[pathConstraint.constraints.length - 1];
+
+        if(lastPathConstraint == null) { return; }
+
+        var constraintResult = fcSymbolic.ConstraintResolver.resolveInverseConstraint(lastPathConstraint.constraint);
+
+        if(constraintResult != null)
+        {
+            eventInfo[constraintResult.identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, constraintResult.value, new fcSymbolic.Identifier(constraintResult.identifier));
+            eventInfoFcObject.addProperty(constraintResult.identifier, eventInfo[constraintResult.identifier]);
+        }
     },
 
     _performLoadingEvents: function(browser, usageScenarios)
@@ -332,6 +362,14 @@ Firecrow.Symbolic =
 var fcSymbolic = Firecrow.Symbolic;
 
 fcSymbolic.Expression = function(){};
+fcSymbolic.Expression.isIdentifier = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.IDENTIFIER); }
+fcSymbolic.Expression.isLiteral = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.LITERAL); }
+fcSymbolic.Expression.isSequence = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.SEQUENCE); }
+fcSymbolic.Expression.isUnary = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.UNARY); }
+fcSymbolic.Expression.isBinary = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.BINARY); }
+fcSymbolic.Expression.isUpdate = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.UPDATE); }
+fcSymbolic.Expression.isLogical = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.LOGICAL); }
+fcSymbolic.Expression.isOfType = function(expression, type) { return expression != null && expression.type == type; }
 
 fcSymbolic.Identifier = function(name)
 {
@@ -417,6 +455,75 @@ fcSymbolic.PathConstraint.prototype =
     addConstraint: function(pathConstraintItem)
     {
         this.constraints.push(pathConstraintItem);
+    }
+};
+
+fcSymbolic.ConstraintResolver =
+{
+    resolveConstraint: function(pathConstraintItem)
+    {
+        if(fcSymbolic.Expression.isBinary(pathConstraintItem)) { return this._resolveBinaryConstraint(pathConstraintItem); }
+        else
+        {
+            alert("Unhandled constraint");
+        }
+    },
+
+    resolveInverseConstraint: function(pathConstraintItem)
+    {
+        return this.resolveConstraint(this.getInverseConstraint(pathConstraintItem));
+    },
+
+    _resolveBinaryConstraint: function(constraint)
+    {
+        if(!fcSymbolic.Expression.isIdentifier(constraint.left) || !fcSymbolic.Expression.isLiteral(constraint.right)
+        || !fcValueTypeHelper.isNumber(constraint.right.value))
+        {
+            alert("Don't know how to handle the expression in binary expression");
+            return;
+        }
+
+        if(constraint.operator == "<")
+        {
+            return { identifier: constraint.left.name, value: fcValueTypeHelper.getRandomInt(-100000, constraint.right.value - 1)}; //TODO - Lowest number HACK
+        }
+        else if(constraint.operator == ">")
+        {
+            return { identifier: constraint.left.name, value: fcValueTypeHelper.getRandomInt(constraint.right.value + 1, 100000)}; //TODO - Highest number HACK
+        }
+        else if(constraint.operator == "<=")
+        {
+            return { identifier: constraint.left.name, value: fcValueTypeHelper.getRandomInt(-100000, constraint.right.value)}; //TODO - Lowest number HACK
+        }
+        else if(constraint.operator == ">=")
+        {
+            return { identifier: constraint.left.name, value: fcValueTypeHelper.getRandomInt(constraint.right.value, 100000)}; //TODO - Highest number HACK
+        }
+
+        alert("Don't know how to handle binary constraint");
+    },
+
+    getInverseConstraint: function(pathConstraintItem)
+    {
+        if(pathConstraintItem == null) { return null; }
+
+        if(fcSymbolic.Expression.isBinary(pathConstraintItem)) { return this._getBinaryInverseConstraint(pathConstraintItem); }
+        else
+        {
+            alert("Unhandled constraint");
+        }
+    },
+
+    _getBinaryInverseConstraint: function(pathConstraintItem)
+    {
+             if(pathConstraintItem.operator == "<") { return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, ">="); }
+        else if(pathConstraintItem.operator == ">") { return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "<="); }
+        else if(pathConstraintItem.operator == "<=") { return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, ">"); }
+        else if(pathConstraintItem.operator == ">=") { return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "<"); }
+        else
+        {
+            alert("Unhandled Binary inverse constraint");
+        }
     }
 };
 /*****************************************************/

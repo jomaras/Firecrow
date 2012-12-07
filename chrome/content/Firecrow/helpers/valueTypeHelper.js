@@ -374,6 +374,11 @@ Firecrow.ValueTypeHelper =
         return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
     },
 
+    getRandomInt: function(min, max)
+    {
+        return Math.random() * (max - min) + min;
+    },
+
     //TODO - quickfixing the Firefox create RegEx from literal bug
     adjustForRegExBug: function(regExElement, regExString)
     {
