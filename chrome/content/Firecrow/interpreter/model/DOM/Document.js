@@ -28,6 +28,11 @@ fcModel.Document.prototype = new fcModel.Object();
 fcModel.Document.prototype.addJsProperty = function(propertyName, value, codeConstruct)
 {
     this.addProperty(propertyName, value, codeConstruct);
+
+    if(fcModel.DOM_PROPERTIES.isElementEventProperty(propertyName))
+    {
+        this.globalObject.registerHtmlElementEventHandler(this.globalObject.document, propertyName, value, this.globalObject.getPreciseEvaluationPositionId());
+    }
 };
 
 fcModel.Document.prototype.getJsPropertyValue = function(propertyName, codeConstruct)

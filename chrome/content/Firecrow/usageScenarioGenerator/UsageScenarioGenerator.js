@@ -52,6 +52,10 @@ Firecrow.UsageScenarioGenerator =
         {
             return this._generateClickHandlerArguments(eventRegistration, browser);
         }
+        else if (eventRegistration.eventType == "onkeydown")
+        {
+            return this._generateKeyHandlerArguments(eventRegistration, browser, "keydown");
+        }
 
         return [];
     },
@@ -85,6 +89,83 @@ Firecrow.UsageScenarioGenerator =
 
         eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, "click");
         eventInfoJsObject.addProperty("type", eventInfo.type);
+
+        args.push(new fcModel.fcValue(eventInfo, eventInfoJsObject, null));
+
+        return args;
+    },
+
+    _generateKeyHandlerArguments: function(eventRegistration, browser, handlerType)
+    {
+        var args = [];
+        var fcModel = FBL.Firecrow.Interpreter.Model;
+        var fcSymbolic = FBL.Firecrow.Symbolic;
+
+        var eventInfo = {};
+        var eventInfoJsObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
+
+        eventInfo.altKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("altKey"));
+        eventInfoJsObject.addProperty("altKey", eventInfo.altKey);
+
+        eventInfo.bubbles = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("bubbles"));
+        eventInfoJsObject.addProperty("bubbles", eventInfo.bubbles);
+
+        eventInfo.cancelBubble = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("cancelBubble"));
+        eventInfoJsObject.addProperty("cancelBubble", eventInfo.cancelBubble);
+
+        eventInfo.cancelable = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("cancelable"));
+        eventInfoJsObject.addProperty("cancelable", eventInfo.cancelable);
+
+        eventInfo.charCode = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("charCode"));
+        eventInfoJsObject.addProperty("charCode", eventInfo.charCode);
+
+        eventInfo.ctrlKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("ctrlKey"));
+        eventInfoJsObject.addProperty("ctrlKey", eventInfo.ctrlKey);
+
+        eventInfo.currentTarget = null;
+        eventInfoJsObject.addProperty("currentTarget", new fcModel.fcValue(null));
+
+        eventInfo.detail = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("detail"));
+        eventInfoJsObject.addProperty("detail", eventInfo.detail);
+
+        eventInfo.eventPhase = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("eventPhase"));
+        eventInfoJsObject.addProperty("eventPhase", eventInfo.eventPhase);
+
+        eventInfo.explicitOriginalTarget = null;
+        eventInfoJsObject.addProperty("explicitOriginalTarget", new fcModel.fcValue(null));
+
+        eventInfo.isChar = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("isChar"));
+        eventInfoJsObject.addProperty("isChar", eventInfo.isChar);
+
+        eventInfo.isTrused = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("isTrusted"));
+        eventInfoJsObject.addProperty("isTrusted", eventInfo.isTrusted);
+
+        eventInfo.keyCode = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("keyCode"));
+        eventInfoJsObject.addProperty("keyCode", eventInfo.keyCode);
+
+        eventInfo.layerX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("layerX"));
+        eventInfoJsObject.addProperty("layerX", eventInfo.layerX);
+
+        eventInfo.layerY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("layerY"));
+        eventInfoJsObject.addProperty("layerY", eventInfo.layerY);
+
+        eventInfo.rangeOffset = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("rangeOffset"));
+        eventInfoJsObject.addProperty("rangeOffset", eventInfo.rangeOffset);
+
+        eventInfo.rangeParent = null;
+        eventInfoJsObject.addProperty("rangeParent", new fcModel.fcValue(null));
+
+        eventInfo.shiftKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("shiftKey"));
+        eventInfoJsObject.addProperty("shiftKey", eventInfo.shiftKey);
+
+        eventInfo.target = null;
+        eventInfoJsObject.addProperty("target", new fcModel.fcValue(null));
+
+        eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, handlerType, new fcSymbolic.Identifier("type"));
+        eventInfoJsObject.addProperty("type", eventInfo.type);
+
+        eventInfo.which = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("which"));
+        eventInfoJsObject.addProperty("which", eventInfo.which);
 
         args.push(new fcModel.fcValue(eventInfo, eventInfoJsObject, null));
 
