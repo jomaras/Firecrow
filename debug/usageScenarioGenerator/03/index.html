@@ -8,6 +8,7 @@
             width: 400px;
             height: 400px;
             background-color: blue;
+            color: white;
         }
     </style>
     <meta charset="UTF-8"/>
@@ -20,17 +21,17 @@
     {
         var mainContainer = document.getElementById("mainContainer");
 
-        mainContainer.onclick = function(eventArgs)
+        document.onkeydown = function(eventArgs)
         {
-            if(eventArgs.clientX < 200)
+            if(eventArgs.keyCode == 65)
             {
-                mainContainer.textContent += "Click first half";
+                mainContainer.textContent += "a";
             }
             else
             {
-                mainContainer.textContent += "Click second half";
+                mainContainer.textContent += "b";
             }
-        }
+        };
     };
 </script>
 </body>

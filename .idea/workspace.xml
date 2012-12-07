@@ -7,14 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\debug\usageScenarioGenerator\01\index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/00/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/00/index.html" />
       <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\debug\usageScenarioGenerator\04\index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/03/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/01/index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/01/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/02/index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/02/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -64,60 +59,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="modelMapping.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/01/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="5" selection-start="39666" selection-end="39666" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UsageScenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="485" column="29" selection-start="18224" selection-end="18224" vertical-scroll-proportion="0.8469388">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="browser.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="14" selection-start="1198" selection-end="1198" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="29" selection-start="1058" selection-end="1058" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="123" column="28" selection-start="7295" selection-end="7295" vertical-scroll-proportion="-14.333333">
-              <folding>
-                <element signature="n#style#0;n#iframe#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1354884280395" expanded="false" signature="7849:7859" placeholder="..." />
-                <marker date="1354884280395" expanded="false" signature="8083:8093" placeholder="..." />
-                <marker date="1354884280395" expanded="false" signature="8131:8143" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/03/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="8" selection-start="465" selection-end="739" vertical-scroll-proportion="0.0">
+            <state line="24" column="43" selection-start="605" selection-end="605" vertical-scroll-proportion="0.59900165">
               <folding />
             </state>
           </provider>
@@ -149,7 +94,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/jsRecorder/JsRecorder.js" />
         <option value="$PROJECT_DIR$/debug/debugDom.html" />
         <option value="$PROJECT_DIR$/tests/slicing.jstd" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
@@ -165,6 +109,7 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js" />
+        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/01/index.html" />
       </list>
     </option>
   </component>
@@ -274,6 +219,50 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="usageScenarioGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="usageScenarioGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="03" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="usageScenarioGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="02" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2054,7 +2043,11 @@
       <created>1354884008842</created>
       <updated>1354884008842</updated>
     </task>
-    <option name="localTasksCounter" value="392" />
+    <task id="LOCAL-00392" summary="Addition to the constraint solver (&quot;==&quot;); fixed a bug with registering constraint path if the condition evaluates to falsy">
+      <created>1354885736702</created>
+      <updated>1354885736702</updated>
+    </task>
+    <option name="localTasksCounter" value="393" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2165,6 +2158,7 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <confirmMoveToFailedCommit value="1" />
     <MESSAGE value="Minor bug fix in Dependency Postprocessor; added a new case study item" />
     <MESSAGE value="First executing test with the new inheritance model" />
     <MESSAGE value="Minor changes" />
@@ -2202,13 +2196,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/domModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="380" column="142" selection-start="559024" selection-end="559024" vertical-scroll-proportion="0.46368715">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/competitorTests/3dmodel/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="34" selection-start="1357" selection-end="1366" vertical-scroll-proportion="0.33333334">
@@ -2258,13 +2245,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="5" selection-start="39666" selection-end="39666" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.875">
@@ -2283,13 +2263,6 @@
             <marker date="1354884280395" expanded="false" signature="8083:8093" placeholder="..." />
             <marker date="1354884280395" expanded="false" signature="8131:8143" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/03/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="8" selection-start="465" selection-end="739" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2316,7 +2289,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="485" column="29" selection-start="18224" selection-end="18224" vertical-scroll-proportion="0.8469388">
+        <state line="488" column="34" selection-start="18287" selection-end="18287" vertical-scroll-proportion="0.92346936">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="5" selection-start="39666" selection-end="39666" vertical-scroll-proportion="0.43367347">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/03/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="8" selection-start="465" selection-end="739" vertical-scroll-proportion="0.5740433">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/01/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="43" selection-start="605" selection-end="605" vertical-scroll-proportion="0.59900165">
           <folding />
         </state>
       </provider>

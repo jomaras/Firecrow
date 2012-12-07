@@ -14,17 +14,24 @@
 </head>
 
 <body>
-    <div id="mainContainer"></div>
-    <script>
-        window.onload = function()
-        {
-            var mainContainer = document.getElementById("mainContainer");
+<div id="mainContainer"></div>
+<script>
+    window.onload = function()
+    {
+        var mainContainer = document.getElementById("mainContainer");
 
-            mainContainer.onclick = function()
+        mainContainer.onclick = function(eventArgs)
+        {
+            if(eventArgs.clientX < 200)
             {
-                mainContainer.textContent += "Click";
+                mainContainer.textContent += "Click first half";
             }
-        };
-    </script>
+            else
+            {
+                mainContainer.textContent += "Click second half";
+            }
+        }
+    };
+</script>
 </body>
 </html>
