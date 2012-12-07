@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Usage Scenario Generator Test 01</title>
+    <title>Usage Scenario Generator Test 02</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: blue;
+        }
+    </style>
     <meta charset="UTF-8"/>
 </head>
 
@@ -12,31 +20,11 @@
         {
             var mainContainer = document.getElementById("mainContainer");
 
-            if(mainContainer)
+            mainContainer.onclick = function()
             {
-                mainContainer.textContent += "Window onload; ";
+                mainContainer.textContent += "Click";
             }
         };
-
-        window.addEventListener('DOMContentLoaded', function()
-        {
-            var mainContainer = document.getElementById("mainContainer");
-
-            if(mainContainer)
-            {
-                mainContainer.textContent += "Window DOM Content Loaded; ";
-            }
-        }, false);
-
-        document.addEventListener('DOMContentLoaded', function()
-        {
-            var mainContainer = document.getElementById("mainContainer");
-
-            if(mainContainer)
-            {
-                mainContainer.textContent += "Document DOM Content Loaded; ";
-            }
-        }, false);
     </script>
 </body>
 </html>

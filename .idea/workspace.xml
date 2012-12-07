@@ -7,10 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/00/index.html" />
-      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\debug\usageScenarioGenerator\04\index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/03/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/02/index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/02/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,7 +59,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/01/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="43" selection-start="605" selection-end="605" vertical-scroll-proportion="0.59900165">
+            <state line="29" column="7" selection-start="620" selection-end="620" vertical-scroll-proportion="0.4790749">
               <folding />
             </state>
           </provider>
@@ -2047,7 +2044,11 @@
       <created>1354885736702</created>
       <updated>1354885736702</updated>
     </task>
-    <option name="localTasksCounter" value="393" />
+    <task id="LOCAL-00393" summary="Addition to the constraint solver (&quot;==&quot;); fixed a bug with registering constraint path if the condition evaluates to falsy">
+      <created>1354885837026</created>
+      <updated>1354885837026</updated>
+    </task>
+    <option name="localTasksCounter" value="394" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2093,7 +2094,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39770868" sideWeight="0.4973939" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14683816" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49590835" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16891065" sideWeight="0.6709539" order="0" side_tool="false" content_ui="combo" />
@@ -2310,7 +2311,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/01/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="43" selection-start="605" selection-end="605" vertical-scroll-proportion="0.59900165">
+        <state line="29" column="7" selection-start="620" selection-end="620" vertical-scroll-proportion="0.4790749">
           <folding />
         </state>
       </provider>
