@@ -464,9 +464,17 @@ fcSymbolic.PathConstraint = function()
 
 fcSymbolic.PathConstraint.prototype =
 {
-    addConstraint: function(codeConstruct, constraint)
+    addConstraint: function(codeConstruct, constraint, inverse)
     {
-        this.constraints.push(new fcSymbolic.PathConstraintItem(codeConstruct, constraint));
+        if(inverse)
+        {
+            constraint = fcSymbolic.ConstraintResolver.getInverseConstraint(constraint);
+        }
+
+        var pathConstraintItem = new fcSymbolic.PathConstraintItem(codeConstruct, constraint);
+
+
+        this.constraints.push(pathConstraintItem);
     }
 };
 
@@ -495,24 +503,19 @@ fcSymbolic.ConstraintResolver =
             return;
         }
 
-        if(constraint.operator == "<")
+        switch(constraint.operator)
         {
-            return { identifier: constraint.left.name, value: fcValueTypeHelper.getRandomInt(-100000, constraint.right.value - 1)}; //TODO - Lowest number HACK
+            case "<"   : return { identifier: constraint.left.name, value: constraint.right.value - 1};
+            case ">"   : return { identifier: constraint.left.name, value: constraint.right.value + 1};
+            case "<="  : return { identifier: constraint.left.name, value: constraint.right.value};
+            case ">="  : return { identifier: constraint.left.name, value: constraint.right.value};
+            case "=="  : return { identifier: constraint.left.name, value: constraint.right.value};
+            case "!="  : return { identifier: constraint.left.name, value: constraint.right.value + 1};
+            case "===" : return { identifier: constraint.left.name, value: constraint.right.value};
+            case "!==" : return { identifier: constraint.left.name, value: constraint.right.value + 1};
+            default:
+                alert("Unhandled Binary constraint");
         }
-        else if(constraint.operator == ">")
-        {
-            return { identifier: constraint.left.name, value: fcValueTypeHelper.getRandomInt(constraint.right.value + 1, 100000)}; //TODO - Highest number HACK
-        }
-        else if(constraint.operator == "<=")
-        {
-            return { identifier: constraint.left.name, value: fcValueTypeHelper.getRandomInt(-100000, constraint.right.value)}; //TODO - Lowest number HACK
-        }
-        else if(constraint.operator == ">=")
-        {
-            return { identifier: constraint.left.name, value: fcValueTypeHelper.getRandomInt(constraint.right.value, 100000)}; //TODO - Highest number HACK
-        }
-
-        alert("Don't know how to handle binary constraint");
     },
 
     getInverseConstraint: function(pathConstraintItem)
@@ -528,13 +531,18 @@ fcSymbolic.ConstraintResolver =
 
     _getBinaryInverseConstraint: function(pathConstraintItem)
     {
-             if(pathConstraintItem.operator == "<") { return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, ">="); }
-        else if(pathConstraintItem.operator == ">") { return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "<="); }
-        else if(pathConstraintItem.operator == "<=") { return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, ">"); }
-        else if(pathConstraintItem.operator == ">=") { return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "<"); }
-        else
+        switch(pathConstraintItem.operator)
         {
-            alert("Unhandled Binary inverse constraint");
+            case "<"   : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, ">=");
+            case ">"   : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "<=");
+            case "<="  : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, ">");
+            case ">="  : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "<");
+            case "=="  : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "!=");
+            case "!="  : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "==");
+            case "===" : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "!==");
+            case "!==" : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "===");
+            default:
+                alert("Unhandled Binary inverse constraint");
         }
     }
 };

@@ -21,9 +21,9 @@ fcBrowser.ExecutionInfo = function()
 
 fcBrowser.ExecutionInfo.prototype =
 {
-    addConstraint: function(codeConstruct, constraint)
+    addConstraint: function(codeConstruct, constraint, inverse)
     {
-        this.pathConstraint.addConstraint(codeConstruct, constraint);
+        this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
     },
 
     addFunctionAsVisited: function(functionConstruct)
@@ -307,9 +307,9 @@ Browser.prototype =
         return this.executionInfo[this.executionInfo.length - 1];
     },
 
-    addPathConstraint: function(codeConstruct, constraint)
+    addPathConstraint: function(codeConstruct, constraint, inverse)
     {
-        this.getLastExecutionInfo().addConstraint(codeConstruct, constraint);
+        this.getLastExecutionInfo().addConstraint(codeConstruct, constraint, inverse);
     },
 
     addVisitedFunctionToPathConstraint: function(codeConstruct)

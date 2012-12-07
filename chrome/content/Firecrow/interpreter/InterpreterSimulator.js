@@ -362,7 +362,7 @@ fcSimulator.prototype =
 
         var generatedCommands = CommandGenerator.generateIfStatementBodyCommands(ifCommand, ifConditionValue.jsValue, ifCommand.parentFunctionCommand);
 
-        this.globalObject.browser.addPathConstraint(ifCommand.codeConstruct, ifConditionValue.symbolicValue);
+        this.globalObject.browser.addPathConstraint(ifCommand.codeConstruct, ifConditionValue.symbolicValue, !ifConditionValue.jsValue);
 
         ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, generatedCommands, this.currentCommandIndex + 1);
     },
