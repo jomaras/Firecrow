@@ -173,7 +173,8 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
         handler: handler,
         registrationPoint: evaluationPosition,
         thisObject: fcHtmlElement,
-        id: fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID++
+        id: fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID++,
+        executionInfos: []
     });
 };
 //</editor-fold>

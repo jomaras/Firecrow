@@ -13,6 +13,51 @@ var fcSimulator = Firecrow.Interpreter.Simulator;
 var fcModel = Firecrow.Interpreter.Model;
 var fcBrowser = Firecrow.DoppelBrowser;
 
+fcBrowser.ExecutionInfo = function()
+{
+    this.pathConstraint = new FBL.Firecrow.Symbolic.PathConstraint();
+    this.visitedFunctionsMap = {};
+};
+
+fcBrowser.ExecutionInfo.prototype =
+{
+    addConstraint: function(codeConstruct, constraint)
+    {
+        this.pathConstraint.addConstraint(codeConstruct, constraint);
+    },
+
+    addFunctionAsVisited: function(functionConstruct)
+    {
+        if(!FBL.Firecrow.ASTHelper.isFunction(functionConstruct)) { return; }
+
+        this.visitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
+    },
+
+    getVisitedFunctions: function()
+    {
+        var visitedFunctions = [];
+
+        for(var prop in this.visitedFunctionsMap)
+        {
+            visitedFunctions.push(this.visitedFunctionsMap[prop]);
+        }
+
+        return visitedFunctions;
+    },
+
+    getVisitedFunctionsExpressionCoverage: function()
+    {
+        var visitedFunctions = this.getVisitedFunctions();
+
+        return FBL.Firecrow.ASTHelper.calculateExpressionCoverage(visitedFunctions);
+    },
+
+    calculateCoverage: function()
+    {
+        this.coverage = this.getVisitedFunctionsExpressionCoverage();
+    }
+};
+
 fcBrowser.Browser = function(pageModel)
 {
     try
@@ -40,7 +85,7 @@ fcBrowser.Browser = function(pageModel)
         this.errorMessages = [];
         this.cssRules = [];
 
-        this.pathConstraints = [];
+        this.executionInfo = [];
 
         this._matchesSelector = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector;
 
@@ -234,7 +279,8 @@ Browser.prototype =
             //console.log("Interpreting @ " + codeModel.loc.start.line);
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
 
-            this.pathConstraints.push(new FBL.Firecrow.Symbolic.PathConstraint());
+            this.executionInfo.push(new fcBrowser.ExecutionInfo());
+            this.addVisitedFunctionToPathConstraint(codeModel.parent);
 
             interpreter.registerMessageGeneratedCallback(function(message)
             {
@@ -247,13 +293,28 @@ Browser.prototype =
             }, this);
 
             interpreter.runSync();
+
+            this.getLastExecutionInfo().calculateCoverage();
         }
-        catch(e) { this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e); }
+        catch(e)
+        {
+            this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e);
+        }
+    },
+
+    getLastExecutionInfo: function()
+    {
+        return this.executionInfo[this.executionInfo.length - 1];
     },
 
     addPathConstraint: function(codeConstruct, constraint)
     {
-        this.pathConstraints[this.pathConstraints.length-1].addConstraint(new FBL.Firecrow.Symbolic.PathConstraintItem(codeConstruct, constraint));
+        this.getLastExecutionInfo().addConstraint(codeConstruct, constraint);
+    },
+
+    addVisitedFunctionToPathConstraint: function(codeConstruct)
+    {
+        this.getLastExecutionInfo().addFunctionAsVisited(codeConstruct);
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)

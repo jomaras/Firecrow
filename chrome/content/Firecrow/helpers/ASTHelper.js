@@ -36,6 +36,32 @@ Firecrow.ASTHelper =
         catch(e) { alert("Error while getting AST from source code@" + sourceCodePath + "; error: " + sourceCodePath); }
     },
 
+    calculateExpressionCoverage: function(models)
+    {
+        var ASTHelper = this;
+        for(var i = 0; i < models.length; i++)
+        {
+            var model = models[i];
+
+            var totalNumberOfExpressions = 0;
+            var executedNumberOfExpressions = 0;
+
+            this.traverseAst(model, function(astElement)
+            {
+                if(ASTHelper.isExpression(astElement))
+                {
+                    totalNumberOfExpressions++;
+                    if(astElement.hasBeenExecuted)
+                    {
+                        executedNumberOfExpressions++;
+                    }
+                }
+            });
+        }
+
+        return executedNumberOfExpressions/totalNumberOfExpressions;
+    },
+
     setParentsChildRelationships: function(rootElement)
     {
         try

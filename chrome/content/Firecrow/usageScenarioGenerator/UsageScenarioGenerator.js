@@ -36,23 +36,33 @@ Firecrow.UsageScenarioGenerator =
     {
         var eventHandlingRegistrations = browser.globalObject.htmlElementEventHandlingRegistrations;
 
-        for(var i = 0, j = 0; i < eventHandlingRegistrations.length; i++, j++)
+        for(var i = 0; i < eventHandlingRegistrations.length;)
         {
             var eventRegistration = eventHandlingRegistrations[i];
-
             var args = this._getArguments(eventRegistration, browser);
+
+            if(!this._shouldPerformAnotherExecution(eventRegistration)) { i++; continue; }
 
             this._logEvent(eventRegistration, args, usageScenarios, browser);
             browser.executeEvent(eventRegistration, args);
-            eventRegistration.pathConstraint = browser.pathConstraints[browser.pathConstraints.length - 1];
 
-            if(j > 4) { break; }
-
-            if(eventRegistration.pathConstraint != null && eventRegistration.pathConstraint.constraints.length != 0)
-            {
-                i--; // Execute event again, but with new constrains in mind
-            }
+            eventRegistration.executionInfos.push(browser.getLastExecutionInfo());
         }
+    },
+
+    _shouldPerformAnotherExecution: function(eventRegistration)
+    {
+        if(eventRegistration.executionInfos.length == 0) { return true; }
+
+        var lastExecutionInfo = eventRegistration.executionInfos[eventRegistration.executionInfos.length - 1];
+
+        if(lastExecutionInfo.coverage == 1) { return false; }
+
+        var nextToLastExecutionInfo = eventRegistration.executionInfos[eventRegistration.executionInfos.length - 2];
+
+        if(nextToLastExecutionInfo == null) { return true; }
+
+        return nextToLastExecutionInfo.coverage < lastExecutionInfo.coverage;
     },
 
     _getArguments: function(eventRegistration, browser)
@@ -99,7 +109,7 @@ Firecrow.UsageScenarioGenerator =
         eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, "click");
         eventInfoFcObject.addProperty("type", eventInfo.type);
 
-        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration.pathConstraint, browser);
+        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
 
         args.push(new fcModel.fcValue(eventInfo, eventInfoFcObject, null));
 
@@ -178,18 +188,19 @@ Firecrow.UsageScenarioGenerator =
         eventInfo.which = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("which"));
         eventInfoFcObject.addProperty("which", eventInfo.which);
 
-        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration.pathConstraint, browser);
+        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
 
         args.push(new fcModel.fcValue(eventInfo, eventInfoFcObject, null));
 
         return args;
     },
 
-    _updateWithConstraintInfo: function(eventInfo, eventInfoFcObject, pathConstraint, browser)
+    _updateWithConstraintInfo: function(eventInfo, eventInfoFcObject, eventRegistration, browser)
     {
-        if(pathConstraint == null || eventInfo == null || eventInfoFcObject == null) { return; }
+        if(eventRegistration == null || eventRegistration.executionInfos == null || eventRegistration.executionInfos.length == 0 || eventInfo == null || eventInfoFcObject == null) { return; }
 
-        var lastPathConstraint = pathConstraint.constraints[pathConstraint.constraints.length - 1];
+        var lastExecutionInfo =  eventRegistration.executionInfos[eventRegistration.executionInfos.length - 1];
+        var lastPathConstraint = lastExecutionInfo.pathConstraint.constraints[lastExecutionInfo.pathConstraint.constraints.length - 1];
 
         if(lastPathConstraint == null) { return; }
 
@@ -448,13 +459,14 @@ fcSymbolic.PathConstraintItem = function(codeConstruct, constraint)
 fcSymbolic.PathConstraint = function()
 {
     this.constraints = [];
+    this.visitedFunctions = {};
 };
 
 fcSymbolic.PathConstraint.prototype =
 {
-    addConstraint: function(pathConstraintItem)
+    addConstraint: function(codeConstruct, constraint)
     {
-        this.constraints.push(pathConstraintItem);
+        this.constraints.push(new fcSymbolic.PathConstraintItem(codeConstruct, constraint));
     }
 };
 
