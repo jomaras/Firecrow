@@ -19,23 +19,21 @@
     window.onload = function()
     {
         var mainContainer = document.getElementById("mainContainer");
-        var lastX = null;
 
-        mainContainer.onmousemove = function(eventArgs)
+        mainContainer.onclick = function(eventArgs)
         {
-            var currentX = eventArgs.pageX;
-
-            if(currentX - lastX > 0)
+            if(eventArgs.pageX < 120)
             {
-                mainContainer.textContent = "Going right";
+                mainContainer.textContent += "1/3; ";
+            }
+            else if(eventArgs.pageX < 240)
+            {
+                mainContainer.textContent += "2/3; ";
             }
             else
             {
-                mainContainer.textContent = "Going left";
+                mainContainer.textContent += "3/3; ";
             }
-
-            lastX = currentX;
-
         }
     };
 </script>

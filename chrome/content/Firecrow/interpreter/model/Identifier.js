@@ -39,9 +39,9 @@ fcModel.Identifier = function(name, value, codeConstruct, globalObject)
     catch(e) { fcModel.Identifier.notifyError("Error when constructing: " + e ); }
 };
 
-Firecrow.Interpreter.Model.Identifier.notifyError = function(message) { alert("Identifier - " + message); };
+fcModel.Identifier.notifyError = function(message) { alert("Identifier - " + message); };
 
-Firecrow.Interpreter.Model.Identifier.prototype =
+fcModel.Identifier.prototype =
 {
     setValue: function(newValue, modificationConstruct)
     {
@@ -59,6 +59,6 @@ Firecrow.Interpreter.Model.Identifier.prototype =
     }
 };
 
-Firecrow.Interpreter.Model.Identifier.LAST_ID = 0;
+fcModel.Identifier.LAST_ID = 0;
 /****************************************************************************/
 }});

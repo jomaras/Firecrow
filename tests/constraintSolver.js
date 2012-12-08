@@ -9,7 +9,7 @@ function evalBinary(left, right, operator)
     return fcSymbolic.SymbolicExecutor.evalBinaryExpression(wrap(left), wrap(right), operator);
 }
 
-TestCase("ConstraintResolver - Simple Binary Relational Expressions Ids and Literals",
+TestCase("Simple Binary Relational Expressions Ids and Literals",
 {
     //X == 1 -> X: 1
     "test_L_Id_R_Lit_Op_Eq": function()
@@ -135,5 +135,16 @@ TestCase("ConstraintResolver - Simple Binary Relational Expressions Ids and Lite
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.value);
+    }
+});
+
+TestCase("Second Stage Complexity of Binary Expressions - one math expression (e.g a [+-*%/] b) other literal",
+{
+    //X - 3 == 4 -> X == 7 -> X:7
+    "test_L_ME_R_LIT_OP_EQ": function()
+    {
+        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(evalBinary(createIdentifier("X"), createLiteral(3), "-"), createLiteral(4), "=="));
+        assertEquals("Identifier: ", result.identifier, "X");
+        assertEquals("Value: ", 7, result.value);
     }
 });

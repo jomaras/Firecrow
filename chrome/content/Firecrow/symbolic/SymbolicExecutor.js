@@ -1,6 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
 var fcSymbolic = Firecrow.Symbolic;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcSymbolic.SymbolicExecutor =
 {
@@ -9,7 +10,24 @@ fcSymbolic.SymbolicExecutor =
         if(left == null || right == null) { return null;}
         if(left.isNotSymbolic() && right.isNotSymbolic()) { return null; }
 
-        return this._simplifyExpression(new fcSymbolic.Binary(left.symbolicValue, right.symbolicValue, operator));
+        var leftSymbolic = left.symbolicValue;
+        var rightSymbolic = right.symbolicValue;
+
+        if(leftSymbolic == null && ValueTypeHelper.isPrimitive(left.jsValue))
+        {
+            leftSymbolic = new fcSymbolic.Literal(left.jsValue);
+        }
+
+        if(rightSymbolic == null && ValueTypeHelper.isPrimitive(right.jsValue))
+        {
+            rightSymbolic = new fcSymbolic.Literal(right.jsValue);
+        }
+
+        var binaryExpression = new fcSymbolic.Binary(leftSymbolic, rightSymbolic, operator);
+
+        console.log(binaryExpression);
+
+        return this._simplifyExpression(binaryExpression);
     },
 
     _simplifyExpression: function(symbolicExpression)

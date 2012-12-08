@@ -23,7 +23,7 @@ fcModel.fcValue = function(jsValue, iValue, codeConstruct, symbolicValue)
 };
 
 fcModel.fcValue.LAST_ID = 0;
-fcModel.fcValue.notifyError = function(message) { alert("FcValue - " + message);}
+fcModel.fcValue.notifyError = function(message) { alert("FcValue - " + message); }
 
 fcModel.fcValue.prototype =
 {

@@ -28,7 +28,7 @@ fcBrowser.ExecutionInfo.prototype =
 
     addFunctionAsVisited: function(functionConstruct)
     {
-        if(!FBL.Firecrow.ASTHelper.isFunction(functionConstruct)) { return; }
+        if(!ASTHelper.isFunction(functionConstruct)) { return; }
 
         this.visitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
     },
@@ -49,7 +49,7 @@ fcBrowser.ExecutionInfo.prototype =
     {
         var visitedFunctions = this.getVisitedFunctions();
 
-        return FBL.Firecrow.ASTHelper.calculateExpressionCoverage(visitedFunctions);
+        return ASTHelper.calculateExpressionCoverage(visitedFunctions);
     },
 
     calculateCoverage: function()

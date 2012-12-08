@@ -114,20 +114,19 @@ Firecrow.UsageScenarioGenerator =
     {
         var args = [];
         var fcModel = FBL.Firecrow.Interpreter.Model;
-        var fcSymbolic = FBL.Firecrow.Symbolic;
 
         var eventInfo = {};
         var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageX", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageY", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientX", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientY", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenX", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageX", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageY", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientX", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientY", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenX", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventRegistration.executionInfos.length);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
 
@@ -140,32 +139,31 @@ Firecrow.UsageScenarioGenerator =
     {
         var args = [];
         var fcModel = FBL.Firecrow.Interpreter.Model;
-        var fcSymbolic = FBL.Firecrow.Symbolic;
 
         var eventInfo = {};
         var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "altKey", false, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "bubbles", true, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelBubble", false, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelable", true, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "charCode", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "ctrlKey", false, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "detail", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "eventPhase", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "explicitOriginalTarget", null, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isChar", false, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isTrusted", true, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "keyCode", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerX", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeOffset", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeParent", 0, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "shiftKey", false, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "altKey", false, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "bubbles", true, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelBubble", false, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelable", true, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "charCode", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "ctrlKey", false, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "detail", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "eventPhase", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "explicitOriginalTarget", null, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isChar", false, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isTrusted", true, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "keyCode", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerX", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeOffset", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeParent", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "shiftKey", false, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 0, browser, eventRegistration.executionInfos.length);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
 
@@ -174,9 +172,19 @@ Firecrow.UsageScenarioGenerator =
         return args;
     },
 
-    _addEventObjectProperty: function(eventInfo, eventInfoFcObject, propertyName, propertyValue, browser)
+    _addSuffix: function(name, suffixID)
     {
-        eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, new fcSymbolic.Identifier(propertyName));
+        return name + "_FC_" + suffixID;
+    },
+
+    _removeSuffix: function(name)
+    {
+        return name.substr(0, name.indexOf("_FC_"));
+    },
+
+    _addEventObjectProperty: function(eventInfo, eventInfoFcObject, propertyName, propertyValue, browser, executionOrderId)
+    {
+        eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, new fcSymbolic.Identifier(this._addSuffix(propertyName, executionOrderId)));
         eventInfoFcObject.addProperty(propertyName, eventInfo[propertyName]);
     },
 
@@ -184,19 +192,20 @@ Firecrow.UsageScenarioGenerator =
     {
         if(eventRegistration == null || eventRegistration.executionInfos == null || eventRegistration.executionInfos.length == 0 || eventInfo == null || eventInfoFcObject == null) { return; }
 
-        var constraintResult = this._getResolvedLastConstraint(eventRegistration);
+        var constraintResult = this._getResolvedConstraint(eventRegistration);
 
         if(constraintResult != null)
         {
-            eventInfo[constraintResult.identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, constraintResult.value, new fcSymbolic.Identifier(constraintResult.identifier));
-            eventInfoFcObject.addProperty(constraintResult.identifier, eventInfo[constraintResult.identifier]);
+            var identifier = this._removeSuffix(constraintResult.identifier);
+            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, constraintResult.value, new fcSymbolic.Identifier(this._addSuffix(identifier, eventRegistration.executionInfos.length)));
+            eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
         }
     },
 
     _updateDomWithConstraintInfo: function(eventRegistration)
     {
         var lastExecutionInfo = this._getLastExecutionInfo(eventRegistration);
-        var constraintResult = this._getResolvedLastConstraint(eventRegistration);
+        var constraintResult = this._getResolvedConstraint(eventRegistration);
 
         if(constraintResult == null || constraintResult.htmlElement == null) { return []; }
 
@@ -238,13 +247,19 @@ Firecrow.UsageScenarioGenerator =
         return values;
     },
 
-    _getResolvedLastConstraint: function(eventRegistration)
+    _getResolvedConstraint: function(eventRegistration)
     {
-        var lastPathConstraint = this._getLastConstraint(this._getLastExecutionInfo(eventRegistration));
+        var executionInfo = this._getLastExecutionInfo(eventRegistration);
+        if(executionInfo == null) { return null; }
 
-        if(lastPathConstraint == null) { return null; }
+        var constraints = executionInfo.pathConstraint.constraints.map(function(pathConstraintItem){ return pathConstraintItem.constraint; });
+        var lastConstraint = constraints[constraints.length - 1];
 
-        return fcSymbolic.ConstraintResolver.resolveInverse(lastPathConstraint.constraint);
+        if(lastConstraint == null) { return null; }
+
+        constraints[constraints.length - 1] = fcSymbolic.ConstraintResolver.getInverseConstraint(lastConstraint);
+
+        return fcSymbolic.ConstraintResolver.resolveConstraints(constraints);
     },
 
     _getLastConstraint: function(executionInfo)

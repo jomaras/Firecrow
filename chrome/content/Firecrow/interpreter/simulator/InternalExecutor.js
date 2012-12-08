@@ -27,8 +27,6 @@ fcSimulator.InternalExecutor.prototype =
     {
         var result = null;
 
-        symbolicValue = symbolicValue || new FBL.Firecrow.Symbolic.Literal(value);
-
         if(typeof value == "string") { result = new fcModel.String(value, this.globalObject, codeConstruct, true); }
         else if(typeof value == "number") { result = new fcModel.Number(value, this.globalObject, codeConstruct, true); }
         else if(typeof value == "boolean") { result = new fcModel.Boolean(value, this.globalObject, codeConstruct, true); }
