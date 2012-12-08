@@ -29,6 +29,7 @@ FBL.ns(function () { with (FBL)
             Internals: {},
             Simulator: {}
         },
+        Symbolic: {},
         IsDebugMode: true,
 
         getWindow: function() { return frames[0] || window;},

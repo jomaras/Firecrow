@@ -1,8 +1,3 @@
-/**
- * User: Jomaras
- * Date: 06.06.12.
- * Time: 23:37
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 Firecrow.Interpreter.DependencyGenerator =

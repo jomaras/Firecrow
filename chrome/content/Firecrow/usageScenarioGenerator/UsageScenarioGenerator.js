@@ -1,15 +1,37 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
-var fcValueTypeHelper = Firecrow.ValueTypeHelper;
+var fc = FBL.Firecrow;
+var fcSymbolic = fc.Symbolic;
+var fcValueTypeHelper = fc.ValueTypeHelper;
+var ASTHelper = fc.ASTHelper;
+
+Firecrow.UsageScenario = function(events)
+{
+    this.events = events || [];
+};
+
+Firecrow.UsageScenario.prototype =
+{
+    addEvent: function(usageScenarioEvent)
+    {
+        this.events.push(usageScenarioEvent);
+    }
+};
+
+Firecrow.UsageScenarioEvent = function(type, baseObject, argumentsInfo)
+{
+    this.type = type;
+    this.baseObject = baseObject;
+    this.argumentsInfo = argumentsInfo;
+};
+
 Firecrow.UsageScenarioGenerator =
 {
     generateUsageScenarios: function(pageModel)
     {
-        var Firecrow = FBL.Firecrow;
+        ASTHelper.setParentsChildRelationships(pageModel);
 
-        Firecrow.ASTHelper.setParentsChildRelationships(pageModel);
-
-        var usageScenarios = [new Firecrow.UsageScenario([])];
+        var usageScenarios = [new fc.UsageScenario([])];
 
         var browser = this._executeApplication(pageModel, usageScenarios);
 
@@ -22,8 +44,8 @@ Firecrow.UsageScenarioGenerator =
 
     _executeApplication: function(pageModel, usageScenarios)
     {
-        var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
-        FBL.Firecrow.UsageScenarioGenerator.browser = browser;
+        var browser = new fc.DoppelBrowser.Browser(pageModel);
+        fc.UsageScenarioGenerator.browser = browser;
 
         browser.evaluatePage();
 
@@ -75,7 +97,7 @@ Firecrow.UsageScenarioGenerator =
             case "onmousemove":
                 return this._generateMouseHandlerArguments(eventRegistration, browser);
             case "onkeydown":
-                return this._generateKeyHandlerArguments(eventRegistration, browser, eventRegistration.eventType);
+                return this._generateKeyHandlerArguments(eventRegistration, browser);
             default:
                 break;
         }
@@ -97,32 +119,15 @@ Firecrow.UsageScenarioGenerator =
         var eventInfo = {};
         var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
-        eventInfo.target = null;
-        eventInfoFcObject.addProperty("target", new fcModel.fcValue(null));
-
-        eventInfo.currentTarget = null;
-        eventInfoFcObject.addProperty("currentTarget", new fcModel.fcValue(null));
-
-        eventInfo.pageX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("pageX"));
-        eventInfoFcObject.addProperty("pageX", eventInfo.pageX);
-
-        eventInfo.pageY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("pageY"));
-        eventInfoFcObject.addProperty("pageY", eventInfo.pageY);
-
-        eventInfo.clientX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("clientX"));
-        eventInfoFcObject.addProperty("clientX", eventInfo.clientX);
-
-        eventInfo.clientY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("clientY"));
-        eventInfoFcObject.addProperty("clientY", eventInfo.clientY);
-
-        eventInfo.screenX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("screenX"));
-        eventInfoFcObject.addProperty("screenX", eventInfo.screenX);
-
-        eventInfo.screenY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("screenY"));
-        eventInfoFcObject.addProperty("screenY", eventInfo.screenY);
-
-        eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, eventRegistration.eventType);
-        eventInfoFcObject.addProperty("type", eventInfo.type);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageX", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageY", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientX", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientY", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenX", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
 
@@ -131,7 +136,7 @@ Firecrow.UsageScenarioGenerator =
         return args;
     },
 
-    _generateKeyHandlerArguments: function(eventRegistration, browser, handlerType)
+    _generateKeyHandlerArguments: function(eventRegistration, browser)
     {
         var args = [];
         var fcModel = FBL.Firecrow.Interpreter.Model;
@@ -140,74 +145,39 @@ Firecrow.UsageScenarioGenerator =
         var eventInfo = {};
         var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
-        eventInfo.altKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("altKey"));
-        eventInfoFcObject.addProperty("altKey", eventInfo.altKey);
-
-        eventInfo.bubbles = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("bubbles"));
-        eventInfoFcObject.addProperty("bubbles", eventInfo.bubbles);
-
-        eventInfo.cancelBubble = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("cancelBubble"));
-        eventInfoFcObject.addProperty("cancelBubble", eventInfo.cancelBubble);
-
-        eventInfo.cancelable = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("cancelable"));
-        eventInfoFcObject.addProperty("cancelable", eventInfo.cancelable);
-
-        eventInfo.charCode = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("charCode"));
-        eventInfoFcObject.addProperty("charCode", eventInfo.charCode);
-
-        eventInfo.ctrlKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("ctrlKey"));
-        eventInfoFcObject.addProperty("ctrlKey", eventInfo.ctrlKey);
-
-        eventInfo.currentTarget = null;
-        eventInfoFcObject.addProperty("currentTarget", new fcModel.fcValue(null));
-
-        eventInfo.detail = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("detail"));
-        eventInfoFcObject.addProperty("detail", eventInfo.detail);
-
-        eventInfo.eventPhase = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("eventPhase"));
-        eventInfoFcObject.addProperty("eventPhase", eventInfo.eventPhase);
-
-        eventInfo.explicitOriginalTarget = null;
-        eventInfoFcObject.addProperty("explicitOriginalTarget", new fcModel.fcValue(null));
-
-        eventInfo.isChar = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("isChar"));
-        eventInfoFcObject.addProperty("isChar", eventInfo.isChar);
-
-        eventInfo.isTrused = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, true, new fcSymbolic.Identifier("isTrusted"));
-        eventInfoFcObject.addProperty("isTrusted", eventInfo.isTrusted);
-
-        eventInfo.keyCode = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("keyCode"));
-        eventInfoFcObject.addProperty("keyCode", eventInfo.keyCode);
-
-        eventInfo.layerX = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("layerX"));
-        eventInfoFcObject.addProperty("layerX", eventInfo.layerX);
-
-        eventInfo.layerY = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("layerY"));
-        eventInfoFcObject.addProperty("layerY", eventInfo.layerY);
-
-        eventInfo.rangeOffset = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("rangeOffset"));
-        eventInfoFcObject.addProperty("rangeOffset", eventInfo.rangeOffset);
-
-        eventInfo.rangeParent = null;
-        eventInfoFcObject.addProperty("rangeParent", new fcModel.fcValue(null));
-
-        eventInfo.shiftKey = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, false, new fcSymbolic.Identifier("shiftKey"));
-        eventInfoFcObject.addProperty("shiftKey", eventInfo.shiftKey);
-
-        eventInfo.target = null;
-        eventInfoFcObject.addProperty("target", new fcModel.fcValue(null));
-
-        eventInfo.type = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, handlerType, new fcSymbolic.Identifier("type"));
-        eventInfoFcObject.addProperty("type", eventInfo.type);
-
-        eventInfo.which = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, 0, new fcSymbolic.Identifier("which"));
-        eventInfoFcObject.addProperty("which", eventInfo.which);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "altKey", false, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "bubbles", true, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelBubble", false, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelable", true, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "charCode", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "ctrlKey", false, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "detail", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "eventPhase", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "explicitOriginalTarget", null, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isChar", false, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isTrusted", true, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "keyCode", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerX", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeOffset", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeParent", 0, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "shiftKey", false, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 0, browser);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
 
         args.push(new fcModel.fcValue(eventInfo, eventInfoFcObject, null));
 
         return args;
+    },
+
+    _addEventObjectProperty: function(eventInfo, eventInfoFcObject, propertyName, propertyValue, browser)
+    {
+        eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, new fcSymbolic.Identifier(propertyName));
+        eventInfoFcObject.addProperty(propertyName, eventInfo[propertyName]);
     },
 
     _updateWithConstraintInfo: function(eventInfo, eventInfoFcObject, eventRegistration, browser)
@@ -274,7 +244,7 @@ Firecrow.UsageScenarioGenerator =
 
         if(lastPathConstraint == null) { return null; }
 
-        return fcSymbolic.ConstraintResolver.resolveInverseConstraint(lastPathConstraint.constraint);
+        return fcSymbolic.ConstraintResolver.resolveInverse(lastPathConstraint.constraint);
     },
 
     _getLastConstraint: function(executionInfo)
@@ -399,274 +369,6 @@ Firecrow.UsageScenarioGenerator =
     },
 
     notifyError: function(message) { alert("UsageScenarioGenerator Error: " + message); }
-};
-
-Firecrow.UsageScenario = function(events)
-{
-    this.events = events || [];
-};
-
-Firecrow.UsageScenario.prototype =
-{
-    addEvent: function(usageScenarioEvent)
-    {
-        this.events.push(usageScenarioEvent);
-    }
-};
-
-Firecrow.UsageScenarioEvent = function(type, baseObject, argumentsInfo)
-{
-    this.type = type;
-    this.baseObject = baseObject;
-    this.argumentsInfo = argumentsInfo;
-};
-
-//https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API
-/*
-- Expression
-    - ThisExpression ?
-    - Identifier
-    - Literal
-    - SequenceExpression
-        - expressions: [Expression]
-    - UnaryExpression
-        - operator: UnaryOperator (- + ! ~ typeof void delete)
-        - prefix: boolean
-        - argument: Expression
-    - BinaryExpression
-        - operator: BinaryOperator (!= === !== < <= > >= << >> >>> + - * / % | ^ in instanceof ..)
-        - left: Expression
-        - right: Expression
-    - UpdateExpression
-        - operator: UpdateOperator ++ --
-        - prefix: boolean
-        - argument: Expression
-    - LogicalExpression
-        - operator (&& ||)
-        - left: Expression
-        - right: Expression
-    - ConditionalExpression ?
-        - test: Expression
-        - alternate: Expression
-        - consequent: Expression
-    - MemberExpression ?
-        - object: Expression
-        - property: Identifier | Expression
-* */
-Firecrow.Symbolic =
-{
-    CONST:
-    {
-        IDENTIFIER: "Identifier",
-        LITERAL: "Literal",
-        SEQUENCE: "Sequence",
-        UNARY: "Unary",
-        BINARY: "Binary",
-        UPDATE: "Update",
-        LOGICAL: "Logical"
-    }
-};
-var fcSymbolic = Firecrow.Symbolic;
-
-fcSymbolic.Expression = function(){};
-fcSymbolic.Expression.isIdentifier = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.IDENTIFIER); }
-fcSymbolic.Expression.isLiteral = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.LITERAL); }
-fcSymbolic.Expression.isSequence = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.SEQUENCE); }
-fcSymbolic.Expression.isUnary = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.UNARY); }
-fcSymbolic.Expression.isBinary = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.BINARY); }
-fcSymbolic.Expression.isUpdate = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.UPDATE); }
-fcSymbolic.Expression.isLogical = function(expression) { return this.isOfType(expression, fcSymbolic.CONST.LOGICAL); }
-fcSymbolic.Expression.isOfType = function(expression, type) { return expression != null && expression.type == type; }
-
-fcSymbolic.Identifier = function(name)
-{
-    this.name = name;
-
-    this.type = fcSymbolic.CONST.IDENTIFIER;
-};
-
-fcSymbolic.Literal = function(value)
-{
-    this.value = value;
-
-    this.type = fcSymbolic.CONST.LITERAL;
-};
-
-fcSymbolic.Sequence = function(expressions)
-{
-    this.expressions = expressions;
-
-    this.type = fcSymbolic.CONST.SEQUENCE;
-};
-
-fcSymbolic.Unary = function(argument, operator, prefix)
-{
-    this.argument = argument;
-    this.operator = operator;
-    this.prefix = prefix;
-
-    this.type = fcSymbolic.CONST.UNARY;
-};
-
-fcSymbolic.Binary = function(left, right, operator)
-{
-    this.left = left;
-    this.right = right;
-    this.operator = operator;
-
-    this.type = fcSymbolic.CONST.BINARY;
-};
-
-fcSymbolic.Update = function(argument, operator, prefix)
-{
-    this.argument = argument;
-    this.operator = operator;
-    this.prefix = prefix;
-
-    this.type = fcSymbolic.CONST.UPDATE;
-};
-
-fcSymbolic.Logical = function(left, right, operator)
-{
-    this.left = left;
-    this.right = right;
-    this.operator = operator;
-
-    this.type = fcSymbolic.CONST.LOGICAL;
-};
-
-fcSymbolic.SymbolicExecutor =
-{
-    evalBinaryExpression: function(left, right, operator)
-    {
-        if(left == null || right == null) { return null;}
-        if(left.isNotSymbolic() && right.isNotSymbolic()) { return null; }
-
-        return new fcSymbolic.Binary(left.symbolicValue, right.symbolicValue, operator);
-    }
-};
-
-fcSymbolic.PathConstraintItem = function(codeConstruct, constraint)
-{
-    this.codeConstruct = codeConstruct;
-    this.constraint = constraint;
-};
-
-fcSymbolic.PathConstraint = function()
-{
-    this.constraints = [];
-};
-
-fcSymbolic.PathConstraint.prototype =
-{
-    addConstraint: function(codeConstruct, constraint, inverse)
-    {
-        if(inverse)
-        {
-            constraint = fcSymbolic.ConstraintResolver.getInverseConstraint(constraint);
-        }
-
-        fcSymbolic.ConstraintResolver.simplifyConstraint(constraint);
-
-        var pathConstraintItem = new fcSymbolic.PathConstraintItem(codeConstruct, constraint);
-
-
-        this.constraints.push(pathConstraintItem);
-    }
-};
-
-fcSymbolic.ConstraintResolver =
-{
-    resolveConstraint: function(pathConstraintItem)
-    {
-        if(fcSymbolic.Expression.isBinary(pathConstraintItem)) { return this._resolveBinaryConstraint(pathConstraintItem); }
-        else
-        {
-            alert("Unhandled constraint");
-        }
-    },
-
-    resolveInverseConstraint: function(pathConstraintItem)
-    {
-        return this.resolveConstraint(this.getInverseConstraint(pathConstraintItem));
-    },
-
-    simplifyConstraint: function(constraint)
-    {
-        if(fcSymbolic.Expression.isBinary(constraint.left) && fcSymbolic.Expression.isLiteral(constraint.right))
-        {
-            var leftBinary = constraint.left;
-
-            if(fcSymbolic.Expression.isIdentifier(leftBinary.left) && fcSymbolic.Expression.isLiteral(leftBinary.right))
-            {
-                if(leftBinary.operator == "-" || leftBinary.operator == "+")
-                {
-                    constraint.left = leftBinary.left;
-                    constraint.right.value = constraint.right.value + (leftBinary.operator == "+" ? -1 * leftBinary.right.value : leftBinary.right.value);
-                }
-            }
-            else if(fcSymbolic.Expression.isIdentifier(leftBinary.left) && fcSymbolic.Expression.isIdentifier(leftBinary.right))
-            {
-                constraint.left = leftBinary.left;
-            }
-        }
-    },
-
-    _resolveBinaryConstraint: function(constraint)
-    {
-        if(!fcSymbolic.Expression.isIdentifier(constraint.left) || !fcSymbolic.Expression.isLiteral(constraint.right))
-        {
-            alert("Don't know how to handle the expression in binary expression");
-            return;
-        }
-
-        var result = { htmlElement: constraint.left.htmlElement || constraint.right.htmlElement };
-
-        switch(constraint.operator)
-        {
-            case "<"   : result.identifier = constraint.left.name, result.value = constraint.right.value - 1; break;
-            case ">"   : result.identifier = constraint.left.name, result.value = constraint.right.value + 1; break;
-            case "<="  : result.identifier = constraint.left.name, result.value = constraint.right.value; break;
-            case ">="  : result.identifier = constraint.left.name, result.value = constraint.right.value; break;
-            case "=="  : result.identifier = constraint.left.name, result.value = constraint.right.value; break;
-            case "!="  : result.identifier = constraint.left.name, result.value = constraint.right.value + 1; break;
-            case "===" : result.identifier = constraint.left.name, result.value = constraint.right.value; break;
-            case "!==" : result.identifier = constraint.left.name, result.value = constraint.right.value + 1; break;
-            default:
-                alert("Unhandled Binary constraint");
-                return null;
-        }
-
-        return result;
-    },
-
-    getInverseConstraint: function(pathConstraintItem)
-    {
-        if(pathConstraintItem == null) { return null; }
-
-        if(fcSymbolic.Expression.isBinary(pathConstraintItem)) { return this._getBinaryInverseConstraint(pathConstraintItem); }
-        else
-        {
-            alert("Unhandled constraint");
-        }
-    },
-
-    _getBinaryInverseConstraint: function(pathConstraintItem)
-    {
-        switch(pathConstraintItem.operator)
-        {
-            case "<"   : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, ">=");
-            case ">"   : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "<=");
-            case "<="  : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, ">");
-            case ">="  : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "<");
-            case "=="  : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "!=");
-            case "!="  : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "==");
-            case "===" : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "!==");
-            case "!==" : return new fcSymbolic.Binary(pathConstraintItem.left, pathConstraintItem.right, "===");
-            default:
-                alert("Unhandled Binary inverse constraint");
-        }
-    }
 };
 /*****************************************************/
 }});
