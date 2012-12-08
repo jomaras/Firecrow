@@ -14,6 +14,8 @@ fcSymbolic.SymbolicExecutor =
 
     _simplifyExpression: function(symbolicExpression)
     {
+        this._simplifyOrder(symbolicExpression);
+
         if(symbolicExpression.left.isBinary() && symbolicExpression.right.isLiteral())
         {
             var leftBinary = symbolicExpression.left;
@@ -33,6 +35,22 @@ fcSymbolic.SymbolicExecutor =
         }
 
         return symbolicExpression;
+    },
+
+    _simplifyOrder: function(symbolicExpression)
+    {
+        if(symbolicExpression.isBinary()) { this._simplifyOrderInBinary(symbolicExpression);}
+    },
+
+    _simplifyOrderInBinary: function(binary)
+    {
+        if(binary.left.isLiteral() && binary.right.isIdentifier())
+        {
+            var temp = binary.right;
+            binary.right = binary.left;
+            binary.left = temp;
+            binary.operator = fcSymbolic.CONST.BINARY_OP.getSwapPositionOperator(binary.operator);
+        }
     }
 };
 /*****************************************************/

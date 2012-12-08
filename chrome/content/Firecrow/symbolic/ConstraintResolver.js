@@ -31,14 +31,14 @@ fcSymbolic.ConstraintResolver =
 
         switch(symbolicExpression.operator)
         {
-            case "<"   : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value - 1; break;
-            case ">"   : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value + 1; break;
-            case "<="  : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value; break;
-            case ">="  : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value; break;
-            case "=="  : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value; break;
-            case "!="  : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value + 1; break;
-            case "===" : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value; break;
-            case "!==" : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value + 1; break;
+            case fcSymbolic.CONST.BINARY_OP.LT   : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value - 1; break;
+            case fcSymbolic.CONST.BINARY_OP.GT   : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value + 1; break;
+            case fcSymbolic.CONST.BINARY_OP.LET  : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value; break;
+            case fcSymbolic.CONST.BINARY_OP.GET  : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value; break;
+            case fcSymbolic.CONST.BINARY_OP.EQ   : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value; break;
+            case fcSymbolic.CONST.BINARY_OP.NEQ  : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value + 1; break;
+            case fcSymbolic.CONST.BINARY_OP.TEQ  : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value; break;
+            case fcSymbolic.CONST.BINARY_OP.TNEQ : result.identifier = symbolicExpression.left.name, result.value = symbolicExpression.right.value + 1; break;
             default:
                 alert("Unhandled Binary constraint");
                 return null;
@@ -60,19 +60,12 @@ fcSymbolic.ConstraintResolver =
 
     _getBinaryInverse: function(symbolicExpression)
     {
-        switch(symbolicExpression.operator)
-        {
-            case "<"   : return new fcSymbolic.Binary(symbolicExpression.left, symbolicExpression.right, ">=");
-            case ">"   : return new fcSymbolic.Binary(symbolicExpression.left, symbolicExpression.right, "<=");
-            case "<="  : return new fcSymbolic.Binary(symbolicExpression.left, symbolicExpression.right, ">");
-            case ">="  : return new fcSymbolic.Binary(symbolicExpression.left, symbolicExpression.right, "<");
-            case "=="  : return new fcSymbolic.Binary(symbolicExpression.left, symbolicExpression.right, "!=");
-            case "!="  : return new fcSymbolic.Binary(symbolicExpression.left, symbolicExpression.right, "==");
-            case "===" : return new fcSymbolic.Binary(symbolicExpression.left, symbolicExpression.right, "!==");
-            case "!==" : return new fcSymbolic.Binary(symbolicExpression.left, symbolicExpression.right, "===");
-            default:
-                alert("Unhandled Binary inverse symbolic expression");
-        }
+        return new fcSymbolic.Binary
+        (
+            symbolicExpression.left,
+            symbolicExpression.right,
+            fcSymbolic.CONST.BINARY_OP.getInverse(symbolicExpression.operator)
+        );
     }
 };
 /*****************************************************/

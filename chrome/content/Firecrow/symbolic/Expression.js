@@ -32,6 +32,8 @@ FBL.ns(function() { with (FBL) {
  - object: Expression
  - property: Identifier | Expression
  * */
+
+var fcSymbolic = Firecrow.Symbolic;
 Firecrow.Symbolic.CONST =
 {
     IDENTIFIER: "Identifier",
@@ -40,20 +42,75 @@ Firecrow.Symbolic.CONST =
     UNARY: "Unary",
     BINARY: "Binary",
     UPDATE: "Update",
-    LOGICAL: "Logical"
+    LOGICAL: "Logical",
+    BINARY_OP:
+    {
+        LT: "<",
+        GT: ">",
+        LET: "<=",
+        GET: ">=",
+        EQ: "==",
+        NEQ: "!=",
+        TEQ: "===",
+        TNEQ: "!==",
+        getInverse: function(operator)
+        {
+            switch(operator)
+            {
+                case fcSymbolic.CONST.BINARY_OP.LT: return fcSymbolic.CONST.BINARY_OP.GET;
+                case fcSymbolic.CONST.BINARY_OP.GT: return fcSymbolic.CONST.BINARY_OP.LET;
+                case fcSymbolic.CONST.BINARY_OP.LET: return fcSymbolic.CONST.BINARY_OP.GT;
+                case fcSymbolic.CONST.BINARY_OP.GET: return fcSymbolic.CONST.BINARY_OP.LT;
+                case fcSymbolic.CONST.BINARY_OP.EQ: return fcSymbolic.CONST.BINARY_OP.NEQ;
+                case fcSymbolic.CONST.BINARY_OP.NEQ: return fcSymbolic.CONST.BINARY_OP.EQ;
+                case fcSymbolic.CONST.BINARY_OP.TEQ: return fcSymbolic.CONST.BINARY_OP.TNEQ;
+                case fcSymbolic.CONST.BINARY_OP.TNEQ: return fcSymbolic.CONST.BINARY_OP.TEQ;
+                default: alert("Opposite Binary - should not be here"); return null;
+            }
+        },
+
+        getSwapPositionOperator: function(operator)
+        {
+            switch(operator)
+            {
+                case fcSymbolic.CONST.BINARY_OP.LT: return fcSymbolic.CONST.BINARY_OP.GT;
+                case fcSymbolic.CONST.BINARY_OP.GT: return fcSymbolic.CONST.BINARY_OP.LT;
+                case fcSymbolic.CONST.BINARY_OP.LET: return fcSymbolic.CONST.BINARY_OP.GET;
+                case fcSymbolic.CONST.BINARY_OP.GET: return fcSymbolic.CONST.BINARY_OP.LET;
+                case fcSymbolic.CONST.BINARY_OP.EQ: return fcSymbolic.CONST.BINARY_OP.EQ;
+                case fcSymbolic.CONST.BINARY_OP.NEQ: return fcSymbolic.CONST.BINARY_OP.NEQ;
+                case fcSymbolic.CONST.BINARY_OP.TEQ: return fcSymbolic.CONST.BINARY_OP.TEQ;
+                case fcSymbolic.CONST.BINARY_OP.TNEQ: return fcSymbolic.CONST.BINARY_OP.TNEQ;
+                default: alert("Swap Binary - should not be here"); return null;
+            }
+        },
+
+        isEqualityOperator: function(operator)
+        {
+            switch(operator)
+            {
+                case fcSymbolic.CONST.BINARY_OP.EQ:
+                case fcSymbolic.CONST.BINARY_OP.NEQ:
+                case fcSymbolic.CONST.BINARY_OP.TEQ:
+                case fcSymbolic.CONST.BINARY_OP.TNEQ:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
 };
-var fcSymbolic = Firecrow.Symbolic;
 
 fcSymbolic.Expression = function(){};
 fcSymbolic.Expression.prototype =
 {
     isIdentifier: function() { return this.type == fcSymbolic.CONST.IDENTIFIER; },
-    isLiteral: function() { return this.type ==fcSymbolic.CONST.LITERAL; },
-    isSequence: function() { return this.type ==fcSymbolic.CONST.SEQUENCE; },
-    isUnary: function() { return this.type ==fcSymbolic.CONST.UNARY; },
-    isBinary: function() { return this.type ==fcSymbolic.CONST.BINARY; },
-    isUpdate: function() { return this.type ==fcSymbolic.CONST.UPDATE; },
-    isLogical: function() { return this.type ==fcSymbolic.CONST.LOGICAL; }
+    isLiteral: function() { return this.type == fcSymbolic.CONST.LITERAL; },
+    isSequence: function() { return this.type == fcSymbolic.CONST.SEQUENCE; },
+    isUnary: function() { return this.type == fcSymbolic.CONST.UNARY; },
+    isBinary: function() { return this.type == fcSymbolic.CONST.BINARY; },
+    isUpdate: function() { return this.type == fcSymbolic.CONST.UPDATE; },
+    isLogical: function() { return this.type == fcSymbolic.CONST.LOGICAL; }
 }
 
 fcSymbolic.Identifier = function(name)
