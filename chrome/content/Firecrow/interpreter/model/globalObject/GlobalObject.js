@@ -99,7 +99,9 @@ fcModel.GlobalObject.prototype.registerTimeout = function(timeoutId, handler, ti
         handler: handler,
         timePeriod: timePeriod,
         callArguments: callArguments,
-        registrationPoint: registrationPoint
+        registrationPoint: registrationPoint,
+        thisObject: this.globalObject,
+        eventType: "timeout"
     });
 };
 
@@ -133,7 +135,9 @@ fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, 
         handler: handler,
         timePeriod: timePeriod,
         callArguments: callArguments,
-        registrationPoint: registrationPoint
+        registrationPoint: registrationPoint,
+        thisObject: this.globalObject,
+        eventType: "interval"
     });
 };
 

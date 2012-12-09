@@ -35,7 +35,7 @@ function init() {
 
     document.onkeydown = onKeyDown;
     document.onmousemove = onMouseMove;
-    setInterval(draw, 10);
+    setInterval(draw, 100);
 }
 
 function changeModel() {
@@ -48,29 +48,34 @@ function changeModel() {
         ctx.clearRect(0, 0, 1000, 550);
     }
 
-    if (document.getElementById("modello").value == 'dino') {
+    if (document.getElementById("modello").value == 'dino')
+    {
         world.solid[0] = new dinosaur([255, 255, 255], [0, 0, 0]);
         scale_solid([3, 3, 3], world.solid[world.solid_number - 1]);
         translate_solid([-world.solid[world.solid_number - 1].center[0], -world.solid[world.solid_number - 1].center[1], -world.solid[world.solid_number - 1].center[2]], world.solid[world.solid_number - 1]);
         translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
     }
-    if (document.getElementById("modello").value == 'heli') {
+    if (document.getElementById("modello").value == 'heli')
+    {
         world.solid[0] = new helicopter([255, 255, 255], [0, 0, 0]);
         scale_solid([12, 12, 12], world.solid[world.solid_number - 1]);
         translate_solid([-world.solid[world.solid_number - 1].center[0], -world.solid[world.solid_number - 1].center[1], -world.solid[world.solid_number - 1].center[2]], world.solid[world.solid_number - 1]);
         translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
     }
-    if (document.getElementById("modello").value == 'ship') {
+
+    if (document.getElementById("modello").value == 'ship')
+    {
         world.solid[0] = new ship([255, 255, 255], [0, 0, 0]);
         scale_solid([3, 3, 3], world.solid[world.solid_number - 1]);
         translate_solid([-world.solid[world.solid_number - 1].center[0], -world.solid[world.solid_number - 1].center[1], -world.solid[world.solid_number - 1].center[2]], world.solid[world.solid_number - 1]);
         translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
     }
 
-    id_timer = setInterval(draw, 10);
+    id_timer = setInterval(draw, 100);
 }
 
-function onKeyDown(evt) {
+function onKeyDown(evt)
+{
 
     if (evt.keyCode == 77)
         motion = (motion + 1) % 2;
@@ -106,11 +111,13 @@ function onKeyDown(evt) {
         alpha = 0.8;
 }
 
-function onMouseMove(evt) {
+function onMouseMove(evt)
+{
     var x = evt.pageX - document.getElementById("display").offsetLeft;
     var y = evt.pageY - document.getElementById("display").offsetTop;
 
-    if ((x > 0) && (x < 1000) && (y > 0) && (y < 550)) {
+    if ((x > 0) && (x < 1000) && (y > 0) && (y < 550))
+    {
         teta_y_global = 0.10 * (x - 500) / 500;
         teta_x_global = 0.10 * (y - 275) / 275;
     }

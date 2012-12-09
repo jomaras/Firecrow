@@ -89,7 +89,13 @@ Firecrow.JsRecorder = function ()
 
                             var propArray = {}, length = {};
 
-                            var args = frame.callee.getProperty("arguments").value.getWrappedValue();
+                            var args = null;
+
+                            if(frame.callee != null)
+                            {
+                                args = frame.callee.getProperty("arguments").value.getWrappedValue();
+                            }
+
                             var firstArgument = args != null ? args[0] : null;
 
                             if(firstArgument == null)

@@ -128,7 +128,9 @@ fcSymbolic.ConstraintResolver =
 
         return {
             htmlElement: symbolicExpression.left.htmlElement || symbolicExpression.right.htmlElement,
-            identifier: symbolicExpression.left.name
+            identifier: "pageX_FC_1",
+            rangeChain: numberChain,
+            value: numberChain.getFromRange()
         };
     },
 
@@ -174,9 +176,25 @@ fcSymbolic.NumberRangeChain.prototype =
     getFromRange: function()
     {
         if(this.chain.length == 0) { return Number.NaN; }
-        else if (this.chain.length == 1) { return this.chain[0].getFromRange(); }
-        else if (this.chain.length == 2 && this.operators[0] == "||") { return this.chain[0].getFromRange(); }
-        else { alert("Not implemented getting from complex range"); }
+        else if(this.chain.length == 1) { return this.chain[0].getFromRange(); }
+        else if(this.chain.length == 2)
+        {
+            if(this.operators[0] == "||") { return this.chain[0].getFromRange(); }
+            if(this.operators[0] == "&&")
+            {
+                var union = fcSymbolic.NumberRange.makeUnion(this.chain[0], this.chain[1]);
+                if(union != null)
+                {
+                    return union.getFromRange();
+                }
+
+                return null;
+            }
+        }
+        else
+        {
+            alert("Not implemented getting from complex range");
+        }
         return 0;
     },
 
@@ -200,6 +218,14 @@ fcSymbolic.NumberRange.prototype =
 
         return 0;
     }
+};
+fcSymbolic.NumberRange.makeUnion = function(rangeA, rangeB)
+{
+    if(rangeA.upperBound < rangeB.lowerBound
+    || rangeB.upperBound < rangeA.lowerBound) { return null;}
+
+    if(rangeB.lowerBound < rangeA.upperBound) { return new fcSymbolic.NumberRange(rangeB.lowerBound, rangeA.upperBound); }
+    if(rangeA.lowerBound < rangeB.upperBound) { return new fcSymbolic.NumberRange(rangeA.lowerBound, rangeB.upperBound); }
 };
 /*****************************************************/
 }});

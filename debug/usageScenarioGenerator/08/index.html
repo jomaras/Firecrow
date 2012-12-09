@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 02</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<script>
+    var mainContainer;
+    window.onload = function()
+    {
+        mainContainer = document.getElementById("mainContainer");
+        setInterval(write, 200);
+    };
+
+    function write()
+    {
+        mainContainer.textContent += "E";
+    }
+</script>
+</body>
+</html>

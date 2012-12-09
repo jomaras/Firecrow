@@ -57,6 +57,15 @@ Firecrow.UsageScenarioGenerator =
     _executeEvents: function(browser, usageScenarios)
     {
         var eventHandlingRegistrations = browser.globalObject.htmlElementEventHandlingRegistrations;
+        var intervalEvents = browser.globalObject.intervalHandlers;
+
+        for(var i = 0; i < intervalEvents.length; i++)
+        {
+            var eventRegistration = intervalEvents[i];
+            var domChanges = [];
+            this._logEvent(eventRegistration, eventRegistration.callArguments, domChanges, usageScenarios, browser);
+            browser.executeEvent(eventRegistration, eventRegistration.callArguments);
+        }
 
         for(var i = 0; i < eventHandlingRegistrations.length;)
         {

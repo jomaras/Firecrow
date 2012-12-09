@@ -35,7 +35,7 @@ function init() {
 
     document.onkeydown = onKeyDown;
     document.onmousemove = onMouseMove;
-    setInterval(draw, 10);
+    setInterval(draw, 500);
 }
 
 function changeModel() {
@@ -48,30 +48,35 @@ function changeModel() {
         ctx.clearRect(0, 0, 1000, 550);
     }
 
-    if (document.getElementById("modello").value == 'dino') {
+    if (document.getElementById("modello").value == 'dino')
+    {
         world.solid[0] = new dinosaur([255, 255, 255], [0, 0, 0]);
         scale_solid([3, 3, 3], world.solid[world.solid_number - 1]);
         translate_solid([-world.solid[world.solid_number - 1].center[0], -world.solid[world.solid_number - 1].center[1], -world.solid[world.solid_number - 1].center[2]], world.solid[world.solid_number - 1]);
         translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
     }
-    if (document.getElementById("modello").value == 'heli') {
+
+    if (document.getElementById("modello").value == 'heli')
+    {
         world.solid[0] = new helicopter([255, 255, 255], [0, 0, 0]);
         scale_solid([12, 12, 12], world.solid[world.solid_number - 1]);
         translate_solid([-world.solid[world.solid_number - 1].center[0], -world.solid[world.solid_number - 1].center[1], -world.solid[world.solid_number - 1].center[2]], world.solid[world.solid_number - 1]);
         translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
     }
-    if (document.getElementById("modello").value == 'ship') {
+
+    if (document.getElementById("modello").value == 'ship')
+    {
         world.solid[0] = new ship([255, 255, 255], [0, 0, 0]);
         scale_solid([3, 3, 3], world.solid[world.solid_number - 1]);
         translate_solid([-world.solid[world.solid_number - 1].center[0], -world.solid[world.solid_number - 1].center[1], -world.solid[world.solid_number - 1].center[2]], world.solid[world.solid_number - 1]);
         translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
     }
 
-    id_timer = setInterval(draw, 10);
+    id_timer = setInterval(draw, 500);
 }
 
-function onKeyDown(evt) {
-
+function onKeyDown(evt)
+{
     if (evt.keyCode == 77)
         motion = (motion + 1) % 2;
     if (evt.keyCode == 82)
@@ -106,26 +111,32 @@ function onKeyDown(evt) {
         alpha = 0.8;
 }
 
-function onMouseMove(evt) {
+function onMouseMove(evt)
+{
     var x = evt.pageX - document.getElementById("display").offsetLeft;
     var y = evt.pageY - document.getElementById("display").offsetTop;
 
-    if ((x > 0) && (x < 1000) && (y > 0) && (y < 550)) {
+    if ((x > 0) && (x < 1000) && (y > 0) && (y < 550))
+    {
         teta_y_global = 0.10 * (x - 500) / 500;
         teta_x_global = 0.10 * (y - 275) / 275;
     }
 
 }
 
-function draw() {
+function draw()
+{
     var canvas = document.getElementById("display");
-    if (canvas.getContext) {
+    if (canvas.getContext)
+    {
         var ctx = canvas.getContext("2d");
 
-        if (motion == 0) {
+        if (motion == 0)
+        {
             ctx.clearRect(0, 0, 1000, 550);
         }
-        else {
+        else
+        {
             ctx.globalAlpha = 0.2;
             ctx.fillStyle = 'rgb(255,255,255)';
             ctx.fillRect(0, 0, 1000, 550);
@@ -143,7 +154,8 @@ function draw() {
         var parametrig2a = get_rotation_parameter([0, 0, 0], [1, 0, 0], teta_x_global);
 
 
-        for (var i = 0; i < world.solid_number; i++) {
+        for (var i = 0; i < world.solid_number; i++)
+        {
             rotate_solid_fast(parametrig1, parametrig2, world.solid[i]);
             rotate_solid_fast(parametrig1a, parametrig2a, world.solid[i]);
         }
@@ -156,17 +168,25 @@ function draw() {
         var delta_x;
         var delta_y;
         var delta_z;
-        for (var j = 0; j < world.solid_number; j++) {
-            for (var i = 0; i < world.solid[j].points_number; i++) {
+        for (var j = 0; j < world.solid_number; j++)
+        {
+            for (var i = 0; i < world.solid[j].points_number; i++)
+            {
                 world.solid[j].distances[i] = Math.pow(world.solid[j].points[i][0], 2) + Math.pow(world.solid[j].points[i][1], 2) + Math.pow(world.solid[j].points[i][2], 2);
             }
         }
 
-        for (var j = 0; j < world.solid_number; j++) {
-            for (var i = 0; i < world.solid[j].faces_number; i++) {
+        for (var j = 0; j < world.solid_number; j++)
+        {
+            for (var i = 0; i < world.solid[j].faces_number; i++)
+            {
                 var max = world.solid[j].distances[world.solid[j].faces[i][0]];
-                for (var w = 1; w < world.solid[j].faces[i].length; w++) {
-                    if (world.solid[j].distances[world.solid[j].faces[i][w]] > max) max = world.solid[j].distances[world.solid[j].faces[i][w]];
+                for (var w = 1; w < world.solid[j].faces[i].length; w++)
+                {
+                    if (world.solid[j].distances[world.solid[j].faces[i][w]] > max)
+                    {
+                        max = world.solid[j].distances[world.solid[j].faces[i][w]];
+                    }
                 }
                 visible_polygons[contatore++] = {solid:j, vertex:world.solid[j].faces[i], fillcolor:world.solid[j].fillcolor, linecolor:world.solid[j].linecolor, distance:max};
             }
@@ -176,13 +196,16 @@ function draw() {
 
         var projected_points = new Array();
 
-        for (var j = 0; j < world.solid_number; j++) {
+        for (var j = 0; j < world.solid_number; j++)
+        {
             projected_points[j] = new Array();
-            for (var i = 0; i < world.solid[j].points.length; i++) {
+            for (var i = 0; i < world.solid[j].points.length; i++)
+            {
                 projected_points[j][i] = project(world.distance, world.solid[j].points[i]);
             }
         }
-        for (var i = 0; i < contatore; i++) {
+        for (var i = 0; i < contatore; i++)
+        {
 
             ctx.beginPath();
             var indice_solido = visible_polygons[i].solid;
@@ -199,7 +222,8 @@ function draw() {
 }
 
 
-function sortfunction(a, b) {
+function sortfunction(a, b)
+{
     return(b.distance - a.distance);
 }
 
@@ -230,7 +254,6 @@ function sortfunction(a, b) {
     </div>
     <span style="color: #fff"> Use mouse to rotate 3D view. (<A href="http://www.giuseppesicari.it/chrome-experiments/"
                                                                 style="color: #f88133">See my other experiments</A>) - Doesn't work in IE.</span>
-
 </div>
 
 
