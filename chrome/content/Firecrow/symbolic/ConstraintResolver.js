@@ -35,6 +35,8 @@ fcSymbolic.ConstraintResolver =
         {
             alert("Unhandled constraint");
         }
+
+        return null;
     },
 
     resolveInverse: function(pathConstraintItem)
@@ -47,7 +49,7 @@ fcSymbolic.ConstraintResolver =
         if(!symbolicExpression.left.isIdentifier() || !symbolicExpression.right.isLiteral())
         {
             alert("Don't know how to handle the expression in binary expression");
-            return;
+            return null;
         }
 
         var result =
@@ -124,11 +126,11 @@ fcSymbolic.ConstraintResolver =
         var numberChain = leftEvaluated.rangeChain.createCopy();
         ValueTypeHelper.pushAll(numberChain.chain, rightEvaluated.rangeChain.chain);
         numberChain.operators.push("&&");
-        ValueTypeHelper.pushAll(numberChain.operators, rightEvaluated.operators);
+        ValueTypeHelper.pushAll(numberChain.operators, rightEvaluated.rangeChain.operators);
 
         return {
             htmlElement: symbolicExpression.left.htmlElement || symbolicExpression.right.htmlElement,
-            identifier: "pageX_FC_1",
+            identifier: symbolicExpression.getIdentifierName(),
             rangeChain: numberChain,
             value: numberChain.getFromRange()
         };
@@ -143,6 +145,8 @@ fcSymbolic.ConstraintResolver =
         {
             alert("Unhandled constraint");
         }
+
+        return null;
     },
 
     _getBinaryInverse: function(symbolicExpression)
@@ -193,9 +197,24 @@ fcSymbolic.NumberRangeChain.prototype =
         }
         else
         {
-            alert("Not implemented getting from complex range");
+            var cummulativeRange = this.chain[0];
+            for(var i = 1; i < this.chain.length; i++)
+            {
+                var currentRange = this.chain[i];
+                var operator = this.operators[i-1];
+
+                if(operator == "&&")
+                {
+                    cummulativeRange = fcSymbolic.NumberRange.makeUnion(cummulativeRange, currentRange);
+                }
+            }
+
+            if(cummulativeRange != null) { return cummulativeRange.getFromRange(); }
+
+            return -1;
         }
-        return 0;
+
+        return -1;
     },
 
     createCopy: function()
@@ -217,15 +236,26 @@ fcSymbolic.NumberRange.prototype =
         if(isFinite(this.upperBound)) { return this.upperBound; }
 
         return 0;
+    },
+
+    toString: function()
+    {
+        return "[" + this.lowerBound + ", " + this.upperBound + "]";
     }
 };
 fcSymbolic.NumberRange.makeUnion = function(rangeA, rangeB)
 {
-    if(rangeA.upperBound < rangeB.lowerBound
-    || rangeB.upperBound < rangeA.lowerBound) { return null;}
+    if(rangeA == null || rangeB == null
+    || rangeA.upperBound < rangeB.lowerBound
+    || rangeB.upperBound < rangeA.lowerBound)
+    {
+        return null;
+    }
 
     if(rangeB.lowerBound < rangeA.upperBound) { return new fcSymbolic.NumberRange(rangeB.lowerBound, rangeA.upperBound); }
     if(rangeA.lowerBound < rangeB.upperBound) { return new fcSymbolic.NumberRange(rangeA.lowerBound, rangeB.upperBound); }
+
+    return null;
 };
 /*****************************************************/
 }});

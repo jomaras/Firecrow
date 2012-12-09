@@ -9,6 +9,8 @@
 <script type="text/javascript" src="transform.js"></script>
 <script type="text/javascript">
 
+window.onload = init;
+
 function scene() {
     this.solid_number = 0;
     this.solid = new Array();
@@ -26,16 +28,18 @@ var motion = 1;
 var id_timer = 0;
 
 
-function init() {
+function init()
+{
+
     world.solid[world.solid_number++] = new dinosaur([255, 255, 255], [0, 0, 0]);
     scale_solid([3, 3, 3], world.solid[world.solid_number - 1]);
     translate_solid([-world.solid[world.solid_number - 1].center[0], -world.solid[world.solid_number - 1].center[1], -world.solid[world.solid_number - 1].center[2]], world.solid[world.solid_number - 1]);
     translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
 
-
     document.onkeydown = onKeyDown;
     document.onmousemove = onMouseMove;
-    setInterval(draw, 10);
+    document.getElementById("modello").onchange = changeModel;
+    setInterval(draw, 200);
 }
 
 function changeModel() {
@@ -67,7 +71,7 @@ function changeModel() {
         translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
     }
 
-    id_timer = setInterval(draw, 10);
+    id_timer = setInterval(draw, 200);
 }
 
 function onKeyDown(evt) {
@@ -106,7 +110,8 @@ function onKeyDown(evt) {
         alpha = 0.8;
 }
 
-function onMouseMove(evt) {
+function onMouseMove(evt)
+{
     var x = evt.pageX - document.getElementById("display").offsetLeft;
     var y = evt.pageY - document.getElementById("display").offsetTop;
 
@@ -207,9 +212,9 @@ function sortfunction(a, b) {
 
 
 </head>
-<body onload="init()" style="background-color:#000; padding:5px 0px; margin:0px;">
+<body style="background-color:#000; padding:5px 0px; margin:0px;">
 <div style="font-size: 12px; font-family:Verdana;  text-align: center; position: relative; width:100%; color: #fff">
-    Model: <select onchange="changeModel()" id="modello">
+    Model: <select id="modello">
     <option value="dino">Dinosaur</option>
     <option value="ship">Ship</option>
     <option value="heli">Helicopter</option>

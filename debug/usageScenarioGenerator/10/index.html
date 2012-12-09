@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 02</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<script>
+    var mainContainer;
+    window.onload = function()
+    {
+        mainContainer = document.getElementById("mainContainer");
+    };
+
+    document.onkeydown = function(evt)
+    {
+        if (evt.keyCode == 82)
+            mainContainer.textContent += "r";
+        if (evt.keyCode == 71)
+            mainContainer.textContent += "g";
+        if (evt.keyCode == 66)
+            mainContainer.textContent += "b";
+    };
+</script>
+</body>
+</html>

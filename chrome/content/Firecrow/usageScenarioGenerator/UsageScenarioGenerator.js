@@ -81,6 +81,18 @@ Firecrow.UsageScenarioGenerator =
 
             eventRegistration.executionInfos.push(browser.getLastExecutionInfo());
         }
+
+        for(var i = 0; i < intervalEvents.length; i++)
+        {
+            var eventRegistration = intervalEvents[i];
+            var domChanges = [];
+            this._logEvent(eventRegistration, eventRegistration.callArguments, domChanges, usageScenarios, browser);
+
+            if(this._shouldPerformAnotherExecution(eventRegistration))
+            {
+                browser.executeEvent(eventRegistration, eventRegistration.callArguments);
+            }
+        }
     },
 
     _shouldPerformAnotherExecution: function(eventRegistration)
@@ -262,11 +274,13 @@ Firecrow.UsageScenarioGenerator =
         if(executionInfo == null) { return null; }
 
         var constraints = executionInfo.pathConstraint.constraints.map(function(pathConstraintItem){ return pathConstraintItem.constraint; });
-        var lastConstraint = constraints[constraints.length - 1];
+        var modifiedConstraint = constraints[constraints.length - eventRegistration.executionInfos.length];
 
-        if(lastConstraint == null) { return null; }
-
-        constraints[constraints.length - 1] = fcSymbolic.ConstraintResolver.getInverseConstraint(lastConstraint);
+        constraints[constraints.length - eventRegistration.executionInfos.length] = fcSymbolic.ConstraintResolver.getInverseConstraint(modifiedConstraint);
+        for(var i = 0; i < eventRegistration.executionInfos.length-1;i++)
+        {
+            constraints.pop();
+        }
 
         return fcSymbolic.ConstraintResolver.resolveConstraints(constraints);
     },
