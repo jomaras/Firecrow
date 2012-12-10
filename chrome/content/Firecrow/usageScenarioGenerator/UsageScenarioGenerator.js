@@ -218,7 +218,7 @@ Firecrow.UsageScenarioGenerator =
         if(constraintResult != null)
         {
             var identifier = this._removeSuffix(constraintResult.identifier);
-            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, constraintResult.value, new fcSymbolic.Identifier(this._addSuffix(identifier, eventRegistration.executionInfos.length)));
+            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, constraintResult.getValue(), new fcSymbolic.Identifier(this._addSuffix(identifier, eventRegistration.executionInfos.length)));
             eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
         }
     },

@@ -19,8 +19,7 @@
             return fcSymbolic.SymbolicExecutor.evalBinaryExpression(wrap(left), wrap(right), operator);
         }
 
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "=="));
-
+        var union = fcSymbolic.NumberRange.makeUnion(new fcSymbolic.NumberRange(1, 4), new fcSymbolic.NumberRange(2, 8));
         var a = 3;
     </script>
 </head>
