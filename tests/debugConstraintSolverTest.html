@@ -3,6 +3,7 @@
 <head>
     <title>Debug Constraint Solver test</title>
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="../chrome/content/Firecrow/symbolic/NumberRange.js"></script>
     <script src="../chrome/content/Firecrow/symbolic/Expression.js"></script>
     <script src="../chrome/content/Firecrow/symbolic/PathConstraint.js"></script>
     <script src="../chrome/content/Firecrow/symbolic/ConstraintResolver.js"></script>
@@ -13,7 +14,7 @@
         function createLiteral(value) { return new fcSymbolic.Literal(value); }
         function createBinary(left, right, operator) { return new fcSymbolic.Binary(left, right, operator); }
         function createLogical(left, right, operator) { return new fcSymbolic.Logical(left, right, operator); }
-        function wrap(value) { return {symbolicValue: value, isNotSymbolic: function(){return false; }}; }
+        function wrap(value) { return {symbolicValue: value, isNotSymbolic: function(){ return false; }}; }
         function evalBinary(left, right, operator)
         {
             return fcSymbolic.SymbolicExecutor.evalBinaryExpression(wrap(left), wrap(right), operator);

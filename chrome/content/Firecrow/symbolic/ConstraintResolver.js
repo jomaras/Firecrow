@@ -89,7 +89,8 @@ fcSymbolic.ConstraintResolver =
         var rightEvaluated = this.resolveConstraint(symbolicExpression.right);
 
         var numberChain = leftEvaluated.rangeChain.createCopy();
-        numberChain.appendChain(rightEvaluated.rangeChain, "&&");
+
+        numberChain.appendChain(rightEvaluated.rangeChain, symbolicExpression.operator);
 
         return new fcSymbolic.ConstraintResult(symbolicExpression.getIdentifierName(), numberChain, symbolicExpression.left.htmlElement || symbolicExpression.right.htmlElement);
     },
@@ -118,153 +119,6 @@ fcSymbolic.ConstraintResolver =
     }
 };
 
-fcSymbolic.NumberRangeChain = function(chain, operators)
-{
-    this.chain = chain || [];
-    this.operators = operators || [];
-};
-fcSymbolic.NumberRangeChain.prototype =
-{
-    getFromRange: function()
-    {
-        if(this.chain.length == 0) { return Number.NaN; }
-        if(this.chain.length == 1) { return this.chain[0].getFromRange(); }
-
-        var cumulativeRange = this.chain[0];
-
-        for(var i = 1; i < this.chain.length; i++)
-        {
-            var currentRange = this.chain[i];
-            var operator = this.operators[i-1];
-
-            if(operator == "&&")
-            {
-                cumulativeRange = fcSymbolic.NumberRange.makeIntersection(cumulativeRange, currentRange);
-            }
-        }
-
-        if(cumulativeRange == null) { return null; }
-
-        return cumulativeRange.getFromRange();
-    },
-
-    appendChain: function(rangeChain, bindingOperator)
-    {
-        if(rangeChain == null || rangeChain.chain == null || rangeChain.chain.length == 0) { return; }
-
-        this.operators.push(bindingOperator);
-        ValueTypeHelper.pushAll(this.chain, rangeChain.chain);
-        ValueTypeHelper.pushAll(this.operators, rangeChain.operators);
-    },
-
-    createCopy: function()
-    {
-        return new fcSymbolic.NumberRangeChain(this.chain.slice(), this.operators.slice());
-    }
-};
-
-fcSymbolic.NumberRangeChain.createSingleItemChain = function(lowerBound, upperBound)
-{
-    return new fcSymbolic.NumberRangeChain([new fcSymbolic.NumberRange(lowerBound, upperBound)]);
-};
-fcSymbolic.NumberRangeChain.upgradeToChain = function(numberRange)
-{
-    return new fcSymbolic.NumberRangeChain(numberRange);
-};
-
-fcSymbolic.NumberRangeChain.createTwoItemChain = function(lowerBoundA, upperBoundA, lowerBoundB, upperBoundB, operator)
-{
-    return new fcSymbolic.NumberRangeChain([new fcSymbolic.NumberRange(lowerBoundA, upperBoundA), new fcSymbolic.NumberRange(lowerBoundB, upperBoundB)], [operator]);
-};
-
-fcSymbolic.NumberRangeChain.upgradeToTwoItemChain = function(numberRangeA, numberRangeB, operator)
-{
-    return new fcSymbolic.NumberRangeChain([numberRangeA, numberRangeB], [operator]);
-};
-
-fcSymbolic.NumberRange = function(lowerBound, upperBound)
-{
-    this.lowerBound = Math.min(lowerBound, upperBound);
-    this.upperBound = Math.max(lowerBound, upperBound);
-};
-fcSymbolic.NumberRange.prototype =
-{
-    getFromRange: function()
-    {
-        if(isFinite(this.lowerBound)) { return this.lowerBound; }
-        if(isFinite(this.upperBound)) { return this.upperBound; }
-
-        return 0;
-    },
-
-    toString: function()
-    {
-        return "[" + this.lowerBound + ", " + this.upperBound + "]";
-    }
-};
-
-fcSymbolic.NumberRange.makeIntersection = function(rangeA, rangeB)
-{
-    if(rangeA == null || rangeB == null
-    || rangeA.upperBound < rangeB.lowerBound
-    || rangeB.upperBound < rangeA.lowerBound)
-    {
-        return null;
-    }
-
-    if(rangeB.lowerBound < rangeA.upperBound) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeB.lowerBound, rangeA.upperBound); }
-    if(rangeA.lowerBound < rangeB.upperBound) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeA.lowerBound, rangeB.upperBound); }
-
-    return null;
-};
-
-fcSymbolic.NumberRange.makeUnion = function(rangeA, rangeB)
-{
-    if(rangeA == null && rangeB == null) { return null;}
-
-    if(rangeA == null) { return fcSymbolic.NumberRangeChain.upgradeToChain(rangeB); }
-    if(rangeB == null) { return fcSymbolic.NumberRangeChain.upgradeToChain(rangeA); }
-
-
-    if(this._areDisjunct(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.upgradeToTwoItemChain(rangeA, rangeB, "||"); }
-    if(this._areDisjunct(rangeB, rangeA)) { return fcSymbolic.NumberRangeChain.upgradeToTwoItemChain(rangeB, rangeA, "||"); }
-    if(this._areIntersecting(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeA.lowerBound, rangeB.upperBound); }
-    if(this._areIntersecting(rangeB, rangeA)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeB.lowerBound, rangeA.upperBound); }
-    if(this._areWhollyOverlapping(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeA.lowerBound, rangeA.upperBound); }
-    if(this._arePartiallyOverlapping(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(Math.min(rangeA.lowerBound, rangeB.lowerBound), Math.max(rangeA.upperBound, rangeB.upperBound)); }
-    if(this._isContainedWithin(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeB.lowerBound, rangeB.upperBound); }
-    if(this._isContainedWithin(rangeB, rangeA)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeA.lowerBound, rangeA.upperBound); }
-};
-
-fcSymbolic.NumberRange._areDisjunct = function(lowerRange, upperRange)
-{
-    return lowerRange.lowerBound < upperRange.lowerBound && lowerRange.upperBound < upperRange.upperBound
-        && lowerRange.upperBound < upperRange.lowerBound;
-};
-
-fcSymbolic.NumberRange._areIntersecting = function(lowerRange, upperRange)
-{
-    return lowerRange.lowerBound < upperRange.lowerBound && lowerRange.upperBound < upperRange.upperBound
-        && lowerRange.upperBound > upperRange.lowerBound;
-};
-
-fcSymbolic.NumberRange._areWhollyOverlapping = function(rangeA, rangeB)
-{
-    return rangeA.lowerBound == rangeB.lowerBound
-        && rangeA.upperBound == rangeB.upperBound;
-};
-
-fcSymbolic.NumberRange._arePartiallyOverlapping = function(rangeA, rangeB)
-{
-    return rangeA.lowerBound == rangeB.lowerBound
-        || rangeA.upperBound == rangeB.upperBound;
-};
-
-fcSymbolic.NumberRange._isContainedWithin = function(innerRange, outerRange)
-{
-    return innerRange.lowerBound > outerRange.lowerBound && innerRange.upperBound < outerRange.upperBound;
-}
-
 fcSymbolic.ConstraintResult = function(identifier, rangeChain, htmlElement)
 {
     this.identifier = identifier;
@@ -278,5 +132,10 @@ fcSymbolic.ConstraintResult.prototype.getValue = function()
 
     return this.rangeChain.getFromRange();
 };
+
+fcSymbolic.ConstraintResult.prototype.toString = function()
+{
+    return this.identifier + ":" + this.rangeChain + "; " + this.htmlElement;
+}
 /*****************************************************/
 }});

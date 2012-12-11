@@ -70,10 +70,17 @@ Firecrow.UsageScenarioGenerator =
         for(var i = 0; i < eventHandlingRegistrations.length;)
         {
             var eventRegistration = eventHandlingRegistrations[i];
-            var args = this._getArguments(eventRegistration, browser);
 
             if(!this._shouldPerformAnotherExecution(eventRegistration)) { i++; continue; }
 
+            var executionInfo = this._getLastExecutionInfo(eventRegistration);
+
+            if(executionInfo != null)
+            {
+                executionInfo.pathConstraint.resolve();
+            }
+
+            var args = this._getArguments(eventRegistration, browser);
             var domChanges = this._modifyDom(eventRegistration);
 
             this._logEvent(eventRegistration, args, domChanges, usageScenarios, browser);
@@ -211,22 +218,28 @@ Firecrow.UsageScenarioGenerator =
 
     _updateWithConstraintInfo: function(eventInfo, eventInfoFcObject, eventRegistration, browser)
     {
-        if(eventRegistration == null || eventRegistration.executionInfos == null || eventRegistration.executionInfos.length == 0 || eventInfo == null || eventInfoFcObject == null) { return; }
+        if(eventRegistration == null || eventRegistration.executionInfos == null || eventRegistration.executionInfos.length == 0
+        || eventInfo == null || eventInfoFcObject == null) { return; }
 
-        var constraintResult = this._getResolvedConstraint(eventRegistration);
+        var executionInfo = this._getLastExecutionInfo(eventRegistration)
+        if(executionInfo == null) { return; }
 
-        if(constraintResult != null)
-        {
-            var identifier = this._removeSuffix(constraintResult.identifier);
-            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, constraintResult.getValue(), new fcSymbolic.Identifier(this._addSuffix(identifier, eventRegistration.executionInfos.length)));
-            eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
-        }
+        var constraintResult = executionInfo.pathConstraint.resolvedResult;
+
+        if(constraintResult == null) { return; }
+
+        var identifier = this._removeSuffix(constraintResult.identifier);
+        eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, constraintResult.getValue(), new fcSymbolic.Identifier(this._addSuffix(identifier, eventRegistration.executionInfos.length)));
+        eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
     },
 
     _updateDomWithConstraintInfo: function(eventRegistration)
     {
-        var lastExecutionInfo = this._getLastExecutionInfo(eventRegistration);
-        var constraintResult = this._getResolvedConstraint(eventRegistration);
+        var executionInfo = this._getLastExecutionInfo(eventRegistration)
+
+        if(executionInfo == null) { return; }
+
+        var constraintResult = executionInfo.pathConstraint.resolvedResult;
 
         if(constraintResult == null || constraintResult.htmlElement == null) { return []; }
 
@@ -266,30 +279,6 @@ Firecrow.UsageScenarioGenerator =
         }
 
         return values;
-    },
-
-    _getResolvedConstraint: function(eventRegistration)
-    {
-        var executionInfo = this._getLastExecutionInfo(eventRegistration);
-        if(executionInfo == null) { return null; }
-
-        var constraints = executionInfo.pathConstraint.constraints.map(function(pathConstraintItem){ return pathConstraintItem.constraint; });
-        var modifiedConstraint = constraints[constraints.length - eventRegistration.executionInfos.length];
-
-        constraints[constraints.length - eventRegistration.executionInfos.length] = fcSymbolic.ConstraintResolver.getInverseConstraint(modifiedConstraint);
-        for(var i = 0; i < eventRegistration.executionInfos.length-1;i++)
-        {
-            constraints.pop();
-        }
-
-        return fcSymbolic.ConstraintResolver.resolveConstraints(constraints);
-    },
-
-    _getLastConstraint: function(executionInfo)
-    {
-        if(executionInfo == null) { return null; }
-
-        return executionInfo.pathConstraint.constraints[executionInfo.pathConstraint.constraints.length - 1];
     },
 
     _getLastExecutionInfo: function(eventRegistration)

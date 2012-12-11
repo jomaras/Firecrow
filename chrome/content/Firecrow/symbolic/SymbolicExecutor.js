@@ -23,11 +23,7 @@ fcSymbolic.SymbolicExecutor =
             rightSymbolic = new fcSymbolic.Literal(right.jsValue);
         }
 
-        var binaryExpression = new fcSymbolic.Binary(leftSymbolic, rightSymbolic, operator);
-
-        console.log(binaryExpression);
-
-        return this._simplifyExpression(binaryExpression);
+        return this._simplifyExpression(new fcSymbolic.Binary(leftSymbolic, rightSymbolic, operator));
     },
 
     _simplifyExpression: function(symbolicExpression)

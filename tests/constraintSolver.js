@@ -353,3 +353,176 @@ TestCase("Union",
         assertEquals("First Upper bound:", union.chain[0].upperBound, Number.POSITIVE_INFINITY);
     }
 });
+
+TestCase("Intersection", {
+    "testNoOverlap": function()
+    {
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(1, 4), new fcSymbolic.NumberRange(5, 8));
+        assertEquals("Chain should have zero items", 0, intersection.chain.length);
+        /*****************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(5, 8), new fcSymbolic.NumberRange(1, 4));
+        assertEquals("Chain should have zero items", 0, intersection.chain.length);
+        /*****************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4), new fcSymbolic.NumberRange(5, Number.POSITIVE_INFINITY));
+        assertEquals("Chain should have zero items", 0, intersection.chain.length);
+        /*****************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4), new fcSymbolic.NumberRange(5, Number.POSITIVE_INFINITY));
+        assertEquals("Chain should have zero items", 0, intersection.chain.length);
+        /*****************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(5, Number.POSITIVE_INFINITY), new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4));
+        assertEquals("Chain should have zero items", 0, intersection.chain.length);
+    },
+
+    "testCrossing": function()
+    {
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(1, 4), new fcSymbolic.NumberRange(2, 8));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(2, 8), new fcSymbolic.NumberRange(1, 4));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4), new fcSymbolic.NumberRange(2, 8));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(2, 8), new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4), new fcSymbolic.NumberRange(2, Number.POSITIVE_INFINITY));
+        assertEquals("Chain should have one", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4), new fcSymbolic.NumberRange(2, Number.POSITIVE_INFINITY));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***************************************************************************************/
+    },
+    "testWhollyOverlapping": function()
+    {
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(1, 4), new fcSymbolic.NumberRange(1, 4));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 1);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4), new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 4));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, Number.NEGATIVE_INFINITY);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(1, Number.POSITIVE_INFINITY), new fcSymbolic.NumberRange(1, Number.POSITIVE_INFINITY));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 1);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, Number.POSITIVE_INFINITY);
+        /***************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY), new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, Number.NEGATIVE_INFINITY);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, Number.POSITIVE_INFINITY);
+    },
+
+    testPartiallyOverlapping: function()
+    {
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(1, 4), new fcSymbolic.NumberRange(1, 5));
+        assertEquals("Chain should have two items", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 1);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(1, 5), new fcSymbolic.NumberRange(1, 4));
+        assertEquals("Chain should have two items", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 1);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(2, 6), new fcSymbolic.NumberRange(4, 6));
+        assertEquals("Chain should have two items", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 4);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 6);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(4, 6), new fcSymbolic.NumberRange(2, 6));
+        assertEquals("Chain should have two items", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 4);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 6);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 6), new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 8));
+        assertEquals("Chain should have two items", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, Number.NEGATIVE_INFINITY);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 6);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(6, Number.POSITIVE_INFINITY), new fcSymbolic.NumberRange(8, Number.POSITIVE_INFINITY));
+        assertEquals("Chain should have two items", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 8);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, Number.POSITIVE_INFINITY);
+        /***********************************************************************************************/
+    },
+
+    testContainedWithin: function()
+    {
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(1, 6), new fcSymbolic.NumberRange(2, 4));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(2, 4), new fcSymbolic.NumberRange(1, 6));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 6), new fcSymbolic.NumberRange(2, 4));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(2, 4), new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, 6));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 4);
+
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(2, Number.POSITIVE_INFINITY), new fcSymbolic.NumberRange(4, 6));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 4);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 6);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(4, 6), new fcSymbolic.NumberRange(2, Number.POSITIVE_INFINITY));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 4);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 6);
+        /***********************************************************************************************/
+        var intersection = fcSymbolic.NumberRange.makeIntersection(new fcSymbolic.NumberRange(Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY), new fcSymbolic.NumberRange(2, 6));
+        assertEquals("Chain should have one item", 1, intersection.chain.length);
+
+        assertEquals("First Lower bound:", intersection.chain[0].lowerBound, 2);
+        assertEquals("First Upper bound:", intersection.chain[0].upperBound, 6);
+    }
+});

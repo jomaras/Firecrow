@@ -102,6 +102,7 @@ fcModel.GlobalObject.prototype.registerTimeout = function(timeoutId, handler, ti
         registrationPoint: registrationPoint,
         thisObject: this.globalObject,
         executionInfos: [],
+        pathConstraints: [],
         eventType: "timeout"
     });
 };
@@ -139,7 +140,8 @@ fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, 
         registrationPoint: registrationPoint,
         thisObject: this.globalObject,
         executionInfos: [],
-        eventType: "interval"
+        eventType: "interval",
+        pathConstraints: []
     });
 };
 
@@ -180,7 +182,8 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
         registrationPoint: evaluationPosition,
         thisObject: fcHtmlElement,
         id: fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID++,
-        executionInfos: []
+        executionInfos: [],
+        pathConstraints: []
     });
 };
 //</editor-fold>
