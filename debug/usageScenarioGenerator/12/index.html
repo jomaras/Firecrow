@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 12</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<script>
+    var mainContainer;
+    window.onload = function()
+    {
+        mainContainer = document.getElementById("mainContainer");
+    };
+
+    document.onkeydown = function(evt)
+    {
+        var motion = 0;
+        var colore = "";
+        var alpha = 0;
+
+        if (evt.keyCode == 77)
+            motion = (motion + 1) % 2;
+        if (evt.keyCode == 82)
+            colore = 'rgb(255,0,0)';
+        if (evt.keyCode == 71)
+            colore = 'rgb(0,255,0)';
+        if (evt.keyCode == 89)
+            colore = 'rgb(255,255,0)';
+        if (evt.keyCode == 66)
+            colore = 'rgb(0,0,255)';
+        if (evt.keyCode == 87)
+            colore = 'rgb(255,255,255)';
+        if (evt.keyCode == 49)
+            alpha = 0.1;
+        if (evt.keyCode == 50)
+            alpha = 0.15;
+        if (evt.keyCode == 51)
+            alpha = 0.2;
+        if (evt.keyCode == 52)
+            alpha = 0.25;
+        if (evt.keyCode == 53)
+            alpha = 0.3;
+        if (evt.keyCode == 54)
+            alpha = 0.4;
+        if (evt.keyCode == 55)
+            alpha = 0.5;
+        if (evt.keyCode == 56)
+            alpha = 0.6;
+        if (evt.keyCode == 57)
+            alpha = 0.7;
+        if (evt.keyCode == 48)
+            alpha = 0.8;
+    };
+</script>
+</body>
+</html>

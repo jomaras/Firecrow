@@ -122,10 +122,11 @@ fcSymbolic.NumberRange.makeIntersection = function(rangeA, rangeB)
     if(rangeA == null || rangeB == null) { return new fcSymbolic.NumberRangeChain(); }
 
     if(this._areDisjunct(rangeA, rangeB)) { return new fcSymbolic.NumberRangeChain(); }
-    if(this._areIntersecting(rangeA, rangeB) || this._arePartiallyOverlapping(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(Math.max(rangeA.lowerBound, rangeB.lowerBound), Math.min(rangeA.upperBound, rangeB.upperBound)); }
+    if(this._areIntersecting(rangeA, rangeB) || this._arePartiallyOverlapping(rangeA, rangeB) || this._areSharingOneBound(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(Math.max(rangeA.lowerBound, rangeB.lowerBound), Math.min(rangeA.upperBound, rangeB.upperBound)); }
     if(this._areWhollyOverlapping(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeA.lowerBound, rangeA.upperBound); }
     if(this._isContainedWithin(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeA.lowerBound, rangeA.upperBound); }
     if(this._isContainedWithin(rangeB, rangeA)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeB.lowerBound, rangeB.upperBound); }
+    if(this._areSharingOneBound(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(); }
 
     alert("Should not be here when making intersection");
 
@@ -141,7 +142,7 @@ fcSymbolic.NumberRange.makeUnion = function(rangeA, rangeB)
 
 
     if(this._areDisjunct(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.upgradeToTwoItemChain(fcSymbolic.NumberRangeChain._getWithLowerLowerBound(rangeA, rangeB), fcSymbolic.NumberRangeChain._getWithHigherUpperBound(rangeA, rangeB)); }
-    if(this._areIntersecting(rangeA, rangeB) || this._arePartiallyOverlapping(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(Math.min(rangeA.lowerBound, rangeB.lowerBound), Math.max(rangeA.upperBound, rangeB.upperBound)); }
+    if(this._areIntersecting(rangeA, rangeB) || this._arePartiallyOverlapping(rangeA, rangeB) || this._areSharingOneBound(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(Math.min(rangeA.lowerBound, rangeB.lowerBound), Math.max(rangeA.upperBound, rangeB.upperBound)); }
     if(this._areWhollyOverlapping(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeA.lowerBound, rangeA.upperBound); }
     if(this._isContainedWithin(rangeA, rangeB)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeB.lowerBound, rangeB.upperBound); }
     if(this._isContainedWithin(rangeB, rangeA)) { return fcSymbolic.NumberRangeChain.createSingleItemChain(rangeA.lowerBound, rangeA.upperBound); }
@@ -161,22 +162,28 @@ fcSymbolic.NumberRange._areIntersecting = function(rangeA, rangeB)
         || (rangeB.lowerBound < rangeA.lowerBound && rangeB.upperBound < rangeA.upperBound && rangeB.upperBound > rangeA.lowerBound);
 };
 
-fcSymbolic.NumberRange._areWhollyOverlapping = function(rangeA, rangeB)
-{
-    return rangeA.lowerBound == rangeB.lowerBound
-        && rangeA.upperBound == rangeB.upperBound;
-};
-
 fcSymbolic.NumberRange._arePartiallyOverlapping = function(rangeA, rangeB)
 {
     return rangeA.lowerBound == rangeB.lowerBound
         || rangeA.upperBound == rangeB.upperBound;
 };
 
+fcSymbolic.NumberRange._areSharingOneBound = function(rangeA, rangeB)
+{
+    return (rangeA.upperBound == rangeB.lowerBound && rangeA.lowerBound != rangeB.upperBound)
+        || (rangeB.upperBound == rangeA.lowerBound && rangeB.lowerBound != rangeA.upperBound);
+};
+
+fcSymbolic.NumberRange._areWhollyOverlapping = function(rangeA, rangeB)
+{
+    return rangeA.lowerBound == rangeB.lowerBound
+        && rangeA.upperBound == rangeB.upperBound;
+};
+
 fcSymbolic.NumberRange._isContainedWithin = function(innerRange, outerRange)
 {
     return innerRange.lowerBound > outerRange.lowerBound && innerRange.upperBound < outerRange.upperBound;
-}
+};
 
 fcSymbolic.NumberRangeChain._getWithLowerLowerBound = function(rangeA, rangeB)
 {

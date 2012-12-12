@@ -61,6 +61,20 @@ fcSymbolic.PathConstraint.prototype =
          * See that from all possible formulas from that formula we have gone only though the first one; and then generate the second one: keyCode != 82 && keyCode == 71 && keyCode != 66
          * And so on..
          * if the final result is a rangeChain with no results, then automatically attempt for the next iteration (recursively call the function)
+         *
+         * Now i have the problem of too many combinations - I'll have to adjust
+         * E.g from one test:
+         * if (evt.keyCode == 77)
+            motion = (motion + 1) % 2;
+           if (evt.keyCode == 82)
+            colore = 'rgb(255,0,0)';
+           if (evt.keyCode == 71)
+            colore = 'rgb(0,255,0)';
+           .... (x16 conditions)
+         * The test has 16 conditions that could have been written as a series of else if - they depend on the same variable - But they are not
+         * And this generates a 16 bit mask for flipping expressions - waaay too much
+         * So.. maybe i should group the ones that have the same identifier in the formula, and then not generate all possible combinations
+         * But just flip one - maintain others - so for these 16 there would be only 16 masks instead of 2^16
          */
         var constraints = this.pathConstraintItems.map(function(pathConstraintItem) { return pathConstraintItem.constraint; });
 
@@ -175,25 +189,28 @@ fcSymbolic.PathConstraint.prototype =
 
     _generateAllFlipCombinations: function()
     {
-        var combinationsCount = Math.pow(2, this.pathConstraintItems.length);
+        var maskLength = this.pathConstraintItems.length;
+
+        var mask = "";
+        for(var i = 0; i < maskLength; i++) { mask += "0"; }
+
         var allCombinations = [];
 
-        for(var i = 0; i < combinationsCount; i++)
+        for(var i = 0; i < maskLength; i++)
         {
-            allCombinations.push(this._convertBinaryStringToArray(i.toString("2"), this.pathConstraintItems.length));
+            var maskAsArray = this._convertBinaryStringToArray(mask);
+
+            maskAsArray[i] = maskAsArray[i] == "0" ? "1" : "0";
+
+            allCombinations.push(maskAsArray);
         }
 
         return allCombinations;
     },
 
-    _convertBinaryStringToArray: function(binaryString, arrayLength)
+    _convertBinaryStringToArray: function(binaryString)
     {
         var binaryArray = [];
-
-        for(var i = 0; i < arrayLength - binaryString.length; i++)
-        {
-            binaryArray.push(0);
-        }
 
         for(var i = 0; i < binaryString.length; i++)
         {
