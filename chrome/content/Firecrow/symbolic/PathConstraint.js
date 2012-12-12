@@ -173,7 +173,7 @@ fcSymbolic.PathConstraint.prototype =
             {
                 fcSymbolic.PathConstraint.RESOLVED_MAPPING[pathConstraintId][constraintFormula] = {
                     allCombinations: this._generateAllFlipCombinations(),
-                    currentCombinationIndex: 1, //Ignore 0 - that is 000 - nothing is being changed
+                    currentCombinationIndex: 0,
                     constraints: constraints.slice(),
                     constraintFormula: constraintFormula
                 };
@@ -196,7 +196,7 @@ fcSymbolic.PathConstraint.prototype =
 
         var allCombinations = [];
 
-        for(var i = 0; i < maskLength; i++)
+        for(var i = maskLength - 1; i >= 0; i--)
         {
             var maskAsArray = this._convertBinaryStringToArray(mask);
 
