@@ -10,7 +10,7 @@ fcSymbolic.NumberRangeChain.prototype =
 {
     getFromRange: function()
     {
-        if(this.chain.length == 0) { return Number.NaN; }
+        if(this.chain.length == 0) { return null; }
         if(this.chain.length == 1) { return this.chain[0].getFromRange(); }
 
         var cumulativeChain = fcSymbolic.NumberRangeChain.upgradeToChain(this.chain[0]);

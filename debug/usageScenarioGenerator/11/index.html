@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 02</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<select id="colorSelector">
+    <option value="red">red</option>
+    <option value="green">green</option>
+    <option value="blue">blue</option>
+</select>
+<div id="mainContainer"></div>
+<script>
+
+    window.onload = function()
+    {
+        var mainContainer = document.getElementById("mainContainer");
+        var colorSelector = document.getElementById("colorSelector");
+
+        colorSelector.onchange = function()
+        {
+            if(colorSelector.value == "red")
+            {
+                mainContainer.style.backgroundColor = "red";
+            }
+
+            if(colorSelector.value == "green")
+            {
+                mainContainer.style.backgroundColor = "green";
+            }
+
+            if(colorSelector.value == "blue")
+            {
+                mainContainer.style.backgroundColor = "blue";
+            }
+        };
+    };
+</script>
+</body>
+</html>

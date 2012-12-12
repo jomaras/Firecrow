@@ -61,6 +61,15 @@ fcSymbolic.ConstraintResolver =
 
     _getBinaryIdentifierLiteralRangeChain: function(value, operator)
     {
+             if (ValueTypeHelper.isNumber(value)) { return this._getBinaryIdentifierLiteralRangeChainFromNumber(value, operator); }
+        else if (ValueTypeHelper.isString(value)) { return this._getBinaryIdentifierLiteralRangeChainFromString(value, operator); }
+
+        alert("Unknown value type when getting binary identifier literal range chain");
+        return null;
+    },
+
+    _getBinaryIdentifierLiteralRangeChainFromNumber: function(value, operator)
+    {
         switch(operator)
         {
             case fcSymbolic.CONST.BINARY_OP.LT:
@@ -83,16 +92,31 @@ fcSymbolic.ConstraintResolver =
         }
     },
 
+    _getBinaryIdentifierLiteralRangeChainFromString: function(value, operator)
+    {
+        switch(operator)
+        {
+            case fcSymbolic.CONST.BINARY_OP.EQ:
+            case fcSymbolic.CONST.BINARY_OP.TEQ:
+            case fcSymbolic.CONST.BINARY_OP.NEQ:
+            case fcSymbolic.CONST.BINARY_OP.TNEQ:
+                return new fcSymbolic.StringConstraintChain([new fcSymbolic.StringConstraint(value, operator)]);
+            default:
+                alert("Unhandled String chain operator in ConstraintResolver");
+                return null;
+        }
+    },
+
     _resolveLogical: function(symbolicExpression)
     {
         var leftEvaluated = this.resolveConstraint(symbolicExpression.left);
         var rightEvaluated = this.resolveConstraint(symbolicExpression.right);
 
-        var numberChain = leftEvaluated.rangeChain.createCopy();
+        var valueChain = leftEvaluated.rangeChain.createCopy();
 
-        numberChain.appendChain(rightEvaluated.rangeChain, symbolicExpression.operator);
+        valueChain.appendChain(rightEvaluated.rangeChain, symbolicExpression.operator);
 
-        return new fcSymbolic.ConstraintResult(symbolicExpression.getIdentifierName(), numberChain, symbolicExpression.left.htmlElement || symbolicExpression.right.htmlElement);
+        return new fcSymbolic.ConstraintResult(symbolicExpression.getIdentifierName(), valueChain, leftEvaluated.htmlElement || rightEvaluated.htmlElement);
     },
 
     getInverseConstraint: function(symbolicExpression)

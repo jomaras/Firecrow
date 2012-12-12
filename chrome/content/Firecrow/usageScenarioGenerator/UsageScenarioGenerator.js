@@ -252,20 +252,15 @@ Firecrow.UsageScenarioGenerator =
         var selectElement = constraintResult.htmlElement;
         var oldValue = selectElement[propName];
 
-        var newValue = this._getFirstNonEqualValue(selectElement[propName], this._getSelectAvailableValues(selectElement));
+        var newValue = this._getNextValue(selectElement[propName], this._getSelectAvailableValues(selectElement));
         selectElement[propName] = newValue;
 
         return [{htmlElement: selectElement, oldValue: oldValue, newValue: newValue}];
     },
 
-    _getFirstNonEqualValue: function(item, items)
+    _getNextValue: function(item, items)
     {
-        for(var i = 0; i < items.length; i++)
-        {
-            if(items[i] != item) { return items[i]; }
-        }
-
-        return null;
+        return items[items.indexOf(item) + 1];
     },
 
     _getSelectAvailableValues: function(selectElement)

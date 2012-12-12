@@ -99,7 +99,7 @@ fcSymbolic.PathConstraint.prototype =
 
         console.log("Result: " + this.resolvedResult);
 
-        if(isNaN(this.resolvedResult.getValue()) && this.resolvedResult.htmlElement == null)
+        if(this.resolvedResult.getValue() == null)
         {
             this.resolve();
         }
