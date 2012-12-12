@@ -5,25 +5,48 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcSymbolic.SymbolicExecutor =
 {
-    evalBinaryExpression: function(left, right, operator)
+    evalBinaryExpression: function(leftFcValue, rightFcValue, operator)
     {
-        if(left == null || right == null) { return null;}
-        if(left.isNotSymbolic() && right.isNotSymbolic()) { return null; }
+        if(leftFcValue == null || rightFcValue == null) { return null;}
+        if(leftFcValue.isNotSymbolic() && rightFcValue.isNotSymbolic()) { return null; }
 
-        var leftSymbolic = left.symbolicValue;
-        var rightSymbolic = right.symbolicValue;
+        var leftSymbolic = leftFcValue.symbolicValue;
+        var rightSymbolic = rightFcValue.symbolicValue;
 
-        if(leftSymbolic == null && ValueTypeHelper.isPrimitive(left.jsValue))
+        if(leftSymbolic == null && ValueTypeHelper.isPrimitive(leftFcValue.jsValue))
         {
-            leftSymbolic = new fcSymbolic.Literal(left.jsValue);
+            leftSymbolic = new fcSymbolic.Literal(leftFcValue.jsValue);
         }
 
-        if(rightSymbolic == null && ValueTypeHelper.isPrimitive(right.jsValue))
+        if(rightSymbolic == null && ValueTypeHelper.isPrimitive(rightFcValue.jsValue))
         {
-            rightSymbolic = new fcSymbolic.Literal(right.jsValue);
+            rightSymbolic = new fcSymbolic.Literal(rightFcValue.jsValue);
         }
 
         return this._simplifyExpression(new fcSymbolic.Binary(leftSymbolic, rightSymbolic, operator));
+    },
+
+    evalLogicalExpression: function(leftFcValue, rightFcValue, operator)
+    {
+        if(leftFcValue == null && rightFcValue == null) { return null; }
+
+        var leftSymbolic = leftFcValue != null ? leftFcValue.symbolicValue : null;
+
+        if(leftSymbolic == null && ValueTypeHelper.isPrimitive(leftFcValue.jsValue))
+        {
+            leftSymbolic = new fcSymbolic.Literal(leftFcValue.jsValue);
+        }
+
+        var rightSymbolic = rightFcValue != null ? rightFcValue.symbolicValue : null;
+
+        if(rightFcValue == null) { return leftSymbolic; }
+
+        if(rightSymbolic == null && ValueTypeHelper.isPrimitive(rightFcValue.jsValue))
+        {
+            rightSymbolic = new fcSymbolic.Literal(rightFcValue.jsValue);
+        }
+
+        return new fcSymbolic.Logical(leftSymbolic, rightSymbolic, operator);
     },
 
     _simplifyExpression: function(symbolicExpression)

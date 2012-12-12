@@ -412,6 +412,24 @@ fcSimulator.Evaluator.prototype =
     _evalEndLogicalCommand: function(endLogicalCommand)
     {
         this.dependencyCreator.createDependenciesForLogicalExpression(endLogicalCommand);
+
+        var logicalExpression = endLogicalCommand.codeConstruct;
+        var logicalExpressionValue = this.executionContextStack.getExpressionValue(logicalExpression);
+
+        if(logicalExpressionValue != null)
+        {
+            var executedLogicalItemCommands = endLogicalCommand.executedLogicalItemExpressionCommands;
+
+            if(executedLogicalItemCommands.length == 0) { alert("There are no executed logical commands"); return; }
+
+
+            logicalExpressionValue.symbolicValue = fcSymbolic.SymbolicExecutor.evalLogicalExpression
+            (
+                executedLogicalItemCommands[0] != null ?  this.executionContextStack.getExpressionValue(executedLogicalItemCommands[0].codeConstruct) : null,
+                executedLogicalItemCommands[1] != null ?  this.executionContextStack.getExpressionValue(executedLogicalItemCommands[1].codeConstruct) : null,
+                logicalExpression.operator
+            );
+        }
     },
 
     _evalCallInternalFunction: function(callInternalFunctionCommand)

@@ -226,11 +226,16 @@ Firecrow.UsageScenarioGenerator =
 
         var constraintResult = executionInfo.pathConstraint.resolvedResult;
 
-        if(constraintResult == null) { return; }
+        if(constraintResult == null || constraintResult.length == 0) { return; }
 
-        var identifier = this._removeSuffix(constraintResult.identifier);
-        eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, constraintResult.getValue(), new fcSymbolic.Identifier(this._addSuffix(identifier, eventRegistration.executionInfos.length)));
-        eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
+        for(var i = 0; i < constraintResult.length; i++)
+        {
+            var result = constraintResult[i];
+
+            var identifier = this._removeSuffix(result.identifier);
+            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, result.getValue(), new fcSymbolic.Identifier(this._addSuffix(identifier, eventRegistration.executionInfos.length)));
+            eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
+        }
     },
 
     _updateDomWithConstraintInfo: function(eventRegistration)
@@ -241,9 +246,17 @@ Firecrow.UsageScenarioGenerator =
 
         var constraintResult = executionInfo.pathConstraint.resolvedResult;
 
-        if(constraintResult == null || constraintResult.htmlElement == null) { return []; }
+        if(constraintResult == null || constraintResult.length == null) { return []; }
 
-        if(constraintResult.htmlElement instanceof HTMLSelectElement) { return this._updateSelectElement(constraintResult); }
+        for(var i = 0; i < constraintResult.length; i++)
+        {
+            var result = constraintResult[i];
+
+            if(result.htmlElement instanceof HTMLSelectElement)
+            {
+                return this._updateSelectElement(result);
+            }
+        }
     },
 
     _updateSelectElement: function(constraintResult)

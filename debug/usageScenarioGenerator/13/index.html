@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 13</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<script>
+
+    var teta_y_global;
+    var teta_x_global;
+
+    window.onload = function()
+    {
+        var mainContainer = document.getElementById("mainContainer");
+
+        mainContainer.onmousemove = function(evt)
+        {
+            var x = evt.pageX - mainContainer.offsetLeft;
+            var y = evt.pageY - mainContainer.offsetTop;
+
+            if(x < 200 && y < 200)
+            {
+                mainContainer.textContent = "Left Upper Corner";
+            }
+            else if(x < 200 && y >= 200)
+            {
+                mainContainer.textContent = "Left Lower Corner";
+            }
+            else if(x >= 200 && y < 200)
+            {
+                mainContainer.textContent = "Right Upper Corner";
+            }
+            else if(x >= 200 && y >= 200)
+            {
+                mainContainer.textContent = "Right Lower Corner";
+            }
+        };
+    };
+</script>
+</body>
+</html>

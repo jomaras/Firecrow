@@ -51,12 +51,12 @@ fcSymbolic.ConstraintResolver =
 
     _resolveBinaryIdentifierLiteral: function(symbolicExpression)
     {
-        return new fcSymbolic.ConstraintResult
+        return [new fcSymbolic.ConstraintResult
         (
             symbolicExpression.left.name,
             this._getBinaryIdentifierLiteralRangeChain(symbolicExpression.right.value, symbolicExpression.operator),
             symbolicExpression.left.htmlElement || symbolicExpression.right.htmlElement
-        );
+        )];
     },
 
     _getBinaryIdentifierLiteralRangeChain: function(value, operator)
@@ -109,14 +109,93 @@ fcSymbolic.ConstraintResolver =
 
     _resolveLogical: function(symbolicExpression)
     {
-        var leftEvaluated = this.resolveConstraint(symbolicExpression.left);
-        var rightEvaluated = this.resolveConstraint(symbolicExpression.right);
+        return this._mergeMatchingConstraints
+        (
+            this._groupConstraintsByIdentifier(this.resolveConstraint(symbolicExpression.left)),
+            this._groupConstraintsByIdentifier(this.resolveConstraint(symbolicExpression.right)),
+            symbolicExpression.operator
+        );
 
-        var valueChain = leftEvaluated.rangeChain.createCopy();
+        /*var valueChain = leftEvaluated.rangeChain.createCopy();
 
         valueChain.appendChain(rightEvaluated.rangeChain, symbolicExpression.operator);
 
-        return new fcSymbolic.ConstraintResult(symbolicExpression.getIdentifierName(), valueChain, leftEvaluated.htmlElement || rightEvaluated.htmlElement);
+        return new fcSymbolic.ConstraintResult(identifier, valueChain, leftEvaluated.htmlElement || rightEvaluated.htmlElement);*/
+    },
+
+    _mergeMatchingConstraints: function(constraintsMappingA, constraintsMappingB, operator)
+    {
+        var constraintResults = [];
+
+        for(var identifierName in constraintsMappingA)
+        {
+            var constraintsA = constraintsMappingA[identifierName];
+            var constraintsB = constraintsMappingB[identifierName];
+
+            var htmlElement = null;
+            var valueChain = null;
+
+            for(var i = 0; i < constraintsA.length; i++)
+            {
+                if(valueChain == null) { valueChain = constraintsA[i].rangeChain.createCopy(); }
+                else { valueChain.appendChain(constraintsA[i].rangeChain, operator); }
+
+                if(htmlElement == null) { htmlElement = constraintsA[i].htmlElement; }
+            }
+
+            if(constraintsB != null)
+            {
+                for(var i = 0; i < constraintsB.length; i++)
+                {
+                    if(valueChain == null) { valueChain = constraintsB[i].rangeChain.createCopy(); }
+                    else { valueChain.appendChain(constraintsB[i].rangeChain, operator); }
+
+                    if(htmlElement == null) { htmlElement = constraintsB[i].htmlElement; }
+                }
+
+                constraintsB.hasBeenProcessed = true;
+            }
+
+            constraintResults.push(new fcSymbolic.ConstraintResult(identifierName, valueChain, htmlElement));
+        }
+
+        for(var identifierName in constraintsMappingB)
+        {
+            var constraintsB = constraintsMappingB[identifierName];
+
+            if(constraintsB.hasBeenProcessed) { continue; }
+
+            var htmlElement = null;
+            var valueChain = null;
+
+            for(var i = 0; constraintsB != null && i < constraintsB.length; i++)
+            {
+                if(valueChain == null) { valueChain = constraintsB[i].rangeChain.createCopy(); }
+                else { valueChain.appendChain(constraintsB[i].rangeChain, operator); }
+
+                if(htmlElement == null) { htmlElement = constraintsB[i].htmlElement; }
+            }
+
+            constraintResults.push(new fcSymbolic.ConstraintResult(identifierName, valueChain, htmlElement));
+        }
+
+        return constraintResults;
+    },
+
+    _groupConstraintsByIdentifier: function(constraints)
+    {
+        var nameMapping = {};
+
+        for(var i = 0; i < constraints.length; i++)
+        {
+            var constraint = constraints[i];
+
+            if(nameMapping[constraint.identifier] == null) { nameMapping[constraint.identifier] = []; }
+
+            nameMapping[constraint.identifier].push(constraint);
+        }
+
+        return nameMapping;
     },
 
     getInverseConstraint: function(symbolicExpression)
@@ -124,12 +203,24 @@ fcSymbolic.ConstraintResolver =
         if(symbolicExpression == null) { return null; }
 
         if(symbolicExpression.isBinary()) { return this._getBinaryInverse(symbolicExpression); }
+        else if(symbolicExpression.isLogical()) { return this._getLogicalInverse(symbolicExpression); }
         else
         {
             alert("Unhandled constraint");
         }
 
         return null;
+    },
+
+    _getLogicalInverse: function(symbolicExpression)
+    {
+        //DEMORGAN'S LAW: !(A && B) = !A || !B; !(A || B) = !A && !B
+        return new fcSymbolic.Logical
+        (
+            this.getInverseConstraint(symbolicExpression.left),
+            this.getInverseConstraint(symbolicExpression.right),
+            symbolicExpression.operator == "&&" ? "||" : "&&"
+        );
     },
 
     _getBinaryInverse: function(symbolicExpression)

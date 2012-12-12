@@ -130,7 +130,7 @@ fcSymbolic.Identifier = function(name)
 };
 fcSymbolic.Identifier.prototype = new fcSymbolic.Expression();
 fcSymbolic.Identifier.prototype.toString = function() { return this.name; }
-fcSymbolic.Identifier.prototype.getIdentifierName = function() { return this.name;};
+fcSymbolic.Identifier.prototype.getIdentifierNames = function() { return [this.name];};
 fcSymbolic.Literal = function(value)
 {
     this.setId();
@@ -140,7 +140,7 @@ fcSymbolic.Literal = function(value)
     this.type = fcSymbolic.CONST.LITERAL;
 };
 fcSymbolic.Literal.prototype = new fcSymbolic.Expression();
-fcSymbolic.Literal.prototype.getIdentifierName = function() { return null;};
+fcSymbolic.Literal.prototype.getIdentifierNames = function() { return [];};
 fcSymbolic.Literal.prototype.toString = function()
 {
     return ValueTypeHelper.isString(this.value) ? '"' + this.value + '"'
@@ -157,15 +157,20 @@ fcSymbolic.Sequence = function(expressions)
 };
 fcSymbolic.Sequence.prototype = new fcSymbolic.Expression();
 fcSymbolic.Sequence.prototype.toString = function() { return this.expressions.join(", "); }
-fcSymbolic.Sequence.prototype.getIdentifierName = function()
+fcSymbolic.Sequence.prototype.getIdentifierNames = function()
 {
+    var allIdentifierNames = [];
+
     for(var i = 0; i < expressions.length; i++)
     {
-        var identifierName = expressions[i].getIdentifierName();
-        if(identifierName != null) { return identifierName; }
+        var identifierNames = expressions[i].getIdentifierNames();
+        if(identifierNames != null && identifierNames.length != 0)
+        {
+            return ValueTypeHelper.pushAll(allIdentifierNames, identifierNames);
+        }
     }
 
-    return null;
+    return allIdentifierNames;
 };
 
 fcSymbolic.Unary = function(argument, operator, prefix)
@@ -179,7 +184,7 @@ fcSymbolic.Unary = function(argument, operator, prefix)
     this.type = fcSymbolic.CONST.UNARY;
 };
 fcSymbolic.Unary.prototype = new fcSymbolic.Expression();
-fcSymbolic.Unary.prototype.getIdentifierName = function() { return this.argument.getIdentifierName(); }
+fcSymbolic.Unary.prototype.getIdentifierNames = function() { return this.argument.getIdentifierNames(); }
 fcSymbolic.Unary.prototype.toString = function()
 {
     var string = "";
@@ -205,7 +210,15 @@ fcSymbolic.Binary = function(left, right, operator)
 };
 fcSymbolic.Binary.prototype = new fcSymbolic.Expression();
 fcSymbolic.Binary.prototype.toString = function() { return this.left + " " + this.operator + " " + this.right; };
-fcSymbolic.Binary.prototype.getIdentifierName = function() { return this.left.getIdentifierName() || this.right.getIdentifierName(); }
+fcSymbolic.Binary.prototype.getIdentifierNames = function()
+{
+    var identifierNames = [];
+
+    ValueTypeHelper.pushAll(identifierNames, this.left.getIdentifierNames());
+    ValueTypeHelper.pushAll(identifierNames, this.right.getIdentifierNames());
+
+    return  identifierNames;
+}
 
 fcSymbolic.Update = function(argument, operator, prefix)
 {
@@ -218,7 +231,7 @@ fcSymbolic.Update = function(argument, operator, prefix)
     this.type = fcSymbolic.CONST.UPDATE;
 };
 fcSymbolic.Update.prototype = new fcSymbolic.Expression();
-fcSymbolic.Update.prototype.getIdentifierName = function() { return this.argument.getIdentifierName(); }
+fcSymbolic.Update.prototype.getIdentifierNames = function() { return this.argument.getIdentifierNames(); }
 fcSymbolic.Update.prototype.toString = function()
 {
     var string = "";
@@ -244,6 +257,14 @@ fcSymbolic.Logical = function(left, right, operator)
 };
 
 fcSymbolic.Logical.prototype = new fcSymbolic.Expression();
-fcSymbolic.Logical.prototype.getIdentifierName = function() { return this.left.getIdentifierName() || this.right.getIdentifierName(); }
+fcSymbolic.Logical.prototype.getIdentifierNames = function()
+{
+    var identifierNames = [];
+
+    ValueTypeHelper.pushAll(identifierNames, this.left.getIdentifierNames());
+    ValueTypeHelper.pushAll(identifierNames, this.right.getIdentifierNames());
+
+    return  identifierNames;
+}
 fcSymbolic.Logical.prototype.toString = function() { return this.left + " " + this.operator + " " + this.right; };
 }});

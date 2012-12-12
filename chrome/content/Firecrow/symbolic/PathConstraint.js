@@ -113,10 +113,22 @@ fcSymbolic.PathConstraint.prototype =
 
         console.log("Result: " + this.resolvedResult);
 
-        if(this.resolvedResult.getValue() == null)
+        if(!this._canGetResultsForAllVariables())
         {
             this.resolve();
         }
+    },
+
+    _canGetResultsForAllVariables: function()
+    {
+        if(this.resolvedResult == null || this.resolvedResult.length == 0) { return false; }
+
+        for(var i = 0; i < this.resolvedResult.length; i++)
+        {
+            if(this.resolvedResult[i].getValue() == null) { return false; }
+        }
+
+        return true;
     },
 
     _createPathConstraintResolvedMapping: function(pathConstraintId)
