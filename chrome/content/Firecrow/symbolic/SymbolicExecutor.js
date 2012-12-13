@@ -46,13 +46,21 @@ fcSymbolic.SymbolicExecutor =
             rightSymbolic = new fcSymbolic.Literal(rightFcValue.jsValue);
         }
 
-        return new fcSymbolic.Logical(leftSymbolic, rightSymbolic, operator);
+        return this._simplifyExpression(new fcSymbolic.Logical(leftSymbolic, rightSymbolic, operator));
     },
 
     _simplifyExpression: function(symbolicExpression)
     {
         this._simplifyOrder(symbolicExpression);
 
+        if(symbolicExpression.isBinary()) { return this.simplifyBinaryExpression(symbolicExpression); }
+        else if (symbolicExpression.isLogical()) { return this.simplifyLogicalExpression(symbolicExpression); }
+
+        return symbolicExpression;
+    },
+
+    simplifyBinaryExpression: function(symbolicExpression)
+    {
         if(symbolicExpression.left.isBinary() && symbolicExpression.right.isLiteral())
         {
             var leftBinary = symbolicExpression.left;
@@ -69,6 +77,16 @@ fcSymbolic.SymbolicExecutor =
             {
                 symbolicExpression.left = leftBinary.left;
             }
+        }
+
+        return symbolicExpression;
+    },
+
+    simplifyLogicalExpression: function(symbolicExpression)
+    {
+        if(symbolicExpression.left.toString() == symbolicExpression.right.toString())
+        {
+            return symbolicExpression.left;
         }
 
         return symbolicExpression;

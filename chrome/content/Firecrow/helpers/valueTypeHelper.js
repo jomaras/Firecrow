@@ -350,6 +350,18 @@ Firecrow.ValueTypeHelper =
             alert("ValueTypeHelper - Error while finding in array: " + e);
         }
     },
+
+    clearArray: function(array)
+    {
+        for (var i = 0; i < array.length; i++)
+        {
+            if (array[i] == null)
+            {
+                array.splice(i, 1);
+                i--;
+            }
+        }
+    },
     
     trim: function(str, chars) 
     {

@@ -47,9 +47,7 @@ fcBrowser.ExecutionInfo.prototype =
 
     getVisitedFunctionsExpressionCoverage: function()
     {
-        var visitedFunctions = this.getVisitedFunctions();
-
-        return ASTHelper.calculateExpressionCoverage(visitedFunctions);
+        return ASTHelper.calculateExpressionCoverage(this.getVisitedFunctions());
     },
 
     calculateCoverage: function()
