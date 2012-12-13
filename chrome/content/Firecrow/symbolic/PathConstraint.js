@@ -7,6 +7,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 fcSymbolic.PathConstraintItem = function(codeConstruct, constraint)
 {
     this.id = fcSymbolic.PathConstraintItem.LAST_ID++
+
     this.codeConstruct = codeConstruct;
     this.constraint = constraint;
     this.pathConstraintChildren = [];
@@ -68,7 +69,7 @@ fcSymbolic.PathConstraint.prototype =
 
     resolve: function()
     {
-        var pathConstraintItems = this.pathConstraintItems.slice();
+        var pathConstraintItems = this.pathConstraintItems;
 
         if(pathConstraintItems.length == 0) { return null; }
 
@@ -80,7 +81,7 @@ fcSymbolic.PathConstraint.prototype =
 
         var combinationsDescription = this._getCombinationsDescription(pathConstraintId, pathConstraintItems, constraintFormula);
 
-        var pathConstraintItems = combinationsDescription.pathConstraintItems.slice();
+        var pathConstraintItems = this._createPathConstraintItemsCopy(combinationsDescription.pathConstraintItems);
         var constraintFormula = combinationsDescription.constraintFormula;
 
         console.log("From: " + constraintFormula);
@@ -109,6 +110,40 @@ fcSymbolic.PathConstraint.prototype =
         {
             this.resolve();
         }
+    },
+
+    _createPathConstraintItemsCopy: function(pathConstraintItems)
+    {
+        var array = [];
+
+        var mapping = { };
+
+        for(var i = 0; i < pathConstraintItems.length; i++)
+        {
+            var currentItem = pathConstraintItems[i];
+            var copiedItem = new fcSymbolic.PathConstraintItem(currentItem.codeConstruct, currentItem.constraint);
+
+            mapping[currentItem.id] = copiedItem;
+            mapping[copiedItem.id] = currentItem;
+
+            array.push(copiedItem);
+        }
+
+        for(var i = 0; i < array.length; i++)
+        {
+            var copiedItem = array[i];
+
+            var originalItem = mapping[copiedItem.id];
+
+            for(var j = 0; j < originalItem.pathConstraintChildren.length; j++)
+            {
+                var originalItemChild = originalItem.pathConstraintChildren[j];
+
+                copiedItem.pathConstraintChildren.push(mapping[originalItemChild.id]);
+            }
+        }
+
+        return array;
     },
 
     _canGetResultsForAllVariables: function()
@@ -196,7 +231,7 @@ fcSymbolic.PathConstraint.prototype =
                 fcSymbolic.PathConstraint.RESOLVED_MAPPING[pathConstraintId][constraintFormula] = {
                     allCombinations: this._generateAllFlipCombinations(this.pathConstraintItems),
                     currentCombinationIndex: 0,
-                    pathConstraintItems: pathConstraintItems.slice(),
+                    pathConstraintItems: pathConstraintItems,
                     constraintFormula: constraintFormula
                 };
             }
