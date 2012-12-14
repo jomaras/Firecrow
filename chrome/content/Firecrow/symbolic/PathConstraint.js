@@ -10,7 +10,6 @@ fcSymbolic.PathConstraintItem = function(codeConstruct, constraint)
 
     this.codeConstruct = codeConstruct;
     this.constraint = constraint;
-    this.pathConstraintChildren = [];
 };
 
 fcSymbolic.PathConstraintItem.areEqual = function(pathConstraintItemA, pathConstraintItemB)
@@ -40,31 +39,7 @@ fcSymbolic.PathConstraint.prototype =
             constraint = fcSymbolic.ConstraintResolver.getInverseConstraint(constraint);
         }
 
-        var pathConstraintItem = new fcSymbolic.PathConstraintItem(codeConstruct, constraint);
-
-        var lastAncestorConstraint = this._getLastAncestorConstraint(codeConstruct);
-
-        if(lastAncestorConstraint != null)
-        {
-            lastAncestorConstraint.pathConstraintChildren.push(pathConstraintItem);
-        }
-
-        this.pathConstraintItems.push(pathConstraintItem);
-    },
-
-    _getLastAncestorConstraint: function(codeConstruct)
-    {
-        for(var i = this.pathConstraintItems.length - 1; i >= 0; i--)
-        {
-            var pathConstraintItem = this.pathConstraintItems[i];
-
-            if(ASTHelper.isAncestor(codeConstruct, pathConstraintItem.codeConstruct))
-            {
-                return pathConstraintItem;
-            }
-        }
-
-        return null;
+        this.pathConstraintItems.push(new fcSymbolic.PathConstraintItem(codeConstruct, constraint));
     },
 
     resolve: function()
@@ -116,31 +91,10 @@ fcSymbolic.PathConstraint.prototype =
     {
         var array = [];
 
-        var mapping = { };
-
         for(var i = 0; i < pathConstraintItems.length; i++)
         {
             var currentItem = pathConstraintItems[i];
-            var copiedItem = new fcSymbolic.PathConstraintItem(currentItem.codeConstruct, currentItem.constraint);
-
-            mapping[currentItem.id] = copiedItem;
-            mapping[copiedItem.id] = currentItem;
-
-            array.push(copiedItem);
-        }
-
-        for(var i = 0; i < array.length; i++)
-        {
-            var copiedItem = array[i];
-
-            var originalItem = mapping[copiedItem.id];
-
-            for(var j = 0; j < originalItem.pathConstraintChildren.length; j++)
-            {
-                var originalItemChild = originalItem.pathConstraintChildren[j];
-
-                copiedItem.pathConstraintChildren.push(mapping[originalItemChild.id]);
-            }
+            array.push(new fcSymbolic.PathConstraintItem(currentItem.codeConstruct, currentItem.constraint));
         }
 
         return array;
@@ -195,21 +149,19 @@ fcSymbolic.PathConstraint.prototype =
             {
                 //Now that this constraint is changed the child pathConstraints have to be invalidated
                 pathConstraintItem.constraint = fcSymbolic.ConstraintResolver.getInverseConstraint(pathConstraintItem.constraint);
-                this._invalidateAllChildren(pathConstraintItem, pathConstraintItems);
+                this._invalidateFollowingItems(i + 1, pathConstraintItems)
             }
         }
 
         ValueTypeHelper.clearArray(pathConstraintItems);
     },
 
-    _invalidateAllChildren: function(pathConstraintItem, pathConstraintItems)
+    _invalidateFollowingItems: function(startIndex, pathConstraintItems)
     {
-        pathConstraintItem.pathConstraintChildren.forEach(function(child)
+        for(var i = startIndex; i < pathConstraintItems.length; i++)
         {
-            pathConstraintItems[pathConstraintItems.indexOf(child)] = null;
-
-            this._invalidateAllChildren(child, pathConstraintItems);
-        }, this);
+            pathConstraintItems[i] = null;
+        }
     },
 
     _getConstraintsFormula: function(pathConstraintItems)

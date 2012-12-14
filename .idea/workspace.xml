@@ -9,6 +9,9 @@
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/symbolic/PathConstraint.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/symbolic/PathConstraint.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/13/index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/13/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,32 +69,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConstraintResolver.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/ConstraintResolver.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="170" column="70" selection-start="6886" selection-end="6886" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PathConstraint.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PathConstraint.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/PathConstraint.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="13" selection-start="4689" selection-end="4689" vertical-scroll-proportion="0.0">
+            <state line="52" column="68" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.37995595">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="137" column="23" selection-start="8180" selection-end="8180" vertical-scroll-proportion="0.5520362">
+            <state line="129" column="30" selection-start="7790" selection-end="7790" vertical-scroll-proportion="-14.333333">
               <folding>
-                <marker date="1355410547537" expanded="false" signature="8343:8353" placeholder="..." />
-                <marker date="1355410547537" expanded="false" signature="8577:8587" placeholder="..." />
-                <marker date="1355410547537" expanded="false" signature="8625:8637" placeholder="..." />
+                <marker date="1355467206524" expanded="false" signature="8343:8353" placeholder="..." />
+                <marker date="1355467206524" expanded="false" signature="8577:8587" placeholder="..." />
+                <marker date="1355467206524" expanded="false" signature="8625:8637" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -115,10 +109,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="browser.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/13/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="28" selection-start="871" selection-end="871" vertical-scroll-proportion="0.0">
+            <state line="41" column="13" selection-start="931" selection-end="931" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/competitorTests/m_3dmodel/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="75" selection-start="1626" selection-end="1626" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -127,16 +130,7 @@
       <file leaf-file-name="UsageScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="256" column="55" selection-start="11852" selection-end="11852" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/13/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="17" selection-start="666" selection-end="1186" vertical-scroll-proportion="0.0">
+            <state line="126" column="46" selection-start="4066" selection-end="4066" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -146,6 +140,15 @@
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/SymbolicExecutor.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="88" column="43" selection-start="3357" selection-end="3357" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConstraintResolver.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/ConstraintResolver.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="170" column="70" selection-start="6886" selection-end="6886" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -181,17 +184,17 @@
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/12/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/symbolic/NumberRange.js" />
         <option value="$PROJECT_DIR$/debug/competitorTests/m_3dmodel/index.html" />
-        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/13/index.html" />
-        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/symbolic/Expression.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/symbolic/ConstraintResolver.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/symbolic/SymbolicExecutor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/symbolic/PathConstraint.js" />
+        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/13/index.html" />
+        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/symbolic/PathConstraint.js" />
       </list>
     </option>
   </component>
@@ -253,7 +256,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -358,6 +360,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="competitorTests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="m_3dmodel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="competitorTests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="chrome" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -379,13 +421,10 @@
               <option name="myItemId" value="content" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2191,7 +2230,11 @@
       <created>1355409214384</created>
       <updated>1355409214385</updated>
     </task>
-    <option name="localTasksCounter" value="411" />
+    <task id="LOCAL-00411" summary="Fixed a bug - should have created new path constraints for each path solving (and not operate on the old ones)">
+      <created>1355410602465</created>
+      <updated>1355410602465</updated>
+    </task>
+    <option name="localTasksCounter" value="412" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2230,11 +2273,10 @@
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4942717" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49590835" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13216656" sideWeight="0.43698853" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.106819555" sideWeight="0.43698853" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39764202" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39770868" sideWeight="0.4973939" order="11" side_tool="true" content_ui="tabs" />
@@ -2247,6 +2289,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56301147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.6474359" order="3" side_tool="false" content_ui="combo" />
@@ -2289,7 +2332,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on the problem of if else if else if - how to deal with path generation in that case?" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug - should have created new path constraints for each path solving (and not operate on the old ones)" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2303,7 +2346,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="If html or body selector is part of a complex selector don't remove the whole css rule, just remove the body part from the selector" />
     <MESSAGE value="First work on test generation" />
     <MESSAGE value="Added Expression coverage info; and executing HTMLElement events, still primitive" />
     <MESSAGE value="Added click arguments when generating event-traces" />
@@ -2328,6 +2370,7 @@
     <MESSAGE value="Fixed: flippe from back, not from front" />
     <MESSAGE value="Working on solving constraints for multiple symbolic variables" />
     <MESSAGE value="Working on the problem of if else if else if - how to deal with path generation in that case?" />
+    <MESSAGE value="Fixed a bug - should have created new path constraints for each path solving (and not operate on the old ones)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2340,42 +2383,19 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="8" selection-start="170207" selection-end="170207" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/FcValue.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.3197158" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="976" column="4" selection-start="40425" selection-end="40425" vertical-scroll-proportion="-0.07846715">
-          <folding />
-        </state>
+        <state line="976" column="4" selection-start="40425" selection-end="40425" vertical-scroll-proportion="-0.07846715" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/NumberRange.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="6" selection-start="1063" selection-end="1063" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="36" column="6" selection-start="1063" selection-end="1063" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/Expression.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="242" column="50" selection-start="7816" selection-end="7816" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="256" column="55" selection-start="11852" selection-end="11852" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="242" column="50" selection-start="7816" selection-end="7816" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
@@ -2387,9 +2407,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="131" column="4" selection-start="4340" selection-end="4340" vertical-scroll-proportion="0.35132158">
-          <folding />
-        </state>
+        <state line="131" column="4" selection-start="4340" selection-end="4340" vertical-scroll-proportion="0.35132158" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/SymbolicExecutor.js">
@@ -2406,10 +2424,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/ConstraintResolver.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="12" selection-start="3681" selection-end="3681" vertical-scroll-proportion="0.0">
+        <state line="170" column="70" selection-start="6886" selection-end="6886" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="28" selection-start="30414" selection-end="30414" vertical-scroll-proportion="0.1452514" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/13/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="13" selection-start="931" selection-end="931" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/competitorTests/m_3dmodel/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="75" selection-start="1626" selection-end="1626" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="129" column="30" selection-start="7790" selection-end="7790" vertical-scroll-proportion="-14.333333">
+          <folding>
+            <marker date="1355467206524" expanded="false" signature="8343:8353" placeholder="..." />
+            <marker date="1355467206524" expanded="false" signature="8577:8587" placeholder="..." />
+            <marker date="1355467206524" expanded="false" signature="8625:8637" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2420,35 +2468,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/13/index.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="17" selection-start="666" selection-end="1186" vertical-scroll-proportion="0.0">
+        <state line="104" column="12" selection-start="3681" selection-end="3681" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/ConstraintResolver.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="170" column="70" selection-start="6886" selection-end="6886" vertical-scroll-proportion="0.0">
+        <state line="126" column="46" selection-start="4066" selection-end="4066" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/symbolic/PathConstraint.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="13" selection-start="4689" selection-end="4689" vertical-scroll-proportion="0.0">
+        <state line="52" column="68" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.37995595">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="137" column="23" selection-start="8180" selection-end="8180" vertical-scroll-proportion="0.5520362">
-          <folding>
-            <marker date="1355410547537" expanded="false" signature="8343:8353" placeholder="..." />
-            <marker date="1355410547537" expanded="false" signature="8577:8587" placeholder="..." />
-            <marker date="1355410547537" expanded="false" signature="8625:8637" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>

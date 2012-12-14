@@ -114,7 +114,9 @@ Firecrow.UsageScenarioGenerator =
 
         if(nextToLastExecutionInfo == null) { return true; }
 
-        return nextToLastExecutionInfo.coverage < lastExecutionInfo.coverage;
+        var result = nextToLastExecutionInfo.coverage < lastExecutionInfo.coverage;
+
+        return result;
     },
 
     _getArguments: function(eventRegistration, browser)
