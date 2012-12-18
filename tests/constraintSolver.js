@@ -8,13 +8,18 @@ function evalBinary(left, right, operator)
 {
     return fcSymbolic.SymbolicExecutor.evalBinaryExpression(wrap(left), wrap(right), operator);
 }
+function evalLogical(left, right, operator)
+{
+    return fcSymbolic.SymbolicExecutor.evalLogicalExpression(wrap(left), wrap(right), operator);
+}
 
-/*TestCase("Simple Binary Relational Expressions Ids and Literals",
+TestCase("Simple Binary Relational Expressions Ids and Literals",
 {
     //X == 1 -> X: 1
     "test_L_Id_R_Lit_Op_Eq": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "=="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "=="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.rangeChain.getFromRange());
@@ -23,7 +28,8 @@ function evalBinary(left, right, operator)
     //1 == X -> X: 1
     "test_L_Lit_R_Id_Op_Eq": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "=="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "=="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.rangeChain.getFromRange());
@@ -32,25 +38,28 @@ function evalBinary(left, right, operator)
     //X != 1 -> X: 2
     "test_L_Id_R_Lit_Op_Neq": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "!="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "!="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
-        assertEquals("Value: ", 2, result.rangeChain.getFromRange());
+        assertEquals("Value: ", 0, result.rangeChain.getFromRange());
     },
 
     //1 != X -> X: 2
     "test_L_Lit_R_Id_Op_Neq": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "!="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "!="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
-        assertEquals("Value: ", 2, result.rangeChain.getFromRange());
+        assertEquals("Value: ", 0, result.rangeChain.getFromRange());
     },
 
     //X === 1 -> X: 1
     "test_L_Id_R_Lit_Op_Teq": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "==="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "==="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.rangeChain.getFromRange());
@@ -59,7 +68,8 @@ function evalBinary(left, right, operator)
     //1 === X -> X: 1
     "test_L_Lit_R_Id_Op_Teq": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "==="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "==="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.rangeChain.getFromRange());
@@ -68,25 +78,28 @@ function evalBinary(left, right, operator)
     //X !== 1 -> X: 2
     "test_L_Id_R_Lit_Op_Tneq": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "!=="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "!=="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
-        assertEquals("Value: ", 2, result.rangeChain.getFromRange());
+        assertEquals("Value: ", 0, result.rangeChain.getFromRange());
     },
 
     //1 !== X -> X: 2
     "test_L_Lit_R_Id_Op_Tneq": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "!=="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "!=="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
-        assertEquals("Value: ", 2, result.rangeChain.getFromRange());
+        assertEquals("Value: ", 0, result.rangeChain.getFromRange());
     },
 
     //X < 1 -> X: 0
     "test_L_Id_R_Lit_Op_LT": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "<"));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "<"));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 0, result.rangeChain.getFromRange());
@@ -95,7 +108,8 @@ function evalBinary(left, right, operator)
     // 1 < X -> X: 2
     "test_L_Lit_R_Id_Op_LT": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "<"));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "<"));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 2, result.rangeChain.getFromRange());
@@ -104,7 +118,8 @@ function evalBinary(left, right, operator)
     //X <= 1 -> X: 1
     "test_L_Id_R_Lit_Op_LET": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "<="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), "<="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.rangeChain.getFromRange());
@@ -113,7 +128,8 @@ function evalBinary(left, right, operator)
     // 1 <= X -> X: 1
     "test_L_Lit_R_Id_Op_LET": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "<="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), "<="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.rangeChain.getFromRange());
@@ -122,7 +138,8 @@ function evalBinary(left, right, operator)
     //X >= 1 -> X: 1
     "test_L_Id_R_Lit_Op_GET": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), ">="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createIdentifier("X"), createLiteral(1), ">="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.rangeChain.getFromRange());
@@ -131,24 +148,84 @@ function evalBinary(left, right, operator)
     // 1 >= X -> X: 1
     "test_L_Lit_R_Id_Op_GET": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), ">="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(createLiteral(1), createIdentifier("X"), ">="));
+        var result = results[0];
 
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 1, result.rangeChain.getFromRange());
     }
-}); */
+});
 
 TestCase("Second Stage Complexity of Binary Expressions - one math expression (e.g a [+-*%/] b) other literal",
 {
     //X - 3 == 4 -> X == 7 -> X:7
     "test_L_ME_R_LIT_OP_EQ": function()
     {
-        var result = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(evalBinary(createIdentifier("X"), createLiteral(3), "-"), createLiteral(4), "=="));
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalBinary(evalBinary(createIdentifier("X"), createLiteral(3), "-"), createLiteral(4), "=="));
+
+        var result = results[0];
+
         assertEquals("Identifier: ", result.identifier, "X");
         assertEquals("Value: ", 7, result.rangeChain.getFromRange());
     }
 });
 
+TestCase("Logical Expressions",
+{
+    "test_L_GTC_AND_R_ET_C": function()
+    {
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalLogical(createBinary(createIdentifier("x"), createLiteral(200), ">="), createBinary(createIdentifier("x"), createLiteral(200), "=="), "&&"));
+
+        assertEquals("Should have one identifier solution", 1, results.length);
+
+        var result = results[0];
+
+        assertEquals("Identifier: ", result.identifier, "x");
+        assertEquals("Value: ", 200, result.rangeChain.getFromRange());
+    },
+
+    "test_L_GTC_OR_R_ET_C": function()
+    {
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalLogical(createBinary(createIdentifier("x"), createLiteral(200), ">="), createBinary(createIdentifier("x"), createLiteral(200), "=="), "||"));
+
+        assertEquals("Should have one identifier solution", 1, results.length);
+
+        var result = results[0];
+
+        assertEquals("Identifier: ", result.identifier, "x");
+        assertEquals("Value: ", 200, result.rangeChain.getFromRange());
+    },
+
+    "test_L_GTC_AND_R_LT_C": function()
+    {
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalLogical(createBinary(createIdentifier("x"), createLiteral(200), ">="), createBinary(createIdentifier("x"), createLiteral(200), "<"), "&&"));
+
+        assertEquals("Should have one identifier solution", 1, results.length);
+
+        var result = results[0];
+
+        assertEquals("Identifier: ", result.identifier, "x");
+        assertEquals("Value: ", null, result.rangeChain.getFromRange());
+    },
+
+    "test_L_GTC_OR_R_LT_C": function()
+    {
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalLogical(createBinary(createIdentifier("x"), createLiteral(200), ">="), createBinary(createIdentifier("x"), createLiteral(200), "<"), "||"));
+
+        assertEquals("Should have one identifier solution", 1, results.length);
+
+        var result = results[0];
+
+        assertEquals("Identifier: ", result.identifier, "x");
+        assertEquals("Value: ", 200, result.rangeChain.getFromRange());
+    },
+    "test_TWO_VAR_L_VAR1_GTC_AND_R_VAR2_LT_C": function()
+    {
+        var results = fcSymbolic.ConstraintResolver.resolveConstraint(evalLogical(createBinary(createIdentifier("x"), createLiteral(200), ">="), createBinary(createIdentifier("y"), createLiteral(200), "<"), "&&"));
+
+        assertEquals("Should have two solutions", 2, results.length);
+    }
+});
 
 TestCase("Union",
 {

@@ -28,7 +28,7 @@ fcSymbolic.PathConstraint = function()
     this.resolvedResult = null;
 };
 
-fcSymbolic.PathConstraint.RESOLVED_MAPPING = {};
+fcSymbolic.PathConstraint.RESOLVED_MAPPING = { takenPaths: []};
 
 fcSymbolic.PathConstraint.prototype =
 {
@@ -54,12 +54,15 @@ fcSymbolic.PathConstraint.prototype =
 
         var constraintFormula = this._getConstraintsFormula(pathConstraintItems);
 
+        if(fcSymbolic.PathConstraint.RESOLVED_MAPPING.takenPaths.indexOf(constraintFormula) == -1)
+        {
+            fcSymbolic.PathConstraint.RESOLVED_MAPPING.takenPaths.push(constraintFormula);
+        }
+
         var combinationsDescription = this._getCombinationsDescription(pathConstraintId, pathConstraintItems, constraintFormula);
 
         var pathConstraintItems = this._createPathConstraintItemsCopy(combinationsDescription.pathConstraintItems);
         var constraintFormula = combinationsDescription.constraintFormula;
-
-        console.log("From: " + constraintFormula);
 
         var currentCombination = combinationsDescription.allCombinations[combinationsDescription.currentCombinationIndex++];
 
@@ -73,13 +76,14 @@ fcSymbolic.PathConstraint.prototype =
 
         var modifiedConstraintsFormula = this._getConstraintsFormula(pathConstraintItems);
 
+        if(fcSymbolic.PathConstraint.RESOLVED_MAPPING.takenPaths.indexOf(modifiedConstraintsFormula) != -1)
+        {
+            this.resolve();
+        }
+
         this._cacheGeneratedBy(pathConstraintId, modifiedConstraintsFormula, combinationsDescription);
 
-        console.log("To: " + modifiedConstraintsFormula);
-
         this.resolvedResult = fcSymbolic.ConstraintResolver.resolveConstraints(pathConstraintItems.map(function(item){ return item.constraint; }));
-
-        console.log("Result: " + this.resolvedResult);
 
         if(!this._canGetResultsForAllVariables())
         {

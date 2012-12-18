@@ -11,13 +11,8 @@ fcSymbolic.NumberRangeChain.prototype =
     getFromRange: function()
     {
         if(this.chain.length == 0) { return null; }
-        if(this.chain.length == 1) { return this.chain[0].getFromRange(); }
 
-        var cumulativeChain = fcSymbolic.NumberRangeChain.upgradeToChain(this.chain[0]);
-
-        if(cumulativeChain == null) { return null; }
-
-        return cumulativeChain.getFromRange();
+        return this.chain[0].getFromRange();
     },
 
     appendChain: function(rangeChain, operator)
@@ -96,6 +91,27 @@ fcSymbolic.NumberRangeChain.upgradeToTwoItemChain = function(numberRangeA, numbe
     return new fcSymbolic.NumberRangeChain([numberRangeA, numberRangeB]);
 };
 
+fcSymbolic.NumberRangeChain.performOperation = function(chainA, chainB, operation)
+{
+    var a = 3;
+};
+
+fcSymbolic.NumberRangeChain._getWithLowerLowerBound = function(rangeA, rangeB)
+{
+    if(rangeA == null) { return rangeB; }
+    if(rangeB == null) { return rangeA; }
+
+    return rangeA.lowerBound < rangeB.lowerBound ? rangeA : rangeB;
+};
+
+fcSymbolic.NumberRangeChain._getWithHigherUpperBound = function(rangeA, rangeB)
+{
+    if(rangeA == null) { return rangeB; }
+    if(rangeB == null) { return rangeA; }
+
+    return rangeA.upperBound > rangeB.upperBound ? rangeA : rangeB;
+};
+
 fcSymbolic.NumberRange = function(lowerBound, upperBound)
 {
     this.lowerBound = Math.min(lowerBound, upperBound);
@@ -115,6 +131,15 @@ fcSymbolic.NumberRange.prototype =
     {
         return "[" + this.lowerBound + ", " + this.upperBound + "]";
     }
+};
+
+fcSymbolic.NumberRange.performOperation = function(rangeA, rangeB, operation)
+{
+    if(operation == "&&") { return fcSymbolic.NumberRange.makeIntersection(rangeA, rangeB); }
+    else if(operation == "||") { return fcSymbolic.NumberRange.makeUnion(rangeA, rangeB); }
+
+    alert("Unknown operation in Number Range");
+    return null;
 };
 
 fcSymbolic.NumberRange.makeIntersection = function(rangeA, rangeB)
@@ -183,22 +208,6 @@ fcSymbolic.NumberRange._areWhollyOverlapping = function(rangeA, rangeB)
 fcSymbolic.NumberRange._isContainedWithin = function(innerRange, outerRange)
 {
     return innerRange.lowerBound > outerRange.lowerBound && innerRange.upperBound < outerRange.upperBound;
-};
-
-fcSymbolic.NumberRangeChain._getWithLowerLowerBound = function(rangeA, rangeB)
-{
-    if(rangeA == null) { return rangeB; }
-    if(rangeB == null) { return rangeA; }
-
-    return rangeA.lowerBound < rangeB.lowerBound ? rangeA : rangeB;
-};
-
-fcSymbolic.NumberRangeChain._getWithHigherUpperBound = function(rangeA, rangeB)
-{
-    if(rangeA == null) { return rangeB; }
-    if(rangeB == null) { return rangeA; }
-
-    return rangeA.upperBound > rangeB.upperBound ? rangeA : rangeB;
 };
 /*****************************************************/
 }});

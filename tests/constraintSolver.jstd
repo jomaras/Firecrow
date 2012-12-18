@@ -1,5 +1,6 @@
 load:
 - ../chrome/content/Firecrow/initFBL.js
+- ../chrome/content/Firecrow/helpers/valueTypeHelper.js
 - ../chrome/content/Firecrow/symbolic/NumberRange.js
 - ../chrome/content/Firecrow/symbolic/Expression.js
 - ../chrome/content/Firecrow/symbolic/PathConstraint.js

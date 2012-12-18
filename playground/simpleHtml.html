@@ -5,11 +5,16 @@
 </head>
 <body>
 <script>
-    function changeBanner(bannerId)
-    {
-        console.log(bannerId);
-    }
-    setTimeout(changeBanner, 1000);
+    var http = new XMLHttpRequest();
+    var url = "http://localhost/Firecrow/constraintSolver/index.php";
+    var params = "Constraint=ipsum";
+    http.open("POST", url, false);
+
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.setRequestHeader("Content-length", params.length);
+    http.setRequestHeader("Connection", "close");
+
+    var a = http.send(params);
 </script>
 
 </body>

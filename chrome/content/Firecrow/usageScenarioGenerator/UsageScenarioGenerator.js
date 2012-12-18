@@ -114,9 +114,14 @@ Firecrow.UsageScenarioGenerator =
 
         if(nextToLastExecutionInfo == null) { return true; }
 
-        var result = nextToLastExecutionInfo.coverage < lastExecutionInfo.coverage;
+        if(nextToLastExecutionInfo.coverage < lastExecutionInfo.coverage) { return true; }
 
-        return result;
+        var nextToNextToLastExecutionInfo = eventRegistration.executionInfos[eventRegistration.executionInfos.length - 3];
+
+        if(nextToNextToLastExecutionInfo == null) { return false; }
+
+        return nextToLastExecutionInfo.coverage < lastExecutionInfo.coverage
+            || nextToNextToLastExecutionInfo.coverage < lastExecutionInfo.coverage;
     },
 
     _getArguments: function(eventRegistration, browser)
