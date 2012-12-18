@@ -111,6 +111,7 @@ fcSymbolic.Expression.prototype =
     isSequence: function() { return this.type == fcSymbolic.CONST.SEQUENCE; },
     isUnary: function() { return this.type == fcSymbolic.CONST.UNARY; },
     isBinary: function() { return this.type == fcSymbolic.CONST.BINARY; },
+    isBinaryStringLiteral: function() { return this.isBinary() && this.left.isIdentifier() && this.right.isLiteral() && ValueTypeHelper.isString(this.right.value); },
     isUpdate: function() { return this.type == fcSymbolic.CONST.UPDATE; },
     isLogical: function() { return this.type == fcSymbolic.CONST.LOGICAL; },
     setId: function()
@@ -130,7 +131,10 @@ fcSymbolic.Identifier = function(name)
 };
 fcSymbolic.Identifier.prototype = new fcSymbolic.Expression();
 fcSymbolic.Identifier.prototype.toString = function() { return this.name; }
+fcSymbolic.Identifier.prototype.containsNumericExpressions = function() { return false; };
 fcSymbolic.Identifier.prototype.getIdentifierNames = function() { return [this.name];};
+fcSymbolic.Identifier.prototype.getHtmlElements = function() { return this.htmlElement != null ? [this.htmlElement] : []; };
+
 fcSymbolic.Literal = function(value)
 {
     this.setId();
@@ -140,38 +144,14 @@ fcSymbolic.Literal = function(value)
     this.type = fcSymbolic.CONST.LITERAL;
 };
 fcSymbolic.Literal.prototype = new fcSymbolic.Expression();
+fcSymbolic.Literal.prototype.containsNumericExpressions = function() { return ValueTypeHelper.isNumber(this.value); };
 fcSymbolic.Literal.prototype.getIdentifierNames = function() { return [];};
+fcSymbolic.Literal.prototype.getHtmlElements = function() { return this.htmlElement != null ? [this.htmlElement] : []};
 fcSymbolic.Literal.prototype.toString = function()
 {
     return ValueTypeHelper.isString(this.value) ? '"' + this.value + '"'
                                                 : this.value;
 }
-
-fcSymbolic.Sequence = function(expressions)
-{
-    this.setId();
-
-    this.expressions = expressions;
-
-    this.type = fcSymbolic.CONST.SEQUENCE;
-};
-fcSymbolic.Sequence.prototype = new fcSymbolic.Expression();
-fcSymbolic.Sequence.prototype.toString = function() { return this.expressions.join(", "); }
-fcSymbolic.Sequence.prototype.getIdentifierNames = function()
-{
-    var allIdentifierNames = [];
-
-    for(var i = 0; i < expressions.length; i++)
-    {
-        var identifierNames = expressions[i].getIdentifierNames();
-        if(identifierNames != null && identifierNames.length != 0)
-        {
-            return ValueTypeHelper.pushAll(allIdentifierNames, identifierNames);
-        }
-    }
-
-    return allIdentifierNames;
-};
 
 fcSymbolic.Unary = function(argument, operator, prefix)
 {
@@ -185,6 +165,19 @@ fcSymbolic.Unary = function(argument, operator, prefix)
 };
 fcSymbolic.Unary.prototype = new fcSymbolic.Expression();
 fcSymbolic.Unary.prototype.getIdentifierNames = function() { return this.argument.getIdentifierNames(); }
+fcSymbolic.Unary.prototype.getHtmlElements = function()
+{
+    var htmlElements = [];
+
+    if(this.htmlElement != null)
+    {
+        htmlElements.push(this.htmlElement);
+    }
+
+    ValueTypeHelper.pushAll(htmlElements, this.argument.getHtmlElements());
+
+    return htmlElements;
+};
 fcSymbolic.Unary.prototype.toString = function()
 {
     var string = "";
@@ -210,6 +203,21 @@ fcSymbolic.Binary = function(left, right, operator)
 };
 fcSymbolic.Binary.prototype = new fcSymbolic.Expression();
 fcSymbolic.Binary.prototype.toString = function() { return this.left + " " + this.operator + " " + this.right; };
+fcSymbolic.Binary.prototype.containsNumericExpressions = function() { return this.left.containsNumericExpressions() || this.right.containsNumericExpressions(); };
+fcSymbolic.Binary.prototype.getHtmlElements = function()
+{
+    var htmlElements = [];
+
+    if(this.htmlElement != null)
+    {
+        htmlElements.push(this.htmlElement);
+    }
+
+    ValueTypeHelper.pushAll(htmlElements, this.left.getHtmlElements());
+    ValueTypeHelper.pushAll(htmlElements, this.right.getHtmlElements());
+
+    return htmlElements;
+};
 fcSymbolic.Binary.prototype.getIdentifierNames = function()
 {
     var identifierNames = [];
@@ -231,7 +239,6 @@ fcSymbolic.Update = function(argument, operator, prefix)
     this.type = fcSymbolic.CONST.UPDATE;
 };
 fcSymbolic.Update.prototype = new fcSymbolic.Expression();
-fcSymbolic.Update.prototype.getIdentifierNames = function() { return this.argument.getIdentifierNames(); }
 fcSymbolic.Update.prototype.toString = function()
 {
     var string = "";
@@ -257,6 +264,7 @@ fcSymbolic.Logical = function(left, right, operator)
 };
 
 fcSymbolic.Logical.prototype = new fcSymbolic.Expression();
+fcSymbolic.Logical.prototype.containsNumericExpressions = function() { return this.left.containsNumericExpressions() || this.right.containsNumericExpressions(); };
 fcSymbolic.Logical.prototype.getIdentifierNames = function()
 {
     var identifierNames = [];
@@ -265,6 +273,20 @@ fcSymbolic.Logical.prototype.getIdentifierNames = function()
     ValueTypeHelper.pushAll(identifierNames, this.right.getIdentifierNames());
 
     return  identifierNames;
-}
+};
+fcSymbolic.Logical.prototype.getHtmlElements = function()
+{
+    var htmlElements = [];
+
+    if(this.htmlElement != null)
+    {
+        htmlElements.push(this.htmlElement);
+    }
+
+    ValueTypeHelper.pushAll(htmlElements, this.left.getHtmlElements());
+    ValueTypeHelper.pushAll(htmlElements, this.right.getHtmlElements());
+
+    return htmlElements;
+};
 fcSymbolic.Logical.prototype.toString = function() { return this.left + " " + this.operator + " " + this.right; };
 }});

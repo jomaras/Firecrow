@@ -27,6 +27,8 @@ fcSymbolic.ConstraintResolver =
 
     resolveConstraint: function(symbolicExpression)
     {
+        if(!symbolicExpression.containsNumericExpressions()) { return this._resolveStringConstraint(symbolicExpression); }
+
         var result = RequestHelper.performSynchronousPost("http://localhost/Firecrow/constraintSolver/index.php", {
             Constraint: encodeURIComponent(JSON.stringify(symbolicExpression))
         });
@@ -46,6 +48,22 @@ fcSymbolic.ConstraintResolver =
         }
 
         return constraintResults;
+    },
+
+    _resolveStringConstraint: function(symbolicExpression)
+    {
+        return [new fcSymbolic.ConstraintResult
+        (
+            symbolicExpression.getIdentifierNames()[0],
+            {},
+            symbolicExpression.getHtmlElements()[0]
+        )];
+    },
+
+    _isStringLiteralBinaryExpression: function(symbolicExpression)
+    {
+        return symbolicExpression.isBinary() && symbolicExpression.left.isIdentifier() && symbolicExpression.right.isLiteral()
+            && ValueTypeHelper.isString(symbolicExpression.right.value);
     },
 
     getInverseConstraint: function(symbolicExpression)
