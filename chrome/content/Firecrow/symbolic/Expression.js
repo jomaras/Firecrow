@@ -260,6 +260,11 @@ fcSymbolic.Logical = function(left, right, operator)
     this.right = right;
     this.operator = operator;
 
+    if(this.left == null || this.right == null)
+    {
+        var a = 3;
+    }
+
     this.type = fcSymbolic.CONST.LOGICAL;
 };
 

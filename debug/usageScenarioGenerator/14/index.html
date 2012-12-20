@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 13</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<select id="modello">
+    <option value="dino">Dinosaur</option>
+    <option value="ship">Ship</option>
+    <option value="heli">Helicopter</option>
+</select>
+
+<div id="mainContainer"></div>
+<script>
+    window.onload = function()
+    {
+        document.getElementById("modello").onchange = changeModel;
+        var mainContainer = document.getElementById("mainContainer");
+
+        function changeModel()
+        {
+            if (document.getElementById("modello").value == 'dino') {
+                mainContainer.textContent = "dino";
+            }
+            if (document.getElementById("modello").value == 'heli') {
+                mainContainer.textContent = "heli";
+            }
+            if (document.getElementById("modello").value == 'ship') {
+                mainContainer.textContent = "ship";
+            }
+        }
+    };
+</script>
+</body>
+</html>

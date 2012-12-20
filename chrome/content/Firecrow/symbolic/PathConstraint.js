@@ -83,7 +83,16 @@ fcSymbolic.PathConstraint.prototype =
 
         this._cacheGeneratedBy(pathConstraintId, modifiedConstraintsFormula, combinationsDescription);
 
-        this.resolvedResult = fcSymbolic.ConstraintResolver.resolveConstraints(pathConstraintItems.map(function(item){ return item.constraint; }));
+        this.resolvedResult = fcSymbolic.ConstraintResolver.resolveConstraints
+        (
+            pathConstraintItems.filter(function(item)
+            {
+                return item.constraint != null;
+            }).map(function(item)
+            {
+                return item.constraint;
+            })
+        );
 
         if(!this._canGetResultsForAllVariables())
         {

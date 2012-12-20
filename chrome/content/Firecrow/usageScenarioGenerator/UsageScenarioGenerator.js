@@ -73,6 +73,11 @@ Firecrow.UsageScenarioGenerator =
 
             if(!this._shouldPerformAnotherExecution(eventRegistration)) { i++; continue; }
 
+            if(eventRegistration.eventType == "onchange")
+            {
+                var a = 3;
+            }
+
             var executionInfo = this._getLastExecutionInfo(eventRegistration);
 
             if(executionInfo != null)

@@ -28,22 +28,36 @@ fcSymbolic.SymbolicExecutor =
 
     evalLogicalExpression: function(leftFcValue, rightFcValue, operator)
     {
-        if(leftFcValue == null && rightFcValue == null) { return null; }
+        if((leftFcValue == null || leftFcValue.isNotSymbolic()) && (rightFcValue == null || rightFcValue.isNotSymbolic())) { return null; }
 
         var leftSymbolic = leftFcValue != null ? leftFcValue.symbolicValue : null;
 
-        if(leftSymbolic == null && ValueTypeHelper.isPrimitive(leftFcValue.jsValue))
+        if(leftSymbolic == null)
         {
-            leftSymbolic = new fcSymbolic.Literal(leftFcValue.jsValue);
+            if(ValueTypeHelper.isPrimitive(leftFcValue.jsValue))
+            {
+                leftSymbolic = new fcSymbolic.Literal(leftFcValue.jsValue);
+            }
+            else
+            {
+                alert("The value is not literal");
+            }
         }
 
         var rightSymbolic = rightFcValue != null ? rightFcValue.symbolicValue : null;
 
         if(rightFcValue == null) { return leftSymbolic; }
 
-        if(rightSymbolic == null && ValueTypeHelper.isPrimitive(rightFcValue.jsValue))
+        if(rightSymbolic == null)
         {
-            rightSymbolic = new fcSymbolic.Literal(rightFcValue.jsValue);
+            if(ValueTypeHelper.isPrimitive(rightFcValue.jsValue))
+            {
+                rightSymbolic = new fcSymbolic.Literal(rightFcValue.jsValue);
+            }
+            else
+            {
+                alert("The value is not literal");
+            }
         }
 
         return this._simplifyExpression(new fcSymbolic.Logical(leftSymbolic, rightSymbolic, operator));

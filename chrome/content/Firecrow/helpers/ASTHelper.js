@@ -39,12 +39,13 @@ Firecrow.ASTHelper =
     calculateExpressionCoverage: function(models)
     {
         var ASTHelper = this;
+
+        var totalNumberOfExpressions = 0;
+        var executedNumberOfExpressions = 0;
+
         for(var i = 0; i < models.length; i++)
         {
             var model = models[i];
-
-            var totalNumberOfExpressions = 0;
-            var executedNumberOfExpressions = 0;
 
             this.traverseAst(model, function(astElement)
             {

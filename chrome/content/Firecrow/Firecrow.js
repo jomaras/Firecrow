@@ -219,6 +219,8 @@ FBL.ns(function() { with (FBL) {
                                 }
                                 return value;
                             }));
+
+                            //prompt("JSON", JSON.stringify(htmlJson));
                         }
                         catch(e) { alert("Error when converting to JSON model:" + e)};
                     }, this);
