@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slicing test</title>
+    <meta charset="UTF-8"/>
+    <script>
+        var x =
+        {
+            toString: function() {return "foo"; },
+            valueOf: function() {return 42; }
+        };
+
+        var a1 = x + "";
+        var a2 = x.toString();
+
+        a1; a2;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

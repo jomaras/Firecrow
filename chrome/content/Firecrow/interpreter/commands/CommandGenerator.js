@@ -944,7 +944,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         var commands = [];
 
         ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.left, parentFunctionCommand));
+        commands.push(new fcCommands.Command(sourceElement.left, fcCommands.Command.COMMAND_TYPE.ConvertToPrimitive, parentFunctionCommand));
+
         ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
+        commands.push(new fcCommands.Command(sourceElement.right, fcCommands.Command.COMMAND_TYPE.ConvertToPrimitive, parentFunctionCommand));
 
         commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalBinaryExpression, parentFunctionCommand));
 

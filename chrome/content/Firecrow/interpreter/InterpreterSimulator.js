@@ -126,6 +126,7 @@ fcSimulator.prototype =
         else if (command.isIfStatementCommand()) { this._generateCommandsAfterIfCommand(command); }
         else if (command.isEvalConditionalExpressionBodyCommand()) { this._generateCommandsAfterConditionalCommand(command); }
         else if (command.isCaseCommand()) { this._generateCommandsAfterCaseCommand(command); }
+        else if (command.isConvertToPrimitiveCommand()) { this._generateCommandsAfterConvertToPrimitiveCommand(command); }
         else { fcSimulator.notifyError("Unknown generating new commands command!"); }
     },
 
@@ -141,8 +142,6 @@ fcSimulator.prototype =
 
     _processTryCommand: function(command)
     {
-        if(!(command.isStartTryStatementCommand() || command.isEndTryStatementCommand())) { fcSimulator.notifyError("The command is not a try command in InterpreterSimulator!"); return; }
-
         if(command.isStartTryStatementCommand())
         {
             this.tryStack.push(command); return;
@@ -155,6 +154,7 @@ fcSimulator.prototype =
 
             this.tryStack.pop();
         }
+        else { fcSimulator.notifyError("Unknown command type when processing try command"); }
     },
 
     _removeCommandsAfterReturnStatement: function(returnCommand)
@@ -242,8 +242,6 @@ fcSimulator.prototype =
 
     _removeCommandsAfterLogicalExpressionItem: function(evalLogicalExpressionItemCommand)
     {
-        if(!evalLogicalExpressionItemCommand.isEvalLogicalExpressionItemCommand()) { fcSimulator.notifyError("Argument is not an eval logical expression item command"); return; }
-
         if(evalLogicalExpressionItemCommand.shouldDeleteFollowingLogicalCommands)
         {
             var parentCommand = evalLogicalExpressionItemCommand.parentLogicalExpressionCommand;
@@ -271,8 +269,6 @@ fcSimulator.prototype =
 
     _generateCommandsAfterNewExpressionCommand: function(newCommand)
     {
-        if(!newCommand.isEvalNewExpressionCommand()) { fcSimulator.notifyError("Argument is not newExpressionCommand"); return; }
-
         var callConstruct = newCommand.codeConstruct;
         var callee = this.executionContextStack.getExpressionValue(callConstruct.callee);
         var newObject = this.globalObject.internalExecutor.createObject
@@ -301,8 +297,6 @@ fcSimulator.prototype =
 
     _generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)
     {
-        if(!callExpressionCommand.isEvalCallExpressionCommand()) { fcSimulator.notifyError("Argument is not callExpressionCommand"); return; }
-
         var callConstruct = callExpressionCommand.codeConstruct;
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
@@ -340,8 +334,6 @@ fcSimulator.prototype =
 
     _generateCommandsAfterLoopCommand: function(loopCommand)
     {
-        if(!loopCommand.isLoopStatementCommand()) { fcSimulator.notifyError("Argument has to be a loop command!"); return; }
-
         ValueTypeHelper.insertElementsIntoArrayAtIndex
         (
             this.commands,
@@ -356,8 +348,6 @@ fcSimulator.prototype =
 
     _generateCommandsAfterIfCommand: function(ifCommand)
     {
-        if(!ifCommand.isIfStatementCommand()) { fcSimulator.notifyError("Argument has to be a if command!"); return; }
-
         var ifConditionValue = this.executionContextStack.getExpressionValue(ifCommand.codeConstruct.test);
 
         var generatedCommands = CommandGenerator.generateIfStatementBodyCommands(ifCommand, ifConditionValue.jsValue, ifCommand.parentFunctionCommand);
@@ -369,8 +359,6 @@ fcSimulator.prototype =
 
     _generateCommandsAfterConditionalCommand: function(conditionalCommand)
     {
-        if(!conditionalCommand.isEvalConditionalExpressionBodyCommand()) { fcSimulator.notifyError("Argument has to be a conditional expression body command!"); return; }
-
         ValueTypeHelper.insertElementsIntoArrayAtIndex
         (
             this.commands,
@@ -396,6 +384,28 @@ fcSimulator.prototype =
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, CommandGenerator.generateCaseExecutionCommands(caseCommand), this.currentCommandIndex + 1);
         }
+    },
+
+    _generateCommandsAfterConvertToPrimitiveCommand: function(convertToPrimitiveCommand)
+    {
+        var expression = convertToPrimitiveCommand.codeConstruct;
+        var expressionValue = this.executionContextStack.getExpressionValue(expression);
+
+        //Is null, don't do anything - will throw exception later when processing binary expression
+        //If primitive, there is nothing to do
+        if(expressionValue == null || expressionValue.isPrimitive()) { return; }
+
+        var valueOfFunction = expressionValue.iValue.getPropertyValue("valueOf");
+
+        //If there is no user-defined valueOf function just return
+        if(valueOfFunction == null || valueOfFunction.iValue == null || valueOfFunction.isInternalFunction ) { return; }
+
+        ValueTypeHelper.insertElementsIntoArrayAtIndex
+        (
+            this.commands,
+            CommandGenerator.generateFunctionExecutionCommands(convertToPrimitiveCommand, valueOfFunction, expressionValue),
+            this.currentCommandIndex + 1
+        );
     },
 
     registerMessageGeneratedCallback: function(callbackFunction, thisValue)

@@ -82,6 +82,8 @@ fcSimulator.DependencyCreator.prototype =
 
     _createArgumentsToCallDependencies: function(callCommand, args)
     {
+        if(args == null) { return; }
+
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
         for(var i = 0; i < args.length; i++)
@@ -92,6 +94,8 @@ fcSimulator.DependencyCreator.prototype =
 
     _createFormalParameterDependencies: function(callCommand, formalParams, args)
     {
+        if(args == null) { return; }
+
         if(callCommand.isApply) { this._createFormalParameterDependenciesInApply(callCommand, formalParams, args); }
         else if (callCommand.isCall) { this._createFormalParameterDependenciesInCall(callCommand, formalParams, args); }
         else if (callCommand.isExecuteCallbackCommand()) {this._createFormalParameterDependenciesInCallback(callCommand, formalParams, args);}
@@ -443,6 +447,8 @@ fcSimulator.DependencyCreator.prototype =
         }
         else
         {
+            if(args == null) { return; }
+
             for(var i = 0, length = args.length; i < length; i++)
             {
                 var argument = args[i];

@@ -3,6 +3,12 @@ load:
   - ../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js
   - ../debug/slicingModelMapping.js
   - ../debug/domModelMapping.js
+  - ../chrome/content/Firecrow/symbolic/NumberRange.js
+  - ../chrome/content/Firecrow/symbolic/Expression.js
+  - ../chrome/content/Firecrow/symbolic/PathConstraint.js
+  - ../chrome/content/Firecrow/symbolic/SymbolicExecutor.js
+  - ../chrome/content/Firecrow/symbolic/ConstraintResolver.js
+  - ../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js
   - ../chrome/content/Firecrow/parsers/CssSelectorParser.js
   - ../chrome/content/Firecrow/helpers/valueTypeHelper.js
   - ../chrome/content/Firecrow/helpers/ASTHelper.js

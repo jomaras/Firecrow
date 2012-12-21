@@ -20,7 +20,7 @@ Firecrow.Interpreter.Commands.Command = function(codeConstruct, type, parentFunc
 
     this.generatesNewCommands = this.isEvalCallbackFunctionCommand() ||  this.isEvalNewExpressionCommand() || this.isEvalCallExpressionCommand()
                              || this.isLoopStatementCommand() || this.isIfStatementCommand() ||  this.isEvalConditionalExpressionBodyCommand()
-                             || this.isCaseCommand() || this.isCallCallbackMethodCommand();
+                             || this.isCaseCommand() || this.isCallCallbackMethodCommand() || this.isConvertToPrimitiveCommand();
 };
 
 Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
@@ -260,6 +260,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isExecuteCallbackCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ExecuteCallback; },
 
+    isConvertToPrimitiveCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ConvertToPrimitive; },
+
     getLineNo: function()
     {
         return this.codeConstruct != null && this.codeConstruct.loc != null ? this.codeConstruct.loc.start.line : -1;
@@ -348,7 +350,9 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     CallInternalFunction: "CallInternalFunction",
     CallCallbackMethod: "CallCallbackMethod",
 
-    ExecuteCallback: "ExecuteCallback"
+    ExecuteCallback: "ExecuteCallback",
+
+    ConvertToPrimitive: "ConvertToPrimitive"
 };
 /*************************************************************************************/
 }});
