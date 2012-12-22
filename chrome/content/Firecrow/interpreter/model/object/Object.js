@@ -317,6 +317,13 @@ fcModel.Object.prototype =
         }
         catch(e) { fcModel.Object.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source); }
     },
+
+    addModification: function(codeConstruct)
+    {
+        if(codeConstruct == null) { return; }
+
+        this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+    },
     //</editor-fold>
 
     //<editor-fold desc="'Private' methods">

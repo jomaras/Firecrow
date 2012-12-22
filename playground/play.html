@@ -7,25 +7,25 @@
 <body>
 <div id="container"></div>
 <script>
-
-   var container = document.getElementById("container");
-
-   function Test()
+   function shouldReplace(a, b)
    {
-        this.a = 3;
+        return a - b > 0;
    }
 
-   Test.prototype.b = 4;
-   Test.prototype.constructor = function(){};
-   var a = new Test();
+   var array = [2,3,1,4,5];
 
-   var test = "";
-   for(var prop in a)
+   for(var i = 0; i < array.length - 1; i++)
    {
-        test += prop;
+      for(var j = i + 1; j < array.length; j++ )
+      {
+        if(shouldReplace(array[i], array[j]))
+        {
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+      }
    }
-
-   container.innerHTML = test + "<br/>";
 </script>
 
 

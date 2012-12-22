@@ -43,26 +43,25 @@ fcModel.ArrayExecutor =
                 case "unshift":
                 case "splice":
                 case "join":
-                case "sort":
                     return fcModel.Array.prototype[functionName].apply(fcThisValue, [thisObjectValue, args, callExpression, thisObject]);
+                case "sort":
+                    //If there is no function argument to sort, execute the internal sort method
+                    if(args == null || args.length == 0)
+                    {
+                        return fcModel.Array.prototype[functionName].apply(fcThisValue, [thisObjectValue, args, callExpression, thisObject]);
+                    }
+                    //If there is drop down and handle it as a callback method
                 case "forEach":
                 case "filter":
                 case "every":
                 case "some":
                 case "map":
-                    var allCallbackArguments = [];
                     var callbackParams = callExpression.arguments != null ? callExpression.arguments[0].params : [];
-                    callbackParams = callbackParams || [];
-
-                    for(var i = 0, length = thisObjectValue.length; i < length; i++)
-                    {
-                        allCallbackArguments.push([thisObject.jsValue[i], globalObject.internalExecutor.createInternalPrimitiveObject(callbackParams[i], i), thisObject]);
-                    }
 
                     callCommand.generatesNewCommands = true;
                     callCommand.generatesCallbacks = true;
                     callCommand.callbackFunction = args[0];
-                    callCommand.callbackArgumentGroups = allCallbackArguments;
+                    callCommand.callbackArgumentGroups = this._generateCallbackArguments(thisObject, callbackParams || [], functionName);
                     callCommand.thisObject =  args[1] || globalObject;
                     callCommand.originatingObject = thisObject;
                     callCommand.callerFunction = functionObject;
@@ -70,6 +69,11 @@ fcModel.ArrayExecutor =
                     if(functionName == "filter" || functionName == "map")
                     {
                         callCommand.targetObject = globalObject.internalExecutor.createArray(callExpression);
+                        return callCommand.targetObject;
+                    }
+                    else if(functionName == "sort")
+                    {
+                        callCommand.targetObject = thisObject;
                         return callCommand.targetObject;
                     }
                     else
@@ -82,6 +86,44 @@ fcModel.ArrayExecutor =
             }
         }
         catch(e) { fcModel.Array.notifyError("Error when executing internal array method: " + e + e.fileName + e.lineNumber); }
+    },
+
+    _generateCallbackArguments: function(thisObject, callbackParams, functionName)
+    {
+        if(functionName == "sort") { return this._generateSortCallbackArguments(thisObject, callbackParams); }
+        else { return this._generateIterateOverAllItemsCallbackArguments(thisObject, callbackParams); }
+    },
+
+    _generateSortCallbackArguments: function(thisObject, callbackParams)
+    {
+        var thisObjectValue = thisObject.jsValue;
+
+        var callbackArguments = [];
+
+        var length = thisObjectValue.length;
+        for(var i = 0; i < length - 1; i++)
+        {
+            for(var j = i + 1; j < length; j++)
+            {
+                callbackArguments.push([thisObject.jsValue[i], thisObject.jsValue[j]]);
+            }
+        }
+
+        return callbackArguments;
+    },
+
+    _generateIterateOverAllItemsCallbackArguments: function(thisObject, callbackParams)
+    {
+        var thisObjectValue = thisObject.jsValue;
+        var globalObject = thisObject.iValue.globalObject;
+        var callbackArguments = [];
+
+        for(var i = 0, length = thisObjectValue.length; i < length; i++)
+        {
+            callbackArguments.push([thisObject.jsValue[i], globalObject.internalExecutor.createInternalPrimitiveObject(callbackParams[i], i), thisObject]);
+        }
+
+        return callbackArguments;
     },
 
     isInternalArrayMethod: function(potentialFunction)

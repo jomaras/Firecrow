@@ -213,13 +213,13 @@ fcModel.Array.prototype.unshift = function(jsArray, callArguments, callExpressio
     catch(e) { fcModel.Array.notifyError("Error when unshifting items in array: " + e); }
 };
 
-fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, fcValue)
+fcModel.Array.prototype.sort = function(jsArray, args, codeConstruct, fcValue)
 {
     this.addDependenciesToAllProperties(codeConstruct);
 
     var isCalledOnArray = this.constructor === fcModel.Array;
 
-    if(!isCalledOnArray) { alert("Sort called on non-array!");}
+    if(!isCalledOnArray) { alert("Sort called on non-array!"); }
 
     var lengthProperty = this.getPropertyValue("length");
     var length = lengthProperty != null ? lengthProperty.jsValue : 0;
@@ -228,39 +228,15 @@ fcModel.Array.prototype.sort = function(jsArray, arguments, codeConstruct, fcVal
 
     var sortFunction = null;
 
-    if(arguments.length > 0)
+    if(args.length > 0) { return fcValue; }
+
+    var sortFunction = function(a, b)
     {
-        var arg = arguments[0];
-        var functionConstruct = arg.codeConstruct;
-        var returnArg = ASTHelper.getSimpleSortingFunctionReturnArg(functionConstruct);
+        //just sort lexicographically
+        if(a.jsValue == b.jsValue) { return 0;}
 
-        if(returnArg)
-        {
-            functionConstruct.isSortingFunction = true;
-            var paramsCode = functionConstruct.params.map(function (param) { return param.name; }).join(",");
-            sortFunction = eval("(function (" + paramsCode + ") {" + "return " + returnArg.left.name + ".jsValue" + returnArg.operator + returnArg.right.name + ".jsValue;})");
-            var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, returnArg, evaluationPosition);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, returnArg.left, evaluationPosition);
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, returnArg.right, evaluationPosition);
-        }
-        else
-        {
-            console.log("Still not handling parametrized sort - " + codeConstruct.loc.start.line);
-        }
-    }
-
-    if(sortFunction == null)
-    {
-        sortFunction = function(a, b)
-        {
-            //just sort lexicographically
-            if(a.jsValue == b.jsValue) { return 0;}
-
-            return a.jsValue < b.jsValue ? -1 : 1;
-        };
-    }
+        return a.jsValue < b.jsValue ? -1 : 1;
+    };
 
     this.items.sort(sortFunction);
     jsArray.sort(sortFunction);
