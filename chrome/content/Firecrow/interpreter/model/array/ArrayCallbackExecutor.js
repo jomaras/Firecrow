@@ -24,7 +24,6 @@ fcModel.ArrayCallbackEvaluator =
             else if(callbackFunctionValue.name == "reduce") { fcModel.Array.notifyError("Still not handling evaluate return from reduce"); return; }
             else if(callbackFunctionValue.name == "reduceRight") { fcModel.Array.notifyError("Still not handling evaluate return from reduceRight"); return; }
             else if(callbackFunctionValue.name == "forEach") { }
-
             else
             {
                 fcModel.Array.notifyError("Unknown callbackFunction!");
@@ -38,7 +37,7 @@ fcModel.ArrayCallbackEvaluator =
 
     _evaluateFilterCallback: function(targetObject, returnValue, callbackCommand, returnExpression)
     {
-        var targetObjectValue = targetObject.jsValue;;
+        var targetObjectValue = targetObject.jsValue;
 
         if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
 

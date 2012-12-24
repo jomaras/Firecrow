@@ -524,7 +524,7 @@ Firecrow.ConflictFixer =
 
         var mapping;
 
-        mapping = reusedAppBrowser.globalObject.resourceSetterPropertiesMap;
+        mapping = reusedAppBrowser.getResourceSetterMap();
 
         for(var prop in mapping)
         {
@@ -654,7 +654,7 @@ Firecrow.ConflictFixer =
 
     _fixIterationConstructs: function(browser, prototypeExtension)
     {
-        var forInIterations = browser.globalObject.objectForInIterations;
+        var forInIterations = browser.getForInIterationsLog();
 
         for(var i = 0; i < forInIterations.length; i++)
         {
@@ -899,7 +899,7 @@ Firecrow.ConflictFixer =
                 edge.sourceNode.model.name = this.generateReusePrefix() + edge.sourceNode.model.name;
             }
 
-            var undefinedGlobalPropertiesMap = reuseAppBrowser.globalObject.undefinedGlobalPropertiesAccessMap;
+            var undefinedGlobalPropertiesMap = reuseAppBrowser.getUndefinedGlobalPropertiesAccessMap();
 
             for(var propertyName in undefinedGlobalPropertiesMap)
             {

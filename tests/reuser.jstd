@@ -1,7 +1,6 @@
 load:
   - ../debug/reuseTests/reuseModels.js
   - ../chrome/content/Firecrow/initFBL.js
-  - ../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js
   - ../chrome/content/Firecrow/parsers/CssSelectorParser.js
   - ../chrome/content/Firecrow/helpers/valueTypeHelper.js
   - ../chrome/content/Firecrow/helpers/ASTHelper.js
@@ -14,6 +13,12 @@ load:
   - ../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js
   - ../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js
   - ../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js
+  - ../chrome/content/Firecrow/symbolic/NumberRange.js
+  - ../chrome/content/Firecrow/symbolic/Expression.js
+  - ../chrome/content/Firecrow/symbolic/PathConstraint.js
+  - ../chrome/content/Firecrow/symbolic/SymbolicExecutor.js
+  - ../chrome/content/Firecrow/symbolic/ConstraintResolver.js
+  - ../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js
   - ../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js
   - ../chrome/content/Firecrow/interpreter/commands/Command.js
   - ../chrome/content/Firecrow/interpreter/model/FcValue.js
@@ -62,6 +67,7 @@ load:
   - ../chrome/content/Firecrow/interpreter/InterpreterSimulator.js
   - ../chrome/content/Firecrow/doppelBrowser/webFile.js
   - ../chrome/content/Firecrow/doppelBrowser/browser.js
+  - ../chrome/content/Firecrow/interpreter/ExecutionInfo.js
   - ../chrome/content/Firecrow/Slicer.js
   - ../chrome/content/Firecrow/Reuser.js
   - ../chrome/content/Firecrow/templates/reuserTemplates.js

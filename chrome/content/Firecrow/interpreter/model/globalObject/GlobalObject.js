@@ -25,7 +25,6 @@ fcModel.GlobalObject = function(browser)
 
         this._createSlicingVariables();
 
-        this._createTrackerMaps();
         this._createHandlerMaps();
 
         this._createEvaluationPositionProperties();
@@ -74,7 +73,7 @@ fcModel.GlobalObject.prototype.getJsPropertyValue = function(propertyName, codeC
 {
     var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
 
-    if(propertyValue === undefined) { this._logAccessingUndefinedProperty(propertyName, codeConstruct); }
+    if(propertyValue === undefined) { this.browser.logAccessingUndefinedProperty(propertyName, codeConstruct); }
 
     return propertyValue;
 };
@@ -205,6 +204,16 @@ fcModel.GlobalObject.prototype.getUserSetGlobalProperties = function()
     }
 
     return userSetGlobalProperties;
+};
+
+fcModel.GlobalObject.prototype.logResourceSetting = function(codeConstruct, resourcePath)
+{
+    this.browser.logResourceSetting(codeConstruct, resourcePath);
+};
+
+fcModel.GlobalObject.prototype.logForInIteration = function(codeConstruct, objectPrototype)
+{
+    this.browser.logForInIteration(codeConstruct, objectPrototype);
 };
 
 fcModel.GlobalObject.prototype.getLoadedHandlers = function()
@@ -523,13 +532,6 @@ fcModel.GlobalObject.prototype._createInternalVariables = function()
     this.addProperty("mozInnerScreenY", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenY));
 };
 
-fcModel.GlobalObject.prototype._createTrackerMaps = function()
-{
-    this.undefinedGlobalPropertiesAccessMap = {};
-    this.resourceSetterPropertiesMap = {};
-    this.objectForInIterations = [];
-};
-
 fcModel.GlobalObject.prototype._createHandlerMaps = function()
 {
     this.eventHandlerPropertiesMap = {};
@@ -537,18 +539,6 @@ fcModel.GlobalObject.prototype._createHandlerMaps = function()
 
     this.timeoutHandlers = [];
     this.intervalHandlers = [];
-};
-
-fcModel.GlobalObject.prototype._logAccessingUndefinedProperty = function(propertyName, codeConstruct)
-{
-    if(codeConstruct == null || fcModel.GlobalObject.CONST.isEventProperty(propertyName)) { return; }
-
-    if(this.undefinedGlobalPropertiesAccessMap[propertyName] == null)
-    {
-        this.undefinedGlobalPropertiesAccessMap[propertyName] = {};
-    }
-
-    this.undefinedGlobalPropertiesAccessMap[propertyName][codeConstruct.nodeId] = codeConstruct;
 };
 //</editor-fold>
 

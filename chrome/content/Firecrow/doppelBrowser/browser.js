@@ -13,49 +13,6 @@ var fcSimulator = Firecrow.Interpreter.Simulator;
 var fcModel = Firecrow.Interpreter.Model;
 var fcBrowser = Firecrow.DoppelBrowser;
 
-fcBrowser.ExecutionInfo = function()
-{
-    this.pathConstraint = new FBL.Firecrow.Symbolic.PathConstraint();
-    this.visitedFunctionsMap = {};
-};
-
-fcBrowser.ExecutionInfo.prototype =
-{
-    addConstraint: function(codeConstruct, constraint, inverse)
-    {
-        this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
-    },
-
-    addFunctionAsVisited: function(functionConstruct)
-    {
-        if(!ASTHelper.isFunction(functionConstruct)) { return; }
-
-        this.visitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
-    },
-
-    getVisitedFunctions: function()
-    {
-        var visitedFunctions = [];
-
-        for(var prop in this.visitedFunctionsMap)
-        {
-            visitedFunctions.push(this.visitedFunctionsMap[prop]);
-        }
-
-        return visitedFunctions;
-    },
-
-    getVisitedFunctionsExpressionCoverage: function()
-    {
-        return ASTHelper.calculateExpressionCoverage(this.getVisitedFunctions());
-    },
-
-    calculateCoverage: function()
-    {
-        this.coverage = this.getVisitedFunctionsExpressionCoverage();
-    }
-};
-
 fcBrowser.Browser = function(pageModel)
 {
     try
@@ -296,13 +253,89 @@ Browser.prototype =
         }
         catch(e)
         {
-            this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e);
+            this.notifyError("DoppelBrowser.browser error when interpreting js code: " + e + "@" + e.fileName + " " + e.lineNumber);
         }
     },
 
     getLastExecutionInfo: function()
     {
         return this.executionInfo[this.executionInfo.length - 1];
+    },
+
+    getUndefinedGlobalPropertiesAccessMap: function()
+    {
+        var map = {};
+
+        for(var i = 0; i < this.executionInfo.length; i++)
+        {
+            var itemMap = this.executionInfo[i].undefinedGlobalPropertiesAccessMap;
+
+            for(var propertyName in itemMap)
+            {
+                if(propertyName == "") { continue; }
+
+                if(map[propertyName] == null)
+                {
+                    map[propertyName] = itemMap[propertyName];
+                }
+                else
+                {
+                    var expanderObject = itemMap[propertyName];
+                    var expandedObject = map[propertyName];
+
+                    for(var codeConstructId in expanderObject)
+                    {
+                        expandedObject[codeConstructId] = expanderObject[codeConstructId];
+                    }
+                }
+            }
+        }
+
+        return map;
+    },
+
+    getResourceSetterMap: function()
+    {
+        var map = {};
+
+        for(var i = 0; i < this.executionInfo.length; i++)
+        {
+            var itemMap = this.executionInfo[i].resourceSetterPropertiesMap;
+
+            for(var propName in itemMap)
+            {
+                map[propName] = itemMap[propName];
+            }
+        }
+
+        return map;
+    },
+
+    getForInIterationsLog: function()
+    {
+        var forInIterations = [];
+
+        for(var i = 0; i < this.executionInfo.length; i++)
+        {
+            ValueTypeHelper.pushAll(forInIterations, this.executionInfo[i].objectForInIterations);
+        }
+
+        return forInIterations;
+    },
+
+    logAccessingUndefinedProperty: function(propertyName, codeConstruct)
+    {
+        this.getLastExecutionInfo().logAccessingUndefinedProperty(propertyName, codeConstruct);
+    },
+
+    logResourceSetting: function(codeConstruct, resourcePath)
+    {
+        this.getLastExecutionInfo().logResourceSetting(codeConstruct, resourcePath);
+    },
+
+    logForInIteration: function(codeConstruct, objectPrototype)
+    {
+        this.getLastExecutionInfo().logForInIteration(codeConstruct, objectPrototype);
     },
 
     addPathConstraint: function(codeConstruct, constraint, inverse)

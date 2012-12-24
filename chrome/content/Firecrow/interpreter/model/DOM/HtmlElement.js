@@ -274,11 +274,7 @@ fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propert
     }
     else if(propertyName == "src")
     {
-        this.globalObject.resourceSetterPropertiesMap[codeConstruct.nodeId] =
-        {
-            codeConstruct: codeConstruct,
-            resourceValue: propertyValue.jsValue
-        };
+        this.globalObject.logResourceSetting(codeConstruct, propertyValue.jsValue);
     }
 };
 

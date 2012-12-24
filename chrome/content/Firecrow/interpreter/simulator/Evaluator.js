@@ -757,11 +757,7 @@ fcSimulator.Evaluator.prototype =
     {
         if(forInWhereCommand == null || forInWhereCommand.currentPropertyIndex !== 0 || whereObject == null) { return; }
 
-        this.globalObject.objectForInIterations.push
-        ({
-            proto: whereObject.proto,
-            codeConstruct: forInWhereCommand.codeConstruct
-        });
+        this.globalObject.logForInIteration(forInWhereCommand.codeConstruct, whereObject.proto);
     },
 
     _callExceptionCallbacks: function(exceptionInfo)
