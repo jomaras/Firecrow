@@ -87,6 +87,8 @@ fcBrowser.ExecutionInfo.prototype =
 
     logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
     {
+        if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
+
         this.globalAccessedIdentifiers.push(identifier);
     },
 
@@ -113,5 +115,5 @@ fcBrowser.ExecutionInfo.prototype =
     }
 };
 
-    /*************************************************************************************/
+/*************************************************************************************/
 }});

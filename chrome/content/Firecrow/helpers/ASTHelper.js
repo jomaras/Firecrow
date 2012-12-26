@@ -656,6 +656,24 @@ Firecrow.ASTHelper =
         }
     },
 
+    isBranchingConditionConstruct: function(codeConstruct)
+    {
+        var branchingParent = this.getBranchingParent(codeConstruct);
+
+        if(branchingParent == null) { return false; }
+
+        if(branchingParent.test != null)
+        {
+            return this.isAncestor(codeConstruct, branchingParent.test);
+        }
+        else if(branchingParent.discriminant != null)
+        {
+            return this.isAncestor(codeConstruct, branchingParent.discriminant);
+        }
+
+        return false;
+    },
+
     isForStatementInit: function(codeConstruct)
     {
         if(codeConstruct == null) { return false; }
@@ -938,6 +956,23 @@ Firecrow.ASTHelper =
                 this.CONST.STATEMENT.WhileStatement,
                 this.CONST.STATEMENT.DoWhileStatement,
                 this.CONST.STATEMENT.SwitchStatement
+            ]
+        );
+    },
+
+    getBranchingParent: function(codeConstruct)
+    {
+        return this.getParentOfTypes
+        (
+            codeConstruct,
+            [
+                this.CONST.STATEMENT.ForStatement,
+                this.CONST.STATEMENT.ForInStatement,
+                this.CONST.STATEMENT.WhileStatement,
+                this.CONST.STATEMENT.DoWhileStatement,
+                this.CONST.STATEMENT.SwitchStatement,
+                this.CONST.STATEMENT.IfStatement,
+                this.CONST.EXPRESSION.ConditionalExpression
             ]
         );
     },
