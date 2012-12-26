@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #firstContainer
+        {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+
+        #secondContainer
+        {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="firstContainer"></div>
+    <div id="secondContainer"></div>
+
+    <script>
+        var externalVar = 0;
+        var firstContainer = document.getElementById("firstContainer");
+        firstContainer.onclick = function()
+        {
+            firstContainer.textContent += "Click on first container;";
+
+            if(externalVar == 2)
+            {
+                firstContainer.textContent += " was clicked on second container;";
+            }
+        };
+
+        var secondContainer = document.getElementById("secondContainer");
+
+        secondContainer.onclick = function()
+        {
+            secondContainer.textContent += "Click on second container;";
+            externalVar = 2;
+        };
+    </script>
+</body>
+</html>

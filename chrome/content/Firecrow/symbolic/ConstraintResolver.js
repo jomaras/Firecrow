@@ -27,6 +27,7 @@ fcSymbolic.ConstraintResolver =
 
     resolveConstraint: function(symbolicExpression)
     {
+        if(symbolicExpression == null) { return []; }
         if(!symbolicExpression.containsNumericExpressions()) { return this._resolveStringConstraint(symbolicExpression); }
 
         var result = RequestHelper.performSynchronousPost("http://localhost/Firecrow/constraintSolver/index.php", {

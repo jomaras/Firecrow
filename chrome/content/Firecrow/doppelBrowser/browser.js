@@ -338,6 +338,16 @@ Browser.prototype =
         this.getLastExecutionInfo().logForInIteration(codeConstruct, objectPrototype);
     },
 
+    logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
+    {
+        this.getLastExecutionInfo().logSettingOutsideCurrentScopeIdentifierValue(identifier);
+    },
+
+    logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
+    {
+        this.getLastExecutionInfo().logReadingIdentifierOutsideCurrentScope(identifier, codeConstruct);
+    },
+
     addPathConstraint: function(codeConstruct, constraint, inverse)
     {
         this.getLastExecutionInfo().addConstraint(codeConstruct, constraint, inverse);

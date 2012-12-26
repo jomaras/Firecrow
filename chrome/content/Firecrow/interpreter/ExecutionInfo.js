@@ -11,6 +11,9 @@ fcBrowser.ExecutionInfo = function()
     this.undefinedGlobalPropertiesAccessMap = {};
     this.resourceSetterPropertiesMap = {};
     this.objectForInIterations = [];
+
+    this.globalModifiedIdentifiers = [];
+    this.globalAccessedIdentifiers = [];
 };
 
 fcBrowser.ExecutionInfo.prototype =
@@ -75,6 +78,38 @@ fcBrowser.ExecutionInfo.prototype =
     logForInIteration: function(codeConstruct, objectPrototype)
     {
         this.objectForInIterations.push({ proto: objectPrototype, codeConstruct: codeConstruct });
+    },
+
+    logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
+    {
+        this.globalModifiedIdentifiers.push(identifier);
+    },
+
+    logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
+    {
+        this.globalAccessedIdentifiers.push(identifier);
+    },
+
+    isDependentOn: function(executionInfo)
+    {
+        if(executionInfo == null || executionInfo.globalModifiedIdentifiers == null
+        || executionInfo.globalModifiedIdentifiers.length == 0
+        || this.globalAccessedIdentifiers.length == 0)
+        {
+            return false;
+        }
+
+        for(var i = 0, modifiedIdentifiersLength = executionInfo.globalModifiedIdentifiers.length; i < modifiedIdentifiersLength; i++)
+        {
+            var modifiedIdentifier = executionInfo.globalModifiedIdentifiers[i];
+
+            for(var j = 0, accessedIdentifiersLength = this.globalAccessedIdentifiers.length; j < accessedIdentifiersLength; j++)
+            {
+                if(modifiedIdentifier == this.globalAccessedIdentifiers[j]) { return true; }
+            }
+        }
+
+        return false;
     }
 };
 

@@ -167,7 +167,7 @@ fcSimulator.Evaluator.prototype =
     {
         var identifierConstruct = identifierCommand.codeConstruct;
 
-        var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name);
+        var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
 
         this.executionContextStack.setExpressionValue(identifierConstruct, identifierValue);

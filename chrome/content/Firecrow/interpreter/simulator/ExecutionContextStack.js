@@ -221,7 +221,7 @@ fcSimulator.ExecutionContextStack.prototype =
         }
     },
 
-    getIdentifier: function(identifierName)
+    getIdentifier: function(identifierName, codeConstruct)
     {
         for(var i = this.stack.length - 1; i >= 0; i--)
         {
@@ -233,7 +233,15 @@ fcSimulator.ExecutionContextStack.prototype =
 
                 var identifier = variableObject.getIdentifier(identifierName);
 
-                if(identifier != null) { return identifier; }
+                if(identifier != null)
+                {
+                    if(i != this.stack.length - 1 || j != scopeChain.length - 1)
+                    {
+                        this.globalObject.browser.logReadingIdentifierOutsideCurrentScope(identifier, codeConstruct);
+                    }
+
+                    return identifier;
+                }
             }
         }
     },
@@ -274,6 +282,11 @@ fcSimulator.ExecutionContextStack.prototype =
                     if(variableObject != this.globalObject && !ValueTypeHelper.isOfType(variableObject, fcSimulator.VariableObject))
                     {
                         variableObject[identifierName] = value;
+                    }
+
+                    if(i != this.stack.length - 1 || j != scopeChain.length - 1)
+                    {
+                        this.globalObject.browser.logSettingOutsideCurrentScopeIdentifierValue(identifier);
                     }
 
                     return;
