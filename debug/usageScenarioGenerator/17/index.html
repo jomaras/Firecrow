@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #firstContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="firstContainer"></div>
+
+    <script>
+        var externalObj = {};
+
+        var firstContainer = document.getElementById("firstContainer");
+
+        var position;
+
+        firstContainer.onmousemove = function(eventArgs)
+        {
+            if(eventArgs.pageX < 200)
+            {
+                position = "left";
+            }
+            else
+            {
+                position = "right";
+            }
+        };
+
+        firstContainer.onclick = function()
+        {
+            if(position == "left")
+            {
+                firstContainer.textContent += "Click on left part";
+            }
+            else
+            {
+                firstContainer.textContent += "Click on right part";
+            }
+        };
+    </script>
+</body>
+</html>

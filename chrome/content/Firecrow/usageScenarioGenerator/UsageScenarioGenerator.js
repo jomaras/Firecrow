@@ -110,7 +110,7 @@ Firecrow.UsageScenarioGenerator =
             var lastExecutionInfo = browser.getLastExecutionInfo();
 
             eventRegistration.executionInfos.push(lastExecutionInfo);
-            executionSummary.push({eventRegistration: eventRegistration, executionInfo: lastExecutionInfo});
+            executionSummary.push({eventRegistration: eventRegistration, executionInfo: lastExecutionInfo, args: args});
         }
 
         return executionSummary;
@@ -128,11 +128,11 @@ Firecrow.UsageScenarioGenerator =
 
             for(var j = 0; j < group.length; j++)
             {
-                var executionSummary = group[i];
+                var executionSummary = group[j];
 
                 var eventRegistration = executionSummary.eventRegistration;
 
-                var args = this._getArguments(eventRegistration, browser);
+                var args = executionSummary.args || this._getArguments(eventRegistration, browser);
                 var domChanges = this._modifyDom(eventRegistration);
 
                 this._logEvent(eventRegistration, args, domChanges, usageScenarios, browser);
