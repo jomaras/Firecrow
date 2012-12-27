@@ -13,7 +13,10 @@ fcBrowser.ExecutionInfo = function()
     this.objectForInIterations = [];
 
     this.globalModifiedIdentifiers = [];
+    this.globalModifiedObjects = [];
+
     this.globalAccessedIdentifiers = [];
+    this.globalAccessedObjects = [];
 };
 
 fcBrowser.ExecutionInfo.prototype =
@@ -92,7 +95,24 @@ fcBrowser.ExecutionInfo.prototype =
         this.globalAccessedIdentifiers.push(identifier);
     },
 
+    logReadingObjectPropertyOutsideCurrentScope: function(baseObjectId, propertyName, codeConstruct)
+    {
+        if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
+
+        this.globalAccessedObjects.push({baseObjectId: baseObjectId, propertyName: propertyName, codeConstruct: codeConstruct});
+    },
+
+    logModifyingExternalContextObject: function(baseObjectId, propertyName, codeConstruct)
+    {
+        this.globalModifiedObjects.push({baseObjectId: baseObjectId, propertyName: propertyName, codeConstruct: codeConstruct});
+    },
+
     isDependentOn: function(executionInfo)
+    {
+        return this._isIdentifierDependent(executionInfo) || this._isObjectModificationsDependent(executionInfo);
+    },
+
+    _isIdentifierDependent: function(executionInfo)
     {
         if(executionInfo == null || executionInfo.globalModifiedIdentifiers == null
         || executionInfo.globalModifiedIdentifiers.length == 0
@@ -108,6 +128,33 @@ fcBrowser.ExecutionInfo.prototype =
             for(var j = 0, accessedIdentifiersLength = this.globalAccessedIdentifiers.length; j < accessedIdentifiersLength; j++)
             {
                 if(modifiedIdentifier == this.globalAccessedIdentifiers[j]) { return true; }
+            }
+        }
+
+        return false;
+    },
+
+    _isObjectModificationsDependent: function(executionInfo)
+    {
+        if(executionInfo == null || executionInfo.globalModifiedIdentifiers == null
+        || executionInfo.globalModifiedObjects.length == 0
+        || this.globalAccessedObjects.length == 0)
+        {
+            return false;
+        }
+
+        for(var i = 0, modifiedObjectsLength = executionInfo.globalModifiedObjects.length; i < modifiedObjectsLength; i++)
+        {
+            var modifiedObject = executionInfo.globalModifiedObjects[i];
+
+            for(var j = 0, accessedObjectsLength = this.globalAccessedObjects.length; j < accessedObjectsLength; j++)
+            {
+                var accessedObject = this.globalAccessedObjects[j];
+
+                if(modifiedObject.baseObjectId == accessedObject.baseObjectId && modifiedObject.propertyName == accessedObject.propertyName)
+                {
+                    return true;
+                }
             }
         }
 

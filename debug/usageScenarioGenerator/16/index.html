@@ -24,13 +24,13 @@
     <div id="secondContainer"></div>
 
     <script>
-        var externalVar = 0;
+        var externalObj = {};
         var firstContainer = document.getElementById("firstContainer");
         firstContainer.onclick = function()
         {
             firstContainer.textContent += "Click on first container;";
 
-            if(externalVar == 2)
+            if(externalObj.property == 2)
             {
                 firstContainer.textContent += " was clicked on second container;";
             }
@@ -41,7 +41,7 @@
         secondContainer.onclick = function()
         {
             secondContainer.textContent += "Click on second container;";
-            externalVar = 2;
+            externalObj.property = 2;
         };
     </script>
 </body>

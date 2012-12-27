@@ -346,8 +346,8 @@ fcSimulator.ExecutionContextStack.prototype =
     getBaseObject: function(codeConstruct)
     {
         if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)
-         || ASTHelper.isLogicalExpression(codeConstruct) || ASTHelper.isConditionalExpression(codeConstruct)
-         || ASTHelper.isThisExpression(codeConstruct))
+        || ASTHelper.isLogicalExpression(codeConstruct) || ASTHelper.isConditionalExpression(codeConstruct)
+        || ASTHelper.isThisExpression(codeConstruct))
         {
             return this.globalObject;
         }

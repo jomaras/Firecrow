@@ -18,6 +18,8 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, h
     this.executionContextStack = new ExecutionContextStack(globalObject, handlerInfo);
     this.executionContextStack.registerExceptionCallback(this._removeCommandsAfterException, this);
 
+    this.globalObject.executionContextStack = this.executionContextStack;
+
     this.commands = CommandGenerator.generateCommands(programAst);
 
     this.messageGeneratedCallbacks = [];

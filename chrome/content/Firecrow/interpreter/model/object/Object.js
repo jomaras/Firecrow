@@ -43,6 +43,11 @@ fcModel.Object.prototype =
         this.addPropertyCallbackDescriptors = null;
         this.getPropertyCallbackDescriptors = null;
 
+        if(this.globalObject.executionContextStack != null)
+        {
+            this.creationContext = this.globalObject.executionContextStack.activeContext;
+        }
+
         return this;
     },
     //</editor-fold>

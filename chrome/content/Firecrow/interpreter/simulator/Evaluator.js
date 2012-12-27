@@ -187,13 +187,19 @@ fcSimulator.Evaluator.prototype =
 
         if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
-        //TODO: check dom test 13 Object.constructor.prototype not working as it should!
         var property = this.executionContextStack.getExpressionValue(memberExpression.property);
         var propertyValue = this._getPropertyValue(object, property, memberExpression);
 
         this.dependencyCreator.createMemberExpressionDependencies(object, property, propertyValue, memberExpression);
 
         this.executionContextStack.setExpressionValue(memberExpression, propertyValue);
+
+        var propertyObject = object.iValue.getProperty(property.jsValue);
+
+        if(propertyObject == null || propertyObject.modificationContext != this.executionContextStack.activeContext)
+        {
+            this.globalObject.browser.logReadingObjectPropertyOutsideCurrentScope(object.iValue.id, property.jsValue, memberExpression);
+        }
     },
 
     _evalMemberPropertyCommand: function(memberPropertyCommand)
@@ -526,7 +532,18 @@ fcSimulator.Evaluator.prototype =
             object.jsValue[property.jsValue] = finalValue;
         }
 
-        if(property.jsValue == "__proto__" || property.jsValue == "prototype") { object.jsValue[property.jsValue] = finalValue.jsValue; }
+        if(property.jsValue == "__proto__" || property.jsValue == "prototype")
+        {
+            object.jsValue[property.jsValue] = finalValue.jsValue;
+        }
+
+        var newProperty = object.iValue.getProperty(property.jsValue);
+        newProperty.modificationContext = this.executionContextStack.activeContext;
+
+        if(object.iValue.creationContext != this.executionContextStack.activeContext)
+        {
+            this.globalObject.browser.logModifyingExternalContextObject(object.iValue.id, property.jsValue, assignmentExpression);
+        }
     },
 
     _hasAddJsPropertyFunction: function(object)
