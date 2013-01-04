@@ -287,7 +287,7 @@ fcModel.HtmlElement.prototype._expandWithSymbolic = function(value)
 {
     if(value == null || value.iValue == null) { return; }
 
-    value.symbolicValue = new FBL.Firecrow.Symbolic.Identifier("value");
+    value.symbolicValue = new FBL.Firecrow.ScenarioGenerator.Symbolic.Identifier("value");
     value.symbolicValue.htmlElement = this.htmlElement;
 
     return value;

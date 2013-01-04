@@ -19,6 +19,8 @@ fcScenarioGenerator.Event.prototype =
     _getBaseObjectString: function()
     {
         if(this.baseObject.htmlElement != null) { return this._generateHtmlElementString(this.baseObject.htmlElement); }
+        if(this.baseObject.globalObject.document == this.baseObject) { return "document"; }
+        if(this.baseObject.globalObject == this.baseObject) { return "window"; }
 
         return "unknown base object in event";
     },
