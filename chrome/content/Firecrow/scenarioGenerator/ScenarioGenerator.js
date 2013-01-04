@@ -1,205 +1,160 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
-var fc = FBL.Firecrow;
-var fcSymbolic = fc.Symbolic;
-var ValueTypeHelper = fc.ValueTypeHelper;
-var ASTHelper = fc.ASTHelper;
+var fcScenarioGenerator = Firecrow.ScenarioGenerator;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
+var fcSymbolic = fcScenarioGenerator.Symbolic;
 
-Firecrow.UsageScenario = function(events)
+fcScenarioGenerator.ScenarioGenerator =
 {
-    this.events = events || [];
-};
-
-Firecrow.UsageScenario.prototype =
-{
-    addEvent: function(usageScenarioEvent)
-    {
-        this.events.push(usageScenarioEvent);
-    }
-};
-
-Firecrow.UsageScenarioEvent = function(type, baseObject, argumentsInfo)
-{
-    this.type = type;
-    this.baseObject = baseObject;
-    this.argumentsInfo = argumentsInfo;
-};
-
-Firecrow.UsageScenarioGenerator =
-{
-    generateUsageScenarios: function(pageModel)
+    generateScenarios: function(pageModel, scenarioCreatedCallback)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
 
-        var usageScenarios = [new fc.UsageScenario([])];
+        var scenarios = [];
 
-        var browser = this._executeApplication(pageModel, usageScenarios);
+        var browser = this._executeApplication(pageModel);
 
-        this._executeEvents(browser, usageScenarios);
+        this._createRegisteredEventsScenarios(browser, scenarios, scenarioCreatedCallback);
 
-        usageScenarios.coverage = this._calculateExpressionCoverage(pageModel);
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            var scenario = scenarios[i];
 
-        return usageScenarios;
+            this._createDerivedScenarios(pageModel, scenario, scenarios, scenarioCreatedCallback);
+        }
+
+        return scenarios;
     },
 
-    _executeApplication: function(pageModel, usageScenarios)
+    _executeApplication: function(pageModel)
     {
-        var browser = new fc.DoppelBrowser.Browser(pageModel);
-        fc.UsageScenarioGenerator.browser = browser;
+        var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
 
         browser.evaluatePage();
 
-        this._performLoadingEvents(browser, usageScenarios);
+        this._executeLoadingEvents(browser);
 
         return browser;
     },
 
-    _executeEvents: function(browser, usageScenarios)
+    _executeLoadingEvents: function(browser)
     {
-        var executionSummary = [];
+        var loadingEvents = browser.globalObject.getLoadedHandlers();
 
-        var intervalEventsSummary = this._executeIntervalEvents(browser, usageScenarios);
-        ValueTypeHelper.pushAll(executionSummary, intervalEventsSummary);
-
-        var domEventsSummary = this._executeDomEvents(browser, usageScenarios);
-        ValueTypeHelper.pushAll(executionSummary, domEventsSummary);
-
-        this._handleInterdependentEvents(executionSummary, browser, usageScenarios);
+        loadingEvents.forEach(function(loadingEvent)
+        {
+            browser.executeEvent(loadingEvent);
+        }, this);
     },
 
-    _executeIntervalEvents: function(browser, usageScenarios)
+    _createRegisteredEventsScenarios: function(browser, scenarios, scenarioCreatedCallback)
     {
-        var executionSummary = [];
-        var intervalEvents = browser.globalObject.intervalHandlers;
+        this._createEventsScenarios(browser.globalObject.intervalHandlers, scenarios, scenarioCreatedCallback)
+        this._createEventsScenarios(browser.globalObject.htmlElementEventHandlingRegistrations, scenarios, scenarioCreatedCallback)
+    },
 
-        for(var i = 0; i < intervalEvents.length; i++)
+    _createEventsScenarios: function(eventRegistrations, scenarios, scenarioCreatedCallback)
+    {
+        for(var i = 0; i < eventRegistrations.length; i++)
         {
-            var eventRegistration = intervalEvents[i];
-            var domChanges = [];
+            var eventRegistration = eventRegistrations[i];
 
-            this._logEvent(eventRegistration, eventRegistration.callArguments, domChanges, usageScenarios, browser);
-            browser.executeEvent(eventRegistration, eventRegistration.callArguments);
+            this._addScenario(new fcScenarioGenerator.Scenario([new fcScenarioGenerator.Event(eventRegistration.thisObject, eventRegistration.eventType, eventRegistration)]), scenarios, scenarioCreatedCallback);
+        }
+    },
 
-            executionSummary.push({eventRegistration: eventRegistration, executionInfo: browser.getLastExecutionInfo()});
+    _createDerivedScenarios: function(pageModel, scenario, scenarios, scenarioCreatedCallback)
+    {
+        var executionSummary = this._executeScenario(pageModel, scenario);
+
+        var invertedPaths = executionSummary.pathConstraint.getAllResolvedInversions();
+
+        for(var i = 0; i < invertedPaths.length; i++)
+        {
+            this._addScenario(new fcScenarioGenerator.Scenario(scenario.events, invertedPaths[i]), scenarios, scenarioCreatedCallback);
+        }
+    },
+
+    _addScenario: function(scenario, scenarios, scenarioCreatedCallback)
+    {
+        if(this._containsScenario(scenario, scenarios)) { return; }
+
+        scenarios.push(scenario);
+
+        if(scenarioCreatedCallback != null)
+        {
+            scenarioCreatedCallback(scenario);
+        }
+    },
+
+    _containsScenario: function(scenario, scenarios)
+    {
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            if(scenario.isEqualTo(scenarios[i])) { return true; }
         }
 
-        return executionSummary;
+        return false;
     },
 
-    _executeDomEvents: function(browser, usageScenarios)
+    _executeScenario: function(pageModel, scenario)
     {
-        var executionSummary = [];
-        var eventHandlingRegistrations = browser.globalObject.htmlElementEventHandlingRegistrations;
+        var browser = this._executeApplication(pageModel);
+        var parametrizedEvents = this._createParametrizedEvents(scenario);
 
-        for(var i = 0; i < eventHandlingRegistrations.length;)
+        for(var i = 0; i < parametrizedEvents.length; i++)
         {
-            var eventRegistration = eventHandlingRegistrations[i];
-
-            if(!this._shouldPerformAnotherExecution(eventRegistration)) { i++; continue; }
-
-            var executionInfo = this._getLastExecutionInfo(eventRegistration);
-
-            if(executionInfo != null) { executionInfo.pathConstraint.resolve(); }
-
-            var args = this._getArguments(eventRegistration, browser);
-            var domChanges = this._modifyDom(eventRegistration);
-
-            this._logEvent(eventRegistration, args, domChanges, usageScenarios, browser);
-            browser.executeEvent(eventRegistration, args);
-
-            var lastExecutionInfo = browser.getLastExecutionInfo();
-
-            eventRegistration.executionInfos.push(lastExecutionInfo);
-            executionSummary.push({eventRegistration: eventRegistration, executionInfo: lastExecutionInfo, args: args});
+            this._executeEvent(browser, parametrizedEvents[i], i);
         }
 
-        return executionSummary;
+        scenario.executionInfo = browser.getLastExecutionInfo();
+
+        return scenario.executionInfo;
     },
 
-    _handleInterdependentEvents: function(executionSummary, browser, usageScenarios)
+    _createParametrizedEvents: function(scenario)
     {
-        var groupedEvents = this._getGroupedEvents(executionSummary);
-
-        for(var i = 0; i < groupedEvents.length; i++)
+        if(scenario.pathConstraint == null)
         {
-            var group = groupedEvents[i];
-
-            if(group.length <= 1) { continue; }
-
-            for(var j = 0; j < group.length; j++)
+            return scenario.events.map(function(event)
             {
-                var executionSummary = group[j];
-
-                var eventRegistration = executionSummary.eventRegistration;
-
-                var args = executionSummary.args || this._getArguments(eventRegistration, browser);
-                var domChanges = this._modifyDom(eventRegistration);
-
-                this._logEvent(eventRegistration, args, domChanges, usageScenarios, browser);
-                browser.executeEvent(eventRegistration, args);
-            }
+                return new fcScenarioGenerator.ParametrizedEvent(event, null);
+            });
         }
-    },
 
-    _getGroupedEvents: function(executionSummary)
-    {
-        var groupedEvents = [];
+        var parametrizedEvents = [];
 
-        for(var i = 0; i < executionSummary.length; i++)
+        var resolvedResults = scenario.pathConstraint.resolvedResult;
+        var events = scenario.events;
+
+        for(var i = 0; i < events.length; i++)
         {
-            var iThGroup = [];
-            var iThExecutionSummary = executionSummary[i];
-            iThGroup.push(iThExecutionSummary);
-
-            for(var j = 0; j < executionSummary.length; j++)
-            {
-                var jThExecutionSummary = executionSummary[j];
-
-                if(i == j) { continue; }
-
-                if(jThExecutionSummary.executionInfo.isDependentOn(iThExecutionSummary.executionInfo))
-                {
-                    iThGroup.push(jThExecutionSummary);
-                }
-            }
-
-            groupedEvents.push(iThGroup);
+            parametrizedEvents.push(new fcScenarioGenerator.ParametrizedEvent(events[i], resolvedResults[i]))
         }
 
-        return groupedEvents;
+        return parametrizedEvents;
     },
 
-    _shouldPerformAnotherExecution: function(eventRegistration)
+    _executeEvent: function(browser, parametrizedEvent, eventIndex)
     {
-        if(eventRegistration.executionInfos.length == 0) { return true; }
+        var eventRegistration = parametrizedEvent.baseEvent.eventRegistration;
 
-        var lastExecutionInfo = eventRegistration.executionInfos[eventRegistration.executionInfos.length - 1];
+        var handlerArguments = this._getArguments(parametrizedEvent.baseEvent.eventRegistration, browser, parametrizedEvent.parameters, eventIndex)
+        //var domChanges = this._modifyDom(eventRegistration, parametrizedEvent.parameters);
 
-        if(lastExecutionInfo.coverage == 1) { return false; }
-
-        var nextToLastExecutionInfo = eventRegistration.executionInfos[eventRegistration.executionInfos.length - 2];
-
-        if(nextToLastExecutionInfo == null) { return true; }
-
-        if(nextToLastExecutionInfo.coverage < lastExecutionInfo.coverage) { return true; }
-
-        var nextToNextToLastExecutionInfo = eventRegistration.executionInfos[eventRegistration.executionInfos.length - 3];
-
-        if(nextToNextToLastExecutionInfo == null) { return false; }
-
-        return nextToLastExecutionInfo.coverage < lastExecutionInfo.coverage
-            || nextToNextToLastExecutionInfo.coverage < lastExecutionInfo.coverage;
+        browser.executeEvent(eventRegistration, handlerArguments);
     },
 
-    _getArguments: function(eventRegistration, browser)
+    _getArguments: function(eventRegistration, browser, parameters, eventIndex)
     {
         switch(eventRegistration.eventType)
         {
             case "onclick":
             case "onmousemove":
-                return this._generateMouseHandlerArguments(eventRegistration, browser);
+                return this._generateMouseHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             case "onkeydown":
-                return this._generateKeyHandlerArguments(eventRegistration, browser);
+                return this._generateKeyHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             default:
                 break;
         }
@@ -212,7 +167,7 @@ Firecrow.UsageScenarioGenerator =
         return this._updateDomWithConstraintInfo(eventRegistration);
     },
 
-    _generateMouseHandlerArguments: function(eventRegistration, browser)
+    _generateMouseHandlerArguments: function(eventRegistration, browser, parameters, eventIndex)
     {
         var args = [];
         var fcModel = FBL.Firecrow.Interpreter.Model;
@@ -230,14 +185,14 @@ Firecrow.UsageScenarioGenerator =
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", 0, browser, eventRegistration.executionInfos.length);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventRegistration.executionInfos.length);
 
-        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
+        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
 
         args.push(new fcModel.fcValue(eventInfo, eventInfoFcObject, null));
 
         return args;
     },
 
-    _generateKeyHandlerArguments: function(eventRegistration, browser)
+    _generateKeyHandlerArguments: function(eventRegistration, browser, parameters, eventIndex)
     {
         var args = [];
         var fcModel = FBL.Firecrow.Interpreter.Model;
@@ -267,7 +222,7 @@ Firecrow.UsageScenarioGenerator =
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventRegistration.executionInfos.length);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 0, browser, eventRegistration.executionInfos.length);
 
-        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser);
+        this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
 
         args.push(new fcModel.fcValue(eventInfo, eventInfoFcObject, null));
 
@@ -290,24 +245,16 @@ Firecrow.UsageScenarioGenerator =
         eventInfoFcObject.addProperty(propertyName, eventInfo[propertyName]);
     },
 
-    _updateWithConstraintInfo: function(eventInfo, eventInfoFcObject, eventRegistration, browser)
+    _updateWithConstraintInfo: function(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex)
     {
-        if(eventRegistration == null || eventRegistration.executionInfos == null || eventRegistration.executionInfos.length == 0
-        || eventInfo == null || eventInfoFcObject == null) { return; }
+        if(parameters == null) { return; }
 
-        var executionInfo = this._getLastExecutionInfo(eventRegistration)
-        if(executionInfo == null) { return; }
-
-        var constraintResult = executionInfo.pathConstraint.resolvedResult;
-
-        if(constraintResult == null || constraintResult.length == 0) { return; }
-
-        for(var i = 0; i < constraintResult.length; i++)
+        for(var propName in parameters)
         {
-            var result = constraintResult[i];
+            var propValue = parameters[propName];
+            var identifier = this._removeSuffix(propName);
 
-            var identifier = this._removeSuffix(result.identifier);
-            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, result.getValue(), new fcSymbolic.Identifier(this._addSuffix(identifier, eventRegistration.executionInfos.length)));
+            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(this._addSuffix(identifier, eventIndex)));
             eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
         }
     },
@@ -370,31 +317,6 @@ Firecrow.UsageScenarioGenerator =
         return eventRegistration.executionInfos[eventRegistration.executionInfos.length - 1];
     },
 
-    _performLoadingEvents: function(browser, usageScenarios)
-    {
-        var loadingEvents = browser.globalObject.getLoadedHandlers();
-
-        this._logLoadingEvents(loadingEvents, usageScenarios, browser);
-
-        loadingEvents.forEach(function(loadingEvent)
-        {
-            browser.executeEvent(loadingEvent);
-        }, this);
-    },
-
-    _logLoadingEvents:function (loadingEvents, usageScenarios, browser)
-    {
-        loadingEvents.forEach(function (loadingEvent)
-        {
-            this._logEvent(loadingEvent, [], [], usageScenarios, browser);
-        }, this);
-    },
-
-    _logEvent: function(event, args, domChanges, usageScenarios, browser)
-    {
-        usageScenarios[usageScenarios.length-1].addEvent(this._generateUsageScenarioEvent(event, args, domChanges, browser));
-    },
-
     _generateUsageScenarioEvent: function(event, args, domChanges, browser)
     {
         var baseObject = "";
@@ -447,34 +369,6 @@ Firecrow.UsageScenarioGenerator =
         if(htmlElement.className) { string += "." + htmlElement.className; }
 
         return string;
-    },
-
-    _calculateExpressionCoverage: function(pageModel)
-    {
-        var ASTHelper = FBL.Firecrow.ASTHelper;
-        var scripts = ASTHelper.getScriptElements(pageModel.htmlElement);
-
-        var totalNumberOfExpressions = 0;
-        var executedNumberOfExpressions = 0;
-
-        for(var i = 0; i < scripts.length; i++)
-        {
-            var script = scripts[i];
-
-            ASTHelper.traverseAst(script.pathAndModel.model, function(astElement)
-            {
-                if(ASTHelper.isExpression(astElement))
-                {
-                    totalNumberOfExpressions++;
-                    if(astElement.hasBeenExecuted)
-                    {
-                        executedNumberOfExpressions++;
-                    }
-                }
-            });
-        }
-
-        return executedNumberOfExpressions/totalNumberOfExpressions;
     },
 
     notifyError: function(message) { alert("UsageScenarioGenerator Error: " + message); }

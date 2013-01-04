@@ -1,7 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
-var fcSymbolic = Firecrow.Symbolic;
 var ASTHelper = Firecrow.ASTHelper;
+var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcSymbolic.PathConstraintItem = function(codeConstruct, constraint)
@@ -22,13 +22,68 @@ fcSymbolic.PathConstraintItem.areEqual = function(pathConstraintItemA, pathConst
 
 fcSymbolic.PathConstraintItem.LAST_ID = 0;
 
-fcSymbolic.PathConstraint = function()
+fcSymbolic.PathConstraintItem.prototype =
 {
-    this.pathConstraintItems = [];
+    toString: function()
+    {
+        return this.constraint.toString();
+    }
+};
+
+fcSymbolic.PathConstraint = function(pathConstraintItems)
+{
+    this.pathConstraintItems = pathConstraintItems || [];
     this.resolvedResult = null;
 };
 
 fcSymbolic.PathConstraint.RESOLVED_MAPPING = { takenPaths: []};
+
+fcSymbolic.PathConstraint.resolvePathConstraints = function(pathConstraints)
+{
+    var symbolicExpressionsList = [];
+
+    for(var i = 0; i < pathConstraints.length; i++)
+    {
+        var pathConstraint = pathConstraints[i];
+
+        symbolicExpressionsList.push(pathConstraint.pathConstraintItems.filter(function(item)
+        {
+            return item.constraint != null;
+        }).map(function(item)
+        {
+            return item.constraint;
+        }));
+    }
+
+    var results = fcSymbolic.ConstraintResolver.resolveConstraints(symbolicExpressionsList);
+
+    for(var i = 0; i < pathConstraints.length; i++)
+    {
+        pathConstraints[i].resolvedResult = this._groupByIndex(results[i]);
+    }
+};
+
+fcSymbolic.PathConstraint._groupByIndex = function(result)
+{
+    var mappedObject = {};
+
+    for(var propName in result)
+    {
+        var match = propName.match(/_FC_([0-9+])$/);
+        var index = match[1];
+
+        if(index)
+        {
+            if(mappedObject[index] == null)
+            {
+                mappedObject[index] = {};
+            }
+            mappedObject[index][propName] = result[propName];
+        }
+    }
+
+    return mappedObject;
+};
 
 fcSymbolic.PathConstraint.prototype =
 {
@@ -40,6 +95,26 @@ fcSymbolic.PathConstraint.prototype =
         }
 
         this.pathConstraintItems.push(new fcSymbolic.PathConstraintItem(codeConstruct, constraint));
+    },
+
+    getAllResolvedInversions: function()
+    {
+        var pathConstraintItems = this.pathConstraintItems;
+        var allInversions = [];
+
+        for(var i = pathConstraintItems.length - 1; i >= 0; i--)
+        {
+            var currentPathConstraintItem = pathConstraintItems[i];
+
+            var previousItems = pathConstraintItems.slice(0, i);
+
+            previousItems.push(new fcSymbolic.PathConstraintItem(currentPathConstraintItem.codeConstruct, fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint)));
+            allInversions.push(new fcSymbolic.PathConstraint(previousItems));
+        }
+
+        fcSymbolic.PathConstraint.resolvePathConstraints(allInversions);
+
+        return allInversions;
     },
 
     resolve: function()
@@ -240,6 +315,20 @@ fcSymbolic.PathConstraint.prototype =
         }
 
         return binaryArray;
+    },
+
+    toString: function()
+    {
+        var string = "";
+
+        for(var i = 0; i < this.pathConstraintItems.length; i++)
+        {
+            if(i != 0) { string += ", "; }
+
+            string += this.pathConstraintItems[i].toString();
+        }
+
+        return string;
     }
 };
 /*****************************************************/

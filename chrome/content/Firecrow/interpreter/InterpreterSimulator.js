@@ -134,7 +134,7 @@ fcSimulator.prototype =
 
     _processRemovingCommandsCommand: function(command)
     {
-        if (command.isEvalReturnExpressionCommand()) { this._removeCommandsAfterReturnStatement(command); }
+             if (command.isEvalReturnExpressionCommand()) { this._removeCommandsAfterReturnStatement(command); }
         else if (command.isEvalBreakCommand()) { this._removeCommandsAfterBreak(command); }
         else if (command.isEvalContinueCommand()) { this._removeCommandsAfterContinue(command); }
         else if (command.isEvalThrowExpressionCommand()) { this._removeCommandsAfterException(command); }

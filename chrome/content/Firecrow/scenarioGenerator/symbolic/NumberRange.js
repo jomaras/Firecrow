@@ -1,6 +1,6 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
-var fcSymbolic = Firecrow.Symbolic;
+var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 fcSymbolic.NumberRangeChain = function(chain)
 {

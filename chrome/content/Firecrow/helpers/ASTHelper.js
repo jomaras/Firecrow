@@ -36,6 +36,34 @@ Firecrow.ASTHelper =
         catch(e) { alert("Error while getting AST from source code@" + sourceCodePath + "; error: " + sourceCodePath); }
     },
 
+    calculatePageExpressionCoverage: function(pageModel)
+    {
+        var ASTHelper = FBL.Firecrow.ASTHelper;
+        var scripts = ASTHelper.getScriptElements(pageModel.htmlElement);
+
+        var totalNumberOfExpressions = 0;
+        var executedNumberOfExpressions = 0;
+
+        for(var i = 0; i < scripts.length; i++)
+        {
+            var script = scripts[i];
+
+            ASTHelper.traverseAst(script.pathAndModel.model, function(astElement)
+            {
+                if(ASTHelper.isExpression(astElement))
+                {
+                    totalNumberOfExpressions++;
+                    if(astElement.hasBeenExecuted)
+                    {
+                        executedNumberOfExpressions++;
+                    }
+                }
+            });
+        }
+
+        return executedNumberOfExpressions/totalNumberOfExpressions;
+    },
+
     calculateExpressionCoverage: function(models)
     {
         var ASTHelper = this;

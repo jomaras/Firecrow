@@ -4,7 +4,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 var fcSimulator = Firecrow.Interpreter.Simulator;
 var fcModel = Firecrow.Interpreter.Model;
-var fcSymbolic = Firecrow.Symbolic;
+var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
 
 fcSimulator.Evaluator = function(executionContextStack)
 {

@@ -1,7 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
-var fcSymbolic = Firecrow.Symbolic;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
 
 fcSymbolic.StringConstraint = function(value, operator)
 {

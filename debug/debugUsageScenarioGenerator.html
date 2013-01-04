@@ -15,13 +15,16 @@
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/UriHelper.js"></script>
 
-    <script src="../chrome/content/Firecrow/symbolic/NumberRange.js"></script>
-    <script src="../chrome/content/Firecrow/symbolic/StringConstraint.js"></script>
-    <script src="../chrome/content/Firecrow/symbolic/Expression.js"></script>
-    <script src="../chrome/content/Firecrow/symbolic/PathConstraint.js"></script>
-    <script src="../chrome/content/Firecrow/symbolic/SymbolicExecutor.js"></script>
-    <script src="../chrome/content/Firecrow/symbolic/ConstraintResolver.js"></script>
-    <script src="../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/Event.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/Scenario.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/NumberRange.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/StringConstraint.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js"></script>
 
     <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
@@ -119,6 +122,9 @@
         .secondHandDependencies { background-color: #7FFF00;}
         .unexecuted { color: gray;}
         .executed { color: black;}
+
+        .scenarioHeader { color: blue; font-weight: bold; }
+        .formulaHeader { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -126,39 +132,56 @@
     <iframe id="firecrowFrame" height="1" width="1" style="overflow:scroll;"></iframe>
 
     <div class="reportContainer" id="pageCodeContainer"></div>
-    <div class="reportContainer" id="usageScenarioTracesContainer"></div>
-    <script src="usageScenarioGenerator/3DModelAppMapping.js"></script>
+    <div class="reportContainer" id="usageScenarioTracesContainer">
+        <h2 id="scenarioTitle">Generated scenarios: </h2>
+    </div>
+    <script src="usageScenarioGenerator/fullPages/3DModelAppMapping.js"></script>
 
     <script type="text/javascript">
-        var model = models[17];
+        var model = models[2];
         //var model = threeDModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var usageScenarioTracesContainer = document.getElementById("usageScenarioTracesContainer");
-
-        var usageScenarios = FBL.Firecrow.UsageScenarioGenerator.generateUsageScenarios(model.pageModel);
-
-        var usageScenariosHtml = "<b>Expression coverage: " + usageScenarios.coverage + "</b><br/>";
-
-        for(var i = 0; i < usageScenarios.length; i++)
-        {
-            var usageScenario = usageScenarios[i];
-
-            usageScenariosHtml += "<b style='color:red;'>Usage Scenario " + i + "</b><ul>";
-            for(var j = 0; j < usageScenario.events.length; j++)
-            {
-                var event = usageScenario.events[j];
-
-                usageScenariosHtml += "<li> <b style='color:blue'>" + event.type + "</b> on <b style='color:green;'>" + event.baseObject + "</b>" + event.argumentsInfo + "</li>";
-            }
-
-            usageScenariosHtml += "</ul>*********<br/>";
-        }
-
-        usageScenarioTracesContainer.innerHTML = usageScenariosHtml;
+        var scenarioTitle = document.getElementById("scenarioTitle");
 
         pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
 
+        var scenarioCounter = 0;
+
+        var usageScenarios = FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario)
+        {
+
+            var html = "<div class='scenarioHeader'>Scenario " + scenarioCounter +"</div>";
+            var formulaString = scenario.pathConstraint != null ? (scenario.pathConstraint + " =&gt; " + JSON.stringify(scenario.pathConstraint.resolvedResult))
+                                                                : "undefined";
+
+            html += "<div class='formulaHeader'>Formula: <b>" + formulaString  + "</div>";
+            html += "<ol>";
+
+            var events = scenario.events;
+
+            for(var i = 0; i < events.length; i++)
+            {
+                var event = events[i];
+
+                html += "<li>";
+                    html += event.toString();
+                html += "</li>";
+            }
+
+            html += "</ol>";
+
+            var wrapper = document.createElement("div");
+            wrapper.innerHTML = html;
+
+            usageScenarioTracesContainer.appendChild(wrapper);
+
+            scenarioCounter++;
+        });
+
+        scenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + FBL.Firecrow.ASTHelper.calculatePageExpressionCoverage(model.pageModel)*100 + "%</b>";
+        pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
     </script>
 </body>
 </html>

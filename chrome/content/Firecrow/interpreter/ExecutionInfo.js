@@ -5,7 +5,7 @@ var fcModel = Firecrow.Interpreter.Model;
 
 fcBrowser.ExecutionInfo = function()
 {
-    this.pathConstraint = new FBL.Firecrow.Symbolic.PathConstraint();
+    this.pathConstraint = new Firecrow.ScenarioGenerator.Symbolic.PathConstraint();
     this.visitedFunctionsMap = {};
 
     this.undefinedGlobalPropertiesAccessMap = {};

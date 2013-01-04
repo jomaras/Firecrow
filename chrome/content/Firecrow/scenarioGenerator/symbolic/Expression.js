@@ -34,8 +34,8 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
  - property: Identifier | Expression
  * */
 
-var fcSymbolic = Firecrow.Symbolic;
-Firecrow.Symbolic.CONST =
+var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
+fcSymbolic.CONST =
 {
     IDENTIFIER: "Identifier",
     LITERAL: "Literal",

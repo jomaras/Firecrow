@@ -1,15 +1,10 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
-var fcSymbolic = Firecrow.Symbolic;
+var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var RequestHelper = Firecrow.RequestHelper;
 fcSymbolic.ConstraintResolver =
 {
-    resolveConstraints: function(symbolicExpressions)
-    {
-        return this.resolveConstraint(this._getCompoundConstraint(symbolicExpressions));
-    },
-
     _getCompoundConstraint: function(symbolicExpressions)
     {
         if(symbolicExpressions == null || symbolicExpressions.length == 0) { return null; }
@@ -25,23 +20,56 @@ fcSymbolic.ConstraintResolver =
         return compoundLogicalExpression;
     },
 
-    resolveConstraint: function(symbolicExpression)
+    resolveConstraints: function(symbolicExpressionsList)
     {
-        if(symbolicExpression == null) { return []; }
-        if(!symbolicExpression.containsNumericExpressions()) { return this._resolveStringConstraint(symbolicExpression); }
+        var compoundExpressions = symbolicExpressionsList.map(function(symbolicExpressions)
+        {
+            return this._getCompoundConstraint(symbolicExpressions);
+        }, this);
 
-        var result = RequestHelper.performSynchronousPost("http://localhost/Firecrow/constraintSolver/index.php", {
-            Constraint: encodeURIComponent(JSON.stringify(symbolicExpression))
+        var numericExpressions = compoundExpressions.filter(function(symbolicExpression)
+        {
+            return symbolicExpression.containsNumericExpressions();
         });
 
-        if(!result.isSuccessful) { return []; }
+        var stringExpressions = compoundExpressions.filter(function(symbolicExpression)
+        {
+            return !symbolicExpression.containsNumericExpressions();
+        });
 
-        var constraintResult = JSON.parse(result.response);
+        var numericExpressionsAjaxQuery = RequestHelper.performSynchronousPost("http://localhost/Firecrow/constraintSolver/index.php", {
+            Constraint: encodeURIComponent(JSON.stringify(numericExpressions))
+        });
+
+        var numericResults = numericExpressionsAjaxQuery.isSuccessful ? JSON.parse(numericExpressionsAjaxQuery.response) : Array(numericExpressions.length);
+
+        var stringResults = stringExpressions.map(function(stringExpression)
+        {
+            return this._resolveStringConstraint(stringExpression);
+        }, this);
+
+        var results = [];
+
+        for(var i = 0; i < compoundExpressions.length; i++)
+        {
+            var symbolicExpression = compoundExpressions[i];
+
+            if(symbolicExpression.containsNumericExpressions())
+            {
+                results.push(numericResults[numericExpressions.indexOf(symbolicExpression)]);
+            }
+            else
+            {
+                results.push(stringResults[numericExpressions.indexOf(stringExpressions.indexOf(symbolicExpression))]);
+            }
+        }
+
+        return results;
+    },
+
+    _getNumericConstraintResults: function(constraintResult)
+    {
         var constraintResults = [];
-
-        console.log("Expression: " + symbolicExpression);
-        console.log("Result: " + result.response);
-        console.log("*******************************");
 
         for(var variableName in constraintResult)
         {
@@ -49,6 +77,7 @@ fcSymbolic.ConstraintResolver =
         }
 
         return constraintResults;
+
     },
 
     _resolveStringConstraint: function(symbolicExpression)
