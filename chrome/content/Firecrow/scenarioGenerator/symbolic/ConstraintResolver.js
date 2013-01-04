@@ -60,34 +60,108 @@ fcSymbolic.ConstraintResolver =
             }
             else
             {
-                results.push(stringResults[numericExpressions.indexOf(stringExpressions.indexOf(symbolicExpression))]);
+                results.push(stringResults[stringExpressions.indexOf(symbolicExpression)]);
             }
         }
 
         return results;
     },
 
-    _getNumericConstraintResults: function(constraintResult)
-    {
-        var constraintResults = [];
-
-        for(var variableName in constraintResult)
-        {
-            constraintResults.push(new fcSymbolic.ConstraintResult(variableName, constraintResult[variableName]));
-        }
-
-        return constraintResults;
-
-    },
-
     _resolveStringConstraint: function(symbolicExpression)
     {
-        return [new fcSymbolic.ConstraintResult
-        (
-            symbolicExpression.getIdentifierNames()[0],
-            {},
-            symbolicExpression.getHtmlElements()[0]
-        )];
+        var identifierNames = symbolicExpression.getIdentifierNames();
+
+        var result = {};
+
+        for(var i = 0; i < identifierNames.length; i++)
+        {
+            var identifierName = identifierNames[i];
+            result[identifierName] = "";
+
+            if(identifierName.indexOf("DOM_") == 0)
+            {
+                var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(identifierName);
+                var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(identifierName);
+                if(id != "")
+                {
+                    var htmlElement = symbolicExpression.getHtmlElements()[0].ownerDocument.getElementById(id);
+
+                    if(htmlElement instanceof HTMLSelectElement)
+                    {
+                        var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement);
+                        result[identifierName] = updateResult.newValue;
+                    }
+                }
+                else
+                {
+                    alert("When updating DOM can not find ID!");
+                }
+            }
+        }
+
+        return result;
+    },
+
+    updateSelectElement: function(propName, selectElement)
+    {
+        var oldValue = selectElement[propName];
+
+        var newValue = this._getNextValue(selectElement[propName], this._getSelectAvailableValues(selectElement));
+        selectElement[propName] = newValue;
+
+        return {htmlElement: selectElement, oldValue: oldValue, newValue: newValue};
+    },
+
+    getHtmlElementIdFromSymbolicParameter: function(parameter)
+    {
+        //format: DOM_PROPERTY_NAME_FC_EVENT_INDEX_ID_XX_CLASS_ -> from HtmlElement class
+        var startIdIndex = parameter.indexOf("_ID_");
+        if(startIdIndex == -1) { return ""; }
+
+        var startClassIndex = parameter.indexOf("_CLASS_");
+        if(startClassIndex == -1) { startClassIndex = parameter.length; }
+
+        return parameter.substring(startIdIndex + "_ID_".length, startClassIndex);
+    },
+
+    getHtmlElementPropertyFromSymbolicParameter: function(parameter)
+    {
+        var startDomIndex = parameter.indexOf("DOM_");
+
+        var startPropertyNameIndex = 0;
+
+        if(startDomIndex == 0)
+        {
+            startPropertyNameIndex = "DOM_".length;
+        }
+
+        var startFcIndex = parameter.indexOf("_FC_");
+        var endPropertyIndex = parameter.length;
+
+        if(startFcIndex != -1)
+        {
+            endPropertyIndex = startFcIndex;
+        }
+
+        return parameter.substring(startPropertyNameIndex, endPropertyIndex);
+    },
+
+    _getNextValue: function(item, items)
+    {
+        return items[items.indexOf(item) + 1];
+    },
+
+    _getSelectAvailableValues: function(selectElement)
+    {
+        var values = [];
+        if(selectElement == null) { return values; }
+
+        for(var i = 0; i < selectElement.children.length; i++)
+        {
+            values.push(selectElement.children[i].value);
+        }
+
+        return values;
     },
 
     _isStringLiteralBinaryExpression: function(symbolicExpression)

@@ -105,7 +105,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < parametrizedEvents.length; i++)
         {
-            this._executeEvent(browser, parametrizedEvents[i], i);
+            this._executeEvent(browser, parametrizedEvents[i], scenario, i);
         }
 
         scenario.executionInfo = browser.getLastExecutionInfo();
@@ -136,14 +136,56 @@ fcScenarioGenerator.ScenarioGenerator =
         return parametrizedEvents;
     },
 
-    _executeEvent: function(browser, parametrizedEvent, eventIndex)
+    _executeEvent: function(browser, parametrizedEvent, scenario, eventIndex)
     {
-        var eventRegistration = parametrizedEvent.baseEvent.eventRegistration;
+        browser.eventIndex = eventIndex;
+        var eventRegistration = this._getMatchingEventRegistration(browser, parametrizedEvent.baseEvent.eventRegistration);
 
-        var handlerArguments = this._getArguments(parametrizedEvent.baseEvent.eventRegistration, browser, parametrizedEvent.parameters, eventIndex)
-        //var domChanges = this._modifyDom(eventRegistration, parametrizedEvent.parameters);
+        var handlerArguments = this._getArguments(eventRegistration, browser, parametrizedEvent.parameters, eventIndex);
+        this._modifyDom(eventRegistration, scenario, parametrizedEvent.parameters);
 
         browser.executeEvent(eventRegistration, handlerArguments);
+    },
+
+    _getMatchingEventRegistration: function(browser, eventRegistration)
+    {
+        var intervalHandlers = browser.globalObject.intervalHandlers;
+        for(var i = 0; i < intervalHandlers.length; i++)
+        {
+            var intervalHandler = intervalHandlers[i];
+
+            if(intervalHandler.handler.codeConstruct == eventRegistration.handler.codeConstruct)
+            {
+                return intervalHandler;
+            }
+        }
+
+        var domHandlers = browser.globalObject.htmlElementEventHandlingRegistrations;
+
+        for(var i = 0; i < domHandlers.length; i++)
+        {
+            var domHandler = domHandlers[i];
+
+            if(domHandler.handler.codeConstruct != eventRegistration.handler.codeConstruct) { continue; }
+
+            if(domHandler.fcHtmlElement != null && eventRegistration.fcHtmlElement != null)
+            {
+                if(domHandler.fcHtmlElement.htmlElement == null && eventRegistration.fcHtmlElement.htmlElement == null)
+                {
+                    return domHandler;
+                }
+                else if(domHandler.fcHtmlElement.htmlElement.modelElement == eventRegistration.fcHtmlElement.htmlElement.modelElement)
+                {
+                    return domHandler;
+                }
+            }
+            else
+            {
+                return domHandler;
+            }
+        }
+
+        return null;
     },
 
     _getArguments: function(eventRegistration, browser, parameters, eventIndex)
@@ -162,9 +204,9 @@ fcScenarioGenerator.ScenarioGenerator =
         return [];
     },
 
-    _modifyDom: function(eventRegistration)
+    _modifyDom: function(eventRegistration, scenario, parameters)
     {
-        return this._updateDomWithConstraintInfo(eventRegistration);
+        return this._updateDomWithConstraintInfo(eventRegistration, scenario, parameters);
     },
 
     _generateMouseHandlerArguments: function(eventRegistration, browser, parameters, eventIndex)
@@ -259,55 +301,33 @@ fcScenarioGenerator.ScenarioGenerator =
         }
     },
 
-    _updateDomWithConstraintInfo: function(eventRegistration)
+    _updateDomWithConstraintInfo: function(eventRegistration, scenario, parameters)
     {
-        var executionInfo = this._getLastExecutionInfo(eventRegistration)
+        if(parameters == null) { return; }
 
-        if(executionInfo == null) { return; }
-
-        var constraintResult = executionInfo.pathConstraint.resolvedResult;
-
-        if(constraintResult == null || constraintResult.length == null) { return []; }
-
-        for(var i = 0; i < constraintResult.length; i++)
+        for(var parameterName in parameters)
         {
-            var result = constraintResult[i];
-
-            if(result.htmlElement instanceof HTMLSelectElement)
+            if(parameterName.indexOf("DOM_") == 0)
             {
-                return this._updateSelectElement(result);
+                var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(parameterName);
+                var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(parameterName);
+                if(id != "")
+                {
+                    var htmlElement = eventRegistration.thisObject.globalObject.document.document.getElementById(id);
+
+                    if(htmlElement instanceof HTMLSelectElement)
+                    {
+                        var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement);
+
+                        scenario.pathConstraint.resolvedResult[eventRegistration.thisObject.globalObject.browser.eventIndex][parameterName] = updateResult.oldValue + " -&gt; " + updateResult.newValue;
+                    }
+                }
+                else
+                {
+                    alert("When updating DOM can not find ID!");
+                }
             }
         }
-    },
-
-    _updateSelectElement: function(constraintResult)
-    {
-        var propName = constraintResult.identifier;
-        var selectElement = constraintResult.htmlElement;
-        var oldValue = selectElement[propName];
-
-        var newValue = this._getNextValue(selectElement[propName], this._getSelectAvailableValues(selectElement));
-        selectElement[propName] = newValue;
-
-        return [{htmlElement: selectElement, oldValue: oldValue, newValue: newValue}];
-    },
-
-    _getNextValue: function(item, items)
-    {
-        return items[items.indexOf(item) + 1];
-    },
-
-    _getSelectAvailableValues: function(selectElement)
-    {
-        var values = [];
-        if(selectElement == null) { return values; }
-
-        for(var i = 0; i < selectElement.children.length; i++)
-        {
-            values.push(selectElement.children[i].value);
-        }
-
-        return values;
     },
 
     _getLastExecutionInfo: function(eventRegistration)
@@ -315,60 +335,6 @@ fcScenarioGenerator.ScenarioGenerator =
         if(eventRegistration == null || eventRegistration.executionInfos == null || eventRegistration.executionInfos.length == 0) { return null; }
 
         return eventRegistration.executionInfos[eventRegistration.executionInfos.length - 1];
-    },
-
-    _generateUsageScenarioEvent: function(event, args, domChanges, browser)
-    {
-        var baseObject = "";
-
-             if(event.thisObject == browser.globalObject) { baseObject = "window"; }
-        else if(event.thisObject == browser.globalObject.document) { baseObject = "document"; }
-        else if(event.thisObject.htmlElement != null) { baseObject += this._generateHtmlElementString(event.thisObject.htmlElement); }
-        else { baseObject = "unknown"; }
-
-        var additionalInfo = "";
-
-        if(domChanges != null && domChanges.length != 0)
-        {
-            additionalInfo += "{";
-            for(var i = 0; i < domChanges.length; i++)
-            {
-                var domChange = domChanges[i];
-                additionalInfo += this._generateHtmlElementString(domChange.htmlElement) + " " + domChange.oldValue + " -> " + domChange.newValue;
-            }
-            additionalInfo += "}";
-        }
-
-        additionalInfo += "[";
-
-        for(var i = 0; i < args.length; i++)
-        {
-            var arg = args[0];
-
-            for(var prop in arg.jsValue)
-            {
-                if(arg.jsValue[prop] != null)
-                {
-                    additionalInfo += prop + " = " + arg.jsValue[prop].jsValue + "; ";
-                }
-            }
-        }
-
-        additionalInfo += "]";
-
-        return new FBL.Firecrow.UsageScenarioEvent(event.eventType, baseObject, additionalInfo);
-    },
-
-    _generateHtmlElementString: function(htmlElement)
-    {
-        if(htmlElement == null) { return ""; }
-
-        var string = htmlElement.tagName.toLowerCase();
-
-        if(htmlElement.id) { string += "#" + htmlElement.id; }
-        if(htmlElement.className) { string += "." + htmlElement.className; }
-
-        return string;
     },
 
     notifyError: function(message) { alert("UsageScenarioGenerator Error: " + message); }

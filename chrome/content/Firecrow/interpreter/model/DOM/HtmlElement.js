@@ -287,10 +287,23 @@ fcModel.HtmlElement.prototype._expandWithSymbolic = function(value)
 {
     if(value == null || value.iValue == null) { return; }
 
-    value.symbolicValue = new FBL.Firecrow.ScenarioGenerator.Symbolic.Identifier("value");
+    value.symbolicValue = new FBL.Firecrow.ScenarioGenerator.Symbolic.Identifier(this._expandPropertyName("value"));
     value.symbolicValue.htmlElement = this.htmlElement;
 
     return value;
+};
+
+fcModel.HtmlElement.prototype._expandPropertyName = function(propertyName)
+{
+    var eventIndex = this.globalObject.browser.eventIndex || 0;
+
+    propertyName = "DOM_" + propertyName + "_FC_" + eventIndex;
+
+    //format: DOM_PROPERTY_NAME_FC_EVENT_INDEX_ID_XX_CLASS_
+    if(this.htmlElement.id) { propertyName += "_ID_" + this.htmlElement.id.replace(/\s+/g, ""); }
+    if(this.htmlElement.className) { propertyName += "_CLASS_" + this.htmlElement.className.replace(/\s+/g, ""); }
+
+    return propertyName;
 };
 //</editor-fold>
 //</editor-fold>
