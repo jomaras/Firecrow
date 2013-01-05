@@ -109,6 +109,18 @@ Firecrow.ValueTypeHelper =
         return 'object' == typeof potentialObject;
     },
 
+    isEmptyObject: function(object)
+    {
+        if(object == null) { return false; }
+
+        for(var prop in object)
+        {
+            if(object.hasOwnProperty(prop)) { return false; }
+        }
+
+        return true;
+    },
+
     isArray: function (arrayOfElements)
     {
         if (this.isNull(arrayOfElements)) { return false; }

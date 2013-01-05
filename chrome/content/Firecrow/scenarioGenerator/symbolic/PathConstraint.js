@@ -59,7 +59,16 @@ fcSymbolic.PathConstraint.resolvePathConstraints = function(pathConstraints)
 
     for(var i = 0; i < pathConstraints.length; i++)
     {
-        pathConstraints[i].resolvedResult = this._groupByIndex(results[i]);
+        var groupedByIndex = this._groupByIndex(results[i]);
+
+        if(ValueTypeHelper.isEmptyObject(groupedByIndex))
+        {
+            ValueTypeHelper.removeFromArrayByIndex(pathConstraints, i);
+            i--;
+            continue;
+        }
+
+        pathConstraints[i].resolvedResult = groupedByIndex;
     }
 };
 
