@@ -8,13 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,39 +58,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="40" selection-start="8519" selection-end="8519" vertical-scroll-proportion="0.42560175">
+            <state line="135" column="76" selection-start="8323" selection-end="8323" vertical-scroll-proportion="-3.5">
               <folding>
-                <marker date="1357324545742" expanded="true" signature="10098:10107" placeholder="..." />
+                <marker date="1357324545742" expanded="false" signature="10098:10107" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+      <file leaf-file-name="GlobalObject.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="183" column="16" selection-start="6161" selection-end="6161" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConstraintResolver.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="128" column="55" selection-start="4850" selection-end="4850" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HtmlElement.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="301" column="18" selection-start="12475" selection-end="12475" vertical-scroll-proportion="0.0">
+            <state line="374" column="31" selection-start="12099" selection-end="12099" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -110,10 +87,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GlobalObject.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
+      <file leaf-file-name="HtmlElement.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="374" column="31" selection-start="12099" selection-end="12099" vertical-scroll-proportion="0.0">
+            <state line="301" column="18" selection-start="12475" selection-end="12475" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConstraintResolver.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="128" column="55" selection-start="4850" selection-end="4850" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="50" selection-start="1852" selection-end="1852" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Scenario.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="35" selection-start="747" selection-end="747" vertical-scroll-proportion="0.39978677">
               <folding />
             </state>
           </provider>
@@ -130,15 +134,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/playground/play.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/FcValue.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/debug/debugSlicing.html" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/playground/comparator/index.html" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -153,13 +157,13 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Event.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
       </list>
     </option>
   </component>
@@ -366,16 +370,16 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="179" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="194" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="191" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="195" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="732" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="729" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="732" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="190" />
-    <property name="GoToClass.includeJavaFiles" value="true" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="190" />
+    <property name="GoToClass.includeJavaFiles" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
@@ -482,12 +486,12 @@
       <method />
     </configuration>
     <list size="6">
-      <item index="0" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
-      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
-      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
-      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
-      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
-      <item index="5" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
+      <item index="0" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
+      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
+      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
+      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
+      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
+      <item index="5" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -2221,7 +2225,11 @@
       <created>1357310707965</created>
       <updated>1357310707965</updated>
     </task>
-    <option name="localTasksCounter" value="425" />
+    <task id="LOCAL-00425" summary="Hacky update to solving html element related string constraints">
+      <created>1357324589121</created>
+      <updated>1357324589121</updated>
+    </task>
+    <option name="localTasksCounter" value="426" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2270,8 +2278,8 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5077882" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28245068" sideWeight="0.47728965" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14683816" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.56178606" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2319,7 +2327,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hacky update to solving html element related string constraints" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2333,7 +2341,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="First work on Logical Constraints and on raise set interval" />
     <MESSAGE value="Continuing with Logical Constraints - needs a lot of more workd" />
     <MESSAGE value="Set Union implementation and tests complete" />
     <MESSAGE value="Formula resolving kida working, not happy with the code" />
@@ -2358,6 +2365,7 @@
     <MESSAGE value="When generating group events pervious arguments are taken into account" />
     <MESSAGE value="First Significant tests passing with new architecture" />
     <MESSAGE value="Minor fix" />
+    <MESSAGE value="Hacky update to solving html element related string constraints" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2382,23 +2390,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="24" selection-start="735" selection-end="735" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="32" column="24" selection-start="735" selection-end="735" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/constraintSolver/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="192" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="28" column="192" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
@@ -2415,13 +2417,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="8" selection-start="835" selection-end="835" vertical-scroll-proportion="0.43176973">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="259" column="4" selection-start="11123" selection-end="11123" vertical-scroll-proportion="-1.3464819">
@@ -2431,16 +2426,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Event.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="8" selection-start="1038" selection-end="1169" vertical-scroll-proportion="0.52771854">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="374" column="31" selection-start="12099" selection-end="12099" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="33" column="8" selection-start="1038" selection-end="1169" vertical-scroll-proportion="0.52771854" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
@@ -2464,19 +2450,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="183" column="16" selection-start="6161" selection-end="6161" vertical-scroll-proportion="0.0">
+        <state line="135" column="76" selection-start="8323" selection-end="8323" vertical-scroll-proportion="-3.5">
+          <folding>
+            <marker date="1357324545742" expanded="false" signature="10098:10107" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="374" column="31" selection-start="12099" selection-end="12099" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="40" selection-start="8519" selection-end="8519" vertical-scroll-proportion="0.42560175">
-          <folding>
-            <marker date="1357324545742" expanded="true" signature="10098:10107" placeholder="..." />
-          </folding>
+        <state line="57" column="50" selection-start="1852" selection-end="1852" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="35" selection-start="747" selection-end="747" vertical-scroll-proportion="0.39978677">
+          <folding />
         </state>
       </provider>
     </entry>

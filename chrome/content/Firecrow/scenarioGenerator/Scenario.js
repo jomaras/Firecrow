@@ -23,7 +23,7 @@ fcScenarioGenerator.Scenario.prototype =
     isEqualTo: function(scenario)
     {
         var thisPathConstraintString = this.pathConstraint != null ? this.pathConstraint.toString() : "";
-        var scenarioPathConstraintString = scenario.pathConstraint != null ? this.pathConstraint.toString() : "";
+        var scenarioPathConstraintString = scenario.pathConstraint != null ? scenario.pathConstraint.toString() : "";
 
         return this._haveEqualEvents(scenario) && thisPathConstraintString == scenarioPathConstraintString;
     },

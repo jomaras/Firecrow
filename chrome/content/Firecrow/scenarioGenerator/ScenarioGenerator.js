@@ -19,9 +19,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < scenarios.length; i++)
         {
-            var scenario = scenarios[i];
-
-            this._createDerivedScenarios(pageModel, scenario, scenarios, scenarioCreatedCallback);
+            this._createDerivedScenarios(pageModel, scenarios[i], scenarios, scenarioCreatedCallback);
         }
 
         return scenarios;
