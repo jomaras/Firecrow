@@ -43,5 +43,28 @@ fcScenarioGenerator.Scenario.prototype =
         return true;
     }
 };
+
+fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScenario)
+{
+    var mergedEvents = firstScenario.events.concat(secondScenario.events);
+    var mergedPathConstraints = {};
+
+    if(firstScenario.pathConstraint == null && secondScenario.pathConstraint == null)
+    {
+        mergedPathConstraints = null;
+    }
+    else if(firstScenario.pathConstraint != null && secondScenario.pathConstraint == null)
+    {
+        mergedPathConstraints = firstScenario.pathConstraint;
+    }
+    else
+    {
+        alert("Unhandled merging scenarios case!");
+
+        var a = 3;
+    }
+
+    return new fcScenarioGenerator.Scenario(mergedEvents, mergedPathConstraints);
+};
 /*****************************************************/
 }});

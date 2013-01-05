@@ -19,7 +19,12 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < scenarios.length; i++)
         {
+            if(ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
+
             this._createDerivedScenarios(pageModel, scenarios[i], scenarios, scenarioCreatedCallback);
+
+            //Is last scenario
+            if(i == scenarios.length - 1) { this._createMergedScenarios(pageModel, scenarios, scenarioCreatedCallback); }
         }
 
         return scenarios;
@@ -71,6 +76,34 @@ fcScenarioGenerator.ScenarioGenerator =
         for(var i = 0; i < invertedPaths.length; i++)
         {
             this._addScenario(new fcScenarioGenerator.Scenario(scenario.events, invertedPaths[i]), scenarios, scenarioCreatedCallback);
+        }
+    },
+
+    _createMergedScenarios: function(pageModel, scenarios, scenarioCreatedCallback)
+    {
+        //Has to be cached because new scenarios are added, and we don't want to take them into account
+        var scenariosLength = scenarios.length;
+
+        for(var i = 0; i < scenariosLength; i++)
+        {
+            var ithScenario = scenarios[i];
+
+            for(var j = 0; j < scenariosLength; j++)
+            {
+                if(i == j) { continue; }
+
+                var jthScenario = scenarios[j];
+
+                if(jthScenario.executionInfo.isDependentOn(ithScenario.executionInfo))
+                {
+                    this._addScenario
+                    (
+                        fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario),
+                        scenarios,
+                        scenarioCreatedCallback
+                    );
+                }
+            }
         }
     },
 

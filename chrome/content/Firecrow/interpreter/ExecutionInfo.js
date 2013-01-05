@@ -23,6 +23,8 @@ fcBrowser.ExecutionInfo.prototype =
 {
     addConstraint: function(codeConstruct, constraint, inverse)
     {
+        if(constraint == null) { return; }
+
         this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
     },
 
@@ -127,7 +129,24 @@ fcBrowser.ExecutionInfo.prototype =
 
             for(var j = 0, accessedIdentifiersLength = this.globalAccessedIdentifiers.length; j < accessedIdentifiersLength; j++)
             {
-                if(modifiedIdentifier == this.globalAccessedIdentifiers[j]) { return true; }
+                var globalAccessedIdentifier = this.globalAccessedIdentifiers[j];
+
+                if(modifiedIdentifier.declarationConstruct == null && globalAccessedIdentifier.declarationConstruct == null)
+                {
+                    if(modifiedIdentifier.name == globalAccessedIdentifier.name) { return true; }
+                }
+                else if(modifiedIdentifier.declarationConstruct == null || globalAccessedIdentifier.declarationConstruct == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    if(modifiedIdentifier.name == globalAccessedIdentifier.name
+                    && modifiedIdentifier.declarationConstruct.codeConstruct == globalAccessedIdentifier.declarationConstruct.codeConstruct)
+                    {
+                        return true;
+                    }
+                }
             }
         }
 
