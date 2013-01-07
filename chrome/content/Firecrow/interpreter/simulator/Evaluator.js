@@ -198,7 +198,9 @@ fcSimulator.Evaluator.prototype =
 
         if(propertyObject == null || propertyObject.modificationContext != this.executionContextStack.activeContext)
         {
-            this.globalObject.browser.logReadingObjectPropertyOutsideCurrentScope(object.iValue.id, property.jsValue, memberExpression);
+            //TODO HOW DO I UNIQUELY DIFFERENTIATE BETWEEN OBJECTS!?
+            var objectId = object.iValue.creationCodeConstruct != null ? object.iValue.creationCodeConstruct.nodeId : -1;
+            this.globalObject.browser.logReadingObjectPropertyOutsideCurrentScope(objectId, property.jsValue, memberExpression);
         }
     },
 
@@ -542,7 +544,9 @@ fcSimulator.Evaluator.prototype =
 
         if(object.iValue.creationContext != this.executionContextStack.activeContext)
         {
-            this.globalObject.browser.logModifyingExternalContextObject(object.iValue.id, property.jsValue, assignmentExpression);
+            //TODO HOW DO I UNIQUELY DIFFERENTIATE BETWEEN OBJECTS!?
+            var objectId = object.iValue.creationCodeConstruct != null ? object.iValue.creationCodeConstruct.nodeId : -1;
+            this.globalObject.browser.logModifyingExternalContextObject(objectId, property.jsValue, assignmentExpression);
         }
     },
 

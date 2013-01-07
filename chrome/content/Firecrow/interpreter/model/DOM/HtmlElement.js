@@ -68,7 +68,7 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
 
-    if(this._isInputElement() && propertyName == "value") { return this._expandWithSymbolic(propertyValue); }
+    if(this._isInputElement() && propertyName == "value") { return this._expandWithSymbolic(propertyName, propertyValue); }
 
     return propertyValue;
 };
@@ -283,14 +283,16 @@ fcModel.HtmlElement.prototype._isInputElement = function()
     return ValueTypeHelper.isOneOfTypes(this.htmlElement, [HTMLSelectElement, HTMLInputElement, HTMLTextAreaElement]);
 };
 
-fcModel.HtmlElement.prototype._expandWithSymbolic = function(value)
+fcModel.HtmlElement.prototype._expandWithSymbolic = function(propertyName, propertyValue)
 {
-    if(value == null || value.iValue == null) { return; }
+    if(propertyValue == null || propertyValue.iValue == null) { return; }
 
-    value.symbolicValue = new FBL.Firecrow.ScenarioGenerator.Symbolic.Identifier(this._expandPropertyName("value"));
-    value.symbolicValue.htmlElement = this.htmlElement;
+    propertyValue.symbolicValue = new FBL.Firecrow.ScenarioGenerator.Symbolic.Identifier(this._expandPropertyName(propertyName));
+    propertyValue.symbolicValue.htmlElement = this.htmlElement;
 
-    return value;
+    this._expandWithPossibleValues(propertyValue.symbolicValue, propertyName);
+
+    return propertyValue;
 };
 
 fcModel.HtmlElement.prototype._expandPropertyName = function(propertyName)
@@ -304,6 +306,28 @@ fcModel.HtmlElement.prototype._expandPropertyName = function(propertyName)
     if(this.htmlElement.className) { propertyName += "_CLASS_" + this.htmlElement.className.replace(/\s+/g, ""); }
 
     return propertyName;
+};
+
+fcModel.HtmlElement.prototype._expandWithPossibleValues = function(symbolicValue, propertyName)
+{
+    if(propertyName == "value" && this.htmlElement instanceof HTMLSelectElement)
+    {
+        symbolicValue.possibleValues = this._getSelectAvailableValues(this.htmlElement);
+    }
+};
+
+fcModel.HtmlElement.prototype._getSelectAvailableValues = function(selectElement)
+{
+    var values = [];
+
+    if(selectElement == null) { return values; }
+
+    for(var i = 0; i < selectElement.children.length; i++)
+    {
+        values.push(selectElement.children[i].value);
+    }
+
+    return values;
 };
 //</editor-fold>
 //</editor-fold>

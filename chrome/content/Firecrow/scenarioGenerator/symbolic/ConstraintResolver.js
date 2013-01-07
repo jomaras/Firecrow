@@ -70,6 +70,7 @@ fcSymbolic.ConstraintResolver =
     _resolveStringConstraint: function(symbolicExpression)
     {
         var identifierNames = symbolicExpression.getIdentifierNames();
+        identifierNames = ValueTypeHelper.cleanDuplicatesFromArray(identifierNames);
 
         var result = {};
 
@@ -88,7 +89,7 @@ fcSymbolic.ConstraintResolver =
 
                     if(htmlElement instanceof HTMLSelectElement)
                     {
-                        var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement);
+                        var updateResult = fcSymbolic.ConstraintResolver.getNextSelectElement(cleansedProperty, htmlElement);
                         result[identifierName] = updateResult.newValue;
                     }
                 }
@@ -107,9 +108,33 @@ fcSymbolic.ConstraintResolver =
         var oldValue = selectElement[propName];
 
         var newValue = this._getNextValue(selectElement[propName], this._getSelectAvailableValues(selectElement));
+
         selectElement[propName] = newValue;
 
         return {htmlElement: selectElement, oldValue: oldValue, newValue: newValue};
+    },
+
+    _getSelectAvailableValues: function(selectElement)
+    {
+        var values = [];
+
+        if(selectElement == null) { return values; }
+
+        for(var i = 0; i < selectElement.children.length; i++)
+        {
+            values.push(selectElement.children[i].value);
+        }
+
+        return values;
+    },
+
+    getNextSelectElement: function(propName, selectElement)
+    {
+        var oldValue = selectElement[propName];
+
+        var newValue = this._getNextValue(selectElement[propName], this._getSelectAvailableValues(selectElement));
+
+        return { htmlElement: selectElement, oldValue: oldValue, newValue: newValue };
     },
 
     getHtmlElementIdFromSymbolicParameter: function(parameter)
@@ -149,19 +174,6 @@ fcSymbolic.ConstraintResolver =
     _getNextValue: function(item, items)
     {
         return items[items.indexOf(item) + 1];
-    },
-
-    _getSelectAvailableValues: function(selectElement)
-    {
-        var values = [];
-        if(selectElement == null) { return values; }
-
-        for(var i = 0; i < selectElement.children.length; i++)
-        {
-            values.push(selectElement.children[i].value);
-        }
-
-        return values;
     },
 
     _isStringLiteralBinaryExpression: function(symbolicExpression)

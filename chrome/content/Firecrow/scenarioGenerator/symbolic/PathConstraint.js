@@ -59,11 +59,13 @@ fcSymbolic.PathConstraint.resolvePathConstraints = function(pathConstraints)
 
     for(var i = 0; i < pathConstraints.length; i++)
     {
-        var groupedByIndex = this._groupByIndex(results[i]);
+        var current = results[i];
+        var groupedByIndex = this._groupByIndex(current);
 
         if(ValueTypeHelper.isEmptyObject(groupedByIndex))
         {
             ValueTypeHelper.removeFromArrayByIndex(pathConstraints, i);
+            ValueTypeHelper.removeFromArrayByIndex(results, i);
             i--;
             continue;
         }
@@ -110,6 +112,26 @@ fcSymbolic.PathConstraint.prototype =
     {
         var pathConstraintItems = this.pathConstraintItems;
         var allInversions = [];
+
+        var flipCombinations = this._generateAllFlipCombinations(pathConstraintItems);
+
+        /*for(var i = 0; i < flipCombinations.length; i++)
+        {
+            var combination = flipCombinations[i];
+
+            var pathConstraintItemsCopy = pathConstraintItems.slice();
+
+            for(var j = 0; j < combination.length; j++)
+            {
+                if(combination[j] == 1)
+                {
+                    var currentPathConstraintItem = pathConstraintItems[j];
+                    pathConstraintItemsCopy[j] = new fcSymbolic.PathConstraintItem(currentPathConstraintItem.codeConstruct, fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint));
+                }
+            }
+
+            allInversions.push(new fcSymbolic.PathConstraint(pathConstraintItemsCopy));
+        }*/
 
         for(var i = pathConstraintItems.length - 1; i >= 0; i--)
         {
