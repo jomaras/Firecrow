@@ -6,7 +6,32 @@
     </head>
     <body>
         <script>
-            var obj
+            var literalObject =
+            {
+                x: 3,
+                getX: function()
+                {
+                    return this.x;
+                }
+            };
+
+            var derivedObject = Object.create(literalObject);
+
+            var a1 = derivedObject.x;
+            var a2 = derivedObject.getX();
+
+            var a3 = derivedObject.hasOwnProperty("x");
+
+            a1; a2; a3;
+
+            var derivedObject1 = Object.create(literalObject,
+            {
+                y: { writable: true, configurable: true, value: 4}
+            });
+
+            var a4 = derivedObject1.y;
+            var a5 = derivedObject1.hasOwnProperty("y");
+            a4; a5;
         </script>
     </body>
 </html>

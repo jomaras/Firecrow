@@ -439,7 +439,7 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
 {
     this.objectFunction = new fcModel.ObjectFunction(this);
     this.fcObjectFunction = new fcModel.fcValue(Object, this.objectFunction);
-    this.addProperty("Object", new fcModel.fcValue(Object, this.objectFunction, null), null);
+    this.addProperty("Object", this.fcObjectFunction, null);
     this.objectPrototype.addProperty("constructor", this.fcObjectFunction, null, false);
 
     this.arrayFunction = new fcModel.ArrayFunction(this);

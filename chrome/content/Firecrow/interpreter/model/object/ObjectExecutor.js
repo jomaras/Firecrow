@@ -36,6 +36,59 @@ fcModel.ObjectExecutor =
         }
     },
 
+    executeInternalObjectFunctionMethod: function(thisObject, functionObject, args, callExpression, callCommand)
+    {
+        var functionObjectValue = functionObject.jsValue;
+        var thisObjectValue = thisObject.jsValue;
+        var functionName = functionObjectValue.name;
+        var fcThisValue =  thisObject.iValue;
+        var argumentValues = args.map(function(argument){ return argument.jsValue;});
+        var globalObject = fcThisValue != null ? fcThisValue.globalObject
+                                               : functionObjectValue.fcValue.iValue.globalObject;
+
+        switch(functionName)
+        {
+            case "create":
+                return this._executeCreate(callExpression, args, globalObject);
+            default:
+                alert("Object Function unhandled function: " + functionName);
+        }
+    },
+
+    _executeCreate: function(callExpression, args, globalObject)
+    {
+        if(args.length == 0) { fcModel.Object.notifyError("Can not call Object.create with zero parameters"); return null; }
+
+        var baseObject = {};
+
+        var newlyCreatedObject = new fcModel.fcValue
+        (
+            baseObject,
+            fcModel.Object.createObjectWithInit(globalObject, callExpression, baseObject, args[0]),
+            callExpression
+        );
+
+        if(args.length >= 2)
+        {
+            var fcObject = newlyCreatedObject.iValue;
+
+            var propertyDescriptorMap = args[1];
+            var jsPropertyDescriptorsMap = propertyDescriptorMap.jsValue;
+            var fcPropertyDescriptorsMap = propertyDescriptorMap.iValue;
+
+            for(var propName in jsPropertyDescriptorsMap)
+            {
+                var propertyDescriptor = fcPropertyDescriptorsMap.getPropertyValue(propName);
+                var propertyValue = propertyDescriptor.iValue.getPropertyValue("value");
+
+                baseObject[propName] = propertyValue;
+                fcObject.addProperty(propName, propertyValue, propertyDescriptor.codeConstruct, true);
+            }
+        }
+
+        return newlyCreatedObject;
+    },
+
     executeInternalConstructor: function(constructorConstruct, args, globalObject)
     {
         var newlyCreatedObject = null;

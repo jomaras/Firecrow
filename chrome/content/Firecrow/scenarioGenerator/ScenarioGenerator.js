@@ -139,7 +139,7 @@ fcScenarioGenerator.ScenarioGenerator =
             this._executeEvent(browser, parametrizedEvents[i], scenario, i);
         }
 
-        scenario.executionInfo = browser.getLastExecutionInfo();
+        scenario.executionInfo = browser.getExecutionInfo();
 
         return scenario.executionInfo;
     },

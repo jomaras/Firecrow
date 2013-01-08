@@ -40,7 +40,7 @@ fcBrowser.Browser = function(pageModel)
         this.errorMessages = [];
         this.cssRules = [];
 
-        this.executionInfo = [];
+        this.executionInfo = new fcBrowser.ExecutionInfo();
 
         this._matchesSelector = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector;
 
@@ -234,7 +234,6 @@ Browser.prototype =
             //console.log("Interpreting @ " + codeModel.loc.start.line);
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
 
-            this.executionInfo.push(new fcBrowser.ExecutionInfo());
             this.addVisitedFunctionToPathConstraint(codeModel.parent);
 
             interpreter.registerMessageGeneratedCallback(function(message)
@@ -248,8 +247,6 @@ Browser.prototype =
             }, this);
 
             interpreter.runSync();
-
-            this.getLastExecutionInfo().calculateCoverage();
         }
         catch(e)
         {
@@ -257,36 +254,33 @@ Browser.prototype =
         }
     },
 
-    getLastExecutionInfo: function()
+    getExecutionInfo: function()
     {
-        return this.executionInfo[this.executionInfo.length - 1];
+        return this.executionInfo;
     },
 
     getUndefinedGlobalPropertiesAccessMap: function()
     {
         var map = {};
 
-        for(var i = 0; i < this.executionInfo.length; i++)
+        var itemMap = this.executionInfo.undefinedGlobalPropertiesAccessMap;
+
+        for(var propertyName in itemMap)
         {
-            var itemMap = this.executionInfo[i].undefinedGlobalPropertiesAccessMap;
+            if(propertyName == "") { continue; }
 
-            for(var propertyName in itemMap)
+            if(map[propertyName] == null)
             {
-                if(propertyName == "") { continue; }
+                map[propertyName] = itemMap[propertyName];
+            }
+            else
+            {
+                var expanderObject = itemMap[propertyName];
+                var expandedObject = map[propertyName];
 
-                if(map[propertyName] == null)
+                for(var codeConstructId in expanderObject)
                 {
-                    map[propertyName] = itemMap[propertyName];
-                }
-                else
-                {
-                    var expanderObject = itemMap[propertyName];
-                    var expandedObject = map[propertyName];
-
-                    for(var codeConstructId in expanderObject)
-                    {
-                        expandedObject[codeConstructId] = expanderObject[codeConstructId];
-                    }
+                    expandedObject[codeConstructId] = expanderObject[codeConstructId];
                 }
             }
         }
@@ -298,14 +292,11 @@ Browser.prototype =
     {
         var map = {};
 
-        for(var i = 0; i < this.executionInfo.length; i++)
-        {
-            var itemMap = this.executionInfo[i].resourceSetterPropertiesMap;
+        var itemMap = this.executionInfo.resourceSetterPropertiesMap;
 
-            for(var propName in itemMap)
-            {
-                map[propName] = itemMap[propName];
-            }
+        for(var propName in itemMap)
+        {
+            map[propName] = itemMap[propName];
         }
 
         return map;
@@ -313,59 +304,52 @@ Browser.prototype =
 
     getForInIterationsLog: function()
     {
-        var forInIterations = [];
-
-        for(var i = 0; i < this.executionInfo.length; i++)
-        {
-            ValueTypeHelper.pushAll(forInIterations, this.executionInfo[i].objectForInIterations);
-        }
-
-        return forInIterations;
+        return this.executionInfo.objectForInIterations;
     },
 
     logAccessingUndefinedProperty: function(propertyName, codeConstruct)
     {
-        this.getLastExecutionInfo().logAccessingUndefinedProperty(propertyName, codeConstruct);
+        this.executionInfo.logAccessingUndefinedProperty(propertyName, codeConstruct);
     },
 
     logResourceSetting: function(codeConstruct, resourcePath)
     {
-        this.getLastExecutionInfo().logResourceSetting(codeConstruct, resourcePath);
+        this.executionInfo.logResourceSetting(codeConstruct, resourcePath);
     },
 
     logForInIteration: function(codeConstruct, objectPrototype)
     {
-        this.getLastExecutionInfo().logForInIteration(codeConstruct, objectPrototype);
+        this.executionInfo.logForInIteration(codeConstruct, objectPrototype);
     },
 
     logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
     {
-        this.getLastExecutionInfo().logSettingOutsideCurrentScopeIdentifierValue(identifier);
+        this.executionInfo.logSettingOutsideCurrentScopeIdentifierValue(identifier);
     },
 
     logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
     {
-        this.getLastExecutionInfo().logReadingIdentifierOutsideCurrentScope(identifier, codeConstruct);
+        this.executionInfo.logReadingIdentifierOutsideCurrentScope(identifier, codeConstruct);
     },
 
     logReadingObjectPropertyOutsideCurrentScope: function(baseObjectId, propertyName, codeConstruct)
     {
-        this.getLastExecutionInfo().logReadingObjectPropertyOutsideCurrentScope(baseObjectId, propertyName, codeConstruct);
+        this.executionInfo.logReadingObjectPropertyOutsideCurrentScope(baseObjectId, propertyName, codeConstruct);
     },
 
     logModifyingExternalContextObject: function(baseObjectId, propertyName, codeConstruct)
     {
-        this.getLastExecutionInfo().logModifyingExternalContextObject(baseObjectId, propertyName, codeConstruct);
+        this.executionInfo.logModifyingExternalContextObject(baseObjectId, propertyName, codeConstruct);
     },
 
     addPathConstraint: function(codeConstruct, constraint, inverse)
     {
-        this.getLastExecutionInfo().addConstraint(codeConstruct, constraint, inverse);
+        this.executionInfo.addConstraint(codeConstruct, constraint, inverse);
     },
 
     addVisitedFunctionToPathConstraint: function(codeConstruct)
     {
-        this.getLastExecutionInfo().addFunctionAsVisited(codeConstruct);
+        this.executionInfo.addFunctionAsVisited(codeConstruct);
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)
