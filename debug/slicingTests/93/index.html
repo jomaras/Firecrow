@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Slicing test</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <script>
+            function Shape(x, y)
+            {
+                this.x = x || 0;
+                this.y = y || 0;
+            }
+
+            Shape.prototype.move = function(x, y)
+            {
+                this.x += x;
+                this.y += y;
+            };
+
+            function Rectangle()
+            {
+                Shape.apply(this, arguments);
+            }
+
+            Rectangle.prototype = new Shape();
+
+            var rect = new Rectangle(0, 0);
+
+            var a1 = rect instanceof Rectangle //true
+            var a2 = rect instanceof Shape //true
+
+            a1; a2;
+        </script>
+    </body>
+</html>

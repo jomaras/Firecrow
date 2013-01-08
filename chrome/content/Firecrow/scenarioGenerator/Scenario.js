@@ -24,8 +24,11 @@ fcScenarioGenerator.Scenario.prototype =
     {
         var thisPathConstraintString = this.pathConstraint != null ? this.pathConstraint.toString() : "";
         var scenarioPathConstraintString = scenario.pathConstraint != null ? scenario.pathConstraint.toString() : "";
+        var thisResolvedResult = this.pathConstraint != null ? JSON.stringify(this.pathConstraint.resolvedResult) : "";
+        var scenarioResolvedResult = scenario.pathConstraint != null ? JSON.stringify(scenario.pathConstraint.resolvedResult) : "";
 
-        return this._haveEqualEvents(scenario) && thisPathConstraintString == scenarioPathConstraintString;
+        return this._haveEqualEvents(scenario) && (thisPathConstraintString == scenarioPathConstraintString
+                                                || thisResolvedResult == scenarioResolvedResult);
     },
 
     _haveEqualEvents: function(scenario)

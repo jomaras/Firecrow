@@ -49,7 +49,7 @@ fcModel.Function.prototype.getJsPropertyValue = function(propertyName, codeConst
 };
 fcModel.Function.prototype._setDefaultProperties = function()
 {
-    this.addProperty("prototype", this.globalObject.internalExecutor.createNonConstructorObject());
+    this.addProperty("prototype", this.globalObject.internalExecutor.createNonConstructorObject(this.codeConstruct, this.value != null ? this.value.prototype : null));
     this.addProperty("__proto__", this.globalObject.fcFunctionPrototype);
 
     this._setLengthProperty();

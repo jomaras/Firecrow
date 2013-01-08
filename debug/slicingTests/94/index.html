@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Slicing test</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <script>
+            //Empty Object
+            var newObject1 = new Object();
+            var newObject2 = new Object(null);
+            var newObject3 = new Object(undefined);
+
+            var a1 = newObject1 instanceof Object;
+            var a2 = newObject2 instanceof Object;
+            var a3 = newObject3 instanceof Object;
+
+            a1; a2; a3;
+
+            //Boolean Object
+            var newObject4 = new Object(true);
+            var newObject5 = new Object(Boolean());
+
+            var a4 = newObject4 instanceof Boolean;
+            var a5 = newObject5 instanceof Boolean;
+
+            a4; a5;
+
+            //String Object
+            var newObject6 = new Object("");
+            var newObject7 = new Object(String());
+
+            var a6 = newObject6 instanceof String;
+            var a7 = newObject7 instanceof String;
+
+            a6; a7;
+
+            //String Object
+            var newObject8 = new Object(1);
+            var newObject9 = new Object(Number(1));
+
+            var a8 = newObject8 instanceof Number;
+            var a9 = newObject9 instanceof Number;
+
+            a8; a9;
+
+            var literalObject =
+            {
+                x: 3,
+                getX: function()
+                {
+                    return x;
+                }
+            };
+
+            var newObject10 = new Object(literalObject);
+
+            /*function Shape(x, y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+
+            Shape.prototype.move = function(x, y)
+            {
+                this.x += x;
+                this.y += y;
+            };
+
+            function Rectangle()
+            {
+                Shape.apply(this, arguments);
+            }
+
+            Rectangle.prototype = Object.create(Shape.prototype);
+
+            var a1 =
+
+            var rect = new Rectangle(0, 0);
+
+            var a1 = rect instanceof Rectangle //true.
+            var a2 = rect instanceof Shape //true.
+
+            var newObject6 = Object.create(Object.prototype,
+            {
+                // foo is a regular "value property"
+                foo: { writable:true, configurable:true, value: "hello" },
+                // bar is a getter-and-setter (accessor) property
+                bar:
+                {
+                    configurable: false,
+                    get: function() { return 10 },
+                    set: function(value) { console.log("Setting `o.bar` to", value) }
+                }
+            });*/
+
+
+        </script>
+    </body>
+</html>

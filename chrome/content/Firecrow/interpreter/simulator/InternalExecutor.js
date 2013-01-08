@@ -36,14 +36,14 @@ fcSimulator.InternalExecutor.prototype =
         return new fcModel.fcValue(value, result, codeConstruct, symbolicValue);
     },
 
-    createNonConstructorObject: function(creationCodeConstruct)
+    createNonConstructorObject: function(creationCodeConstruct, baseObject)
     {
-        var newObject = {};
+        baseObject = baseObject || {};
 
         return new fcModel.fcValue
         (
-            newObject,
-            fcModel.Object.createObjectWithInit(this.globalObject, creationCodeConstruct, newObject, this.globalObject.fcObjectPrototype),
+            baseObject,
+            fcModel.Object.createObjectWithInit(this.globalObject, creationCodeConstruct, baseObject, this.globalObject.fcObjectPrototype),
             creationCodeConstruct
         );
     },
@@ -282,7 +282,7 @@ fcSimulator.InternalExecutor.prototype =
         else if (internalConstructor.iValue == this.globalObject.stringFunction) { return new fcModel.fcValue(String.apply(null, args), String.apply(null, args), constructorConstruct); }
         else if (internalConstructor.iValue == this.globalObject.booleanFunction) { return new fcModel.fcValue(Boolean.apply(null, args), Boolean.apply(null, args), constructorConstruct); }
         else if (internalConstructor.iValue == this.globalObject.numberFunction) { return new fcModel.fcValue(Number.apply(null, args), Number.apply(null, args), constructorConstruct); }
-        else if (internalConstructor.iValue == this.globalObject.objectFunction) { return new fcModel.fcValue(Object.apply(null, args), Object.apply(null, args), constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.objectFunction) { return fcModel.ObjectExecutor.executeInternalConstructor(constructorConstruct, args, this.globalObject);}
         else if (internalConstructor.iValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeInternalConstructor(constructorConstruct, args, this.globalObject); }
         else if (internalConstructor.iValue == this.globalObject.imageFunction
               || internalConstructor.iValue == this.globalObject.xmlHttpRequestFunction) { return this._createEmptyObject(constructorConstruct); }

@@ -32,6 +32,7 @@ fcModel.Object.prototype =
         this.enumeratedProperties = [];
 
         this.setProto(proto);
+
         this.modifications = [];
 
         if(codeConstruct != null && globalObject != null)

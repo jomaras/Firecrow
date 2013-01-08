@@ -18,6 +18,10 @@ fcModel.Boolean.prototype.getJsPropertyValue = function(propertyName, codeConstr
 {
     return this.getPropertyValue(propertyName, codeConstruct);
 };
+fcModel.Boolean.prototype.isPrimitive = function()
+{
+    return this.isLiteral;
+};
 
 fcModel.BooleanFunction = function(globalObject)
 {

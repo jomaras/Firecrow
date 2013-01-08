@@ -138,7 +138,7 @@
     <script src="usageScenarioGenerator/fullPages/3DModelAppMapping.js"></script>
 
     <script type="text/javascript">
-       var model = models[13];  //13
+       var model = models[17];
        //var model = threeDModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
@@ -151,7 +151,6 @@
 
         var usageScenarios = FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario)
         {
-
             var html = "<div class='scenarioHeader'>Scenario " + scenarioCounter +"</div>";
             var formulaString = scenario.pathConstraint != null ? (scenario.pathConstraint + " =&gt; " + JSON.stringify(scenario.pathConstraint.resolvedResult))
                                                                 : "undefined";
