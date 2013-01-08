@@ -43,58 +43,6 @@
             var a9 = newObject9 instanceof Number;
 
             a8; a9;
-
-            var literalObject =
-            {
-                x: 3,
-                getX: function()
-                {
-                    return x;
-                }
-            };
-
-            var newObject10 = new Object(literalObject);
-
-            /*function Shape(x, y)
-            {
-                this.x = x;
-                this.y = y;
-            }
-
-            Shape.prototype.move = function(x, y)
-            {
-                this.x += x;
-                this.y += y;
-            };
-
-            function Rectangle()
-            {
-                Shape.apply(this, arguments);
-            }
-
-            Rectangle.prototype = Object.create(Shape.prototype);
-
-            var a1 =
-
-            var rect = new Rectangle(0, 0);
-
-            var a1 = rect instanceof Rectangle //true.
-            var a2 = rect instanceof Shape //true.
-
-            var newObject6 = Object.create(Object.prototype,
-            {
-                // foo is a regular "value property"
-                foo: { writable:true, configurable:true, value: "hello" },
-                // bar is a getter-and-setter (accessor) property
-                bar:
-                {
-                    configurable: false,
-                    get: function() { return 10 },
-                    set: function(value) { console.log("Setting `o.bar` to", value) }
-                }
-            });*/
-
-
         </script>
     </body>
 </html>

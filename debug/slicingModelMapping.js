@@ -982,3 +982,13 @@ HtmlModelMapping.push
         slicingResult: "PCFET0NUWVBFIGh0bWw+CjxodG1sPgoKICAgIDxib2R5PgogICAgICAgIDxzY3JpcHQ+CiAgdmFyIG5ld09iamVjdDEgPSBuZXcgT2JqZWN0KCk7CiAgdmFyIG5ld09iamVjdDIgPSBuZXcgT2JqZWN0KG51bGwpOwogIHZhciBuZXdPYmplY3QzID0gbmV3IE9iamVjdCh1bmRlZmluZWQpOwogIHZhciBhMSA9IG5ld09iamVjdDEgaW5zdGFuY2VvZiBPYmplY3Q7CiAgdmFyIGEyID0gbmV3T2JqZWN0MiBpbnN0YW5jZW9mIE9iamVjdDsKICB2YXIgYTMgPSBuZXdPYmplY3QzIGluc3RhbmNlb2YgT2JqZWN0OwogIGExOwogIGEyOwogIGEzOwogIHZhciBuZXdPYmplY3Q0ID0gbmV3IE9iamVjdCh0cnVlKTsKICB2YXIgbmV3T2JqZWN0NSA9IG5ldyBPYmplY3QoQm9vbGVhbigpKTsKICB2YXIgYTQgPSBuZXdPYmplY3Q0IGluc3RhbmNlb2YgQm9vbGVhbjsKICB2YXIgYTUgPSBuZXdPYmplY3Q1IGluc3RhbmNlb2YgQm9vbGVhbjsKICBhNDsKICBhNTsKICB2YXIgbmV3T2JqZWN0NiA9IG5ldyBPYmplY3QoJycpOwogIHZhciBuZXdPYmplY3Q3ID0gbmV3IE9iamVjdChTdHJpbmcoKSk7CiAgdmFyIGE2ID0gbmV3T2JqZWN0NiBpbnN0YW5jZW9mIFN0cmluZzsKICB2YXIgYTcgPSBuZXdPYmplY3Q3IGluc3RhbmNlb2YgU3RyaW5nOwogIGE2OwogIGE3OwogIHZhciBuZXdPYmplY3Q4ID0gbmV3IE9iamVjdCgxKTsKICB2YXIgbmV3T2JqZWN0OSA9IG5ldyBPYmplY3QoTnVtYmVyKDEpKTsKICB2YXIgYTggPSBuZXdPYmplY3Q4IGluc3RhbmNlb2YgTnVtYmVyOwogIHZhciBhOSA9IG5ld09iamVjdDkgaW5zdGFuY2VvZiBOdW1iZXI7CiAgYTg7CiAgYTk7Cjwvc2NyaXB0PgogICAgCjwvYm9keT4KPC9odG1sPg=="
     }
 );
+
+HtmlModelMapping.push
+(
+    {
+        url: "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/95/index.html",
+        results: [{a1:true}, {a2:true}, {a3:true}],
+        model: {},
+        slicingResult: ""
+    }
+);
