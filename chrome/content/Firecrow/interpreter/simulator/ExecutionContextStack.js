@@ -655,8 +655,6 @@ fcSimulator.ExecutionContextStack.prototype =
         var functionConstruct = enterFunctionCommand.callee.codeConstruct;
         var formalParameters = this._getFormalParameters(functionConstruct);
 
-        this.globalObject.browser.addVisitedFunctionToPathConstraint(functionConstruct);
-
         var sentArgumentsValues = null;
         var arguments = [];
 

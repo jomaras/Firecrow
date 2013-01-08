@@ -132,8 +132,11 @@
     <iframe id="firecrowFrame" height="1" width="1" style="overflow:scroll;"></iframe>
 
     <div class="reportContainer" id="pageCodeContainer"></div>
-    <div class="reportContainer" id="usageScenarioTracesContainer">
+    <div class="reportContainer">
         <h2 id="scenarioTitle">Generated scenarios: </h2>
+        <div id="usageScenarioTracesContainer">
+
+        </div>
     </div>
     <script src="usageScenarioGenerator/fullPages/3DModelAppMapping.js"></script>
 
@@ -151,9 +154,14 @@
 
         var usageScenarios = FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario)
         {
+            generateScenarioHtml(scenario);
+        });
+
+        function generateScenarioHtml(scenario)
+        {
             var html = "<div class='scenarioHeader'>Scenario " + scenarioCounter +"</div>";
             var formulaString = scenario.pathConstraint != null ? (scenario.pathConstraint + " =&gt; " + JSON.stringify(scenario.pathConstraint.resolvedResult))
-                                                                : "undefined";
+                    : "undefined";
 
             html += "<div class='formulaHeader'>Formula: <b>" + formulaString  + "</div>";
             html += "<ol>";
@@ -165,7 +173,7 @@
                 var event = events[i];
 
                 html += "<li>";
-                    html += event.toString();
+                html += event.toString();
                 html += "</li>";
             }
 
@@ -177,10 +185,18 @@
             usageScenarioTracesContainer.appendChild(wrapper);
 
             scenarioCounter++;
-        });
+        }
 
         scenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + FBL.Firecrow.ASTHelper.calculatePageExpressionCoverage(model.pageModel)*100 + "%</b>";
         pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
+
+       scenarioCounter = 0;
+       usageScenarioTracesContainer.innerHTML = "";
+
+       usageScenarios.forEach(function(scenario)
+       {
+            generateScenarioHtml(scenario);
+       });
     </script>
 </body>
 </html>

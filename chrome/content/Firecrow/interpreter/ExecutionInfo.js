@@ -28,35 +28,6 @@ fcBrowser.ExecutionInfo.prototype =
         this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
     },
 
-    addFunctionAsVisited: function(functionConstruct)
-    {
-        if(!FBL.Firecrow.ASTHelper.isFunction(functionConstruct)) { return; }
-
-        this.visitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
-    },
-
-    getVisitedFunctions: function()
-    {
-        var visitedFunctions = [];
-
-        for(var prop in this.visitedFunctionsMap)
-        {
-            visitedFunctions.push(this.visitedFunctionsMap[prop]);
-        }
-
-        return visitedFunctions;
-    },
-
-    getVisitedFunctionsExpressionCoverage: function()
-    {
-        return FBL.Firecrow.ASTHelper.calculateExpressionCoverage(this.getVisitedFunctions());
-    },
-
-    calculateCoverage: function()
-    {
-        this.coverage = this.getVisitedFunctionsExpressionCoverage();
-    },
-
     logAccessingUndefinedProperty: function(propertyName, codeConstruct)
     {
         if(codeConstruct == null || fcModel.GlobalObject.CONST.isEventProperty(propertyName)) { return; }
@@ -87,14 +58,28 @@ fcBrowser.ExecutionInfo.prototype =
 
     logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
     {
-        this.globalModifiedIdentifiers.push(identifier);
+        this.globalModifiedIdentifiers.push
+        (
+            {
+                name: identifier.name,
+                declarationConstructId: identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct.nodeId
+                                                                                : null
+            }
+        );
     },
 
     logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
     {
         if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
 
-        this.globalAccessedIdentifiers.push(identifier);
+        this.globalAccessedIdentifiers.push
+        (
+            {
+                name: identifier.name,
+                declarationConstructId: identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct.nodeId
+                                                                                : null
+            }
+        );
     },
 
     logReadingObjectPropertyOutsideCurrentScope: function(baseObjectId, propertyName, codeConstruct)
@@ -131,18 +116,18 @@ fcBrowser.ExecutionInfo.prototype =
             {
                 var globalAccessedIdentifier = this.globalAccessedIdentifiers[j];
 
-                if(modifiedIdentifier.declarationConstruct == null && globalAccessedIdentifier.declarationConstruct == null)
+                if(modifiedIdentifier.declarationConstructId == null && globalAccessedIdentifier.declarationConstructId == null)
                 {
                     if(modifiedIdentifier.name == globalAccessedIdentifier.name) { return true; }
                 }
-                else if(modifiedIdentifier.declarationConstruct == null || globalAccessedIdentifier.declarationConstruct == null)
+                else if(modifiedIdentifier.declarationConstructId == null || globalAccessedIdentifier.declarationConstructId == null)
                 {
                     continue;
                 }
                 else
                 {
                     if(modifiedIdentifier.name == globalAccessedIdentifier.name
-                    && modifiedIdentifier.declarationConstruct.codeConstruct == globalAccessedIdentifier.declarationConstruct.codeConstruct)
+                    && modifiedIdentifier.declarationConstructId == globalAccessedIdentifier.declarationConstructId)
                     {
                         return true;
                     }

@@ -234,8 +234,6 @@ Browser.prototype =
             //console.log("Interpreting @ " + codeModel.loc.start.line);
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
 
-            this.addVisitedFunctionToPathConstraint(codeModel.parent);
-
             interpreter.registerMessageGeneratedCallback(function(message)
             {
                 this._callInterpreterMessageGeneratedCallbacks(message);
@@ -345,11 +343,6 @@ Browser.prototype =
     addPathConstraint: function(codeConstruct, constraint, inverse)
     {
         this.executionInfo.addConstraint(codeConstruct, constraint, inverse);
-    },
-
-    addVisitedFunctionToPathConstraint: function(codeConstruct)
-    {
-        this.executionInfo.addFunctionAsVisited(codeConstruct);
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)

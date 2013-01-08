@@ -27,7 +27,7 @@ fcScenarioGenerator.ScenarioGenerator =
             if(i == scenarios.length - 1) { this._createMergedScenarios(pageModel, scenarios, scenarioCreatedCallback); }
         }
 
-        return scenarios;
+        return scenarios.slice(0, i);
     },
 
     _executeApplication: function(pageModel)
