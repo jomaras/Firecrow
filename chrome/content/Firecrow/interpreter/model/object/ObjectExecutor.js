@@ -1,11 +1,7 @@
-/**
- * User: Jomaras
- * Date: 06.11.12.
- * Time: 08:50
- */
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
+var fcSimulator = Firecrow.Interpreter.Simulator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.ObjectExecutor =
@@ -75,11 +71,14 @@ fcModel.ObjectExecutor =
             var propertyDescriptorMap = args[1];
             var jsPropertyDescriptorsMap = propertyDescriptorMap.jsValue;
             var fcPropertyDescriptorsMap = propertyDescriptorMap.iValue;
+            var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
 
             for(var propName in jsPropertyDescriptorsMap)
             {
                 var propertyDescriptor = fcPropertyDescriptorsMap.getPropertyValue(propName);
                 var propertyValue = propertyDescriptor.iValue.getPropertyValue("value");
+
+                dependencyCreator.createDependenciesForObjectCreate(propertyDescriptor.codeConstruct);
 
                 baseObject[propName] = propertyValue;
                 fcObject.addProperty(propName, propertyValue, propertyDescriptor.codeConstruct, true);

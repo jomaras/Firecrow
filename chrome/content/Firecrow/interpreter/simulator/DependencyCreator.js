@@ -43,6 +43,20 @@ fcSimulator.DependencyCreator.prototype =
         }
     },
 
+    createDependenciesForObjectCreate: function(propertyConstruct)
+    {
+        if(!ASTHelper.isObjectExpression(propertyConstruct)) { return; }
+
+        var children = propertyConstruct.children;
+
+        for(var i = 0; i < children.length; i++)
+        {
+            var child = children[i];
+            this.createDataDependency(propertyConstruct, child);
+            this.createDataDependency(propertyConstruct, child.value);
+        }
+    },
+
     createDataDependency: function(fromConstruct, toConstruct)
     {
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(fromConstruct, toConstruct, this.globalObject.getPreciseEvaluationPositionId());
