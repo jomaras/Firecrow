@@ -46,6 +46,8 @@ fcModel.ObjectExecutor =
         {
             case "create":
                 return this._executeCreate(callExpression, args, globalObject);
+            case "defineProperty":
+                return this._executeDefineProperty(callExpression, args, globalObject);
             default:
                 alert("Object Function unhandled function: " + functionName);
         }
@@ -78,7 +80,7 @@ fcModel.ObjectExecutor =
                 var propertyDescriptor = fcPropertyDescriptorsMap.getPropertyValue(propName);
                 var propertyValue = propertyDescriptor.iValue.getPropertyValue("value");
 
-                dependencyCreator.createDependenciesForObjectCreate(propertyDescriptor.codeConstruct);
+                dependencyCreator.createDependenciesForObjectPropertyDefinition(propertyDescriptor.codeConstruct);
 
                 baseObject[propName] = propertyValue;
                 fcObject.addProperty(propName, propertyValue, propertyDescriptor.codeConstruct, true);
@@ -86,6 +88,45 @@ fcModel.ObjectExecutor =
         }
 
         return newlyCreatedObject;
+    },
+
+    _executeDefineProperty: function(callExpression, args, globalObject)
+    {
+        if(args.length < 3) { fcModel.Object.notifyError("Can not call Object.defineProperty with less than 3 parameters"); return; }
+
+        var propertyName = args[1].jsValue;
+
+        var jsPropertyDescriptorMap = args[2].jsValue;
+
+        var configurable = this._getPropertyDescriptorValue(jsPropertyDescriptorMap, "configurable", false);
+        var enumerable = this._getPropertyDescriptorValue(jsPropertyDescriptorMap, "enumerable", false);
+        var writable = this._getPropertyDescriptorValue(jsPropertyDescriptorMap, "writable", false);
+        var get = this._getPropertyDescriptorValue(jsPropertyDescriptorMap, "get", null);
+        var set = this._getPropertyDescriptorValue(jsPropertyDescriptorMap, "set", null);
+        var value = jsPropertyDescriptorMap.value;
+
+        if(get != null || set != null) { fcModel.Object.notifyError("Still does not handle defining getters and setters"); return; }
+        if(value == null) { fcModel.Object.notifyError("Still does not handle defining getters and setters"); return; }
+
+        var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
+
+        dependencyCreator.createDependenciesForObjectPropertyDefinition(args[2].codeConstruct);
+
+        Object.defineProperty(args[0].jsValue, propertyName,
+        {
+            configurable: configurable,
+            enumerable: enumerable,
+            writable: writable,
+            value: value
+        });
+
+        args[0].iValue.addProperty(propertyName, jsPropertyDescriptorMap.value, args[2].codeConstruct, enumerable, configurable, writable);
+    },
+
+    _getPropertyDescriptorValue: function(propertyDescriptorMap, propertyName, defaultValue)
+    {
+        return propertyDescriptorMap[propertyName] != null ? propertyDescriptorMap[propertyName].jsValue
+                                                           : defaultValue;
     },
 
     executeInternalConstructor: function(constructorConstruct, args, globalObject)

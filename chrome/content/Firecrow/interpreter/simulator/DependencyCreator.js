@@ -43,7 +43,7 @@ fcSimulator.DependencyCreator.prototype =
         }
     },
 
-    createDependenciesForObjectCreate: function(propertyConstruct)
+    createDependenciesForObjectPropertyDefinition: function(propertyConstruct)
     {
         if(!ASTHelper.isObjectExpression(propertyConstruct)) { return; }
 

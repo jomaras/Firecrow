@@ -47,6 +47,8 @@ fcModel.Identifier.prototype =
     {
         try
         {
+            if(this.writable === false) { return; }
+
             this.value = newValue;
 
             if(modificationConstruct != null)

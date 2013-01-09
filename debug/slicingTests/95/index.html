@@ -32,6 +32,33 @@
             var a4 = derivedObject1.y;
             var a5 = derivedObject1.hasOwnProperty("y");
             a4; a5;
+
+            //Object.defineProperty
+
+            var object = {};
+            Object.defineProperty(object, "a", {value : 37,
+                writable : true,
+                enumerable : true,
+                configurable : true});
+
+            var a6 = object.a == 37;
+            a6;
+
+            var properties = "";
+            for(var prop in object) { properties += prop; }
+            var a7 = properties == "a";
+
+            Object.defineProperty(object, "b", {value : 37,
+                writable : false,
+                enumerable : true,
+                configurable : true});
+
+            var a8 = object.b == 37;
+            a8;
+
+            object.b = 36;
+            var a9 = object.b == 37;
+            a9;
         </script>
     </body>
 </html>

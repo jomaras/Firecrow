@@ -168,7 +168,7 @@ fcModel.Object.prototype =
     //</editor-fold>
 
     //<editor-fold desc="Property Setters">
-    addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable)
+    addProperty: function(propertyName, propertyValue, codeConstruct, isEnumerable, optConfigurable, optWritable)
     {
         try
         {
@@ -187,6 +187,16 @@ fcModel.Object.prototype =
             else
             {
                 property.setValue(propertyValue, codeConstruct);
+            }
+
+            if(optConfigurable === true || optConfigurable === false)
+            {
+                property.configurable = optConfigurable;
+            }
+
+            if(optWritable === true || optWritable === false)
+            {
+                property.writable = optWritable;
             }
 
             if(propertyName == "prototype" && propertyValue != null && codeConstruct != null)
