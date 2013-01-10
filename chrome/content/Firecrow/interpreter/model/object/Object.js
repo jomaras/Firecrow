@@ -189,6 +189,11 @@ fcModel.Object.prototype =
                 property.setValue(propertyValue, codeConstruct);
             }
 
+            if(isEnumerable === true || isEnumerable === false)
+            {
+                property.enumerable = isEnumerable;
+            }
+
             if(optConfigurable === true || optConfigurable === false)
             {
                 property.configurable = optConfigurable;

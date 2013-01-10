@@ -98,6 +98,14 @@
             var a13 = obj.a == true;
             var a14 = obj.b == "Hello";
             a13; a14;
+
+            var propertyDescriptor = Object.getOwnPropertyDescriptor(obj, "a");
+            var a15 = propertyDescriptor.writable;
+            a15;
+
+            propertyDescriptor = Object.getOwnPropertyDescriptor(obj, "c");
+            var a16 = propertyDescriptor === undefined;
+            a16;
         </script>
     </body>
 </html>

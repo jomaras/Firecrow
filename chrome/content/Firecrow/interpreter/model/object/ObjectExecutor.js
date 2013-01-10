@@ -50,6 +50,8 @@ fcModel.ObjectExecutor =
                 return this._executeDefineProperty(callExpression, args, globalObject);
             case "defineProperties":
                 return this._executeDefineProperties(callExpression, args, globalObject);
+            case "getOwnPropertyDescriptor":
+                return this._executeGetOwnPropertyDescriptor(callExpression, args, globalObject);
             default:
                 alert("Object Function unhandled function: " + functionName);
         }
@@ -112,7 +114,6 @@ fcModel.ObjectExecutor =
             dependencyCreator.createDataDependency(propertyDescriptor.codeConstruct, callExpression);
             dependencyCreator.createDependenciesForObjectPropertyDefinition(propertyDescriptor.codeConstruct);
 
-
             Object.defineProperty(fcBaseObject.jsValue, propName,
             {
                 configurable: configurable,
@@ -156,6 +157,38 @@ fcModel.ObjectExecutor =
         });
 
         args[0].iValue.addProperty(propertyName, jsPropertyDescriptorMap.value, args[2].codeConstruct, enumerable, configurable, writable);
+    },
+
+    _executeGetOwnPropertyDescriptor: function(callExpression, args, globalObject)
+    {
+        if(args.length < 1) { fcModel.Object.notifyError("Can not call getOwnPropertyDescriptor with 0 arguments"); }
+
+        if(args.length == 1) { return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined); }
+
+        var property = args[0].iValue.getOwnProperty(args[1].jsValue);
+
+        if(property == null) { return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined); }
+
+        var baseObject = {};
+
+        var newlyCreatedObject = new fcModel.fcValue
+        (
+            baseObject,
+            fcModel.Object.createObjectWithInit(globalObject, callExpression, baseObject),
+            callExpression
+        );
+
+        baseObject.configurable = globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, property.configurable);
+        baseObject.enumerable = globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, property.enumerable);
+        baseObject.writable = globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, property.writable);
+        baseObject.value = property.value;
+
+        newlyCreatedObject.iValue.addProperty("configurable", baseObject.configurable, callExpression, true, true, true);
+        newlyCreatedObject.iValue.addProperty("enumerable", baseObject.enumerable, callExpression, true, true, true);
+        newlyCreatedObject.iValue.addProperty("writable", baseObject.writable, callExpression, true, true, true);
+        newlyCreatedObject.iValue.addProperty("value", baseObject.value, callExpression, true, true, true);
+
+        return newlyCreatedObject;
     },
 
     _getPropertyDescriptorValue: function(propertyDescriptorMap, propertyName, defaultValue)
