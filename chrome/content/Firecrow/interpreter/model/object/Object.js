@@ -64,6 +64,11 @@ fcModel.Object.prototype =
         );
     },
 
+    getEnumeratedPropertyNames: function()
+    {
+        return this._getEnumeratedPropertiesFromImplementationObject();
+    },
+
     isOwnProperty: function(propertyName)
     {
         return this.getOwnProperty(propertyName) != null;

@@ -52,6 +52,8 @@ fcModel.ObjectExecutor =
                 return this._executeDefineProperties(callExpression, args, globalObject);
             case "getOwnPropertyDescriptor":
                 return this._executeGetOwnPropertyDescriptor(callExpression, args, globalObject);
+            case "keys":
+                return this._executeKeys(callExpression, args, globalObject);
             default:
                 alert("Object Function unhandled function: " + functionName);
         }
@@ -161,7 +163,7 @@ fcModel.ObjectExecutor =
 
     _executeGetOwnPropertyDescriptor: function(callExpression, args, globalObject)
     {
-        if(args.length < 1) { fcModel.Object.notifyError("Can not call getOwnPropertyDescriptor with 0 arguments"); }
+        if(args.length < 1) { fcModel.Object.notifyError("Can not call getOwnPropertyDescriptor with 0 arguments"); return null; }
 
         if(args.length == 1) { return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined); }
 
@@ -189,6 +191,36 @@ fcModel.ObjectExecutor =
         newlyCreatedObject.iValue.addProperty("value", baseObject.value, callExpression, true, true, true);
 
         return newlyCreatedObject;
+    },
+
+    _executeKeys: function(callExpression, args, globalObject)
+    {
+        if(args.length == 0) { fcModel.Object.notifyError("Can not call Object.keys with 0 arguments"); return null; }
+
+        if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object keys argument hast to have iValue"); return null; }
+
+        var iObject = args[0].iValue;
+
+        var propertyNames = iObject.getEnumeratedPropertyNames();
+
+        var propertyKeysArray = [];
+
+        for(var i = 0; i < propertyNames.length; i++)
+        {
+            var propertyName = propertyNames[i];
+            var property = iObject.getProperty(propertyName);
+
+            propertyKeysArray.push
+            (
+                globalObject.internalExecutor.createInternalPrimitiveObject
+                (
+                    property.lastModificationPosition != null ? property.lastModificationPosition.codeConstruct : null,
+                    propertyName
+                )
+            );
+        }
+
+        return globalObject.internalExecutor.createArray(callExpression, propertyKeysArray);
     },
 
     _getPropertyDescriptorValue: function(propertyDescriptorMap, propertyName, defaultValue)

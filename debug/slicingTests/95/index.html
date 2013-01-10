@@ -106,6 +106,29 @@
             propertyDescriptor = Object.getOwnPropertyDescriptor(obj, "c");
             var a16 = propertyDescriptor === undefined;
             a16;
+            /**************************************************/
+            var arr = ["a", "b", "c"];
+            var keys = Object.keys(arr);
+
+            var a17 = keys[0] == 0;
+            var a18 = keys[1] == 1;
+            var a19 = keys[2] == 2;
+            a17; a18; a19;
+
+            var obj = { 0 : "a", 1 : "b", 2 : "c"};
+            var keys = Object.keys(obj);
+            var a20 = keys[0] == 0;
+            var a21 = keys[1] == 1;
+            var a22 = keys[2] == 2;
+            a20; a21; a22;
+
+            var my_obj = Object.create({}, { getFoo : { value : function () { return this.foo } } });
+            my_obj.foo = 1;
+
+            var keys = Object.keys(my_obj); // will alert only foo
+            var a23 = keys[0] == "foo";
+            var a24 = keys[1] == null;
+            a23;a24;
         </script>
     </body>
 </html>
