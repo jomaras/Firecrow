@@ -59,6 +59,45 @@
             object.b = 36;
             var a9 = object.b == 37;
             a9;
+
+            var array = [1,2,3];
+
+            properties = "";
+            for(var prop in array)
+            {
+                properties += prop;
+            }
+            var a10 = properties == "012";
+            a10;
+
+            Object.defineProperty(array, "b", {value : 37,
+                writable : false,
+                enumerable : false,
+                configurable : true});
+
+            properties = "";
+            for(var prop in array) { properties += prop; }
+            var a11 = properties == "012";
+            a11;
+
+            var a12 = array.b == 37;
+            a12;
+
+            var obj = {};
+            Object.defineProperties(obj, {
+                "a": {
+                    value: true,
+                    writable: true
+                },
+                "b": {
+                    value: "Hello",
+                    writable: false
+                }
+            });
+
+            var a13 = obj.a == true;
+            var a14 = obj.b == "Hello";
+            a13; a14;
         </script>
     </body>
 </html>
