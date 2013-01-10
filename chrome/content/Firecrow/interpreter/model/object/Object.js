@@ -69,6 +69,20 @@ fcModel.Object.prototype =
         return this._getEnumeratedPropertiesFromImplementationObject();
     },
 
+    getOwnPropertyNames: function()
+    {
+        var propertyNames = [];
+
+        var properties = this.properties;
+
+        for(var i = 0, propertyLength = properties.length; i < propertyLength; i++)
+        {
+            propertyNames.push(properties[i].name);
+        }
+
+        return propertyNames;
+    },
+
     isOwnProperty: function(propertyName)
     {
         return this.getOwnProperty(propertyName) != null;

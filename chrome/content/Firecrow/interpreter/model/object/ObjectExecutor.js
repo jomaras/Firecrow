@@ -1,6 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
+var ASTHelper = Firecrow.ASTHelper;
 var fcSimulator = Firecrow.Interpreter.Simulator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
@@ -52,6 +53,8 @@ fcModel.ObjectExecutor =
                 return this._executeDefineProperties(callExpression, args, globalObject);
             case "getOwnPropertyDescriptor":
                 return this._executeGetOwnPropertyDescriptor(callExpression, args, globalObject);
+            case "getOwnPropertyNames":
+                return this._getOwnPropertyNames(callExpression, args, globalObject);
             case "keys":
                 return this._executeKeys(callExpression, args, globalObject);
             default:
@@ -199,10 +202,20 @@ fcModel.ObjectExecutor =
 
         if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object keys argument hast to have iValue"); return null; }
 
-        var iObject = args[0].iValue;
+        return this._createArrayFromPropertyNames(args[0].iValue, args[0].iValue.getEnumeratedPropertyNames(), globalObject, callExpression);
+    },
 
-        var propertyNames = iObject.getEnumeratedPropertyNames();
+    _getOwnPropertyNames: function(callExpression, args, globalObject)
+    {
+        if(args.length == 0) { fcModel.Object.notifyError("Can not call Object.keys with 0 arguments"); return null; }
 
+        if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object keys argument hast to have iValue"); return null; }
+
+        return this._createArrayFromPropertyNames(args[0].iValue, args[0].iValue.getOwnPropertyNames(), globalObject, callExpression);
+    },
+
+    _createArrayFromPropertyNames: function(iObject, propertyNames, globalObject, callExpression)
+    {
         var propertyKeysArray = [];
 
         for(var i = 0; i < propertyNames.length; i++)
@@ -210,14 +223,26 @@ fcModel.ObjectExecutor =
             var propertyName = propertyNames[i];
             var property = iObject.getProperty(propertyName);
 
+            var lastModificationConstruct = property.lastModificationPosition != null ? property.lastModificationPosition.codeConstruct : null;
+
             propertyKeysArray.push
             (
                 globalObject.internalExecutor.createInternalPrimitiveObject
                 (
-                    property.lastModificationPosition != null ? property.lastModificationPosition.codeConstruct : null,
+                    lastModificationConstruct,
                     propertyName
                 )
             );
+
+            if(lastModificationConstruct != null)
+            {
+                if(ASTHelper.isObjectExpressionPropertyValue(lastModificationConstruct.parent))
+                {
+                    var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
+
+                    dependencyCreator.createDataDependency(lastModificationConstruct, lastModificationConstruct.parent);
+                }
+            }
         }
 
         return globalObject.internalExecutor.createArray(callExpression, propertyKeysArray);

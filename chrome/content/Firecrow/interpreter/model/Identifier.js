@@ -27,6 +27,7 @@ fcModel.Identifier = function(name, value, codeConstruct, globalObject)
             if(ASTHelper.isObjectExpressionPropertyValue(codeConstruct))
             {
                 this.lastModificationPosition = { codeConstruct: codeConstruct.value, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+
             }
             else
             {

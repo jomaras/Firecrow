@@ -129,6 +129,35 @@
             var a23 = keys[0] == "foo";
             var a24 = keys[1] == null;
             a23;a24;
+            /**************************************************/
+
+            var arr = ["a", "b", "c"];
+            var names = Object.getOwnPropertyNames(arr);
+            var a25 = names[0] == "length";
+            var a26 = names[1] == 0;
+            var a27 = names[2] == 1;
+            var a28 = names[3] == 2;
+            a25;a26;a27;a28;
+
+            // Array-like object
+            var obj = { 0: "a", 1: "b", 2: "c"};
+            var names = Object.getOwnPropertyNames(obj);
+            var a29 = names[0] == 0;
+            var a30 = names[1] == 1;
+            var a31 = names[2] == 2;
+            var a32 = names[3] == null;
+            a29; a30; a31; a32;
+
+            // non-enumerable property
+            var my_obj = Object.create({}, { getFoo: { value: function() { return this.foo; }, enumerable: false } });
+            my_obj.foo = 1;
+
+            var names = Object.getOwnPropertyNames(my_obj);
+
+            var a33 = names[0] == "getFoo";
+            var a34 = names[1] == "foo";
+            var a35 = names[2] == null;
+            a33; a34; a35;
         </script>
     </body>
 </html>

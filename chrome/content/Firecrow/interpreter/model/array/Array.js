@@ -562,7 +562,7 @@ fcModel.Array.prototype._addPreexistingObjects = function()
 {
     for(var i = 0; i < this.jsArray.length; i++)
     {
-        this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, true);
+        this.push(this.jsArray, this.jsArray[i], this.jsArray[i].codeConstruct, this, true);
     }
 };
 //</editor-fold>
