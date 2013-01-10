@@ -2,6 +2,7 @@ FBL.ns(function() { with (FBL) {
 /*****************************************************/
 var ASTHelper = Firecrow.ASTHelper;
 var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
+var fcScenarioGenerator = Firecrow.ScenarioGenerator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcSymbolic.PathConstraintItem = function(codeConstruct, constraint)
@@ -17,7 +18,7 @@ fcSymbolic.PathConstraintItem.areEqual = function(pathConstraintItemA, pathConst
     if(pathConstraintItemA == null || pathConstraintItemB == null) { return false; }
 
     return pathConstraintItemA.codeConstruct == pathConstraintItemB.codeConstruct
-        && pathConstraintItemA.constraint.toString().replace(/_FC_[0-9+]/gi, "") == pathConstraintItemB.constraint.toString().replace(/_FC_[0-9+]/gi, "");
+        && fcScenarioGenerator.ScenarioGenerator.replaceSuffix(pathConstraintItemA.constraint.toString(), "") == fcScenarioGenerator.ScenarioGenerator.replaceSuffix(pathConstraintItemB.constraint.toString(), "");
 };
 
 fcSymbolic.PathConstraintItem.LAST_ID = 0;
@@ -27,13 +28,18 @@ fcSymbolic.PathConstraintItem.prototype =
     toString: function()
     {
         return this.constraint.toString();
+    },
+
+    createCopyUpgradedByIndex: function(upgradeByIndex)
+    {
+        return new fcSymbolic.PathConstraintItem(this.codeConstruct, this.constraint.createCopyUpgradedByIndex(upgradeByIndex))
     }
 };
 
-fcSymbolic.PathConstraint = function(pathConstraintItems)
+fcSymbolic.PathConstraint = function(pathConstraintItems, resolvedResult)
 {
     this.pathConstraintItems = pathConstraintItems || [];
-    this.resolvedResult = null;
+    this.resolvedResult = resolvedResult || {};
 };
 
 fcSymbolic.PathConstraint.RESOLVED_MAPPING = { takenPaths: []};
@@ -106,6 +112,52 @@ fcSymbolic.PathConstraint.prototype =
         }
 
         this.pathConstraintItems.push(new fcSymbolic.PathConstraintItem(codeConstruct, constraint));
+    },
+
+    createCopyUpgradedByIndex: function(upgradeByIndex)
+    {
+        var pathConstraintItems = [];
+        var resolvedResult = null;
+
+        for(var i = 0, length = this.pathConstraintItems.length; i < length; i++)
+        {
+            pathConstraintItems.push(this.pathConstraintItems[i].createCopyUpgradedByIndex(upgradeByIndex));
+        }
+
+        if(this.resolvedResult != null)
+        {
+            resolvedResult = {};
+
+            for(var index in this.resolvedResult)
+            {
+                var result = this.resolvedResult[index];
+                var upgradedResult = {};
+
+                for(var propName in result)
+                {
+                    upgradedResult[fcScenarioGenerator.ScenarioGenerator.addToPropertyName(propName, upgradeByIndex)] = result[propName];
+                }
+
+                resolvedResult[parseInt(index) + upgradeByIndex] = upgradedResult;
+            }
+        }
+
+        return new fcSymbolic.PathConstraint(pathConstraintItems, resolvedResult);
+    },
+
+    append: function(pathConstraint)
+    {
+        var itemsToAdd = pathConstraint.pathConstraintItems;
+
+        for(var i = 0, length = itemsToAdd.length; i < length; i++)
+        {
+            this.pathConstraintItems.push(itemsToAdd[i]);
+        }
+
+        for(var resultIndex in pathConstraint.resolvedResult)
+        {
+            this.resolvedResult[resultIndex] = pathConstraint.resolvedResult[resultIndex];
+        }
     },
 
     getAllResolvedInversions: function()

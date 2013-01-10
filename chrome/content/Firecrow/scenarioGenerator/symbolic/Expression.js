@@ -35,6 +35,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
  * */
 
 var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
+var fcScenarioGenerator = Firecrow.ScenarioGenerator;
 fcSymbolic.CONST =
 {
     IDENTIFIER: "Identifier",
@@ -134,6 +135,10 @@ fcSymbolic.Identifier.prototype.toString = function() { return this.name; }
 fcSymbolic.Identifier.prototype.containsNumericExpressions = function() { return false; };
 fcSymbolic.Identifier.prototype.getIdentifierNames = function() { return [this.name];};
 fcSymbolic.Identifier.prototype.getHtmlElements = function() { return this.htmlElement != null ? [this.htmlElement] : []; };
+fcSymbolic.Identifier.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
+{
+    return new fcSymbolic.Identifier(fcScenarioGenerator.ScenarioGenerator.addToPropertyName(this.name, upgradeByIndex));
+};
 
 fcSymbolic.Literal = function(value)
 {
@@ -151,7 +156,11 @@ fcSymbolic.Literal.prototype.toString = function()
 {
     return ValueTypeHelper.isString(this.value) ? '"' + this.value + '"'
                                                 : this.value;
-}
+};
+fcSymbolic.Literal.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
+{
+    return new fcSymbolic.Literal(this.value);
+};
 
 fcSymbolic.Unary = function(argument, operator, prefix)
 {
@@ -189,7 +198,11 @@ fcSymbolic.Unary.prototype.toString = function()
     if(!this.prefix) { string += this.operator; }
 
     return string;
-}
+};
+fcSymbolic.Unary.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
+{
+    return new fcSymbolic.Unary(this.argument.createCopyUpgradedByIndex(upgradeByIndex), this.operator, this.prefix);
+};
 
 fcSymbolic.Binary = function(left, right, operator)
 {
@@ -226,7 +239,12 @@ fcSymbolic.Binary.prototype.getIdentifierNames = function()
     ValueTypeHelper.pushAll(identifierNames, this.right.getIdentifierNames());
 
     return  identifierNames;
-}
+};
+
+fcSymbolic.Binary.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
+{
+    return new fcSymbolic.Binary(this.left.createCopyUpgradedByIndex(upgradeByIndex), this.right.createCopyUpgradedByIndex(upgradeByIndex), this.operator);
+};
 
 fcSymbolic.Update = function(argument, operator, prefix)
 {
@@ -250,7 +268,12 @@ fcSymbolic.Update.prototype.toString = function()
     if(!this.prefix) { string += this.operator; }
 
     return string;
-}
+};
+
+fcSymbolic.Update.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
+{
+    return new fcSymbolic.Update(this.argument.createCopyUpgradedByIndex(upgradeByIndex), this.operator, this.prefix);
+};
 
 fcSymbolic.Logical = function(left, right, operator)
 {
@@ -294,4 +317,8 @@ fcSymbolic.Logical.prototype.getHtmlElements = function()
     return htmlElements;
 };
 fcSymbolic.Logical.prototype.toString = function() { return this.left + " " + this.operator + " " + this.right; };
+fcSymbolic.Logical.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
+{
+    return new fcSymbolic.Logical(this.left.createCopyUpgradedByIndex(upgradeByIndex), this.right.createCopyUpgradedByIndex(upgradeByIndex), this.operator);
+};
 }});

@@ -50,7 +50,7 @@ fcScenarioGenerator.Scenario.prototype =
 fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScenario)
 {
     var mergedEvents = firstScenario.events.concat(secondScenario.events);
-    var mergedPathConstraints = {};
+    var mergedPathConstraints = null;
 
     if(firstScenario.pathConstraint == null && secondScenario.pathConstraint == null)
     {
@@ -60,11 +60,14 @@ fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScen
     {
         mergedPathConstraints = firstScenario.pathConstraint;
     }
+    else if(firstScenario.pathConstraint == null && secondScenario.pathConstraint != null)
+    {
+        mergedPathConstraints = secondScenario.pathConstraint.createCopyUpgradedByIndex(firstScenario.events.length);
+    }
     else
     {
-        alert("Unhandled merging scenarios case!");
-
-        var a = 3;
+        mergedPathConstraints = secondScenario.pathConstraint.createCopyUpgradedByIndex(0);
+        mergedPathConstraints.append(secondScenario.pathConstraint.createCopyUpgradedByIndex(firstScenario.events.length));
     }
 
     return new fcScenarioGenerator.Scenario(mergedEvents, mergedPathConstraints);

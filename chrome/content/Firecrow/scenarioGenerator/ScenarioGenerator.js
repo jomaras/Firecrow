@@ -19,7 +19,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < scenarios.length; i++)
         {
-            if(ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
+            if(ASTHelper.calculatePageExpressionCoverage(pageModel) == 1 || i == 40) { break; }
 
             this._createDerivedScenarios(pageModel, scenarios[i], scenarios, scenarioCreatedCallback);
 
@@ -224,6 +224,8 @@ fcScenarioGenerator.ScenarioGenerator =
         switch(eventRegistration.eventType)
         {
             case "onclick":
+            case "onmousedown":
+            case "onmouseup":
             case "onmousemove":
                 return this._generateMouseHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             case "onkeydown":
@@ -302,19 +304,37 @@ fcScenarioGenerator.ScenarioGenerator =
         return args;
     },
 
-    _addSuffix: function(name, suffixID)
+    addSuffix: function(name, suffixID)
     {
         return name + "_FC_" + suffixID;
     },
 
-    _removeSuffix: function(name)
+    removeSuffix: function(name)
     {
         return name.substr(0, name.indexOf("_FC_"));
     },
 
+    replaceSuffix: function(value, replacementArgument)
+    {
+        return value.replace(/_FC_([0-9+])/gi, replacementArgument)
+    },
+
+    addToPropertyName: function(name, increment)
+    {
+        return this.replaceSuffix(name, function(match, number)
+        {
+            if(number !== undefined)
+            {
+                return match.replace(number, parseInt(number) + increment);
+            }
+
+            return match;
+        });
+    },
+
     _addEventObjectProperty: function(eventInfo, eventInfoFcObject, propertyName, propertyValue, browser, executionOrderId)
     {
-        eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, new fcSymbolic.Identifier(this._addSuffix(propertyName, executionOrderId)));
+        eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, new fcSymbolic.Identifier(this.addSuffix(propertyName, executionOrderId)));
         eventInfoFcObject.addProperty(propertyName, eventInfo[propertyName]);
     },
 
@@ -325,9 +345,9 @@ fcScenarioGenerator.ScenarioGenerator =
         for(var propName in parameters)
         {
             var propValue = parameters[propName];
-            var identifier = this._removeSuffix(propName);
+            var identifier = this.removeSuffix(propName);
 
-            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(this._addSuffix(identifier, eventIndex)));
+            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(this.addSuffix(identifier, eventIndex)));
             eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
         }
     },

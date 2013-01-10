@@ -603,12 +603,9 @@ FBL.ns(function () { with (FBL) {
                     _hasGettersOrSetters = true;
                 }
 
-                for (var j = 0; j < property.children.length; j++)
+                if (ASTHelper.isFunctionExpression(property.value))
                 {
-                    if (ASTHelper.isFunctionExpression(property.children[j]))
-                    {
-                        _hasFunctionExpressions = true;
-                    }
+                    _hasFunctionExpressions = true;
                 }
             }
 

@@ -7,8 +7,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/pages/protoClassTest/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/18/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,56 +68,85 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="Main.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/competitorTests/ball_pool/ball_pool/js/Main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="43" column="24" selection-start="1085" selection-end="1096" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingTests/95/index.html">
+        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/18/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="46" selection-start="3705" selection-end="3705" vertical-scroll-proportion="-3.4489796">
+            <state line="18" column="27" selection-start="326" selection-end="326" vertical-scroll-proportion="-5.5833335">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Evaluator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+      <file leaf-file-name="modelMapping.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="522" column="24" selection-start="25605" selection-end="25605" vertical-scroll-proportion="-6.2">
+            <state line="77" column="8" selection-start="268831" selection-end="268831" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectFunction.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js">
+      <file leaf-file-name="Scenario.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="59" selection-start="1390" selection-end="1390" vertical-scroll-proportion="0.0">
+            <state line="72" column="4" selection-start="2628" selection-end="2705" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="slicingModelMapping.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+      <file leaf-file-name="Expression.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="989" column="437" selection-start="1337476" selection-end="1337476" vertical-scroll-proportion="0.0">
+            <state line="139" column="4" selection-start="5345" selection-end="5462" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectExecutor.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js">
+      <file leaf-file-name="ConstraintResolver.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="253" column="21" selection-start="11854" selection-end="11854" vertical-scroll-proportion="0.53072625">
+            <state line="141" column="8" selection-start="5039" selection-end="5039" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DependencyCreator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js">
+      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="122" selection-start="2618" selection-end="2618" vertical-scroll-proportion="0.0">
+            <state line="25" column="36" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="56" selection-start="328" selection-end="328" vertical-scroll-proportion="0.30542988">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="143" column="28" selection-start="8512" selection-end="8512" vertical-scroll-proportion="-8.083333">
+              <folding>
+                <marker date="1357834869100" expanded="false" signature="10191:10200" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -136,22 +176,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" />
-        <option value="$PROJECT_DIR$/debug/debugDom.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js" />
-        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
-        <option value="$PROJECT_DIR$/debug/pages/idt/index-sliced.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
-        <option value="$PROJECT_DIR$/debug/slicingTests/95/index.html" />
         <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js" />
+        <option value="$PROJECT_DIR$/debug/competitorTests/ball_pool/ball_pool/js/box2d.js" />
+        <option value="$PROJECT_DIR$/debug/competitorTests/ball_pool/ball_pool/js/protoclass.js" />
+        <option value="$PROJECT_DIR$/debug/pages/protoClassTest/index.html" />
+        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/18/index.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
+        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html" />
+        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
+        <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
       </list>
     </option>
   </component>
@@ -241,20 +281,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -273,11 +299,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="slicingTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="95" />
+              <option name="myItemId" value="usageScenarioGenerator" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -295,7 +317,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="slicingTests" />
+              <option name="myItemId" value="usageScenarioGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="19" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -335,6 +361,114 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scenarioGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scenarioGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="symbolic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interpreter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="codeMarkupGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -369,11 +503,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\usageScenarioGenerator\19" />
+      <recent name="C:\GitWebStorm\Firecrow\debug\usageScenarioGenerator\18" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\93" />
       <recent name="C:\GitWebStorm\Firecrow\debug\usageScenarioGenerator\17" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\usageScenarioGenerator\16" />
-      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\92" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\chrome\content\Firecrow\usageScenarioGenerator" />
@@ -2275,7 +2409,11 @@
       <created>1357825540478</created>
       <updated>1357825540478</updated>
     </task>
-    <option name="localTasksCounter" value="444" />
+    <task id="LOCAL-00444" summary="Added support for extensions">
+      <created>1357825567917</created>
+      <updated>1357825567918</updated>
+    </task>
+    <option name="localTasksCounter" value="445" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2424,114 +2562,129 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/slicer.js">
+    <entry file="file://$PROJECT_DIR$/debug/competitorTests/ball_pool/ball_pool/js/box2d.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="46" selection-start="927" selection-end="927" vertical-scroll-proportion="0.0">
+        <state line="6059" column="38" selection-start="241891" selection-end="241904" vertical-scroll-proportion="0.46551725">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Slicer.js">
+    <entry file="file://$PROJECT_DIR$/debug/pages/protoClassTest/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="18" selection-start="1527" selection-end="1527" vertical-scroll-proportion="0.0">
+        <state line="194" column="8" selection-start="6708" selection-end="6708" vertical-scroll-proportion="0.7963801">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+    <entry file="file://$PROJECT_DIR$/debug/competitorTests/ball_pool/ball_pool/js/protoclass.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="4" selection-start="397" selection-end="397" vertical-scroll-proportion="0.0">
+        <state line="0" column="12" selection-start="12" selection-end="23" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
+    <entry file="file://$PROJECT_DIR$/debug/competitorTests/ball_pool/ball_pool/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="363" column="31" selection-start="11742" selection-end="11742" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/17/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="4" selection-start="418" selection-end="7230" vertical-scroll-proportion="-6.875">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1356595983684" expanded="true" signature="21:1025" placeholder="..." />
+            <marker date="1356595983684" expanded="true" signature="28:240" placeholder="..." />
+            <marker date="1356595983684" expanded="true" signature="87:232" placeholder="..." />
+            <marker date="1356595983684" expanded="true" signature="121:220" placeholder="{...}" />
+            <marker date="1356595983684" expanded="true" signature="247:1017" placeholder="..." />
+            <marker date="1356595983684" expanded="true" signature="297:1009" placeholder="..." />
+            <marker date="1356595983684" expanded="true" signature="491:684" placeholder="{...}" />
+            <marker date="1356595983684" expanded="true" signature="543:593" placeholder="{...}" />
+            <marker date="1356595983684" expanded="true" signature="623:674" placeholder="{...}" />
+            <marker date="1356595983684" expanded="true" signature="739:995" placeholder="{...}" />
+            <marker date="1356595983684" expanded="true" signature="788:871" placeholder="{...}" />
+            <marker date="1356595983684" expanded="true" signature="901:985" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="594" column="24" selection-start="29318" selection-end="29318" vertical-scroll-proportion="0.60588235">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/pages/idt/index-sliced.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1381" column="25" selection-start="37360" selection-end="37360" vertical-scroll-proportion="0.50236964">
+        <state line="141" column="8" selection-start="5039" selection-end="5039" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="56" selection-start="6724" selection-end="6724" vertical-scroll-proportion="0.30542988">
+        <state line="158" column="90" selection-start="4860" selection-end="4860" vertical-scroll-proportion="0.61452514">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="540" column="30" selection-start="18156" selection-end="18156" vertical-scroll-proportion="1.3448275">
+        <state line="139" column="4" selection-start="5345" selection-end="5462" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="95" selection-start="937" selection-end="957" vertical-scroll-proportion="0.28964758">
+        <state line="72" column="4" selection-start="2628" selection-end="2705" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="122" selection-start="2618" selection-end="2618" vertical-scroll-proportion="0.0">
+        <state line="25" column="36" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/18/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="285" column="86" selection-start="8747" selection-end="8767" vertical-scroll-proportion="0.36563876">
+        <state line="18" column="27" selection-start="326" selection-end="326" vertical-scroll-proportion="-5.5833335">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+    <entry file="file://$PROJECT_DIR$/debug/competitorTests/ball_pool/ball_pool/js/Main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="989" column="437" selection-start="1337476" selection-end="1337476" vertical-scroll-proportion="0.0">
+        <state line="43" column="24" selection-start="1085" selection-end="1096" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/95/index.html">
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="46" selection-start="3705" selection-end="3705" vertical-scroll-proportion="-3.4489796">
+        <state line="77" column="8" selection-start="268831" selection-end="268831" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="522" column="24" selection-start="25605" selection-end="25605" vertical-scroll-proportion="-6.2">
-          <folding />
+        <state line="143" column="28" selection-start="8512" selection-end="8512" vertical-scroll-proportion="-8.083333">
+          <folding>
+            <marker date="1357834869100" expanded="false" signature="10191:10200" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js">
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="59" selection-start="1390" selection-end="1390" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="253" column="21" selection-start="11854" selection-end="11854" vertical-scroll-proportion="0.53072625">
+        <state line="18" column="56" selection-start="328" selection-end="328" vertical-scroll-proportion="0.30542988">
           <folding />
         </state>
       </provider>

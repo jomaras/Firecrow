@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        #firstContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="firstContainer"></div>
+
+    <script>
+        var externalObj = {};
+
+        var mouseDownPosition;
+
+        var firstContainer = document.getElementById("firstContainer");
+
+        var position;
+
+        firstContainer.onmousemove = function(eventArgs)
+        {
+            if(mouseDownPosition == null)
+            {
+                return;
+            }
+
+            if(eventArgs.pageX < mouseDownPosition.x && eventArgs.pageY < mouseDownPosition.y)
+            {
+                firstContainer.textContent = "Is Dragging Left Up";
+            }
+            else if(eventArgs.pageX >= mouseDownPosition.x && eventArgs.pageY < mouseDownPosition.y)
+            {
+                firstContainer.textContent = "Is Dragging right Up";
+            }
+            else if(eventArgs.pageX >= mouseDownPosition.x && eventArgs.pageY >= mouseDownPosition.y)
+            {
+                firstContainer.textContent = "Is Dragging right down";
+            }
+            else if(eventArgs.pageX < mouseDownPosition.x && eventArgs.pageY >= mouseDownPosition.y)
+            {
+                firstContainer.textContent = "Is Dragging Left down";
+            }
+        };
+
+        firstContainer.onmousedown = function(eventArgs)
+        {
+            mouseDownPosition = {x: eventArgs.pageX, y: eventArgs.pageY};
+        };
+
+        firstContainer.onmouseup = function()
+        {
+            mouseDownPosition = null;
+        };
+    </script>
+</body>
+</html>
