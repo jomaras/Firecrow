@@ -176,7 +176,7 @@ fcModel.Object.prototype =
         {
             var property = this.properties[i];
 
-            if(property.declarationConstruct != null)
+            if(property.declarationPosition != null)
             {
                 userDefinedProperties.push(property);
             }
@@ -355,7 +355,7 @@ fcModel.Object.prototype =
                 this.globalObject.getPreciseEvaluationPositionId()
             );
         }
-        catch(e) { fcModel.Object.notifyError("Error when adding dependencies to all properties: " + e + " " + codeConstruct.loc.source); }
+        catch(e) { fcModel.Object.notifyError("Error when adding dependencies to all properties: " + e); }
     },
 
     addModification: function(codeConstruct)

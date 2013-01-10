@@ -857,11 +857,11 @@ Firecrow.ConflictFixer =
 
         conflictedProperties.forEach(function(conflictedProperty)
         {
-            if(conflictedProperty == null || conflictedProperty.declarationConstruct == null || conflictedProperty.declarationConstruct.codeConstruct == null) { return; }
+            if(conflictedProperty == null || conflictedProperty.declarationPosition == null || conflictedProperty.declarationPosition.codeConstruct == null) { return; }
 
             var newName = this.generateReusePrefix() + conflictedProperty.name;
 
-            var declarationConstruct = conflictedProperty.declarationConstruct.codeConstruct;
+            var declarationConstruct = conflictedProperty.declarationPosition.codeConstruct;
 
             this._addCommentToParentStatement(declarationConstruct, "Firecrow - Rename global property");
 

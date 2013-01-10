@@ -21,7 +21,7 @@ fcSimulator.VariableObject.prototype =
 {
     registerIdentifier: function(identifier)
     {
-        if(!ValueTypeHelper.isOfType(identifier, fcModel.Identifier)) { this.notifyError("When registering an identifier has to be passed"); return; }
+        if(!ValueTypeHelper.isOfType(identifier, fcModel.Identifier)) { fcSimulator.VariableObject.notifyError("When registering an identifier has to be passed"); return; }
 
         var existingIdentifier = this.getIdentifier(identifier.name);
 
@@ -58,8 +58,6 @@ fcSimulator.VariableObject.prototype =
             ValueTypeHelper.removeFromArrayByElement(this.identifiers, identifier);
         }
     },
-
-    notifyError: function(message) { fcSimulator.VariableObject.notifyError(message); }
 };
     //</editor-fold>
 
@@ -86,7 +84,7 @@ fcSimulator.VariableObjectMixin =
             (
                 identifier.name,
                 identifier.value,
-                identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct : null
+                identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct : null
             );
         }
     },
@@ -119,7 +117,7 @@ fcSimulator.VariableObject.createFunctionVariableObject = function(functionIdent
 
         return functionVariableObject;
     }
-    catch(e) { fcSimulator.VariableObject.notifyError("Error while creating function variable object: " + e); }
+    catch(e) { fcSimulator.VariableObject.notifyError("Error while creating function variable object: " + e + " " + e.fileName + " " + e.lineNumber); }
 };
 
 fcSimulator.VariableObject._registerArgumentsVariable = function(functionVariableObject, callConstruct, sentArguments, globalObject)
@@ -166,7 +164,7 @@ fcSimulator.VariableObject._registerFormalParameters = function(formalParameters
 
         formalParameter.setValue
         (
-            sentArguments[i] || new fcModel.fcValue(undefined, undefined, formalParameter.declarationConstruct),
+            sentArguments[i] || new fcModel.fcValue(undefined, undefined, formalParameter.declarationPosition != null ? formalParameter.declarationPosition.codeConstruct : null),
             argumentConstructs[i]
         );
     }

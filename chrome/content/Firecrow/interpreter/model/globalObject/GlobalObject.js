@@ -198,7 +198,7 @@ fcModel.GlobalObject.prototype.getUserSetGlobalProperties = function()
     {
         var property = this.properties[i];
 
-        if(property.declarationConstruct == null) { continue; }
+        if(property.declarationPosition == null) { continue; }
 
         userSetGlobalProperties.push(property);
     }

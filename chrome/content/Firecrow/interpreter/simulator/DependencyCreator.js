@@ -281,13 +281,13 @@ fcSimulator.DependencyCreator.prototype =
 
     _addDependencyToIdentifierDeclaration: function(identifier, identifierConstruct, evaluationPosition)
     {
-        if(identifier.declarationConstruct == null || identifier.declarationConstruct == identifier.lastModificationPosition) { return; }
+        if(identifier.declarationPosition == null || identifier.declarationPosition == identifier.lastModificationPosition) { return; }
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks
         (
             identifierConstruct,
-            ASTHelper.isVariableDeclarator(identifier.declarationConstruct.codeConstruct) ? identifier.declarationConstruct.codeConstruct.id
-                                                                                          : identifier.declarationConstruct.codeConstruct,
+            ASTHelper.isVariableDeclarator(identifier.declarationPosition.codeConstruct) ? identifier.declarationPosition.codeConstruct.id
+                                                                                          : identifier.declarationPosition.codeConstruct,
             evaluationPosition
         );
     },
@@ -334,14 +334,14 @@ fcSimulator.DependencyCreator.prototype =
                         fcProperty.lastModificationPosition.evaluationPositionId
                     );
                 }
-                else  if(fcProperty.declarationConstruct != null)
+                else  if(fcProperty.declarationPosition != null)
                 {
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
                         memberExpression.property,
-                        fcProperty.declarationConstruct.codeConstruct,
+                        fcProperty.declarationPosition.codeConstruct,
                         evaluationPosition,
-                        fcProperty.declarationConstruct.evaluationPositionId
+                        fcProperty.declarationPosition.evaluationPositionId
                     );
                 }
             }
@@ -361,9 +361,9 @@ fcSimulator.DependencyCreator.prototype =
             if(memberExpression.computed && ASTHelper.isIdentifier(memberExpression.property))
             {
                 var identifier = this.executionContextStack.getIdentifier(memberExpression.property.name);
-                if(identifier != null && identifier.declarationConstruct != null)
+                if(identifier != null && identifier.declarationPosition != null)
                 {
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, identifier.declarationConstruct.codeConstruct, evaluationPosition, identifier.declarationConstruct.evaluationPositionId, true);
+                    this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, identifier.declarationPosition.codeConstruct, evaluationPosition, identifier.declarationPosition.evaluationPositionId, true);
                 }
             }
         }

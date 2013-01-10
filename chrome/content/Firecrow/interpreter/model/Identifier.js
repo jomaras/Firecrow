@@ -17,24 +17,23 @@ fcModel.Identifier = function(name, value, codeConstruct, globalObject)
         this.value = value;
         this.globalObject = globalObject;
 
-        this.modificationConstructs = [];
+        this.modificationPositions = [];
         this.lastModificationPosition = null;
 
         if(codeConstruct != null)
         {
-            this.declarationConstruct = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
+            this.declarationPosition = { codeConstruct: codeConstruct, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
 
             if(ASTHelper.isObjectExpressionPropertyValue(codeConstruct))
             {
                 this.lastModificationPosition = { codeConstruct: codeConstruct.value, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()};
-
             }
             else
             {
-                this.lastModificationPosition = this.declarationConstruct;
+                this.lastModificationPosition = this.declarationPosition;
             }
 
-            this.modificationConstructs.push(this.declarationConstruct);
+            this.modificationPositions.push(this.declarationPosition);
         }
     }
     catch(e) { fcModel.Identifier.notifyError("Error when constructing: " + e ); }
@@ -55,7 +54,7 @@ fcModel.Identifier.prototype =
             if(modificationConstruct != null)
             {
                 this.lastModificationPosition = { codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
-                this.modificationConstructs.push({ codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
+                this.modificationPositions.push({ codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
             }
         }
         catch(e) { Firecrow.Interpreter.Model.Identifier.notifyError("Error when setting value: " + e); }

@@ -221,7 +221,10 @@ fcModel.ObjectExecutor =
         for(var i = 0; i < propertyNames.length; i++)
         {
             var propertyName = propertyNames[i];
+
             var property = iObject.getProperty(propertyName);
+
+            if(property == null) { continue; }
 
             var lastModificationConstruct = property.lastModificationPosition != null ? property.lastModificationPosition.codeConstruct : null;
 

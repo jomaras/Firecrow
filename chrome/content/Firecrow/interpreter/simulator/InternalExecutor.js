@@ -234,7 +234,7 @@ fcSimulator.InternalExecutor.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error when executing internal function: " + e + this.globalObject.browser.url);
+            this.notifyError("Error when executing internal function: " + e + " " + e.fileName + " " + e.lineNumber + " " + this.globalObject.browser.url);
         }
     },
 

@@ -1,6 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
+var fcSimulator = Firecrow.Interpreter.Simulator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 
@@ -18,7 +19,7 @@ fcModel.Array = function(jsArray, globalObject, codeConstruct)
 
         this._registerCallbacks();
     }
-    catch(e) { this.notifyError("Error when creating array object: " + e); }
+    catch(e) { fcModel.Array.notifyError("Error when creating array object: " + e); }
 };
 
 //<editor-fold desc="'Static' Methods">
@@ -68,7 +69,7 @@ fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, fcVal
 
         return lengthValue;
     }
-    catch(e) { fcModel.Array.notifyError("Error when pushing item: " + e); }
+    catch(e) { fcModel.Array.notifyError("Error when pushing item: " + e + " " + e.fileName + " " + e.lineNumber); }
 };
 
 fcModel.Array.prototype.pop = function(jsArray, arguments, codeConstruct)
@@ -560,9 +561,16 @@ fcModel.Array.prototype._addRegExResultArrayProperties = function()
 
 fcModel.Array.prototype._addPreexistingObjects = function()
 {
+    var dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, this.globalObject.executionContextStack);;
+
     for(var i = 0; i < this.jsArray.length; i++)
     {
-        this.push(this.jsArray, this.jsArray[i], this.jsArray[i].codeConstruct, this, true);
+        this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, true);
+
+        if(this.jsArray[i].codeConstruct != null)
+        {
+            dependencyCreator.createDataDependency(this.creationCodeConstruct, this.jsArray[i].codeConstruct);
+        }
     }
 };
 //</editor-fold>

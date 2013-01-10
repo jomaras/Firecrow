@@ -62,26 +62,10 @@
 
             var array = [1,2,3];
 
-            properties = "";
-            for(var prop in array)
-            {
-                properties += prop;
-            }
-            var a10 = properties == "012";
-            a10;
-
             Object.defineProperty(array, "b", {value : 37,
                 writable : false,
                 enumerable : false,
                 configurable : true});
-
-            properties = "";
-            for(var prop in array) { properties += prop; }
-            var a11 = properties == "012";
-            a11;
-
-            var a12 = array.b == 37;
-            a12;
 
             var obj = {};
             Object.defineProperties(obj, {

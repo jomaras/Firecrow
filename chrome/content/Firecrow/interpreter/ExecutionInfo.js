@@ -62,7 +62,7 @@ fcBrowser.ExecutionInfo.prototype =
         (
             {
                 name: identifier.name,
-                declarationConstructId: identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct.nodeId
+                declarationConstructId: identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
                                                                                 : null
             }
         );
@@ -76,7 +76,7 @@ fcBrowser.ExecutionInfo.prototype =
         (
             {
                 name: identifier.name,
-                declarationConstructId: identifier.declarationConstruct != null ? identifier.declarationConstruct.codeConstruct.nodeId
+                declarationConstructId: identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
                                                                                 : null
             }
         );
