@@ -142,6 +142,17 @@
             var a34 = names[1] == "foo";
             var a35 = names[2] == null;
             a33; a34; a35;
+            /*******************************/
+            var a = {x:3};
+            var b = {};
+
+            b.__proto__ = a;
+            var a36 = b.x == 3;
+            var proto = Object.getPrototypeOf(b);
+            var a37 = proto.x == 3;
+            var a38 = proto == a;
+            a36; a37;a38;
+
         </script>
     </body>
 </html>

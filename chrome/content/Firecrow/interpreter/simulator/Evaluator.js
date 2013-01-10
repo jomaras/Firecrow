@@ -74,7 +74,7 @@ fcSimulator.Evaluator.prototype =
         }
         catch(e)
         {
-            this.notifyError(command, "An error occurred when evaluating command: " + e);
+            this.notifyError(command, "An error occurred when evaluating command: " + e + " " + e.fileName + " " + e.lineNumber);
         }
     },
 
@@ -538,9 +538,11 @@ fcSimulator.Evaluator.prototype =
         {
             object.jsValue[property.jsValue] = finalValue.jsValue;
         }
-
-        var newProperty = object.iValue.getProperty(property.jsValue);
-        newProperty.modificationContext = this.executionContextStack.activeContext;
+        else
+        {
+            var newProperty = object.iValue.getProperty(property.jsValue);
+            newProperty.modificationContext = this.executionContextStack.activeContext;
+        }
 
         if(object.iValue.creationContext != this.executionContextStack.activeContext)
         {

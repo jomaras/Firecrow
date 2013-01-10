@@ -1033,7 +1033,7 @@
         prop = jQuery.extend({}, prop);
         function doAnimation()
         {
-          var opt = jQuery.extend({}, optall), name, val, p, e, method;
+          var opt = jQuery.extend({}, optall), hidden = jQuery(this), name, val, p, e, method;
           opt.animatedProperties = {};
           for(p in prop)
           {

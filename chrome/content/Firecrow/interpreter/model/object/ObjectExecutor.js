@@ -57,6 +57,8 @@ fcModel.ObjectExecutor =
                 return this._getOwnPropertyNames(callExpression, args, globalObject);
             case "keys":
                 return this._executeKeys(callExpression, args, globalObject);
+            case "getPrototypeOf":
+                return this._executeGetPrototypeOf(callExpression, args, globalObject);
             default:
                 alert("Object Function unhandled function: " + functionName);
         }
@@ -212,6 +214,15 @@ fcModel.ObjectExecutor =
         if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object keys argument hast to have iValue"); return null; }
 
         return this._createArrayFromPropertyNames(args[0].iValue, args[0].iValue.getOwnPropertyNames(), globalObject, callExpression);
+    },
+
+    _executeGetPrototypeOf: function(callExpression, args, globalObject)
+    {
+        if(args.length == 0) { fcModel.Object.notifyError("Can not call Object.getPrototypeOf with 0 arguments"); return null; }
+
+        if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object getPrototypeOf argument hast to have iValue"); return null; }
+
+        return args[0].iValue.proto;
     },
 
     _createArrayFromPropertyNames: function(iObject, propertyNames, globalObject, callExpression)
