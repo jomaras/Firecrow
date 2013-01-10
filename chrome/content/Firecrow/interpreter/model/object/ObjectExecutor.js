@@ -16,6 +16,7 @@ fcModel.ObjectExecutor =
         else if (functionObject.jsValue.name == "toString")
         {
             var result = "";
+
             if(callCommand != null && (callCommand.isCall || callCommand.isApply))
             {
                 result = Object.prototype.toString.call(thisObject.jsValue);
@@ -59,6 +60,14 @@ fcModel.ObjectExecutor =
                 return this._executeKeys(callExpression, args, globalObject);
             case "getPrototypeOf":
                 return this._executeGetPrototypeOf(callExpression, args, globalObject);
+            case "preventExtensions":
+                return this._preventExtensions(callExpression, args, globalObject);
+            case "isExtensible":
+                return this._isExtensible(callExpression, args, globalObject);
+            case "seal":
+                return this._seal(callExpression, args, globalObject);
+            case "isSealed":
+                return this._isSealed(callExpression, args, globalObject);
             default:
                 alert("Object Function unhandled function: " + functionName);
         }
@@ -223,6 +232,34 @@ fcModel.ObjectExecutor =
         if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object getPrototypeOf argument hast to have iValue"); return null; }
 
         return args[0].iValue.proto;
+    },
+
+    _preventExtensions: function(callExpression, args, globalObject)
+    {
+        if(args.length == 0) { fcModel.Object.notifyError("Can not call Object.preventExtensions with 0 arguments"); return null; }
+
+        if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object preventExtensions argument hast to have iValue"); return null; }
+
+        Object.preventExtensions(args[0].jsValue);
+        args[0].iValue.preventExtensions = true;
+        args[0].iValue.registerPreventExtensionPosition(callExpression);
+    },
+
+    _isExtensible: function(callExpression, args, globalObject)
+    {
+        if(args.length == 0) { fcModel.Object.notifyError("Can not call Object.isExtensible with 0 arguments"); return null; }
+
+        if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object isExtensible argument hast to have iValue"); return null; }
+
+
+        var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
+
+        if(args[0].iValue.preventExtensionPosition != null)
+        {
+            dependencyCreator.createDataDependency(callExpression, args[0].iValue.preventExtensionPosition.codeConstruct, args[0].iValue.preventExtensionPosition.evaluationPositionId);
+        }
+
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, !args[0].iValue.preventExtensions);
     },
 
     _createArrayFromPropertyNames: function(iObject, propertyNames, globalObject, callExpression)

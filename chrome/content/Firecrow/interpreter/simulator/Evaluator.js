@@ -538,9 +538,11 @@ fcSimulator.Evaluator.prototype =
         {
             object.jsValue[property.jsValue] = finalValue.jsValue;
         }
-        else
+
+        var newProperty = object.iValue.getProperty(property.jsValue);
+
+        if(newProperty != null)
         {
-            var newProperty = object.iValue.getProperty(property.jsValue);
             newProperty.modificationContext = this.executionContextStack.activeContext;
         }
 

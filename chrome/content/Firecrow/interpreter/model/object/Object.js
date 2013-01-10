@@ -190,6 +190,7 @@ fcModel.Object.prototype =
     {
         try
         {
+            if(this.preventExtensions) { return; }
             if(propertyName == "__proto__") { this.setProto(propertyValue, codeConstruct); return; }
 
             var property = this.getOwnProperty(propertyName);
@@ -279,6 +280,11 @@ fcModel.Object.prototype =
         catch(e) { fcModel.Object.notifyError("Error when deleting property:" + e);}
     },
     //</editor-fold>
+
+    registerPreventExtensionPosition: function(codeConstruct)
+    {
+        this.preventExtensionPosition = { codeConstruct : codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId() };
+    },
 
     //<editor-fold desc="Callbacks">
     registerObjectModifiedCallbackDescriptor: function(callback, thisValue)

@@ -41,7 +41,7 @@ fcModel.ObjectFunction.CONST =
         [
             "create", "defineProperty", "defineProperties", "getOwnPropertyDescriptor",
             "keys", "getOwnPropertyNames", "getPrototypeOf", "preventExtensions", "seal",
-            "isSealed", "freeze", "isFrozen"
+            "isSealed", "freeze", "isFrozen", "isExtensible"
         ]
     }
 };

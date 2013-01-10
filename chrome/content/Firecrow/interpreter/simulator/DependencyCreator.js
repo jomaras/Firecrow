@@ -57,9 +57,9 @@ fcSimulator.DependencyCreator.prototype =
         }
     },
 
-    createDataDependency: function(fromConstruct, toConstruct)
+    createDataDependency: function(fromConstruct, toConstruct, evaluationPosition)
     {
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(fromConstruct, toConstruct, this.globalObject.getPreciseEvaluationPositionId());
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks(fromConstruct, toConstruct, evaluationPosition || this.globalObject.getPreciseEvaluationPositionId());
     },
 
     markEnterFunctionPoints: function(enterFunctionCommand)

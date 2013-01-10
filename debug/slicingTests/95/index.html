@@ -152,6 +152,16 @@
             var a37 = proto.x == 3;
             var a38 = proto == a;
             a36; a37;a38;
+            /********************************/
+            var a = {d:4};
+            Object.preventExtensions(a);
+            a.b = 4;
+
+            var a39 = a.b == undefined;
+            a39;
+
+            var a40 = !Object.isExtensible(a);
+            a40;
 
         </script>
     </body>
