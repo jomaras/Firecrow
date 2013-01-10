@@ -8,13 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/95/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/95/index.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -102,7 +96,7 @@
       <file leaf-file-name="ObjectExecutor.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="249" column="40" selection-start="11720" selection-end="11720" vertical-scroll-proportion="0.46368715">
+            <state line="253" column="21" selection-start="11854" selection-end="11854" vertical-scroll-proportion="0.53072625">
               <folding />
             </state>
           </provider>
@@ -2277,7 +2271,11 @@
       <created>1357823927303</created>
       <updated>1357823927303</updated>
     </task>
-    <option name="localTasksCounter" value="443" />
+    <task id="LOCAL-00443" summary="Added support for extensions">
+      <created>1357825540478</created>
+      <updated>1357825540478</updated>
+    </task>
+    <option name="localTasksCounter" value="444" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2375,7 +2373,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor bug fix in evaluator when reading unset __proto__" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added support for extensions" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2389,7 +2387,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Parametrized sort implementation" />
     <MESSAGE value="Exectracted all things related to executionInfo logging to a stand-alone file, with callings from browser" />
     <MESSAGE value="First work on interdependent events" />
     <MESSAGE value="Logging only identifiers declared in other contexts that are read in branching conditions" />
@@ -2414,6 +2411,7 @@
     <MESSAGE value="Object.getOwnPropertyNames" />
     <MESSAGE value="Renaming variables; Adding dependencies when creating new array from existing one" />
     <MESSAGE value="Minor bug fix in evaluator when reading unset __proto__" />
+    <MESSAGE value="Added support for extensions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2533,7 +2531,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="40" selection-start="11720" selection-end="11720" vertical-scroll-proportion="0.46368715">
+        <state line="253" column="21" selection-start="11854" selection-end="11854" vertical-scroll-proportion="0.53072625">
           <folding />
         </state>
       </provider>

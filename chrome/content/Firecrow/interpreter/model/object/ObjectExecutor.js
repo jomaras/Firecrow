@@ -243,6 +243,8 @@ fcModel.ObjectExecutor =
         Object.preventExtensions(args[0].jsValue);
         args[0].iValue.preventExtensions = true;
         args[0].iValue.registerPreventExtensionPosition(callExpression);
+
+        return args[0];
     },
 
     _isExtensible: function(callExpression, args, globalObject)
