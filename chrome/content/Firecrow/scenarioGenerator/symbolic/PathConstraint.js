@@ -167,7 +167,7 @@ fcSymbolic.PathConstraint.prototype =
             pathConstraintItems.push(this.pathConstraintItems[i].createCopyUpgradedByIndex(upgradeByIndex));
         }
 
-        if(this.resolvedResult != null)
+        if(!ValueTypeHelper.isEmptyObject(this.resolvedResult))
         {
             resolvedResult = {};
 

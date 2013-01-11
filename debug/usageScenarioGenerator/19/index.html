@@ -31,23 +31,19 @@
             return mouseDownPos;
         }
 
-        if(e.pageX <= mouseDownPos.x && e.pageY <= mouseDownPos.y)
+        if(e.pageX <= mouseDownPos.x)
         {
-            firstContainer.textContent = "Is Dragging Left Up";
+            firstContainer.textContent = "Dragging Left";
         }
-        else if(e.pageX >= mouseDownPos.x && e.pageY >= mouseDownPos.y)
+        else if(e.pageX > mouseDownPos.x)
         {
-            firstContainer.textContent = "Is Dragging right down";
-        }
-        else
-        {
-            firstContainer.textContent = "Unknown drag";
+            firstContainer.textContent = "Dragging right";
         }
     };
 
     firstContainer.onmousedown = function(e)
     {
-        mouseDownPos = {x: e.pageX, y: e.pageY};
+        mouseDownPos = {x: e.pageX};
     };
 
     firstContainer.onmouseup = function()

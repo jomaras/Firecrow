@@ -23,7 +23,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         while (currentScenario != null)
         {
-            if(processedScenarioCounter > 25 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
+            if(processedScenarioCounter > 20 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
 
             this._createDerivedScenarios(pageModel, currentScenario, scenarios);
 
