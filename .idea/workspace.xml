@@ -11,15 +11,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/18/index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/18/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,18 +76,18 @@
       <file leaf-file-name="Scenario.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="80" selection-start="697" selection-end="697" vertical-scroll-proportion="0.0">
+            <state line="153" column="13" selection-start="4843" selection-end="4858" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="27" selection-start="8511" selection-end="8511" vertical-scroll-proportion="-4.3333335">
+            <state line="140" column="98" selection-start="8446" selection-end="8446" vertical-scroll-proportion="0.19683258">
               <folding>
-                <marker date="1357894853774" expanded="false" signature="10221:10230" placeholder="..." />
+                <marker date="1357909702656" expanded="true" signature="10222:10231" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -106,10 +102,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="153" column="35" selection-start="5088" selection-end="5088" vertical-scroll-proportion="0.43351954">
+            <state line="83" column="35" selection-start="2843" selection-end="2843" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -118,7 +114,16 @@
       <file leaf-file-name="PathConstraint.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="33" selection-start="3002" selection-end="3023" vertical-scroll-proportion="0.0">
+            <state line="243" column="43" selection-start="7672" selection-end="7672" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExecutionInfo.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="39" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -136,7 +141,7 @@
       <file leaf-file-name="SymbolicExecutor.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="86" selection-start="741" selection-end="741" vertical-scroll-proportion="0.0">
+            <state line="77" column="27" selection-start="2952" selection-end="2952" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -185,13 +190,13 @@
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/18/index.html" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js" />
-        <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
+        <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
       </list>
     </option>
   </component>
@@ -2265,7 +2270,11 @@
       <created>1357890591704</created>
       <updated>1357890591705</updated>
     </task>
-    <option name="localTasksCounter" value="447" />
+    <task id="LOCAL-00447" summary="Some properties (clientX, sceenX), are limited (must be greater than 0) - these constraints are added before the constraint solving begins; also default solutions in the first case (when the event is started with default values) is noted">
+      <created>1357900841760</created>
+      <updated>1357900841761</updated>
+    </task>
+    <option name="localTasksCounter" value="448" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2363,7 +2372,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Firefox 18 returns an object of type CSSProperties when calling window.getComputedStyle instead of an object of type CSSStyleDeclaration - minor fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some properties (clientX, sceenX), are limited (must be greater than 0) - these constraints are added before the constraint solving begins; also default solutions in the first case (when the event is started with default values) is noted" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2377,7 +2386,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Logging only identifiers declared in other contexts that are read in branching conditions" />
     <MESSAGE value="Determining dependencies over object modifications" />
     <MESSAGE value="When generating group events pervious arguments are taken into account" />
     <MESSAGE value="First Significant tests passing with new architecture" />
@@ -2402,6 +2410,7 @@
     <MESSAGE value="Added support for extensions" />
     <MESSAGE value="Working on interdependent events" />
     <MESSAGE value="Firefox 18 returns an object of type CSSProperties when calling window.getComputedStyle instead of an object of type CSSStyleDeclaration - minor fix" />
+    <MESSAGE value="Some properties (clientX, sceenX), are limited (must be greater than 0) - these constraints are added before the constraint solving begins; also default solutions in the first case (when the event is started with default values) is noted" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2456,34 +2465,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="56" selection-start="956" selection-end="956" vertical-scroll-proportion="-26.875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="30" selection-start="839" selection-end="839" vertical-scroll-proportion="0.39867842">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="86" selection-start="741" selection-end="741" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="342" column="16" selection-start="13465" selection-end="13482" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="304" column="26" selection-start="6937" selection-end="6959" vertical-scroll-proportion="0.41740087">
@@ -2498,33 +2479,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="80" selection-start="697" selection-end="697" vertical-scroll-proportion="0.0">
+        <state line="77" column="27" selection-start="2952" selection-end="2952" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/19/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="27" selection-start="8511" selection-end="8511" vertical-scroll-proportion="-4.3333335">
-          <folding>
-            <marker date="1357894853774" expanded="false" signature="10221:10230" placeholder="..." />
-          </folding>
+        <state line="43" column="56" selection-start="956" selection-end="956" vertical-scroll-proportion="-26.875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="39" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="33" selection-start="3002" selection-end="3023" vertical-scroll-proportion="0.0">
+        <state line="243" column="43" selection-start="7672" selection-end="7672" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="342" column="16" selection-start="13465" selection-end="13482" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="153" column="13" selection-start="4843" selection-end="4858" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="35" selection-start="5088" selection-end="5088" vertical-scroll-proportion="0.43351954">
+        <state line="83" column="35" selection-start="2843" selection-end="2843" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="140" column="98" selection-start="8446" selection-end="8446" vertical-scroll-proportion="0.19683258">
+          <folding>
+            <marker date="1357909702656" expanded="true" signature="10222:10231" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

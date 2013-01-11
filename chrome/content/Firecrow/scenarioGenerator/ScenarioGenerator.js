@@ -11,23 +11,32 @@ fcScenarioGenerator.ScenarioGenerator =
     {
         ASTHelper.setParentsChildRelationships(pageModel);
 
-        var scenarios = [];
+        var scenarios = new fcScenarioGenerator.ScenarioCollection(scenarioCreatedCallback);
 
         var browser = this._executeApplication(pageModel);
 
         this._createRegisteredEventsScenarios(browser, scenarios, scenarioCreatedCallback);
 
-        for(var i = 0; i < scenarios.length; i++)
+        var processedScenarioCounter = 0;
+
+        var currentScenario = scenarios.getNext();
+
+        while (currentScenario != null)
         {
-            if(ASTHelper.calculatePageExpressionCoverage(pageModel) == 1 || i == 40) { break; }
+            if(processedScenarioCounter > 25 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
 
-            this._createDerivedScenarios(pageModel, scenarios[i], scenarios, scenarioCreatedCallback);
+            this._createDerivedScenarios(pageModel, currentScenario, scenarios);
 
-            //Is last scenario
-            if(i == scenarios.length - 1) { this._createMergedScenarios(pageModel, scenarios, scenarioCreatedCallback); }
+            if(scenarios.isLastScenario(currentScenario))
+            {
+                this._createMergedScenarios(pageModel, scenarios);
+            }
+
+            currentScenario = scenarios.getNext();
+            processedScenarioCounter++;
         }
 
-        return scenarios.slice(0, i);
+        return scenarios.getProcessedScenarios();
     },
 
     _executeApplication: function(pageModel)
@@ -57,17 +66,17 @@ fcScenarioGenerator.ScenarioGenerator =
         this._createEventsScenarios(browser.globalObject.htmlElementEventHandlingRegistrations, scenarios, scenarioCreatedCallback)
     },
 
-    _createEventsScenarios: function(eventRegistrations, scenarios, scenarioCreatedCallback)
+    _createEventsScenarios: function(eventRegistrations, scenarios)
     {
         for(var i = 0; i < eventRegistrations.length; i++)
         {
             var eventRegistration = eventRegistrations[i];
 
-            this._addScenario(new fcScenarioGenerator.Scenario([new fcScenarioGenerator.Event(eventRegistration.thisObject, eventRegistration.eventType, eventRegistration)]), scenarios, scenarioCreatedCallback);
+            scenarios.addScenario(new fcScenarioGenerator.Scenario([new fcScenarioGenerator.Event(eventRegistration.thisObject, eventRegistration.eventType, eventRegistration)]));
         }
     },
 
-    _createDerivedScenarios: function(pageModel, scenario, scenarios, scenarioCreatedCallback)
+    _createDerivedScenarios: function(pageModel, scenario, scenarios)
     {
         var executionSummary = this._executeScenario(pageModel, scenario);
 
@@ -75,58 +84,30 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < invertedPaths.length; i++)
         {
-            this._addScenario(new fcScenarioGenerator.Scenario(scenario.events, invertedPaths[i]), scenarios, scenarioCreatedCallback);
+            scenarios.addScenario(new fcScenarioGenerator.Scenario(scenario.events, invertedPaths[i]));
         }
     },
 
-    _createMergedScenarios: function(pageModel, scenarios, scenarioCreatedCallback)
+    _createMergedScenarios: function(pageModel, scenarios)
     {
         //Has to be cached because new scenarios are added, and we don't want to take them into account
-        var scenariosLength = scenarios.length;
+        var allScenarios = scenarios.getAllScenarios();
+        var scenariosLength = allScenarios.length;
 
         for(var i = 0; i < scenariosLength; i++)
         {
-            var ithScenario = scenarios[i];
+            var ithScenario = allScenarios[i];
 
             for(var j = 0; j < scenariosLength; j++)
             {
-                if(i == j) { continue; }
-
-                var jthScenario = scenarios[j];
+                var jthScenario = allScenarios[j];
 
                 if(jthScenario.executionInfo.isDependentOn(ithScenario.executionInfo))
                 {
-                    this._addScenario
-                    (
-                        fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario),
-                        scenarios,
-                        scenarioCreatedCallback
-                    );
+                    scenarios.addScenario(fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario))
                 }
             }
         }
-    },
-
-    _addScenario: function(scenario, scenarios, scenarioCreatedCallback)
-    {
-        if(this._containsScenario(scenario, scenarios)) { return; }
-
-        scenarios.push(scenario);
-
-        if(scenarioCreatedCallback != null)
-        {
-            scenarioCreatedCallback(scenario);
-        }
-    },
-
-    _containsScenario: function(scenario, scenarios)
-    {
-        for(var i = 0; i < scenarios.length; i++)
-        {
-            if(scenario.isEqualTo(scenarios[i])) { return true; }
-        }
-
-        return false;
     },
 
     _executeScenario: function(pageModel, scenario)

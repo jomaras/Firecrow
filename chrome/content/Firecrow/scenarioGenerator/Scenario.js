@@ -76,5 +76,104 @@ fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScen
 
     return new fcScenarioGenerator.Scenario(mergedEvents, mergedPathConstraints);
 };
+
+fcScenarioGenerator.ScenarioCollection = function(scenarioAddedCallback)
+{
+    this.lengthGroups = [];
+    this.scenarios = [];
+    this.scenarioAddedCallback = scenarioAddedCallback;
+};
+
+fcScenarioGenerator.ScenarioCollection.prototype =
+{
+    getNext: function()
+    {
+        var lengthGroups = this.lengthGroups;
+        for(var i = 0, length = lengthGroups.length; i < length; i++)
+        {
+            var lengthGroup = this.lengthGroups[i];
+            if(lengthGroup == null) { continue; }
+
+            if(lengthGroup.currentIndex < lengthGroup.length)
+            {
+                var scenario = lengthGroup[lengthGroup.currentIndex + 1];
+
+                if(scenario != null)
+                {
+                    lengthGroup.currentIndex++;
+
+                    return scenario;
+                }
+            }
+        }
+
+        return null;
+    },
+
+    isLastScenario: function(scenario)
+    {
+        if(scenario == null) { return false; }
+
+        var lengthGroup = this.lengthGroups[scenario.events.length];
+
+        if(lengthGroup == null) { return false; }
+
+        return lengthGroup.currentIndex + 1 >= lengthGroup.length
+            && scenario.events.length + 1 >= this.lengthGroups.length;
+    },
+
+    addScenario: function(scenario)
+    {
+        if(scenario == null || this._containsScenario(scenario, this.scenarios)) { return; }
+
+        if(this.lengthGroups[scenario.events.length] == null)
+        {
+            this.lengthGroups[scenario.events.length] = [];
+            this.lengthGroups[scenario.events.length].currentIndex = -1;
+        }
+
+        this.lengthGroups[scenario.events.length].push(scenario);
+        this.scenarios.push(scenario);
+
+        if(this.scenarioAddedCallback != null)
+        {
+            this.scenarioAddedCallback(scenario);
+        }
+    },
+
+    _containsScenario: function(scenario, scenarios)
+    {
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            if(scenario.isEqualTo(scenarios[i])) { return true; }
+        }
+
+        return false;
+    },
+
+    getAllScenarios: function()
+    {
+        return this.scenarios;
+    },
+
+    getProcessedScenarios: function()
+    {
+        var allScenarios = [];
+
+        for(var i = 0; i < this.lengthGroups.length; i++)
+        {
+            var lengthScenarios = this.lengthGroups[i];
+
+            if(lengthScenarios == null) { continue; }
+
+            for(var j = 0; j <= lengthScenarios.currentIndex; j++)
+            {
+                allScenarios.push(lengthScenarios[j]);
+            }
+        }
+
+        return allScenarios;
+    }
+};
 /*****************************************************/
 }});

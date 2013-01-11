@@ -232,7 +232,8 @@ fcSymbolic.PathConstraint.prototype =
         {
             var currentPathConstraintItem = pathConstraintItems[i];
 
-            if(currentPathConstraintItem.constraint.canNotBeInverted) { continue; }
+            if(currentPathConstraintItem.constraint == null
+            || currentPathConstraintItem.constraint.canNotBeInverted) { continue; }
 
             var previousItems = pathConstraintItems.slice(0, i);
 
