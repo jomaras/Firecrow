@@ -4,9 +4,13 @@ var fcScenarioGenerator = Firecrow.ScenarioGenerator;
 
 fcScenarioGenerator.Scenario = function(events, pathConstraint)
 {
+    this.id = fcScenarioGenerator.Scenario.LAST_ID++;
+
     this.events = events || [];
     this.pathConstraint = pathConstraint;
 };
+
+fcScenarioGenerator.Scenario.LAST_ID = 0;
 
 fcScenarioGenerator.Scenario.prototype =
 {
@@ -28,7 +32,7 @@ fcScenarioGenerator.Scenario.prototype =
         var scenarioResolvedResult = scenario.pathConstraint != null ? JSON.stringify(scenario.pathConstraint.resolvedResult) : "";
 
         return this._haveEqualEvents(scenario) && (thisPathConstraintString == scenarioPathConstraintString
-                                                || thisResolvedResult == scenarioResolvedResult);
+                                               || thisResolvedResult == scenarioResolvedResult);
     },
 
     _haveEqualEvents: function(scenario)

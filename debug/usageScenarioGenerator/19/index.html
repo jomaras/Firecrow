@@ -13,25 +13,47 @@
     </style>
 </head>
 <body>
-    <div id="firstContainer"></div>
+<div id="firstContainer"></div>
 
-    <script>
-        var externalObj = {};
+<script>
+    var externalObj = {};
 
-        var firstContainer = document.getElementById("firstContainer");
+    var mouseDownPos;
 
-        var lastMouseClickPosition = 0;
+    var firstContainer = document.getElementById("firstContainer");
 
-        firstContainer.onclick = function(eventArgs)
+    var position;
+
+    firstContainer.onmousemove = function(e)
+    {
+        if(mouseDownPos == null)
         {
-            if(eventArgs.pageX == 100 && lastMouseClickPosition == 50)
-            {
-                firstContainer.textContent = "Hidden behavior reached";
-            }
+            return mouseDownPos;
+        }
 
-            lastMouseClickPosition = eventArgs.pageX;
-        };
+        if(e.pageX <= mouseDownPos.x && e.pageY <= mouseDownPos.y)
+        {
+            firstContainer.textContent = "Is Dragging Left Up";
+        }
+        else if(e.pageX >= mouseDownPos.x && e.pageY >= mouseDownPos.y)
+        {
+            firstContainer.textContent = "Is Dragging right down";
+        }
+        else
+        {
+            firstContainer.textContent = "Unknown drag";
+        }
+    };
 
-    </script>
+    firstContainer.onmousedown = function(e)
+    {
+        mouseDownPos = {x: e.pageX, y: e.pageY};
+    };
+
+    firstContainer.onmouseup = function()
+    {
+        mouseDownPos = null;
+    };
+</script>
 </body>
 </html>

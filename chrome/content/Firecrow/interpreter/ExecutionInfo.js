@@ -23,7 +23,7 @@ fcBrowser.ExecutionInfo.prototype =
 {
     addConstraint: function(codeConstruct, constraint, inverse)
     {
-        if(constraint == null) { return; }
+        //if(constraint == null) { return; }
 
         this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
     },

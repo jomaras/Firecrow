@@ -140,8 +140,42 @@ fcScenarioGenerator.ScenarioGenerator =
         }
 
         scenario.executionInfo = browser.getExecutionInfo();
+        this._addDefaultPathConstraintsAndSolutions(scenario);
 
         return scenario.executionInfo;
+    },
+
+    _addDefaultPathConstraintsAndSolutions: function(scenario)
+    {
+        var pathConstraint = scenario.executionInfo.pathConstraint;
+
+        if(scenario.pathConstraint == null)
+        {
+            scenario.pathConstraint = pathConstraint;
+        }
+
+        var identifiersMap = pathConstraint.getSymbolicIdentifierNameMap();
+        var solutionsMap = {};
+
+        for(var identifierName in identifiersMap)
+        {
+            if(this._isPositiveNumberIdentifier(identifierName))
+            {
+                solutionsMap[identifierName] = 0;
+
+                var identifier = new fcSymbolic.Identifier(identifierName);
+
+                var binary = new fcSymbolic.Binary(identifier, new fcSymbolic.Literal(0), ">=");
+                binary.markAsCanNotBeInverted();
+
+                pathConstraint.addConstraintToBeginning(null, binary, false);
+            }
+        }
+
+        if(ValueTypeHelper.isEmptyObject(pathConstraint.resolvedResult))
+        {
+            pathConstraint.resolvedResult = fcSymbolic.PathConstraint.groupSolutionsByIndex(solutionsMap);
+        }
     },
 
     _createParametrizedEvents: function(scenario)
@@ -176,6 +210,17 @@ fcScenarioGenerator.ScenarioGenerator =
         this._modifyDom(eventRegistration, scenario, parametrizedEvent.parameters);
 
         browser.executeEvent(eventRegistration, handlerArguments);
+    },
+
+    _isPositiveNumberIdentifier: function(identifierName)
+    {
+        return identifierName.indexOf("page") == 0
+            || identifierName.indexOf("client") == 0
+            || identifierName.indexOf("layer") == 0
+            || identifierName.indexOf("range") == 0
+            || identifierName.indexOf("keyCode") == 0
+            || identifierName.indexOf("screen") == 0
+            || identifierName.indexOf("which") == 0;
     },
 
     _getMatchingEventRegistration: function(browser, eventRegistration)
@@ -250,15 +295,15 @@ fcScenarioGenerator.ScenarioGenerator =
         var eventInfo = {};
         var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageX", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageY", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientX", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientY", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenX", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageX", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageY", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientX", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientY", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenX", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
 
@@ -275,27 +320,27 @@ fcScenarioGenerator.ScenarioGenerator =
         var eventInfo = {};
         var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "altKey", false, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "bubbles", true, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelBubble", false, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelable", true, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "charCode", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "ctrlKey", false, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "detail", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "eventPhase", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "explicitOriginalTarget", null, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isChar", false, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isTrusted", true, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "keyCode", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerX", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeOffset", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeParent", 0, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "shiftKey", false, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventRegistration.executionInfos.length);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 0, browser, eventRegistration.executionInfos.length);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "altKey", false, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "bubbles", true, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelBubble", false, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "cancelable", true, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "charCode", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "ctrlKey", false, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "detail", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "eventPhase", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "explicitOriginalTarget", null, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isChar", false, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "isTrusted", true, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "keyCode", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerX", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeOffset", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "rangeParent", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "shiftKey", false, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 0, browser, eventIndex);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
 
@@ -381,12 +426,6 @@ fcScenarioGenerator.ScenarioGenerator =
         }
     },
 
-    _getLastExecutionInfo: function(eventRegistration)
-    {
-        if(eventRegistration == null || eventRegistration.executionInfos == null || eventRegistration.executionInfos.length == 0) { return null; }
-
-        return eventRegistration.executionInfos[eventRegistration.executionInfos.length - 1];
-    },
 
     notifyError: function(message) { alert("UsageScenarioGenerator Error: " + message); }
 };

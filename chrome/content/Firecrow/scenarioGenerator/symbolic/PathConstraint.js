@@ -25,6 +25,21 @@ fcSymbolic.PathConstraintItem.LAST_ID = 0;
 
 fcSymbolic.PathConstraintItem.prototype =
 {
+    getSymbolicIdentifierNameMap: function()
+    {
+        if(this.constraint == null) { return {}; }
+
+        var map = {};
+        var identifierNames = this.constraint.getIdentifierNames();
+
+        for(var i = 0; i < identifierNames.length; i++)
+        {
+            map[identifierNames[i]] = true;
+        }
+
+        return map;
+    },
+
     toString: function()
     {
         return this.constraint.toString();
@@ -66,7 +81,8 @@ fcSymbolic.PathConstraint.resolvePathConstraints = function(pathConstraints)
     for(var i = 0; i < pathConstraints.length; i++)
     {
         var current = results[i];
-        var groupedByIndex = this._groupByIndex(current);
+
+        var groupedByIndex = this.groupSolutionsByIndex(current);
 
         if(ValueTypeHelper.isEmptyObject(groupedByIndex))
         {
@@ -80,7 +96,7 @@ fcSymbolic.PathConstraint.resolvePathConstraints = function(pathConstraints)
     }
 };
 
-fcSymbolic.PathConstraint._groupByIndex = function(result)
+fcSymbolic.PathConstraint.groupSolutionsByIndex = function(result)
 {
     var mappedObject = {};
 
@@ -106,12 +122,39 @@ fcSymbolic.PathConstraint.prototype =
 {
     addConstraint: function(codeConstruct, constraint, inverse)
     {
+        this.pathConstraintItems.push(this._createConstraint(codeConstruct, constraint, inverse));
+    },
+
+    addConstraintToBeginning: function(codeConstruct, constraint, inverse)
+    {
+        ValueTypeHelper.insertIntoArrayAtIndex
+        (
+            this.pathConstraintItems,
+            new fcSymbolic.PathConstraintItem(codeConstruct, constraint),
+            0
+        );
+    },
+
+    _createConstraint: function(codeConstruct, constraint, inverse)
+    {
         if(inverse)
         {
             constraint = fcSymbolic.ConstraintResolver.getInverseConstraint(constraint);
         }
 
-        this.pathConstraintItems.push(new fcSymbolic.PathConstraintItem(codeConstruct, constraint));
+        return new fcSymbolic.PathConstraintItem(codeConstruct, constraint);
+    },
+
+    getSymbolicIdentifierNameMap: function()
+    {
+        var identifierNamesMap = {};
+
+        for(var i = 0; i < this.pathConstraintItems.length; i++)
+        {
+            ValueTypeHelper.expand(identifierNamesMap, this.pathConstraintItems[i].getSymbolicIdentifierNameMap());
+        }
+
+        return identifierNamesMap;
     },
 
     createCopyUpgradedByIndex: function(upgradeByIndex)
@@ -188,6 +231,8 @@ fcSymbolic.PathConstraint.prototype =
         for(var i = pathConstraintItems.length - 1; i >= 0; i--)
         {
             var currentPathConstraintItem = pathConstraintItems[i];
+
+            if(currentPathConstraintItem.constraint.canNotBeInverted) { continue; }
 
             var previousItems = pathConstraintItems.slice(0, i);
 
