@@ -1,0 +1,42 @@
+body { margin:0 auto; padding:0; }
+
+#topbar {
+background-color: #2D2D2D;
+border-bottom: 1px solid #000000;
+font: bold 13px/27px Arial,sans-serif;
+color:red;
+height: 27px;
+text-align:center;
+width: 100%;
+}
+
+
+a#prize {
+font-family:arial,sans-serif;
+background-color: #F5F5F5;
+border: 1px solid rgba(0, 0, 0, 0.1);
+color: #666666;
+cursor: pointer;
+font-size: 11px;
+font-weight: bold;
+height: 29px;
+line-height: 27px;
+margin: 11px 6px;
+padding: 8px 8px;
+text-align: center;
+}
+
+a#prize:hover {
+background-color: #F8F8F8;
+border: 1px solid #C6C6C6;
+color: #333333;
+text-decoration:none;
+}
+a#prize:focus {
+border: 1px solid #4D90FE;
+outline: medium none;
+}
+
+a#prize {
+-moz-box-sizing: content-box;
+}

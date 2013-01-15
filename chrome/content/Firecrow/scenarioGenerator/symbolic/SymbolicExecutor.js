@@ -63,11 +63,28 @@ FBL.ns(function() { with (FBL) {
             return this._simplifyExpression(new fcSymbolic.Logical(leftSymbolic, rightSymbolic, operator));
         },
 
+        evalSwitchCase: function(caseValue, switchDiscriminantValue)
+        {
+            if(caseValue == null) { return null; }
+
+            var caseSymbolic = caseValue.symbolicValue;
+
+            if(caseSymbolic == null)
+            {
+                if(caseValue.jsValue != null && ValueTypeHelper.isPrimitive(caseValue.jsValue))
+                {
+                    caseSymbolic = new fcSymbolic.Literal(caseValue.jsValue);
+                }
+            }
+
+            return this._simplifyExpression(new fcSymbolic.Binary(switchDiscriminantValue.symbolicValue, caseSymbolic, "=="));
+        },
+
         _simplifyExpression: function(symbolicExpression)
         {
             this._simplifyOrder(symbolicExpression);
 
-            if(symbolicExpression.isBinary()) { return this.simplifyBinaryExpression(symbolicExpression); }
+                 if (symbolicExpression.isBinary()) { return this.simplifyBinaryExpression(symbolicExpression); }
             else if (symbolicExpression.isLogical()) { return this.simplifyLogicalExpression(symbolicExpression); }
 
             return symbolicExpression;

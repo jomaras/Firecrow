@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 12</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<script>
+    var mainContainer;
+    window.onload = function()
+    {
+        mainContainer = document.getElementById("mainContainer");
+
+        document.onkeydown = function(evt)
+        {
+            switch(evt.keyCode)
+            {
+                case 0:
+                    mainContainer.textContent += "How?";
+                    break;
+                case 65:
+                    mainContainer.textContent += "a";
+                    break;
+                case 66:
+                    mainContainer.textContent += "b";
+                case 67:
+                    mainContainer.textContent += "c";
+                    break;
+                case 1:
+                    mainContainer.textContent += "1?";
+                    break;
+                case 68:
+                case 69:
+                    mainContainer.textContent += "de";
+                    break;
+                default:
+                    mainContainer.textContent += "Unknown";
+            }
+        };
+    };
+</script>
+</body>
+</html>

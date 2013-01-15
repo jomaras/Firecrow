@@ -5,6 +5,7 @@ var Command = Firecrow.Interpreter.Commands.Command;
 var CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
+var fcSymbolic = Firecrow.ScenarioGenerator.Symbolic;
 
 Firecrow.Interpreter.logExecution = false;
 
@@ -361,13 +362,17 @@ fcSimulator.prototype =
 
     _generateCommandsAfterConditionalCommand: function(conditionalCommand)
     {
+        var conditionValue = this.executionContextStack.getExpressionValue(conditionalCommand.codeConstruct.test);
+
+        this.globalObject.browser.addPathConstraint(conditionalCommand.codeConstruct, conditionValue.symbolicValue, !conditionValue.jsValue);
+
         ValueTypeHelper.insertElementsIntoArrayAtIndex
         (
             this.commands,
             CommandGenerator.generateConditionalExpressionEvalBodyCommands
             (
                 conditionalCommand,
-                this.executionContextStack.getExpressionValue(conditionalCommand.codeConstruct.test).jsValue
+                conditionValue.jsValue
             ),
             this.currentCommandIndex + 1
         );
@@ -375,16 +380,32 @@ fcSimulator.prototype =
 
     _generateCommandsAfterCaseCommand: function(caseCommand)
     {
-        if(!caseCommand.isCaseCommand()) { fcSimulator.notifyError("Argument has to be a case command!"); return; }
+        var switchDiscriminantValue = this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant);
+        var caseValue = caseCommand.codeConstruct.test != null ? this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test)
+                                                               : null;
 
-        if( caseCommand.codeConstruct.test == null
-         || this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test).jsValue == this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant).jsValue
-         || caseCommand.parent.hasBeenMatched)
+        var pathConstraint = fcSymbolic.SymbolicExecutor.evalSwitchCase(caseValue, switchDiscriminantValue);
+
+        if(caseCommand.codeConstruct.test == null //is default
+        || caseCommand.parent.hasBeenMatched //falls through
+        || caseValue.jsValue == switchDiscriminantValue.jsValue)
         {
+            if(!caseCommand.parent.hasBeenMatched && pathConstraint != null) //On first matching case - add path
+            {
+                this.globalObject.browser.addPathConstraint(caseCommand.parent, pathConstraint);
+            }
+
             caseCommand.parent.hasBeenMatched = true;
             caseCommand.parent.matchedCaseCommand = caseCommand;
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, CommandGenerator.generateCaseExecutionCommands(caseCommand), this.currentCommandIndex + 1);
+        }
+        else //will not generate case commands - add inverted path constraint
+        {
+            if(pathConstraint != null)
+            {
+                this.globalObject.browser.addPathConstraint(caseCommand.parent, pathConstraint, true);
+            }
         }
     },
 

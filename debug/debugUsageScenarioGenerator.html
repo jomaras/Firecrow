@@ -138,10 +138,10 @@
 
         </div>
     </div>
-    <script src="usageScenarioGenerator/fullPages/3DModelAppMapping.js"></script>
+    <script src="usageScenarioGenerator/fullPages/ballPool.js"></script>
 
     <script type="text/javascript">
-       var model = models[19];
+       var model = models[22];
        //var model = threeDModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
@@ -152,9 +152,26 @@
 
         var scenarioCounter = 0;
 
-        var usageScenarios = FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario)
+        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario)
         {
-            generateScenarioHtml(scenario);
+            if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
+            {
+                var usageScenarios = scenario;
+                scenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + FBL.Firecrow.ASTHelper.calculatePageExpressionCoverage(model.pageModel)*100 + "%</b>";
+                pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
+
+                scenarioCounter = 0;
+                usageScenarioTracesContainer.innerHTML = "";
+
+                usageScenarios.forEach(function(scenario)
+                {
+                    generateScenarioHtml(scenario);
+                });
+            }
+            else
+            {
+                generateScenarioHtml(scenario);
+            }
         });
 
         function generateScenarioHtml(scenario)
@@ -186,17 +203,6 @@
 
             scenarioCounter++;
         }
-
-        scenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + FBL.Firecrow.ASTHelper.calculatePageExpressionCoverage(model.pageModel)*100 + "%</b>";
-        pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
-
-       scenarioCounter = 0;
-       usageScenarioTracesContainer.innerHTML = "";
-
-       usageScenarios.forEach(function(scenario)
-       {
-            generateScenarioHtml(scenario);
-       });
     </script>
 </body>
 </html>

@@ -20,10 +20,49 @@ fcScenarioGenerator.ScenarioGenerator =
         var processedScenarioCounter = 0;
 
         var currentScenario = scenarios.getNext();
+        var that = this;
+
+        var asyncLoop = function()
+        {
+            if(currentScenario == null || processedScenarioCounter > 30 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
+            {
+                scenarioCreatedCallback(scenarios.getProcessedScenarios());
+
+                return;
+            }
+
+            that._createDerivedScenarios(pageModel, currentScenario, scenarios);
+
+            if(scenarios.isLastScenario(currentScenario))
+            {
+                that._createMergedScenarios(pageModel, scenarios);
+            }
+
+            currentScenario = scenarios.getNext();
+            processedScenarioCounter++;
+            setTimeout(asyncLoop, 100);
+        };
+
+        setTimeout(asyncLoop, 100);
+    },
+
+    generateScenariosSync: function(pageModel, scenarioCreatedCallback)
+    {
+        ASTHelper.setParentsChildRelationships(pageModel);
+
+        var scenarios = new fcScenarioGenerator.ScenarioCollection(scenarioCreatedCallback);
+
+        var browser = this._executeApplication(pageModel);
+
+        this._createRegisteredEventsScenarios(browser, scenarios, scenarioCreatedCallback);
+
+        var processedScenarioCounter = 0;
+
+        var currentScenario = scenarios.getNext();
 
         while (currentScenario != null)
         {
-            if(processedScenarioCounter > 20 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
+            if(processedScenarioCounter > 30 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
 
             this._createDerivedScenarios(pageModel, currentScenario, scenarios);
 
@@ -36,7 +75,7 @@ fcScenarioGenerator.ScenarioGenerator =
             processedScenarioCounter++;
         }
 
-        return scenarios.getProcessedScenarios();
+        return scenarioCreatedCallback(scenarios.getProcessedScenarios());
     },
 
     _executeApplication: function(pageModel)

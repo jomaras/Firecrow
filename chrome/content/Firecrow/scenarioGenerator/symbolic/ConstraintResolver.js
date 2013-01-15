@@ -41,7 +41,19 @@ fcSymbolic.ConstraintResolver =
             Constraint: encodeURIComponent(JSON.stringify(numericExpressions))
         });
 
-        var numericResults = numericExpressionsAjaxQuery.isSuccessful ? JSON.parse(numericExpressionsAjaxQuery.response) : Array(numericExpressions.length);
+        var numericResults = Array(numericExpressions.length);
+
+        if(numericExpressionsAjaxQuery.isSuccessful)
+        {
+            try
+            {
+                numericResults = JSON.parse(numericExpressionsAjaxQuery.response);
+            }
+            catch (e)
+            {
+                alert("Error when parsing constraint solver response: " + e + " -> " + numericExpressionsAjaxQuery.response);
+            }
+        }
 
         var stringResults = stringExpressions.map(function(stringExpression)
         {

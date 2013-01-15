@@ -1,5 +1,6 @@
 <?php
 require_once("FileAccess.php");
+set_time_limit(0);
 
 function getConstraint()
 {

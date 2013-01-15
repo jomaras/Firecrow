@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="google pacman, google pacman game" />
+    <meta name="description" content="Are you good enough at Google Pacman Game? Play google pacman online." />
+
+    <link rel="stylesheet" href="styles/style.css" type="text/css" />
+    <script type="text/javascript" language="javascript" src="js/behavior.js"></script>
+    <script type="text/javascript" language="javascript" src="js/rating.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/rating.css" />
+
+    <title>Google Pacman Game</title>
+    <script type="text/javascript">
+        window.google = {}
+    </script>
+    <style type="text/css">
+        td{line-height:.8em;}
+        form{margin-bottom:20px;}
+        input{font-family:inherit;-moz-box-sizing:content-box}
+        a{color:#11c;text-decoration:none}
+        a:hover,a:active{text-decoration:underline}
+        a:visited{color:#551a8b}
+        #logo{width:554px;height:186px;background:black url(src/pacman10-hp.gif) 0 0 no-repeat;position:relative;margin-bottom:9px}
+        #logo-l{width:200px;height:2px;left:177px;top:157px;background:#990;position:absolute;display:none;overflow:hidden}
+        #logo-b{position:absolute;left:0;background:#ff0;height:8px;width:0}
+        #wrapper{width:554px;height:186px;padding:10px;background:#000;-webkit-border-radius:8px;}
+        #googleplus { margin: 100px 0 25px; height: 24px; }
+        .lsb:active{background:-webkit-gradient(linear,left top,left bottom,from(#ccc),to(#ddd))}
+        .ds{display:-moz-inline-box}
+        .ds{border-bottom:solid 1px #e7e7e7;border-right:solid 1px #e7e7e7;display:inline-block;margin:3px 0 4px;margin-left:4px;margin-right:3px:height:32px}
+        .lsbb{background:#eee;border:solid 1px;border-color:#ccc #999 #999 #ccc;height:30px;display:block}
+        .lsb{background:bottom;font:15px arial,sans-serif;border:none;cursor:pointer;height:30px;margin:0;outline:0;vertical-align:top}
+        .lsb:active{background:#ccc}
+        #footer ul{list-style-type:none;padding:0}
+        #footer a{display:inline-block;color:#444;font-size:10pt;font-family:monospace;padding:5px}
+        #footer a:hover{color:#666;text-decoration:none;background:#333}
+
+    </style>
+</head>
+<body>
+<span style="position: absolute; top: 5px; right: 5px">
+</span>
+<center id="centermargin" itemscope itemtype="http://schema.org/SoftwareApplication">
+    <div id="wrapper">
+        <span itemprop="name" content="Google Pacman" ></span>
+        <span itemprop="description" content="Play Google Pacman Game Online"></span>
+        <span itemprop="url" content="http://googlepacmangame.com/"></span>
+        <span itemprop="operatingSystems" content="Web"></span>
+	<span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+		<span itemprop="price" content="$0.00"></span>
+		<meta itemprop="priceCurrency" content="USD" />
+	</span>
+
+        <a href="#gameover" id="dlink"></a>
+        <div id='logo' title="PAC-MAN's 30th Birthday! Doodle with PAC-MAN™ & ©1980 NAMCO BANDAI Games Inc.">
+            <div id="logo-l">
+                <div id="logo-b">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        google.dom = {};
+        google.pacManSound = true;
+        google.browser = {};
+        google.browser.engine = {}
+
+        google.dom.remove = function (a) {
+            return a && a.parentNode && a.parentNode.removeChild(a)
+        };
+
+        google.dom.append = function (a) {
+            return document.body.appendChild(a)
+        };
+
+        google.browser.engine.IE = false
+        google.pml = function () {
+            function d(a) {
+                if (!google.pml_installed) {
+                    google.pml_installed = true;
+                    if (!a) {
+                        document.getElementById("logo").style.background = "black";
+                        window.setTimeout(function () {
+                            var b = document.getElementById("logo-l");
+                            if (b) b.style.display = "block"
+                        }, 400)
+                    }
+                    a = document.createElement("script");
+                    a.type = "text/javascript";
+                    a.src = "js/pacman.js";
+                    document.body.appendChild(a)
+                }
+            }
+            function e() {
+                if (document.f && document.f.btnI) document.f.btnI.onclick = function () {
+                    typeof google.pacman != "undefined" ? google.pacman.insertCoin() : d(false);
+                    return false
+                }
+            }
+            if (!google.pml_loaded) {
+                google.pml_loaded = true;
+                window.setTimeout(function () {
+                    document.f && d(true)
+                }, 1E4);
+                e();
+            }
+        };
+    </script>
+
+    <form action="#submit" name='f' style="margin-top:10px;">
+        <table width="23%" cellpadding='0' cellspacing='0'>
+            <tr valign='top'>
+                <td align='center' nowrap><br style="line-height:0" />
+          <span class='ds'>
+            <span class='lsbb'>
+              <input name='btnI' type='submit' value="Insert Coin" class='lsb' />
+            </span>
+          </span>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script type="text/javascript">google.pml && google.pml()</script>
+</center>
+</body>
+</html>
