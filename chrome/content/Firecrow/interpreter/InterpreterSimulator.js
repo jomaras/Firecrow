@@ -364,7 +364,10 @@ fcSimulator.prototype =
     {
         var conditionValue = this.executionContextStack.getExpressionValue(conditionalCommand.codeConstruct.test);
 
-        this.globalObject.browser.addPathConstraint(conditionalCommand.codeConstruct, conditionValue.symbolicValue, !conditionValue.jsValue);
+        if(conditionValue.symbolicValue != null)
+        {
+            this.globalObject.browser.addPathConstraint(conditionalCommand.codeConstruct, conditionValue.symbolicValue, !conditionValue.jsValue);
+        }
 
         ValueTypeHelper.insertElementsIntoArrayAtIndex
         (

@@ -235,6 +235,10 @@ fcModel.GlobalObject.prototype.getOnLoadFunctions = function()
     {
         onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.getProperty("onload").lastModificationPosition, eventType: "onload", thisObject: this });
     }
+    else //if window.onload is not set check the body element onload attribute
+    {
+
+    }
 
     return onLoadFunctions;
 };

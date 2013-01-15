@@ -20,6 +20,11 @@ fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, 
         this.variableObject = variableObject || globalObject.globalVariableObject;
         this.thisObject = thisObject || globalObject;
 
+        if(this.thisObject != globalObject && !(this.thisObject instanceof fcModel.fcValue))
+        {
+            this.thisObject = new fcModel.fcValue(this.thisObject.implementationObject, thisObject);
+        }
+
         this.globalObject = globalObject;
 
         this.scopeChain = ValueTypeHelper.createArrayCopy(scopeChain);

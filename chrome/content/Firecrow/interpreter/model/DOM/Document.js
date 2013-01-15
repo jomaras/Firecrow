@@ -11,6 +11,8 @@ fcModel.Document = function(document, globalObject)
         ValueTypeHelper.expand(this, fcModel.EventListenerMixin);
 
         this.document = document;
+        this.implementationObject = document;
+
         this.constructor = fcModel.Document;
 
         this.htmlElementToFcMapping = { };

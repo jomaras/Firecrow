@@ -15,6 +15,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
         this.registerGetPropertyCallback(this._getPropertyHandler, this);
 
         this.htmlElement = htmlElement;
+        this.implementationObject = this.htmlElement;
 
         if(this.htmlElement != null)
         {

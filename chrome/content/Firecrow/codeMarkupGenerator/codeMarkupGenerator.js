@@ -191,6 +191,8 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
+                if(element == null) { return ""; }
+
                      if (ASTHelper.isProgram(element)) { return this.generateProgram(element); }
                 else if (ASTHelper.isStatement(element)) { return this.generateStatement(element); }
                 else if (ASTHelper.isExpression(element)) { return this.generateExpression(element); }

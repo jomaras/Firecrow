@@ -281,10 +281,14 @@ fcModel.Object.prototype =
     },
     //</editor-fold>
 
+    //<editor-fold desc="Misc public methods">
     registerPreventExtensionPosition: function(codeConstruct)
     {
         this.preventExtensionPosition = { codeConstruct : codeConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId() };
     },
+
+    isPrimitive: function() { return false },
+    //</editor-fold>
 
     //<editor-fold desc="Callbacks">
     registerObjectModifiedCallbackDescriptor: function(callback, thisValue)

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Test</title>
+    <meta charset="UTF-8"/>
+    <style>
+        #mainContainer
+        {
+            background-color: red;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var a1 = false;
+        function onload()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+
+            mainContainer.textContent = "Loaded";
+            a1 = true;
+        }
+    </script>
+</head>
+<body onload="onload()">
+    <div id="mainContainer"></div>
+</body>
+</html>

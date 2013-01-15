@@ -65,7 +65,7 @@ FBL.ns(function() { with (FBL) {
 
         evalSwitchCase: function(caseValue, switchDiscriminantValue)
         {
-            if(caseValue == null) { return null; }
+            if(caseValue == null || switchDiscriminantValue.symbolicValue == null) { return null; }
 
             var caseSymbolic = caseValue.symbolicValue;
 
