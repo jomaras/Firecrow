@@ -2,39 +2,19 @@ FBL.ns(function() { with (FBL) {
 /*****************************************************/
 var fcScenarioGenerator = Firecrow.ScenarioGenerator;
 
-fcScenarioGenerator.Event = function(baseObject, type, eventRegistration)
+fcScenarioGenerator.Event = function(baseObjectDescriptor, baseObjectModel, type, eventRegistrationConstruct)
 {
-    this.baseObject = baseObject;
+    this.baseObjectDescriptor = baseObjectDescriptor;
+    this.baseObjectModel = baseObjectModel;
     this.type = type;
-    this.eventRegistration = eventRegistration;
+    this.eventRegistrationConstruct = eventRegistrationConstruct;
 };
 
 fcScenarioGenerator.Event.prototype =
 {
     toString: function()
     {
-        return this.type + " on " + this._getBaseObjectString();
-    },
-
-    _getBaseObjectString: function()
-    {
-        if(this.baseObject.htmlElement != null) { return this._generateHtmlElementString(this.baseObject.htmlElement); }
-        if(this.baseObject.globalObject.document == this.baseObject) { return "document"; }
-        if(this.baseObject.globalObject == this.baseObject) { return "window"; }
-
-        return "unknown base object in event";
-    },
-
-    _generateHtmlElementString: function(htmlElement)
-    {
-        if(htmlElement == null) { return ""; }
-
-        var string = htmlElement.tagName.toLowerCase();
-
-        if(htmlElement.id) { string += "#" + htmlElement.id; }
-        if(htmlElement.className) { string += "." + htmlElement.className; }
-
-        return string;
+        return this.type + " on " + this.baseObjectDescriptor;
     }
 }
 

@@ -2,6 +2,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcBrowser = Firecrow.DoppelBrowser;
 var fcModel = Firecrow.Interpreter.Model;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcBrowser.ExecutionInfo = function()
 {
@@ -17,6 +18,8 @@ fcBrowser.ExecutionInfo = function()
 
     this.globalAccessedIdentifiers = [];
     this.globalAccessedObjects = [];
+
+    this.eventRegistrations = [];
 };
 
 fcBrowser.ExecutionInfo.prototype =
@@ -66,6 +69,36 @@ fcBrowser.ExecutionInfo.prototype =
                                                                                 : null
             }
         );
+    },
+
+    logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, timerId)
+    {
+        this.eventRegistrations.push({
+            thisObjectDescriptor: thisObjectDescriptor,
+            thisObjectModel: thisObjectModel,
+            eventType: eventType,
+            registrationConstruct: registrationConstruct,
+            timerId: timerId
+        });
+    },
+
+    logEventDeRegistered: function(htmlNode, eventType, deregistrationConstruct, timerId)
+    {
+        if(eventType == "interval") { this._removeFirstRegisteredEventByTypeAndTimerId(eventType, timerId); return; }
+    },
+
+    _removeFirstRegisteredEventByTypeAndTimerId: function(eventType, timerId)
+    {
+        for(var i = 0, length = this.eventRegistrations.length; i < length; i++)
+        {
+            var eventRegistration = this.eventRegistrations[i];
+
+            if(eventRegistration.eventType == eventType && eventRegistration.timerId == timerId)
+            {
+                ValueTypeHelper.removeFromArrayByIndex(this.eventRegistrations, i);
+                return;
+            }
+        }
     },
 
     logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)

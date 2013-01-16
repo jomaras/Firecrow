@@ -24,7 +24,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var asyncLoop = function()
         {
-            if(currentScenario == null || processedScenarioCounter > 40 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
+            if(currentScenario == null || processedScenarioCounter > 60 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
             {
                 scenarioCreatedCallback(scenarios.getProcessedScenarios());
 
@@ -62,7 +62,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         while (currentScenario != null)
         {
-            if(processedScenarioCounter > 40 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
+            if(processedScenarioCounter > 60 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
 
             this._createDerivedScenarios(pageModel, currentScenario, scenarios);
 
@@ -101,6 +101,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _createRegisteredEventsScenarios: function(browser, scenarios, scenarioCreatedCallback)
     {
+        this._createEventsScenarios(browser.globalObject.timeoutHandlers, scenarios, scenarioCreatedCallback)
         this._createEventsScenarios(browser.globalObject.intervalHandlers, scenarios, scenarioCreatedCallback)
         this._createEventsScenarios(browser.globalObject.htmlElementEventHandlingRegistrations, scenarios, scenarioCreatedCallback)
     },
@@ -111,20 +112,58 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             var eventRegistration = eventRegistrations[i];
 
-            scenarios.addScenario(new fcScenarioGenerator.Scenario([new fcScenarioGenerator.Event(eventRegistration.thisObject, eventRegistration.eventType, eventRegistration)]));
+            scenarios.addScenario(new fcScenarioGenerator.Scenario
+            ([
+                new fcScenarioGenerator.Event
+                (
+                    this._getEventObjectDescriptor(eventRegistration.thisObject),
+                    this._getEventObjectModel(eventRegistration.thisObject),
+                    eventRegistration.eventType,
+                    eventRegistration.handler.codeConstruct
+                )
+            ]));
         }
+    },
+
+    _getEventObjectDescriptor: function(eventObject)
+    {
+        if(eventObject.htmlElement != null) { return Firecrow.htmlHelper.getElementXPath(eventObject.htmlElement); }
+        if(eventObject.globalObject.document == eventObject) { return "document"; }
+        if(eventObject.globalObject == eventObject) { return "window"; }
+
+        return "unknown base object in event";
+    },
+
+    _getEventObjectModel: function(eventObject)
+    {
+        if(eventObject.htmlElement != null) { eventObject.htmlElement.modelElement; }
+        if(eventObject.globalObject.document == eventObject) { return "document"; }
+        if(eventObject.globalObject == eventObject) { return "window"; }
+
+        return null;
     },
 
     _createDerivedScenarios: function(pageModel, scenario, scenarios)
     {
         var executionSummary = this._executeScenario(pageModel, scenario);
 
+        this._createInvertedPathScenarios(executionSummary, scenario, scenarios);
+        this._createNewlyRegisteredEventsScenarios(executionSummary, scenario, scenarios);
+    },
+
+    _createInvertedPathScenarios: function(executionSummary, scenario, scenarios)
+    {
         var invertedPaths = executionSummary.pathConstraint.getAllResolvedInversions();
 
         for(var i = 0; i < invertedPaths.length; i++)
         {
-            scenarios.addScenario(new fcScenarioGenerator.Scenario(scenario.events, invertedPaths[i]));
+            scenarios.addScenario(new fcScenarioGenerator.Scenario(scenario.events, invertedPaths[i], [scenario]));
         }
+    },
+
+    _createNewlyRegisteredEventsScenarios: function(executionSummary, scenario, scenarios)
+    {
+        var a = 3;
     },
 
     _createMergedScenarios: function(pageModel, scenarios)
@@ -224,7 +263,7 @@ fcScenarioGenerator.ScenarioGenerator =
     _executeEvent: function(browser, parametrizedEvent, scenario, eventIndex)
     {
         browser.eventIndex = eventIndex;
-        var eventRegistration = this._getMatchingEventRegistration(browser, parametrizedEvent.baseEvent.eventRegistration);
+        var eventRegistration = this._getMatchingEventRegistration(browser, parametrizedEvent.baseEvent.baseObjectModel, parametrizedEvent.baseEvent.eventRegistrationConstruct);
 
         var handlerArguments = this._getArguments(eventRegistration, browser, parametrizedEvent.parameters, eventIndex);
         this._modifyDom(eventRegistration, scenario, parametrizedEvent.parameters);
@@ -243,16 +282,27 @@ fcScenarioGenerator.ScenarioGenerator =
             || identifierName.indexOf("which") == 0;
     },
 
-    _getMatchingEventRegistration: function(browser, eventRegistration)
+    _getMatchingEventRegistration: function(browser, baseObjectModel, eventRegistrationConstruct)
     {
         var intervalHandlers = browser.globalObject.intervalHandlers;
         for(var i = 0; i < intervalHandlers.length; i++)
         {
             var intervalHandler = intervalHandlers[i];
 
-            if(intervalHandler.handler.codeConstruct == eventRegistration.handler.codeConstruct)
+            if(intervalHandler.handler.codeConstruct == eventRegistrationConstruct)
             {
                 return intervalHandler;
+            }
+        }
+
+        var timeoutHandlers = browser.globalObject.timeoutHandlers;
+        for(var i = 0; i < timeoutHandlers.length; i++)
+        {
+            var timeoutHandler = timeoutHandlers[i];
+
+            if(timeoutHandler.handler.codeConstruct == eventRegistrationConstruct)
+            {
+                return timeoutHandler;
             }
         }
 
@@ -262,20 +312,9 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             var domHandler = domHandlers[i];
 
-            if(domHandler.handler.codeConstruct != eventRegistration.handler.codeConstruct) { continue; }
+            if(domHandler.handler.codeConstruct != eventRegistrationConstruct) { continue; }
 
-            if(domHandler.fcHtmlElement != null && eventRegistration.fcHtmlElement != null)
-            {
-                if(domHandler.fcHtmlElement.htmlElement == null && eventRegistration.fcHtmlElement.htmlElement == null)
-                {
-                    return domHandler;
-                }
-                else if(domHandler.fcHtmlElement.htmlElement.modelElement == eventRegistration.fcHtmlElement.htmlElement.modelElement)
-                {
-                    return domHandler;
-                }
-            }
-            else
+            if(domHandler.baseObjectModel == baseObjectModel)
             {
                 return domHandler;
             }

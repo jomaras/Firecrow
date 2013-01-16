@@ -2,12 +2,13 @@ FBL.ns(function() { with (FBL) {
 /*****************************************************/
 var fcScenarioGenerator = Firecrow.ScenarioGenerator;
 
-fcScenarioGenerator.Scenario = function(events, pathConstraint)
+fcScenarioGenerator.Scenario = function(events, pathConstraint, parentScenarios)
 {
     this.id = fcScenarioGenerator.Scenario.LAST_ID++;
 
     this.events = events || [];
     this.pathConstraint = pathConstraint;
+    this.parentScenarios = parentScenarios || [];
 };
 
 fcScenarioGenerator.Scenario.LAST_ID = 0;
@@ -74,7 +75,7 @@ fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScen
         mergedPathConstraints.append(secondScenario.pathConstraint.createCopyUpgradedByIndex(firstScenario.events.length));
     }
 
-    return new fcScenarioGenerator.Scenario(mergedEvents, mergedPathConstraints);
+    return new fcScenarioGenerator.Scenario(mergedEvents, mergedPathConstraints, [firstScenario, secondScenario]);
 };
 
 fcScenarioGenerator.ScenarioCollection = function(scenarioAddedCallback)
@@ -92,6 +93,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         for(var i = 0, length = lengthGroups.length; i < length; i++)
         {
             var lengthGroup = this.lengthGroups[i];
+
             if(lengthGroup == null) { continue; }
 
             if(lengthGroup.currentIndex < lengthGroup.length)

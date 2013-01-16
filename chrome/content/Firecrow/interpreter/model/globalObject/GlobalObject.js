@@ -100,10 +100,11 @@ fcModel.GlobalObject.prototype.registerTimeout = function(timeoutId, handler, ti
         callArguments: callArguments,
         registrationPoint: registrationPoint,
         thisObject: this.globalObject,
-        executionInfos: [],
-        pathConstraints: [],
-        eventType: "timeout"
+        eventType: "timeout",
+        thisObjectDescriptor: "window"
     });
+
+    this.browser.executionInfo.logEventRegistered("window", "window", "timeout", registrationPoint.codeConstruct, timeoutId);
 };
 
 fcModel.GlobalObject.prototype.unregisterTimeout = function(timeoutId, codeConstruct)
@@ -138,10 +139,11 @@ fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, 
         callArguments: callArguments,
         registrationPoint: registrationPoint,
         thisObject: this.globalObject,
-        executionInfos: [],
         eventType: "interval",
-        pathConstraints: []
+        thisObjectDescriptor: "window"
     });
+
+    this.browser.executionInfo.logEventRegistered("window", "window", "interval", registrationPoint.codeConstruct, intervalId);
 };
 
 fcModel.GlobalObject.prototype.unregisterInterval = function(intervalId, codeConstruct)
@@ -168,6 +170,8 @@ fcModel.GlobalObject.prototype.unregisterInterval = function(intervalId, codeCon
             return;
         }
     }
+
+    this.executionInfo.logEventDeRegistered(null, "interval", codeConstruct, intervalId);
 };
 
 fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID = 0;
@@ -181,9 +185,17 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
         registrationPoint: evaluationPosition,
         thisObject: fcHtmlElement,
         id: fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID++,
-        executionInfos: [],
-        pathConstraints: []
+        baseObjectModel: this._getBaseObjectModel(fcHtmlElement)
     });
+};
+
+fcModel.GlobalObject.prototype._getBaseObjectModel = function(baseObject)
+{
+    if(baseObject.htmlElement != null) { baseObject.htmlElement.modelElement; }
+    if(baseObject.globalObject.document == baseObject) { return "document"; }
+    if(baseObject.globalObject == baseObject) { return "window"; }
+
+    return null;
 };
 //</editor-fold>
 

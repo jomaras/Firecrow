@@ -10,6 +10,7 @@
     <script src="usageScenarioGenerator/modelMapping.js"></script>
     <script src="../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/RequestHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
@@ -152,7 +153,7 @@
 
         var scenarioCounter = 0;
 
-        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario)
+        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenariosSync(model.pageModel, function(scenario)
         {
             if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
             {

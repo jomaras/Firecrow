@@ -175,6 +175,27 @@ Firecrow.htmlHelper =
         return attributes;
     },
 
+    getElementXPath: function(element)
+    {
+        var paths = [];
+
+        for (; element && element.nodeType == 1; element = element.parentNode)
+        {
+            var index = 0;
+            for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling)
+            {
+                if (sibling.localName == element.localName)
+                    ++index;
+            }
+
+            var tagName = element.localName.toLowerCase();
+            var pathIndex = (index ? "[" + (index+1) + "]" : "");
+            paths.splice(0, 0, tagName + pathIndex);
+        }
+
+        return paths.length ? "/" + paths.join("/") : "";
+    },
+
     getChildren: function(rootElement, scriptPathsAndModels, stylesPathsAndModels)
     {
         var allNodes = [];

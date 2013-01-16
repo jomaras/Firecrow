@@ -97,6 +97,8 @@
 
             function visuallySelectButton(button)
             {
+                if (button == null) { return; }
+
                 button.className = "bullet active";
             }
 
@@ -109,13 +111,45 @@
                 }
             }
 
+            var animationFinishedCallback = function() { };
+
+            function fadeOutAnimation()
+            {
+                if(image.style.opacity == "")
+                {
+                    image.style.opacity = 1;
+                }
+
+                image.style.opacity -= 0.25;
+
+                if(image.style.opacity > 0)
+                {
+                    setTimeout(fadeOutAnimation, 250);
+                }
+                else
+                {
+                    image.style.opacity = 0;
+                    animationFinishedCallback();
+                }
+            }
+
             function updateItem(newIndex)
             {
-                var newItem = items[newIndex];
+                animationFinishedCallback = function()
+                {
+                    var newItem = items[newIndex];
 
-                title.textContent = newItem.title;
-                caption.textContent = newItem.caption;
-                image.src = newItem.path;
+                    title.textContent = newItem.title;
+                    caption.textContent = newItem.caption;
+                    image.src = newItem.path;
+
+                    visuallyDeselectActiveButton();
+                    visuallySelectButton(bullets[newIndex]);
+
+                    image.style.opacity = 1;
+                }
+
+                setTimeout(fadeOutAnimation, 250);
             }
 
             for (var i = 0; i < bullets.length; i++)
@@ -127,9 +161,6 @@
                     var index = getIndexOf(bullets, this);
 
                     updateItem(index);
-
-                    visuallyDeselectActiveButton();
-                    visuallySelectButton(this);
                 };
             }
         };

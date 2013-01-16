@@ -4,6 +4,7 @@ var CC = Components.classes;
 var CI = Components.interfaces;
 
 var fbHelper = Firecrow.fbHelper;
+var htmlHelper = Firecrow.htmlHelper;
 
 Firecrow.JsRecorder = function ()
 {
@@ -84,7 +85,7 @@ Firecrow.JsRecorder = function ()
 
                             trace.thisValue =
                             {
-                                xPath: that.getElementXPath(thisElement)
+                                xPath: htmlHelper.getElementXPath(thisElement)
                             };
 
                             var propArray = {}, length = {};
@@ -118,12 +119,12 @@ Firecrow.JsRecorder = function ()
 
                             trace.args =
                             {
-                                targetXPath: firstArgument!= null ? that.getElementXPath(firstArgument.target) : "",
-                                originalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.originalTarget) : "",
-                                currentTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.currentTarget) : "",
-                                explicitOriginalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.explicitOriginalTarget) : "",
-                                rangeParentXPath : firstArgument != null ? that.getElementXPath(firstArgument.rangeParent) : "",
-                                relatedTargetXPath : firstArgument != null ? that.getElementXPath(firstArgument.relatedTarget) : "",
+                                targetXPath: firstArgument!= null ? htmlHelper.getElementXPath(firstArgument.target) : "",
+                                originalTargetXPath: firstArgument != null ? htmlHelper.getElementXPath(firstArgument.originalTarget) : "",
+                                currentTargetXPath: firstArgument != null ? htmlHelper.getElementXPath(firstArgument.currentTarget) : "",
+                                explicitOriginalTargetXPath: firstArgument != null ? htmlHelper.getElementXPath(firstArgument.explicitOriginalTarget) : "",
+                                rangeParentXPath : firstArgument != null ? htmlHelper.getElementXPath(firstArgument.rangeParent) : "",
+                                relatedTargetXPath : firstArgument != null ? htmlHelper.getElementXPath(firstArgument.relatedTarget) : "",
                                 clientX: firstArgument != null ? firstArgument.clientX : 0,
                                 clientY: firstArgument != null ? firstArgument.clientY : 0,
                                 screenX: firstArgument != null ? firstArgument.screenX : 0,
@@ -333,27 +334,6 @@ Firecrow.JsRecorder = function ()
         };
     };
 
-    this.getElementXPath = function(element)
-    {
-        var paths = [];
-
-        for (; element && element.nodeType == 1; element = element.parentNode)
-        {
-            var index = 0;
-            for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling)
-            {
-                if (sibling.localName == element.localName)
-                    ++index;
-            }
-
-            var tagName = element.localName.toLowerCase();
-            var pathIndex = (index ? "[" + (index+1) + "]" : "");
-            paths.splice(0, 0, tagName + pathIndex);
-        }
-
-        return paths.length ? "/" + paths.join("/") : "";
-    }
-
     this.getCurrentInputStates = function(element)
     {
         var inputStates = [];
@@ -376,7 +356,7 @@ Firecrow.JsRecorder = function ()
 
             inputStates.push
             ({
-                elementXPath : this.getElementXPath(input),
+                elementXPath : htmlHelper.getElementXPath(input),
                 checked : input.checked,
                 value: input.value
             });

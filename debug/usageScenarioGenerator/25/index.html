@@ -96,8 +96,6 @@
 
             function getIndexOf(elements, element)
             {
-                if (elements == null) { return -1; }
-
                 for (var i = 0; i < elements.length; i++)
                 {
                     if (elements[i] == element)
@@ -105,8 +103,6 @@
                         return i;
                     }
                 }
-
-                return -1;
             }
 
             document.querySelector("#arrowLeft").onclick = function()
@@ -139,8 +135,6 @@
 
             function visuallySelectButton(button)
             {
-                if (button == null) { return; }
-
                 button.className = "bullet active";
             }
 
@@ -155,12 +149,6 @@
 
             function updateItem(newIndex)
             {
-                if (newIndex < 0 || newIndex > items.length)
-                {
-                    alert("Index out of bounds");
-                    return;
-                }
-
                 var newItem = items[newIndex];
 
                 title.textContent = newItem.title;
