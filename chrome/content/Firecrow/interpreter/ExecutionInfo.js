@@ -7,7 +7,6 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 fcBrowser.ExecutionInfo = function()
 {
     this.pathConstraint = new Firecrow.ScenarioGenerator.Symbolic.PathConstraint();
-    this.visitedFunctionsMap = {};
 
     this.undefinedGlobalPropertiesAccessMap = {};
     this.resourceSetterPropertiesMap = {};
@@ -66,18 +65,20 @@ fcBrowser.ExecutionInfo.prototype =
             {
                 name: identifier.name,
                 declarationConstructId: identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
-                                                                                : null
+                                                                               : null
             }
         );
     },
 
-    logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, timerId)
+    logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, handlerConstruct, loadingEventsExecuted, timerId)
     {
         this.eventRegistrations.push({
             thisObjectDescriptor: thisObjectDescriptor,
             thisObjectModel: thisObjectModel,
             eventType: eventType,
             registrationConstruct: registrationConstruct,
+            handlerConstruct: handlerConstruct,
+            loadingEventsExecuted: loadingEventsExecuted,
             timerId: timerId
         });
     },

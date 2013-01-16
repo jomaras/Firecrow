@@ -42,6 +42,8 @@ fcBrowser.Browser = function(pageModel)
 
         this.executionInfo = new fcBrowser.ExecutionInfo();
 
+        this.loadingEventsExecuted = false;
+
         this._matchesSelector = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector;
 
         if(!Firecrow.IsDebugMode)
@@ -96,6 +98,11 @@ Browser.prototype =
             this._handleEvents();
         }
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
+    },
+
+    setLoadingEventsExecuted: function()
+    {
+        this.loadingEventsExecuted = true;
     },
 
     executeEvent: function(eventInfo, argumentValues)

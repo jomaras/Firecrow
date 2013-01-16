@@ -86,6 +86,8 @@ fcScenarioGenerator.ScenarioGenerator =
 
         this._executeLoadingEvents(browser);
 
+        browser.setLoadingEventsExecuted();
+
         return browser;
     },
 
@@ -145,7 +147,30 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _createNewlyRegisteredEventsScenarios: function(executionSummary, scenario, scenarios)
     {
-        var a = 3;
+        if(scenario.parentScenarios.length == 0)
+        {
+            var eventsRegisteredAfterLoadingPhase = executionSummary.eventRegistrations.filter(function(eventRegistration)
+            {
+                return eventRegistration.loadingEventsExecuted;
+            });
+
+            for(var i = 0; i < eventsRegisteredAfterLoadingPhase.length; i++)
+            {
+                var eventRegistration = eventsRegisteredAfterLoadingPhase[i];
+
+                var newScenario = scenario.createCopy();
+
+                newScenario.events.push(new fcScenarioGenerator.Event
+                (
+                    eventRegistration.thisObjectDescriptor,
+                    eventRegistration.thisObjectModel,
+                    eventRegistration.eventType,
+                    eventRegistration.handlerConstruct
+                ));
+
+                scenarios.addScenario(newScenario);
+            }
+        }
     },
 
     _createMergedScenarios: function(pageModel, scenarios)

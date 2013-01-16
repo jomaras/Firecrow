@@ -105,7 +105,16 @@ fcModel.GlobalObject.prototype.registerTimeout = function(timeoutId, handler, ti
         thisObjectModel: "window"
     });
 
-    this.browser.executionInfo.logEventRegistered("window", "window", "timeout", registrationPoint.codeConstruct, timeoutId);
+    this.browser.executionInfo.logEventRegistered
+    (
+        "window",
+        "window",
+        "timeout",
+        registrationPoint.codeConstruct,
+        handler.codeConstruct,
+        this.browser.loadingEventsExecuted,
+        timeoutId
+    );
 };
 
 fcModel.GlobalObject.prototype.unregisterTimeout = function(timeoutId, codeConstruct)
@@ -145,7 +154,16 @@ fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, 
         thisObjectModel: "window"
     });
 
-    this.browser.executionInfo.logEventRegistered("window", "window", "interval", registrationPoint.codeConstruct, intervalId);
+    this.browser.executionInfo.logEventRegistered
+    (
+        "window",
+        "window",
+        "interval",
+        registrationPoint.codeConstruct,
+        handler.codeConstruct,
+        this.browser.loadingEventsExecuted,
+        intervalId
+    );
 };
 
 fcModel.GlobalObject.prototype.unregisterInterval = function(intervalId, codeConstruct)
@@ -193,7 +211,15 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
 
     this.htmlElementEventHandlingRegistrations.push(eventDescriptor);
 
-    this.browser.executionInfo.logEventRegistered(eventDescriptor.thisObjectDescriptor, eventDescriptor.thisObjectDescriptor, eventType, evaluationPosition.codeConstruct);
+    this.browser.executionInfo.logEventRegistered
+    (
+        eventDescriptor.thisObjectDescriptor,
+        eventDescriptor.thisObjectDescriptor,
+        eventType,
+        evaluationPosition.codeConstruct,
+        handler.codeConstruct,
+        this.browser.loadingEventsExecuted
+    );
 };
 
 
