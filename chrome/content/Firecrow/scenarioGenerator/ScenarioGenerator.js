@@ -116,32 +116,13 @@ fcScenarioGenerator.ScenarioGenerator =
             ([
                 new fcScenarioGenerator.Event
                 (
-                    this._getEventObjectDescriptor(eventRegistration.thisObject),
-                    this._getEventObjectModel(eventRegistration.thisObject),
+                    eventRegistration.thisObjectDescriptor,
+                    eventRegistration.thisObjectModel,
                     eventRegistration.eventType,
                     eventRegistration.handler.codeConstruct
                 )
             ]));
         }
-    },
-
-    _getEventObjectDescriptor: function(eventObject)
-    {
-        if(eventObject.htmlElement != null) { return Firecrow.htmlHelper.getElementXPath(eventObject.htmlElement); }
-        if(eventObject.globalObject.document == eventObject) { return "document"; }
-        if(eventObject.globalObject == eventObject) { return "window"; }
-
-        return "unknown base object in event";
-    },
-
-    _getEventObjectModel: function(eventObject)
-    {
-        if(eventObject.htmlElement != null) { return eventObject.htmlElement.modelElement; }
-        if(eventObject.globalObject.document == eventObject) { return "document"; }
-        if(eventObject.globalObject == eventObject) { return "window"; }
-
-        debugger;
-        return null;
     },
 
     _createDerivedScenarios: function(pageModel, scenario, scenarios)
@@ -283,7 +264,7 @@ fcScenarioGenerator.ScenarioGenerator =
             || identifierName.indexOf("which") == 0;
     },
 
-    _getMatchingEventRegistration: function(browser, baseObjectModel, eventRegistrationConstruct)
+    _getMatchingEventRegistration: function(browser, thisObjectModel, eventRegistrationConstruct)
     {
         var intervalHandlers = browser.globalObject.intervalHandlers;
         for(var i = 0; i < intervalHandlers.length; i++)
@@ -315,7 +296,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
             if(domHandler.handler.codeConstruct != eventRegistrationConstruct) { continue; }
 
-            if(domHandler.baseObjectModel == baseObjectModel)
+            if(domHandler.thisObjectModel == thisObjectModel)
             {
                 return domHandler;
             }

@@ -101,7 +101,8 @@ fcModel.GlobalObject.prototype.registerTimeout = function(timeoutId, handler, ti
         registrationPoint: registrationPoint,
         thisObject: this.globalObject,
         eventType: "timeout",
-        thisObjectDescriptor: "window"
+        thisObjectDescriptor: "window",
+        thisObjectModel: "window"
     });
 
     this.browser.executionInfo.logEventRegistered("window", "window", "timeout", registrationPoint.codeConstruct, timeoutId);
@@ -140,7 +141,8 @@ fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, 
         registrationPoint: registrationPoint,
         thisObject: this.globalObject,
         eventType: "interval",
-        thisObjectDescriptor: "window"
+        thisObjectDescriptor: "window",
+        thisObjectModel: "window"
     });
 
     this.browser.executionInfo.logEventRegistered("window", "window", "interval", registrationPoint.codeConstruct, intervalId);
@@ -177,23 +179,42 @@ fcModel.GlobalObject.prototype.unregisterInterval = function(intervalId, codeCon
 fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID = 0;
 fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtmlElement, eventType, handler, evaluationPosition)
 {
-    this.htmlElementEventHandlingRegistrations.push
-    ({
+    var eventDescriptor =
+    {
         fcHtmlElement: fcHtmlElement,
         eventType: eventType,
         handler: handler,
         registrationPoint: evaluationPosition,
         thisObject: fcHtmlElement,
         id: fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID++,
-        baseObjectModel: this._getBaseObjectModel(fcHtmlElement)
-    });
+        thisObjectModel: this._getEventObjectModel(fcHtmlElement),
+        thisObjectDescriptor: this._getEventObjectDescriptor(fcHtmlElement)
+    };
+
+    this.htmlElementEventHandlingRegistrations.push(eventDescriptor);
+
+    this.browser.executionInfo.logEventRegistered(eventDescriptor.thisObjectDescriptor, eventDescriptor.thisObjectDescriptor, eventType, evaluationPosition.codeConstruct);
 };
 
-fcModel.GlobalObject.prototype._getBaseObjectModel = function(baseObject)
+
+fcModel.GlobalObject.prototype._getEventObjectDescriptor = function(eventObject)
 {
-    if(baseObject.htmlElement != null) { return baseObject.htmlElement.modelElement; }
-    if(baseObject.globalObject.document == baseObject) { return "document"; }
-    if(baseObject.globalObject == baseObject) { return "window"; }
+    if(eventObject.htmlElement != null) { return Firecrow.htmlHelper.getElementXPath(eventObject.htmlElement); }
+    if(eventObject.globalObject.document == eventObject) { return "document"; }
+    if(eventObject.globalObject == eventObject) { return "window"; }
+
+    debugger;
+
+    return "unknown base object in event";
+};
+
+fcModel.GlobalObject.prototype._getEventObjectModel = function(eventObject)
+{
+    if(eventObject.htmlElement != null) { return eventObject.htmlElement.modelElement; }
+    if(eventObject.globalObject.document == eventObject) { return "document"; }
+    if(eventObject.globalObject == eventObject) { return "window"; }
+
+    debugger;
 
     return null;
 };
