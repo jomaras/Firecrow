@@ -8,8 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,7 +70,7 @@
       <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="147" column="18" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.33333334">
+            <state line="150" column="14" selection-start="5046" selection-end="5046" vertical-scroll-proportion="0.38505748">
               <folding />
             </state>
           </provider>
@@ -2378,7 +2376,11 @@
       <created>1358347514871</created>
       <updated>1358347514871</updated>
     </task>
-    <option name="localTasksCounter" value="456" />
+    <task id="LOCAL-00456" summary="Renamings">
+      <created>1358348620518</created>
+      <updated>1358348620518</updated>
+    </task>
+    <option name="localTasksCounter" value="457" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2476,7 +2478,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="More precise expression coverage" />
+    <option name="LAST_COMMIT_MESSAGE" value="Renamings" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2490,7 +2492,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Fix to ignore scenarios that could not be solved" />
     <MESSAGE value="Bug fix when resolving path constraints" />
     <MESSAGE value="Creating objects with Object constructor; Fixing the instanceof operator" />
     <MESSAGE value="Minor fix in tests" />
@@ -2515,6 +2516,7 @@
     <MESSAGE value="Don't ask the server to solve an empty array of numeric constraints - we just loose time on httprequests" />
     <MESSAGE value="When generating execution summary removed dependencies towards objects created by firecrow interpreter - only strings and code constructs are logged  - should decrese memory consumption" />
     <MESSAGE value="More precise expression coverage" />
+    <MESSAGE value="Renamings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2680,7 +2682,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="18" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.33333334">
+        <state line="150" column="14" selection-start="5046" selection-end="5046" vertical-scroll-proportion="0.38505748">
           <folding />
         </state>
       </provider>
