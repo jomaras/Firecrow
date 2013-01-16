@@ -84,23 +84,38 @@ fcSimulator.Evaluator.prototype =
         {
             this.dependencyCreator.addDependenciesToTopBlockConstructs(breakContinueCommand.codeConstruct);
             this.globalObject.browser.callBreakContinueReturnEventCallbacks(breakContinueCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+
+            this.markCodeConstructAsExecuted(breakContinueCommand.codeConstruct);
         }
         catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
+    },
+
+    markCodeConstructAsExecuted: function(codeConstruct)
+    {
+        if(codeConstruct == null) { return; }
+
+        codeConstruct.hasBeenExecuted = true;
     },
 
     _evalDeclareVariableCommand: function(declareVariableCommand)
     {
         this.executionContextStack.registerIdentifier(declareVariableCommand.codeConstruct);
+
+        this.markCodeConstructAsExecuted(declareVariableCommand.codeConstruct);
     },
 
     _evalDeclareFunctionCommand: function(declareFunctionCommand)
     {
         this.executionContextStack.registerFunctionDeclaration(declareFunctionCommand.codeConstruct);
+
+        this.markCodeConstructAsExecuted(declareFunctionCommand.codeConstruct);
     },
 
     _evalFunctionExpressionCreationCommand: function(functionCommand)
     {
         this.executionContextStack.setExpressionValue(functionCommand.codeConstruct, this.executionContextStack.createFunctionInCurrentContext(functionCommand.codeConstruct));
+
+        this.markCodeConstructAsExecuted(functionCommand.codeConstruct);
     },
 
     _evalLiteralCommand: function(evalLiteralCommand)
@@ -110,6 +125,8 @@ fcSimulator.Evaluator.prototype =
             evalLiteralCommand.codeConstruct,
             this.globalObject.internalExecutor.createInternalPrimitiveObject(evalLiteralCommand.codeConstruct, evalLiteralCommand.codeConstruct.value)
         );
+
+        this.markCodeConstructAsExecuted(evalLiteralCommand.codeConstruct);
     },
 
     _evalRegExLiteralCommand: function(evalRegExCommand)
@@ -122,6 +139,8 @@ fcSimulator.Evaluator.prototype =
             evalRegExCommand.codeConstruct,
             this.globalObject.internalExecutor.createRegEx(evalRegExCommand.codeConstruct, regEx)
         );
+
+        this.markCodeConstructAsExecuted(evalRegExCommand.codeConstruct);
     },
 
     _evalAssignmentCommand: function(assignmentCommand)
@@ -136,6 +155,9 @@ fcSimulator.Evaluator.prototype =
         else if (ASTHelper.isMemberExpression(assignmentCommand.leftSide)) { this._assignToMemberExpression(assignmentCommand.leftSide, finalValue, assignmentExpression); }
 
         this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
+
+        this.markCodeConstructAsExecuted(assignmentExpression);
+        this.markCodeConstructAsExecuted(assignmentCommand.leftSide);
     },
 
     _evalUpdateCommand: function(evalUpdateCommand)
@@ -161,6 +183,9 @@ fcSimulator.Evaluator.prototype =
         }
 
         this.executionContextStack.setExpressionValue(updateExpression, this._getUpdatedCurrentValue(currentValue, updateExpression));
+
+        this.markCodeConstructAsExecuted(updateExpression);
+        this.markCodeConstructAsExecuted(updateExpression.argument);
     },
 
     _evalIdentifierCommand: function(identifierCommand)
@@ -177,6 +202,8 @@ fcSimulator.Evaluator.prototype =
             this.dependencyCreator.createIdentifierDependencies(identifier, identifierConstruct, this.globalObject.getPreciseEvaluationPositionId());
             this._checkSlicing(identifierConstruct);
         }
+
+        this.markCodeConstructAsExecuted(identifierConstruct);
     },
 
     _evalMemberCommand: function(memberCommand)
@@ -202,6 +229,8 @@ fcSimulator.Evaluator.prototype =
             var objectId = object.iValue.creationCodeConstruct != null ? object.iValue.creationCodeConstruct.nodeId : -1;
             this.globalObject.browser.logReadingObjectPropertyOutsideCurrentScope(objectId, property.jsValue, memberExpression);
         }
+
+        this.markCodeConstructAsExecuted(memberExpression);
     },
 
     _evalMemberPropertyCommand: function(memberPropertyCommand)
@@ -215,11 +244,15 @@ fcSimulator.Evaluator.prototype =
             memberExpression.computed ? this.executionContextStack.getExpressionValue(property)
                                       : this.globalObject.internalExecutor.createInternalPrimitiveObject(property, property.name)
         );
+
+        this.markCodeConstructAsExecuted(property);
     },
 
     _evalThisCommand: function(thisCommand)
     {
         this.executionContextStack.setExpressionValue(thisCommand.codeConstruct, this.executionContextStack.activeContext.thisObject);
+
+        this.markCodeConstructAsExecuted(thisCommand.codeConstruct);
     },
 
     _evalUnaryExpression: function(unaryCommand)
@@ -242,6 +275,8 @@ fcSimulator.Evaluator.prototype =
         else if (unaryExpression.operator == "delete") { expressionValue = this._evalDeleteExpression(unaryExpression); }
 
         this.executionContextStack.setExpressionValue(unaryExpression, this.globalObject.internalExecutor.createInternalPrimitiveObject(unaryExpression, expressionValue));
+
+        this.markCodeConstructAsExecuted(unaryExpression);
     },
 
     _evalBinaryCommand: function(binaryCommand)
@@ -268,11 +303,15 @@ fcSimulator.Evaluator.prototype =
                 fcSymbolic.SymbolicExecutor.evalBinaryExpression(leftValue, rightValue, binaryExpression.operator)
             )
         );
+
+        this.markCodeConstructAsExecuted(binaryExpression);
     },
 
     _evalReturnCommand: function(returnCommand)
     {
         this.dependencyCreator.createReturnDependencies(returnCommand);
+
+        this.markCodeConstructAsExecuted(returnCommand.codeConstruct);
 
         //If return is in event handler function
         if(returnCommand.parentFunctionCommand == null)
@@ -305,6 +344,8 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setExpressionValue(arrayExpressionCommand.codeConstruct, newArray);
 
         arrayExpressionCommand.createdArray = newArray;
+
+        this.markCodeConstructAsExecuted(arrayExpressionCommand.codeConstruct);
     },
 
     _evalArrayExpressionItemCreationCommand: function(arrayItemCreationCommand)
@@ -316,6 +357,8 @@ fcSimulator.Evaluator.prototype =
         var expressionItemValue = this.executionContextStack.getExpressionValue(arrayItemCreationCommand.codeConstruct);
 
         array.iValue.push(array.jsValue, expressionItemValue, arrayItemCreationCommand.codeConstruct);
+
+        this.markCodeConstructAsExecuted(arrayItemCreationCommand.codeConstruct);
     },
 
     _evalObjectCommand: function(objectCommand)
@@ -325,6 +368,8 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setExpressionValue(objectCommand.codeConstruct, newObject);
 
         objectCommand.createdObject = newObject;
+
+        this.markCodeConstructAsExecuted(objectCommand.codeConstruct);
     },
 
     _evalObjectPropertyCreationCommand: function(objectPropertyCreationCommand)
@@ -344,6 +389,11 @@ fcSimulator.Evaluator.prototype =
 
         object.jsValue[propertyKey] = propertyValue;
         object.iValue.addProperty(propertyKey, propertyValue, objectPropertyCreationCommand.codeConstruct);
+
+        this.markCodeConstructAsExecuted(propertyCodeConstruct);
+        this.markCodeConstructAsExecuted(propertyCodeConstruct.key);
+        this.markCodeConstructAsExecuted(propertyCodeConstruct.key.value);
+        this.markCodeConstructAsExecuted(propertyCodeConstruct.key.name);
     },
 
     _evalConditionalCommand: function(conditionalCommand)
@@ -351,6 +401,8 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setExpressionValue(conditionalCommand.codeConstruct, this.executionContextStack.getExpressionValue(conditionalCommand.startCommand.body));
 
         this.dependencyCreator.createDependenciesForConditionalCommand(conditionalCommand);
+
+        this.markCodeConstructAsExecuted(conditionalCommand.codeConstruct);
     },
 
     _evalForInWhereCommand: function(forInWhereCommand)
@@ -381,11 +433,15 @@ fcSimulator.Evaluator.prototype =
             this.executionContextStack.setIdentifierValue(declarator.id.name, nextPropertyName, declarator);
         }
         else { this.notifyError(forInWhereCommand, "Unknown forIn left statement"); }
+
+        this.markCodeConstructAsExecuted(forInWhereConstruct);
     },
 
     _evalStartCatchStatementCommand: function(startCatchCommand)
     {
         this.executionContextStack.setIdentifierValue(startCatchCommand.codeConstruct.param.name, startCatchCommand.exceptionArgument);
+
+        this.markCodeConstructAsExecuted(startCatchCommand.codeConstruct);
     },
 
     _evalEndCatchCommand: function(endCatchCommand)
@@ -417,6 +473,8 @@ fcSimulator.Evaluator.prototype =
             this.dependencyCreator.createDependenciesForLogicalExpressionItemCommand(wholeLogicalExpression);
         }
         else { this.notifyError(evalLogicalItemCommand, "The expression item is neither left nor right expression"); return; }
+
+        this.markCodeConstructAsExecuted(logicalExpressionItem);
     },
 
     _evalEndLogicalCommand: function(endLogicalCommand)
@@ -440,6 +498,8 @@ fcSimulator.Evaluator.prototype =
                 logicalExpression.operator
             );
         }
+
+        this.markCodeConstructAsExecuted(logicalExpression);
     },
 
     _evalCallInternalFunction: function(callInternalFunctionCommand)
@@ -458,6 +518,8 @@ fcSimulator.Evaluator.prototype =
                 callInternalFunctionCommand
             )
         );
+
+        this.markCodeConstructAsExecuted(callInternalFunctionCommand.codeConstruct);
     },
 
     _evalCallbackFunctionCommand: function(callbackFunctionCommand)
@@ -473,6 +535,8 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setExpressionValue(sequenceExpression, this.executionContextStack.getExpressionValue(lastExpression));
 
         this.dependencyCreator.createSequenceExpressionDependencies(sequenceExpression, lastExpression);
+
+        this.markCodeConstructAsExecuted(sequenceExpression);
     },
 
     _getAssignmentValue: function(assignmentCommand)

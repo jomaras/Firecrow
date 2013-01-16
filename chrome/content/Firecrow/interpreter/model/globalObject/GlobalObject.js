@@ -191,7 +191,7 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
 
 fcModel.GlobalObject.prototype._getBaseObjectModel = function(baseObject)
 {
-    if(baseObject.htmlElement != null) { baseObject.htmlElement.modelElement; }
+    if(baseObject.htmlElement != null) { return baseObject.htmlElement.modelElement; }
     if(baseObject.globalObject.document == baseObject) { return "document"; }
     if(baseObject.globalObject == baseObject) { return "window"; }
 

@@ -57,8 +57,6 @@ fcSimulator.ExecutionContext.prototype =
     {
         if(codeConstruct == null) { return null; }
 
-        codeConstruct.hasBeenExecuted = true;
-
         this.codeConstructValuesMapping[codeConstruct.nodeId] = value
     },
 
@@ -112,7 +110,10 @@ fcSimulator.ExecutionContextStack.prototype =
         try
         {
             this.activeContext.commands.push(command);
+
             if(!command.isEnterFunctionContextCommand()) { this.activeContext.lastCommand = command; }
+
+            this.evaluator.markCodeConstructAsExecuted(command.codeConstruct);
 
             if (command.isEnterFunctionContextCommand())
             {
@@ -157,7 +158,7 @@ fcSimulator.ExecutionContextStack.prototype =
             else if (command.isStartSwitchStatementCommand()) { this._addToBlockCommandStack(command); }
             else if (command.isEndSwitchStatementCommand()) { this._tryPopCommand(command);}
             else if (command.isCaseCommand()) {}
-            else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) {}
+            else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) { }
             else if (command.isStartCatchStatementCommand()){ this._addToBlockCommandStack(command);}
             else if (command.isEndCatchStatementCommand()) { this._tryPopCommand(command);}
             else if (command.isEvalNewExpressionCommand()){ this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }

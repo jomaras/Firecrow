@@ -136,10 +136,11 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _getEventObjectModel: function(eventObject)
     {
-        if(eventObject.htmlElement != null) { eventObject.htmlElement.modelElement; }
+        if(eventObject.htmlElement != null) { return eventObject.htmlElement.modelElement; }
         if(eventObject.globalObject.document == eventObject) { return "document"; }
         if(eventObject.globalObject == eventObject) { return "window"; }
 
+        debugger;
         return null;
     },
 
@@ -319,6 +320,8 @@ fcScenarioGenerator.ScenarioGenerator =
                 return domHandler;
             }
         }
+
+        debugger;
 
         return null;
     },

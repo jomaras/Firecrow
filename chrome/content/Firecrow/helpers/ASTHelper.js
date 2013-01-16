@@ -57,6 +57,10 @@ Firecrow.ASTHelper =
                     {
                         executedNumberOfExpressions++;
                     }
+                    else
+                    {
+                        var a = 3;
+                    }
                 }
             });
         }
