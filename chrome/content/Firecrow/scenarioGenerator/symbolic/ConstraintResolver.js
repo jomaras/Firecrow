@@ -37,21 +37,24 @@ fcSymbolic.ConstraintResolver =
             return !symbolicExpression.containsNumericExpressions();
         });
 
-        var numericExpressionsAjaxQuery = RequestHelper.performSynchronousPost("http://localhost/Firecrow/constraintSolver/index.php", {
-            Constraint: encodeURIComponent(JSON.stringify(numericExpressions))
-        });
-
         var numericResults = Array(numericExpressions.length);
 
-        if(numericExpressionsAjaxQuery.isSuccessful)
+        if(numericExpressions.length != 0)
         {
-            try
+            var numericExpressionsAjaxQuery = RequestHelper.performSynchronousPost("http://localhost/Firecrow/constraintSolver/index.php", {
+                Constraint: encodeURIComponent(JSON.stringify(numericExpressions))
+            });
+
+            if(numericExpressionsAjaxQuery.isSuccessful)
             {
-                numericResults = JSON.parse(numericExpressionsAjaxQuery.response);
-            }
-            catch (e)
-            {
-                alert("Error when parsing constraint solver response: " + e + " -> " + numericExpressionsAjaxQuery.response);
+                try
+                {
+                    numericResults = JSON.parse(numericExpressionsAjaxQuery.response);
+                }
+                catch (e)
+                {
+                    alert("Error when parsing constraint solver response: " + e + " -> " + numericExpressionsAjaxQuery.response);
+                }
             }
         }
 

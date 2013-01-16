@@ -29,6 +29,8 @@
             var x = evt.pageX;
             var y = evt.pageY;
 
+            for(var prop in evt) { console.log(prop);}
+
             if(x < 200 && y < 200)
             {
                 mainContainer.textContent = "Left Upper Corner";

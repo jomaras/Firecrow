@@ -24,7 +24,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var asyncLoop = function()
         {
-            if(currentScenario == null || processedScenarioCounter > 30 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
+            if(currentScenario == null || processedScenarioCounter > 40 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
             {
                 scenarioCreatedCallback(scenarios.getProcessedScenarios());
 
@@ -62,7 +62,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         while (currentScenario != null)
         {
-            if(processedScenarioCounter > 30 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
+            if(processedScenarioCounter > 40 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
 
             this._createDerivedScenarios(pageModel, currentScenario, scenarios);
 

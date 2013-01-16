@@ -133,6 +133,7 @@
     var Firecrow = FBL.Firecrow;
 
     var htmlModel = HtmlModelMapping.getFirstModelMapping();
+    var url = htmlModel.url;
     var slicingCriteria = htmlModel.results.map(function(result)
     {
         for(var propName in result)
