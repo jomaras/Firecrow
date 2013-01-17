@@ -1,6 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
 var fcScenarioGenerator = Firecrow.ScenarioGenerator;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcScenarioGenerator.Scenario = function(events, pathConstraint, parentScenarios)
 {
@@ -49,6 +50,36 @@ fcScenarioGenerator.Scenario.prototype =
         }
 
         return true;
+    },
+
+    filterOwnEventsFrom: function(eventRegistrations)
+    {
+        var notOwnEvents = [];
+
+        for(var i = 0; i < eventRegistrations.length; i++)
+        {
+            var currentEvent = eventRegistrations[i];
+
+            if(!this._containsEvent(currentEvent))
+            {
+                notOwnEvents.push(currentEvent);
+            }
+        }
+
+        return notOwnEvents;
+    },
+
+    _containsEvent: function(event)
+    {
+        for(var i = 0; i < this.events.length; i++)
+        {
+            if(fcScenarioGenerator.Event.areEqual(this.events[i], event))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 };
 

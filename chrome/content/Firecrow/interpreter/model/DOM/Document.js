@@ -33,7 +33,14 @@ fcModel.Document.prototype.addJsProperty = function(propertyName, value, codeCon
 
     if(fcModel.DOM_PROPERTIES.isElementEventProperty(propertyName))
     {
-        this.globalObject.registerHtmlElementEventHandler(this.globalObject.document, propertyName, value, this.globalObject.getPreciseEvaluationPositionId());
+        this.globalObject.registerHtmlElementEventHandler
+        (
+            this.globalObject.document, propertyName, value,
+            {
+                codeConstruct: codeConstruct,
+                evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+            }
+        );
     }
 };
 

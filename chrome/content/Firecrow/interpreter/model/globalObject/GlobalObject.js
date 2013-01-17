@@ -99,6 +99,8 @@ fcModel.GlobalObject.prototype.registerTimeout = function(timeoutId, handler, ti
         timePeriod: timePeriod,
         callArguments: callArguments,
         registrationPoint: registrationPoint,
+        registrationConstruct: registrationPoint.codeConstruct,
+        handlerConstruct: handler.codeConstruct,
         thisObject: this.globalObject,
         eventType: "timeout",
         thisObjectDescriptor: "window",
@@ -148,6 +150,8 @@ fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, 
         timePeriod: timePeriod,
         callArguments: callArguments,
         registrationPoint: registrationPoint,
+        registrationConstruct: registrationPoint.codeConstruct,
+        handlerConstruct: handler.codeConstruct,
         thisObject: this.globalObject,
         eventType: "interval",
         thisObjectDescriptor: "window",
@@ -203,6 +207,8 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
         eventType: eventType,
         handler: handler,
         registrationPoint: evaluationPosition,
+        registrationConstruct: evaluationPosition.codeConstruct,
+        handlerConstruct: handler.codeConstruct,
         thisObject: fcHtmlElement,
         id: fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID++,
         thisObjectModel: this._getEventObjectModel(fcHtmlElement),
@@ -214,7 +220,7 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
     this.browser.executionInfo.logEventRegistered
     (
         eventDescriptor.thisObjectDescriptor,
-        eventDescriptor.thisObjectDescriptor,
+        eventDescriptor.thisObjectModel,
         eventType,
         evaluationPosition.codeConstruct,
         handler.codeConstruct,
@@ -292,7 +298,18 @@ fcModel.GlobalObject.prototype.getOnLoadFunctions = function()
 
     if(onLoadFunction != null)
     {
-        onLoadFunctions.push({handler: onLoadFunction, registrationPoint: this.getProperty("onload").lastModificationPosition, eventType: "onload", thisObject: this });
+        var registrationPoint = this.getProperty("onload").lastModificationPosition;
+        onLoadFunctions.push
+        ({
+            handler: onLoadFunction,
+            registrationPoint: registrationPoint,
+            eventType: "onload",
+            thisObject: this,
+            registrationConstruct: registrationPoint.codeConstruct,
+            handlerConstruct: onLoadFunction.codeConstruct,
+            thisObjectDescriptor: "window",
+            thisObjectModel: "window"
+        });
     }
     else //if window.onload is not set check the body element onload attribute
     {

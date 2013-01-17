@@ -121,7 +121,8 @@ fcScenarioGenerator.ScenarioGenerator =
                     eventRegistration.thisObjectDescriptor,
                     eventRegistration.thisObjectModel,
                     eventRegistration.eventType,
-                    eventRegistration.handler.codeConstruct
+                    eventRegistration.registrationConstruct,
+                    eventRegistration.handlerConstruct
                 )
             ]));
         }
@@ -147,29 +148,41 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _createNewlyRegisteredEventsScenarios: function(executionSummary, scenario, scenarios)
     {
+        var newlyRegisteredEvents = this._getNewlyRegisteredEvents(executionSummary, scenario);
+
+        for(var i = 0; i < newlyRegisteredEvents.length; i++)
+        {
+            var eventRegistration = newlyRegisteredEvents[i];
+
+            var newScenario = scenario.createCopy();
+
+            newScenario.events.push(new fcScenarioGenerator.Event
+            (
+                eventRegistration.thisObjectDescriptor,
+                eventRegistration.thisObjectModel,
+                eventRegistration.eventType,
+                eventRegistration.registrationConstruct,
+                eventRegistration.handlerConstruct
+            ));
+
+            newScenario.parentScenarios.push(scenario);
+
+            scenarios.addScenario(newScenario);
+        }
+    },
+
+    _getNewlyRegisteredEvents: function(executionSummary, scenario)
+    {
         if(scenario.parentScenarios.length == 0)
         {
-            var eventsRegisteredAfterLoadingPhase = executionSummary.eventRegistrations.filter(function(eventRegistration)
+            return executionSummary.eventRegistrations.filter(function(eventRegistration)
             {
                 return eventRegistration.loadingEventsExecuted;
             });
-
-            for(var i = 0; i < eventsRegisteredAfterLoadingPhase.length; i++)
-            {
-                var eventRegistration = eventsRegisteredAfterLoadingPhase[i];
-
-                var newScenario = scenario.createCopy();
-
-                newScenario.events.push(new fcScenarioGenerator.Event
-                (
-                    eventRegistration.thisObjectDescriptor,
-                    eventRegistration.thisObjectModel,
-                    eventRegistration.eventType,
-                    eventRegistration.handlerConstruct
-                ));
-
-                scenarios.addScenario(newScenario);
-            }
+        }
+        else
+        {
+            return scenario.filterOwnEventsFrom(executionSummary.eventRegistrations);
         }
     },
 
@@ -270,7 +283,7 @@ fcScenarioGenerator.ScenarioGenerator =
     _executeEvent: function(browser, parametrizedEvent, scenario, eventIndex)
     {
         browser.eventIndex = eventIndex;
-        var eventRegistration = this._getMatchingEventRegistration(browser, parametrizedEvent.baseEvent.baseObjectModel, parametrizedEvent.baseEvent.eventRegistrationConstruct);
+        var eventRegistration = this._getMatchingEventRegistration(browser, parametrizedEvent.baseEvent.thisObjectModel, parametrizedEvent.baseEvent.registrationConstruct);
 
         var handlerArguments = this._getArguments(eventRegistration, browser, parametrizedEvent.parameters, eventIndex);
         this._modifyDom(eventRegistration, scenario, parametrizedEvent.parameters);
@@ -289,14 +302,14 @@ fcScenarioGenerator.ScenarioGenerator =
             || identifierName.indexOf("which") == 0;
     },
 
-    _getMatchingEventRegistration: function(browser, thisObjectModel, eventRegistrationConstruct)
+    _getMatchingEventRegistration: function(browser, thisObjectModel, registrationConstruct)
     {
         var intervalHandlers = browser.globalObject.intervalHandlers;
         for(var i = 0; i < intervalHandlers.length; i++)
         {
             var intervalHandler = intervalHandlers[i];
 
-            if(intervalHandler.handler.codeConstruct == eventRegistrationConstruct)
+            if(intervalHandler.registrationConstruct == registrationConstruct)
             {
                 return intervalHandler;
             }
@@ -307,7 +320,7 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             var timeoutHandler = timeoutHandlers[i];
 
-            if(timeoutHandler.handler.codeConstruct == eventRegistrationConstruct)
+            if(timeoutHandler.registrationConstruct == registrationConstruct)
             {
                 return timeoutHandler;
             }
@@ -319,7 +332,7 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             var domHandler = domHandlers[i];
 
-            if(domHandler.handler.codeConstruct != eventRegistrationConstruct) { continue; }
+            if(domHandler.registrationConstruct != registrationConstruct) { continue; }
 
             if(domHandler.thisObjectModel == thisObjectModel)
             {

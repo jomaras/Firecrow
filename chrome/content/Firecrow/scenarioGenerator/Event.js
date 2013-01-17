@@ -2,19 +2,31 @@ FBL.ns(function() { with (FBL) {
 /*****************************************************/
 var fcScenarioGenerator = Firecrow.ScenarioGenerator;
 
-fcScenarioGenerator.Event = function(baseObjectDescriptor, baseObjectModel, type, eventRegistrationConstruct)
+fcScenarioGenerator.Event = function(baseObjectDescriptor, baseObjectModel, eventType, registrationConstruct, handlerConstruct)
 {
-    this.baseObjectDescriptor = baseObjectDescriptor;
-    this.baseObjectModel = baseObjectModel;
-    this.type = type;
-    this.eventRegistrationConstruct = eventRegistrationConstruct;
+    this.thisObjectDescriptor = baseObjectDescriptor;
+    this.thisObjectModel = baseObjectModel;
+    this.eventType = eventType;
+    this.registrationConstruct = registrationConstruct;
+    this.handlerConstruct = handlerConstruct;
+};
+
+fcScenarioGenerator.Event.areEqual = function(eventA, eventB)
+{
+    if(eventA == null || eventB == null) { return false; }
+
+    return eventA.thisObjectDescriptor == eventB.thisObjectDescriptor
+        && eventA.thisObjectModel == eventB.thisObjectModel
+        && eventA.eventType == eventB.eventType
+        && eventA.registrationConstruct == eventB.registrationConstruct
+        && eventA.handlerConstruct == eventB.handlerConstruct;
 };
 
 fcScenarioGenerator.Event.prototype =
 {
     toString: function()
     {
-        return this.type + " on " + this.baseObjectDescriptor;
+        return this.eventType + " on " + this.thisObjectDescriptor;
     }
 }
 
