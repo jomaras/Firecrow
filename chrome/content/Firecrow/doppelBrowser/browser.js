@@ -17,6 +17,7 @@ fcBrowser.Browser = function(pageModel)
 {
     try
     {
+        this.id = fcBrowser.Browser.LAST_USED_ID++;
         this.pageModel = pageModel;
         this.hostDocument = Firecrow.getDocument();
         this.htmlWebFile = pageModel;
@@ -85,6 +86,7 @@ fcBrowser.Browser = function(pageModel)
 };
 
 fcBrowser.Browser.notifyError = function(message) { alert("Browser - " + message); };
+fcBrowser.Browser.LAST_USED_ID = 0;
 
 var Browser = Firecrow.DoppelBrowser.Browser;
 
@@ -305,6 +307,13 @@ Browser.prototype =
         }
 
         return map;
+    },
+
+    logConstructExecuted: function(codeConstruct)
+    {
+        if(codeConstruct == null) { return; }
+
+        codeConstruct.hasBeenExecuted = true;
     },
 
     getForInIterationsLog: function()

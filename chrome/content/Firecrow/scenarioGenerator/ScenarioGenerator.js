@@ -26,7 +26,7 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             if(currentScenario == null || processedScenarioCounter > 60 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
             {
-                scenarioCreatedCallback(scenarios.getProcessedScenarios());
+                scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios());
 
                 return;
             }
@@ -75,7 +75,7 @@ fcScenarioGenerator.ScenarioGenerator =
             processedScenarioCounter++;
         }
 
-        return scenarioCreatedCallback(scenarios.getProcessedScenarios());
+        return scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios());
     },
 
     _executeApplication: function(pageModel)

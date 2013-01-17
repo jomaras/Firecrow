@@ -206,6 +206,13 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         }
 
         return allScenarios;
+    },
+
+    getSubsumedProcessedScenarios: function()
+    {
+        var processedScenarios = this.getProcessedScenarios();
+
+        return processedScenarios;
     }
 };
 /*****************************************************/

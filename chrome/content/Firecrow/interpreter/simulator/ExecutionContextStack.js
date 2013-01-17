@@ -113,7 +113,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
             if(!command.isEnterFunctionContextCommand()) { this.activeContext.lastCommand = command; }
 
-            this.evaluator.markCodeConstructAsExecuted(command.codeConstruct);
+            this.globalObject.browser.logConstructExecuted(command.codeConstruct);
 
             if (command.isEnterFunctionContextCommand())
             {
@@ -197,8 +197,8 @@ fcSimulator.ExecutionContextStack.prototype =
     {
         if(!ASTHelper.isVariableDeclarator(variableDeclarator)) { this.notifyError("ExecutionContextStack: When registering an identifier, the argument has to be variable declarator"); }
 
-        variableDeclarator.hasBeenExecuted = true;
-        variableDeclarator.id.hasBeenExecuted = true;
+        this.globalObject.browser.logConstructExecuted(variableDeclarator);
+        this.globalObject.browser.logConstructExecuted(variableDeclarator.id)
 
         this.activeContext.registerIdentifier
         (
@@ -218,7 +218,7 @@ fcSimulator.ExecutionContextStack.prototype =
         {
             if(!ASTHelper.isFunctionDeclaration(functionDeclaration)) { this.notifyError("When registering a function, the argument has to be a function declaration"); return; }
 
-            functionDeclaration.hasBeenExecuted = true;
+            this.globalObject.browser.logConstructExecuted(functionDeclaration);
             this.activeContext.registerIdentifier(new fcModel.Identifier(functionDeclaration.id.name, this.createFunctionInCurrentContext(functionDeclaration), functionDeclaration, this.globalObject));
         }
         catch(e)

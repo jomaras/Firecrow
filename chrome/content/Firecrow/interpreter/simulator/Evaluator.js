@@ -85,37 +85,30 @@ fcSimulator.Evaluator.prototype =
             this.dependencyCreator.addDependenciesToTopBlockConstructs(breakContinueCommand.codeConstruct);
             this.globalObject.browser.callBreakContinueReturnEventCallbacks(breakContinueCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
 
-            this.markCodeConstructAsExecuted(breakContinueCommand.codeConstruct);
+            this.globalObject.browser.logConstructExecuted(breakContinueCommand.codeConstruct);
         }
         catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
-    },
-
-    markCodeConstructAsExecuted: function(codeConstruct)
-    {
-        if(codeConstruct == null) { return; }
-
-        codeConstruct.hasBeenExecuted = true;
     },
 
     _evalDeclareVariableCommand: function(declareVariableCommand)
     {
         this.executionContextStack.registerIdentifier(declareVariableCommand.codeConstruct);
 
-        this.markCodeConstructAsExecuted(declareVariableCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(declareVariableCommand.codeConstruct);
     },
 
     _evalDeclareFunctionCommand: function(declareFunctionCommand)
     {
         this.executionContextStack.registerFunctionDeclaration(declareFunctionCommand.codeConstruct);
 
-        this.markCodeConstructAsExecuted(declareFunctionCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(declareFunctionCommand.codeConstruct);
     },
 
     _evalFunctionExpressionCreationCommand: function(functionCommand)
     {
         this.executionContextStack.setExpressionValue(functionCommand.codeConstruct, this.executionContextStack.createFunctionInCurrentContext(functionCommand.codeConstruct));
 
-        this.markCodeConstructAsExecuted(functionCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(functionCommand.codeConstruct);
     },
 
     _evalLiteralCommand: function(evalLiteralCommand)
@@ -126,7 +119,7 @@ fcSimulator.Evaluator.prototype =
             this.globalObject.internalExecutor.createInternalPrimitiveObject(evalLiteralCommand.codeConstruct, evalLiteralCommand.codeConstruct.value)
         );
 
-        this.markCodeConstructAsExecuted(evalLiteralCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(evalLiteralCommand.codeConstruct);
     },
 
     _evalRegExLiteralCommand: function(evalRegExCommand)
@@ -140,7 +133,7 @@ fcSimulator.Evaluator.prototype =
             this.globalObject.internalExecutor.createRegEx(evalRegExCommand.codeConstruct, regEx)
         );
 
-        this.markCodeConstructAsExecuted(evalRegExCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(evalRegExCommand.codeConstruct);
     },
 
     _evalAssignmentCommand: function(assignmentCommand)
@@ -156,8 +149,8 @@ fcSimulator.Evaluator.prototype =
 
         this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
 
-        this.markCodeConstructAsExecuted(assignmentExpression);
-        this.markCodeConstructAsExecuted(assignmentCommand.leftSide);
+        this.globalObject.browser.logConstructExecuted(assignmentExpression);
+        this.globalObject.browser.logConstructExecuted(assignmentCommand.leftSide);
     },
 
     _evalUpdateCommand: function(evalUpdateCommand)
@@ -184,8 +177,8 @@ fcSimulator.Evaluator.prototype =
 
         this.executionContextStack.setExpressionValue(updateExpression, this._getUpdatedCurrentValue(currentValue, updateExpression));
 
-        this.markCodeConstructAsExecuted(updateExpression);
-        this.markCodeConstructAsExecuted(updateExpression.argument);
+        this.globalObject.browser.logConstructExecuted(updateExpression);
+        this.globalObject.browser.logConstructExecuted(updateExpression.argument);
     },
 
     _evalIdentifierCommand: function(identifierCommand)
@@ -203,7 +196,7 @@ fcSimulator.Evaluator.prototype =
             this._checkSlicing(identifierConstruct);
         }
 
-        this.markCodeConstructAsExecuted(identifierConstruct);
+        this.globalObject.browser.logConstructExecuted(identifierConstruct);
     },
 
     _evalMemberCommand: function(memberCommand)
@@ -230,7 +223,7 @@ fcSimulator.Evaluator.prototype =
             this.globalObject.browser.logReadingObjectPropertyOutsideCurrentScope(objectId, property.jsValue, memberExpression);
         }
 
-        this.markCodeConstructAsExecuted(memberExpression);
+        this.globalObject.browser.logConstructExecuted(memberExpression);
     },
 
     _evalMemberPropertyCommand: function(memberPropertyCommand)
@@ -245,14 +238,14 @@ fcSimulator.Evaluator.prototype =
                                       : this.globalObject.internalExecutor.createInternalPrimitiveObject(property, property.name)
         );
 
-        this.markCodeConstructAsExecuted(property);
+        this.globalObject.browser.logConstructExecuted(property);
     },
 
     _evalThisCommand: function(thisCommand)
     {
         this.executionContextStack.setExpressionValue(thisCommand.codeConstruct, this.executionContextStack.activeContext.thisObject);
 
-        this.markCodeConstructAsExecuted(thisCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(thisCommand.codeConstruct);
     },
 
     _evalUnaryExpression: function(unaryCommand)
@@ -276,7 +269,7 @@ fcSimulator.Evaluator.prototype =
 
         this.executionContextStack.setExpressionValue(unaryExpression, this.globalObject.internalExecutor.createInternalPrimitiveObject(unaryExpression, expressionValue));
 
-        this.markCodeConstructAsExecuted(unaryExpression);
+        this.globalObject.browser.logConstructExecuted(unaryExpression);
     },
 
     _evalBinaryCommand: function(binaryCommand)
@@ -304,14 +297,14 @@ fcSimulator.Evaluator.prototype =
             )
         );
 
-        this.markCodeConstructAsExecuted(binaryExpression);
+        this.globalObject.browser.logConstructExecuted(binaryExpression);
     },
 
     _evalReturnCommand: function(returnCommand)
     {
         this.dependencyCreator.createReturnDependencies(returnCommand);
 
-        this.markCodeConstructAsExecuted(returnCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(returnCommand.codeConstruct);
 
         //If return is in event handler function
         if(returnCommand.parentFunctionCommand == null)
@@ -345,7 +338,7 @@ fcSimulator.Evaluator.prototype =
 
         arrayExpressionCommand.createdArray = newArray;
 
-        this.markCodeConstructAsExecuted(arrayExpressionCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(arrayExpressionCommand.codeConstruct);
     },
 
     _evalArrayExpressionItemCreationCommand: function(arrayItemCreationCommand)
@@ -358,7 +351,7 @@ fcSimulator.Evaluator.prototype =
 
         array.iValue.push(array.jsValue, expressionItemValue, arrayItemCreationCommand.codeConstruct);
 
-        this.markCodeConstructAsExecuted(arrayItemCreationCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(arrayItemCreationCommand.codeConstruct);
     },
 
     _evalObjectCommand: function(objectCommand)
@@ -369,7 +362,7 @@ fcSimulator.Evaluator.prototype =
 
         objectCommand.createdObject = newObject;
 
-        this.markCodeConstructAsExecuted(objectCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(objectCommand.codeConstruct);
     },
 
     _evalObjectPropertyCreationCommand: function(objectPropertyCreationCommand)
@@ -390,10 +383,10 @@ fcSimulator.Evaluator.prototype =
         object.jsValue[propertyKey] = propertyValue;
         object.iValue.addProperty(propertyKey, propertyValue, objectPropertyCreationCommand.codeConstruct);
 
-        this.markCodeConstructAsExecuted(propertyCodeConstruct);
-        this.markCodeConstructAsExecuted(propertyCodeConstruct.key);
-        this.markCodeConstructAsExecuted(propertyCodeConstruct.key.value);
-        this.markCodeConstructAsExecuted(propertyCodeConstruct.key.name);
+        this.globalObject.browser.logConstructExecuted(propertyCodeConstruct);
+        this.globalObject.browser.logConstructExecuted(propertyCodeConstruct.key);
+        this.globalObject.browser.logConstructExecuted(propertyCodeConstruct.key.value);
+        this.globalObject.browser.logConstructExecuted(propertyCodeConstruct.key.name);
     },
 
     _evalConditionalCommand: function(conditionalCommand)
@@ -402,7 +395,7 @@ fcSimulator.Evaluator.prototype =
 
         this.dependencyCreator.createDependenciesForConditionalCommand(conditionalCommand);
 
-        this.markCodeConstructAsExecuted(conditionalCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(conditionalCommand.codeConstruct);
     },
 
     _evalForInWhereCommand: function(forInWhereCommand)
@@ -434,14 +427,14 @@ fcSimulator.Evaluator.prototype =
         }
         else { this.notifyError(forInWhereCommand, "Unknown forIn left statement"); }
 
-        this.markCodeConstructAsExecuted(forInWhereConstruct);
+        this.globalObject.browser.logConstructExecuted(forInWhereConstruct);
     },
 
     _evalStartCatchStatementCommand: function(startCatchCommand)
     {
         this.executionContextStack.setIdentifierValue(startCatchCommand.codeConstruct.param.name, startCatchCommand.exceptionArgument);
 
-        this.markCodeConstructAsExecuted(startCatchCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(startCatchCommand.codeConstruct);
     },
 
     _evalEndCatchCommand: function(endCatchCommand)
@@ -474,7 +467,7 @@ fcSimulator.Evaluator.prototype =
         }
         else { this.notifyError(evalLogicalItemCommand, "The expression item is neither left nor right expression"); return; }
 
-        this.markCodeConstructAsExecuted(logicalExpressionItem);
+        this.globalObject.browser.logConstructExecuted(logicalExpressionItem);
     },
 
     _evalEndLogicalCommand: function(endLogicalCommand)
@@ -499,7 +492,7 @@ fcSimulator.Evaluator.prototype =
             );
         }
 
-        this.markCodeConstructAsExecuted(logicalExpression);
+        this.globalObject.browser.logConstructExecuted(logicalExpression);
     },
 
     _evalCallInternalFunction: function(callInternalFunctionCommand)
@@ -519,7 +512,7 @@ fcSimulator.Evaluator.prototype =
             )
         );
 
-        this.markCodeConstructAsExecuted(callInternalFunctionCommand.codeConstruct);
+        this.globalObject.browser.logConstructExecuted(callInternalFunctionCommand.codeConstruct);
     },
 
     _evalCallbackFunctionCommand: function(callbackFunctionCommand)
@@ -536,7 +529,7 @@ fcSimulator.Evaluator.prototype =
 
         this.dependencyCreator.createSequenceExpressionDependencies(sequenceExpression, lastExpression);
 
-        this.markCodeConstructAsExecuted(sequenceExpression);
+        this.globalObject.browser.logConstructExecuted(sequenceExpression);
     },
 
     _getAssignmentValue: function(assignmentCommand)
