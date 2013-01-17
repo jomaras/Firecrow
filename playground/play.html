@@ -7,25 +7,29 @@
 <body>
 <div id="container"></div>
 <script>
-   function shouldReplace(a, b)
-   {
-        return a - b > 0;
-   }
+    var array = [4, 2, 1, 5, "a", 0, "c", "d"];
+    array.sort(function(a,b)
+    {
+        var difference = a - b;
 
-   var array = [2,3,1,4,5];
-
-   for(var i = 0; i < array.length - 1; i++)
-   {
-      for(var j = i + 1; j < array.length; j++ )
-      {
-        if(shouldReplace(array[i], array[j]))
+        if(!Number.isNaN(difference))
         {
-            var temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
+            return a - b;
         }
-      }
-   }
+
+        if(typeof a == "string" && typeof b == "string")
+        {
+            return a.localeCompare(b);
+        }
+        else if (typeof a == "string")
+        {
+            return -1;
+        }
+        else
+        {
+            return 1;
+        }
+    });
 </script>
 
 

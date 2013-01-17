@@ -19,6 +19,8 @@ fcBrowser.ExecutionInfo = function()
     this.globalAccessedObjects = [];
 
     this.eventRegistrations = [];
+
+    this.executedConstructsIdMap = {};
 };
 
 fcBrowser.ExecutionInfo.prototype =
@@ -28,6 +30,53 @@ fcBrowser.ExecutionInfo.prototype =
         if(constraint == null) { return; }
 
         this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
+    },
+
+    compareExecutedConstructs: function(executionInfoB)
+    {
+        var executedConstructsA = this.executedConstructsIdMap;
+        var executedConstructsB = executionInfoB.executedConstructsIdMap;
+
+        var totalExecutionInfoAProperties = 0;
+        var totalExecutionInfoBProperties = 0;
+        var commonPropertiesNumber = 0;
+
+        var isFirstIterationOverB = true;
+
+        for(var nodeIdA in executedConstructsA)
+        {
+            for(var nodeIdB in executedConstructsB)
+            {
+                if(isFirstIterationOverB)
+                {
+                    totalExecutionInfoBProperties++;
+                }
+
+                if(nodeIdA == nodeIdB)
+                {
+                    commonPropertiesNumber++;
+                }
+            }
+
+            totalExecutionInfoAProperties++;
+            isFirstIterationOverB = false;
+        }
+
+        return {
+            areEqual: commonPropertiesNumber == totalExecutionInfoAProperties
+                   && commonPropertiesNumber == totalExecutionInfoBProperties,
+
+            isFirstSubsetOfSecond: commonPropertiesNumber == totalExecutionInfoAProperties
+                               &&  totalExecutionInfoAProperties < totalExecutionInfoBProperties,
+
+            isSecondSubsetOfFirst: commonPropertiesNumber == totalExecutionInfoBProperties
+                               &&  totalExecutionInfoBProperties < totalExecutionInfoAProperties
+        };
+    },
+
+    logExecutedConstruct: function(codeConstruct)
+    {
+        this.executedConstructsIdMap[codeConstruct.nodeId] = true;
     },
 
     logAccessingUndefinedProperty: function(propertyName, codeConstruct)

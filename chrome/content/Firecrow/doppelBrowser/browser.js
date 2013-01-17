@@ -314,6 +314,8 @@ Browser.prototype =
         if(codeConstruct == null) { return; }
 
         codeConstruct.hasBeenExecuted = true;
+
+        this.executionInfo.logExecutedConstruct(codeConstruct);
     },
 
     getForInIterationsLog: function()

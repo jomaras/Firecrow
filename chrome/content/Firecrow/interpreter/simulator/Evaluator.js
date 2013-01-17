@@ -386,7 +386,6 @@ fcSimulator.Evaluator.prototype =
         this.globalObject.browser.logConstructExecuted(propertyCodeConstruct);
         this.globalObject.browser.logConstructExecuted(propertyCodeConstruct.key);
         this.globalObject.browser.logConstructExecuted(propertyCodeConstruct.key.value);
-        this.globalObject.browser.logConstructExecuted(propertyCodeConstruct.key.name);
     },
 
     _evalConditionalCommand: function(conditionalCommand)

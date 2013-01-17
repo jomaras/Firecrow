@@ -26,7 +26,29 @@ fcScenarioGenerator.Event.prototype =
 {
     toString: function()
     {
-        return this.eventType + " on " + this.thisObjectDescriptor;
+        var classAttribute = null;
+        var idAttribute = null;
+
+        var attributes = this.thisObjectModel.attributes;
+
+        var specifier = "";
+
+        if(attributes != null)
+        {
+           for(var i = 0; i < attributes.length; i++)
+           {
+               if(attributes[i].name.toLowerCase() == "id")
+               {
+                   specifier += "#" + attributes[i].value;
+               }
+               else if(attributes[i].name.toLowerCase() == "class")
+               {
+                   specifier += "." + attributes[i].value;
+               }
+           }
+        }
+
+        return this.eventType + " on " + this.thisObjectDescriptor + specifier;
     }
 }
 

@@ -279,6 +279,30 @@ Firecrow.ValueTypeHelper =
     	return array;
     },
 
+    convertObjectMapToArray: function(object)
+    {
+        var array = [];
+
+        for(var prop in object)
+        {
+            array.push(object[prop]);
+        }
+
+        return array;
+    },
+
+    convertObjectPropertyNamesToArray: function(object)
+    {
+        var array = [];
+
+        for(var prop in object)
+        {
+            array.push(prop);
+        }
+
+        return array;
+    },
+
     removeFromArrayByElement:function(array, element)
     {
         try

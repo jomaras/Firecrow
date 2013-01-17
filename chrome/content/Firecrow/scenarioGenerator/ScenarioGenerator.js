@@ -218,10 +218,13 @@ fcScenarioGenerator.ScenarioGenerator =
             this._executeEvent(browser, parametrizedEvents[i], scenario, i);
         }
 
-        scenario.executionInfo = browser.getExecutionInfo();
+        var executionInfo = browser.getExecutionInfo();
+
+        scenario.setExecutionInfo(executionInfo);
+
         this._addDefaultPathConstraintsAndSolutions(scenario);
 
-        return scenario.executionInfo;
+        return executionInfo;
     },
 
     _addDefaultPathConstraintsAndSolutions: function(scenario)

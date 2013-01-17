@@ -10,6 +10,7 @@ fcScenarioGenerator.Scenario = function(events, pathConstraint, parentScenarios)
     this.events = events || [];
     this.pathConstraint = pathConstraint;
     this.parentScenarios = parentScenarios || [];
+    this.executionInfo = null;
 };
 
 fcScenarioGenerator.Scenario.LAST_ID = 0;
@@ -19,6 +20,11 @@ fcScenarioGenerator.Scenario.prototype =
     addEvent: function(usageScenarioEvent)
     {
         this.events.push(usageScenarioEvent);
+    },
+
+    setExecutionInfo: function(executionInfo)
+    {
+        this.executionInfo = executionInfo;
     },
 
     createCopy: function()
@@ -201,7 +207,10 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
             for(var j = 0; j <= lengthScenarios.currentIndex; j++)
             {
-                allScenarios.push(lengthScenarios[j]);
+                if(lengthScenarios[j].executionInfo != null)
+                {
+                    allScenarios.push(lengthScenarios[j]);
+                }
             }
         }
 
@@ -212,7 +221,58 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     {
         var processedScenarios = this.getProcessedScenarios();
 
-        return processedScenarios;
+        var subsumedScenariosMap = [];
+
+        for(var i = 0; i < processedScenarios.length; i++)
+        {
+            var iThScenario = processedScenarios[i];
+
+            var hasFoundMatch = false;
+
+            for(var j = i + 1; j < processedScenarios.length; j++)
+            {
+                var jThScenario = processedScenarios[j];
+
+                var result = iThScenario.executionInfo.compareExecutedConstructs(jThScenario.executionInfo)
+
+                if(result.areEqual)
+                {
+                    hasFoundMatch = true;
+                    var chosenScenario = iThScenario.events.length < jThScenario.events.length ? iThScenario : jThScenario;
+
+                    delete subsumedScenariosMap[jThScenario.id];
+                    delete subsumedScenariosMap[iThScenario.id];
+
+                    subsumedScenariosMap[chosenScenario.id] = chosenScenario;
+                }
+                else if(result.isFirstSubsetOfSecond)
+                {
+                    hasFoundMatch = true;
+
+                    delete subsumedScenariosMap[iThScenario.id];
+
+                    subsumedScenariosMap[jThScenario.id] = jThScenario;
+                }
+                else if (result.isSecondSubsetOfFirst)
+                {
+                    hasFoundMatch = true;
+
+                    delete subsumedScenariosMap[jThScenario.id];
+                    subsumedScenariosMap[iThScenario.id] = iThScenario;
+                }
+            }
+
+            if(!hasFoundMatch)
+            {
+                subsumedScenariosMap[iThScenario.id] = iThScenario;
+            }
+        }
+
+        var subsumedScenarios = ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
+
+        console.log("Processed scenarios: " + processedScenarios.length + " Subsumed Scenarios: " + subsumedScenarios.length);
+
+        return subsumedScenarios;
     }
 };
 /*****************************************************/
