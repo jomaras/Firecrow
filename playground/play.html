@@ -2,34 +2,33 @@
 <html>
 <head>
     <title></title>
+    <style>
+        #container
+        {
+            background-color: red;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
 
 </head>
 <body>
 <div id="container"></div>
 <script>
-    var array = [4, 2, 1, 5, "a", 0, "c", "d"];
-    array.sort(function(a,b)
+    window.onload = function()
     {
-        var difference = a - b;
+        var container = document.getElementById("container");
 
-        if(!Number.isNaN(difference))
+        container.onclick = function(e)
         {
-            return a - b;
+            container.textContent += e.screenX;
+            for(var prop in e)
+            {
+                console.log(prop + ": " + e[prop]);
+            }
         }
+    };
 
-        if(typeof a == "string" && typeof b == "string")
-        {
-            return a.localeCompare(b);
-        }
-        else if (typeof a == "string")
-        {
-            return -1;
-        }
-        else
-        {
-            return 1;
-        }
-    });
 </script>
 
 

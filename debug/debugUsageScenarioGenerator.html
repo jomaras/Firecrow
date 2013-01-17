@@ -19,6 +19,7 @@
     <script src="../chrome/content/Firecrow/scenarioGenerator/Event.js"></script>
     <script src="../chrome/content/Firecrow/scenarioGenerator/Scenario.js"></script>
     <script src="../chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/SeleniumCodeGenerator.js"></script>
 
     <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/NumberRange.js"></script>
     <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/StringConstraint.js"></script>
@@ -138,11 +139,15 @@
         <div id="usageScenarioTracesContainer">
 
         </div>
+        <br/><br/>
+        <div style="">
+            <textarea style="width: 400px; min-height: 400px;" id="seleniumCodeContainer"></textarea>
+        </div>
     </div>
     <script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>
 
     <script type="text/javascript">
-       var model = models[28];
+       var model = models[2];
        //var model = threeDModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
@@ -168,6 +173,8 @@
                 {
                     generateScenarioHtml(scenario);
                 });
+
+                document.getElementById("seleniumCodeContainer").textContent = FBL.Firecrow.ScenarioGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
             }
             else
             {
