@@ -21,7 +21,7 @@
         var mainContainer = document.getElementById("mainContainer");
 
         mainContainer.onclick = function(eventArgs)
-        {
+        { mainContainer.textContent += eventArgs.clientX + "," + eventArgs.clientY;
             if(eventArgs.clientX < 200)
             {
                 mainContainer.textContent += "Click first half";

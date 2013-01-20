@@ -22,14 +22,11 @@ FBL.ns(function() { with (FBL) {
 
                 code += this.getOpenPageCode(pageUrl);
 
-                for(var j = 0; j < scenario.events.length; j++)
+                for(var j = 0; j < scenario.parametrizedEvents.length; j++)
                 {
-                    var event = scenario.events[j];
+                    var parametrizedEvent = scenario.parametrizedEvents[j];
 
-                    if(event.eventType == "onclick")
-                    {
-                        code += this.getClickCode(event.thisObjectDescriptor);
-                    }
+                    code += this.getClickAtCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters)
                 }
             }
 
@@ -48,12 +45,14 @@ FBL.ns(function() { with (FBL) {
                  + "  public static void main(String[] args)\n"
                  + "  {\n"
                  + "    WebDriver driver = new FirefoxDriver();\n"
-                 + "    Selenium selenium;\n";
+                 + "    Selenium selenium;\n"
+                 + "    Number elementX, elementY;\n"
+                 + "    Number leftElementPosition, topElementPosition;\n";
         },
 
         getBottomSurroundingCode: function()
         {
-            return "  }\n" + "}\n";
+            return "  }\n }\n";
         },
 
         getWaitForPageToLoadCode: function()
@@ -71,6 +70,30 @@ FBL.ns(function() { with (FBL) {
         getClickCode: function(elementXPath)
         {
             return '    selenium.click("xpath=' + elementXPath + '");\n'
+        },
+
+        getClickAtCode: function(elementXPath, parameters)
+        {
+            var x = 0, y = 0;
+
+            var code = "    elementX = 0; elementY = 0;\n";
+            code    += '    leftElementPosition = selenium.getElementPositionLeft("xpath=' + elementXPath + '");\n';
+            code    += '    topElementPosition = selenium.getElementPositionTop("xpath=' + elementXPath + '");\n';
+
+                 if(parameters.pageX != null)   { code += "    elementX = " +  parameters.pageX + " - leftElementPosition.intValue();\n"; }
+            else if(parameters.screenX != null) { code += "    elementX = " +  parameters.screenX + ";\n"; }
+            else if(parameters.clientX != null) { code += "    elementX = " +  parameters.clientX + " - leftElementPosition.intValue();\n"; }
+
+                 if(parameters.pageY != null)   { code += "    elementY = " +  parameters.pageY + " - topElementPosition.intValue();\n"; }
+            else if(parameters.screenY != null) { code += "    elementY = " +  parameters.screenY + ";\n"; }
+            else if(parameters.clientY != null) { code += "    elementY = " +  parameters.clientY + " - leftElementPosition.intValue();\n"; }
+
+            code += "    if(elementX.intValue() <= 0) { elementX = 1; }\n";
+            code += "    if(elementY.intValue() < 0) { elementY = 1; }\n";
+
+            code += '    selenium.clickAt("xpath=' + elementXPath + '", elementX.intValue() + "," + elementY.intValue());\n';
+
+            return code;
         }
     }
 }});

@@ -55,7 +55,53 @@ fcScenarioGenerator.Event.prototype =
 fcScenarioGenerator.ParametrizedEvent = function (baseEvent, parameters)
 {
     this.baseEvent = baseEvent;
-    this.parameters = parameters;
+    this.setParameters(parameters);
+};
+
+fcScenarioGenerator.ParametrizedEvent.prototype =
+{
+    setParameters: function(parameters)
+    {
+        this.parameters = this.normalizeParameters(parameters);
+    },
+
+    normalizeParameters: function(parameters)
+    {
+        var newObject = {};
+        parameters = parameters || {};
+
+        for(var propNameWithSuffix in parameters)
+        {
+            newObject[this._removeSuffix(propNameWithSuffix)] = parameters[propNameWithSuffix];
+        }
+
+        return newObject;
+    },
+
+    _removeSuffix: function(name)
+    {
+        return name.substr(0, name.indexOf("_FC_"));
+    },
+
+    containsMousePosition: function()
+    {
+        for(var name in this.parameters)
+        {
+            if(this._isMousePositionProperty(name))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _isMousePositionProperty: function(propertyName)
+    {
+        return this._mousePositionProperties.indexOf(propertyName) >= 0;
+    },
+
+    _mousePositionProperties: ["pageX", "pageY", "clientX", "clientY", "screenX", "screenY"]
 };
 /*****************************************************/
 }});

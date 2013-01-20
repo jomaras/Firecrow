@@ -11,6 +11,7 @@ fcScenarioGenerator.Scenario = function(events, pathConstraint, parentScenarios)
     this.pathConstraint = pathConstraint;
     this.parentScenarios = parentScenarios || [];
     this.executionInfo = null;
+    this.parametrizedEvents = [];
 };
 
 fcScenarioGenerator.Scenario.LAST_ID = 0;
@@ -25,6 +26,11 @@ fcScenarioGenerator.Scenario.prototype =
     setExecutionInfo: function(executionInfo)
     {
         this.executionInfo = executionInfo;
+    },
+
+    setParametrizedEvents: function(parametrizedEvents)
+    {
+        this.parametrizedEvents = parametrizedEvents;
     },
 
     createCopy: function()

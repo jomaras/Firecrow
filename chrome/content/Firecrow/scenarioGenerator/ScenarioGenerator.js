@@ -213,6 +213,8 @@ fcScenarioGenerator.ScenarioGenerator =
         var browser = this._executeApplication(pageModel);
         var parametrizedEvents = this._createParametrizedEvents(scenario);
 
+        scenario.setParametrizedEvents(parametrizedEvents);
+
         for(var i = 0; i < parametrizedEvents.length; i++)
         {
             this._executeEvent(browser, parametrizedEvents[i], scenario, i);
@@ -231,10 +233,8 @@ fcScenarioGenerator.ScenarioGenerator =
     {
         var pathConstraint = scenario.executionInfo.pathConstraint;
 
-        if(scenario.pathConstraint == null)
-        {
-            scenario.pathConstraint = pathConstraint;
-        }
+        if(scenario.pathConstraint == null) { scenario.pathConstraint = pathConstraint; }
+        else { pathConstraint = scenario.pathConstraint; }
 
         var identifiersMap = pathConstraint.getSymbolicIdentifierNameMap();
         var solutionsMap = {};
@@ -257,6 +257,16 @@ fcScenarioGenerator.ScenarioGenerator =
         if(ValueTypeHelper.isEmptyObject(pathConstraint.resolvedResult))
         {
             pathConstraint.resolvedResult = fcSymbolic.PathConstraint.groupSolutionsByIndex(solutionsMap);
+        }
+
+        for(var eventIndex in pathConstraint.resolvedResult)
+        {
+            var parametrizedEvent = scenario.parametrizedEvents[eventIndex];
+
+            if(parametrizedEvent != null)
+            {
+                parametrizedEvent.setParameters(pathConstraint.resolvedResult[eventIndex]);
+            }
         }
     },
 
@@ -438,11 +448,6 @@ fcScenarioGenerator.ScenarioGenerator =
         return name + "_FC_" + suffixID;
     },
 
-    removeSuffix: function(name)
-    {
-        return name.substr(0, name.indexOf("_FC_"));
-    },
-
     replaceSuffix: function(value, replacementArgument)
     {
         return value.replace(/_FC_([0-9+])/gi, replacementArgument)
@@ -474,10 +479,9 @@ fcScenarioGenerator.ScenarioGenerator =
         for(var propName in parameters)
         {
             var propValue = parameters[propName];
-            var identifier = this.removeSuffix(propName);
 
-            eventInfo[identifier] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(this.addSuffix(identifier, eventIndex)));
-            eventInfoFcObject.addProperty(identifier, eventInfo[identifier]);
+            eventInfo[propName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(this.addSuffix(propName, eventIndex)));
+            eventInfoFcObject.addProperty(propName, eventInfo[propName]);
         }
     },
 

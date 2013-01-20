@@ -103,13 +103,16 @@
     <style>
         #pageCodeContainer
         {
-            float: left;
             width: 800px;
+        }
+
+        .reportContainer
+        {
+            float: left;
         }
 
         #usageScenarioTracesContainer
         {
-            float: left;
             width: 400px;
         }
 
@@ -140,9 +143,10 @@
 
         </div>
         <br/><br/>
-        <div style="">
-            <textarea style="width: 400px; min-height: 400px;" id="seleniumCodeContainer"></textarea>
-        </div>
+
+        <h2>Selenium Code: </h2>
+        <textarea style="width: 400px; min-height: 400px;" id="seleniumCodeContainer"></textarea>
+
     </div>
     <script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>
 
@@ -158,7 +162,7 @@
 
         var scenarioCounter = 0;
 
-        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario)
+        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenariosSync(model.pageModel, function(scenario)
         {
             if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
             {

@@ -9,18 +9,30 @@ Firecrow.RequestHelper =
 
         var dataString = this._convertToDataString(dataObject);
 
-        http.open("POST", url, false);
+        try
+        {
+            http.open("POST", url, false);
 
-        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        http.setRequestHeader("Content-length", dataString.length);
-        http.setRequestHeader("Connection", "close");
+            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            http.setRequestHeader("Content-length", dataString.length);
+            http.setRequestHeader("Connection", "close");
 
-        http.send(dataString);
+            http.send(dataString);
 
-        return {
-           isSuccessful: http.status == 200,
-           response: http.responseText
-        };
+            return {
+                isSuccessful: http.status == 200,
+                response: http.responseText
+            };
+        }
+        catch(e)
+        {
+            console.log(e);
+
+            return {
+                isSuccessful: false,
+                response: e
+            };
+        }
     },
 
     _convertToDataString: function(dataObject)
