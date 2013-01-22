@@ -111,6 +111,7 @@ fcSymbolic.PathConstraint.groupSolutionsByIndex = function(result)
             {
                 mappedObject[index] = {};
             }
+
             mappedObject[index][propName] = result[propName];
         }
     }
@@ -123,6 +124,29 @@ fcSymbolic.PathConstraint.prototype =
     addConstraint: function(codeConstruct, constraint, inverse)
     {
         this.addPathConstraintItem(this._createConstraint(codeConstruct, constraint, inverse));
+    },
+
+    addSolutionIfNotExistent: function(identifier, value)
+    {
+        var match = identifier.match(/_FC_([0-9+])/);
+
+        if(match == null) { debugger; }
+
+        var index = match[1];
+
+        if(index)
+        {
+            if(this.resolvedResult[index] == null)
+            {
+                this.resolvedResult[index] = {};
+            }
+
+            if(this.resolvedResult[index][identifier] == null)
+            {
+                this.resolvedResult[index][identifier] = value;
+            }
+
+        }
     },
 
     addPathConstraintItem: function(pathConstraintItem)

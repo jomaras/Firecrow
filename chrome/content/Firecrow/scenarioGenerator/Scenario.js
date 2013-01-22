@@ -1,14 +1,15 @@
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
 var fcScenarioGenerator = Firecrow.ScenarioGenerator;
+var fcSymbolic = fcScenarioGenerator.Symbolic;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcScenarioGenerator.Scenario = function(events, pathConstraint, parentScenarios)
+fcScenarioGenerator.Scenario = function(events, inputConstraint, parentScenarios)
 {
     this.id = fcScenarioGenerator.Scenario.LAST_ID++;
 
     this.events = events || [];
-    this.pathConstraint = pathConstraint;
+    this.inputConstraint = inputConstraint || new fcSymbolic.PathConstraint();
     this.parentScenarios = parentScenarios || [];
     this.executionInfo = null;
     this.parametrizedEvents = [];
@@ -18,11 +19,6 @@ fcScenarioGenerator.Scenario.LAST_ID = 0;
 
 fcScenarioGenerator.Scenario.prototype =
 {
-    setPathConstraint: function(pathConstraint)
-    {
-        this.pathConstraint = pathConstraint;
-    },
-
     addEvent: function(usageScenarioEvent)
     {
         this.events.push(usageScenarioEvent);
@@ -38,19 +34,31 @@ fcScenarioGenerator.Scenario.prototype =
         this.parametrizedEvents = parametrizedEvents;
     },
 
+    addInputConstraintItem: function(pathConstraintItem)
+    {
+        if(pathConstraintItem == null) { return; }
+
+        this.inputConstraint.addPathConstraintItem(pathConstraintItem);
+    },
+
+    addSolutionIfNotExistent: function(identifier, solution)
+    {
+        this.inputConstraint.addSolutionIfNotExistent(identifier, solution);
+    },
+
     createCopy: function()
     {
-        return new fcScenarioGenerator.Scenario(this.events.slice(), this.pathConstraint);
+        return new fcScenarioGenerator.Scenario(this.events.slice(), this.inputConstraint);
     },
 
     isEqualTo: function(scenario)
     {
-        var thisPathConstraintString = this.pathConstraint != null ? this.pathConstraint.toString() : "";
-        var scenarioPathConstraintString = scenario.pathConstraint != null ? scenario.pathConstraint.toString() : "";
-        var thisResolvedResult = this.pathConstraint != null ? JSON.stringify(this.pathConstraint.resolvedResult) : "";
-        var scenarioResolvedResult = scenario.pathConstraint != null ? JSON.stringify(scenario.pathConstraint.resolvedResult) : "";
+        var thisInputConstraintString = this.inputConstraint != null ? this.inputConstraint.toString() : "";
+        var scenarioInputConstraintString = scenario.inputConstraint != null ? scenario.inputConstraint.toString() : "";
+        var thisResolvedResult = this.inputConstraint != null ? JSON.stringify(this.inputConstraint.resolvedResult) : "";
+        var scenarioResolvedResult = scenario.inputConstraint != null ? JSON.stringify(scenario.inputConstraint.resolvedResult) : "";
 
-        return this._haveEqualEvents(scenario) && (thisPathConstraintString == scenarioPathConstraintString
+        return this._haveEqualEvents(scenario) && (thisInputConstraintString == scenarioInputConstraintString
                                                || thisResolvedResult == scenarioResolvedResult);
     },
 
@@ -103,27 +111,27 @@ fcScenarioGenerator.Scenario.prototype =
 fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScenario)
 {
     var mergedEvents = firstScenario.events.concat(secondScenario.events);
-    var mergedPathConstraints = null;
+    var mergedInputConstraint = null;
 
-    if(firstScenario.pathConstraint == null && secondScenario.pathConstraint == null)
+    if(firstScenario.inputConstraint == null && secondScenario.inputConstraint == null)
     {
-        mergedPathConstraints = null;
+        mergedInputConstraint = null;
     }
-    else if(firstScenario.pathConstraint != null && secondScenario.pathConstraint == null)
+    else if(firstScenario.inputConstraint != null && secondScenario.inputConstraint == null)
     {
-        mergedPathConstraints = firstScenario.pathConstraint;
+        mergedInputConstraint = firstScenario.inputConstraint;
     }
-    else if(firstScenario.pathConstraint == null && secondScenario.pathConstraint != null)
+    else if(firstScenario.inputConstraint == null && secondScenario.inputConstraint != null)
     {
-        mergedPathConstraints = secondScenario.pathConstraint.createCopyUpgradedByIndex(firstScenario.events.length);
+        mergedInputConstraint = secondScenario.inputConstraint.createCopyUpgradedByIndex(firstScenario.events.length);
     }
     else
     {
-        mergedPathConstraints = secondScenario.pathConstraint.createCopyUpgradedByIndex(0);
-        mergedPathConstraints.append(secondScenario.pathConstraint.createCopyUpgradedByIndex(firstScenario.events.length));
+        mergedInputConstraint = secondScenario.inputConstraint.createCopyUpgradedByIndex(0);
+        mergedInputConstraint.append(secondScenario.inputConstraint.createCopyUpgradedByIndex(firstScenario.events.length));
     }
 
-    return new fcScenarioGenerator.Scenario(mergedEvents, mergedPathConstraints, [firstScenario, secondScenario]);
+    return new fcScenarioGenerator.Scenario(mergedEvents, mergedInputConstraint, [firstScenario, secondScenario]);
 };
 
 fcScenarioGenerator.ScenarioCollection = function(scenarioAddedCallback)

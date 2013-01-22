@@ -86,7 +86,7 @@ FBL.ns(function() { with (FBL) {
 
         getBottomSurroundingCode: function()
         {
-            return "  }\n }\n";
+            return '    System.out.println("Test done!");\n  }\n }\n';
         },
 
         getWaitForPageToLoadCode: function()
@@ -160,7 +160,7 @@ FBL.ns(function() { with (FBL) {
 
             if(changeToValue == "")
             {
-                code += 'selectDefaultValue = selenium.getSelectedValue("' + this._getLocatorFromThisObjectDescriptor(objectDescriptor) + '");';
+                code += '    selectDefaultValue = selenium.getSelectedValue("' + this._getLocatorFromThisObjectDescriptor(objectDescriptor) + '");';
                 changeToValue = 'selectDefaultValue';
             }
             else

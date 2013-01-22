@@ -151,7 +151,7 @@
     <script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>
 
     <script type="text/javascript">
-       var model = models[4];
+       var model = models[2];
        //var model = threeDModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
@@ -189,7 +189,7 @@
         function generateScenarioHtml(scenario)
         {
             var html = "<div class='scenarioHeader'>Scenario " + scenarioCounter + " (id: " + scenario.id + ")" +"</div>";
-            var formulaString = scenario.pathConstraint != null ? (scenario.pathConstraint + " =&gt; " + JSON.stringify(scenario.pathConstraint.resolvedResult))
+            var formulaString = scenario.inputConstraint != null ? (scenario.inputConstraint + " =&gt; " + JSON.stringify(scenario.inputConstraint.resolvedResult))
                                                                 : "undefined";
 
             html += "<div class='formulaHeader'>Formula: <b>" + formulaString  + "</div>";

@@ -115,16 +115,14 @@ fcScenarioGenerator.ScenarioGenerator =
             var eventRegistration = eventRegistrations[i];
 
             scenarios.addScenario(new fcScenarioGenerator.Scenario
-            ([
-                new fcScenarioGenerator.Event
-                (
-                    eventRegistration.thisObjectDescriptor,
-                    eventRegistration.thisObjectModel,
-                    eventRegistration.eventType,
-                    eventRegistration.registrationConstruct,
-                    eventRegistration.handlerConstruct
-                )
-            ]));
+            ([new fcScenarioGenerator.Event
+             (
+                 eventRegistration.thisObjectDescriptor,
+                 eventRegistration.thisObjectModel,
+                 eventRegistration.eventType,
+                 eventRegistration.registrationConstruct,
+                 eventRegistration.handlerConstruct
+             )]));
         }
     },
 
@@ -222,58 +220,16 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var executionInfo = browser.getExecutionInfo();
 
-        scenario.setExecutionInfo(executionInfo);
+        this._addDefaultConstraints(browser, scenario, parametrizedEvents);
 
-        this._addDefaultPathConstraintsAndSolutions(scenario);
+        scenario.setExecutionInfo(executionInfo);
 
         return executionInfo;
     },
 
-    _addDefaultPathConstraintsAndSolutions: function(scenario)
-    {
-        var pathConstraint = scenario.executionInfo.pathConstraint;
-
-        if(scenario.pathConstraint == null) { scenario.setPathConstraint(pathConstraint); }
-
-        var identifiersMap = pathConstraint.getSymbolicIdentifierNameMap();
-        var solutionsMap = {};
-
-        for(var identifierName in identifiersMap)
-        {
-            if(this._isPositiveNumberIdentifier(identifierName))
-            {
-                solutionsMap[identifierName] = 0;
-
-                var identifier = new fcSymbolic.Identifier(identifierName);
-
-                var binary = new fcSymbolic.Binary(identifier, new fcSymbolic.Literal(0), ">=");
-                binary.markAsImmutable();
-
-                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, binary);
-                pathConstraint.addPathConstraintItemToBeginning(pathConstraintItem);
-                scenario.executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
-            }
-        }
-
-        if(ValueTypeHelper.isEmptyObject(pathConstraint.resolvedResult))
-        {
-            pathConstraint.resolvedResult = fcSymbolic.PathConstraint.groupSolutionsByIndex(solutionsMap);
-        }
-
-        for(var eventIndex in pathConstraint.resolvedResult)
-        {
-            var parametrizedEvent = scenario.parametrizedEvents[eventIndex];
-
-            if(parametrizedEvent != null)
-            {
-                parametrizedEvent.setParameters(pathConstraint.resolvedResult[eventIndex]);
-            }
-        }
-    },
-
     _createParametrizedEvents: function(scenario)
     {
-        if(scenario.pathConstraint == null)
+        if(scenario.inputConstraint == null)
         {
             return scenario.events.map(function(event)
             {
@@ -283,7 +239,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var parametrizedEvents = [];
 
-        var resolvedResults = scenario.pathConstraint.resolvedResult;
+        var resolvedResults = scenario.inputConstraint.resolvedResult;
         var events = scenario.events;
 
         for(var i = 0; i < events.length; i++)
@@ -303,6 +259,49 @@ fcScenarioGenerator.ScenarioGenerator =
         this._modifyDom(eventRegistration, scenario, parametrizedEvent.parameters);
 
         browser.executeEvent(eventRegistration, handlerArguments);
+    },
+
+    _addDefaultConstraints: function(browser, scenario, parametrizedEvents)
+    {
+        var executionInfo = browser.getExecutionInfo();
+        var identifiersMap = executionInfo.pathConstraint.getSymbolicIdentifierNameMap();
+
+        for(var identifierName in identifiersMap)
+        {
+            if(this._isPositiveNumberIdentifier(identifierName))
+            {
+                var binary = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(0), ">=");
+
+                binary.markAsImmutable();
+
+                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, binary)
+
+                executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                scenario.addInputConstraintItem(pathConstraintItem);
+                scenario.addSolutionIfNotExistent(identifierName, 0);
+            }
+        }
+
+        for(var i = 0; i < parametrizedEvents.length; i++)
+        {
+            var event = parametrizedEvents[i];
+
+            for(var identifierName in identifiersMap)
+            {
+                if(this._isPositiveNumberIdentifier(identifierName))
+                {
+                    if(this.endsWithSuffix(identifierName, i))
+                    {
+                        var identifier = this.removeSuffix(identifierName);
+
+                        if(event.parameters[identifier] == null)
+                        {
+                            event.parameters[identifier] = 0;
+                        }
+                    }
+                }
+            }
+        }
     },
 
     _isPositiveNumberIdentifier: function(identifierName)
@@ -444,6 +443,11 @@ fcScenarioGenerator.ScenarioGenerator =
         return args;
     },
 
+    endsWithSuffix: function(name, suffixID)
+    {
+        return name.match(new RegExp("_FC_" + suffixID + "$")) != null;
+    },
+
     addSuffix: function(name, suffixID)
     {
         return name + "_FC_" + suffixID;
@@ -452,6 +456,15 @@ fcScenarioGenerator.ScenarioGenerator =
     replaceSuffix: function(value, replacementArgument)
     {
         return value.replace(/_FC_([0-9+])/gi, replacementArgument)
+    },
+
+    removeSuffix: function(name)
+    {
+        var indexOfFcStart = name.indexOf("_FC_");
+
+        if(indexOfFcStart == -1) { return name; }
+
+        return name.substr(0, indexOfFcStart);
     },
 
     addToPropertyName: function(name, increment)
@@ -504,7 +517,7 @@ fcScenarioGenerator.ScenarioGenerator =
                     {
                         var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement);
 
-                        scenario.pathConstraint.resolvedResult[eventRegistration.thisObject.globalObject.browser.eventIndex][parameterName] = updateResult.oldValue + " -&gt; " + updateResult.newValue;
+                        scenario.inputConstraint.resolvedResult[eventRegistration.thisObject.globalObject.browser.eventIndex][parameterName] = updateResult.oldValue + " -&gt; " + updateResult.newValue;
                         parameters.value = updateResult.newValue;
                     }
                 }
