@@ -115,7 +115,7 @@ fcSymbolic.Expression.prototype =
     isBinaryStringLiteral: function() { return this.isBinary() && this.left.isIdentifier() && this.right.isLiteral() && ValueTypeHelper.isString(this.right.value); },
     isUpdate: function() { return this.type == fcSymbolic.CONST.UPDATE; },
     isLogical: function() { return this.type == fcSymbolic.CONST.LOGICAL; },
-    markAsImmutable: function() { this.isImmutable = true; },
+    markAsIrreversible: function() { this.isIrreversible = true; },
     setId: function()
     {
         this.id = fcSymbolic.Expression.LAST_ID;

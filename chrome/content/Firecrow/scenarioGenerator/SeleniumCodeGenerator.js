@@ -22,6 +22,8 @@ FBL.ns(function() { with (FBL) {
 
                 code += this.getOpenPageCode(pageUrl);
 
+                code += this._getNotifyScenarioStarting(scenario);
+
                 for(var j = 0; j < scenario.parametrizedEvents.length; j++)
                 {
                     var parametrizedEvent = scenario.parametrizedEvents[j];
@@ -55,12 +57,20 @@ FBL.ns(function() { with (FBL) {
                     {
                         code += this.getOnChangeCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters);
                     }
+                    else if(eventType == "interval" || eventType == "timeout")
+                    {
+                        code += this.getWaitingCode();
+                    }
                     else
                     {
                         debugger;
                         alert("Unhandled event type when generating event handling code in SeleniumCodeGenerator");
                     }
+
+                    code += this._getNotifyEventExecuted(eventType, parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters);
                 }
+
+                code += this._getNotifyScenarioEnded(scenario);
             }
 
             return code + this.getBottomSurroundingCode();
@@ -86,7 +96,22 @@ FBL.ns(function() { with (FBL) {
 
         getBottomSurroundingCode: function()
         {
-            return '    System.out.println("Test done!");\n  }\n }\n';
+            return '    System.out.println("Test done!");\n  }\n}\n';
+        },
+
+        _getNotifyScenarioStarting: function(scenario)
+        {
+            return '    System.out.println("****Scenario ' + scenario.id + ' starting!****");\n'
+        },
+
+        _getNotifyEventExecuted: function(eventType, thisObjectDescriptor, parameters)
+        {
+            return '    System.out.println("  Event: ' + eventType + ' on ' + thisObjectDescriptor + ' -> ' + JSON.stringify(parameters).replace(/"/g,"") + '");\n';
+        },
+
+        _getNotifyScenarioEnded: function(scenario)
+        {
+            return '    System.out.println("----Scenario ' + scenario.id + ' ended!----");\n'
         },
 
         getWaitForPageToLoadCode: function()
@@ -160,7 +185,7 @@ FBL.ns(function() { with (FBL) {
 
             if(changeToValue == "")
             {
-                code += '    selectDefaultValue = selenium.getSelectedValue("' + this._getLocatorFromThisObjectDescriptor(objectDescriptor) + '");';
+                code += '    selectDefaultValue = selenium.getSelectedValue("' + this._getLocatorFromThisObjectDescriptor(objectDescriptor) + '");\n';
                 changeToValue = 'selectDefaultValue';
             }
             else
@@ -169,6 +194,11 @@ FBL.ns(function() { with (FBL) {
             }
 
             return code + '    selenium.select("' + this._getLocatorFromThisObjectDescriptor(objectDescriptor) + '",' + changeToValue + ');\n';
+        },
+
+        getWaitingCode: function()
+        {
+            return '    try{selenium.wait(2000);}catch(Exception e) { System.out.println(e); }\n';
         },
 
         _getMousePositionCode: function(objectDescriptor, parameters)

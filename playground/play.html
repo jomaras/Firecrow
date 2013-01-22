@@ -15,17 +15,18 @@
 <body>
 <div id="container"></div>
 <script>
+
+
+
     window.onload = function()
     {
         var container = document.getElementById("container");
 
         container.onclick = function(e)
         {
-            container.textContent += e.screenX;
-            for(var prop in e)
-            {
-                console.log(prop + ": " + e[prop]);
-            }
+            window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                    .getInterface(Components.interfaces.nsIDOMWindowUtils)
+                    .garbageCollect();
         }
     };
 

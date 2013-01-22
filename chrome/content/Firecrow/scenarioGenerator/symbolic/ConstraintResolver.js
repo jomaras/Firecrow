@@ -211,6 +211,48 @@ fcSymbolic.ConstraintResolver =
         return null;
     },
 
+    getStricterConstraint: function(symbolicExpression)
+    {
+        if(symbolicExpression == null) { return null; }
+
+        if(symbolicExpression.isBinary()) { return this._getBinaryStricter(symbolicExpression); }
+
+        return symbolicExpression;
+    },
+
+    _getBinaryStricter: function(symbolicExpression)
+    {
+        if(symbolicExpression.operator == ">=" || symbolicExpression.operator == "<=")
+        {
+            return new fcSymbolic.Binary
+            (
+                symbolicExpression.left,
+                symbolicExpression.right,
+                symbolicExpression.operator == ">=" ? ">" : "<"
+            );
+        }
+        else if (symbolicExpression.operator == ">" && symbolicExpression.right.isLiteral())
+        {
+            return new fcSymbolic.Binary
+            (
+                symbolicExpression.left,
+                new fcSymbolic.Literal(symbolicExpression.right.value + 1),
+                ">="
+            );
+        }
+        else if (symbolicExpression.operator == "<" && symbolicExpression.right.isLiteral())
+        {
+            return new fcSymbolic.Binary
+            (
+                symbolicExpression.left,
+                new fcSymbolic.Literal(symbolicExpression.right.value - 1),
+                "<="
+            );
+        }
+
+        return symbolicExpression;
+    },
+
     _getLogicalInverse: function(symbolicExpression)
     {
         //DEMORGAN'S LAW: !(A && B) = !A || !B; !(A || B) = !A && !B

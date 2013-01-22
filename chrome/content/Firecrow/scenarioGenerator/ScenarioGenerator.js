@@ -40,7 +40,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
             currentScenario = scenarios.getNext();
             processedScenarioCounter++;
-            setTimeout(asyncLoop, 100);
+            setTimeout(asyncLoop, 1000);
         };
 
         setTimeout(asyncLoop, 100);
@@ -75,7 +75,7 @@ fcScenarioGenerator.ScenarioGenerator =
             processedScenarioCounter++;
         }
 
-        return scenarioCreatedCallback(scenarios.getAllScenarios());
+        return scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios());
     },
 
     _executeApplication: function(pageModel)
@@ -272,7 +272,7 @@ fcScenarioGenerator.ScenarioGenerator =
             {
                 var binary = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(0), ">=");
 
-                binary.markAsImmutable();
+                binary.markAsIrreversible();
 
                 var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, binary)
 

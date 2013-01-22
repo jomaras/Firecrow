@@ -155,7 +155,7 @@ fcSymbolic.PathConstraint.prototype =
 
         if(sameConstraint != null)
         {
-            sameConstraint.constraint.isImmutable = sameConstraint.constraint.isImmutable || pathConstraintItem.constraint.isImmutable;
+            sameConstraint.constraint.isIrreversible = sameConstraint.constraint.isIrreversible || pathConstraintItem.constraint.isIrreversible;
         }
         else
         {
@@ -169,7 +169,7 @@ fcSymbolic.PathConstraint.prototype =
 
         if(sameConstraint != null)
         {
-            sameConstraint.constraint.isImmutable = sameConstraint.constraint.isImmutable || pathConstraintItem.constraint.isImmutable;
+            sameConstraint.constraint.isIrreversible = sameConstraint.constraint.isIrreversible || pathConstraintItem.constraint.isIrreversible;
         }
         else
         {
@@ -198,7 +198,7 @@ fcSymbolic.PathConstraint.prototype =
 
         for(var i = 0; i < this.pathConstraintItems.length; i++)
         {
-            if(this.pathConstraintItems[i].constraint.isImmutable)
+            if(this.pathConstraintItems[i].constraint.isIrreversible)
             {
                 notInvertedConstraints.push(this.pathConstraintItems[i]);
             }
@@ -282,34 +282,18 @@ fcSymbolic.PathConstraint.prototype =
 
         var flipCombinations = this._generateAllFlipCombinations(pathConstraintItems);
 
-        /*for(var i = 0; i < flipCombinations.length; i++)
-        {
-            var combination = flipCombinations[i];
-
-            var pathConstraintItemsCopy = pathConstraintItems.slice();
-
-            for(var j = 0; j < combination.length; j++)
-            {
-                if(combination[j] == 1)
-                {
-                    var currentPathConstraintItem = pathConstraintItems[j];
-                    pathConstraintItemsCopy[j] = new fcSymbolic.PathConstraintItem(currentPathConstraintItem.codeConstruct, fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint));
-                }
-            }
-
-            allInversions.push(new fcSymbolic.PathConstraint(pathConstraintItemsCopy));
-        }*/
-
         for(var i = pathConstraintItems.length - 1; i >= 0; i--)
         {
             var currentPathConstraintItem = pathConstraintItems[i];
 
-            if(currentPathConstraintItem.constraint == null
-            || currentPathConstraintItem.constraint.isImmutable) { continue; }
+            if(currentPathConstraintItem.constraint == null) { continue; }
 
             var previousItems = pathConstraintItems.slice(0, i);
 
-            previousItems.push(new fcSymbolic.PathConstraintItem(currentPathConstraintItem.codeConstruct, fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint)));
+            var modifiedConstraint = !currentPathConstraintItem.constraint.isIrreversible ? fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint)
+                                                                                          : fcSymbolic.ConstraintResolver.getStricterConstraint(currentPathConstraintItem.constraint);
+
+            previousItems.push(new fcSymbolic.PathConstraintItem(currentPathConstraintItem.codeConstruct, modifiedConstraint));
             allInversions.push(new fcSymbolic.PathConstraint(previousItems));
         }
 
