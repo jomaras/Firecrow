@@ -26,26 +26,26 @@
 
         mainContainer.onmousemove = function(evt)
         {
-            var x = evt.pageX;
-            var y = evt.pageY;
+            var x = evt.clientX;
+            var y = evt.clientY;
 
-            for(var prop in evt) { console.log(prop);}
+            mainContainer.textContent = x + "," + y + "-";
 
             if(x < 200 && y < 200)
             {
-                mainContainer.textContent = "Left Upper Corner";
+                mainContainer.textContent += "Left Upper Corner;";
             }
             else if(x < 200 && y >= 200)
             {
-                mainContainer.textContent = "Left Lower Corner";
+                mainContainer.textContent += "Left Lower Corner;";
             }
             else if(x >= 200 && y < 200)
             {
-                mainContainer.textContent = "Right Upper Corner";
+                mainContainer.textContent += "Right Upper Corner;";
             }
             else if(x >= 200 && y >= 200)
             {
-                mainContainer.textContent = "Right Lower Corner";
+                mainContainer.textContent += "Right Lower Corner;";
             }
         };
     };

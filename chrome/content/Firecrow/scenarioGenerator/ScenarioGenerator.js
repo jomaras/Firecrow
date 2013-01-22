@@ -75,7 +75,7 @@ fcScenarioGenerator.ScenarioGenerator =
             processedScenarioCounter++;
         }
 
-        return scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios());
+        return scenarioCreatedCallback(scenarios.getAllScenarios());
     },
 
     _executeApplication: function(pageModel)
@@ -233,8 +233,7 @@ fcScenarioGenerator.ScenarioGenerator =
     {
         var pathConstraint = scenario.executionInfo.pathConstraint;
 
-        if(scenario.pathConstraint == null) { scenario.pathConstraint = pathConstraint; }
-        else { pathConstraint = scenario.pathConstraint; }
+        if(scenario.pathConstraint == null) { scenario.setPathConstraint(pathConstraint); }
 
         var identifiersMap = pathConstraint.getSymbolicIdentifierNameMap();
         var solutionsMap = {};
@@ -248,9 +247,11 @@ fcScenarioGenerator.ScenarioGenerator =
                 var identifier = new fcSymbolic.Identifier(identifierName);
 
                 var binary = new fcSymbolic.Binary(identifier, new fcSymbolic.Literal(0), ">=");
-                binary.markAsCanNotBeInverted();
+                binary.markAsImmutable();
 
-                pathConstraint.addConstraintToBeginning(null, binary, false);
+                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, binary);
+                pathConstraint.addPathConstraintItemToBeginning(pathConstraintItem);
+                scenario.executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
             }
         }
 
@@ -504,10 +505,12 @@ fcScenarioGenerator.ScenarioGenerator =
                         var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement);
 
                         scenario.pathConstraint.resolvedResult[eventRegistration.thisObject.globalObject.browser.eventIndex][parameterName] = updateResult.oldValue + " -&gt; " + updateResult.newValue;
+                        parameters.value = updateResult.newValue;
                     }
                 }
                 else
                 {
+                    debugger;
                     alert("When updating DOM can not find ID!");
                 }
             }

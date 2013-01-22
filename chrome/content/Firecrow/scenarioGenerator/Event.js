@@ -72,10 +72,17 @@ fcScenarioGenerator.ParametrizedEvent.prototype =
 
         for(var propNameWithSuffix in parameters)
         {
-            newObject[this._removeSuffix(propNameWithSuffix)] = parameters[propNameWithSuffix];
+            var fixedSuffix = !this._isDomProperty(propNameWithSuffix) ? this._removeSuffix(propNameWithSuffix)
+                                                                       : propNameWithSuffix;
+            newObject[fixedSuffix] = parameters[propNameWithSuffix];
         }
 
         return newObject;
+    },
+
+    _isDomProperty: function(name)
+    {
+        return name.indexOf("DOM_") == 0;
     },
 
     _removeSuffix: function(name)

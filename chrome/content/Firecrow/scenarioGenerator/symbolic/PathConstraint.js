@@ -122,17 +122,65 @@ fcSymbolic.PathConstraint.prototype =
 {
     addConstraint: function(codeConstruct, constraint, inverse)
     {
-        this.pathConstraintItems.push(this._createConstraint(codeConstruct, constraint, inverse));
+        this.addPathConstraintItem(this._createConstraint(codeConstruct, constraint, inverse));
     },
 
-    addConstraintToBeginning: function(codeConstruct, constraint, inverse)
+    addPathConstraintItem: function(pathConstraintItem)
     {
-        ValueTypeHelper.insertIntoArrayAtIndex
-        (
-            this.pathConstraintItems,
-            new fcSymbolic.PathConstraintItem(codeConstruct, constraint),
-            0
-        );
+        var sameConstraint = this._getSameConstraint(pathConstraintItem);
+
+        if(sameConstraint != null)
+        {
+            sameConstraint.constraint.isImmutable = sameConstraint.constraint.isImmutable || pathConstraintItem.constraint.isImmutable;
+        }
+        else
+        {
+            this.pathConstraintItems.push(pathConstraintItem);
+        }
+    },
+
+    addPathConstraintItemToBeginning: function(pathConstraintItem)
+    {
+        var sameConstraint = this._getSameConstraint(pathConstraintItem);
+
+        if(sameConstraint != null)
+        {
+            sameConstraint.constraint.isImmutable = sameConstraint.constraint.isImmutable || pathConstraintItem.constraint.isImmutable;
+        }
+        else
+        {
+            ValueTypeHelper.insertIntoArrayAtIndex(this.pathConstraintItems, pathConstraintItem, 0);
+        }
+    },
+
+    _getSameConstraint: function(pathConstraintItem)
+    {
+        var pathConstraintItemString = pathConstraintItem.toString();
+
+        for(var i = 0; i < this.pathConstraintItems.length; i++)
+        {
+            if(this.pathConstraintItems[i].toString() == pathConstraintItemString)
+            {
+                return this.pathConstraintItems[i];
+            }
+        }
+
+        return null;
+    },
+
+    getImmutableConstraints: function()
+    {
+        var notInvertedConstraints = [];
+
+        for(var i = 0; i < this.pathConstraintItems.length; i++)
+        {
+            if(this.pathConstraintItems[i].constraint.isImmutable)
+            {
+                notInvertedConstraints.push(this.pathConstraintItems[i]);
+            }
+        }
+
+        return notInvertedConstraints;
     },
 
     _createConstraint: function(codeConstruct, constraint, inverse)
@@ -233,7 +281,7 @@ fcSymbolic.PathConstraint.prototype =
             var currentPathConstraintItem = pathConstraintItems[i];
 
             if(currentPathConstraintItem.constraint == null
-            || currentPathConstraintItem.constraint.canNotBeInverted) { continue; }
+            || currentPathConstraintItem.constraint.isImmutable) { continue; }
 
             var previousItems = pathConstraintItems.slice(0, i);
 

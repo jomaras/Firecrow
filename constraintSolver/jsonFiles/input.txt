@@ -1,1 +1,1 @@
-[{"id":32,"left":{"id":25,"name":"clientX_FC_0","type":"Identifier"},"right":{"id":26,"value":200,"type":"Literal"},"operator":"<","type":"Binary"}]
+[{"id":57,"left":{"id":55,"left":{"id":53,"name":"keyCode_FC_0","type":"Identifier"},"right":{"id":54,"value":0,"type":"Literal"},"operator":">=","type":"Binary","isImmutable":true},"right":{"id":56,"left":{"id":50,"name":"keyCode_FC_0","type":"Identifier"},"right":{"id":51,"value":65,"type":"Literal"},"operator":"!=","type":"Binary"},"operator":"&&","type":"Logical"}]

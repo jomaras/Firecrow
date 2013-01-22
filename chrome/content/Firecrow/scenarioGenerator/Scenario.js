@@ -18,6 +18,11 @@ fcScenarioGenerator.Scenario.LAST_ID = 0;
 
 fcScenarioGenerator.Scenario.prototype =
 {
+    setPathConstraint: function(pathConstraint)
+    {
+        this.pathConstraint = pathConstraint;
+    },
+
     addEvent: function(usageScenarioEvent)
     {
         this.events.push(usageScenarioEvent);

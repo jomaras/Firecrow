@@ -32,6 +32,16 @@ fcBrowser.ExecutionInfo.prototype =
         this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
     },
 
+    addPathConstraintItem: function(pathConstraintItem)
+    {
+        this.pathConstraint.addPathConstraintItem(pathConstraintItem);
+    },
+
+    addPathConstraintItemToBeginning: function(pathConstraintItem)
+    {
+        this.pathConstraint.addPathConstraintItemToBeginning(pathConstraintItem);
+    },
+
     compareExecutedConstructs: function(executionInfoB)
     {
         var executedConstructsA = this.executedConstructsIdMap;
