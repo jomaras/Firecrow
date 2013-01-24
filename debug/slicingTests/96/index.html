@@ -6,12 +6,16 @@
     </head>
     <body>
         <script>
-            var array = [1,2,3];
+            var camels = ['tabIndex', 'useMap'];
+            var lowerCase = camels.map(String.toLowerCase);
+            var a1 = lowerCase[0] == "tabindex";
+            var a2 = lowerCase[1] == "usemap";
+            a1; a2;
 
-            var sliced = Array.slice(array, 2);
-
-            var a1 = sliced[0] == 3;
-            a1;
+            camels.map(function(item)
+            {
+                debugger;
+            });
         </script>
     </body>
 </html>

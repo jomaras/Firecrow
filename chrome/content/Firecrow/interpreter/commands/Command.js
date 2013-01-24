@@ -134,12 +134,14 @@ Firecrow.Interpreter.Commands.Command.createCallInternalConstructorCommand = fun
     return command;
 };
 
-Firecrow.Interpreter.Commands.Command.createCallInternalFunctionCommand = function(codeConstruct, functionObject, thisObject, parentFunctionCommand)
+Firecrow.Interpreter.Commands.Command.createCallInternalFunctionCommand = function(codeConstruct, functionObject, thisObject, parentFunctionCommand, parentCallExpressionCommand)
 {
     var command = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.CallInternalFunction, parentFunctionCommand);
 
     command.functionObject = functionObject;
     command.thisObject = thisObject;
+
+    command.parentCallExpressionCommand = parentCallExpressionCommand;
 
     return command;
 };

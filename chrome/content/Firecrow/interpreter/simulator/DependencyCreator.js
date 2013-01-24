@@ -450,6 +450,9 @@ fcSimulator.DependencyCreator.prototype =
     {
         var callExpression = callInternalFunctionCommand.codeConstruct;
 
+        //Callback function called with an internal function
+        if(callExpression == null) { return; }
+
         var args = callExpression.arguments;
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 

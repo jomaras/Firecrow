@@ -15,9 +15,13 @@ fcModel.ArrayCallbackEvaluator =
             var callbackFunctionValue = callbackCommand.callerFunction.jsValue;
             var targetObject = callbackCommand.targetObject;
 
-                 if(callbackFunctionValue.name == "filter") { this._evaluateFilterCallback(targetObject, returnValue, callbackCommand, returnExpression); return; }
-            else if(callbackFunctionValue.name == "map") { this._evaluateMapCallback(targetObject, returnValue, returnExpression); return; }
-            else if(callbackFunctionValue.name == "sort") { this._evaluateSortCallback(targetObject, returnValue, callbackCommand, returnExpression); return;}
+            var valueCodeConstruct = returnExpression;
+
+            if(valueCodeConstruct == null) { valueCodeConstruct = returnValue.codeConstruct; }
+
+                 if(callbackFunctionValue.name == "filter") { this._evaluateFilterCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return; }
+            else if(callbackFunctionValue.name == "map") { this._evaluateMapCallback(targetObject, returnValue, valueCodeConstruct); return; }
+            else if(callbackFunctionValue.name == "sort") { this._evaluateSortCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return;}
             else if(callbackFunctionValue.name == "every") { fcModel.Array.notifyError("Still not handling evaluate return from every"); return; }
             else if(callbackFunctionValue.name == "some") { fcModel.Array.notifyError("Still not handling evaluate return from some"); return; }
             else if(callbackFunctionValue.name == "reduce") { fcModel.Array.notifyError("Still not handling evaluate return from reduce"); return; }
@@ -36,7 +40,7 @@ fcModel.ArrayCallbackEvaluator =
         }
     },
 
-    _evaluateFilterCallback: function(targetObject, returnValue, callbackCommand, returnExpression)
+    _evaluateFilterCallback: function(targetObject, returnValue, callbackCommand, valueExpression)
     {
         var targetObjectValue = targetObject.jsValue;
 
@@ -44,20 +48,20 @@ fcModel.ArrayCallbackEvaluator =
 
         if(returnValue != null && returnValue.jsValue)
         {
-            targetObject.iValue.push(targetObjectValue, [callbackCommand.arguments[0]], returnExpression.argument);
+            targetObject.iValue.push(targetObjectValue, [callbackCommand.arguments[0]], valueExpression.argument || valueExpression);
         }
     },
 
-    _evaluateMapCallback: function(targetObject, returnValue, returnExpression)
+    _evaluateMapCallback: function(targetObject, returnValue, valueExpression)
     {
         var targetObjectValue = targetObject.jsValue;
 
         if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: "); return; }
 
-        targetObject.iValue.push(targetObjectValue, [returnValue], returnExpression.argument);
+        targetObject.iValue.push(targetObjectValue, [returnValue], valueExpression.argument || valueExpression);
     },
 
-    _evaluateSortCallback: function(targetObject, returnValue, callbackCommand, returnExpression)
+    _evaluateSortCallback: function(targetObject, returnValue, callbackCommand, valueExpression)
     {
         var firstItem = callbackCommand.arguments[0];
         var secondItem = callbackCommand.arguments[1];
@@ -75,11 +79,11 @@ fcModel.ArrayCallbackEvaluator =
         //if return value > 0 -> sort b to lower index than a
         if(returnValue.jsValue > 0 && secondItemIndex <= firstItemIndex) { return; }
 
-        this._swapArrayIndexes(targetObject, firstItemIndex, secondItemIndex, returnExpression);
+        this._swapArrayIndexes(targetObject, firstItemIndex, secondItemIndex, valueExpression);
 
         if(firstItemIndex + 1 < secondItemIndex)
         {
-            this._swapArrayIndexes(targetObject, firstItemIndex + 1, secondItemIndex, returnExpression);
+            this._swapArrayIndexes(targetObject, firstItemIndex + 1, secondItemIndex, valueExpression);
         }
     },
 

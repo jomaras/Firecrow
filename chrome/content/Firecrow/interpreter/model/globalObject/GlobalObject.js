@@ -530,7 +530,8 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
     this.addProperty("Boolean", new fcModel.fcValue(Boolean, this.booleanFunction, null), null);
 
     this.stringFunction = new fcModel.StringFunction(this);
-    this.addProperty("String", new fcModel.fcValue(String, this.stringFunction, null), null);
+    this.fcStringFunction = new fcModel.fcValue(String, this.stringFunction, null);
+    this.addProperty("String", this.fcStringFunction, null);
 
     this.imageFunction = new fcModel.ImageFunction(this);
     this.addProperty("Image", new fcModel.fcValue(Image, this.imageFunction, null), null);

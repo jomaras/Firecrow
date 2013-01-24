@@ -466,7 +466,8 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 callExpressionCommand.codeConstruct,
                 functionObject,
                 thisObject,
-                callExpressionCommand.parentFunctionCommand
+                callExpressionCommand.parentFunctionCommand,
+                callExpressionCommand
             );
         }
 

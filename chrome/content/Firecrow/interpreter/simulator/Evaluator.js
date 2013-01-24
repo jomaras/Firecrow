@@ -505,7 +505,12 @@ fcSimulator.Evaluator.prototype =
             (
                 this._getThisObjectFromCallInternalFunctionCommand(callInternalFunctionCommand),
                 callInternalFunctionCommand.functionObject,
-                this._getArgumentsFromInternalFunctionCall(callInternalFunctionCommand, callInternalFunctionCommand.codeConstruct.arguments),
+                this._getArgumentsFromInternalFunctionCall
+                (
+                    callInternalFunctionCommand,
+                    callInternalFunctionCommand.codeConstruct != null ? callInternalFunctionCommand.codeConstruct.arguments
+                                                                      : []
+                ),
                 callInternalFunctionCommand.codeConstruct,
                 callInternalFunctionCommand
             )
@@ -851,6 +856,7 @@ fcSimulator.Evaluator.prototype =
 
     notifyError: function(command, message)
     {
+        debugger;
         fcSimulator.Evaluator.notifyError(message + "@" + (command != null ? (command.codeConstruct.loc.source + " - Ln:" + command.codeConstruct.loc.start.line) : ""));
     }
 };

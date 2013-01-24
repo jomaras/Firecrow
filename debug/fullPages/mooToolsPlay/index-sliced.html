@@ -13,7 +13,6 @@
     var name = options.name;
     var legacy = options.legacy;
     var protect = options.protect;
-    var generics = options.generics;
     var initialize = options.initialize;
     if(options.afterImplement)
     {
@@ -25,7 +24,6 @@
       var object = initialize;
     }
 
-    generics = generics !== false;
     if(legacy && initialize)
     {
       object.prototype = legacy.prototype;
@@ -44,11 +42,6 @@
       if(!protect || force || !(obj.prototype[name]))
       {
         obj.prototype[name] = method;
-      }
-
-      if(generics)
-      {
-        Native.genericize(obj, name, protect);
       }
 
       afterImplement.call(obj, name, method);
@@ -72,17 +65,6 @@
       }
     };
     return object;
-  };
-  Native.genericize = function(object, property, check)
-  {
-    if((!check || !(object[property])) && typeof (object.prototype[property]) == 'function')
-    {
-      object[property] = function()
-      {
-        var args = Array.prototype.slice.call(arguments);
-        return object.prototype[property].apply(args.shift(), args);
-      };
-    }
   };
   Native.implement = function(objects, properties)
   {
@@ -108,18 +90,6 @@
         initialize: natives[n], 
         protect: true
       });
-    }
-
-    var generics = {
-      'Array': ['concat', 'indexOf', 'join', 'lastIndexOf', 'pop', 'push', 'reverse', 'shift', 'slice', 'sort', 'splice', 'toString', 'unshift', 'valueOf'], 
-      'String': ['charAt', 'charCodeAt', 'concat', 'indexOf', 'lastIndexOf', 'match', 'replace', 'search', 'slice', 'split', 'substr', 'substring', 'toLowerCase', 'toUpperCase', 'valueOf']
-    };
-    for(var g in generics)
-    {
-      for(var i = generics[g].length;i--;)
-      {
-        Native.genericize(natives[g], generics[g][i], true);
-      }
     }
   })();
   var Hash = new Native({
@@ -671,7 +641,6 @@
     };
     var purge = function()
     {};
-    var camels = ['value', 'type', 'defaultValue', 'accessKey', 'cellPadding', 'cellSpacing', 'colSpan', 'frameBorder', 'maxLength', 'readOnly', 'rowSpan', 'tabIndex', 'useMap'];
     Native.implement([Window, Document], {
       addListener: function(type, fn)
       {

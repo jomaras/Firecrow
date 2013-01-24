@@ -78,6 +78,22 @@ fcModel.StringFunction = function(globalObject)
 
         this.isInternalFunction = true;
         this.name = "String";
+
+        fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+        {
+            this.addProperty
+            (
+                propertyName,
+                new fcModel.fcValue
+                (
+                    String[propertyName],
+                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                    null
+                ),
+                null,
+                false
+            );
+        }, this);
     }
     catch(e){ fcModel.String.notifyError("String - error when creating String Function:" + e); }
 };
@@ -171,7 +187,12 @@ fcModel.StringExecutor =
                 case "search":
                 case "slice":
                     var returnValue = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
-                    return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, returnValue);
+
+                    var codeConstruct = callExpression;
+
+                    if(codeConstruct == null) { codeConstruct = arguments[0].codeConstruct; }
+
+                    return globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, returnValue);
                 case "match":
                 case "split":
                     var result = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
@@ -235,6 +256,12 @@ fcModel.StringExecutor =
         }
         catch(e) {this.notifyError("Error when executing internal string method: " + e); }
     },
+
+    isInternalStringFunctionMethod: function(functionObject)
+    {
+        return fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.indexOf(functionObject.name) != -1;
+    },
+
     notifyError: function(message) { fcModel.String.notifyError(message); }
 };
 /*************************************************************************************/

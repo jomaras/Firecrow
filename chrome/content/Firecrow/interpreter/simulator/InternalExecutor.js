@@ -227,6 +227,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.Event){ return fcModel.EventExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.CanvasContext){ return fcModel.CanvasContextExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject == this.globalObject.fcArrayFunction) { return fcModel.ArrayExecutor.executeInternalArrayMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand); }
+            else if (thisObject == this.globalObject.fcStringFunction) { return fcModel.StringExecutor.executeInternalStringMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand); }
             else if (functionObject.isInternalFunction) { return this._executeInternalFunction(thisObject, functionObject, args, callExpression, callCommand); }
             else
             {
@@ -312,7 +313,10 @@ fcSimulator.InternalExecutor.prototype =
         else if (ownerObject == this.globalObject.objectPrototype) { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (ownerObject == this.globalObject.stringPrototype) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (ownerObject.constructor == fcModel.HtmlElement) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
-        else { this.notifyError("Unhandled call applied internal method: " + codeConstruct.loc.source); }
+        else
+        {
+            this.notifyError("Unhandled call applied internal method: " + codeConstruct.loc.source);
+        }
     },
 
     _executeInternalFunction: function(thisObject, functionObject, args, callExpression, callCommand)
@@ -322,11 +326,33 @@ fcSimulator.InternalExecutor.prototype =
         else if (functionObject.jsValue != null && functionObject.jsValue.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
         else if (fcModel.ArrayExecutor.isInternalArrayMethod(functionObject.jsValue))  { fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
+        else if (fcModel.StringExecutor.isInternalStringFunctionMethod(functionObject.jsValue))  { return this._executeInternalStringFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (functionObject.jsValue.name == "bind") { return this._executeBindFunction(thisObject, functionObject, args, callExpression); }
         else
         {
+            debugger;
             this.notifyError("Unknown internal function!");
         }
+    },
+
+    _executeInternalStringFunctionMethod: function(thisObject, functionObject, args, callExpression, callCommand)
+    {
+        //This is a hack when an internal callback function get another interanal function as an argument
+        var isCallbackCall = false;
+        if(args.length == 0 && callCommand.parentCallExpressionCommand != null)
+        {
+            args = callCommand.parentCallExpressionCommand.arguments;
+            isCallbackCall = true;
+        }
+
+        var returnValue = fcModel.StringExecutor.executeInternalStringMethod(args[0], functionObject, args, callExpression, callCommand);
+
+        if(isCallbackCall)
+        {
+            fcModel.ArrayCallbackEvaluator.evaluateCallbackReturn(callCommand.parentCallExpressionCommand, returnValue, null);
+        }
+
+        return returnValue;
     },
 
     _executeBindFunction: function(thisObject, functionObject, args, callExpression)
@@ -338,6 +364,6 @@ fcSimulator.InternalExecutor.prototype =
         return functionCopy;
     },
 
-    notifyError: function(message) { Firecrow.Interpreter.Simulator.InternalExecutor.notifyError(message);}
+    notifyError: function(message) { debugger; Firecrow.Interpreter.Simulator.InternalExecutor.notifyError(message);}
 }
 }});

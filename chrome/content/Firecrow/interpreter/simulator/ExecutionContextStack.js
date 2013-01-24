@@ -189,6 +189,7 @@ fcSimulator.ExecutionContextStack.prototype =
         }
         catch(e)
         {
+            debugger;
             this.notifyError("Error when executing command: " + e);
         }
     },
