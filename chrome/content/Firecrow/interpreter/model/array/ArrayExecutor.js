@@ -6,6 +6,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
+var fcSimulator = Firecrow.Interpreter.Simulator;
 fcModel.ArrayExecutor =
 {
     executeInternalArrayMethod : function(thisObject, functionObject, args, callExpression, callCommand)
@@ -65,6 +66,13 @@ fcModel.ArrayExecutor =
                     callCommand.thisObject =  args[1] || globalObject;
                     callCommand.originatingObject = thisObject;
                     callCommand.callerFunction = functionObject;
+
+                    var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
+
+                    if(callCommand.originatingObject != null && callCommand.originatingObject.iValue != null && callCommand.originatingObject.iValue.addDependenciesToAllProperties)
+                    {
+                        callCommand.originatingObject.iValue.addDependenciesToAllProperties(callExpression)
+                    }
 
                     if(functionName == "filter" || functionName == "map")
                     {

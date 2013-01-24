@@ -5,16 +5,30 @@
         <meta charset="UTF-8"/>
     </head>
     <body>
+        <div id='mainContainer'></div>
         <script>
-            var camels = ['tabIndex', 'useMap'];
-            var lowerCase = camels.map(String.toLowerCase);
-            var a1 = lowerCase[0] == "tabindex";
-            var a2 = lowerCase[1] == "usemap";
-            a1; a2;
+            var events = {};
 
-            camels.map(function(item)
+            var addEvent = function(type, fn)
             {
-                debugger;
+                events[type] = [];
+                events[type].push(fn);
+
+                this.addEventListener(type, fn);
+            };
+
+            addEvent('DOMContentLoaded', function()
+            {
+                var functions = events["domready"];
+                functions.forEach(function(fn)
+                {
+                    fn();
+                });
+            });
+
+            addEvent('domready', function() {
+                var contentContainer = document.getElementById("mainContainer");
+                contentContainer.textContent += "Hello from MooTools DOM ready";
             });
         </script>
     </body>

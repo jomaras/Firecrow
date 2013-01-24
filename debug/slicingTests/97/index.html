@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slicing test</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div id='mainContainer'></div>
+<script>
+    var a1 = 0;
+    var functions = [];
+
+    function addEvent(fn)
+    {
+        functions.push(fn);
+    };
+
+    addEvent(function()
+    {
+        a1++;
+    });
+
+    functions.forEach(function(fn)
+    {
+        fn();
+    });
+
+    a1;
+</script>
+</body>
+</html>

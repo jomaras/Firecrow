@@ -181,11 +181,15 @@ Native.typize = function(object, family)
 		'Array': ["concat", "indexOf", "join", "lastIndexOf", "pop", "push", "reverse", "shift", "slice", "sort", "splice", "toString", "unshift", "valueOf"],
 		'String': ["charAt", "charCodeAt", "concat", "indexOf", "lastIndexOf", "match", "replace", "search", "slice", "split", "substr", "substring", "toLowerCase", "toUpperCase", "valueOf"]
 	};
-	
+
+    Math.E + 1;
 	for (var g in generics)
 	{
-		for (var i = generics[g].length; i--;) 
+        Math.E + 1;
+
+        for (var i = generics[g].length; i--;)
 		{
+            Math.E + 1;
 			Native.genericize(natives[g], generics[g][i], true);
 			Math.E + 1;
 		}
@@ -1275,72 +1279,78 @@ Function.implement
 	create: function(options)
 	{
 		var self = this;
-		if(!options)
+
+        if(!options)
 		{
 			options = {};
 		}
+
+        var createdFunction = function(event)
+        {
+            var args = options.arguments;
+            if(args != undefined)
+            {
+                args = $splat(args);
+            }
+            else
+            {
+                var optionsEvent = null;
+                if(options.event)
+                {
+                    optionsEvent = 1;
+                }
+                else
+                {
+                    optionsEvent = 0;
+                }
+                args = Array.slice(arguments, optionsEvent);
+            }
+            //args = (args != undefined) ? $splat(args) : Array.slice(arguments, (options.event) ? 1 : 0);
+            if (options.event)
+            {
+                var eventObj;
+                if(event)
+                {
+                    eventObj = event;
+                }
+                else
+                {
+                    eventObj = window.event;
+                }
+
+                args = [eventObj].extend(args);
+            }
+
+            var returnValue = function()
+            {
+                var applyArg = null;
+
+                if(options.bind)
+                {
+                    applyArg = options.bind;
+                }
+
+                return self.apply(applyArg, args);
+            };
+
+            var returns = returnValue;
+            if (options.delay)
+            {
+                return setTimeout(returns, options.delay);
+            }
+
+            if (options.periodical)
+            {
+                return setInterval(returns, options.periodical);
+            }
+            if (options.attempt)
+            {
+                return $try(returns);
+            }
+            return returns();
+        };
 		
-		return function(event)
-		{
-			var args = options.arguments;
-			if(args != undefined)
-			{
-				args = $splat(args);
-			}
-			else
-			{
-				var optionsEvent = null;
-				if(options.event)
-				{
-					optionsEvent = 1;
-				}
-				else
-				{
-					optionsEvent = 0;
-				}
-				args = Array.slice(arguments, optionsEvent);
-			}
-			//args = (args != undefined) ? $splat(args) : Array.slice(arguments, (options.event) ? 1 : 0);
-			if (options.event) 
-			{
-				var eventObj;
-				if(event)
-				{
-					eventObj = event;
-				}
-				else
-				{
-					eventObj = window.event;
-				}
-				
-				args = [eventObj].extend(args);
-			}
-			var returns = function()
-			{
-				var applyArg = null;
-				
-				if(options.bind)
-				{
-					applyArg = options.bind;
-				}
-				
-				return self.apply(applyArg, args);
-			};
-			if (options.delay) 
-			{
-				return setTimeout(returns, options.delay);
-			}
-			
-			if (options.periodical) 
-			{
-				return setInterval(returns, options.periodical);
-			}
-			if (options.attempt) 
-			{
-				return $try(returns);
-			}
-			return returns();
-		};
+		return createdFunction;
 	},
 
 	run: function(args, bind)
@@ -3344,7 +3354,8 @@ Native.implement([Window, Document],
 		}
 		events[type].keys.each(function(fn)
 		{
-			fn.create({'bind': this, 'delay': delay, 'arguments': args})();
+			var createdFunction = fn.create({'bind': this, 'delay': delay, 'arguments': args});
+            createdFunction();
 		}, this);
 		
 		return this;

@@ -7,11 +7,13 @@
 <body>
     <h1> MooTools break down </h1>
     <div id="mainContentContainer"></div>
-    <script src="mootools-1.2.4-shorter.js"></script>
+    <script src="mootools-1.2.4-shorter-shorter.js"></script>
     <script>
+        var a1 = false;
         document.addEvent('domready', function() {
             var contentContainer = document.getElementById("mainContentContainer");
             contentContainer.textContent += "Hello from MooTools DOM ready";
+            a1 = true;
         });
     </script>
 </body>
