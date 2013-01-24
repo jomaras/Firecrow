@@ -13,6 +13,22 @@ fcModel.ArrayFunction = function(globalObject)
 
         this.isInternalFunction = true;
         this.name = "Array";
+
+        fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+        {
+            this.addProperty
+            (
+                propertyName,
+                new fcModel.fcValue
+                (
+                    Array[propertyName],
+                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                    null
+                ),
+                null,
+                false
+            );
+        }, this);
     }
     catch(e){ fcModel.Array.notifyError("Error when creating Array Function:" + e); }
 };

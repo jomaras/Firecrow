@@ -14,11 +14,10 @@ fcModel.ArrayCallbackEvaluator =
 
             var callbackFunctionValue = callbackCommand.callerFunction.jsValue;
             var targetObject = callbackCommand.targetObject;
-            var targetObjectValue = targetObject.jsValue;
 
-            if(callbackFunctionValue.name == "filter") { this._evaluateFilterCallback(targetObject, returnValue, callbackCommand, returnExpression); }
-            else if(callbackFunctionValue.name == "map") { this._evaluateMapCallback(targetObjectValue, returnValue, returnExpression); }
-            else if(callbackFunctionValue.name == "sort") { this._evaluateSortCallback(targetObject, returnValue, callbackCommand, returnExpression); }
+                 if(callbackFunctionValue.name == "filter") { this._evaluateFilterCallback(targetObject, returnValue, callbackCommand, returnExpression); return; }
+            else if(callbackFunctionValue.name == "map") { this._evaluateMapCallback(targetObject, returnValue, returnExpression); return; }
+            else if(callbackFunctionValue.name == "sort") { this._evaluateSortCallback(targetObject, returnValue, callbackCommand, returnExpression); return;}
             else if(callbackFunctionValue.name == "every") { fcModel.Array.notifyError("Still not handling evaluate return from every"); return; }
             else if(callbackFunctionValue.name == "some") { fcModel.Array.notifyError("Still not handling evaluate return from some"); return; }
             else if(callbackFunctionValue.name == "reduce") { fcModel.Array.notifyError("Still not handling evaluate return from reduce"); return; }
@@ -26,11 +25,13 @@ fcModel.ArrayCallbackEvaluator =
             else if(callbackFunctionValue.name == "forEach") { }
             else
             {
+                debugger;
                 fcModel.Array.notifyError("Unknown callbackFunction!");
             }
         }
         catch(e)
         {
+            debugger;
             fcModel.Array.notifyError("Error when evaluating callback return!");
         }
     },
@@ -39,7 +40,7 @@ fcModel.ArrayCallbackEvaluator =
     {
         var targetObjectValue = targetObject.jsValue;
 
-        if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
+        if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: "); return; }
 
         if(returnValue != null && returnValue.jsValue)
         {
@@ -47,9 +48,11 @@ fcModel.ArrayCallbackEvaluator =
         }
     },
 
-    _evaluateMapCallback: function(targetObjectValue, returnValue, returnExpression)
+    _evaluateMapCallback: function(targetObject, returnValue, returnExpression)
     {
-        if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: " + e); return; }
+        var targetObjectValue = targetObject.jsValue;
+
+        if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: "); return; }
 
         targetObject.iValue.push(targetObjectValue, [returnValue], returnExpression.argument);
     },

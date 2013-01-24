@@ -277,7 +277,12 @@ Array.implement
 	}
 });
 
+var myVar = Math.E + 1;
+myVar = Math.E + 1;
+
 Array.alias('forEach', 'each');
+
+myVar = Math.E + 1;
 
 function $A(iterable)
 {
@@ -3176,7 +3181,7 @@ Native.implement([Window, Document],
 window.addListener('unload', purge);
 })();
 
-
+//FIRECROW: PROBLEMS POSSIBLY HERE!
 Native.implement([Window, Document],
 {
 	addEvent: function(type, fn)

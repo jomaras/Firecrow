@@ -523,7 +523,8 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
     this.objectPrototype.addProperty("constructor", this.fcObjectFunction, null, false);
 
     this.arrayFunction = new fcModel.ArrayFunction(this);
-    this.addProperty("Array", new fcModel.fcValue(Array, this.arrayFunction, null), null);
+    this.fcArrayFunction = new fcModel.fcValue(Array, this.arrayFunction, null);
+    this.addProperty("Array", this.fcArrayFunction, null);
 
     this.booleanFunction = new fcModel.BooleanFunction(this);
     this.addProperty("Boolean", new fcModel.fcValue(Boolean, this.booleanFunction, null), null);
@@ -541,7 +542,7 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
     this.addProperty("Number", new fcModel.fcValue(Number, this.numberFunction, null), null);
 
     this.dateFunction = new fcModel.DateFunction(this);
-    this.addProperty("Date", new fcModel.fcValue(Date, this.dateFunction, this.dateFunction), null);
+    this.addProperty("Date", new fcModel.fcValue(Date, this.dateFunction, null), null);
 
     this.functionFunction = new fcModel.FunctionFunction(this);
     this.addProperty("Function", new fcModel.fcValue(Function, this.functionFunction), null);

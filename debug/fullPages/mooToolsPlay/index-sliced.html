@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+    <title>MooTools break-down</title>
+    <meta charset="UTF-8"/>
+</head>
 <body>
-    
+    <h1> MooTools break down </h1>
     <div id="mainContentContainer"></div>
     <script>
   var Native = function(options)
@@ -63,11 +66,6 @@
     };
     object.implement = function(a1, a2, a3)
     {
-      if(typeof a1 == 'string')
-      {
-        return add(this, a1, a2, a3);
-      }
-
       for(var p in a1)
       {
         add(this, p, a1[p], a2);
@@ -131,15 +129,7 @@
   });
   Hash.implement({
     forEach: function(fn, bind)
-    {
-      for(var key in this)
-      {
-        if(this.hasOwnProperty(key))
-        {
-          fn.call(bind, this[key], key, this);
-        }
-      }
-    }, 
+    {}, 
     getClean: function()
     {}, 
     getLength: function()
@@ -359,15 +349,7 @@
     some: function(fn, bind)
     {}, 
     associate: function(keys)
-    {
-      var obj = {}, length = Math.min(this.length, keys.length);
-      for(var i = 0;i < length;i++)
-      {
-        obj[keys[i]] = this[i];
-      }
-
-      return obj;
-    }, 
+    {}, 
     link: function(object)
     {}, 
     contains: function(item, from)
@@ -487,12 +469,7 @@
     hyphenate: function()
     {}, 
     capitalize: function()
-    {
-      return this.replace(/\b[a-z]/g, function(match)
-      {
-        return match.toUpperCase();
-      });
-    }, 
+    {}, 
     escapeRegExp: function()
     {}, 
     toInt: function(base)
@@ -515,12 +492,7 @@
     hasValue: function(value)
     {}, 
     extend: function(properties)
-    {
-      Hash.each(properties, function(value, key)
-      {
-        Hash.set(this, key, value);
-      }, this);
-    }, 
+    {}, 
     combine: function(properties)
     {}, 
     erase: function(key)
@@ -528,9 +500,7 @@
     get: function(key)
     {}, 
     set: function(key, value)
-    {
-      return this;
-    }, 
+    {}, 
     empty: function()
     {}, 
     include: function(key, value)
@@ -665,10 +635,12 @@
     })()
   });
   if(window.$ == null)
-  Window.implement({
-    $: function(el, nc)
-    {}
-  });
+  {
+    Window.implement({
+      $: function(el, nc)
+      {}
+    });
+  }
 
   Window.implement({
     $$: function(selector)
@@ -699,116 +671,8 @@
     };
     var purge = function()
     {};
-    var attributes = {};
-    var bools = ['compact', 'nowrap', 'ismap', 'declare', 'noshade', 'checked', 'disabled', 'readonly', 'multiple', 'selected', 'noresize', 'defer'];
     var camels = ['value', 'type', 'defaultValue', 'accessKey', 'cellPadding', 'cellSpacing', 'colSpan', 'frameBorder', 'maxLength', 'readOnly', 'rowSpan', 'tabIndex', 'useMap'];
-    bools = bools.associate(bools);
-    Hash.extend(attributes, bools);
-    Hash.extend(attributes, camels.associate(camels.map(String.toLowerCase)));
-    var inserters = {
-      before: function(context, element)
-      {}, 
-      after: function(context, element)
-      {}, 
-      bottom: function(context, element)
-      {}, 
-      top: function(context, element)
-      {}
-    };
-    inserters.inside = inserters.bottom;
-    Hash.each(inserters, function(inserter, where)
-    {
-      where = where.capitalize();
-      Element.implement('inject' + where, function(el)
-      {});
-      Element.implement('grab' + where, function(el)
-      {});
-    });
-    Element.implement({
-      set: function(prop, value)
-      {}, 
-      get: function(prop)
-      {}, 
-      erase: function(prop)
-      {}, 
-      setProperty: function(attribute, value)
-      {}, 
-      setProperties: function(attributes)
-      {}, 
-      getProperty: function(attribute)
-      {}, 
-      getProperties: function()
-      {}, 
-      removeProperty: function(attribute)
-      {}, 
-      removeProperties: function()
-      {}, 
-      hasClass: function(className)
-      {}, 
-      addClass: function(className)
-      {}, 
-      removeClass: function(className)
-      {}, 
-      toggleClass: function(className)
-      {}, 
-      adopt: function()
-      {}, 
-      appendText: function(text, where)
-      {}, 
-      grab: function(el, where)
-      {}, 
-      inject: function(el, where)
-      {}, 
-      replaces: function(el)
-      {}, 
-      wraps: function(el, where)
-      {}, 
-      getPrevious: function(match, nocash)
-      {}, 
-      getAllPrevious: function(match, nocash)
-      {}, 
-      getNext: function(match, nocash)
-      {}, 
-      getAllNext: function(match, nocash)
-      {}, 
-      getFirst: function(match, nocash)
-      {}, 
-      getLast: function(match, nocash)
-      {}, 
-      getParent: function(match, nocash)
-      {}, 
-      getParents: function(match, nocash)
-      {}, 
-      getSiblings: function(match, nocash)
-      {}, 
-      getChildren: function(match, nocash)
-      {}, 
-      getWindow: function()
-      {}, 
-      getDocument: function()
-      {}, 
-      getElementById: function(id, nocash)
-      {}, 
-      getSelected: function()
-      {}, 
-      getComputedStyle: function(property)
-      {}, 
-      toQueryString: function()
-      {}, 
-      clone: function(contents, keepid)
-      {}, 
-      destroy: function()
-      {}, 
-      empty: function()
-      {}, 
-      dispose: function()
-      {}, 
-      hasChild: function(el)
-      {}, 
-      match: function(tag)
-      {}
-    });
-    Native.implement([Element, Window, Document], {
+    Native.implement([Window, Document], {
       addListener: function(type, fn)
       {
         if(type == 'unload')
@@ -841,7 +705,7 @@
     });
     window.addListener('unload', purge);
   })();
-  Native.implement([Element, Window, Document], {
+  Native.implement([Window, Document], {
     addEvent: function(type, fn)
     {
       var events = this.retrieve('events', {});

@@ -8,6 +8,7 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
     if(!ValueTypeHelper.isOfType(sourceNode, Firecrow.DependencyGraph.Node)
     || !ValueTypeHelper.isOfType(destinationNode, Firecrow.DependencyGraph.Node))
     {
+        debugger;
         Firecrow.DependencyGraph.Edge.notifyError("DependencyGraph.Edge: Source or destination node are not of type node!");
         return;
     }

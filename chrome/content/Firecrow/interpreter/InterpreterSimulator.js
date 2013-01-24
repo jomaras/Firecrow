@@ -39,6 +39,7 @@ fcSimulator.prototype =
     {
         try
         {
+            if(fcSimulator.logTrace) { console.log("Logging trace!"); }
             for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
             {
                 var command = this.commands[this.currentCommandIndex];
@@ -60,19 +61,6 @@ fcSimulator.prototype =
 
                     fcSimulator.log.push(command.codeConstruct.loc.start.line);
                 }
-
-                /*if(command.codeConstruct.loc.start.line == 13)
-                {
-                    Firecrow.Interpreter.logExecution = true;
-                }*/
-
-                /*if(Firecrow.Interpreter.logExecution && lastLoggedCommandLine != command.getLineNo() && !command.isDeclareVariableCommand()
-                && !command.isEnterFunctionContextCommand() && !command.isExitFunctionContextCommand() && !command.isEndIfCommand()
-                && !command.isEndLoopStatementCommand())
-                {
-                    Firecrow.Interpreter.InterpreterSimulator.log += command.getLineNo() + ";\n";// + command.type + "\n";
-                    lastLoggedCommandLine = command.getLineNo();
-                }*/
             }
         }
         catch(e)

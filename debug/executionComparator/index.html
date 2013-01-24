@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Execution Comparator</title>
+    <meta charset="UTF-8">
+    <script src="firefoxExecutionTrace.js"></script>
+    <script src="firecrowLineProfile.js"></script>
+    <style>
+        #ffTraceContainer
+        {
+            float: left;
+            width: 600px;
+        }
+
+        #fcTraceContainer
+        {
+            float:left;
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="ffTraceContainer">
+        <h2>Firefox trace:</h2>
+        <div class="traceContainer"></div>
+    </div>
+
+    <div id="fcTraceContainer">
+        <h2>Firecrow trace:</h2>
+        <div class="traceContainer"></div>
+    </div>
+
+    <script type="text/javascript">
+
+    function getClearedOfConsecutiveDuplicates(trace)
+    {
+        var cleansedArray = [];
+        var previousTraceItem = null
+
+        for(var i = 0; i < trace.length; i++)
+        {
+            var currentTraceItem = trace[i];
+
+            if(previousTraceItem == null || previousTraceItem.line != currentTraceItem.line)
+            {
+                cleansedArray.push(currentTraceItem.line);
+            }
+
+            previousTraceItem = currentTraceItem;
+        }
+
+        return cleansedArray;
+    }
+
+    function findFirstDifferent(array1, array2, startLine)
+    {
+        startLine = startLine || 0;
+
+        for(var i = startLine; i < array1.length; i++)
+        {
+            if(array1[i] != array2[i])
+            {
+                return i;
+            }
+        }
+    }
+
+    window.onload = function()
+    {
+        var ffHtmlCode = "";
+
+        var ffTrace = getClearedOfConsecutiveDuplicates(firefoxExecutionTrace);
+
+        for(var i = 0, length = ffTrace.length; i < length; i++)
+        {
+            ffHtmlCode += ffTrace[i] + "<br/>";
+        }
+
+        document.querySelector("#ffTraceContainer .traceContainer").innerHTML = ffHtmlCode;
+
+        var firstDifferentLine = findFirstDifferent(ffTrace, firecrowLineProfiling);
+
+        var fcHtmlCode = "";
+
+        for(var i = 0; i < firecrowLineProfiling.length; i++)
+        {
+            fcHtmlCode += firecrowLineProfiling[i] + "<br/>";
+        }
+
+        document.querySelector("#fcTraceContainer .traceContainer").innerHTML = fcHtmlCode;
+    };
+    </script>
+</body>
+</html>
