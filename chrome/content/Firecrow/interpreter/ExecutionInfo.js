@@ -19,12 +19,59 @@ fcBrowser.ExecutionInfo = function()
     this.globalAccessedObjects = [];
 
     this.eventRegistrations = [];
+    this.eventExecutionsMap = {};
+    this.currentEventExecutionInfo = null;
 
     this.executedConstructsIdMap = {};
 };
 
 fcBrowser.ExecutionInfo.prototype =
 {
+    logEventExecution: function(baseObjectDescriptor, eventType)
+    {
+        if(baseObjectDescriptor == null || eventType == null) { debugger; alert("Error when logging event execution"); return; }
+
+        if(this.eventExecutionsMap[baseObjectDescriptor] == null)
+        {
+            this.eventExecutionsMap[baseObjectDescriptor] = {};
+        }
+
+        if(this.eventExecutionsMap[baseObjectDescriptor][eventType] == null)
+        {
+            this.eventExecutionsMap[baseObjectDescriptor][eventType] = {};
+        }
+
+        this.currentEventExecutionInfo =
+        {
+            baseObjectDescriptor: baseObjectDescriptor,
+            eventType: eventType,
+            visitedFunctionsMap: this.eventExecutionsMap[baseObjectDescriptor][eventType],
+            eventDescriptor: baseObjectDescriptor + eventType
+        };
+    },
+
+    logExecutedConstruct: function(codeConstruct)
+    {
+        this.executedConstructsIdMap[codeConstruct.nodeId] = true;
+
+        if(this.currentEventExecutionInfo != null)
+        {
+            if(codeConstruct.executorEventsMap == null) { codeConstruct.executorEventsMap = {}; }
+
+            codeConstruct.executorEventsMap[this.currentEventExecutionInfo.eventDescriptor] = true;
+        }
+    },
+
+    logEnteringFunction: function(functionConstruct)
+    {
+        if(functionConstruct == null) { return; }
+
+        if(this.currentEventExecutionInfo != null)
+        {
+            this.currentEventExecutionInfo.visitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
+        }
+    },
+
     addConstraint: function(codeConstruct, constraint, inverse)
     {
         if(constraint == null) { return; }
@@ -82,11 +129,6 @@ fcBrowser.ExecutionInfo.prototype =
             isSecondSubsetOfFirst: commonPropertiesNumber == totalExecutionInfoBProperties
                                &&  totalExecutionInfoBProperties < totalExecutionInfoAProperties
         };
-    },
-
-    logExecutedConstruct: function(codeConstruct)
-    {
-        this.executedConstructsIdMap[codeConstruct.nodeId] = true;
     },
 
     logAccessingUndefinedProperty: function(propertyName, codeConstruct)

@@ -38,7 +38,7 @@ fcModel.GlobalObject = function(browser)
 };
 
 //<editor-fold desc="'Static' properties">
-fcModel.GlobalObject.notifyError = function(message) { alert("GlobalObject - " + message); }
+fcModel.GlobalObject.notifyError = function(message) { debugger; alert("GlobalObject - " + message); }
 fcModel.GlobalObject.CONST =
 {
     INTERNAL_PROPERTIES:
@@ -127,7 +127,7 @@ fcModel.GlobalObject.prototype.unregisterTimeout = function(timeoutId, codeConst
     {
         if(this.timeoutHandlers[i].timeoutId == timeoutId)
         {
-            this.browser.callDataDependencyEstablishedCallbacks
+            this.dependencyCreator.createDataDependency
             (
                 this.timeoutHandlers[i].registrationPoint.codeConstruct,
                 codeConstruct,
@@ -181,7 +181,7 @@ fcModel.GlobalObject.prototype.unregisterInterval = function(intervalId, codeCon
             var dependencyCreationInfo = this.getPreciseEvaluationPositionId();
             dependencyCreationInfo.shouldAlwaysBeFollowed = true;
 
-            this.browser.callDataDependencyEstablishedCallbacks
+            this.dependencyCreator.createDataDependency
             (
                 this.intervalHandlers[i].registrationPoint.codeConstruct,
                 codeConstruct,
@@ -195,7 +195,7 @@ fcModel.GlobalObject.prototype.unregisterInterval = function(intervalId, codeCon
         }
     }
 
-    this.executionInfo.logEventDeRegistered(null, "interval", codeConstruct, intervalId);
+    this.browser.executionInfo.logEventDeRegistered(null, "interval", codeConstruct, intervalId);
 };
 
 fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID = 0;

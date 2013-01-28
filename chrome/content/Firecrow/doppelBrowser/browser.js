@@ -111,6 +111,8 @@ Browser.prototype =
     {
         var handlerConstruct = eventInfo.handler.codeConstruct;
 
+        this.executionInfo.logEventExecution(eventInfo.thisObjectDescriptor, eventInfo.eventType);
+
         this._interpretJsCode
         (
             handlerConstruct.body,
@@ -307,6 +309,11 @@ Browser.prototype =
         }
 
         return map;
+    },
+
+    logEnteringFunction: function(codeConstruct)
+    {
+        this.executionInfo.logEnteringFunction(codeConstruct);
     },
 
     logConstructExecuted: function(codeConstruct)

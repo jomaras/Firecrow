@@ -15,7 +15,16 @@ fcModel.HtmlElementExecutor =
 
     addDependenciesToAllDescendantsModifications: function(htmlElement, codeConstruct, globalObject)
     {
-        fcModel.Object.prototype.addDependencyToAllModifications.call({htmlElement:htmlElement, globalObject:globalObject}, codeConstruct, htmlElement.elementModificationPoints);
+        fcModel.Object.prototype.addDependencyToAllModifications.call
+        (
+            {
+                htmlElement:htmlElement,
+                globalObject:globalObject,
+                dependencyCreator: globalObject.dependencyCreator
+            },
+            codeConstruct,
+            htmlElement.elementModificationPoints
+        );
 
         var childNodes = htmlElement.childNodes;
 
@@ -146,12 +155,12 @@ fcModel.HtmlElementExecutor =
 
             if(element.modelElement != null)
             {
-                globalObject.browser.callDataDependencyEstablishedCallbacks(codeConstruct, element.modelElement, evaluationPositionId);
+                globalObject.dependencyCreator.createDataDependency(codeConstruct, element.modelElement, evaluationPositionId);
             }
 
             if (element.creationPoint != null)
             {
-                globalObject.browser.callDataDependencyEstablishedCallbacks
+                globalObject.dependencyCreator.createDataDependency
                 (
                     codeConstruct,
                     element.creationPoint.codeConstruct,
@@ -162,7 +171,7 @@ fcModel.HtmlElementExecutor =
 
             if(element.domInsertionPoint != null)
             {
-                globalObject.browser.callDataDependencyEstablishedCallbacks
+                globalObject.dependencyCreator.createDataDependency
                 (
                     codeConstruct,
                     element.domInsertionPoint.codeConstruct,
@@ -179,7 +188,7 @@ fcModel.HtmlElementExecutor =
                 {
                     var elementModificationPoint = elementModificationPoints[i];
 
-                    globalObject.browser.callDataDependencyEstablishedCallbacks
+                    globalObject.dependencyCreator.createDataDependency
                     (
                         codeConstruct,
                         elementModificationPoint.codeConstruct,

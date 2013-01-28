@@ -3,6 +3,7 @@ FBL.ns(function() { with (FBL) {
 var fcScenarioGenerator = Firecrow.ScenarioGenerator;
 var fcSymbolic = fcScenarioGenerator.Symbolic;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
 
 fcScenarioGenerator.Scenario = function(events, inputConstraint, parentScenarios)
 {
@@ -27,6 +28,8 @@ fcScenarioGenerator.Scenario.prototype =
     setExecutionInfo: function(executionInfo)
     {
         this.executionInfo = executionInfo;
+
+        this.ownerCollection.aggregateEventCoverageInfo(executionInfo);
     },
 
     setParametrizedEvents: function(parametrizedEvents)
@@ -68,7 +71,7 @@ fcScenarioGenerator.Scenario.prototype =
 
         for(var i = 0; i < this.events.length; i++)
         {
-            if(this.events[i] != scenario.events[i])
+            if(!fcScenarioGenerator.Event.areEqual(this.events[i], scenario.events[i]))
             {
                 return false;
             }
@@ -92,6 +95,33 @@ fcScenarioGenerator.Scenario.prototype =
         }
 
         return notOwnEvents;
+    },
+
+    compareEvents: function(scenario)
+    {
+        var matchingEventsCount = 0;
+
+        for(var i = 0; i < this.events.length; i++)
+        {
+            var iThEvent = this.events[i];
+
+            for(var j = 0; j <  scenario.events.length; j++)
+            {
+                var jThEvent = scenario.events[j];
+
+                if(fcScenarioGenerator.Event.areEqual(iThEvent, jThEvent))
+                {
+                    matchingEventsCount++;
+                    break;
+                }
+            }
+        }
+
+        return {
+            areEqual: matchingEventsCount == this.events.length && matchingEventsCount == scenario.events.length,
+            isFirstSubsetOfSecond: matchingEventsCount == this.events.length && this.events.length < scenario.events.length,
+            isSecondSubsetOfFirst: matchingEventsCount == scenario.events.length && scenario.events.length < this.events.length
+        };
     },
 
     _containsEvent: function(event)
@@ -138,6 +168,7 @@ fcScenarioGenerator.ScenarioCollection = function(scenarioAddedCallback)
 {
     this.lengthGroups = [];
     this.scenarios = [];
+    this.eventCoverageInfo = {};
     this.scenarioAddedCallback = scenarioAddedCallback;
 };
 
@@ -192,6 +223,8 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
         this.lengthGroups[scenario.events.length].push(scenario);
         this.scenarios.push(scenario);
+
+        scenario.ownerCollection = this;
 
         if(this.scenarioAddedCallback != null)
         {
@@ -252,9 +285,15 @@ fcScenarioGenerator.ScenarioCollection.prototype =
             {
                 var jThScenario = processedScenarios[j];
 
-                var result = iThScenario.executionInfo.compareExecutedConstructs(jThScenario.executionInfo)
+                var executionInfoComparison = iThScenario.executionInfo.compareExecutedConstructs(jThScenario.executionInfo)
+                var eventComparison = iThScenario.compareEvents(jThScenario);
 
-                if(result.areEqual)
+                if(!eventComparison.areEqual && !eventComparison.isFirstSubsetOfSecond && !eventComparison.isSecondSubsetOfFirst)
+                {
+                    continue;
+                }
+
+                if(executionInfoComparison.areEqual)
                 {
                     hasFoundMatch = true;
                     var chosenScenario = iThScenario.events.length < jThScenario.events.length ? iThScenario : jThScenario;
@@ -264,7 +303,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
                     subsumedScenariosMap[chosenScenario.id] = chosenScenario;
                 }
-                else if(result.isFirstSubsetOfSecond)
+                else if(executionInfoComparison.isFirstSubsetOfSecond)
                 {
                     hasFoundMatch = true;
 
@@ -272,7 +311,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
                     subsumedScenariosMap[jThScenario.id] = jThScenario;
                 }
-                else if (result.isSecondSubsetOfFirst)
+                else if (executionInfoComparison.isSecondSubsetOfFirst)
                 {
                     hasFoundMatch = true;
 
@@ -292,6 +331,87 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         console.log("Processed scenarios: " + processedScenarios.length + " Subsumed Scenarios: " + subsumedScenarios.length);
 
         return subsumedScenarios;
+    },
+
+    calculateEventCoverage: function()
+    {
+        var eventCoverage = this.getEventCoverage();
+
+        var totalNumberOfExpressions = 0;
+        var executedNumberOfExpressions = 0;
+
+        for(var i = 0; i < eventCoverage.length; i++)
+        {
+            totalNumberOfExpressions += eventCoverage[i].totalNumberOfExpressions;
+            executedNumberOfExpressions += eventCoverage[i].executedNumberOfExpressions;
+        }
+
+        if(executedNumberOfExpressions == 0) { return 0; }
+
+        return executedNumberOfExpressions/totalNumberOfExpressions
+    },
+
+    getEventCoverage: function()
+    {
+        var eventCoverage = [];
+
+        for(var baseObjectDescriptor in this.eventCoverageInfo)
+        {
+            var eventDescriptors = this.eventCoverageInfo[baseObjectDescriptor];
+
+            for(var eventType in eventDescriptors)
+            {
+                var eventDescriptor = baseObjectDescriptor + eventType;
+                var visitedFunctions = eventDescriptors[eventType];
+
+                var totalCoverageInfo = {
+                    totalNumberOfExpressions: 0,
+                    executedNumberOfExpressions: 0
+                };
+
+                for(var visitedFunctionId in visitedFunctions)
+                {
+                    var coverage = ASTHelper.getFunctionCoverageInfo(visitedFunctions[visitedFunctionId], eventDescriptor);
+
+                    totalCoverageInfo.totalNumberOfExpressions += coverage.totalNumberOfExpressions;
+                    totalCoverageInfo.executedNumberOfExpressions += coverage.executedNumberOfExpressions;
+                }
+
+                eventCoverage.push({
+                    baseObjectDescriptor: baseObjectDescriptor,
+                    eventType: eventType,
+                    executedNumberOfExpressions: totalCoverageInfo.executedNumberOfExpressions,
+                    totalNumberOfExpressions: totalCoverageInfo.totalNumberOfExpressions,
+                    coverage: totalCoverageInfo.executedNumberOfExpressions/totalCoverageInfo.totalNumberOfExpressions
+                });
+            }
+        }
+
+        return eventCoverage;
+    },
+
+    aggregateEventCoverageInfo: function(executionInfo)
+    {
+        for(var baseObjectDescriptor in executionInfo.eventExecutionsMap)
+        {
+            var descriptorInfo = executionInfo.eventExecutionsMap[baseObjectDescriptor];
+
+            if(this.eventCoverageInfo[baseObjectDescriptor] == null) { this.eventCoverageInfo[baseObjectDescriptor] = descriptorInfo; }
+            else
+            {
+                for(var eventType in descriptorInfo)
+                {
+                    if(this.eventCoverageInfo[baseObjectDescriptor][eventType] == null)
+                    {
+                        this.eventCoverageInfo[baseObjectDescriptor][eventType] = descriptorInfo[eventType];
+                    }
+                    else
+                    {
+                        ValueTypeHelper.expand(this.eventCoverageInfo[baseObjectDescriptor][eventType], descriptorInfo[eventType]);
+                    }
+                }
+            }
+        }
     }
 };
 /*****************************************************/

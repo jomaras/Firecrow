@@ -39,7 +39,7 @@ function init()
     var modelSelect = document.getElementById("modello");
     modelSelect.onchange = changeModel;
 
-    setInterval(draw, 100);
+    setInterval(draw, 200);
 }
 
 function changeModel()
@@ -71,7 +71,7 @@ function changeModel()
         translate_solid([0, 0, -1100], world.solid[world.solid_number - 1]);
     }
 
-    id_timer = setInterval(draw, 100);
+    id_timer = setInterval(draw, 200);
 }
 
 function onKeyDown(evt)
@@ -219,8 +219,8 @@ function sortfunction(a, b) {
 <body style="background-color:#000; padding:5px 0px; margin:0px;">
 <div style="font-size: 12px; font-family:Verdana;  text-align: center; position: relative; width:100%; color: #fff">
     Model: <select id="modello">
-    <option value="dino">Dinosaur</option>
-    <option value="heli">Helicopter</option>
+    <option value="dino">dino</option>
+    <option value="heli">heli</option>
 </select>
     <span style="color: #f88133">|</span> Color-keys: <span style="color: red">r</span> - <span
         style="color: yellow">y</span> - <span style="color: green">g</span> - <span style="color: white">w</span> -

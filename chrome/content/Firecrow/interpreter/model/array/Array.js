@@ -344,7 +344,7 @@ fcModel.Array.prototype.slice = function(jsArray, callArguments, callExpression)
 
             if(lengthProperty != null && lengthProperty.lastModificationPosition != null)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                this.dependencyCreator.createDataDependency
                 (
                     callExpression,
                     lengthProperty.lastModificationPosition.codeConstruct,
@@ -394,7 +394,7 @@ fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpressio
 
             if(lengthProperty != null && lengthProperty.lastModificationPosition != null)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                this.dependencyCreator.createDataDependency
                 (
                     callExpression,
                     lengthProperty.lastModificationPosition.codeConstruct,
@@ -533,7 +533,7 @@ fcModel.Array.prototype._registerCallbacks = function()
     (
         function(modification)
         {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            this.dependencyCreator.createDataDependency
             (
                 this.dummyDependencyNode,
                 modification.codeConstruct,

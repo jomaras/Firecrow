@@ -132,7 +132,7 @@ fcModel.StringExecutor =
                     targetObject.iValue = targetObject.jsValue;
                 }
 
-                globalObject.browser.callDataDependencyEstablishedCallbacks
+                globalObject.dependencyCreator.createDataDependency
                 (
                     targetObject.codeConstruct,
                     returnExpression.argument,

@@ -665,6 +665,8 @@ fcSimulator.ExecutionContextStack.prototype =
         var sentArgumentsValues = null;
         var arguments = [];
 
+        this.globalObject.browser.logEnteringFunction(functionConstruct);
+
         if(enterFunctionCommand.isEnterEventHandler) { sentArgumentsValues = enterFunctionCommand.argumentValues; }
         else
         {

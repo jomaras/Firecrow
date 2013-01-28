@@ -24,9 +24,9 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var asyncLoop = function()
         {
-            if(currentScenario == null || processedScenarioCounter > 20 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
+            if(currentScenario == null || processedScenarioCounter > 40 || this._hasAchievedEnoughCoverage(pageModel, scenarios))
             {
-                scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios());
+                scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
 
                 return;
             }
@@ -62,7 +62,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         while (currentScenario != null)
         {
-            if(processedScenarioCounter > 20 || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1) { break; }
+            if(processedScenarioCounter > 40 || this._hasAchievedEnoughCoverage(pageModel, scenarios)) { break; }
 
             this._createDerivedScenarios(pageModel, currentScenario, scenarios);
 
@@ -75,7 +75,12 @@ fcScenarioGenerator.ScenarioGenerator =
             processedScenarioCounter++;
         }
 
-        return scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios());
+        return scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
+    },
+
+    _hasAchievedEnoughCoverage: function(pageModel, scenarios)
+    {
+        return (ASTHelper.calculatePageExpressionCoverage(pageModel) + scenarios.calculateEventCoverage() - 1) >= 0.99
     },
 
     _executeApplication: function(pageModel)
@@ -128,7 +133,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _createDerivedScenarios: function(pageModel, scenario, scenarios)
     {
-        var executionSummary = this._executeScenario(pageModel, scenario);
+        var executionSummary = this._executeScenario(pageModel, scenario, scenarios);
 
         this._createInvertedPathScenarios(executionSummary, scenario, scenarios);
         this._createNewlyRegisteredEventsScenarios(executionSummary, scenario, scenarios);
@@ -206,7 +211,7 @@ fcScenarioGenerator.ScenarioGenerator =
         }
     },
 
-    _executeScenario: function(pageModel, scenario)
+    _executeScenario: function(pageModel, scenario, scenarios)
     {
         var browser = this._executeApplication(pageModel);
         var parametrizedEvents = this._createParametrizedEvents(scenario);

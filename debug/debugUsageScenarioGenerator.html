@@ -148,11 +148,13 @@
         <textarea style="width: 400px; min-height: 400px;" id="seleniumCodeContainer"></textarea>
 
     </div>
-    <script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>
+
+    <!--<script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>
+    <script src="usageScenarioGenerator/fullPages/original/3dmodel/model.js"></script>-->
 
     <script type="text/javascript">
-       var model = models[29];
-       //var model = threeDModel;
+       var model = models[25];
+       //var model = fullPageModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var usageScenarioTracesContainer = document.getElementById("usageScenarioTracesContainer");
@@ -162,7 +164,7 @@
 
         var scenarioCounter = 0;
 
-        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenariosSync(model.pageModel, function(scenario)
+        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenariosSync(model.pageModel, function(scenario, eventCoverage)
         {
             if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
             {

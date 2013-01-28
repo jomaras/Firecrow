@@ -7,28 +7,22 @@
     <body>
         <div id='mainContainer'></div>
         <script>
-            var events = {};
 
-            var addEvent = function(type, fn)
+            var a1 = 0;
+
+            function executeFunction(fun)
             {
-                events[type] = [];
-                events[type].push(fn);
+                a = fun || function() { };
 
-                this.addEventListener(type, fn);
-            };
+                a.call(this);
 
-            addEvent('DOMContentLoaded', function()
+                a1++;
+            }
+
+            executeFunction();
+            executeFunction(function()
             {
-                var functions = events["domready"];
-                functions.forEach(function(fn)
-                {
-                    fn();
-                });
-            });
-
-            addEvent('domready', function() {
-                var contentContainer = document.getElementById("mainContainer");
-                contentContainer.textContent += "Hello from MooTools DOM ready";
+                a1++;
             });
         </script>
     </body>

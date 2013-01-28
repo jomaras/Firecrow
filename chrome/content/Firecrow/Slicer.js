@@ -16,6 +16,8 @@ Firecrow.Slicer = {
         Firecrow.Slicer.browser = browser;
         browser.url = url;
 
+        Firecrow.Interpreter.Simulator.DependencyCreator.shouldCreateDependencies = true;
+
         browser.registerSlicingCriteria(slicingCriteria);
         browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
         browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);

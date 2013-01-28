@@ -103,7 +103,7 @@ fcModel.HtmlElement.prototype.notifyElementInsertedIntoDom = function(callExpres
             evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
         };
 
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        this.dependencyCreator.createDataDependency
         (
             this.htmlElement.modelElement,
             callExpression,
@@ -135,7 +135,7 @@ fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruc
 
     this.addDependencyToAllModifications(getPropertyConstruct, this.htmlElement.elementModificationPoints);
 
-    this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, this.htmlElement.modelElement, evaluationPositionId);
+    this.dependencyCreator.createDataDependency(getPropertyConstruct, this.htmlElement.modelElement, evaluationPositionId);
 
     if(fcModel.DOM_PROPERTIES.isElementElements(propertyName) || fcModel.DOM_PROPERTIES.isNodeElements(propertyName))
     {
@@ -147,12 +147,7 @@ fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruc
 
             if(descendant == null) { continue; }
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                getPropertyConstruct,
-                descendant.modelElement,
-                evaluationPositionId
-            );
+            this.dependencyCreator.createDataDependency(getPropertyConstruct, descendant.modelElement, evaluationPositionId);
         }
     }
     else if (fcModel.DOM_PROPERTIES.isElementElement(propertyName) || fcModel.DOM_PROPERTIES.isNodeElement(propertyName))
@@ -161,7 +156,7 @@ fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruc
 
         if(element == null) { return; }
 
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(getPropertyConstruct, element.modelElement, evaluationPositionId);
+        this.dependencyCreator.createDataDependency(getPropertyConstruct, element.modelElement, evaluationPositionId);
     }
 };
 
@@ -208,8 +203,8 @@ fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlE
         childNode.modelElement = { type: childNode.nodeName.toLowerCase(), domElement: childNode , isDummyElement: true};
         this.globalObject.browser.callNodeCreatedCallbacks(childNode.modelElement, "html", true);
 
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(htmlElement.modelElement, childNode.modelElement, evaluationPosition);
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(childNode.modelElement, codeConstruct, evaluationPosition);
+        this.dependencyCreator.createDataDependency(htmlElement.modelElement, childNode.modelElement, evaluationPosition);
+        this.dependencyCreator.createDataDependency(childNode.modelElement, codeConstruct, evaluationPosition);
 
         if(childNode.id != null && childNode.id != "")
         {
@@ -249,7 +244,7 @@ fcModel.HtmlElement.prototype._isMethod = function(propertyName)
 
 fcModel.HtmlElement.prototype._createDependencies = function(propertyName, codeConstruct)
 {
-    this.globalObject.browser.callDataDependencyEstablishedCallbacks(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+    this.dependencyCreator.createDataDependency(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
     fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
 
     if(propertyName == "className" || propertyName == "id")

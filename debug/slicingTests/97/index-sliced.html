@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<script>
+    var a1 = 0;
+    var Native = function(options)
+    {
+        var afterImplement = options.afterImplement;
+        var object = options.initialize;
+        object.implement = function()
+        {
+            afterImplement();
+            a1++;
+        };
+        return object;
+    };
+    var Window = new Native({
+        initialize: function()
+        {},
+        afterImplement: function()
+        {
+            a1++;
+        }
+    });
+    Window.implement();
+    var Document = new Native({
+        initialize: function()
+        {}
+    });
+    Document.implement();
+    a1;
+</script>
+
+</body>
+</html>

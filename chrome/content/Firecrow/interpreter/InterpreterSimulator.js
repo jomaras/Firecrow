@@ -30,7 +30,7 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, h
 var fcSimulator = Firecrow.Interpreter.InterpreterSimulator;
 
 fcSimulator.log = [];
-fcSimulator.logTrace = true;
+fcSimulator.logTrace = false;
 fcSimulator.notifyError = function(message) { alert("InterpreterSimulator - " + message); }
 
 fcSimulator.prototype =
@@ -49,8 +49,8 @@ fcSimulator.prototype =
                 this._processCommand(command);
 
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
-
-                if(!fcSimulator.logTrace || command.codeConstruct == null) { continue; }
+                //Uncomment to enable application tracing
+                /*if(!fcSimulator.logTrace || command.codeConstruct == null) { continue; }
 
                 if(command.codeConstruct.loc == null) { continue; }
 
@@ -60,7 +60,7 @@ fcSimulator.prototype =
                     if(command.type.indexOf("End") == 0) { continue; }
 
                     fcSimulator.log.push(command.codeConstruct.loc.start.line);
-                }
+                }*/
             }
         }
         catch(e)
@@ -269,11 +269,11 @@ fcSimulator.prototype =
             callConstruct.arguments.map(function(argument) { return this.executionContextStack.getExpressionValue(argument)}, this)
         );
 
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
+        this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
 
         for(var i = 0; i < callConstruct.arguments.length; i++)
         {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.arguments[i], this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.arguments[i], this.globalObject.getPreciseEvaluationPositionId());
         }
 
         this.executionContextStack.setExpressionValue(newCommand.codeConstruct, newObject);
@@ -290,11 +290,11 @@ fcSimulator.prototype =
     {
         var callConstruct = callExpressionCommand.codeConstruct;
 
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
+        this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
 
         for(var i = 0; i < callConstruct.arguments.length; i++)
         {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(callConstruct, callConstruct.arguments[i], this.globalObject.getPreciseEvaluationPositionId());
+            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.arguments[i], this.globalObject.getPreciseEvaluationPositionId());
         }
 
         var baseObject = this.executionContextStack.getBaseObject(callConstruct.callee);

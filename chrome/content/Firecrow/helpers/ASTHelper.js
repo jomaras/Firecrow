@@ -57,10 +57,6 @@ Firecrow.ASTHelper =
                     {
                         executedNumberOfExpressions++;
                     }
-                    else
-                    {
-                        var a = 3;
-                    }
                 }
             });
         }
@@ -79,7 +75,7 @@ Firecrow.ASTHelper =
         {
             var model = models[i];
 
-            this.traverseAst(model, function(astElement)
+            this.traverseAstWhileIgnoring(model, function(astElement)
             {
                 if(ASTHelper.isExpression(astElement))
                 {
@@ -89,10 +85,36 @@ Firecrow.ASTHelper =
                         executedNumberOfExpressions++;
                     }
                 }
-            });
+            }, ["FunctionExpression", "FunctionDeclaration"]);
         }
 
         return executedNumberOfExpressions/totalNumberOfExpressions;
+    },
+
+    getFunctionCoverageInfo: function(functionConstruct, executionId)
+    {
+        var ASTHelper = this;
+
+        var totalNumberOfExpressions = 0;
+        var executedNumberOfExpressions = 0;
+
+        this.traverseAstWhileIgnoring(functionConstruct.body, function(astElement)
+        {
+            if(ASTHelper.isExpression(astElement))
+            {
+                totalNumberOfExpressions++;
+
+                if(astElement.executorEventsMap != null && astElement.executorEventsMap[executionId])
+                {
+                    executedNumberOfExpressions++;
+                }
+            }
+        }, ["FunctionExpression", "FunctionDeclaration"]);
+
+        return {
+            totalNumberOfExpressions: totalNumberOfExpressions,
+            executedNumberOfExpressions: executedNumberOfExpressions
+        };
     },
 
     setParentsChildRelationships: function(rootElement)
@@ -510,55 +532,101 @@ Firecrow.ASTHelper =
 
     traverseAst: function(astElement, processElementFunction, ignoreProperties)
     {
-        try
+        if(!(ValueTypeHelper.isObject(astElement))) { return; }
+
+        for(var propName in astElement)
         {
-            if(!(ValueTypeHelper.isObject(astElement))) { return; }
+            //Do not traverse the source code location properties and parents and graphNodes!
+            if(propName == "loc"
+                || propName == "parent"
+                || propName == "graphNode"
+                || propName == "children"
+                || propName == "domElement"
+                || propName == "graphNode"
+                || propName == "htmlNode"
+                || propName == "attributes"
+                || propName == "previousCondition"
+                || propName == "includesNodes"
+                || propName == "includedByNodes"
+                || propName == "type"
+                || propName == "eventTraces"
+                || propName == "inclusionDependencyConstraint"
+                || propName == "blockStackConstructs"
+                || propName == "executorEventsMap"
+                || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
-            for(var propName in astElement)
+            var propertyValue = astElement[propName];
+
+            if(propertyValue == null) { continue; }
+
+            if(ValueTypeHelper.isArray(propertyValue))
             {
-                //Do not traverse the source code location properties and parents and graphNodes!
-                if(propName == "loc"
-                    || propName == "parent"
-                    || propName == "graphNode"
-                    || propName == "children"
-                    || propName == "domElement"
-                    || propName == "graphNode"
-                    || propName == "htmlNode"
-                    || propName == "attributes"
-                    || propName == "previousCondition"
-                    || propName == "includesNodes"
-                    || propName == "includedByNodes"
-                    || propName == "type"
-                    || propName == "eventTraces"
-                    || propName == "inclusionDependencyConstraint"
-                    || propName == "blockStackConstructs"
-                    || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
-
-                var propertyValue = astElement[propName];
-
-                if(propertyValue == null) { continue; }
-
-                if(ValueTypeHelper.isArray(propertyValue))
+                for(var i = 0; i < propertyValue.length; i++)
                 {
-                    for(var i = 0; i < propertyValue.length; i++)
+                    if(ValueTypeHelper.isObject(propertyValue[i]))
                     {
-                        if(ValueTypeHelper.isObject(propertyValue[i]))
-                        {
-                            processElementFunction(propertyValue[i], propName, astElement, i);
-                            this.traverseAst(propertyValue[i], processElementFunction, ignoreProperties);
-                        }
+                        processElementFunction(propertyValue[i], propName, astElement, i);
+                        this.traverseAst(propertyValue[i], processElementFunction, ignoreProperties);
                     }
                 }
-                else if (ValueTypeHelper.isObject(propertyValue))
-                {
-                    processElementFunction(propertyValue, propName, astElement);
-                    this.traverseAst(propertyValue, processElementFunction, ignoreProperties);
-                }
+            }
+            else if (ValueTypeHelper.isObject(propertyValue))
+            {
+                processElementFunction(propertyValue, propName, astElement);
+                this.traverseAst(propertyValue, processElementFunction, ignoreProperties);
             }
         }
-        catch(e)
+    },
+
+    traverseAstWhileIgnoring: function(astElement, processElementFunction, ignoreElementTypes)
+    {
+        if(!(ValueTypeHelper.isObject(astElement))) { return; }
+
+        if(ignoreElementTypes != null && ignoreElementTypes.indexOf(astElement.type) != -1) { return; }
+
+        for(var propName in astElement)
         {
-            alert("Error while traversing AST in ASTHelper: " + e);
+            //Do not traverse the source code location properties and parents and graphNodes!
+            if(propName == "loc"
+                || propName == "parent"
+                || propName == "graphNode"
+                || propName == "children"
+                || propName == "domElement"
+                || propName == "graphNode"
+                || propName == "htmlNode"
+                || propName == "attributes"
+                || propName == "previousCondition"
+                || propName == "includesNodes"
+                || propName == "includedByNodes"
+                || propName == "type"
+                || propName == "eventTraces"
+                || propName == "inclusionDependencyConstraint"
+                || propName == "blockStackConstructs"
+                || propName == "executorEventsMap") { continue; }
+
+            var propertyValue = astElement[propName];
+
+            if(propertyValue == null) { continue; }
+
+            if(ValueTypeHelper.isArray(propertyValue))
+            {
+                for(var i = 0; i < propertyValue.length; i++)
+                {
+                    if(ValueTypeHelper.isObject(propertyValue[i]))
+                    {
+                        processElementFunction(propertyValue[i], propName, astElement, i);
+                        this.traverseAstWhileIgnoring(propertyValue[i], processElementFunction, ignoreElementTypes);
+                    }
+                }
+            }
+            else if (ValueTypeHelper.isObject(propertyValue))
+            {
+                if(ignoreElementTypes == null || ignoreElementTypes.indexOf(propertyValue.type) == -1)
+                {
+                    processElementFunction(propertyValue, propName, astElement);
+                    this.traverseAstWhileIgnoring(propertyValue, processElementFunction, ignoreElementTypes);
+                }
+            }
         }
     },
 

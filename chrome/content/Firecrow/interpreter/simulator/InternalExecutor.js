@@ -103,7 +103,7 @@ fcSimulator.InternalExecutor.prototype =
             fcHtmlElement.proto = this.globalObject.htmlImageElementPrototype;
         }
 
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(creationConstruct, jsElement.modelElement, this.globalObject.getPreciseEvaluationPositionId());
+        this.globalObject.dependencyCreator.createDataDependency(creationConstruct, jsElement.modelElement, this.globalObject.getPreciseEvaluationPositionId());
 
         return new fcModel.fcValue(jsElement, fcHtmlElement, creationConstruct);
     },

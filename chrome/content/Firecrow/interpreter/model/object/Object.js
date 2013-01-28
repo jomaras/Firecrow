@@ -2,6 +2,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var fcSimulator = Firecrow.Interpreter.Simulator;
 
 fcModel.Object = function() {};
 
@@ -27,6 +28,8 @@ fcModel.Object.prototype =
         this.globalObject = globalObject;
         this.implementationObject = implementationObject;
         this.creationCodeConstruct = codeConstruct;
+
+        this.dependencyCreator = new fcSimulator.DependencyCreator(globalObject);
 
         this.properties = [];
         this.enumeratedProperties = [];
@@ -336,7 +339,7 @@ fcModel.Object.prototype =
         {
             var modification = modifications[i];
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            this.dependencyCreator.createDataDependency
             (
                 codeConstruct,
                 modification.codeConstruct,
@@ -357,7 +360,7 @@ fcModel.Object.prototype =
                 this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
             }
 
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            this.dependencyCreator.createDataDependency
             (
                 codeConstruct,
                 this.dummyDependencyNode,
@@ -397,7 +400,7 @@ fcModel.Object.prototype =
 
         if(this.prototypeDefinitionConstruct != null)
         {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            this.dependencyCreator.createDataDependency
             (
                 readPropertyConstruct,
                 this.prototypeDefinitionConstruct.codeConstruct,
@@ -408,7 +411,7 @@ fcModel.Object.prototype =
 
         if(property.lastModificationPosition != null)
         {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            this.dependencyCreator.createDataDependency
             (
                 readPropertyConstruct,
                 property.lastModificationPosition.codeConstruct,

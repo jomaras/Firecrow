@@ -65,7 +65,7 @@ fcModel.TextNode.prototype._getPropertyCallback = function(getPropertyConstruct)
 
     this.addDependencyToAllModifications(getPropertyConstruct, this.textNode.elementModificationPoints);
 
-    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+    this.dependencyCreator.createDataDependency
     (
         getPropertyConstruct,
         this.textNode.modelElement,

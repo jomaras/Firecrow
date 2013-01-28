@@ -10,12 +10,16 @@ fcSimulator.DependencyCreator = function(globalObject, executionContextStack)
     this.executionContextStack = executionContextStack;
 };
 
-fcSimulator.DependencyCreator.notifyError = function(message) { alert("DependencyCreator - " + message);};
+fcSimulator.DependencyCreator.shouldCreateDependencies = false;
+
+fcSimulator.DependencyCreator.notifyError = function(message) { debugger; alert("DependencyCreator - " + message);};
 
 fcSimulator.DependencyCreator.prototype =
 {
     createDependencyToConstructorPrototype: function(creationCodeConstruct, constructorFunction)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         if(constructorFunction.iValue != null && constructorFunction.iValue.prototypeDefinitionConstruct != null)
         {
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
@@ -30,6 +34,8 @@ fcSimulator.DependencyCreator.prototype =
 
     createExitFunctionDependencies: function(callFunctionCommand)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         this.addDependenciesToPreviouslyExecutedBlockConstructs(callFunctionCommand.codeConstruct, this.executionContextStack.getPreviouslyExecutedBlockConstructs());
 
         if(callFunctionCommand.executedReturnCommand != null && callFunctionCommand.executedReturnCommand.codeConstruct.argument == null)
@@ -45,6 +51,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createDependenciesForObjectPropertyDefinition: function(propertyConstruct)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         if(!ASTHelper.isObjectExpression(propertyConstruct)) { return; }
 
         var children = propertyConstruct.children;
@@ -57,13 +64,23 @@ fcSimulator.DependencyCreator.prototype =
         }
     },
 
-    createDataDependency: function(fromConstruct, toConstruct, evaluationPosition)
+    createDataDependency: function(fromConstruct, toConstruct, evaluationPosition, toEvaluationPosition)
     {
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks(fromConstruct, toConstruct, evaluationPosition || this.globalObject.getPreciseEvaluationPositionId());
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            fromConstruct,
+            toConstruct,
+            evaluationPosition || this.globalObject.getPreciseEvaluationPositionId(),
+            toEvaluationPosition
+        );
     },
 
     markEnterFunctionPoints: function(enterFunctionCommand)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         if(enterFunctionCommand == null || enterFunctionCommand.parentFunctionCommand == null) { return; }
 
         //TODO - this should not be here!
@@ -84,18 +101,16 @@ fcSimulator.DependencyCreator.prototype =
 
     createFunctionParametersDependencies: function(callCommand, formalParams, args)
     {
-        try
-        {
-            if(callCommand == null) { return; }
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+        if(callCommand == null) { return; }
 
-            this._createArgumentsToCallDependencies(callCommand, args);
-            this._createFormalParameterDependencies(callCommand, formalParams, args);
-        }
-        catch(e) { fcSimulator.DependencyCreator.notifyError("Error establishing dependencies between function parameters and call expression arguments: " + e); }
+        this._createArgumentsToCallDependencies(callCommand, args);
+        this._createFormalParameterDependencies(callCommand, formalParams, args);
     },
 
     _createArgumentsToCallDependencies: function(callCommand, args)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         if(args == null) { return; }
 
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
@@ -108,6 +123,7 @@ fcSimulator.DependencyCreator.prototype =
 
     _createFormalParameterDependencies: function(callCommand, formalParams, args)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         if(args == null) { return; }
 
         if(callCommand.isApply) { this._createFormalParameterDependenciesInApply(callCommand, formalParams, args); }
@@ -118,6 +134,7 @@ fcSimulator.DependencyCreator.prototype =
 
     _createFormalParameterDependenciesInApply: function(callCommand, formalParams, args)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var argumentValue = this.executionContextStack.getExpressionValue(args[1]);
 
         if(argumentValue == null) { return; }
@@ -141,6 +158,7 @@ fcSimulator.DependencyCreator.prototype =
 
     _createFormalParameterDependenciesInCall: function(callCommand, formalParams, args)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
 
         for(var i = 0, length = formalParams.length; i < length; i++)
@@ -154,6 +172,7 @@ fcSimulator.DependencyCreator.prototype =
 
     _createFormalParameterDependenciesInStandard: function(callCommand, formalParams, args)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
 
         for(var i = 0, length = formalParams.length; i < length; i++)
@@ -167,6 +186,7 @@ fcSimulator.DependencyCreator.prototype =
 
     _createFormalParameterDependenciesInCallback: function(callCommand, formalParameters, args)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var params = callCommand.callbackFunction.codeConstruct.params;
         var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
 
@@ -185,6 +205,7 @@ fcSimulator.DependencyCreator.prototype =
 
     addDependenciesToPreviouslyExecutedBlockConstructs: function(codeConstruct, previouslyExecutedBlockConstructs)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
         evaluationPosition.isReturnDependency = true;
 
@@ -205,6 +226,7 @@ fcSimulator.DependencyCreator.prototype =
 
     addDependenciesToTopBlockConstructs: function(currentConstruct)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var topBlockConstructs = this.executionContextStack.getTopBlockCommandConstructs();
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
@@ -235,6 +257,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createAssignmentDependencies: function(assignmentCommand)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var assignmentExpression = assignmentCommand.codeConstruct;
 
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
@@ -247,12 +270,15 @@ fcSimulator.DependencyCreator.prototype =
 
     createUpdateExpressionDependencies: function(updateExpression)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(updateExpression, updateExpression.argument, this.globalObject.getPreciseEvaluationPositionId());
         this.addDependenciesToTopBlockConstructs(updateExpression);
     },
 
     createIdentifierDependencies:function(identifier, identifierConstruct, evaluationPosition)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         if(this._willIdentifierBeReadInAssignmentExpression(identifierConstruct))
         {
             this._addDependencyToLastModificationPoint(identifier, identifierConstruct, evaluationPosition);
@@ -268,6 +294,8 @@ fcSimulator.DependencyCreator.prototype =
 
     _addDependencyToLastModificationPoint: function(identifier, identifierConstruct, evaluationPosition)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         if(identifier.lastModificationPosition == null) { return; }
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks
@@ -281,6 +309,8 @@ fcSimulator.DependencyCreator.prototype =
 
     _addDependencyToIdentifierDeclaration: function(identifier, identifierConstruct, evaluationPosition)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         if(identifier.declarationPosition == null || identifier.declarationPosition == identifier.lastModificationPosition) { return; }
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks
@@ -294,6 +324,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createBinaryExpressionDependencies: function(binaryExpression)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, evaluationPosition);
@@ -302,6 +333,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createReturnDependencies: function(returnCommand)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         this.globalObject.browser.callControlDependencyEstablishedCallbacks(returnCommand.codeConstruct, returnCommand.codeConstruct.argument, this.globalObject.getPreciseEvaluationPositionId());
 
         this.addDependenciesToTopBlockConstructs(returnCommand.codeConstruct);
@@ -313,6 +345,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createMemberExpressionDependencies: function(object, property, propertyValue, memberExpression)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         //TODO - possibly can create a problem? - for problems see slicing 54, 55, 56
         var propertyExists = propertyValue !== undefined && propertyValue.jsValue !== undefined;
 
@@ -371,6 +404,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createDependenciesInForInWhereCommand: function(forInWhereConstruct, whereObject, nextPropertyName)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
         this.addDependenciesToTopBlockConstructs(forInWhereConstruct.left);
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(forInWhereConstruct, forInWhereConstruct.right, evaluationPosition);
@@ -410,6 +444,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createDependenciesForConditionalCommand: function(conditionalCommand)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalCommand.codeConstruct, conditionalCommand.codeConstruct.test, evaluationPosition);
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalCommand.codeConstruct, conditionalCommand.startCommand.body, evaluationPosition);
@@ -417,6 +452,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createDependenciesForLogicalExpressionItemCommand: function(logicalExpression)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         if(logicalExpression.operator == "&&")
         {
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
@@ -430,6 +466,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createDependenciesForLogicalExpression: function(logicalExpressionCommand)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var executedItemsCommands = logicalExpressionCommand.executedLogicalItemExpressionCommands;
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
@@ -448,6 +485,7 @@ fcSimulator.DependencyCreator.prototype =
 
     createDependenciesForCallInternalFunction: function(callInternalFunctionCommand)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var callExpression = callInternalFunctionCommand.codeConstruct;
 
         //Callback function called with an internal function
@@ -477,6 +515,7 @@ fcSimulator.DependencyCreator.prototype =
 
     _createDependenciesToCallApplyInternalFunctionCall: function(callInternalFunctionCommand, args, callExpression)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
         if(callInternalFunctionCommand.isCall)
@@ -499,6 +538,8 @@ fcSimulator.DependencyCreator.prototype =
 
     createCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
         var callExpression = parentInitCallbackCommand.codeConstruct;
         var arguments = callExpression.arguments;
@@ -513,6 +554,8 @@ fcSimulator.DependencyCreator.prototype =
 
     createSequenceExpressionDependencies: function(sequenceExpression, lastExpression)
     {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         this.globalObject.browser.callDataDependencyEstablishedCallbacks
         (
             sequenceExpression,

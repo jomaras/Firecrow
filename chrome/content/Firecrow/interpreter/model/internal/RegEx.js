@@ -60,7 +60,7 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
                 {
                     var modification = this.modifications[i];
 
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    this.dependencyCreator.createDataDependency
                     (
                         codeConstruct,
                         modification.codeConstruct,
