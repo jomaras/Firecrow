@@ -292,6 +292,14 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         return this.scenarios;
     },
 
+    getExecutedScenarios: function()
+    {
+        return this.scenarios.filter(function(scenario)
+        {
+            return scenario.executionInfo != null;
+        })
+    },
+
     getProcessedScenarios: function()
     {
         var allScenarios = [];
@@ -314,6 +322,8 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         return allScenarios;
     },
 
+    compareEvents: false,
+
     getSubsumedProcessedScenarios: function()
     {
         var processedScenarios = this.getProcessedScenarios();
@@ -331,11 +341,15 @@ fcScenarioGenerator.ScenarioCollection.prototype =
                 var jThScenario = processedScenarios[j];
 
                 var executionInfoComparison = iThScenario.executionInfo.compareExecutedConstructs(jThScenario.executionInfo)
-                var eventComparison = iThScenario.compareEvents(jThScenario);
 
-                if(!eventComparison.areEqual && !eventComparison.isFirstSubsetOfSecond && !eventComparison.isSecondSubsetOfFirst)
+                if(this.compareEvents)
                 {
-                    continue;
+                    var eventComparison = iThScenario.compareEvents(jThScenario);
+
+                    if(!eventComparison.areEqual && !eventComparison.isFirstSubsetOfSecond && !eventComparison.isSecondSubsetOfFirst)
+                    {
+                        continue;
+                    }
                 }
 
                 if(executionInfoComparison.areEqual)

@@ -40,6 +40,8 @@ fcSimulator.prototype =
         try
         {
             if(fcSimulator.logTrace) { console.log("Logging trace!"); }
+            var timer = Firecrow.TimerHelper.createTimer();
+
             for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
             {
                 var command = this.commands[this.currentCommandIndex];
@@ -49,6 +51,15 @@ fcSimulator.prototype =
                 this._processCommand(command);
 
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
+
+                if(timer.hasMoreThanSecondsElapsed(120))
+                {
+                    if(!confirm("Interpreter Simulator - runSync has been running for more than 2 minutes, Continue?"))
+                    {
+                        return;
+                    }
+                }
+
                 //Uncomment to enable application tracing
                 /*if(!fcSimulator.logTrace || command.codeConstruct == null) { continue; }
 
@@ -76,6 +87,7 @@ fcSimulator.prototype =
         {
             this.currentCommandIndex = 0;
             var that = this;
+            var timer = Firecrow.TimerHelper.createTimer();
 
             var asyncLoop = function()
             {
@@ -86,6 +98,14 @@ fcSimulator.prototype =
                 that.callMessageGeneratedCallbacks("ExCommand@" + command.getLineNo() + ":" + command.type);
 
                 that.currentCommandIndex++;
+
+                if(timer.hasMoreThanSecondsElapsed(120))
+                {
+                    if(!confirm("Interpreter Simulator - runAsync has been running for more than 2 minutes, Continue?"))
+                    {
+                        return;
+                    }
+                }
 
                 if(that.currentCommandIndex < that.commands.length) { that.currentCommandIndex % 20 == 0 ? setTimeout(asyncLoop, 10) : asyncLoop(); }
                 else { callback(); }

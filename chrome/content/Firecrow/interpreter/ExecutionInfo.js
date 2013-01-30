@@ -1,256 +1,333 @@
 FBL.ns(function() { with (FBL) {
-/*************************************************************************************/
-var fcBrowser = Firecrow.DoppelBrowser;
-var fcModel = Firecrow.Interpreter.Model;
-var ValueTypeHelper = Firecrow.ValueTypeHelper;
+    /*************************************************************************************/
+    var fcBrowser = Firecrow.DoppelBrowser;
+    var fcModel = Firecrow.Interpreter.Model;
+    var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcBrowser.ExecutionInfo = function()
-{
-    this.pathConstraint = new Firecrow.ScenarioGenerator.Symbolic.PathConstraint();
-
-    this.undefinedGlobalPropertiesAccessMap = {};
-    this.resourceSetterPropertiesMap = {};
-    this.objectForInIterations = [];
-
-    this.globalModifiedIdentifiers = [];
-    this.globalModifiedObjects = [];
-
-    this.globalAccessedIdentifiers = [];
-    this.globalAccessedObjects = [];
-
-    this.eventRegistrations = [];
-    this.eventExecutionsMap = {};
-    this.currentEventExecutionInfo = null;
-
-    this.executedConstructsIdMap = {};
-};
-
-fcBrowser.ExecutionInfo.prototype =
-{
-    logEventExecution: function(baseObjectDescriptor, eventType)
+    fcBrowser.ExecutionInfo = function()
     {
-        if(baseObjectDescriptor == null || eventType == null) { debugger; alert("Error when logging event execution"); return; }
+        this.pathConstraint = new Firecrow.ScenarioGenerator.Symbolic.PathConstraint();
 
-        if(this.eventExecutionsMap[baseObjectDescriptor] == null)
+        this.undefinedGlobalPropertiesAccessMap = {};
+        this.resourceSetterPropertiesMap = {};
+        this.objectForInIterations = [];
+
+        this.globalModifiedIdentifiers = [];
+        this.globalModifiedObjects = [];
+
+        this.globalAccessedIdentifiers = [];
+        this.globalAccessedObjects = [];
+
+        this.eventRegistrations = [];
+        this.eventExecutionsMap = {};
+        this.eventExecutions = [];
+        this.currentEventExecutionInfo = null;
+
+        this.executedConstructsIdMap = {};
+    };
+
+    fcBrowser.ExecutionInfo.prototype =
+    {
+        logEventExecution: function(baseObjectDescriptor, eventType)
         {
-            this.eventExecutionsMap[baseObjectDescriptor] = {};
-        }
+            if(baseObjectDescriptor == null || eventType == null) { debugger; alert("Error when logging event execution"); return; }
 
-        if(this.eventExecutionsMap[baseObjectDescriptor][eventType] == null)
-        {
-            this.eventExecutionsMap[baseObjectDescriptor][eventType] = {};
-        }
-
-        this.currentEventExecutionInfo =
-        {
-            baseObjectDescriptor: baseObjectDescriptor,
-            eventType: eventType,
-            visitedFunctionsMap: this.eventExecutionsMap[baseObjectDescriptor][eventType],
-            eventDescriptor: baseObjectDescriptor + eventType
-        };
-    },
-
-    logExecutedConstruct: function(codeConstruct)
-    {
-        this.executedConstructsIdMap[codeConstruct.nodeId] = true;
-
-        if(this.currentEventExecutionInfo != null)
-        {
-            if(codeConstruct.executorEventsMap == null) { codeConstruct.executorEventsMap = {}; }
-
-            codeConstruct.executorEventsMap[this.currentEventExecutionInfo.eventDescriptor] = true;
-        }
-    },
-
-    logEnteringFunction: function(functionConstruct)
-    {
-        if(functionConstruct == null) { return; }
-
-        if(this.currentEventExecutionInfo != null)
-        {
-            this.currentEventExecutionInfo.visitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
-        }
-    },
-
-    addConstraint: function(codeConstruct, constraint, inverse)
-    {
-        if(constraint == null) { return; }
-
-        this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
-    },
-
-    addPathConstraintItem: function(pathConstraintItem)
-    {
-        this.pathConstraint.addPathConstraintItem(pathConstraintItem);
-    },
-
-    addPathConstraintItemToBeginning: function(pathConstraintItem)
-    {
-        this.pathConstraint.addPathConstraintItemToBeginning(pathConstraintItem);
-    },
-
-    compareExecutedConstructs: function(executionInfoB)
-    {
-        var executedConstructsA = this.executedConstructsIdMap;
-        var executedConstructsB = executionInfoB.executedConstructsIdMap;
-
-        var totalExecutionInfoAProperties = 0;
-        var totalExecutionInfoBProperties = 0;
-        var commonPropertiesNumber = 0;
-
-        var isFirstIterationOverB = true;
-
-        for(var nodeIdA in executedConstructsA)
-        {
-            for(var nodeIdB in executedConstructsB)
+            if(this.eventExecutionsMap[baseObjectDescriptor] == null)
             {
-                if(isFirstIterationOverB)
-                {
-                    totalExecutionInfoBProperties++;
-                }
-
-                if(nodeIdA == nodeIdB)
-                {
-                    commonPropertiesNumber++;
-                }
+                this.eventExecutionsMap[baseObjectDescriptor] = {};
             }
 
-            totalExecutionInfoAProperties++;
-            isFirstIterationOverB = false;
-        }
+            if(this.eventExecutionsMap[baseObjectDescriptor][eventType] == null)
+            {
+                this.eventExecutionsMap[baseObjectDescriptor][eventType] = {};
+            }
 
-        return {
-            areEqual: commonPropertiesNumber == totalExecutionInfoAProperties
-                   && commonPropertiesNumber == totalExecutionInfoBProperties,
+            this.currentEventExecutionInfo =
+            {
+                baseObjectDescriptor: baseObjectDescriptor,
+                eventType: eventType,
+                visitedFunctionsMap: this.eventExecutionsMap[baseObjectDescriptor][eventType],
+                eventDescriptor: baseObjectDescriptor + eventType,
+                globalModifiedIdentifiers: [],
+                globalAccessedIdentifiers: [],
+                eventRegistrations: [],
+                globalAccessedObjects: [],
+                globalModifiedObjects: []
+            };
 
-            isFirstSubsetOfSecond: commonPropertiesNumber == totalExecutionInfoAProperties
-                               &&  totalExecutionInfoAProperties < totalExecutionInfoBProperties,
+            this.eventExecutions.push(this.currentEventExecutionInfo);
+        },
 
-            isSecondSubsetOfFirst: commonPropertiesNumber == totalExecutionInfoBProperties
-                               &&  totalExecutionInfoBProperties < totalExecutionInfoAProperties
-        };
-    },
-
-    logAccessingUndefinedProperty: function(propertyName, codeConstruct)
-    {
-        if(codeConstruct == null || fcModel.GlobalObject.CONST.isEventProperty(propertyName)) { return; }
-
-        if(this.undefinedGlobalPropertiesAccessMap[propertyName] == null)
+        logExecutedConstruct: function(codeConstruct)
         {
-            this.undefinedGlobalPropertiesAccessMap[propertyName] = {};
-        }
+            this.executedConstructsIdMap[codeConstruct.nodeId] = true;
 
-        this.undefinedGlobalPropertiesAccessMap[propertyName][codeConstruct.nodeId] = codeConstruct;
-    },
+            if(this.currentEventExecutionInfo != null)
+            {
+                if(codeConstruct.executorEventsMap == null) { codeConstruct.executorEventsMap = {}; }
 
-    logResourceSetting: function(codeConstruct, resourcePath)
-    {
-        if(codeConstruct == null) { return; }
+                codeConstruct.executorEventsMap[this.currentEventExecutionInfo.eventDescriptor] = true;
+            }
+        },
 
-        this.resourceSetterPropertiesMap[codeConstruct.nodeId] =
+        logEnteringFunction: function(functionConstruct)
         {
-            codeConstruct: codeConstruct,
-            resourceValue: resourcePath
-        };
-    },
+            if(functionConstruct == null) { return; }
 
-    logForInIteration: function(codeConstruct, objectPrototype)
-    {
-        console.log("Not logging for in iterations");
-        //this.objectForInIterations.push({ proto: objectPrototype, codeConstruct: codeConstruct });
-    },
+            if(this.currentEventExecutionInfo != null)
+            {
+                this.currentEventExecutionInfo.visitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
+            }
+        },
 
-    logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
-    {
-        this.globalModifiedIdentifiers.push
-        (
+        addConstraint: function(codeConstruct, constraint, inverse)
+        {
+            if(constraint == null) { return; }
+
+            this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);
+        },
+
+        addPathConstraintItem: function(pathConstraintItem)
+        {
+            this.pathConstraint.addPathConstraintItem(pathConstraintItem);
+        },
+
+        addPathConstraintItemToBeginning: function(pathConstraintItem)
+        {
+            this.pathConstraint.addPathConstraintItemToBeginning(pathConstraintItem);
+        },
+
+        compareExecutedConstructs: function(executionInfoB)
+        {
+            var executedConstructsA = this.executedConstructsIdMap;
+            var executedConstructsB = executionInfoB.executedConstructsIdMap;
+
+            var totalExecutionInfoAProperties = 0;
+            var totalExecutionInfoBProperties = 0;
+            var commonPropertiesNumber = 0;
+
+            var isFirstIterationOverB = true;
+
+            for(var nodeIdA in executedConstructsA)
+            {
+                for(var nodeIdB in executedConstructsB)
+                {
+                    if(isFirstIterationOverB)
+                    {
+                        totalExecutionInfoBProperties++;
+                    }
+
+                    if(nodeIdA == nodeIdB)
+                    {
+                        commonPropertiesNumber++;
+                    }
+                }
+
+                totalExecutionInfoAProperties++;
+                isFirstIterationOverB = false;
+            }
+
+            return {
+                areEqual: commonPropertiesNumber == totalExecutionInfoAProperties
+                    && commonPropertiesNumber == totalExecutionInfoBProperties,
+
+                isFirstSubsetOfSecond: commonPropertiesNumber == totalExecutionInfoAProperties
+                    &&  totalExecutionInfoAProperties < totalExecutionInfoBProperties,
+
+                isSecondSubsetOfFirst: commonPropertiesNumber == totalExecutionInfoBProperties
+                    &&  totalExecutionInfoBProperties < totalExecutionInfoAProperties
+            };
+        },
+
+        logAccessingUndefinedProperty: function(propertyName, codeConstruct)
+        {
+            if(codeConstruct == null || fcModel.GlobalObject.CONST.isEventProperty(propertyName)) { return; }
+
+            if(this.undefinedGlobalPropertiesAccessMap[propertyName] == null)
+            {
+                this.undefinedGlobalPropertiesAccessMap[propertyName] = {};
+            }
+
+            this.undefinedGlobalPropertiesAccessMap[propertyName][codeConstruct.nodeId] = codeConstruct;
+        },
+
+        logResourceSetting: function(codeConstruct, resourcePath)
+        {
+            if(codeConstruct == null) { return; }
+
+            this.resourceSetterPropertiesMap[codeConstruct.nodeId] =
+            {
+                codeConstruct: codeConstruct,
+                resourceValue: resourcePath
+            };
+        },
+
+        logForInIteration: function(codeConstruct, objectPrototype)
+        {
+            console.log("Not logging for in iterations");
+            //this.objectForInIterations.push({ proto: objectPrototype, codeConstruct: codeConstruct });
+        },
+
+        logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
+        {
+            var modifiedIdentifierInfo =
             {
                 name: identifier.name,
                 declarationConstructId: identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
                                                                                : null
-            }
-        );
-    },
+            };
 
-    logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, handlerConstruct, loadingEventsExecuted, timerId)
-    {
-        this.eventRegistrations.push({
-            thisObjectDescriptor: thisObjectDescriptor,
-            thisObjectModel: thisObjectModel,
-            eventType: eventType,
-            registrationConstruct: registrationConstruct,
-            handlerConstruct: handlerConstruct,
-            loadingEventsExecuted: loadingEventsExecuted,
-            timerId: timerId
-        });
-    },
-
-    logEventDeRegistered: function(htmlNode, eventType, deregistrationConstruct, timerId)
-    {
-        if(eventType == "interval") { this._removeFirstRegisteredEventByTypeAndTimerId(eventType, timerId); return; }
-    },
-
-    _removeFirstRegisteredEventByTypeAndTimerId: function(eventType, timerId)
-    {
-        for(var i = 0, length = this.eventRegistrations.length; i < length; i++)
-        {
-            var eventRegistration = this.eventRegistrations[i];
-
-            if(eventRegistration.eventType == eventType && eventRegistration.timerId == timerId)
+            if(this.currentEventExecutionInfo != null)
             {
-                ValueTypeHelper.removeFromArrayByIndex(this.eventRegistrations, i);
-                return;
+                this.currentEventExecutionInfo.globalModifiedIdentifiers.push(modifiedIdentifierInfo);
             }
-        }
-    },
+            else
+            {
+                this.globalModifiedIdentifiers.push(modifiedIdentifierInfo);
+            }
+        },
 
-    logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
-    {
-        if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
+        logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, handlerConstruct, loadingEventsExecuted, timerId)
+        {
+            var eventRegistrationInfo =
+            {
+                thisObjectDescriptor: thisObjectDescriptor,
+                thisObjectModel: thisObjectModel,
+                eventType: eventType,
+                registrationConstruct: registrationConstruct,
+                handlerConstruct: handlerConstruct,
+                loadingEventsExecuted: loadingEventsExecuted,
+                timerId: timerId
+            };
 
-        this.globalAccessedIdentifiers.push
-        (
+            if(this.currentEventExecutionInfo != null)
+            {
+                this.currentEventExecutionInfo.eventRegistrations.push(eventRegistrationInfo);
+            }
+            else
+            {
+                this.eventRegistrations.push(eventRegistrationInfo);
+            }
+        },
+
+        logEventDeRegistered: function(htmlNode, eventType, deregistrationConstruct, timerId)
+        {
+            if(eventType == "interval") { this._removeFirstRegisteredEventByTypeAndTimerId(eventType, timerId); return; }
+        },
+
+        _removeFirstRegisteredEventByTypeAndTimerId: function(eventType, timerId)
+        {
+            for(var i = 0, length = this.eventRegistrations.length; i < length; i++)
+            {
+                var eventRegistration = this.eventRegistrations[i];
+
+                if(eventRegistration.eventType == eventType && eventRegistration.timerId == timerId)
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(this.eventRegistrations, i);
+                    break;
+                }
+            }
+
+            for(var i = 0; i < this.eventExecutions.length; i++)
+            {
+                var eventExecution = this.eventExecutions[i];
+
+                for(var j = 0; j < eventExecution.eventRegistrations.length; j++)
+                {
+                    var eventRegistration = eventExecution.eventRegistrations[j];
+
+                    if(eventRegistration.eventType == eventType && eventRegistration.timerId == timerId)
+                    {
+                        ValueTypeHelper.removeFromArrayByIndex(eventExecution.eventRegistrations, i);
+                        return;
+                    }
+                }
+            }
+        },
+
+        logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
+        {
+            if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
+
+            var accessedGlobalIdentifierInfo =
             {
                 name: identifier.name,
                 declarationConstructId: identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
-                                                                                : null
-            }
-        );
-    },
+                                                                               : null
+            };
 
-    logReadingObjectPropertyOutsideCurrentScope: function(baseObjectId, propertyName, codeConstruct)
-    {
-        if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
-
-        this.globalAccessedObjects.push({baseObjectId: baseObjectId, propertyName: propertyName, codeConstruct: codeConstruct});
-    },
-
-    logModifyingExternalContextObject: function(baseObjectId, propertyName, codeConstruct)
-    {
-        this.globalModifiedObjects.push({baseObjectId: baseObjectId, propertyName: propertyName, codeConstruct: codeConstruct});
-    },
-
-    isDependentOn: function(executionInfo)
-    {
-        return this._isIdentifierDependent(executionInfo) || this._isObjectModificationsDependent(executionInfo);
-    },
-
-    _isIdentifierDependent: function(executionInfo)
-    {
-        if(executionInfo == null || executionInfo.globalModifiedIdentifiers == null
-        || executionInfo.globalModifiedIdentifiers.length == 0
-        || this.globalAccessedIdentifiers.length == 0)
-        {
-            return false;
-        }
-
-        for(var i = 0, modifiedIdentifiersLength = executionInfo.globalModifiedIdentifiers.length; i < modifiedIdentifiersLength; i++)
-        {
-            var modifiedIdentifier = executionInfo.globalModifiedIdentifiers[i];
-
-            for(var j = 0, accessedIdentifiersLength = this.globalAccessedIdentifiers.length; j < accessedIdentifiersLength; j++)
+            if(this.currentEventExecutionInfo != null)
             {
-                var globalAccessedIdentifier = this.globalAccessedIdentifiers[j];
+                this.currentEventExecutionInfo.globalAccessedIdentifiers.push(accessedGlobalIdentifierInfo)
+            }
+            else
+            {
+                this.globalAccessedIdentifiers.push(accessedGlobalIdentifierInfo);
+            }
+        },
+
+        logReadingObjectPropertyOutsideCurrentScope: function(baseObjectId, propertyName, codeConstruct)
+        {
+            if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
+
+            var accessedObjectInfo = { baseObjectId: baseObjectId, propertyName: propertyName, codeConstruct: codeConstruct };
+
+            if(this.currentEventExecutionInfo != null)
+            {
+                this.currentEventExecutionInfo.globalAccessedObjects.push(accessedObjectInfo);
+            }
+            else
+            {
+                this.globalAccessedObjects.push(accessedObjectInfo);
+            }
+        },
+
+        logModifyingExternalContextObject: function(baseObjectId, propertyName, codeConstruct)
+        {
+            var modifiedObjectInfo = {baseObjectId: baseObjectId, propertyName: propertyName, codeConstruct: codeConstruct};
+
+            if(this.currentEventExecutionInfo != null)
+            {
+                this.currentEventExecutionInfo.globalModifiedObjects.push(modifiedObjectInfo);
+            }
+            else
+            {
+                this.globalModifiedObjects.push(modifiedObjectInfo);
+            }
+        },
+
+        isDependentOn: function(executionInfo)
+        {
+            return this._isIdentifierDependent(executionInfo) || this._isObjectModificationsDependent(executionInfo);
+        },
+
+        _isIdentifierDependent: function(executionInfo)
+        {
+            //Compare only to last event execution info (since all events are always traversed)
+            var thisGlobalAccessedIdentifiers = this.eventExecutions[this.eventExecutions.length - 1] != null
+                                              ? this.eventExecutions[this.eventExecutions.length - 1].globalAccessedIdentifiers
+                                              : this.globalAccessedIdentifiers;
+
+            var comparisonGlobalModifiedIdentifiers = executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1] != null
+                                                    ? executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1].globalModifiedIdentifiers
+                                                    : executionInfo.globalModifiedIdentifiers;
+
+            for(var i = 0, modifiedIdentifiersLength = comparisonGlobalModifiedIdentifiers.length; i < modifiedIdentifiersLength; i++)
+            {
+                if(this._isDependentOnAccessedIdentifiers(comparisonGlobalModifiedIdentifiers[i], thisGlobalAccessedIdentifiers))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        _isDependentOnAccessedIdentifiers: function(modifiedIdentifier, accessedIdentifiers)
+        {
+            for(var i = 0, accessedIdentifiersLength = accessedIdentifiers.length; i < accessedIdentifiersLength; i++)
+            {
+                var globalAccessedIdentifier = accessedIdentifiers[i];
 
                 if(modifiedIdentifier.declarationConstructId == null && globalAccessedIdentifier.declarationConstructId == null)
                 {
@@ -269,38 +346,50 @@ fcBrowser.ExecutionInfo.prototype =
                     }
                 }
             }
-        }
 
-        return false;
-    },
-
-    _isObjectModificationsDependent: function(executionInfo)
-    {
-        if(executionInfo == null || executionInfo.globalModifiedIdentifiers == null
-        || executionInfo.globalModifiedObjects.length == 0
-        || this.globalAccessedObjects.length == 0)
-        {
             return false;
-        }
+        },
 
-        for(var i = 0, modifiedObjectsLength = executionInfo.globalModifiedObjects.length; i < modifiedObjectsLength; i++)
+        _isObjectModificationsDependent: function(executionInfo)
         {
-            var modifiedObject = executionInfo.globalModifiedObjects[i];
+            //Compare only to last event execution info (since all events are always traversed)
+            var thisGlobalAccessedObjects = this.eventExecutions[this.eventExecutions.length - 1] != null
+                                          ? this.eventExecutions[this.eventExecutions.length - 1].globalAccessedObjects
+                                          : this.globalAccessedObjects;
 
-            for(var j = 0, accessedObjectsLength = this.globalAccessedObjects.length; j < accessedObjectsLength; j++)
+            var comparisonGlobalModifiedObjects = executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1] != null
+                                                ? executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1].globalModifiedObjects
+                                                : executionInfo.globalModifiedObjects;
+
+            for(var i = 0, modifiedObjectsLength = comparisonGlobalModifiedObjects.length; i < modifiedObjectsLength; i++)
             {
-                var accessedObject = this.globalAccessedObjects[j];
+                var modifiedObject = comparisonGlobalModifiedObjects[i];
 
-                if(modifiedObject.baseObjectId == accessedObject.baseObjectId && modifiedObject.propertyName == accessedObject.propertyName)
+                if(this._isDependentOnObjectModifications(modifiedObject, thisGlobalAccessedObjects))
                 {
                     return true;
                 }
             }
+
+            return false;
+        },
+
+        _isDependentOnObjectModifications: function(modifiedObject, accessedObjects)
+        {
+            for(var i = 0, accessedObjectsLength = accessedObjects.length; i < accessedObjectsLength; i++)
+            {
+                var accessedObject = accessedObjects[i];
+
+                if(modifiedObject.baseObjectId == accessedObject.baseObjectId
+                && modifiedObject.propertyName == accessedObject.propertyName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
+    };
 
-        return false;
-    }
-};
-
-/*************************************************************************************/
+    /*************************************************************************************/
 }});

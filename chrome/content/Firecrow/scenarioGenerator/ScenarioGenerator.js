@@ -30,7 +30,7 @@ fcScenarioGenerator.ScenarioGenerator =
             //|| that._hasAchievedEnoughCoverage(pageModel, scenarios))
             {
                 //scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
-                scenarioExecutedCallback(scenarios.getAllScenarios());
+                scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios());
 
                 return;
             }
@@ -207,8 +207,20 @@ fcScenarioGenerator.ScenarioGenerator =
         var allScenarios = scenarios.getAllScenarios();
         var scenariosLength = allScenarios.length;
 
+        if(scenariosLength >= 200) { debugger; }
+
+        var timer = Firecrow.TimerHelper.createTimer();
+
         for(var i = 0; i < scenariosLength; i++)
         {
+            if(timer.hasMoreThanSecondsElapsed(120))
+            {
+                if(!confirm("ScenarioGenerator - _createMergedScenarios has been running for more than 2 minutes, Continue?"))
+                {
+                    return;
+                }
+            }
+
             var ithScenario = allScenarios[i];
 
             for(var j = 0; j < scenariosLength; j++)
