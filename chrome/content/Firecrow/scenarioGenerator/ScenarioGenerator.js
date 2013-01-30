@@ -163,7 +163,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _createNewlyRegisteredEventsScenarios: function(executionSummary, scenario, scenarios)
     {
-        var newlyRegisteredEvents = this._getNewlyRegisteredEvents(executionSummary, scenario);
+        var newlyRegisteredEvents = this._getNewlyRegisteredEventsComparedToParents(scenario);
 
         for(var i = 0; i < newlyRegisteredEvents.length; i++)
         {
@@ -186,11 +186,11 @@ fcScenarioGenerator.ScenarioGenerator =
         }
     },
 
-    _getNewlyRegisteredEvents: function(executionSummary, scenario)
+    _getNewlyRegisteredEventsComparedToParents: function(scenario)
     {
         if(scenario.parentScenarios.length == 0)
         {
-            return executionSummary.eventRegistrations.filter(function(eventRegistration)
+            return scenario.executionInfo.eventRegistrations.filter(function(eventRegistration)
             {
                 return eventRegistration.loadingEventsExecuted;
             });

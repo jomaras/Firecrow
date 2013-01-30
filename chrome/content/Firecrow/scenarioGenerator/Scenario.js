@@ -109,12 +109,13 @@ fcScenarioGenerator.Scenario.prototype =
     filterEvents: function(eventRegistrations)
     {
         var ownEvents = [];
+        var thisEventRegistrations = this.executionInfo.eventRegistrations;
 
-        for(var i = 0; i < this.events.length; i++)
+        for(var i = 0; i < thisEventRegistrations.length; i++)
         {
-            if(!this._containsEvent(eventRegistrations, this.events[i]))
+            if(!this._containsEvent(eventRegistrations, thisEventRegistrations[i]))
             {
-                ownEvents.push(this.events[i]);
+                ownEvents.push(thisEventRegistrations[i]);
             }
         }
 

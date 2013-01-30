@@ -186,10 +186,8 @@ FBL.ns(function() { with (FBL) {
             {
                 this.currentEventExecutionInfo.globalModifiedIdentifiers.push(modifiedIdentifierInfo);
             }
-            else
-            {
-                this.globalModifiedIdentifiers.push(modifiedIdentifierInfo);
-            }
+
+            this.globalModifiedIdentifiers.push(modifiedIdentifierInfo);
         },
 
         getLastEventRegistrations: function()
@@ -216,10 +214,8 @@ FBL.ns(function() { with (FBL) {
             {
                 this.currentEventExecutionInfo.eventRegistrations.push(eventRegistrationInfo);
             }
-            else
-            {
-                this.eventRegistrations.push(eventRegistrationInfo);
-            }
+
+            this.eventRegistrations.push(eventRegistrationInfo);
         },
 
         logEventDeRegistered: function(htmlNode, eventType, deregistrationConstruct, timerId)
@@ -272,10 +268,8 @@ FBL.ns(function() { with (FBL) {
             {
                 this.currentEventExecutionInfo.globalAccessedIdentifiers.push(accessedGlobalIdentifierInfo)
             }
-            else
-            {
-                this.globalAccessedIdentifiers.push(accessedGlobalIdentifierInfo);
-            }
+
+            this.globalAccessedIdentifiers.push(accessedGlobalIdentifierInfo);
         },
 
         logReadingObjectPropertyOutsideCurrentScope: function(baseObjectId, propertyName, codeConstruct)
@@ -288,10 +282,8 @@ FBL.ns(function() { with (FBL) {
             {
                 this.currentEventExecutionInfo.globalAccessedObjects.push(accessedObjectInfo);
             }
-            else
-            {
-                this.globalAccessedObjects.push(accessedObjectInfo);
-            }
+
+            this.globalAccessedObjects.push(accessedObjectInfo);
         },
 
         logModifyingExternalContextObject: function(baseObjectId, propertyName, codeConstruct)
@@ -302,10 +294,8 @@ FBL.ns(function() { with (FBL) {
             {
                 this.currentEventExecutionInfo.globalModifiedObjects.push(modifiedObjectInfo);
             }
-            else
-            {
-                this.globalModifiedObjects.push(modifiedObjectInfo);
-            }
+
+            this.globalModifiedObjects.push(modifiedObjectInfo);
         },
 
         isDependentOn: function(executionInfo)
