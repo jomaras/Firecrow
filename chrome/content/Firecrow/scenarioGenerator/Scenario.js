@@ -106,21 +106,19 @@ fcScenarioGenerator.Scenario.prototype =
         return true;
     },
 
-    filterOwnEventsFrom: function(eventRegistrations)
+    filterEvents: function(eventRegistrations)
     {
-        var notOwnEvents = [];
+        var ownEvents = [];
 
-        for(var i = 0; i < eventRegistrations.length; i++)
+        for(var i = 0; i < this.events.length; i++)
         {
-            var currentEvent = eventRegistrations[i];
-
-            if(!this._containsEvent(currentEvent))
+            if(!this._containsEvent(eventRegistrations, this.events[i]))
             {
-                notOwnEvents.push(currentEvent);
+                ownEvents.push(this.events[i]);
             }
         }
 
-        return notOwnEvents;
+        return ownEvents;
     },
 
     compareEvents: function(scenario)
@@ -150,11 +148,11 @@ fcScenarioGenerator.Scenario.prototype =
         };
     },
 
-    _containsEvent: function(event)
+    _containsEvent: function(events, event)
     {
-        for(var i = 0; i < this.events.length; i++)
+        for(var i = 0; i < events.length; i++)
         {
-            if(fcScenarioGenerator.Event.areEqual(this.events[i], event))
+            if(fcScenarioGenerator.Event.areEqual(events[i], event))
             {
                 return true;
             }

@@ -30,6 +30,11 @@ FBL.ns(function() { with (FBL) {
     {
         logEventExecution: function(baseObjectDescriptor, eventType)
         {
+            if(this.currentEventExecutionInfo == null && (eventType == "onload" || eventType == "DOMContentLoaded"))
+            {
+                return;
+            }
+
             if(baseObjectDescriptor == null || eventType == null) { debugger; alert("Error when logging event execution"); return; }
 
             if(this.eventExecutionsMap[baseObjectDescriptor] == null)
@@ -185,6 +190,13 @@ FBL.ns(function() { with (FBL) {
             {
                 this.globalModifiedIdentifiers.push(modifiedIdentifierInfo);
             }
+        },
+
+        getLastEventRegistrations: function()
+        {
+            return this.eventExecutions[this.eventExecutions.length - 1] != null
+                ? this.eventExecutions[this.eventExecutions.length - 1].eventRegistrations
+                : this.eventRegistrations;
         },
 
         logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, handlerConstruct, loadingEventsExecuted, timerId)

@@ -5,19 +5,14 @@
     <bookmark url="file://$PROJECT_DIR$/debug/slicingTests/78/index.html" line="23" />
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
     <bookmark url="file://$PROJECT_DIR$/debug/usageScenarioGenerator" />
-    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" line="277" mnemonic="8" />
+    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" line="284" mnemonic="8" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Timer helper - working on tests">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/TimerHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/TimerHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,10 +64,10 @@
       <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="178" column="63" selection-start="10006" selection-end="10006" vertical-scroll-proportion="-11.875">
+            <state line="163" column="28" selection-start="9234" selection-end="9234" vertical-scroll-proportion="-32.5">
               <folding>
-                <marker date="1359545989242" expanded="false" signature="10404:10413" placeholder="..." />
-                <marker date="1359545989242" expanded="true" signature="10535:10544" placeholder="..." />
+                <marker date="1359549800714" expanded="false" signature="10404:10413" placeholder="..." />
+                <marker date="1359549800714" expanded="true" signature="10535:10544" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -105,28 +100,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="68" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.0">
+            <state line="205" column="67" selection-start="7167" selection-end="7167" vertical-scroll-proportion="0.67704916">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Scenario.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Scenario.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="355" column="71" selection-start="11341" selection-end="11341" vertical-scroll-proportion="0.6693419">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExecutionInfo.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="310" column="40" selection-start="11919" selection-end="11927" vertical-scroll-proportion="0.0">
+            <state line="114" column="21" selection-start="4093" selection-end="4093" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -189,8 +175,8 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/TimerHelper.js" />
         <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
       </list>
     </option>
   </component>
@@ -503,12 +489,12 @@
       <method />
     </configuration>
     <list size="6">
-      <item index="0" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
-      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
-      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
-      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
-      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
-      <item index="5" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
+      <item index="0" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
+      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
+      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
+      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
+      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
+      <item index="5" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -2430,7 +2416,11 @@
       <created>1359536119151</created>
       <updated>1359536119152</updated>
     </task>
-    <option name="localTasksCounter" value="472" />
+    <task id="LOCAL-00472" summary="Grouping accessed and modified indetifiers/events in ExecutionInfo by the ones executed by events - then since we are merging by comparing every scenario with each other; when comparing modifications take into accoutn only the modifications of the last event in both chains">
+      <created>1359549205325</created>
+      <updated>1359549205325</updated>
+    </task>
+    <option name="localTasksCounter" value="473" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2528,7 +2518,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Timer helper - working on tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Grouping accessed and modified indetifiers/events in ExecutionInfo by the ones executed by events - then since we are merging by comparing every scenario with each other; when comparing modifications take into accoutn only the modifications of the last event in both chains" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2542,7 +2532,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Working on interdependent events" />
     <MESSAGE value="Firefox 18 returns an object of type CSSProperties when calling window.getComputedStyle instead of an object of type CSSStyleDeclaration - minor fix" />
     <MESSAGE value="Some properties (clientX, sceenX), are limited (must be greater than 0) - these constraints are added before the constraint solving begins; also default solutions in the first case (when the event is started with default values) is noted" />
     <MESSAGE value="Separate scenarios object with a getNext function; scenarios object groups scenarios by event length; and when fetching next scenario it always returnes the lowest unprocessed scenario with a minimal number of steps" />
@@ -2567,6 +2556,7 @@
     <MESSAGE value="Array callback executor should have created dependencies between the function and all properties" />
     <MESSAGE value="When subsuming scenarios also take into account scenario events (and not just visited code constructs) - a scenario can not be subsumed by another scenario is their events are not in a relationship (equal, or one subset of another)" />
     <MESSAGE value="Timer helper - working on tests" />
+    <MESSAGE value="Grouping accessed and modified indetifiers/events in ExecutionInfo by the ones executed by events - then since we are merging by comparing every scenario with each other; when comparing modifications take into accoutn only the modifications of the last event in both chains" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2660,18 +2650,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="178" column="63" selection-start="10006" selection-end="10006" vertical-scroll-proportion="-11.875">
+        <state line="163" column="28" selection-start="9234" selection-end="9234" vertical-scroll-proportion="-32.5">
           <folding>
-            <marker date="1359545989242" expanded="false" signature="10404:10413" placeholder="..." />
-            <marker date="1359545989242" expanded="true" signature="10535:10544" placeholder="..." />
+            <marker date="1359549800714" expanded="false" signature="10404:10413" placeholder="..." />
+            <marker date="1359549800714" expanded="true" signature="10535:10544" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="310" column="40" selection-start="11919" selection-end="11927" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2682,16 +2665,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="68" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.0">
+        <state line="194" column="28" selection-start="7040" selection-end="7065" vertical-scroll-proportion="0.280837">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="355" column="71" selection-start="11341" selection-end="11341" vertical-scroll-proportion="0.6693419">
+        <state line="114" column="21" selection-start="4093" selection-end="4093" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="205" column="67" selection-start="7167" selection-end="7167" vertical-scroll-proportion="0.67704916">
           <folding />
         </state>
       </provider>

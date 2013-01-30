@@ -197,15 +197,22 @@ fcScenarioGenerator.ScenarioGenerator =
         }
         else
         {
-            return scenario.filterOwnEventsFrom(executionSummary.eventRegistrations);
+            var parentScenariosEventRegistrations = [];
+
+            scenario.parentScenarios.forEach(function(parentScenario)
+            {
+                parentScenariosEventRegistrations = parentScenariosEventRegistrations.concat(parentScenario.executionInfo.eventRegistrations);
+            });
+
+            return scenario.filterEvents(parentScenariosEventRegistrations);
         }
     },
 
     _createMergedScenarios: function(pageModel, scenarios)
     {
         //Has to be cached because new scenarios are added, and we don't want to take them into account
-        var allScenarios = scenarios.getAllScenarios();
-        var scenariosLength = allScenarios.length;
+        var executedScenarios = scenarios.getExecutedScenarios();
+        var scenariosLength = executedScenarios.length;
 
         if(scenariosLength >= 200) { debugger; }
 
@@ -221,11 +228,11 @@ fcScenarioGenerator.ScenarioGenerator =
                 }
             }
 
-            var ithScenario = allScenarios[i];
+            var ithScenario = executedScenarios[i];
 
             for(var j = 0; j < scenariosLength; j++)
             {
-                var jthScenario = allScenarios[j];
+                var jthScenario = executedScenarios[j];
 
                 if(jthScenario.executionInfo.isDependentOn(ithScenario.executionInfo))
                 {
