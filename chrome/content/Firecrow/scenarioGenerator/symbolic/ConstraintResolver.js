@@ -203,65 +203,26 @@ fcSymbolic.ConstraintResolver =
 
         if(symbolicExpression.isBinary()) { return this._getBinaryInverse(symbolicExpression); }
         else if(symbolicExpression.isLogical()) { return this._getLogicalInverse(symbolicExpression); }
+        else if (symbolicExpression.isLiteral()) { return null; }
         else
         {
+            debugger;
             alert("Unhandled constraint");
         }
 
         return null;
     },
 
-    getStricterConstraint: function(symbolicExpression)
-    {
-        if(symbolicExpression == null) { return null; }
-
-        if(symbolicExpression.isBinary()) { return this._getBinaryStricter(symbolicExpression); }
-
-        return symbolicExpression;
-    },
-
-    _getBinaryStricter: function(symbolicExpression)
-    {
-        if(symbolicExpression.operator == ">=" || symbolicExpression.operator == "<=")
-        {
-            return new fcSymbolic.Binary
-            (
-                symbolicExpression.left,
-                symbolicExpression.right,
-                symbolicExpression.operator == ">=" ? ">" : "<"
-            );
-        }
-        else if (symbolicExpression.operator == ">" && symbolicExpression.right.isLiteral())
-        {
-            return new fcSymbolic.Binary
-            (
-                symbolicExpression.left,
-                new fcSymbolic.Literal(symbolicExpression.right.value + 1),
-                ">="
-            );
-        }
-        else if (symbolicExpression.operator == "<" && symbolicExpression.right.isLiteral())
-        {
-            return new fcSymbolic.Binary
-            (
-                symbolicExpression.left,
-                new fcSymbolic.Literal(symbolicExpression.right.value - 1),
-                "<="
-            );
-        }
-
-        return symbolicExpression;
-    },
-
     _getLogicalInverse: function(symbolicExpression)
     {
         //DEMORGAN'S LAW: !(A && B) = !A || !B; !(A || B) = !A && !B
-        return new fcSymbolic.Logical
-        (
-            this.getInverseConstraint(symbolicExpression.left),
-            this.getInverseConstraint(symbolicExpression.right),
-            symbolicExpression.operator == "&&" ? "||" : "&&"
-        );
+
+        var leftInverse = this.getInverseConstraint(symbolicExpression.left);
+        var rightInverse = this.getInverseConstraint(symbolicExpression.right);
+
+        if(leftInverse != null && rightInverse != null) { return new fcSymbolic.Logical(leftInverse, rightInverse, symbolicExpression.operator == "&&" ? "||" : "&&"); }
+
+        return leftInverse || rightInverse;
     },
 
     _getBinaryInverse: function(symbolicExpression)

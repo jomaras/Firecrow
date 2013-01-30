@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 12</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<script>
+    var mainContainer;
+    window.onload = function()
+    {
+        mainContainer = document.getElementById("mainContainer");
+        var global = 10;
+
+        document.onkeydown = function(e)
+        {
+            if(e.keyCode == 38)
+            {
+                global = global + 1;
+                mainContainer.textContent = "Up;";
+            }
+            else
+            {
+                mainContainer.textContent = "Not up;";
+            }
+        }
+
+        setTimeout(function()
+        {
+            global += 10;
+
+            if(global == 51)
+            {
+                mainContainer.textContent = "Reached hidden behavior;";
+            }
+
+        }, 100);
+    };
+</script>
+</body>
+</html>

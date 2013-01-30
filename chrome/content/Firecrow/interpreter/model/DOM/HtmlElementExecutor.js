@@ -112,7 +112,8 @@ fcModel.HtmlElementExecutor =
         {
             if(item == null) { return new fcModel.fcValue(item, item, codeConstruct); }
 
-            if(ValueTypeHelper.isOfType(item, HTMLElement) || ValueTypeHelper.isOfType(item, DocumentFragment))
+            if(ValueTypeHelper.isOfType(item, HTMLElement) || ValueTypeHelper.isOfType(item, DocumentFragment)
+            ||ValueTypeHelper.isOfType(item, Image))
             {
                 var fcHtmlElement = globalObject.document.htmlElementToFcMapping[item.fcHtmlElementId]
                                  || new fcModel.HtmlElement(item, globalObject, codeConstruct);
@@ -138,11 +139,13 @@ fcModel.HtmlElementExecutor =
             }
             else
             {
+                debugger;
                 fcModel.HtmlElement.notifyError("HtmlElementExecutor - when wrapping should not be here: " + item);
             }
         }
         catch(e)
         {
+            debugger;
             fcModel.HtmlElement.notifyError("HtmlElementExecutor - error when wrapping: " + e);
         }
     },

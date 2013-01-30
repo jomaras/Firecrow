@@ -65,6 +65,7 @@ fcSimulator.prototype =
         }
         catch(e)
         {
+            debugger;
             fcSimulator.notifyError("Error while running the InterpreterSimulator: " + e);
         }
     },
@@ -191,11 +192,13 @@ fcSimulator.prototype =
     {
         if(exceptionGeneratingArgument == null || !exceptionGeneratingArgument.isMatchesSelectorException)
         {
+            debugger;
             fcSimulator.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + this.globalObject.browser.url);
         }
 
         if(this.tryStack.length == 0)
         {
+            debugger;
             fcSimulator.notifyError("Removing commands and there is no enclosing try catch block @ " + this.commands[this.currentCommandIndex].codeConstruct.loc.source);
             return;
         }

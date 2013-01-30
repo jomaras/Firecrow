@@ -6,6 +6,7 @@ load:
   - ../chrome/content/Firecrow/helpers/ASTHelper.js
   - ../chrome/content/Firecrow/helpers/htmlHelper.js
   - ../chrome/content/Firecrow/helpers/UriHelper.js
+  - ../chrome/content/Firecrow/helpers/TimerHelper.js
   - ../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js
   - ../chrome/content/Firecrow/dependencyGraph/node.js
   - ../chrome/content/Firecrow/dependencyGraph/edge.js
@@ -13,12 +14,12 @@ load:
   - ../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js
   - ../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js
   - ../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js
-  - ../chrome/content/Firecrow/symbolic/NumberRange.js
-  - ../chrome/content/Firecrow/symbolic/Expression.js
-  - ../chrome/content/Firecrow/symbolic/PathConstraint.js
-  - ../chrome/content/Firecrow/symbolic/SymbolicExecutor.js
-  - ../chrome/content/Firecrow/symbolic/ConstraintResolver.js
-  - ../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js
+  - ../chrome/content/Firecrow/scenarioGenerator/symbolic/NumberRange.js
+  - ../chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js
+  - ../chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js
+  - ../chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js
+  - ../chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js
+  - ../chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js
   - ../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js
   - ../chrome/content/Firecrow/interpreter/commands/Command.js
   - ../chrome/content/Firecrow/interpreter/model/FcValue.js

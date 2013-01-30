@@ -118,7 +118,17 @@ fcModel.CanvasContextExecutor =
         var globalObject = fcThisValue.globalObject;
         var jsArguments =  args.map(function(argument){ return argument.jsValue;});
 
-        thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        try
+        {
+            thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        }
+        catch(e)
+        {
+            //TODO - drawImage fails if the image is not loaded - and since where the model is executed
+            //and where the image points to is not in the same location - the image can not be loaded
+            //and draw image returns an exception!
+            //console.log(e);
+        }
 
         thisObject.iValue.canvas.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
         fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObject.iValue.canvas, globalObject, callExpression);

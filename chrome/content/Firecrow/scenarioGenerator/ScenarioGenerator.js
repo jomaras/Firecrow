@@ -7,15 +7,16 @@ var fcSymbolic = fcScenarioGenerator.Symbolic;
 
 fcScenarioGenerator.ScenarioGenerator =
 {
-    generateScenarios: function(pageModel, scenarioCreatedCallback)
+    generateScenarios: function(pageModel, scenarioExecutedCallback)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
 
-        var scenarios = new fcScenarioGenerator.ScenarioCollection(scenarioCreatedCallback);
+        var scenarios = new fcScenarioGenerator.ScenarioCollection();
+        fcScenarioGenerator.ScenarioGenerator.GENERATED_SCENARIOS = scenarios;
 
         var browser = this._executeApplication(pageModel);
 
-        this._createRegisteredEventsScenarios(browser, scenarios, scenarioCreatedCallback);
+        this._createRegisteredEventsScenarios(browser, scenarios);
 
         var processedScenarioCounter = 0;
 
@@ -24,14 +25,17 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var asyncLoop = function()
         {
-            if(currentScenario == null || processedScenarioCounter > 40 || this._hasAchievedEnoughCoverage(pageModel, scenarios))
+            if(currentScenario == null || processedScenarioCounter > 240
+              || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
+            //|| that._hasAchievedEnoughCoverage(pageModel, scenarios))
             {
-                scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
+                //scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
+                scenarioExecutedCallback(scenarios.getAllScenarios());
 
                 return;
             }
 
-            that._createDerivedScenarios(pageModel, currentScenario, scenarios);
+            that._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
             if(scenarios.isLastScenario(currentScenario))
             {
@@ -40,21 +44,23 @@ fcScenarioGenerator.ScenarioGenerator =
 
             currentScenario = scenarios.getNext();
             processedScenarioCounter++;
+
             setTimeout(asyncLoop, 1000);
         };
 
         setTimeout(asyncLoop, 100);
     },
 
-    generateScenariosSync: function(pageModel, scenarioCreatedCallback)
+    generateScenariosSync: function(pageModel, scenarioExecutedCallback)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
 
-        var scenarios = new fcScenarioGenerator.ScenarioCollection(scenarioCreatedCallback);
+        var scenarios = new fcScenarioGenerator.ScenarioCollection();
+        fcScenarioGenerator.ScenarioGenerator.GENERATED_SCENARIOS = scenarios;
 
         var browser = this._executeApplication(pageModel);
 
-        this._createRegisteredEventsScenarios(browser, scenarios, scenarioCreatedCallback);
+        this._createRegisteredEventsScenarios(browser, scenarios);
 
         var processedScenarioCounter = 0;
 
@@ -62,9 +68,9 @@ fcScenarioGenerator.ScenarioGenerator =
 
         while (currentScenario != null)
         {
-            if(processedScenarioCounter > 40 || this._hasAchievedEnoughCoverage(pageModel, scenarios)) { break; }
+            if(processedScenarioCounter > 140 || this._hasAchievedEnoughCoverage(pageModel, scenarios)) { break; }
 
-            this._createDerivedScenarios(pageModel, currentScenario, scenarios);
+            this._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
             if(scenarios.isLastScenario(currentScenario))
             {
@@ -75,7 +81,7 @@ fcScenarioGenerator.ScenarioGenerator =
             processedScenarioCounter++;
         }
 
-        return scenarioCreatedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
+        return scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
     },
 
     _hasAchievedEnoughCoverage: function(pageModel, scenarios)
@@ -108,9 +114,9 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _createRegisteredEventsScenarios: function(browser, scenarios, scenarioCreatedCallback)
     {
-        this._createEventsScenarios(browser.globalObject.timeoutHandlers, scenarios, scenarioCreatedCallback)
-        this._createEventsScenarios(browser.globalObject.intervalHandlers, scenarios, scenarioCreatedCallback)
-        this._createEventsScenarios(browser.globalObject.htmlElementEventHandlingRegistrations, scenarios, scenarioCreatedCallback)
+        this._createEventsScenarios(browser.globalObject.timeoutHandlers, scenarios)
+        this._createEventsScenarios(browser.globalObject.intervalHandlers, scenarios)
+        this._createEventsScenarios(browser.globalObject.htmlElementEventHandlingRegistrations, scenarios)
     },
 
     _createEventsScenarios: function(eventRegistrations, scenarios)
@@ -119,21 +125,27 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             var eventRegistration = eventRegistrations[i];
 
-            scenarios.addScenario(new fcScenarioGenerator.Scenario
+            var newScenario = new fcScenarioGenerator.Scenario
             ([new fcScenarioGenerator.Event
-             (
-                 eventRegistration.thisObjectDescriptor,
-                 eventRegistration.thisObjectModel,
-                 eventRegistration.eventType,
-                 eventRegistration.registrationConstruct,
-                 eventRegistration.handlerConstruct
-             )]));
+            (
+                eventRegistration.thisObjectDescriptor,
+                eventRegistration.thisObjectModel,
+                eventRegistration.eventType,
+                eventRegistration.registrationConstruct,
+                eventRegistration.handlerConstruct
+            )]);
+
+            newScenario.createdBy = "eventRegistration";
+
+            scenarios.addScenario(newScenario);
         }
     },
 
-    _createDerivedScenarios: function(pageModel, scenario, scenarios)
+    _createDerivedScenarios: function(pageModel, scenario, scenarios, scenarioExecutedCallback)
     {
         var executionSummary = this._executeScenario(pageModel, scenario, scenarios);
+
+        if(scenarioExecutedCallback != null) { scenarioExecutedCallback(scenario); }
 
         this._createInvertedPathScenarios(executionSummary, scenario, scenarios);
         this._createNewlyRegisteredEventsScenarios(executionSummary, scenario, scenarios);
@@ -145,7 +157,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < invertedPaths.length; i++)
         {
-            scenarios.addScenario(new fcScenarioGenerator.Scenario(scenario.events, invertedPaths[i], [scenario]));
+            scenarios.addScenarioByComponents(scenario.events, invertedPaths[i], [scenario]);
         }
     },
 
@@ -212,7 +224,7 @@ fcScenarioGenerator.ScenarioGenerator =
     },
 
     _executeScenario: function(pageModel, scenario, scenarios)
-    {
+    { if(scenario.id == 223) { debugger; }
         var browser = this._executeApplication(pageModel);
         var parametrizedEvents = this._createParametrizedEvents(scenario);
 
@@ -249,7 +261,9 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < events.length; i++)
         {
-            parametrizedEvents.push(new fcScenarioGenerator.ParametrizedEvent(events[i], resolvedResults[i]))
+            var event = events[i];
+            var resolvedResult = resolvedResults[i];
+            parametrizedEvents.push(new fcScenarioGenerator.ParametrizedEvent(event, resolvedResult));
         }
 
         return parametrizedEvents;

@@ -279,16 +279,17 @@ fcSimulator.InternalExecutor.prototype =
     {
         if(internalConstructor == null) { this.notifyError("InternalConstructor can not be null!"); return; }
 
-        if(internalConstructor.iValue == this.globalObject.arrayFunction){ return this.createArray(constructorConstruct, Array.apply(null, args)); }
+        var jsArgs = args.map(function(item) { return item.jsValue; });
 
-        else if (internalConstructor.iValue == this.globalObject.regExFunction) { return this.createRegEx(constructorConstruct, RegExp.apply(null, args.map(function(item) { return item.jsValue; })));}
-        else if (internalConstructor.iValue == this.globalObject.stringFunction) { return new fcModel.fcValue(String.apply(null, args), String.apply(null, args), constructorConstruct); }
-        else if (internalConstructor.iValue == this.globalObject.booleanFunction) { return new fcModel.fcValue(Boolean.apply(null, args), Boolean.apply(null, args), constructorConstruct); }
-        else if (internalConstructor.iValue == this.globalObject.numberFunction) { return new fcModel.fcValue(Number.apply(null, args), Number.apply(null, args), constructorConstruct); }
+        if(internalConstructor.iValue == this.globalObject.arrayFunction) { return this.createArray(constructorConstruct, Array.apply(null, jsArgs));}
+        else if (internalConstructor.iValue == this.globalObject.regExFunction) { return this.createRegEx(constructorConstruct, RegExp.apply(null, jsArgs));}
+        else if (internalConstructor.iValue == this.globalObject.stringFunction) { return new fcModel.fcValue(String.apply(null, jsArgs), String.apply(null, jsArgs), constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.booleanFunction) { return new fcModel.fcValue(Boolean.apply(null, jsArgs), Boolean.apply(null, jsArgs), constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.numberFunction) { return new fcModel.fcValue(Number.apply(null, jsArgs), Number.apply(null, jsArgs), constructorConstruct); }
         else if (internalConstructor.iValue == this.globalObject.objectFunction) { return fcModel.ObjectExecutor.executeInternalConstructor(constructorConstruct, args, this.globalObject);}
         else if (internalConstructor.iValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeInternalConstructor(constructorConstruct, args, this.globalObject); }
-        else if (internalConstructor.iValue == this.globalObject.imageFunction
-              || internalConstructor.iValue == this.globalObject.xmlHttpRequestFunction) { return this._createEmptyObject(constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.imageFunction) { return this._createImageObject(constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.xmlHttpRequestFunction) { return this._createEmptyObject(constructorConstruct); }
         else
         {
             this.notifyError("Unhandled internal constructor" + constructorConstruct.loc.start.line);
@@ -296,6 +297,10 @@ fcSimulator.InternalExecutor.prototype =
         }
     },
 
+    _createImageObject: function(constructorConstruct)
+    {
+        return fcModel.HtmlElementExecutor.wrapToFcElement(new Image(), this.globalObject, constructorConstruct);
+    },
 
     _createEmptyObject: function(constructorConstruct)
     {

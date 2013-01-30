@@ -567,7 +567,7 @@ fcModel.Array.prototype._addPreexistingObjects = function()
     {
         this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, true);
 
-        if(this.jsArray[i].codeConstruct != null)
+        if(this.jsArray[i] != null && this.jsArray[i].codeConstruct != null)
         {
             dependencyCreator.createDataDependency(this.creationCodeConstruct, this.jsArray[i].codeConstruct);
         }

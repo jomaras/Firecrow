@@ -318,7 +318,7 @@ Browser.prototype =
 
     logConstructExecuted: function(codeConstruct)
     {
-        if(codeConstruct == null) { return; }
+        if(codeConstruct == null || codeConstruct.type == null) { return; }
 
         codeConstruct.hasBeenExecuted = true;
 

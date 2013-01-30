@@ -156,7 +156,8 @@ fcBrowser.ExecutionInfo.prototype =
 
     logForInIteration: function(codeConstruct, objectPrototype)
     {
-        this.objectForInIterations.push({ proto: objectPrototype, codeConstruct: codeConstruct });
+        console.log("Not logging for in iterations");
+        //this.objectForInIterations.push({ proto: objectPrototype, codeConstruct: codeConstruct });
     },
 
     logSettingOutsideCurrentScopeIdentifierValue: function(identifier)

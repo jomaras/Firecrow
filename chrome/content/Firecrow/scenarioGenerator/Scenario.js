@@ -51,7 +51,7 @@ fcScenarioGenerator.Scenario.prototype =
 
     createCopy: function()
     {
-        return new fcScenarioGenerator.Scenario(this.events.slice(), this.inputConstraint);
+        return new fcScenarioGenerator.Scenario(this.events.slice(), this.inputConstraint.createCopy());
     },
 
     isEqualTo: function(scenario)
@@ -65,6 +65,17 @@ fcScenarioGenerator.Scenario.prototype =
                                                || thisResolvedResult == scenarioResolvedResult);
     },
 
+    isEqualToByComponents: function(events, inputConstraint, parentScenarios)
+    {
+        var thisInputConstraintString = this.inputConstraint != null ? this.inputConstraint.toString() : "";
+        var scenarioInputConstraintString = inputConstraint != null ? inputConstraint.toString() : "";
+        var thisResolvedResult = this.inputConstraint != null ? JSON.stringify(this.inputConstraint.resolvedResult) : "";
+        var scenarioResolvedResult = inputConstraint != null ? JSON.stringify(inputConstraint.resolvedResult) : "";
+
+        return this._haveEqualEventsByComponents(events) && (thisInputConstraintString == scenarioInputConstraintString
+                                                          || thisResolvedResult == scenarioResolvedResult);
+    },
+
     _haveEqualEvents: function(scenario)
     {
         if(this.events.length != scenario.events.length || this.events.length == 0) { return false; }
@@ -72,6 +83,21 @@ fcScenarioGenerator.Scenario.prototype =
         for(var i = 0; i < this.events.length; i++)
         {
             if(!fcScenarioGenerator.Event.areEqual(this.events[i], scenario.events[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    _haveEqualEventsByComponents: function(events)
+    {
+        if(this.events.length != events.length || this.events.length == 0) { return false; }
+
+        for(var i = 0; i < this.events.length; i++)
+        {
+            if(!fcScenarioGenerator.Event.areEqual(this.events[i], events[i]))
             {
                 return false;
             }
@@ -143,33 +169,35 @@ fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScen
     var mergedEvents = firstScenario.events.concat(secondScenario.events);
     var mergedInputConstraint = null;
 
-    if(firstScenario.inputConstraint == null && secondScenario.inputConstraint == null)
+    if(firstScenario.inputConstraint.pathConstraintItems.length == 0 && secondScenario.inputConstraint.pathConstraintItems.length == 0)
     {
-        mergedInputConstraint = null;
+        mergedInputConstraint = new fcSymbolic.PathConstraint();
     }
-    else if(firstScenario.inputConstraint != null && secondScenario.inputConstraint == null)
+    else if(firstScenario.inputConstraint.pathConstraintItems.length != 0 && secondScenario.inputConstraint.pathConstraintItems.length == 0)
     {
         mergedInputConstraint = firstScenario.inputConstraint;
     }
-    else if(firstScenario.inputConstraint == null && secondScenario.inputConstraint != null)
+    else if(firstScenario.inputConstraint.pathConstraintItems.length == 0 && secondScenario.inputConstraint.pathConstraintItems.length != 0)
     {
         mergedInputConstraint = secondScenario.inputConstraint.createCopyUpgradedByIndex(firstScenario.events.length);
     }
     else
     {
-        mergedInputConstraint = secondScenario.inputConstraint.createCopyUpgradedByIndex(0);
+        mergedInputConstraint = firstScenario.inputConstraint.createCopyUpgradedByIndex(0);
         mergedInputConstraint.append(secondScenario.inputConstraint.createCopyUpgradedByIndex(firstScenario.events.length));
     }
 
-    return new fcScenarioGenerator.Scenario(mergedEvents, mergedInputConstraint, [firstScenario, secondScenario]);
+    var scenario = new fcScenarioGenerator.Scenario(mergedEvents, mergedInputConstraint, [firstScenario, secondScenario]);
+    scenario.createdBy = "merger";
+
+    return scenario;
 };
 
-fcScenarioGenerator.ScenarioCollection = function(scenarioAddedCallback)
+fcScenarioGenerator.ScenarioCollection = function()
 {
     this.lengthGroups = [];
     this.scenarios = [];
     this.eventCoverageInfo = {};
-    this.scenarioAddedCallback = scenarioAddedCallback;
 };
 
 fcScenarioGenerator.ScenarioCollection.prototype =
@@ -215,6 +243,11 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     {
         if(scenario == null || this._containsScenario(scenario, this.scenarios)) { return; }
 
+        this._addScenario(scenario);
+    },
+
+    _addScenario: function(scenario)
+    {
         if(this.lengthGroups[scenario.events.length] == null)
         {
             this.lengthGroups[scenario.events.length] = [];
@@ -225,11 +258,13 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         this.scenarios.push(scenario);
 
         scenario.ownerCollection = this;
+    },
 
-        if(this.scenarioAddedCallback != null)
-        {
-            this.scenarioAddedCallback(scenario);
-        }
+    addScenarioByComponents: function(events, inputConstraint, parentScenarios)
+    {
+        if(this._containsScenarioByComponents(this.scenarios, events, inputConstraint, parentScenarios)) { return; }
+
+        this._addScenario(new fcScenarioGenerator.Scenario(events, inputConstraint, parentScenarios));
     },
 
     _containsScenario: function(scenario, scenarios)
@@ -237,6 +272,16 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         for(var i = 0; i < scenarios.length; i++)
         {
             if(scenario.isEqualTo(scenarios[i])) { return true; }
+        }
+
+        return false;
+    },
+
+    _containsScenarioByComponents: function(scenarios, events, inputConstraint, parentScenarios)
+    {
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            if(scenarios[i].isEqualToByComponents(events, inputConstraint, parentScenarios)) { return true; }
         }
 
         return false;

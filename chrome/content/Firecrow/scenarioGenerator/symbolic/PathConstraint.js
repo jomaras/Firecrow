@@ -53,10 +53,12 @@ fcSymbolic.PathConstraintItem.prototype =
 
 fcSymbolic.PathConstraint = function(pathConstraintItems, resolvedResult)
 {
+    this.id = fcSymbolic.PathConstraint.LAST_ID++;
     this.pathConstraintItems = pathConstraintItems || [];
     this.resolvedResult = resolvedResult || {};
 };
 
+fcSymbolic.PathConstraint.LAST_ID = 0;
 fcSymbolic.PathConstraint.RESOLVED_MAPPING = { takenPaths: []};
 
 fcSymbolic.PathConstraint.resolvePathConstraints = function(pathConstraints)
@@ -229,6 +231,11 @@ fcSymbolic.PathConstraint.prototype =
         return identifierNamesMap;
     },
 
+    createCopy: function()
+    {
+        return this.createCopyUpgradedByIndex(0);
+    },
+
     createCopyUpgradedByIndex: function(upgradeByIndex)
     {
         var pathConstraintItems = [];
@@ -286,12 +293,12 @@ fcSymbolic.PathConstraint.prototype =
         {
             var currentPathConstraintItem = pathConstraintItems[i];
 
-            if(currentPathConstraintItem.constraint == null) { continue; }
+            if(currentPathConstraintItem.constraint == null
+            || currentPathConstraintItem.constraint.isIrreversible) { continue; }
 
             var previousItems = pathConstraintItems.slice(0, i);
 
-            var modifiedConstraint = !currentPathConstraintItem.constraint.isIrreversible ? fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint)
-                                                                                          : fcSymbolic.ConstraintResolver.getStricterConstraint(currentPathConstraintItem.constraint);
+            var modifiedConstraint = fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint);
 
             previousItems.push(new fcSymbolic.PathConstraintItem(currentPathConstraintItem.codeConstruct, modifiedConstraint));
             allInversions.push(new fcSymbolic.PathConstraint(previousItems));

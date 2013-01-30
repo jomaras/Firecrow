@@ -15,6 +15,7 @@
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/UriHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/TimerHelper.js"></script>
 
     <script src="../chrome/content/Firecrow/scenarioGenerator/Event.js"></script>
     <script src="../chrome/content/Firecrow/scenarioGenerator/Scenario.js"></script>
@@ -111,7 +112,8 @@
             float: left;
         }
 
-        #usageScenarioTracesContainer
+        #executedScenarioTracesContainer,
+        #keptScenarioTracesContainer
         {
             width: 400px;
         }
@@ -138,8 +140,14 @@
 
     <div class="reportContainer" id="pageCodeContainer"></div>
     <div class="reportContainer">
-        <h2 id="scenarioTitle">Generated scenarios: </h2>
-        <div id="usageScenarioTracesContainer">
+        <h2 id="executedScenariosTitle">Executed scenarios: </h2>
+        <div id="executedScenarioTracesContainer">
+
+        </div>
+        <br/><br/>
+
+        <h2 id="keptScenarioTitle">Kept scenarios: </h2>
+        <div id="keptScenarioTracesContainer">
 
         </div>
         <br/><br/>
@@ -149,31 +157,37 @@
 
     </div>
 
-    <!--<script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>
-    <script src="usageScenarioGenerator/fullPages/original/3dmodel/model.js"></script>-->
+    <!--<script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>-->
+    <script src="usageScenarioGenerator/fullPages/original/angelJump/modelMapping.js"></script>
 
     <script type="text/javascript">
-       var model = models[25];
-       //var model = fullPageModel;
+       //var model = models[30];
+       var model = fullPageModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
-        var usageScenarioTracesContainer = document.getElementById("usageScenarioTracesContainer");
-        var scenarioTitle = document.getElementById("scenarioTitle");
+        var executedScenarioTracesContainer = document.getElementById("executedScenarioTracesContainer");
+        var keptScenarioTracesContainer = document.getElementById("keptScenarioTracesContainer");
+        var executedScenarioTitle = document.getElementById("executedScenariosTitle");
+        var keptScenarioTitle = document.getElementById("keptScenarioTitle");
+
+        var scenarioInfoContainer = executedScenarioTracesContainer;
 
         pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
 
         var scenarioCounter = 0;
 
-        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenariosSync(model.pageModel, function(scenario, eventCoverage)
+        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario, eventCoverage)
         {
             if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
             {
                 var usageScenarios = scenario;
-                scenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + FBL.Firecrow.ASTHelper.calculatePageExpressionCoverage(model.pageModel)*100 + "%</b>";
+                var expressionCoverage = FBL.Firecrow.ASTHelper.calculatePageExpressionCoverage(model.pageModel)*100;
+                executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + expressionCoverage  + "%</b>";
+                keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + expressionCoverage + "%</b>";
                 pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
 
                 scenarioCounter = 0;
-                usageScenarioTracesContainer.innerHTML = "";
+                scenarioInfoContainer = keptScenarioTracesContainer;
 
                 usageScenarios.forEach(function(scenario)
                 {
@@ -190,12 +204,13 @@
 
         function generateScenarioHtml(scenario)
         {
+            var resolvedResult = scenario.inputConstraint.resolvedResult;
             var html = "<div class='scenarioHeader'>Scenario " + scenarioCounter + " (id: " + scenario.id + ")" +"</div>";
-            var formulaString = scenario.inputConstraint != null ? (scenario.inputConstraint + " =&gt; " + JSON.stringify(scenario.inputConstraint.resolvedResult))
-                                                                : "undefined";
+            var formulaString = scenario.inputConstraint != null ? (scenario.inputConstraint + " =&gt; " + JSON.stringify(resolvedResult))
+                                                                 : "undefined";
 
             html += "<div class='formulaHeader'>Formula: <b>" + formulaString  + "</div>";
-            html += "<ol>";
+            html += "<ol start='0'>";
 
             var events = scenario.events;
 
@@ -204,7 +219,7 @@
                 var event = events[i];
 
                 html += "<li>";
-                html += event.toString();
+                html += event.toString() + " -&gt; " + JSON.stringify(resolvedResult[i]);
                 html += "</li>";
             }
 
@@ -213,7 +228,7 @@
             var wrapper = document.createElement("div");
             wrapper.innerHTML = html;
 
-            usageScenarioTracesContainer.appendChild(wrapper);
+            scenarioInfoContainer.appendChild(wrapper);
 
             scenarioCounter++;
         }
