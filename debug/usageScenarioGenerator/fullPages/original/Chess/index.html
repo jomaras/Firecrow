@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chess</title>
+    <link rel="stylesheet" href="chess.css" />
+    <script src="jQuery.js"></script>
+    <script src="chess.js"></script>
+</head>
+<body>
+<div id="boardEdge" class="boardEdge">
+    <div id="board" class="board"></div>
+</div>
+<div class="edge">
+    <h1>Chess<br /> Bored</h1>
+    <div class="btn">
+        <span>New Game</span>
+        <div class="info none">
+            <input id='yesButton' type="button" value="Yes"  />
+            <input type="button" value="No" />
+        </div>
+    </div>
+    <div class="btn" id="send">
+        <span>Send or Load</span>
+        <div class="info none">
+            <input type="text" class="positions" id="positions" />
+            <input type="button" id="loadButton" value="Load" />
+            <p>Copy the above string and send the board to a friend. Or paste a string from a friend above and load their game.</p>
+        </div>
+    </div>
+    <div class="btn" id="edit">
+        <span>Edit Board</span>
+        <div class="info none">
+            <p>Select a piece and then click the square to move to.</p>
+            <ul class="half">
+                <li><strong>Black</strong></li>
+                <li class="pieces q">Queen</li>
+                <li class="pieces r">Rook</li>
+                <li class="pieces n">Knight</li>
+                <li class="pieces b">Bishop</li>
+                <li class="pieces p">Pawn</li>
+                <li class="pieces k">King</li>
+            </ul>
+            <ul class="half">
+                <li><strong>White</strong></li>
+                <li class="pieces Q">Queen</li>
+                <li class="pieces R">Rook</li>
+                <li class="pieces N">Knight</li>
+                <li class="pieces B">Bishop</li>
+                <li class="pieces P">Pawn</li>
+                <li class="pieces K">King</li>
+            </ul>
+            <ul class="c">
+                <li class="pieces 0">Blank Square</li>
+                <li id="clear" class="clear-board">Clear Board</li>
+            </ul>
+            <br class="c" />
+        </div>
+    </div>
+</div>
+<script>
+        document.getElementById("yesButton").onclick = function()
+        {
+            set_board('rnbqkbnrpppppppp00000000000000000000000000000000PPPPPPPPRNBQKBNR');
+        };
+
+        document.getElementById("loadButton").onclick = function()
+        {
+            set_board($('#positions').val());
+        };
+    </script>
+</body>
+</html>

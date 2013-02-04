@@ -1,0 +1,13 @@
+html, body, p{ margin: 0; padding: 0; border: 0;}
+body{ background: #ffffff; color: #111111; font-family: Georgia, "Times New Roman", Times,serif; padding: 20px; width: 960px;}
+#tempView{ position: absolute; top: 1px; left: 1px; background-color: rgba(255,255,255,0);}
+#myCanvas{ }
+#sec1 { position: relative; margin-top: 0px; margin-left: 180px; background: #c1c1c1; -moz-border-radius: 5px; -webkit-border-radius: 5px; -webkit-box-shadow: 5px 5px 20px #000; -moz-box-shadow: 5px 5px 20px #ccc; -khtml-border-radius: 5px; border-radius: 5px; padding: 1px; width: 660px;}
+#status{ background: #ffffff; -webkit-border-radius-bottomright: 5px; -webkit-border-radius-bottomleft: 5px; -moz-border-radius-bottomright: 5px; -moz-border-radius-bottomleft: 5px; padding-left: 10px;}
+#start{ margin-top: 20px; margin-right:340px; margin-left: 400px; background: #ffffff; border: none; -moz-border-radius: 20px; -webkit-border-radius: 20px; -khtml-border-radius: 20px; border-radius: 20px; color: #ffffff; font: 18px Georgia, "Times New Roman", Times, serif; letter-spacing: 1px; padding: 7px 25px; text-shadow: 0 1px 1px #000000; text-transform: uppercase;}
+a.btn { width: 180px; padding: 10px 25px 10px 25px; font-family: Arial; font-size: 16px; text-decoration: none; color: #ffffff; background-color: #98ba3f; text-shadow: -1px -1px 2px #618926; border: 1px solid #618926; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: -moz-linear-gradient(#98ba40, #a6c250 35%, #618926); background: -webkit-gradient(linear,left top,left bottom,color-stop(0, #98ba40),color-stop(.35, #a6c250),color-stop(1, #618926));}
+a.btn:hover { background-color: #245191; text-shadow: -1px -1px 2px #465f97; border: 1px solid #0f2557; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: -moz-linear-gradient(#245192, #1e3b73 75%, #12295d); background: -webkit-gradient(linear,left top,left bottom,color-stop(0, #245192),color-stop(.75, #1e3b73),color-stop(1, #12295d));}
+.green{ color: #7bc00a;}
+canvas { background: #c1c1c1;}
+section p { margin: 0 0 60px 250px; font-size: 90px; color: #cccccc; text-shadow: 0px 1px 5px #000
+}

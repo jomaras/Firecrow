@@ -293,12 +293,14 @@ fcSymbolic.PathConstraint.prototype =
         {
             var currentPathConstraintItem = pathConstraintItems[i];
 
-            if(currentPathConstraintItem.constraint == null
-            || currentPathConstraintItem.constraint.isIrreversible) { continue; }
+            if(currentPathConstraintItem.constraint == null) { continue; }
+
+            var modifiedConstraint = !currentPathConstraintItem.constraint.isIrreversible ? fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint)
+                                                                                          : fcSymbolic.ConstraintResolver.getStricterConstraint(currentPathConstraintItem.constraint);
+
+            if(modifiedConstraint == null) { continue; }
 
             var previousItems = pathConstraintItems.slice(0, i);
-
-            var modifiedConstraint = fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint);
 
             previousItems.push(new fcSymbolic.PathConstraintItem(currentPathConstraintItem.codeConstruct, modifiedConstraint));
             allInversions.push(new fcSymbolic.PathConstraint(previousItems));

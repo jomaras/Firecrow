@@ -25,6 +25,30 @@ fcScenarioGenerator.Scenario.prototype =
         this.events.push(usageScenarioEvent);
     },
 
+    isAncestor: function(scenario)
+    {
+        if(scenario == null) { return false; }
+        if(this.parentScenarios.length == 0) { return false;}
+
+        if(this.isParent(scenario)) { return true; }
+
+        if(this.parentScenarios[0] && this.parentScenarios[0].isAncestor(scenario)) { return true; }
+        if(this.parentScenarios[1] && this.parentScenarios[1].isAncestor(scenario)) { return true; }
+
+        return false;
+    },
+
+    isParent: function(scenario)
+    {
+        if(scenario == null) { return false; }
+        if(this.parentScenarios.length == 0) { return false;}
+
+        if(this.parentScenarios[0] == scenario) { return true; }
+        if(this.parentScenarios[1] == scenario) { return true; }
+
+        return false;
+    },
+
     setExecutionInfo: function(executionInfo)
     {
         this.executionInfo = executionInfo;
@@ -240,9 +264,11 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
     addScenario: function(scenario)
     {
-        if(scenario == null || this._containsScenario(scenario, this.scenarios)) { return; }
+        if(scenario == null || this._containsScenario(scenario, this.scenarios)) { return false; }
 
         this._addScenario(scenario);
+
+        return true;
     },
 
     _addScenario: function(scenario)
@@ -322,6 +348,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     },
 
     compareEvents: false,
+    waitInterval: 120,
 
     getSubsumedProcessedScenarios: function()
     {
@@ -329,11 +356,26 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
         var subsumedScenariosMap = [];
 
+        var timer = Firecrow.TimerHelper.createTimer();
+
         for(var i = 0; i < processedScenarios.length; i++)
         {
             var iThScenario = processedScenarios[i];
 
             var hasFoundMatch = false;
+
+            if(timer.hasMoreThanSecondsElapsed(this.waitInterval))
+            {
+                if(!confirm("Scenario - getSubsumedProcessedScenarios has been running for more than " + this.waitInterval
+                          + " seconds, Continue?" + i + ", " + j + " of " + processedScenarios.length))
+                {
+                    return ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
+                }
+
+                this.waitInterval *= 2;
+
+                timer = Firecrow.TimerHelper.createTimer();
+            }
 
             for(var j = i + 1; j < processedScenarios.length; j++)
             {
@@ -385,8 +427,6 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         }
 
         var subsumedScenarios = ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
-
-        console.log("Processed scenarios: " + processedScenarios.length + " Subsumed Scenarios: " + subsumedScenarios.length);
 
         return subsumedScenarios;
     },

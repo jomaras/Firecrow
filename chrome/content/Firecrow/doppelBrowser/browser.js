@@ -20,6 +20,7 @@ fcBrowser.Browser = function(pageModel)
         this.id = fcBrowser.Browser.LAST_USED_ID++;
         this.pageModel = pageModel;
         this.hostDocument = Firecrow.getDocument();
+        this._clearHostDocument();
         this.htmlWebFile = pageModel;
 
         this.globalObject = new GlobalObject(this, this.hostDocument);
@@ -119,10 +120,16 @@ Browser.prototype =
             {
                 functionHandler: eventInfo.handler,
                 thisObject: eventInfo.thisObject,
-                argumentValues: argumentValues,
+                argumentValues: argumentValues || [],
                 registrationPoint: eventInfo.registrationPoint
             }
         );
+    },
+
+    _clearHostDocument: function()
+    {
+        this.hostDocument.head.innerHTML = "";
+        this.hostDocument.body.innerHTML = "";
     },
 
     _buildSubtree: function(htmlModelElement, parentDomElement)
@@ -215,7 +222,11 @@ Browser.prototype =
         }
 
         htmlDomElement.modelElement = htmlModelNode;
-        htmlModelNode.domElement = htmlDomElement;
+
+        if(fcBrowser.Browser.isForSlicing == true)
+        {
+            htmlModelNode.domElement = htmlDomElement;
+        }
 
         this.callNodeCreatedCallbacks(htmlModelNode, "html", false);
 
@@ -320,6 +331,16 @@ Browser.prototype =
     {
         if(codeConstruct == null || codeConstruct.type == null) { return; }
 
+        if(!codeConstruct.hasBeenExecuted)
+        {
+            var parentStatement = ASTHelper.getParentStatementOrFunction(codeConstruct);
+
+            if(parentStatement != null)
+            {
+                parentStatement.hasBeenExecuted = true;
+            }
+        }
+
         codeConstruct.hasBeenExecuted = true;
 
         this.executionInfo.logExecutedConstruct(codeConstruct);
@@ -407,7 +428,10 @@ Browser.prototype =
 
         if(this._isExternalStyleLink(cssHtmlElementModelNode))
         {
-            cssHtmlElementModelNode.domElement.textContent = cssText;
+            if(cssHtmlElementModelNode.domElement != null)
+            {
+                cssHtmlElementModelNode.domElement.textContent = cssText;
+            }
         }
     },
 
@@ -430,7 +454,7 @@ Browser.prototype =
 
     matchesSelector: function(htmlElement, selector)
     {
-        if(this._matchesSelector == null || htmlElement instanceof DocumentFragment || htmlElement instanceof Text) { return false; }
+        if(this._matchesSelector == null || htmlElement instanceof DocumentFragment || htmlElement instanceof Text || htmlElement == null) { return false; }
 
         return this._matchesSelector.call(htmlElement, selector);
     },
@@ -924,4 +948,6 @@ Browser.prototype =
 
     notifyError: function(message) { Firecrow.DoppelBrowser.Browser.notifyError(message); }
 };
+
+fcBrowser.Browser.isForSlicing = false;
 }});

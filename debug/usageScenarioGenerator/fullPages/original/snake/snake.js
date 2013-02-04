@@ -3,10 +3,7 @@
 // Please visit http://www.andrespagella.com
 // This is the complete code for this article: http://www.andrespagella.com/snake-game
 var lastRandom = 0;
-Math.random = function()
-{
-    return lastRandom = lastRandom + 0.02;
-}
+Math.random = function() { return lastRandom = lastRandom + 0.02; }
 
 window.onload = function()
 {

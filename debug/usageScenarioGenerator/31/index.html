@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 02</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: blue;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        var mainContainer;
+        window.onload = function()
+        {
+            mainContainer = document.getElementById("mainContainer");
+
+            mainContainer.onclick = function()
+            {
+                handleClick.apply(this, arguments);
+            }
+        };
+
+        function handleClick(e)
+        {
+            mainContainer.textContent += e.type;
+        }
+    </script>
+</body>
+</html>

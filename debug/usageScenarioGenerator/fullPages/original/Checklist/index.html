@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" manifest="checklist.manifest">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Checklist</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="styles_min.css" />
+    <script src="main_min.js"></script>
+</head>
+<body>
+<article role="main">
+    <header role="banner">
+        <button type="button" id="sendmail">Mail</button>
+        <h1>Checklist</h1>
+    </header>
+    <form id="inputarea" onsubmit="addNewItem()">
+        <input type="text" name="name" id="name" maxlength="75" autocorrect placeholder="Enter a new item&hellip;" />
+        <button type="button" id="add">Add</button>
+    </form>
+    <ul id="maillist">
+        <li class="empty"><a href="http://10k.aneventapart.com/1/Uploads/57/" id="maillink">Mail remaining items</a></li>
+    </ul>
+    <p id="totals"><span id="tally1">Total: <span id="total">0</span></span><span id="tally2">Remaining: <span id="remaining">0</span></span></p>
+    <ul id="checklist" role="list">
+        <li class="empty" role="listitem">Loading&hellip;</li>
+    </ul>
+    <fieldset>
+        <button type="button" id="deletechecked">Delete Checked</button>
+        <button type="button" id="deleteall">Delete All</button>
+    </fieldset>
+</article>
+</body>
+</html> 

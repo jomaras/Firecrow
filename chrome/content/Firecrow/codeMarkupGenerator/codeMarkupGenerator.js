@@ -251,9 +251,9 @@ FBL.ns(function () { with (FBL) {
                 else if (ASTHelper.isTryStatement(statement)) { return this.generateFromTryStatement(statement); }
                 else if (ASTHelper.isThrowStatement(statement)) { return this.generateFromThrowStatement(statement); }
                 else if (ASTHelper.isSwitchStatement(statement)) { return this.generateFromSwitchStatement(statement); }
-                else { alert("Error: AST Statement element not defined: " + expression.type);  return "";}
+                else { alert("Error: AST Statement element not defined: " + statement.type);  return "";}
             }
-            catch(e) { alert("Error when generating HTML from a statement: " + e); }
+            catch(e) { debugger; alert("Error when generating HTML from a statement: " + e); }
         },
 
         generateExpression: function(expression)
@@ -877,7 +877,7 @@ FBL.ns(function () { with (FBL) {
 
             for(var i = 0; i < switchCase.consequent.length; i++)
             {
-                html += this.generateStatement(switchCase.consequent[i]);
+                html += this.generateHtml(switchCase.consequent[i]);
             }
 
             html += this.getEndElementHtml("div");

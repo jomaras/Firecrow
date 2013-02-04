@@ -141,9 +141,14 @@
     <div class="reportContainer" id="pageCodeContainer"></div>
     <div class="reportContainer">
         <h2 id="executedScenariosTitle">Executed scenarios: </h2>
-        <div id="executedScenarioTracesContainer">
-
+        <h4 id="elapsedTimeTitle"></h4>
+        <div style="font-weight: bolder;">
+            <div id="statementCoverageTitle"></div>
+            <div id="branchCoverageTitle"></div>
         </div>
+        <hr/>
+
+        <div id="executedScenarioTracesContainer"></div>
         <br/><br/>
 
         <h2 id="keptScenarioTitle">Kept scenarios: </h2>
@@ -158,17 +163,21 @@
     </div>
 
     <!--<script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>-->
-    <script src="usageScenarioGenerator/fullPages/original/angelJump/modelMapping.js"></script>
+    <script src="usageScenarioGenerator/fullPages/simplified/3dmodel/modelMapping.js"></script>
 
     <script type="text/javascript">
-       var model = models[30];
-       //var model = fullPageModel;
+        //test26 - it seems that it does not log writing to html element objects as joint behavior
+        var model = models[14];
+        //var model = fullPageModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var executedScenarioTracesContainer = document.getElementById("executedScenarioTracesContainer");
         var keptScenarioTracesContainer = document.getElementById("keptScenarioTracesContainer");
         var executedScenarioTitle = document.getElementById("executedScenariosTitle");
         var keptScenarioTitle = document.getElementById("keptScenarioTitle");
+        var elapsedTimeTitle = document.getElementById("elapsedTimeTitle");
+        var statementCoverageTitle = document.getElementById("statementCoverageTitle");
+        var branchCoverageTitle = document.getElementById("branchCoverageTitle");
 
         var scenarioInfoContainer = executedScenarioTracesContainer;
 
@@ -176,28 +185,38 @@
 
         var scenarioCounter = 0;
 
+        var timer = new FBL.Firecrow.TimerHelper.createTimer();
+        var lastTime = 0;
+
         FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario, eventCoverage)
         {
             if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
             {
                 var usageScenarios = scenario;
-                var expressionCoverage = FBL.Firecrow.ASTHelper.calculatePageExpressionCoverage(model.pageModel)*100;
-                executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + expressionCoverage  + "%</b>";
-                keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + expressionCoverage + "%</b>";
+                var coverage = FBL.Firecrow.ASTHelper.calculateCoverage(model.pageModel);
+                executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + coverage.expressionCoverage *100  + "%</b>";
+                keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + coverage.expressionCoverage *100 + "%</b>";
                 pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
+                statementCoverageTitle.textContent = "Statement coverage: " + coverage.statementCoverage*100 + "% ";
+                branchCoverageTitle.textContent = "Branch coverage: " + coverage.branchCoverage*100 + "%";
 
                 scenarioCounter = 0;
                 scenarioInfoContainer = keptScenarioTracesContainer;
 
-                usageScenarios.forEach(function(scenario)
+                setTimeout(function()
                 {
-                    generateScenarioHtml(scenario);
-                });
+                    usageScenarios.forEach(function(scenario)
+                    {
+                        generateScenarioHtml(scenario);
+                    });
 
-                document.getElementById("seleniumCodeContainer").textContent = FBL.Firecrow.ScenarioGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
+                    document.getElementById("seleniumCodeContainer").textContent = FBL.Firecrow.ScenarioGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
+                }, 1000);
             }
             else
             {
+                elapsedTimeTitle.textContent = "Time: " + timer.getElapsedTimeInSeconds() + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec";
+                lastTime = timer.getElapsedTimeInSeconds();
                 generateScenarioHtml(scenario);
             }
         });
@@ -208,6 +227,12 @@
             var html = "<div class='scenarioHeader'>Scenario " + scenarioCounter + " (id: " + scenario.id + ")" +"</div>";
             var formulaString = scenario.inputConstraint != null ? (scenario.inputConstraint + " =&gt; " + JSON.stringify(resolvedResult))
                                                                  : "undefined";
+
+            if(scenarioInfoContainer == executedScenarioTracesContainer)
+            {
+                html += "<div class='scenarioAchievedCoverageContainer'>Achieved Coverage: " + FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.achievedCoverage  + "</div>";
+                html += "<div class='scenarioTime'>" + elapsedTimeTitle.textContent  + "</div>";
+            }
 
             html += "<div class='formulaHeader'>Formula: <b>" + formulaString  + "</div>";
             html += "<ol start='0'>";
@@ -226,9 +251,12 @@
             html += "</ol>";
 
             var wrapper = document.createElement("div");
+            wrapper.className = "scenarioWrapperContainer";
             wrapper.innerHTML = html;
 
             scenarioInfoContainer.appendChild(wrapper);
+
+            //localStorage.setItem('lastGeneratedScenarioInfo', html);
 
             scenarioCounter++;
         }

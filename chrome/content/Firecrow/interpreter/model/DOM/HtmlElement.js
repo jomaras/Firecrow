@@ -284,9 +284,6 @@ fcModel.HtmlElement.prototype._expandWithSymbolic = function(propertyName, prope
     if(propertyValue == null || propertyValue.iValue == null) { return; }
 
     propertyValue.symbolicValue = new FBL.Firecrow.ScenarioGenerator.Symbolic.Identifier(this._expandPropertyName(propertyName));
-    propertyValue.symbolicValue.htmlElement = this.htmlElement;
-
-    this._expandWithPossibleValues(propertyValue.symbolicValue, propertyName);
 
     return propertyValue;
 };
@@ -302,28 +299,6 @@ fcModel.HtmlElement.prototype._expandPropertyName = function(propertyName)
     if(this.htmlElement.className) { propertyName += "_CLASS_" + this.htmlElement.className.replace(/\s+/g, ""); }
 
     return propertyName;
-};
-
-fcModel.HtmlElement.prototype._expandWithPossibleValues = function(symbolicValue, propertyName)
-{
-    if(propertyName == "value" && this.htmlElement instanceof HTMLSelectElement)
-    {
-        symbolicValue.possibleValues = this._getSelectAvailableValues(this.htmlElement);
-    }
-};
-
-fcModel.HtmlElement.prototype._getSelectAvailableValues = function(selectElement)
-{
-    var values = [];
-
-    if(selectElement == null) { return values; }
-
-    for(var i = 0; i < selectElement.children.length; i++)
-    {
-        values.push(selectElement.children[i].value);
-    }
-
-    return values;
 };
 //</editor-fold>
 //</editor-fold>
@@ -343,7 +318,8 @@ fcModel.HtmlElement.CONST =
             "mozRequestFullScreen", "normalize", "querySelector", "querySelectorAll", "removeAttribute", "removeAttributeNS", "removeAttributeNode",
             "removeChild", "removeEventListener", "replaceChild", "scrollIntoView", "setAttribute", "setAttributeNS", "setAttributeNode",
             "setAttributeNodeNS", "setCapture", "setIdAttribute", "setIdAttributeNS", "setIdAttributeNode", "setUserData", "insertAdjacentHTML",
-            "mozMatchesSelector", "webkitMatchesSelector", "contains"
+            "mozMatchesSelector", "webkitMatchesSelector", "contains",
+            "getContext"
         ]
     }
 };

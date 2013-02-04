@@ -12,6 +12,7 @@ Firecrow.Slicer = {
         Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
 
         var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
+        Firecrow.DoppelBrowser.Browser.isForSlicing = true;
         var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
         Firecrow.Slicer.browser = browser;
         browser.url = url;

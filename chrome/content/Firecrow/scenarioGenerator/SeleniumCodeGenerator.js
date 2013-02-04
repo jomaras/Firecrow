@@ -29,31 +29,31 @@ FBL.ns(function() { with (FBL) {
                     var parametrizedEvent = scenario.parametrizedEvents[j];
                     var eventType = parametrizedEvent.baseEvent.eventType;
 
-                    if(eventType == "onclick")
+                    if(eventType == "onclick" || eventType == "click")
                     {
                         code += parametrizedEvent.containsMousePosition() ? this.getClickAtCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters)
                                                                           : this.getClickCode(parametrizedEvent.baseEvent.thisObjectDescriptor);
                     }
-                    else if(eventType == "onkeydown")
+                    else if(eventType == "onkeydown" || eventType == "keydown")
                     {
                         code += this.getKeyDownCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters);
                     }
-                    else if(eventType == "onmousemove")
+                    else if(eventType == "onmousemove" || eventType == "mousemove")
                     {
                         code += parametrizedEvent.containsMousePosition() ? this.getMouseMoveAtCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters)
                                                                           : this.getMouseMoveCode(parametrizedEvent.baseEvent.thisObjectDescriptor);
                     }
-                    else if(eventType == "onmousedown")
+                    else if(eventType == "onmousedown" || eventType == "mousedown")
                     {
                         code += parametrizedEvent.containsMousePosition() ? this.getMouseDownAtCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters)
                                                                           : this.getMouseDownCode(parametrizedEvent.baseEvent.thisObjectDescriptor);
                     }
-                    else if(eventType == "onmouseup")
+                    else if(eventType == "onmouseup" || eventType == "mouseup")
                     {
                         code += parametrizedEvent.containsMousePosition() ? this.getMouseUpAtCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters)
                                                                           : this.getMouseUpCode(parametrizedEvent.baseEvent.thisObjectDescriptor);
                     }
-                    else if(eventType == "onchange")
+                    else if(eventType == "onchange" || eventType == "change")
                     {
                         code += this.getOnChangeCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters);
                     }

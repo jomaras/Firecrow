@@ -40,6 +40,7 @@ FBL.ns(function() { with (FBL) {
                 }
                 else
                 {
+                    debugger;
                     alert("The value is not literal");
                 }
             }
@@ -56,6 +57,7 @@ FBL.ns(function() { with (FBL) {
                 }
                 else
                 {
+                    debugger;
                     alert("The value is not literal");
                 }
             }

@@ -36,7 +36,7 @@
         
                 document.onkeydown = onKeyDown;
                 document.onmousemove = onMouseMove;
-                setInterval(draw,10);
+                setInterval(draw,100);
 
                 var modello = document.getElementById("modello");
                 modello.onchange = changeModel;
@@ -76,7 +76,7 @@
                   translate_solid([0, 0, -1100],world.solid[world.solid_number-1]);
                 }
         
-                id_timer = setInterval(draw,10);
+                id_timer = setInterval(draw,100);
 			}
 
       function onKeyDown(evt) 

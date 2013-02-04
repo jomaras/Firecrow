@@ -177,7 +177,10 @@ fcSimulator.InternalExecutor.prototype =
             }
         }
 
-        this._createProperty(pluginsArrayObject, 'Shockwave Flash', this._createPluginInfo(navigator.plugins['Shockwave Flash']), navigator.plugins['Shockwave Flash']);
+        if(navigator.plugins['Shockwave Flash'] != null)
+        {
+            this._createProperty(pluginsArrayObject, 'Shockwave Flash', this._createPluginInfo(navigator.plugins['Shockwave Flash']), navigator.plugins['Shockwave Flash']);
+        }
         this._createProperty(pluginsArrayObject, "length", navigator.plugins.length);
 
         return pluginsArrayObject;

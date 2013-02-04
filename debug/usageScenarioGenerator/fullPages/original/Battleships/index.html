@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>10k Battleships by Mark Menzies</title>
+        <style>
+            body {
+                background:#617076;
+                padding:0;
+                margin:0;
+                margin-top:10px
+            }
+            #container {
+                width:98%;
+                background:#FFF;
+                margin:0 auto;
+                text-align:center;
+                -moz-border-radius:10px;
+                border-radius:10px;
+                padding-bottom:20px
+            }
+            #header {
+                -moz-border-radius:10px;
+                border-radius:10px;
+                background:#31567b;
+                color:#fff;
+                padding:5px
+            }
+            h1, h2 {
+                color:#FFF;
+                padding:4px;
+                margin:2px
+            }
+            #header a {
+                color:#6a92ba;
+                text-decoration:none
+            }
+            #player-board, #computer-board {
+                display:block
+            }
+            .board-table {
+                width:100%
+            }
+            .board-table tr td {
+                width:9%;
+                text-align:center
+            }
+            .board-table tr td a, .board-table tr td a:hover {
+                display:block;
+                text-decoration:none
+            }
+            #game, #win-result, #lose-result {
+                display:none
+            }
+            #win-result {
+                font-weight:bold;
+                width:90%;
+                margin:5px auto;
+                text-alignment:center;
+                padding:10px;
+                border:1px solid #333;
+                background:#3E933F;
+                color:#F1F1F1
+            }
+            #lose-result {
+                font-weight:bold;
+                width:90%;
+                margin:5px auto;
+                text-alignment:center;
+                padding:10px;
+                border:1px solid #333;
+                background:#B55151;
+                color:#F1F1F1
+            }
+            #instructions {
+                margin-top:30px;
+                color:#555
+            }
+            #new-game-button {
+                background:#387dc3;
+                color:#fff;
+                padding:15px;
+                text-decoration:none;
+                -moz-border-radius:5px;
+                border-radius:5px;
+                font-weight:bold
+            }
+            .heading {
+                color:#2d5b89;
+                font-weight:bold;
+                margin-bottom:10px;
+                font-size:115%
+            }
+        </style>
+        <script type="text/javascript" language="javascript" src="jQuery.js"></script>
+    </head>
+    
+    <body>
+        <!-- Markup -->
+        <div id="container">
+            <div id="header">
+                
+<h1>10K Battleships</h1>
+
+                
+<h2>by <a href="http://www.markmenzies.info">Mark Menzies</a></h2>
+
+            </div>
+            <div id="instructions">
+                <p>
+                    <a id="new-game-button">New Game</a>
+                </p>
+                <p>&nbsp;</p>
+                <p>Welcome to Battleships. The aim of the game is to find the computers battleships
+                    before he finds yours! A red block indicates a hit and a gray block indicates
+                    a miss. The ships will be arranged automatically. Click on the Computer
+                    Board to try and destroy the computer&apos;s ships.</p>
+                <div>
+                    <div id="win-result">Congratulations! You have destroyed all the computer&apos;s ships</div>
+                    <div
+                    id="lose-result">Unlucky, the computer has sunk all your ships. Better luck next time!</div>
+                <div
+                id="game">
+                    <div id="information">Information: <span>&nbsp;</span>
+                    </div>
+                    <table width="98%" style="margin: 0 auto; text-align: center; border: 0"
+                    border="0" align="center" border="0">
+                        <tr>
+                            <td width="49%" valign="top">
+                                <div class="heading">Player&apos;s Board</div>
+                                <div id="player-board"></div>
+                                <div id="player-armador"></div>
+                            </td>
+                            <td width="2%">
+                                <td width="49%" valign="top">
+                                    <div class="heading">Computer&apos;s Board</div>
+                                    <div id="computer-board"></div>
+                                    <div id="computer-armador"></div>
+                                </td>
+                        </tr>
+                    </table>
+            </div>
+        </div>
+        <!-- Code -->
+        <script type="text/javascript">
+            var lastRandom = 0, isRandomGrowing = true;
+            Math.random = function()
+            {
+                isRandomGrowing ? lastRandom += 0.02
+                                : lastRandom -= 0.02;
+
+                if(lastRandom >= 1) { lastRandom = 1; isRandomGrowing = false; }
+                if(lastRandom <= 0) { lastRandom = 0; isRandomGrowing = true; }
+
+                return lastRandom;
+            }
+            var State = '';
+            var BoardPlayer = [];
+            var BoardComputer = [];
+            var Ships = new Array(2, 2, 3, 3, 4, 5);
+            var ShipNames = new Array(0, 1, 2, 3, 4, 5);
+            var ShipColors = new Array("#EA7E25", "#497C18", "#123456", "#503399", "#D8D531", "#1a9288");
+            var PlayerArmador = [];
+            var ComputerArmador = [];
+
+            var BlankColor = "#EEEEEE";
+            var MissColor = "#888888";
+            var HitColor = "#EE0000";
+
+            function r(n) {
+                return Math.floor(Math.random() * n)
+            }
+
+            function generateBoards() {
+                BoardPlayer = [];
+                BoardComputer = [];
+                for (var i = 0; i < 10; i++) {
+                    BoardPlayer[i] = [];
+                    BoardComputer[i] = [];
+                    for (var j = 0; j < 10; j++) {
+                        BoardPlayer[i][j] = new Array(-1, 0);
+                        BoardComputer[i][j] = new Array(-1, 0);
+                    }
+                }
+            }
+
+            function generateShips() {
+                PlayerArmador = Ships.slice();
+                ComputerArmador = Ships.slice();
+            }
+
+            function drawBoards() {
+                var display = '<table style="border: 1px solid #999999" cellpadding="0" cellspacing="1" class="board-table">';
+                display += '<tr><td>&nbsp;</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td>';
+                for (var i = 0; i < BoardPlayer.length; i++) {
+                    display += '<tr><td>' + (i) + '</td>';
+                    for (var j = 0; j < BoardPlayer[i].length; j++) {
+                        var block = BoardPlayer[i][j];
+                        var c = BlankColor;
+                        var t = "";
+                        if (block[0] > -1) {
+                            c = ShipColors[block[0]];
+                        }
+                        if (block[1] == 1) {
+                            c = MissColor;
+                        }
+                        if (block[1] == 2) {
+                            c = HitColor;
+                        }
+                        display += '<td style="background: ' + c + '; color: #FFFFFF">' + t + '&nbsp;</td>';
+                    }
+                    display += '</td>';
+                }
+                display += '</table>';
+                $("#player-board").html(display);
+
+                var display = '<table style="border: 1px solid #999999" cellpadding="0" cellspacing="1" class="board-table">';
+                display += '<tr><td>&nbsp;</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td>';
+                for (var i = 0; i < BoardComputer.length; i++) {
+                    display += '<tr><td>' + (i) + '</td>';
+                    for (var j = 0; j < BoardComputer[i].length; j++) {
+                        var block = BoardComputer[i][j];
+                        var c = BlankColor;
+                        var t = "&nbsp;&nbsp;";
+                        if (block[1] == 1) {
+                            c = MissColor;
+                        }
+                        if (block[1] == 2) {
+                            c = HitColor;
+                        }
+                        display += '<td style="background: ' + c + '; color: #FFFFFF"><a href="javascript:attempt(' + i + ',' + j + ');">' + t + '&nbsp;</a></td>';
+                    }
+                    display += '</td>';
+                }
+                display += '</table>';
+                $("#computer-board").html(display);
+
+                var p = "";
+                var ComputerLife = 0;
+                for (var i = 0; i < ComputerArmador.length; i++) {
+                    ComputerLife += ComputerArmador[i];
+                    p += '<p style="text-align: left"><span style="padding: 10px; background: ' + ShipColors[i] + '; border-bottom: 1px solid #FFFFFF">&nbsp;</span> Ship ' + i + ' is ';
+                    if (ComputerArmador[i] > 0) {
+                        p += 'alive (' + ComputerArmador[i] + '/' + Ships[i] + ')';
+                    } else {
+                        p += 'dead';
+                    }
+                    p += '</p>';
+                }
+                if (ComputerLife > 0) {
+                    $("#computer-armador").html(p);
+                } else {
+                    changeState('END', 'WIN');
+                }
+
+                var p = "";
+                var PlayerLife = 0;
+                for (var i = 0; i < PlayerArmador.length; i++) {
+                    PlayerLife += PlayerArmador[i];
+                    p += '<p style="text-align: left"><span style="padding: 10px; background: ' + ShipColors[i] + '; border-bottom: 1px solid #FFFFFF">&nbsp;</span> Ship ' + i + ' is ';
+                    if (PlayerArmador[i] > 0) {
+                        p += 'alive (' + PlayerArmador[i] + '/' + Ships[i] + ')';
+                    } else {
+                        p += 'dead';
+                    }
+                    p += '</p>';
+                }
+                if (PlayerLife > 0) {
+                    $("#player-armador").html(p);
+                } else {
+                    changeState('END', 'LOSE');
+                }
+            }
+
+            function attempt(x, y) {
+                if (State == "PLAYER") {
+                    if (BoardComputer[x][y][1] == 0) {
+                        if (BoardComputer[x][y][0] > -1) {
+                            BoardComputer[x][y][1] = 2;
+                            ComputerArmador[BoardComputer[x][y][0]] -= 1;
+                        } else {
+                            BoardComputer[x][y][1] = 1;
+                        }
+                        drawBoards();
+                        changeState("COMPUTER", "Computers turn");
+                    } else {
+                        changeState("PLAYER", "You have already tried this one, try another");
+                    }
+                }
+            }
+
+            function changeState(state, message) {
+                State = state;
+                if (message == "") {
+                    message = state;
+                }
+                $("#information span").html(message);
+                if (state == "COMPUTER") {
+                    if (computerAttempts(r(10), r(10))) {
+                        message = "The computer hit your ship";
+                    } else {
+                        message = "The computer missed"
+                    }
+                    drawBoards();
+                    changeState("PLAYER", message);
+                }
+                if (state == "END") {
+                    $("#game").hide();
+                    if (message == 'WIN') {
+                        $("#win-result").show();
+                    } else {
+                        $("#lose-result").show();
+                    }
+                }
+            }
+
+            function computerAttempts(x, y) {
+                if (State == "COMPUTER") {
+                    if (BoardPlayer[x][y][1] == 0) {
+                        if (BoardPlayer[x][y][0] > -1) {
+                            BoardPlayer[x][y][1] = 2;
+                            PlayerArmador[BoardPlayer[x][y][0]] -= 1;
+                            return true;
+                        } else {
+                            BoardPlayer[x][y][1] = 1;
+                            return false;
+                        }
+                    } else {
+                        return computerAttempts(r(10), r(10));
+                    }
+                }
+            }
+
+            function placeArmador(Armador, Board) {
+                for (var i = 0; i < Armador.length; i++) {
+                    placeSingleShip(i, Board);
+                }
+            }
+
+            function placeSingleShip(id, board) {
+                var ship = ComputerArmador[id];
+                var orientation = r(2);
+                if (orientation == 0) {
+                    x = r(10 - ship);
+                    y = r(10);
+                    var success = true;
+                    for (var j = 0; j < ship; j++) {
+                        if (board[x + j][y][0] > -1) {
+                            success = false;
+                            return placeSingleShip(id, board);
+                            break;
+                        }
+                    }
+                    if (success == true) {
+                        for (var j = 0; j < ship; j++) {
+                            board[x + j][y][0] = id;
+                        }
+                        return true;
+                    }
+                } else {
+                    x = r(10);
+                    y = r(10 - ship);
+                    var success = true;
+                    for (var j = 0; j < ship; j++) {
+                        if (board[x][y + j][0] > -1) {
+                            success = false;
+                            return placeSingleShip(id, board);
+                            break;
+                        }
+                    }
+                    if (success == true) {
+                        for (var j = 0; j < ship; j++) {
+                            board[x][y + j][0] = id;
+                        }
+                        return true;
+                    }
+                }
+            }
+
+            function init() {
+                $("#win-result").hide();
+                $("#lose-result").hide();
+                generateBoards();
+                generateShips();
+                placeArmador(ComputerArmador, BoardComputer);
+                placeArmador(PlayerArmador, BoardPlayer);
+                drawBoards();
+                changeState("PLAYER", "You have the first attack.");
+                $("#game").show();
+            }
+
+            document.getElementById("new-game-button").onclick = function()
+            {
+                init();
+                return false;
+            }
+        </script>
+    </body>
+
+</html>

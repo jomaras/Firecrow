@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+LightFlip
+A Lights Out clone. The point is to get all the blocks to be in the dark state. Clicking
+a block will change the state of the block and the adjacent blocks.
+
+Author: Bob Roberts
+Date: 09/11/2011
+-->
+<html>
+<head>
+    <title>LightFlip</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="icon" href="favicon.gif" type="image/gif"/>
+</head>
+<body>
+<canvas id="sky" class="dark"></canvas>
+<div id="reset"><span>Reset</span></div>
+<div class="clearfix"></div>
+<table></table>
+<div id="instructions">
+    <h1>Welcome to LightFlip</h1>
+    <p>The point of the game is to click on the squares and turn off all the lit ones. It is not that easy though, as
+        clicking a square will flip all the adjacent squares to their opposite state. See how few moves it takes you to get
+        all the lights out.</p>
+    <span>Click this box to remove</span>
+    <span>Created by Bob Roberts for the 10K Apart contest</span>
+</div>
+
+<script src="jQuery.js" type="text/javascript"></script>
+<script src="script.js" type="text/javascript"></script>
+
+</body>
+</html>

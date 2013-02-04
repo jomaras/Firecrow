@@ -17,6 +17,29 @@ FBL.ns(function() { with (FBL) {
         jsRecorder: null,
         persistedState: {},
 
+        onGarbageCollect: function()
+        {
+            try
+            {
+                window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                      .getInterface(Components.interfaces.nsIDOMWindowUtils)
+                      .garbageCollect();
+
+                var domWindow = fbHelper.getWindow();
+
+                domWindow.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                    .getInterface(Components.interfaces.nsIDOMWindowUtils)
+                    .garbageCollect();
+
+                var mainWindow = fbHelper.getMainWindow();
+
+                mainWindow.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                    .getInterface(Components.interfaces.nsIDOMWindowUtils)
+                    .garbageCollect();
+            }
+            catch(e){ alert(e); }
+        },
+
         showPanel: function(browser, panel)
         {
             try

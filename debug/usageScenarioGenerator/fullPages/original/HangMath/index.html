@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hang Math</title>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <script src="jQuery.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    var lastRandom = 0, isRandomGrowing = true;
+    Math.random = function()
+    {
+        isRandomGrowing ? lastRandom += 0.02
+                        : lastRandom -= 0.02;
+
+        if(lastRandom >= 1) { lastRandom = 0.99; isRandomGrowing = false; }
+        if(lastRandom <= 0) { lastRandom = 0.01; isRandomGrowing = true; }
+
+        return lastRandom;
+    }
+        var ua = navigator.userAgent;
+        var wrong = 0;
+        var op = ['+', '-', '*'];
+        var op_id = 0;
+        var n1;
+        var n2;
+        var answer;
+        var score = 0;
+        var hi_score = 0;
+
+        function draw_canvas() {
+            var drawingCanvas = document.getElementById('hang-math');
+            if (drawingCanvas.getContext) {
+                var ctx = drawingCanvas.getContext('2d');
+                ctx.clearRect(0, 0, 600, 400);
+                ctx.beginPath();
+                ctx.strokeStyle = "#865028";
+                ctx.lineWidth = 30;
+                ctx.moveTo(150, 0);
+                ctx.lineTo(150, 400);
+                ctx.moveTo(150, 200);
+                ctx.lineTo(300, 400);
+                ctx.moveTo(150, 200);
+                ctx.lineTo(300, 0);
+                ctx.moveTo(150, 10);
+                ctx.lineTo(450, 10);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.lineWidth = 10;
+                ctx.moveTo(450, 0);
+                ctx.lineTo(450, 80);
+                ctx.stroke();
+                ctx.strokeStyle = "#a17355";
+                ctx.lineWidth = 10;
+                if (wrong >= 1) {
+                    ctx.beginPath();
+                    ctx.arc(450, 80, 15, 0, Math.PI * 2, true);
+                    ctx.fillStyle = '#edd6c8';
+                    ctx.fill();
+                    ctx.stroke()
+                }
+                if (wrong >= 2) {
+                    ctx.beginPath();
+                    ctx.moveTo(450, 90);
+                    ctx.lineTo(450, 160);
+                    ctx.stroke()
+                }
+                if (wrong >= 3) {
+                    ctx.beginPath();
+                    ctx.moveTo(450, 120);
+                    ctx.lineTo(410, 100);
+                    ctx.stroke()
+                }
+                if (wrong >= 4) {
+                    ctx.beginPath();
+                    ctx.moveTo(450, 120);
+                    ctx.lineTo(490, 100);
+                    ctx.stroke()
+                }
+                if (wrong >= 5) {
+                    ctx.beginPath();
+                    ctx.moveTo(450, 155);
+                    ctx.lineTo(410, 200);
+                    ctx.stroke()
+                }
+                if (wrong >= 6) {
+                    ctx.beginPath();
+                    ctx.moveTo(450, 155);
+                    ctx.lineTo(490, 200);
+                    ctx.stroke()
+                }
+                if (wrong >= 7) {
+                    ctx.beginPath();
+                    ctx.moveTo(450, 180);
+                    ctx.lineTo(450, 190);
+                    ctx.stroke()
+                }
+            }
+        }
+        $(document).ready(function () {
+            if (ua.match(/Firefox/i) != null) {
+                $(".d").addClass("hack");
+            }
+            var rand_no = Math.floor(3 * Math.random());
+            genEq();
+            draw_canvas();
+            $("#menu div").click(function (e) {
+                $("#menu").css("display", "none");
+                $("#game").css("display", "block");
+                $("#error").css("display", "block");
+                addKeyCheck();
+                addAgain()
+            })
+        });
+
+        function addAgain() {
+            $("#again").click(function (e) {
+                score = 0;
+                wrong = 0;
+                draw_canvas();
+                $("#again").css("display", "none");
+                $("#question").css("display", "block");
+                $("#error").html("");
+                $("#score").html(score)
+            })
+        }
+        function addKeyCheck() {
+            $(this).keydown(function (e) {
+                $("#error").html("");
+                var n = $("#answer").html();
+                var k = e.keyCode;
+                if (k == 8) {
+                    $("#answer").html(n.substring(0, n.length - 1));
+                    e.preventDefault()
+                } else if (k == 13) {
+                    if (isNaN(n) || n == "") {
+                        $("#error").html("Invalid input")
+                    } else {
+                        var b = checkAnswer(n);
+                        if (!b) {
+                            wrong++;
+                            if (wrong > 6) {
+                                $("#question").css("display", "none");
+                                $("#again").css("display", "block");
+                                $("#error").html("Sorry, answer was " + answer + ". GAME OVER!!!");
+                                if (score > hi_score) {
+                                    hi_score = score;
+                                    $("#hi_score").html(hi_score)
+                                }
+                            } else {
+                                $("#error").html("Sorry, answer was " + answer)
+                            }
+                            draw_canvas()
+                        } else {
+                            $("#error").html("You're a genius!!!");
+                            score += 100;
+                            $("#score").html(score)
+                        }
+                        $("#answer").html("");
+                        genEq()
+                    }
+                } else if (k >= 48 && k <= 57) {
+                    $("#answer").html(n + (e.keyCode - 48).toString())
+                } else if (k == 189 || k == 109) {
+                    if (n.length == 0) {
+                        $("#answer").html(n + "-")
+                    }
+                }
+            })
+        }
+        function checkAnswer(n) {
+            n = parseInt(n);
+            return (n == answer)
+        }
+        function genEq() {
+            op_id = Math.floor(3 * Math.random());
+            n1 = Math.floor(50 * Math.random());
+            n2 = Math.floor(50 * Math.random());
+            switch (op_id) {
+                case 0:
+                    answer = n1 + n2;
+                    break;
+                case 1:
+                    answer = n1 - n2;
+                    break;
+                case 2:
+                    answer = n1 * n2;
+                    break
+            }
+            $("#q").html(n1 + " " + op[op_id] + " " + n2 + " = ")
+        }
+    </script>
+</head>
+
+<body>
+<header>
+    <h1><a href="http://10k.aneventapart.com/1/Uploads/391/">Hang Math</a></h1>
+
+</header>
+<section>
+    <div id="menu">
+        <div style="width:250px; height:100px;">START</div>
+    </div>
+    <div id="error" style="display:none;"></div>
+    <div id="game" style="display:none;">
+        <div id="question" class="d">
+            <h2><span id="q">1 + 5 = </span><span id="answer"></span></h2>
+
+        </div>
+        <div id="again" style="display:none;" class="d">
+            <h2>PLAY AGAIN</h2>
+
+        </div>
+        <canvas id="hang-math" width="600" height="400" class="d"></canvas>
+    </div>
+</section>
+<aside>
+    <p>Score: <span id="score">0</span>
+    </p>
+    <p>High Score: <span id="hi_score">0</span>
+    </p>
+</aside>
+<footer>
+    <p>
+        <a href="http://www.capcai.com" target="_blank">Brought to you by: Teguh Mualim</a>
+    </p>
+</footer>
+</body>
+
+</html>

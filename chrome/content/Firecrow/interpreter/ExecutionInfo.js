@@ -30,7 +30,7 @@ FBL.ns(function() { with (FBL) {
     {
         logEventExecution: function(baseObjectDescriptor, eventType)
         {
-            if(this.currentEventExecutionInfo == null && (eventType == "onload" || eventType == "DOMContentLoaded"))
+            if(this.currentEventExecutionInfo == null && (eventType == "onload" || eventType == "DOMContentLoaded" || eventType == "load"))
             {
                 return;
             }
@@ -225,6 +225,7 @@ FBL.ns(function() { with (FBL) {
 
         _removeFirstRegisteredEventByTypeAndTimerId: function(eventType, timerId)
         {
+            return;
             for(var i = 0, length = this.eventRegistrations.length; i < length; i++)
             {
                 var eventRegistration = this.eventRegistrations[i];
@@ -298,19 +299,19 @@ FBL.ns(function() { with (FBL) {
             this.globalModifiedObjects.push(modifiedObjectInfo);
         },
 
-        isDependentOn: function(executionInfo)
+        isDependentOn: function(executionInfo, checkWholeExecution)
         {
-            return this._isIdentifierDependent(executionInfo) || this._isObjectModificationsDependent(executionInfo);
+            return this._isIdentifierDependent(executionInfo, checkWholeExecution) || this._isObjectModificationsDependent(executionInfo, checkWholeExecution);
         },
 
-        _isIdentifierDependent: function(executionInfo)
+        _isIdentifierDependent: function(executionInfo, checkWholeExecution)
         {
             //Compare only to last event execution info (since all events are always traversed)
-            var thisGlobalAccessedIdentifiers = this.eventExecutions[this.eventExecutions.length - 1] != null
+            var thisGlobalAccessedIdentifiers = this.eventExecutions[this.eventExecutions.length - 1] != null && !checkWholeExecution
                                               ? this.eventExecutions[this.eventExecutions.length - 1].globalAccessedIdentifiers
                                               : this.globalAccessedIdentifiers;
 
-            var comparisonGlobalModifiedIdentifiers = executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1] != null
+            var comparisonGlobalModifiedIdentifiers = executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1] != null && !checkWholeExecution
                                                     ? executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1].globalModifiedIdentifiers
                                                     : executionInfo.globalModifiedIdentifiers;
 
@@ -352,14 +353,14 @@ FBL.ns(function() { with (FBL) {
             return false;
         },
 
-        _isObjectModificationsDependent: function(executionInfo)
+        _isObjectModificationsDependent: function(executionInfo, checkWholeExecution)
         {
             //Compare only to last event execution info (since all events are always traversed)
-            var thisGlobalAccessedObjects = this.eventExecutions[this.eventExecutions.length - 1] != null
+            var thisGlobalAccessedObjects = this.eventExecutions[this.eventExecutions.length - 1] != null && !checkWholeExecution
                                           ? this.eventExecutions[this.eventExecutions.length - 1].globalAccessedObjects
                                           : this.globalAccessedObjects;
 
-            var comparisonGlobalModifiedObjects = executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1] != null
+            var comparisonGlobalModifiedObjects = executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1] != null && !checkWholeExecution
                                                 ? executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1].globalModifiedObjects
                                                 : executionInfo.globalModifiedObjects;
 

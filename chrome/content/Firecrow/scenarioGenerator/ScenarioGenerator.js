@@ -7,14 +7,16 @@ var fcSymbolic = fcScenarioGenerator.Symbolic;
 
 fcScenarioGenerator.ScenarioGenerator =
 {
+    achievedCoverage: 0,
+
     generateScenarios: function(pageModel, scenarioExecutedCallback)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
 
         var scenarios = new fcScenarioGenerator.ScenarioCollection();
-        fcScenarioGenerator.ScenarioGenerator.GENERATED_SCENARIOS = scenarios;
 
         var browser = this._executeApplication(pageModel);
+        this.achievedCoverage = ASTHelper.calculateCoverage(pageModel).expressionCoverage;
 
         this._createRegisteredEventsScenarios(browser, scenarios);
 
@@ -25,8 +27,9 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var asyncLoop = function()
         {
-            if(currentScenario == null || processedScenarioCounter > 240
-              || ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
+            if(currentScenario == null || processedScenarioCounter > 80
+            || that.achievedCoverage == 1)
+            //|| ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
             //|| that._hasAchievedEnoughCoverage(pageModel, scenarios))
             {
                 //scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
@@ -56,7 +59,6 @@ fcScenarioGenerator.ScenarioGenerator =
         ASTHelper.setParentsChildRelationships(pageModel);
 
         var scenarios = new fcScenarioGenerator.ScenarioCollection();
-        fcScenarioGenerator.ScenarioGenerator.GENERATED_SCENARIOS = scenarios;
 
         var browser = this._executeApplication(pageModel);
 
@@ -68,7 +70,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         while (currentScenario != null)
         {
-            if(processedScenarioCounter > 140 || this._hasAchievedEnoughCoverage(pageModel, scenarios)) { break; }
+            if(currentScenario == null || processedScenarioCounter > 100 || this.achievedCoverage == 1) { break; }
 
             this._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
@@ -208,13 +210,13 @@ fcScenarioGenerator.ScenarioGenerator =
         }
     },
 
+    allReadyMergedCacheMap: {},
+
     _createMergedScenarios: function(pageModel, scenarios)
     {
         //Has to be cached because new scenarios are added, and we don't want to take them into account
         var executedScenarios = scenarios.getExecutedScenarios();
         var scenariosLength = executedScenarios.length;
-
-        if(scenariosLength >= 200) { debugger; }
 
         var timer = Firecrow.TimerHelper.createTimer();
 
@@ -226,6 +228,8 @@ fcScenarioGenerator.ScenarioGenerator =
                 {
                     return;
                 }
+
+                timer = Firecrow.TimerHelper.createTimer();
             }
 
             var ithScenario = executedScenarios[i];
@@ -234,16 +238,27 @@ fcScenarioGenerator.ScenarioGenerator =
             {
                 var jthScenario = executedScenarios[j];
 
-                if(jthScenario.executionInfo.isDependentOn(ithScenario.executionInfo))
+                if(this.allReadyMergedCacheMap[i + "-" + j] || this.allReadyMergedCacheMap[j + "-" + i]) { continue; }
+                //|| jthScenario.isAncestor(ithScenario) || ithScenario.isAncestor(jthScenario)) { continue; }
+
+                var areCreatedByMerging = ithScenario.parentScenarios.length > 1 && jthScenario.parentScenarios.length > 1;
+
+                if(jthScenario.executionInfo.isDependentOn(ithScenario.executionInfo, areCreatedByMerging))
                 {
-                    scenarios.addScenario(fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario))
+                    var hasBeenAdded = scenarios.addScenario(fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario));
+
+                    if(hasBeenAdded)
+                    {
+                        this.allReadyMergedCacheMap[i + "-" + j] = true;
+                        this.allReadyMergedCacheMap[j + "-" + i] = true;
+                    }
                 }
             }
         }
     },
 
     _executeScenario: function(pageModel, scenario, scenarios)
-    { if(scenario.id == 223) { debugger; }
+    {
         var browser = this._executeApplication(pageModel);
         var parametrizedEvents = this._createParametrizedEvents(scenario);
 
@@ -259,6 +274,8 @@ fcScenarioGenerator.ScenarioGenerator =
         this._addDefaultConstraints(browser, scenario, parametrizedEvents);
 
         scenario.setExecutionInfo(executionInfo);
+
+        this.achievedCoverage = ASTHelper.calculateCoverage(pageModel).expressionCoverage;
 
         return executionInfo;
     },
@@ -293,6 +310,8 @@ fcScenarioGenerator.ScenarioGenerator =
         browser.eventIndex = eventIndex;
         var eventRegistration = this._getMatchingEventRegistration(browser, parametrizedEvent.baseEvent.thisObjectModel, parametrizedEvent.baseEvent.registrationConstruct);
 
+        if(eventRegistration == null) { return; }
+
         var handlerArguments = this._getArguments(eventRegistration, browser, parametrizedEvent.parameters, eventIndex);
         this._modifyDom(eventRegistration, scenario, parametrizedEvent.parameters);
 
@@ -312,11 +331,67 @@ fcScenarioGenerator.ScenarioGenerator =
 
                 binary.markAsIrreversible();
 
-                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, binary)
+                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, binary);
 
                 executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
                 scenario.addInputConstraintItem(pathConstraintItem);
                 scenario.addSolutionIfNotExistent(identifierName, 0);
+            }
+            else if(identifierName.indexOf("DOM_") == 0)
+            {
+                var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(identifierName);
+                var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(identifierName);
+                if(id != "")
+                {
+                    var htmlElement = browser.hostDocument.getElementById(id);
+
+                    if(htmlElement instanceof HTMLSelectElement)
+                    {
+                        var availableValues = this._getSelectAvailableValues(htmlElement);
+                        var binaryExpressions = [];
+
+                        var compoundLogical = null;
+
+                        for(var i = 0; i < availableValues.length; i++)
+                        {
+                            var binary = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(availableValues[i]), "==");
+                            binary.markAsIrreversible();
+                            binaryExpressions.push(binary);
+
+                            var previousBinary = binaryExpressions[i-1];
+                            var currentBinary = binaryExpressions[i];
+
+                            if(previousBinary != null && currentBinary != null)
+                            {
+                                if(compoundLogical == null)
+                                {
+                                    compoundLogical = new fcSymbolic.Logical(previousBinary, currentBinary, "||");
+                                    compoundLogical.markAsIrreversible();
+                                }
+                                else
+                                {
+                                    compoundLogical = new fcSymbolic.Logical(compoundLogical, currentBinary, "||");
+                                    compoundLogical.markAsIrreversible();
+                                }
+                            }
+                        }
+
+                        var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, compoundLogical);
+                        executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                        scenario.addInputConstraintItem(pathConstraintItem);
+                        scenario.addSolutionIfNotExistent(identifierName, availableValues[0]);
+                    }
+                    else
+                    {
+                        debugger;
+                        alert("Unhandled HTMLElement in ScenarioGenerator when adding default constraints");
+                    }
+                }
+                else
+                {
+                    debugger;
+                    alert("No id in ScenarioGenerator when adding default constraints");
+                }
             }
         }
 
@@ -340,6 +415,20 @@ fcScenarioGenerator.ScenarioGenerator =
                 }
             }
         }
+    },
+
+    _getSelectAvailableValues: function(selectElement)
+    {
+        var values = [];
+
+        if(selectElement == null) { return values; }
+
+        for(var i = 0; i < selectElement.children.length; i++)
+        {
+            values.push(selectElement.children[i].value);
+        }
+
+        return values;
     },
 
     _isPositiveNumberIdentifier: function(identifierName)
@@ -391,7 +480,7 @@ fcScenarioGenerator.ScenarioGenerator =
             }
         }
 
-        debugger;
+        console.log("Could not find eventRegistration: " + registrationConstruct.nodeId);
 
         return null;
     },
@@ -401,11 +490,18 @@ fcScenarioGenerator.ScenarioGenerator =
         switch(eventRegistration.eventType)
         {
             case "onclick":
+            case "click":
             case "onmousedown":
             case "onmouseup":
             case "onmousemove":
+            case "mousedown":
+            case "mouseup":
+            case "mousemove":
+            case "onmouseover":
+            case "mouseover":
                 return this._generateMouseHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             case "onkeydown":
+            case "keydown":
                 return this._generateKeyHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             default:
                 break;
@@ -435,7 +531,7 @@ fcScenarioGenerator.ScenarioGenerator =
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientY", 0, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenX", 0, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", 0, browser, eventIndex);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex, true);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
 
@@ -518,9 +614,15 @@ fcScenarioGenerator.ScenarioGenerator =
         });
     },
 
-    _addEventObjectProperty: function(eventInfo, eventInfoFcObject, propertyName, propertyValue, browser, executionOrderId)
+    _addEventObjectProperty: function(eventInfo, eventInfoFcObject, propertyName, propertyValue, browser, executionOrderId, dontCreateSymbolicValue)
     {
-        eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, new fcSymbolic.Identifier(this.addSuffix(propertyName, executionOrderId)));
+        var symbolicValue = null;
+        if(!dontCreateSymbolicValue)
+        {
+            symbolicValue = new fcSymbolic.Identifier(this.addSuffix(propertyName, executionOrderId));
+        }
+
+        eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, symbolicValue);
         eventInfoFcObject.addProperty(propertyName, eventInfo[propertyName]);
     },
 
@@ -553,7 +655,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
                     if(htmlElement instanceof HTMLSelectElement)
                     {
-                        var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement);
+                        var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement, parameters[parameterName]);
 
                         scenario.inputConstraint.resolvedResult[eventRegistration.thisObject.globalObject.browser.eventIndex][parameterName] = updateResult.oldValue + " -&gt; " + updateResult.newValue;
                         parameters.value = updateResult.newValue;

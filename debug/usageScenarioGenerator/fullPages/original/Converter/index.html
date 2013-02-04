@@ -1,0 +1,564 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>converter</title>
+    <style>
+        * {
+            margin:0px;
+            padding:0px;
+            border:0px;
+            font-family:Helvetica, Arial, sans-serif;
+        }
+        body {
+            font-size:16px;
+        }
+        header, footer, #ctn {
+            display:block
+        }
+        header {
+            text-align:center;
+        }
+        footer {
+            padding:10px;
+            text-align:right;
+            font-size:0.8em;
+        }
+        h1 {
+            font-size:2.2em;
+            letter-spacing:0.2em;
+        }
+        header p.desc {
+            font-style:italic;
+        }
+        #ctn {
+            margin:30px auto;
+            width:900px;
+            overflow:hidden;
+        }
+        a {
+            text-decoration:none;
+            color:#444;
+        }
+        #tl, #unl {
+            list-style-type:none;
+            float:left;
+        }
+        #tl {
+            border-right:2px solid #999999;
+        }
+        #tl li {
+            width:250px;
+            text-align:right;
+            padding:5px 10px 5px 0px;
+            letter-spacing:0.05em;
+        ;
+            cursor:pointer;
+            border-top:1px dotted #f0f0f0;
+        }
+        #tl li:hover {
+            background-color:#666;
+            color:#eee;
+        }
+        #tl li.s {
+            background-color:#666;
+            color:#eee;
+            font-weight:bold;
+        }
+        #unl {
+            width:550px;
+            padding-left:20px;
+            padding-top:10px;
+        }
+        #unl li {
+            display:block;
+            padding:5px;
+            float:left;
+        }
+        #unl span {
+            float:left;
+            line-height:2.5em;
+        }
+        #unl input {
+            -moz-border-radius:4px 4px 4px 4px;
+            -moz-box-shadow:-3px 3px 4px #AAAAAA;
+            -webkit-border-radius:4px 4px 4px 4px;
+            -webkit-box-shadow:-3px 3px 4px #AAAAAA;
+            border-radius:4px 4px 4px 4px;
+            box-shadow:-3px 3px 4px #AAAAAA;
+            border:2px solid #333333;
+            float:left;
+            font-size:1.2em;
+            margin-right:10px;
+            padding:0.2em;
+            text-align:right;
+            width:284px;
+        }
+        footer ul {
+            list-style-type:none;
+            float:right;
+        }
+        footer li {
+            display:inline;
+            padding:10px;
+        }
+        #unl input.nan {
+            color:red;
+        }
+        #precs {
+            width:2em;
+            font-weight:bold;
+            padding:2px;
+            border:1px solid #333;
+            text-align:center
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1><a href="http://10k.aneventapart.com/1/Uploads/110/">converter</a></h1>
+    <p class="desc">- a simple unit conversion tool.</p>
+</header>
+<div id="ctn">
+    <ul id="tl"></ul>
+    <ul id="unl">
+        <li>This is a simple unit conversion tool. Click on the measurement type on
+            the left to start.</li>
+    </ul>
+</div>
+<footer>
+    <ul>
+        <li>precision:
+            <input id="precs" name="precs" value="5" />
+        </li>
+        <li>
+            <a title="What Every Computer Scientist Should Know About Floating-Point Arithmetic"
+               href="http://docs.sun.com/source/806-3568/ncg_goldberg.html">#meh culpa?!</a>
+        </li>
+        <li>A simple converter app by
+            <a href="http://twitter.com/vsr">@vsr</a>.</li>
+    </ul>
+</footer>
+<script>
+var d = document;
+
+function eI(i) {
+    return d.getElementById(i)
+}
+var cvtr = {
+    'acceleration': {
+        'centimeter/sec²': 0.0010197,
+        'foot/sec²': 0.0310808,
+        'free fall(g)': 1,
+        'meter/sec²': 0.1019716,
+        'mile/hour second': 0.0455853,
+        'millimeter/sec²': 0.0001019
+    },
+    'amount of substance': {
+        'kilomole': 1000,
+        'micormole': 0.000001,
+        'millimole': 0.001,
+        'mole': 1
+    },
+    'angle': {
+        'degree': 1,
+        'grad': 0.9000009,
+        'minute': 0.016666667,
+        'radian': 57.2958,
+        'revolution': 360,
+        'right angle': 90,
+        'second': 0.0002777778
+    },
+    'area': {
+        'acre': 4.046856E+007,
+        'centimeter²': 1,
+        'foot²': 929.0304,
+        'hectare': 1E+008,
+        'inch²': 6.4516,
+        'kilometer²': 1E+010,
+        'meter²': 10000,
+        'mile²': 2.589988E+010,
+        'millimeter²': 0.01,
+        'yard²': 8361.274
+    },
+    'computer': {
+        'bit': 0.125,
+        'byte': 1,
+        'exabyte': 1.152922E+018,
+        'gigabyte': 1.07342E+009,
+        'kilobit': 128,
+        'kilobyte': 1024,
+        'megabit': 131072,
+        'megabyte': 1048576,
+        'nibble': 0.5,
+        'petabyte': 1.1259E+015,
+        'terabyte': 1.099512E+012,
+        'yottabyte': 1.208926E+024,
+        'zettabyte': 1.180592E+021
+    },
+    'concentration': {
+        'kilomole/meter³': 1,
+        'micromole/centimeter³': 0.001,
+        'micromole/decimeter³': 1E-006,
+        'micromole/liter': 1E-006,
+        'millimole/centimeter³': 1,
+        'millimole/decimeter³': 0.001,
+        'millimole/liter': 0.001,
+        'millimole/meter³': 1E-006,
+        'millimole/millileter': 1,
+        'mole/decimeter³': 1,
+        'mole/liter': 1,
+        'mole/meter³': 0.001,
+        'one elementry entity/meter³': 1.66054E-027
+    },
+    'density': {
+        'gram/centimeter³': 1,
+        'gram/meter³': 1E-006,
+        'kilogram/meter³': 0.001,
+        'milligram/meter³': 1E-009,
+        'ounce/gallon': 0.007489152,
+        'pound/foot³': 0.01601846,
+        'pound/inch³': 27.6799,
+        'ton/yard': 0.6935925
+    },
+    'distance': {
+        'centimeter': 1,
+        'dekameter': 1000,
+        'foot': 30.48,
+        'furlong': 20116.8,
+        'hectometer': 10000,
+        'inch': 2.54,
+        'kilometer': 100000,
+        'lightyear': 9.460528E+017,
+        'meter': 100,
+        'micrometer': 0.0001,
+        'mil': 0.00254,
+        'mile': 160934.4,
+        'millimeter': 0.1,
+        'nanometer': 1E-007,
+        'nautical mile': 185200,
+        'parsec': 3.085678E+018,
+        'yard': 91.44
+    },
+    'dry volume': {
+        'barrel': 115.6271,
+        'bushel': 35.23907,
+        'liter': 1,
+        'peck': 8.809768,
+        'pint': 0.5506105,
+        'quart': 1.101221
+    },
+    'energy': {
+        'attojoule': 1E-018,
+        'BTU': 1055.056,
+        'calorie': 4.1868,
+        'dyne-centimeter': 1E-007,
+        'electron volt': 1.60219E-019,
+        'erg': 1E-007,
+        'gigajoule': 1E+009,
+        'gigawatt-hour': 3.6E+012,
+        'gram force-centimeter': 9.80665E-005,
+        'horsepower-hour': 2684520,
+        'joule': 1,
+        'kilocalorie': 4186.8,
+        'kiloelectron volt': 1.60219E-016,
+        'kilojoule': 1000,
+        'kilowatt-hour': 3600000,
+        'megaelectron volt': 1.60219E-013,
+        'megajoule': 1000000,
+        'megawatt-hour': 3.6E+009,
+        'microjoule': 1E-006,
+        'millijoule': 0.001,
+        'nanojoule': 1E-009,
+        'newton-meter': 1,
+        'ounce force-inch': 0.007061552,
+        'pound force-foot': 1.355818,
+        'pound force-inch': 0.1129848,
+        'poundal-foot': 0.04214011,
+        'therm': 1.05506E+008,
+        'watt-hour': 3600,
+        'watt-second': 1
+    },
+    'flow': {
+        'centimeter³/hour': 1,
+        'centimeter³/minute': 60,
+        'centimeter³/second': 3600,
+        'foot³/hour': 28316.85,
+        'foot³/minute': 1699011,
+        'foot³/second': 1.019406E+008,
+        'gallon(UK)/day': 189.4205,
+        'gallon(UK)/hour': 4546.092,
+        'gallon(UK)/minute': 272765.5,
+        'gallon(UK)/second': 1.636593E+007,
+        'gallon/day': 157.7255,
+        'gallon/hour': 3785.412,
+        'gallon/minute': 227124.7,
+        'gallon/second': 1.362748E+007,
+        'liter/day': 41.66667,
+        'liter/hour': 1000,
+        'liter/minute': 60000,
+        'liter/second': 3600000,
+        'meter³/day': 41666.67,
+        'meter³/hour': 1000000,
+        'meter³/minute': 6E+007,
+        'meter³/second': 3.6E+009,
+        'milliliter/hour': 1,
+        'milliliter/minute': 60,
+        'milliliter/second': 3600,
+        'ounce(UK)/hour': 28.41307,
+        'ounce(UK)/minute': 1704.785,
+        'ounce(UK)/second': 102287.1,
+        'ounce/hour': 29.57353,
+        'ounce/minute': 1774.412,
+        'ounce/second': 106464.7,
+        'yard³/hour': 764554.9,
+        'yard³/minute': 4.587329E+007,
+        'yard³/second': 2.752397E+009
+    },
+    'force': {
+        'dyne': 1E-005,
+        'gram force': 0.00980665,
+        'kilogram force': 9.80665,
+        'kilonewton': 1000,
+        'millinewton': 0.001,
+        'newton': 1,
+        'ounce-force': 0.2780139,
+        'pound-force': 4.448222
+    },
+    'light': {
+        'flame': 43.05564,
+        'foot candles': 10.76391,
+        'lux': 1,
+        'meter candles': 1
+    },
+    'mass': {
+        'carat': 0.2,
+        'grain': 0.06479891,
+        'gram': 1,
+        'kilogram': 1000,
+        'megagram': 1000000,
+        'microgram': 1E-06,
+        'milligram': 0.001,
+        'ounce(avdp)': 28.34952,
+        'ounce(troy)': 31.10348,
+        'pennyweight': 1.555174,
+        'pound(avdp)': 453.5924,
+        'pound(troy)': 373.2417,
+        'stone': 6350.293,
+        'ton(long-UK)': 1016047,
+        'ton(short-US)': 907184.7,
+        'tonne(metric)': 1000000
+    },
+    'power': {
+        'BTU/hour': 0.2928104,
+        'BTU/minute': 17.56863,
+        'BTU/second': 1054.118,
+        'calorie/second': 4.183076,
+        'horsepower': 745.6999,
+        'kilowatt': 1000,
+        'megawatt': 1000000,
+        'pound-feet/minute': 0.02259697,
+        'pound-feet/second': 1.355818,
+        'watt': 1
+    },
+    'pressure': {
+        'atmosphere': 1,
+        'bar': 0.9869233,
+        'centimeters of mercury': 0.01315789,
+        'dyne/centimeter²': 9.869233E-007,
+        'inches of mercury': 0.03342105,
+        'kilogram/centimeter²': 0.9678411,
+        'kilogram/meter²': 9.678411E-005,
+        'kilopascal': 0.009869233,
+        'megapascal': 9.869233,
+        'microbar': 9.869233E-007,
+        'millibar': 0.0009869233,
+        'millimeters of mercury': 0.001315789,
+        'pascal': 9.869233E-006,
+        'pound/foot²': 0.0004725414,
+        'pound/inch²': 0.06804596,
+        'psi': 0.06804596,
+        'ton/foot²': 0.9450828,
+        'ton/inch²': 136.0919,
+        'torr': 0.001315789
+    },
+    'temperature': {
+        'celsius': 0,
+        'farenheit': 0,
+        'kelvin': 0
+    },
+    'time': {
+        'century': 876000,
+        'day': 24,
+        'decade': 87600,
+        'fortnight': 336,
+        'hour': 1,
+        'leap year': 8784,
+        'millenium': 8760000,
+        'millisecond': 2.77778E-07,
+        'minute': 0.01666668,
+        'month': 720,
+        'nanosecond': 2.77778E-13,
+        'second': 0.000277778,
+        'week': 168,
+        'year': 8760
+    },
+    'torque': {
+        'dyne centimeter': 1E-007,
+        'gram-force centimeter': 9.80665E-005,
+        'kilogram-force meter': 9.80665,
+        'kilonewton meter': 1000,
+        'kilopond meter': 9.80665,
+        'meganewton meter': 1000000,
+        'micronewton meter': 1E-006,
+        'millinewton meter': 0.001,
+        'newton meter': 1,
+        'ounce-force foot': 0.0847386,
+        'ounce-force inch': 0.00706155,
+        'pound-force foot': 1.35582,
+        'pound-force inch': 0.1129848
+    },
+    'speed': {
+        'c': 1.1079253E+009,
+        'centimeter/hour': 1E-005,
+        'centimeter/minute': 0.0006,
+        'centimeter/second': 0.036,
+        'foot/hour': 0.0003048,
+        'foot/minute': 0.018288,
+        'foot/second': 1.09728,
+        'kilometer/hour': 1,
+        'kilometer/minute': 60,
+        'kilometer/second': 3600,
+        'knot': 1.852,
+        'mach': 1193.256,
+        'meter/hour': 0.001,
+        'meter/minute': 0.06,
+        'minute/second': 3.6,
+        'mile/hour': 1.609344,
+        'mile/minute': 96.56064,
+        'mile/second': 5793.638
+    },
+    'volume': {
+        'cc': 1,
+        'centimeter³': 1,
+        'foot³': 28316.85,
+        'inch³': 16.38706,
+        'meter³': 1000000,
+        'yard³': 764554.9,
+        'cup': 236.5882,
+        'dram': 3.696716,
+        'drop': 0.0648524,
+        'gallon(US)': 3785.412,
+        'gallon(UK)': 4546.092,
+        'liter': 1000,
+        'millileter': 1,
+        'minim': 0.06161152,
+        'ounce(US)': 29.57353,
+        'ounce(UK)': 28.41307,
+        'pint(US)': 473.1765,
+        'pint(UK)': 568.261,
+        'quart': 946.3529,
+        'tablespoon': 14.78676,
+        'teaspoon': 4.928922
+    },
+};
+var precs = 5,
+        sltd_typ = null;
+
+function rC(p) {
+    while (p && p.firstChild) {
+        p.removeChild(p.firstChild)
+    }
+}
+function ct() {
+    var fuv = cvtr[sltd_typ][this.name],
+            fv = parseFloat(this.value),
+            its = eI('unl').getElementsByTagName('input');
+    this.className = isNaN(fv) ? 'nan' : '';
+    var uv = fv * fuv,
+            ser = 0;
+    for (var i = 0; i < its.length; i++) {
+        if (its[i].name == this.name || its[i].nodeType != 1) {
+            continue
+        }
+        if (sltd_typ == 'temperature') {
+            switch (this.name) {
+                case 'celsius':
+                    uv = fv;
+                    break;
+                case 'farenheit':
+                    uv = (fv - 32) * 5 / 9;
+                    break;
+                case 'kelvin':
+                    uv = fv - 273.15;
+                    break
+            }
+            switch (its[i].name) {
+                case 'celsius':
+                    ser = uv;
+                    break;
+                case 'farenheit':
+                    ser = uv * 9 / 5 + 32;
+                    break;
+                case 'kelvin':
+                    ser = uv + 273.15;
+                    break
+            }
+        } else {
+            ser = uv / cvtr[sltd_typ][its[i].name]
+        }
+        its[i].value = isNaN(ser) ? 0 : ser.toFixed(precs);
+        its[i].className = isNaN(ser) ? 'nan' : ''
+    }
+}
+function luList(unit) {
+    sltd_typ = unit;
+    rC(eI('unl'));
+    for (var i in cvtr[unit]) {
+        var ele = d.createElement("li"),
+                sp = d.createElement("span"),
+                inp = d.createElement("input");
+        sp.innerHTML = i;
+        inp.name = i;
+        inp.type = 'text';
+        inp.onchange = inp.onkeyup = ct;
+        ele.appendChild(inp);
+        ele.appendChild(sp);
+        eI('unl').appendChild(ele)
+    }
+}
+function lu(event) {
+    var elm = eI('tl').getElementsByTagName('li');
+    for (var i = 0; i < elm.length; i++) {
+        if (elm[i].nodeType == 1) {
+            elm[i].className = ''
+        }
+    }
+    this.className = 's';
+    luList(this.id)
+}
+function set_precs() {
+    var p = parseInt(eI('precs').value, 10);
+    if (!isNaN(p) && p < 20 && p > 0) {
+        precs = p
+    }
+    eI('precs').value = precs
+}
+function init() {
+    rC(eI('tl'));
+    for (var i in cvtr) {
+        var ele = d.createElement("li");
+        ele.innerHTML = ele.id = i;
+        ele.onclick = lu;
+        eI('tl').appendChild(ele)
+    }
+    eI('precs').onchange = set_precs;
+    set_precs()
+}
+init();
+</script>
+</body>
+
+</html>

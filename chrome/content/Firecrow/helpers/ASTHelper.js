@@ -36,13 +36,19 @@ Firecrow.ASTHelper =
         catch(e) { alert("Error while getting AST from source code@" + sourceCodePath + "; error: " + sourceCodePath); }
     },
 
-    calculatePageExpressionCoverage: function(pageModel)
+    calculateCoverage: function(pageModel)
     {
         var ASTHelper = FBL.Firecrow.ASTHelper;
         var scripts = ASTHelper.getScriptElements(pageModel.htmlElement);
 
         var totalNumberOfExpressions = 0;
         var executedNumberOfExpressions = 0;
+
+        var totalNumberOfStatements = 0;
+        var executedNumberOfStatements = 0;
+
+        var totalNumberOfBranches = 0;
+        var executedNumberOfBranches = 0;
 
         for(var i = 0; i < scripts.length; i++)
         {
@@ -58,37 +64,107 @@ Firecrow.ASTHelper =
                         executedNumberOfExpressions++;
                     }
                 }
+
+                if(ASTHelper.isStatement(astElement) && !ASTHelper.isBlockStatement(astElement))
+                {
+                    totalNumberOfStatements++;
+
+                    if(astElement.hasBeenExecuted)
+                    {
+                        executedNumberOfStatements++;
+                    }
+                }
+
+                if(ASTHelper.isBranchExpression(astElement))
+                {
+                    if((ASTHelper.isIfStatement(astElement) && ASTHelper._isIfStatementBodyExecuted(astElement))
+                    || (ASTHelper.isSwitchCase(astElement) && ASTHelper._isSwitchCaseExecuted(astElement))
+                    || (ASTHelper.isLoopStatement(astElement) && ASTHelper._isLoopStatementExecuted(astElement)))
+                    {
+                        executedNumberOfBranches++;
+                    }
+                    else if (ASTHelper.isConditionalExpression(astElement))
+                    {
+                        //has two alternatives - so maybe count it as two branches
+                        totalNumberOfBranches++;
+
+                        if(astElement.consequent.hasBeenExecuted) { executedNumberOfBranches++; }
+                        if(astElement.alternate.hasBeenExecuted) { executedNumberOfBranches++; }
+                    }
+
+                    if(ASTHelper.isSwitchCase(astElement) && astElement.consequent.length == 0)
+                    {
+                        return;
+                    }
+
+                    totalNumberOfBranches++;
+                }
             });
         }
 
-        return executedNumberOfExpressions/totalNumberOfExpressions;
+        return {
+            totalNumberOfExpressions: totalNumberOfExpressions,
+            executedNumberOfExpressions: executedNumberOfExpressions,
+            totalNumberOfStatements: totalNumberOfStatements,
+            executedNumberOfStatements: executedNumberOfStatements,
+            expressionCoverage: executedNumberOfExpressions/totalNumberOfExpressions,
+            statementCoverage: executedNumberOfStatements/totalNumberOfStatements,
+            totalNumberOfBranches: totalNumberOfBranches,
+            executedNumberOfBranches: executedNumberOfBranches,
+            branchCoverage:  executedNumberOfBranches/totalNumberOfBranches
+        };
     },
 
-    calculateExpressionCoverage: function(models)
+    isBranchExpression: function(element)
     {
-        var ASTHelper = this;
+        return this.isSwitchCase(element) || this.isIfStatement(element) || this.isLoopStatement(element)
+            || this.isConditionalExpression(element);
+    },
 
-        var totalNumberOfExpressions = 0;
-        var executedNumberOfExpressions = 0;
-
-        for(var i = 0; i < models.length; i++)
+    _isLoopStatementExecuted: function(element)
+    {
+        if(this.isBlockStatement(element.body))
         {
-            var model = models[i];
-
-            this.traverseAstWhileIgnoring(model, function(astElement)
-            {
-                if(ASTHelper.isExpression(astElement))
-                {
-                    totalNumberOfExpressions++;
-                    if(astElement.hasBeenExecuted)
-                    {
-                        executedNumberOfExpressions++;
-                    }
-                }
-            }, ["FunctionExpression", "FunctionDeclaration"]);
+            return this._isBlockStatementExecuted(element.body);
         }
 
-        return executedNumberOfExpressions/totalNumberOfExpressions;
+        return element.body.hasBeenExecuted;
+    },
+
+    _isSwitchCaseExecuted: function(element)
+    {
+        for(var i = 0; i < element.consequent.length; i++)
+        {
+            if(element.consequent[i].hasBeenExecuted)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _isIfStatementBodyExecuted: function(ifStatement)
+    {
+        if(this.isBlockStatement(ifStatement.consequent))
+        {
+            return this._isBlockStatementExecuted(ifStatement.consequent);
+        }
+
+        return ifStatement.consequent.hasBeenExecuted;
+    },
+
+    _isBlockStatementExecuted: function(blockStatement)
+    {
+        for(var i = 0; i < blockStatement.body.length; i++)
+        {
+            if(blockStatement.body[i].hasBeenExecuted)
+            {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     getFunctionCoverageInfo: function(functionConstruct, executionId)
@@ -727,6 +803,8 @@ Firecrow.ASTHelper =
 
     getParentOfTypes: function(codeConstruct, types)
     {
+        if(codeConstruct == null) { return null; }
+
         var parent = codeConstruct.parent;
 
         while(parent != null)
@@ -1005,6 +1083,16 @@ Firecrow.ASTHelper =
 
         return false;
     },
+
+    getParentStatementOrFunction: function(codeConstruct)
+    {
+        if(codeConstruct == null) { return null; }
+
+        return this.getParentOfTypes(codeConstruct, this.parentStatementOrFunctionTypes);
+    },
+
+    //Will be created at the end
+    parentStatementOrFunctionTypes: [],
 
     getParentStatement: function(codeConstruct)
     {
@@ -1335,5 +1423,27 @@ Firecrow.ASTHelper =
         }
     }
 };
+
+Firecrow.ASTHelper.parentStatementOrFunctionTypes =
+[
+    Firecrow.ASTHelper.CONST.STATEMENT.ExpressionStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.IfStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.LabeledStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.BreakStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.ContinueStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.WithStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.SwitchStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.ReturnStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.ThrowStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.TryStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.WhileStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.DoWhileStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.ForStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.ForInStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.LetStatement,
+    Firecrow.ASTHelper.CONST.STATEMENT.DebuggerStatement,
+    Firecrow.ASTHelper.CONST.VariableDeclaration,
+    Firecrow.ASTHelper.CONST.FunctionDeclaration
+];
 /******/
 }});

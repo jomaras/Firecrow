@@ -1,0 +1,415 @@
+<html>
+
+<head>
+<script type="text/javascript">
+var canvas;
+var context;
+var buffercanvas;
+var buffercontext;
+var maskcontext;
+var maskcanvas;
+var HEIGHT;
+var WIDTH;
+var bg;
+var chameleon;
+var fly1, fly2, fly3, fly4;
+var mos1, mos2, mos3, mos4;
+var mask, mask1, mask2, mask3, mask4;
+var x = 320,
+        x1 = 320,
+        x2 = 320,
+        x3 = 320,
+        x4 = 320,
+        y = 0,
+        y1 = 0,
+        y2 = 0,
+        y3 = 0,
+        y4 = 0;
+var fps = 10;;
+var interval_id;
+var startFlag = 1;
+var playFlag;
+var endFlag;
+var fpsMotion = 1;
+var tongueFlag = 0;
+var flyFlag = 1;
+var flyFlag1 = 1;
+var flyFlag2 = 1;
+var flyFlag3 = 1;
+var flyFlag4 = 1;
+var time = 0;
+var kill = 0;
+
+window.onload = function init() {
+    document.getElementById("start").onclick = function()
+    {
+        newGame();
+        tongueFlag = 1;
+        drawBg();
+    }
+    canvas = document.getElementById("mycanvas");
+    canvas.onclick = ev_mousedown;
+    context = canvas.getContext("2d");
+    WIDTH = canvas.width;
+    HEIGHT = canvas.height;
+    buffercanvas = document.createElement("canvas");
+    buffercanvas.setAttribute('id', 'mycanvas');
+    buffercanvas.setAttribute('width', WIDTH);
+    buffercanvas.setAttribute('height', HEIGHT);
+    buffercontext = buffercanvas.getContext('2d');
+    maskcanvas = document.createElement("canvas");
+    maskcanvas.setAttribute('id', 'maskcanvas');
+    maskcanvas.setAttribute('width', WIDTH);
+    maskcanvas.setAttribute('height', HEIGHT);
+    maskcontext = maskcanvas.getContext('2d');
+    chameleon = new Image();
+    chameleon.src = "images/chameleon200.gif";
+    mask = new Image();
+    mask.src = "images/mask.gif";
+    mask1 = new Image();
+    mask1.src = "images/mask1.gif";
+    mask2 = new Image();
+    mask2.src = "images/mask2.gif";
+    mask3 = new Image();
+    mask3.src = "images/mask3.gif";
+    mask4 = new Image();
+    mask4.src = "images/mask4.gif";
+    mos1 = new Image();
+    mos1.src = "images/mosquito_wings_1.gif";
+    mos2 = new Image();
+    mos2.src = "images/mosquito_wings_2.gif";
+    mos3 = new Image();
+    mos3.src = "images/mosquito_wings_3.gif";
+    mos4 = new Image();
+    mos4.src = "images/mosquito_wings_4.gif";
+    drawBg();
+    interval_id = setInterval(move, 1000 / fps);
+}
+function clear() {
+    context.clearRect(0, 0, WIDTH, HEIGHT);
+    buffercontext.clearRect(0, 0, WIDTH, HEIGHT);
+    maskcontext.clearRect(0, 0, WIDTH, HEIGHT);
+    bufferRectangle();
+    maskRectangle();
+    drawBg();
+    flyFlag = 1;
+    flyFlag1 = 1;
+    flyFlag2 = 1;
+    flyFlag3 = 1;
+    flyFlag4 = 1;
+}
+function bufferRectangle() {
+    buffercontext.beginPath();
+    buffercontext.fillStyle = "#FFFFFF";
+    buffercontext.fillRect(0, 0, WIDTH, HEIGHT);
+    buffercontext.closePath();
+    buffercontext.fill();
+}
+function maskRectangle() {
+    maskcontext.beginPath();
+    maskcontext.fillStyle = "#FFFFFF";
+    maskcontext.fillRect(0, 0, WIDTH, HEIGHT);
+    maskcontext.closePath();
+    maskcontext.fill();
+}
+function move() {
+    clear();
+    if (startFlag == 1) {
+        document.getElementById("win").style.display = "none";
+        document.getElementById("name").style.display = "inline";
+        document.getElementById("start").style.visibility = "visible";
+        document.getElementById("kill").style.display = "none";
+    } else if (playFlag == 1) {
+        fpsMotion++;
+        document.getElementById("win").style.display = "none";
+        document.getElementById("name").style.display = "none";
+        document.getElementById("start").style.display = "none";
+        document.getElementById("kill").style.display = "inline";
+        document.getElementById("kill").innerHTML = "Kill :" + kill;
+        buffercontext.drawImage(chameleon, 115, 380, 100, 100);
+        y = Math.sin(x) * 20 + 100;
+        x = x - 10;
+        if (x < 0) {
+            x = 320;
+        }
+        y1 = Math.sin(x1) * 40 + 60;
+        x1 = x1 - 6;
+        if (x1 < 0) {
+            x1 = 320;
+        }
+        y2 = Math.sin(x2) * 20 + 120;
+        x2 = x2 - 8;
+        if (x2 < 0) {
+            x2 = 320;
+        }
+        y3 = Math.sin(x3) * 40 + 40;
+        x3 = x3 - 5;
+        if (x3 < 0) {
+            x3 = 320;
+        }
+        y4 = Math.sin(x4) * 20 + 70;
+        x4 = x4 - 11;
+        if (x4 < 0) {
+            x4 = 320;
+        }
+        if (flyFlag === 1) {
+            if (fpsMotion === 1) {
+                buffercontext.drawImage(mos1, x, y, 30, 30);
+                maskcontext.drawImage(mask, x, y, 30, 30);
+            }
+            if (fpsMotion === 2) {
+                buffercontext.drawImage(mos2, x, y, 30, 30);
+                maskcontext.drawImage(mask, x, y, 30, 30);
+            }
+            if (fpsMotion === 3) {
+                buffercontext.drawImage(mos3, x, y, 30, 30);
+                maskcontext.drawImage(mask, x, y, 30, 30);
+            }
+            if (fpsMotion === 4) {
+                buffercontext.drawImage(mos4, x, y, 30, 30);
+                maskcontext.drawImage(mask, x, y, 30, 30);
+            }
+            if (fpsMotion === 5) {
+                buffercontext.drawImage(mos3, x, y, 30, 30);
+                maskcontext.drawImage(mask, x, y, 30, 30);
+            }
+            if (fpsMotion === 6) {
+                buffercontext.drawImage(mos2, x, y, 30, 30);
+                maskcontext.drawImage(mask, x, y, 30, 30);
+            }
+            if (fpsMotion === 7) {
+                buffercontext.drawImage(mos1, x, y, 30, 30);
+                maskcontext.drawImage(mask, x, y, 30, 30);
+            }
+            if (fpsMotion >= 7) {
+                fpsMotion = 1;
+            }
+        }
+        if (flyFlag1 === 1) {
+            if (fpsMotion === 1) {
+                maskcontext.drawImage(mask1, x1, y1, 30, 30);
+                buffercontext.drawImage(mos1, x1, y1, 30, 30);
+            }
+            if (fpsMotion === 2) {
+                maskcontext.drawImage(mask1, x1, y1, 30, 30);
+                buffercontext.drawImage(mos2, x1, y1, 30, 30);
+            }
+            if (fpsMotion === 3) {
+                maskcontext.drawImage(mask1, x1, y1, 30, 30);
+                buffercontext.drawImage(mos3, x1, y1, 30, 30);
+            }
+            if (fpsMotion === 4) {
+                maskcontext.drawImage(mask1, x1, y1, 30, 30);
+                buffercontext.drawImage(mos4, x1, y1, 30, 30);
+            }
+            if (fpsMotion === 5) {
+                maskcontext.drawImage(mask1, x1, y1, 30, 30);
+                buffercontext.drawImage(mos3, x1, y1, 30, 30);
+            }
+            if (fpsMotion === 6) {
+                maskcontext.drawImage(mask1, x1, y1, 30, 30);
+                buffercontext.drawImage(mos2, x1, y1, 30, 30);
+            }
+            if (fpsMotion === 7) {
+                maskcontext.drawImage(mask1, x1, y1, 30, 30);
+                buffercontext.drawImage(mos1, x1, y1, 30, 30);
+            }
+            if (fpsMotion >= 7) {
+                fpsMotion = 1;
+            }
+        }
+        if (flyFlag2 === 1) {
+            if (fpsMotion === 1) {
+                buffercontext.drawImage(mos1, x2, y2, 30, 30);
+                maskcontext.drawImage(mask2, x2, y2, 30, 30);
+            }
+            if (fpsMotion === 2) {
+                buffercontext.drawImage(mos2, x2, y2, 30, 30);
+                maskcontext.drawImage(mask2, x2, y2, 30, 30);
+            }
+            if (fpsMotion === 3) {
+                buffercontext.drawImage(mos3, x2, y2, 30, 30);
+                maskcontext.drawImage(mask2, x2, y2, 30, 30);
+            }
+            if (fpsMotion === 4) {
+                buffercontext.drawImage(mos4, x2, y2, 30, 30);
+                maskcontext.drawImage(mask2, x2, y2, 30, 30);
+            }
+            if (fpsMotion === 5) {
+                buffercontext.drawImage(mos3, x2, y2, 30, 30);
+                maskcontext.drawImage(mask2, x2, y2, 30, 30);
+            }
+            if (fpsMotion === 6) {
+                buffercontext.drawImage(mos2, x2, y2, 30, 30);
+                maskcontext.drawImage(mask2, x2, y2, 30, 30);
+            }
+            if (fpsMotion === 7) {
+                buffercontext.drawImage(mos1, x2, y2, 30, 30);
+                maskcontext.drawImage(mask2, x2, y2, 30, 30);
+            }
+            if (fpsMotion >= 7) {
+                fpsMotion = 1;
+            }
+        }
+        if (flyFlag3 === 1) {
+            if (fpsMotion === 1) {
+                maskcontext.drawImage(mask3, x3, y3, 30, 30);
+                buffercontext.drawImage(mos1, x3, y3, 30, 30);
+            }
+            if (fpsMotion === 2) {
+                maskcontext.drawImage(mask3, x3, y3, 30, 30);
+                buffercontext.drawImage(mos2, x3, y3, 30, 30);
+            }
+            if (fpsMotion === 3) {
+                maskcontext.drawImage(mask3, x3, y3, 30, 30);
+                buffercontext.drawImage(mos3, x3, y3, 30, 30);
+            }
+            if (fpsMotion === 4) {
+                maskcontext.drawImage(mask3, x3, y3, 30, 30);
+                buffercontext.drawImage(mos4, x3, y3, 30, 30);
+            }
+            if (fpsMotion === 5) {
+                maskcontext.drawImage(mask3, x3, y3, 30, 30);
+                buffercontext.drawImage(mos3, x3, y3, 30, 30);
+            }
+            if (fpsMotion === 6) {
+                maskcontext.drawImage(mask3, x3, y3, 30, 30);
+                buffercontext.drawImage(mos2, x3, y3, 30, 30);
+            }
+            if (fpsMotion === 7) {
+                maskcontext.drawImage(mask3, x3, y3, 30, 30);
+                buffercontext.drawImage(mos1, x3, y3, 30, 30);
+            }
+            if (fpsMotion >= 7) {
+                fpsMotion = 1;
+            }
+        }
+        if (flyFlag4 === 1) {
+            if (fpsMotion === 1) {
+                buffercontext.drawImage(mos1, x4, y4, 30, 30);
+                maskcontext.drawImage(mask4, x4, y4, 30, 30);
+            }
+            if (fpsMotion === 2) {
+                buffercontext.drawImage(mos2, x4, y4, 30, 30);
+                maskcontext.drawImage(mask4, x4, y4, 30, 30);
+            }
+            if (fpsMotion === 3) {
+                buffercontext.drawImage(mos3, x4, y4, 30, 30);
+                maskcontext.drawImage(mask4, x4, y4, 30, 30);
+            }
+            if (fpsMotion === 4) {
+                buffercontext.drawImage(mos4, x4, y4, 30, 30);
+                maskcontext.drawImage(mask4, x4, y4, 30, 30);
+            }
+            if (fpsMotion === 5) {
+                buffercontext.drawImage(mos3, x4, y4, 30, 30);
+                maskcontext.drawImage(mask4, x4, y4, 30, 30);
+            }
+            if (fpsMotion === 6) {
+                buffercontext.drawImage(mos2, x4, y4, 30, 30);
+                maskcontext.drawImage(mask4, x4, y4, 30, 30);
+            }
+            if (fpsMotion === 7) {
+                buffercontext.drawImage(mos1, x4, y4, 30, 30);
+                maskcontext.drawImage(mask4, x4, y4, 30, 30);
+            }
+            if (fpsMotion >= 7) {
+                fpsMotion = 1;
+            }
+        }
+    } else if (endFlag === 1) {
+        kill = 0;
+        tongueFlag = 0;
+        document.getElementById("start").style.display = "inline";
+        document.getElementById("win").style.display = "inline";
+        document.getElementById("name").style.display = "none";
+        document.getElementById("kill").style.display = "none";
+    }
+    context.drawImage(buffercanvas, 0, 0);
+}
+
+function ev_mousedown(event) {
+    xx = event.pageX;
+    yy = event.pageY;
+    if (tongueFlag === 1) {
+        context.beginPath();
+        context.moveTo(167, 383);
+        context.lineTo(xx, yy);
+        context.lineWidth = 10;
+        context.strokeStyle = "#ff0000";
+        context.lineCap = "round";
+        context.stroke();
+    }
+    clearInterval(interval_id);
+    interval_id = setInterval(move, 1000 / fps);
+    try
+    {
+        var pixelData = maskcontext.getImageData(xx, yy, 1, 1);
+    }
+    catch(e){}
+
+    if (kill >= 10) {
+        playFlag = 0;
+        endFlag = 1;
+    }
+    try {
+        if (pixelData.data[0] === 00 && pixelData.data[1] === 00 && pixelData.data[2] === 00 && pixelData.data[3] === 255) {
+            flyFlag1 = 0;
+            x = 320;
+            y = 0;
+            kill = kill + 1;
+        }
+        if (pixelData.data[0] === 255 && pixelData.data[1] === 00 && pixelData.data[2] === 00 && pixelData.data[3] === 255) {
+            flyFlag1 = 0;
+            x1 = 320;
+            y = 0;
+            kill = kill + 1;
+        }
+        if (pixelData.data[0] === 00 && pixelData.data[1] === 255 && pixelData.data[2] === 00 && pixelData.data[3] === 255) {
+            flyFlag2 = 0;
+            x2 = 320;
+            y2 = 0;
+            kill = kill + 1;
+        }
+        if (pixelData.data[0] === 00 && pixelData.data[1] === 00 && pixelData.data[2] === 255 && pixelData.data[3] === 255) {
+            flyFlag3 = 0;
+            x3 = 320;
+            y3 = 0;
+            kill = kill + 1;
+        }
+        if (pixelData.data[0] === 255 && pixelData.data[1] === 255 && pixelData.data[2] === 00 && pixelData.data[3] === 255) {
+            flyFlag4 = 0;
+            x4 = 320;
+            y4 = 0;
+            kill = kill + 1;
+        }
+    } catch (e) {}
+}
+function newGame() {
+    startFlag = 0;
+    playFlag = 1;
+}
+function drawBg() {
+    bg = buffercontext.createLinearGradient(0, 0, 0, 750);
+    bg.addColorStop(0.5, '#431d91');
+    bg.addColorStop(0.5, '#fff');
+    bg.addColorStop(0.5, '#249318');
+    bg.addColorStop(1, '#fff');
+    buffercontext.fillStyle = bg;
+    buffercontext.fillRect(0, 0, 320, 480);
+}
+</script>
+</head>
+
+<body>
+<canvas id="mycanvas" width="320px;" height="480px;" style="border:1px solid #c3c3c3";></canvas>
+<div id="name" align="center" style="text-shadow: 2px 2px 3px #000; font-size: 30px; -webkit-border-radius: 5px; padding: 10px; position: absolute; top:200px; left: 50px; text-align: center;  font-weight:bold; color: #3bb9ff;">Chameleon Zap!!</div>
+<div id="win" align="center" style="text-shadow: 2px 2px 3px #000; font-size: 30px; -webkit-border-radius: 5px; padding: 10px; position: absolute; top:200px; left: 100px; text-align: center;  font-weight:bold; color: #3bb9ff;">You Win!!</div>
+<div id="start"
+     style="position: absolute; top: 360px;left: 130px; ">
+    <img src="images/start.png" />
+</div>
+<div id="kill" style=" background-color:#fff ; -webkit-border-radius: 5px; padding: 10px; position: absolute; top:405px; left: 260px; width: 50px; height:19px; text-align: center; font-family: Arial;  font-weight:bold; font-size:15px; color:#250517; opacity:0.7;"></div>
+</body>
+
+</html>

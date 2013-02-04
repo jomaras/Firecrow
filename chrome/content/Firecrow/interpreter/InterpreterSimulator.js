@@ -58,6 +58,8 @@ fcSimulator.prototype =
                     {
                         return;
                     }
+
+                    timer = Firecrow.TimerHelper.createTimer();
                 }
 
                 //Uncomment to enable application tracing

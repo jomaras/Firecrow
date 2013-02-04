@@ -114,11 +114,6 @@ function clone(obj) {
     temp[key] = clone(obj[key]);
     return temp;
 }
-Array.prototype.indexOf = function (elem) {
-    for (var i = 0; i < this.length; i++)
-    if (this[i] === elem) return i;
-    return -1;
-}
 
 function quadIn(t, b, c, d) {
     return c * (t /= d) * t + b;

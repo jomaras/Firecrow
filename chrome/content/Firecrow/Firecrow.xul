@@ -71,6 +71,7 @@
     <command id="cmd_FirecrowRecordPress" oncommand="Firebug.FirecrowModule.onFirecrowRecordPress()"/>
     <command id="cmd_FirecrowProfilePress" oncommand="Firebug.FirecrowModule.onFirecrowProfilePress()"/>
     <command id="cmd_FirecrowASTButtonPress" oncommand="Firebug.FirecrowModule.onFirecrowASTButtonPress()"/>
+    <command id="cmd_FirecrowGarbageCollect" oncommand="Firebug.FirecrowModule.onGarbageCollect();"/>
   </commandset>
   
   
@@ -87,6 +88,7 @@
          <toolbarbutton id="recordButton" class="toolbar-text-button" label="Record" tooltiptext="Start execution recording process" command="cmd_FirecrowRecordPress"/>
          <toolbarbutton id="profileButton" class="toolbar-text-button" label="Profile" tooltiptext="Start profiling process" command="cmd_FirecrowProfilePress"/>
          <toolbarbutton id="modelButton" class="toolbar-text-button" label="AST" tooltiptext="Get page AST model" command="cmd_FirecrowASTButtonPress"/>
+         <toolbarbutton id="garbageCollectButton" class="toolbar-text-button" label="GC" tooltiptext="Start Garbage Collector" command="cmd_FirecrowGarbageCollect"/>
       </hbox>
     </hbox>
   </toolbar>
@@ -98,5 +100,7 @@
     <vbox hidden="false" height="1">
         <iframe type="content" src="" name="fcIFrame" hidden="false" id="fcIFrame" height="1"/>
     </vbox>
+
+    <keyset> <key keycode="VK_F8" command="cmd_FirecrowGarbageCollect"/> </keyset>
 
 </overlay>

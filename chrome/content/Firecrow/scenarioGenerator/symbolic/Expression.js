@@ -67,7 +67,7 @@ fcSymbolic.CONST =
                 case fcSymbolic.CONST.BINARY_OP.NEQ: return fcSymbolic.CONST.BINARY_OP.EQ;
                 case fcSymbolic.CONST.BINARY_OP.TEQ: return fcSymbolic.CONST.BINARY_OP.TNEQ;
                 case fcSymbolic.CONST.BINARY_OP.TNEQ: return fcSymbolic.CONST.BINARY_OP.TEQ;
-                default: alert("Opposite Binary - should not be here"); return null;
+                default: debugger; alert("Opposite Binary - should not be here"); return null;
             }
         },
 
@@ -83,7 +83,7 @@ fcSymbolic.CONST =
                 case fcSymbolic.CONST.BINARY_OP.NEQ: return fcSymbolic.CONST.BINARY_OP.NEQ;
                 case fcSymbolic.CONST.BINARY_OP.TEQ: return fcSymbolic.CONST.BINARY_OP.TEQ;
                 case fcSymbolic.CONST.BINARY_OP.TNEQ: return fcSymbolic.CONST.BINARY_OP.TNEQ;
-                default: alert("Swap Binary - should not be here"); return null;
+                default: debugger; alert("Swap Binary - should not be here"); return null;
             }
         },
 
@@ -134,12 +134,15 @@ fcSymbolic.Identifier = function(name)
 fcSymbolic.Identifier.prototype = new fcSymbolic.Expression();
 fcSymbolic.Identifier.prototype.toString = function() { return this.name; }
 fcSymbolic.Identifier.prototype.containsNumericExpressions = function() { return false; };
-fcSymbolic.Identifier.prototype.getIdentifierNames = function() { return [this.name];};
+fcSymbolic.Identifier.prototype.containsStringExpressions = function() { return false; };
+fcSymbolic.Identifier.prototype.getIdentifierNames = function() { return [this.name]; };
+fcSymbolic.Identifier.prototype.getStringLiterals = function() { return []; };
 fcSymbolic.Identifier.prototype.getHtmlElements = function() { return this.htmlElement != null ? [this.htmlElement] : []; };
 fcSymbolic.Identifier.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
 {
     return new fcSymbolic.Identifier(fcScenarioGenerator.ScenarioGenerator.addToPropertyName(this.name, upgradeByIndex));
 };
+fcSymbolic.Identifier.prototype.createCopyWithReplacedLiterals = function(replacement) { return new fcSymbolic.Identifier(this.name); }
 
 fcSymbolic.Literal = function(value)
 {
@@ -151,8 +154,14 @@ fcSymbolic.Literal = function(value)
 };
 fcSymbolic.Literal.prototype = new fcSymbolic.Expression();
 fcSymbolic.Literal.prototype.containsNumericExpressions = function() { return ValueTypeHelper.isNumber(this.value); };
+fcSymbolic.Literal.prototype.containsStringExpressions = function() { return ValueTypeHelper.isString(this.value); };
 fcSymbolic.Literal.prototype.getIdentifierNames = function() { return [];};
-fcSymbolic.Literal.prototype.getHtmlElements = function() { return this.htmlElement != null ? [this.htmlElement] : []};
+fcSymbolic.Literal.prototype.getStringLiterals = function() { return ValueTypeHelper.isString(this.value) ? [this.value] : []; };
+fcSymbolic.Literal.prototype.createCopyWithReplacedLiterals = function(replacement)
+{
+    return replacement[this.value] !== null ? new fcSymbolic.Literal(replacement[this.value])
+                                            : new fcSymbolic.Literal(this.value);
+};
 fcSymbolic.Literal.prototype.toString = function()
 {
     return ValueTypeHelper.isString(this.value) ? '"' + this.value + '"'
@@ -174,19 +183,13 @@ fcSymbolic.Unary = function(argument, operator, prefix)
     this.type = fcSymbolic.CONST.UNARY;
 };
 fcSymbolic.Unary.prototype = new fcSymbolic.Expression();
+fcSymbolic.Unary.prototype.containsNumericExpressions = function() { return this.argument.containsNumericExpressions(); };
+fcSymbolic.Unary.prototype.containsStringExpressions = function() { return this.argument.containsStringExpressions(); };
 fcSymbolic.Unary.prototype.getIdentifierNames = function() { return this.argument.getIdentifierNames(); }
-fcSymbolic.Unary.prototype.getHtmlElements = function()
+fcSymbolic.Unary.prototype.getStringLiterals = function() { return this.argument.getStringLiterals(); };
+fcSymbolic.Unary.prototype.createCopyWithReplacedLiterals = function(replacement)
 {
-    var htmlElements = [];
-
-    if(this.htmlElement != null)
-    {
-        htmlElements.push(this.htmlElement);
-    }
-
-    ValueTypeHelper.pushAll(htmlElements, this.argument.getHtmlElements());
-
-    return htmlElements;
+    return new fcSymbolic.Logical(this.argument.createCopyWithReplacedLiterals(replacement), this.operator, this.prefix);
 };
 fcSymbolic.Unary.prototype.toString = function()
 {
@@ -218,19 +221,11 @@ fcSymbolic.Binary = function(left, right, operator)
 fcSymbolic.Binary.prototype = new fcSymbolic.Expression();
 fcSymbolic.Binary.prototype.toString = function() { return this.left + " " + this.operator + " " + this.right; };
 fcSymbolic.Binary.prototype.containsNumericExpressions = function() { return this.left.containsNumericExpressions() || this.right.containsNumericExpressions(); };
-fcSymbolic.Binary.prototype.getHtmlElements = function()
+fcSymbolic.Binary.prototype.containsStringExpressions = function() { return this.left.containsStringExpressions() || this.right.containsStringExpressions(); };
+fcSymbolic.Binary.prototype.getStringLiterals = function() { return this.left.getStringLiterals().concat(this.right.getStringLiterals()); };
+fcSymbolic.Binary.prototype.createCopyWithReplacedLiterals = function(replacement)
 {
-    var htmlElements = [];
-
-    if(this.htmlElement != null)
-    {
-        htmlElements.push(this.htmlElement);
-    }
-
-    ValueTypeHelper.pushAll(htmlElements, this.left.getHtmlElements());
-    ValueTypeHelper.pushAll(htmlElements, this.right.getHtmlElements());
-
-    return htmlElements;
+    return new fcSymbolic.Binary(this.left.createCopyWithReplacedLiterals(replacement), this.right.createCopyWithReplacedLiterals(replacement), this.operator);
 };
 fcSymbolic.Binary.prototype.getIdentifierNames = function()
 {
@@ -258,6 +253,9 @@ fcSymbolic.Update = function(argument, operator, prefix)
     this.type = fcSymbolic.CONST.UPDATE;
 };
 fcSymbolic.Update.prototype = new fcSymbolic.Expression();
+fcSymbolic.Update.prototype.containsNumericExpressions = function() { return this.argument.containsNumericExpressions(); };
+fcSymbolic.Update.prototype.containsStringExpressions = function() { return this.argument.containsStringExpressions(); };
+fcSymbolic.Update.prototype.getStringLiterals = function() { return this.argument.getStringLiterals(); };
 fcSymbolic.Update.prototype.toString = function()
 {
     var string = "";
@@ -269,6 +267,10 @@ fcSymbolic.Update.prototype.toString = function()
     if(!this.prefix) { string += this.operator; }
 
     return string;
+};
+fcSymbolic.Update.prototype.createCopyWithReplacedLiterals = function(replacement)
+{
+    return new fcSymbolic.Update(this.argument.createCopyWithReplacedLiterals(), this.operator, this.prefix);
 };
 
 fcSymbolic.Update.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
@@ -284,16 +286,18 @@ fcSymbolic.Logical = function(left, right, operator)
     this.right = right;
     this.operator = operator;
 
-    if(this.left == null || this.right == null)
-    {
-        var a = 3;
-    }
-
     this.type = fcSymbolic.CONST.LOGICAL;
 };
 
 fcSymbolic.Logical.prototype = new fcSymbolic.Expression();
 fcSymbolic.Logical.prototype.containsNumericExpressions = function() { return this.left.containsNumericExpressions() || this.right.containsNumericExpressions(); };
+fcSymbolic.Logical.prototype.containsNumericExpressions = function() { return this.left.containsNumericExpressions() || this.right.containsNumericExpressions(); };
+fcSymbolic.Logical.prototype.containsStringExpressions = function() { return this.left.containsStringExpressions() || this.right.containsStringExpressions(); };
+fcSymbolic.Logical.prototype.getStringLiterals = function() { return this.left.getStringLiterals().concat(this.right.getStringLiterals()); };
+fcSymbolic.Logical.prototype.createCopyWithReplacedLiterals = function(replacement)
+{
+    return new fcSymbolic.Logical(this.left.createCopyWithReplacedLiterals(replacement), this.right.createCopyWithReplacedLiterals(replacement), this.operator);
+};
 fcSymbolic.Logical.prototype.getIdentifierNames = function()
 {
     var identifierNames = [];
@@ -302,20 +306,6 @@ fcSymbolic.Logical.prototype.getIdentifierNames = function()
     ValueTypeHelper.pushAll(identifierNames, this.right.getIdentifierNames());
 
     return  identifierNames;
-};
-fcSymbolic.Logical.prototype.getHtmlElements = function()
-{
-    var htmlElements = [];
-
-    if(this.htmlElement != null)
-    {
-        htmlElements.push(this.htmlElement);
-    }
-
-    ValueTypeHelper.pushAll(htmlElements, this.left.getHtmlElements());
-    ValueTypeHelper.pushAll(htmlElements, this.right.getHtmlElements());
-
-    return htmlElements;
 };
 fcSymbolic.Logical.prototype.toString = function() { return this.left + " " + this.operator + " " + this.right; };
 fcSymbolic.Logical.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)

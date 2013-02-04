@@ -22,10 +22,7 @@ fcSymbolic.ConstraintResolver =
 
     resolveConstraints: function(symbolicExpressionsList)
     {
-        var compoundExpressions = symbolicExpressionsList.map(function(symbolicExpressions)
-        {
-            return this._getCompoundConstraint(symbolicExpressions);
-        }, this);
+        var compoundExpressions = this._groupStringAndNumericExpressionsSeparately(symbolicExpressionsList);
 
         var numericExpressions = compoundExpressions.filter(function(symbolicExpression)
         {
@@ -34,15 +31,47 @@ fcSymbolic.ConstraintResolver =
 
         var stringExpressions = compoundExpressions.filter(function(symbolicExpression)
         {
-            return !symbolicExpression.containsNumericExpressions();
+            return symbolicExpression.containsStringExpressions();
         });
 
+        var numericResults = this._resolveNumericExpressions(numericExpressions);
+        var stringResults = this._resolveStringExpressions(stringExpressions);
+
+        var results = [];
+
+        for(var i = 0; i < compoundExpressions.length; i++)
+        {
+            var symbolicExpression = compoundExpressions[i];
+
+            if(symbolicExpression.containsNumericExpressions())
+            {
+                results.push(numericResults[numericExpressions.indexOf(symbolicExpression)]);
+            }
+            else if(symbolicExpression.containsStringExpressions())
+            {
+                results.push(stringResults[stringExpressions.indexOf(symbolicExpression)]);
+            }
+            else
+            {
+                debugger;
+                alert("Unhandled situation in ConstraintResolver");
+            }
+        }
+
+        return results;
+    },
+
+    _resolveNumericExpressions: function(numericExpressions)
+    {
         var numericResults = Array(numericExpressions.length);
 
         if(numericExpressions.length != 0)
         {
+            try { var json = JSON.stringify(numericExpressions); }
+            catch(e) { debugger; alert(e); }
+
             var numericExpressionsAjaxQuery = RequestHelper.performSynchronousPost("http://localhost/Firecrow/constraintSolver/index.php", {
-                Constraint: encodeURIComponent(JSON.stringify(numericExpressions))
+                Constraint: encodeURIComponent(json)
             });
 
             if(numericExpressionsAjaxQuery.isSuccessful)
@@ -58,98 +87,101 @@ fcSymbolic.ConstraintResolver =
             }
         }
 
-        var stringResults = stringExpressions.map(function(stringExpression)
+        return numericResults;
+    },
+
+    _groupStringAndNumericExpressionsSeparately: function(symbolicExpressionsList)
+    {
+        var compoundExpressions = [];
+
+        for(var i = 0; i < symbolicExpressionsList.length; i++)
         {
-            return this._resolveStringConstraint(stringExpression);
-        }, this);
+            var symbolicExpressions = symbolicExpressionsList[i];
 
-        var results = [];
+            var numericExpressions = [], stringExpressions = [];
 
-        for(var i = 0; i < compoundExpressions.length; i++)
-        {
-            var symbolicExpression = compoundExpressions[i];
-
-            if(symbolicExpression.containsNumericExpressions())
+            for(var j = 0; j < symbolicExpressions.length; j++)
             {
-                results.push(numericResults[numericExpressions.indexOf(symbolicExpression)]);
+                var symbolicExpression = symbolicExpressions[j];
+
+                var containsNumericExpressions = symbolicExpression.containsNumericExpressions();
+                var containsStringExpressions = symbolicExpression.containsStringExpressions();
+
+                if(containsNumericExpressions && !containsStringExpressions)
+                {
+                    numericExpressions.push(symbolicExpression);
+                }
+                else if(containsStringExpressions && !containsNumericExpressions)
+                {
+                    stringExpressions.push(symbolicExpression);
+                }
+                else if(!containsStringExpressions && !containsNumericExpressions)
+                {
+                    console.log("Can not resolve: " + symbolicExpression);
+                }
+                else
+                {
+                    debugger;
+                    alert("Mixing String and Numeric expressions not yet handled in ConstraintResolver");
+                    return;
+                }
             }
-            else
+
+            if(numericExpressions.length != 0) { compoundExpressions.push(this._getCompoundConstraint(numericExpressions)); }
+            if(stringExpressions.length != 0) { compoundExpressions.push(this._getCompoundConstraint(stringExpressions)); }
+        }
+
+        return compoundExpressions;
+    },
+
+    _resolveStringExpressions: function(stringExpressions)
+    {
+        var replacements = [];
+        var reverseReplacements = [];
+        var numberExpressions = [];
+
+        for(var i = 0; i < stringExpressions.length; i++)
+        {
+            var stringExpression = stringExpressions[i];
+
+            var stringLiterals = ValueTypeHelper.cleanDuplicatesFromArray(stringExpression.getStringLiterals());
+            var replacement = {};
+            var reverseReplacement = {};
+            for(var j = 0; j < stringLiterals.length; j++)
             {
-                results.push(stringResults[stringExpressions.indexOf(symbolicExpression)]);
+                replacement[stringLiterals[j]] = j;
+                reverseReplacement[j] = stringLiterals[j];
+            }
+
+            replacements.push(replacement);
+            reverseReplacements.push(reverseReplacement);
+
+            numberExpressions.push(stringExpression.createCopyWithReplacedLiterals(replacement));
+        }
+
+        var results = this._resolveNumericExpressions(numberExpressions);
+
+        for(var i = 0; i < results.length; i++)
+        {
+            var reverseReplacement = reverseReplacements[i];
+            var result = results[i];
+            for(var propName in result)
+            {
+                var numberResult = result[propName];
+                result[propName] = reverseReplacement[numberResult];
             }
         }
 
         return results;
     },
 
-    _resolveStringConstraint: function(symbolicExpression)
-    {
-        var identifierNames = symbolicExpression.getIdentifierNames();
-        identifierNames = ValueTypeHelper.cleanDuplicatesFromArray(identifierNames);
-
-        var result = {};
-
-        for(var i = 0; i < identifierNames.length; i++)
-        {
-            var identifierName = identifierNames[i];
-            result[identifierName] = "";
-
-            if(identifierName.indexOf("DOM_") == 0)
-            {
-                var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(identifierName);
-                var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(identifierName);
-                if(id != "")
-                {
-                    var htmlElement = symbolicExpression.getHtmlElements()[0].ownerDocument.getElementById(id);
-
-                    if(htmlElement instanceof HTMLSelectElement)
-                    {
-                        var updateResult = fcSymbolic.ConstraintResolver.getNextSelectElement(cleansedProperty, htmlElement);
-                        result[identifierName] = updateResult.newValue;
-                    }
-                }
-                else
-                {
-                    alert("When updating DOM can not find ID!");
-                }
-            }
-        }
-
-        return result;
-    },
-
-    updateSelectElement: function(propName, selectElement)
+    updateSelectElement: function(propName, selectElement, newValue)
     {
         var oldValue = selectElement[propName];
-
-        var newValue = this._getNextValue(selectElement[propName], this._getSelectAvailableValues(selectElement));
 
         selectElement[propName] = newValue;
 
         return {htmlElement: selectElement, oldValue: oldValue, newValue: newValue};
-    },
-
-    _getSelectAvailableValues: function(selectElement)
-    {
-        var values = [];
-
-        if(selectElement == null) { return values; }
-
-        for(var i = 0; i < selectElement.children.length; i++)
-        {
-            values.push(selectElement.children[i].value);
-        }
-
-        return values;
-    },
-
-    getNextSelectElement: function(propName, selectElement)
-    {
-        var oldValue = selectElement[propName];
-
-        var newValue = this._getNextValue(selectElement[propName], this._getSelectAvailableValues(selectElement));
-
-        return { htmlElement: selectElement, oldValue: oldValue, newValue: newValue };
     },
 
     getHtmlElementIdFromSymbolicParameter: function(parameter)
@@ -212,6 +244,49 @@ fcSymbolic.ConstraintResolver =
 
         return null;
     },
+
+    getStricterConstraint: function(symbolicExpression)
+    {
+        if(symbolicExpression == null) { return null; }
+
+        if(symbolicExpression.isBinary()) { return this._getBinaryStricter(symbolicExpression); }
+
+        return symbolicExpression;
+    },
+
+    _getBinaryStricter: function(symbolicExpression)
+    {
+        if(symbolicExpression.operator == ">=" || symbolicExpression.operator == "<=")
+        {
+            return new fcSymbolic.Binary
+            (
+                symbolicExpression.left,
+                symbolicExpression.right,
+                symbolicExpression.operator == ">=" ? ">" : "<"
+            );
+        }
+        else if (symbolicExpression.operator == ">" && symbolicExpression.right.isLiteral())
+        {
+            return new fcSymbolic.Binary
+            (
+                symbolicExpression.left,
+                new fcSymbolic.Literal(symbolicExpression.right.value + 1),
+                ">="
+            );
+        }
+        else if (symbolicExpression.operator == "<" && symbolicExpression.right.isLiteral())
+        {
+            return new fcSymbolic.Binary
+            (
+                symbolicExpression.left,
+                new fcSymbolic.Literal(symbolicExpression.right.value - 1),
+                "<="
+            );
+        }
+
+        return symbolicExpression;
+    },
+
 
     _getLogicalInverse: function(symbolicExpression)
     {

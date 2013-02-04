@@ -156,10 +156,7 @@ fcSimulator.VariableObject._getArgumentsConstructs = function(callCommand, callC
 
 fcSimulator.VariableObject._registerFormalParameters = function(formalParameters, functionVariableObject, sentArguments, argumentConstructs)
 {
-    if(sentArguments == null)
-    {
-        var a = 3;
-    }
+    if(sentArguments == null) { debugger; }
 
     for(var i = 0; i < formalParameters.length; i++)
     {

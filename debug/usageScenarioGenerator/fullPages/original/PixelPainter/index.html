@@ -1,0 +1,25 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>Pixel Painter</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <script src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.min.js"></script>
+    <script src="code.js"></script>
+    <!--[if IE 9]><style>#palette ul { height: 255px; }</style><![endif]-->
+</head>
+<body>
+<div id=container>
+    <div id=canvas>
+        <canvas id=grid width=512 height=512></canvas>
+        <div id=pixels></div>
+    </div>
+    <div id=toolbar>
+        <div id=toolbar_top><ul><li id=clear style="background-image: url(images/clear.gif)"><span>Clear Canvas</span></li><li><canvas id=preview width=32 height=32 title=Preview></canvas></li><li id=view_png style="background-image: url(images/view.gif)"><span>View PNG</span></li></ul></div>
+        <div id=tools><ul><li style="background-image: url(images/eraser.gif)"><span>Eraser</span></li><li style="background-image: url(images/picker.gif)"><span>Color Picker</span></li><li class=selected style="background-image: url(images/pen.gif)"><span>Pen</span></li><li style="background-image: url(images/fill.gif)"><span>Fill</span></li></ul></div>
+        <div id=palette><ul><li>Black</li><li>White</li><li>Red</li><li>Green</li><li>Blue</li><li>Yellow</li><li>Grey</li><li>Purple</li></ul></div>
+        <div id=color><div style="background: black">#000000</div></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Maze</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Solve all five mazes as fast as you can.">
+    <link rel="stylesheet" href="main.css" />
+    <script type="text/javascript" src="jQuery.js"></script>
+    <script type="text/javascript" src="maze.js"></script>
+</head>
+<body>
+<div id="a">
+    <h1>Maze <span>by <a href="http://www.kategeek.com/">kate</a></span></h1>
+    <canvas id="maze">Sorry your browser doesn't support HTML5, try upgrading.</canvas>
+    <div id="time"></div>
+    <div id="steps"></div>
+</div>
+<div id="win"><h2>Congratulations!</h2><p id="game-info">In <span class="time"></span> and <span class="steps"></span>.</p><button id="next">Next Maze</button>
+    <form id="f">
+        <p id="end-game">You have completed all levels.</p>
+        <fieldset><label for="w">Width:</label>
+            <input id="w" type="number" min="2" step="1" value="7" /></fieldset>
+        <fieldset><label for="h">Height:</label><input id="h" type="number" min="2" step="1" value="7" /></fieldset>
+        <button type="submit">New Maze</button>
+    </form>
+</div>
+</body>
+</html>

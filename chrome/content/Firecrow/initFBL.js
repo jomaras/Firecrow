@@ -39,11 +39,6 @@ FBL.ns(function () { with (FBL)
 
         includeNode: function(node)
         {
-            if(node.nodeId == 46806)
-            {
-                var a = 3;
-            }
-
             node.shouldBeIncluded = true;
         }
     };
