@@ -1,37 +1,24 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <style>
         #container
         {
-            background-color: red;
+            background-color: rgb(255,0,0);
             width: 200px;
             height: 200px;
         }
     </style>
-
 </head>
 <body>
 <div id="container"></div>
 <script>
+    var newObj = {};
+    window.newObj1 = newObj;
 
-
-
-    window.onload = function()
+    for(var i = 0; i < 10000; i++)
     {
-        var container = document.getElementById("container");
-
-        container.onclick = function(e)
-        {
-            window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-                    .getInterface(Components.interfaces.nsIDOMWindowUtils)
-                    .garbageCollect();
-        }
-    };
-
+        newObj[i] = document.createElement("div");
+    }
 </script>
-
-
 </body>
 </html>

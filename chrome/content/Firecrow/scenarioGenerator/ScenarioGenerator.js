@@ -8,12 +8,16 @@ var fcSymbolic = fcScenarioGenerator.Symbolic;
 fcScenarioGenerator.ScenarioGenerator =
 {
     achievedCoverage: 0,
+    achievedCoverages: [],
+    scenarios: null,
+    scenarioProcessingLimit: 20,
 
     generateScenarios: function(pageModel, scenarioExecutedCallback)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
 
         var scenarios = new fcScenarioGenerator.ScenarioCollection();
+        this.scenarios = scenarios;
 
         var browser = this._executeApplication(pageModel);
         this.achievedCoverage = ASTHelper.calculateCoverage(pageModel).expressionCoverage;
@@ -27,7 +31,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var asyncLoop = function()
         {
-            if(currentScenario == null || processedScenarioCounter > 80
+            if(currentScenario == null || processedScenarioCounter > that.scenarioProcessingLimit
             || that.achievedCoverage == 1)
             //|| ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
             //|| that._hasAchievedEnoughCoverage(pageModel, scenarios))
@@ -40,7 +44,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
             that._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
-            if(scenarios.isLastScenario(currentScenario))
+            if(!scenarios.isLastScenario(currentScenario))
             {
                 that._createMergedScenarios(pageModel, scenarios);
             }
@@ -70,7 +74,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         while (currentScenario != null)
         {
-            if(currentScenario == null || processedScenarioCounter > 100 || this.achievedCoverage == 1) { break; }
+            if(currentScenario == null || processedScenarioCounter > this.scenarioProcessingLimit || this.achievedCoverage == 1) { break; }
 
             this._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
@@ -275,7 +279,9 @@ fcScenarioGenerator.ScenarioGenerator =
 
         scenario.setExecutionInfo(executionInfo);
 
-        this.achievedCoverage = ASTHelper.calculateCoverage(pageModel).expressionCoverage;
+        var coverage = ASTHelper.calculateCoverage(pageModel);
+        this.achievedCoverage = coverage.expressionCoverage;
+        this.achievedCoverages.push(coverage);
 
         return executionInfo;
     },
@@ -568,7 +574,7 @@ fcScenarioGenerator.ScenarioGenerator =
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "shiftKey", false, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 1, browser, eventIndex);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
 

@@ -294,6 +294,7 @@ fcSymbolic.PathConstraint.prototype =
             var currentPathConstraintItem = pathConstraintItems[i];
 
             if(currentPathConstraintItem.constraint == null) { continue; }
+            if(currentPathConstraintItem.constraint.isIrreversible) { continue; } //TODO NOT SURE ABOUT IT
 
             var modifiedConstraint = !currentPathConstraintItem.constraint.isIrreversible ? fcSymbolic.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint)
                                                                                           : fcSymbolic.ConstraintResolver.getStricterConstraint(currentPathConstraintItem.constraint);

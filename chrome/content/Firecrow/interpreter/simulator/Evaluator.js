@@ -27,7 +27,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError(null, "Exception callback has to be a function!"); return; }
+            if(!ValueTypeHelper.isFunction(callback)) { this.notifyError(null, "Exception callback has to be a function!"); return; }
 
             this.exceptionCallbacks.push({callback: callback, thisObject: thisObject || this});
         }

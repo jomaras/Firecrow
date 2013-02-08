@@ -716,77 +716,77 @@ Browser.prototype =
 
     registerNodeCreatedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - node created callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - node created callback has to be a function!"); return; }
 
         this.nodeCreatedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerNodeInsertedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - node inserted callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - node inserted callback has to be a function!"); return; }
 
         this.nodeInsertedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerInterpretJsCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
 
         this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerInterpreterMessageGeneratedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - interpreter message generated callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - interpreter message generated callback has to be a function!"); return; }
 
         this.interpreterMessageGeneratedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerInterpretJsCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - interpret js callback has to be a function!"); return; }
 
         this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerControlFlowConnectionCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - control flow connection callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - control flow connection callback has to be a function!"); return; }
 
         this.controlFlowConnectionCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerControlDependencyEstablishedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - control dependency established callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - control dependency established callback has to be a function!"); return; }
 
         this.controlDependencyEstablishedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerDataDependencyEstablishedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - data dependency established callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - data dependency established callback has to be a function!"); return; }
 
         this.dataDependencyEstablishedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerImportantConstructReachedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - important construct reached callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - important construct reached callback has to be a function!"); return; }
 
         this.importantConstructReachedCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerBreakContinueReturnEventReached: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - break continue return event construct reached callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - break continue return event construct reached callback has to be a function!"); return; }
 
         this.breakContinueReturnEventsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
     registerDocumentReadyCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("DoppelBrowser.Browser - important document ready callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - important document ready callback has to be a function!"); return; }
 
         this.documentReadyCallbacks.push({callback: callback, thisObject: thisObject || this});
     },

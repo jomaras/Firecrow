@@ -211,7 +211,6 @@ fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScen
     }
 
     var scenario = new fcScenarioGenerator.Scenario(mergedEvents, mergedInputConstraint, [firstScenario, secondScenario]);
-    scenario.createdBy = "merger";
 
     return scenario;
 };
@@ -221,11 +220,121 @@ fcScenarioGenerator.ScenarioCollection = function()
     this.lengthGroups = [];
     this.scenarios = [];
     this.eventCoverageInfo = {};
+    this.currentIndex = 0;
 };
 
 fcScenarioGenerator.ScenarioCollection.prototype =
 {
+    randomPrioritization: false,
+    fifoPrioritization: false,
+    eventLengthPrioritization: false,
+    maximizingPathCoveragePrioritization: true,
+
     getNext: function()
+    {
+             if(this.maximizingPathCoveragePrioritization) { return this._getNextByMaximizingPathCoverage(); }
+        else if(this.eventLengthPrioritization) { return this._getNextByLength(); }
+        else if(this.randomPrioritization) { return this._getNextRandomly(); }
+        else if(this.fifoPrioritization) { return this._getNextSequentially(); }
+
+        return this._getNextSequentially();
+    },
+
+    _getNextSequentially: function()
+    {
+        if(this.scenarios[this.currentIndex + 1] != null)
+        {
+            return this.scenarios[++this.currentIndex];
+        }
+
+        return null;
+    },
+
+    _getNextRandomly: function()
+    {
+        var nonExecutedScenarios = this.getNonExecutedScenarios();
+
+        if(nonExecutedScenarios.length == 0) { return null;}
+
+        return ValueTypeHelper.getRandomElementFromArray(nonExecutedScenarios);
+    },
+
+    _getNextByMaximizingPathCoverage: function()
+    {
+        return this._findWithLeastEventCoverage(this.getNonExecutedScenarios());
+    },
+
+    _findWithLeastEventCoverage: function(scenarios)
+    {
+        if(scenarios.length == 0) { return null; }
+
+        //Top priorities are scenarios without parents (the initially created ones)
+        var firstParentLessScenario = this._findFirstParentlessScenario(scenarios);
+
+        if(firstParentLessScenario != null) { return firstParentLessScenario; }
+
+        return this._findFirstWithLeastEventCoverage(scenarios);
+    },
+
+    _findFirstParentlessScenario: function(scenarios)
+    {
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            if(scenarios[i].parentScenarios.length == 0)
+            {
+                return scenarios[i];
+            }
+        }
+
+        return null;
+    },
+
+    _findFirstWithLeastEventCoverage: function(scenarios)
+    {
+        var minimumCoverage = Number.MAX_VALUE, minIndex = 0;
+
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            var scenarioEventCoverage = this._getScenarioEventCoverage(scenarios[i]);
+
+            if(scenarioEventCoverage.expressionCoverage < minimumCoverage)
+            {
+                minimumCoverage = scenarioEventCoverage.expressionCoverage;
+                minIndex = i;
+            }
+        }
+
+        return scenarios[minIndex];
+    },
+
+    _getScenarioEventCoverage: function(scenario)
+    {
+        var events = scenario.events;
+        var jointCoverage = { totalNumberOfExpressions: 0, executedNumberOfExpressions: 0, expressionCoverage:0};
+
+        for(var i = 0; i < events.length; i++)
+        {
+            var event = events[i];
+            var eventCoverage = this.getSingleEventCoverage(event.thisObjectDescriptor, event.eventType);
+
+            if(eventCoverage != null)
+            {
+                jointCoverage.totalNumberOfExpressions += eventCoverage.totalNumberOfExpressions;
+                jointCoverage.executedNumberOfExpressions += eventCoverage.executedNumberOfExpressions;
+                //jointCoverage.expressionCoverage += eventCoverage.executedNumberOfExpressions;
+            }
+        }
+
+        jointCoverage.expressionCoverage = jointCoverage.executedNumberOfExpressions/jointCoverage.totalNumberOfExpressions;
+        if(Number.isNaN(jointCoverage.expressionCoverage))
+        {
+            jointCoverage.expressionCoverage = 0;
+        }
+
+        return jointCoverage;
+    },
+
+    _getNextByLength: function()
     {
         var lengthGroups = this.lengthGroups;
         for(var i = 0, length = lengthGroups.length; i < length; i++)
@@ -251,6 +360,25 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     },
 
     isLastScenario: function(scenario)
+    {
+             if(this.maximizingPathCoveragePrioritization || this.randomPrioritization) { return this._haveMoreNonExecutedScenarios(); }
+        else if(this.eventLengthPrioritization) { this._isLastScenarioByLength(scenario); }
+        else if(this.fifoPrioritization) { return this._isLastScenarioByIndex(scenario); }
+
+        return this._isLastScenarioByIndex(scenario);;
+    },
+
+    _haveMoreNonExecutedScenarios: function()
+    {
+        return this.getNonExecutedScenarios().length != 0;
+    },
+
+    _isLastScenarioByIndex: function(scenario)
+    {
+        return this.scenarios[this.scenarios.length - 1] == scenario;
+    },
+
+    _isLastScenarioByLength: function(scenario)
     {
         if(scenario == null) { return false; }
 
@@ -325,6 +453,14 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         })
     },
 
+    getNonExecutedScenarios: function()
+    {
+        return this.scenarios.filter(function(scenario)
+        {
+            return scenario.executionInfo == null;
+        });
+    },
+
     getProcessedScenarios: function()
     {
         var allScenarios = [];
@@ -348,15 +484,17 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     },
 
     compareEvents: false,
-    waitInterval: 120,
+    waitInterval: -1,
 
     getSubsumedProcessedScenarios: function()
     {
         var processedScenarios = this.getProcessedScenarios();
 
+        return processedScenarios;
+
         var subsumedScenariosMap = [];
 
-        var timer = Firecrow.TimerHelper.createTimer();
+        var timer = this.waitInterval > 0 ? Firecrow.TimerHelper.createTimer() : null;
 
         for(var i = 0; i < processedScenarios.length; i++)
         {
@@ -364,7 +502,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
             var hasFoundMatch = false;
 
-            if(timer.hasMoreThanSecondsElapsed(this.waitInterval))
+            if(timer && timer.hasMoreThanSecondsElapsed(this.waitInterval))
             {
                 if(!confirm("Scenario - getSubsumedProcessedScenarios has been running for more than " + this.waitInterval
                           + " seconds, Continue?" + i + ", " + j + " of " + processedScenarios.length))
@@ -486,6 +624,36 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         }
 
         return eventCoverage;
+    },
+
+    getSingleEventCoverage: function(baseObjectDescriptor, eventType)
+    {
+        var eventDescriptors = this.eventCoverageInfo[baseObjectDescriptor];
+        var eventDescriptor = baseObjectDescriptor + eventType;
+
+        if(eventDescriptors == null) { return null;}
+
+        var visitedFunctions = eventDescriptors[eventType];
+
+        if(visitedFunctions == null) { return null;}
+
+
+        var totalCoverageInfo = {
+            totalNumberOfExpressions: 0,
+            executedNumberOfExpressions: 0
+        };
+
+        for(var visitedFunctionId in visitedFunctions)
+        {
+            var coverage = ASTHelper.getFunctionCoverageInfo(visitedFunctions[visitedFunctionId], eventDescriptor);
+
+            totalCoverageInfo.totalNumberOfExpressions += coverage.totalNumberOfExpressions;
+            totalCoverageInfo.executedNumberOfExpressions += coverage.executedNumberOfExpressions;
+        }
+
+        totalCoverageInfo.expressionCoverage = totalCoverageInfo.executedNumberOfExpressions/totalCoverageInfo.totalNumberOfExpressions;
+
+        return totalCoverageInfo;
     },
 
     aggregateEventCoverageInfo: function(executionInfo)

@@ -7,7 +7,7 @@ fcModel.ClassList = function(htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        if(!ValueTypeHelper.isOfType(htmlElement, HTMLElement) && !ValueTypeHelper.isOfType(htmlElement, DocumentFragment)) { fcModel.ClassList.notifyError("Constructor argument has to be a HTMLElement");}
+        if(!fcModel.HtmlElementExecutor.isHtmlElementNodeObject(htmlElement) && !fcModel.HtmlElementExecutor.isDocumentFragment(htmlElement)) { fcModel.ClassList.notifyError("Constructor argument has to be a HTMLElement");}
 
         this.initObject(this.globalObject, codeConstruct);
 

@@ -59,7 +59,9 @@ Firecrow.ValueTypeHelper =
 
     isRegExp: function(variable)
     {
-        return this.isOfType(variable, RegExp);
+        if(variable == null) { return false; }
+
+        return variable instanceof RegExp || (variable.constructor && variable.constructor.name == "RegExp");
     },
 
     isBoolean: function(variable)
@@ -208,6 +210,18 @@ Firecrow.ValueTypeHelper =
         }
 
         return subList;
+    },
+
+    getRandomElementFromArray: function(array)
+    {
+        if(array == null) { return null; }
+
+        return array[this.getRandomInt(0, array.length)];
+    },
+
+    getRandomInt: function (min, max)
+    {
+        return Math.floor(Math.random() * (max - min)) + min;
     },
 
     cleanDuplicatesFromArray: function(array)
@@ -420,11 +434,6 @@ Firecrow.ValueTypeHelper =
     {
         var indexOf = string.substring(startpos || 0).search(regex);
         return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
-    },
-
-    getRandomInt: function(min, max)
-    {
-        return Math.random() * (max - min) + min;
     },
 
     //TODO - quickfixing the Firefox create RegEx from literal bug

@@ -3,7 +3,7 @@
 // Please visit http://www.andrespagella.com
 // This is the complete code for this article: http://www.andrespagella.com/snake-game
 var lastRandom = 0;
-Math.random = function() { return lastRandom = lastRandom + 0.02; }
+Math.myRandom = function() { return lastRandom = lastRandom + 0.02; }
 
 window.onload = function()
 {
@@ -157,15 +157,15 @@ window.onload = function()
     function generateFood(map)
     {
         // Generate a random position for the rows and the columns.
-        var rndX = Math.round(Math.random() * 19),
-            rndY = Math.round(Math.random() * 19);
+        var rndX = Math.round(Math.myRandom() * 19),
+            rndY = Math.round(Math.myRandom() * 19);
 
         // We also need to watch so as to not place the food
         // on the a same matrix position occupied by a part of the
         // snake's body.
         while (map[rndX][rndY] === 2) {
-            rndX = Math.round(Math.random() * 19);
-            rndY = Math.round(Math.random() * 19);
+            rndX = Math.round(Math.myRandom() * 19);
+            rndY = Math.round(Math.myRandom() * 19);
         }
 
         map[rndX][rndY] = 1;
@@ -176,13 +176,13 @@ window.onload = function()
     function generateSnake(map)
     {
         // Generate a random position for the row and the column of the head.
-        var rndX = Math.round(Math.random() * 19),
-            rndY = Math.round(Math.random() * 19);
+        var rndX = Math.round(Math.myRandom() * 19),
+            rndY = Math.round(Math.myRandom() * 19);
 
         // Let's make sure that we're not out of bounds as we also need to make space to accomodate the
         // other two body pieces
         while ((rndX - snake.length) < 0) {
-            rndX = Math.round(Math.random() * 19);
+            rndX = Math.round(Math.myRandom() * 19);
         }
 
         for (var i = 0; i < snake.length; i++) {

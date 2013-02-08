@@ -167,8 +167,8 @@
 
     <script type="text/javascript">
         //test26 - it seems that it does not log writing to html element objects as joint behavior
-        var model = models[14];
-        //var model = fullPageModel;
+        //var model = models[31];
+        var model = fullPageModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var executedScenarioTracesContainer = document.getElementById("executedScenarioTracesContainer");
@@ -212,11 +212,14 @@
 
                     document.getElementById("seleniumCodeContainer").textContent = FBL.Firecrow.ScenarioGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
                 }, 1000);
+
+                document.title = "Finished!";
             }
             else
             {
-                elapsedTimeTitle.textContent = "Time: " + timer.getElapsedTimeInSeconds() + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec";
+                elapsedTimeTitle.textContent = scenarioCounter + " - Time: " + timer.getElapsedTimeInSeconds() + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec";
                 lastTime = timer.getElapsedTimeInSeconds();
+                document.title = scenarioCounter + "/" + FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.scenarioProcessingLimit;
                 generateScenarioHtml(scenario);
             }
         });

@@ -13,6 +13,7 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
     try
     {
         this.jsRegExp = jsRegExp;
+        this.constructor = fcModel.RegEx;
 
         this.initObject(globalObject, codeConstruct);
 
@@ -131,7 +132,7 @@ fcModel.RegExExecutor =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(thisObject.jsValue, RegExp)) { this.notifyError("The called on object should be a regexp!"); return; }
+            if(!ValueTypeHelper.isRegExp(thisObject.jsValue)) { this.notifyError("The called on object should be a regexp!"); return; }
             if(!functionObject.isInternalFunction) { this.notifyError("The function should be internal when executing regexp method!"); return; }
 
             var functionObjectValue = functionObject.jsValue;

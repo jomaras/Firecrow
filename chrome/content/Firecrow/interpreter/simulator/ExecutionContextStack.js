@@ -374,7 +374,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
     registerExceptionCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isOfType(callback, Function)) { this.notifyError("Exception callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("Exception callback has to be a function!"); return; }
 
         this.exceptionCallbacks.push({callback: callback, thisObject: thisObject || this});
     },

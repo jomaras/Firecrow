@@ -1,36 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Usage Scenario Generator Test 02</title>
+<html><head>
     <style>
-        #mainContainer
-        {
-            width: 400px;
-            height: 400px;
-            background-color: blue;
+        #container {
+            background-color: rgb(255,0,0);
+            width: 200px; height: 200px;
         }
     </style>
-    <meta charset="UTF-8"/>
 </head>
-
 <body>
-    <div id="mainContainer"></div>
-    <script>
-        var mainContainer;
-        window.onload = function()
-        {
-            mainContainer = document.getElementById("mainContainer");
-
-            mainContainer.onclick = function()
-            {
-                handleClick.apply(this, arguments);
+<div id="container"></div>
+<script>
+    var container = document.getElementById("container")
+    var lClicks = 0, mClicks = 0
+    container.onmousedown = function(e) {
+        var message
+        if(e.which == 1) {	   
+            container.onmousemove = function(e) {
+            var val = e.pageX % 256;
+	        container.style.backgroundColor = "rgb(" + val + "," + val
+	                                            + "," + val +")";
             }
-        };
-
-        function handleClick(e)
-        {
-            mainContainer.textContent += e.type;
         }
-    </script>
+        else if(e.which == 2) {
+            if(++mClicks % 2 == 0) container.textContent = "Even MClick"
+            else container.textContent = "Odd MClicks"
+        }
+    };
+</script>
 </body>
 </html>

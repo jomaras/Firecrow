@@ -12,6 +12,7 @@ fcModel.Date = function(value, globalObject, codeConstruct)
     try
     {
         this.initObject(globalObject);
+        this.constructor = fcModel.Date;
 
         this.value = value;
 
