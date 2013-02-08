@@ -276,7 +276,9 @@ fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propert
 
 fcModel.HtmlElement.prototype._isInputElement = function()
 {
-    return ValueTypeHelper.isOneOfTypes(this.htmlElement, [HTMLSelectElement, HTMLInputElement, HTMLTextAreaElement]);
+    return ValueTypeHelper.isHtmlSelectElement(this.htmlElement)
+        || ValueTypeHelper.isHtmlInputElement(this.htmlElement)
+        || ValueTypeHelper.isHtmlTextAreaElement(this.htmlElement);
 };
 
 fcModel.HtmlElement.prototype._expandWithSymbolic = function(propertyName, propertyValue)

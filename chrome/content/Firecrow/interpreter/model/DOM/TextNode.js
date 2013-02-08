@@ -7,7 +7,7 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
 {
     try
     {
-        if(!fcModel.HtmlElementExecutor.isTextNode(textNode) && !fcModel.HtmlElementExecutor.isComment(textNode)) { fcModel.TextNode.notifyError("When creating TextNode the textNode must be of type TextNode"); return; }
+        if(!ValueTypeHelper.isTextNode(textNode) && !ValueTypeHelper.isComment(textNode)) { fcModel.TextNode.notifyError("When creating TextNode the textNode must be of type TextNode"); return; }
 
         this.initObject(globalObject, codeConstruct);
 

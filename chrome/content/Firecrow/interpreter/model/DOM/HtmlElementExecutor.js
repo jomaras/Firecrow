@@ -112,27 +112,27 @@ fcModel.HtmlElementExecutor =
         {
             if(item == null) { return new fcModel.fcValue(item, item, codeConstruct); }
 
-            if(this.isHtmlElementNodeObject(item) || this.isDocumentFragment(item) || this.isImageElement(item))
+            if(ValueTypeHelper.isHtmlElement(item) || ValueTypeHelper.isDocumentFragment(item) || ValueTypeHelper.isImageElement(item))
             {
                 var fcHtmlElement = globalObject.document.htmlElementToFcMapping[item.fcHtmlElementId]
                                  || new fcModel.HtmlElement(item, globalObject, codeConstruct);
 
-                if(this.isImageElement(item))
+                if(ValueTypeHelper.isImageElement(item))
                 {
                     fcHtmlElement.addProperty("__proto__", globalObject.fcHtmlImagePrototype);
                 }
-                else if (this.isCanvasElement(item))
+                else if (ValueTypeHelper.isCanvasElement(item))
                 {
                     fcHtmlElement.addProperty("__proto__", globalObject.fcCanvasPrototype);
                 }
 
                 return new fcModel.fcValue(item, fcHtmlElement, codeConstruct);
             }
-            else if (this.isTextNode(item))
+            else if (ValueTypeHelper.isTextNode(item))
             {
                 return new fcModel.fcValue(item, new fcModel.TextNode(item, globalObject, codeConstruct), codeConstruct);
             }
-            else if (this.isDocument(item))
+            else if (ValueTypeHelper.isDocument(item))
             {
                 return globalObject.jsFcDocument;
             }
@@ -342,62 +342,6 @@ fcModel.HtmlElementExecutor =
         catch(e) { fcModel.HtmlElement.notifyError("Error when adding dependencies: " + e); }
 
         return new fcModel.fcValue(undefined, null, callExpression);
-    },
-
-    isHtmlElementNodeObject: function(object)
-    {
-        if(object == null) { return false; }
-        //It seems that Chrome creates new instances of HTML functions for each frame
-        return object instanceof HTMLElement //works in Firefox
-            || (object.nodeType == 1 && object.nodeName !== ""); //For Chrome
-    },
-
-    isDocumentFragment: function(object)
-    {
-        if(object == null) { return false; }
-
-        return object instanceof DocumentFragment
-            || (object.nodeType == 11 && object.nodeName !== "");
-    },
-
-    isImageElement: function(object)
-    {
-        if(object == null) { return false; }
-
-        return object instanceof Image || object instanceof HTMLImageElement
-            || (object.nodeType == 1 && object.nodeName === "IMG");
-    },
-
-    isCanvasElement: function(object)
-    {
-        if(object == null) { return false; }
-
-        return object instanceof HTMLCanvasElement
-            || (object.nodeType == 1 && object.nodeName === "CANVAS");
-    },
-
-    isTextNode: function(object)
-    {
-        if(object == null) { return false; }
-
-        return object instanceof Text
-            || (object.nodeType == 3 && object.nodeName !== "");
-    },
-
-    isComment: function(object)
-    {
-        if(object == null) { return false; }
-
-        return object instanceof Text
-            || (object.nodeType == 8 && object.nodeName !== "");
-    },
-
-    isDocument:function(object)
-    {
-        if(object == null) { return false; }
-
-        return object instanceof Document
-            || (object.nodeType == 9 && object.nodeName !== "");
     },
 
     notifyError: function(message) { alert("HtmlElementExecutor - " + message); }

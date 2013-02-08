@@ -449,7 +449,87 @@ Firecrow.ValueTypeHelper =
         //but in the parse tree it does not show //ig but //gi regardless of what is put
         //So if it is part of the medialize library that i'm testing do that replacement
         return regExString.replace(/\/gi$/, "/ig");
-    }
+    },
+
+    isHtmlElement: function(object)
+    {
+        if(object == null) { return false; }
+        //It seems that Chrome creates new instances of HTML functions for each frame
+        return object instanceof HTMLElement //works in Firefox
+            || (object.nodeType == 1 && object.nodeName !== ""); //For Chrome
+    },
+
+    isDocumentFragment: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof DocumentFragment
+            || (object.nodeType == 11 && object.nodeName !== "");
+    },
+
+    isImageElement: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof Image || object instanceof HTMLImageElement
+            || (object.nodeType == 1 && object.nodeName === "IMG");
+    },
+
+    isCanvasElement: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof HTMLCanvasElement
+            || (object.nodeType == 1 && object.nodeName === "CANVAS");
+    },
+
+    isTextNode: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof Text
+            || (object.nodeType == 3 && object.nodeName !== "");
+    },
+
+    isComment: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof Text
+            || (object.nodeType == 8 && object.nodeName !== "");
+    },
+
+    isDocument:function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof Document
+            || (object.nodeType == 9 && object.nodeName !== "");
+    },
+
+    isHtmlSelectElement: function (object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof HTMLSelectElement
+            || (object.nodeType == 1 && object.nodeName == "SELECT");
+    },
+
+    isHtmlInputElement: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof HTMLSelectElement
+            || (object.nodeType == 1 && object.nodeName == "INPUT");
+    },
+
+    isHtmlTextAreaElement: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof HTMLTextAreaElement
+            || (object.nodeType == 9 && object.nodeName == "TEXTAREA");
+    },
 }
 /******/
 }});

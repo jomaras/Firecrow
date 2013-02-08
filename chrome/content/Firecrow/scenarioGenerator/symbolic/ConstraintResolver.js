@@ -136,6 +136,8 @@ fcSymbolic.ConstraintResolver =
 
     _resolveStringExpressions: function(stringExpressions)
     {
+        if(stringExpressions.length == 0) { return []; }
+
         var replacements = [];
         var reverseReplacements = [];
         var numberExpressions = [];

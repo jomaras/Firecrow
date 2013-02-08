@@ -97,7 +97,7 @@ fcSimulator.InternalExecutor.prototype =
 
         var fcHtmlElement = new fcModel.HtmlElement(jsElement, this.globalObject, creationConstruct);
 
-        if(fcModel.HtmlElementExecutor.isImageElement(jsElement))
+        if(ValueTypeHelper.isImageElement(jsElement))
         {
             fcHtmlElement.addProperty("__proto__", this.globalObject.htmlImageElementPrototype);
             fcHtmlElement.proto = this.globalObject.htmlImageElementPrototype;
@@ -222,7 +222,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (ValueTypeHelper.isString(thisObject.jsValue)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, args, callExpression, callCommand); }
             else if (thisObject.fcValue != null && thisObject.fcValue.constructor == fcModel.RegEx) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject == this.globalObject.jsFcDocument){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression);}
-            else if (fcModel.HtmlElementExecutor.isHtmlElementNodeObject(thisObject.jsValue) || fcModel.HtmlElementExecutor.isDocumentFragment(thisObject.jsValue)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
+            else if (ValueTypeHelper.isHtmlElement(thisObject.jsValue) || ValueTypeHelper.isDocumentFragment(thisObject.jsValue)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue.constructor == fcModel.CSSStyleDeclaration) { return fcModel.CSSStyleDeclarationExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.fcValue != null && thisObject.fcValue.constructor == fcModel.Date) { return fcModel.DateExecutor.executeInternalDateMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.jsValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeFunctionMethod(thisObject, functionObject, args, callExpression, this.globalObject); }

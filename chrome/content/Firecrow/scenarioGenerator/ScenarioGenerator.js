@@ -10,7 +10,7 @@ fcScenarioGenerator.ScenarioGenerator =
     achievedCoverage: 0,
     achievedCoverages: [],
     scenarios: null,
-    scenarioProcessingLimit: 20,
+    scenarioProcessingLimit: 50,
 
     generateScenarios: function(pageModel, scenarioExecutedCallback)
     {
@@ -351,7 +351,7 @@ fcScenarioGenerator.ScenarioGenerator =
                 {
                     var htmlElement = browser.hostDocument.getElementById(id);
 
-                    if(htmlElement instanceof HTMLSelectElement)
+                    if(ValueTypeHelper.isHtmlSelectElement(htmlElement))
                     {
                         var availableValues = this._getSelectAvailableValues(htmlElement);
                         var binaryExpressions = [];
@@ -659,7 +659,7 @@ fcScenarioGenerator.ScenarioGenerator =
                 {
                     var htmlElement = eventRegistration.thisObject.globalObject.document.document.getElementById(id);
 
-                    if(htmlElement instanceof HTMLSelectElement)
+                    if(ValueTypeHelper.isHtmlSelectElement(htmlElement))
                     {
                         var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement, parameters[parameterName]);
 

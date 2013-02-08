@@ -43,7 +43,7 @@ fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConst
 {
     try
     {
-        if(!fcModel.HtmlElementExecutor.isHtmlElementNodeObject(htmlElement) && !fcModel.HtmlElementExecutor.isDocumentFragment(htmlElement))  {  fcModel.Attr.notifyError("Attr - when creating attribute list, the argument has to be an HTMLElement!"); }
+        if(!ValueTypeHelper.isHtmlElement(htmlElement) && !ValueTypeHelper.isDocumentFragment(htmlElement))  {  fcModel.Attr.notifyError("Attr - when creating attribute list, the argument has to be an HTMLElement!"); }
 
         var attributeList = [];
         var attributes = htmlElement.attributes;
