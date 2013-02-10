@@ -376,14 +376,14 @@ Browser.prototype =
         this.executionInfo.logReadingIdentifierOutsideCurrentScope(identifier, codeConstruct);
     },
 
-    logReadingObjectPropertyOutsideCurrentScope: function(baseObjectId, propertyName, codeConstruct)
+    logReadingObjectPropertyOutsideCurrentScope: function(creationConstructId, propertyName, codeConstruct)
     {
-        this.executionInfo.logReadingObjectPropertyOutsideCurrentScope(baseObjectId, propertyName, codeConstruct);
+        this.executionInfo.logReadingObjectPropertyOutsideCurrentScope(creationConstructId, propertyName, codeConstruct);
     },
 
-    logModifyingExternalContextObject: function(baseObjectId, propertyName, codeConstruct)
+    logModifyingExternalContextObject: function(objectCreationConstructId, propertyName)
     {
-        this.executionInfo.logModifyingExternalContextObject(baseObjectId, propertyName, codeConstruct);
+        this.executionInfo.logModifyingExternalContextObject(objectCreationConstructId, propertyName);
     },
 
     addPathConstraint: function(codeConstruct, constraint, inverse)

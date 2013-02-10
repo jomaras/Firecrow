@@ -24,6 +24,11 @@ fcScenarioGenerator.Event.areEqual = function(eventA, eventB)
 
 fcScenarioGenerator.Event.prototype =
 {
+    generateFingerprint: function()
+    {
+        return this.thisObjectDescriptor + this.eventType + this.handlerConstruct.nodeId;
+    },
+
     toString: function()
     {
         var classAttribute = null;

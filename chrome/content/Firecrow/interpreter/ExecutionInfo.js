@@ -12,11 +12,11 @@ FBL.ns(function() { with (FBL) {
         this.resourceSetterPropertiesMap = {};
         this.objectForInIterations = [];
 
-        this.globalModifiedIdentifiers = [];
-        this.globalModifiedObjects = [];
+        this.globalModifiedIdentifiers = {};
+        this.globalModifiedObjects = {};
 
-        this.globalAccessedIdentifiers = [];
-        this.globalAccessedObjects = [];
+        this.globalAccessedIdentifiers = {};
+        this.globalAccessedObjects = {};
 
         this.eventRegistrations = [];
         this.eventExecutionsMap = {};
@@ -53,11 +53,11 @@ FBL.ns(function() { with (FBL) {
                 eventType: eventType,
                 visitedFunctionsMap: this.eventExecutionsMap[baseObjectDescriptor][eventType],
                 eventDescriptor: baseObjectDescriptor + eventType,
-                globalModifiedIdentifiers: [],
-                globalAccessedIdentifiers: [],
+                globalModifiedIdentifiers: {},
+                globalAccessedIdentifiers: {},
                 eventRegistrations: [],
-                globalAccessedObjects: [],
-                globalModifiedObjects: []
+                globalAccessedObjects: {},
+                globalModifiedObjects: {}
             };
 
             this.eventExecutions.push(this.currentEventExecutionInfo);
@@ -175,19 +175,15 @@ FBL.ns(function() { with (FBL) {
 
         logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
         {
-            var modifiedIdentifierInfo =
-            {
-                name: identifier.name,
-                declarationConstructId: identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
-                                                                               : null
-            };
-
+            var modifiedIdentifierInfoID = identifier.name + "_FC_"
+                                        + (identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
+                                                                                 : "null");
             if(this.currentEventExecutionInfo != null)
             {
-                this.currentEventExecutionInfo.globalModifiedIdentifiers.push(modifiedIdentifierInfo);
+                this.currentEventExecutionInfo.globalModifiedIdentifiers[modifiedIdentifierInfoID] = true;
             }
 
-            this.globalModifiedIdentifiers.push(modifiedIdentifierInfo);
+            this.globalModifiedIdentifiers[modifiedIdentifierInfoID] = true;
         },
 
         getLastEventRegistrations: function()
@@ -258,45 +254,43 @@ FBL.ns(function() { with (FBL) {
         {
             if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
 
-            var accessedGlobalIdentifierInfo =
-            {
-                name: identifier.name,
-                declarationConstructId: identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
-                                                                               : null
-            };
+            var accessedGlobalIdentifierInfoID = identifier.name + "_FC_"
+                                + (identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
+                                                                          : "null");
+
 
             if(this.currentEventExecutionInfo != null)
             {
-                this.currentEventExecutionInfo.globalAccessedIdentifiers.push(accessedGlobalIdentifierInfo)
+                this.currentEventExecutionInfo.globalAccessedIdentifiers[accessedGlobalIdentifierInfoID] = true;
             }
 
-            this.globalAccessedIdentifiers.push(accessedGlobalIdentifierInfo);
+            this.globalAccessedIdentifiers[accessedGlobalIdentifierInfoID] = true;
         },
 
-        logReadingObjectPropertyOutsideCurrentScope: function(baseObjectId, propertyName, codeConstruct)
+        logReadingObjectPropertyOutsideCurrentScope: function(objectCreationConstructId, propertyName, codeConstruct)
         {
             if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
 
-            var accessedObjectInfo = { baseObjectId: baseObjectId, propertyName: propertyName, codeConstruct: codeConstruct };
+            var accessedObjectInfoID = propertyName + "_FC_" + objectCreationConstructId;
 
             if(this.currentEventExecutionInfo != null)
             {
-                this.currentEventExecutionInfo.globalAccessedObjects.push(accessedObjectInfo);
+                this.currentEventExecutionInfo.globalAccessedObjects[accessedObjectInfoID] = true;
             }
 
-            this.globalAccessedObjects.push(accessedObjectInfo);
+            this.globalAccessedObjects[accessedObjectInfoID] = true;
         },
 
-        logModifyingExternalContextObject: function(baseObjectId, propertyName, codeConstruct)
+        logModifyingExternalContextObject: function(objectCreationConstructId, propertyName)
         {
-            var modifiedObjectInfo = {baseObjectId: baseObjectId, propertyName: propertyName, codeConstruct: codeConstruct};
+            var modifiedObjectInfoID = propertyName + "_FC_" + objectCreationConstructId;
 
             if(this.currentEventExecutionInfo != null)
             {
-                this.currentEventExecutionInfo.globalModifiedObjects.push(modifiedObjectInfo);
+                this.currentEventExecutionInfo.globalModifiedObjects[modifiedObjectInfoID] = true;
             }
 
-            this.globalModifiedObjects.push(modifiedObjectInfo);
+            this.globalModifiedObjects[modifiedObjectInfoID] = true;
         },
 
         isDependentOn: function(executionInfo, checkWholeExecution)
@@ -315,38 +309,11 @@ FBL.ns(function() { with (FBL) {
                                                     ? executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1].globalModifiedIdentifiers
                                                     : executionInfo.globalModifiedIdentifiers;
 
-            for(var i = 0, modifiedIdentifiersLength = comparisonGlobalModifiedIdentifiers.length; i < modifiedIdentifiersLength; i++)
+            for(var accessedIdentifier in thisGlobalAccessedIdentifiers)
             {
-                if(this._isDependentOnAccessedIdentifiers(comparisonGlobalModifiedIdentifiers[i], thisGlobalAccessedIdentifiers))
+                if(comparisonGlobalModifiedIdentifiers[accessedIdentifier])
                 {
                     return true;
-                }
-            }
-
-            return false;
-        },
-
-        _isDependentOnAccessedIdentifiers: function(modifiedIdentifier, accessedIdentifiers)
-        {
-            for(var i = 0, accessedIdentifiersLength = accessedIdentifiers.length; i < accessedIdentifiersLength; i++)
-            {
-                var globalAccessedIdentifier = accessedIdentifiers[i];
-
-                if(modifiedIdentifier.declarationConstructId == null && globalAccessedIdentifier.declarationConstructId == null)
-                {
-                    if(modifiedIdentifier.name == globalAccessedIdentifier.name) { return true; }
-                }
-                else if(modifiedIdentifier.declarationConstructId == null || globalAccessedIdentifier.declarationConstructId == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    if(modifiedIdentifier.name == globalAccessedIdentifier.name
-                    && modifiedIdentifier.declarationConstructId == globalAccessedIdentifier.declarationConstructId)
-                    {
-                        return true;
-                    }
                 }
             }
 
@@ -364,27 +331,9 @@ FBL.ns(function() { with (FBL) {
                                                 ? executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1].globalModifiedObjects
                                                 : executionInfo.globalModifiedObjects;
 
-            for(var i = 0, modifiedObjectsLength = comparisonGlobalModifiedObjects.length; i < modifiedObjectsLength; i++)
+            for(var accessed in thisGlobalAccessedObjects)
             {
-                var modifiedObject = comparisonGlobalModifiedObjects[i];
-
-                if(this._isDependentOnObjectModifications(modifiedObject, thisGlobalAccessedObjects))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        },
-
-        _isDependentOnObjectModifications: function(modifiedObject, accessedObjects)
-        {
-            for(var i = 0, accessedObjectsLength = accessedObjects.length; i < accessedObjectsLength; i++)
-            {
-                var accessedObject = accessedObjects[i];
-
-                if(modifiedObject.baseObjectId == accessedObject.baseObjectId
-                && modifiedObject.propertyName == accessedObject.propertyName)
+                if(comparisonGlobalModifiedObjects[accessed])
                 {
                     return true;
                 }

@@ -10,7 +10,7 @@ fcScenarioGenerator.ScenarioGenerator =
     achievedCoverage: 0,
     achievedCoverages: [],
     scenarios: null,
-    scenarioProcessingLimit: 50,
+    scenarioProcessingLimit: 900,
 
     generateScenarios: function(pageModel, scenarioExecutedCallback)
     {
@@ -33,10 +33,7 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             if(currentScenario == null || processedScenarioCounter > that.scenarioProcessingLimit
             || that.achievedCoverage == 1)
-            //|| ASTHelper.calculatePageExpressionCoverage(pageModel) == 1)
-            //|| that._hasAchievedEnoughCoverage(pageModel, scenarios))
             {
-                //scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
                 scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios());
 
                 return;
@@ -44,50 +41,18 @@ fcScenarioGenerator.ScenarioGenerator =
 
             that._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
-            if(!scenarios.isLastScenario(currentScenario))
-            {
-                that._createMergedScenarios(pageModel, scenarios);
-            }
-
-            currentScenario = scenarios.getNext();
             processedScenarioCounter++;
-
-            setTimeout(asyncLoop, 1000);
-        };
-
-        setTimeout(asyncLoop, 100);
-    },
-
-    generateScenariosSync: function(pageModel, scenarioExecutedCallback)
-    {
-        ASTHelper.setParentsChildRelationships(pageModel);
-
-        var scenarios = new fcScenarioGenerator.ScenarioCollection();
-
-        var browser = this._executeApplication(pageModel);
-
-        this._createRegisteredEventsScenarios(browser, scenarios);
-
-        var processedScenarioCounter = 0;
-
-        var currentScenario = scenarios.getNext();
-
-        while (currentScenario != null)
-        {
-            if(currentScenario == null || processedScenarioCounter > this.scenarioProcessingLimit || this.achievedCoverage == 1) { break; }
-
-            this._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
             if(scenarios.isLastScenario(currentScenario))
             {
-                this._createMergedScenarios(pageModel, scenarios);
+                that._createMergedScenarios(pageModel, scenarios)
             }
 
             currentScenario = scenarios.getNext();
-            processedScenarioCounter++;
-        }
+            setTimeout(asyncLoop, 1500);
+        };
 
-        return scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios(), scenarios.calculateEventCoverage());
+        setTimeout(asyncLoop, 100);
     },
 
     _hasAchievedEnoughCoverage: function(pageModel, scenarios)
@@ -214,7 +179,7 @@ fcScenarioGenerator.ScenarioGenerator =
         }
     },
 
-    allReadyMergedCacheMap: {},
+    allReadyMergedMap: {},
 
     _createMergedScenarios: function(pageModel, scenarios)
     {
@@ -222,40 +187,27 @@ fcScenarioGenerator.ScenarioGenerator =
         var executedScenarios = scenarios.getExecutedScenarios();
         var scenariosLength = executedScenarios.length;
 
-        var timer = Firecrow.TimerHelper.createTimer();
-
         for(var i = 0; i < scenariosLength; i++)
         {
-            if(timer.hasMoreThanSecondsElapsed(120))
-            {
-                if(!confirm("ScenarioGenerator - _createMergedScenarios has been running for more than 2 minutes, Continue?"))
-                {
-                    return;
-                }
-
-                timer = Firecrow.TimerHelper.createTimer();
-            }
-
             var ithScenario = executedScenarios[i];
+
+            if(ithScenario == null) { callbackFunction(); return; }
 
             for(var j = 0; j < scenariosLength; j++)
             {
                 var jthScenario = executedScenarios[j];
 
-                if(this.allReadyMergedCacheMap[i + "-" + j] || this.allReadyMergedCacheMap[j + "-" + i]) { continue; }
-                //|| jthScenario.isAncestor(ithScenario) || ithScenario.isAncestor(jthScenario)) { continue; }
+                if(this.allReadyMergedMap[i + "-" + j]
+                || this.allReadyMergedMap[j + "-" + i]) { continue; }
 
                 var areCreatedByMerging = ithScenario.parentScenarios.length > 1 && jthScenario.parentScenarios.length > 1;
 
                 if(jthScenario.executionInfo.isDependentOn(ithScenario.executionInfo, areCreatedByMerging))
                 {
-                    var hasBeenAdded = scenarios.addScenario(fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario));
+                    scenarios.addScenario(fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario));
 
-                    if(hasBeenAdded)
-                    {
-                        this.allReadyMergedCacheMap[i + "-" + j] = true;
-                        this.allReadyMergedCacheMap[j + "-" + i] = true;
-                    }
+                    this.allReadyMergedMap[i + "-" + j] = true;
+                    this.allReadyMergedMap[j + "-" + i] = true;
                 }
             }
         }

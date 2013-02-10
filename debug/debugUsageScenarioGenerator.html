@@ -163,11 +163,12 @@
     </div>
 
     <!--<script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>-->
-    <script src="usageScenarioGenerator/fullPages/simplified/3dmodel/modelMapping.js"></script>
+    <script src="usageScenarioGenerator/fullPages/original/snake/modelMapping.js"></script>
 
     <script type="text/javascript">
         //test26 - it seems that it does not log writing to html element objects as joint behavior
-        var model = models[4];
+        //test19, 18 - also has problems
+        var model = models[3];
         //var model = fullPageModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
@@ -188,7 +189,9 @@
         var timer = new FBL.Firecrow.TimerHelper.createTimer();
         var lastTime = 0;
 
-        FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario, eventCoverage)
+        var scGenerator = FBL.Firecrow.ScenarioGenerator;
+
+        scGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario, eventCoverage)
         {
             if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
             {
@@ -210,16 +213,21 @@
                         generateScenarioHtml(scenario);
                     });
 
-                    document.getElementById("seleniumCodeContainer").textContent = FBL.Firecrow.ScenarioGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
+                    document.getElementById("seleniumCodeContainer").textContent = scGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
                 }, 1000);
 
                 document.title = "Finished!";
             }
             else
             {
-                elapsedTimeTitle.textContent = scenarioCounter + " - Time: " + timer.getElapsedTimeInSeconds() + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec";
+                elapsedTimeTitle.textContent = scenarioCounter
+                                            + " - Time: " + timer.getElapsedTimeInSeconds()
+                                            + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec"
+                                            + " Coverage: " + scGenerator.ScenarioGenerator.achievedCoverage;
                 lastTime = timer.getElapsedTimeInSeconds();
-                document.title = scenarioCounter + "/" + FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.scenarioProcessingLimit;
+                document.title = scenarioCounter + "/" + scGenerator.ScenarioGenerator.scenarioProcessingLimit + " "
+                               + "C:" + scGenerator.ScenarioGenerator.achievedCoverage.toString().substring(0, 4) + " "
+                               + "T:" + (timer.getElapsedTimeInSeconds() - lastTime);
                 generateScenarioHtml(scenario);
             }
         });
@@ -233,7 +241,7 @@
 
             if(scenarioInfoContainer == executedScenarioTracesContainer)
             {
-                html += "<div class='scenarioAchievedCoverageContainer'>Achieved Coverage: " + FBL.Firecrow.ScenarioGenerator.ScenarioGenerator.achievedCoverage  + "</div>";
+                html += "<div class='scenarioAchievedCoverageContainer'>Achieved Coverage: " + scGenerator.ScenarioGenerator.achievedCoverage  + "</div>";
                 html += "<div class='scenarioTime'>" + elapsedTimeTitle.textContent  + "</div>";
             }
 

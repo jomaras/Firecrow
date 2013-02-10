@@ -77,7 +77,7 @@ fcModel.HtmlElementExecutor =
             case "getBoundingClientRect":
                 return this._getBoundingClientRectangle(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "getContext":
-                if(this.isCanvasElement(thisObjectValue))
+                if(ValueTypeHelper.isCanvasElement(thisObjectValue))
                 {
                     return fcModel.CanvasExecutor.executeCanvasMethod(thisObject, functionObject, arguments, callExpression);
                 }

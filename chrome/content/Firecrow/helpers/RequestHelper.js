@@ -12,11 +12,7 @@ Firecrow.RequestHelper =
         try
         {
             http.open("POST", url, false);
-
             http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            http.setRequestHeader("Content-length", dataString.length);
-            http.setRequestHeader("Connection", "close");
-
             http.send(dataString);
 
             return {
