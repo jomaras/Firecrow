@@ -2,8 +2,17 @@
 // Do whatever you want with this code :)
 // Please visit http://www.andrespagella.com
 // This is the complete code for this article: http://www.andrespagella.com/snake-game
-var lastRandom = 0;
-Math.myRandom = function() { return lastRandom = lastRandom + 0.02; }
+var _FC_lastRandom = 0, _FC_isRandomGrowing = true;
+Math.myRandom = function()
+{
+    _FC_isRandomGrowing ? _FC_lastRandom += 0.02
+                        : _FC_lastRandom -= 0.02;
+
+    if(_FC_lastRandom >= 1) { _FC_lastRandom = 0.99; _FC_isRandomGrowing = false; }
+    if(_FC_lastRandom <= 0) { _FC_lastRandom = 0.01; _FC_isRandomGrowing = true; }
+
+    return _FC_lastRandom;
+}
 
 window.onload = function()
 {

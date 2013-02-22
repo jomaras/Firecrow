@@ -65,7 +65,7 @@ window.onload = function() {
             2462,
             3637,
             7432
-        ]
+        ]                                  Ex
     };
 
     password.selector.onkeyup = function() {

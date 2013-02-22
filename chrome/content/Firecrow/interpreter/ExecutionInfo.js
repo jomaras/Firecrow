@@ -28,6 +28,16 @@ FBL.ns(function() { with (FBL) {
 
     fcBrowser.ExecutionInfo.prototype =
     {
+        getLastEventInfoString: function()
+        {
+            var object = this.currentEventExecutionInfo != null ? this.currentEventExecutionInfo : this;
+            return "PathConstraint: " + this.pathConstraint.toString() + "\r\n"
+                +  "AI: " + ValueTypeHelper.convertObjectPropertyNamesToArray(object.globalAccessedIdentifiers).join(",")  + "\r\n"
+                +  "MI: " + ValueTypeHelper.convertObjectPropertyNamesToArray(object.globalModifiedIdentifiers).join(",") + "\r\n"
+                +  "MO: " + ValueTypeHelper.convertObjectPropertyNamesToArray(object.globalModifiedObjects).join(",") + "\r\n"
+                +  "AO: " + ValueTypeHelper.convertObjectPropertyNamesToArray(object.globalAccessedObjects).join(",");
+        },
+
         logEventExecution: function(baseObjectDescriptor, eventType)
         {
             if(this.currentEventExecutionInfo == null && (eventType == "onload" || eventType == "DOMContentLoaded" || eventType == "load"))
@@ -173,19 +183,6 @@ FBL.ns(function() { with (FBL) {
             //this.objectForInIterations.push({ proto: objectPrototype, codeConstruct: codeConstruct });
         },
 
-        logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
-        {
-            var modifiedIdentifierInfoID = identifier.name + "_FC_"
-                                        + (identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
-                                                                                 : "null");
-            if(this.currentEventExecutionInfo != null)
-            {
-                this.currentEventExecutionInfo.globalModifiedIdentifiers[modifiedIdentifierInfoID] = true;
-            }
-
-            this.globalModifiedIdentifiers[modifiedIdentifierInfoID] = true;
-        },
-
         getLastEventRegistrations: function()
         {
             return this.eventExecutions[this.eventExecutions.length - 1] != null
@@ -250,14 +247,30 @@ FBL.ns(function() { with (FBL) {
             }
         },
 
+        logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
+        {
+            if(identifier.declarationPosition == null) { return; }
+            if(identifier.name.indexOf("_FC_") == 0) { return; }
+
+            var modifiedIdentifierInfoID = identifier.name + "_FC_" + identifier.declarationPosition.codeConstruct.nodeId;
+            if(this.currentEventExecutionInfo != null)
+            {
+                this.currentEventExecutionInfo.globalModifiedIdentifiers[modifiedIdentifierInfoID] = true;
+            }
+
+            this.globalModifiedIdentifiers[modifiedIdentifierInfoID] = true;
+        },
+
         logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
         {
-            if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
+            //The idea was to log only identifiers that are in the branching statements
+            //but that is not correct, because of the following case:
+            //one event writes to a "global" variable A, the global variable A is used to create a global variable B
+            //global variable B influences the control flow
+            if(identifier.declarationPosition == null) { return; }
+            if(identifier.name.indexOf("_FC_") == 0) { return; }
 
-            var accessedGlobalIdentifierInfoID = identifier.name + "_FC_"
-                                + (identifier.declarationPosition != null ? identifier.declarationPosition.codeConstruct.nodeId
-                                                                          : "null");
-
+            var accessedGlobalIdentifierInfoID = identifier.name + "_FC_" + identifier.declarationPosition.codeConstruct.nodeId;
 
             if(this.currentEventExecutionInfo != null)
             {
@@ -269,7 +282,7 @@ FBL.ns(function() { with (FBL) {
 
         logReadingObjectPropertyOutsideCurrentScope: function(objectCreationConstructId, propertyName, codeConstruct)
         {
-            if(!FBL.Firecrow.ASTHelper.isBranchingConditionConstruct(codeConstruct)) { return; }
+            if(ValueTypeHelper.isNumber(propertyName)) { return; }
 
             var accessedObjectInfoID = propertyName + "_FC_" + objectCreationConstructId;
 
@@ -283,6 +296,8 @@ FBL.ns(function() { with (FBL) {
 
         logModifyingExternalContextObject: function(objectCreationConstructId, propertyName)
         {
+            if(ValueTypeHelper.isNumber(propertyName)) { return; }
+
             var modifiedObjectInfoID = propertyName + "_FC_" + objectCreationConstructId;
 
             if(this.currentEventExecutionInfo != null)

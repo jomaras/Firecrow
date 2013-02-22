@@ -131,11 +131,34 @@ Firecrow.ASTHelper =
         return element.body.hasBeenExecuted;
     },
 
+    _isLoopStatementEventExecuted: function(element, executionId)
+    {
+        if(this.isBlockStatement(element.body))
+        {
+            return this._isBlockStatementEventExecuted(element.body, executionId);
+        }
+
+        return this._hasBeenExecutedByEvent(element.body, executionId);
+    },
+
     _isSwitchCaseExecuted: function(element)
     {
         for(var i = 0; i < element.consequent.length; i++)
         {
             if(element.consequent[i].hasBeenExecuted)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _isSwitchCaseEventExecuted: function(element, executionId)
+    {
+        for(var i = 0; i < element.consequent.length; i++)
+        {
+            if(this._hasBeenExecutedByEvent(element.consequent[i], executionId))
             {
                 return true;
             }
@@ -154,11 +177,34 @@ Firecrow.ASTHelper =
         return ifStatement.consequent.hasBeenExecuted;
     },
 
+    _isIfStatementBodyEventExecuted: function(ifStatement, executionId)
+    {
+        if(this.isBlockStatement(ifStatement.consequent))
+        {
+            return this._isBlockStatementEventExecuted(ifStatement.consequent, executionId);
+        }
+
+        return this._hasBeenExecutedByEvent(ifStatement.consequent, executionId);
+    },
+
     _isBlockStatementExecuted: function(blockStatement)
     {
         for(var i = 0; i < blockStatement.body.length; i++)
         {
             if(blockStatement.body[i].hasBeenExecuted)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _isBlockStatementEventExecuted: function(blockStatement, executionId)
+    {
+        for(var i = 0; i < blockStatement.body.length; i++)
+        {
+            if(this._hasBeenExecutedByEvent(blockStatement.body[i], executionId))
             {
                 return true;
             }
@@ -174,23 +220,80 @@ Firecrow.ASTHelper =
         var totalNumberOfExpressions = 0;
         var executedNumberOfExpressions = 0;
 
+        var totalNumberOfStatements = 0;
+        var executedNumberOfStatements = 0;
+
+        var totalNumberOfBranches = 0;
+        var executedNumberOfBranches = 0;
+
         this.traverseAstWhileIgnoring(functionConstruct.body, function(astElement)
         {
             if(ASTHelper.isExpression(astElement))
             {
                 totalNumberOfExpressions++;
-
                 if(astElement.executorEventsMap != null && astElement.executorEventsMap[executionId])
                 {
                     executedNumberOfExpressions++;
                 }
             }
+
+            return;
+
+            if(ASTHelper.isStatement(astElement) && !ASTHelper.isBlockStatement(astElement))
+            {
+                totalNumberOfStatements++;
+
+                if(ASTHelper._hasBeenExecutedByEvent(astElement, executionId))
+                {
+                    executedNumberOfStatements++;
+                }
+            }
+
+            if(ASTHelper.isBranchExpression(astElement))
+            {
+                if((ASTHelper.isIfStatement(astElement) && ASTHelper._isIfStatementBodyEventExecuted(astElement, executionId))
+                || (ASTHelper.isSwitchCase(astElement) && ASTHelper._isSwitchCaseEventExecuted(astElement, executionId))
+                || (ASTHelper.isLoopStatement(astElement) && ASTHelper._isLoopStatementEventExecuted(astElement, executionId)))
+                {
+                    executedNumberOfBranches++;
+                }
+                else if (ASTHelper.isConditionalExpression(astElement))
+                {
+                    //has two alternatives - so maybe count it as two branches
+                    totalNumberOfBranches++;
+
+                    if(ASTHelper._hasBeenExecutedByEvent(astElement.consequent, executionId)) { executedNumberOfBranches++; }
+                    if(ASTHelper._hasBeenExecutedByEvent(astElement.alternate, executionId)) { executedNumberOfBranches++; }
+                }
+
+                if(ASTHelper.isSwitchCase(astElement) && astElement.consequent.length == 0)
+                {
+                    return;
+                }
+
+                totalNumberOfBranches++;
+            }
         }, ["FunctionExpression", "FunctionDeclaration"]);
 
-        return {
+        totalNumberOfBranches = totalNumberOfExpressions;
+        executedNumberOfBranches = executedNumberOfExpressions;
+
+         return {
             totalNumberOfExpressions: totalNumberOfExpressions,
-            executedNumberOfExpressions: executedNumberOfExpressions
+            executedNumberOfExpressions: executedNumberOfExpressions,
+            totalNumberOfStatements: totalNumberOfStatements,
+            executedNumberOfStatements: executedNumberOfStatements,
+            expressionCoverage: executedNumberOfExpressions/totalNumberOfExpressions,
+            statementCoverage: executedNumberOfStatements/totalNumberOfStatements,
+            totalNumberOfBranches: totalNumberOfBranches,
+            executedNumberOfBranches: executedNumberOfBranches,
+            branchCoverage:  executedNumberOfBranches/totalNumberOfBranches
         };
+    },
+
+    _hasBeenExecutedByEvent: function(astElement, executionId)
+    {
+        return astElement.executorEventsMap != null && astElement.executorEventsMap[executionId];
     },
 
     setParentsChildRelationships: function(rootElement)

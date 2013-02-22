@@ -1,24 +1,15 @@
 <html>
 <head>
     <style>
-        #container
-        {
-            background-color: rgb(255,0,0);
-            width: 200px;
-            height: 200px;
-        }
+        #redSq { background-color : red; }
+        div { height : 60px; width : 60px;}
     </style>
 </head>
 <body>
-<div id="container"></div>
-<script>
-    var newObj = {};
-    window.newObj1 = newObj;
-
-    for(var i = 0; i < 10000; i++)
-    {
-        newObj[i] = document.createElement("div");
-    }
-</script>
+    <div id="redSq"></div>
+    <script>
+        var rdSq = document.getElementById("redSq");
+        rdSq.innerText = "Added By Js";
+    </script>
 </body>
 </html>

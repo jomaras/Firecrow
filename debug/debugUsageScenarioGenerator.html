@@ -167,9 +167,9 @@
 
     <script type="text/javascript">
         //test26 - it seems that it does not log writing to html element objects as joint behavior
-        //test19, 18 - also has problems
-        var model = models[3];
-        //var model = fullPageModel;
+        //18 - also has problems
+        //var model = models[26];
+        var model = fullPageModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var executedScenarioTracesContainer = document.getElementById("executedScenarioTracesContainer");
@@ -216,7 +216,7 @@
                     document.getElementById("seleniumCodeContainer").textContent = scGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
                 }, 1000);
 
-                document.title = "Finished!";
+                document.title += " Fin!";
             }
             else
             {

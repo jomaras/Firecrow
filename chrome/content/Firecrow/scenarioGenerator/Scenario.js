@@ -29,7 +29,6 @@ fcScenarioGenerator.Scenario.prototype =
 
     setCoverage: function(coverage)
     {
-        console.log(this.id + ":" + coverage);
         this.coverage = coverage;
     },
 
@@ -260,17 +259,19 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
     _getNextByMaximizingPathCoverage: function()
     {
-        return this._findWithLeastEventCoverage(this.getNonExecutedScenarios());
+        return this._getNextPrioritizingByLeastEventCoverage(this.getNonExecutedScenarios());
     },
 
-    _findWithLeastEventCoverage: function(scenarios)
+    _getNextPrioritizingByLeastEventCoverage: function(scenarios)
     {
         if(scenarios.length == 0) { return null; }
 
         //Top priorities are scenarios without parents (the initially created ones)
         var firstParentLessScenario = this._findFirstParentlessScenario(scenarios);
-
         if(firstParentLessScenario != null) { return firstParentLessScenario; }
+
+        //var singleParentScenario = this._findFirstSingleParentScenario(scenarios);
+        //if(singleParentScenario != null) { return singleParentScenario; }
 
         return this._findFirstWithLeastEventCoverage(scenarios);
     },
@@ -294,20 +295,48 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
     _hasGoneThroughParentless: false,
 
-    _findFirstWithLeastEventCoverage: function(scenarios)
+    _findFirstSingleParentScenario: function(scenarios)
     {
-        var minimumCoverage = Number.MAX_VALUE, minIndex = 0;
-
         for(var i = 0; i < scenarios.length; i++)
         {
-            if(scenarios[i].coverage < minimumCoverage)
+            if(scenarios[i].parentScenarios.length == 1)
             {
-                minimumCoverage = scenarios[i].coverage;
-                minIndex = i;
+                return scenarios[i];
             }
         }
 
-        return scenarios[minIndex];
+        return null
+    },
+
+    _findFirstWithLeastEventCoverage: function(scenarios)
+    {
+        var  weightedIndexes = [];
+
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            var weightedIndex = [];
+
+            var scenarioCoverage = this._getScenarioEventsCompoundCoverage(scenarios[i]);
+
+            //leave them a chance, but a very small one
+            if(scenarioCoverage == 1) { scenarioCoverage = 0.999; }
+
+            weightedIndex.push(i);
+            weightedIndex.push(Math.round((1 - scenarioCoverage)*1000));
+
+            weightedIndexes.push(weightedIndex);
+        }
+
+        var weightedList = new ValueTypeHelper.WeightedList(weightedIndexes);
+
+        var result = weightedList.peek();
+
+        if(result != null && result[0] !== null)
+        {
+            return scenarios[result[0]];
+        }
+
+        return scenarios[0];
     },
 
     _getNextByLength: function()
@@ -582,17 +611,17 @@ fcScenarioGenerator.ScenarioCollection.prototype =
                 var visitedFunctions = this.eventVisitedFunctionsInfo[baseObjectDescriptor][eventType];
                 var eventDescriptor = baseObjectDescriptor + eventType;
 
-                var totalNumberOfExpressions = 0, executedNumberOfExpressions = 0;
+                var totalNumber = 0, executedNumber = 0;
 
                 for(var visitedFunctionId in visitedFunctions)
                 {
                     var coverage = ASTHelper.getFunctionCoverageInfo(visitedFunctions[visitedFunctionId], eventDescriptor);
 
-                    totalNumberOfExpressions += coverage.totalNumberOfExpressions;
-                    executedNumberOfExpressions += coverage.executedNumberOfExpressions;
+                    totalNumber += coverage.totalNumberOfBranches;
+                    executedNumber += coverage.executedNumberOfBranches;
                 }
 
-                this.eventCoverageInfo[baseObjectDescriptor][eventType].coverage = executedNumberOfExpressions/totalNumberOfExpressions;
+                this.eventCoverageInfo[baseObjectDescriptor][eventType].coverage = executedNumber/totalNumber;
             }
         }
 
@@ -618,7 +647,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
                     if(scenario.coverage == 1) { continue; }
 
-                    scenario.setCoverage(this._getScenarioCoverage(scenario));
+                    scenario.setCoverage(this._getScenarioEventsCompoundCoverage(scenario));
 
                     updatedScenariosMap[scenarioId] = true;
                 }
@@ -626,14 +655,20 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         }
     },
 
-    _getScenarioCoverage: function(scenario)
+    _getScenarioEventsCompoundCoverage: function(scenario)
     {
         var coverage = 0;
 
         for(var i = 0; i < scenario.events.length; i++)
         {
             var event = scenario.events[i];
-            coverage += this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
+
+            if(this.eventCoverageInfo[event.thisObjectDescriptor] != null
+            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
+            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
+            {
+                coverage += this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
+            }
         }
 
         return coverage/scenario.events.length;

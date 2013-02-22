@@ -1,5 +1,5 @@
 var lastRandom = 0, isRandomGrowing = true;
-Math.random = function()
+Math.myRandom = function()
 {
     isRandomGrowing ? lastRandom += 0.02
         : lastRandom -= 0.02;

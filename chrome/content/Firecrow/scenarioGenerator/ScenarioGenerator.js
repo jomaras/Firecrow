@@ -10,7 +10,7 @@ fcScenarioGenerator.ScenarioGenerator =
     achievedCoverage: 0,
     achievedCoverages: [],
     scenarios: null,
-    scenarioProcessingLimit: 900,
+    scenarioProcessingLimit: 100,
 
     generateScenarios: function(pageModel, scenarioExecutedCallback)
     {
@@ -35,7 +35,6 @@ fcScenarioGenerator.ScenarioGenerator =
             || that.achievedCoverage == 1)
             {
                 scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios());
-
                 return;
             }
 
@@ -43,16 +42,31 @@ fcScenarioGenerator.ScenarioGenerator =
 
             processedScenarioCounter++;
 
-            if(scenarios.isLastScenario(currentScenario))
+            if(scenarios.isLastScenario(currentScenario) || that._isStuck())
             {
                 that._createMergedScenarios(pageModel, scenarios)
             }
 
             currentScenario = scenarios.getNext();
+
             setTimeout(asyncLoop, 1500);
         };
 
         setTimeout(asyncLoop, 100);
+    },
+
+    _isStuck: function()
+    {
+        if(this.achievedCoverages.length <= 10) { return false; }
+
+        var lastItem = this.achievedCoverages[this.achievedCoverages.length-1];
+
+        for(var i = this.achievedCoverages.length - 2; i >= this.achievedCoverages.length - 10; i--)
+        {
+            if(lastItem.branchCoverage != this.achievedCoverages[i].branchCoverage) { return false; }
+        }
+
+        return true;
     },
 
     _hasAchievedEnoughCoverage: function(pageModel, scenarios)
@@ -179,10 +193,11 @@ fcScenarioGenerator.ScenarioGenerator =
         }
     },
 
-    allReadyMergedMap: {},
+    allReadyComparedScenarios: {},
 
     _createMergedScenarios: function(pageModel, scenarios)
     {
+        console.log("Merging scenarios");
         //Has to be cached because new scenarios are added, and we don't want to take them into account
         var executedScenarios = scenarios.getExecutedScenarios();
         var scenariosLength = executedScenarios.length;
@@ -197,18 +212,16 @@ fcScenarioGenerator.ScenarioGenerator =
             {
                 var jthScenario = executedScenarios[j];
 
-                if(this.allReadyMergedMap[i + "-" + j]
-                || this.allReadyMergedMap[j + "-" + i]) { continue; }
+                if(this.allReadyComparedScenarios[i + "-" + j]) { continue; }
 
                 var areCreatedByMerging = ithScenario.parentScenarios.length > 1 && jthScenario.parentScenarios.length > 1;
 
                 if(jthScenario.executionInfo.isDependentOn(ithScenario.executionInfo, areCreatedByMerging))
                 {
                     scenarios.addScenario(fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario));
-
-                    this.allReadyMergedMap[i + "-" + j] = true;
-                    this.allReadyMergedMap[j + "-" + i] = true;
                 }
+
+                this.allReadyComparedScenarios[i + "-" + j] = true;
             }
         }
     },
@@ -232,7 +245,7 @@ fcScenarioGenerator.ScenarioGenerator =
         scenario.setExecutionInfo(executionInfo);
 
         var coverage = ASTHelper.calculateCoverage(pageModel);
-        this.achievedCoverage = coverage.expressionCoverage;
+        this.achievedCoverage = coverage.branchCoverage;
         this.achievedCoverages.push(coverage);
 
         return executionInfo;
