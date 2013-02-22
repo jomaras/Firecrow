@@ -142,6 +142,11 @@ fcSymbolic.Identifier.prototype.createCopyUpgradedByIndex = function(upgradeByIn
 {
     return new fcSymbolic.Identifier(fcScenarioGenerator.ScenarioGenerator.addToPropertyName(this.name, upgradeByIndex));
 };
+fcSymbolic.Identifier.prototype.createCopyWithIndex = function(newIndex)
+{
+    return new fcSymbolic.Identifier(fcScenarioGenerator.ScenarioGenerator.updatePropertyNameWithNewIndex(this.name, newIndex));
+};
+
 fcSymbolic.Identifier.prototype.createCopyWithReplacedLiterals = function(replacement) { return new fcSymbolic.Identifier(this.name); }
 
 fcSymbolic.Literal = function(value)
@@ -168,6 +173,10 @@ fcSymbolic.Literal.prototype.toString = function()
                                                 : this.value;
 };
 fcSymbolic.Literal.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
+{
+    return new fcSymbolic.Literal(this.value);
+};
+fcSymbolic.Literal.prototype.createCopyWithIndex = function(index)
 {
     return new fcSymbolic.Literal(this.value);
 };
@@ -208,6 +217,11 @@ fcSymbolic.Unary.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
     return new fcSymbolic.Unary(this.argument.createCopyUpgradedByIndex(upgradeByIndex), this.operator, this.prefix);
 };
 
+fcSymbolic.Unary.prototype.createCopyWithIndex = function(index)
+{
+    return new fcSymbolic.Unary(this.argument.createCopyWithIndex(index), this.operator, this.prefix);
+};
+
 fcSymbolic.Binary = function(left, right, operator)
 {
     this.setId();
@@ -240,6 +254,10 @@ fcSymbolic.Binary.prototype.getIdentifierNames = function()
 fcSymbolic.Binary.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
 {
     return new fcSymbolic.Binary(this.left.createCopyUpgradedByIndex(upgradeByIndex), this.right.createCopyUpgradedByIndex(upgradeByIndex), this.operator);
+};
+fcSymbolic.Binary.prototype.createCopyWithIndex = function(index)
+{
+    return new fcSymbolic.Binary(this.left.createCopyWithIndex(index), this.right.createCopyWithIndex(index), this.operator);
 };
 
 fcSymbolic.Update = function(argument, operator, prefix)
@@ -278,6 +296,11 @@ fcSymbolic.Update.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
     return new fcSymbolic.Update(this.argument.createCopyUpgradedByIndex(upgradeByIndex), this.operator, this.prefix);
 };
 
+fcSymbolic.Update.prototype.createCopyWithIndex = function(index)
+{
+    return new fcSymbolic.Update(this.argument.createCopyWithIndex(index), this.operator, this.prefix);
+};
+
 fcSymbolic.Logical = function(left, right, operator)
 {
     this.setId();
@@ -311,5 +334,9 @@ fcSymbolic.Logical.prototype.toString = function() { return this.left + " " + th
 fcSymbolic.Logical.prototype.createCopyUpgradedByIndex = function(upgradeByIndex)
 {
     return new fcSymbolic.Logical(this.left.createCopyUpgradedByIndex(upgradeByIndex), this.right.createCopyUpgradedByIndex(upgradeByIndex), this.operator);
+};
+fcSymbolic.Logical.prototype.createCopyWithIndex = function(index)
+{
+    return new fcSymbolic.Logical(this.left.createCopyWithIndex(index), this.right.createCopyWithIndex(index), this.operator);
 };
 }});

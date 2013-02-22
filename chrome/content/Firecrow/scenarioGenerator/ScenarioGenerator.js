@@ -22,7 +22,7 @@ fcScenarioGenerator.ScenarioGenerator =
         var browser = this._executeApplication(pageModel);
         this.achievedCoverage = ASTHelper.calculateCoverage(pageModel).expressionCoverage;
 
-        this._createRegisteredEventsScenarios(browser, scenarios);
+        this._createInitialRegisteredEventsScenarios(browser, scenarios);
 
         var processedScenarioCounter = 0;
 
@@ -41,11 +41,6 @@ fcScenarioGenerator.ScenarioGenerator =
             that._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
             processedScenarioCounter++;
-
-            if(scenarios.isLastScenario(currentScenario) || that._isStuck())
-            {
-                that._createMergedScenarios(pageModel, scenarios)
-            }
 
             currentScenario = scenarios.getNext();
 
@@ -97,7 +92,7 @@ fcScenarioGenerator.ScenarioGenerator =
         }, this);
     },
 
-    _createRegisteredEventsScenarios: function(browser, scenarios, scenarioCreatedCallback)
+    _createInitialRegisteredEventsScenarios: function(browser, scenarios, scenarioCreatedCallback)
     {
         this._createEventsScenarios(browser.globalObject.timeoutHandlers, scenarios)
         this._createEventsScenarios(browser.globalObject.intervalHandlers, scenarios)
@@ -120,7 +115,7 @@ fcScenarioGenerator.ScenarioGenerator =
                 eventRegistration.handlerConstruct
             )]);
 
-            newScenario.createdBy = "eventRegistration";
+            newScenario.createdBy = "extendingWithNewEvent";
 
             scenarios.addScenario(newScenario);
         }
@@ -133,7 +128,7 @@ fcScenarioGenerator.ScenarioGenerator =
         if(scenarioExecutedCallback != null) { scenarioExecutedCallback(scenario); }
 
         this._createInvertedPathScenarios(executionSummary, scenario, scenarios);
-        this._createNewlyRegisteredEventsScenarios(executionSummary, scenario, scenarios);
+        this._createRegisteredEventsScenarios(executionSummary, scenario, scenarios);
     },
 
     _createInvertedPathScenarios: function(executionSummary, scenario, scenarios)
@@ -142,94 +137,151 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < invertedPaths.length; i++)
         {
-            scenarios.addScenarioByComponents(scenario.events, invertedPaths[i], [scenario]);
-        }
-    },
+            var createdScenario = scenarios.addScenarioByComponents(scenario.events, invertedPaths[i], [scenario]);
 
-    _createNewlyRegisteredEventsScenarios: function(executionSummary, scenario, scenarios)
-    {
-        var newlyRegisteredEvents = this._getNewlyRegisteredEventsComparedToParents(scenario);
-
-        for(var i = 0; i < newlyRegisteredEvents.length; i++)
-        {
-            var eventRegistration = newlyRegisteredEvents[i];
-
-            var newScenario = scenario.createCopy();
-
-            newScenario.events.push(new fcScenarioGenerator.Event
-            (
-                eventRegistration.thisObjectDescriptor,
-                eventRegistration.thisObjectModel,
-                eventRegistration.eventType,
-                eventRegistration.registrationConstruct,
-                eventRegistration.handlerConstruct
-            ));
-
-            newScenario.parentScenarios.push(scenario);
-
-            scenarios.addScenario(newScenario);
-        }
-    },
-
-    _getNewlyRegisteredEventsComparedToParents: function(scenario)
-    {
-        if(scenario.parentScenarios.length == 0)
-        {
-            return scenario.executionInfo.eventRegistrations.filter(function(eventRegistration)
+            if(createdScenario != null)
             {
-                return eventRegistration.loadingEventsExecuted;
-            });
+                createdScenario.createdBy = "symbolic";
+            }
+        }
+    },
+
+    _createRegisteredEventsScenarios: function(executionSummary, scenario, scenarios)
+    {
+        var eventRegistrations = scenario.executionInfo.eventRegistrations;
+
+        for(var i = 0; i < eventRegistrations.length; i++)
+        {
+            var eventRegistration = eventRegistrations[i];
+            var eventRegistrationFingerprint = this._getEventRegistrationFingerprint(eventRegistration);
+
+            //has not been executed so far
+            if(this.parametrizedEventsMap[eventRegistrationFingerprint] == null)
+            {
+                this._createNewScenarioByAppendingNewEvent(scenario, scenarios, eventRegistration);
+            }
+            else //this event was executed so far
+            {
+                var parametrizedEventsLog = this.parametrizedEventsMap[eventRegistrationFingerprint];
+                this._createNewScenariosByAppendingParametrizedEvents(scenario, scenarios, eventRegistration, parametrizedEventsLog);
+            }
+        }
+    },
+
+    _createNewScenarioByAppendingNewEvent: function(scenario, scenarios, eventRegistration)
+    {
+        var newScenario = scenario.createCopy();
+
+        newScenario.events.push(new fcScenarioGenerator.Event
+        (
+            eventRegistration.thisObjectDescriptor,
+            eventRegistration.thisObjectModel,
+            eventRegistration.eventType,
+            eventRegistration.registrationConstruct,
+            eventRegistration.handlerConstruct
+        ));
+
+        newScenario.createdBy = "extendingWithNewEvent";
+
+        newScenario.parentScenarios.push(scenario);
+
+        scenarios.addScenario(newScenario);
+    },
+
+    _createNewScenariosByAppendingParametrizedEvents: function(scenario, scenarios, eventRegistration, parametrizedEventsLog)
+    {
+        for(var propName in parametrizedEventsLog)
+        {
+            var log = parametrizedEventsLog[propName];
+
+            for(var i = 0; i < log.scenarios.length; i++)
+            {
+                var scenarioWithParametrizedEvent = log.scenarios[i];
+
+                var executionsInfo = scenarioWithParametrizedEvent.getEventExecutionsInfo(eventRegistration.thisObjectDescriptor, eventRegistration.eventType);
+
+                for(var j = 0; j < executionsInfo.length; j++)
+                {
+                    var executionInfo = executionsInfo[j];
+
+                    if(this._isExecutionInfoDependentOnScenario(executionInfo, scenario))
+                    {
+                        this._createNewScenarioByAppendingExistingEvent(scenario, scenarios, log.parametrizedEvents[i], scenarioWithParametrizedEvent);
+                    }
+                }
+            }
+        }
+    },
+
+    _createNewScenarioByAppendingExistingEvent: function(scenario, scenarios, parametrizedEvent, scenarioWithParametrizedEvent)
+    {
+        var mergedEvents = scenario.events.concat([parametrizedEvent.baseEvent]);
+        var mergedInputConstraint = scenario.inputConstraint.createCopyUpgradedByIndex(0);
+
+        var singleItemConstraint = scenarioWithParametrizedEvent.inputConstraint.createSingleItemBasedOnIndex
+        (
+            scenarioWithParametrizedEvent.parametrizedEvents.indexOf(parametrizedEvent),
+            mergedEvents.length - 1
+        );
+
+        if(singleItemConstraint != null)
+        {
+            mergedInputConstraint.append(singleItemConstraint);
         }
         else
         {
-            var parentScenariosEventRegistrations = [];
-
-            scenario.parentScenarios.forEach(function(parentScenario)
-            {
-                parentScenariosEventRegistrations = parentScenariosEventRegistrations.concat(parentScenario.executionInfo.eventRegistrations);
-            });
-
-            return scenario.filterEvents(parentScenariosEventRegistrations);
+            debugger;
         }
+
+        var newScenario = new fcScenarioGenerator.Scenario(mergedEvents, mergedInputConstraint, [scenario]);
+        newScenario.createdBy = "extendingWithExistingEvent";
+        scenarios.addScenario(newScenario);
     },
 
-    allReadyComparedScenarios: {},
-
-    _createMergedScenarios: function(pageModel, scenarios)
+    _isExecutionInfoDependentOnScenario: function(executionInfo, scenario)
     {
-        console.log("Merging scenarios");
-        //Has to be cached because new scenarios are added, and we don't want to take them into account
-        var executedScenarios = scenarios.getExecutedScenarios();
-        var scenariosLength = executedScenarios.length;
+        return this._isExecutionInfoIdentifierDependentOn(executionInfo, scenario)
+            || this._isExecutionInfoObjectDependentOn(executionInfo, scenario);
+    },
 
-        for(var i = 0; i < scenariosLength; i++)
+    _isExecutionInfoIdentifierDependentOn: function(executionInfo, scenario)
+    {
+        for(var accessedIdentifier in executionInfo.globalAccessedIdentifiers)
         {
-            var ithScenario = executedScenarios[i];
-
-            if(ithScenario == null) { callbackFunction(); return; }
-
-            for(var j = 0; j < scenariosLength; j++)
+            if(scenario.executionInfo.globalModifiedIdentifiers[accessedIdentifier])
             {
-                var jthScenario = executedScenarios[j];
-
-                if(this.allReadyComparedScenarios[i + "-" + j]) { continue; }
-
-                var areCreatedByMerging = ithScenario.parentScenarios.length > 1 && jthScenario.parentScenarios.length > 1;
-
-                if(jthScenario.executionInfo.isDependentOn(ithScenario.executionInfo, areCreatedByMerging))
-                {
-                    scenarios.addScenario(fcScenarioGenerator.Scenario.mergeScenarios(ithScenario, jthScenario));
-                }
-
-                this.allReadyComparedScenarios[i + "-" + j] = true;
+                return true;
             }
         }
+
+        return false;
+    },
+
+    _isExecutionInfoObjectDependentOn: function(executionInfo, scenario)
+    {
+        for(var accessedObject in executionInfo.globalAccessedObjects)
+        {
+            if(scenario.executionInfo.globalModifiedObjects[accessedObject])
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _getEventRegistrationFingerprint: function(eventRegistration)
+    {
+        return eventRegistration.thisObjectDescriptor + eventRegistration.eventType
+             + eventRegistration.handlerConstruct.nodeId;
     },
 
     _executeScenario: function(pageModel, scenario, scenarios)
     {
         var browser = this._executeApplication(pageModel);
         var parametrizedEvents = this._createParametrizedEvents(scenario);
+
+        this._logParametrizedEvents(scenario, parametrizedEvents);
 
         scenario.setParametrizedEvents(parametrizedEvents);
 
@@ -245,10 +297,36 @@ fcScenarioGenerator.ScenarioGenerator =
         scenario.setExecutionInfo(executionInfo);
 
         var coverage = ASTHelper.calculateCoverage(pageModel);
-        this.achievedCoverage = coverage.branchCoverage;
+        this.achievedCoverage = coverage.expressionCoverage;
         this.achievedCoverages.push(coverage);
 
         return executionInfo;
+    },
+
+    parametrizedEventsMap: {},
+
+    _logParametrizedEvents: function(scenario, parametrizedEvents)
+    {
+        for(var i = 0; i < parametrizedEvents.length; i++)
+        {
+            var parametrizedEvent = parametrizedEvents[i];
+
+            if(this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint] == null)
+            {
+                this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint] = { };
+            }
+
+            if(this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint] == null)
+            {
+                this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint] = {
+                    scenarios: [],
+                    parametrizedEvents: []
+                };
+            }
+
+            this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint].scenarios.push(scenario);
+            this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint].parametrizedEvents.push(parametrizedEvent);
+        }
     },
 
     _createParametrizedEvents: function(scenario)
@@ -258,7 +336,7 @@ fcScenarioGenerator.ScenarioGenerator =
             return scenario.events.map(function(event)
             {
                 return new fcScenarioGenerator.ParametrizedEvent(event, null);
-            });
+            }, this);
         }
 
         var parametrizedEvents = [];
@@ -579,6 +657,19 @@ fcScenarioGenerator.ScenarioGenerator =
             if(number !== undefined)
             {
                 return match.replace(number, parseInt(number) + increment);
+            }
+
+            return match;
+        });
+    },
+
+    updatePropertyNameWithNewIndex: function(name, newNumber)
+    {
+        return this.replaceSuffix(name, function(match, number)
+        {
+            if(number !== undefined)
+            {
+                return match.replace(number, newNumber);
             }
 
             return match;

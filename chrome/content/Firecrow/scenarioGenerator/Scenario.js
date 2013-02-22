@@ -63,6 +63,24 @@ fcScenarioGenerator.Scenario.prototype =
         this.ownerCollection.aggregateEventCoverageInfo(this, executionInfo);
     },
 
+    getEventExecutionsInfo: function(eventObjectDescriptor, eventType)
+    {
+        var executionInfos = [];
+
+        if(this.executionInfo == null) { return executionInfos; }
+
+        for(var i = 0; i < this.executionInfo.eventExecutions.length; i++)
+        {
+            var eventExecution = this.executionInfo.eventExecutions[i];
+            if(eventExecution.baseObjectDescriptor == eventObjectDescriptor && eventExecution.eventType == eventType)
+            {
+                executionInfos.push(eventExecution);
+            }
+        }
+
+        return executionInfos;
+    },
+
     setParametrizedEvents: function(parametrizedEvents)
     {
         this.parametrizedEvents = parametrizedEvents;
@@ -184,34 +202,6 @@ fcScenarioGenerator.Scenario.prototype =
     }
 };
 
-fcScenarioGenerator.Scenario.mergeScenarios = function(firstScenario, secondScenario)
-{
-    var mergedEvents = firstScenario.events.concat(secondScenario.events);
-    var mergedInputConstraint = null;
-
-    if(firstScenario.inputConstraint.pathConstraintItems.length == 0 && secondScenario.inputConstraint.pathConstraintItems.length == 0)
-    {
-        mergedInputConstraint = new fcSymbolic.PathConstraint();
-    }
-    else if(firstScenario.inputConstraint.pathConstraintItems.length != 0 && secondScenario.inputConstraint.pathConstraintItems.length == 0)
-    {
-        mergedInputConstraint = firstScenario.inputConstraint;
-    }
-    else if(firstScenario.inputConstraint.pathConstraintItems.length == 0 && secondScenario.inputConstraint.pathConstraintItems.length != 0)
-    {
-        mergedInputConstraint = secondScenario.inputConstraint.createCopyUpgradedByIndex(firstScenario.events.length);
-    }
-    else
-    {
-        mergedInputConstraint = firstScenario.inputConstraint.createCopyUpgradedByIndex(0);
-        mergedInputConstraint.append(secondScenario.inputConstraint.createCopyUpgradedByIndex(firstScenario.events.length));
-    }
-
-    var scenario = new fcScenarioGenerator.Scenario(mergedEvents, mergedInputConstraint, [firstScenario, secondScenario]);
-
-    return scenario;
-};
-
 fcScenarioGenerator.ScenarioCollection = function()
 {
     this.lengthGroups = [];
@@ -266,14 +256,30 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     {
         if(scenarios.length == 0) { return null; }
 
-        //Top priorities are scenarios without parents (the initially created ones)
-        var firstParentLessScenario = this._findFirstParentlessScenario(scenarios);
-        if(firstParentLessScenario != null) { return firstParentLessScenario; }
+        //Top priorities are scenarios with one event, scenarios created by adding completely new events
+        var priorityScenario = this._findFirstSingleEventOrSymbolicalOrExtendingEvent(scenarios);
 
-        //var singleParentScenario = this._findFirstSingleParentScenario(scenarios);
-        //if(singleParentScenario != null) { return singleParentScenario; }
+        if(priorityScenario != null) { this.returnedPrioritized++; return priorityScenario;}
 
         return this._findFirstWithLeastEventCoverage(scenarios);
+    },
+
+    returnedPrioritized: 0,
+
+    _findFirstSingleEventOrSymbolicalOrExtendingEvent: function(scenarios)
+    {
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            var scenario = scenarios[i];
+
+            if(scenario.events.length == 1){ return scenario; }
+            if(scenario.createdBy === "symbolic" || scenario.createdBy === "extendingWithNewEvent")
+            {
+                return scenario;
+            }
+        }
+
+        return null;
     },
 
     _findFirstParentlessScenario: function(scenarios)
@@ -295,19 +301,6 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
     _hasGoneThroughParentless: false,
 
-    _findFirstSingleParentScenario: function(scenarios)
-    {
-        for(var i = 0; i < scenarios.length; i++)
-        {
-            if(scenarios[i].parentScenarios.length == 1)
-            {
-                return scenarios[i];
-            }
-        }
-
-        return null
-    },
-
     _findFirstWithLeastEventCoverage: function(scenarios)
     {
         var  weightedIndexes = [];
@@ -316,7 +309,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         {
             var weightedIndex = [];
 
-            var scenarioCoverage = this._getScenarioEventsCompoundCoverage(scenarios[i]);
+            var scenarioCoverage = this._getScenarioEventsCoverageCoefficient(scenarios[i]);
 
             //leave them a chance, but a very small one
             if(scenarioCoverage == 1) { scenarioCoverage = 0.999; }
@@ -423,7 +416,11 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     {
         if(this._containsScenarioByComponents(this.scenarios, events, inputConstraint, parentScenarios)) { return; }
 
-        this._addScenario(new fcScenarioGenerator.Scenario(events, inputConstraint, parentScenarios));
+        var scenario = new fcScenarioGenerator.Scenario(events, inputConstraint, parentScenarios);
+
+        this._addScenario(scenario);
+
+        return scenario;
     },
 
     _containsScenarioByComponents: function(scenarios, events, inputConstraint, parentScenarios)
@@ -647,7 +644,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
                     if(scenario.coverage == 1) { continue; }
 
-                    scenario.setCoverage(this._getScenarioEventsCompoundCoverage(scenario));
+                    scenario.setCoverage(this._getScenarioEventsCoverageCoefficient(scenario));
 
                     updatedScenariosMap[scenarioId] = true;
                 }
@@ -655,9 +652,9 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         }
     },
 
-    _getScenarioEventsCompoundCoverage: function(scenario)
+    _getScenarioEventsCoverageCoefficient: function(scenario)
     {
-        var coverage = 0;
+        var coverageCoefficient = 1;
 
         for(var i = 0; i < scenario.events.length; i++)
         {
@@ -667,11 +664,11 @@ fcScenarioGenerator.ScenarioCollection.prototype =
             && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
             && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
             {
-                coverage += this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
+                coverageCoefficient *= this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
             }
         }
 
-        return coverage/scenario.events.length;
+        return coverageCoefficient;
     }
 };
 /*****************************************************/

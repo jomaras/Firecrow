@@ -9,6 +9,7 @@ fcScenarioGenerator.Event = function(baseObjectDescriptor, baseObjectModel, even
     this.eventType = eventType;
     this.registrationConstruct = registrationConstruct;
     this.handlerConstruct = handlerConstruct;
+    this.fingerprint = this.generateFingerprint();
 };
 
 fcScenarioGenerator.Event.areEqual = function(eventA, eventB)
@@ -61,6 +62,7 @@ fcScenarioGenerator.ParametrizedEvent = function (baseEvent, parameters)
 {
     this.baseEvent = baseEvent;
     this.setParameters(parameters);
+    this.fingerprint = this.baseEvent.fingerprint + JSON.stringify(this.parameters);
 };
 
 fcScenarioGenerator.ParametrizedEvent.prototype =

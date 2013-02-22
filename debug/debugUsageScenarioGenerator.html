@@ -166,10 +166,12 @@
     <script src="usageScenarioGenerator/fullPages/original/snake/modelMapping.js"></script>
 
     <script type="text/javascript">
+        //maybe i should create probability groups, and then from that group choose the one with with least events - see test 15, 16 for the problem
         //test26 - it seems that it does not log writing to html element objects as joint behavior
         //18 - also has problems
-        //var model = models[26];
-        var model = fullPageModel;
+        //test 6 - gets stuck
+        var model = models[13];
+        //var model = fullPageModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var executedScenarioTracesContainer = document.getElementById("executedScenarioTracesContainer");
