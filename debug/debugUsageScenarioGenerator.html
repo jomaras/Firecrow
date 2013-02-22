@@ -168,9 +168,10 @@
     <script type="text/javascript">
         //maybe i should create probability groups, and then from that group choose the one with with least events - see test 15, 16 for the problem
         //test26 - it seems that it does not log writing to html element objects as joint behavior
-        //18 - also has problems
-        //test 6 - gets stuck
-        var model = models[13];
+        //6, 18 - have problems probably because of always solving to same constraints - have to add making constraints stricter
+        //19
+        //26, 30 only one timeout happens - why not more?
+        var model = models[31];
         //var model = fullPageModel;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");

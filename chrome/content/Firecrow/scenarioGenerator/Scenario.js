@@ -14,7 +14,7 @@ fcScenarioGenerator.Scenario = function(events, inputConstraint, parentScenarios
     this.parentScenarios = parentScenarios || [];
     this.executionInfo = null;
     this.parametrizedEvents = [];
-    this.fingerprint = this._generateFingerprint();
+    this.generateFingerprint();
     this.coverage = 0;
 };
 
@@ -103,7 +103,7 @@ fcScenarioGenerator.Scenario.prototype =
         return new fcScenarioGenerator.Scenario(this.events.slice(), this.inputConstraint.createCopy());
     },
 
-    _generateFingerprint: function()
+    generateFingerprint: function()
     {
         var inputConstraintString = this.inputConstraint != null ? this.inputConstraint.toString() : "";
         var resolvedResult = this.inputConstraint != null ? JSON.stringify(this.inputConstraint.resolvedResult) : "";
@@ -111,7 +111,7 @@ fcScenarioGenerator.Scenario.prototype =
         var eventsString = "";
         for(var i = 0 ; i < this.events.length; i++) { eventsString += this.events[i].generateFingerprint(); }
 
-        return inputConstraintString + resolvedResult + eventsString;
+        this.fingerprint = inputConstraintString + resolvedResult + eventsString;
     },
 
     isEqualTo: function(scenario)

@@ -182,6 +182,7 @@ fcScenarioGenerator.ScenarioGenerator =
         ));
 
         newScenario.createdBy = "extendingWithNewEvent";
+        newScenario.generateFingerprint();
 
         newScenario.parentScenarios.push(scenario);
 

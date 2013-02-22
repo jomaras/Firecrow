@@ -5,16 +5,13 @@
     <bookmark url="file://$PROJECT_DIR$/debug/slicingTests/78/index.html" line="23" />
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
     <bookmark url="file://$PROJECT_DIR$/debug/usageScenarioGenerator" />
-    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" line="350" mnemonic="8" />
+    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" line="351" mnemonic="8" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Event.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Event.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
@@ -96,7 +93,7 @@
       <file leaf-file-name="Scenario.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="138" column="21" selection-start="4676" selection-end="4676" vertical-scroll-proportion="0.0">
+            <state line="108" column="43" selection-start="3294" selection-end="3294" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -105,7 +102,7 @@
       <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="31" selection-start="4818" selection-end="4818" vertical-scroll-proportion="0.0">
+            <state line="233" column="49" selection-start="8305" selection-end="8305" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -114,10 +111,10 @@
       <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="182" column="55" selection-start="10453" selection-end="10453" vertical-scroll-proportion="0.35520363">
+            <state line="170" column="45" selection-start="9699" selection-end="9699" vertical-scroll-proportion="0.18552037">
               <folding>
-                <marker date="1361560754258" expanded="false" signature="11266:11275" placeholder="..." />
-                <marker date="1361560754258" expanded="false" signature="11411:11420" placeholder="..." />
+                <marker date="1361562149364" expanded="false" signature="11403:11412" placeholder="..." />
+                <marker date="1361562149364" expanded="false" signature="11548:11557" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -2427,7 +2424,11 @@
       <created>1361541992261</created>
       <updated>1361541992261</updated>
     </task>
-    <option name="localTasksCounter" value="480" />
+    <task id="LOCAL-00480" summary="Migrated to new way of extending event chains - described in the ICWE paper">
+      <created>1361560780125</created>
+      <updated>1361560780125</updated>
+    </task>
+    <option name="localTasksCounter" value="481" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2525,7 +2526,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Backup before changing the algorithm" />
+    <option name="LAST_COMMIT_MESSAGE" value="Migrated to new way of extending event chains - described in the ICWE paper" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2539,7 +2540,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Don't ask the server to solve an empty array of numeric constraints - we just loose time on httprequests" />
     <MESSAGE value="When generating execution summary removed dependencies towards objects created by firecrow interpreter - only strings and code constructs are logged  - should decrese memory consumption" />
     <MESSAGE value="More precise expression coverage" />
     <MESSAGE value="Renamings" />
@@ -2564,6 +2564,7 @@
     <MESSAGE value="Added new algorithms for getting the next scenarios;&#10;Removed instanceof calls - all comparison is done on a higher level - this is because trying to execute Firecrow in Chrome (which creates new internal functions for i guess each iFrame, which means that i can not use intanceof with built-in objects)" />
     <MESSAGE value="Implemented multiple levels of caching in order to increase performance (primarily in Scenario)" />
     <MESSAGE value="Backup before changing the algorithm" />
+    <MESSAGE value="Migrated to new way of extending event chains - described in the ICWE paper" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2667,26 +2668,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="31" selection-start="4818" selection-end="4818" vertical-scroll-proportion="0.0">
+        <state line="108" column="43" selection-start="3294" selection-end="3294" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="21" selection-start="4676" selection-end="4676" vertical-scroll-proportion="0.0">
+        <state line="233" column="49" selection-start="8305" selection-end="8305" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="55" selection-start="10453" selection-end="10453" vertical-scroll-proportion="0.35520363">
+        <state line="170" column="45" selection-start="9699" selection-end="9699" vertical-scroll-proportion="0.18552037">
           <folding>
-            <marker date="1361560754258" expanded="false" signature="11266:11275" placeholder="..." />
-            <marker date="1361560754258" expanded="false" signature="11411:11420" placeholder="..." />
+            <marker date="1361562149364" expanded="false" signature="11403:11412" placeholder="..." />
+            <marker date="1361562149364" expanded="false" signature="11548:11557" placeholder="..." />
           </folding>
         </state>
       </provider>
