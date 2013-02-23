@@ -190,7 +190,7 @@ FBL.ns(function() { with (FBL) {
                 : this.eventRegistrations;
         },
 
-        logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, handlerConstruct, loadingEventsExecuted, timerId)
+        logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, handlerConstruct, loadingEventsExecuted, timerId, timePeriod)
         {
             var eventRegistrationInfo =
             {
@@ -200,7 +200,8 @@ FBL.ns(function() { with (FBL) {
                 registrationConstruct: registrationConstruct,
                 handlerConstruct: handlerConstruct,
                 loadingEventsExecuted: loadingEventsExecuted,
-                timerId: timerId
+                timerId: timerId,
+                timePeriod: timePeriod
             };
 
             if(this.currentEventExecutionInfo != null)

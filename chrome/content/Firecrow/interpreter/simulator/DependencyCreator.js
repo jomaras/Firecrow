@@ -11,6 +11,7 @@ fcSimulator.DependencyCreator = function(globalObject, executionContextStack)
 };
 
 fcSimulator.DependencyCreator.shouldCreateDependencies = false;
+fcSimulator.DependencyCreator.shouldCreateSimpleDependencies = false;
 
 fcSimulator.DependencyCreator.notifyError = function(message) { debugger; alert("DependencyCreator - " + message);};
 

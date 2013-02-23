@@ -115,7 +115,8 @@ fcModel.GlobalObject.prototype.registerTimeout = function(timeoutId, handler, ti
         registrationPoint.codeConstruct,
         handler.codeConstruct,
         this.browser.loadingEventsExecuted,
-        timeoutId
+        timeoutId,
+        timePeriod
     );
 };
 

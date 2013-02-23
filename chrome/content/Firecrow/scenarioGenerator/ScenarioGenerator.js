@@ -10,7 +10,7 @@ fcScenarioGenerator.ScenarioGenerator =
     achievedCoverage: 0,
     achievedCoverages: [],
     scenarios: null,
-    scenarioProcessingLimit: 100,
+    scenarioProcessingLimit: 200,
 
     generateScenarios: function(pageModel, scenarioExecutedCallback)
     {
@@ -103,17 +103,7 @@ fcScenarioGenerator.ScenarioGenerator =
     {
         for(var i = 0; i < eventRegistrations.length; i++)
         {
-            var eventRegistration = eventRegistrations[i];
-
-            var newScenario = new fcScenarioGenerator.Scenario
-            ([new fcScenarioGenerator.Event
-            (
-                eventRegistration.thisObjectDescriptor,
-                eventRegistration.thisObjectModel,
-                eventRegistration.eventType,
-                eventRegistration.registrationConstruct,
-                eventRegistration.handlerConstruct
-            )]);
+            var newScenario = new fcScenarioGenerator.Scenario([this._createEventFromEventRegistration(eventRegistrations[i])]);
 
             newScenario.createdBy = "extendingWithNewEvent";
 
@@ -172,14 +162,7 @@ fcScenarioGenerator.ScenarioGenerator =
     {
         var newScenario = scenario.createCopy();
 
-        newScenario.events.push(new fcScenarioGenerator.Event
-        (
-            eventRegistration.thisObjectDescriptor,
-            eventRegistration.thisObjectModel,
-            eventRegistration.eventType,
-            eventRegistration.registrationConstruct,
-            eventRegistration.handlerConstruct
-        ));
+        newScenario.events.push(this._createEventFromEventRegistration(eventRegistration));
 
         newScenario.createdBy = "extendingWithNewEvent";
         newScenario.generateFingerprint();
@@ -187,6 +170,22 @@ fcScenarioGenerator.ScenarioGenerator =
         newScenario.parentScenarios.push(scenario);
 
         scenarios.addScenario(newScenario);
+    },
+
+    _createEventFromEventRegistration: function(eventRegistration)
+    {
+        var event = new fcScenarioGenerator.Event
+        (
+            eventRegistration.thisObjectDescriptor,
+            eventRegistration.thisObjectModel,
+            eventRegistration.eventType,
+            eventRegistration.registrationConstruct,
+            eventRegistration.handlerConstruct
+        );
+
+        event.timePeriod = eventRegistration.timePeriod;
+
+        return event;
     },
 
     _createNewScenariosByAppendingParametrizedEvents: function(scenario, scenarios, eventRegistration, parametrizedEventsLog)

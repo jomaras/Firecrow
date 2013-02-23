@@ -273,10 +273,11 @@ fcScenarioGenerator.ScenarioCollection.prototype =
             var scenario = scenarios[i];
 
             if(scenario.events.length == 1){ return scenario; }
-            if(scenario.createdBy === "symbolic" || scenario.createdBy === "extendingWithNewEvent")
+            if(scenario.createdBy === "extendingWithNewEvent") { return scenario; }
+            /*if(scenario.createdBy === "symbolic" || scenario.createdBy === "extendingWithNewEvent")
             {
                 return scenario;
-            }
+            }*/
         }
 
         return null;
@@ -656,7 +657,16 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     {
         var coverageCoefficient = 1;
 
-        for(var i = 0; i < scenario.events.length; i++)
+        //By grouping timing events we assign more probability
+        //that consecutive timing events will be executed
+        var eventGroups = this._groupTimingEvents(scenario.events);
+
+        for(var i = 0; i < eventGroups.length; i++)
+        {
+            coverageCoefficient *= this._getGroupAverage(eventGroups[i]);
+        }
+
+        /*for(var i = 0; i < scenario.events.length; i++)
         {
             var event = scenario.events[i];
 
@@ -666,9 +676,61 @@ fcScenarioGenerator.ScenarioCollection.prototype =
             {
                 coverageCoefficient *= this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
             }
-        }
+        }*/
 
         return coverageCoefficient;
+    },
+
+    _getGroupAverage: function(eventGroup)
+    {
+        var sum = 0;
+
+        for(var i = 0; i < eventGroup.length; i++)
+        {
+            var event = eventGroup[i];
+            if(this.eventCoverageInfo[event.thisObjectDescriptor] != null
+            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
+            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
+            {
+                sum += this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
+            }
+        }
+
+        return sum/eventGroup.length;
+    },
+
+    _groupTimingEvents: function(events)
+    {
+        var groups = [];
+        var lastGroup = null;
+
+        for(var i = 0; i < events.length; i++)
+        {
+            var event = events[i];
+
+            if(event.eventType == "timeout"
+            || event.eventType == "interval")
+            {
+                if(lastGroup == null)
+                {
+                    lastGroup = [];
+                    groups.push(lastGroup);
+                }
+                else
+                {
+                    debugger;
+                }
+
+                lastGroup.push(event);
+            }
+            else
+            {
+                lastGroup = null;
+                groups.push([event]);
+            }
+        }
+
+        return groups;
     }
 };
 /*****************************************************/
