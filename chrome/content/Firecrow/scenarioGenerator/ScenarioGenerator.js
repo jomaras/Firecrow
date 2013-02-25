@@ -149,21 +149,26 @@ fcScenarioGenerator.ScenarioGenerator =
     {
         for(var i = 0; i < eventRegistrations.length; i++)
         {
-            if(eventRegistrations[i].handler.jsValue == null) { debugger; continue; }
+            var eventRegistration = eventRegistrations[i];
 
-            var newScenario = new fcScenarioGenerator.Scenario([this._createEventFromEventRegistration(eventRegistrations[i], browser)]);
+            if(eventRegistration.handler.jsValue == null) { continue; }
+
+            var newScenario = new fcScenarioGenerator.Scenario([this._createEventFromEventRegistration(eventRegistration, browser)]);
 
             newScenario.createdBy = "extendingWithNewEvent";
 
             scenarios.addScenario(newScenario);
+
+            if(eventRegistration.eventType == "timeout" || eventRegistration.eventType == "interval")
+            {
+                this._createAdditionalTimingEvents(eventRegistration, newScenario.events, null, newScenario);
+            }
         }
     },
 
     _createDerivedScenarios: function(pageModel, scenario, scenarios, scenarioExecutedCallback)
     {
         var executionResult = this._executeScenario(pageModel, scenario, scenarios);
-
-        var executionInfo = executionResult;
 
         if(scenarioExecutedCallback != null) { scenarioExecutedCallback(scenario); }
 
@@ -215,13 +220,19 @@ fcScenarioGenerator.ScenarioGenerator =
     {
         var newScenario = scenario.createCopy();
 
-        newScenario.events.push(this._createEventFromEventRegistration(eventRegistration, browser));
+        var newEvent = this._createEventFromEventRegistration(eventRegistration, browser);
+        newScenario.events.push(newEvent);
         newScenario.createdBy = "extendingWithNewEvent";
         newScenario.generateFingerprint();
 
         newScenario.parentScenarios.push(scenario);
 
         scenarios.addScenario(newScenario);
+
+        if(newEvent.eventType == "timeout" || newEvent.eventType == "interval")
+        {
+            this._createAdditionalTimingEvents(newEvent, newScenario.events, null, newScenario);
+        }
     },
 
     _createEventFromEventRegistration: function(eventRegistration, browser)
@@ -297,10 +308,6 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             mergedInputConstraint.append(singleItemConstraint);
         }
-        else
-        {
-            debugger;
-        }
 
         var newScenario = new fcScenarioGenerator.Scenario(mergedEvents, mergedInputConstraint, [scenario]);
         newScenario.createdBy = "extendingWithExistingEvent";
@@ -308,16 +315,25 @@ fcScenarioGenerator.ScenarioGenerator =
 
         if(parametrizedEvent.baseEvent.eventType == "timeout" || parametrizedEvent.baseEvent.eventType == "interval")
         {
-            var times = Math.floor(200/parametrizedEvent.baseEvent.timePeriod);
-            if(!Number.isNaN(times) && times > 0)
+            this._createAdditionalTimingEvents(parametrizedEvent.baseEvent, mergedEvents, mergedInputConstraint, scenario);
+        }
+    },
+
+    _createAdditionalTimingEvents: function(event, previousEvents, inputConstraint, parentScenario)
+    {
+        var times = Math.floor(200/event.timePeriod);
+
+        if(!Number.isNaN(times) && times > 0)
+        {
+            previousEvents = previousEvents.slice();
+
+            for(var i = 0; i < times; i++)
             {
-                for(var i = 0; i < times; i++)
-                {
-                    mergedEvents.push(parametrizedEvent.baseEvent);
-                    var newScenario = new fcScenarioGenerator.Scenario(mergedEvents.slice(), mergedInputConstraint.createCopy(), [scenario]);
-                    newScenario.createdBy = "extendingWithExistingEvent";
-                    scenarios.addScenario(newScenario);
-                }
+                previousEvents.push(event);
+
+                var newScenario = new fcScenarioGenerator.Scenario(previousEvents, inputConstraint && inputConstraint.createCopy(), [parentScenario]);
+                newScenario.createdBy = "extendingWithExistingEvent";
+                this.scenarios.addScenario(newScenario);
             }
         }
     },
