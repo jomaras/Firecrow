@@ -95,8 +95,11 @@
                     document.body.appendChild(a)
                 }
             }
-            function e() {
-                if (document.f && document.f.btnI) document.f.btnI.onclick = function () {
+            function e()
+            {
+                var button = document.getElementById("btnI");
+                button.onclick = function ()
+                {
                     typeof google.pacman != "undefined" ? google.pacman.insertCoin() : d(false);
                     return false
                 }
@@ -117,7 +120,7 @@
                 <td align='center' nowrap><br style="line-height:0" />
           <span class='ds'>
             <span class='lsbb'>
-              <input name='btnI' type='submit' value="Insert Coin" class='lsb' />
+              <input id="btnI" name='btnI' type='submit' value="Insert Coin" class='lsb' />
             </span>
           </span>
                 </td>

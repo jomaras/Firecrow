@@ -22,7 +22,7 @@ TINY.slider=function(){
 	},
 	slide.prototype.auto=function(){
         var that = this;
-		this.x.ai=setInterval(function(){ that.move(1,1,1)}, this.a*1000);
+		//this.x.ai=setInterval(function(){ that.move(1,1,1)}, this.a*1000);
 	},
 	slide.prototype.move=function(d,a){
 		var n=this.c+d;

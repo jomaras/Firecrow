@@ -213,6 +213,20 @@ Firecrow.ASTHelper =
         return false;
     },
 
+    getNodeWithId: function(pageModel, nodeId)
+    {
+        var foundNode = null;
+        this.traverseAst(pageModel, function(currentElement)
+        {
+            if(currentElement.nodeId == nodeId)
+            {
+                foundNode = currentElement;
+            }
+        });
+
+        return foundNode;
+    },
+
     getFunctionCoverageInfo: function(functionConstruct, executionId)
     {
         var ASTHelper = this;
@@ -732,6 +746,7 @@ Firecrow.ASTHelper =
                 || propName == "inclusionDependencyConstraint"
                 || propName == "blockStackConstructs"
                 || propName == "executorEventsMap"
+                || propName == "simpleDependencies"
                 || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
             var propertyValue = astElement[propName];
@@ -781,6 +796,7 @@ Firecrow.ASTHelper =
                 || propName == "eventTraces"
                 || propName == "inclusionDependencyConstraint"
                 || propName == "blockStackConstructs"
+                || propName == "simpleDependencies"
                 || propName == "executorEventsMap") { continue; }
 
             var propertyValue = astElement[propName];

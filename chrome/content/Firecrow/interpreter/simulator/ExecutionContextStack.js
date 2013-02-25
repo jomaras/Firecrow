@@ -100,7 +100,7 @@ fcSimulator.ExecutionContextStack = function(globalObject, handlerInfo)
 
         this._enterInitialContext(handlerInfo);
     }
-    catch(e) { this.notifyError("Error when constructing executionContextStack: " + e); }
+    catch(e) { debugger; this.notifyError("Error when constructing executionContextStack: " + e); }
 };
 
 fcSimulator.ExecutionContextStack.prototype =
@@ -293,7 +293,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
                     if(i != this.stack.length - 1 || j != scopeChain.length - 1)
                     {
-                        this.globalObject.browser.logSettingOutsideCurrentScopeIdentifierValue(identifier);
+                        this.globalObject.browser.logModifyingExternalContextIdentifier(identifier);
                     }
 
                     return;
@@ -714,7 +714,9 @@ fcSimulator.ExecutionContextStack.prototype =
     {
         if(functionConstruct == null || functionConstruct.params == null)
         {
-            this.notifyError("Error when constructing executionContextStack: " + e);
+            debugger;
+            this.notifyError("Error when getting formal parameters");
+            return;
         }
 
         return functionConstruct.params.map(function(param)

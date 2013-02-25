@@ -377,10 +377,7 @@ fcSimulator.prototype =
     {
         var conditionValue = this.executionContextStack.getExpressionValue(conditionalCommand.codeConstruct.test);
 
-        if(conditionValue.symbolicValue != null)
-        {
-            this.globalObject.browser.addPathConstraint(conditionalCommand.codeConstruct, conditionValue.symbolicValue, !conditionValue.jsValue);
-        }
+        this.globalObject.browser.addPathConstraint(conditionalCommand.codeConstruct, conditionValue.symbolicValue, !conditionValue.jsValue);
 
         ValueTypeHelper.insertElementsIntoArrayAtIndex
         (
@@ -406,7 +403,7 @@ fcSimulator.prototype =
         || caseCommand.parent.hasBeenMatched //falls through
         || caseValue.jsValue == switchDiscriminantValue.jsValue)
         {
-            if(!caseCommand.parent.hasBeenMatched && pathConstraint != null) //On first matching case - add path
+            if(!caseCommand.parent.hasBeenMatched) //On first matching case - add path
             {
                 this.globalObject.browser.addPathConstraint(caseCommand.parent, pathConstraint);
             }
@@ -418,10 +415,7 @@ fcSimulator.prototype =
         }
         else //will not generate case commands - add inverted path constraint
         {
-            if(pathConstraint != null)
-            {
-                this.globalObject.browser.addPathConstraint(caseCommand.parent, pathConstraint, true);
-            }
+            this.globalObject.browser.addPathConstraint(caseCommand.parent, pathConstraint, true);
         }
     },
 

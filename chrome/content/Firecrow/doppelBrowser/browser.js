@@ -103,6 +103,11 @@ Browser.prototype =
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
 
+    getEventRegistrations: function()
+    {
+        return this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers).concat(this.globalObject.htmlElementEventHandlingRegistrations);
+    },
+
     setLoadingEventsExecuted: function()
     {
         this.loadingEventsExecuted = true;
@@ -341,9 +346,11 @@ Browser.prototype =
             }
         }
 
-        codeConstruct.hasBeenExecuted = true;
+        //TODO - add command that represents statment execution, from the perspective of
+        //the evaluator it does nothing, but it can be usefull for determining coverage
+        this.executionInfo.logExecutedConstruct(ASTHelper.getParentStatementOrFunction(codeConstruct));
 
-        this.executionInfo.logExecutedConstruct(codeConstruct);
+        codeConstruct.hasBeenExecuted = true;
     },
 
     getForInIterationsLog: function()
@@ -366,9 +373,9 @@ Browser.prototype =
         this.executionInfo.logForInIteration(codeConstruct, objectPrototype);
     },
 
-    logSettingOutsideCurrentScopeIdentifierValue: function(identifier)
+    logModifyingExternalContextIdentifier: function(identifier)
     {
-        this.executionInfo.logSettingOutsideCurrentScopeIdentifierValue(identifier);
+        this.executionInfo.logModifyingExternalContextIdentifier(identifier);
     },
 
     logReadingIdentifierOutsideCurrentScope: function(identifier, codeConstruct)
@@ -389,6 +396,11 @@ Browser.prototype =
     addPathConstraint: function(codeConstruct, constraint, inverse)
     {
         this.executionInfo.addConstraint(codeConstruct, constraint, inverse);
+    },
+
+    simpleDependencyEstablished: function(fromConstruct, toConstruct)
+    {
+        this.executionInfo.logDependencies(fromConstruct, toConstruct);
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)
@@ -454,9 +466,19 @@ Browser.prototype =
 
     matchesSelector: function(htmlElement, selector)
     {
-        if(this._matchesSelector == null || htmlElement instanceof DocumentFragment || htmlElement instanceof Text || htmlElement == null) { return false; }
+        if(htmlElement == null || this._matchesSelector == null
+        || ValueTypeHelper.isDocumentFragment(htmlElement) || ValueTypeHelper.isTextNode(htmlElement)
+        || ValueTypeHelper.isDocument(htmlElement)) { return false; }
 
-        return this._matchesSelector.call(htmlElement, selector);
+        try
+        {
+            return this._matchesSelector.call(htmlElement, selector);
+        }
+        catch(e)
+        {
+            debugger;
+            return false;
+        }
     },
 
     _buildJavaScriptNodes: function(scriptHtmlElementModelNode)
@@ -878,6 +900,7 @@ Browser.prototype =
 
     callImportantConstructReachedCallbacks: function(importantNode)
     {
+        this.executionInfo.logImportantModificationReached(importantNode);
         this.importantConstructReachedCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, importantNode);

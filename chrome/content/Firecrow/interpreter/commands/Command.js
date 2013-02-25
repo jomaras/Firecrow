@@ -25,7 +25,7 @@ Firecrow.Interpreter.Commands.Command = function(codeConstruct, type, parentFunc
 
 Firecrow.Interpreter.Commands.Command.LAST_COMMAND_ID = 0;
 
-Firecrow.Interpreter.Commands.Command.notifyError = function(message) { alert("Command - " + message); }
+Firecrow.Interpreter.Commands.Command.notifyError = function(message) { debugger; alert("Command - " + message); }
 
 Firecrow.Interpreter.Commands.Command.createAssignmentCommand = function(codeConstruct, parentFunctionCommand)
 {
@@ -57,6 +57,7 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
 
     if(functionObject == null || !ASTHelper.isFunction(functionObject.codeConstruct))
     {
+        debugger;
         this.notifyError("Calle code construct has to be a function");
     }
 

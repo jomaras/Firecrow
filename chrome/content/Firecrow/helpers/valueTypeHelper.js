@@ -12,6 +12,18 @@ Firecrow.ValueTypeHelper =
         }
     },
 
+    objectHasProperties: function(object)
+    {
+        if(object == null) { return false; }
+
+        for(var prop in object)
+        {
+            return true;
+        }
+
+        return false;
+    },
+
     isOfType: function (variable, className)
     {
         return variable instanceof className;

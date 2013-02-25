@@ -10,78 +10,6 @@
  http://creativecommons.org/licenses/by/3.0/
  See readme.txt for full credit details.
  --------------------------------------------------------- */
-
-var xmlhttp
-/*@cc_on @*/
-/*@if (@_jscript_version >= 5)
- try {
- xmlhttp=new ActiveXObject("Msxml2.XMLHTTP")
- } catch (e) {
- try {
- xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")
- } catch (E) {
- xmlhttp=false
- }
- }
- @else
- xmlhttp=false
- @end @*/
-if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-    try {
-        xmlhttp = new XMLHttpRequest();
-    } catch (e) {
-        xmlhttp=false
-    }
-}
-function myXMLHttpRequest() {
-    var xmlhttplocal;
-    try {
-        xmlhttplocal= new ActiveXObject("Msxml2.XMLHTTP")
-    } catch (e) {
-        try {
-            xmlhttplocal= new ActiveXObject("Microsoft.XMLHTTP")
-        } catch (E) {
-            xmlhttplocal=false;
-        }
-    }
-
-    if (!xmlhttplocal && typeof XMLHttpRequest!='undefined') {
-        try {
-            var xmlhttplocal = new XMLHttpRequest();
-        } catch (e) {
-            var xmlhttplocal=false;
-            alert('couldn\'t create xmlhttp object');
-        }
-    }
-    return(xmlhttplocal);
-}
-
-function sndReq(vote,id_num,ip_num,units) {
-    var theUL = document.getElementById('unit_ul'+id_num); // the UL
-
-    // switch UL with a loading div
-    theUL.innerHTML = '<div class="loading"></div>';
-
-    xmlhttp.open('get', 'rpc.php?j='+vote+'&q='+id_num+'&t='+ip_num+'&c='+units);
-    xmlhttp.onreadystatechange = handleResponse;
-    xmlhttp.send(null);
-}
-
-function handleResponse() {
-    if(xmlhttp.readyState == 4){
-        if (xmlhttp.status == 200){
-
-            var response = xmlhttp.responseText;
-            var update = new Array();
-
-            if(response.indexOf('|') != -1) {
-                update = response.split('|');
-                changeText(update[0], update[1]);
-            }
-        }
-    }
-}
-
 function changeText( div2show, text ) {
     // Detect Browser
     var IE = (document.all) ? 1 : 0;
@@ -117,7 +45,7 @@ var ratingAction = {
             var theunits = parameterList['c'];
 
             //for testing	alert('sndReq('+theVote+','+theratingID+','+theuserIP+','+theunits+')'); return false;
-            sndReq(theVote,theratingID,theuserIP,theunits); return false;
+            return false;
         }
     }
 

@@ -1,20 +1,40 @@
-<html><head>
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
     <style>
-        #container {
-            background-color: rgb(255,0,0);
-            width: 200px; height: 200px;
+        #firstContainer
+        {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+
+        #secondContainer
+        {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
         }
     </style>
 </head>
 <body>
-<div id="container"></div>
-<script>
-   var globalVariable = 1;
-   var container = document.getElementById("container");
-   container.onclick = function()
-   {
+<div id="firstContainer"></div>
+<div id="secondContainer"></div>
 
-   }
+<script>
+    var firstContainer = document.getElementById("firstContainer");
+    var secondContainer = document.getElementById("secondContainer");
+
+    firstContainer.onmousedown = function()
+    {
+        firstContainer.textContent += "mDown";
+    };
+
+    secondContainer.onmousedown = function()
+    {
+        secondContainer.textContent += "mDown";
+    };
 </script>
 </body>
 </html>

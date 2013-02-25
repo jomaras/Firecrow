@@ -217,18 +217,19 @@ fcSimulator.InternalExecutor.prototype =
             if(thisObject == null) { this.notifyError("This object can not be null when executing function!"); return; }
 
                  if (callCommand.isCall || callCommand.isApply) { return this._executeCallApplyFunction(thisObject, functionObject, args, callExpression, callCommand); }
-            else if (thisObject.fcValue != null && thisObject.fcValue.constructor == fcModel.Array) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
+            else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.Array) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
             else if (thisObject == this.globalObject.fcObjectFunction) { return fcModel.ObjectExecutor.executeInternalObjectFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
             else if (ValueTypeHelper.isString(thisObject.jsValue)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, args, callExpression, callCommand); }
-            else if (thisObject.fcValue != null && thisObject.fcValue.constructor == fcModel.RegEx) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, args, callExpression); }
+            else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.RegEx) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject == this.globalObject.jsFcDocument){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression);}
             else if (ValueTypeHelper.isHtmlElement(thisObject.jsValue) || ValueTypeHelper.isDocumentFragment(thisObject.jsValue)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue.constructor == fcModel.CSSStyleDeclaration) { return fcModel.CSSStyleDeclarationExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
-            else if (thisObject.fcValue != null && thisObject.fcValue.constructor == fcModel.Date) { return fcModel.DateExecutor.executeInternalDateMethod(thisObject, functionObject, args, callExpression); }
+            else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.Date) { return fcModel.DateExecutor.executeInternalDateMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.jsValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeFunctionMethod(thisObject, functionObject, args, callExpression, this.globalObject); }
             else if (thisObject == this.globalObject.fcMath) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.Event){ return fcModel.EventExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.CanvasContext){ return fcModel.CanvasContextExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
+            else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.LinearGradient){ return fcModel.LinearGradientExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject == this.globalObject.fcArrayFunction) { return fcModel.ArrayExecutor.executeInternalArrayMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand); }
             else if (thisObject == this.globalObject.fcStringFunction) { return fcModel.StringExecutor.executeInternalStringMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand); }
             else if (functionObject.isInternalFunction) { return this._executeInternalFunction(thisObject, functionObject, args, callExpression, callCommand); }
@@ -332,7 +333,7 @@ fcSimulator.InternalExecutor.prototype =
              if (functionObject.jsValue == this.globalObject.arrayFunction) { return this.createArray(callExpression, Array.apply(null, args)); }
         else if (functionObject.jsValue == this.globalObject.regExFunction) { return this.createRegEx(callExpression, Array.apply(null, args.map(function(item){ return item.jsValue; }))); }
         else if (functionObject.jsValue != null && functionObject.jsValue.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
-        else if (fcModel.ArrayExecutor.isInternalArrayMethod(functionObject.jsValue))  { fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
+        else if (fcModel.ArrayExecutor.isInternalArrayMethod(functionObject.jsValue))  { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
         else if (fcModel.StringExecutor.isInternalStringFunctionMethod(functionObject.jsValue))  { return this._executeInternalStringFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (functionObject.jsValue.name == "bind") { return this._executeBindFunction(thisObject, functionObject, args, callExpression); }

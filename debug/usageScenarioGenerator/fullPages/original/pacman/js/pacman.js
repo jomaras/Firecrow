@@ -3032,13 +3032,9 @@ function () {
     g.preloadImage = function (b) {
         var c = new Image,
             d = google.browser.engine.IE;
-        if (!d) c.onload = g.imageLoaded;
-        c.src = b;
-        d && g.imageLoaded()
-    };
-    g.imageLoaded = function () {
         g.graphicsReady = a;
         g.checkIfEverythingIsReady()
+        c.src = b;
     };
     g.prepareGraphics = function () {
         g.graphicsReady = e;

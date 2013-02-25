@@ -3,7 +3,6 @@ var ticTacToeTable = document.querySelector("#ticTacToeTable");
 var ticTacToeCells = document.querySelectorAll("#ticTacToeTable td");
 var ticTacToeButton = document.querySelector("#ticTacToeContainer .button");
 var ticTacToeLabel = document.querySelector("#ticTacToeLabel");
-var ticTacToeSelector = document.querySelector("#ticTacToePlayerSelection");
 
 var TicTacToe =
 {
@@ -11,8 +10,6 @@ var TicTacToe =
     moves: 0,
     cells: [],
     htmlCells: ticTacToeCells,
-
-    isPlayerX: function() { return this.numberOfPlayedGames % 2 == 1; },
 
     startTickTackToeGame: function()
     {
@@ -43,17 +40,7 @@ var TicTacToe =
         TicTacToe.cells = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
         TicTacToe.turn = "X";
 
-        TicTacToe.artificialIntelligence = new TicTacToe.AIConstructor(TicTacToe.isPlayerX() ? "O" : "X");
-
         TicTacToe.onTurnStart();
-    },
-
-    onTurnStart: function()
-    {
-        if (this.turn === this.artificialIntelligence.side)
-        {
-            TicTacToe.playComputerMove();
-        }
     },
 
     switchTurn: function ()
@@ -85,7 +72,15 @@ var TicTacToe =
         }
         else
         {
-            ticTacToeLabel.textContent = "You Lost!";
+            if(this.turn == "O")
+            {
+                ticTacToeLabel.textContent = "X WON!";
+            }
+            else
+            {
+                ticTacToeLabel.textContent = "O WON!";
+            }
+
         }
 
         TicTacToe.isGameOver = true;
@@ -96,23 +91,18 @@ var TicTacToe =
         for(var i = 0; i < TicTacToe.htmlCells.length; i++)
         {
             var ticTacToeCell = TicTacToe.htmlCells[i];
-            ticTacToeCell.onclick = null;
             ticTacToeCell.innerHTML = "";
         }
     },
 
-    playComputerMove: function()
+    getRandomInt: function (min, max)
     {
-        var move = this.artificialIntelligence.calculateMove(this.cells);
-
-        TicTacToe.markComputerMove(TicTacToe.htmlCells[move[1]*3 + move[0]]);
-
-        this.onTurnFinish();
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     },
 
     markHumanMove: function(cell)
     {
-        var imagePath = this.isPlayerX() ? "images/X.png"
+        var imagePath = this.turn == "X" ? "images/X.png"
                                          : "images/O.png";
 
         TicTacToe.markMove(cell, imagePath);
@@ -129,161 +119,17 @@ var TicTacToe =
         }
     },
 
-    markComputerMove: function(cell)
-    {
-        var imagePath = !this.isPlayerX() ? "images/X.png"
-                                          : "images/O.png";
-        TicTacToe.markMove(cell, imagePath);
-    },
-
     markMove: function(cell, imagePath)
     {
         var image = new Image();
 
         image.src = imagePath;
 
-        if(cell.children.length != 0)
-        {
-            debugger;
-        }
-
         cell.appendChild(image);
 
         var cellIndex = TicTacToe._indexOfCell(cell);
 
         TicTacToe.cells[cellIndex.i][cellIndex.j] = imagePath.indexOf("X") != -1 ? "X" : "O";
-    },
-
-    AIConstructor: function(side)
-    {
-        this.infinity = 99;
-        this.side = side;
-
-        this.calculateMove = function (grid)
-        {
-            function isGridEmpty(grid)
-            {
-                for (var y = 0; y < grid.length; y++)
-                {
-                    for (var x = 0; x < grid[y].length; x++)
-                    {
-                        if (grid[y][x] !== 0) // Cell not empty?
-                            return false;
-                    }
-                }
-
-                return true;
-            }
-
-            if (isGridEmpty(grid))
-            {
-                return [1, 1];
-            }
-
-            grid = grid.slice(0); // Make a copy.
-            grid[0] = grid[0].slice(0);
-            grid[1] = grid[1].slice(0);
-            grid[2] = grid[2].slice(0);
-
-            var move = this._search(grid, this.side, 0, -this.infinity, +this.infinity);
-
-            if (move === 0)
-                throw 'ArtificialIntelligence.calculateMove: drawn game, no move found.';
-
-            return move;
-        };
-
-        this._search = function (grid, side, height, alpha, beta)
-        {
-            var value = this._nodeValue(grid, side);
-
-            if (value !== 0)
-            {
-                if (value > 0)
-                {
-                    return value - height;
-                }
-                else
-                {
-                    return value + height;
-                }
-            }
-
-            var moves = this._generateMoves(grid);
-            if (moves.length === 0)
-                return value; // Draw.
-
-            var bestMove;
-            var otherSide = side === 'X' ? 'O' : 'X';
-
-            for (var i = 0; i < moves.length; i++)
-            {
-                var move = moves[i];
-
-                this._makeMove(grid, move, side);
-
-                var alphaCandidate = -this._search(grid, otherSide, height + 1, -beta, -alpha);
-
-                this._undoMove(grid, move);
-
-                if (beta <= alpha)
-                    break;
-
-                if (alphaCandidate > alpha)
-                {
-                    alpha = alphaCandidate;
-
-                    if (height === 0)
-                        bestMove = move;
-                }
-            }
-
-            return height !== 0 ? alpha : bestMove;
-        };
-
-        this._nodeValue = function (grid, side)
-        {
-            var gameResult = TicTacToe.checkGameOver(grid);
-            if (gameResult === null || gameResult['draw'])
-            {
-                // Game is unfinished or drawn.
-                return 0;
-            }
-            else if (gameResult['winner'] === side)
-            {
-                // 'side' wins when their play is perfect.
-                return this.infinity;
-            }
-            else
-            {
-                // 'side' loses when their opponent's play is perfect.
-                return -this.infinity;
-            }
-        };
-
-        this._generateMoves = function (grid)
-        {
-            var moves = [];
-            for (var y = 0; y < grid.length; y++)
-            {
-                for (var x = 0; x < grid[y].length; x++)
-                {
-                    if (grid[y][x] === 0)
-                        moves.push([x, y]);
-                }
-            }
-            return moves;
-        };
-
-        this._makeMove = function (grid, move, side)
-        {
-            grid[move[1]][move[0]] = side;
-        };
-
-        this._undoMove = function (grid, move)
-        {
-            grid[move[1]][move[0]] = 0;
-        };
     },
 
     checkGameOver: function(grid)

@@ -136,7 +136,7 @@
 </head>
 <body>
     <h1>Firecrow - Debugging Usage Scenario Generator</h1>
-    <iframe id="firecrowFrame" height="1" width="1" style="overflow:scroll;"></iframe>
+    <iframe id="firecrowFrame" height="300" width="300" style="overflow:scroll;"></iframe>
 
     <div class="reportContainer" id="pageCodeContainer"></div>
     <div class="reportContainer">
@@ -162,17 +162,18 @@
 
     </div>
 
-    <!--<script src="usageScenarioGenerator/fullPages/original/idtModel.js"></script>-->
     <script src="usageScenarioGenerator/fullPages/original/snake/modelMapping.js"></script>
+    <!--<script src="usageScenarioGenerator/fullPages/original/snake/modelMapping.js"></script>-->
+    <!--<script src="usageScenarioGenerator/fullPages/original/ticTacToeCase/modelMapping.js"></script>-->
 
     <script type="text/javascript">
         //maybe i should create probability groups, and then from that group choose the one with with least events - see test 15, 16 for the problem
         //test26 - it seems that it does not log writing to html element objects as joint behavior
-        //6, 18 - have problems probably because of always solving to same constraints - have to add making constraints stricter
-        //19
-        //26, 30 only one timeout happens - why not more?
-        var model = models[26];
+        //6, 18, 19 - have problems probably because of always solving to same constraints - have to add making constraints stricter
+        //30 only one timeout happens - why not more?
+        var model = models[9];
         //var model = fullPageModel;
+        var uiControlsSelectors = model.uiControlsSelectors;
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var executedScenarioTracesContainer = document.getElementById("executedScenarioTracesContainer");
@@ -194,7 +195,7 @@
 
         var scGenerator = FBL.Firecrow.ScenarioGenerator;
 
-        scGenerator.ScenarioGenerator.generateScenarios(model.pageModel, function(scenario, eventCoverage)
+        scGenerator.ScenarioGenerator.generateScenarios(model.pageModel, uiControlsSelectors, function(scenario, eventCoverage)
         {
             if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
             {
@@ -231,6 +232,7 @@
                 document.title = scenarioCounter + "/" + scGenerator.ScenarioGenerator.scenarioProcessingLimit + " "
                                + "C:" + scGenerator.ScenarioGenerator.achievedCoverage.toString().substring(0, 4) + " "
                                + "T:" + (timer.getElapsedTimeInSeconds() - lastTime);
+
                 generateScenarioHtml(scenario);
             }
         });

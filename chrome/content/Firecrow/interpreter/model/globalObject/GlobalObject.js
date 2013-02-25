@@ -167,7 +167,8 @@ fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, 
         registrationPoint.codeConstruct,
         handler.codeConstruct,
         this.browser.loadingEventsExecuted,
-        intervalId
+        intervalId,
+        timePeriod
     );
 };
 
@@ -285,6 +286,11 @@ fcModel.GlobalObject.prototype.logForInIteration = function(codeConstruct, objec
 fcModel.GlobalObject.prototype.getLoadedHandlers = function()
 {
     return this.getDOMContentLoadedHandlers().concat(this.getOnLoadFunctions());
+};
+
+fcModel.GlobalObject.prototype.simpleDependencyEstablished = function(fromConstruct, toConstruct)
+{
+    this.browser.simpleDependencyEstablished(fromConstruct, toConstruct);
 };
 
 fcModel.GlobalObject.prototype.getDOMContentLoadedHandlers = function()

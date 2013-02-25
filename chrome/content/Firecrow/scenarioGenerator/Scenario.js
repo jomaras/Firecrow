@@ -169,14 +169,13 @@ fcScenarioGenerator.Scenario.prototype =
         {
             var iThEvent = this.events[i];
 
-            for(var j = 0; j <  scenario.events.length; j++)
+            for(var j = 0; j < scenario.events.length; j++)
             {
                 var jThEvent = scenario.events[j];
 
                 if(fcScenarioGenerator.Event.areEqual(iThEvent, jThEvent))
                 {
                     matchingEventsCount++;
-                    break;
                 }
             }
         }
@@ -202,13 +201,14 @@ fcScenarioGenerator.Scenario.prototype =
     }
 };
 
-fcScenarioGenerator.ScenarioCollection = function()
+fcScenarioGenerator.ScenarioCollection = function(uiControlSelectors)
 {
     this.lengthGroups = [];
     this.scenarios = [];
     this.eventVisitedFunctionsInfo = {};
     this.currentIndex = 0;
     this.scenarioMap = {};
+    this.eventPriorityMap = {};
 };
 
 fcScenarioGenerator.ScenarioCollection.prototype =
@@ -217,6 +217,18 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     fifoPrioritization: false,
     eventLengthPrioritization: false,
     maximizingPathCoveragePrioritization: true,
+
+    assignEventPriority: function(eventRegistration, eventPriority)
+    {
+        if(eventRegistration == null) { return;}
+
+        if(this.eventPriorityMap[eventRegistration.thisObjectDescriptor] == null)
+        {
+            this.eventPriorityMap[eventRegistration.thisObjectDescriptor] = {};
+        }
+
+        this.eventPriorityMap[eventRegistration.thisObjectDescriptor][eventRegistration.eventType] = eventPriority;
+    },
 
     getNext: function()
     {
@@ -310,7 +322,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         {
             var weightedIndex = [];
 
-            var scenarioCoverage = this._getScenarioEventsCoverageCoefficient(scenarios[i]);
+            var scenarioCoverage = this._getScenarioPriorityCoefficient(scenarios[i]);
 
             //leave them a chance, but a very small one
             if(scenarioCoverage == 1) { scenarioCoverage = 0.999; }
@@ -469,58 +481,31 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         return nonExecutedScenarios;
     },
 
-    getProcessedScenarios: function()
-    {
-        var allScenarios = [];
-
-        for(var i = 0; i < this.lengthGroups.length; i++)
-        {
-            var lengthScenarios = this.lengthGroups[i];
-
-            if(lengthScenarios == null) { continue; }
-
-            for(var j = 0; j <= lengthScenarios.currentIndex; j++)
-            {
-                if(lengthScenarios[j].executionInfo != null)
-                {
-                    allScenarios.push(lengthScenarios[j]);
-                }
-            }
-        }
-
-        return allScenarios;
-    },
-
-    compareEvents: false,
+    compareEvents: true,
     waitInterval: -1,
 
     getSubsumedProcessedScenarios: function()
     {
-        var processedScenarios = this.getProcessedScenarios();
-
-        return processedScenarios;
+        var processedScenarios = this.getExecutedScenarios();
 
         var subsumedScenariosMap = [];
-
-        var timer = this.waitInterval > 0 ? Firecrow.TimerHelper.createTimer() : null;
 
         for(var i = 0; i < processedScenarios.length; i++)
         {
             var iThScenario = processedScenarios[i];
 
+            document.title = "Subsuming " + i + "/" + processedScenarios.length;
+
             var hasFoundMatch = false;
 
-            if(timer && timer.hasMoreThanSecondsElapsed(this.waitInterval))
+            var lastEvent = iThScenario.events[iThScenario.events.length - 1];
+
+            if(lastEvent != null && this.eventPriorityMap[lastEvent.thisObjectDescriptor][lastEvent.eventType] > fcScenarioGenerator.ScenarioGenerator.uiControlEventPriority)
             {
-                if(!confirm("Scenario - getSubsumedProcessedScenarios has been running for more than " + this.waitInterval
-                          + " seconds, Continue?" + i + ", " + j + " of " + processedScenarios.length))
+                if(!iThScenario.executionInfo.lastExecutionSummaryModifiesDom())
                 {
-                    return ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
+                    continue;
                 }
-
-                this.waitInterval *= 2;
-
-                timer = Firecrow.TimerHelper.createTimer();
             }
 
             for(var j = i + 1; j < processedScenarios.length; j++)
@@ -548,6 +533,8 @@ fcScenarioGenerator.ScenarioCollection.prototype =
                     delete subsumedScenariosMap[iThScenario.id];
 
                     subsumedScenariosMap[chosenScenario.id] = chosenScenario;
+
+                    if(chosenScenario == jThScenario) { break; }
                 }
                 else if(executionInfoComparison.isFirstSubsetOfSecond)
                 {
@@ -556,6 +543,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
                     delete subsumedScenariosMap[iThScenario.id];
 
                     subsumedScenariosMap[jThScenario.id] = jThScenario;
+                    break;
                 }
                 else if (executionInfoComparison.isSecondSubsetOfFirst)
                 {
@@ -645,7 +633,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
                     if(scenario.coverage == 1) { continue; }
 
-                    scenario.setCoverage(this._getScenarioEventsCoverageCoefficient(scenario));
+                    scenario.setCoverage(this._getScenarioPriorityCoefficient(scenario));
 
                     updatedScenariosMap[scenarioId] = true;
                 }
@@ -653,20 +641,20 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         }
     },
 
-    _getScenarioEventsCoverageCoefficient: function(scenario)
+    _getScenarioPriorityCoefficient: function(scenario)
     {
         var coverageCoefficient = 1;
 
         //By grouping timing events we assign more probability
         //that consecutive timing events will be executed
-        var eventGroups = this._groupTimingEvents(scenario.events);
+        /*var eventGroups = this._groupTimingEvents(scenario.events);
 
         for(var i = 0; i < eventGroups.length; i++)
         {
             coverageCoefficient *= this._getGroupAverage(eventGroups[i]);
-        }
+        }*/
 
-        /*for(var i = 0; i < scenario.events.length; i++)
+        for(var i = 0; i < scenario.events.length; i++)
         {
             var event = scenario.events[i];
 
@@ -675,8 +663,13 @@ fcScenarioGenerator.ScenarioCollection.prototype =
             && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
             {
                 coverageCoefficient *= this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
+
+                if(this.eventPriorityMap[event.thisObjectDescriptor] != null && this.eventPriorityMap[event.thisObjectDescriptor][event.eventType] !== null)
+                {
+                    coverageCoefficient *= this.eventPriorityMap[event.thisObjectDescriptor][event.eventType];
+                }
             }
-        }*/
+        }
 
         return coverageCoefficient;
     },
@@ -684,6 +677,19 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     _getGroupAverage: function(eventGroup)
     {
         var sum = 0;
+
+        if(eventGroup.length == 1)
+        {
+            var event = eventGroup[0];
+            if(this.eventCoverageInfo[event.thisObjectDescriptor] != null
+            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
+            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
+            {
+                return this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
+            }
+
+            return 0;
+        }
 
         for(var i = 0; i < eventGroup.length; i++)
         {
@@ -715,10 +721,6 @@ fcScenarioGenerator.ScenarioCollection.prototype =
                 {
                     lastGroup = [];
                     groups.push(lastGroup);
-                }
-                else
-                {
-                    debugger;
                 }
 
                 lastGroup.push(event);

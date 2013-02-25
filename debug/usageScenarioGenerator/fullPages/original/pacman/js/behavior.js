@@ -116,7 +116,7 @@ document.getElementsBySelector = function(selector) {
     }
     // Split selector in to tokens
     var tokens = selector.split(' ');
-    var currentContext = new Array(document);
+    var currentContext = [document];
     for (var i = 0; i < tokens.length; i++) {
         token = tokens[i].replace(/^\s+/,'').replace(/\s+$/,'');;
         if (token.indexOf('#') > -1) {
@@ -155,7 +155,7 @@ document.getElementsBySelector = function(selector) {
                     found[foundCount++] = elements[j];
                 }
             }
-            currentContext = new Array;
+            currentContext = [];
             var currentContextIndex = 0;
             for (var k = 0; k < found.length; k++) {
                 if (found[k].className && found[k].className.match(new RegExp('\\b'+className+'\\b'))) {
@@ -187,7 +187,7 @@ document.getElementsBySelector = function(selector) {
                     found[foundCount++] = elements[j];
                 }
             }
-            currentContext = new Array;
+            currentContext = [];
             var currentContextIndex = 0;
             var checkFunction; // This function will be used to filter the elements
             switch (attrOperator) {
@@ -213,7 +213,7 @@ document.getElementsBySelector = function(selector) {
                     // Just test for existence of attribute
                     checkFunction = function(e) { return e.getAttribute(attrName); };
             }
-            currentContext = new Array;
+            currentContext = [];
             var currentContextIndex = 0;
             for (var k = 0; k < found.length; k++) {
                 if (checkFunction(found[k])) {

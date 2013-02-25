@@ -49,7 +49,6 @@ fcModel.CanvasContext.prototype.addJsProperty = function(propertyName, propertyV
     fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.canvas, this.globalObject, assignmentExpression);
 };
 
-
 fcModel.CanvasContextPrototype = function(globalObject)
 {
     this.initObject(globalObject);
@@ -120,7 +119,7 @@ fcModel.CanvasContextExecutor =
 
         try
         {
-            thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+            var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
         }
         catch(e)
         {
@@ -130,11 +129,66 @@ fcModel.CanvasContextExecutor =
             //console.log(e);
         }
 
+        if(functionName == "createLinearGradient")
+        {
+            return new fcModel.fcValue(result, new fcModel.LinearGradient(globalObject, thisObjectValue, thisObject.iValue.canvas, result), callExpression, null);
+        }
+        else
+        {
+            thisObject.iValue.canvas.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+            fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObject.iValue.canvas, globalObject, callExpression);
+
+            return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression);
+        }
+    }
+};
+
+fcModel.LinearGradient = function(globalObject, canvasContext, canvas, linearGradient)
+{
+    this.initObject(globalObject);
+    this.constructor = fcModel.LinearGradient;
+
+    this.canvasContext = canvasContext;
+    this.canvas = canvas;
+    this.linearGradient = linearGradient;
+
+    this.addProperty
+    (
+        "addColorStop", new fcModel.fcValue(this.linearGradient.addColorStop, fcModel.Function.createInternalNamedFunction(globalObject, "addColorStop", this), null),
+        null,
+        false
+    );
+};
+
+fcModel.LinearGradient.prototype = new fcModel.Object();
+
+fcModel.LinearGradient.prototype.addJsProperty = function(propertyName, propertyValue, assignmentExpression)
+{
+    this.addProperty(propertyName, propertyValue, assignmentExpression);
+    this.linearGradient[propertyName] = propertyValue.jsValue;
+
+    this.canvas.elementModificationPoints.push({ codeConstruct: assignmentExpression, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
+    fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.canvas, this.globalObject, assignmentExpression);
+};
+
+fcModel.LinearGradientExecutor =
+{
+    executeInternalMethod: function(thisObject, functionObject, args, callExpression)
+    {
+        var functionObjectValue = functionObject.jsValue;
+        var thisObjectValue = thisObject.jsValue;
+        var functionName = functionObjectValue.name;
+        var fcThisValue =  thisObject.iValue;
+        var globalObject = fcThisValue.globalObject;
+        var jsArguments =  args.map(function(argument){ return argument.jsValue;});
+
+        thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+
         thisObject.iValue.canvas.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
         fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObject.iValue.canvas, globalObject, callExpression);
 
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression);
     }
-};
+}
 /*************************************************************************************/
 }});

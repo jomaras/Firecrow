@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Simple JavaScript games</title>
+    <link href="styles/mainStyle.css" rel="Stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="wrap">
+<div id="headerContainer">
+    <div id="menuContainer">
+        <ul id="menu">
+            <li class="homeMenuItem">
+                <a href="?id=home">&nbsp;</a>
+            </li>
+            <li>
+                <br>
+                <div style="font-size: 1.5em">A Case Study Application</div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="centralContainer">
+<div id="centralContentContainer">
+    <div id="appsContent">
+        <div class="appContainer" id="ticTacToeContainer">
+            <label id="ticTacToeLabel">Game not turned on</label>
+            <table id="ticTacToeTable">
+                <tr>
+                    <td class="bottomBorder rightBorder"></td>
+                    <td class="bottomBorder"></td>
+                    <td class="bottomBorder leftBorder"></td>
+                </tr>
+
+                <tr>
+                    <td class="bottomBorder rightBorder"></td>
+                    <td class="bottomBorder"></td>
+                    <td class="bottomBorder leftBorder"></td>
+                </tr>
+
+                <tr>
+                    <td class="rightBorder"></td>
+                    <td ></td>
+                    <td class="leftBorder"></td>
+                </tr>
+            </table>
+            <button class="button">Start Game</button>
+        </div>
+
+        <hr/>
+
+        <div class="appContainer" id="snakeContainer">
+            <canvas id="snakeCanvas" height="310px" width="720px"></canvas>
+            <button class="startButton">Start Game</button>
+        </div>
+    </div>
+</div>
+<div id="sidebarContentContainer">
+    <div class="sideContainer">
+        <div class="tabs">
+            <div class="tab">
+                <input type="radio" id="tab-3" name="SettingsTabs" checked>
+                <label for="tab-3">Tic Tac</label>
+
+                <div class="content">
+                    <form>
+                        <span>First player:</span>
+                        <select id="ticTacToePlayerSelection">
+                            <option value="Human">Human</option>
+                            <option value="Computer">Computer</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab">
+                <input type="radio" id="tab-2" name="SettingsTabs">
+                <label for="tab-2">Snake</label>
+
+                <div class="content">
+                    <form>
+                        <span>Difficulty:</span>
+                        <select id="snakeDifficultySelector">
+                            <option value="Normal">Normal</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="sideContainer">
+        <div class="commercialsContainer">
+            <img src="images/Google.jpg" width="200px" id="commercialImage"/>
+            <div id="commercialSelectorContainer">
+                <table>
+                    <tr>
+                        <td><a href="#" rel="0" class="active"></a></td>
+                        <td><a href="#" rel="1"></a></td>
+                        <td><a href="#" rel="2"></a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<script src="scripts/ticTacToe.js"></script>
+<div id="footerContainer">
+    <p>Josip Maras (josip.maras@fesb.hr), 2013</p>
+</div>
+</body>
+</html>
