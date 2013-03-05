@@ -5,7 +5,7 @@
  *
  * Date: Fri May 21 2010
  */
-
+function initPacman(){
 google.pacman ||
 function () {
     var a = true,
@@ -2129,8 +2129,8 @@ function () {
     };
     g.addEventListeners = function () {
         if (window.addEventListener) {
-            window.addEventListener("keydown", g.handleKeyDown, e);
-            g.canvasEl.addEventListener("click", g.handleClick, e);
+            document.onkeydown = g.handleKeyDown;
+            g.canvasEl.onclick = g.handleClick;
             g.registerTouch()
         } else {
             document.body.attachEvent("onkeydown", g.handleKeyDown);
@@ -3128,7 +3128,10 @@ function () {
             g.flashIframe.style.height = "100px";
             google.dom.append(g.flashIframe);
             g.flashIframeDoc = g.flashIframe.contentDocument;
-            if (g.flashIframeDoc == undefined || g.flashIframeDoc == null) g.flashIframeDoc = g.flashIframe.contentWindow.document;
+            if (g.flashIframeDoc == undefined || g.flashIframeDoc == null)
+            {
+                g.flashIframeDoc = g.flashIframe.contentWindow.document;
+            }
             g.flashIframeDoc.open();
             g.flashIframeDoc.write('<html><head></head><body><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="0" height="0" id="pacman-sound-player" type="application/x-shockwave-flash"> <param name="movie" value="src/swf/pacman10-hp-sound.swf"> <param name="allowScriptAccess" value="always"> <object id="pacman-sound-player-2"  type="application/x-shockwave-flash" data="src/swf/pacman10-hp-sound.swf" width="0" height="0"><param name="allowScriptAccess" value="always"> </object></object></body></html>');
             g.flashIframeDoc.close();
@@ -3194,3 +3197,4 @@ function () {
     };
     g.init();
 }();
+};

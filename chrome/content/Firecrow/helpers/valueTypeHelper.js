@@ -24,6 +24,30 @@ Firecrow.ValueTypeHelper =
         return false;
     },
 
+    getHighestIndexProperty: function(object)
+    {
+        if(object == null) { return null; }
+
+        var highestIndex = Number.NEGATIVE_INFINITY;
+
+        for(var prop in object)
+        {
+            if(this.isStringInteger(prop) || this.isInteger(prop))
+            {
+                var number = prop * 1;
+
+                if(number > highestIndex)
+                {
+                    highestIndex = number;
+                }
+            }
+        }
+
+        if(highestIndex == Number.NEGATIVE_INFINITY) { return null; }
+
+        return highestIndex;
+    },
+
     isOfType: function (variable, className)
     {
         return variable instanceof className;

@@ -10,6 +10,7 @@ fcScenarioGenerator.Event = function(baseObjectDescriptor, baseObjectModel, even
     this.registrationConstruct = registrationConstruct;
     this.handlerConstruct = handlerConstruct;
     this.fingerprint = this.generateFingerprint();
+    this.typeHandlerFingerPrint = this.generateTypeHandlerFingerprint();
 };
 
 fcScenarioGenerator.Event.areEqual = function(eventA, eventB)
@@ -28,6 +29,11 @@ fcScenarioGenerator.Event.prototype =
     generateFingerprint: function()
     {
         return this.thisObjectDescriptor + this.eventType + this.handlerConstruct.nodeId;
+    },
+
+    generateTypeHandlerFingerprint: function()
+    {
+        return this.eventType + this.handlerConstruct.nodeId;
     },
 
     toString: function()

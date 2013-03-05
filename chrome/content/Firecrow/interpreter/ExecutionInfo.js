@@ -51,6 +51,15 @@ FBL.ns(function() { with (FBL) {
             return ValueTypeHelper.objectHasProperties(this.currentEventExecutionInfo.importantModifications);
         },
 
+        executionSummaryFromEndModifiesDom: function(indexFromEnd)
+        {
+            var eventExecutionInfo = this.eventExecutions[this.eventExecutions.length - indexFromEnd];
+
+            if(eventExecutionInfo == null) { return false; }
+
+            return ValueTypeHelper.objectHasProperties(eventExecutionInfo.importantModifications);
+        },
+
         logImportantModificationReached: function(codeConstruct)
         {
             if(codeConstruct == null) { return; }

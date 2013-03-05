@@ -132,7 +132,7 @@ FBL.ns(function() { with (FBL) {
 
         _simplifyOrderInBinary: function(binary)
         {
-            if(binary.left.isLiteral() && binary.right.isIdentifier())
+            if(binary.left.isLiteral() && binary.right.isIdentifier() && binary.operator != "-" && binary.operator != "+")
             {
                 var temp = binary.right;
                 binary.right = binary.left;

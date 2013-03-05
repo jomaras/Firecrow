@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="container">Select</div>
+    <input type="range" min="0" max="1000" value="600" id="slider">
+    <script>
+        var slider = document.getElementById("slider");
+        var container = document.getElementById("container");
+
+        slider.onchange = function()
+        {
+            if(slider.value <= 200)
+            {
+                container.textContent = "< 200";
+            }
+            else if(slider.value > 200 && slider.value < 500)
+            {
+                container.textContent = "> 200 && < 500";
+            }
+            else
+            {
+                container.textContent = "> 500";
+            }
+        }
+    </script>
+</body>
+</html>

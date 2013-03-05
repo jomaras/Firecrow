@@ -1,0 +1,308 @@
+package SeleniumTestRunner;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverBackedSelenium;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import com.thoughtworks.selenium.Selenium;
+
+public class SeleniumTestRunner
+{
+  public static void main(String[] args)
+  {
+    WebDriver driver = new FirefoxDriver();
+    Selenium selenium;
+    Number elementX, elementY;
+    Number leftElementPosition, topElementPosition;
+    String selectDefaultValue = "";
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 0 starting!****");
+    try{selenium.wait(2000);}catch(Exception e) { System.out.println(e); }
+    System.out.println("  Event: interval on window -> {}");
+    System.out.println("----Scenario 0 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 3 starting!****");
+    selectDefaultValue = selenium.getSelectedValue("xpath=/html/body/div/select");
+    selenium.select("xpath=/html/body/div/select",selectDefaultValue);
+    System.out.println("  Event: onchange on /html/body/div/select -> {}");
+    System.out.println("----Scenario 3 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 4 starting!****");
+    selenium.keyDown("dom=document.documentElement", "48");
+    System.out.println("  Event: onkeydown on document -> {keyCode:48}");
+    System.out.println("----Scenario 4 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 5 starting!****");
+    selenium.keyDown("dom=document.documentElement", "57");
+    System.out.println("  Event: onkeydown on document -> {keyCode:57}");
+    System.out.println("----Scenario 5 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 6 starting!****");
+    selenium.keyDown("dom=document.documentElement", "56");
+    System.out.println("  Event: onkeydown on document -> {keyCode:56}");
+    System.out.println("----Scenario 6 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 7 starting!****");
+    selenium.keyDown("dom=document.documentElement", "55");
+    System.out.println("  Event: onkeydown on document -> {keyCode:55}");
+    System.out.println("----Scenario 7 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 8 starting!****");
+    selenium.keyDown("dom=document.documentElement", "54");
+    System.out.println("  Event: onkeydown on document -> {keyCode:54}");
+    System.out.println("----Scenario 8 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 9 starting!****");
+    selenium.keyDown("dom=document.documentElement", "53");
+    System.out.println("  Event: onkeydown on document -> {keyCode:53}");
+    System.out.println("----Scenario 9 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 10 starting!****");
+    selenium.keyDown("dom=document.documentElement", "52");
+    System.out.println("  Event: onkeydown on document -> {keyCode:52}");
+    System.out.println("----Scenario 10 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 11 starting!****");
+    selenium.keyDown("dom=document.documentElement", "51");
+    System.out.println("  Event: onkeydown on document -> {keyCode:51}");
+    System.out.println("----Scenario 11 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 12 starting!****");
+    selenium.keyDown("dom=document.documentElement", "50");
+    System.out.println("  Event: onkeydown on document -> {keyCode:50}");
+    System.out.println("----Scenario 12 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 13 starting!****");
+    selenium.keyDown("dom=document.documentElement", "49");
+    System.out.println("  Event: onkeydown on document -> {keyCode:49}");
+    System.out.println("----Scenario 13 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 14 starting!****");
+    selenium.keyDown("dom=document.documentElement", "87");
+    System.out.println("  Event: onkeydown on document -> {keyCode:87}");
+    System.out.println("----Scenario 14 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 15 starting!****");
+    selenium.keyDown("dom=document.documentElement", "66");
+    System.out.println("  Event: onkeydown on document -> {keyCode:66}");
+    System.out.println("----Scenario 15 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 16 starting!****");
+    selenium.keyDown("dom=document.documentElement", "89");
+    System.out.println("  Event: onkeydown on document -> {keyCode:89}");
+    System.out.println("----Scenario 16 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 17 starting!****");
+    selenium.keyDown("dom=document.documentElement", "71");
+    System.out.println("  Event: onkeydown on document -> {keyCode:71}");
+    System.out.println("----Scenario 17 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 18 starting!****");
+    selenium.keyDown("dom=document.documentElement", "82");
+    System.out.println("  Event: onkeydown on document -> {keyCode:82}");
+    System.out.println("----Scenario 18 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 19 starting!****");
+    selenium.keyDown("dom=document.documentElement", "77");
+    System.out.println("  Event: onkeydown on document -> {keyCode:77}");
+    System.out.println("----Scenario 19 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 20 starting!****");
+    selenium.keyDown("dom=document.documentElement", "1");
+    System.out.println("  Event: onkeydown on document -> {keyCode:1}");
+    System.out.println("----Scenario 20 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 21 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 0 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageX:1,pageY:0}");
+    System.out.println("----Scenario 21 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 23 starting!****");
+    selenium.select("xpath=/html/body/div/select","ship");
+    System.out.println("  Event: onchange on /html/body/div/select -> {DOM_value_FC_0_ID_modello:ship,value:ship}");
+    System.out.println("----Scenario 23 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 247 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 362 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageY:362,pageX:1}");
+    System.out.println("----Scenario 247 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 248 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 0 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageY:0,pageX:1}");
+    System.out.println("----Scenario 248 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 260 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 911 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageY:911,pageX:1}");
+    System.out.println("----Scenario 260 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 272 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 0 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageX:1,pageY:0}");
+    System.out.println("----Scenario 272 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 303 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 0 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageX:1,pageY:0}");
+    System.out.println("----Scenario 303 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 310 starting!****");
+    selectDefaultValue = selenium.getSelectedValue("xpath=/html/body/div/select");
+    selenium.select("xpath=/html/body/div/select",selectDefaultValue);
+    System.out.println("  Event: onchange on /html/body/div/select -> {}");
+    System.out.println("----Scenario 310 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 328 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 0 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageX:1,pageY:0}");
+    System.out.println("----Scenario 328 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 339 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 0 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageX:1,pageY:0}");
+    System.out.println("----Scenario 339 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 350 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 1 - leftElementPosition.intValue();
+    elementY = 0 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageX:1,pageY:0}");
+    System.out.println("----Scenario 350 ended!----");
+    driver.get("file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium = new WebDriverBackedSelenium(driver, "file:///C:/GitWebStorm/Firecrow/debug/usageScenarioGenerator/fullPages/originalMidSimplified/3dmodel/index.html");
+    selenium.waitForPageToLoad("30000");
+    System.out.println("****Scenario 357 starting!****");
+    elementX = 0; elementY = 0;
+    leftElementPosition = selenium.getElementPositionLeft("dom=document.documentElement");
+    topElementPosition = selenium.getElementPositionTop("dom=document.documentElement");
+    elementX = 0 - leftElementPosition.intValue();
+    elementY = 1 - topElementPosition.intValue();
+    if(elementX.intValue() <= 0) { elementX = 1; }
+    if(elementY.intValue() <= 0) { elementY = 1; }
+    selenium.mouseMoveAt("dom=document.documentElement", elementX.intValue() + "," + elementY.intValue());
+    System.out.println("  Event: onmousemove on document -> {pageY:1,pageX:0}");
+    System.out.println("----Scenario 357 ended!----");
+    System.out.println("Test done!");
+  }
+}

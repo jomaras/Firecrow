@@ -4,6 +4,7 @@ var fcScenarioGenerator = Firecrow.ScenarioGenerator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 var fcSymbolic = fcScenarioGenerator.Symbolic;
+var fcModel = Firecrow.Interpreter.Model;
 
 fcScenarioGenerator.ScenarioGenerator =
 {
@@ -15,7 +16,7 @@ fcScenarioGenerator.ScenarioGenerator =
     uiControlsJointSelector: "",
 
     uiControlEventPriority: 0.4,
-    globalObjectEventPriority: 0.5,
+    globalObjectEventPriority: 0.6,
     externalEventPriority: 1,
 
     generateScenarios: function(pageModel, uiControlsSelectors, scenarioExecutedCallback)
@@ -31,6 +32,7 @@ fcScenarioGenerator.ScenarioGenerator =
         this.achievedCoverage = ASTHelper.calculateCoverage(pageModel).expressionCoverage;
 
         this._createInitialRegisteredEventsScenarios(browser, scenarios);
+        this._executeInitialScenarios(pageModel, scenarios, scenarioExecutedCallback);
 
         var processedScenarioCounter = 0;
 
@@ -56,6 +58,33 @@ fcScenarioGenerator.ScenarioGenerator =
         };
 
         setTimeout(asyncLoop, 100);
+    },
+
+    _executeInitialScenarios: function(pageModel, scenarios, scenarioExecutedCallback)
+    {
+        var scenario = scenarios.getNext();
+
+        var executionResultsScenarios = [];
+
+        while(scenario != null)
+        {
+            if(scenarioExecutedCallback != null) { scenarioExecutedCallback(scenario); }
+
+            executionResultsScenarios.push({
+               scenario: scenario,
+               executionResult: this._executeScenario(pageModel, scenario)
+            });
+
+            scenario = scenarios.getNext();
+        }
+
+        for(var i = 0; i < executionResultsScenarios.length; i++)
+        {
+            var executionResultScenario = executionResultsScenarios[i];
+
+            this._createInvertedPathScenarios(executionResultScenario.scenario, scenarios);
+            this._createRegisteredEventsScenarios(executionResultScenario.scenario, scenarios, executionResultScenario.executionResult.browser);
+        }
     },
 
     _setUiControlsSelectors: function(uiControlsSelectors)
@@ -87,7 +116,7 @@ fcScenarioGenerator.ScenarioGenerator =
             for(var eventType in eventCoverageInfo[baseObjectDescriptor])
             {
                 var coverage = eventCoverageInfo[baseObjectDescriptor][eventType].coverage;
-                if(!Number.isNaN(coverage) && coverage < 0.99)
+                if(!Number.isNaN(coverage) && coverage != 1)
                 {
                     return false;
                 }
@@ -153,22 +182,24 @@ fcScenarioGenerator.ScenarioGenerator =
 
             if(eventRegistration.handler.jsValue == null) { continue; }
 
-            var newScenario = new fcScenarioGenerator.Scenario([this._createEventFromEventRegistration(eventRegistration, browser)]);
+            var event = this._createEventFromEventRegistration(eventRegistration, browser);
+
+            var newScenario = new fcScenarioGenerator.Scenario([event]);
 
             newScenario.createdBy = "extendingWithNewEvent";
 
             scenarios.addScenario(newScenario);
 
-            if(eventRegistration.eventType == "timeout" || eventRegistration.eventType == "interval")
+            if(event.eventType == "timeout" || event.eventType == "interval")
             {
-                this._createAdditionalTimingEvents(eventRegistration, newScenario.events, null, newScenario);
+                this._createAdditionalTimingEvents(event, newScenario.events, null, newScenario);
             }
         }
     },
 
     _createDerivedScenarios: function(pageModel, scenario, scenarios, scenarioExecutedCallback)
     {
-        var executionResult = this._executeScenario(pageModel, scenario, scenarios);
+        var executionResult = this._executeScenario(pageModel, scenario);
 
         if(scenarioExecutedCallback != null) { scenarioExecutedCallback(scenario); }
 
@@ -182,11 +213,17 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var i = 0; i < invertedPaths.length; i++)
         {
-            var createdScenario = scenarios.addScenarioByComponents(scenario.events, invertedPaths[i], [scenario]);
+            var invertedPath = invertedPaths[i];
+            var highestIndexProperty = ValueTypeHelper.getHighestIndexProperty(invertedPath.resolvedResult);
 
-            if(createdScenario != null)
+            if(highestIndexProperty !== null)
             {
-                createdScenario.createdBy = "symbolic";
+                var createdScenario = scenarios.addScenarioByComponents(scenario.events.slice(0, highestIndexProperty + 1), invertedPath, [scenario]);
+
+                if(createdScenario != null)
+                {
+                    createdScenario.createdBy = "symbolic";
+                }
             }
         }
     },
@@ -321,7 +358,10 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _createAdditionalTimingEvents: function(event, previousEvents, inputConstraint, parentScenario)
     {
-        var times = Math.floor(200/event.timePeriod);
+        return;
+        if(parentScenario != null && parentScenario.createdBy == "extendingWithTimingEvents") { return; }
+
+        var times = Math.floor(100/event.timePeriod);
 
         if(!Number.isNaN(times) && times > 0)
         {
@@ -332,7 +372,7 @@ fcScenarioGenerator.ScenarioGenerator =
                 previousEvents.push(event);
 
                 var newScenario = new fcScenarioGenerator.Scenario(previousEvents, inputConstraint && inputConstraint.createCopy(), [parentScenario]);
-                newScenario.createdBy = "extendingWithExistingEvent";
+                newScenario.createdBy = "extendingWithTimingEvents";
                 this.scenarios.addScenario(newScenario);
             }
         }
@@ -433,6 +473,11 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _getEventRegistrationFingerprint: function(eventRegistration)
     {
+        if(this.compareOnlyEventTypeAndHandler)
+        {
+            return eventRegistration.eventType + eventRegistration.handlerConstruct.nodeId;
+        }
+
         return eventRegistration.thisObjectDescriptor + eventRegistration.eventType
              + eventRegistration.handlerConstruct.nodeId;
     },
@@ -442,9 +487,9 @@ fcScenarioGenerator.ScenarioGenerator =
         var browser = this._executeApplication(pageModel);
         var parametrizedEvents = this._createParametrizedEvents(scenario);
 
-        this._logParametrizedEvents(scenario, parametrizedEvents);
-
         scenario.setParametrizedEvents(parametrizedEvents);
+
+        this._logParametrizedEvents(scenario, parametrizedEvents);
 
         for(var i = 0; i < parametrizedEvents.length; i++)
         {
@@ -469,28 +514,31 @@ fcScenarioGenerator.ScenarioGenerator =
     },
 
     parametrizedEventsMap: {},
+    compareOnlyEventTypeAndHandler: false,
 
     _logParametrizedEvents: function(scenario, parametrizedEvents)
     {
         for(var i = 0; i < parametrizedEvents.length; i++)
         {
             var parametrizedEvent = parametrizedEvents[i];
+            var baseEventFingerPrint = !this.compareOnlyEventTypeAndHandler ? parametrizedEvent.baseEvent.fingerprint
+                                                                            : parametrizedEvent.baseEvent.typeHandlerFingerPrint;
 
-            if(this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint] == null)
+            if(this.parametrizedEventsMap[baseEventFingerPrint] == null)
             {
-                this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint] = { };
+                this.parametrizedEventsMap[baseEventFingerPrint] = { };
             }
 
-            if(this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint] == null)
+            if(this.parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint] == null)
             {
-                this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint] = {
+                this.parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint] = {
                     scenarios: [],
                     parametrizedEvents: []
                 };
             }
 
-            this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint].scenarios.push(scenario);
-            this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint].parametrizedEvents.push(parametrizedEvent);
+            this.parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint].scenarios.push(scenario);
+            this.parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint].parametrizedEvents.push(parametrizedEvent);
         }
     },
 
@@ -715,6 +763,8 @@ fcScenarioGenerator.ScenarioGenerator =
             case "mouseover":
                 return this._generateMouseHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             case "onkeydown":
+            case "onkeyup":
+            case "keyup":
             case "keydown":
                 return this._generateKeyHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             default:
@@ -737,14 +787,20 @@ fcScenarioGenerator.ScenarioGenerator =
         var eventInfo = {};
         var eventInfoFcObject = new fcModel.Event(eventInfo, browser.globalObject, eventRegistration.thisObject);
 
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", null, browser, eventIndex);
+        var elementPosition = eventRegistration.thisObject.implementationObject != null && ValueTypeHelper.isHtmlElement(eventRegistration.thisObject.implementationObject)
+                            ? this.getElementPosition(eventRegistration.thisObject.implementationObject)
+                            : { x: 0, y: 0}
+
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "target", eventRegistration.thisObject, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "currentTarget", null, browser, eventIndex);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageX", 0, browser, eventIndex);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageY", 0, browser, eventIndex);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientX", 0, browser, eventIndex);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientY", 0, browser, eventIndex);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenX", 0, browser, eventIndex);
-        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", 0, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageX", elementPosition.x, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "pageY", elementPosition.y, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientX", elementPosition.x, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "clientY", elementPosition.y, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenX", elementPosition.x, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", elementPosition.y, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerX", elementPosition.x, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", elementPosition.y, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex, true);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
@@ -752,6 +808,21 @@ fcScenarioGenerator.ScenarioGenerator =
         args.push(new fcModel.fcValue(eventInfo, eventInfoFcObject, null));
 
         return args;
+    },
+
+    getElementPosition: function(htmlElement)
+    {
+        var x = 0;
+        var y = 0;
+
+        while(htmlElement && !isNaN( htmlElement.offsetLeft ) && !isNaN( htmlElement.offsetTop ) )
+        {
+            x += htmlElement.offsetLeft - htmlElement.scrollLeft;
+            y += htmlElement.offsetTop - htmlElement.scrollTop;
+            htmlElement = htmlElement.offsetParent;
+        }
+
+        return { x: x, y: y };
     },
 
     _generateKeyHandlerArguments: function(eventRegistration, browser, parameters, eventIndex)
@@ -849,7 +920,15 @@ fcScenarioGenerator.ScenarioGenerator =
             symbolicValue = new fcSymbolic.Identifier(this.addSuffix(propertyName, executionOrderId));
         }
 
-        eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, symbolicValue);
+        if(ValueTypeHelper.isPrimitive(propertyValue))
+        {
+            eventInfo[propertyName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, symbolicValue);
+        }
+        else
+        {
+            eventInfo[propertyName] = new fcModel.fcValue(propertyValue.implementationObject, propertyValue);
+        }
+
         eventInfoFcObject.addProperty(propertyName, eventInfo[propertyName]);
     },
 

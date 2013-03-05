@@ -52,7 +52,7 @@ fcSimulator.prototype =
 
                 this.callControlFlowConnectionCallbacks(command.codeConstruct);
 
-                if(timer.hasMoreThanSecondsElapsed(120))
+                /*if(timer.hasMoreThanSecondsElapsed(120))
                 {
                     if(!confirm("Interpreter Simulator - runSync has been running for more than 2 minutes, Continue?"))
                     {
@@ -60,7 +60,7 @@ fcSimulator.prototype =
                     }
 
                     timer = Firecrow.TimerHelper.createTimer();
-                }
+                }*/
 
                 //Uncomment to enable application tracing
                 /*if(!fcSimulator.logTrace || command.codeConstruct == null) { continue; }

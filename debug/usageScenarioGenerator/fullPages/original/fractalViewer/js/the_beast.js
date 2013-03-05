@@ -705,14 +705,44 @@ canvas, container, g, mouse = new Vec2(0, 0),
     paintTool, paintStyle, paintRadius = 20,
     flowerMoment = false,
     flowerMomentId;
-window.onload = function justInit() {
+window.onload = function() {
     $("#my_container").fadeIn(500);
     canvas = document.getElementById("my_canvas");
     container = document.getElementById("my_container");
-    $(canvas).bind("mousedown", onMouseDown);
-    $(document).bind("mouseup", onMouseUp);
-    $(document).bind("mousemove", onMouseMove);
-    $(document).bind("keydown", onKeyDown);
+
+    canvas.onmousedown = function(e) {
+        mouse.down = true;
+    };
+
+    document.onmouseup = function(e)
+    {
+      mouse.down = false;
+    }
+
+    document.onmousemove = function(e) {
+       mouse.set(e.pageX - container.offsetLeft, e.pageY - container.offsetTop);
+    }
+
+    document.onkeydown = function(e) {
+         switch (String.fromCharCode(e.keyCode).toLowerCase()) {
+             case ' ':
+             case 'p':
+                 toggle('play');
+                 break;
+             case 'n':
+                 reset();
+                 break;
+             case 'm':
+                 toggle('mutate');
+                 break;
+             case 'b':
+                 toggle('flower');
+                 break;
+             case 'a':
+                 toggle('about');
+                 break;
+         }
+    };
     g = new Brush(canvas);
     g.setFrameRate(30);
     g.loopOn(justDraw);
@@ -813,39 +843,6 @@ function endFlowerMoment() {
         clearTimeout(flowerMomentId);
     }
     if (flower) flowerMomentId = setTimeout(startFlowerMoment, randInt2(8000, 12000));
-}
-
-function onMouseDown(e) {
-    mouse.down = true;
-}
-
-function onMouseMove(e) {
-    mouse.set(e.pageX - container.offsetLeft, e.pageY - container.offsetTop);
-}
-
-function onMouseUp(e) {
-    mouse.down = false;
-}
-
-function onKeyDown(e) {
-    switch (String.fromCharCode(e.keyCode).toLowerCase()) {
-        case ' ':
-        case 'p':
-            toggle('play');
-            break;
-        case 'n':
-            reset();
-            break;
-        case 'm':
-            toggle('mutate');
-            break;
-        case 'b':
-            toggle('flower');
-            break;
-        case 'a':
-            toggle('about');
-            break;
-    }
 }
 
 function addBranch(br) {

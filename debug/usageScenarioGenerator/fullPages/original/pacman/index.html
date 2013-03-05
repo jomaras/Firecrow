@@ -78,7 +78,8 @@
         };
 
         google.browser.engine.IE = false
-        google.pml = function () {
+        google.pml = function ()
+        {
             function d(a) {
                 if (!google.pml_installed) {
                     google.pml_installed = true;
@@ -89,10 +90,8 @@
                             if (b) b.style.display = "block"
                         }, 400)
                     }
-                    a = document.createElement("script");
-                    a.type = "text/javascript";
-                    a.src = "js/pacman.js";
-                    document.body.appendChild(a)
+
+                    initPacman();
                 }
             }
             function e()
@@ -129,6 +128,7 @@
     </form>
 
     <script type="text/javascript">google.pml && google.pml()</script>
+    <script type="text/javascript" src="js/pacman.js"></script>
 </center>
 </body>
 </html>

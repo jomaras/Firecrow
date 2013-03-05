@@ -12,17 +12,17 @@
     <canvas id="my_canvas"></canvas>
     <div id="control">
         <div>
-            <a id="tog_play" class="play" href="#" onclick="return toggle('play');">play</a>
+            <a id="tog_play" class="play" href="#">play</a>
         </div>
         <div>
-            <a id="tog_flower" class="toggle" href="#" onclick="return toggle('flower');">bloom</a>
-            <a id="tog_mutate" class="toggle" href="#" onclick="return toggle('mutate');">mutate</a>
+            <a id="tog_flower" class="toggle" href="#">bloom</a>
+            <a id="tog_mutate" class="toggle" href="#">mutate</a>
         </div>
         <div>
-            <a id="reset" href="#" onclick="return reset();">new</a>
+            <a id="reset" href="#">new</a>
         </div>
         <div class="left">
-            <a id="tog_about" class="toggle" href="#" onclick="return toggle('about');">about</a>
+            <a id="tog_about" class="toggle" href="#">about</a>
         </div>
     </div>
 </div>
@@ -42,5 +42,31 @@
         Designed by <a href="http://onecm.com">Ryan Alexander</a>
     </p>
 </div>
+<script>
+    document.getElementById("tog_play").onclick = function()
+    {
+        return toggle('play');
+    };
+
+    document.getElementById("tog_flower").onclick = function()
+    {
+        return toggle('flower');
+    };
+
+    document.getElementById("tog_mutate").onclick = function()
+    {
+        return toggle('mutate');
+    };
+
+    document.getElementById("reset").onclick = function()
+    {
+        return reset();;
+    };
+
+    document.getElementById("tog_about").onclick = function()
+    {
+        return toggle('about');
+    };
+</script>
 </body>
 </html>

@@ -83,6 +83,11 @@ fcSimulator.InternalExecutor.prototype =
         return new fcModel.fcValue(regEx, new fcModel.RegEx(regEx, this.globalObject, creationConstruct), creationConstruct);
     },
 
+    createString: function(creationConstruct, string)
+    {
+        return new fcModel.fcValue(string, new fcModel.String(string, this.globalObject, creationConstruct, false), creationConstruct);
+    },
+
     createHtmlElement: function(creationConstruct, tagName)
     {
         var jsElement = this.globalObject.origDocument.createElement(tagName);
@@ -230,6 +235,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.Event){ return fcModel.EventExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.CanvasContext){ return fcModel.CanvasContextExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.LinearGradient){ return fcModel.LinearGradientExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
+            else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.CanvasGradient){ return fcModel.CanvasGradientExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject == this.globalObject.fcArrayFunction) { return fcModel.ArrayExecutor.executeInternalArrayMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand); }
             else if (thisObject == this.globalObject.fcStringFunction) { return fcModel.StringExecutor.executeInternalStringMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand); }
             else if (functionObject.isInternalFunction) { return this._executeInternalFunction(thisObject, functionObject, args, callExpression, callCommand); }
@@ -287,7 +293,7 @@ fcSimulator.InternalExecutor.prototype =
 
         if(internalConstructor.iValue == this.globalObject.arrayFunction) { return this.createArray(constructorConstruct, Array.apply(null, jsArgs));}
         else if (internalConstructor.iValue == this.globalObject.regExFunction) { return this.createRegEx(constructorConstruct, RegExp.apply(null, jsArgs));}
-        else if (internalConstructor.iValue == this.globalObject.stringFunction) { return new fcModel.fcValue(String.apply(null, jsArgs), String.apply(null, jsArgs), constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.stringFunction) { return this.createString(constructorConstruct, String.apply(null, jsArgs));}
         else if (internalConstructor.iValue == this.globalObject.booleanFunction) { return new fcModel.fcValue(Boolean.apply(null, jsArgs), Boolean.apply(null, jsArgs), constructorConstruct); }
         else if (internalConstructor.iValue == this.globalObject.numberFunction) { return new fcModel.fcValue(Number.apply(null, jsArgs), Number.apply(null, jsArgs), constructorConstruct); }
         else if (internalConstructor.iValue == this.globalObject.objectFunction) { return fcModel.ObjectExecutor.executeInternalConstructor(constructorConstruct, args, this.globalObject);}

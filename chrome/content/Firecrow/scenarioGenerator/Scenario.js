@@ -206,7 +206,7 @@ fcScenarioGenerator.ScenarioCollection = function(uiControlSelectors)
     this.lengthGroups = [];
     this.scenarios = [];
     this.eventVisitedFunctionsInfo = {};
-    this.currentIndex = 0;
+    this.currentIndex = -1;
     this.scenarioMap = {};
     this.eventPriorityMap = {};
 };
@@ -216,7 +216,8 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     randomPrioritization: false,
     fifoPrioritization: false,
     eventLengthPrioritization: false,
-    maximizingPathCoveragePrioritization: true,
+    maximizingPathCoveragePrioritization: false,
+    symbolicAndNewPrioritization: true,
 
     assignEventPriority: function(eventRegistration, eventPriority)
     {
@@ -236,6 +237,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         else if(this.eventLengthPrioritization) { return this._getNextByLength(); }
         else if(this.randomPrioritization) { return this._getNextRandomly(); }
         else if(this.fifoPrioritization) { return this._getNextSequentially(); }
+        else if(this.symbolicAndNewPrioritization) { return this._getNextByPrioritizingAgainstSymbolicAndNew(); }
 
         return this._getNextSequentially();
     },
@@ -262,6 +264,41 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     _getNextByMaximizingPathCoverage: function()
     {
         return this._getNextPrioritizingByLeastEventCoverage(this.getNonExecutedScenarios());
+    },
+
+    _getNextByPrioritizingAgainstSymbolicAndNew: function()
+    {
+        var nonExecutedScenarios = this.getNonExecutedScenarios();
+
+        var firstSymbolicScenario = this._findFirstSymbolicScenario(nonExecutedScenarios);
+
+        if(firstSymbolicScenario != null) { return firstSymbolicScenario; }
+
+        var firstNewEventScenario = this._findFirstNewEventScenario(nonExecutedScenarios);
+
+        if(firstNewEventScenario != null) { return firstNewEventScenario; }
+
+        return nonExecutedScenarios[0];
+    },
+
+    _findFirstSymbolicScenario: function(scenarios)
+    {
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            if(scenarios[i].createdBy == "symbolic") { return scenarios[i]; }
+        }
+
+        return null;
+    },
+
+    _findFirstNewEventScenario: function(scenarios)
+    {
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            if(scenarios[i].createdBy == "extendingWithNewEvent") { return scenarios[i]; }
+        }
+
+        return null;
     },
 
     _getNextPrioritizingByLeastEventCoverage: function(scenarios)
@@ -481,7 +518,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         return nonExecutedScenarios;
     },
 
-    compareEvents: true,
+    compareEvents: false,
     waitInterval: -1,
 
     getSubsumedProcessedScenarios: function()
@@ -498,14 +535,9 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
             var hasFoundMatch = false;
 
-            var lastEvent = iThScenario.events[iThScenario.events.length - 1];
-
-            if(lastEvent != null && this.eventPriorityMap[lastEvent.thisObjectDescriptor][lastEvent.eventType] > fcScenarioGenerator.ScenarioGenerator.uiControlEventPriority)
+            if(!this._isEventChainRelatedToUiControls(iThScenario))
             {
-                if(!iThScenario.executionInfo.lastExecutionSummaryModifiesDom())
-                {
-                    continue;
-                }
+                continue;
             }
 
             for(var j = i + 1; j < processedScenarios.length; j++)
@@ -563,6 +595,22 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         var subsumedScenarios = ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
 
         return subsumedScenarios;
+    },
+
+    _isEventChainRelatedToUiControls: function(scenario)
+    {
+        for(var i = scenario.events.length - 1, j = 0; i >= 0; i--, j++)
+        {
+            var event = scenario.events[i];
+
+            if(this.eventPriorityMap[event.thisObjectDescriptor][event.eventType] < fcScenarioGenerator.ScenarioGenerator.uiControlEventPriority
+            && !scenario.executionInfo.executionSummaryFromEndModifiesDom(j + 1))
+            {
+                return false;
+            }
+        }
+
+        return true;
     },
 
     eventCoverageInfo: {},

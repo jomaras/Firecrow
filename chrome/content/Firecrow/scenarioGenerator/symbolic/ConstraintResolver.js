@@ -237,7 +237,7 @@ fcSymbolic.ConstraintResolver =
 
         if(symbolicExpression.isBinary()) { return this._getBinaryInverse(symbolicExpression); }
         else if(symbolicExpression.isLogical()) { return this._getLogicalInverse(symbolicExpression); }
-        else if (symbolicExpression.isLiteral()) { return null; }
+        else if (symbolicExpression.isLiteral() || symbolicExpression.isIdentifier()) { return null; }
         else
         {
             debugger;

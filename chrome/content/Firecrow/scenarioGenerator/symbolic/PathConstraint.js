@@ -11,6 +11,8 @@ fcSymbolic.PathConstraintItem = function(codeConstruct, constraint)
 
     this.codeConstruct = codeConstruct;
     this.constraint = constraint;
+
+    if(constraint == null) { debugger; }
 };
 
 fcSymbolic.PathConstraintItem.areEqual = function(pathConstraintItemA, pathConstraintItemB)
@@ -42,7 +44,11 @@ fcSymbolic.PathConstraintItem.prototype =
 
     toString: function()
     {
-        return this.constraint.toString();
+        try
+        {
+            return this.constraint.toString();
+        }
+        catch(e) { debugger; }
     },
 
     createCopyUpgradedByIndex: function(upgradeByIndex)

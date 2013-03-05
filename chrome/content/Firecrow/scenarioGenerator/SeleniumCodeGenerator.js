@@ -38,6 +38,10 @@ FBL.ns(function() { with (FBL) {
                     {
                         code += this.getKeyDownCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters);
                     }
+                    else if(eventType == "onkeyup" || eventType == "keyup")
+                    {
+                        code += this.getKeyUpCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters);
+                    }
                     else if(eventType == "onmousemove" || eventType == "mousemove")
                     {
                         code += parametrizedEvent.containsMousePosition() ? this.getMouseMoveAtCode(parametrizedEvent.baseEvent.thisObjectDescriptor, parametrizedEvent.parameters)
@@ -142,6 +146,13 @@ FBL.ns(function() { with (FBL) {
             var keyCode = parameters.keyCode || parameters.which || 0;
 
             return '    selenium.keyDown("' + this._getLocatorFromThisObjectDescriptor(objectDescriptor) +  '", "' + keyCode + '");\n';
+        },
+
+        getKeyUpCode: function(objectDescriptor, parameters)
+        {
+            var keyCode = parameters.keyCode || parameters.which || 0;
+
+            return '    selenium.keyUp("' + this._getLocatorFromThisObjectDescriptor(objectDescriptor) +  '", "' + keyCode + '");\n';
         },
 
         getMouseMoveAtCode: function(objectDescriptor, parameters)

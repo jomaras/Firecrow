@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator Test 02</title>
+    <style>
+        #mainContainer
+        {
+            width: 400px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<select id="typeSelector">
+    <option value="All">All</option>
+    <option value="Apartments">Apartments (A)</option>
+    <option value="Hotels">Hotels (H)</option>
+    <option value="Museums">Museums (M)</option>
+</select>
+<div id="mainContainer"></div>
+<script>
+    window.onload = function()
+    {
+        var RealEstate =
+        {
+            typeSelector: document.getElementById("typeSelector"),
+            mainContainer: document.getElementById("mainContainer")
+        };
+
+        RealEstate.typeSelector.onchange = function()
+        {
+            if(RealEstate.typeSelector.value == "All")
+            {
+                RealEstate.mainContainer.textContent = "All";
+            }
+            else if(RealEstate.typeSelector.value == "Apartments")
+            {
+                RealEstate.mainContainer.textContent = "Apartments";
+            }
+            else if(RealEstate.typeSelector.value == "Hotels")
+            {
+                RealEstate.mainContainer.textContent = "Hotels";
+            }
+            else if(RealEstate.typeSelector.value == "Museums")
+            {
+                RealEstate.mainContainer.textContent = "Museums";
+            }
+        };
+    };
+</script>
+</body>
+</html>

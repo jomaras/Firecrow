@@ -133,6 +133,14 @@ fcModel.CanvasContextExecutor =
         {
             return new fcModel.fcValue(result, new fcModel.LinearGradient(globalObject, thisObjectValue, thisObject.iValue.canvas, result), callExpression, null);
         }
+        else if (functionName == "createRadialGradient")
+        {
+            return new fcModel.fcValue(result, new fcModel.CanvasGradient(globalObject, thisObjectValue, thisObject.iValue.canvas, result), callExpression, null);
+        }
+        else if (functionName == "getImageData")
+        {
+            return new fcModel.fcValue(result, new fcModel.ImageData(globalObject, thisObjectValue, thisObject.iValue.canvas, result), callExpression, null);
+        }
         else
         {
             thisObject.iValue.canvas.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
@@ -189,6 +197,85 @@ fcModel.LinearGradientExecutor =
 
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression);
     }
-}
+};
+
+fcModel.CanvasGradient = function(globalObject, canvasContext, canvas, canvasGradient)
+{
+    this.initObject(globalObject);
+    this.constructor = fcModel.CanvasGradient;
+
+    this.canvasContext = canvasContext;
+    this.canvas = canvas;
+    this.canvasGradient = canvasGradient;
+
+    this.addProperty
+    (
+        "addColorStop", new fcModel.fcValue(this.canvasGradient.addColorStop, fcModel.Function.createInternalNamedFunction(globalObject, "addColorStop", this), null),
+        null,
+        false
+    );
+};
+
+fcModel.CanvasGradient.prototype = new fcModel.Object();
+
+fcModel.CanvasGradient.prototype.addJsProperty = function(propertyName, propertyValue, assignmentExpression)
+{
+    this.addProperty(propertyName, propertyValue, assignmentExpression);
+    this.canvasGradient[propertyName] = propertyValue.jsValue;
+
+    this.canvas.elementModificationPoints.push({ codeConstruct: assignmentExpression, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
+    fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.canvas, this.globalObject, assignmentExpression);
+};
+
+fcModel.CanvasGradientExecutor =
+{
+    executeInternalMethod: function(thisObject, functionObject, args, callExpression)
+    {
+        var functionObjectValue = functionObject.jsValue;
+        var thisObjectValue = thisObject.jsValue;
+        var functionName = functionObjectValue.name;
+        var fcThisValue =  thisObject.iValue;
+        var globalObject = fcThisValue.globalObject;
+        var jsArguments =  args.map(function(argument){ return argument.jsValue;});
+
+        thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+
+        thisObject.iValue.canvas.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+        fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObject.iValue.canvas, globalObject, callExpression);
+
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression);
+    }
+};
+
+fcModel.ImageData = function(globalObject, canvasContext, canvas, imageData)
+{
+    this.initObject(globalObject);
+    this.constructor = fcModel.ImageData;
+
+    this.canvasContext = canvasContext;
+    this.canvas = canvas;
+    this.imageData = imageData;
+
+    this.addProperty("data")
+
+    this.addProperty
+    (
+        "addColorStop", new fcModel.fcValue(this.canvasGradient.addColorStop, fcModel.Function.createInternalNamedFunction(globalObject, "addColorStop", this), null),
+        null,
+        false
+    );
+};
+
+fcModel.CanvasGradient.prototype = new fcModel.Object();
+
+fcModel.CanvasGradient.prototype.addJsProperty = function(propertyName, propertyValue, assignmentExpression)
+{
+    this.addProperty(propertyName, propertyValue, assignmentExpression);
+    this.canvasGradient[propertyName] = propertyValue.jsValue;
+
+    this.canvas.elementModificationPoints.push({ codeConstruct: assignmentExpression, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
+    fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.canvas, this.globalObject, assignmentExpression);
+};
+
 /*************************************************************************************/
 }});

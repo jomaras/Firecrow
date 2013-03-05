@@ -80,6 +80,7 @@ Firecrow.ASTHelper =
                     if((ASTHelper.isIfStatement(astElement) && ASTHelper._isIfStatementBodyExecuted(astElement))
                     || (ASTHelper.isSwitchCase(astElement) && ASTHelper._isSwitchCaseExecuted(astElement))
                     || (ASTHelper.isLoopStatement(astElement) && ASTHelper._isLoopStatementExecuted(astElement)))
+                    //|| (ASTHelper.isPureElseStatement(astElement) && ASTHelper._isElseStatementExecuted(astElement)))
                     {
                         executedNumberOfBranches++;
                     }
@@ -175,6 +176,11 @@ Firecrow.ASTHelper =
         }
 
         return ifStatement.consequent.hasBeenExecuted;
+    },
+
+    _isElseStatementExecuted: function(elseConstruct)
+    {
+        debugger;
     },
 
     _isIfStatementBodyEventExecuted: function(ifStatement, executionId)
@@ -996,6 +1002,13 @@ Firecrow.ASTHelper =
         if(this.isForStatement(loopParent)) { return loopParent.test == codeConstruct;}
 
         return false;
+    },
+
+    isPureElseStatement: function(codeConstruct)
+    {
+        if(codeConstruct == null) { return false; }
+
+        return this.isIfStatement(codeConstruct.parent) && codeConstruct.parent.alternate == codeConstruct && !this.isIfStatement(codeConstruct);
     },
 
     isElseIfStatement: function(codeConstruct)

@@ -40,7 +40,7 @@ fcModel.GlobalObjectExecutor =
 
     _getComputedStyle: function(jsHtmlElement, args, globalObject, callExpression)
     {
-        if(!(jsHtmlElement.jsValue instanceof HTMLElement)) { this.notifyError("Wrong argument when getting computed style"); return; }
+        if(!ValueTypeHelper.isHtmlElement(jsHtmlElement.jsValue)) { this.notifyError("Wrong argument when getting computed style"); return; }
 
         var htmlElement = jsHtmlElement.jsValue;
         var computedStyle = globalObject.origWindow.getComputedStyle.apply(globalObject.origWindow, args);
