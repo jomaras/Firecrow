@@ -117,7 +117,7 @@ Browser.prototype =
     {
         var handlerConstruct = eventInfo.handler.codeConstruct;
 
-        this.executionInfo.logEventExecution(eventInfo.thisObjectDescriptor, eventInfo.eventType);
+        this.executionInfo.logEventExecution(eventInfo.thisObjectDescriptor, eventInfo.eventType, handlerConstruct);
 
         this._interpretJsCode
         (

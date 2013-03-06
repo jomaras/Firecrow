@@ -217,7 +217,8 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     fifoPrioritization: false,
     eventLengthPrioritization: false,
     maximizingPathCoveragePrioritization: false,
-    symbolicAndNewPrioritization: true,
+    symbolicAndNewPrioritization: false,
+    symbolicNewCoveragePrioritization: true,
 
     assignEventPriority: function(eventRegistration, eventPriority)
     {
@@ -238,6 +239,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         else if(this.randomPrioritization) { return this._getNextRandomly(); }
         else if(this.fifoPrioritization) { return this._getNextSequentially(); }
         else if(this.symbolicAndNewPrioritization) { return this._getNextByPrioritizingAgainstSymbolicAndNew(); }
+        else if(this.symbolicNewCoveragePrioritization) { return this._getNextBySymbolicNewCoverage(); }
 
         return this._getNextSequentially();
     },
@@ -281,21 +283,22 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         return nonExecutedScenarios[0];
     },
 
-    _findFirstSymbolicScenario: function(scenarios)
+    _getNextBySymbolicNewCoverage: function()
     {
-        for(var i = 0; i < scenarios.length; i++)
-        {
-            if(scenarios[i].createdBy == "symbolic") { return scenarios[i]; }
-        }
+        var nonExecutedScenarios = this.getNonExecutedScenarios();
 
-        return null;
+        var firstSymbolicOrNewScenario = this._findFirstSymbolicOrNewEventScenario(nonExecutedScenarios);
+
+        if(firstSymbolicOrNewScenario != null) { return firstSymbolicOrNewScenario; }
+
+        return this._getNextPrioritizingByLeastEventCoverage(nonExecutedScenarios);
     },
 
-    _findFirstNewEventScenario: function(scenarios)
+    _findFirstSymbolicOrNewEventScenario: function(scenarios)
     {
         for(var i = 0; i < scenarios.length; i++)
         {
-            if(scenarios[i].createdBy == "extendingWithNewEvent") { return scenarios[i]; }
+            if(scenarios[i].createdBy == "symbolic" || scenarios[i].createdBy == "extendingWithNewEvent") { return scenarios[i]; }
         }
 
         return null;
@@ -305,51 +308,8 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     {
         if(scenarios.length == 0) { return null; }
 
-        //Top priorities are scenarios with one event, scenarios created by adding completely new events
-        var priorityScenario = this._findFirstSingleEventOrSymbolicalOrExtendingEvent(scenarios);
-
-        if(priorityScenario != null) { this.returnedPrioritized++; return priorityScenario;}
-
         return this._findFirstWithLeastEventCoverage(scenarios);
     },
-
-    returnedPrioritized: 0,
-
-    _findFirstSingleEventOrSymbolicalOrExtendingEvent: function(scenarios)
-    {
-        for(var i = 0; i < scenarios.length; i++)
-        {
-            var scenario = scenarios[i];
-
-            if(scenario.events.length == 1){ return scenario; }
-            if(scenario.createdBy === "extendingWithNewEvent") { return scenario; }
-            /*if(scenario.createdBy === "symbolic" || scenario.createdBy === "extendingWithNewEvent")
-            {
-                return scenario;
-            }*/
-        }
-
-        return null;
-    },
-
-    _findFirstParentlessScenario: function(scenarios)
-    {
-        if(this._hasGoneThroughParentless) { return null;}
-
-        for(var i = 0; i < scenarios.length; i++)
-        {
-            if(scenarios[i].parentScenarios.length == 0)
-            {
-                return scenarios[i];
-            }
-        }
-
-        this._hasGoneThroughParentless = true;
-
-        return null;
-    },
-
-    _hasGoneThroughParentless: false,
 
     _findFirstWithLeastEventCoverage: function(scenarios)
     {
@@ -361,13 +321,9 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
             var scenarioCoverage = this._getScenarioPriorityCoefficient(scenarios[i]);
 
-            //leave them a chance, but a very small one
-            if(scenarioCoverage == 1) { scenarioCoverage = 0.999; }
+            if(scenarioCoverage == 1) { scenarioCoverage = 0.99; }
 
-            weightedIndex.push(i);
-            weightedIndex.push(Math.round((1 - scenarioCoverage)*1000));
-
-            weightedIndexes.push(weightedIndex);
+            weightedIndexes.push([i, Math.round((1 - scenarioCoverage)*100)]);
         }
 
         var weightedList = new ValueTypeHelper.WeightedList(weightedIndexes);
@@ -405,15 +361,6 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         }
 
         return null;
-    },
-
-    isLastScenario: function(scenario)
-    {
-             if(this.maximizingPathCoveragePrioritization || this.randomPrioritization) { return !this._haveMoreNonExecutedScenarios(); }
-        else if(this.eventLengthPrioritization) { return this._isLastScenarioByLength(scenario); }
-        else if(this.fifoPrioritization) { return this._isLastScenarioByIndex(scenario); }
-
-        return this._isLastScenarioByIndex(scenario);;
     },
 
     _haveMoreNonExecutedScenarios: function()
@@ -529,16 +476,19 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
         for(var i = 0; i < processedScenarios.length; i++)
         {
+            if(!this._isEventChainRelatedToUiControls(processedScenarios[i]))
+            {
+                ValueTypeHelper.removeFromArrayByIndex(processedScenarios, i);
+            }
+        }
+
+        for(var i = 0; i < processedScenarios.length; i++)
+        {
             var iThScenario = processedScenarios[i];
 
             document.title = "Subsuming " + i + "/" + processedScenarios.length;
 
             var hasFoundMatch = false;
-
-            if(!this._isEventChainRelatedToUiControls(iThScenario))
-            {
-                continue;
-            }
 
             for(var j = i + 1; j < processedScenarios.length; j++)
             {
@@ -592,9 +542,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
             }
         }
 
-        var subsumedScenarios = ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
-
-        return subsumedScenarios;
+        return ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
     },
 
     _isEventChainRelatedToUiControls: function(scenario)
@@ -655,7 +603,11 @@ fcScenarioGenerator.ScenarioCollection.prototype =
                     executedNumber += coverage.executedNumberOfBranches;
                 }
 
-                this.eventCoverageInfo[baseObjectDescriptor][eventType].coverage = executedNumber/totalNumber;
+                var branchCoverage = executedNumber/totalNumber;
+
+                if(Number.isNaN(branchCoverage)) { branchCoverage = 1; }
+
+                this.eventCoverageInfo[baseObjectDescriptor][eventType].coverage = branchCoverage;
             }
         }
 
@@ -691,7 +643,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
     _getScenarioPriorityCoefficient: function(scenario)
     {
-        var coverageCoefficient = 1;
+        var coverageCoefficient = 0;
 
         //By grouping timing events we assign more probability
         //that consecutive timing events will be executed
@@ -710,16 +662,15 @@ fcScenarioGenerator.ScenarioCollection.prototype =
             && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
             && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
             {
-                coverageCoefficient *= this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
-
-                if(this.eventPriorityMap[event.thisObjectDescriptor] != null && this.eventPriorityMap[event.thisObjectDescriptor][event.eventType] !== null)
-                {
-                    coverageCoefficient *= this.eventPriorityMap[event.thisObjectDescriptor][event.eventType];
-                }
+                coverageCoefficient += this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
             }
         }
 
-        return coverageCoefficient;
+        var averageCoverage = coverageCoefficient/scenario.events.length;
+
+        if(Number.isNaN(averageCoverage) || averageCoverage > 1) { return 1; }
+
+        return averageCoverage;
     },
 
     _getGroupAverage: function(eventGroup)

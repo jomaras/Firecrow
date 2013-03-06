@@ -19,6 +19,8 @@ fcScenarioGenerator.ScenarioGenerator =
     globalObjectEventPriority: 0.6,
     externalEventPriority: 1,
 
+    processedScenarioCounter: 0,
+
     generateScenarios: function(pageModel, uiControlsSelectors, scenarioExecutedCallback)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
@@ -34,14 +36,12 @@ fcScenarioGenerator.ScenarioGenerator =
         this._createInitialRegisteredEventsScenarios(browser, scenarios);
         this._executeInitialScenarios(pageModel, scenarios, scenarioExecutedCallback);
 
-        var processedScenarioCounter = 0;
-
         var currentScenario = scenarios.getNext();
         var that = this;
 
         var asyncLoop = function()
         {
-            if(currentScenario == null || processedScenarioCounter > that.scenarioProcessingLimit
+            if(currentScenario == null || that.processedScenarioCounter > that.scenarioProcessingLimit
             || that.achievedCoverage == 1 || (that._isStuck() && that._hasFullEventCoverage()))
             {
                 scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios());
@@ -50,7 +50,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
             that._createDerivedScenarios(pageModel, currentScenario, scenarios, scenarioExecutedCallback);
 
-            processedScenarioCounter++;
+            that.processedScenarioCounter++;
 
             currentScenario = scenarios.getNext();
 
@@ -74,6 +74,8 @@ fcScenarioGenerator.ScenarioGenerator =
                scenario: scenario,
                executionResult: this._executeScenario(pageModel, scenario)
             });
+
+            this.processedScenarioCounter++;
 
             scenario = scenarios.getNext();
         }
@@ -148,6 +150,7 @@ fcScenarioGenerator.ScenarioGenerator =
     _executeApplication: function(pageModel)
     {
         var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
+
         browser.registerSlicingCriteria(this.slicingCriteria);
 
         browser.evaluatePage();
@@ -214,18 +217,44 @@ fcScenarioGenerator.ScenarioGenerator =
         for(var i = 0; i < invertedPaths.length; i++)
         {
             var invertedPath = invertedPaths[i];
+
+            //if(this._haveAlternativesBeenExecuted(invertedPath.getLastPathConstraintItemCodeConstruct())) { continue; }
+
             var highestIndexProperty = ValueTypeHelper.getHighestIndexProperty(invertedPath.resolvedResult);
 
             if(highestIndexProperty !== null)
             {
-                var createdScenario = scenarios.addScenarioByComponents(scenario.events.slice(0, highestIndexProperty + 1), invertedPath, [scenario]);
+                var influencedEvents = scenario.events.slice(0, highestIndexProperty + 1);
+                var parametrizedEvents = this._createParametrizedEvents(influencedEvents, invertedPath);
 
-                if(createdScenario != null)
+                if(!this._allParametrizedEventsAlreadyExist(parametrizedEvents))
                 {
-                    createdScenario.createdBy = "symbolic";
+                    var createdScenario = scenarios.addScenarioByComponents(influencedEvents, invertedPath, [scenario]);
+
+                    if(createdScenario != null)
+                    {
+                        createdScenario.createdBy = "symbolic";
+                    }
                 }
             }
         }
+    },
+
+    _allParametrizedEventsAlreadyExist: function(parametrizedEvents)
+    {
+        if(parametrizedEvents == null || parametrizedEvents.length == 0) { return true; }
+
+        for(var i = 0; i < parametrizedEvents.length; i++)
+        {
+            var parametrizedEvent = parametrizedEvents[i];
+            if(this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint] == null
+            || this.parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint] == null)
+            {
+                return false;
+            }
+        }
+
+        return true;
     },
 
     _createRegisteredEventsScenarios: function(scenario, scenarios, browser)
@@ -401,8 +430,6 @@ fcScenarioGenerator.ScenarioGenerator =
         }
 
         return false;
-        /*return this._isExecutionInfoIdentifierDependentOn(executionInfo, scenario)
-            || this._isExecutionInfoObjectDependentOn(executionInfo, scenario);*/
     },
 
     _dependencyExists: function(sourceNodeId, targetNodeId)
@@ -445,39 +472,8 @@ fcScenarioGenerator.ScenarioGenerator =
 
     dependencyCache: {},
 
-    _isExecutionInfoIdentifierDependentOn: function(executionInfo, scenario)
-    {
-        for(var accessedIdentifier in executionInfo.globalAccessedIdentifiers)
-        {
-            if(scenario.executionInfo.globalModifiedIdentifiers[accessedIdentifier])
-            {
-                return true;
-            }
-        }
-
-        return false;
-    },
-
-    _isExecutionInfoObjectDependentOn: function(executionInfo, scenario)
-    {
-        for(var accessedObject in executionInfo.globalAccessedObjects)
-        {
-            if(scenario.executionInfo.globalModifiedObjects[accessedObject])
-            {
-                return true;
-            }
-        }
-
-        return false;
-    },
-
     _getEventRegistrationFingerprint: function(eventRegistration)
     {
-        if(this.compareOnlyEventTypeAndHandler)
-        {
-            return eventRegistration.eventType + eventRegistration.handlerConstruct.nodeId;
-        }
-
         return eventRegistration.thisObjectDescriptor + eventRegistration.eventType
              + eventRegistration.handlerConstruct.nodeId;
     },
@@ -485,7 +481,7 @@ fcScenarioGenerator.ScenarioGenerator =
     _executeScenario: function(pageModel, scenario)
     {
         var browser = this._executeApplication(pageModel);
-        var parametrizedEvents = this._createParametrizedEvents(scenario);
+        var parametrizedEvents = this._createParametrizedEvents(scenario.events, scenario.inputConstraint);
 
         scenario.setParametrizedEvents(parametrizedEvents);
 
@@ -504,7 +500,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var coverage = ASTHelper.calculateCoverage(pageModel);
 
-        this.achievedCoverage = coverage.expressionCoverage;
+        this.achievedCoverage = coverage.branchCoverage;
         this.achievedCoverages.push(coverage);
 
         return {
@@ -514,15 +510,13 @@ fcScenarioGenerator.ScenarioGenerator =
     },
 
     parametrizedEventsMap: {},
-    compareOnlyEventTypeAndHandler: false,
 
     _logParametrizedEvents: function(scenario, parametrizedEvents)
     {
         for(var i = 0; i < parametrizedEvents.length; i++)
         {
             var parametrizedEvent = parametrizedEvents[i];
-            var baseEventFingerPrint = !this.compareOnlyEventTypeAndHandler ? parametrizedEvent.baseEvent.fingerprint
-                                                                            : parametrizedEvent.baseEvent.typeHandlerFingerPrint;
+            var baseEventFingerPrint = parametrizedEvent.baseEvent.fingerprint;
 
             if(this.parametrizedEventsMap[baseEventFingerPrint] == null)
             {
@@ -542,11 +536,11 @@ fcScenarioGenerator.ScenarioGenerator =
         }
     },
 
-    _createParametrizedEvents: function(scenario)
+    _createParametrizedEvents: function(events, inputConstraint)
     {
-        if(scenario.inputConstraint == null)
+        if(inputConstraint == null)
         {
-            return scenario.events.map(function(event)
+            return events.map(function(event)
             {
                 return new fcScenarioGenerator.ParametrizedEvent(event, null);
             }, this);
@@ -554,8 +548,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var parametrizedEvents = [];
 
-        var resolvedResults = scenario.inputConstraint.resolvedResult;
-        var events = scenario.events;
+        var resolvedResults = inputConstraint.resolvedResult;
 
         for(var i = 0; i < events.length; i++)
         {
@@ -587,7 +580,29 @@ fcScenarioGenerator.ScenarioGenerator =
 
         for(var identifierName in identifiersMap)
         {
-            if(this._isPositiveNumberIdentifier(identifierName))
+            if(identifierName.indexOf("which") == 0)
+            {
+                var binary1 = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(1), "==");
+                var binary2 = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(2), "==");
+                var binary3 = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(3), "==");
+
+                binary1.markAsIrreversible();
+                binary2.markAsIrreversible();
+                binary3.markAsIrreversible();
+
+                var logical1 = new fcSymbolic.Logical(binary1, binary2, "||");
+                var logical2 = new fcSymbolic.Logical(logical1, binary3, "||");
+
+                logical1.markAsIrreversible();
+                logical2.markAsIrreversible();
+
+                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, logical2);
+
+                executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                scenario.addInputConstraintItem(pathConstraintItem);
+                scenario.addSolutionIfNotExistent(identifierName, 1);
+            }
+            else if(this._isPositiveNumberIdentifier(identifierName))
             {
                 var binary = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(0), ">=");
 
@@ -801,6 +816,7 @@ fcScenarioGenerator.ScenarioGenerator =
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "screenY", elementPosition.y, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerX", elementPosition.x, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", elementPosition.y, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 1, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex, true);
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);

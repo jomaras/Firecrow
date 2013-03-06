@@ -77,9 +77,9 @@ Firecrow.ASTHelper =
 
                 if(ASTHelper.isBranchExpression(astElement))
                 {
-                    if((ASTHelper.isIfStatement(astElement) && ASTHelper._isIfStatementBodyExecuted(astElement))
-                    || (ASTHelper.isSwitchCase(astElement) && ASTHelper._isSwitchCaseExecuted(astElement))
-                    || (ASTHelper.isLoopStatement(astElement) && ASTHelper._isLoopStatementExecuted(astElement)))
+                    if((ASTHelper.isIfStatement(astElement) && ASTHelper.isIfStatementBodyExecuted(astElement))
+                    || (ASTHelper.isSwitchCase(astElement) && ASTHelper.isSwitchCaseExecuted(astElement))
+                    || (ASTHelper.isLoopStatement(astElement) && ASTHelper.isLoopStatementExecuted(astElement)))
                     //|| (ASTHelper.isPureElseStatement(astElement) && ASTHelper._isElseStatementExecuted(astElement)))
                     {
                         executedNumberOfBranches++;
@@ -122,7 +122,7 @@ Firecrow.ASTHelper =
             || this.isConditionalExpression(element);
     },
 
-    _isLoopStatementExecuted: function(element)
+    isLoopStatementExecuted: function(element)
     {
         if(this.isBlockStatement(element.body))
         {
@@ -142,7 +142,7 @@ Firecrow.ASTHelper =
         return this._hasBeenExecutedByEvent(element.body, executionId);
     },
 
-    _isSwitchCaseExecuted: function(element)
+    isSwitchCaseExecuted: function(element)
     {
         for(var i = 0; i < element.consequent.length; i++)
         {
@@ -168,7 +168,7 @@ Firecrow.ASTHelper =
         return false;
     },
 
-    _isIfStatementBodyExecuted: function(ifStatement)
+    isIfStatementBodyExecuted: function(ifStatement)
     {
         if(this.isBlockStatement(ifStatement.consequent))
         {
@@ -176,6 +176,16 @@ Firecrow.ASTHelper =
         }
 
         return ifStatement.consequent.hasBeenExecuted;
+    },
+
+    isIfStatementElseExecuted: function(ifStatement)
+    {
+        if(this.isBlockStatement(ifStatement.alternate))
+        {
+            return this._isBlockStatementExecuted(ifStatement.alternate);
+        }
+
+        return ifStatement.alternate.hasBeenExecuted;
     },
 
     _isElseStatementExecuted: function(elseConstruct)
@@ -257,8 +267,6 @@ Firecrow.ASTHelper =
                 }
             }
 
-            return;
-
             if(ASTHelper.isStatement(astElement) && !ASTHelper.isBlockStatement(astElement))
             {
                 totalNumberOfStatements++;
@@ -295,8 +303,9 @@ Firecrow.ASTHelper =
             }
         }, ["FunctionExpression", "FunctionDeclaration"]);
 
-        totalNumberOfBranches = totalNumberOfExpressions;
-        executedNumberOfBranches = executedNumberOfExpressions;
+        var branchCoverage = executedNumberOfBranches/totalNumberOfBranches;
+
+        if(Number.isNaN(branchCoverage)) { branchCoverage = 1; }
 
          return {
             totalNumberOfExpressions: totalNumberOfExpressions,
@@ -307,7 +316,7 @@ Firecrow.ASTHelper =
             statementCoverage: executedNumberOfStatements/totalNumberOfStatements,
             totalNumberOfBranches: totalNumberOfBranches,
             executedNumberOfBranches: executedNumberOfBranches,
-            branchCoverage:  executedNumberOfBranches/totalNumberOfBranches
+            branchCoverage: branchCoverage
         };
     },
 

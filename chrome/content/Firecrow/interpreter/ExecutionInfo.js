@@ -72,7 +72,7 @@ FBL.ns(function() { with (FBL) {
             this.importantModifications[codeConstruct.nodeId] = codeConstruct;
         },
 
-        logEventExecution: function(baseObjectDescriptor, eventType)
+        logEventExecution: function(baseObjectDescriptor, eventType, handlerConstruct)
         {
             if(this.currentEventExecutionInfo == null && (eventType == "onload" || eventType == "DOMContentLoaded" || eventType == "load"))
             {
@@ -97,6 +97,7 @@ FBL.ns(function() { with (FBL) {
                 eventType: eventType,
                 visitedFunctionsMap: this.eventExecutionsMap[baseObjectDescriptor][eventType],
                 eventDescriptor: baseObjectDescriptor + eventType,
+                typeDescriptor: eventType + handlerConstruct.nodeId,
                 globalModifiedIdentifiers: {},
                 globalAccessedIdentifiers: {},
                 eventRegistrations: [],
@@ -120,6 +121,7 @@ FBL.ns(function() { with (FBL) {
                 if(codeConstruct.executorEventsMap == null) { codeConstruct.executorEventsMap = {}; }
 
                 codeConstruct.executorEventsMap[this.currentEventExecutionInfo.eventDescriptor] = true;
+                codeConstruct.executorEventsMap[this.currentEventExecutionInfo.typeDescriptor] = true;
             }
         },
 

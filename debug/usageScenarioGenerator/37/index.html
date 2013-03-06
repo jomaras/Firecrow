@@ -4,26 +4,13 @@
     <title></title>
 </head>
 <body>
-    <div id="container">Select</div>
-    <input type="range" min="0" max="1000" value="600" id="slider">
-    <script>
-        var slider = document.getElementById("slider");
-        var container = document.getElementById("container");
 
-        slider.onchange = function()
+    <img id="image" src="images/CountyMap.png"/>
+    <script>
+        document.getElementById("image").onclick = function()
         {
-            if(slider.value <= 200)
-            {
-                container.textContent = "< 200";
-            }
-            else if(slider.value > 200 && slider.value < 500)
-            {
-                container.textContent = "> 200 && < 500";
-            }
-            else
-            {
-                container.textContent = "> 500";
-            }
+            this.src = this.src.indexOf("High") != -1 ? "images/CountyMap.png"
+                                                      : "images/CountyMapHigh.png";
         }
     </script>
 </body>

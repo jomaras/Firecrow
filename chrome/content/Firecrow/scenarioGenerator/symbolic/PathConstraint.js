@@ -134,6 +134,15 @@ fcSymbolic.PathConstraint.groupSolutionsByIndex = function(result)
 
 fcSymbolic.PathConstraint.prototype =
 {
+    getLastPathConstraintItemCodeConstruct: function()
+    {
+        var lastItem = this.pathConstraintItems[this.pathConstraintItems.length - 1];
+
+        if(lastItem == null) { return null; }
+
+        return lastItem.codeConstruct;
+    },
+
     addConstraint: function(codeConstruct, constraint, inverse)
     {
         this.addPathConstraintItem(this._createConstraint(codeConstruct, constraint, inverse));
