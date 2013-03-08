@@ -412,7 +412,7 @@ fcScenarioGenerator.ScenarioGenerator =
         var scenarioExecutionInfo = scenario.executionInfo;
         for(var branchingConstructId in executionInfo.branchingConstructs)
         {
-            for(var modifiedIdentifierId in scenarioExecutionInfo.globalModifiedIdentifiers)
+            for(var modifiedIdentifierId in scenarioExecutionInfo.afterLoadingModifiedIdentifiers)
             {
                 if(this._dependencyExists(branchingConstructId, modifiedIdentifierId))
                 {
@@ -420,7 +420,7 @@ fcScenarioGenerator.ScenarioGenerator =
                 }
             }
 
-            for(var modifiedObjectId in scenarioExecutionInfo.globalModifiedObjects)
+            for(var modifiedObjectId in scenarioExecutionInfo.afterLoadingModifiedObjects)
             {
                 if(this._dependencyExists(branchingConstructId, modifiedObjectId))
                 {

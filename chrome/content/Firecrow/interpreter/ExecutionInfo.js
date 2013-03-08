@@ -18,11 +18,18 @@ FBL.ns(function() { with (FBL) {
         this.globalModifiedIdentifiers = {};
         this.globalModifiedObjects = {};
 
+        this.afterLoadingModifiedIdentifiers = {};
+        this.afterLoadingModifiedObjects = {};
+
         this.globalAccessedIdentifiers = {};
         this.globalAccessedObjects = {};
 
+        this.afterLoadingAccessedIdentifiers = {};
+        this.afterLoadingAccessedObjects = {};
+
         this.eventRegistrations = [];
         this.eventExecutionsMap = {};
+        this.typeExecutionMap = {};
         this.eventExecutions = [];
         this.currentEventExecutionInfo = null;
 
@@ -81,6 +88,8 @@ FBL.ns(function() { with (FBL) {
 
             if(baseObjectDescriptor == null || eventType == null) { debugger; alert("Error when logging event execution"); return; }
 
+            var typeDescriptor = eventType + handlerConstruct.nodeId;
+
             if(this.eventExecutionsMap[baseObjectDescriptor] == null)
             {
                 this.eventExecutionsMap[baseObjectDescriptor] = {};
@@ -91,13 +100,19 @@ FBL.ns(function() { with (FBL) {
                 this.eventExecutionsMap[baseObjectDescriptor][eventType] = {};
             }
 
+            if(this.typeExecutionMap[typeDescriptor] == null)
+            {
+                this.typeExecutionMap[typeDescriptor] = {};
+            }
+
             this.currentEventExecutionInfo =
             {
                 baseObjectDescriptor: baseObjectDescriptor,
                 eventType: eventType,
                 visitedFunctionsMap: this.eventExecutionsMap[baseObjectDescriptor][eventType],
+                typeVisitedFunctionsMap: this.typeExecutionMap[typeDescriptor],
                 eventDescriptor: baseObjectDescriptor + eventType,
-                typeDescriptor: eventType + handlerConstruct.nodeId,
+                typeDescriptor: typeDescriptor,
                 globalModifiedIdentifiers: {},
                 globalAccessedIdentifiers: {},
                 eventRegistrations: [],
@@ -132,6 +147,7 @@ FBL.ns(function() { with (FBL) {
             if(this.currentEventExecutionInfo != null)
             {
                 this.currentEventExecutionInfo.visitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
+                this.currentEventExecutionInfo.typeVisitedFunctionsMap[functionConstruct.nodeId] = functionConstruct;
             }
         },
 
@@ -318,6 +334,7 @@ FBL.ns(function() { with (FBL) {
             if(this.currentEventExecutionInfo != null)
             {
                 this.currentEventExecutionInfo.globalModifiedIdentifiers[identifier.declarationPosition.codeConstruct.nodeId] = identifier.declarationPosition.codeConstruct;
+                this.afterLoadingModifiedIdentifiers[identifier.declarationPosition.codeConstruct.nodeId] = identifier.declarationPosition.codeConstruct;
             }
 
             this.globalModifiedIdentifiers[identifier.declarationPosition.codeConstruct.nodeId] = identifier.declarationPosition.codeConstruct;
@@ -343,6 +360,7 @@ FBL.ns(function() { with (FBL) {
             if(this.currentEventExecutionInfo != null)
             {
                 this.currentEventExecutionInfo.globalAccessedIdentifiers[codeConstruct.nodeId] = codeConstruct;
+                this.afterLoadingAccessedIdentifiers[codeConstruct.nodeId] = codeConstruct;
             }
 
             this.globalAccessedIdentifiers[codeConstruct.nodeId] = codeConstruct;
@@ -377,6 +395,7 @@ FBL.ns(function() { with (FBL) {
             if(this.currentEventExecutionInfo != null)
             {
                 this.currentEventExecutionInfo.globalAccessedObjects[codeConstruct.nodeId] = codeConstruct;
+                this.afterLoadingAccessedObjects[codeConstruct.nodeId] = codeConstruct;
             }
 
             this.globalAccessedObjects[codeConstruct.nodeId] = codeConstruct;
@@ -401,6 +420,7 @@ FBL.ns(function() { with (FBL) {
             if(this.currentEventExecutionInfo != null)
             {
                 this.currentEventExecutionInfo.globalModifiedObjects[objectCreationConstructId] = propertyName;
+                this.afterLoadingModifiedObjects[objectCreationConstructId] = propertyName;
             }
 
             this.globalModifiedObjects[objectCreationConstructId] = propertyName;

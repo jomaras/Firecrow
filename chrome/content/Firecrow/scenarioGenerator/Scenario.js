@@ -198,6 +198,19 @@ fcScenarioGenerator.Scenario.prototype =
         }
 
         return false;
+    },
+
+    toString: function()
+    {
+        var string = "";
+
+        this.events.forEach(function (event)
+        {
+            if(string != "") { string += " - "; }
+            string += event.toString();
+        });
+
+        return string;
     }
 };
 
@@ -206,6 +219,7 @@ fcScenarioGenerator.ScenarioCollection = function(uiControlSelectors)
     this.lengthGroups = [];
     this.scenarios = [];
     this.eventVisitedFunctionsInfo = {};
+    this.typeVisitedFunctionsInfo = {};
     this.currentIndex = -1;
     this.scenarioMap = {};
     this.eventPriorityMap = {};
@@ -317,14 +331,15 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
         for(var i = 0; i < scenarios.length; i++)
         {
-            var weightedIndex = [];
-
             var scenarioCoverage = this._getScenarioPriorityCoefficient(scenarios[i]);
 
-            if(scenarioCoverage == 1) { scenarioCoverage = 0.99; }
-
-            weightedIndexes.push([i, Math.round((1 - scenarioCoverage)*100)]);
+            if(scenarioCoverage < 1)
+            {
+                weightedIndexes.push([i, Math.round((1 - scenarioCoverage)*100)]);
+            }
         }
+
+        if(weightedIndexes.length == 0) { return null; }
 
         var weightedList = new ValueTypeHelper.WeightedList(weightedIndexes);
 
@@ -472,15 +487,9 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     {
         var processedScenarios = this.getExecutedScenarios();
 
-        var subsumedScenariosMap = [];
+        processedScenarios = this._removeUnrelatedToUiControls(processedScenarios);
 
-        for(var i = 0; i < processedScenarios.length; i++)
-        {
-            if(!this._isEventChainRelatedToUiControls(processedScenarios[i]))
-            {
-                ValueTypeHelper.removeFromArrayByIndex(processedScenarios, i);
-            }
-        }
+        var subsumedScenariosMap = [];
 
         for(var i = 0; i < processedScenarios.length; i++)
         {
@@ -545,16 +554,35 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         return ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
     },
 
+    _removeUnrelatedToUiControls: function(processedScenarios)
+    {
+        var keptScenarios = [];
+
+        for(var i = 0; i < processedScenarios.length; i++)
+        {
+            if(this._isEventChainRelatedToUiControls(processedScenarios[i]))
+            {
+                keptScenarios.push(processedScenarios[i]);
+            }
+        }
+
+        return keptScenarios;
+    },
+
     _isEventChainRelatedToUiControls: function(scenario)
     {
         for(var i = scenario.events.length - 1, j = 0; i >= 0; i--, j++)
         {
             var event = scenario.events[i];
 
-            if(this.eventPriorityMap[event.thisObjectDescriptor][event.eventType] < fcScenarioGenerator.ScenarioGenerator.uiControlEventPriority
+            if(this.eventPriorityMap[event.thisObjectDescriptor][event.eventType] > fcScenarioGenerator.ScenarioGenerator.uiControlEventPriority
             && !scenario.executionInfo.executionSummaryFromEndModifiesDom(j + 1))
             {
                 return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -562,9 +590,41 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     },
 
     eventCoverageInfo: {},
+    typeCoverageInfo: {},
 
     aggregateEventCoverageInfo: function(scenario, executionInfo)
     {
+        for(var typeDescriptor in executionInfo.typeExecutionMap)
+        {
+            if(this.typeVisitedFunctionsInfo[typeDescriptor] == null)
+            {
+                this.typeVisitedFunctionsInfo[typeDescriptor] = executionInfo.typeExecutionMap[typeDescriptor];
+                this.typeCoverageInfo[typeDescriptor] = { scenarios: { }, coverage: 0};
+            }
+            else
+            {
+                ValueTypeHelper.expand(this.typeVisitedFunctionsInfo[typeDescriptor], executionInfo.typeExecutionMap[typeDescriptor]);
+            }
+
+            var visitedFunctions = this.typeVisitedFunctionsInfo[typeDescriptor];
+
+            var totalNumber = 0, executedNumber = 0;
+
+            for(var visitedFunctionId in visitedFunctions)
+            {
+                var coverage = ASTHelper.getFunctionCoverageInfo(visitedFunctions[visitedFunctionId]);
+
+                totalNumber += coverage.totalNumberOfBranches;
+                executedNumber += coverage.executedNumberOfBranches;
+            }
+
+            var branchCoverage = executedNumber/totalNumber;
+
+            if(Number.isNaN(branchCoverage)) { branchCoverage = 1; }
+
+            this.typeCoverageInfo[typeDescriptor].coverage = branchCoverage;
+        }
+
         for(var baseObjectDescriptor in executionInfo.eventExecutionsMap)
         {
             var descriptorInfo = executionInfo.eventExecutionsMap[baseObjectDescriptor];
@@ -617,6 +677,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     _updateScenarioCoverages: function(executionInfo)
     {
         var updatedScenariosMap = { };
+
         for(var baseObjectDescriptor in executionInfo.eventExecutionsMap)
         {
             var descriptorInfo = executionInfo.eventExecutionsMap[baseObjectDescriptor];
@@ -644,7 +705,6 @@ fcScenarioGenerator.ScenarioCollection.prototype =
     _getScenarioPriorityCoefficient: function(scenario)
     {
         var coverageCoefficient = 0;
-
         //By grouping timing events we assign more probability
         //that consecutive timing events will be executed
         /*var eventGroups = this._groupTimingEvents(scenario.events);
@@ -658,11 +718,16 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         {
             var event = scenario.events[i];
 
-            if(this.eventCoverageInfo[event.thisObjectDescriptor] != null
+            /*if(this.eventCoverageInfo[event.thisObjectDescriptor] != null
             && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
             && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
             {
                 coverageCoefficient += this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
+            }*/
+
+            if(this.typeCoverageInfo[event.typeHandlerFingerPrint] != null)
+            {
+                coverageCoefficient += this.typeCoverageInfo[event.typeHandlerFingerPrint].coverage;
             }
         }
 

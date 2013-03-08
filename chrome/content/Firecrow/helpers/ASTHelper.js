@@ -134,6 +134,8 @@ Firecrow.ASTHelper =
 
     _isLoopStatementEventExecuted: function(element, executionId)
     {
+        if(executionId == null) { return this.isLoopStatementExecuted(element); }
+
         if(this.isBlockStatement(element.body))
         {
             return this._isBlockStatementEventExecuted(element.body, executionId);
@@ -157,6 +159,7 @@ Firecrow.ASTHelper =
 
     _isSwitchCaseEventExecuted: function(element, executionId)
     {
+        if(executionId == null) { return this.isSwitchCaseExecuted(element); }
         for(var i = 0; i < element.consequent.length; i++)
         {
             if(this._hasBeenExecutedByEvent(element.consequent[i], executionId))
@@ -195,6 +198,8 @@ Firecrow.ASTHelper =
 
     _isIfStatementBodyEventExecuted: function(ifStatement, executionId)
     {
+        if(executionId == null) { return this.isIfStatementBodyExecuted(ifStatement);}
+
         if(this.isBlockStatement(ifStatement.consequent))
         {
             return this._isBlockStatementEventExecuted(ifStatement.consequent, executionId);
@@ -261,7 +266,7 @@ Firecrow.ASTHelper =
             if(ASTHelper.isExpression(astElement))
             {
                 totalNumberOfExpressions++;
-                if(astElement.executorEventsMap != null && astElement.executorEventsMap[executionId])
+                if(ASTHelper._hasBeenExecutedByEvent(astElement, executionId))
                 {
                     executedNumberOfExpressions++;
                 }
@@ -322,6 +327,8 @@ Firecrow.ASTHelper =
 
     _hasBeenExecutedByEvent: function(astElement, executionId)
     {
+        if(executionId == null) { return astElement.hasBeenExecuted; }
+
         return astElement.executorEventsMap != null && astElement.executorEventsMap[executionId];
     },
 

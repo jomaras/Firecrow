@@ -480,8 +480,14 @@
 
             document.getElementById("mapImage").onclick = function()
             {
-                this.src = this.src.indexOf("High") != -1 ? "images/CountyMap.png"
-                                                          : "images/CountyMapHigh.png";
+                if(this.src.indexOf("High") != -1)
+                {
+                    this.src = "images/CountyMap.png";
+                }
+                else
+                {
+                    this.src = "images/CountyMapHigh.png";
+                }
             };
         };
     </script>
