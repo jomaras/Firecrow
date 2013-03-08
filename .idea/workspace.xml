@@ -9,10 +9,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/complexNew1.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,20 +65,11 @@
       <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="158" column="50" selection-start="9047" selection-end="9047" vertical-scroll-proportion="-3.75">
+            <state line="148" column="30" selection-start="8829" selection-end="8829" vertical-scroll-proportion="-5.0">
               <folding>
-                <marker date="1362756999915" expanded="false" signature="11713:11722" placeholder="..." />
-                <marker date="1362756999915" expanded="false" signature="11858:11867" placeholder="..." />
+                <marker date="1362761887544" expanded="false" signature="11705:11714" placeholder="..." />
+                <marker date="1362761887544" expanded="false" signature="11850:11859" placeholder="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="412" column="90" selection-start="14834" selection-end="14834" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -85,25 +77,16 @@
       <file leaf-file-name="Scenario.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="561" column="4" selection-start="16682" selection-end="16682" vertical-scroll-proportion="0.35181236">
+            <state line="681" column="22" selection-start="21182" selection-end="21182" vertical-scroll-proportion="0.47654584">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Event.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Event.js">
+      <file leaf-file-name="complexNew1.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/complexNew1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="13" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="480" column="45" selection-start="15755" selection-end="15763" vertical-scroll-proportion="-146.93878">
+            <state line="264" column="45" selection-start="162668" selection-end="162668" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -134,7 +117,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/modelMapping.js" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/modelMapping1.js" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/complex1.html" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/complex2.html" />
@@ -146,10 +128,11 @@
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/3dMaker/complext.htm.html" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/3dMaker/complext.html" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/snowpar/complex.html" />
-        <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
+        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/complexNew1.html" />
+        <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
       </list>
     </option>
   </component>
@@ -324,36 +307,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="usageScenarioGenerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fullPages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="evaluationApplications" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rentingAgency" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -478,12 +431,12 @@
       <method />
     </configuration>
     <list size="6">
-      <item index="0" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
-      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
-      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
-      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
-      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
-      <item index="5" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
+      <item index="0" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
+      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
+      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
+      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
+      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
+      <item index="5" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -2473,7 +2426,11 @@
       <created>1362759471983</created>
       <updated>1362759471983</updated>
     </task>
-    <option name="localTasksCounter" value="489" />
+    <task id="LOCAL-00489" summary="New process for subsuming scenarios implemented">
+      <created>1362760900906</created>
+      <updated>1362760900907</updated>
+    </task>
+    <option name="localTasksCounter" value="490" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2571,7 +2528,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fix in scenario pick next; fixes when tracking dependencies between events" />
+    <option name="LAST_COMMIT_MESSAGE" value="New process for subsuming scenarios implemented" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2585,7 +2542,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Subsuming scenarios" />
     <MESSAGE value="First work on generating selenium Java TestCase code" />
     <MESSAGE value="Selenium test case upgrade - support clientX click coverage dependence" />
     <MESSAGE value="Fixed a bug for changing DOM elements, and added generating onchange events" />
@@ -2610,6 +2566,7 @@
     <MESSAGE value="Added order by first symbolic and expanded with non-executed events; Set that firstly generated events should executed first, then after all are executed should go to generating scenarios from them (when executing initially registered events, each would be expanded with all others - since they haven't been executed so far)" />
     <MESSAGE value="Minor improvements and bug fixes (wrong calculations of branch coverage);" />
     <MESSAGE value="Bug fix in scenario pick next; fixes when tracking dependencies between events" />
+    <MESSAGE value="New process for subsuming scenarios implemented" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2622,11 +2579,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/floatwar/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="444" selection-end="444" vertical-scroll-proportion="-6.793296" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/3dmodel/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="12" selection-start="545" selection-end="545" vertical-scroll-proportion="-3.5418994" />
@@ -2672,16 +2624,6 @@
         <state line="389" column="10" selection-start="383162" selection-end="383162" vertical-scroll-proportion="0.96648043" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="50" selection-start="9047" selection-end="9047" vertical-scroll-proportion="-3.75">
-          <folding>
-            <marker date="1362756999915" expanded="false" signature="11713:11722" placeholder="..." />
-            <marker date="1362756999915" expanded="false" signature="11858:11867" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="480" column="45" selection-start="15755" selection-end="15763" vertical-scroll-proportion="-146.93878">
@@ -2710,9 +2652,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/complexNew1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="264" column="45" selection-start="162668" selection-end="162668" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="148" column="30" selection-start="8829" selection-end="8829" vertical-scroll-proportion="-5.0">
+          <folding>
+            <marker date="1362761887544" expanded="false" signature="11705:11714" placeholder="..." />
+            <marker date="1362761887544" expanded="false" signature="11850:11859" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="561" column="4" selection-start="16682" selection-end="16682" vertical-scroll-proportion="0.35181236">
+        <state line="681" column="22" selection-start="21182" selection-end="21182" vertical-scroll-proportion="0.47654584">
           <folding />
         </state>
       </provider>
