@@ -112,7 +112,6 @@ fcSimulator.ExecutionContextStack.prototype =
             this.activeContext.commands.push(command);
 
             if(!command.isEnterFunctionContextCommand()) { this.activeContext.lastCommand = command; }
-
             this.globalObject.browser.logConstructExecuted(command.codeConstruct);
 
             if (command.isEnterFunctionContextCommand())

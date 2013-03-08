@@ -129,6 +129,29 @@ FBL.ns(function() { with (FBL) {
         {
             if(codeConstruct == null) { return; }
 
+            if(this.currentEventExecutionInfo != null)
+            {
+                if(codeConstruct.test != null)
+                {
+                    this.currentEventExecutionInfo.branchingConstructs[codeConstruct.test.nodeId] = codeConstruct.test;
+                }
+
+                if(codeConstruct.discriminant != null)
+                {
+                    this.currentEventExecutionInfo.branchingConstructs[codeConstruct.discriminant.nodeId] = codeConstruct.discriminant;
+                }
+            }
+
+            if(codeConstruct.test != null)
+            {
+                this.branchingConstructs[codeConstruct.test.nodeId] = codeConstruct.test;
+            }
+
+            if(codeConstruct.discriminant != null)
+            {
+                this.branchingConstructs[codeConstruct.discriminant.nodeId] = codeConstruct.discriminant;
+            }
+
             this.executedConstructsIdMap[codeConstruct.nodeId] = true;
 
             if(this.currentEventExecutionInfo != null)
@@ -162,20 +185,6 @@ FBL.ns(function() { with (FBL) {
 
         addConstraint: function(codeConstruct, constraint, inverse)
         {
-            if(this.currentEventExecutionInfo != null)
-            {
-                if(codeConstruct.test != null)
-                {
-                    this.currentEventExecutionInfo.branchingConstructs[codeConstruct.test.nodeId] = codeConstruct.test;
-                }
-
-            }
-            if(codeConstruct.test != null)
-            {
-                this.branchingConstructs[codeConstruct.test.nodeId] = codeConstruct.test;
-            }
-
-
             if(constraint == null) { return; }
 
             this.pathConstraint.addConstraint(codeConstruct, constraint, inverse);

@@ -1236,6 +1236,8 @@ Firecrow.ASTHelper =
     {
         if(codeConstruct == null) { return null; }
 
+        if(this.isStatement(codeConstruct)) { return codeConstruct; }
+
         return this.getParentOfTypes(codeConstruct, this.parentStatementOrFunctionTypes);
     },
 
