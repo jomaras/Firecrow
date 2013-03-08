@@ -11,7 +11,7 @@ fcScenarioGenerator.ScenarioGenerator =
     achievedCoverage: 0,
     achievedCoverages: [],
     scenarios: null,
-    scenarioProcessingLimit: 200,
+    scenarioProcessingLimit: 100,
     uiControlsSelectors: null,
     uiControlsJointSelector: "",
 
@@ -41,8 +41,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var asyncLoop = function()
         {
-            if(currentScenario == null || that.processedScenarioCounter > that.scenarioProcessingLimit
-            || that.achievedCoverage == 1 || (that._isStuck() && that._hasFullEventCoverage()))
+            if(currentScenario == null || that.processedScenarioCounter >= that.scenarioProcessingLimit || that.achievedCoverage == 1)
             {
                 scenarioExecutedCallback(scenarios.getSubsumedProcessedScenarios());
                 return;

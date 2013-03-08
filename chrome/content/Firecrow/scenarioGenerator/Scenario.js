@@ -218,7 +218,6 @@ fcScenarioGenerator.ScenarioCollection = function(uiControlSelectors)
 {
     this.lengthGroups = [];
     this.scenarios = [];
-    this.eventVisitedFunctionsInfo = {};
     this.typeVisitedFunctionsInfo = {};
     this.currentIndex = -1;
     this.scenarioMap = {};
@@ -594,7 +593,6 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         return true;
     },
 
-    eventCoverageInfo: {},
     typeCoverageInfo: {},
 
     aggregateEventCoverageInfo: function(scenario, executionInfo)
@@ -610,6 +608,8 @@ fcScenarioGenerator.ScenarioCollection.prototype =
             {
                 ValueTypeHelper.expand(this.typeVisitedFunctionsInfo[typeDescriptor], executionInfo.typeExecutionMap[typeDescriptor]);
             }
+
+            this.typeCoverageInfo[typeDescriptor].scenarios[scenario.id] = scenario;
 
             var visitedFunctions = this.typeVisitedFunctionsInfo[typeDescriptor];
 
@@ -629,106 +629,15 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
             this.typeCoverageInfo[typeDescriptor].coverage = branchCoverage;
         }
-
-        for(var baseObjectDescriptor in executionInfo.eventExecutionsMap)
-        {
-            var descriptorInfo = executionInfo.eventExecutionsMap[baseObjectDescriptor];
-
-            if(this.eventVisitedFunctionsInfo[baseObjectDescriptor] == null)
-            {
-                this.eventVisitedFunctionsInfo[baseObjectDescriptor] = {};
-                this.eventCoverageInfo[baseObjectDescriptor] = {};
-            }
-
-            for(var eventType in descriptorInfo)
-            {
-                if(this.eventVisitedFunctionsInfo[baseObjectDescriptor][eventType] == null)
-                {
-                    this.eventVisitedFunctionsInfo[baseObjectDescriptor][eventType] = descriptorInfo[eventType];
-                    this.eventCoverageInfo[baseObjectDescriptor][eventType] = { scenarios: { }, coverage: 0};
-                }
-                else
-                {
-                    ValueTypeHelper.expand(this.eventVisitedFunctionsInfo[baseObjectDescriptor][eventType], descriptorInfo[eventType]);
-                }
-
-                //A link between an event and all scenarios where it participates
-                this.eventCoverageInfo[baseObjectDescriptor][eventType].scenarios[scenario.id] = scenario;
-
-                var visitedFunctions = this.eventVisitedFunctionsInfo[baseObjectDescriptor][eventType];
-                var eventDescriptor = baseObjectDescriptor + eventType;
-
-                var totalNumber = 0, executedNumber = 0;
-
-                for(var visitedFunctionId in visitedFunctions)
-                {
-                    var coverage = ASTHelper.getFunctionCoverageInfo(visitedFunctions[visitedFunctionId], eventDescriptor);
-
-                    totalNumber += coverage.totalNumberOfBranches;
-                    executedNumber += coverage.executedNumberOfBranches;
-                }
-
-                var branchCoverage = executedNumber/totalNumber;
-
-                if(Number.isNaN(branchCoverage)) { branchCoverage = 1; }
-
-                this.eventCoverageInfo[baseObjectDescriptor][eventType].coverage = branchCoverage;
-            }
-        }
-
-        this._updateScenarioCoverages(executionInfo);
-    },
-
-    _updateScenarioCoverages: function(executionInfo)
-    {
-        var updatedScenariosMap = { };
-
-        for(var baseObjectDescriptor in executionInfo.eventExecutionsMap)
-        {
-            var descriptorInfo = executionInfo.eventExecutionsMap[baseObjectDescriptor];
-
-            for(var eventType in descriptorInfo)
-            {
-                var scenariosToUpdate = this.eventCoverageInfo[baseObjectDescriptor][eventType].scenarios;
-
-                for(var scenarioId in scenariosToUpdate)
-                {
-                    if(updatedScenariosMap[scenarioId]) { continue; }
-
-                    var scenario = scenariosToUpdate[scenarioId];
-
-                    if(scenario.coverage == 1) { continue; }
-
-                    scenario.setCoverage(this._getScenarioPriorityCoefficient(scenario));
-
-                    updatedScenariosMap[scenarioId] = true;
-                }
-            }
-        }
     },
 
     _getScenarioPriorityCoefficient: function(scenario)
     {
         var coverageCoefficient = 0;
-        //By grouping timing events we assign more probability
-        //that consecutive timing events will be executed
-        /*var eventGroups = this._groupTimingEvents(scenario.events);
-
-        for(var i = 0; i < eventGroups.length; i++)
-        {
-            coverageCoefficient *= this._getGroupAverage(eventGroups[i]);
-        }*/
 
         for(var i = 0; i < scenario.events.length; i++)
         {
             var event = scenario.events[i];
-
-            /*if(this.eventCoverageInfo[event.thisObjectDescriptor] != null
-            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
-            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
-            {
-                coverageCoefficient += this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
-            }*/
 
             if(this.typeCoverageInfo[event.typeHandlerFingerPrint] != null)
             {
@@ -741,67 +650,6 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         if(Number.isNaN(averageCoverage) || averageCoverage > 1) { return 1; }
 
         return averageCoverage;
-    },
-
-    _getGroupAverage: function(eventGroup)
-    {
-        var sum = 0;
-
-        if(eventGroup.length == 1)
-        {
-            var event = eventGroup[0];
-            if(this.eventCoverageInfo[event.thisObjectDescriptor] != null
-            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
-            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
-            {
-                return this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
-            }
-
-            return 0;
-        }
-
-        for(var i = 0; i < eventGroup.length; i++)
-        {
-            var event = eventGroup[i];
-            if(this.eventCoverageInfo[event.thisObjectDescriptor] != null
-            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType] != null
-            && this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage)
-            {
-                sum += this.eventCoverageInfo[event.thisObjectDescriptor][event.eventType].coverage;
-            }
-        }
-
-        return sum/eventGroup.length;
-    },
-
-    _groupTimingEvents: function(events)
-    {
-        var groups = [];
-        var lastGroup = null;
-
-        for(var i = 0; i < events.length; i++)
-        {
-            var event = events[i];
-
-            if(event.eventType == "timeout"
-            || event.eventType == "interval")
-            {
-                if(lastGroup == null)
-                {
-                    lastGroup = [];
-                    groups.push(lastGroup);
-                }
-
-                lastGroup.push(event);
-            }
-            else
-            {
-                lastGroup = null;
-                groups.push([event]);
-            }
-        }
-
-        return groups;
     }
 };
 /*****************************************************/

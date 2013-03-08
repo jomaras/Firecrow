@@ -5,15 +5,15 @@
     <bookmark url="file://$PROJECT_DIR$/debug/slicingTests/78/index.html" line="23" />
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
     <bookmark url="file://$PROJECT_DIR$/debug/usageScenarioGenerator" />
-    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" line="556" mnemonic="8" />
+    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" line="555" mnemonic="8" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/complexNew1.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
     </list>
     <ignored path="Firecrow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,19 +65,28 @@
       <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="148" column="30" selection-start="8829" selection-end="8829" vertical-scroll-proportion="-5.0">
+            <state line="171" column="32" selection-start="9919" selection-end="9919" vertical-scroll-proportion="-11.875">
               <folding>
-                <marker date="1362761887544" expanded="false" signature="11705:11714" placeholder="..." />
-                <marker date="1362761887544" expanded="false" signature="11850:11859" placeholder="..." />
+                <marker date="1362763967748" expanded="false" signature="11705:11714" placeholder="..." />
+                <marker date="1362763967748" expanded="false" signature="11850:11859" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Scenario.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="61" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.35675675">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Scenario.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="681" column="22" selection-start="21182" selection-end="21182" vertical-scroll-proportion="0.47654584">
+            <state line="220" column="9" selection-start="6822" selection-end="6822" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -129,10 +138,10 @@
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/3dMaker/complext.html" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/snowpar/complex.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/complexNew1.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js" />
         <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
       </list>
     </option>
   </component>
@@ -2430,7 +2439,11 @@
       <created>1362760900906</created>
       <updated>1362760900907</updated>
     </task>
-    <option name="localTasksCounter" value="490" />
+    <task id="LOCAL-00490" summary="Commit before reorganizing scenario coverage">
+      <created>1362763357392</created>
+      <updated>1362763357392</updated>
+    </task>
+    <option name="localTasksCounter" value="491" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2528,7 +2541,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="New process for subsuming scenarios implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit before reorganizing scenario coverage" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2542,7 +2555,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="First work on generating selenium Java TestCase code" />
     <MESSAGE value="Selenium test case upgrade - support clientX click coverage dependence" />
     <MESSAGE value="Fixed a bug for changing DOM elements, and added generating onchange events" />
     <MESSAGE value="Refactoring how scenarios and executionInfo keep track of their constraints, solutions and event properties" />
@@ -2567,6 +2579,7 @@
     <MESSAGE value="Minor improvements and bug fixes (wrong calculations of branch coverage);" />
     <MESSAGE value="Bug fix in scenario pick next; fixes when tracking dependencies between events" />
     <MESSAGE value="New process for subsuming scenarios implemented" />
+    <MESSAGE value="Commit before reorganizing scenario coverage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2638,13 +2651,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="412" column="90" selection-start="14834" selection-end="14834" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="195" column="58" selection-start="7702" selection-end="7725" vertical-scroll-proportion="0.36460555">
@@ -2659,19 +2665,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="220" column="9" selection-start="6822" selection-end="6822" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="30" selection-start="8829" selection-end="8829" vertical-scroll-proportion="-5.0">
+        <state line="171" column="32" selection-start="9919" selection-end="9919" vertical-scroll-proportion="-11.875">
           <folding>
-            <marker date="1362761887544" expanded="false" signature="11705:11714" placeholder="..." />
-            <marker date="1362761887544" expanded="false" signature="11850:11859" placeholder="..." />
+            <marker date="1362763967748" expanded="false" signature="11705:11714" placeholder="..." />
+            <marker date="1362763967748" expanded="false" signature="11850:11859" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/Scenario.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="681" column="22" selection-start="21182" selection-end="21182" vertical-scroll-proportion="0.47654584">
+        <state line="51" column="61" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.35675675">
           <folding />
         </state>
       </provider>
