@@ -489,69 +489,74 @@ fcScenarioGenerator.ScenarioCollection.prototype =
 
         processedScenarios = this._removeUnrelatedToUiControls(processedScenarios);
 
-        var subsumedScenariosMap = [];
+        processedScenarios.sort(function(s1, s2)
+        {
+            return s2.events.length - s1.events.length;
+        });
+
+        var jointCoverage = this._getJointCoverageMap(processedScenarios);
+        var keptScenarios = [];
 
         for(var i = 0; i < processedScenarios.length; i++)
         {
-            var iThScenario = processedScenarios[i];
-
-            document.title = "Subsuming " + i + "/" + processedScenarios.length;
-
-            var hasFoundMatch = false;
-
-            for(var j = i + 1; j < processedScenarios.length; j++)
+            var scenario = processedScenarios[i];
+            if(this._canScenarioBeRemoved(jointCoverage, scenario))
             {
-                var jThScenario = processedScenarios[j];
-
-                var executionInfoComparison = iThScenario.executionInfo.compareExecutedConstructs(jThScenario.executionInfo)
-
-                if(this.compareEvents)
-                {
-                    var eventComparison = iThScenario.compareEvents(jThScenario);
-
-                    if(!eventComparison.areEqual && !eventComparison.isFirstSubsetOfSecond && !eventComparison.isSecondSubsetOfFirst)
-                    {
-                        continue;
-                    }
-                }
-
-                if(executionInfoComparison.areEqual)
-                {
-                    hasFoundMatch = true;
-                    var chosenScenario = iThScenario.events.length < jThScenario.events.length ? iThScenario : jThScenario;
-
-                    delete subsumedScenariosMap[jThScenario.id];
-                    delete subsumedScenariosMap[iThScenario.id];
-
-                    subsumedScenariosMap[chosenScenario.id] = chosenScenario;
-
-                    if(chosenScenario == jThScenario) { break; }
-                }
-                else if(executionInfoComparison.isFirstSubsetOfSecond)
-                {
-                    hasFoundMatch = true;
-
-                    delete subsumedScenariosMap[iThScenario.id];
-
-                    subsumedScenariosMap[jThScenario.id] = jThScenario;
-                    break;
-                }
-                else if (executionInfoComparison.isSecondSubsetOfFirst)
-                {
-                    hasFoundMatch = true;
-
-                    delete subsumedScenariosMap[jThScenario.id];
-                    subsumedScenariosMap[iThScenario.id] = iThScenario;
-                }
+                this._removeScenarioCoverageFromJointCoverage(jointCoverage, scenario);
             }
-
-            if(!hasFoundMatch)
+            else
             {
-                subsumedScenariosMap[iThScenario.id] = iThScenario;
+                keptScenarios.push(scenario);
             }
         }
 
-        return ValueTypeHelper.convertObjectMapToArray(subsumedScenariosMap);
+        return keptScenarios;
+    },
+
+    _canScenarioBeRemoved: function(jointCoverage, scenario)
+    {
+        var executedConstructs = scenario.executionInfo.executedConstructsIdMap;
+
+        for(var constructId in executedConstructs)
+        {
+            if(jointCoverage[constructId] - 1 <= 0) { return false; }
+        }
+
+        return true;
+    },
+
+    _removeScenarioCoverageFromJointCoverage: function(jointCoverage, scenario)
+    {
+        var executedConstructs = scenario.executionInfo.executedConstructsIdMap;
+
+        for(var constructId in executedConstructs)
+        {
+            jointCoverage[constructId]--;
+        }
+    },
+
+    _getJointCoverageMap: function(scenarios)
+    {
+        var jointCoverage = {};
+
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            var executedConstructs = scenarios[i].executionInfo.executedConstructsIdMap;
+
+            for(var constructId in executedConstructs)
+            {
+                if(jointCoverage[constructId] == null)
+                {
+                    jointCoverage[constructId] = 1
+                }
+                else
+                {
+                    jointCoverage[constructId]++;
+                }
+            }
+        }
+
+        return jointCoverage;
     },
 
     _removeUnrelatedToUiControls: function(processedScenarios)
