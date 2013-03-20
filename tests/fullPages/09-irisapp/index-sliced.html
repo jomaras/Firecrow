@@ -1,0 +1,2170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+<title>Iris - An Instagram Client For iPad</title>
+<link href="css/style.css" type="text/css" rel="stylesheet"/>
+<script type="text/javascript">
+(function (window, undefined)
+{
+    var document = window.document;
+    var jQuery = (function ()
+    {
+        var jQuery = function (selector, context)
+        {
+            return new jQuery.fn.init(selector, context, rootjQuery);
+        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function (all, letter)
+        {}, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, slice = Array.prototype.slice, trim = String.prototype.trim, class2type = {};
+        jQuery.fn = jQuery.prototype = {
+            constructor: jQuery,
+            init: function (selector, context, rootjQuery)
+            {
+                var match, elem, ret, doc;
+                if(!selector)
+                {
+                    return this;
+                }
+
+                if(selector.nodeType)
+                {
+                    this.context = this[0] = selector;
+                    this.length = 1;
+                    return this;
+                }
+
+                if(typeof selector === 'string')
+                {
+                    if(selector.charAt(0) === '<' && selector.charAt(selector.length - 1) === '>' && selector.length >= 3)
+                    {
+                        match = [null, selector, null];
+                    }
+                    else
+                    {
+                        match = quickExpr.exec(selector);
+                    }
+
+                    if(match && (match[1] || !context))
+                    {
+                        if(match[1])
+                        {
+                            context = context instanceof jQuery ? 0 : context;
+                            doc = context ? context.ownerDocument || context : document;
+                            ret = rsingleTag.exec(selector);
+                            if(ret);
+                            else
+                            {
+                                ret = jQuery.buildFragment([match[1]], [doc]);
+                                selector = (ret.cacheable ? jQuery.clone(ret.fragment) : 0).childNodes;
+                            }
+
+                            return jQuery.merge(this, selector);
+                        }
+                        else
+                        {
+                            elem = document.getElementById(match[2]);
+                            if(elem && elem.parentNode)
+                            {
+                                this.length = 1;
+                                this[0] = elem;
+                            }
+
+                            return this;
+                        }
+                    }
+                    else if(!context)
+                    {
+                        return (context || rootjQuery).find(selector);
+                    }
+                }
+                else if(jQuery.isFunction(selector))
+                {
+                    return rootjQuery.ready(selector);
+                }
+
+
+                if(selector.selector !== undefined)
+                {
+                    this.selector = selector.selector;
+                }
+
+                return jQuery.makeArray(selector, this);
+            },
+            selector: '',
+            jquery: '1.7.2',
+            length: 0,
+            toArray: function ()
+            {
+                return slice.call(this, 0);
+            },
+            get: function (num)
+            {
+                return num == null ? this.toArray() : 0;
+            },
+            pushStack: function (elems, name, selector)
+            {
+                var ret = this.constructor();
+                if(jQuery.isArray(elems))
+                {
+                    push.apply(ret, elems);
+                }
+                else
+                {
+                    jQuery.merge(ret, elems);
+                }
+
+                ret.prevObject = this;
+                ret.context = this.context;
+                if(name === 'find')
+                {
+                    ret.selector = (this.selector + (this.selector ? 0 : '')) + selector;
+                }
+                else if(name)
+                {
+                    ret.selector = ((((this.selector + '.') + name) + '(') + selector) + ')';
+                }
+
+
+                return ret;
+            },
+            each: function (callback, args)
+            {
+                return jQuery.each(this, callback, args);
+            },
+            ready: function (fn)
+            {
+                jQuery.bindReady();
+                readyList.add(fn);
+            },
+            eq: function (i)
+            {
+                i = +i;
+                return i === -1 ? 0 : this.slice(i, i + 1);
+            },
+            slice: function ()
+            {
+                return this.pushStack(slice.apply(this, arguments), 'slice', slice.call(arguments).join(','));
+            },
+            map: function (callback)
+            {
+                return this.pushStack(jQuery.map(this, function (elem, i)
+                {
+                    return callback.call(elem, i, elem);
+                }));
+            },
+            push: push
+        };
+        jQuery.fn.init.prototype = jQuery.fn;
+        jQuery.extend = jQuery.fn.extend = function ()
+        {
+            var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
+            if(length === i)
+            {
+                target = this;
+                --i;
+            }
+
+            for(;i < length;i++)
+            {
+                if((options = arguments[i]) != null)
+                {
+                    for(name in options)
+                    {
+                        copy = options[name];
+                        if(deep);
+                        else if(copy !== undefined)
+                        {
+                            target[name] = copy;
+                        }
+                    }
+                }
+            }
+
+            return target;
+        };
+        jQuery.extend({
+            noConflict: function (deep)
+            {},
+            isReady: false,
+            readyWait: 1,
+            holdReady: function (hold)
+            {},
+            ready: function (wait)
+            {
+                if(wait === true || (wait !== true && !(jQuery.isReady)))
+                {
+                    readyList.fireWith(document, [null]);
+                    if(jQuery.fn.trigger)
+                    {
+                        jQuery(document).trigger('ready').off('ready');
+                    }
+                }
+            },
+            bindReady: function ()
+            {
+                readyList = jQuery.Callbacks('once memory');
+                if(document.addEventListener)
+                {
+                    document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+                }
+            },
+            isFunction: function (obj)
+            {
+                return jQuery.type(obj) === 'function';
+            },
+            isArray: Array.isArray || function (obj)
+            {
+                return jQuery.type(obj) === 'array';
+            },
+            isWindow: function (obj)
+            {
+                return obj != null && obj == obj.window;
+            },
+            isNumeric: function (obj)
+            {},
+            type: function (obj)
+            {
+                return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
+            },
+            isPlainObject: function (obj)
+            {},
+            isEmptyObject: function (obj)
+            {},
+            error: function (msg)
+            {},
+            parseJSON: function (data)
+            {},
+            parseXML: function (data)
+            {},
+            noop: function ()
+            {},
+            globalEval: function (data)
+            {},
+            camelCase: function (string)
+            {
+                return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
+            },
+            nodeName: function (elem, name)
+            {
+                return elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
+            },
+            each: function (object, callback, args)
+            {
+                var name, i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
+                if(args);
+                else
+                {
+                    if(isObj)
+                    {
+                        for(name in object)
+                        {
+                            if(callback.call(object[name], name, object[name]) === false);
+                        }
+                    }
+                    else
+                    {
+                        for(;i < length;)
+                        {
+                            if(callback.call(object[i], i, object[i++]) === false);
+                        }
+                    }
+                }
+
+                return object;
+            },
+            trim: trim ? function (text)
+            {
+                return text == null ? 0 : trim.call(text);
+            } : 0,
+            makeArray: function (array, results)
+            {
+                var ret = results || [];
+                if(array != null)
+                {
+                    var type = jQuery.type(array);
+                    if(array.length == null || type === 'string' || type === 'function' || type === 'regexp' || jQuery.isWindow(array))
+                    {
+                        push.call(ret, array);
+                    }
+                    else
+                    {
+                        jQuery.merge(ret, array);
+                    }
+                }
+
+                return ret;
+            },
+            inArray: function (elem, array, i)
+            {},
+            merge: function (first, second)
+            {
+                var i = first.length, j = 0;
+                if(typeof (second.length) === 'number')
+                {
+                    for(var l = second.length;j < l;j++)
+                    {
+                        first[i++] = second[j];
+                    }
+                }
+
+                first.length = i;
+                return first;
+            },
+            grep: function (elems, callback, inv)
+            {},
+            map: function (elems, callback, arg)
+            {
+                var value, ret = [], i = 0, length = elems.length, isArray = elems instanceof jQuery;
+                if(isArray)
+                {
+                    for(;i < length;i++)
+                    {
+                        value = callback(elems[i], i, arg);
+                        if(value != null)
+                        {
+                            ret[ret.length] = value;
+                        }
+                    }
+                }
+
+                return ret.concat.apply([], ret);
+            },
+            guid: 1,
+            proxy: function (fn, context)
+            {},
+            access: function (elems, fn, key, value, chainable, emptyGet, pass)
+            {
+                var exec, bulk = key == null, i = 0, length = elems.length;
+                if(key && typeof key === 'object');
+                else if(value !== undefined)
+                {
+                    exec = pass === undefined && jQuery.isFunction(value);
+                    if(bulk)
+                    {
+                        if(exec);
+                        else
+                        {
+                            fn.call(elems, value);
+                            fn = null;
+                        }
+                    }
+
+                    if(fn)
+                    {
+                        for(;i < length;i++)
+                        {
+                            fn(elems[i], key, exec ? 0 : value, pass);
+                        }
+                    }
+
+                    chainable = 1;
+                }
+
+
+                return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : 0;
+            },
+            now: function ()
+            {
+                return (new Date()).getTime();
+            },
+            uaMatch: function (ua)
+            {},
+            sub: function ()
+            {},
+            browser: {}
+        });
+        jQuery.each('Boolean Number String Function Array Date RegExp Object'.split(' '), function (i, name)
+        {
+            class2type[('[object ' + name) + ']'] = name.toLowerCase();
+        });
+        rootjQuery = jQuery(document);
+        if(document.addEventListener)
+        {
+            DOMContentLoaded = function ()
+            {
+                jQuery.ready();
+            };
+        }
+
+        return jQuery;
+    })();
+    var flagsCache = {};
+    function createFlags (flags)
+    {
+        var object = flagsCache[flags] = {}, i, length;
+        flags = flags.split(/\s+/);
+        for(i = 0, length = flags.length;i < length;i++)
+        {
+            object[flags[i]] = true;
+        }
+
+        return object;
+    }
+    jQuery.Callbacks = function (flags)
+    {
+        flags = flags ? flagsCache[flags] || createFlags(flags) : 0;
+        var list = [], stack = [], memory, firing, firingStart, firingLength, firingIndex, add = function (args)
+        {
+            var i, length, elem, type;
+            for(i = 0, length = args.length;i < length;i++)
+            {
+                elem = args[i];
+                type = jQuery.type(elem);
+                if(type === 'array');
+                else if(type === 'function')
+                {
+                    if(!(flags.unique))
+                    {
+                        list.push(elem);
+                    }
+                }
+            }
+        }, fire = function (context, args)
+        {
+            args = args;
+            firingIndex = firingStart || 0;
+            firingLength = list.length;
+            for(;list && firingIndex < firingLength;firingIndex++)
+            {
+                if(list[firingIndex].apply(context, args) === false);
+            }
+        }, self = {
+            add: function ()
+            {
+                if(list)
+                {
+                    add(arguments);
+                }
+            },
+            fireWith: function (context, args)
+            {
+                if(stack)
+                {
+                    if(firing);
+                    else if(!(flags.once && memory))
+                    {
+                        fire(context, args);
+                    }
+                }
+            }
+        };
+        return self;
+    };
+    jQuery.support = (function ()
+    {
+        var support, select, input, fragment, tds, div = document.createElement('div'), documentElement = document.documentElement;
+        div.setAttribute('className', 't');
+        div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
+        select = document.createElement('select');
+        select.appendChild(document.createElement('option'));
+        input = div.getElementsByTagName('input')[0];
+        support = {
+            html5Clone: document.createElement('nav').cloneNode(true).outerHTML !== '<:nav></:nav>'
+        };
+        input.checked = true;
+        select.disabled = true;
+        input = document.createElement('input');
+        input.value = 't';
+        input.setAttribute('type', 'radio');
+        input.setAttribute('checked', 'checked');
+        input.setAttribute('name', 't');
+        div.appendChild(input);
+        fragment = document.createDocumentFragment();
+        fragment.appendChild(div.lastChild);
+        support.checkClone = fragment.cloneNode(true).cloneNode(true).lastChild.checked;
+        fragment.removeChild(input);
+        fragment.appendChild(div);
+        fragment.removeChild(div);
+        jQuery(function ()
+        {
+            var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+            conMarginTop = 1;
+            paddingMarginBorder = 'padding:0;margin:0;border:';
+            positionTopLeftWidthHeight = 'position:absolute;top:0;left:0;width:1px;height:1px;';
+            paddingMarginBorderVisibility = paddingMarginBorder + '0;visibility:hidden;';
+            style = (('style=\'' + positionTopLeftWidthHeight) + paddingMarginBorder) + '5px solid #000;';
+            html = ((((((('<div ' + style) + 'display:block;\'><div style=\'') + paddingMarginBorder) + '0;display:block;overflow:hidden;\'></div></div>') + '<table ') + style) + '\' cellpadding=\'0\' cellspacing=\'0\'>') + '<tr><td></td></tr></table>';
+            container = document.createElement('div');
+            container.style.cssText = ((paddingMarginBorderVisibility + 'width:0;height:0;position:static;top:0;margin-top:') + conMarginTop) + 'px';
+            body.insertBefore(container, body.firstChild);
+            div = document.createElement('div');
+            container.appendChild(div);
+            div.innerHTML = ('<table><tr><td style=\'' + paddingMarginBorder) + '0;display:none\'></td><td>t</td></tr></table>';
+            tds = div.getElementsByTagName('td');
+            tds[0].style.display = '';
+            tds[1].style.display = 'none';
+            if(window.getComputedStyle)
+            {
+                div.innerHTML = '';
+                marginDiv = document.createElement('div');
+                marginDiv.style.width = '0';
+                marginDiv.style.marginRight = '0';
+                div.style.width = '2px';
+                div.appendChild(marginDiv);
+            }
+
+            div.style.cssText = positionTopLeftWidthHeight + paddingMarginBorderVisibility;
+            div.innerHTML = html;
+            outer = div.firstChild;
+            inner = outer.firstChild;
+            inner.style.position = 'fixed';
+            inner.style.top = '20px';
+            inner.style.position = inner.style.top = '';
+            outer.style.overflow = 'hidden';
+            outer.style.position = 'relative';
+            if(window.getComputedStyle)
+            {
+                div.style.marginTop = '1%';
+            }
+
+            body.removeChild(container);
+        });
+        return support;
+    })();
+    jQuery.extend({
+        cache: {},
+        uuid: 0,
+        expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
+        noData: {},
+        hasData: function (elem)
+        {},
+        data: function (elem, name, data, pvt)
+        {
+            var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[internalKey] : elem[internalKey], isEvents = name === 'events';
+            if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
+            {
+                return ;
+            }
+
+            if(!id)
+            {
+                if(isNode)
+                {
+                    elem[internalKey] = id = ++jQuery.uuid;
+                }
+                else
+                {
+                    id = internalKey;
+                }
+            }
+
+            if(!(cache[id]))
+            {
+                cache[id] = {};
+            }
+
+            thisCache = cache[id];
+            if(data !== undefined)
+            {
+                thisCache[jQuery.camelCase(name)] = data;
+            }
+
+            if(getByName)
+            {
+                ret = thisCache[name];
+                if(ret == null)
+                {
+                    ret = thisCache[jQuery.camelCase(name)];
+                }
+            }
+            else
+            {
+                ret = thisCache;
+            }
+
+            return ret;
+        },
+        removeData: function (elem, name, pvt)
+        {
+            var thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
+            if(name)
+            {
+                thisCache = pvt ? cache[id] : 0;
+                if(thisCache)
+                {
+                    if(!(jQuery.isArray(name)))
+                    {
+                        if(name in thisCache);
+                        else
+                        {
+                            jQuery.camelCase(name);
+                        }
+                    }
+
+                    if(!((pvt ? isEmptyDataObject : 0)(thisCache)))
+                    {
+                        return ;
+                    }
+                }
+            }
+        },
+        _data: function (elem, name, data)
+        {
+            return jQuery.data(elem, name, data, true);
+        },
+        acceptData: function (elem)
+        {}
+    });
+    function isEmptyDataObject (obj)
+    {
+        for(var name in obj)
+        {
+            if(name !== 'toJSON')
+            {
+                return false;
+            }
+        }
+    }
+    jQuery.extend({
+        _mark: function (elem, type)
+        {},
+        _unmark: function (force, elem, type)
+        {},
+        queue: function (elem, type, data)
+        {
+            var q;
+            if(elem)
+            {
+                type = type + 'queue';
+                q = jQuery._data(elem, type);
+                if(data)
+                {
+                    if(!q || jQuery.isArray(data))
+                    {
+                        q = jQuery._data(elem, type, jQuery.makeArray(data));
+                    }
+                    else
+                    {
+                        q.push(data);
+                    }
+                }
+
+                return q || [];
+            }
+        },
+        dequeue: function (elem, type)
+        {
+            type = type || 'fx';
+            var queue = jQuery.queue(elem, type), fn = queue.shift(), hooks = {};
+            if(fn === 'inprogress')
+            {
+                fn = queue.shift();
+            }
+
+            if(fn)
+            {
+                if(type === 'fx')
+                {
+                    queue.unshift('inprogress');
+                }
+
+                jQuery._data(elem, type + '.run', hooks);
+                fn.call(elem, function ()
+                {}, hooks);
+            }
+        }
+    });
+    jQuery.fn.extend({
+        queue: function (type, data)
+        {
+            return data === undefined ? 0 : this.each(function ()
+            {
+                var queue = jQuery.queue(this, type, data);
+                if(type === 'fx' && queue[0] !== 'inprogress')
+                {
+                    jQuery.dequeue(this, type);
+                }
+            });
+        },
+        dequeue: function (type)
+        {},
+        delay: function (time, type)
+        {},
+        clearQueue: function (type)
+        {},
+        promise: function (type, object)
+        {}
+    });
+    var rclass = /[\n\t\r]/g, rspace = /\s+/, rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i, nodeHook;
+    jQuery.fn.extend({
+        attr: function (name, value)
+        {
+            return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
+        },
+        removeAttr: function (name)
+        {},
+        prop: function (name, value)
+        {},
+        removeProp: function (name)
+        {},
+        addClass: function (value)
+        {
+            var classNames, i, l, elem, setClass, c, cl;
+            if(value && typeof value === 'string')
+            {
+                classNames = value.split(rspace);
+                for(i = 0, l = this.length;i < l;i++)
+                {
+                    elem = this[i];
+                    if(elem.nodeType === 1)
+                    {
+                        if(!(elem.className));
+                        else
+                        {
+                            setClass = (' ' + elem.className) + ' ';
+                            for(c = 0, cl = classNames.length;c < cl;c++)
+                            {
+                                if(!(~(setClass.indexOf((' ' + classNames[c]) + ' '))))
+                                {
+                                    setClass += classNames[c] + ' ';
+                                }
+                            }
+
+                            elem.className = jQuery.trim(setClass);
+                        }
+                    }
+                }
+            }
+        },
+        removeClass: function (value)
+        {
+            var classNames, i, l, elem, className, c, cl;
+            if((value && typeof value === 'string'))
+            {
+                classNames = (value).split(rspace);
+                for(i = 0, l = this.length;i < l;i++)
+                {
+                    elem = this[i];
+                    if(elem.nodeType === 1 && elem.className)
+                    {
+                        if(value)
+                        {
+                            className = ((' ' + elem.className) + ' ').replace(rclass, ' ');
+                            for(c = 0, cl = classNames.length;c < cl;c++)
+                            {
+                                className = className.replace((' ' + classNames[c]) + ' ', ' ');
+                            }
+
+                            elem.className = jQuery.trim(className);
+                        }
+                    }
+                }
+            }
+        },
+        toggleClass: function (value, stateVal)
+        {},
+        hasClass: function (selector)
+        {
+            var className = (' ' + selector) + ' ', i = 0, l = this.length;
+            for(;i < l;i++)
+            {
+                if(this[i].nodeType === 1 && ((' ' + this[i].className) + ' ').replace(rclass, ' ').indexOf(className) > -1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+        val: function (value)
+        {}
+    });
+    jQuery.extend({
+        valHooks: {},
+        attrFn: {},
+        attr: function (elem, name, value, pass)
+        {
+            var ret, hooks, notxml, nType = elem.nodeType;
+            notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
+            if(notxml)
+            {
+                name = name.toLowerCase();
+                hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? 0 : nodeHook);
+            }
+
+            if(value !== undefined);
+            else if(hooks);
+            else
+            {
+                ret = elem.getAttribute(name);
+                return ret === null ? undefined : 0;
+            }
+        },
+        removeAttr: function (elem, value)
+        {},
+        attrHooks: {},
+        propFix: {},
+        prop: function (elem, name, value)
+        {},
+        propHooks: {}
+    });
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function (events)
+    {
+        return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
+    };
+    jQuery.event = {
+        add: function (elem, types, handler, data, selector)
+        {
+            var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
+            if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
+
+            events = elemData.events;
+            if(!events)
+            {
+                elemData.events = events = {};
+            }
+
+            eventHandle = elemData.handle;
+            if(!eventHandle)
+            {
+                elemData.handle = eventHandle = function (e)
+                {
+                    return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
+                };
+                eventHandle.elem = elem;
+            }
+
+            types = jQuery.trim(hoverHack(types)).split(' ');
+            for(t = 0;t < types.length;t++)
+            {
+                tns = rtypenamespace.exec(types[t]);
+                type = tns[1];
+                special = jQuery.event.special[type] || {};
+                type = (selector ? 0 : special.bindType) || type;
+                special = jQuery.event.special[type] || {};
+                handleObj = jQuery.extend({
+                    origType: tns[1],
+                    data: data,
+                    handler: handler
+                }, handleObjIn);
+                handlers = events[type];
+                if(!handlers)
+                {
+                    handlers = events[type] = [];
+                    handlers.delegateCount = 0;
+                    if(!(special.setup))
+                    {
+                        if(elem.addEventListener)
+                        {
+                            elem.addEventListener(type, eventHandle, false);
+                        }
+                    }
+                }
+
+                if(selector);
+                else
+                {
+                    handlers.push(handleObj);
+                }
+            }
+        },
+        trigger: function (event, data, elem, onlyHandlers)
+        {
+            var type = event.type || event, i, cur, special, eventPath;
+            event = typeof event === 'object' ? 0 : new jQuery.Event(type);
+            special = jQuery.event.special[type];
+            eventPath = [[elem, special.bindType || type]];
+            for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
+            {
+                cur = eventPath[i][0];
+                (jQuery._data(cur, 'events'));
+            }
+        },
+        dispatch: function (event)
+        {
+            event = jQuery.event.fix(event);
+            var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, ret, matched, handleObj;
+            args[0] = event;
+            if(handlers.length > delegateCount)
+            {
+                handlerQueue.push({
+                    elem: this,
+                    matches: handlers.slice(delegateCount)
+                });
+            }
+
+            for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
+            {
+                matched = handlerQueue[i];
+                for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
+                {
+                    handleObj = matched.matches[j];
+                    if(run_all)
+                    {
+                        event.data = handleObj.data;
+                        ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+                        if(ret !== undefined)
+                        {
+                            event.result = ret;
+                            if(ret === false)
+                            {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                        }
+                    }
+                }
+            }
+
+            return event.result;
+        },
+        fixHooks: {},
+        mouseHooks: {
+            filter: function (event, original)
+            {
+                return event;
+            }
+        },
+        fix: function (event)
+        {
+            var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
+            event = jQuery.Event(originalEvent);
+            return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
+        },
+        special: {
+            ready: {}
+        }
+    };
+    jQuery.Event = function (src, props)
+    {
+        if(!(this instanceof jQuery.Event))
+        {
+            return new jQuery.Event(src, props);
+        }
+
+        if(src && src.type)
+        {
+            this.originalEvent = src;
+            this.type = src.type;
+        }
+    };
+    function returnFalse ()
+    {
+        return false;
+    }
+    jQuery.Event.prototype = {
+        preventDefault: function ()
+        {
+            var e = this.originalEvent;
+            if(e.preventDefault)
+            {
+                e.preventDefault();
+            }
+        },
+        stopPropagation: function ()
+        {
+            var e = this.originalEvent;
+            if(e.stopPropagation)
+            {
+                e.stopPropagation();
+            }
+        },
+        isPropagationStopped: returnFalse,
+        isImmediatePropagationStopped: returnFalse
+    };
+    jQuery.each({mouseenter: 'mouseover', mouseleave: 'mouseout'}, function (orig, fix)
+    {
+        jQuery.event.special[orig] = {
+            bindType: fix
+        };
+    });
+    jQuery.fn.extend({
+        on: function (types, selector, data, fn, one)
+        {
+            return this.each(function ()
+            {
+                jQuery.event.add(this, types, fn, data, selector);
+            });
+        },
+        one: function (types, selector, data, fn)
+        {},
+        off: function (types, selector, fn)
+        {
+            return this.each(function ()
+            {});
+        },
+        bind: function (types, data, fn)
+        {
+            return this.on(types, null, data, fn);
+        },
+        unbind: function (types, fn)
+        {},
+        live: function (types, data, fn)
+        {},
+        die: function (types, fn)
+        {},
+        delegate: function (selector, types, data, fn)
+        {},
+        undelegate: function (selector, types, fn)
+        {},
+        trigger: function (type, data)
+        {
+            return this.each(function ()
+            {
+                jQuery.event.trigger(type, data, this);
+            });
+        },
+        triggerHandler: function (type, data)
+        {},
+        toggle: function (fn)
+        {},
+        hover: function (fnOver, fnOut)
+        {
+            return this.mouseenter(fnOver).mouseleave(fnOut);
+        }
+    });
+    jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function (i, name)
+    {
+        jQuery.fn[name] = function (data, fn)
+        {
+            if(fn == null)
+            {
+                fn = data;
+                data = null;
+            }
+
+            return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
+        };
+        if(rmouseEvent.test(name))
+        {
+            jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
+        }
+    });
+    (function ()
+    {
+        var Sizzle = function (selector, context, results, seed)
+        {};
+        var Expr = Sizzle.selectors = {
+            find: {}
+        };
+        var makeArray = function (array, results)
+        {
+            array = Array.prototype.slice.call(array, 0);
+            if(results)
+            {
+                results.push.apply(results, array);
+            }
+        };
+        try
+        {
+            (document.documentElement.childNodes, null).nodeType;
+        }
+        catch(e){}
+        (function ()
+        {
+            var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
+            form.innerHTML = ('<a name=\'' + id) + '\'/>';
+            root.insertBefore(form, root.firstChild);
+            root.removeChild(form);
+        })();
+        (function ()
+        {
+            var div = document.createElement('div');
+            div.appendChild(document.createComment(''));
+            div.innerHTML = '<a href=\'#\'></a>';
+        })();
+        if(document.querySelectorAll)
+        {
+            (function ()
+            {
+                var div = document.createElement('div');
+                div.innerHTML = '<p class=\'TEST\'></p>';
+                Sizzle = function (query, context, extra, seed)
+                {
+                    context = context;
+                    if(!seed && !(Sizzle.isXML(context)))
+                    {
+                        var match = /^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/.exec(query);
+                        if(match && (context.nodeType === 1 || context.nodeType === 9))
+                        {
+                            if(match[1])
+                            {
+                                return makeArray(context.getElementsByTagName(query), extra);
+                            }
+                            else if(match[2] && Expr.find.CLASS && context.getElementsByClassName)
+                            {
+                                return makeArray(context.getElementsByClassName(match[2]), extra);
+                            }
+                        }
+
+                        if(context.nodeType === 9)
+                        {
+                            try
+                            {
+                                return makeArray(context.querySelectorAll(query), extra);
+                            }
+                            catch(qsaError){}
+                        }
+                    }
+                };
+            })();
+        }
+
+        (function ()
+        {
+            var div = document.createElement('div');
+            div.innerHTML = '<div class=\'test e\'></div><div class=\'test\'></div>';
+            div.lastChild.className = 'e';
+            Expr.find.CLASS = function (match, context, isXML)
+            {};
+        })();
+        Sizzle.isXML = function (elem)
+        {
+            var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
+        };
+        jQuery.find = Sizzle;
+        jQuery.isXMLDoc = Sizzle.isXML;
+    })();
+    var slice = Array.prototype.slice;
+    jQuery.fn.extend({
+        find: function (selector)
+        {
+            var i, l;
+            var ret = this.pushStack('', 'find', selector);
+            for(i = 0, l = this.length;i < l;i++)
+            {
+                jQuery.find(selector, this[i], ret);
+            }
+
+            return ret;
+        },
+        has: function (target)
+        {},
+        not: function (selector)
+        {},
+        filter: function (selector)
+        {},
+        is: function (selector)
+        {},
+        closest: function (selectors, context)
+        {},
+        index: function (elem)
+        {},
+        add: function (selector, context)
+        {},
+        andSelf: function ()
+        {}
+    });
+    jQuery.each({
+        parent: function (elem)
+        {},
+        parents: function (elem)
+        {},
+        parentsUntil: function (elem, i, until)
+        {},
+        next: function (elem)
+        {},
+        prev: function (elem)
+        {},
+        nextAll: function (elem)
+        {},
+        prevAll: function (elem)
+        {},
+        nextUntil: function (elem, i, until)
+        {},
+        prevUntil: function (elem, i, until)
+        {},
+        siblings: function (elem)
+        {},
+        children: function (elem)
+        {
+            return jQuery.sibling(elem.firstChild);
+        },
+        contents: function (elem)
+        {}
+    }, function (name, fn)
+    {
+        jQuery.fn[name] = function (until, selector)
+        {
+            var ret = jQuery.map(this, fn, until);
+            ret = this.length > 1 ? 0 : ret;
+            return this.pushStack(ret, name, slice.call(arguments).join(','));
+        };
+    });
+    jQuery.extend({
+        filter: function (expr, elems, not)
+        {},
+        dir: function (elem, dir, until)
+        {},
+        nth: function (cur, result, dir, elem)
+        {},
+        sibling: function (n, elem)
+        {
+            var r = [];
+            for(;n;n = n.nextSibling)
+            {
+                if(n.nodeType === 1 && n !== elem)
+                {
+                    r.push(n);
+                }
+            }
+
+            return r;
+        }
+    });
+    function createSafeFragment (document)
+    {
+        var safeFrag = document.createDocumentFragment();
+        return safeFrag;
+    }
+    var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rhtml = /<|&#?\w+;/, rnocache = /<(?:script|object|embed|option|style)/i, wrapMap = {
+        _default: [0, '', '']
+    }, safeFragment = createSafeFragment(document);
+    jQuery.fn.extend({
+        text: function (value)
+        {
+            return jQuery.access(this, function (value)
+            {
+                return value === undefined ? 0 : this.empty().append(((this[0] && this[0].ownerDocument)).createTextNode(value));
+            }, null, value, arguments.length);
+        },
+        wrapAll: function (html)
+        {
+            if(this[0])
+            {
+                var wrap = jQuery(html, this[0].ownerDocument).eq(0).clone(true);
+                if(this[0].parentNode)
+                {
+                    wrap.insertBefore(this[0]);
+                }
+
+                wrap.map(function ()
+                {
+                    var elem = this;
+                    return elem;
+                }).append(this);
+            }
+        },
+        wrapInner: function (html)
+        {},
+        wrap: function (html)
+        {
+            var isFunction = jQuery.isFunction(html);
+            return this.each(function (i)
+            {
+                jQuery(this).wrapAll(isFunction ? 0 : html);
+            });
+        },
+        unwrap: function ()
+        {},
+        append: function ()
+        {
+            return this.domManip(arguments, true, function (elem)
+            {
+                if(this.nodeType === 1)
+                {
+                    this.appendChild(elem);
+                }
+            });
+        },
+        prepend: function ()
+        {},
+        before: function ()
+        {
+            if(this[0] && this[0].parentNode)
+            {
+                return this.domManip(arguments, false, function (elem)
+                {
+                    this.parentNode.insertBefore(elem, this);
+                });
+            }
+        },
+        after: function ()
+        {},
+        remove: function (selector, keepData)
+        {
+            for(var i = 0, elem;(elem = this[i]) != null;i++)
+            {
+                if(!selector)
+                {
+                    if(elem.parentNode)
+                    {
+                        elem.parentNode.removeChild(elem);
+                    }
+                }
+            }
+
+            return this;
+        },
+        empty: function ()
+        {
+            for(var i = 0, elem;(elem = this[i]) != null;i++)
+            {
+                while(elem.firstChild)
+                {
+                    elem.removeChild(elem.firstChild);
+                }
+            }
+
+            return this;
+        },
+        clone: function (dataAndEvents, deepDataAndEvents)
+        {
+            dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
+            deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : 0;
+            return this.map(function ()
+            {
+                return jQuery.clone(this, dataAndEvents, deepDataAndEvents);
+            });
+        },
+        html: function (value)
+        {},
+        replaceWith: function (value)
+        {},
+        detach: function (selector)
+        {},
+        domManip: function (args, table, callback)
+        {
+            var results, first, fragment, scripts = [];
+            if(this[0])
+            {
+                if(jQuery.support.parentNode);
+                else
+                {
+                    results = jQuery.buildFragment(args, this, scripts);
+                }
+
+                fragment = results.fragment;
+                if(fragment.childNodes.length === 1)
+                {
+                    first = fragment = fragment.firstChild;
+                }
+
+                if(first)
+                {
+                    table = table && jQuery.nodeName(first, 'tr');
+                    for(var i = 0, l = this.length;i < l;i++)
+                    {
+                        callback.call(table ? 0 : this[i], results.cacheable || l > 1 ? jQuery.clone(fragment, true, true) : fragment);
+                    }
+                }
+            }
+        }
+    });
+    jQuery.buildFragment = function (args, nodes, scripts)
+    {
+        var fragment, cacheable, doc, first = args[0];
+        if(nodes && nodes[0])
+        {
+            doc = nodes[0].ownerDocument || nodes[0];
+        }
+
+        if(args.length === 1 && typeof first === 'string' && first.length < 512 && doc === document && first.charAt(0) === '<' && !(rnocache.test(first)) && jQuery.support.checkClone && jQuery.support.html5Clone)
+        {
+            cacheable = true;
+        }
+
+        if(!fragment)
+        {
+            fragment = doc.createDocumentFragment();
+            jQuery.clean(args, doc, fragment, scripts);
+        }
+
+        return {
+            fragment: fragment,
+            cacheable: cacheable
+        };
+    };
+    jQuery.each({appendTo: 'append', prependTo: 'prepend', insertBefore: 'before', insertAfter: 'after', replaceAll: 'replaceWith'}, function (name, original)
+    {
+        jQuery.fn[name] = function (selector)
+        {
+            var ret = [], insert = jQuery(selector), parent = this.length === 1 && this[0].parentNode;
+            if(parent && parent.nodeType === 11 && parent.childNodes.length === 1 && insert.length === 1)
+            {
+                insert[original](this[0]);
+            }
+            else
+            {
+                for(var i = 0, l = insert.length;i < l;i++)
+                {
+                    var elems = (i > 0 ? 0 : this).get();
+                    jQuery(insert[i])[original](elems);
+                    ret = ret.concat(elems);
+                }
+
+                return this.pushStack(ret, name, insert.selector);
+            }
+        };
+    });
+    function getAll (elem)
+    {
+        if(typeof (elem.getElementsByTagName) !== 'undefined')
+        {
+            return elem.getElementsByTagName('*');
+        }
+    }
+    jQuery.extend({
+        clone: function (elem, dataAndEvents, deepDataAndEvents)
+        {
+            var clone = jQuery.support.html5Clone ? elem.cloneNode(true) : 0;
+            if(dataAndEvents)
+            {
+                if(deepDataAndEvents)
+                {
+                    getAll(elem);
+                    getAll(clone);
+                }
+            }
+
+            return clone;
+        },
+        clean: function (elems, context, fragment, scripts)
+        {
+            var script, ret = [];
+            context = context;
+            for(var i = 0, elem;(elem = elems[i]) != null;i++)
+            {
+                if(typeof elem === 'string')
+                {
+                    if(!(rhtml.test(elem)));
+                    else
+                    {
+                        elem = elem.replace(rxhtmlTag, '<$1></$2>');
+                        var tag, wrap = wrapMap[tag] || wrapMap._default, div = context.createElement('div');
+                        if(context === document)
+                        {
+                            safeFragment.appendChild(div);
+                        }
+
+                        div.innerHTML = (wrap[1] + elem) + wrap[2];
+                        elem = div.childNodes;
+                        if(div)
+                        {
+                            div.parentNode.removeChild(div);
+                        }
+                    }
+                }
+
+                if(elem.nodeType)
+                {
+                    ret.push(elem);
+                }
+                else
+                {
+                    ret = jQuery.merge(ret, elem);
+                }
+            }
+
+            if(fragment)
+            {
+                for(i = 0;ret[i];i++)
+                {
+                    script = ret[i];
+                    if(scripts && jQuery.nodeName(script, 'script'));
+                    else
+                    {
+                        fragment.appendChild(script);
+                    }
+                }
+            }
+        },
+        cleanData: function (elems)
+        {}
+    });
+    var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
+    jQuery.fn.css = function (name, value)
+    {
+        return jQuery.access(this, function (elem, name, value)
+        {
+            return value !== undefined ? jQuery.style(elem, name, value) : 0;
+        }, name, value, arguments.length > 1);
+    };
+    jQuery.extend({
+        cssHooks: {
+            opacity: {
+                get: function (elem, computed)
+                {
+                    if(computed)
+                    {
+                        var ret = curCSS(elem, 'opacity');
+                        return ret === '' ? 0 : ret;
+                    }
+                    else
+                    {
+                        return elem.style.opacity;
+                    }
+                }
+            }
+        },
+        cssNumber: {'opacity': true},
+        cssProps: {},
+        style: function (elem, name, value, extra)
+        {
+            var ret, origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
+            name = jQuery.cssProps[origName] || origName;
+            if(value !== undefined)
+            {
+                if(!hooks || !('set' in hooks))
+                {
+                    try
+                    {
+                        style[name] = value;
+                    }
+                    catch(e){}
+                }
+            }
+            else
+            {
+                if(hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined)
+                {
+                    return ret;
+                }
+            }
+        },
+        css: function (elem, name, extra)
+        {
+            var ret, hooks;
+            name = jQuery.camelCase(name);
+            hooks = jQuery.cssHooks[name];
+            name = jQuery.cssProps[name] || name;
+            if(hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
+            {
+                return ret;
+            }
+            else if(curCSS)
+            {
+                return curCSS(elem, name);
+            }
+        },
+        swap: function (elem, options, callback)
+        {}
+    });
+    if(document.defaultView && document.defaultView.getComputedStyle)
+    {
+        getComputedStyle = function (elem, name)
+        {
+            var ret, defaultView, computedStyle;
+            name = name.replace(rupper, '-$1').toLowerCase();
+            if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
+            {
+                ret = computedStyle.getPropertyValue(name);
+            }
+
+            return ret;
+        };
+    }
+
+    curCSS = getComputedStyle;
+    jQuery(function ()
+    {});
+    var rfxtypes = /^(?:toggle|show|hide)$/, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
+    jQuery.fn.extend({
+        show: function (speed, easing, callback)
+        {
+            var elem, display;
+            if(speed || speed === 0);
+            else
+            {
+                for(var i = 0, j = this.length;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        if(!(jQuery._data(elem, 'olddisplay')));
+                    }
+                }
+
+                for(i = 0;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = elem.style.display;
+                        if(display === '' || display === 'none')
+                        {
+                            elem.style.display = jQuery._data(elem, 'olddisplay');
+                        }
+                    }
+                }
+            }
+        },
+        hide: function (speed, easing, callback)
+        {
+            if(speed || speed === 0);
+            else
+            {
+                var elem, display, i = 0, j = this.length;
+                for(;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = jQuery.css(elem, 'display');
+                        if(display !== 'none' && !(jQuery._data(elem, 'olddisplay')))
+                        {
+                            jQuery._data(elem, 'olddisplay', display);
+                        }
+                    }
+                }
+
+                for(i = 0;i < j;i++)
+                {
+                    if(this[i].style)
+                    {
+                        this[i].style.display = 'none';
+                    }
+                }
+
+                return this;
+            }
+        },
+        _toggle: jQuery.fn.toggle,
+        toggle: function (fn, fn2, callback)
+        {},
+        fadeTo: function (speed, to, easing, callback)
+        {},
+        animate: function (prop, speed, easing, callback)
+        {
+            var optall = jQuery.speed(speed, easing, callback);
+            prop = jQuery.extend({}, prop);
+            function doAnimation ()
+            {
+                var opt = jQuery.extend({}, optall), name, val, p, e, method;
+                opt.animatedProperties = {};
+                for(p in prop)
+                {
+                    jQuery.camelCase(p);
+                }
+
+                for(name in prop)
+                {
+                    val = prop[name];
+                    if(jQuery.isArray(val));
+                    else
+                    {
+                        opt.animatedProperties[name] = opt.specialEasing || opt.easing || 'swing';
+                    }
+                }
+
+                for(p in prop)
+                {
+                    e = new jQuery.fx(this, opt, p);
+                    val = prop[p];
+                    if(rfxtypes.test(val))
+                    {
+                        method = jQuery._data(this, 'toggle' + p) || (val === 'toggle' ? 0 : 0);
+                        if(method);
+                        else
+                        {
+                            e[val]();
+                        }
+                    }
+                }
+            }
+            return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
+        },
+        stop: function (type, clearQueue, gotoEnd)
+        {
+            if(typeof type !== 'string')
+            {
+                gotoEnd = clearQueue;
+                clearQueue = type;
+                type = undefined;
+            }
+
+            if(clearQueue && type !== false)
+            {
+                this.queue(type || 'fx', []);
+            }
+
+            return this.each(function ()
+            {
+                var hadTimers = false, data = jQuery._data(this);
+                if(!(gotoEnd && hadTimers))
+                {
+                    jQuery.dequeue(this, type);
+                }
+            });
+        }
+    });
+    function createFxNow ()
+    {
+        setTimeout(clearFxNow, 0);
+        return fxNow = jQuery.now();
+    }
+    function clearFxNow ()
+    {
+        fxNow = undefined;
+    }
+    function genFx (type, num)
+    {
+        var obj = {};
+        return obj;
+    }
+    jQuery.each({
+        slideDown: genFx('show', 1),
+        slideUp: genFx('hide', 1),
+        slideToggle: genFx('toggle', 1),
+        fadeIn: {opacity: 'show'},
+        fadeOut: {opacity: 'hide'},
+        fadeToggle: {}
+    }, function (name, props)
+    {
+        jQuery.fn[name] = function (speed, easing, callback)
+        {
+            return this.animate(props, speed, easing, callback);
+        };
+    });
+    jQuery.extend({
+        speed: function (speed, easing, fn)
+        {
+            var opt = speed && typeof speed === 'object' ? 0 : {
+                complete: fn || (!fn && easing),
+                duration: speed,
+                easing: fn || easing && !(jQuery.isFunction(easing))
+            };
+            opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : 0;
+            if(opt.queue == null)
+            {
+                opt.queue = 'fx';
+            }
+
+            opt.old = opt.complete;
+            opt.complete = function (noUnmark)
+            {
+                if(jQuery.isFunction(opt.old))
+                {
+                    opt.old.call(this);
+                }
+
+                if(opt.queue)
+                {
+                    jQuery.dequeue(this, opt.queue);
+                }
+            };
+            return opt;
+        },
+        easing: {
+            swing: function (p)
+            {
+                return (-(Math.cos(p * Math.PI)) / 2) + 0.5;
+            }
+        },
+        timers: [],
+        fx: function (elem, options, prop)
+        {
+            this.options = options;
+            this.elem = elem;
+            this.prop = prop;
+            options.orig = options.orig || {};
+        }
+    });
+    jQuery.fx.prototype = {
+        update: function ()
+        {
+            jQuery.fx.step[this.prop](this);
+        },
+        cur: function ()
+        {
+            var parsed, r = jQuery.css(this.elem, this.prop);
+            return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
+        },
+        custom: function (from, to, unit)
+        {
+            var self = this, fx = jQuery.fx;
+            this.startTime = fxNow || createFxNow();
+            this.end = to;
+            this.start = from;
+            this.unit = unit || this.unit || (jQuery.cssNumber[this.prop] ? '' : 0);
+            function t (gotoEnd)
+            {
+                return self.step(gotoEnd);
+            }
+            if(t() && jQuery.timers.push(t) && !timerId)
+            {
+                timerId = setInterval(fx.tick, fx.interval);
+            }
+        },
+        show: function ()
+        {
+            var dataShow = jQuery._data(this.elem, 'fxshow' + this.prop);
+            this.options.orig[this.prop] = dataShow || jQuery.style(this.elem, this.prop);
+            this.options.show = true;
+            if(dataShow !== undefined);
+            else
+            {
+                this.custom(this.prop === 'width' || this.prop === 'height' ? 0 : 0, this.cur());
+            }
+
+            jQuery(this.elem).show();
+        },
+        hide: function ()
+        {
+            this.options.orig[this.prop] = jQuery._data(this.elem, 'fxshow' + this.prop) || jQuery.style(this.elem, this.prop);
+            this.options.hide = true;
+            this.custom(this.cur(), 0);
+        },
+        step: function (gotoEnd)
+        {
+            var p, n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
+            if(gotoEnd || t >= (options.duration + this.startTime))
+            {
+                this.now = this.end;
+                this.update();
+                options.animatedProperties[this.prop] = true;
+                if(done)
+                {
+                    if(options.hide)
+                    {
+                        jQuery(elem).hide();
+                    }
+
+                    if(options.hide || options.show)
+                    {
+                        for(p in options.animatedProperties)
+                        {
+                            jQuery.style(elem, p, options.orig[p]);
+                            jQuery.removeData(elem, 'fxshow' + p, true);
+                            jQuery.removeData(elem, 'toggle' + p, true);
+                        }
+                    }
+
+                    complete = options.complete;
+                    if(complete)
+                    {
+                        complete.call(elem);
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                if(options.duration == Infinity);
+                else
+                {
+                    n = t - this.startTime;
+                    this.state = n / options.duration;
+                    this.pos = jQuery.easing[options.animatedProperties[this.prop]](this.state, n, 0, 1, options.duration);
+                    this.now = this.start + ((this.end - this.start) * this.pos);
+                }
+
+                this.update();
+            }
+
+            return true;
+        }
+    };
+    jQuery.extend(jQuery.fx, {
+        tick: function ()
+        {
+            var timer, timers = jQuery.timers, i = 0;
+            for(;i < timers.length;i++)
+            {
+                timer = timers[i];
+                if(!(timer()) && timers[i] === timer)
+                {
+                    timers.splice(i--, 1);
+                }
+            }
+
+            if(!(timers.length))
+            {
+                jQuery.fx.stop();
+            }
+        },
+        interval: 13,
+        stop: function ()
+        {
+            clearInterval(timerId);
+            timerId = null;
+        },
+        speeds: {},
+        step: {}
+    });
+    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function (i, prop)
+    {
+        if(prop.indexOf('margin'))
+        {
+            jQuery.fx.step[prop] = function (fx)
+            {
+                jQuery.style(fx.elem, prop, Math.max(0, fx.now) + fx.unit);
+            };
+        }
+    });
+    window.jQuery = window.$ = jQuery;
+})(window);
+</script>
+<script type="text/javascript">
+    (function ($)
+    {
+        $.fn.jshowoff = function (settings)
+        {
+            var config = {
+                autoPlay: true,
+                changeSpeed: 600,
+                controls: true,
+                controlText: {play: 'Play', pause: 'Pause', next: 'Next', previous: 'Previous'},
+                effect: 'fade',
+                hoverPause: true,
+                links: true,
+                speed: 3000
+            };
+            this.each(function (i)
+            {
+                var $cont = $(this);
+                var gallery = $(this).children().remove();
+                var timer;
+                var counter = 0;
+                var howManyInstances = $('.jshowoff').length + 1;
+                var uniqueClass = 'jshowoff-' + howManyInstances;
+                $cont.css('position', 'relative').wrap(('<div class="jshowoff ' + uniqueClass) + '" />');
+                var $wrap = $('.' + uniqueClass);
+                $wrap.css('position', 'relative');
+                $(gallery[0]).clone().appendTo($cont);
+                preloadImg();
+                if(config.controls)
+                {
+                    addControls();
+                }
+
+                if(config.links)
+                {
+                    addSlideLinks();
+                    $(('.' + uniqueClass) + '-slidelinks a').eq(0).addClass(uniqueClass + '-active jshowoff-active');
+                }
+
+                if(config.hoverPause)
+                {
+                    $cont.hover(function ()
+                    {}, function ()
+                    {});
+                }
+
+                if(config.autoPlay && gallery.length > 1)
+                {
+                    timer = setInterval(function ()
+                    {
+                        play();
+                    }, config.speed);
+                }
+
+                function transitionTo (gallery, index)
+                {
+                    if(counter >= gallery.length || index >= gallery.length)
+                    {
+                        counter = 0;
+                    }
+                    else if(counter < 0 || index < 0);
+                    else
+                    {
+                        counter = index;
+                    }
+
+
+                    if(config.effect == 'slideLeft');
+                    else if(config.effect == 'fade')
+                    {
+                        $(gallery[counter]).clone().appendTo($cont).hide().fadeIn(config.changeSpeed, function ()
+                        {});
+                        if($cont.children().length > 1)
+                        {
+                            $cont.children().eq(0).css('position', 'absolute').fadeOut(config.changeSpeed, function ()
+                            {
+                                $(this).remove();
+                            });
+                        }
+                    }
+
+
+                    if(config.links)
+                    {
+                        $(('.' + uniqueClass) + '-active').removeClass(uniqueClass + '-active jshowoff-active');
+                        $(('.' + uniqueClass) + '-slidelinks a').eq(counter).addClass(uniqueClass + '-active jshowoff-active');
+                    }
+                }
+                function isPlaying ()
+                {
+                    return $(('.' + uniqueClass) + '-play').hasClass('jshowoff-paused') ? 0 : true;
+                }
+                function play (src)
+                {
+                    if(!(isBusy()))
+                    {
+                        counter++;
+                        transitionTo(gallery, counter);
+                        if(src == 'hover' || !(isPlaying()));
+
+                        if(!(isPlaying()));
+                    }
+                }
+                function pause (src)
+                {
+                    clearInterval(timer);
+                    if(!src)
+                        $(('.' + uniqueClass) + '-play').text(config.controlText.play).addClass(('jshowoff-paused ' + uniqueClass) + '-paused');
+                }
+                function isBusy ()
+                {
+                    return $cont.children().length > 1 ? 0 : false;
+                }
+                function goToAndPause (index)
+                {
+                    $cont.children().stop(true, true);
+                    if(counter != index)
+                    {
+                        if(isBusy());
+
+                        transitionTo(gallery, index);
+                        pause();
+                    }
+                }
+                function preloadImg ()
+                {
+                    $(gallery).each(function (i)
+                    {
+                        $(this).find('img').each(function (i)
+                        {});
+                    });
+                }
+                function addControls ()
+                {
+                    $wrap.append(((((((((((((('<p class="jshowoff-controls ' + uniqueClass) + '-controls"><a class="jshowoff-play ') + uniqueClass) + '-play" href="#null">') + config.controlText.pause) + '</a> <a class="jshowoff-prev ') + uniqueClass) + '-prev" href="#null">') + config.controlText.previous) + '</a> <a class="jshowoff-next ') + uniqueClass) + '-next" href="#null">') + config.controlText.next) + '</a></p>');
+                    $(('.' + uniqueClass) + '-controls a').each(function ()
+                    {
+                        if($(this).hasClass('jshowoff-play'))
+                            $(this).click(function ()
+                            {});
+
+                        if($(this).hasClass('jshowoff-prev'))
+                            $(this).click(function ()
+                            {});
+
+                        if($(this).hasClass('jshowoff-next'))
+                            $(this).click(function ()
+                            {});
+                    });
+                }
+                function addSlideLinks ()
+                {
+                    $wrap.append(('<p class="jshowoff-slidelinks ' + uniqueClass) + '-slidelinks"></p>');
+                    $.each(gallery, function (i, val)
+                    {
+                        var linktext = $(this).attr('title') != '' ? $(this).attr('title') : 0;
+                        $(((((((('<a class="jshowoff-slidelink-' + i) + ' ') + uniqueClass) + '-slidelink-') + i) + '" href="#null">') + linktext) + '</a>').bind('click', {
+                            index: i
+                        }, function (e)
+                        {
+                            goToAndPause(e.data.index);
+                            return false;
+                        }).appendTo(('.' + uniqueClass) + '-slidelinks');
+                    });
+                }
+            });
+        };
+    })(jQuery);
+</script>
+</head>
+
+<body>
+<div class="header">
+    <a target="_blank" href="http://clicktotweet.com/8pbtJ" class="tweet"></a>
+    <a href="http://itunes.apple.com/us/app/id518827330?mt=8&ign-mpt=uo%3D6" class="get">Get Iris App For Instagram on your iPad in the iTunes App Store</a>
+    <span class="small_logo"></span>
+</div>
+<div class="wrp">
+    <div class="logo"></div>
+    <div class="iPad">
+        <a href="http://itunes.apple.com/us/app/id518827330?mt=8&ign-mpt=uo%3D6" class="DL"></a>
+        <div id="features">
+            <div class="slide1">
+                    	<span class="media">
+    						<span class="headline">Get the iPad application Gizmodo called “App of The Day”</span>
+        					<a target="_blank" href="http://gizmodo.com/5903562/iris-app-view-your-instagrams-on-your-ipad" class="link">Read the article</a>
+        				</span>
+            </div>
+            <div class="slide2">
+                    	<span class="media">
+    						<span class="headline">"The Most Beautiful Way To Browse Instagram On iPad"</span>
+        					<a target="_blank" href="http://appadvice.com/appnn/2012/04/quickadvice-irisapp" class="link">Read the article</a>
+        				</span>
+            </div>
+            <div class="slide3">
+                    	<span class="media">
+    						<span class="headline">"Iris: A Beautiful and Simple Instagram App for iPad"</span>
+        					<a target="_blank" href="http://www.macstories.net/reviews/iris-a-beautiful-and-simple-instagram-app-for-ipad/" class="link">Read the article</a>
+        				</span>
+            </div>
+            <div class="slide4">
+                    	<span class="media">
+    						<span class="headline">"Iris delivers a beautiful Instagram experience on the iPad"</span>
+        					<a target="_blank" href="http://thenextweb.com/apps/2012/04/19/iris-delivers-the-beautiful-instagram-experience-that-the-ipad-deserves/" class="link">Read the article</a>
+        				</span>
+            </div>
+            <div class="slide5">
+                    	<span class="media">
+    						<span class="headline">"Iris is the best Instagram app for the iPad!"</span>
+        					<a target="_blank" href="http://theultralinx.com/2012/04/instagram-app-ipad-iris.html" class="link">Read the article</a>
+        				</span>                </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="spacer"></div>
+        <div class="snip clearfix">
+            <div class="left">
+                <h2>Browsing Instagram on your iPad has never been so beautiful!</h2>
+                <p>It’s been long over due and finally it’s here!  Iris is an Instragram client for the iPad that enables you to do virtually everything you can do in Instagram.  Browsing thru photos with Apple’s beautiful “Retina Display” is breath taking.</p>
+            </div>
+            <div class="right a"></div>
+        </div>
+        <div class="snip clearfix">
+            <div class="left">
+                <h2>See all your friends photos in beautiful HD quality.</h2>
+                <p>Never lose context of where you are.  Its important as a user that while you are looking at photos in their full view, that you are not lost or taken away from that experience when making comments, or seeing others who liked the photo.</p>
+            </div>
+            <div class="right b"></div>
+        </div>
+        <div class="snip clearfix">
+            <div class="left">
+                <h2>See full profiles of Instagram users and where they took their photos.</h2>
+                <p>Seeing all your friends photos is only one part of the delightful profile view on Iris.  You can also see where they took them.  That's right.  Simply pull up the map and see where the Instagram photos were taken.</p>
+            </div>
+            <div class="right c"></div>
+        </div>
+        <div class="snip clearfix">
+            <div class="spacer"></div>
+            <h3 class="more">More Instagram Features Offered In Iris</h3>
+            <div class="feat clearfix">
+                <div class="one">
+                    <div class="heart">
+                        <p>Like and even unlike any photo from any where by simply double tapping the photo!</p>
+                    </div>
+                    <div class="twitter">
+                        <p>See something you like?  Share it on Twitter by simply tapping an elarged photo.</p>
+                    </div>
+                    <div class="place">
+                        <p>Sometimes you want to know where a photo was taken.  Well now you can see detailed maps of where users have taken photos.</p>
+                    </div>
+                </div>
+                <div class="two">
+                    <div class="search">
+                        <p>Searching for Instagram users or tags is super easy to use.  Never know who you might find!</p>
+                    </div>
+                    <div class="hd">
+                        <p>Full Retina Display support was a must!  Iris takes advantage of the New iPad’s beautiful HD screen!</p>
+                    </div>
+                    <div class="peeps">
+                        <p>Find a friend or user that you think someone else might like?  Let them know by reccomending them from the profile.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Copyright © 2012 Iris App <a href="http://itunes.apple.com/us/app/id518827330?mt=8&ign-mpt=uo%3D6">Get Iris</a><a href="https://irisapp.zendesk.com/home">Support</a><a href="http://www.EricHoffman.me">The Designer</a><a href="http://www.nicholasleby.com/">The Developer</a></p>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        $('#features').jshowoff();
+    });
+</script>
+<script type="text/javascript">
+    (function ($)
+    {
+        $(window).scroll(function ()
+        {});
+    })(jQuery);
+</script>
+</body></html>

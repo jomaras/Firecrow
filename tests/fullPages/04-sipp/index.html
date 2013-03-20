@@ -1,0 +1,196 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>Sipp - An iPhone app for wine lovers</title>
+    <link type="text/css" rel="stylesheet" href="css/sipp.css" />
+    <script src="js/jQuery.js"></script>
+    <script src="js/jquery-ui-1.8.16.js"></script>
+    <script type="text/javascript" src="js/form_ajax.js"></script>
+
+    <style type="text/css">
+        #iphone-track {
+            position: relative;
+        }
+        #iphone {
+            background: url('images/iphone.png') no-repeat 0 0;
+            width: 382px;
+            height: 722px;
+            position: absolute;
+            top: 290px;
+            right: 0;
+            z-index: 1000;
+        }
+        #iphone:hover{cursor:pointer;}
+        #iphone-screen {
+            width: 304px;
+            height: 436px;
+            position: absolute;
+            top: 154px;
+            left: 41px;
+            overflow: hidden;
+        }
+        #iphone-track {
+            width: 1000em;
+            overflow: hidden;
+        }
+        #iphone-track .iphone-slide {
+            width: 304px;
+            height: 436px;
+            float: left;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+        }
+        #iphone .iphone-nav {
+            display: block;
+            width: 63px;
+            height: 63px;
+            background: url('images/paddles.png') no-repeat 0 0;
+            top: 38%;
+            margin-top: -31.5;
+            position: absolute;
+            text-indent: -1000em;
+        }
+        #iphone .iphone-nav.left { left: -16px; background-position: 0 0; }
+        #iphone .iphone-nav.right { right: -16px; background-position: -63px 0; }
+    </style>
+
+    <script type="text/javascript">
+
+        function iphoneNav(dir) {
+            var track = $('#iphone-track');
+            track.stop(true,true);
+            var max = track.children('.iphone-slide').length;
+            max--;
+            max = max * 304 * -1;
+
+            if (dir === 'left') {
+                if (track.position().left > max) {
+                    track.animate({
+                        left: '-=304'
+                    },1000,'easeOutExpo');
+                }
+            }
+            if (dir === 'right') {
+                if (track.position().left < 0) {
+                    track.animate({
+                        left: '+=304'
+                    },1000,'easeOutExpo');
+                }
+            }
+
+        }
+
+        function bindPhone() {
+            $('#iphone')
+                    .unbind('mouseenter')
+                    .unbind('mouseleave')
+                    .unbind('click')
+                    .mouseenter(function(){
+                        $(this).stop(true,true).animate({
+                            top: 250
+                        },1000,'easeOutExpo');
+                    })
+                    .mouseleave(function(){
+                        $(this).stop(true,true).animate({
+                            top: 290
+                        },400,'easeOutBounce');
+                    })
+                    .click(function(event){
+                        $(this).animate({
+                            top: -70
+                        },1000,'easeOutBounce',function(){
+                            $(this).addClass('active');
+                        }).unbind('mouseenter').unbind('mouseleave');
+                        event.stopPropagation();
+                    });
+        }
+
+        function hidePhone() {
+            $('#iphone').stop(true,true).animate({
+                top: 290
+            },1000,'easeOutBounce',function(){
+                $('#iphone').removeClass('active');
+            });
+            bindPhone();
+        }
+
+        $().ready(function(){
+
+            bindPhone();
+
+            $('html').click(function() { hidePhone(); });
+            $(document).keyup(function(e) {
+                if (e.keyCode == 27) { hidePhone(); }   // esc
+            });
+
+            $("a.iphone-nav.left").click(function()
+            {
+                iphoneNav('right');
+                return false;
+            })
+
+            $("a.iphone-nav.right").click(function()
+            {
+                iphoneNav('left');
+                return false;
+            })
+        });
+    </script>
+
+</head>
+
+<body>
+
+<div class="wood">
+
+    <div class="wrppr">
+        <div class="logo">
+            Sipp - An iPhone app for wine lovers
+        </div>
+        <div class="formWrp" id="contact_form">
+            <div class="peak"></div>
+            <h1>We can blast you an email when it’s available in the app store.</h1>
+            <form action="index.html" method="post">
+                <input type="text" name="ifyallarespammers" class="spamForm" id="ifyallarespammers" />
+                <span class="error">If you are going to mess around with our form, at least use some proper syntax :)</span>
+                <input type="text" name="email" id="email" value="Enter email address..." onblur="if (this.value == ''){this.value = 'Enter email address...'; this.style.color = '#A98A76';}" onfocus="if (this.value =='Enter email address...'){this.value = ''; this.style.color = '#fff'; this.style.fontStyle = 'normal';}" /> <a class="sendButton" href="#" id="submit_btn" href="javascript:{}"></a>
+            </form>
+        </div>
+
+        <div id="iphone">
+            <div id="iphone-screen">
+                <div id="iphone-track">
+                    <div style="background-image: url('images/feed_flat.jpg');" class="iphone-slide"></div>
+                    <div style="background-image: url('images/snobs_flat.jpg');" class="iphone-slide"></div>
+                    <div style="background-image: url('images/flat_user.jpg');" class="iphone-slide"></div>
+                </div>
+            </div>
+            <a href="#" class="iphone-nav left">Left</a>
+            <a href="#" class="iphone-nav right">Right</a>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="wrpprFull">
+    <div class="wrpprLrg">
+        <div class="border"></div>
+
+        <div class="paper">
+            <div class="thumbsWrp clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="foot"></div>
+<div class="twitter">
+    <div class="badge"></div>
+    <a href="http://twitter.com/#!/sippapp">@SippApp  &nbsp; ...Follow us</a>
+</div>
+</body>
+</html>

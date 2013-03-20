@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Coda Bubble Example</title>
+    <link rel="stylesheet" href="styles/style.css"/>
+    <script src="scripts/jQuery.js" type="text/javascript"></script>
+    <script src="scripts/codeBubble.js" type="text/javascript"></script>
+</head>
+<body id="page">
+<h1>Coda Bubble Example</h1>
+<p><a href="http://jqueryfordesigners.com/coda-popup-bubbles">Read the article, and see the screencast this demonstration relates to</a></p>
+<p><small>Note that the transparency doesn't work in IE - this is the same on the Coda web site where the images were sourced.</small></p>
+
+
+<div class="bubbleInfo">
+    <div>
+        <img class="trigger" src="images/nav-download.png" id="download" />
+    </div>
+    <table id="dpop" class="popup">
+        <tbody><tr>
+            <td id="topleft" class="corner"></td>
+            <td class="top"></td>
+            <td id="topright" class="corner"></td>
+        </tr>
+
+        <tr>
+            <td class="left"></td>
+            <td><table class="popup-contents">
+                <tbody><tr>
+                    <th>File:</th>
+                    <td>coda 1.1.zip</td>
+                </tr>
+                <tr>
+                    <th>Date:</th>
+                    <td>11/30/07</td>
+                </tr>
+                <tr>
+                    <th>Size:</th>
+                    <td>17 MB</td>
+                </tr>
+                <tr>
+                    <th>Req:</th>
+                    <td>Mac OS X 10.4+</td>
+                </tr>
+                <tr id="release-notes">
+                    <th>Read the release notes:</th>
+                    <td><a title="Read the release notes" href="./releasenotes.html">release notes</a></td>
+                </tr>
+                </tbody></table>
+
+            </td>
+            <td class="right"></td>
+        </tr>
+
+        <tr>
+            <td class="corner" id="bottomleft"></td>
+            <td class="bottom"><img width="30" height="29" alt="popup tail" src="images/bubble-tail2.png"/></td>
+            <td id="bottomright" class="corner"></td>
+        </tr>
+        </tbody></table>
+</div>
+</body>
+</html>

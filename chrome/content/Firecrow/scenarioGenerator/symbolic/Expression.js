@@ -155,6 +155,11 @@ fcSymbolic.Literal = function(value)
 
     this.value = value;
 
+    if(this.value === undefined || this.value === null)
+    {
+        this.value = 0;
+    }
+
     this.type = fcSymbolic.CONST.LITERAL;
 };
 fcSymbolic.Literal.prototype = new fcSymbolic.Expression();
@@ -310,6 +315,7 @@ fcSymbolic.Logical = function(left, right, operator)
     this.operator = operator;
 
     this.type = fcSymbolic.CONST.LOGICAL;
+    this._fix();
 };
 
 fcSymbolic.Logical.prototype = new fcSymbolic.Expression();
@@ -338,5 +344,13 @@ fcSymbolic.Logical.prototype.createCopyUpgradedByIndex = function(upgradeByIndex
 fcSymbolic.Logical.prototype.createCopyWithIndex = function(index)
 {
     return new fcSymbolic.Logical(this.left.createCopyWithIndex(index), this.right.createCopyWithIndex(index), this.operator);
+};
+fcSymbolic.Logical.prototype._fix = function()
+{
+    if(this.left.type == fcSymbolic.CONST.IDENTIFIER && this.right.type == fcSymbolic.CONST.IDENTIFIER)
+    {
+        this.left = new fcSymbolic.Binary(this.left, new fcSymbolic.Literal(0), ">=");
+        this.right = new fcSymbolic.Binary(this.right, new fcSymbolic.Literal(0), ">=");
+    }
 };
 }});

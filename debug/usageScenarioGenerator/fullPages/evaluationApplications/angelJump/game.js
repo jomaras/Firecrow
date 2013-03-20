@@ -23,8 +23,7 @@ var howManyCircles = 10, circles = [];
 
 for (var i = 0; i < howManyCircles; i++)
 {
-    var usedToBeRandom = i*0.21;
-    circles.push([usedToBeRandom * width, usedToBeRandom * height, usedToBeRandom * 100, usedToBeRandom / 2]);
+    circles.push([Math.random() * width, Math.random() * height, Math.random() * 100, Math.random() / 2]);
 }
 
 
@@ -41,12 +40,11 @@ var DrawCircles = function(){
 var MoveCircles = function(e){
 	for (var i = 0; i < howManyCircles; i++)
     {
-        var usedToBeRandom = i*0.23;
 		if (circles[i][1] - circles[i][2] > height) {
-			circles[i][0] = usedToBeRandom * width;
-			circles[i][2] = usedToBeRandom * 100;
+			circles[i][0] = Math.random() * width;
+			circles[i][2] = Math.random() * 100;
 			circles[i][1] = 0 - circles[i][2];
-			circles[i][3] = usedToBeRandom / 2;
+			circles[i][3] = Math.random() / 2;
 		}
 		else {
 			circles[i][1] += e;
@@ -94,16 +92,15 @@ var player = new (function(){
 			
 			platforms.forEach(function(platform, ind){
 				platform.y += that.jumpSpeed;
-                var usedToBeRandom = ind*0.23;
 
 				if (platform.y > height) {
-					var type = ~~(usedToBeRandom);
+					var type = ~~(Math.random() * 5);
 					if (type == 0) 
 						type = 1;
 					else 
 						type = 0;
 					
-					platforms[ind] = new Platform(usedToBeRandom * (width - platformWidth), platform.y - height, type);
+					platforms[ind] = new Platform(Math.random() * (width - platformWidth), platform.y - height, type);
 				}
 			});
 		}
@@ -216,12 +213,9 @@ document.onmousemove = function(e){
 		that.y = y;
 		that.type = type;
 
-        var usedToBeRandom1 = 10;
-        var usedToBeRandom2 = 15;
-		
 		//NEW IN PART 5
-		that.isMoving = ~~(usedToBeRandom1 * 2);
-		that.direction= ~~(usedToBeRandom2 * 2) ? -1 : 1;
+		that.isMoving = ~~(Math.random() * 2);
+		that.direction= ~~(Math.random() * 2) ? -1 : 1;
 			
 		that.draw = function(){
 			//ctx.fillStyle = 'rgba(255, 255, 255, 1)';
@@ -238,14 +232,13 @@ document.onmousemove = function(e){
 	var generatePlatforms = function(){
 		var position = 0, type;
 		for (var i = 0; i < nrOfPlatforms; i++) {
-            var usedToBeRandom = i*0.23;
-			type = ~~(usedToBeRandom);
+			type = ~~(Math.random()*5);
 			if (type == 0) 
 				type = 1;
 			else 
 				type = 0;
 
-			platforms[i] = new Platform(usedToBeRandom * (width - platformWidth), position, type);
+			platforms[i] = new Platform(Math.random() * (width - platformWidth), position, type);
 			if (position < height - platformHeight) 
 				position += ~~(height / nrOfPlatforms);
 		}

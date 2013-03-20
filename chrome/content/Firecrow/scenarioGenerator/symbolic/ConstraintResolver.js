@@ -115,6 +115,10 @@ fcSymbolic.ConstraintResolver =
                 {
                     stringExpressions.push(symbolicExpression);
                 }
+                else if(symbolicExpression.isIdentifier())
+                {
+                    numericExpressions.push(new fcSymbolic.Binary(symbolicExpression, new fcSymbolic.Literal(0), ">="));
+                }
                 else if(!containsStringExpressions && !containsNumericExpressions)
                 {
                     console.log("Can not resolve: " + symbolicExpression);

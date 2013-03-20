@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+<title>Tabs</title>
+<link href="styles/style.css" type="text/css" rel="stylesheet"/>
+<script charset="utf-8" type="text/javascript">
+(function (window, undefined)
+{
+    var document = window.document;
+    var jQuery = (function ()
+    {
+        var jQuery = function (selector, context)
+        {
+            return new jQuery.fn.init(selector, context, rootjQuery);
+        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function (all, letter)
+        {}, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
+        jQuery.fn = jQuery.prototype = {
+            constructor: jQuery,
+            init: function (selector, context, rootjQuery)
+            {
+                var match;
+                if(!selector)
+                {
+                    return this;
+                }
+
+                if(selector.nodeType)
+                {
+                    this.context = this[0] = selector;
+                    this.length = 1;
+                    return this;
+                }
+
+                if(typeof selector === 'string')
+                {
+                    if(selector.charAt(0) === '<');
+                    else
+                    {
+                        match = quickExpr.exec(selector);
+                    }
+
+                    if(match);
+                    else if(!context)
+                    {
+                        return (context || rootjQuery).find(selector);
+                    }
+                }
+                else if(jQuery.isFunction(selector))
+                {
+                    return rootjQuery.ready(selector);
+                }
+            },
+            selector: '',
+            jquery: '1.7.2',
+            length: 0,
+            pushStack: function (elems, name, selector)
+            {
+                var ret = this.constructor();
+                if(jQuery.isArray(elems))
+                {
+                    push.apply(ret, elems);
+                }
+                else
+                {
+                    jQuery.merge(ret, elems);
+                }
+
+                ret.prevObject = this;
+                ret.context = this.context;
+                if(name === 'find')
+                {
+                    ret.selector = (this.selector + (this.selector ? 0 : '')) + selector;
+                }
+
+                return ret;
+            },
+            each: function (callback, args)
+            {
+                return jQuery.each(this, callback, args);
+            },
+            ready: function (fn)
+            {
+                jQuery.bindReady();
+                readyList.add(fn);
+            },
+            push: push
+        };
+        jQuery.fn.init.prototype = jQuery.fn;
+        jQuery.extend = jQuery.fn.extend = function ()
+        {
+            var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
+            if(length === i)
+            {
+                target = this;
+                --i;
+            }
+
+            for(;i < length;i++)
+            {
+                if((options = arguments[i]) != null)
+                {
+                    for(name in options)
+                    {
+                        copy = options[name];
+                        if(deep);
+                        else if(copy !== undefined)
+                        {
+                            target[name] = copy;
+                        }
+                    }
+                }
+            }
+
+            return target;
+        };
+        jQuery.extend({
+            noConflict: function (deep)
+            {},
+            isReady: false,
+            readyWait: 1,
+            holdReady: function (hold)
+            {},
+            ready: function (wait)
+            {
+                if(wait === true || (wait !== true && !(jQuery.isReady)))
+                {
+                    readyList.fireWith(document, [null]);
+                    if(jQuery.fn.trigger)
+                    {
+                        jQuery(document).trigger('ready');
+                    }
+                }
+            },
+            bindReady: function ()
+            {
+                readyList = jQuery.Callbacks('once memory');
+                if(document.addEventListener)
+                {
+                    document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+                }
+            },
+            isFunction: function (obj)
+            {
+                return jQuery.type(obj) === 'function';
+            },
+            isArray: Array.isArray || function (obj)
+            {
+                return jQuery.type(obj) === 'array';
+            },
+            isWindow: function (obj)
+            {},
+            isNumeric: function (obj)
+            {},
+            type: function (obj)
+            {
+                return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
+            },
+            isPlainObject: function (obj)
+            {},
+            isEmptyObject: function (obj)
+            {},
+            error: function (msg)
+            {},
+            parseJSON: function (data)
+            {},
+            parseXML: function (data)
+            {},
+            noop: function ()
+            {},
+            globalEval: function (data)
+            {},
+            camelCase: function (string)
+            {
+                return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
+            },
+            nodeName: function (elem, name)
+            {},
+            each: function (object, callback, args)
+            {
+                var i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
+                if(args);
+                else
+                {
+                    if(isObj);
+                    else
+                    {
+                        for(;i < length;)
+                        {
+                            if(callback.call(object[i], i, object[i++]) === false);
+                        }
+                    }
+                }
+
+                return object;
+            },
+            trim: trim ? function (text)
+            {
+                return text == null ? 0 : trim.call(text);
+            } : 0,
+            makeArray: function (array, results)
+            {},
+            inArray: function (elem, array, i)
+            {},
+            merge: function (first, second)
+            {
+                var i = first.length;
+                first.length = i;
+            },
+            grep: function (elems, callback, inv)
+            {
+                var ret = [], retVal;
+                inv = !(!inv);
+                for(var i = 0, length = elems.length;i < length;i++)
+                {
+                    retVal = !(!(callback(elems[i], i)));
+                    if(inv !== retVal)
+                    {
+                        ret.push(elems[i]);
+                    }
+                }
+
+                return ret;
+            },
+            map: function (elems, callback, arg)
+            {},
+            guid: 1,
+            proxy: function (fn, context)
+            {},
+            access: function (elems, fn, key, value, chainable, emptyGet, pass)
+            {},
+            now: function ()
+            {},
+            uaMatch: function (ua)
+            {},
+            sub: function ()
+            {},
+            browser: {}
+        });
+        jQuery.each('Boolean Number String Function Array Date RegExp Object'.split(' '), function (i, name)
+        {
+            class2type[('[object ' + name) + ']'] = name.toLowerCase();
+        });
+        rootjQuery = jQuery(document);
+        if(document.addEventListener)
+        {
+            DOMContentLoaded = function ()
+            {
+                jQuery.ready();
+            };
+        }
+
+        return jQuery;
+    })();
+    var flagsCache = {};
+    function createFlags (flags)
+    {
+        var object = flagsCache[flags] = {}, i, length;
+        flags = flags.split(/\s+/);
+        for(i = 0, length = flags.length;i < length;i++)
+        {
+            object[flags[i]] = true;
+        }
+
+        return object;
+    }
+    jQuery.Callbacks = function (flags)
+    {
+        flags = flags ? flagsCache[flags] || createFlags(flags) : 0;
+        var list = [], stack = [], memory, firing, firingStart, firingLength, firingIndex, add = function (args)
+        {
+            var i, length, elem, type;
+            for(i = 0, length = args.length;i < length;i++)
+            {
+                elem = args[i];
+                type = jQuery.type(elem);
+                if(type === 'array');
+                else if(type === 'function')
+                {
+                    if(!(flags.unique))
+                    {
+                        list.push(elem);
+                    }
+                }
+            }
+        }, fire = function (context, args)
+        {
+            args = args;
+            firingIndex = firingStart || 0;
+            firingLength = list.length;
+            for(;list && firingIndex < firingLength;firingIndex++)
+            {
+                if(list[firingIndex].apply(context, args) === false);
+            }
+        }, self = {
+            add: function ()
+            {
+                if(list)
+                {
+                    add(arguments);
+                }
+            },
+            fireWith: function (context, args)
+            {
+                if(stack)
+                {
+                    if(firing);
+                    else if(!(flags.once && memory))
+                    {
+                        fire(context, args);
+                    }
+                }
+            }
+        };
+        return self;
+    };
+    (function ()
+    {
+        var select, input, fragment, tds, div = document.createElement('div'), documentElement = document.documentElement;
+        div.setAttribute('className', 't');
+        div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
+        select = document.createElement('select');
+        select.appendChild(document.createElement('option'));
+        input = div.getElementsByTagName('input')[0];
+        input.checked = true;
+        select.disabled = true;
+        input = document.createElement('input');
+        input.value = 't';
+        input.setAttribute('type', 'radio');
+        input.setAttribute('checked', 'checked');
+        input.setAttribute('name', 't');
+        div.appendChild(input);
+        fragment = document.createDocumentFragment();
+        fragment.appendChild(div.lastChild);
+        fragment.removeChild(input);
+        fragment.appendChild(div);
+        fragment.removeChild(div);
+        jQuery(function ()
+        {
+            var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+            conMarginTop = 1;
+            paddingMarginBorder = 'padding:0;margin:0;border:';
+            positionTopLeftWidthHeight = 'position:absolute;top:0;left:0;width:1px;height:1px;';
+            paddingMarginBorderVisibility = paddingMarginBorder + '0;visibility:hidden;';
+            style = (('style=\'' + positionTopLeftWidthHeight) + paddingMarginBorder) + '5px solid #000;';
+            html = ((((((('<div ' + style) + 'display:block;\'><div style=\'') + paddingMarginBorder) + '0;display:block;overflow:hidden;\'></div></div>') + '<table ') + style) + '\' cellpadding=\'0\' cellspacing=\'0\'>') + '<tr><td></td></tr></table>';
+            container = document.createElement('div');
+            container.style.cssText = ((paddingMarginBorderVisibility + 'width:0;height:0;position:static;top:0;margin-top:') + conMarginTop) + 'px';
+            body.insertBefore(container, body.firstChild);
+            div = document.createElement('div');
+            container.appendChild(div);
+            div.innerHTML = ('<table><tr><td style=\'' + paddingMarginBorder) + '0;display:none\'></td><td>t</td></tr></table>';
+            tds = div.getElementsByTagName('td');
+            tds[0].style.display = '';
+            tds[1].style.display = 'none';
+            if(window.getComputedStyle)
+            {
+                div.innerHTML = '';
+                marginDiv = document.createElement('div');
+                marginDiv.style.width = '0';
+                marginDiv.style.marginRight = '0';
+                div.style.width = '2px';
+                div.appendChild(marginDiv);
+            }
+
+            div.style.cssText = positionTopLeftWidthHeight + paddingMarginBorderVisibility;
+            div.innerHTML = html;
+            outer = div.firstChild;
+            inner = outer.firstChild;
+            inner.style.position = 'fixed';
+            inner.style.top = '20px';
+            inner.style.position = inner.style.top = '';
+            outer.style.overflow = 'hidden';
+            outer.style.position = 'relative';
+            if(window.getComputedStyle)
+            {
+                div.style.marginTop = '1%';
+            }
+
+            body.removeChild(container);
+        });
+    })();
+    jQuery.extend({
+        cache: {},
+        uuid: 0,
+        expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
+        noData: {},
+        hasData: function (elem)
+        {},
+        data: function (elem, name, data, pvt)
+        {
+            var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
+            if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
+            {
+                return ;
+            }
+
+            if(!id)
+            {
+                if(isNode)
+                {
+                    elem[internalKey] = id = ++jQuery.uuid;
+                }
+            }
+
+            if(!(cache[id]))
+            {
+                cache[id] = {};
+            }
+
+            thisCache = cache[id];
+            if(data !== undefined)
+            {
+                thisCache[jQuery.camelCase(name)] = data;
+            }
+
+            if(getByName)
+            {
+                ret = thisCache[name];
+            }
+            else
+            {
+                ret = thisCache;
+            }
+
+            return ret;
+        },
+        removeData: function (elem, name, pvt)
+        {},
+        _data: function (elem, name, data)
+        {
+            return jQuery.data(elem, name, data, true);
+        },
+        acceptData: function (elem)
+        {}
+    });
+    var rclass = /[\n\t\r]/g, rspace = /\s+/;
+    jQuery.fn.extend({
+        attr: function (name, value)
+        {},
+        removeAttr: function (name)
+        {},
+        prop: function (name, value)
+        {},
+        removeProp: function (name)
+        {},
+        addClass: function (value)
+        {
+            var classNames, i, l, elem;
+            if(value && typeof value === 'string')
+            {
+                classNames = value.split(rspace);
+                for(i = 0, l = this.length;i < l;i++)
+                {
+                    elem = this[i];
+                    if(elem.nodeType === 1)
+                    {
+                        if(!(elem.className) && classNames.length === 1)
+                        {
+                            elem.className = value;
+                        }
+                    }
+                }
+            }
+        },
+        removeClass: function (value)
+        {
+            var classNames, i, l, elem, className, c, cl;
+            if((value && typeof value === 'string'))
+            {
+                classNames = (value).split(rspace);
+                for(i = 0, l = this.length;i < l;i++)
+                {
+                    elem = this[i];
+                    if(elem.nodeType === 1 && elem.className)
+                    {
+                        if(value)
+                        {
+                            className = ((' ' + elem.className) + ' ').replace(rclass, ' ');
+                            for(c = 0, cl = classNames.length;c < cl;c++)
+                            {
+                                className = className.replace((' ' + classNames[c]) + ' ', ' ');
+                            }
+
+                            elem.className = jQuery.trim(className);
+                        }
+                    }
+                }
+            }
+        },
+        toggleClass: function (value, stateVal)
+        {},
+        hasClass: function (selector)
+        {},
+        val: function (value)
+        {}
+    });
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function (events)
+    {
+        return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
+    };
+    jQuery.event = {
+        add: function (elem, types, handler, data, selector)
+        {
+            var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
+            if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
+
+            events = elemData.events;
+            if(!events)
+            {
+                elemData.events = events = {};
+            }
+
+            eventHandle = elemData.handle;
+            if(!eventHandle)
+            {
+                eventHandle = function (e)
+                {
+                    return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
+                };
+                eventHandle.elem = elem;
+            }
+
+            types = jQuery.trim(hoverHack(types)).split(' ');
+            for(t = 0;t < types.length;t++)
+            {
+                tns = rtypenamespace.exec(types[t]);
+                type = tns[1];
+                special = jQuery.event.special[type] || {};
+                type = (selector ? 0 : special.bindType) || type;
+                special = jQuery.event.special[type] || {};
+                handleObj = jQuery.extend({
+                    origType: tns[1],
+                    handler: handler
+                }, handleObjIn);
+                handlers = events[type];
+                if(!handlers)
+                {
+                    handlers = events[type] = [];
+                    handlers.delegateCount = 0;
+                    if(!(special.setup))
+                    {
+                        if(elem.addEventListener)
+                        {
+                            elem.addEventListener(type, eventHandle, false);
+                        }
+                    }
+                }
+
+                if(selector);
+                else
+                {
+                    handlers.push(handleObj);
+                }
+            }
+        },
+        trigger: function (event, data, elem, onlyHandlers)
+        {
+            var type = event.type || event, i, cur, special, eventPath;
+            event = typeof event === 'object' ? 0 : new jQuery.Event(type);
+            special = jQuery.event.special[type];
+            eventPath = [[elem, special.bindType || type]];
+            for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
+            {
+                cur = eventPath[i][0];
+                event.type = eventPath[i][1];
+                (jQuery._data(cur, 'events') || {})[event.type];
+            }
+        },
+        dispatch: function (event)
+        {
+            event = jQuery.event.fix(event);
+            var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, ret, matched, handleObj;
+            if(handlers.length > delegateCount)
+            {
+                handlerQueue.push({
+                    elem: this,
+                    matches: handlers.slice(delegateCount)
+                });
+            }
+
+            for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
+            {
+                matched = handlerQueue[i];
+                for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
+                {
+                    handleObj = matched.matches[j];
+                    if(run_all)
+                    {
+                        ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+                        if(ret !== undefined)
+                        {
+                            event.result = ret;
+                            if(ret === false)
+                            {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                        }
+                    }
+                }
+            }
+
+            return event.result;
+        },
+        fixHooks: {},
+        mouseHooks: {
+            filter: function (event, original)
+            {
+                return event;
+            }
+        },
+        fix: function (event)
+        {
+            var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
+            event = jQuery.Event(originalEvent);
+            return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
+        },
+        special: {
+            ready: {}
+        }
+    };
+    jQuery.Event = function (src, props)
+    {
+        if(!(this instanceof jQuery.Event))
+        {
+            return new jQuery.Event(src, props);
+        }
+
+        if(src && src.type)
+        {
+            this.originalEvent = src;
+            this.type = src.type;
+        }
+    };
+    function returnFalse ()
+    {
+        return false;
+    }
+    jQuery.Event.prototype = {
+        preventDefault: function ()
+        {
+            var e = this.originalEvent;
+            if(e.preventDefault)
+            {
+                e.preventDefault();
+            }
+        },
+        stopPropagation: function ()
+        {
+            var e = this.originalEvent;
+            if(e.stopPropagation)
+            {
+                e.stopPropagation();
+            }
+        },
+        isPropagationStopped: returnFalse,
+        isImmediatePropagationStopped: returnFalse
+    };
+    jQuery.fn.extend({
+        on: function (types, selector, data, fn, one)
+        {
+            return this.each(function ()
+            {
+                jQuery.event.add(this, types, fn, data, selector);
+            });
+        },
+        one: function (types, selector, data, fn)
+        {},
+        off: function (types, selector, fn)
+        {},
+        bind: function (types, data, fn)
+        {},
+        unbind: function (types, fn)
+        {},
+        live: function (types, data, fn)
+        {},
+        die: function (types, fn)
+        {},
+        delegate: function (selector, types, data, fn)
+        {},
+        undelegate: function (selector, types, fn)
+        {},
+        trigger: function (type, data)
+        {
+            return this.each(function ()
+            {
+                jQuery.event.trigger(type, data, this);
+            });
+        },
+        triggerHandler: function (type, data)
+        {},
+        toggle: function (fn)
+        {},
+        hover: function (fnOver, fnOut)
+        {}
+    });
+    jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function (i, name)
+    {
+        jQuery.fn[name] = function (data, fn)
+        {
+            if(fn == null)
+            {
+                fn = data;
+                data = null;
+            }
+
+            return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
+        };
+        if(rmouseEvent.test(name))
+        {
+            jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
+        }
+    });
+    (function ()
+    {
+        var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g, toString = Object.prototype.toString, rBackslash = /\\/g;
+        var Sizzle = function (selector, context, results, seed)
+        {
+            results = results || [];
+            context = context;
+            var m, set, checkSet, ret, prune, parts = [], soFar = selector;
+            do
+            {
+                chunker.exec('');
+                m = chunker.exec(soFar);
+                if(m)
+                {
+                    soFar = m[3];
+                    parts.push(m[1]);
+                }
+            }
+            while(m)
+            if(parts.length > 1);
+            else
+            {
+                if(context)
+                {
+                    ret = seed ? {
+                        expr: parts.pop(),
+                        set: makeArray(seed)
+                    } : 0;
+                    set = ret.expr ? Sizzle.filter(ret.expr, ret.set) : 0;
+                    if(parts.length > 0);
+                    else
+                    {
+                        prune = false;
+                    }
+                }
+            }
+
+            if(!checkSet)
+            {
+                checkSet = set;
+            }
+
+            if(toString.call(checkSet) === '[object Array]')
+            {
+                if(!prune)
+                {
+                    results.push.apply(results, checkSet);
+                }
+            }
+
+            return results;
+        };
+        Sizzle.matches = function (expr, set)
+        {
+            return Sizzle(expr, null, null, set);
+        };
+        Sizzle.filter = function (expr, set, inplace, not)
+        {
+            var match, type, found, item, filter, i, pass, result = [], curLoop = set, isXMLFilter = set && set[0] && Sizzle.isXML(set[0]);
+            while(expr && set.length)
+            {
+                for(type in Expr.filter)
+                {
+                    if((match = Expr.leftMatch[type].exec(expr)) != null && match[2])
+                    {
+                        filter = Expr.filter[type];
+                        match.splice(1, 1);
+                        if(Expr.preFilter[type])
+                        {
+                            match = Expr.preFilter[type](match, curLoop, inplace, result, not, isXMLFilter);
+                            if(!match);
+                            else if(match === true)
+                            {
+                                continue;
+                            }
+                        }
+
+                        if(match)
+                        {
+                            for(i = 0;(item = curLoop[i]) != null;i++)
+                            {
+                                if(item)
+                                {
+                                    found = filter(item, match, i, curLoop);
+                                    pass = not ^ found;
+                                    if(inplace);
+                                    else if(pass)
+                                    {
+                                        result.push(item);
+                                    }
+                                }
+                            }
+                        }
+
+                        if(found !== undefined)
+                        {
+                            if(!inplace)
+                            {
+                                curLoop = result;
+                            }
+
+                            expr = expr.replace(Expr.match[type], '');
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return curLoop;
+        };
+        var Expr = Sizzle.selectors = {
+            match: {ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/, ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/, TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/, CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/, POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/, PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/},
+            leftMatch: {},
+            preFilter: {
+                ID: function (match)
+                {
+                    return match[1].replace(rBackslash, '');
+                },
+                PSEUDO: function (match, curLoop, inplace, result, not)
+                {
+                    if(match[1] === 'not');
+                    else if(Expr.match.POS.test(match[0]))
+                    {
+                        return true;
+                    }
+                },
+                POS: function (match)
+                {
+                    match.unshift(true);
+                    return match;
+                }
+            },
+            setFilters: {
+                first: function (elem, i)
+                {
+                    return i === 0;
+                }
+            },
+            filter: {
+                PSEUDO: function (elem, match, i, array)
+                {},
+                CHILD: function (elem, match)
+                {},
+                ID: function (elem, match)
+                {
+                    return elem.nodeType === 1 && elem.getAttribute('id') === match;
+                },
+                TAG: function (elem, match)
+                {},
+                CLASS: function (elem, match)
+                {},
+                ATTR: function (elem, match)
+                {},
+                POS: function (elem, match, i, array)
+                {
+                    var name = match[2], filter = Expr.setFilters[name];
+                    if(filter)
+                    {
+                        return filter(elem, i, match, array);
+                    }
+                }
+            }
+        };
+        var fescape = function (all, num)
+        {
+            return '\\' + ((num - 0) + 1);
+        };
+        for(var type in Expr.match)
+        {
+            Expr.match[type] = new RegExp(Expr.match[type].source + /(?![^\[]*\])(?![^\(]*\))/.source);
+            Expr.leftMatch[type] = new RegExp(/(^(?:.|\r|\n)*?)/.source + Expr.match[type].source.replace(/\\(\d+)/g, fescape));
+        }
+
+        var makeArray = function (array, results)
+        {
+            array = Array.prototype.slice.call(array, 0);
+            if(results)
+            {
+                results.push.apply(results, array);
+            }
+
+            return array;
+        };
+        try
+        {
+            (document.documentElement.childNodes, null).nodeType;
+        }
+        catch(e){}
+        (function ()
+        {
+            var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
+            form.innerHTML = ('<a name=\'' + id) + '\'/>';
+            root.insertBefore(form, root.firstChild);
+            root.removeChild(form);
+        })();
+        (function ()
+        {
+            var div = document.createElement('div');
+            div.appendChild(document.createComment(''));
+            div.innerHTML = '<a href=\'#\'></a>';
+        })();
+        if(document.querySelectorAll)
+        {
+            (function ()
+            {
+                var oldSizzle = Sizzle, div = document.createElement('div');
+                div.innerHTML = '<p class=\'TEST\'></p>';
+                Sizzle = function (query, context, extra, seed)
+                {
+                    context = context || document;
+                    if(!seed && !(Sizzle.isXML(context)))
+                    {
+                        if(context.nodeType === 9)
+                        {
+                            try
+                            {
+                                return makeArray(context.querySelectorAll(query), extra);
+                            }
+                            catch(qsaError){}
+                        }
+                    }
+
+                    return oldSizzle(query, context, extra, seed);
+                };
+                for(var prop in oldSizzle)
+                {
+                    Sizzle[prop] = oldSizzle[prop];
+                }
+            })();
+        }
+
+        (function ()
+        {
+            var div = document.createElement('div');
+            div.innerHTML = '<div class=\'test e\'></div><div class=\'test\'></div>';
+            div.lastChild.className = 'e';
+        })();
+        Sizzle.isXML = function (elem)
+        {
+            var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
+        };
+        jQuery.find = Sizzle;
+    })();
+    var isSimple = /^.[^:#\[\.,]*$/;
+    jQuery.fn.extend({
+        find: function (selector)
+        {
+            var i, l;
+            var ret = this.pushStack('', 'find', selector);
+            for(i = 0, l = this.length;i < l;i++)
+            {
+                jQuery.find(selector, this[i], ret);
+            }
+
+            return ret;
+        },
+        has: function (target)
+        {},
+        not: function (selector)
+        {},
+        filter: function (selector)
+        {
+            return this.pushStack(winnow(this, selector, true), 'filter', selector);
+        },
+        is: function (selector)
+        {},
+        closest: function (selectors, context)
+        {},
+        index: function (elem)
+        {},
+        add: function (selector, context)
+        {},
+        andSelf: function ()
+        {}
+    });
+    jQuery.extend({
+        filter: function (expr, elems, not)
+        {
+            return elems.length === 1 ? 0 : jQuery.find.matches(expr, elems);
+        },
+        dir: function (elem, dir, until)
+        {},
+        nth: function (cur, result, dir, elem)
+        {},
+        sibling: function (n, elem)
+        {}
+    });
+    function winnow (elements, qualifier, keep)
+    {
+        qualifier = qualifier;
+        if(jQuery.isFunction(qualifier));
+        else if(qualifier.nodeType);
+        else if(typeof qualifier === 'string')
+        {
+            var filtered = jQuery.grep(elements, function (elem)
+            {
+                return elem.nodeType === 1;
+            });
+            if(isSimple.test(qualifier))
+            {
+                return jQuery.filter(qualifier, filtered, !keep);
+            }
+        }
+    }
+    var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
+    jQuery.extend({
+        cssHooks: {},
+        cssNumber: {},
+        cssProps: {},
+        style: function (elem, name, value, extra)
+        {},
+        css: function (elem, name, extra)
+        {
+            var hooks;
+            name = jQuery.camelCase(name);
+            hooks = jQuery.cssHooks[name];
+            name = jQuery.cssProps[name] || name;
+            if(hooks);
+            else if(curCSS)
+            {
+                return curCSS(elem, name);
+            }
+        },
+        swap: function (elem, options, callback)
+        {}
+    });
+    if(document.defaultView && document.defaultView.getComputedStyle)
+    {
+        getComputedStyle = function (elem, name)
+        {
+            var ret, defaultView, computedStyle;
+            name = name.replace(rupper, '-$1').toLowerCase();
+            if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
+            {
+                ret = computedStyle.getPropertyValue(name);
+            }
+
+            return ret;
+        };
+    }
+
+    curCSS = getComputedStyle;
+    jQuery(function ()
+    {});
+    jQuery.fn.extend({
+        show: function (speed, easing, callback)
+        {
+            var elem, display;
+            if(speed || speed === 0);
+            else
+            {
+                for(var i = 0, j = this.length;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        if(!(jQuery._data(elem, 'olddisplay')));
+                    }
+                }
+
+                for(i = 0;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = elem.style.display;
+                        if(display === '' || display === 'none')
+                        {
+                            elem.style.display = jQuery._data(elem, 'olddisplay');
+                        }
+                    }
+                }
+            }
+        },
+        hide: function (speed, easing, callback)
+        {
+            if(speed || speed === 0);
+            else
+            {
+                var elem, display, i = 0, j = this.length;
+                for(;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = jQuery.css(elem, 'display');
+                        if(display !== 'none' && !(jQuery._data(elem, 'olddisplay')))
+                        {
+                            jQuery._data(elem, 'olddisplay', display);
+                        }
+                    }
+                }
+
+                for(i = 0;i < j;i++)
+                {
+                    if(this[i].style)
+                    {
+                        this[i].style.display = 'none';
+                    }
+                }
+
+                return this;
+            }
+        },
+        _toggle: jQuery.fn.toggle,
+        toggle: function (fn, fn2, callback)
+        {},
+        fadeTo: function (speed, to, easing, callback)
+        {},
+        animate: function (prop, speed, easing, callback)
+        {},
+        stop: function (type, clearQueue, gotoEnd)
+        {}
+    });
+    window.$ = jQuery;
+})(window);
+</script>
+<script charset="utf-8" type="text/javascript">
+    $(function ()
+    {
+        var tabContainers = $('div.tabs > div');
+        tabContainers.hide().filter(':first').show();
+        $('div.tabs ul.tabNavigation a').click(function ()
+        {
+            tabContainers.hide();
+            tabContainers.filter(this.hash).show();
+            $('div.tabs ul.tabNavigation a').removeClass('selected');
+            $(this).addClass('selected');
+            return false;
+        }).filter(':first').addClass('selected');
+    });
+</script>
+</head>
+<body id="page">
+<div class="tabs">
+    <ul class="tabNavigation">
+        <li><a href="#first">First</a></li>
+        <li><a href="#second">Second</a></li>
+        <li><a href="#third">Third</a></li>
+    </ul>
+    <div id="first">
+        <h2>First</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div id="second">
+
+        <h2>Second</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div id="third">
+        <h2>Third</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+</div>
+<div class="waste"></div>
+
+</body></html>

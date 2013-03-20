@@ -2,18 +2,6 @@
 // Do whatever you want with this code :)
 // Please visit http://www.andrespagella.com
 // This is the complete code for this article: http://www.andrespagella.com/snake-game
-var _FC_lastRandom = 0, _FC_isRandomGrowing = true;
-Math.myRandom = function()
-{
-    _FC_isRandomGrowing ? _FC_lastRandom += 0.02
-                        : _FC_lastRandom -= 0.02;
-
-    if(_FC_lastRandom >= 1) { _FC_lastRandom = 0.99; _FC_isRandomGrowing = false; }
-    if(_FC_lastRandom <= 0) { _FC_lastRandom = 0.01; _FC_isRandomGrowing = true; }
-
-    return _FC_lastRandom;
-}
-
 window.onload = function()
 {
     var canvas = document.getElementById("canvas"),
@@ -166,15 +154,15 @@ window.onload = function()
     function generateFood(map)
     {
         // Generate a random position for the rows and the columns.
-        var rndX = Math.round(Math.myRandom() * 19),
-            rndY = Math.round(Math.myRandom() * 19);
+        var rndX = Math.round(Math.random() * 19),
+            rndY = Math.round(Math.random() * 19);
 
         // We also need to watch so as to not place the food
         // on the a same matrix position occupied by a part of the
         // snake's body.
         while (map[rndX][rndY] === 2) {
-            rndX = Math.round(Math.myRandom() * 19);
-            rndY = Math.round(Math.myRandom() * 19);
+            rndX = Math.round(Math.random() * 19);
+            rndY = Math.round(Math.random() * 19);
         }
 
         map[rndX][rndY] = 1;
@@ -185,13 +173,13 @@ window.onload = function()
     function generateSnake(map)
     {
         // Generate a random position for the row and the column of the head.
-        var rndX = Math.round(Math.myRandom() * 19),
-            rndY = Math.round(Math.myRandom() * 19);
+        var rndX = Math.round(Math.random() * 19),
+            rndY = Math.round(Math.random() * 19);
 
         // Let's make sure that we're not out of bounds as we also need to make space to accomodate the
         // other two body pieces
         while ((rndX - snake.length) < 0) {
-            rndX = Math.round(Math.myRandom() * 19);
+            rndX = Math.round(Math.random() * 19);
         }
 
         for (var i = 0; i < snake.length; i++) {

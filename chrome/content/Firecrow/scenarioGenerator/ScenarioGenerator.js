@@ -11,7 +11,7 @@ fcScenarioGenerator.ScenarioGenerator =
     achievedCoverage: 0,
     achievedCoverages: [],
     scenarios: null,
-    scenarioProcessingLimit: 100,
+    scenarioProcessingLimit: 32,
     uiControlsSelectors: null,
     uiControlsJointSelector: "",
 
@@ -31,7 +31,8 @@ fcScenarioGenerator.ScenarioGenerator =
         this.scenarios = scenarios;
 
         var browser = this._executeApplication(pageModel);
-        this.achievedCoverage = ASTHelper.calculateCoverage(pageModel).expressionCoverage;
+        var coverage = ASTHelper.calculateCoverage(pageModel);
+        this.achievedCoverage = coverage.expressionCoverage;
 
         this._createInitialRegisteredEventsScenarios(browser, scenarios);
         this._executeInitialScenarios(pageModel, scenarios, scenarioExecutedCallback);
