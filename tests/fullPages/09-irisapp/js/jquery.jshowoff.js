@@ -30,7 +30,7 @@ speed :				time each slide is shown [integer, milliseconds, defaults to 3000]
 		var config = {
 			animatePause : true,
 			autoPlay : true,
-			changeSpeed : 600,
+			changeSpeed : 1600,
 			controls : true,
 			controlText : {
 				play :		'Play',

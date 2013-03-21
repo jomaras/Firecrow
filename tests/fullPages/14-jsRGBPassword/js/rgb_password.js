@@ -65,10 +65,10 @@ window.onload = function() {
             2462,
             3637,
             7432
-        ]                                  Ex
+        ]
     };
 
-    password.selector.onkeyup = function() {
+    password.selector.onkeyup = function(e) {
         for(var i in password.boxes) {
             var box = password.boxes[i];
 

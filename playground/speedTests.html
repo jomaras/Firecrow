@@ -4,52 +4,19 @@
     <title></title>
 </head>
 <body>
-<script>
-    var startTime = new Date();
-
-    var string = "";
-    var item = "testTesttestTest";
-    for(var i = 0; i < 1000000; i++)
-    {
-        string += (item + "i");
-    }
-
-    var endTime = new Date();
-
-    document.writeln("Normal string concat: " + (endTime - startTime)/1000);
-
-    function StringBuilder()
-    {
-        this.strings = [];
-    }
-
-    StringBuilder.prototype =
-    {
-        append: function(value)
+<div id="container" style="width: 100px; height: 100px; background-color: red;">
+    <script>
+        var container = document.getElementById("container");
+        container.onclick = function()
         {
-            this.strings.push(value);
-        },
-        toString: function()
-        {
-            return this.strings.join("");
+            alert("Click");
         }
-    }
 
-    startTime = new Date();
-
-    var stringBuilder = new StringBuilder();
-    for(var i = 0; i < 1000000; i++)
-    {
-        stringBuilder.append(item + "i");
-    }
-
-    string = stringBuilder.toString();
-
-    endTime = new Date();
-
-    document.writeln("StringBuilder string concat: " + (endTime - startTime)/1000);
-
-
-</script>
+        container.addEventListener("mouseover", function()
+        {
+            alert("on mouse over");
+        });
+    </script>
+</div>
 </body>
 </html>
