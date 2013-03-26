@@ -123,11 +123,16 @@ fcSimulator.InternalExecutor.prototype =
     createDocumentFragment: function(creationConstruct, tagName)
     {
         var jsElement = this.globalObject.origDocument.createDocumentFragment();
+
         jsElement.creationPoint =
         {
             codeConstruct: creationConstruct,
             evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
-        }
+        };
+
+        jsElement.modelElement = { type: "DummyCodeElement", domElement: jsElement };
+
+        this.globalObject.browser.callNodeCreatedCallbacks(jsElement.modelElement, "html", false);
 
         return new fcModel.fcValue(jsElement, new fcModel.HtmlElement(jsElement, this.globalObject, creationConstruct), creationConstruct);
     },

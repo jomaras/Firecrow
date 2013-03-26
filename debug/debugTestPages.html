@@ -8,7 +8,7 @@
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
 
     <script src="pages/modelMapping.js"></script>
-    <script src="pages/modelMappings/idtModel.js"></script>
+    <script src="../tests/fullPages/01-mailboxing/codeModels/feature1Model.js"></script>
 
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
@@ -125,6 +125,7 @@
 
 <br/>
 <span id="resultTitle">Result:</span>
+<span id="timeContainer"></span>
 <br/>
 <div id="slicedCodeContainer">
     <textarea id="slicedSourceTextContainer"></textarea>
@@ -133,6 +134,7 @@
 
 <script>
     var Firecrow = FBL.Firecrow;
+    var timeContainer = document.getElementById("timeContainer");
 
     var htmlModel = HtmlModelMapping.getFirstModelMapping();
     var url = htmlModel.url;
@@ -152,9 +154,13 @@
         });
     }
 
+    var timer = Firecrow.TimerHelper.createTimer();
+
     var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria).browser;
 
     document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+
+    timeContainer.textContent = timer.getElapsedTimeInSeconds();
 </script>
 </body>
 </html>

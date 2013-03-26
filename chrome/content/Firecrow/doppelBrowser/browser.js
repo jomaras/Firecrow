@@ -209,7 +209,7 @@ Browser.prototype =
 
     _createStaticHtmlNode: function(htmlModelNode)
     {
-        var htmlDomElement = null;
+        var htmlDomElement = null; if(htmlModelNode.type == "li") { debugger;}
 
         if(htmlModelNode.type == "html") { htmlDomElement = this.hostDocument.documentElement; }
         else if (htmlModelNode.type == "head" || htmlModelNode.type == "body") { htmlDomElement = this.hostDocument[htmlModelNode.type]; }
@@ -228,7 +228,7 @@ Browser.prototype =
 
         htmlDomElement.modelElement = htmlModelNode;
 
-        if(fcBrowser.Browser.isForSlicing == true)
+        if(fcBrowser.Browser.isForSlicing)
         {
             htmlModelNode.domElement = htmlDomElement;
         }

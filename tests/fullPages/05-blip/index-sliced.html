@@ -658,7 +658,8 @@
             for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
             {
                 cur = eventPath[i][0];
-                (jQuery._data(cur, 'events'));
+                event.type = eventPath[i][1];
+                (jQuery._data(cur, 'events') || {})[event.type];
             }
         },
         special: {
@@ -1791,7 +1792,7 @@
         if(h !== false && next.cycleH > 0)
             opts.cssBefore.height = next.cycleH;
 
-        opts.cssAfter = opts.cssAfter;
+        opts.cssAfter = opts.cssAfter || {};
         opts.cssAfter.display = 'none';
         $(curr).css('zIndex', opts.slideCount + (rev === true ? 0 : 0));
         $(next).css('zIndex', opts.slideCount + (rev === true ? 0 : 1));

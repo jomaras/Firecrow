@@ -10,20 +10,22 @@
             width: 200px;
             height: 200px;
         }
-    </style>
 
-    <script type="text/javascript">
-        var a1 = false;
-        function onload()
+        #miniContainer
         {
-            var mainContainer = document.getElementById("mainContainer");
-
-            mainContainer.textContent = "Loaded";
-            a1 = true;
+            background-color: blue;
+            width: 100px;
+            width: 100px;
         }
-    </script>
+    </style>
 </head>
-<body onload="onload()">
+<body>
     <div id="mainContainer"></div>
+
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+
+        mainContainer.innerHTML = "<div><div id='miniContainer'>Test Test</div></div>"
+    </script>
 </body>
 </html>

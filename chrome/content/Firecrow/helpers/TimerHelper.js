@@ -19,9 +19,7 @@ Firecrow.TimerHelper.Timer.prototype =
     {
         if(this.startTime == null) { return -1; }
 
-        var currentTime = new Date();
-
-        return Math.round((currentTime - this.startTime)/1000); //take ms away
+        return Math.round((new Date() - this.startTime)/1000); //take ms away
     },
 
     hasMoreThanSecondsElapsed: function(seconds)

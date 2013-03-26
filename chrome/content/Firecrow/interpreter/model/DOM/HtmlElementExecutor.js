@@ -66,7 +66,7 @@ fcModel.HtmlElementExecutor =
                 this._registerEventHandler(fcThisValue, jsArguments, arguments[1], globalObject, callExpression);
             case "removeEventListener":
                 this._removeEventHandler(thisObjectValue, globalObject, callExpression);
-                return new fcModel.fcValue(undefined, undefined, callExpression);
+                return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
             case "matchesSelector":
             case "mozMatchesSelector":
             case "webkitMatchesSelector":
@@ -114,8 +114,9 @@ fcModel.HtmlElementExecutor =
 
             if(ValueTypeHelper.isHtmlElement(item) || ValueTypeHelper.isDocumentFragment(item) || ValueTypeHelper.isImageElement(item))
             {
-                var fcHtmlElement = globalObject.document.htmlElementToFcMapping[item.fcHtmlElementId]
-                                 || new fcModel.HtmlElement(item, globalObject, codeConstruct);
+                var fcHtmlElement = globalObject.document.htmlElementToFcMapping[item.fcHtmlElementId];
+
+                if(fcHtmlElement == null) { fcHtmlElement = new fcModel.HtmlElement(item, globalObject, codeConstruct); }
 
                 if(ValueTypeHelper.isImageElement(item))
                 {
@@ -235,7 +236,8 @@ fcModel.HtmlElementExecutor =
     {
         var result = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
         this.addDependencies(thisObjectValue, callExpression, globalObject);
-        return new fcModel.fcValue(result, result, callExpression);
+
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
     },
 
     _modifyAttribute: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
@@ -244,7 +246,7 @@ fcModel.HtmlElementExecutor =
         thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
         fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
 
-        return new fcModel.fcValue(undefined, undefined, callExpression);
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
     },
 
     _modifyDOM: function(functionName, thisObjectValue, args, jsArguments, globalObject, callExpression)
@@ -267,8 +269,27 @@ fcModel.HtmlElementExecutor =
     _cloneNode: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
     {
         this.addDependenciesToAllDescendantsModifications(thisObjectValue, callExpression, globalObject);
-        var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+
+        var clonedNode = thisObjectValue[functionName].apply(thisObjectValue, jsArguments,
+        {
+            codeConstruct: callExpression,
+            evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
+        });
+
+        this._copyModelElements(thisObjectValue, clonedNode);
+
         return this.wrapToFcElement(clonedNode, globalObject, callExpression);
+    },
+
+    _copyModelElements: function(originalElement, clonedElement, creationPoint)
+    {
+        clonedElement.modelElement = originalElement.modelElement;
+        clonedElement.creationPoint = creationPoint;
+
+        for(var i = 0; i < originalElement.childNodes.length; i++)
+        {
+            this._copyModelElements(originalElement.childNodes[i], clonedElement.childNodes[i], creationPoint);
+        }
     },
 
     _registerEventHandler: function(fcThisValue, jsArguments, handler, globalObject, callExpression)
@@ -309,7 +330,7 @@ fcModel.HtmlElementExecutor =
             );
         }
 
-        return new fcModel.fcValue(result, result, callExpression);
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
     },
 
     _getBoundingClientRectangle: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)

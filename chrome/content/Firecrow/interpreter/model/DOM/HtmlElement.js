@@ -24,13 +24,18 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
             this._expandWithDefaultProperties();
         }
+
+        if(this.htmlElement.modelElement == null)
+        {
+            debugger;
+        }
     }
     catch(e) { fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e); }
 };
 
 //<editor-fold desc="'Static' Methods">
 fcModel.HtmlElement.accessedProperties = {};
-fcModel.HtmlElement.notifyError = function(message) { alert("HtmlElement - " + message); }
+fcModel.HtmlElement.notifyError = function(message) { debugger; alert("HtmlElement - " + message); }
 //</editor-fold>
 
 //<editor-fold desc="Prototype Definition">
