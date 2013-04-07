@@ -137,10 +137,6 @@
           if(wait === true || (wait !== true && !(jQuery.isReady)))
           {
             readyList.fireWith(document, [null]);
-            if(jQuery.fn.trigger)
-            {
-              jQuery(document).trigger('ready').off('ready');
-            }
           }
         }, 
         bindReady: function()
@@ -208,8 +204,6 @@
               }
             }
           }
-
-          return object;
         }, 
         trim: trim ? function(text)
         {
@@ -348,7 +342,6 @@
     };
     (function()
     {
-      var documentElement = document.documentElement;
       jQuery(function()
       {});
     })();
@@ -625,19 +618,6 @@
           }
         }
       }, 
-      trigger: function(event, data, elem, onlyHandlers)
-      {
-        var type = event.type || event, i, cur, special, eventPath;
-        event = typeof event === 'object' ? 0 : new jQuery.Event(type);
-        special = jQuery.event.special[type];
-        eventPath = [[elem, special.bindType || type]];
-        for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
-        {
-          cur = eventPath[i][0];
-          event.type = eventPath[i][1];
-          (jQuery._data(cur, 'events') || {})[event.type];
-        }
-      }, 
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
@@ -689,9 +669,7 @@
         event = jQuery.Event(originalEvent);
         return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
       }, 
-      special: {
-        ready: {}
-      }
+      special: {}
     };
     jQuery.Event = function(src, props)
     {
@@ -741,10 +719,7 @@
       one: function(types, selector, data, fn)
       {}, 
       off: function(types, selector, fn)
-      {
-        return this.each(function()
-        {});
-      }, 
+      {}, 
       bind: function(types, data, fn)
       {}, 
       unbind: function(types, fn)
@@ -758,12 +733,7 @@
       undelegate: function(selector, types, fn)
       {}, 
       trigger: function(type, data)
-      {
-        return this.each(function()
-        {
-          jQuery.event.trigger(type, data, this);
-        });
-      }, 
+      {}, 
       triggerHandler: function(type, data)
       {}, 
       toggle: function(fn)
@@ -971,15 +941,7 @@
         if(speed || speed === 0);
         else 
         {
-          for(var i = 0, j = this.length;i < j;i++)
-          {
-            elem = this[i];
-            if(elem.style)
-            {
-              if(!(jQuery._data(elem, 'olddisplay')));
-            }
-          }
-
+          for(var i = 0, j = this.length;i < j;i++);
           for(i = 0;i < j;i++)
           {
             elem = this[i];
@@ -1033,7 +995,7 @@
         prop = jQuery.extend({}, prop);
         function doAnimation()
         {
-          var opt = jQuery.extend({}, optall), name, val, p, e, method;
+          var opt = jQuery.extend({}, optall), hidden = jQuery(this), name, val, p, e, method;
           opt.animatedProperties = {};
           for(p in prop)
           {

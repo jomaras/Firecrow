@@ -577,6 +577,14 @@ Firecrow.ValueTypeHelper =
 
         return object instanceof HTMLTextAreaElement
             || (object.nodeType == 9 && object.nodeName == "TEXTAREA");
+    },
+
+    isHtmlFormElement: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof HTMLFormElement
+           || (object.nodeType == 1 && object.nodeName == "FORM");
     }
 };
 

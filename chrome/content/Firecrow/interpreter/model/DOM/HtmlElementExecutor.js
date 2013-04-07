@@ -154,6 +154,18 @@ fcModel.HtmlElementExecutor =
     {
         try
         {
+            if(element == null) { return; }
+
+            if(ValueTypeHelper.isArray(element))
+            {
+                for(var i = 0; i < element.length; i++)
+                {
+                    this.addDependencies(element[i], codeConstruct, globalObject);
+                }
+
+                return;
+            }
+
             var evaluationPositionId = globalObject.getPreciseEvaluationPositionId();
 
             if(element.modelElement != null)

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+  var indexOf = Array.prototype.indexOf;
+  var slice = Array.prototype.slice;
+  var b1 = new Array(1, 2, 3);
+  var b2 = Array(1, 2, 3);
+  var b3 = [1, 2, 3];
+  var a1 = b1[0] == b2[0];
+  var a2 = b2[1] == b3[1];
+  var a3 = b1.indexOf(2) == 1;
+  var a4 = b2.indexOf(3) == 2;
+  var a5 = b3.indexOf(1) == 0;
+  var a6 = indexOf.call(b1, 2) == 1;
+  var a7 = indexOf.call(b2, 3) == 2;
+  var a8 = indexOf.call(b3, 1) == 0;
+  var b4 = b1.slice();
+  var a9 = b4[0] == b1[0];
+  var b5 = slice.call(b2);
+  var a10 = b5[0] == b2[0];
+  a1;
+  a2;
+  a3;
+  a4;
+  a5;
+  a6;
+  a7;
+  a8;
+  a9;
+  a10;
+</script>
+
+
+</body>
+</html>

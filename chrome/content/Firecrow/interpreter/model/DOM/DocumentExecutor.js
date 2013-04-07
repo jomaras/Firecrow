@@ -31,6 +31,10 @@ fcModel.DocumentExecutor =
     getElements: function(globalObject, queryType, selector, callExpression)
     {
         globalObject.browser.logDomQueried(queryType, selector, callExpression);
+        if(callExpression.loc.start.line >= 5100 && callExpression.loc.start.line <=5200)
+        {
+            debugger;
+        }
 
         if(queryType == "getElementsByClassName") { selector = "." + selector; }
 

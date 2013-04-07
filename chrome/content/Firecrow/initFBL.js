@@ -39,6 +39,18 @@ FBL.ns(function () { with (FBL)
 
         includeNode: function(node)
         {
+            if(node.nodeId == 250)
+            {
+                debugger;
+            }
+
+            /*if(node.type == "div" && node.attributes.length == 1)
+            {
+                if(node.attributes[0].value == "review")
+                {
+                    debugger;
+                }
+            }*/
             node.shouldBeIncluded = true;
         }
     };

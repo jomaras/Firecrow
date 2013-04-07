@@ -209,7 +209,7 @@ Browser.prototype =
 
     _createStaticHtmlNode: function(htmlModelNode)
     {
-        var htmlDomElement = null; if(htmlModelNode.type == "li") { debugger;}
+        var htmlDomElement = null;
 
         if(htmlModelNode.type == "html") { htmlDomElement = this.hostDocument.documentElement; }
         else if (htmlModelNode.type == "head" || htmlModelNode.type == "body") { htmlDomElement = this.hostDocument[htmlModelNode.type]; }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer">
+        <div id="test">1</div>
+    </div>
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+
+        var a = Array.prototype.slice.call(mainContainer.childNodes, 0)[0].nodeType;
+
+        var test = mainContainer.firstElementChild;
+
+        var a1 = test.textContent;
+        a1;
+    </script>
+</body>
+</html>

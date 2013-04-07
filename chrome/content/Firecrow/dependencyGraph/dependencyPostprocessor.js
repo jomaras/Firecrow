@@ -19,9 +19,9 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 {
     processHtmlElement: function(htmlElement)
     {
-        if(htmlElement.nodeId == 46808 && this.inclusionFinder.isIncludedHtmlElement(htmlElement))
+        if(htmlElement.nodeId == 283)
         {
-            var a = 3;
+            debugger;
         }
 
         if(!this.inclusionFinder.isIncludedHtmlElement(htmlElement)) { return; }

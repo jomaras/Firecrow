@@ -45,31 +45,43 @@ fcModel.HtmlElement.prototype = new fcModel.Object();
 fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
 {
     fcModel.HtmlElement.accessedProperties[propertyName] = true;
+    var creationConstruct = this.htmlElement != null && this.htmlElement.modelElement != null ? this.htmlElement.modelElement : this.creationCodeConstruct;
+
     //TODO - it is a bad idea to create objects on each access, maybe utilize DOM level2 events
     //So that they are only created on attribute changed, or DOM modified!?
 
-    if(this._isMethod(propertyName)) { return this.getPropertyValue(propertyName, codeConstruct); }
+    var currentPropertyValue = this.getPropertyValue(propertyName, codeConstruct);
+
+    if(this._isMethod(propertyName)) { return currentPropertyValue; }
 
     if(fcModel.DOM_PROPERTIES.isElementOther(propertyName) || fcModel.DOM_PROPERTIES.isNodeOther(propertyName))
     {
-        if(propertyName == "ownerDocument") { return this.getPropertyValue(propertyName, codeConstruct); }
-        else if(propertyName == "attributes") { this.addProperty(propertyName, fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), this.creationCodeConstruct); }
-        else if(propertyName == "style") { this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, this.creationCodeConstruct), this.creationCodeConstruct); }
+        if(propertyName == "ownerDocument") { return currentPropertyValue; }
+        else if(propertyName == "attributes") { this.addProperty(propertyName, fcModel.Attr.createAttributeList(this.htmlElement, this.globalObject, codeConstruct), creationConstruct); }
+        else if(propertyName == "style") { this.addProperty(propertyName, fcModel.CSSStyleDeclaration.createStyleDeclaration(this.htmlElement, this.htmlElement.style, this.globalObject, creationConstruct), creationConstruct); }
     }
 
     if(fcModel.DOM_PROPERTIES.isNodeElements(propertyName) || fcModel.DOM_PROPERTIES.isElementElements(propertyName))
     {
-        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, this._getElements(propertyName, codeConstruct)), this.creationCodeConstruct);
+        var elements = this._getElements(propertyName, codeConstruct);
+
+        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, elements), creationConstruct);
+
+        fcModel.HtmlElementExecutor.addDependencies(elements, codeConstruct, this.globalObject);
     }
 
-    if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName) || (this.htmlElement instanceof HTMLFormElement && this.htmlElement[propertyName] instanceof Element))
+    if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName) || (ValueTypeHelper.isHtmlFormElement(this.htmlElement) && ValueTypeHelper.isHtmlElement(this.htmlElement[propertyName])))
     {
-        this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, this.creationCodeConstruct), this.creationCodeConstruct);
+        this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, creationConstruct), creationConstruct);
+
+        fcModel.HtmlElementExecutor.addDependencies(this.htmlElement[propertyName], codeConstruct, this.globalObject);
     }
 
     if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
     {
-        this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(this.creationCodeConstruct, this.htmlElement[propertyName]), this.creationCodeConstruct);
+        this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(creationConstruct, this.htmlElement[propertyName]), creationConstruct);
+
+        fcModel.HtmlElementExecutor.addDependencies(this.htmlElement, codeConstruct, this.globalObject);
     }
 
     var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
@@ -170,8 +182,10 @@ fcModel.HtmlElement.prototype._expandWithDefaultProperties = function()
     //fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
     //fcModel.DOM_PROPERTIES.setPrimitives(this, this.htmlElement, fcModel.DOM_PROPERTIES.ELEMENT.PRIMITIVES);
 
-    this.addProperty("ownerDocument", this.globalObject.jsFcDocument, this.creationCodeConstruct);
-    this._addMethods(this.creationCodeConstruct);
+    var creationConstruct = this.htmlElement != null && this.htmlElement.modelElement != null ? this.htmlElement.modelElement : this.creationCodeConstruct;
+
+    this.addProperty("ownerDocument", this.globalObject.jsFcDocument, creationConstruct);
+    this._addMethods(creationConstruct);
 
     this.htmlElement.elementModificationPoints = [];
 };

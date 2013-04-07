@@ -107,7 +107,7 @@ fcSimulator.DependencyCreator.prototype =
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
         if(callCommand == null) { return; }
 
-        this._createArgumentsToCallDependencies(callCommand, args);
+        //this._createArgumentsToCallDependencies(callCommand, args);
         this._createFormalParameterDependencies(callCommand, formalParams, args);
     },
 
