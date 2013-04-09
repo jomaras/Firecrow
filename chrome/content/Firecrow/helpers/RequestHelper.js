@@ -35,6 +35,8 @@ Firecrow.RequestHelper =
     {
         var dataString = "";
 
+        if(dataObject == null) { return dataString; }
+
         for(var propName in dataObject)
         {
             if(dataObject[propName] != null)

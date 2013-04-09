@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firecrow - Debug Slicing</title>
+    <meta charset="UTF-8">
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/UriHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/TimerHelper.js"></script>
+    <script src="../chrome/content/Firecrow/helpers/RequestHelper.js"></script>
+
+    <script src="../chrome/content/Firecrow/scenarioGenerator/Event.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/Scenario.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/NumberRange.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/StringConstraint.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js"></script>
+
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyHighlighter.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/node.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/slicingCriterion.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/commands/Command.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/FcValue.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/object/Object.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/Array.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayFunction.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/array/ArrayPrototype.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/XMLHttpRequest.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Math.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/RegEx.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Function.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/FunctionFunction.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Date.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Boolean.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Number.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Image.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Element.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/HTMLImageElement.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/internal/Canvas.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/Document.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/TextNode.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/Attribute.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/ClassList.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/SimpleXPath.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/EventListenerMixin.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/model/DOM/Event.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/simulator/VariableObject.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/simulator/Evaluator.js"></script>
+
+    <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
+
+    <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
+    <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+    <script src="../chrome/content/Firecrow/interpreter/ExecutionInfo.js"></script>
+    <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
+    <script src="../chrome/content/Firecrow/Slicer.js"></script>
+
+    <link href="../chrome/skin/classic/style.css" rel="stylesheet" type="text/css">
+
+    <style>
+        #codeContainer
+        {
+            float: left;
+            width: 600px;
+            height: 800px;
+        }
+
+        #slicedCodeContainer, #slicedSourceTextContainer
+        {
+            float:left;
+            width: 600px;
+            height: 800px;
+        }
+
+        .selected { background-color: green; }
+        .dependent { background-color: yellow; }
+        .secondHandDependencies { background-color: #7FFF00;}
+        .unexecuted { color: gray;}
+        .executed { color: black;}
+
+        .error { color: red;}
+        .correct { color: green; }
+
+    </style>
+</head>
+<body>
+<h1>Firecrow - Debugging Slicing</h1>
+<div id="frameContainer">
+</div>
+
+<br/>
+<div id="messageContainer"></div>
+
+</div>
+
+<div style="clear:both"/>
+
+    <script>
+        var Firecrow = FBL.Firecrow;
+
+        var messageContainer = document.getElementById("messageContainer");
+        var frameContainer = document.getElementById("frameContainer");
+
+        var url = "";
+
+        var testIndexPaths = ["../tests/libraries/gauss/tests/cases/02-Maximum/index.html", "../tests/libraries/gauss/tests/cases/03-sum/index.html", "../tests/libraries/gauss/tests/cases/04-Product/index.html", "../tests/libraries/gauss/tests/cases/05-ArithmeticMean/index.html", "../tests/libraries/gauss/tests/cases/06-GeometricMean/index.html", "../tests/libraries/gauss/tests/cases/07-HarmonicMean/index.html", "../tests/libraries/gauss/tests/cases/08-QuadraticMean/index.html", "../tests/libraries/gauss/tests/cases/09-Median-EvenNumber/index.html", "../tests/libraries/gauss/tests/cases/10-MedianOddNumber/index.html", "../tests/libraries/gauss/tests/cases/11-Mode-Tie/index.html", "../tests/libraries/gauss/tests/cases/12-Mode-Majority/index.html", "../tests/libraries/gauss/tests/cases/13-Mode-Uniform/index.html", "../tests/libraries/gauss/tests/cases/14-Range/index.html", "../tests/libraries/gauss/tests/cases/15-Variance/index.html", "../tests/libraries/gauss/tests/cases/16-StandardDeviation-Population/index.html", "../tests/libraries/gauss/tests/cases/17-StandardDeviation-Percentage/index.html", "../tests/libraries/gauss/tests/cases/18-Frequency/index.html", "../tests/libraries/gauss/tests/cases/19-Percentile/index.html", "../tests/libraries/gauss/tests/cases/20-Density/index.html", "../tests/libraries/gauss/tests/cases/21-Distribution-AbsoluteFrequency/index.html", "../tests/libraries/gauss/tests/cases/22-Distribution-RelativeFrequency/index.html", "../tests/libraries/gauss/tests/cases/23-Quantile-4/index.html", "../tests/libraries/gauss/tests/cases/24-Quantile-10/index.html", "../tests/libraries/gauss/tests/cases/25-Delta/index.html", "../tests/libraries/gauss/tests/cases/26-SMA-10/index.html", "../tests/libraries/gauss/tests/cases/27-SMA-1/index.html", "../tests/libraries/gauss/tests/cases/28-ExponentialMovingAverage-1/index.html", "../tests/libraries/gauss/tests/cases/29-ExponentialMovingAverage-10/index.html", "../tests/libraries/gauss/tests/cases/30-ExponentialMovingAverage-10-Wilder/index.html", "../tests/libraries/gauss/tests/cases/31-Push/index.html", "../tests/libraries/gauss/tests/cases/32-Push-Sum/index.html", "../tests/libraries/gauss/tests/cases/33-PushVariance/index.html", "../tests/libraries/gauss/tests/cases/34-Push-HVariance/index.html"];
+        var testModelPaths = ["../tests/libraries/gauss/tests/cases/02-Maximum/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/03-sum/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/04-Product/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/05-ArithmeticMean/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/06-GeometricMean/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/07-HarmonicMean/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/08-QuadraticMean/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/09-Median-EvenNumber/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/10-MedianOddNumber/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/11-Mode-Tie/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/12-Mode-Majority/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/13-Mode-Uniform/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/14-Range/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/15-Variance/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/16-StandardDeviation-Population/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/17-StandardDeviation-Percentage/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/18-Frequency/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/19-Percentile/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/20-Density/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/21-Distribution-AbsoluteFrequency/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/22-Distribution-RelativeFrequency/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/23-Quantile-4/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/24-Quantile-10/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/25-Delta/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/26-SMA-10/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/27-SMA-1/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/28-ExponentialMovingAverage-1/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/29-ExponentialMovingAverage-10/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/30-ExponentialMovingAverage-10-Wilder/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/31-Push/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/32-Push-Sum/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/33-PushVariance/index.html-codeModel.txt", "../tests/libraries/gauss/tests/cases/34-Push-HVariance/index.html-codeModel.txt"];
+        var currentIndex = -1;
+        var currentTestVariables = [];
+
+        function executeTest()
+        {
+            currentIndex++;
+
+            if(currentIndex >= testIndexPaths.length) { return; }
+
+            var url = testIndexPaths[currentIndex];
+
+            document.title = url;
+
+            appendTitle(currentIndex + ":" + url);
+
+            getTestGlobalVariablesFromPage(url, function(origVars)
+            {
+                var codeModel = JSON.parse(Firecrow.RequestHelper.performSynchronousPost(testModelPaths[currentIndex]).response);
+
+                var slicedCode = Firecrow.Slicer.getSlicedCode(codeModel, getSlicingCriteria(origVars), url);
+
+                Firecrow.RequestHelper.performSynchronousPost
+                (
+                    "../tests/libraries/0_slicerSaver/index.php",
+                    {
+                        filePath: url.substring(2, url.length),
+                        fileContent: btoa(slicedCode)
+                    }
+                );
+
+
+                getTestGlobalVariablesFromPage(url + "-testSlicing.html", function(slicedVars)
+                {
+                    var origVarsString = getIframeVariablesString(origVars);
+                    var slicedVarsString = getIframeVariablesString(slicedVars);
+
+                    appendMessage("orig Vars: " + origVarsString, origVarsString != slicedVarsString);
+                    appendMessage("sliced Vars: " + slicedVarsString, origVarsString != slicedVarsString);
+
+                    window.scrollTo(0, document.body.scrollHeight);
+
+                    executeTest();
+                });
+            });
+        }
+
+        executeTest();
+
+        function getTestGlobalVariablesFromPage(url, callbackFunction)
+        {
+            clearChildren(frameContainer);
+
+            var frame = document.createElement("iFrame");
+            frameContainer.appendChild(frame);
+
+            frame.width = 1;
+            frame.height = 1;
+
+            frame.onload = function()
+            {
+                callbackFunction(getTestVariablesFromFrame(frame));
+            };
+
+            frame.src = url;
+        }
+
+        function clearChildren(node)
+        {
+            if(node == null) { return; }
+
+            while(node.firstChild)
+            {
+                node.firstChild.onload = null;
+                node.removeChild(node.firstChild);
+            }
+        }
+
+        function getTestVariablesFromFrame(frame)
+        {
+            var variables = [];
+
+            for(var propName in frame.contentWindow)
+            {
+                if(propName[0] == "a" && propName.length <= 3)
+                {
+                    variables.push({name: propName, value: frame.contentWindow[propName]});
+                }
+            }
+
+            return variables;
+        }
+
+        function appendTitle(title)
+        {
+            var titleElement = document.createElement("h2");
+
+            titleElement.textContent = title;
+
+            messageContainer.appendChild(titleElement);
+        }
+
+        function appendMessage(message, isError)
+        {
+            var container = document.createElement("div");
+
+            container.className = isError ? "error" : "correct";
+
+            container.textContent = message;
+
+            messageContainer.appendChild(container);
+        }
+
+        function getSlicingCriteria(variables)
+        {
+            return variables.map(function(variable)
+            {
+                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, variable.name);
+            });
+        }
+
+        function getIframeVariablesString (variables)
+        {
+            var string = "";
+
+            variables.forEach(function(variable, index)
+            {
+                string += variable.name + ":" + variable.value;
+
+                if(index != variables.length -1)
+                {
+                    string += ",";
+                }
+            });
+
+            return string;
+        }
+    </script>
+</body>
+</html>

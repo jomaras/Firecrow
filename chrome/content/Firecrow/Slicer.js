@@ -28,14 +28,19 @@ Firecrow.Slicer = {
         browser.registerBreakContinueReturnEventReached(dependencyGraph.handleBreakContinueReturnEventReached, dependencyGraph);
 
         browser.evaluatePage();
-        browser.clean();
-
         dependencyGraph.markGraph(htmlModel.htmlElement);
 
         return {
             browser: browser,
             dependencyGraph: dependencyGraph
         }
+    },
+
+    getSlicedCode: function(htmlModel, slicingCriteria, url)
+    {
+        this.slice(htmlModel, slicingCriteria, url);
+
+        return FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel);
     }
 };
 // ************************************************************************************************

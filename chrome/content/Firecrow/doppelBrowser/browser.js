@@ -103,6 +103,8 @@ Browser.prototype =
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
 
+    clean: function(){},
+
     getEventRegistrations: function()
     {
         return this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers).concat(this.globalObject.htmlElementEventHandlingRegistrations);
@@ -916,8 +918,6 @@ Browser.prototype =
     {
         this.globalObject.registerSlicingCriteria(slicingCriteria);
     },
-
-    clean: function() {},
 
     _getElementXPath: function(element)
     {

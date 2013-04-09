@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script>
+        (function(window, undefined)
+        {
+            var jQuery = (function()
+            {
+                var jQuery = function(selector, context)
+                {};
+                jQuery.fn = jQuery.prototype = {};
+                jQuery.extend = jQuery.fn.extend = function()
+                {
+                    var target = arguments[0];
+                    return target;
+                };
+                return jQuery;
+            })();
+            window.$ = jQuery;
+        })(window);
+    </script>
+</head>
+<body>
+<script>
+    var init = null;
+    var a = $.extend({}, init);
+    a.b = 3;
+    var a1 = a.b;
+    a1;
+</script>
+
+</body>
+</html>
