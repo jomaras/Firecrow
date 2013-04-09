@@ -1,3 +1,16 @@
+- Make it work for other pages!!
+- dependency traversal algorithm in node.js
+    - for finding groups, maybe don't go through all dependencies again, but only forward till it is ok, and backward till it is ok
+
+- Make automatic testing for libraries
+    - gauss
+    - medialize (has errors - fix)
+        - Guide: run C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\debugMedialize.html (and study errors)
+    - sylvester
+
+
+
+------------------------------------------------------------------------------------------------------------------------
 Testing TO-DO list:
 - Test 35 - array problems
 - Test 53 - includes return where not necessary

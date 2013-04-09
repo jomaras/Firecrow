@@ -68,7 +68,6 @@ FBL.ns(function() { with (FBL) {
         getDependencies: function(maxIndex, destinationConstraint)
         {
             var selectedDependencies = [];
-            var returnDependencies = {};
 
             if(maxIndex == null && destinationConstraint == null) { return this.dataDependencies; }
 
@@ -93,24 +92,37 @@ FBL.ns(function() { with (FBL) {
 
                 selectedDependencies.push(dependency);
 
-                for(var j = dependencies.length - 1; j >= 0; j--)
+                for(var j = i + 1; j < dependencies.length; j++)
                 {
-                    if(i == j) { continue; }
-
-                    var jThDependency = dependencies[j];
-
-                    if((dependency.dependencyCreationInfo.groupId.indexOf(jThDependency.dependencyCreationInfo.groupId) == 0
-                        || jThDependency.dependencyCreationInfo.groupId.indexOf(dependency.dependencyCreationInfo.groupId) == 0)
-                        && this.canFollowDependency(jThDependency, destinationConstraint))
+                    if(!this._areDependenciesInTheSameGroupAndCanBeFollowed(dependency, dependencies[j], destinationConstraint))
                     {
-                        selectedDependencies.push(jThDependency);
+                        break;
                     }
+
+                    selectedDependencies.push(dependencies[j]);
+                }
+
+                for(var j = i - 1; j >= 0; j--)
+                {
+                    if(!this._areDependenciesInTheSameGroupAndCanBeFollowed(dependency, dependencies[j], destinationConstraint))
+                    {
+                        break;
+                    }
+
+                    selectedDependencies.push(dependencies[j]);
                 }
 
                 break;
             }
 
             return selectedDependencies;
+        },
+
+        _areDependenciesInTheSameGroupAndCanBeFollowed: function(dependency1, dependency2, destinationConstraint)
+        {
+            return (dependency1.dependencyCreationInfo.groupId.indexOf(dependency2.dependencyCreationInfo.groupId) == 0
+                 || dependency2.dependencyCreationInfo.groupId.indexOf(dependency1.dependencyCreationInfo.groupId) == 0)
+                && this.canFollowDependency(dependency2, destinationConstraint);
         },
 
         canFollowDependency: function(dependency, destinationConstraint)

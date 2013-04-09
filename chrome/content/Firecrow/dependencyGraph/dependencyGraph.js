@@ -226,8 +226,6 @@ DependencyGraph.prototype =
         Firecrow.includeNode(codeConstruct);
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
-        if(codeConstruct.nodeId == 46897) debugger;
-
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
 
         for(var i = potentialDependencyEdges.length - 1; i >= 0; i--)
