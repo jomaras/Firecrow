@@ -75,7 +75,7 @@
         {
             return new jQuery.fn.init(selector, context, rootjQuery);
         }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function(all, letter)
-        {}, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
+        {}, readyList, toString = Object.prototype.toString, hasOwn = Object.prototype.hasOwnProperty, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
         jQuery.fn = jQuery.prototype = {
             constructor: jQuery,
             init: function(selector, context, rootjQuery)
@@ -107,6 +107,10 @@
                         return (context || rootjQuery).find(selector);
                     }
                 }
+                else if(jQuery.isFunction(selector))
+                {
+                    return rootjQuery.ready(selector);
+                }
             },
             selector: '',
             jquery: '1.7.2',
@@ -129,12 +133,26 @@
 
                 return ret;
             },
+            ready: function(fn)
+            {
+                jQuery.bindReady();
+                readyList.add(fn);
+            },
             push: push
         };
         jQuery.fn.init.prototype = jQuery.fn;
         jQuery.extend = jQuery.fn.extend = function()
         {
-            var options, name, copy, target, i = 1, length = arguments.length, deep = false;
+            var options, name, src, copy, copyIsArray, clone, target = arguments[0], i = 1, length = arguments.length, deep = false;
+            if(typeof target === 'boolean')
+            {
+                deep = target;
+                target = arguments[1];
+                i = 2;
+            }
+
+            if(typeof target !== 'object' && !(jQuery.isFunction(target)));
+
             if(length === i)
             {
                 target = this;
@@ -147,8 +165,18 @@
                 {
                     for(name in options)
                     {
+                        src = target[name];
                         copy = options[name];
-                        if(deep);
+                        if(deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))
+                        {
+                            if(copyIsArray);
+                            else
+                            {
+                                clone = src && jQuery.isPlainObject(src) ? src : 0;
+                            }
+
+                            jQuery.extend(deep, clone, copy);
+                        }
                         else if(copy !== undefined)
                         {
                             target[name] = copy;
@@ -167,7 +195,9 @@
             ready: function(wait)
             {},
             bindReady: function()
-            {},
+            {
+                readyList = jQuery.Callbacks('once memory');
+            },
             isFunction: function(obj)
             {
                 return jQuery.type(obj) === 'function';
@@ -177,7 +207,9 @@
                 return jQuery.type(obj) === 'array';
             },
             isWindow: function(obj)
-            {},
+            {
+                return obj != null && obj == obj.window;
+            },
             isNumeric: function(obj)
             {},
             type: function(obj)
@@ -185,7 +217,17 @@
                 return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
             },
             isPlainObject: function(obj)
-            {},
+            {
+                if(!obj || jQuery.type(obj) !== 'object' || obj.nodeType || jQuery.isWindow(obj))
+                {
+                    return false;
+                }
+
+                var key;
+                for(key in obj)
+                    ;
+                return key === undefined || hasOwn.call(obj, key);
+            },
             isEmptyObject: function(obj)
             {},
             error: function(msg)
@@ -255,6 +297,35 @@
         rootjQuery = jQuery(document);
         return jQuery;
     })();
+    jQuery.Callbacks = function(flags)
+    {
+        var list = [], add = function(args)
+        {
+            var i, length, elem;
+            for(i = 0, length = args.length;i < length;i++)
+            {
+                elem = args[i];
+                jQuery.type(elem);
+            }
+        }, self = {
+            add: function()
+            {
+                if(list)
+                {
+                    add(arguments);
+                }
+            }
+        };
+        return self;
+    };
+    jQuery.support = (function()
+    {
+        var support;
+        support = {};
+        jQuery(function()
+        {});
+        return support;
+    })();
     jQuery.extend({
         cache: {},
         uuid: 0,
@@ -264,7 +335,7 @@
         {},
         data: function(elem, name, data, pvt)
         {
-            var internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, id = isNode ? elem[internalKey] : 0;
+            var thisCache, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
             if(!id && getByName && data === undefined)
             {
                 return ;
@@ -278,9 +349,15 @@
                 }
             }
 
+            if(!(cache[id]))
+            {
+                cache[id] = {};
+            }
+
+            thisCache = cache[id];
             if(data !== undefined)
             {
-                jQuery.camelCase(name);
+                thisCache[jQuery.camelCase(name)];
             }
         },
         removeData: function(elem, name, pvt)
@@ -292,10 +369,14 @@
         acceptData: function(elem)
         {}
     });
+    jQuery.each(['radio', 'checkbox'], function()
+    {});
     jQuery.fn.extend({
         toggle: function(fn)
         {}
     });
+    jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function(i, name)
+    {});
     (function()
     {
         var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g, toString = Object.prototype.toString;
@@ -633,6 +714,118 @@
     }
 
     curCSS = getComputedStyle;
+    jQuery.each(['height', 'width'], function(i, name)
+    {});
+    jQuery(function()
+    {});
+    var prefilters = {}, transports = {}, allTypes = [null] + [null];
+    function addToPrefiltersOrTransports(structure)
+    {
+        return function(dataTypeExpression, func)
+        {
+            if(typeof dataTypeExpression !== 'string')
+            {
+                func = dataTypeExpression;
+            }
+
+            if(jQuery.isFunction(func));
+        };
+    }
+    function ajaxExtend(target, src)
+    {
+        var key, deep, flatOptions = jQuery.ajaxSettings.flatOptions;
+        for(key in src)
+        {
+            if(src[key] !== undefined)
+            {
+                (flatOptions[key] ? 0 : deep || (deep = {}))[key] = src[key];
+            }
+        }
+
+        if(deep)
+        {
+            jQuery.extend(true, target, deep);
+        }
+    }
+    jQuery.each('ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend'.split(' '), function(i, o)
+    {});
+    jQuery.each(['get', 'post'], function(i, method)
+    {});
+    jQuery.extend({
+        getScript: function(url, callback)
+        {},
+        getJSON: function(url, data, callback)
+        {},
+        ajaxSetup: function(target, settings)
+        {
+            if(settings);
+            else
+            {
+                settings = target;
+                target = jQuery.ajaxSettings;
+            }
+
+            ajaxExtend(target, settings);
+        },
+        ajaxSettings: {
+            accepts: {
+                '*': allTypes
+            },
+            contents: {json: /json/},
+            converters: {
+                'text xml': jQuery.parseXML
+            },
+            flatOptions: {}
+        },
+        ajaxPrefilter: addToPrefiltersOrTransports(prefilters),
+        ajaxTransport: addToPrefiltersOrTransports(transports),
+        ajax: function(url, options)
+        {},
+        param: function(a, traditional)
+        {}
+    });
+    jQuery.ajaxSetup({
+        jsonp: 'callback',
+        jsonpCallback: function()
+        {}
+    });
+    jQuery.ajaxPrefilter('json jsonp', function(s, originalSettings, jqXHR)
+    {});
+    jQuery.ajaxSetup({
+        accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'},
+        contents: {script: /javascript|ecmascript/},
+        converters: {
+            'text script': function(text)
+            {}
+        }
+    });
+    jQuery.ajaxPrefilter('script', function(s)
+    {});
+    jQuery.ajaxTransport('script', function(s)
+    {});
+    function createStandardXHR()
+    {
+        try
+        {
+            return new window.XMLHttpRequest();
+        }
+        catch(e){}
+    }
+    jQuery.ajaxSettings.xhr = window.ActiveXObject ? 0 : createStandardXHR;
+    (function(xhr)
+    {
+        jQuery.extend(jQuery.support, {
+            ajax: !(!xhr),
+            cors: !(!xhr) && 'withCredentials' in xhr
+        });
+    })(jQuery.ajaxSettings.xhr());
+    if(jQuery.support.ajax)
+    {
+        jQuery.ajaxTransport(function(s)
+        {});
+    }
+
+    var fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']];
     jQuery.fn.extend({
         show: function(speed, easing, callback)
         {},
@@ -674,6 +867,35 @@
         stop: function(type, clearQueue, gotoEnd)
         {}
     });
+    function genFx(type, num)
+    {
+        jQuery.each(fxAttrs.concat.apply([], fxAttrs.slice(0, num)), function()
+        {});
+    }
+    ({
+        slideDown: genFx('show', 1),
+        slideUp: genFx('hide', 1),
+        slideToggle: genFx('toggle', 1)
+    }, null);
+    jQuery.extend({
+        speed: function(speed, easing, fn)
+        {},
+        easing: {},
+        timers: [],
+        fx: function(elem, options, prop)
+        {}
+    });
+    jQuery.extend(jQuery.fx, {
+        tick: function()
+        {},
+        interval: 13,
+        stop: function()
+        {},
+        speeds: {},
+        step: {}
+    });
+    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
+    {});
     window.$ = jQuery;
 })(window);
 </script>

@@ -1,9 +1,12 @@
 - Make it work for other pages!!
    - continue with why
-        - $(".review > div:gt(0)") does not give the same results as in the original code
-        - hide should work now, so test on the larger set of data
+   - problem with thisCache[jQuery.camelCase(name)];
+        (there is no connection to thisCache and jQuery.camelCase is "imporant") - study more!
+        - the problem is that the call expression is evaluated much before the the member expression, so the dependencies created on
+        eval member expression are not created, one solution is to create a command on start eval member expression that creates a dependencie from
+        the property to the whole member expression (or maybe simpler, if a call expression is a property, create a connection)
+        - go to InterpreterSimulator and add
 
-- problem with thisCache[jQuery.camelCase(name)]; (there is no connection to thisCache and jQuery.camelCase is "imporant") - study more!
 - there are problems in the algorithm itself:
     - the problem here was that thisCache was not included; i've rewritten the code generation code to not return an empty string if the object in not included
     ! in jQuery with jQuery.camelCase, the dependency that should be followed is of higher index then the base dependency and it gets ignored

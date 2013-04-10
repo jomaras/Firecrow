@@ -1232,6 +1232,13 @@ Firecrow.ASTHelper =
         return false;
     },
 
+    isMemberExpressionProperty: function(element)
+    {
+        if(element == null) { return false; }
+
+        return this.isMemberExpression(element.parent) && element.parent.property == element;
+    },
+
     getParentStatementOrFunction: function(codeConstruct)
     {
         if(codeConstruct == null) { return null; }

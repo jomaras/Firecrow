@@ -276,12 +276,6 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             Firecrow.includeNode(memberExpression);
         }
 
-        //TODO: not sure about removing this: the problem is
-        //if the property is computed and important and we don't require the base object
-        //why should we include the base object - but will it cause other errors
-
-        return;
-
         if(!ASTHelper.isMemberExpression(memberExpression.parent)
         && !ASTHelper.isCallExpression(memberExpression.parent)
         && !ASTHelper.isCallExpression(memberExpression.object))

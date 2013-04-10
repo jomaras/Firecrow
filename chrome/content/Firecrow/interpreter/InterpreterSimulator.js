@@ -315,6 +315,12 @@ fcSimulator.prototype =
     {
         var callConstruct = callExpressionCommand.codeConstruct;
 
+        //TODO - hack to cover problems of object[callExpression()] where only callExpression is important
+        if(ASTHelper.isMemberExpressionProperty(callConstruct))
+        {
+            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.parent, this.globalObject.getPreciseEvaluationPositionId());
+        }
+
         this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
 
         for(var i = 0; i < callConstruct.arguments.length; i++)
