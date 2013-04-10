@@ -5,14 +5,17 @@
 </head>
 <body>
     <script>
-        var items = [1,2,3]
-        var sum = 0;
-        for(var i = 0;i < items.length;)
+        var obj = { a: 1, b: 2, c:3};
+        var a1 = "";
+
+        for(var name in obj)
         {
-            sum  = items[i++];
+            if(name == "b")
+                continue;
+
+            a1 += name;
         }
 
-        var a1 = sum;
         a1;
     </script>
 </body>

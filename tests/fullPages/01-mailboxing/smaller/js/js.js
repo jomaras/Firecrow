@@ -1,3 +1,3 @@
-var reviews = $(".review-slide > div").slice(1);
+var reviews = $(".review-slide > div:gt(0)");
 
 reviews.hide();

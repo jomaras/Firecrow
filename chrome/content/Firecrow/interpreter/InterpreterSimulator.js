@@ -203,7 +203,7 @@ fcSimulator.prototype =
         {
             var command = this.commands[i];
 
-            if(!command.isForUpdateStatementCommand() && !command.isEndLoopStatementCommand()) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
+            if(!command.isForUpdateStatementCommand() && !command.isEndLoopStatementCommand() && !command.isEvalForInWhereCommand()) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
             else{i++;}
 
             if(command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) { break;}

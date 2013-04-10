@@ -1,10 +1,8 @@
 - Make it work for other pages!!
+   - continue with why
+        - $(".review > div:gt(0)") does not give the same results as in the original code
+        - hide should work now, so test on the larger set of data
 
-
-
-
-
-- $(".review > div:gt(0)") -> query not working in test
 - problem with thisCache[jQuery.camelCase(name)]; (there is no connection to thisCache and jQuery.camelCase is "imporant") - study more!
 - there are problems in the algorithm itself:
     - the problem here was that thisCache was not included; i've rewritten the code generation code to not return an empty string if the object in not included
