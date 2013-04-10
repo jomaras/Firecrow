@@ -343,10 +343,11 @@ fcSimulator.InternalExecutor.prototype =
     {
              if (functionObject.jsValue == this.globalObject.arrayFunction) { return this.createArray(callExpression, Array.apply(null, args)); }
         else if (functionObject.jsValue == this.globalObject.regExFunction) { return this.createRegEx(callExpression, Array.apply(null, args.map(function(item){ return item.jsValue; }))); }
+        else if (functionObject.jsValue == toString) { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (functionObject.jsValue != null && functionObject.jsValue.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
         else if (fcModel.ArrayExecutor.isInternalArrayMethod(functionObject.jsValue))  { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
-        else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
         else if (fcModel.StringExecutor.isInternalStringFunctionMethod(functionObject.jsValue))  { return this._executeInternalStringFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
+        else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
         else if (functionObject.jsValue.name == "bind") { return this._executeBindFunction(thisObject, functionObject, args, callExpression); }
         else
         {
@@ -358,21 +359,15 @@ fcSimulator.InternalExecutor.prototype =
     _executeInternalStringFunctionMethod: function(thisObject, functionObject, args, callExpression, callCommand)
     {
         //This is a hack when an internal callback function get another interanal function as an argument
-        var isCallbackCall = false;
-        if(args.length == 0 && callCommand.parentCallExpressionCommand != null)
+        if(args.length == 0 && callCommand.parentCallExpressionCommand != null && callCommand.parentCallExpressionCommand.arguments != null)
         {
-            args = callCommand.parentCallExpressionCommand.arguments;
-            isCallbackCall = true;
-        }
-
-        var returnValue = fcModel.StringExecutor.executeInternalStringMethod(args[0], functionObject, args, callExpression, callCommand);
-
-        if(isCallbackCall)
-        {
+            args = callCommand.parentCallExpressionCommand.arguments || [];
+            var returnValue = fcModel.StringExecutor.executeInternalStringMethod(args[0], functionObject, args, callExpression, callCommand);
             fcModel.ArrayCallbackEvaluator.evaluateCallbackReturn(callCommand.parentCallExpressionCommand, returnValue, null);
+            return returnValue;
         }
 
-        return returnValue;
+        return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, args, callExpression, callCommand);
     },
 
     _executeBindFunction: function(thisObject, functionObject, args, callExpression)

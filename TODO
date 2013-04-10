@@ -1,4 +1,15 @@
 - Make it work for other pages!!
+
+
+
+
+
+- $(".review > div:gt(0)") -> query not working in test
+- problem with thisCache[jQuery.camelCase(name)]; (there is no connection to thisCache and jQuery.camelCase is "imporant") - study more!
+- there are problems in the algorithm itself:
+    - the problem here was that thisCache was not included; i've rewritten the code generation code to not return an empty string if the object in not included
+    ! in jQuery with jQuery.camelCase, the dependency that should be followed is of higher index then the base dependency and it gets ignored
+      this in turn causes the selection of another, previous dependency that should not be related (simply because it is of lower index)
 - dependency traversal algorithm in node.js
     - for finding groups, maybe don't go through all dependencies again, but only forward till it is ok, and backward till it is ok
 
@@ -6,6 +17,7 @@
     - gauss
     - medialize (has errors - fix)
         - Guide: run C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\debugMedialize.html (and study errors)
+        - it seems that i broke something when i added automatic toValue and toString invocation (check it by creating a smaller test suite behaving the same way)
     - sylvester
 
 

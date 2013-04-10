@@ -40,6 +40,8 @@ fcSimulator.Evaluator.prototype =
         {
             if(!ValueTypeHelper.isOfType(command, Firecrow.Interpreter.Commands.Command)) { this.notifyError(command, "When evaluating the argument has to be of type command"); return; }
 
+            if(command.codeConstruct.loc != null && command.codeConstruct.loc.start.line == 2) debugger;
+
                  if (command.isEvalIdentifierCommand()) { this._evalIdentifierCommand(command); }
             else if (command.isEvalAssignmentExpressionCommand()) { this._evalAssignmentCommand(command); }
             else if (command.isEvalMemberExpressionCommand()) { this._evalMemberCommand(command); }

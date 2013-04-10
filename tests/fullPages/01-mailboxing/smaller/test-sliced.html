@@ -2,32 +2,468 @@
 <html>
 <head>
 
-    <script>
-        (function(window, undefined)
-        {
-            var jQuery = (function()
-            {
-                var jQuery = function(selector, context)
-                {};
-                jQuery.fn = jQuery.prototype = {};
-                jQuery.extend = jQuery.fn.extend = function()
-                {
-                    var target = arguments[0];
-                    return target;
-                };
-                return jQuery;
-            })();
-            window.$ = jQuery;
-        })(window);
-    </script>
+    <link type="text/css" rel="stylesheet" href="css/screen.css"/>
+
+
+
+
+
+
+
+
+
 </head>
 <body>
-<script>
-    var init = null;
-    var a = $.extend({}, init);
-    a.b = 3;
-    var a1 = a.b;
-    a1;
+
+
+
+
+
+
+
+
+
+<div id="info-block">
+    <div id="wrapper">
+
+        <div class="review">
+            <span id="reviewman"></span>
+
+            <div class="author">
+                <p>Looky, look what the</p>
+                <span class="h2-title"></span>
+                <p>is saying:</p>
+            </div>
+
+            <div class="review">
+                <div class="review-slide">
+                    <div>
+                        <h2>Incognito</h2>
+                        <p class="big">“It’s a matter of time before the Kremlin ban this game.” </p>
+                    </div>
+                    <div>
+                        <h2>148apps.com</h2>
+                        <p>"I think Mailboxing is a fun little game for all ages. Younger kids are sure to get a kick out of it,
+                            just as long as they don’t get any crazy ideas about batting down mailboxes in real life."</p>
+                    </div>
+                    <div>
+                        <h2>Central App Review</h2>
+                        <p>"Mailboxing is in a sort of 3D setting, so buildings, cars, and other objects look like they are coming up at you.
+                            This is one of the things that makes this game worth downloading and fun to play."</p>
+                    </div>
+                    <div>
+                        <h2>theportablegamer.com</h2>
+                        <p>"Some games may go a little overboard (think GTA and the Gangstar titles) but Mailboxing puts just enough comic mischief in to be suitable to all players."</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+(function(window, undefined)
+{
+    var document = window.document;
+    var jQuery = (function()
+    {
+        var jQuery = function(selector, context)
+        {
+            return new jQuery.fn.init(selector, context, rootjQuery);
+        }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function(all, letter)
+        {}, toString = Object.prototype.toString, push = Array.prototype.push, slice = Array.prototype.slice, trim = String.prototype.trim, class2type = {};
+        jQuery.fn = jQuery.prototype = {
+            constructor: jQuery,
+            init: function(selector, context, rootjQuery)
+            {
+                var match;
+                if(!selector)
+                {
+                    return this;
+                }
+
+                if(selector.nodeType)
+                {
+                    this.context = this[0] = selector;
+                    this.length = 1;
+                    return this;
+                }
+
+                if(typeof selector === 'string')
+                {
+                    if(selector.charAt(0) === '<');
+                    else
+                    {
+                        match = quickExpr.exec(selector);
+                    }
+
+                    if(match);
+                    else if(!context)
+                    {
+                        return (context || rootjQuery).find(selector);
+                    }
+                }
+            },
+            selector: '',
+            jquery: '1.7.2',
+            length: 0,
+            pushStack: function(elems, name, selector)
+            {
+                var ret = this.constructor();
+                if(jQuery.isArray(elems))
+                {
+                    push.apply(ret, elems);
+                }
+                else
+                {
+                    jQuery.merge(ret, elems);
+                }
+
+                ret.prevObject = this;
+                ret.context = this.context;
+                if(name === 'find')
+                {
+                    ret.selector = (this.selector + (this.selector ? 0 : '')) + selector;
+                }
+
+                return ret;
+            },
+            slice: function()
+            {
+                return this.pushStack(slice.apply(this, arguments), 'slice', slice.call(arguments).join(','));
+            },
+            push: push
+        };
+        jQuery.fn.init.prototype = jQuery.fn;
+        jQuery.extend = jQuery.fn.extend = function()
+        {
+            var options, name, copy, target, i = 1, length = arguments.length, deep = false;
+            if(length === i)
+            {
+                target = this;
+                --i;
+            }
+
+            for(;i < length;i++)
+            {
+                if((options = arguments[i]) != null)
+                {
+                    for(name in options)
+                    {
+                        copy = options[name];
+                        if(deep);
+                        else if(copy !== undefined)
+                        {
+                            target[name] = copy;
+                        }
+                    }
+                }
+            }
+        };
+        jQuery.extend({
+            noConflict: function(deep)
+            {},
+            isReady: false,
+            readyWait: 1,
+            holdReady: function(hold)
+            {},
+            ready: function(wait)
+            {},
+            bindReady: function()
+            {},
+            isFunction: function(obj)
+            {
+                return jQuery.type(obj) === 'function';
+            },
+            isArray: Array.isArray || function(obj)
+            {
+                return jQuery.type(obj) === 'array';
+            },
+            isWindow: function(obj)
+            {},
+            isNumeric: function(obj)
+            {},
+            type: function(obj)
+            {
+                return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
+            },
+            isPlainObject: function(obj)
+            {},
+            isEmptyObject: function(obj)
+            {},
+            error: function(msg)
+            {},
+            parseJSON: function(data)
+            {},
+            parseXML: function(data)
+            {},
+            noop: function()
+            {},
+            globalEval: function(data)
+            {},
+            camelCase: function(string)
+            {
+                return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
+            },
+            nodeName: function(elem, name)
+            {},
+            each: function(object, callback, args)
+            {
+                var i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
+                if(args);
+                else
+                {
+                    if(isObj);
+                    else
+                    {
+                        for(;i < length;)
+                        {
+                            if(callback.call(object[i], i, object[i++]) === false);
+                        }
+                    }
+                }
+            },
+            trim: trim ? function(text)
+            {} : 0,
+            makeArray: function(array, results)
+            {},
+            inArray: function(elem, array, i)
+            {},
+            merge: function(first, second)
+            {
+                var i = first.length;
+                first.length = i;
+            },
+            grep: function(elems, callback, inv)
+            {},
+            map: function(elems, callback, arg)
+            {},
+            guid: 1,
+            proxy: function(fn, context)
+            {},
+            access: function(elems, fn, key, value, chainable, emptyGet, pass)
+            {},
+            now: function()
+            {},
+            uaMatch: function(ua)
+            {},
+            sub: function()
+            {},
+            browser: {}
+        });
+        jQuery.each('Boolean Number String Function Array Date RegExp Object'.split(' '), function(i, name)
+        {
+            class2type[('[object ' + name) + ']'] = name.toLowerCase();
+        });
+        rootjQuery = jQuery(document);
+        return jQuery;
+    })();
+    jQuery.extend({
+        cache: {},
+        uuid: 0,
+        expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
+        noData: {},
+        hasData: function(elem)
+        {},
+        data: function(elem, name, data, pvt)
+        {
+            var internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, id = isNode ? elem[internalKey] : 0;
+            if(!id && getByName && data === undefined)
+            {
+                return ;
+            }
+
+            if(!id)
+            {
+                if(isNode)
+                {
+                    elem[internalKey] = id = ++jQuery.uuid;
+                }
+            }
+
+            if(data !== undefined)
+            {
+                jQuery.camelCase(name);
+            }
+        },
+        removeData: function(elem, name, pvt)
+        {},
+        _data: function(elem, name, data)
+        {
+            return jQuery.data(elem, name, data, true);
+        },
+        acceptData: function(elem)
+        {}
+    });
+    jQuery.fn.extend({
+        toggle: function(fn)
+        {}
+    });
+    (function()
+    {
+        var Sizzle;
+        var makeArray = function(array, results)
+        {
+            array = Array.prototype.slice.call(array, 0);
+            if(results)
+            {
+                results.push.apply(results, array);
+            }
+        };
+        (function()
+        {
+            var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
+            form.innerHTML = ('<a name=\'' + id) + '\'/>';
+            root.insertBefore(form, root.firstChild);
+            root.removeChild(form);
+        })();
+        if(document.querySelectorAll)
+        {
+            (function()
+            {
+                Sizzle = function(query, context, extra, seed)
+                {
+                    context = context;
+                    if(!seed && !(Sizzle.isXML(context)))
+                    {
+                        if(context.nodeType === 9)
+                        {
+                            try
+                            {
+                                return makeArray(context.querySelectorAll(query), extra);
+                            }
+                            catch(qsaError){}
+                        }
+                    }
+                };
+            })();
+        }
+
+        Sizzle.isXML = function(elem)
+        {
+            var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
+        };
+        jQuery.find = Sizzle;
+    })();
+    jQuery.fn.extend({
+        find: function(selector)
+        {
+            var i, l;
+            var ret = this.pushStack('', 'find', selector);
+            for(i = 0, l = this.length;i < l;i++)
+            {
+                jQuery.find(selector, this[i], ret);
+            }
+
+            return ret;
+        },
+        has: function(target)
+        {},
+        not: function(selector)
+        {},
+        filter: function(selector)
+        {},
+        is: function(selector)
+        {},
+        closest: function(selectors, context)
+        {},
+        index: function(elem)
+        {},
+        add: function(selector, context)
+        {},
+        andSelf: function()
+        {}
+    });
+    var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
+    jQuery.extend({
+        cssHooks: {},
+        cssNumber: {},
+        cssProps: {},
+        style: function(elem, name, value, extra)
+        {},
+        css: function(elem, name, extra)
+        {
+            var hooks;
+            name = jQuery.camelCase(name);
+            hooks = jQuery.cssHooks[name];
+            name = jQuery.cssProps[name] || name;
+            if(hooks);
+            else if(curCSS)
+            {
+                return curCSS(elem, name);
+            }
+        },
+        swap: function(elem, options, callback)
+        {}
+    });
+    if(document.defaultView && document.defaultView.getComputedStyle)
+    {
+        getComputedStyle = function(elem, name)
+        {
+            var ret, defaultView, computedStyle;
+            name = name.replace(rupper, '-$1').toLowerCase();
+            if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
+            {
+                ret = computedStyle.getPropertyValue(name);
+            }
+
+            return ret;
+        };
+    }
+
+    curCSS = getComputedStyle;
+    jQuery.fn.extend({
+        show: function(speed, easing, callback)
+        {},
+        hide: function(speed, easing, callback)
+        {
+            if(speed || speed === 0);
+            else
+            {
+                var elem, display, i = 0, j = this.length;
+                for(;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = jQuery.css(elem, 'display');
+                        if(display !== 'none' && !(jQuery._data(elem, 'olddisplay')))
+                        {
+                            jQuery._data(elem, 'olddisplay', display);
+                        }
+                    }
+                }
+
+                for(i = 0;i < j;i++)
+                {
+                    if(this[i].style)
+                    {
+                        this[i].style.display = 'none';
+                    }
+                }
+            }
+        },
+        _toggle: jQuery.fn.toggle,
+        toggle: function(fn, fn2, callback)
+        {},
+        fadeTo: function(speed, to, easing, callback)
+        {},
+        animate: function(prop, speed, easing, callback)
+        {},
+        stop: function(type, clearQueue, gotoEnd)
+        {}
+    });
+    window.$ = jQuery;
+})(window);
+</script>
+<script type="text/javascript">
+    var reviews = $('.review-slide > div').slice(1);
+    reviews.hide();
 </script>
 
 </body>

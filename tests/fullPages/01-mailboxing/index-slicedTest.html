@@ -25,19 +25,19 @@
             <div id="ipad">
                 <div id="ipad_img">
                     <div id="ipad_img_container">
-                        <img src="images/ipad1.jpg" title="Mailboxing ipad screenshot 1" alt="Mailboxing ipad screenshot 1"/>
-                        <img src="images/ipad2.jpg" title="Mailboxing ipad screenshot 2" alt="Mailboxing ipad screenshot 2"/>
-                        <img src="images/ipad3.jpg" title="Mailboxing ipad screenshot 3" alt="Mailboxing ipad screenshot 3"/>
+                        
+                        
+                        
                     </div>
                 </div>
-                <a class="price_tag" href="http://itunes.apple.com/us/app/mailboxing/id407944860?mt=8"></a>
+                
             </div>
             <div id="iphone">
                 <div id="iphone_img">
                     <div id="iphone_img_container">
-                        <img src="images/iphone1.jpg" title="Mailboxing iphone screenshot 1" alt="Mailboxing iphone screenshot 1"/>
-                        <img src="images/iphone2.jpg" title="Mailboxing iphone screenshot 2" alt="Mailboxing iphone screenshot 2"/>
-                        <img src="images/iphone3.jpg" title="Mailboxing iphone screenshot 3" alt="Mailboxing iphone screenshot 3"/>
+                        
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -57,29 +57,35 @@
 
 <div id="info-block">
     <div id="wrapper">
-        
+        <span id="family"></span>
         <div class="review">
-            
+            <span id="reviewman"></span>
 
-            
+            <div class="author">
+                <p>Looky, look what the</p>
+                <span class="h2-title"></span>
+                <p>is saying:</p>
+            </div>
 
             <div class="review">
                 <div class="review-slide">
                     <div>
-                        
-                        
+                        <h2>Incognito</h2>
+                        <p class="big">â€œItâ€™s a matter of time before the Kremlin ban this game.â€ </p>
                     </div>
                     <div>
-                        
-                        
+                        <h2>148apps.com</h2>
+                        <p>"I think Mailboxing is a fun little game for all ages. Younger kids are sure to get a kick out of it,
+                            just as long as they donâ€™t get any crazy ideas about batting down mailboxes in real life."</p>
                     </div>
                     <div>
-                        
-                        
+                        <h2>Central App Review</h2>
+                        <p>"Mailboxing is in a sort of 3D setting, so buildings, cars, and other objects look like they are coming up at you.
+                            This is one of the things that makes this game worth downloading and fun to play."</p>
                     </div>
                     <div>
-                        
-                        
+                        <h2>theportablegamer.com</h2>
+                        <p>"Some games may go a little overboard (think GTA and the Gangstar titles) but Mailboxing puts just enough comic mischief in to be suitable to all players."</p>
                     </div>
                 </div>
             </div>
@@ -152,7 +158,9 @@
       {
         return new jQuery.fn.init(selector, context, rootjQuery);
       }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function(all, letter)
-      {}, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, slice = Array.prototype.slice, trim = String.prototype.trim, class2type = {};
+      {
+        return (letter + '').toUpperCase();
+      }, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, slice = Array.prototype.slice, trim = String.prototype.trim, class2type = {};
       jQuery.fn = jQuery.prototype = {
         constructor: jQuery, 
         init: function(selector, context, rootjQuery)
@@ -898,30 +906,27 @@
       val: function(value)
       {}
     });
-    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, hoverHack = function(events)
     {
       return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
     };
     jQuery.event = {
       add: function(elem, types, handler, data, selector)
       {
-        var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
+        var elemData, eventHandle, events, t, tns, type, handlers, special;
         if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
 
         events = elemData.events;
         if(!events)
         {
-          elemData.events = events = {};
+          events = {};
         }
 
         eventHandle = elemData.handle;
         if(!eventHandle)
         {
           eventHandle = function(e)
-          {
-            return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
-          };
-          eventHandle.elem = elem;
+          {};
         }
 
         types = jQuery.trim(hoverHack(types)).split(' ');
@@ -932,15 +937,9 @@
           special = jQuery.event.special[type] || {};
           type = (selector ? 0 : special.bindType) || type;
           special = jQuery.event.special[type] || {};
-          handleObj = jQuery.extend({
-            origType: tns[1], 
-            handler: handler
-          }, handleObjIn);
           handlers = events[type];
           if(!handlers)
           {
-            handlers = events[type] = [];
-            handlers.delegateCount = 0;
             if(!(special.setup))
             {
               if(elem.addEventListener)
@@ -949,75 +948,9 @@
               }
             }
           }
-
-          if(selector);
-          else 
-          {
-            handlers.push(handleObj);
-          }
         }
-      }, 
-      dispatch: function(event)
-      {
-        event = jQuery.event.fix(event);
-        var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, matched, handleObj;
-        if(handlers.length > delegateCount)
-        {
-          handlerQueue.push({
-            elem: this, 
-            matches: handlers.slice(delegateCount)
-          });
-        }
-
-        for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
-        {
-          matched = handlerQueue[i];
-          for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
-          {
-            handleObj = matched.matches[j];
-            if(run_all)
-            {
-              ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
-            }
-          }
-        }
-
-        return event.result;
-      }, 
-      fixHooks: {}, 
-      mouseHooks: {
-        filter: function(event, original)
-        {
-          return event;
-        }
-      }, 
-      fix: function(event)
-      {
-        var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
-        event = jQuery.Event(originalEvent);
-        return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
       }, 
       special: {}
-    };
-    jQuery.Event = function(src, props)
-    {
-      if(!(this instanceof jQuery.Event))
-      {
-        return new jQuery.Event(src, props);
-      }
-
-      if(src && src.type)
-      {
-        this.type = src.type;
-      }
-    };
-    function returnFalse()
-    {
-      return false;
-    }
-    jQuery.Event.prototype = {
-      isPropagationStopped: returnFalse, 
-      isImmediatePropagationStopped: returnFalse
     };
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one)
@@ -1079,10 +1012,6 @@
 
         return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
       };
-      if(rmouseEvent.test(name))
-      {
-        jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
-      }
     });
     (function()
     {
@@ -1472,12 +1401,7 @@
       closest: function(selectors, context)
       {}, 
       index: function(elem)
-      {
-        if(!elem)
-        {
-          return this[0] && this[0].parentNode ? this.prevAll().length : 0;
-        }
-      }, 
+      {}, 
       add: function(selector, context)
       {}, 
       andSelf: function()
@@ -1501,9 +1425,7 @@
       nextAll: function(elem)
       {}, 
       prevAll: function(elem)
-      {
-        return jQuery.dir(elem, 'previousSibling');
-      }, 
+      {}, 
       nextUntil: function(elem, i, until)
       {}, 
       prevUntil: function(elem, i, until)
@@ -1547,17 +1469,7 @@
       }, 
       dir: function(elem, dir, until)
       {
-        var matched = [], cur = elem[dir];
-        while(cur && cur.nodeType !== 9 && until === undefined)
-        {
-          if(cur.nodeType === 1)
-          {
-            matched.push(cur);
-          }
-
-          cur = cur[dir];
-        }
-
+        var matched = [];
         return matched;
       }, 
       nth: function(cur, result, dir, elem)
@@ -1803,7 +1715,7 @@
       cleanData: function(elems)
       {}
     });
-    var rupper = /([A-Z]|^ms)/g, cssShow = {}, cssExpand = ['Top', 'Right', 'Bottom', 'Left'], curCSS, getComputedStyle;
+    var rupper = /([A-Z]|^ms)/g, rnum = /^[\-+]?(?:\d*\.)?\d+$/i, cssShow = {}, cssExpand = ['Top', 'Right', 'Bottom', 'Left'], curCSS, getComputedStyle;
     jQuery.fn.css = function(name, value)
     {
       return jQuery.access(this, function(elem, name, value)
@@ -1832,8 +1744,19 @@
       cssProps: {}, 
       style: function(elem, name, value, extra)
       {
-        var ret, origName = jQuery.camelCase(name), hooks = jQuery.cssHooks[origName];
-        if(value !== undefined);
+        var ret, origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
+        name = jQuery.cssProps[origName] || origName;
+        if(value !== undefined)
+        {
+          if(!hooks || !('set' in hooks) || (value = hooks.set(elem, value)) !== undefined)
+          {
+            try
+            {
+              style[name] = value;
+            }
+            catch(e){}
+          }
+        }
         else 
         {
           if(hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined)
@@ -1924,6 +1847,10 @@
               });
             }
           }
+        }, 
+        set: function(elem, value)
+        {
+          return rnum.test(value) ? 0 : value;
         }
       };
     });
@@ -1941,7 +1868,26 @@
     var rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
     jQuery.fn.extend({
       show: function(speed, easing, callback)
-      {}, 
+      {
+        var elem, display;
+        if(speed || speed === 0);
+        else 
+        {
+          for(var i = 0, j = this.length;i < j;i++);
+          for(i = 0;i < j;i++)
+          {
+            elem = this[i];
+            if(elem.style)
+            {
+              display = elem.style.display;
+              if(display === '' || display === 'none')
+              {
+                elem.style.display = jQuery._data(elem, 'olddisplay');
+              }
+            }
+          }
+        }
+      }, 
       hide: function(speed, easing, callback)
       {
         if(speed || speed === 0);
@@ -1958,6 +1904,14 @@
               {
                 jQuery._data(elem, 'olddisplay', display);
               }
+            }
+          }
+
+          for(i = 0;i < j;i++)
+          {
+            if(this[i].style)
+            {
+              this[i].style.display = 'none';
             }
           }
 
@@ -2103,7 +2057,7 @@
     jQuery.fx.prototype = {
       update: function()
       {
-        (jQuery.fx.step[this.prop] || jQuery.fx.step._default)(this);
+        jQuery.fx.step[this.prop](this);
       }, 
       cur: function()
       {
@@ -2137,7 +2091,7 @@
           this.custom(this.prop === 'width' || this.prop === 'height' ? 0 : 0, this.cur());
         }
 
-        jQuery(this.elem);
+        jQuery(this.elem).show();
       }, 
       hide: function()
       {
@@ -2221,15 +2175,7 @@
         timerId = null;
       }, 
       speeds: {}, 
-      step: {
-        _default: function(fx)
-        {
-          if(fx.elem.style && fx.elem.style[fx.prop] != null)
-          {
-            fx.elem.style[fx.prop] = fx.now + fx.unit;
-          }
-        }
-      }
+      step: {}
     });
     jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
     {
@@ -2496,11 +2442,9 @@
   var imageCount = 3;
   var imagePosition = 0;
   var lastImagePosition;
-  var intervalId;
   function setupLoop()
   {
-    clearInterval(intervalId);
-    intervalId = setInterval(function()
+    setInterval(function()
     {
       slide(imagePosition + 1);
     }, 2000);
@@ -2533,10 +2477,7 @@
   $(document).ready(function()
   {
     $('.pager_circle').click(function()
-    {
-      setupLoop();
-      slide($(this).index());
-    });
+    {});
     $('#ipad').click(function()
     {});
     $('#iphone').click(function()

@@ -266,13 +266,21 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
     {
         if(!this.inclusionFinder.isIncludedMemberExpression(memberExpression)) { return; }
 
-        var areChildrenIncluded = this.inclusionFinder.isIncludedElement(memberExpression.object)
-                               || this.inclusionFinder.isIncludedElement(memberExpression.property)
+        var isObjectIncluded = this.inclusionFinder.isIncludedElement(memberExpression.object);
+        var isPropertyIncluded = this.inclusionFinder.isIncludedElement(memberExpression.property);
+
+        var areChildrenIncluded = isObjectIncluded || isPropertyIncluded;
 
         if(areChildrenIncluded)
         {
             Firecrow.includeNode(memberExpression);
         }
+
+        //TODO: not sure about removing this: the problem is
+        //if the property is computed and important and we don't require the base object
+        //why should we include the base object - but will it cause other errors
+
+        return;
 
         if(!ASTHelper.isMemberExpression(memberExpression.parent)
         && !ASTHelper.isCallExpression(memberExpression.parent)
