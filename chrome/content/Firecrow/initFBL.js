@@ -39,9 +39,6 @@ FBL.ns(function () { with (FBL)
 
         includeNode: function(node)
         {
-            /*if(node.loc != null && node.loc.start.line == 1765)
-                debugger;*/
-
             node.shouldBeIncluded = true;
         }
     };

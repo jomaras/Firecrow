@@ -670,9 +670,7 @@ fcSimulator.DependencyCreator.prototype =
 
             for(var i = 0, length = args.length; i < length; i++)
             {
-                var argument = args[i];
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, argument, evaluationPosition);
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(argument, callExpression, evaluationPosition);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(callExpression, args[i], evaluationPosition);
             }
         }
     },
