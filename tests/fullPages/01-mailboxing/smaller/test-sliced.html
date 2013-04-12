@@ -114,7 +114,10 @@
             pushStack: function(elems, name, selector)
             {
                 var ret = this.constructor();
-                if(jQuery.isArray(elems));
+                if(jQuery.isArray(elems))
+                {
+                    push.apply(ret, elems);
+                }
                 else
                 {
                     jQuery.merge(ret, elems);
@@ -129,12 +132,16 @@
 
                 return ret;
             },
+            each: function(callback, args)
+            {
+                return jQuery.each(this, callback, args);
+            },
             push: push
         };
         jQuery.fn.init.prototype = jQuery.fn;
         jQuery.extend = jQuery.fn.extend = function()
         {
-            var options, name, copy, target, i = 1, length = arguments.length, deep = false;
+            var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
             if(length === i)
             {
                 target = this;
@@ -156,6 +163,8 @@
                     }
                 }
             }
+
+            return target;
         };
         jQuery.extend({
             noConflict: function(deep)
@@ -206,11 +215,17 @@
             {},
             each: function(object, callback, args)
             {
-                var i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
+                var name, i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
                 if(args);
                 else
                 {
-                    if(isObj);
+                    if(isObj)
+                    {
+                        for(name in object)
+                        {
+                            if(callback.call(object[name], name, object[name]) === false);
+                        }
+                    }
                     else
                     {
                         for(;i < length;)
@@ -219,11 +234,25 @@
                         }
                     }
                 }
+
+                return object;
             },
             trim: trim ? function(text)
             {} : 0,
             makeArray: function(array, results)
-            {},
+            {
+                var ret = results || [];
+                if(array != null)
+                {
+                    var type = jQuery.type(array);
+                    if(array.length == null || type === 'string' || type === 'function')
+                    {
+                        push.call(ret, array);
+                    }
+                }
+
+                return ret;
+            },
             inArray: function(elem, array, i)
             {},
             merge: function(first, second)
@@ -234,14 +263,31 @@
             grep: function(elems, callback, inv)
             {},
             map: function(elems, callback, arg)
-            {},
+            {
+                var value, ret = [], i = 0, length = elems.length, isArray = elems instanceof jQuery;
+                if(isArray)
+                {
+                    for(;i < length;i++)
+                    {
+                        value = callback(elems[i], i, arg);
+                        if(value != null)
+                        {
+                            ret[ret.length] = value;
+                        }
+                    }
+                }
+
+                return ret.concat.apply([], ret);
+            },
             guid: 1,
             proxy: function(fn, context)
             {},
             access: function(elems, fn, key, value, chainable, emptyGet, pass)
             {},
             now: function()
-            {},
+            {
+                return (new Date()).getTime();
+            },
             uaMatch: function(ua)
             {},
             sub: function()
@@ -264,8 +310,8 @@
         {},
         data: function(elem, name, data, pvt)
         {
-            var internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, id = isNode ? elem[internalKey] : 0;
-            if(!id && getByName && data === undefined)
+            var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
+            if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
             {
                 return ;
             }
@@ -277,6 +323,28 @@
                     elem[internalKey] = id = ++jQuery.uuid;
                 }
             }
+
+            if(!(cache[id]))
+            {
+                cache[id] = {};
+            }
+
+            thisCache = cache[id];
+            if(data !== undefined)
+            {
+                thisCache[jQuery.camelCase(name)] = data;
+            }
+
+            if(getByName)
+            {
+                ret = thisCache[name];
+                if(ret == null)
+                {
+                    ret = thisCache[jQuery.camelCase(name)];
+                }
+            }
+
+            return ret;
         },
         removeData: function(elem, name, pvt)
         {},
@@ -285,6 +353,61 @@
             return jQuery.data(elem, name, data, true);
         },
         acceptData: function(elem)
+        {}
+    });
+    jQuery.extend({
+        _mark: function(elem, type)
+        {},
+        _unmark: function(force, elem, type)
+        {},
+        queue: function(elem, type, data)
+        {
+            var q;
+            if(elem)
+            {
+                type = type + 'queue';
+                q = jQuery._data(elem, type);
+                if(data)
+                {
+                    if(!q)
+                    {
+                        q = jQuery._data(elem, type, jQuery.makeArray(data));
+                    }
+                }
+
+                return q;
+            }
+        },
+        dequeue: function(elem, type)
+        {
+            type = type;
+            var queue = jQuery.queue(elem, type), fn = queue.shift(), hooks = {};
+            if(fn)
+            {
+                fn.call(elem, function()
+                {}, hooks);
+            }
+        }
+    });
+    jQuery.fn.extend({
+        queue: function(type, data)
+        {
+            return data === undefined ? 0 : this.each(function()
+            {
+                var queue = jQuery.queue(this, type, data);
+                if(type === 'fx' && queue[0] !== 'inprogress')
+                {
+                    jQuery.dequeue(this, type);
+                }
+            });
+        },
+        dequeue: function(type)
+        {},
+        delay: function(time, type)
+        {},
+        clearQueue: function(type)
+        {},
+        promise: function(type, object)
         {}
     });
     jQuery.fn.extend({
@@ -298,7 +421,7 @@
         {
             results = results;
             context = context;
-            var m, set, checkSet, i, prune = true, parts = [], soFar = selector;
+            var m, set, checkSet, ret, i, prune = true, parts = [], soFar = selector;
             do
             {
                 chunker.exec('');
@@ -326,6 +449,17 @@
 
                         set = posProcess(selector, set, seed);
                     }
+                }
+            }
+            else
+            {
+                if(context)
+                {
+                    ret = seed ? {
+                        expr: parts.pop(),
+                        set: makeArray(seed)
+                    } : 0;
+                    ret.expr ? Sizzle.filter(ret.expr, ret.set) : 0;
                 }
             }
 
@@ -420,6 +554,9 @@
                     {
                         return true;
                     }
+
+
+                    return match;
                 },
                 POS: function(match)
                 {
@@ -427,7 +564,12 @@
                     return match;
                 }
             },
+            filters: {},
             setFilters: {
+                first: function(elem, i)
+                {
+                    return i === 0;
+                },
                 gt: function(elem, i, match)
                 {
                     return i > (match[3] - 0);
@@ -435,7 +577,13 @@
             },
             filter: {
                 PSEUDO: function(elem, match, i, array)
-                {},
+                {
+                    var name = match[1], filter = Expr.filters[name];
+                    if(filter)
+                    {
+                        return filter(elem, i, match, array);
+                    }
+                },
                 CHILD: function(elem, match)
                 {},
                 ID: function(elem, match)
@@ -466,6 +614,7 @@
             Expr.leftMatch[type] = new RegExp(/(^(?:.|\r|\n)*?)/.source + Expr.match[type].source.replace(/\\(\d+)/g, fescape));
         }
 
+        Expr.match.globalPOS = origPOS;
         var makeArray = function(array, results)
         {
             array = Array.prototype.slice.call(array, 0);
@@ -490,7 +639,7 @@
                 var oldSizzle = Sizzle, id = '__sizzle__';
                 Sizzle = function(query, context, extra, seed)
                 {
-                    context = context;
+                    context = context || document;
                     if(!seed && !(Sizzle.isXML(context)))
                     {
                         var match = /^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/.exec(query);
@@ -510,6 +659,10 @@
                             if(!old)
                             {
                                 context.setAttribute('id', nid);
+                            }
+                            else
+                            {
+                                nid = nid.replace(/'/g, '\\$&');
                             }
 
                             try
@@ -532,6 +685,18 @@
             })();
         }
 
+        (function()
+        {
+            var html = document.documentElement, matches = html.matchesSelector || html.mozMatchesSelector;
+            if(matches)
+            {
+                Sizzle.matchesSelector = function(node, expr)
+                {
+                    expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, '=\'$1\']');
+                    return Sizzle(expr, null, null, [node]);
+                };
+            }
+        })();
         (function()
         {
             Expr.find.CLASS = function(match, context, isXML)
@@ -560,7 +725,9 @@
             return Sizzle.filter(later, tmpSet);
         };
         jQuery.find = Sizzle;
+        jQuery.expr = Sizzle.selectors;
     })();
+    var slice = Array.prototype.slice, POS = jQuery.expr.match.globalPOS;
     jQuery.fn.extend({
         find: function(selector)
         {
@@ -580,7 +747,9 @@
         filter: function(selector)
         {},
         is: function(selector)
-        {},
+        {
+            return (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this) : 0);
+        },
         closest: function(selectors, context)
         {},
         index: function(elem)
@@ -590,20 +759,119 @@
         andSelf: function()
         {}
     });
+    jQuery.each({
+        parent: function(elem)
+        {},
+        parents: function(elem)
+        {},
+        parentsUntil: function(elem, i, until)
+        {},
+        next: function(elem)
+        {
+            return jQuery.nth(elem, 2, 'nextSibling');
+        },
+        prev: function(elem)
+        {},
+        nextAll: function(elem)
+        {},
+        prevAll: function(elem)
+        {},
+        nextUntil: function(elem, i, until)
+        {},
+        prevUntil: function(elem, i, until)
+        {},
+        siblings: function(elem)
+        {},
+        children: function(elem)
+        {},
+        contents: function(elem)
+        {}
+    }, function(name, fn)
+    {
+        jQuery.fn[name] = function(until, selector)
+        {
+            var ret = jQuery.map(this, fn, until);
+            ret = this.length > 1 ? 0 : ret;
+            return this.pushStack(ret, name, slice.call(arguments).join(','));
+        };
+    });
+    jQuery.extend({
+        filter: function(expr, elems, not)
+        {
+            return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : 0 : 0;
+        },
+        dir: function(elem, dir, until)
+        {},
+        nth: function(cur, result, dir, elem)
+        {
+            result = result;
+            var num = 0;
+            for(;cur;cur = cur[dir])
+            {
+                if(cur.nodeType === 1 && ++num === result)
+                {
+                    break;
+                }
+            }
+
+            return cur;
+        },
+        sibling: function(n, elem)
+        {}
+    });
     var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
     jQuery.extend({
-        cssHooks: {},
-        cssNumber: {},
+        cssHooks: {
+            opacity: {
+                get: function(elem, computed)
+                {
+                    if(computed)
+                    {
+                        var ret = curCSS(elem, 'opacity');
+                        return ret === '' ? 0 : ret;
+                    }
+                    else
+                    {
+                        return elem.style.opacity;
+                    }
+                }
+            }
+        },
+        cssNumber: {'opacity': true},
         cssProps: {},
         style: function(elem, name, value, extra)
-        {},
+        {
+            var ret, origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
+            name = jQuery.cssProps[origName] || origName;
+            if(value !== undefined)
+            {
+                if(!hooks || !('set' in hooks))
+                {
+                    try
+                    {
+                        style[name] = value;
+                    }
+                    catch(e){}
+                }
+            }
+            else
+            {
+                if(hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined)
+                {
+                    return ret;
+                }
+            }
+        },
         css: function(elem, name, extra)
         {
-            var hooks;
+            var ret, hooks;
             name = jQuery.camelCase(name);
             hooks = jQuery.cssHooks[name];
             name = jQuery.cssProps[name] || name;
-            if(hooks);
+            if(hooks && 'get' in hooks && (ret = hooks.get(elem, true, extra)) !== undefined)
+            {
+                return ret;
+            }
             else if(curCSS)
             {
                 return curCSS(elem, name);
@@ -628,9 +896,38 @@
     }
 
     curCSS = getComputedStyle;
+    if(jQuery.expr && jQuery.expr.filters)
+    {
+        jQuery.expr.filters.hidden = function(elem)
+        {
+            var width = elem.offsetWidth, height = elem.offsetHeight;
+            return (width === 0 && height === 0);
+        };
+    }
+
+    var rfxtypes = /^(?:toggle|show|hide)$/, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
     jQuery.fn.extend({
         show: function(speed, easing, callback)
-        {},
+        {
+            var elem, display;
+            if(speed || speed === 0);
+            else
+            {
+                for(var i = 0, j = this.length;i < j;i++);
+                for(i = 0;i < j;i++)
+                {
+                    elem = this[i];
+                    if(elem.style)
+                    {
+                        display = elem.style.display;
+                        if(display === '' || display === 'none')
+                        {
+                            elem.style.display = jQuery._data(elem, 'olddisplay');
+                        }
+                    }
+                }
+            }
+        },
         hide: function(speed, easing, callback)
         {
             if(speed || speed === 0);
@@ -665,9 +962,227 @@
         fadeTo: function(speed, to, easing, callback)
         {},
         animate: function(prop, speed, easing, callback)
-        {},
+        {
+            var optall = jQuery.speed(speed, easing, callback);
+            prop = jQuery.extend({}, prop);
+            function doAnimation()
+            {
+                var opt = jQuery.extend({}, optall), hidden = jQuery(this).is(':hidden'), name, val, p, e, method;
+                opt.animatedProperties = {};
+                for(name in prop)
+                {
+                    val = prop[name];
+                    if(jQuery.isArray(val));
+                    else
+                    {
+                        opt.animatedProperties[name] = opt.specialEasing || opt.easing || 'swing';
+                    }
+                }
+
+                for(p in prop)
+                {
+                    e = new jQuery.fx(this, opt, p);
+                    val = prop[p];
+                    if(rfxtypes.test(val))
+                    {
+                        method = jQuery._data(this, 'toggle' + p) || (val === 'toggle' ? 0 : 0);
+                        if(method);
+                        else
+                        {
+                            e[val]();
+                        }
+                    }
+                }
+            }
+            return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
+        },
         stop: function(type, clearQueue, gotoEnd)
         {}
+    });
+    function createFxNow()
+    {
+        setTimeout(clearFxNow, 0);
+        return fxNow = jQuery.now();
+    }
+    function clearFxNow()
+    {
+        fxNow = undefined;
+    }
+    function genFx(type, num)
+    {
+        var obj = {};
+        return obj;
+    }
+    jQuery.each({
+        slideDown: genFx('show', 1),
+        slideUp: genFx('hide', 1),
+        slideToggle: genFx('toggle', 1),
+        fadeIn: {opacity: 'show'},
+        fadeOut: {opacity: 'hide'},
+        fadeToggle: {}
+    }, function(name, props)
+    {
+        jQuery.fn[name] = function(speed, easing, callback)
+        {
+            return this.animate(props, speed, easing, callback);
+        };
+    });
+    jQuery.extend({
+        speed: function(speed, easing, fn)
+        {
+            var opt = speed && typeof speed === 'object' ? 0 : {
+                complete: fn || (!fn && easing) || jQuery.isFunction(speed),
+                duration: speed
+            };
+            opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : 0;
+            if(opt.queue == null)
+            {
+                opt.queue = 'fx';
+            }
+
+            opt.old = opt.complete;
+            opt.complete = function(noUnmark)
+            {};
+            return opt;
+        },
+        easing: {
+            swing: function(p)
+            {
+                return (-(Math.cos(p * Math.PI)) / 2) + 0.5;
+            }
+        },
+        timers: [],
+        fx: function(elem, options, prop)
+        {
+            this.options = options;
+            this.elem = elem;
+            this.prop = prop;
+            options.orig = options.orig || {};
+        }
+    });
+    jQuery.fx.prototype = {
+        update: function()
+        {
+            jQuery.fx.step[this.prop](this);
+        },
+        cur: function()
+        {
+            var parsed, r = jQuery.css(this.elem, this.prop);
+            return isNaN(parsed = parseFloat(r)) ? 0 : parsed;
+        },
+        custom: function(from, to, unit)
+        {
+            var self = this, fx = jQuery.fx;
+            this.startTime = fxNow || createFxNow();
+            this.end = to;
+            this.start = from;
+            this.unit = unit || this.unit || (jQuery.cssNumber[this.prop] ? '' : 0);
+            function t(gotoEnd)
+            {
+                return self.step(gotoEnd);
+            }
+            if(t() && jQuery.timers.push(t) && !timerId)
+            {
+                timerId = setInterval(fx.tick, fx.interval);
+            }
+        },
+        show: function()
+        {
+            var dataShow = jQuery._data(this.elem, 'fxshow' + this.prop);
+            this.options.orig[this.prop] = dataShow || jQuery.style(this.elem, this.prop);
+            this.options.show = true;
+            if(dataShow !== undefined);
+            else
+            {
+                this.custom(this.prop === 'width' || this.prop === 'height' ? 0 : 0, this.cur());
+            }
+
+            jQuery(this.elem).show();
+        },
+        hide: function()
+        {
+            this.options.orig[this.prop] = jQuery._data(this.elem, 'fxshow' + this.prop) || jQuery.style(this.elem, this.prop);
+            this.options.hide = true;
+            this.custom(this.cur(), 0);
+        },
+        step: function(gotoEnd)
+        {
+            var p, n, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
+            if(gotoEnd || t >= (options.duration + this.startTime))
+            {
+                this.now = this.end;
+                this.update();
+                options.animatedProperties[this.prop] = true;
+                if(done)
+                {
+                    if(options.hide)
+                    {
+                        jQuery(elem).hide();
+                    }
+
+                    if(options.hide || options.show)
+                    {
+                        for(p in options.animatedProperties)
+                        {
+                            jQuery.style(elem, p, options.orig[p]);
+                        }
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                if(options.duration == Infinity);
+                else
+                {
+                    n = t - this.startTime;
+                    this.state = n / options.duration;
+                    this.pos = jQuery.easing[options.animatedProperties[this.prop]](this.state, n, 0, 1, options.duration);
+                    this.now = this.start + ((this.end - this.start) * this.pos);
+                }
+
+                this.update();
+            }
+
+            return true;
+        }
+    };
+    jQuery.extend(jQuery.fx, {
+        tick: function()
+        {
+            var timer, timers = jQuery.timers, i = 0;
+            for(;i < timers.length;i++)
+            {
+                timer = timers[i];
+                if(!(timer()) && timers[i] === timer)
+                {
+                    timers.splice(i--, 1);
+                }
+            }
+
+            if(!(timers.length))
+            {
+                jQuery.fx.stop();
+            }
+        },
+        interval: 13,
+        stop: function()
+        {
+            clearInterval(timerId);
+        },
+        speeds: {},
+        step: {}
+    });
+    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
+    {
+        if(prop.indexOf('margin'))
+        {
+            jQuery.fx.step[prop] = function(fx)
+            {
+                jQuery.style(fx.elem, prop, Math.max(0, fx.now) + fx.unit);
+            };
+        }
     });
     window.$ = jQuery;
 })(window);
@@ -675,6 +1190,7 @@
 <script type="text/javascript">
     var reviews = $('.review-slide > div:gt(0)');
     reviews.hide();
+    $('.review-slide > div:first').fadeOut(300).next().fadeIn(300);
 </script>
 
 </body>

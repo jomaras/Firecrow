@@ -1,22 +1,15 @@
 - Make it work for other pages!!
-   - problem with step
+   - problem with
 
-
-   !!! in jQuery with jQuery.camelCase, the dependency that should be followed is of higher index then the base dependency and it gets ignored
-           this in turn causes the selection of another, previous dependency that should not be related (simply because it is of lower index)
-           so maybe these indexes should be based not on the order of edge creation, but on let's say the parent statement command id (?) - think more about it
-           - or maybe i could just in the dependency inclusion algorithm include dependencies that have the same
-           - continue exploring the path:
-            - the dependency will be included if it fulfills the current conditions OR if has the same dependency constraint info
-            (in node.js@68 uncomment the line, and expand the canFollow dependency function to also include the code from the uncommented line)
-
+        - there is an overall problem of dependencyPostprocessor - that part should not be there
+        - return Sizzle(expr, null, null, [node]).length in Sizzle.matchesSelector (return from Sizzle is not included); but it does not seem that Sizzle(expr, null).. is even necessary
+        + the problem is that [node] is necessary -> this probably causes the inclusion of everything in the call expressions
+        ! -> (but the problem is including the property .length in the dependency postprocessor)
+        -
 
    + problem with thisCache[jQuery.camelCase(name)];
         (there is no connection to thisCache and jQuery.camelCase is "imporant") - study more!
-        - the problem is that the call expression is evaluated much before the the member expression, so the dependencies created on
-        eval member expression are not created, one solution is to create a command on start eval member expression that creates a dependencie from
-        the property to the whole member expression (or maybe simpler, if a call expression is a property, create a connection)
-        - go to InterpreterSimulator and add
+   - the problem was with creating dependencies between internal function call expressions and arguments (arg -> call expression, i don't know why i even did that..)
 
 - dependency traversal algorithm in node.js
     - for finding groups, maybe don't go through all dependencies again, but only forward till it is ok, and backward till it is ok

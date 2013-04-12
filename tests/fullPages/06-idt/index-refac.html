@@ -395,29 +395,7 @@
         return ret;
       }, 
       removeData: function(elem, name, pvt)
-      {
-        var thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
-        if(name)
-        {
-          thisCache = pvt ? cache[id] : 0;
-          if(thisCache)
-          {
-            if(!(jQuery.isArray(name)))
-            {
-              if(name in thisCache);
-              else 
-              {
-                jQuery.camelCase(name);
-              }
-            }
-
-            if(!((pvt ? isEmptyDataObject : 0)(thisCache)))
-            {
-              return ;
-            }
-          }
-        }
-      }, 
+      {}, 
       _data: function(elem, name, data)
       {
         return jQuery.data(elem, name, data, true);
@@ -425,16 +403,6 @@
       acceptData: function(elem)
       {}
     });
-    function isEmptyDataObject(obj)
-    {
-      for(var name in obj)
-      {
-        if(name !== 'toJSON')
-        {
-          return false;
-        }
-      }
-    }
     jQuery.extend({
       _mark: function(elem, type)
       {}, 
@@ -478,7 +446,6 @@
             queue.unshift('inprogress');
           }
 
-          jQuery._data(elem, type + '.run', hooks);
           fn.call(elem, function()
           {}, hooks);
         }
@@ -997,11 +964,6 @@
         {
           var opt = jQuery.extend({}, optall), hidden = jQuery(this), name, val, p, e, method;
           opt.animatedProperties = {};
-          for(p in prop)
-          {
-            jQuery.camelCase(p);
-          }
-
           for(name in prop)
           {
             val = prop[name];
@@ -1169,8 +1131,6 @@
               for(p in options.animatedProperties)
               {
                 jQuery.style(elem, p, options.orig[p]);
-                jQuery.removeData(elem, 'fxshow' + p, true);
-                jQuery.removeData(elem, 'toggle' + p, true);
               }
             }
 

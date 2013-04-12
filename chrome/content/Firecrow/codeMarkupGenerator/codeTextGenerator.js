@@ -594,7 +594,6 @@ Firecrow.CodeTextGenerator.prototype =
 
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
-
         return calleeCode
             +  this._LEFT_PARENTHESIS
                 +  this.getSequenceCode(callExpression.arguments)
