@@ -11,7 +11,7 @@ fcModel.Identifier = function(name, value, codeConstruct, globalObject)
 {
     try
     {
-        this.id = fcModel.Identifier.LAST_ID++;
+        this.id = fcModel.Identifier.LAST_ID++;  if(this.id == 84651) debugger;
 
         this.name = name;
         this.value = value;
@@ -46,7 +46,7 @@ fcModel.Identifier.prototype =
     setValue: function(newValue, modificationConstruct)
     {
         try
-        {
+        {  if(this.id == 84651) debugger;
             if(this.writable === false) { return; }
 
             this.value = newValue;

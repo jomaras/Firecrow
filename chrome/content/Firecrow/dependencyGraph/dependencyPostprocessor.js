@@ -283,7 +283,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
             Firecrow.includeNode(memberExpression.object);
             Firecrow.includeNode(memberExpression.property);
         }
-        else
+        /*else
         {
             if(ASTHelper.isIdentifier(memberExpression.property)
             && !ASTHelper.isCallExpression(memberExpression.parent)
@@ -292,7 +292,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
                 Firecrow.includeNode(memberExpression.object);
                 Firecrow.includeNode(memberExpression.property);
             }
-        }
+        } */
 
         this.processElement(memberExpression.object);
         this.processElement(memberExpression.property);

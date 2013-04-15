@@ -196,6 +196,8 @@ fcModel.Object.prototype =
             if(this.preventExtensions) { return; }
             if(propertyName == "__proto__") { this.setProto(propertyValue, codeConstruct); return; }
 
+            if(propertyName == "nextSlide" && this.id == 22810) debugger;
+
             var property = this.getOwnProperty(propertyName);
 
             if(property == null)

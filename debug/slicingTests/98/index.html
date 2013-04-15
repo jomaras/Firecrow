@@ -8,14 +8,18 @@
         <div id="test">1</div>
     </div>
     <script>
-        var mainContainer = document.getElementById("mainContainer");
+       var a1, a2;
 
-        var a = Array.prototype.slice.call(mainContainer.childNodes, 0)[0].nodeType;
+       function assignValue1(a, aPost)
+       {
+           a1 = a;
+           a2 = aPost;
+       }
 
-        var test = mainContainer.firstElementChild;
+       var i = 3;
 
-        var a1 = test.textContent;
-        a1;
+       assignValue1(i, i++);
+       a1;a2;
     </script>
 </body>
 </html>

@@ -9,6 +9,8 @@ fcModel.fcValue = function(jsValue, iValue, codeConstruct, symbolicValue)
     {
         this.id = fcModel.fcValue.LAST_ID++;
 
+        if(this.id == 84651) debugger;
+
         this.jsValue = jsValue;
         this.iValue = iValue;
         this.codeConstruct = codeConstruct;

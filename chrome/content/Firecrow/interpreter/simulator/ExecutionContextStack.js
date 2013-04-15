@@ -167,6 +167,7 @@ fcSimulator.ExecutionContextStack.prototype =
             else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isExecuteCallbackCommand()) {}
             else if (command.isConvertToPrimitiveCommand()) {}
+            else if (command.isStartEvalCallExpressionCommand()) {}
             else
             {
                 if (command.isEndEvalConditionalExpressionCommand()) { this._tryPopCommand(command); }
@@ -769,10 +770,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
         if(args == null) { return []; }
 
-        return args.map(function(argument)
-        {
-            return this.getExpressionValue(argument);
-        }, this);
+        return callCommand.startCallCommand.evaluatedArguments;
     },
 
     _exitFunctionContext: function(exitFunctionContextCommand)

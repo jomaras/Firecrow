@@ -1309,7 +1309,7 @@
           Sizzle.matchesSelector = function(node, expr)
           {
             expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, '=\'$1\']');
-            return Sizzle(expr, null, null, [node]).length;
+            return Sizzle(expr, null, null, [node]);
           };
         }
       })();
@@ -1366,7 +1366,7 @@
       {}, 
       is: function(selector)
       {
-        return (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this).length : 0);
+        return (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this) : 0);
       }, 
       closest: function(selectors, context)
       {}, 

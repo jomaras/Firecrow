@@ -1,18 +1,18 @@
 - Make it work for other pages!!
    - problem with
-
-        - there is an overall problem of dependencyPostprocessor - that part should not be there
-        - return Sizzle(expr, null, null, [node]).length in Sizzle.matchesSelector (return from Sizzle is not included); but it does not seem that Sizzle(expr, null).. is even necessary
+        - i'm not sure but they might be a problem with update expressions - check i++; ++i difference (it's not a problem) - both in the same call expression -that's a problem
+        + return Sizzle(expr, null, null, [node]).length in Sizzle.matchesSelector (return from Sizzle is not included); but it does not seem that Sizzle(expr, null).. is even necessary
         + the problem is that [node] is necessary -> this probably causes the inclusion of everything in the call expressions
         ! -> (but the problem is including the property .length in the dependency postprocessor)
         -
-
    + problem with thisCache[jQuery.camelCase(name)];
         (there is no connection to thisCache and jQuery.camelCase is "imporant") - study more!
-   - the problem was with creating dependencies between internal function call expressions and arguments (arg -> call expression, i don't know why i even did that..)
+   + the problem was with creating dependencies between internal function call expressions and arguments (arg -> call expression, i don't know why i even did that..)
 
-- dependency traversal algorithm in node.js
-    - for finding groups, maybe don't go through all dependencies again, but only forward till it is ok, and backward till it is ok
+- there is an overall problem of dependencyPostprocessor - that part should not be there
+
++ dependency traversal algorithm in node.js
+    + for finding groups, maybe don't go through all dependencies again, but only forward till it is ok, and backward till it is ok
 
 - Make automatic testing for libraries
     - gauss

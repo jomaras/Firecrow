@@ -592,12 +592,33 @@ Firecrow.CodeTextGenerator.prototype =
     {
         var calleeCode = this.generateJsCode(callExpression.callee);
 
+        if(callExpression.loc.start.line == 8504) debugger;
+
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
+        if(ASTHelper.isMemberExpression(callExpression.callee) && calleeCode[calleeCode.length-1] == ")" && this._areArgumentsNotIncluded(callExpression.arguments))
+        {
+            return calleeCode;
+        }
+        //END HACKY
+
         return calleeCode
             +  this._LEFT_PARENTHESIS
                 +  this.getSequenceCode(callExpression.arguments)
             +  this._RIGHT_PARENTHESIS;
+    },
+
+    //Do NOT USE ELSEWHERE; except for a hack in generateFromCallExpression!
+    _areArgumentsNotIncluded: function(arguments)
+    {
+        if(arguments == null || arguments.length == 0) { return true; }
+
+        for(var i = 0; i < arguments.length; i++)
+        {
+            if(arguments[i].shouldBeIncluded) { return false; }
+        }
+
+        return true;
     },
 
     generateFromMemberExpression: function(memberExpression)
@@ -624,6 +645,7 @@ Firecrow.CodeTextGenerator.prototype =
         var objectCode = this.generateJsCode(memberExpression.object);
 
         if(objectCode === "") { return propertyCode;}
+        if(propertyCode === "") { return objectCode; }
 
         return (isNotSimpleMemberExpression ? this._LEFT_PARENTHESIS : "") + objectCode + (isNotSimpleMemberExpression ? this._RIGHT_PARENTHESIS : "")
             + (isInBrackets ? ( propertyCode !== "" ? (this._LEFT_BRACKET + propertyCode + this._RIGHT_BRACKET) : "") : (this._DOT + propertyCode));

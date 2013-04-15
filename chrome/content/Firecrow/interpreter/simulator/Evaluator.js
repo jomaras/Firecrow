@@ -67,6 +67,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isCallInternalFunctionCommand()) { this._evalCallInternalFunction(command); }
             else if (command.isEvalCallbackFunctionCommand()) { this._evalCallbackFunctionCommand(command); }
             else if (command.isEvalSequenceExpressionCommand()) { this._evalSequence(command); }
+            else if (command.isEvalCallExpressionArgCommand()) { this._evalCallExpressionArgCommand(command); }
             else
             {
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
@@ -188,7 +189,11 @@ fcSimulator.Evaluator.prototype =
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
 
-        this.executionContextStack.setExpressionValue(identifierConstruct, identifierValue);
+        this.executionContextStack.setExpressionValue
+        (
+            identifierConstruct,
+            identifierValue != null && identifierValue.isPrimitive() ? identifierValue.createCopy() : identifierValue
+        );
 
         if(identifier != null)
         {
@@ -534,6 +539,13 @@ fcSimulator.Evaluator.prototype =
         this.dependencyCreator.createSequenceExpressionDependencies(sequenceExpression, lastExpression);
 
         this.globalObject.browser.logConstructExecuted(sequenceExpression);
+    },
+
+    _evalCallExpressionArgCommand: function(evalCallArgCommand)
+    {
+        var parentCallCommand = evalCallArgCommand.startCallExpressionCommand;
+
+        parentCallCommand.evaluatedArguments.push(this.executionContextStack.getExpressionValue(evalCallArgCommand.codeConstruct));
     },
 
     _getAssignmentValue: function(assignmentCommand)

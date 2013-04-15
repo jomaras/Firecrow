@@ -228,6 +228,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isEvalNewExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalNewExpression; },
 
     isEvalCallExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallExpression; },
+    isStartEvalCallExpressionCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartEvalCallExpression; },
+    isEvalCallExpressionArgCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EvalCallExpressionArg; },
 
     isEnterFunctionContextCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EnterFunctionContext; },
     isExitFunctionContextCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ExitFunctionContext; },
@@ -320,7 +322,10 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
     EvalConditionalExpression: "EvalConditionalExpression",
     EndEvalConditionalExpression: "EndEvalConditionalExpression",
     EvalNewExpression: "EvalNewExpression",
+
+    StartEvalCallExpression: "StartEvalCallExpression",
     EvalCallExpression: "EvalCallExpression",
+    EvalCallExpressionArg: "EvalCallExpressionArg",
 
     EnterFunctionContext: "EnterFunctionContext",
     ExitFunctionContext: "ExitFunctionContext",
