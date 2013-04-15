@@ -1053,10 +1053,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         var commands = [];
 
-        var startCallExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.StartEvalCallExpression, parentFunctionCommand);
-        startCallExpressionCommand.evaluatedArguments = [];
-        commands.push(startCallExpressionCommand);
-
         ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.callee, parentFunctionCommand));
 
         if(sourceElement.arguments != null)
@@ -1064,17 +1060,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             sourceElement.arguments.forEach(function(argument)
             {
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(argument, parentFunctionCommand));
-
-                var evalCallExpressionArgumentCommand = new fcCommands.Command(argument, fcCommands.Command.COMMAND_TYPE.EvalCallExpressionArg, parentFunctionCommand);
-                evalCallExpressionArgumentCommand.startCallExpressionCommand = startCallExpressionCommand;
-                commands.push(evalCallExpressionArgumentCommand);
-
             }, this);
         }
 
-        var evalCallExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalNewExpression, parentFunctionCommand);
-        evalCallExpressionCommand.startCallCommand = startCallExpressionCommand;
-        commands.push(evalCallExpressionCommand);
+        commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalNewExpression, parentFunctionCommand));
 
         return commands;
     },
@@ -1083,10 +1072,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         var commands = [];
 
-        var startCallExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.StartEvalCallExpression, parentFunctionCommand);
-        startCallExpressionCommand.evaluatedArguments = [];
-        commands.push(startCallExpressionCommand);
-
         ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.callee, parentFunctionCommand));
 
         if(sourceElement.arguments != null)
@@ -1094,16 +1079,10 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             sourceElement.arguments.forEach(function(argument)
             {
                 ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(argument, parentFunctionCommand));
-
-                var evalCallExpressionArgumentCommand = new fcCommands.Command(argument, fcCommands.Command.COMMAND_TYPE.EvalCallExpressionArg, parentFunctionCommand);
-                evalCallExpressionArgumentCommand.startCallExpressionCommand = startCallExpressionCommand;
-                commands.push(evalCallExpressionArgumentCommand);
             }, this);
         }
 
-        var evalCallExpressionCommand = new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalCallExpression, parentFunctionCommand);
-        evalCallExpressionCommand.startCallCommand = startCallExpressionCommand;
-        commands.push(evalCallExpressionCommand);
+        commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalCallExpression, parentFunctionCommand));
 
         return commands;
     },

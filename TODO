@@ -1,6 +1,6 @@
 - Make it work for other pages!!
    - problem with
-        - i'm not sure but they might be a problem with update expressions - check i++; ++i difference (it's not a problem) - both in the same call expression -that's a problem
+        + problem with i and i++ being arguments in a call expression: the argument values would be determined in the end, which means that argument i would have the value
         + return Sizzle(expr, null, null, [node]).length in Sizzle.matchesSelector (return from Sizzle is not included); but it does not seem that Sizzle(expr, null).. is even necessary
         + the problem is that [node] is necessary -> this probably causes the inclusion of everything in the call expressions
         ! -> (but the problem is including the property .length in the dependency postprocessor)

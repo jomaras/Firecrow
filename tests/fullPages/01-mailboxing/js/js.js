@@ -8,7 +8,7 @@ function setupLoop() {
     clearInterval(intervalId);
     intervalId = setInterval(function(){
       slide(imagePosition+1);  
-    }, 2000);
+    }, 10000);
 }
 
 function slide(pos){
@@ -78,7 +78,7 @@ function loop()
     //clearTimeout(aa);
     slide(imagePosition+1);
     //alert("asd");
-    aa=setTimeout ( "loop()", 5000 );
+    aa=setTimeout ( "loop()", 10000 );
 }
 
 jQuery.fn.preloadImages = function( userfunction ) {
@@ -120,7 +120,7 @@ setInterval(function() {
     .fadeIn(300)
     .end()
     .appendTo('.review-slide');
-},  5000);
+},  10000);
 
 
 

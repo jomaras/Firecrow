@@ -15,6 +15,7 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/3.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/3.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/codeModels/feature3ModelSmaller.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
       <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\tests\fullPages\04-sipp\Selenium\testSuite.html" afterPath="$PROJECT_DIR$/tests/fullPages/04-sipp/Selenium/TestSuite.html" />
@@ -22,21 +23,15 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/FcValue.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/FcValue.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/codeModels/featureModel.js" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/codeModels/featureModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-sliced2.html" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-sliced2.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-slicedTest.html" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-slicedTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/index-slicedTest.html" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/index-slicedTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingTests/98/index.html" afterPath="$PROJECT_DIR$/debug/slicingTests/98/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/index.html" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/js/js.js" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/js/js.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/js/js.js" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/js/js.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/test-sliced.html" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/test-sliced.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -65,13 +60,15 @@
     <ignored path="debug/sylvester/10-LineSegment-Contains/htmlMapping.js" />
     <ignored path="debug/sylvester/22-Line-distanceFrom/htmlMapping.js" />
     <ignored path="debug/sylvester/24-Line-rotate/htmlMapping.js" />
-    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366035029892" ignored="false" />
-    <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366029049322" ignored="false" />
+    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366037527413" ignored="false" />
+    <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366039445652" ignored="false" />
     <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366033016142" ignored="false" />
     <file path="/Command.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366033490865" ignored="false" />
     <file path="/CommandGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366036997342" ignored="false" />
     <file path="/ExecutionContextStack.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366034209120" ignored="false" />
     <file path="/Evaluator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366037115828" ignored="false" />
+    <file path="/debugTestPages.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366039235275" ignored="false" />
+    <file path="/js.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366038765820" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,54 +92,9 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingTests/98/index.html">
+        <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="58" selection-start="124" selection-end="124" vertical-scroll-proportion="-4.576923">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CommandGenerator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1066" column="46" selection-start="45371" selection-end="45371" vertical-scroll-proportion="-9.56">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Command.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="38" selection-start="4912" selection-end="4912" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExecutionContextStack.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="770" column="167" selection-start="29390" selection-end="29390" vertical-scroll-proportion="-13.76">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugSlicing.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="82" selection-start="8389" selection-end="8389" vertical-scroll-proportion="0.38505095">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="slicingModelMapping.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1031" column="8" selection-start="1489231" selection-end="1489231" vertical-scroll-proportion="0.0">
+            <state line="6" column="39" selection-start="213" selection-end="213" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -151,16 +103,34 @@
       <file leaf-file-name="Evaluator.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="202" column="35" selection-start="10395" selection-end="10395" vertical-scroll-proportion="-12.76">
+            <state line="69" column="83" selection-start="4463" selection-end="4463" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VariableObject.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
+      <file leaf-file-name="debugSlicing.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="168" column="106" selection-start="6019" selection-end="6019" vertical-scroll-proportion="0.0">
+            <state line="124" column="33" selection-start="7956" selection-end="7956" vertical-scroll-proportion="-6.5384617">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="debugTestPages.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="82" selection-start="332" selection-end="332" vertical-scroll-proportion="-3.9230769">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index-slicedTest.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-slicedTest.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2446" column="67" selection-start="69402" selection-end="69402" vertical-scroll-proportion="0.08928572">
               <folding />
             </state>
           </provider>
@@ -196,22 +166,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/test-sliced.html" />
-        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-slicedTest.html" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/FcValue.js" />
-        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/js/js.js" />
-        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/index.html" />
-        <option value="$PROJECT_DIR$/TODO" />
-        <option value="$PROJECT_DIR$/debug/slicingTests/98/index.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+        <option value="$PROJECT_DIR$/tests/fullPages/06-idt/index-refac.html" />
+        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/js/jquery.cycle.all.js" />
+        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/js/js.js" />
+        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/test-sliced.html" />
+        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/js/js.js" />
+        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/codeModels/feature3ModelSmaller.js" />
+        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
+        <option value="$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-slicedTest.html" />
       </list>
     </option>
   </component>
@@ -356,32 +326,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fullPages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="01-mailboxing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -482,11 +426,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\tests\fullPages\01-mailboxing\codeModels" />
       <recent name="C:\GitWebStorm\Firecrow\tests\fullPages\01-mailboxing\smaller\codeModels" />
       <recent name="C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\cases\01-construct" />
       <recent name="C:\GitWebStorm\Firecrow\debug" />
       <recent name="C:\GitWebStorm\Firecrow\tests\fullPages\01-mailboxing\smaller" />
-      <recent name="C:\GitWebStorm\Firecrow\tests\fullPages\01-mailboxing\codeModels" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\tests\fullPages\02-makalu\Selenium\uiControls" />
@@ -2643,7 +2587,11 @@
       <created>1365751371935</created>
       <updated>1365751371935</updated>
     </task>
-    <option name="localTasksCounter" value="506" />
+    <task id="LOCAL-00506" summary="Fixed a bug in evaluating update expressions. The problem was the following: &#10;callFunc(i, i++); the first argument i would have the value of i++, due to the way how identifiers, and call expressions were evaluated">
+      <created>1366037542508</created>
+      <updated>1366037542508</updated>
+    </task>
+    <option name="localTasksCounter" value="507" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2683,6 +2631,7 @@
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279743" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49411765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49411765" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="2" side_tool="false" content_ui="tabs" />
@@ -2699,7 +2648,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34297964" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279743" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -2749,7 +2697,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor changes in the codeTextGenerator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug in evaluating update expressions. The problem was the following: &#10;callFunc(i, i++); the first argument i would have the value of i++, due to the way how identifiers, and call expressions were evaluated" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2764,7 +2712,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Added new algorithms for getting the next scenarios;&#10;Removed instanceof calls - all comparison is done on a higher level - this is because trying to execute Firecrow in Chrome (which creates new internal functions for i guess each iFrame, which means that i can not use intanceof with built-in objects)" />
     <MESSAGE value="Implemented multiple levels of caching in order to increase performance (primarily in Scenario)" />
     <MESSAGE value="Backup before changing the algorithm" />
     <MESSAGE value="Migrated to new way of extending event chains - described in the ICWE paper" />
@@ -2789,6 +2736,7 @@
     <MESSAGE value="HACK - Added a quick fix for problems of type object[callExpression()] where the call expression is important; when executing a call expression it checks whether it is a property and if it is adds a connection" />
     <MESSAGE value="Removed that when creating dependencies for internal functions that a dependency is created from the argument to the call expression" />
     <MESSAGE value="Minor changes in the codeTextGenerator" />
+    <MESSAGE value="Fixed a bug in evaluating update expressions. The problem was the following: &#10;callFunc(i, i++); the first argument i would have the value of i++, due to the way how identifiers, and call expressions were evaluated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2801,108 +2749,114 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/js/jquery.cycle.all.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="77" selection-start="327" selection-end="327" vertical-scroll-proportion="-6.5384617">
+        <state line="501" column="4" selection-start="15853" selection-end="15902" vertical-scroll-proportion="0.3325792">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/js/jquery.cycle.all.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="865" column="52" selection-start="26967" selection-end="26967" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/99/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TODO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="176" selection-start="227" selection-end="227" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/js/jQuery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="629" column="26" selection-start="23627" selection-end="23641" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="52" selection-start="603" selection-end="603" vertical-scroll-proportion="-0.34151787">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="106" selection-start="6019" selection-end="6019" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/04/index.html">
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/index-slicedTest.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="770" column="167" selection-start="29390" selection-end="29390" vertical-scroll-proportion="-13.76">
+        <state line="24" column="42" selection-start="1641" selection-end="1641" vertical-scroll-proportion="-15.692307">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/05/index.html">
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/js/js.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="5" column="42" selection-start="163" selection-end="163" vertical-scroll-proportion="0.09350935">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js">
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/smaller/test-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="38" selection-start="4912" selection-end="4912" vertical-scroll-proportion="0.0">
+        <state line="90" column="7" selection-start="1914" selection-end="1914" vertical-scroll-proportion="0.9482948">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/codeModels/feature3ModelSmaller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="86" selection-start="117" selection-end="117" vertical-scroll-proportion="0.07480748">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/js/js.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="46" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1066" column="46" selection-start="45371" selection-end="45371" vertical-scroll-proportion="-9.56">
+        <state line="1084" column="134" selection-start="45956" selection-end="45956" vertical-scroll-proportion="0.7120536">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="229" column="4" selection-start="11500" selection-end="11500" vertical-scroll-proportion="0.3515625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TODO">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="35" selection-start="641" selection-end="641" vertical-scroll-proportion="0.11383928">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="39" selection-start="213" selection-end="213" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="763" column="39" selection-start="29160" selection-end="29160" vertical-scroll-proportion="0.29799107">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="202" column="35" selection-start="10395" selection-end="10395" vertical-scroll-proportion="-12.76">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/98/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="58" selection-start="124" selection-end="124" vertical-scroll-proportion="-4.576923">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1031" column="8" selection-start="1489231" selection-end="1489231" vertical-scroll-proportion="0.0">
+        <state line="69" column="83" selection-start="4463" selection-end="4463" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="82" selection-start="8389" selection-end="8389" vertical-scroll-proportion="0.38505095">
+        <state line="124" column="33" selection-start="7956" selection-end="7956" vertical-scroll-proportion="-6.5384617">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="82" selection-start="332" selection-end="332" vertical-scroll-proportion="-3.9230769">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/fullPages/01-mailboxing/index-slicedTest.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2446" column="67" selection-start="69402" selection-end="69402" vertical-scroll-proportion="0.08928572">
           <folding />
         </state>
       </provider>
