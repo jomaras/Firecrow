@@ -678,7 +678,11 @@ Browser.prototype =
 
                 eventTrace.hasBeenHandled = true;
 
-                ValueTypeHelper.removeFromArrayByIndex(timeoutEvents, j);
+                if(j < timeoutEvents.length)
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(timeoutEvents, j);
+                }
+
                 break;
             }
         }

@@ -11,7 +11,7 @@ fcModel.Identifier = function(name, value, codeConstruct, globalObject)
 {
     try
     {
-        this.id = fcModel.Identifier.LAST_ID++;  if(this.id == 84651) debugger;
+        this.id = fcModel.Identifier.LAST_ID++;
 
         this.name = name;
         this.value = value;

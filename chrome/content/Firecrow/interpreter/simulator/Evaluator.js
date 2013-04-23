@@ -188,6 +188,8 @@ fcSimulator.Evaluator.prototype =
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
 
+        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 875 && identifierConstruct.name == "length" && identifierValue.jsValue == "0") debugger;
+
         this.executionContextStack.setExpressionValue
         (
             identifierConstruct,

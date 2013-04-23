@@ -245,8 +245,6 @@ FBL.ns(function() { with (FBL) {
                                 }
                                 return value;
                             }));
-
-                            //prompt("JSON", JSON.stringify(htmlJson));
                         }
                         catch(e) { alert("Error when converting to JSON model:" + e)};
                     }, this);
@@ -255,8 +253,8 @@ FBL.ns(function() { with (FBL) {
                 {
                     var eventTrace = this.jsRecorder.getEventTrace();
                     alert(eventTrace.length);
-                    FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-executionTrace.txt", JSON.stringify(eventTrace));
-                    FileHelper.appendToFile("C:\\GitWebStorm\\Firecrow\\tests\\libraries\\executions.txt", fbHelper.getCurrentUrl() + " -- " + eventTrace.length);
+                    //FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-executionTrace.txt", JSON.stringify(eventTrace));
+                    //FileHelper.appendToFile("C:\\GitWebStorm\\Firecrow\\tests\\libraries\\executions.txt", fbHelper.getCurrentUrl() + " -- " + eventTrace.length);
                 }
 
                 this.recordOnlyEventHandlerEntries = false;

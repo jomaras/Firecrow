@@ -5,7 +5,7 @@
 FBL.ns(function () { with (FBL) {
     /*******/
     const ASTHelper = Firecrow.ASTHelper;
-    const valueTypeHelper = Firecrow.ValueTypeHelper;
+    const ValueTypeHelper = Firecrow.ValueTypeHelper;
 
     Firecrow.CodeMarkupGenerator =
     {
@@ -896,10 +896,11 @@ FBL.ns(function () { with (FBL) {
                 + this.getElementHtml("span", {class:"keyword"}, "try")
                 + this.generateHtml(tryStatement.block);
 
+            var handlers = tryStatement.handlers || (ValueTypeHelper.isArray(tryStatement.handler) ? tryStatement.handler : [tryStatement.handler]);
             // catch clauses
-            for(var i = 0; i < tryStatement.handlers.length; i++)
+            for(var i = 0; i < handlers.length; i++)
             {
-                html += this.generateFromCatchClause(tryStatement.handlers[i]);
+                html += this.generateFromCatchClause(handlers[i]);
             }
 
             if(tryStatement.finalizer != null)
@@ -1019,19 +1020,19 @@ FBL.ns(function () { with (FBL) {
 
         generateFromLiteral: function(literal)
         {
-            if (valueTypeHelper.isString(literal.value))
+            if (ValueTypeHelper.isString(literal.value))
             {
                 return this.getElementHtml("span", {class: "String", id: "node" + this.formatId(literal.nodeId)}, "\"" + this.escapeHtml(literal.value) + "\"");
             }
-            else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNull(literal.value))
+            else if (ValueTypeHelper.isBoolean(literal.value) || ValueTypeHelper.isNull(literal.value))
             {
                 return this.getElementHtml("span", {class: "Keyword", id: "node" + this.formatId(literal.nodeId)}, literal.value);
             }
-            else if(valueTypeHelper.isInteger(literal.value))
+            else if(ValueTypeHelper.isInteger(literal.value))
             {
                 return this.getElementHtml("span", {class: "Number", id: "node" + this.formatId(literal.nodeId)}, literal.value);
             }
-            else if(valueTypeHelper.isObject(literal.value))
+            else if(ValueTypeHelper.isObject(literal.value))
             {
                 var regExString = "";
 
@@ -1044,7 +1045,7 @@ FBL.ns(function () { with (FBL) {
                     regExString = atob(literal.value.RegExpBase64);
                 }
 
-                regExString = valueTypeHelper.adjustForRegExBug(literal.value, regExString);
+                regExString = ValueTypeHelper.adjustForRegExBug(literal.value, regExString);
 
                 return this.getElementHtml("span", {class: "RegExp", id: "node" + this.formatId(literal.nodeId)}, regExString );
             }

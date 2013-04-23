@@ -6,7 +6,7 @@
 FBL.ns(function () { with (FBL) {
 /*******/
 var ASTHelper = Firecrow.ASTHelper;
-var valueTypeHelper = Firecrow.ValueTypeHelper;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 Firecrow.CodeTextGenerator = function(isSlicing)
 {
@@ -32,6 +32,12 @@ Firecrow.CodeTextGenerator.generateProfiledCode = function(model)
                 {
                     Firecrow.includeNode(element);
                 }
+            }
+
+            if(ASTHelper.isForInStatement(element.parent))
+            {
+                Firecrow.includeNode(element.parent);
+                Firecrow.includeNode(element.parent.right);
             }
 
             if(element.hasBeenExecuted)
@@ -955,11 +961,13 @@ Firecrow.CodeTextGenerator.prototype =
     {
         var code = this._TRY_KEYWORD + this.newLine + (this.generateJsCode(tryStatement.block) || (this._LEFT_GULL_WING + this._RIGHT_GULL_WING));
 
-        if(tryStatement.handlers != null)
+        var handlers = tryStatement.handlers || (ValueTypeHelper.isArray(tryStatement.handler) ? tryStatement.handler : [tryStatement.handler]);
+
+        if( handlers != null)
         {
-            for(var i = 0; i < tryStatement.handlers.length; i++)
+            for(var i = 0; i < handlers.length; i++)
             {
-                code += this.generateFromCatchClause(tryStatement.handlers[i]);
+                code += this.generateFromCatchClause(handlers[i]);
             }
         }
 
@@ -1044,13 +1052,13 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromLiteral: function(literal)
     {
-        if(valueTypeHelper.isNull(literal.value)) { return "null"; }
-        if (valueTypeHelper.isString(literal.value))
+        if(ValueTypeHelper.isNull(literal.value)) { return "null"; }
+        if (ValueTypeHelper.isString(literal.value))
         {
             return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/, "\\n").replace(/\r/, "\\r") + "'";
         }
-        else if (valueTypeHelper.isBoolean(literal.value) || valueTypeHelper.isNumber(literal.value)) { return literal.value; }
-        else if(valueTypeHelper.isObject(literal.value))
+        else if (ValueTypeHelper.isBoolean(literal.value) || ValueTypeHelper.isNumber(literal.value)) { return literal.value; }
+        else if(ValueTypeHelper.isObject(literal.value))
         {
             var regExString = "";
             if(literal.value.constructor != null && literal.value.constructor.name === "RegExp")
@@ -1062,7 +1070,7 @@ Firecrow.CodeTextGenerator.prototype =
                 regExString = atob(literal.value.RegExpBase64);
             }
 
-            return valueTypeHelper.adjustForRegExBug(literal.value, regExString);
+            return ValueTypeHelper.adjustForRegExBug(literal.value, regExString);
         }
     },
 

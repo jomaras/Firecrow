@@ -23,11 +23,11 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
             this.globalObject.document.htmlElementToFcMapping[this.id] = this;
 
             this._expandWithDefaultProperties();
-        }
 
-        if(this.htmlElement.modelElement == null)
-        {
-            debugger;
+            if(this.htmlElement.modelElement == null && this.htmlElement.tagName != "BODY")
+            {
+                debugger;
+            }
         }
     }
     catch(e) { fcModel.HtmlElement.notifyError("Error when creating HTML node: " + e); }

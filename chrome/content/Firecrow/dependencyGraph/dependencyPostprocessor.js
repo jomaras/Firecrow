@@ -1,6 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ASTHelper = Firecrow.ASTHelper;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var InclusionFinder = Firecrow.DependencyGraph.InclusionFinder;
 
 Firecrow.DependencyGraph.DependencyPostprocessor = function()
@@ -347,6 +348,20 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         Firecrow.includeNode(ifStatement);
 
         this.processElement(ifStatement.test);
+
+        //TODO - not sure about this: the problem is the if statement gets included, but it does not include the
+        //return statement in it's body - and i'm not sure whether it even should
+        if(ifStatement.test.shouldBeIncluded)
+        {
+            var returnStatement = ASTHelper.getDirectlyContainedReturnStatement(ifStatement.consequent);
+
+            if(returnStatement != null)
+            {
+                debugger;
+                Firecrow.includeNode(returnStatement);
+            }
+        }
+
         this.processElement(ifStatement.consequent);
 
         if(ifStatement.alternate != null)
@@ -483,10 +498,12 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
         this.processElement(tryStatement.block);
 
-        for(var i = 0; i < tryStatement.handlers.length; i++)
+        var handlers = tryStatement.handlers || (ValueTypeHelper.isArray(tryStatement.handler) ? tryStatement.handler : [tryStatement.handler]);
+
+        for(var i = 0; i < handlers.length; i++)
         {
-            Firecrow.includeNode(tryStatement.handlers[i]);
-            this.processCatchClause(tryStatement.handlers[i]);
+            Firecrow.includeNode(handlers[i]);
+            this.processCatchClause(handlers[i]);
         }
 
         if(tryStatement.finalizer != null)

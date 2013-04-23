@@ -1,6 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ASTHelper = Firecrow.ASTHelper;
+var ValueTypeHelper = Firecrow.ValueTypeHelper;
 Firecrow.DependencyGraph.InclusionFinder = function(){};
 
 Firecrow.DependencyGraph.InclusionFinder.notifyError = function(message) { alert("InclusionFinder - " + message);}
@@ -400,9 +401,11 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
         if(tryStatement.shouldBeIncluded) { return true;}
         if(this.isIncludedElement(tryStatement.block)) { return true; }
 
-        for(var i = 0; i < tryStatement.handlers.length; i++)
+        var handlers = tryStatement.handlers || (ValueTypeHelper.isArray(tryStatement.handler) ? tryStatement.handler : [tryStatement.handler]);
+
+        for(var i = 0; i < handlers.length; i++)
         {
-            if(this.isIncludedCatchClause(tryStatement.handlers[i])) { return true};
+            if(this.isIncludedCatchClause(handlers[i])) { return true};
         }
 
         if(tryStatement.finalizer != null)

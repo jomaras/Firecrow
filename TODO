@@ -1,10 +1,11 @@
 - Make it work for other pages!!
    - problem with
+        - nodeID: 46899 ("opts.animIn") - does not include the definition of animIn for some reason !?
+        - includes the assignement:  "opts.animIn = $.extend({}, opts.original.animIn)"   nodeId 43583 (continue here)
         + problem with i and i++ being arguments in a call expression: the argument values would be determined in the end, which means that argument i would have the value
         + return Sizzle(expr, null, null, [node]).length in Sizzle.matchesSelector (return from Sizzle is not included); but it does not seem that Sizzle(expr, null).. is even necessary
         + the problem is that [node] is necessary -> this probably causes the inclusion of everything in the call expressions
         ! -> (but the problem is including the property .length in the dependency postprocessor)
-        -
    + problem with thisCache[jQuery.camelCase(name)];
         (there is no connection to thisCache and jQuery.camelCase is "imporant") - study more!
    + the problem was with creating dependencies between internal function call expressions and arguments (arg -> call expression, i don't know why i even did that..)
@@ -22,6 +23,26 @@
     - sylvester
 
 
+------------------------------------------------------------------------------------------------------------------------
+UI Controls:
+ - 01a - OK; F: 140 113; S: 102 979;
+ - 01b - OK; F: 194 325; S: 87 510;
+ - 01c - OK; F: 181 796; S: 136 277;
+ - 02a - OK; F: 192 599; S: 101 255;
+ - 02b - OK; F: 140 567; S: 76 935;
+ - 03 -  OK; F: 86 088;  S: 38 036;
+ - 04 -  NOK; F: 107 054; S: 70 892  (fixing this)
+    - there is a problem with a return statement in the remove: function()
+    - the one in the if statement - maybe if an if condition is included when traversing return dependencies
+    - if it also contains a return statement, include that return statement (but not sure about the return expression value) - i've done it in the dependency postprocessor
+      but i'm not sure if it is a good place to do it.
+
+ - 05 - OK;  F: 137 596; S: 99 555;
+ - 06 - OK;
+ - 07 - OK  F: 64 583; S: 35 072
+ - 08 - OK  F: 34 040; S: 17 200
+ - 09 - NOK F: 176 179; S:139 802
+ - 10 - OK  F: 193 200; S:
 
 ------------------------------------------------------------------------------------------------------------------------
 Testing TO-DO list:

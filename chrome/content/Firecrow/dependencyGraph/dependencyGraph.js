@@ -273,6 +273,7 @@ DependencyGraph.prototype =
 
     notifyError: function(message)
     {
+        debugger;
         Firecrow.DependencyGraph.DependencyGraph.notifyError(message);
     }
 };

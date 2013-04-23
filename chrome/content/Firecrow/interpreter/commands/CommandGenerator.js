@@ -594,9 +594,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         var tryStatement = tryCommand.codeConstruct;
 
-        if(tryStatement.handlers.length > 1) { this.notifyError("Not handling more than 1 catch"); return commands; }
+        var handlers = tryStatement.handlers || (ValueTypeHelper.isArray(tryStatement.handler) ? tryStatement.handler : [tryStatement.handler]);
 
-        var catchElement = tryStatement.handlers[0];
+        if(handlers.length > 1) { this.notifyError("Not handling more than 1 catch"); return commands; }
+
+        var catchElement = handlers[0];
 
         var startCatchCommand = new fcCommands.Command(catchElement, fcCommands.Command.COMMAND_TYPE.StartCatchStatement, tryCommand.parentFunctionCommand);
 

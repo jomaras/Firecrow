@@ -907,7 +907,9 @@ Firecrow.ASTHelper =
                 {
                     this.traverseDirectSourceElements(astElement.block, processSourceElementFunction, enterBranchAndLoops);
 
-                    astElement.handlers.forEach(function(catchClause)
+                    var handlers = astElement.handlers || (ValueTypeHelper.isArray(astElement.handler) ? astElement.handler : [astElement.handler]);
+
+                    handlers.forEach(function(catchClause)
                     {
                         this.traverseDirectSourceElements(catchClause.body, processSourceElementFunction, enterBranchAndLoops);
                     }, this);
@@ -926,6 +928,7 @@ Firecrow.ASTHelper =
         }
         catch(e)
         {
+            debugger;
             alert("Error while traversing direct source elements in ASTHelper: " + e);
         }
     },
@@ -1163,6 +1166,18 @@ Firecrow.ASTHelper =
         });
 
         return elementsOfType;
+    },
+
+    getDirectlyContainedReturnStatement: function(body)
+    {
+        var bodyStatements = this.isBlockStatement(body) ? body.body : [body];
+
+        for(var i = 0; i < bodyStatements.length; i++)
+        {
+            if(this.isReturnStatement(bodyStatements[i])) { return bodyStatements[i]; }
+        }
+
+        return null;
     },
 
     containsCallOrUpdateOrAssignmentExpression: function(element)
