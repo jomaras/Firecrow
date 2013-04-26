@@ -39,8 +39,8 @@ FBL.ns(function () { with (FBL)
 
         includeNode: function(node)
         {
-            //if(node.loc != null && node.loc.start.line == 3037) debugger;
-            //if(node.nodeId == 12160) debugger;
+            if(node.loc != null && node.loc.start.line == 71) debugger;
+            //if(node.nodeId == 93) debugger;
             node.shouldBeIncluded = true;
         }
     };

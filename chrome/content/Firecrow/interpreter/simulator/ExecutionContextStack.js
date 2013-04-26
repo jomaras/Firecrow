@@ -165,7 +165,7 @@ fcSimulator.ExecutionContextStack.prototype =
             else if (command.isCallInternalConstructorCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isCallCallbackMethodCommand()) {}
             else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
-            else if (command.isExecuteCallbackCommand()) {}
+            else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.createExecuteCallbackDependencies(command); }
             else if (command.isConvertToPrimitiveCommand()) {}
             else
             {
@@ -414,7 +414,7 @@ fcSimulator.ExecutionContextStack.prototype =
         var topConstruct = topCommand.codeConstruct;
 
         if((topCommand.isEnterFunctionContextCommand() || topCommand.isStartSwitchStatementCommand() || topCommand.isStartCatchStatementCommand())
-            && topCommand.blockStackConstructs != null)
+         && topCommand.blockStackConstructs != null)
         {
             return topCommand.blockStackConstructs;
         }

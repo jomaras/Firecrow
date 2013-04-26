@@ -223,7 +223,7 @@ DependencyGraph.prototype =
 
     _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint, includedByNode)
     {
-        Firecrow.includeNode(codeConstruct);
+        Firecrow.includeNode(codeConstruct);  if(codeConstruct.nodeId == 46899)debugger;
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);

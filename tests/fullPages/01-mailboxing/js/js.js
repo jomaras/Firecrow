@@ -8,7 +8,7 @@ function setupLoop() {
     clearInterval(intervalId);
     intervalId = setInterval(function () {
         slide(imagePosition + 1);
-    }, 2000);
+    }, 8000);
 }
 
 function slide(pos) {
@@ -119,4 +119,4 @@ setInterval(function () {
         .fadeIn(300)
         .end()
         .appendTo('.review-slide');
-}, 5000);
+}, 1000);

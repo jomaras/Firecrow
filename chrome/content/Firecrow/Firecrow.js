@@ -236,15 +236,25 @@ FBL.ns(function() { with (FBL) {
                         try
                         {
                             htmlJson.eventTraces = this.jsRecorder.getEventTrace();
-                            htmlJson.trackedElementsSelectors = [];
-                            prompt("JSON", JSON.stringify(htmlJson, function(key, value)
+
+                            var cssSelector = prompt("Enter Selector", "");
+
+                            htmlJson.trackedElementsSelectors = [cssSelector];
+
+                            var jsonString = JSON.stringify(htmlJson, function(key, value)
                             {
-                                if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+                                if(key == "value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
                                 {
                                     return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
                                 }
                                 return value;
-                            }));
+                            });
+
+                            var fileContent = "HtmlModelMapping.push({url: '',results: [],model: " + jsonString + ",slicingResult: ''});";
+
+                            FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-codeModel.txt", fileContent);
+
+                            alert("Code Model saved to local file");
                         }
                         catch(e) { alert("Error when converting to JSON model:" + e)};
                     }, this);

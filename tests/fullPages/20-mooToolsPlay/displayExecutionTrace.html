@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="index.html-executionTrace.txt"></script>
+</head>
+<body>
+    <div id="mainContainer">
+
+    </div>
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+        var log = "";
+        for(var i = 0; i < executionRecording.length; i++)
+        {
+            var item = executionRecording[i];
+            var lastItem = executionRecording[i - 1];
+
+            if(lastItem == null || lastItem.line != item.line)
+            {
+                log += item.line +  "<br/>";
+            }
+        }
+
+        mainContainer.innerHTML = log;
+    </script>
+</body>
+</html>

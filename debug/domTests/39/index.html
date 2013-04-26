@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slicing test</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div id='testContainer1'></div>
+<script>
+    var testContainer1 = document.getElementById("testContainer1");
+    var opts = {};
+
+    function test(container1)
+    {
+        container1.textContent = 3;
+        opts.test = 3;
+    }
+
+    test(testContainer1);
+    opts = {};
+    test(testContainer1);
+    testContainer1.textContent = opts.test;
+</script>
+</body>
+</html>

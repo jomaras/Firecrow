@@ -20,11 +20,6 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 {
     processHtmlElement: function(htmlElement)
     {
-        if(htmlElement.nodeId == 283)
-        {
-            debugger;
-        }
-
         if(!this.inclusionFinder.isIncludedHtmlElement(htmlElement)) { return; }
 
         var previousValue = htmlElement.shouldBeIncluded;
@@ -357,7 +352,6 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
             if(returnStatement != null)
             {
-                debugger;
                 Firecrow.includeNode(returnStatement);
             }
         }

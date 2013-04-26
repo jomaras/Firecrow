@@ -5,37 +5,19 @@
     <meta charset="UTF-8"/>
 </head>
 <body>
-<div id='mainContainer'></div>
 <script>
-
-    var a1 = 0;
-    var a = {};
-    var Native = function(options)
+    var a1 = 3;
+    var a = function()
     {
-        var afterImplement = options.afterImplement || function(){};
-        var object = options.initialize;
-
-        object.implement = function()
-        {
-            afterImplement();
-            a1++;
-        };
-
-        return object;
+        a1++;
     };
+    var array = [a];
 
-    var Window = new Native
-    ({
-        initialize: function() { },
-        afterImplement: function() { a1++; }
+    array.forEach(function(func)
+    {
+        func();
     });
-    Window.implement();
 
-    var Document = new Native
-    ({
-        initialize: function() { }
-    });
-    Document.implement();
     a1;
 </script>
 </body>

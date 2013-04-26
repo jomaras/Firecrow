@@ -276,6 +276,24 @@ fcSimulator.DependencyCreator.prototype =
          }*/
     },
 
+    createExecuteCallbackDependencies: function(executeCallbackCommand)
+    {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
+        var firstArgument = executeCallbackCommand.arguments != null ? executeCallbackCommand.arguments[0] : null;
+
+        if(firstArgument == null || firstArgument.isFunction == null || !firstArgument.isFunction()) { return; }
+
+        if(executeCallbackCommand.callCallbackCommand == null) { return; }
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            firstArgument.codeConstruct,
+            executeCallbackCommand.callCallbackCommand.codeConstruct,
+            this.globalObject.getPreciseEvaluationPositionId()
+        );
+    },
+
     createAssignmentDependencies: function(assignmentCommand)
     {
         if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createAssignmentSimpleDependencies(assignmentCommand); }
