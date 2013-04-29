@@ -39,7 +39,7 @@ FBL.ns(function () { with (FBL)
 
         includeNode: function(node, maxDependencyIndex)
         {
-            if(node.loc != null && node.loc.start.line == 340) debugger;
+            //if(node.loc != null && (node.loc.start.line == 1770 || node.loc.start.line == 1771)) debugger;
             //if(node.nodeId == 93) debugger;
             node.shouldBeIncluded = true;
             if(node.maxIncludedByDependencyIndex == null) { node.maxIncludedByDependencyIndex = -1; }

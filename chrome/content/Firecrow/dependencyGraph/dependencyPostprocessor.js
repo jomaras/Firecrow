@@ -350,7 +350,7 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         {
             var returnStatement = ASTHelper.getDirectlyContainedReturnStatement(ifStatement.consequent);
 
-            if(returnStatement != null)
+            if(returnStatement != null && returnStatement.hasBeenExecuted)
             {
                 Firecrow.includeNode(returnStatement);
             }

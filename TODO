@@ -52,6 +52,8 @@ NEXT:
       that each dependency can be associated with an executed call expression. Then, for each included expression,
       find a data-dependency that leads an unicluded construct, and traverse it
 
+      - check why line 411 isEvent return expression is included when slicing 06idt
+
     - possibly to go the other way -> from profiling, remove things that for sure will not be included
     - try to find these problems when unioning
 
@@ -70,7 +72,7 @@ NEXT:
 
 UI Controls:
  - 01a - OK; F: 140 113; S: 102 979;
- - 01b - NOK; F: 194 325; S: 87 510;  (produces an error, but works)
+ - 01b - NOK; F: 194 325; S: 87 510;  (produces an error, but works, a different error - now a problem with expressions of )
  - 01c - NOK; F: 181 796; S: 136 277; (error on opts.animIn.left..)
     - it seems that it takes a different path than the browser (the problem is the dependency from the node with the id 46899
     - it creates a dependency to a construct which is not executed in the original execution at that point)
@@ -93,20 +95,21 @@ UI Controls:
     I think it is progressing ¨- the problem now is that it gets stuck on traversing the same dependencies
 
 
- - 02a - OK; F: 192 599; S: 101 255;
+ - 02a - OK; F: 192 599; S: 101 255; (error when generating text)
  - 02b - OK; F: 140 567; S: 76 935;
  - 03 -  OK; F: 86 088;  S: 38 036;
  - 04 -  OK; F: 107 054; S: 70 892;
     - there is a problem with a return statement in the remove: function()
     - the one in the if statement - maybe if an if condition is included when traversing return dependencies
     - if it also contains a return statement, include that return statement (but not sure about the return expression value) - i've done it in the dependency postprocessor
-      but i'm not sure if it is a good place to do it.
+      but i'm not sure if it is a good place to do it
+    - doesn't terminate
 
  - 05 - OK;  F: 137 596; S: 99 555;
  - 06 - OK;
- - 07 - OK  F: 64 583; S: 35 072
+ - 07 - OK  F: 64 583; S: 35 072 (NOK - $(window).height() not working in FF)
  - 08 - OK  F: 34 040; S: 17 200
- - 09 - NOK F: 176 179; S:139 802
+ - 09 - NOK F: 176 179; S:139 802   (fixHook in fix: function(event))
  - 10 - OK  F: 193 200; S:
 
 ------------------------------------------------------------------------------------------------------------------------

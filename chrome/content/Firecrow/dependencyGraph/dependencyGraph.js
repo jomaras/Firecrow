@@ -250,9 +250,9 @@ DependencyGraph.prototype = dummy =
     {
         var addedDependencies = 0;
 
-        for(var nodeId in this._includedConstructsMap)
+        for(var nodeId in this._includedMemberCallExpressionMap)
         {
-            var codeConstruct = this._includedConstructsMap[nodeId];
+            var codeConstruct = this._includedMemberCallExpressionMap[nodeId];
 
             var dependencies = this._getSliceUnionImportantDependencies(codeConstruct);
 
@@ -280,9 +280,10 @@ DependencyGraph.prototype = dummy =
         for(var i = 0; i < allDependencies.length; i++)
         {
             var dependency = allDependencies[i];
+            var destinationConstruct = dependency.destinationNode.model;
 
             if(dependency.hasBeenTraversed
-            || dependency.destinationNode.model.shouldBeIncluded
+            || destinationConstruct.shouldBeIncluded
             || dependency.index > codeConstruct.maxIncludedByDependencyIndex) { continue; }
 
             var callExpression = this.dependencyCallExpressionMapping[dependency.index];
@@ -296,7 +297,7 @@ DependencyGraph.prototype = dummy =
         return otherDependencies;
     },
 
-    _includedConstructsMap: {},
+    _includedMemberCallExpressionMap: {},
 
     _mainTraverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint)
     {
@@ -307,7 +308,11 @@ DependencyGraph.prototype = dummy =
     {
         Firecrow.includeNode(codeConstruct, maxDependencyIndex);
 
-        this._includedConstructsMap[codeConstruct.nodeId] = codeConstruct;
+        if((ASTHelper.isMemberExpression(codeConstruct) || ASTHelper.isMemberExpression(codeConstruct.parent)
+         || ASTHelper.isCallExpression(codeConstruct) || ASTHelper.isCallExpressionCallee(codeConstruct)))
+        {
+            this._includedMemberCallExpressionMap[codeConstruct.nodeId] = codeConstruct;
+        }
 
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 

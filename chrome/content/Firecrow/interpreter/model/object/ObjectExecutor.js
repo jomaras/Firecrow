@@ -160,8 +160,11 @@ fcModel.ObjectExecutor =
         if(get != null || set != null) { fcModel.Object.notifyError("Still does not handle defining getters and setters"); return; }
         if(value == null) { fcModel.Object.notifyError("Value must be set when definining property"); return; }
 
+        args[0].iValue.addModification(callExpression);
+
         var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
 
+        dependencyCreator.createDataDependency(args[2].codeConstruct, callExpression);
         dependencyCreator.createDependenciesForObjectPropertyDefinition(args[2].codeConstruct);
 
         Object.defineProperty(args[0].jsValue, propertyName,

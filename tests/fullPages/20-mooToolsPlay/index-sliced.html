@@ -67,11 +67,6 @@
           return ;
         }
       }
-
-      for(var a in a1)
-      {
-        this.alias(a, a1[a], a2);
-      }
     };
     object.implement = function(a1, a2, a3)
     {
@@ -129,9 +124,7 @@
   var Hash = new Native({
     name: 'Hash', 
     initialize: function(object)
-    {
-      if($type(object));
-    }
+    {}
   });
   Hash.implement({
     forEach: function(fn, bind)
@@ -166,8 +159,6 @@
     for(var i = 1, l = arguments.length;i < l;i++)
     {
       var object = arguments[i];
-      if($type(object));
-
       for(var key in object)
       {
         var op = object[key], mp = mix[key];
@@ -371,7 +362,15 @@
     some: function(fn, bind)
     {}, 
     associate: function(keys)
-    {}, 
+    {
+      var obj = {}, length = Math.min(this.length, keys.length);
+      for(var i = 0;i < length;i++)
+      {
+        obj[keys[i]] = this[i];
+      }
+
+      return obj;
+    }, 
     link: function(object)
     {}, 
     contains: function(item, from)
@@ -466,7 +465,7 @@
     toInt: function(base)
     {}
   });
-  Number.alias('times', 'each');
+  (null, 'each');
   (function(math)
   {
     var methods = {};
@@ -520,7 +519,15 @@
     hasValue: function(value)
     {}, 
     extend: function(properties)
-    {}, 
+    {
+      if(!properties);
+
+      Hash.each(properties, function(value, key)
+      {
+        Hash.set(this, key, value);
+      }, this);
+      return this;
+    }, 
     combine: function(properties)
     {}, 
     erase: function(key)
@@ -528,7 +535,14 @@
     get: function(key)
     {}, 
     set: function(key, value)
-    {}, 
+    {
+      if(!(this[key]) || this.hasOwnProperty(key))
+      {
+        this[key] = value;
+      }
+
+      return this;
+    }, 
     empty: function()
     {}, 
     include: function(key, value)
@@ -548,13 +562,12 @@
     toQueryString: function(base)
     {}
   });
-  Hash.alias({keyOf: 'indexOf', hasValue: 'contains'});
+  ({keyOf: 'indexOf', hasValue: 'contains'});
   var Event = new Native({
     name: 'Event', 
     initialize: function(event, win)
     {}
   });
-  new Hash({});
   Event.implement({
     stop: function()
     {}, 
@@ -569,21 +582,9 @@
     {}).extend(this);
     newClass.implement(params);
   }
-  (new Native({
+  new Native({
     name: 'Class', 
     initialize: Class
-  })).extend({
-    instantiate: function(F)
-    {}, 
-    wrap: function(self, key, method)
-    {
-      return (function()
-      {}).extend({
-        _owner: self, 
-        _origin: method, 
-        _name: key
-      });
-    }
   });
   Class.implement({
     implement: function(key, value)
@@ -602,7 +603,6 @@
       switch($type(value))
       {
         case 'function':
-          Class.wrap(this, key, value);
           break;
         case 'object':
           var previous = proto[key]
@@ -662,10 +662,6 @@
       {});
     }
   });
-  var IFrame = new Native({
-    initialize: function()
-    {}
-  });
   var Elements = new Native({
     initialize: function(elements, options)
     {}
@@ -722,8 +718,12 @@
 
       return arg;
     };
-    var purge = function()
-    {};
+    var attributes = {};
+    var bools = ['compact', 'nowrap', 'ismap', 'declare', 'noshade', 'checked', 'disabled', 'readonly', 'multiple', 'selected', 'noresize', 'defer'];
+    var camels = ['value', 'type', 'defaultValue', 'accessKey', 'cellPadding', 'cellSpacing', 'colSpan', 'frameBorder', 'maxLength', 'readOnly', 'rowSpan', 'tabIndex', 'useMap'];
+    bools = bools.associate(bools);
+    Hash.extend(attributes, bools);
+    Hash.extend(attributes, camels.associate(camels.map(String.toLowerCase)));
     var inserters = {
       before: function(context, element)
       {}, 
@@ -830,12 +830,6 @@
     Native.implement([Element, Window, Document], {
       addListener: function(type, fn)
       {
-        if(type == 'unload')
-        {
-          fn = function()
-          {};
-        }
-
         if(this.addEventListener)
         {
           this.addEventListener(type, fn, false);
@@ -860,7 +854,6 @@
       eliminate: function(property)
       {}
     });
-    window.addListener('unload', purge);
   })();
   Native.implement([Element, Window, Document], {
     addEvent: function(type, fn)
@@ -884,8 +877,6 @@
       {
         this.addListener(realType, defn);
       }
-
-      return this;
     }, 
     removeEvent: function(type, fn)
     {}, 
@@ -896,11 +887,6 @@
     fireEvent: function(type, args, delay)
     {
       var events = this.retrieve('events');
-      if(!events || !(events[type]))
-      {
-        return this;
-      }
-
       events[type].keys.each(function(fn)
       {
         fn.create({
@@ -922,7 +908,6 @@
       }
 
       Browser.loaded = true;
-      window.fireEvent('domready');
       document.fireEvent('domready');
     };
     window.addEvent('load', domready);

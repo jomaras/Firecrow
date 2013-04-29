@@ -296,7 +296,7 @@ fcSimulator.InternalExecutor.prototype =
 
         var jsArgs = args.map(function(item) { return item.jsValue; });
 
-        if(internalConstructor.iValue == this.globalObject.arrayFunction) { return this.createArray(constructorConstruct, Array.apply(null, jsArgs));}
+        if(internalConstructor.iValue == this.globalObject.arrayFunction) { return this.createArray(constructorConstruct, Array.apply(null, args));}
         else if (internalConstructor.iValue == this.globalObject.regExFunction) { return this.createRegEx(constructorConstruct, RegExp.apply(null, jsArgs));}
         else if (internalConstructor.iValue == this.globalObject.stringFunction) { return this.createString(constructorConstruct, String.apply(null, jsArgs));}
         else if (internalConstructor.iValue == this.globalObject.booleanFunction) { return new fcModel.fcValue(Boolean.apply(null, jsArgs), Boolean.apply(null, jsArgs), constructorConstruct); }

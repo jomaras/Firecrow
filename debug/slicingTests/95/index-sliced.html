@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+    <body>
+        <script>
+  var literalObject = {
+    x: 3, 
+    getX: function()
+    {
+      return this.x;
+    }
+  };
+  var derivedObject = Object.create(literalObject);
+  var a1 = derivedObject.x;
+  var a2 = derivedObject.getX();
+  var a3 = derivedObject.hasOwnProperty('x');
+  a1;
+  a2;
+  a3;
+  var derivedObject1 = Object.create(literalObject, {
+    y: {writable: true, configurable: true, value: 4}
+  });
+  var a4 = derivedObject1.y;
+  var a5 = derivedObject1.hasOwnProperty('y');
+  a4;
+  a5;
+  var object = {};
+  (null, null, {value: 37, writable: true, enumerable: true, configurable: true});
+  var a6 = object.a == 37;
+  a6;
+  var a7;
+  (null, null, {value: 37, writable: false, enumerable: true, configurable: true});
+  var a8 = object.b == 37;
+  a8;
+  var a9 = object.b == 37;
+  a9;
+  var obj = {};
+  Object.defineProperties(obj, {
+    'a': {value: true, writable: true}, 
+    'b': {value: 'Hello', writable: false}
+  });
+  var a13 = obj.a == true;
+  var a14 = obj.b == 'Hello';
+  a13;
+  a14;
+  var propertyDescriptor = Object.getOwnPropertyDescriptor(obj, 'a');
+  var a15 = propertyDescriptor.writable;
+  a15;
+  propertyDescriptor = Object.getOwnPropertyDescriptor(obj, 'c');
+  var a16 = propertyDescriptor === undefined;
+  a16;
+  var arr = ['a', 'b', 'c'];
+  var keys = Object.keys(arr);
+  var a17 = keys[0] == 0;
+  var a18 = keys[1] == 1;
+  var a19 = keys[2] == 2;
+  a17;
+  a18;
+  a19;
+  var obj = {0: 'a', 1: 'b', 2: 'c'};
+  var keys = Object.keys(obj);
+  var a20 = keys[0] == 0;
+  var a21 = keys[1] == 1;
+  var a22 = keys[2] == 2;
+  a20;
+  a21;
+  a22;
+  var my_obj = Object.create({}, {});
+  my_obj.foo = 1;
+  var keys = Object.keys(my_obj);
+  var a23 = keys[0] == 'foo';
+  var a24 = keys[1] == null;
+  a23;
+  a24;
+  var arr = ['a', 'b', 'c'];
+  var names = Object.getOwnPropertyNames(arr);
+  var a25 = names[0] == 'length';
+  var a26 = names[1] == 0;
+  var a27 = names[2] == 1;
+  var a28 = names[3] == 2;
+  a25;
+  a26;
+  a27;
+  a28;
+  var obj = {0: 'a', 1: 'b', 2: 'c'};
+  var names = Object.getOwnPropertyNames(obj);
+  var a29 = names[0] == 0;
+  var a30 = names[1] == 1;
+  var a31 = names[2] == 2;
+  var a32 = names[3] == null;
+  a29;
+  a30;
+  a31;
+  a32;
+  var my_obj = Object.create({}, {
+    getFoo: {
+      value: function()
+      {}, 
+      enumerable: false
+    }
+  });
+  my_obj.foo = 1;
+  var names = Object.getOwnPropertyNames(my_obj);
+  var a33 = names[0] == 'getFoo';
+  var a34 = names[1] == 'foo';
+  var a35 = names[2] == null;
+  a33;
+  a34;
+  a35;
+  var a = {x: 3};
+  var b = {};
+  var a36 = b.x == 3;
+  var proto = Object.getPrototypeOf(b);
+  var a37 = proto.x == 3;
+  var a38 = proto == a;
+  a36;
+  a37;
+  a38;
+  var a = {};
+  Object.preventExtensions(a);
+  var a39 = a.b == undefined;
+  a39;
+  var a40 = !(Object.isExtensible(a));
+  a40;
+</script>
+    
+</body>
+</html>

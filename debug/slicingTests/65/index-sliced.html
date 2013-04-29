@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    function getEven(array)
+    {
+        var resultArray = [];
+        for(var i = 0;i < array.length;i++)
+        {
+            var item = array[i];
+            if((item % 2) == 0)
+            {
+                resultArray = [];
+                resultArray.push(item);
+            }
+            else
+            {
+                resultArray.push(item);
+            }
+        }
+
+        return resultArray;
+    }
+    var b1 = getEven([1, 2, 3]);
+    var a1 = b1[0];
+    a1;
+</script>
+
+
+</body>
+</html>

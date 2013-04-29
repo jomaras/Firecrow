@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     
     
-    
-    <script type="text/javascript">
+
+    <link href="css/makalu.css" rel="stylesheet"/>
+
+    <script charset="utf-8" type="text/javascript">
   (function(window, undefined)
   {
     var document = window.document;
@@ -52,6 +54,8 @@
                   this[0] = elem;
                 }
 
+                this.context = document;
+                this.selector = selector;
                 return this;
               }
             }
@@ -81,7 +85,7 @@
           ret.context = this.context;
           if(name === 'find')
           {
-            ret.selector = (this.selector + (this.selector ? 0 : '')) + selector;
+            ret.selector = (this.selector + (this.selector ? ' ' : '')) + selector;
           }
 
           return ret;
@@ -102,6 +106,10 @@
       jQuery.extend = jQuery.fn.extend = function()
       {
         var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
+        if(typeof target === 'boolean');
+
+        if(typeof target !== 'object');
+
         if(length === i)
         {
           target = this;
@@ -163,10 +171,12 @@
         isWindow: function(obj)
         {}, 
         isNumeric: function(obj)
-        {}, 
+        {
+          return !(isNaN(parseFloat(obj))) && isFinite(obj);
+        }, 
         type: function(obj)
         {
-          return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
+          return obj == null ? String(obj) : class2type[toString.call(obj)] || 'object';
         }, 
         isPlainObject: function(obj)
         {}, 
@@ -234,7 +244,12 @@
         {}, 
         merge: function(first, second)
         {
-          var i = first.length;
+          var i = first.length, j = 0;
+          if(typeof (second.length) === 'number')
+          {
+            for(var l = second.length;j < l;j++);
+          }
+
           first.length = i;
           return first;
         }, 
@@ -247,24 +262,8 @@
         {}, 
         access: function(elems, fn, key, value, chainable, emptyGet, pass)
         {
-          var exec, i = 0, length = elems.length;
-          if(key && typeof key === 'object');
-          else if(value !== undefined)
-          {
-            exec = pass === undefined && jQuery.isFunction(value);
-            if(fn)
-            {
-              for(;i < length;i++)
-              {
-                fn(elems[i], key, exec ? 0 : value, pass);
-              }
-            }
-
-            chainable = 1;
-          }
-
-
-          return chainable ? elems : 0;
+          var bulk = key == null, length = elems.length;
+          return chainable ? 0 : bulk ? 0 : length ? fn(elems[0], key) : 0;
         }, 
         now: function()
         {
@@ -366,7 +365,10 @@
       expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''), 
       noData: {}, 
       hasData: function(elem)
-      {}, 
+      {
+        elem = elem.nodeType ? jQuery.cache[elem[jQuery.expando]] : 0;
+        return !(!elem);
+      }, 
       data: function(elem, name, data, pvt)
       {
         if(!(jQuery.acceptData(elem)));
@@ -400,15 +402,12 @@
           thisCache[jQuery.camelCase(name)] = data;
         }
 
-        if(isEvents);
+        if(isEvents && !(thisCache[name]));
 
         if(getByName)
         {
           ret = thisCache[name];
-          if(ret == null)
-          {
-            ret = thisCache[jQuery.camelCase(name)];
-          }
+          if(ret == null);
         }
         else 
         {
@@ -504,12 +503,10 @@
       promise: function(type, object)
       {}
     });
-    var rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i, nodeHook;
+    var rclass = /[\n\t\r]/g, rspace = /\s+/;
     jQuery.fn.extend({
       attr: function(name, value)
-      {
-        return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
-      }, 
+      {}, 
       removeAttr: function(name)
       {}, 
       prop: function(name, value)
@@ -517,47 +514,67 @@
       removeProp: function(name)
       {}, 
       addClass: function(value)
-      {}, 
+      {
+        var classNames, i, l, elem, setClass, c, cl;
+        if(value && typeof value === 'string')
+        {
+          classNames = value.split(rspace);
+          for(i = 0, l = this.length;i < l;i++)
+          {
+            elem = this[i];
+            if(elem.nodeType === 1)
+            {
+              if(!(elem.className));
+              else 
+              {
+                setClass = (' ' + elem.className) + ' ';
+                for(c = 0, cl = classNames.length;c < cl;c++)
+                {
+                  if(!(~(setClass.indexOf((' ' + classNames[c]) + ' '))))
+                  {
+                    setClass += classNames[c] + ' ';
+                  }
+                }
+
+                elem.className = jQuery.trim(setClass);
+              }
+            }
+          }
+        }
+
+        return this;
+      }, 
       removeClass: function(value)
-      {}, 
+      {
+        var classNames, i, l, elem, className, c, cl;
+        if((value && typeof value === 'string'))
+        {
+          classNames = (value).split(rspace);
+          for(i = 0, l = this.length;i < l;i++)
+          {
+            elem = this[i];
+            if(elem.nodeType === 1 && elem.className)
+            {
+              if(value)
+              {
+                className = ((' ' + elem.className) + ' ').replace(rclass, ' ');
+                for(c = 0, cl = classNames.length;c < cl;c++)
+                {
+                  className = className.replace((' ' + classNames[c]) + ' ', ' ');
+                }
+
+                elem.className = jQuery.trim(className);
+              }
+            }
+          }
+        }
+      }, 
       toggleClass: function(value, stateVal)
       {}, 
       hasClass: function(selector)
       {}, 
       val: function(value)
       {}
-    });
-    jQuery.extend({
-      valHooks: {}, 
-      attrFn: {}, 
-      attr: function(elem, name, value, pass)
-      {
-        var hooks, notxml, nType = elem.nodeType;
-        notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
-        if(notxml)
-        {
-          name = name.toLowerCase();
-          hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? 0 : nodeHook);
-        }
-
-        if(value !== undefined)
-        {
-          if(value === null);
-          else if(hooks);
-          else 
-          {
-            elem.setAttribute(name, '' + value);
-            return value;
-          }
-        }
-      }, 
-      removeAttr: function(elem, value)
-      {}, 
-      attrHooks: {}, 
-      propFix: {}, 
-      prop: function(elem, name, value)
-      {}, 
-      propHooks: {}
     });
     (['radio', 'checkbox'], null);
     var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
@@ -579,7 +596,7 @@
         eventHandle = elemData.handle;
         if(!eventHandle)
         {
-          eventHandle = function(e)
+          elemData.handle = eventHandle = function(e)
           {
             return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
           };
@@ -592,7 +609,7 @@
           tns = rtypenamespace.exec(types[t]);
           type = tns[1];
           special = jQuery.event.special[type] || {};
-          type = (selector ? 0 : special.bindType) || type;
+          type = (selector ? special.delegateType : special.bindType) || type;
           special = jQuery.event.special[type] || {};
           handleObj = jQuery.extend({
             origType: tns[1], 
@@ -619,6 +636,14 @@
           }
         }
       }, 
+      remove: function(elem, types, handler, selector, mappedTypes)
+      {
+        var elemData = jQuery.hasData(elem) && jQuery._data(elem);
+        if(!elemData)
+        {
+          return ;
+        }
+      }, 
       trigger: function(event, data, elem, onlyHandlers)
       {
         var type = event.type || event, i, cur, special, eventPath;
@@ -634,7 +659,7 @@
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
-        var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, ret, matched, handleObj;
+        var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, matched, handleObj;
         args[0] = event;
         if(handlers.length > delegateCount)
         {
@@ -647,22 +672,12 @@
         for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
         {
           matched = handlerQueue[i];
-          event.currentTarget = matched.elem;
           for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
           {
             handleObj = matched.matches[j];
             if(run_all)
             {
-              ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
-              if(ret !== undefined)
-              {
-                event.result = ret;
-                if(ret === false)
-                {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }
-              }
+              ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
             }
           }
         }
@@ -712,18 +727,15 @@
           e.preventDefault();
         }
       }, 
-      stopPropagation: function()
-      {
-        var e = this.originalEvent;
-        if(e.stopPropagation)
-        {
-          e.stopPropagation();
-        }
-      }, 
       isPropagationStopped: returnFalse, 
       isImmediatePropagationStopped: returnFalse
     };
-    ({mouseenter: 'mouseover', mouseleave: 'mouseout'}, null);
+    jQuery.each({mouseenter: 'mouseover', mouseleave: 'mouseout'}, function(orig, fix)
+    {
+      jQuery.event.special[orig] = {
+        bindType: fix
+      };
+    });
     if(false)
     {
       ({focus: 'focusin', blur: 'focusout'}, null);
@@ -732,6 +744,31 @@
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one)
       {
+        if(typeof types === 'object');
+
+        if(data == null && fn == null);
+        else if(fn == null)
+        {
+          if(typeof selector === 'string')
+          {
+            fn = data;
+            data = undefined;
+          }
+          else 
+          {
+            fn = data;
+            data = selector;
+            selector = undefined;
+          }
+        }
+
+
+        if(fn === false);
+        else if(!fn);
+
+
+        if(one === 1);
+
         return this.each(function()
         {
           jQuery.event.add(this, types, fn, data, selector);
@@ -742,14 +779,22 @@
       off: function(types, selector, fn)
       {
         return this.each(function()
-        {});
+        {
+          jQuery.event.remove(this, types, fn, selector);
+        });
       }, 
       bind: function(types, data, fn)
-      {}, 
+      {
+        return this.on(types, null, data, fn);
+      }, 
       unbind: function(types, fn)
-      {}, 
+      {
+        return this.off(types, null, fn);
+      }, 
       live: function(types, data, fn)
-      {}, 
+      {
+        jQuery(this.context).on(types, this.selector, data, fn);
+      }, 
       die: function(types, fn)
       {}, 
       delegate: function(selector, types, data, fn)
@@ -768,7 +813,9 @@
       toggle: function(fn)
       {}, 
       hover: function(fnOver, fnOut)
-      {}
+      {
+        return this.mouseenter(fnOver).mouseleave(fnOut);
+      }
     });
     jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function(i, name)
     {
@@ -789,11 +836,7 @@
     });
     (function()
     {
-      var Sizzle = function(selector, context, results, seed)
-      {};
-      var Expr = Sizzle.selectors = {
-        find: {}
-      };
+      var Sizzle;
       var makeArray = function(array, results)
       {
         array = Array.prototype.slice.call(array, 0);
@@ -814,55 +857,77 @@
       {
         (function()
         {
+          var id = '__sizzle__';
           Sizzle = function(query, context, extra, seed)
           {
             context = context;
             if(!seed && !(Sizzle.isXML(context)))
             {
               var match = /^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/.exec(query);
-              if(match && (context.nodeType === 1 || context.nodeType === 9))
+              if(match && context.nodeType === 1)
               {
-                if(match[1]);
-                else if(match[2] && Expr.find.CLASS && context.getElementsByClassName)
+                if(match[1])
                 {
-                  return makeArray(context.getElementsByClassName(match[2]), extra);
+                  return makeArray(context.getElementsByTagName(query), extra);
                 }
               }
 
               if(context.nodeType === 9)
               {
+                if(query === 'body');
+                else if(match);
+
+
                 try
                 {
                   return makeArray(context.querySelectorAll(query), extra);
                 }
                 catch(qsaError){}
               }
+              else if(context.nodeType === 1 && context.nodeName.toLowerCase() !== 'object')
+              {
+                var old = context.getAttribute('id'), nid = old || id, relativeHierarchySelector = /^\s*[+~]/.test(query);
+                if(!old)
+                {
+                  context.setAttribute('id', nid);
+                }
+                else 
+                {
+                  nid = nid.replace(/'/g, '\\$&');
+                }
+
+                try
+                {
+                  if(!relativeHierarchySelector)
+                  {
+                    return makeArray(context.querySelectorAll((('[id=\'' + nid) + '\'] ') + query), extra);
+                  }
+                }
+                catch(pseudoError){}
+              }
             }
           };
         })();
       }
 
-      (function()
-      {
-        Expr.find.CLASS = function(match, context, isXML)
-        {};
-      })();
       Sizzle.isXML = function(elem)
       {
         var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
         return documentElement ? documentElement.nodeName !== 'HTML' : 0;
       };
       jQuery.find = Sizzle;
-      jQuery.isXMLDoc = Sizzle.isXML;
     })();
     jQuery.fn.extend({
       find: function(selector)
       {
         var i, l;
+        if(typeof selector !== 'string');
+
         var ret = this.pushStack('', 'find', selector);
         for(i = 0, l = this.length;i < l;i++)
         {
           jQuery.find(selector, this[i], ret);
+          if(i > 0);
         }
 
         return ret;
@@ -911,7 +976,7 @@
       {}
     }, null);
     ({appendTo: 'append', prependTo: 'prepend', insertBefore: 'before', insertAfter: 'after', replaceAll: 'replaceWith'}, null);
-    var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
+    var rupper = /([A-Z]|^ms)/g, cssExpand = ['Top', 'Right', 'Bottom', 'Left'], curCSS, getComputedStyle;
     jQuery.extend({
       cssHooks: {
         opacity: {
@@ -922,10 +987,6 @@
               var ret = curCSS(elem, 'opacity');
               return ret === '' ? 0 : ret;
             }
-            else 
-            {
-              return elem.style.opacity;
-            }
           }
         }
       }, 
@@ -933,7 +994,7 @@
       cssProps: {}, 
       style: function(elem, name, value, extra)
       {
-        var ret, origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
+        var origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
         name = jQuery.cssProps[origName] || origName;
         if(value !== undefined)
         {
@@ -944,13 +1005,6 @@
               style[name] = value;
             }
             catch(e){}
-          }
-        }
-        else 
-        {
-          if(hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined)
-          {
-            return ret;
           }
         }
       }, 
@@ -988,7 +1042,46 @@
     }
 
     curCSS = getComputedStyle;
-    (['height', 'width'], null);
+    function getWidthOrHeight(elem, name, extra)
+    {
+      var val = name === 'width' ? 0 : elem.offsetHeight, i = name === 'width' ? 0 : 0, len = 4;
+      if(val > 0)
+      {
+        if(extra !== 'border')
+        {
+          for(;i < len;i += 2)
+          {
+            if(!extra)
+            {
+              val -= parseFloat(jQuery.css(elem, 'padding' + cssExpand[i])) || 0;
+            }
+
+            if(extra === 'margin');
+            else 
+            {
+              val -= parseFloat(jQuery.css(elem, ('border' + cssExpand[i]) + 'Width')) || 0;
+            }
+          }
+        }
+
+        return val + 'px';
+      }
+    }
+    jQuery.each(['height', 'width'], function(i, name)
+    {
+      jQuery.cssHooks[name] = {
+        get: function(elem, computed, extra)
+        {
+          if(computed)
+          {
+            if(elem.offsetWidth !== 0)
+            {
+              return getWidthOrHeight(elem, name, extra);
+            }
+          }
+        }
+      };
+    });
     jQuery(function()
     {});
     ({margin: '', padding: '', border: 'Width'}, null);
@@ -1019,69 +1112,12 @@
       {});
     }
 
-    var rfxtypes = /^(?:toggle|show|hide)$/, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
+    var rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
     jQuery.fn.extend({
       show: function(speed, easing, callback)
-      {
-        var elem, display;
-        if(speed || speed === 0);
-        else 
-        {
-          for(var i = 0, j = this.length;i < j;i++)
-          {
-            elem = this[i];
-            if(elem.style)
-            {
-              if(!(jQuery._data(elem, 'olddisplay')));
-            }
-          }
-
-          for(i = 0;i < j;i++)
-          {
-            elem = this[i];
-            if(elem.style)
-            {
-              display = elem.style.display;
-              if(display === '' || display === 'none')
-              {
-                elem.style.display = jQuery._data(elem, 'olddisplay');
-              }
-            }
-          }
-
-          return this;
-        }
-      }, 
+      {}, 
       hide: function(speed, easing, callback)
-      {
-        if(speed || speed === 0);
-        else 
-        {
-          var elem, display, i = 0, j = this.length;
-          for(;i < j;i++)
-          {
-            elem = this[i];
-            if(elem.style)
-            {
-              display = jQuery.css(elem, 'display');
-              if(display !== 'none' && !(jQuery._data(elem, 'olddisplay')))
-              {
-                jQuery._data(elem, 'olddisplay', display);
-              }
-            }
-          }
-
-          for(i = 0;i < j;i++)
-          {
-            if(this[i].style)
-            {
-              this[i].style.display = 'none';
-            }
-          }
-
-          return this;
-        }
-      }, 
+      {}, 
       _toggle: jQuery.fn.toggle, 
       toggle: function(fn, fn2, callback)
       {}, 
@@ -1093,7 +1129,7 @@
         prop = jQuery.extend({}, prop);
         function doAnimation()
         {
-          var opt = jQuery.extend({}, optall), hidden = jQuery(this), name, val, p, e, method;
+          var opt = jQuery.extend({}, optall), hidden = jQuery(this), name, val, p, e, parts, start, end, unit;
           opt.animatedProperties = {};
           for(name in prop)
           {
@@ -1109,13 +1145,23 @@
           {
             e = new jQuery.fx(this, opt, p);
             val = prop[p];
-            if(rfxtypes.test(val))
+            if(rfxtypes.test(val));
+            else 
             {
-              method = jQuery._data(this, 'toggle' + p) || (val === 'toggle' ? 0 : 0);
-              if(method);
-              else 
+              parts = rfxnum.exec(val);
+              start = e.cur();
+              if(parts)
               {
-                e[val]();
+                end = parseFloat(parts[2]);
+                unit = parts[3] || (jQuery.cssNumber[p] ? '' : 'px');
+                if(unit !== 'px')
+                {
+                  jQuery.style(this, p, end + unit);
+                  start = (end / e.cur()) * start;
+                  jQuery.style(this, p, start + unit);
+                }
+
+                e.custom(start, end, unit);
               }
             }
           }
@@ -1140,31 +1186,24 @@
     {
       var obj = {};
       (fxAttrs.concat.apply([], fxAttrs.slice(0, num)), null);
-      return obj;
     }
-    jQuery.each({
+    ({
       slideDown: genFx('show', 1), 
       slideUp: genFx('hide', 1), 
       slideToggle: genFx('toggle', 1), 
-      fadeIn: {opacity: 'show'}, 
-      fadeOut: {opacity: 'hide'}, 
+      fadeIn: {}, 
+      fadeOut: {}, 
       fadeToggle: {}
-    }, function(name, props)
-    {
-      jQuery.fn[name] = function(speed, easing, callback)
-      {
-        return this.animate(props, speed, easing, callback);
-      };
-    });
+    }, null);
     jQuery.extend({
       speed: function(speed, easing, fn)
       {
         var opt = speed && typeof speed === 'object' ? 0 : {
           complete: fn || (!fn && easing) || jQuery.isFunction(speed), 
           duration: speed, 
-          easing: fn || easing && !(jQuery.isFunction(easing))
+          easing: fn || easing
         };
-        opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : 0;
+        opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : opt.duration in jQuery.fx.speeds ? 0 : jQuery.fx.speeds._default;
         if(opt.queue == null)
         {
           opt.queue = 'fx';
@@ -1173,11 +1212,6 @@
         opt.old = opt.complete;
         opt.complete = function(noUnmark)
         {
-          if(jQuery.isFunction(opt.old))
-          {
-            opt.old.call(this);
-          }
-
           if(opt.queue)
           {
             jQuery.dequeue(this, opt.queue);
@@ -1185,25 +1219,19 @@
         };
         return opt;
       }, 
-      easing: {
-        swing: function(p)
-        {
-          return (-(Math.cos(p * Math.PI)) / 2) + 0.5;
-        }
-      }, 
+      easing: {}, 
       timers: [], 
       fx: function(elem, options, prop)
       {
         this.options = options;
         this.elem = elem;
         this.prop = prop;
-        options.orig = options.orig || {};
       }
     });
     jQuery.fx.prototype = {
       update: function()
       {
-        jQuery.fx.step[this.prop](this);
+        (jQuery.fx.step[this.prop] || jQuery.fx.step._default)(this);
       }, 
       cur: function()
       {
@@ -1226,50 +1254,15 @@
           timerId = setInterval(fx.tick, fx.interval);
         }
       }, 
-      show: function()
-      {
-        var dataShow = jQuery._data(this.elem, 'fxshow' + this.prop);
-        this.options.orig[this.prop] = dataShow || jQuery.style(this.elem, this.prop);
-        this.options.show = true;
-        if(dataShow !== undefined);
-        else 
-        {
-          this.custom(this.prop === 'width' || this.prop === 'height' ? 0 : 0, this.cur());
-        }
-
-        jQuery(this.elem).show();
-      }, 
-      hide: function()
-      {
-        this.options.orig[this.prop] = jQuery._data(this.elem, 'fxshow' + this.prop) || jQuery.style(this.elem, this.prop);
-        this.options.hide = true;
-        this.custom(this.cur(), 0);
-      }, 
       step: function(gotoEnd)
       {
-        var p, n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
+        var n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
         if(gotoEnd || t >= (options.duration + this.startTime))
         {
           this.now = this.end;
           this.update();
-          options.animatedProperties[this.prop] = true;
           if(done)
           {
-            if(options.hide)
-            {
-              jQuery(elem).hide();
-            }
-
-            if(options.hide || options.show)
-            {
-              for(p in options.animatedProperties)
-              {
-                jQuery.style(elem, p, options.orig[p]);
-                (null, 'fxshow' + p, null);
-                (null, 'toggle' + p, null);
-              }
-            }
-
             complete = options.complete;
             if(complete)
             {
@@ -1320,8 +1313,16 @@
         clearInterval(timerId);
         timerId = null;
       }, 
-      speeds: {}, 
-      step: {}
+      speeds: {_default: 400}, 
+      step: {
+        _default: function(fx)
+        {
+          if(fx.elem.style && fx.elem.style[fx.prop] != null)
+          {
+            fx.elem.style[fx.prop] = fx.now + fx.unit;
+          }
+        }
+      }
     });
     jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
     {
@@ -1333,116 +1334,375 @@
         };
       }
     });
-    window.$ = jQuery;
+    ({scrollLeft: 'pageXOffset', scrollTop: 'pageYOffset'}, null);
+    jQuery.each({Height: 'height', Width: 'width'}, function(name, type)
+    {
+      jQuery.fn[type] = function(value)
+      {
+        return jQuery.access(this, function(elem, type, value)
+        {
+          var orig, ret;
+          if(value === undefined)
+          {
+            orig = jQuery.css(elem, type);
+            ret = parseFloat(orig);
+            return jQuery.isNumeric(ret) ? ret : 0;
+          }
+        }, type, value, arguments.length, null);
+      };
+    });
+    window.jQuery = window.$ = jQuery;
   })(window);
 </script>
-    <script type="text/javascript">
-  $(document).ready(function()
+    <script charset="utf-8" type="text/javascript">
+  (function($)
   {
-    var activeButtons = $('#featureSelectorContainer .active');
-    var clickedButton;
-    if(activeButtons.length > 0)
+    $.fn.ajaxForm = function(options)
     {
-      clickedButton = activeButtons[0];
-    }
-
-    var featuresArray = [{imagePath: 'images/features/PrIDE.png', title: 'PRIDE', description: 'An environment dedicated to the development of distributed embedded systems'}, {imagePath: 'images/features/PrIDE0.5.png', title: 'PRIDE 0.5.0', description: 'Download PRIDE 0.5.0'}];
-    var buttons = $('#featureSelectorContainer a');
-    buttons.click(function(eventArgs)
+      return this.ajaxFormUnbind().bind('submit.form-plugin', function()
+      {}).bind('click.form-plugin', function(e)
+      {});
+    };
+    $.fn.ajaxFormUnbind = function()
     {
-      if(clickedButton != null)
-      {
-        var previousButton = clickedButton;
-      }
-
-      clickedButton = eventArgs.currentTarget;
-      var buttonIndex = clickedButton.rel;
-      if(previousButton != null)
-      {
-        previousButton.className = '';
-      }
-
-      clickedButton.className = 'active';
-      changeFeature(buttonIndex);
-      return false;
-    });
-    function changeFeature(newFeatureIndex)
+      return this.unbind('submit.form-plugin click.form-plugin');
+    };
+  })(jQuery);
+  jQuery.extend(jQuery.easing, {
+    def: 'easeOutQuad', 
+    swing: function(x, t, b, c, d)
     {
-      var feature = featuresArray[newFeatureIndex];
-      var titles = $('.featureTitle');
-      var descriptions = $('.featureDescription');
-      $('#featureContainer').fadeOut(200, function()
-      {
-        $('#featureContainer img').attr('src', feature.imagePath);
-        $('#featureContainer').fadeIn(100);
-      });
-      titles.fadeOut(200, function()
-      {
-        if(titles.length > 0)
-        {
-          titles[0].textContent = feature.title;
-        }
-
-        titles.fadeIn(100);
-      });
-      descriptions.fadeOut(200, function()
-      {
-        if(descriptions.length > 0)
-        {
-          descriptions[0].textContent = feature.description;
-        }
-
-        descriptions.fadeIn(100);
-      });
-    }
+      return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
+    }, 
+    easeInQuad: function(x, t, b, c, d)
+    {}, 
+    easeOutQuad: function(x, t, b, c, d)
+    {
+      return ((-c * (t /= d)) * (t - 2)) + b;
+    }, 
+    easeInOutQuad: function(x, t, b, c, d)
+    {}, 
+    easeInCubic: function(x, t, b, c, d)
+    {}, 
+    easeOutCubic: function(x, t, b, c, d)
+    {}, 
+    easeInOutCubic: function(x, t, b, c, d)
+    {}, 
+    easeInQuart: function(x, t, b, c, d)
+    {}, 
+    easeOutQuart: function(x, t, b, c, d)
+    {}, 
+    easeInOutQuart: function(x, t, b, c, d)
+    {}, 
+    easeInQuint: function(x, t, b, c, d)
+    {}, 
+    easeOutQuint: function(x, t, b, c, d)
+    {}, 
+    easeInOutQuint: function(x, t, b, c, d)
+    {}, 
+    easeInSine: function(x, t, b, c, d)
+    {}, 
+    easeOutSine: function(x, t, b, c, d)
+    {}, 
+    easeInOutSine: function(x, t, b, c, d)
+    {}, 
+    easeInExpo: function(x, t, b, c, d)
+    {}, 
+    easeOutExpo: function(x, t, b, c, d)
+    {}, 
+    easeInOutExpo: function(x, t, b, c, d)
+    {}, 
+    easeInCirc: function(x, t, b, c, d)
+    {}, 
+    easeOutCirc: function(x, t, b, c, d)
+    {}, 
+    easeInOutCirc: function(x, t, b, c, d)
+    {}, 
+    easeInElastic: function(x, t, b, c, d)
+    {}, 
+    easeOutElastic: function(x, t, b, c, d)
+    {}, 
+    easeInOutElastic: function(x, t, b, c, d)
+    {}, 
+    easeInBack: function(x, t, b, c, d, s)
+    {}, 
+    easeOutBack: function(x, t, b, c, d, s)
+    {}, 
+    easeInOutBack: function(x, t, b, c, d, s)
+    {}, 
+    easeInBounce: function(x, t, b, c, d)
+    {}, 
+    easeOutBounce: function(x, t, b, c, d)
+    {}, 
+    easeInOutBounce: function(x, t, b, c, d)
+    {}
   });
 </script>
-    <link href="styles/mainStyle.css" type="text/css" rel="Stylesheet"/>
-</head>
+    <script charset="utf-8" type="text/javascript">
+  $(document).ready(function()
+  {
+    $('a[rel=external]').click(function(e)
+    {});
+    $('#portfolio .index a').each(function(i, link)
+    {
+      $(link).click(function(e)
+      {});
+    });
+    $('#news li a').click(function(e)
+    {});
+    $('#news-article .close').live('click', function(e)
+    {});
+    $('#news-article .arrow').live('click', function(e)
+    {});
+    $('#footer .interactive').hover(function()
+    {}, function()
+    {});
+    var newsPosition = 0;
+    $('#news a.more').animate({bottom: 10}, 400).click(function(e)
+    {
+      e.preventDefault();
+      newsPosition -= 40;
+      if(newsPosition < -($('#news ul').height() - 180))
+      {
+        $(this).addClass('back');
+        $('#news .thatsall').animate({opacity: 1});
+      }
 
-<body>
-    <div id="pageContainer">
-        
+      if(newsPosition < -($('#news ul').height() - 140))
+      {
+        $(this).removeClass('back');
+        newsPosition = 0;
+      }
 
-        <div id="mainContent">
-            <table>
-                <tbody><tr>
-					
-                    <td style="width: 733px;">	<div id="slider">
-		<table>
-			<tbody><tr>
-				<td id="featureContainer" colspan="2">
-					<img alt="picture" src="images/features/PrIDE.png"/></td>
-			</tr>
-			<tr>
-				<td align="left">
-					<span style="padding-top:-5px;" class="featureTitle">P<span style="font-size: 14">RIDE</span></span>
-					<div style="margin-top: -3px;" class="featureDescription"><div style="padding-top:5px;">An environment dedicated to the development of distributed embedded systems</div></div>
-				</td>
-				<td valign="bottom" align="right" id="featureSelectorContainer">
-				<table>
-					<tbody><tr>
-						<td><a class="active" rel="0" href="#"></a></td>
-						<td><a rel="1" href="#"></a></td>
-					</tr>
-				</tbody></table>
-				</td>
-			</tr>
-		</tbody></table>
-	</div>
+      $('#news').find('ul').animate({
+        top: newsPosition
+      }, 300);
+    });
+    $('#portfolio').find('.paginator a').click(function(e)
+    {});
+    //$('#speechbubble .inner').append(unescape('%3C%62%72%3E%3C%62%72%3E%3C%73%6D%61%6C%6C%3E%54%68%69%73%20%69%73%20%74%68%65%20%6D%69%6E%69%6D%61%6C%20%74%77%69%73%74%21%3C%2F%73%6D%61%6C%6C%3E'));
+    $('#contact form').ajaxForm({});
+    $('#contact input, #contact textarea').keyup(function()
+    {});
+    $('#contact input, #contact textarea').change(function()
+    {});
+    $('a.submit').click(function(e)
+    {});
+    initAutoclearFields();
+  });
+  function initAutoclearFields()
+  {
+    $.each($('p.autoclear'), function()
+    {
+      var p = $(this);
+      var label = p.find('label.autoclear');
+      var field = p.find('input, textarea');
+      label.click(function()
+      {});
+      field.focus(function()
+      {});
+      field.blur(function()
+      {});
+      field.keydown(function(e)
+      {});
+      field.change(function()
+      {});
+    });
+  }
+</script>
 
-		
-	    
+    </head>
+<body class="home blog post-category-news">
 
-    
-	</td>
-					
-                </tr>
-            </tbody></table>
-        </div>
-        
-        
+<div id="wrapper">
+
+
+
+<div class="container" id="top">
+    <div id="news">
+        <ul>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=763">
+                    <span class="date">24 May</span> MakaluMedia at SpaceOps            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=770">
+                    <span class="date">30 Apr</span> ARTS Evolution Delivered            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=767">
+                    <span class="date">24 Mar</span> TEDIS Developments            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=765">
+                    <span class="date">24 Feb</span> Wimics Developments            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=759">
+                    <span class="date">31 Jan</span> TeleViews goes Operational            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=749">
+                    <span class="date">16 Dec</span> Electronic Logbook News            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=754">
+                    <span class="date">30 Nov</span> TeleChecks Progress            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=736">
+                    <span class="date">06 Sep</span> Makalumedia scientist contributes to WMO climate monitoring initiative            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=728">
+                    <span class="date">16 May</span> How to Archive Telemetry            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=709">
+                    <span class="date">07 Apr</span> Makalu present Archive Design at ESAW 2011            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=717">
+                    <span class="date">31 Mar</span> Makalu win ARTS evolution contract            </a>
+            </li>
+            <li>
+                <a href="http://www.makalumedia.com/aerospace/?p=713">
+                    <span class="date">08 Feb</span> Makalu Scientist makes contribution to Climate Monitoring            </a>
+            </li>
+            <li class="thatsall">
+                <em>That's all</em>
+            </li>
+        </ul>
+        <div class="shade top"></div>
+        <div class="shade bottom"></div>
+        <a class="more" href="#">More</a>
     </div>
+</div>
+
+<div id="bottom">
+    <div class="container">
+        
+        
+
+        <div id="portfolio">
+            
+            <div id="portfolio-mask">
+                <ul class="projects">
+                    <li class="index">
+                        
+                        
+                        <ol>
+                            <li>
+                                <a title="TT&C Baseband Equipment" href="#">
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a title="Engineering Consultancy" href="#">
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a title="Satellite Telemetry Distribution" href="#">
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a title="Satellite Telemetry Archiving & Visualization" href="#">
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a title="Centralized Event Logging & Access" href="#">
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a title="Quality Assurance, Issue Management & Resolution" href="#">
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a title="Scientific Meteorogical Research" href="#">
+                                    
+                                </a>
+                            </li>
+                        </ol>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+            <ul class="paginator">
+                <li class="active"><a title="Index" href="#">1</a></li>
+                <li><a title="TT&C Baseband Equipment" href="#2">2</a></li>
+                <li><a title="Engineering Consultancy" href="#3">3</a></li>
+                <li><a title="Satellite Telemetry Distribution" href="#4">4</a></li>
+                <li><a title="Satellite Telemetry Archiving & Visualization" href="#5">5</a></li>
+                <li><a title="Centralized Event Logging & Access" href="#6">6</a></li>
+                <li><a title="Quality Assurance, Issue Management & Resolution" href="#7">7</a></li>
+                <li><a title="Scientific Meteorogical Research" href="#8">8</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="people">
+    
+    
+    
+    <div id="speechbubble">
+        <div class="inner">
+            
+            Nice to meet you and thanks for your message! You should receive a reply from us within two business days.
+            
+        </div>
+    </div>
+</div>
+<div class="container" id="contact">
+    <div class="form">
+        
+        <form method="post" action="/contact.php">
+            <input type="hidden" value="Aerospace" name="site"/>
+            <input type="hidden" value="" name="referer"/>
+            <p class="textfield autoclear">
+                <label class="autoclear" for="name">Your name...</label>
+                <input type="text" value="" id="name" name="name"/>
+            </p>
+            <p class="textfield autoclear">
+                <label class="autoclear" for="email">Your email address...</label>
+                <input type="text" value="" id="email" name="email"/>
+            </p>
+            <p class="textarea autoclear">
+                <label class="autoclear" for="message">What would you like to talk about?</label>
+                <textarea id="message" name="message"></textarea>
+                <a class="submit" href="#"></a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<div class="container" id="footer">
+    <ul>
+        
+        <li><a class="interactive" title="Go to Makalu Interactive" href="http://www.makalumedia.com/interactive">Makalu Interactive</a></li>
+    </ul>
+    
+    
+    <img alt="Makalu Interactive" src="images/logo-interactive-mini.png" class="interactive"/>
+    
+</div>
+
+
+
+
+
+</div>
 
 </body>
 </html>
