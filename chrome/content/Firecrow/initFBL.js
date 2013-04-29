@@ -37,11 +37,13 @@ FBL.ns(function () { with (FBL)
         getWindow: function() { return frames[0] || window;},
         getDocument: function() { return this.getWindow().document; },
 
-        includeNode: function(node)
+        includeNode: function(node, maxDependencyIndex)
         {
-            if(node.loc != null && node.loc.start.line == 71) debugger;
+            if(node.loc != null && node.loc.start.line == 340) debugger;
             //if(node.nodeId == 93) debugger;
             node.shouldBeIncluded = true;
+            if(node.maxIncludedByDependencyIndex == null) { node.maxIncludedByDependencyIndex = -1; }
+            if(node.maxIncludedByDependencyIndex < maxDependencyIndex) { node.maxIncludedByDependencyIndex = maxDependencyIndex ;}
         }
     };
 }});

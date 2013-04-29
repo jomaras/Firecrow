@@ -24,9 +24,47 @@
 
 
 ------------------------------------------------------------------------------------------------------------------------
+NEXT:
+    - on a test example implement, after a slicing criteria is processed,
+      create a map of all constructs included in the slice (i'm not sure how detailed it has to be, at least on memberExpression, callExpression, identifiers levels)
+      then group them by functions, and see what could potentially cause problems.
+      Then in a situation where it causes problems - we should again traverse.. this could lead to fixed point iteration algorithms
+
+    - i think the problem can occur anywhere.. but the most serious manifestations are in functions and maybe loops
+    - this will require more post-processing in the end.
+    - for a slicing criteria, make a map of all included code constructs and max dependencies which have added them
+    - once we have performed slicing based one each individual criteria, we have to take care of the union of dynamic slices problem
+    - it might not even be necessary to track which were included by which; just again, for each included code construct,
+      go through all unprocessed dependencies - i'm not sure if this will break anything; maybe not even all, but the ones between the
+      edges that have caused the inclusion? So i would have to keep track of indexes of the edges that have caused the inclusion of a code construct
+      I can dismiss all dependencies after the last one that has caused the inclusion. But probably not all are necessary;
+    - the problem is that i'm not sure if this is worth only for call expressions. If it is, this process should only be performed for code constructs
+      whose call expression is also included; a not for all dependencies
+
+    - yes, it should only be if they depend on a call expression that gets included.. So maybe i should
+      somehow keep a set of dependencies between every exprssion and the parent call expression
+      When creating a dependency to the call expression, log in the execution summary, or somewhere
+      that there is a dependency, then when processing included constructs, see if t
+      we should see if this dependency comes to a call expression that has been included, if
+      it is - then traverse it
+
+      ! create a mapping between an executed call expression and all dependencies created in the execution, so
+      that each dependency can be associated with an executed call expression. Then, for each included expression,
+      find a data-dependency that leads an unicluded construct, and traverse it
+
+    - possibly to go the other way -> from profiling, remove things that for sure will not be included
+    - try to find these problems when unioning
+
+    - i think i could remove the way i handled return expressions in that case
+
+
+
+
+
 20-mooToolsPlay
- -  Continue executing debugTestPages and 20-mooTools;
- - next step - obtain profiling data, and check why there does not exist a dependency towards the call expression;
+ - Continue executing debugTestPages and 20-mooTools;
+ - the same problem as with 01c
+
 
 
 
@@ -45,11 +83,15 @@ UI Controls:
         $cont.css('overflow', 'none'); -> this one gets included for the first slicing criteria
         opts.animIn.left = 0; -> this one for the second
     }
+
     And let's say that we only have two calls to this function
     the first call is mapped to the first slicing criteria and includes the first line
     the second call to the second slicing criteria and includes the first and the second line
     The problem is that opts.animIn object is created after the first call (and would not be included in the
     first slice, but since it is included from the second slice, the code gets executed, and throws an error)
+
+    I think it is progressing ¨- the problem now is that it gets stuck on traversing the same dependencies
+
 
  - 02a - OK; F: 192 599; S: 101 255;
  - 02b - OK; F: 140 567; S: 76 935;

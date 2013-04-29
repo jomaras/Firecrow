@@ -38,23 +38,31 @@ FBL.ns(function() { with (FBL) {
 
         addStructuralDependency: function(destinationNode, isDynamic)
         {
-            this.structuralDependencies.push(new fcGraph.Edge(this, destinationNode, isDynamic));
+            var edge = new fcGraph.Edge(this, destinationNode, isDynamic);
+
+            this.structuralDependencies.push(edge);
+
+            return edge;
         },
 
         addDataDependency: function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency)
         {
             var edge = new fcGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+
             this.dataDependencies.push(edge);
 
             if(destinationNode != null)
             {
                 destinationNode.reverseDependencies.push(edge);
             }
+
+            return edge;
         },
 
         addControlDependency: function(destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency, isPreviouslyExecutedBlockStatementDependency)
         {
             var edge = new Firecrow.DependencyGraph.Edge(this, destinationNode, isDynamic, index, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+
             edge.isPreviouslyExecutedBlockStatementDependency = isPreviouslyExecutedBlockStatementDependency;
 
             this.dataDependencies.push(edge);
@@ -63,6 +71,8 @@ FBL.ns(function() { with (FBL) {
             {
                 destinationNode.reverseDependencies.push(edge);
             }
+
+            return edge;
         },
 
         getDependencies: function(maxIndex, destinationConstraint)

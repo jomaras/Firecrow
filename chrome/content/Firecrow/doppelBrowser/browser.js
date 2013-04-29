@@ -35,6 +35,7 @@ fcBrowser.Browser = function(pageModel)
         this.controlFlowConnectionCallbacks = [];
         this.importantConstructReachedCallbacks = [];
         this.documentReadyCallbacks = [];
+        this.enterFunctionCallbacks = [];
         this.breakContinueReturnEventsCallbacks = [];
 
         this.domQueriesMap = {};
@@ -329,9 +330,14 @@ Browser.prototype =
         return map;
     },
 
-    logEnteringFunction: function(codeConstruct)
+    logEnteringFunction: function(callExpression, functionConstruct)
     {
-        this.executionInfo.logEnteringFunction(codeConstruct);
+        if(functionConstruct != null)
+        {
+            this.executionInfo.logEnteringFunction(functionConstruct);
+        }
+
+        this.callEnterFunctionCallbacks(callExpression, functionConstruct);
     },
 
     logConstructExecuted: function(codeConstruct)
@@ -819,11 +825,26 @@ Browser.prototype =
         this.documentReadyCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerEnterFunctionCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - enter function callback has to be a function!"); return; }
+
+        this.enterFunctionCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     _callDocumentReadyCallbacks: function()
     {
         this.documentReadyCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject);
+        });
+    },
+
+    callEnterFunctionCallbacks: function(callExpression, functionConstruct)
+    {
+        this.enterFunctionCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, callExpression, functionConstruct);
         });
     },
 

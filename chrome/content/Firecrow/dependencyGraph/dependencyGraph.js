@@ -21,15 +21,20 @@ fcGraph.DependencyGraph = function()
 
     this.dependencyEdgesCounter = 0;
     this.inclusionFinder = new Firecrow.DependencyGraph.InclusionFinder();
+
+    this.dependencyCallExpressionMapping = {};
+
+    this.currentCallExpression = null;
 };
 
 var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
+var dummy;
 
 DependencyGraph.notifyError = function(message) { alert("DependencyGraph - " + message); };
 DependencyGraph.log = [];
 DependencyGraph.shouldLog = false;
 
-DependencyGraph.prototype =
+DependencyGraph.prototype = dummy =
 {
     addNode: function(node)
     {
@@ -65,12 +70,14 @@ DependencyGraph.prototype =
         {
             for(var i = 0; i < targetNodeModelObject.length; i++)
             {
-                sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject[i].graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+                var edge = sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject[i].graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+                this._registerDependencyCallExpressionRelationship(edge);
             }
         }
         else
         {
-            sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+            var edge = sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
+            this._registerDependencyCallExpressionRelationship(edge);
         }
     },
 
@@ -87,7 +94,7 @@ DependencyGraph.prototype =
             }
         }
 
-        sourceNodeModelObject.graphNode.addControlDependency
+        var edge = sourceNodeModelObject.graphNode.addControlDependency
         (
             targetNodeModelObject.graphNode,
             true,
@@ -97,6 +104,13 @@ DependencyGraph.prototype =
             false,
             isPreviouslyExecutedBlockStatementDependency
         );
+
+        this._registerDependencyCallExpressionRelationship(edge);
+    },
+
+    _registerDependencyCallExpressionRelationship: function(edge)
+    {
+        this.dependencyCallExpressionMapping[edge.index] = this.currentCallExpression;
     },
 
     handleControlFlowConnection: function(sourceNode)
@@ -128,6 +142,11 @@ DependencyGraph.prototype =
         );
     },
 
+    handleEnterFunction: function(callExpression, functionConstruct)
+    {
+        this.currentCallExpression = callExpression;
+    },
+
     markGraph: function(model)
     {
         try
@@ -139,6 +158,13 @@ DependencyGraph.prototype =
 
             this._traverseExecutedBlockDependencies();
             this._traverseBreakContinueReturnEventsDependencies();
+
+            var addedDependencies = this._traverseSliceUnionPossibleProblems();
+
+            while(addedDependencies != 0)
+            {
+                addedDependencies = this._traverseSliceUnionPossibleProblems();
+            }
 
             Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement(model);
         }
@@ -154,7 +180,7 @@ DependencyGraph.prototype =
         {
             var mapping = importantConstructDependencyIndexMapping[i];
 
-            this._traverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
+            this._mainTraverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
         }
     },
 
@@ -166,8 +192,7 @@ DependencyGraph.prototype =
 
             if(!htmlModelNode.shouldBeIncluded) { continue; }
 
-            this._traverseAndMark(htmlModelNode);
-
+            this._mainTraverseAndMark(htmlModelNode);
             this._markParentCssDependencies(htmlModelNode.domElement);
         }
     },
@@ -202,7 +227,7 @@ DependencyGraph.prototype =
             //only if some of at least one sub-expression is already included in the previous phases
             if(this.inclusionFinder.isIncludedElement(blockDependency.codeConstruct.parent))
             {
-                this._traverseAndMark(blockDependency.codeConstruct, blockDependency.maxDependencyIndex, blockDependency.dependencyConstraint, blockDependency.includedByNode);
+                this._mainTraverseAndMark(blockDependency.codeConstruct, blockDependency.maxDependencyIndex, blockDependency.dependencyConstraint, blockDependency.includedByNode);
             }
         }
     },
@@ -216,14 +241,74 @@ DependencyGraph.prototype =
 
             if(this.inclusionFinder.isIncludedElement(parent))
             {
-                this._traverseAndMark(mapping.codeConstruct, mapping.maxDependencyIndex, null, null)
+                this._mainTraverseAndMark(mapping.codeConstruct, mapping.maxDependencyIndex, null, null);
             }
         }
     },
 
-    _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint, includedByNode)
+    _traverseSliceUnionPossibleProblems: function()
     {
-        Firecrow.includeNode(codeConstruct);  if(codeConstruct.nodeId == 46899)debugger;
+        var addedDependencies = 0;
+
+        for(var nodeId in this._includedConstructsMap)
+        {
+            var codeConstruct = this._includedConstructsMap[nodeId];
+
+            var dependencies = this._getSliceUnionImportantDependencies(codeConstruct);
+
+            addedDependencies += dependencies.length;
+
+            for(var i = 0; i < dependencies.length; i++)
+            {
+                var dependency = dependencies[i];
+
+                dependency.hasBeenTraversed = true;
+                this._traverseAndMark(dependency.destinationNode.model, dependency.index);
+            }
+        }
+
+        return addedDependencies;
+    },
+
+    _getSliceUnionImportantDependencies: function(codeConstruct)
+    {
+        var allDependencies = codeConstruct.graphNode.dataDependencies;
+
+        //Remove all already traversed and the ones after the maximum indexed one
+        var otherDependencies = [];
+
+        for(var i = 0; i < allDependencies.length; i++)
+        {
+            var dependency = allDependencies[i];
+
+            if(dependency.hasBeenTraversed
+            || dependency.destinationNode.model.shouldBeIncluded
+            || dependency.index > codeConstruct.maxIncludedByDependencyIndex) { continue; }
+
+            var callExpression = this.dependencyCallExpressionMapping[dependency.index];
+
+            if(callExpression != null && callExpression.shouldBeIncluded)
+            {
+                otherDependencies.push(dependency);
+            }
+        }
+
+        return otherDependencies;
+    },
+
+    _includedConstructsMap: {},
+
+    _mainTraverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint)
+    {
+        this._traverseAndMark(codeConstruct, maxDependencyIndex, dependencyConstraint);
+    },
+
+    _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint)
+    {
+        Firecrow.includeNode(codeConstruct, maxDependencyIndex);
+
+        this._includedConstructsMap[codeConstruct.nodeId] = codeConstruct;
+
         codeConstruct.inclusionDependencyConstraint = dependencyConstraint;
 
         var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);

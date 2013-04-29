@@ -11,7 +11,7 @@ var fcCommands = Firecrow.Interpreter.Commands;
 var fcModel = Firecrow.Interpreter.Model;
 
 //<editor-fold desc="Execution Context">
-fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, globalObject)
+fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, globalObject, contextCreationCommand)
 {
     try
     {
@@ -32,6 +32,8 @@ fcSimulator.ExecutionContext = function(variableObject, scopeChain, thisObject, 
 
         this.codeConstructValuesMapping = {};
         this.commands = [];
+
+        this.contextCreationCommand = contextCreationCommand;
     }
     catch(e) { fcSimulator.ExecutionContext.notifyError("Error when constructing execution context: " + e); }
 };
@@ -664,7 +666,11 @@ fcSimulator.ExecutionContextStack.prototype =
         var sentArgumentsValues = null;
         var arguments = [];
 
-        this.globalObject.browser.logEnteringFunction(functionConstruct);
+        this.globalObject.browser.logEnteringFunction
+        (
+            enterFunctionCommand.parentFunctionCommand != null ? enterFunctionCommand.parentFunctionCommand.codeConstruct : null,
+            functionConstruct
+        );
 
         if(enterFunctionCommand.isEnterEventHandler) { sentArgumentsValues = enterFunctionCommand.argumentValues; }
         else
@@ -707,6 +713,28 @@ fcSimulator.ExecutionContextStack.prototype =
                 enterFunctionCommand
             )
         );
+    },
+
+    _exitFunctionContext: function(exitFunctionContextCommand)
+    {
+        this.pop();
+
+        this.dependencyCreator.createExitFunctionDependencies(exitFunctionContextCommand.parentFunctionCommand);
+
+        if(this.activeContext != null && this.activeContext.contextCreationCommand != null)
+        {
+            var currentContextCreationCommand = this.activeContext.contextCreationCommand;
+
+            this.globalObject.browser.logEnteringFunction
+            (
+                currentContextCreationCommand.parentFunctionCommand != null ? currentContextCreationCommand.parentFunctionCommand.codeConstruct : null,
+                currentContextCreationCommand.callee.codeConstruct
+            );
+        }
+        else
+        {
+            this.globalObject.browser.logEnteringFunction(null, null);
+        }
     },
 
     _getFormalParameters: function(functionConstruct)
@@ -773,13 +801,6 @@ fcSimulator.ExecutionContextStack.prototype =
         {
             return this.getExpressionValue(argument);
         }, this);
-    },
-
-    _exitFunctionContext: function(exitFunctionContextCommand)
-    {
-        this.pop();
-
-        this.dependencyCreator.createExitFunctionDependencies(exitFunctionContextCommand.parentFunctionCommand);
     },
 
     _evalStartWithCommand: function(startWithCommand)

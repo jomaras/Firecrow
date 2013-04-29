@@ -26,6 +26,7 @@ Firecrow.Slicer = {
         browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
         browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
         browser.registerBreakContinueReturnEventReached(dependencyGraph.handleBreakContinueReturnEventReached, dependencyGraph);
+        browser.registerEnterFunctionCallback(dependencyGraph.handleEnterFunction, dependencyGraph);
 
         browser.evaluatePage();
         dependencyGraph.markGraph(htmlModel.htmlElement);
