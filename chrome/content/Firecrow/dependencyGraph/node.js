@@ -128,6 +128,51 @@ FBL.ns(function() { with (FBL) {
             return selectedDependencies;
         },
 
+        getSliceUnionImportantDependencies: function(minExclusiveIndex, maxInclusiveIndex)
+        {
+            var dependencies = this.dataDependencies;
+
+            //Remove all already traversed and the ones after the maximum indexed one
+            var selectedDependencies = [];
+
+            for(var i = dependencies.length - 1; i >= 0; i--)
+            {
+                var dependency = dependencies[i];
+
+                if(dependency.isValueDependency && dependency.index > minExclusiveIndex && dependency.index <= maxInclusiveIndex)
+                {
+                    if(!dependency.hasBeenTraversed && !dependency.destinationNode.model.shouldBeIncluded)
+                    {
+                        selectedDependencies.push(dependency);
+
+                        for(var j = i + 1; j < dependencies.length; j++)
+                        {
+                            if(!this._areDependenciesInTheSameGroupAndCanBeFollowed(dependency, dependencies[j], dependency.dependencyCreationInfo))
+                            {
+                                break;
+                            }
+
+                            selectedDependencies.push(dependencies[j]);
+                        }
+
+                        for(var j = i - 1; j >= 0; j--)
+                        {
+                            if(!this._areDependenciesInTheSameGroupAndCanBeFollowed(dependency, dependencies[j], dependency.dependencyCreationInfo))
+                            {
+                                break;
+                            }
+
+                            selectedDependencies.push(dependencies[j]);
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            return selectedDependencies;
+        },
+
         _areDependenciesInTheSameGroupAndCanBeFollowed: function(dependency1, dependency2, destinationConstraint)
         {
             return (dependency1.dependencyCreationInfo.groupId.indexOf(dependency2.dependencyCreationInfo.groupId) == 0

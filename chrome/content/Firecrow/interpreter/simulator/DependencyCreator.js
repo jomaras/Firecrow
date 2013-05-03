@@ -335,12 +335,12 @@ fcSimulator.DependencyCreator.prototype =
         if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createIdentifierSimpleDependencies(identifier, identifierConstruct); }
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
 
+        this._addDependencyToIdentifierDeclaration(identifier, identifierConstruct, evaluationPosition);
+
         if(this._willIdentifierBeReadInAssignmentExpression(identifierConstruct))
         {
             this._addDependencyToLastModificationPoint(identifier, identifierConstruct, evaluationPosition);
         }
-
-        this._addDependencyToIdentifierDeclaration(identifier, identifierConstruct, evaluationPosition);
     },
 
     _createIdentifierSimpleDependencies: function(identifier, identifierConstruct)
@@ -369,7 +369,19 @@ fcSimulator.DependencyCreator.prototype =
             identifierConstruct,
             identifier.lastModificationPosition.codeConstruct,
             evaluationPosition,
-            identifier.lastModificationPosition.evaluationPositionId
+            identifier.lastModificationPosition.evaluationPositionId,
+            null,
+            true
+        );
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            identifierConstruct,
+            identifier.value.codeConstruct,
+            evaluationPosition,
+            identifier.lastModificationPosition.evaluationPositionId,
+            null,
+            true
         );
     },
 
@@ -391,7 +403,9 @@ fcSimulator.DependencyCreator.prototype =
             identifierConstruct,
             ASTHelper.isVariableDeclarator(identifier.declarationPosition.codeConstruct) ? identifier.declarationPosition.codeConstruct.id
                                                                                           : identifier.declarationPosition.codeConstruct,
-            evaluationPosition
+            evaluationPosition,
+            null, null,
+            true
         );
     },
 
@@ -466,11 +480,23 @@ fcSimulator.DependencyCreator.prototype =
                 {
                     this.globalObject.browser.callDataDependencyEstablishedCallbacks
                     (
-                        memberExpression.property,
+                        memberExpression,
                         fcProperty.lastModificationPosition.codeConstruct,
                         evaluationPosition,
-                        fcProperty.lastModificationPosition.evaluationPositionId
+                        fcProperty.lastModificationPosition.evaluationPositionId,
+                        null,
+                        true
                     );
+
+                    /*this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                    (
+                        memberExpression,
+                        fcProperty.lastModificationPosition.codeConstruct,
+                        evaluationPosition,
+                        fcProperty.lastModificationPosition.evaluationPositionId,
+                        null,
+                        true
+                    );*/
                 }
                 else  if(fcProperty.declarationPosition != null)
                 {
@@ -479,7 +505,9 @@ fcSimulator.DependencyCreator.prototype =
                         memberExpression.property,
                         fcProperty.declarationPosition.codeConstruct,
                         evaluationPosition,
-                        fcProperty.declarationPosition.evaluationPositionId
+                        fcProperty.declarationPosition.evaluationPositionId,
+                        null,
+                        true
                     );
                 }
             }

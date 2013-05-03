@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+    <script>
+  var obj1 = {
+    x: function()
+    {
+      return 1;
+    },
+    id: 1
+  };
+  var obj2 = {
+    x: function()
+    {
+      return 2;
+    },
+    id: 2
+  };
+  var obj3 = {id: 3};
+  var obj4 = {
+    x: function()
+    {
+      return 4;
+    },
+    id: 4
+  };
+  var obj5 = {
+    x: function()
+    {
+      return 5;
+    },
+    id: 5
+  };
+  var array = [obj2, obj3, obj1, obj4, obj5];
+  array.sort(function(a, b)
+  {
+    return a.x() - b.x();
+  });
+  var a1 = array[0].id;
+  var a2 = array[1].id;
+  var a3 = array[2].id;
+  var a4 = array[3].id;
+  var a5 = array[4].id;
+  a1;
+  a2;
+  a3;
+  a4;
+  a5;
+</script>
+</head>
+
+</html>

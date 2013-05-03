@@ -61,6 +61,13 @@ NEXT:
 
     - i think i could remove the way i handled return expressions in that case
 
+    - tried with differentiating between pure data-dependencies and the rest, but it didn't work on it's own
+
+    - another idea: while evaluating the application, keep a list of evaluated member and call expressions
+      (these are the ones that can cause null exceptions) along with the index of the last dependency created from them;
+      add this after the command has been evaluated; then when the first phases of marking are done,
+      go through the list and for each included element check whether there is an untraversed (pure-data) dependency
+      whose index is less than the stored dependency.
 
 
 
@@ -116,6 +123,10 @@ NEXT:
 - gauss OK
 - medialize - not running
 - sylvester - 61-Plane-containement problem
+
+
+******************* Suggestions
+- maybe visualize the relationships between full, profiled and extracted code (bars similar to the ones used in Reuse-Driven Interprocedural Slicing)
 ------------------------------------------------------------------------------------------------------------------------
 Testing TO-DO list:
 -

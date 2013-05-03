@@ -721,20 +721,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
         this.dependencyCreator.createExitFunctionDependencies(exitFunctionContextCommand.parentFunctionCommand);
 
-        if(this.activeContext != null && this.activeContext.contextCreationCommand != null)
-        {
-            var currentContextCreationCommand = this.activeContext.contextCreationCommand;
-
-            this.globalObject.browser.logEnteringFunction
-            (
-                currentContextCreationCommand.parentFunctionCommand != null ? currentContextCreationCommand.parentFunctionCommand.codeConstruct : null,
-                currentContextCreationCommand.callee.codeConstruct
-            );
-        }
-        else
-        {
-            this.globalObject.browser.logEnteringFunction(null, null);
-        }
+        this.globalObject.browser.logExitingFunction();
     },
 
     _getFormalParameters: function(functionConstruct)
@@ -813,7 +800,8 @@ fcSimulator.ExecutionContextStack.prototype =
         this.activeContext.popFromScopeChain();
     },
 
-    notifyError: function(message) { fcSimulator.ExecutionContext.notifyError(message); }
+
+    notifyError: function(message) { debugger; fcSimulator.ExecutionContext.notifyError(message); }
 };
 /*************************************************************************************/
 }});

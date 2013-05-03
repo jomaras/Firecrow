@@ -172,7 +172,7 @@ fcSimulator.InternalExecutor.prototype =
         this._createProperty(fcNavigator, "taintEnabled", true);//TODO HACK
         this._createProperty(fcNavigator, "plugins", this._createPluginsArray(), this.globalObject.origWindow.navigator.plugins);
 
-        return new fcModel.fcValue(navigator, fcNavigator, navigator);
+        return new fcModel.fcValue(navigator, fcNavigator);
     },
 
     _createPluginsArray: function()

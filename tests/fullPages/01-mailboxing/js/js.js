@@ -119,4 +119,4 @@ setInterval(function () {
         .fadeIn(300)
         .end()
         .appendTo('.review-slide');
-}, 1000);
+}, 5000);

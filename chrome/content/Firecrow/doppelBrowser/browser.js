@@ -36,6 +36,7 @@ fcBrowser.Browser = function(pageModel)
         this.importantConstructReachedCallbacks = [];
         this.documentReadyCallbacks = [];
         this.enterFunctionCallbacks = [];
+        this.exitFunctionCallbacks = [];
         this.breakContinueReturnEventsCallbacks = [];
 
         this.domQueriesMap = {};
@@ -92,7 +93,7 @@ fcBrowser.Browser.LAST_USED_ID = 0;
 
 var Browser = Firecrow.DoppelBrowser.Browser;
 
-Browser.prototype =
+Browser.prototype = dummy =
 {
     evaluatePage: function()
     {
@@ -338,6 +339,11 @@ Browser.prototype =
         }
 
         this.callEnterFunctionCallbacks(callExpression, functionConstruct);
+    },
+
+    logExitingFunction: function()
+    {
+        this.callExitFunctionCallbacks();
     },
 
     logConstructExecuted: function(codeConstruct)
@@ -832,6 +838,13 @@ Browser.prototype =
         this.enterFunctionCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerExitFunctionCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - enter function callback has to be a function!"); return; }
+
+        this.exitFunctionCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     _callDocumentReadyCallbacks: function()
     {
         this.documentReadyCallbacks.forEach(function(callbackObject)
@@ -845,6 +858,14 @@ Browser.prototype =
         this.enterFunctionCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, callExpression, functionConstruct);
+        });
+    },
+
+    callExitFunctionCallbacks: function()
+    {
+        this.exitFunctionCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject);
         });
     },
 
@@ -896,13 +917,18 @@ Browser.prototype =
         });
     },
 
-    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies)
+    callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies, isValueDependency)
     {
         if(sourceNode == null || targetNode == null) { return; }
 
         this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
         {
-            callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies);
+            callbackObject.callback.call
+            (
+                callbackObject.thisObject, sourceNode, targetNode,
+                dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies,
+                isValueDependency
+            );
         });
     },
 

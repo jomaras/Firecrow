@@ -46,7 +46,7 @@ fcModel.Identifier.prototype =
     setValue: function(newValue, modificationConstruct)
     {
         try
-        {  if(this.id == 84651) debugger;
+        {
             if(this.writable === false) { return; }
 
             this.value = newValue;

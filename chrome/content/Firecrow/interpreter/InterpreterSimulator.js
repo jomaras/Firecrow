@@ -25,6 +25,8 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, h
 
     this.messageGeneratedCallbacks = [];
     this.controlFlowConnectionCallbacks = [];
+
+    globalObject.importantExpressionsTrace = globalObject.importantExpressionsTrace || [];
 };
 
 var fcSimulator = Firecrow.Interpreter.InterpreterSimulator;
@@ -33,7 +35,7 @@ fcSimulator.log = [];
 fcSimulator.logTrace = false;
 fcSimulator.notifyError = function(message) { alert("InterpreterSimulator - " + message); }
 
-fcSimulator.prototype =
+fcSimulator.prototype = dummy =
 {
     runSync: function()
     {
@@ -46,11 +48,21 @@ fcSimulator.prototype =
             {
                 var command = this.commands[this.currentCommandIndex];
 
+                var codeConstruct = command.codeConstruct;
+
+                //if(codeConstruct.nodeId == 51) debugger;
+
                 this.globalObject.setCurrentCommand(command);
 
                 this._processCommand(command);
 
-                this.callControlFlowConnectionCallbacks(command.codeConstruct);
+                this.callControlFlowConnectionCallbacks(codeConstruct);
+
+                if(ASTHelper.isMemberExpression(codeConstruct.parent) || ASTHelper.isCallExpressionCallee(codeConstruct))
+                {
+
+                    this.globalObject.importantExpressionsTrace.push({codeConstruct: codeConstruct, index: codeConstruct.maxCreatedDependencyIndex });
+                }
 
                 /*if(timer.hasMoreThanSecondsElapsed(120))
                 {

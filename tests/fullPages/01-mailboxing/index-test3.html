@@ -283,10 +283,6 @@
       jQuery.extend = jQuery.fn.extend = function()
       {
         var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
-        if(typeof target === 'boolean');
-
-        if(typeof target !== 'object');
-
         if(length === i)
         {
           target = this;
@@ -325,7 +321,7 @@
             readyList.fireWith(document, [null]);
             if(jQuery.fn.trigger)
             {
-              jQuery(document).trigger('ready');
+              jQuery(document);
             }
           }
         }, 
@@ -513,7 +509,7 @@
           }
 
 
-          return chainable ? elems : bulk ? fn.call(elems) : length ? fn(elems[0], key) : 0;
+          return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : 0;
         }, 
         now: function()
         {
@@ -587,8 +583,6 @@
           {
             add(arguments);
           }
-
-          return this;
         }, 
         fireWith: function(context, args)
         {
@@ -613,8 +607,7 @@
       input = div.getElementsByTagName('input')[0];
       support = {
         opacity: /^0.55/.test(a.style.opacity), 
-        html5Clone: document.createElement('nav').cloneNode(true).outerHTML !== '<:nav></:nav>', 
-        pixelMargin: true
+        html5Clone: document.createElement('nav').cloneNode(true).outerHTML !== '<:nav></:nav>'
       };
       input.checked = true;
       input = document.createElement('input');
@@ -641,10 +634,6 @@
         tds = div.getElementsByTagName('td');
         isSupported = tds[0].offsetHeight === 0;
         support.reliableHiddenOffsets = isSupported && tds[0].offsetHeight === 0;
-        if(window.getComputedStyle)
-        {
-          support.pixelMargin = (window.getComputedStyle(div, null)).marginTop !== '1%';
-        }
       });
       return support;
     })();
@@ -657,8 +646,6 @@
       {}, 
       data: function(elem, name, data, pvt)
       {
-        if(!(jQuery.acceptData(elem)));
-
         var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
         if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
         {
@@ -678,8 +665,6 @@
           cache[id] = {};
         }
 
-        if(typeof name === 'object' || typeof name === 'function');
-
         thisCache = cache[id];
         if(!pvt)
         {
@@ -695,8 +680,6 @@
         {
           thisCache[jQuery.camelCase(name)] = data;
         }
-
-        if(isEvents);
 
         if(getByName)
         {
@@ -720,36 +703,13 @@
         return jQuery.data(elem, name, data, true);
       }, 
       acceptData: function(elem)
-      {
-        if(elem.nodeName)
-        {
-          var match = jQuery.noData[elem.nodeName.toLowerCase()];
-          if(match);
-        }
-
-        return true;
-      }
+      {}
     });
     jQuery.fn.extend({
       data: function(key, value)
       {
-        var parts, part, elem = this[0], data;
-        parts = key.split('.', 2);
-        parts[1] = parts[1] ? 0 : '';
-        part = parts[1] + '!';
         return jQuery.access(this, function(value)
         {
-          if(value === undefined)
-          {
-            data = this.triggerHandler('getData' + part, [null]);
-            if(data === undefined && elem)
-            {
-              jQuery.data(elem, key);
-            }
-
-            return ;
-          }
-
           this.each(function()
           {
             var self = jQuery(this);
@@ -803,7 +763,6 @@
             queue.unshift('inprogress');
           }
 
-          jQuery._data(elem, type + '.run', hooks);
           fn.call(elem, function()
           {}, hooks);
         }
@@ -871,8 +830,6 @@
             }
           }
         }
-
-        return this;
       }, 
       removeClass: function(value)
       {
@@ -908,7 +865,6 @@
       val: function(value)
       {}
     });
-    (['radio', 'checkbox'], null);
     var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
     {
       return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
@@ -968,30 +924,6 @@
           }
         }
       }, 
-      global: {}, 
-      customEvent: {'getData': true}, 
-      trigger: function(event, data, elem, onlyHandlers)
-      {
-        var type = event.type || event, i, cur, special, eventPath;
-        if(type.indexOf('!') >= 0)
-        {
-          type = type.slice(0, -1);
-        }
-
-        if((!elem || jQuery.event.customEvent[type]) && !(jQuery.event.global[type]))
-        {
-          return ;
-        }
-
-        event = typeof event === 'object' ? 0 : new jQuery.Event(type);
-        special = jQuery.event.special[type];
-        eventPath = [[elem, special.bindType || type]];
-        for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
-        {
-          cur = eventPath[i][0];
-          jQuery._data(cur, 'events');
-        }
-      }, 
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
@@ -1042,9 +974,7 @@
         event = jQuery.Event(originalEvent);
         return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
       }, 
-      special: {
-        ready: {}
-      }
+      special: {}
     };
     jQuery.Event = function(src, props)
     {
@@ -1083,12 +1013,6 @@
       isPropagationStopped: returnFalse, 
       isImmediatePropagationStopped: returnFalse
     };
-    ({mouseenter: 'mouseover', mouseleave: 'mouseout'}, null);
-    if(false)
-    {
-      ({focus: 'focusin', blur: 'focusout'}, null);
-    }
-
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one)
       {
@@ -1113,10 +1037,7 @@
       one: function(types, selector, data, fn)
       {}, 
       off: function(types, selector, fn)
-      {
-        return (function()
-        {});
-      }, 
+      {}, 
       bind: function(types, data, fn)
       {
         return this.on(types, null, data, fn);
@@ -1132,19 +1053,9 @@
       undelegate: function(selector, types, fn)
       {}, 
       trigger: function(type, data)
-      {
-        return this.each(function()
-        {
-          jQuery.event.trigger(type, data, this);
-        });
-      }, 
+      {}, 
       triggerHandler: function(type, data)
-      {
-        if(this[0])
-        {
-          return jQuery.event.trigger(type, data, this[0], true);
-        }
-      }, 
+      {}, 
       toggle: function(fn)
       {}, 
       hover: function(fnOver, fnOut)
@@ -1247,16 +1158,10 @@
 
         return results;
       };
-      Sizzle.uniqueSort = function(results)
-      {};
       Sizzle.matches = function(expr, set)
       {
         return Sizzle(expr, null, null, set);
       };
-      Sizzle.matchesSelector = function(node, expr)
-      {};
-      Sizzle.find = function(expr, context, isXML)
-      {};
       Sizzle.filter = function(expr, set, inplace, not)
       {
         var match, anyFound, type, found, item, filter, i, pass, result = [], curLoop = set, isXMLFilter = set && set[0] && Sizzle.isXML(set[0]);
@@ -1318,10 +1223,6 @@
 
         return curLoop;
       };
-      Sizzle.error = function(msg)
-      {};
-      var getText = Sizzle.getText = function(elem)
-      {};
       var Expr = Sizzle.selectors = {
         match: {ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/, ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/, TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/, CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/, POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/, PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/}, 
         leftMatch: {}, 
@@ -1429,7 +1330,7 @@
         if(results)
         {
           results.push.apply(results, array);
-          return results;
+          return ;
         }
 
         return array;
@@ -1506,35 +1407,10 @@
         var html = document.documentElement, matches = html.matchesSelector || html.mozMatchesSelector;
         if(matches)
         {
-          var disconnectedMatch = !(matches.call(document.createElement('div'), 'div')), pseudoWorks;
-          try
-          {
-            matches.call(document.documentElement, '[test!=\'\']:sizzle');
-          }
-          catch(pseudoError)
-          {
-            pseudoWorks = true;
-          }
           Sizzle.matchesSelector = function(node, expr)
           {
             expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, '=\'$1\']');
-            if(!(Sizzle.isXML(node)))
-            {
-              try
-              {
-                if(pseudoWorks)
-                {
-                  var ret = matches.call(node, expr);
-                  if(ret || !disconnectedMatch)
-                  {
-                    return ret;
-                  }
-                }
-              }
-              catch(e){}
-            }
-
-            return Sizzle(expr, null, null, [node]).length > 0;
+            return Sizzle(expr, null, null, [node]);
           };
         }
       })();
@@ -1591,7 +1467,7 @@
       {}, 
       is: function(selector)
       {
-        return !(!selector) && (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this).length > 0 : 0);
+        return (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this) : 0);
       }, 
       closest: function(selectors, context)
       {}, 
@@ -1660,7 +1536,7 @@
           expr = (':not(' + expr) + ')';
         }
 
-        return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : [] : jQuery.find.matches(expr, elems);
+        return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : 0 : jQuery.find.matches(expr, elems);
       }, 
       dir: function(elem, dir, until)
       {
@@ -1723,7 +1599,7 @@
       var safeFrag = document.createDocumentFragment();
       return safeFrag;
     }
-    var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rhtml = /<|&#?\w+;/, rnocache = /<(?:script|object|embed|option|style)/i, wrapMap = {
+    var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, rnocache = /<(?:script|object|embed|option|style)/i, wrapMap = {
       _default: [0, '', '']
     }, safeFragment = createSafeFragment(document);
     jQuery.fn.extend({
@@ -1791,8 +1667,6 @@
             }
           }
         }
-
-        return this;
       }
     });
     jQuery.buildFragment = function(args, nodes, scripts)
@@ -1827,7 +1701,7 @@
         if(parent && parent.nodeType === 11 && parent.childNodes.length === 1 && insert.length === 1)
         {
           insert[original](this[0]);
-          return this;
+          return ;
         }
         else 
         {
@@ -1835,8 +1709,10 @@
           {
             var elems = (i > 0 ? 0 : this).get();
             jQuery(insert[i])[original](elems);
-            ret.concat(elems);
+            ret = ret.concat(elems);
           }
+
+          return this.pushStack(ret, name, insert.selector);
         }
       };
     });
@@ -1858,7 +1734,7 @@
             else 
             {
               elem = elem.replace(rxhtmlTag, '<$1></$2>');
-              var tag, wrap = wrapMap[tag] || wrapMap._default, div = context.createElement('div');
+              var tag = (rtagName.exec(elem))[1].toLowerCase(), wrap = wrapMap[tag] || wrapMap._default, div = context.createElement('div');
               if(context === document)
               {
                 safeFragment.appendChild(div);
@@ -1895,8 +1771,6 @@
             }
           }
         }
-
-        return ret;
       }, 
       cleanData: function(elems)
       {}
@@ -1988,10 +1862,7 @@
         if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
         {
           ret = computedStyle.getPropertyValue(name);
-          if(ret === '');
         }
-
-        if(!(jQuery.support.pixelMargin));
 
         return ret;
       };
@@ -2060,35 +1931,7 @@
       };
     }
 
-    ({margin: '', padding: '', border: 'Width'}, null);
-    ('ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend'.split(' '), null);
-    (['get', 'post'], null);
-    ({
-      jsonp: 'callback', 
-      jsonpCallback: function()
-      {}
-    });
-    (null, function(s, originalSettings, jqXHR)
-    {});
-    ({
-      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
-      contents: {script: /javascript|ecmascript/}, 
-      converters: {
-        'text script': function(text)
-        {}
-      }
-    });
-    (null, function(s)
-    {});
-    (null, function(s)
-    {});
-    if(false)
-    {
-      (function(s)
-      {});
-    }
-
-    var rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
+    var rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i, timerId, fxNow;
     jQuery.fn.extend({
       show: function(speed, easing, callback)
       {
@@ -2096,15 +1939,7 @@
         if(speed || speed === 0);
         else 
         {
-          for(var i = 0, j = this.length;i < j;i++)
-          {
-            elem = this[i];
-            if(elem.style)
-            {
-              if(!(jQuery._data(elem, 'olddisplay')));
-            }
-          }
-
+          for(var i = 0, j = this.length;i < j;i++);
           for(i = 0;i < j;i++)
           {
             elem = this[i];
@@ -2160,7 +1995,7 @@
         prop = jQuery.extend({}, prop);
         function doAnimation()
         {
-          var opt = jQuery.extend({}, optall), isElement = this.nodeType === 1, hidden = isElement && jQuery(this).is(':hidden'), name, val, p, e, parts, start, end, unit, method;
+          var opt = jQuery.extend({}, optall), hidden = jQuery(this).is(':hidden'), name, val, p, e, parts, start, end, unit, method;
           opt.animatedProperties = {};
           for(name in prop)
           {
@@ -2202,8 +2037,6 @@
               }
             }
           }
-
-          return true;
         }
         return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
       }, 
@@ -2222,7 +2055,6 @@
     function genFx(type, num)
     {
       var obj = {};
-      (fxAttrs.concat.apply([], fxAttrs.slice(0, num)), null);
       return obj;
     }
     jQuery.each({
@@ -2311,43 +2143,31 @@
       show: function()
       {
         var dataShow = jQuery._data(this.elem, 'fxshow' + this.prop);
-        this.options.show = true;
         if(dataShow !== undefined);
         else 
         {
           this.custom(this.prop === 'width' || this.prop === 'height' ? 0 : 0, this.cur());
         }
 
-        jQuery(this.elem).show();
+        jQuery(this.elem);
       }, 
       hide: function()
       {
-        jQuery._data(this.elem, 'fxshow' + this.prop);
         this.options.hide = true;
         this.custom(this.cur(), 0);
       }, 
       step: function(gotoEnd)
       {
-        var p, n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
+        var n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
         if(gotoEnd || t >= (options.duration + this.startTime))
         {
           this.now = this.end;
           this.update();
-          options.animatedProperties[this.prop] = true;
           if(done)
           {
             if(options.hide)
             {
-              jQuery(elem).hide();
-            }
-
-            if(options.hide || options.show)
-            {
-              for(p in options.animatedProperties)
-              {
-                (null, 'fxshow' + p, null);
-                (null, 'toggle' + p, null);
-              }
+              jQuery(elem);
             }
 
             complete = options.complete;
@@ -2411,18 +2231,8 @@
         }
       }
     });
-    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
-    {
-      if(prop.indexOf('margin'));
-    });
-    ({scrollLeft: 'pageXOffset', scrollTop: 'pageYOffset'}, null);
     jQuery.each({Height: 'height', Width: 'width'}, function(name, type)
     {
-      jQuery.fn['inner' + name] = function()
-      {
-        var elem = this[0];
-        return true ? elem.style ? (jQuery.css(elem, type, 'padding')) : 0 : 0;
-      };
       jQuery.fn[type] = function(value)
       {
         return jQuery.access(this, function(elem, type, value)
@@ -2469,7 +2279,6 @@
     function buildOptions($cont, $slides, els, options, o)
     {
       var opts = $.extend({}, $.fn.cycle.defaults, options, $.metadata ? 0 : $.meta ? 0 : {});
-      var meta = $.isFunction($cont.data) ? $cont.data(opts.metaAttr) : 0;
       $cont.data('cycle.opts', opts);
       opts.$cont = $cont;
       opts.elements = els;
@@ -2499,19 +2308,15 @@
         $(this).css('z-index', z);
       });
       $(els[first]).css('opacity', 1).show();
-      var reshape = !($cont.innerHeight());
       $slides.each(function()
       {
         var $el = $(this);
         this.cycleH = opts.fit ? 0 : $el.height();
         this.cycleW = opts.fit ? 0 : $el.width();
-        if($el.is('img'));
-
         return true;
       });
       opts.cssBefore = opts.cssBefore || {};
       opts.cssAfter = opts.cssAfter || {};
-      {};
       opts.animIn = opts.animIn || {};
       opts.animOut = opts.animOut || {};
       $slides.not((':eq(' + first) + ')');
@@ -2555,10 +2360,7 @@
     }
     function saveOriginalOpts(opts)
     {
-      opts.original = {
-        before: [], 
-        after: []
-      };
+      opts.original = {};
       opts.original.cssBefore = $.extend({}, opts.cssBefore);
       opts.original.cssAfter = $.extend({}, opts.cssAfter);
       opts.original.animIn = $.extend({}, opts.animIn);
@@ -2572,7 +2374,6 @@
     {
       fx = fx;
       opts.before = [];
-      [];
       opts.cssBefore = $.extend({}, opts.original.cssBefore);
       opts.cssAfter = $.extend({}, opts.original.cssAfter);
       opts.animIn = $.extend({}, opts.original.animIn);
@@ -2658,7 +2459,6 @@
       }
 
 
-      var cb = opts.onPrevNextEvent || opts.prevNextClick;
       go(els, opts, 1, moveForward);
       return false;
     }
@@ -2692,7 +2492,6 @@
       {
         e.preventDefault();
         opts.nextSlide = i;
-        var cb = opts.onPagerEvent || opts.pagerClick;
         go(els, opts, 1, opts.currSlide < i);
       };
       if(/mouseenter|mouseover/i.test(opts.pagerEvent));

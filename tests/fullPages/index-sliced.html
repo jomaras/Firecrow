@@ -67,11 +67,6 @@ var Native = function(options)
                 return ;
             }
         }
-
-        for(var a in a1)
-        {
-            this.alias(a, a1[a], a2);
-        }
     };
     object.implement = function(a1, a2, a3)
     {
@@ -127,6 +122,7 @@ Native.implement = function(objects, properties)
     }
 })();
 var Hash = new Native({
+    name: 'Hash',
     initialize: function(object)
     {}
 });
@@ -195,10 +191,7 @@ function $type(obj)
 
     if(obj.$family)
     {
-        if(obj.$family.name == 'number' && !(isFinite(obj)))
-        {
-            return ;
-        }
+        if(obj.$family.name == 'number' && !(isFinite(obj)));
         else
         {
             return obj.$family.name;
@@ -269,10 +262,7 @@ var Browser = $merge({
         },
         gecko: function()
         {
-            if(!(document.getBoxObjectFor) && window.mozInnerScreenX == null)
-            {
-                return ;
-            }
+            if(!(document.getBoxObjectFor) && window.mozInnerScreenX == null);
             else
             {
                 if(document.getElementsByClassName)
@@ -366,7 +356,15 @@ Array.implement({
     some: function(fn, bind)
     {},
     associate: function(keys)
-    {},
+    {
+        var obj = {}, length = Math.min(this.length, keys.length);
+        for(var i = 0;i < length;i++)
+        {
+            obj[keys[i]] = this[i];
+        }
+
+        return obj;
+    },
     link: function(object)
     {},
     contains: function(item, from)
@@ -461,7 +459,7 @@ Number.implement({
     toInt: function(base)
     {}
 });
-Number.alias('times', 'each');
+(null, 'each');
 (function(math)
 {
     var methods = {};
@@ -515,7 +513,15 @@ Hash.implement({
     hasValue: function(value)
     {},
     extend: function(properties)
-    {},
+    {
+        if(!properties);
+
+        Hash.each(properties, function(value, key)
+        {
+            Hash.set(this, key, value);
+        }, this);
+        return this;
+    },
     combine: function(properties)
     {},
     erase: function(key)
@@ -523,7 +529,14 @@ Hash.implement({
     get: function(key)
     {},
     set: function(key, value)
-    {},
+    {
+        if(!(this[key]) || this.hasOwnProperty(key))
+        {
+            this[key] = value;
+        }
+
+        return this;
+    },
     empty: function()
     {},
     include: function(key, value)
@@ -543,8 +556,9 @@ Hash.implement({
     toQueryString: function(base)
     {}
 });
-Hash.alias({keyOf: 'indexOf', hasValue: 'contains'});
+({keyOf: 'indexOf', hasValue: 'contains'});
 var Event = new Native({
+    name: 'Event',
     initialize: function(event, win)
     {}
 });
@@ -698,6 +712,12 @@ Native.implement([Element, Document], {
 
         return arg;
     };
+    var attributes = {};
+    var bools = ['compact', 'nowrap', 'ismap', 'declare', 'noshade', 'checked', 'disabled', 'readonly', 'multiple', 'selected', 'noresize', 'defer'];
+    var camels = ['value', 'type', 'defaultValue', 'accessKey', 'cellPadding', 'cellSpacing', 'colSpan', 'frameBorder', 'maxLength', 'readOnly', 'rowSpan', 'tabIndex', 'useMap'];
+    bools = bools.associate(bools);
+    Hash.extend(attributes, bools);
+    Hash.extend(attributes, camels.associate(camels.map(String.toLowerCase)));
     var inserters = {
         before: function(context, element)
         {},
@@ -851,8 +871,6 @@ Native.implement([Element, Window, Document], {
         {
             this.addListener(realType, defn);
         }
-
-        return this;
     },
     removeEvent: function(type, fn)
     {},
@@ -863,11 +881,6 @@ Native.implement([Element, Window, Document], {
     fireEvent: function(type, args, delay)
     {
         var events = this.retrieve('events');
-        if(!events || !(events[type]))
-        {
-            return this;
-        }
-
         events[type].keys.each(function(fn)
         {
             fn.create({
@@ -889,7 +902,6 @@ Element.NativeEvents = {load: 1, DOMContentLoaded: 1};
         }
 
         Browser.loaded = true;
-        window.fireEvent('domready');
         document.fireEvent('domready');
     };
     window.addEvent('load', domready);
