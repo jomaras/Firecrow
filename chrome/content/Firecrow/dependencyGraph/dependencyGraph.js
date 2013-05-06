@@ -271,7 +271,7 @@ FBL.ns(function() { with (FBL) {
 
             for(var i = 0; i < trace.length; i++)
             {
-                var codeConstruct = trace[i].codeConstruct; if(codeConstruct.loc.start.line == 21) debugger;
+                var codeConstruct = trace[i].codeConstruct;
 
                 if(!codeConstruct.shouldBeIncluded) { continue; }
 

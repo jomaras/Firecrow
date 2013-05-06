@@ -106,10 +106,6 @@
       jQuery.extend = jQuery.fn.extend = function()
       {
         var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
-        if(typeof target === 'boolean');
-
-        if(typeof target !== 'object');
-
         if(length === i)
         {
           target = this;
@@ -148,7 +144,7 @@
             readyList.fireWith(document, [null]);
             if(jQuery.fn.trigger)
             {
-              jQuery(document).trigger('ready').off('ready');
+              jQuery(document);
             }
           }
         }, 
@@ -244,14 +240,8 @@
         {}, 
         merge: function(first, second)
         {
-          var i = first.length, j = 0;
-          if(typeof (second.length) === 'number')
-          {
-            for(var l = second.length;j < l;j++);
-          }
-
+          var i = first.length;
           first.length = i;
-          return first;
         }, 
         grep: function(elems, callback, inv)
         {}, 
@@ -337,8 +327,6 @@
           {
             add(arguments);
           }
-
-          return this;
         }, 
         fireWith: function(context, args)
         {
@@ -365,14 +353,9 @@
       expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''), 
       noData: {}, 
       hasData: function(elem)
-      {
-        elem = elem.nodeType ? jQuery.cache[elem[jQuery.expando]] : 0;
-        return !(!elem);
-      }, 
+      {}, 
       data: function(elem, name, data, pvt)
       {
-        if(!(jQuery.acceptData(elem)));
-
         var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
         if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
         {
@@ -392,22 +375,15 @@
           cache[id] = {};
         }
 
-        if(typeof name === 'object' || typeof name === 'function');
-
         thisCache = cache[id];
-        if(!pvt);
-
         if(data !== undefined)
         {
           thisCache[jQuery.camelCase(name)] = data;
         }
 
-        if(isEvents && !(thisCache[name]));
-
         if(getByName)
         {
           ret = thisCache[name];
-          if(ret == null);
         }
         else 
         {
@@ -423,15 +399,7 @@
         return jQuery.data(elem, name, data, true);
       }, 
       acceptData: function(elem)
-      {
-        if(elem.nodeName)
-        {
-          var match = jQuery.noData[elem.nodeName.toLowerCase()];
-          if(match);
-        }
-
-        return true;
-      }
+      {}
     });
     jQuery.extend({
       _mark: function(elem, type)
@@ -476,7 +444,6 @@
             queue.unshift('inprogress');
           }
 
-          jQuery._data(elem, type + '.run', hooks);
           fn.call(elem, function()
           {}, hooks);
         }
@@ -541,8 +508,6 @@
             }
           }
         }
-
-        return this;
       }, 
       removeClass: function(value)
       {
@@ -576,7 +541,6 @@
       val: function(value)
       {}
     });
-    (['radio', 'checkbox'], null);
     var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
     {
       return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
@@ -636,26 +600,6 @@
           }
         }
       }, 
-      remove: function(elem, types, handler, selector, mappedTypes)
-      {
-        var elemData = jQuery.hasData(elem) && jQuery._data(elem);
-        if(!elemData)
-        {
-          return ;
-        }
-      }, 
-      trigger: function(event, data, elem, onlyHandlers)
-      {
-        var type = event.type || event, i, cur, special, eventPath;
-        event = typeof event === 'object' ? 0 : new jQuery.Event(type);
-        special = jQuery.event.special[type];
-        eventPath = [[elem, special.bindType || type]];
-        for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
-        {
-          cur = eventPath[i][0];
-          jQuery._data(cur, 'events');
-        }
-      }, 
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
@@ -698,7 +642,8 @@
         return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
       }, 
       special: {
-        ready: {}
+        focus: {}, 
+        blur: {}
       }
     };
     jQuery.Event = function(src, props)
@@ -713,6 +658,8 @@
         this.originalEvent = src;
         this.type = src.type;
       }
+
+      (src && src.timeStamp) || jQuery.now();
     };
     function returnFalse()
     {
@@ -736,16 +683,9 @@
         bindType: fix
       };
     });
-    if(false)
-    {
-      ({focus: 'focusin', blur: 'focusout'}, null);
-    }
-
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one)
       {
-        if(typeof types === 'object');
-
         if(data == null && fn == null);
         else if(fn == null)
         {
@@ -763,12 +703,6 @@
         }
 
 
-        if(fn === false);
-        else if(!fn);
-
-
-        if(one === 1);
-
         return this.each(function()
         {
           jQuery.event.add(this, types, fn, data, selector);
@@ -779,9 +713,7 @@
       off: function(types, selector, fn)
       {
         return this.each(function()
-        {
-          jQuery.event.remove(this, types, fn, selector);
-        });
+        {});
       }, 
       bind: function(types, data, fn)
       {
@@ -802,12 +734,7 @@
       undelegate: function(selector, types, fn)
       {}, 
       trigger: function(type, data)
-      {
-        return this.each(function()
-        {
-          jQuery.event.trigger(type, data, this);
-        });
-      }, 
+      {}, 
       triggerHandler: function(type, data)
       {}, 
       toggle: function(fn)
@@ -843,7 +770,7 @@
         if(results)
         {
           results.push.apply(results, array);
-          return results;
+          return ;
         }
       };
       (function()
@@ -874,10 +801,6 @@
 
               if(context.nodeType === 9)
               {
-                if(query === 'body');
-                else if(match);
-
-
                 try
                 {
                   return makeArray(context.querySelectorAll(query), extra);
@@ -921,13 +844,10 @@
       find: function(selector)
       {
         var i, l;
-        if(typeof selector !== 'string');
-
         var ret = this.pushStack('', 'find', selector);
         for(i = 0, l = this.length;i < l;i++)
         {
           jQuery.find(selector, this[i], ret);
-          if(i > 0);
         }
 
         return ret;
@@ -949,33 +869,6 @@
       andSelf: function()
       {}
     });
-    ({
-      parent: function(elem)
-      {}, 
-      parents: function(elem)
-      {}, 
-      parentsUntil: function(elem, i, until)
-      {}, 
-      next: function(elem)
-      {}, 
-      prev: function(elem)
-      {}, 
-      nextAll: function(elem)
-      {}, 
-      prevAll: function(elem)
-      {}, 
-      nextUntil: function(elem, i, until)
-      {}, 
-      prevUntil: function(elem, i, until)
-      {}, 
-      siblings: function(elem)
-      {}, 
-      children: function(elem)
-      {}, 
-      contents: function(elem)
-      {}
-    }, null);
-    ({appendTo: 'append', prependTo: 'prepend', insertBefore: 'before', insertAfter: 'after', replaceAll: 'replaceWith'}, null);
     var rupper = /([A-Z]|^ms)/g, cssExpand = ['Top', 'Right', 'Bottom', 'Left'], curCSS, getComputedStyle;
     jQuery.extend({
       cssHooks: {
@@ -1084,34 +977,6 @@
     });
     jQuery(function()
     {});
-    ({margin: '', padding: '', border: 'Width'}, null);
-    ('ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend'.split(' '), null);
-    (['get', 'post'], null);
-    ({
-      jsonp: 'callback', 
-      jsonpCallback: function()
-      {}
-    });
-    (null, function(s, originalSettings, jqXHR)
-    {});
-    ({
-      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
-      contents: {script: /javascript|ecmascript/}, 
-      converters: {
-        'text script': function(text)
-        {}
-      }
-    });
-    (null, function(s)
-    {});
-    (null, function(s)
-    {});
-    if(false)
-    {
-      (function(s)
-      {});
-    }
-
     var rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
     jQuery.fn.extend({
       show: function(speed, easing, callback)
@@ -1165,8 +1030,6 @@
               }
             }
           }
-
-          return true;
         }
         return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
       }, 
@@ -1182,19 +1045,6 @@
     {
       fxNow = undefined;
     }
-    function genFx(type, num)
-    {
-      var obj = {};
-      (fxAttrs.concat.apply([], fxAttrs.slice(0, num)), null);
-    }
-    ({
-      slideDown: genFx('show', 1), 
-      slideUp: genFx('hide', 1), 
-      slideToggle: genFx('toggle', 1), 
-      fadeIn: {}, 
-      fadeOut: {}, 
-      fadeToggle: {}
-    }, null);
     jQuery.extend({
       speed: function(speed, easing, fn)
       {
@@ -1334,7 +1184,6 @@
         };
       }
     });
-    ({scrollLeft: 'pageXOffset', scrollTop: 'pageYOffset'}, null);
     jQuery.each({Height: 'height', Width: 'width'}, function(name, type)
     {
       jQuery.fn[type] = function(value)
@@ -1441,8 +1290,7 @@
     <script charset="utf-8" type="text/javascript">
   $(document).ready(function()
   {
-    $('a[rel=external]').click(function(e)
-    {});
+    $('a[rel=external]');
     $('#portfolio .index a').each(function(i, link)
     {
       $(link).click(function(e)
@@ -1480,7 +1328,7 @@
     });
     $('#portfolio').find('.paginator a').click(function(e)
     {});
-    //$('#speechbubble .inner').append(unescape('%3C%62%72%3E%3C%62%72%3E%3C%73%6D%61%6C%6C%3E%54%68%69%73%20%69%73%20%74%68%65%20%6D%69%6E%69%6D%61%6C%20%74%77%69%73%74%21%3C%2F%73%6D%61%6C%6C%3E'));
+    $('#speechbubble .inner');
     $('#contact form').ajaxForm({});
     $('#contact input, #contact textarea').keyup(function()
     {});
@@ -1652,18 +1500,7 @@
     </div>
 </div>
 
-<div class="container" id="people">
-    
-    
-    
-    <div id="speechbubble">
-        <div class="inner">
-            
-            Nice to meet you and thanks for your message! You should receive a reply from us within two business days.
-            
-        </div>
-    </div>
-</div>
+
 <div class="container" id="contact">
     <div class="form">
         

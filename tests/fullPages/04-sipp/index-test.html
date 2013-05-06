@@ -112,10 +112,6 @@
       jQuery.extend = jQuery.fn.extend = function()
       {
         var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
-        if(typeof target === 'boolean');
-
-        if(typeof target !== 'object');
-
         if(length === i)
         {
           target = this;
@@ -251,14 +247,8 @@
         {}, 
         merge: function(first, second)
         {
-          var i = first.length, j = 0;
-          if(typeof (second.length) === 'number')
-          {
-            for(var l = second.length;j < l;j++);
-          }
-
+          var i = first.length;
           first.length = i;
-          return first;
         }, 
         grep: function(elems, callback, inv)
         {}, 
@@ -356,8 +346,6 @@
           {
             add(arguments);
           }
-
-          return this;
         }, 
         fireWith: function(context, args)
         {
@@ -390,11 +378,6 @@
         tds = div.getElementsByTagName('td');
         isSupported = tds[0].offsetHeight === 0;
         support.reliableHiddenOffsets = isSupported && tds[0].offsetHeight === 0;
-        if(window.getComputedStyle)
-        {
-          support.pixelMargin = (window.getComputedStyle(div, null)).marginTop !== '1%';
-        }
-
         body.removeChild(container);
       });
       return support;
@@ -411,8 +394,6 @@
       }, 
       data: function(elem, name, data, pvt)
       {
-        if(!(jQuery.acceptData(elem)));
-
         var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
         if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
         {
@@ -432,17 +413,11 @@
           cache[id] = {};
         }
 
-        if(typeof name === 'object' || typeof name === 'function');
-
         thisCache = cache[id];
-        if(!pvt);
-
         if(data !== undefined)
         {
           thisCache[jQuery.camelCase(name)] = data;
         }
-
-        if(isEvents && !(thisCache[name]));
 
         if(getByName)
         {
@@ -466,15 +441,7 @@
         return jQuery.data(elem, name, data, true);
       }, 
       acceptData: function(elem)
-      {
-        if(elem.nodeName)
-        {
-          var match = jQuery.noData[elem.nodeName.toLowerCase()];
-          if(match);
-        }
-
-        return true;
-      }
+      {}
     });
     function isEmptyDataObject(obj)
     {
@@ -529,7 +496,6 @@
             queue.unshift('inprogress');
           }
 
-          jQuery._data(elem, type + '.run', hooks);
           fn.call(elem, function()
           {}, hooks);
         }
@@ -594,7 +560,6 @@
       val: function(value)
       {}
     });
-    (['radio', 'checkbox'], null);
     var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
     {
       return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
@@ -691,18 +656,6 @@
           }
         }
       }, 
-      trigger: function(event, data, elem, onlyHandlers)
-      {
-        var type = event.type || event, i, cur, special, eventPath;
-        event = typeof event === 'object' ? 0 : new jQuery.Event(type);
-        special = jQuery.event.special[type];
-        eventPath = [[elem, special.bindType || type]];
-        for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
-        {
-          cur = eventPath[i][0];
-          jQuery._data(cur, 'events');
-        }
-      }, 
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
@@ -785,6 +738,8 @@
         this.originalEvent = src;
         this.type = src.type;
       }
+
+      (src && src.timeStamp) || jQuery.now();
     };
     function returnFalse()
     {
@@ -826,26 +781,9 @@
         }
       };
     });
-    if(false)
-    {
-      ({focus: 'focusin', blur: 'focusout'}, null);
-    }
-
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one)
       {
-        if(typeof types === 'object');
-
-        if(data == null && fn == null);
-        else if(fn == null);
-
-
-        if(fn === false);
-        else if(!fn);
-
-
-        if(one === 1);
-
         return this.each(function()
         {
           jQuery.event.add(this, types, fn, data, selector);
@@ -877,9 +815,7 @@
       trigger: function(type, data)
       {
         return this.each(function()
-        {
-          jQuery.event.trigger(type, data, this);
-        });
+        {});
       }, 
       triggerHandler: function(type, data)
       {}, 
@@ -957,19 +893,13 @@
 
         return results;
       };
-      Sizzle.uniqueSort = function(results)
-      {};
       Sizzle.matches = function(expr, set)
       {
         return Sizzle(expr, null, null, set);
       };
-      Sizzle.matchesSelector = function(node, expr)
-      {};
-      Sizzle.find = function(expr, context, isXML)
-      {};
       Sizzle.filter = function(expr, set, inplace, not)
       {
-        var match, anyFound, type, found, item, filter, left, i, pass, result = [], curLoop = set, isXMLFilter = set && set[0] && Sizzle.isXML(set[0]);
+        var match, anyFound, type, found, item, filter, i, result = [], curLoop = set, isXMLFilter = set && set[0] && Sizzle.isXML(set[0]);
         while(expr && set.length)
         {
           for(type in Expr.filter)
@@ -977,13 +907,8 @@
             if((match = Expr.leftMatch[type].exec(expr)) != null && match[2])
             {
               filter = Expr.filter[type];
-              left = match[1];
               anyFound = false;
               match.splice(1, 1);
-              if(left.substr(left.length - 1) === '\\');
-
-              if(curLoop === result);
-
               if(Expr.preFilter[type])
               {
                 match = Expr.preFilter[type](match, curLoop, inplace, result, not, isXMLFilter);
@@ -991,7 +916,6 @@
                 {
                   anyFound = found = true;
                 }
-                else if(match === true);
               }
 
               if(match)
@@ -1001,9 +925,6 @@
                   if(item)
                   {
                     found = filter(item, match, i, curLoop);
-                    pass = not ^ found;
-                    if(inplace);
-                    else if(pass);
                   }
                 }
               }
@@ -1029,10 +950,6 @@
 
         return curLoop;
       };
-      Sizzle.error = function(msg)
-      {};
-      var getText = Sizzle.getText = function(elem)
-      {};
       var Expr = Sizzle.selectors = {
         match: {ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/, ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/, TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/, CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/, POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/, PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/}, 
         leftMatch: {}, 
@@ -1099,7 +1016,7 @@
         if(results)
         {
           results.push.apply(results, array);
-          return results;
+          return ;
         }
 
         return array;
@@ -1141,10 +1058,6 @@
 
               if(context.nodeType === 9)
               {
-                if(query === 'body');
-                else if(match);
-
-
                 try
                 {
                   return makeArray(context.querySelectorAll(query), extra);
@@ -1170,7 +1083,7 @@
           Sizzle.matchesSelector = function(node, expr)
           {
             expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, '=\'$1\']');
-            return Sizzle(expr, null, null, [node]).length > 0;
+            return Sizzle(expr, null, null, [node]);
           };
         }
       })();
@@ -1201,13 +1114,10 @@
       find: function(selector)
       {
         var i, l;
-        if(typeof selector !== 'string');
-
         var ret = this.pushStack('', 'find', selector);
         for(i = 0, l = this.length;i < l;i++)
         {
           jQuery.find(selector, this[i], ret);
-          if(i > 0);
         }
 
         return ret;
@@ -1220,7 +1130,7 @@
       {}, 
       is: function(selector)
       {
-        return !(!selector) && (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this).length > 0 : 0);
+        return (typeof selector === 'string' ? POS.test(selector) ? 0 : jQuery.filter(selector, this) : 0);
       }, 
       closest: function(selectors, context)
       {}, 
@@ -1280,7 +1190,7 @@
     jQuery.extend({
       filter: function(expr, elems, not)
       {
-        return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : [] : jQuery.find.matches(expr, elems);
+        return elems.length === 1 ? jQuery.find.matchesSelector(elems[0], expr) ? 0 : 0 : jQuery.find.matches(expr, elems);
       }, 
       dir: function(elem, dir, until)
       {}, 
@@ -1331,17 +1241,13 @@
         if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
         {
           ret = computedStyle.getPropertyValue(name);
-          if(ret === '');
         }
-
-        if(!(jQuery.support.pixelMargin));
 
         return ret;
       };
     }
 
     curCSS = getComputedStyle;
-    (['height', 'width'], null);
     jQuery(function()
     {});
     if(jQuery.expr && jQuery.expr.filters)
@@ -1353,34 +1259,7 @@
       };
     }
 
-    ('ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend'.split(' '), null);
-    (['get', 'post'], null);
-    ({
-      jsonp: 'callback', 
-      jsonpCallback: function()
-      {}
-    });
-    (null, function(s, originalSettings, jqXHR)
-    {});
-    ({
-      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
-      contents: {script: /javascript|ecmascript/}, 
-      converters: {
-        'text script': function(text)
-        {}
-      }
-    });
-    (null, function(s)
-    {});
-    (null, function(s)
-    {});
-    if(false)
-    {
-      (function(s)
-      {});
-    }
-
-    var rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
+    var rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i, timerId, fxNow;
     jQuery.fn.extend({
       show: function(speed, easing, callback)
       {}, 
@@ -1415,7 +1294,7 @@
         prop = jQuery.extend({}, prop);
         function doAnimation()
         {
-          var opt = jQuery.extend({}, optall), isElement = this.nodeType === 1, hidden = isElement && jQuery(this).is(':hidden'), name, val, p, e, parts, start, end, unit;
+          var opt = jQuery.extend({}, optall), hidden = jQuery(this).is(':hidden'), name, val, p, e, parts, start, end, unit;
           opt.animatedProperties = {};
           for(name in prop)
           {
@@ -1449,8 +1328,6 @@
               }
             }
           }
-
-          return true;
         }
         return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
       }, 
@@ -1470,17 +1347,7 @@
 
         return this.each(function()
         {
-          var index, hadTimers = false, timers = jQuery.timers, data = jQuery._data(this);
-          if(!gotoEnd);
-
-          if(type == null)
-          {
-            for(index in data)
-            {
-              if(data[index] && data[index].stop);
-            }
-          }
-
+          var index, hadTimers = false, timers = jQuery.timers;
           for(index = timers.length;index--;)
           {
             if(timers[index].elem === this && type == null)
@@ -1511,15 +1378,6 @@
     {
       fxNow = undefined;
     }
-    function genFx(type, num)
-    {
-      (fxAttrs.concat.apply([], fxAttrs.slice(0, num)), null);
-    }
-    ({
-      slideDown: genFx('show', 1), 
-      slideUp: genFx('hide', 1), 
-      slideToggle: genFx('toggle', 1)
-    }, null);
     jQuery.extend({
       speed: function(speed, easing, fn)
       {
@@ -1655,10 +1513,6 @@
         }
       }
     });
-    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
-    {
-      if(prop.indexOf('margin'));
-    });
     var getOffset, rroot = /^(?:body|html)$/i;
     if('getBoundingClientRect' in document.documentElement)
     {
@@ -1685,9 +1539,7 @@
       position: function()
       {
         var elem = this[0], offsetParent = this.offsetParent(), offset = this.offset(), parentOffset = rroot.test(offsetParent[0].nodeName) ? 0 : offsetParent.offset();
-        (jQuery.css(elem, 'marginTop'));
         offset.left -= parseFloat(jQuery.css(elem, 'marginLeft')) || 0;
-        (jQuery.css(offsetParent[0], 'borderTopWidth'));
         parentOffset.left += parseFloat(jQuery.css(offsetParent[0], 'borderLeftWidth')) || 0;
         return {
           left: offset.left - parentOffset.left
@@ -1698,7 +1550,6 @@
         return this.map(function()
         {
           var offsetParent = this.offsetParent;
-          while(jQuery.css(offsetParent, 'position'));
           return offsetParent;
         });
       }
@@ -1718,7 +1569,6 @@
       if(!c)
       return true;
     }
-    (['backgroundColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor', 'borderColor', 'color', 'outlineColor'], null);
     f.fn.extend({
       _addClass: f.fn.addClass, 
       addClass: function(c, a, b, d)
@@ -1827,11 +1677,9 @@
   $(function()
   {
     $('.error').hide();
-    $('input.text-input')({backgroundColor: '#FFFFFF'});
-    $('input.text-input').focus(function()
-    {});
-    $('input.text-input').blur(function()
-    {});
+    $('input.text-input');
+    $('input.text-input');
+    $('input.text-input');
     $('.sendButton').click(function()
     {});
   });

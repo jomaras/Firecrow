@@ -141,8 +141,7 @@
       var jQuery = function(selector, context)
       {
         return new jQuery.fn.init(selector, context, rootjQuery);
-      }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function(all, letter)
-      {}, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
+      }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, readyList, DOMContentLoaded, toString = Object.prototype.toString, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
       jQuery.fn = jQuery.prototype = {
         constructor: jQuery, 
         init: function(selector, context, rootjQuery)
@@ -233,10 +232,6 @@
       jQuery.extend = jQuery.fn.extend = function()
       {
         var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
-        if(typeof target === 'boolean');
-
-        if(typeof target !== 'object');
-
         if(length === i)
         {
           target = this;
@@ -275,7 +270,7 @@
             readyList.fireWith(document, [null]);
             if(jQuery.fn.trigger)
             {
-              jQuery(document).trigger('ready');
+              jQuery(document);
             }
           }
         }, 
@@ -318,9 +313,7 @@
         globalEval: function(data)
         {}, 
         camelCase: function(string)
-        {
-          return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
-        }, 
+        {}, 
         nodeName: function(elem, name)
         {}, 
         each: function(object, callback, args)
@@ -362,7 +355,6 @@
         {
           var i = first.length;
           first.length = i;
-          return first;
         }, 
         grep: function(elems, callback, inv)
         {}, 
@@ -470,8 +462,6 @@
           {
             add(arguments);
           }
-
-          return this;
         }, 
         fireWith: function(context, args)
         {
@@ -502,8 +492,6 @@
       {}, 
       data: function(elem, name, data, pvt)
       {
-        if(!(jQuery.acceptData(elem)));
-
         var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
         if((!id || !(cache[id]) || !isEvents) && getByName && data === undefined)
         {
@@ -524,21 +512,6 @@
         }
 
         thisCache = cache[id];
-        if(!pvt)
-        {
-          if(!(thisCache.data))
-          {
-            thisCache.data = {};
-          }
-
-          thisCache = thisCache.data;
-        }
-
-        if(data !== undefined)
-        {
-          thisCache[jQuery.camelCase(name)] = data;
-        }
-
         if(getByName)
         {
           ret = thisCache[name];
@@ -557,15 +530,7 @@
         return jQuery.data(elem, name, data, true);
       }, 
       acceptData: function(elem)
-      {
-        if(elem.nodeName)
-        {
-          var match = jQuery.noData[elem.nodeName.toLowerCase()];
-          if(match);
-        }
-
-        return true;
-      }
+      {}
     });
     jQuery.fn.extend({
       data: function(key, value)
@@ -588,13 +553,9 @@
             return data === undefined && parts[1] ? 0 : data;
           }
 
-          parts[1] = value;
           this.each(function()
           {
             var self = jQuery(this);
-            self.triggerHandler('setData' + part, parts);
-            jQuery.data(this, key, value);
-            self.triggerHandler('changeData' + part, parts);
           });
         }, null, value, arguments.length > 1, null, false);
       }, 
@@ -709,7 +670,6 @@
           else 
           {
             elem.setAttribute(name, '' + value);
-            return value;
           }
         }
       }, 
@@ -721,8 +681,7 @@
       {}, 
       propHooks: {}
     });
-    (['radio', 'checkbox'], null);
-    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, rfocusMorph = /^(?:focusinfocus|focusoutblur)$/, hoverHack = function(events)
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
     {
       return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
     };
@@ -782,33 +741,18 @@
         }
       }, 
       global: {}, 
-      customEvent: {'getData': true, 'setData': true, 'changeData': true}, 
+      customEvent: {'getData': true}, 
       trigger: function(event, data, elem, onlyHandlers)
       {
-        if(elem && (elem.nodeType === 3 || elem.nodeType === 8));
-
-        var type = event.type || event, i, cur, special, eventPath;
-        if(rfocusMorph.test(type + jQuery.event.triggered));
-
+        var type = event.type || event;
         if(type.indexOf('!') >= 0)
         {
           type = type.slice(0, -1);
         }
 
-        if(type.indexOf('.') >= 0);
-
         if((!elem || jQuery.event.customEvent[type]) && !(jQuery.event.global[type]))
         {
           return ;
-        }
-
-        event = typeof event === 'object' ? 0 : new jQuery.Event(type);
-        special = jQuery.event.special[type];
-        eventPath = [[elem, special.bindType || type]];
-        for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
-        {
-          cur = eventPath[i][0];
-          jQuery._data(cur, 'events');
         }
       }, 
       dispatch: function(event)
@@ -851,9 +795,7 @@
         event = jQuery.Event(originalEvent);
         return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
       }, 
-      special: {
-        ready: {}
-      }
+      special: {}
     };
     jQuery.Event = function(src, props)
     {
@@ -912,12 +854,7 @@
       undelegate: function(selector, types, fn)
       {}, 
       trigger: function(type, data)
-      {
-        return this.each(function()
-        {
-          jQuery.event.trigger(type, data, this);
-        });
-      }, 
+      {}, 
       triggerHandler: function(type, data)
       {
         if(this[0])
@@ -962,7 +899,7 @@
         if(results)
         {
           results.push.apply(results, array);
-          return results;
+          return ;
         }
       };
       (function()
@@ -1046,54 +983,8 @@
       andSelf: function()
       {}
     });
-    (['height', 'width'], null);
     jQuery(function()
     {});
-    ('ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend'.split(' '), null);
-    (['get', 'post'], null);
-    ({
-      jsonp: 'callback', 
-      jsonpCallback: function()
-      {}
-    });
-    (null, function(s, originalSettings, jqXHR)
-    {});
-    ({
-      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
-      contents: {script: /javascript|ecmascript/}, 
-      converters: {
-        'text script': function(text)
-        {}
-      }
-    });
-    (null, function(s)
-    {});
-    (null, function(s)
-    {});
-    if(false)
-    {
-      (function(s)
-      {});
-    }
-
-    var fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']];
-    function genFx(type, num)
-    {
-      (fxAttrs.concat.apply([], fxAttrs.slice(0, num)), null);
-    }
-    ({
-      slideDown: genFx('show', 1), 
-      slideUp: genFx('hide', 1), 
-      slideToggle: genFx('toggle', 1)
-    }, null);
-    ({
-      fx: function(elem, options, prop)
-      {}
-    });
-    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
-    {
-      if(prop.indexOf('margin'));
-    });
     window.jQuery = window.$ = jQuery;
   })(window);
 </script>
@@ -1103,10 +994,10 @@
     a.glisse = function(b, c)
     {
       var d = this;
-      var e = a(b), f = {dataName: 'data-glisse-big'};
+      var e = a(b);
       d.init = function()
       {
-        null, null, null, a(e), ('rel'), null, e.on('click', function()
+        null, null, null, a(e), null, null, e.on('click', function()
         {});
       };
       null, d.init();

@@ -600,9 +600,16 @@ Firecrow.CodeTextGenerator.prototype =
 
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
-        if(ASTHelper.isMemberExpression(callExpression.callee) && calleeCode[calleeCode.length-1] == ")" && this._areArgumentsNotIncluded(callExpression.arguments))
+        if(ASTHelper.isMemberExpression(callExpression.callee) && calleeCode[calleeCode.length-1] == ")")
         {
-            return calleeCode;
+            if(this._areArgumentsNotIncluded(callExpression.arguments))
+            {
+                return calleeCode;
+            }
+            else
+            {
+                calleeCode += ";33;";
+            }
         }
         //END HACKY
         return calleeCode

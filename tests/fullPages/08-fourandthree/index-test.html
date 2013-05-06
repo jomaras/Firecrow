@@ -329,7 +329,7 @@
             readyList.fireWith(document, [null]);
             if(jQuery.fn.trigger)
             {
-              jQuery(document).trigger('ready');
+              jQuery(document);
             }
           }
         }, 
@@ -405,8 +405,6 @@
               }
             }
           }
-
-          return object;
         }, 
         trim: trim ? function(text)
         {
@@ -527,8 +525,6 @@
           {
             add(arguments);
           }
-
-          return this;
         }, 
         fireWith: function(context, args)
         {
@@ -566,8 +562,6 @@
       {}, 
       data: function(elem, name, data, pvt)
       {
-        if(!(jQuery.acceptData(elem)));
-
         var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
         if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
         {
@@ -611,15 +605,7 @@
         return jQuery.data(elem, name, data, true);
       }, 
       acceptData: function(elem)
-      {
-        if(elem.nodeName)
-        {
-          var match = jQuery.noData[elem.nodeName.toLowerCase()];
-          if(match);
-        }
-
-        return true;
-      }
+      {}
     });
     var rclass = /[\n\t\r]/g, rspace = /\s+/, rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i, nodeHook;
     jQuery.fn.extend({
@@ -678,8 +664,6 @@
             }
           }
         }
-
-        return this;
       }, 
       toggleClass: function(value, stateVal)
       {}, 
@@ -717,7 +701,6 @@
       {}, 
       propHooks: {}
     });
-    (['radio', 'checkbox'], null);
     var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
     {
       return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
@@ -777,18 +760,6 @@
           }
         }
       }, 
-      trigger: function(event, data, elem, onlyHandlers)
-      {
-        var type = event.type || event, i, cur, special, eventPath;
-        event = typeof event === 'object' ? 0 : new jQuery.Event(type);
-        special = jQuery.event.special[type];
-        eventPath = [[elem, special.bindType || type]];
-        for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
-        {
-          cur = eventPath[i][0];
-          jQuery._data(cur, 'events');
-        }
-      }, 
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
@@ -830,9 +801,7 @@
         event = jQuery.Event(originalEvent);
         return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
       }, 
-      special: {
-        ready: {}
-      }
+      special: {}
     };
     jQuery.Event = function(src, props)
     {
@@ -863,12 +832,6 @@
       isPropagationStopped: returnFalse, 
       isImmediatePropagationStopped: returnFalse
     };
-    ({mouseenter: 'mouseover', mouseleave: 'mouseout'}, null);
-    if(false)
-    {
-      ({focus: 'focusin', blur: 'focusout'}, null);
-    }
-
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one)
       {
@@ -894,12 +857,7 @@
       undelegate: function(selector, types, fn)
       {}, 
       trigger: function(type, data)
-      {
-        return this.each(function()
-        {
-          jQuery.event.trigger(type, data, this);
-        });
-      }, 
+      {}, 
       triggerHandler: function(type, data)
       {}, 
       toggle: function(fn)
@@ -933,7 +891,7 @@
         if(results)
         {
           results.push.apply(results, array);
-          return results;
+          return ;
         }
       };
       (function()
@@ -1167,7 +1125,7 @@
     });
     jQuery.buildFragment = function(args, nodes, scripts)
     {
-      var fragment, doc;
+      var fragment, cacheable, doc;
       if(nodes && nodes[0])
       {
         doc = nodes[0].ownerDocument;
@@ -1180,7 +1138,8 @@
       }
 
       return {
-        fragment: fragment
+        fragment: fragment, 
+        cacheable: cacheable
       };
     };
     jQuery.each({appendTo: 'append', prependTo: 'prepend', insertBefore: 'before', insertAfter: 'after', replaceAll: 'replaceWith'}, function(name, original)
@@ -1278,37 +1237,9 @@
     }
 
     curCSS = getComputedStyle;
-    (['height', 'width'], null);
     jQuery(function()
     {});
-    ('ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend'.split(' '), null);
-    (['get', 'post'], null);
-    ({
-      jsonp: 'callback', 
-      jsonpCallback: function()
-      {}
-    });
-    (null, function(s, originalSettings, jqXHR)
-    {});
-    ({
-      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
-      contents: {script: /javascript|ecmascript/}, 
-      converters: {
-        'text script': function(text)
-        {}
-      }
-    });
-    (null, function(s)
-    {});
-    (null, function(s)
-    {});
-    if(false)
-    {
-      (function(s)
-      {});
-    }
-
-    var elemdisplay = {}, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']];
+    var elemdisplay = {};
     jQuery.fn.extend({
       show: function(speed, easing, callback)
       {
@@ -1389,23 +1320,6 @@
       {}, 
       stop: function(type, clearQueue, gotoEnd)
       {}
-    });
-    function genFx(type, num)
-    {
-      (fxAttrs.concat.apply([], fxAttrs.slice(0, num)), null);
-    }
-    ({
-      slideDown: genFx('show', 1), 
-      slideUp: genFx('hide', 1), 
-      slideToggle: genFx('toggle', 1)
-    }, null);
-    ({
-      fx: function(elem, options, prop)
-      {}
-    });
-    jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
-    {
-      if(prop.indexOf('margin'));
     });
     function defaultDisplay(nodeName)
     {

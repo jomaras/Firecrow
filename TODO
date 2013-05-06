@@ -103,7 +103,7 @@ NEXT:
 
 
  - 02a - OK; F: 192 599; S: 101 255; (error when generating text)
- - 02b - OK; F: 140 567; S: 76 935;
+ - 02b - NOK; F: 140 567; S: 76 935;
  - 03 -  OK; F: 86 088;  S: 38 036;
  - 04 -  OK; F: 107 054; S: 70 892;
     - there is a problem with a return statement in the remove: function()
@@ -114,7 +114,9 @@ NEXT:
 
  - 05 - OK;  F: 137 596; S: 99 555;
  - 06 - OK;
- - 07 - OK  F: 64 583; S: 35 072 (NOK - $(window).height() not working in FF)
+ - 07 - OK  F: 64 583; S: 35 072 (NOK - $(window).height() not working in FF) - važan je i argument
+   func(a).test({a:b()}) -> important func(a) and b();
+
  - 08 - OK  F: 34 040; S: 17 200
  - 09 - NOK F: 176 179; S:139 802   (fixHook in fix: function(event))
  - 10 - OK  F: 193 200; S:

@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
-    
-    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-
-    
-
-    <script type="text/javascript">
+        
+        
+        <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        
+        <script type="text/javascript">
   (function(window, undefined)
   {
     var document = window.document;
@@ -109,10 +107,6 @@
       jQuery.extend = jQuery.fn.extend = function()
       {
         var options, name, copy, target = arguments[0], i = 1, length = arguments.length, deep = false;
-        if(typeof target === 'boolean');
-
-        if(typeof target !== 'object');
-
         if(length === i)
         {
           target = this;
@@ -151,7 +145,7 @@
             readyList.fireWith(document, [null]);
             if(jQuery.fn.trigger)
             {
-              jQuery(document).trigger('ready').off('ready');
+              jQuery(document);
             }
           }
         }, 
@@ -172,9 +166,7 @@
           return jQuery.type(obj) === 'array';
         }, 
         isWindow: function(obj)
-        {
-          return obj != null && obj == obj.window;
-        }, 
+        {}, 
         isNumeric: function(obj)
         {}, 
         type: function(obj)
@@ -222,8 +214,6 @@
               }
             }
           }
-
-          return object;
         }, 
         trim: trim ? function(text)
         {
@@ -249,7 +239,6 @@
         {
           var i = first.length;
           first.length = i;
-          return first;
         }, 
         grep: function(elems, callback, inv)
         {}, 
@@ -335,8 +324,6 @@
           {
             add(arguments);
           }
-
-          return this;
         }, 
         fireWith: function(context, args)
         {
@@ -352,25 +339,10 @@
       };
       return self;
     };
-    jQuery.support = (function()
+    (function()
     {
-      var support, div;
-      support = {};
-      support.boxModel = document.compatMode === 'CSS1Compat';
       jQuery(function()
-      {
-        var container, body = document.getElementsByTagName('body')[0];
-        container = document.createElement('div');
-        body.insertBefore(container, body.firstChild);
-        div = document.createElement('div');
-        if(window.getComputedStyle)
-        {
-          support.pixelMargin = (window.getComputedStyle(div, null)).marginTop !== '1%';
-        }
-
-        body.removeChild(container);
-      });
-      return support;
+      {});
     })();
     jQuery.extend({
       cache: {}, 
@@ -381,8 +353,6 @@
       {}, 
       data: function(elem, name, data, pvt)
       {
-        if(!(jQuery.acceptData(elem)));
-
         var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[internalKey] : elem[internalKey], isEvents = name === 'events';
         if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
         {
@@ -406,17 +376,11 @@
           cache[id] = {};
         }
 
-        if(typeof name === 'object' || typeof name === 'function');
-
         thisCache = cache[id];
-        if(!pvt);
-
         if(data !== undefined)
         {
           thisCache[jQuery.camelCase(name)] = data;
         }
-
-        if(isEvents);
 
         if(getByName)
         {
@@ -440,15 +404,7 @@
         return jQuery.data(elem, name, data, true);
       }, 
       acceptData: function(elem)
-      {
-        if(elem.nodeName)
-        {
-          var match = jQuery.noData[elem.nodeName.toLowerCase()];
-          if(match);
-        }
-
-        return true;
-      }
+      {}
     });
     jQuery.extend({
       _mark: function(elem, type)
@@ -464,9 +420,13 @@
           q = jQuery._data(elem, type);
           if(data)
           {
-            if(!q)
+            if(!q || jQuery.isArray(data))
             {
               q = jQuery._data(elem, type, jQuery.makeArray(data));
+            }
+            else 
+            {
+              q.push(data);
             }
           }
 
@@ -477,9 +437,18 @@
       {
         type = type;
         var queue = jQuery.queue(elem, type), fn = queue.shift(), hooks = {};
+        if(fn === 'inprogress')
+        {
+          fn = queue.shift();
+        }
+
         if(fn)
         {
-          jQuery._data(elem, type + '.run', hooks);
+          if(type === 'fx')
+          {
+            queue.unshift('inprogress');
+          }
+
           fn.call(elem, function()
           {}, hooks);
         }
@@ -558,7 +527,6 @@
       {}, 
       propHooks: {}
     });
-    (['radio', 'checkbox'], null);
     var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
     {
       return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
@@ -618,18 +586,6 @@
           }
         }
       }, 
-      trigger: function(event, data, elem, onlyHandlers)
-      {
-        var type = event.type || event, i, cur, special, eventPath;
-        event = typeof event === 'object' ? 0 : new jQuery.Event(type);
-        special = jQuery.event.special[type];
-        eventPath = [[elem, special.bindType || type]];
-        for(i = 0;i < eventPath.length && !(event.isPropagationStopped());i++)
-        {
-          cur = eventPath[i][0];
-          jQuery._data(cur, 'events');
-        }
-      }, 
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
@@ -671,9 +627,7 @@
         event = jQuery.Event(originalEvent);
         return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
       }, 
-      special: {
-        ready: {}
-      }
+      special: {}
     };
     jQuery.Event = function(src, props)
     {
@@ -704,12 +658,6 @@
       isPropagationStopped: returnFalse, 
       isImmediatePropagationStopped: returnFalse
     };
-    ({mouseenter: 'mouseover', mouseleave: 'mouseout'}, null);
-    if(false)
-    {
-      ({focus: 'focusin', blur: 'focusout'}, null);
-    }
-
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one)
       {
@@ -721,10 +669,7 @@
       one: function(types, selector, data, fn)
       {}, 
       off: function(types, selector, fn)
-      {
-        return this.each(function()
-        {});
-      }, 
+      {}, 
       bind: function(types, data, fn)
       {}, 
       unbind: function(types, fn)
@@ -738,12 +683,7 @@
       undelegate: function(selector, types, fn)
       {}, 
       trigger: function(type, data)
-      {
-        return this.each(function()
-        {
-          jQuery.event.trigger(type, data, this);
-        });
-      }, 
+      {}, 
       triggerHandler: function(type, data)
       {}, 
       toggle: function(fn)
@@ -777,14 +717,9 @@
         if(results)
         {
           results.push.apply(results, array);
-          return results;
+          return ;
         }
       };
-      try
-      {
-        (document.documentElement.childNodes, null).nodeType;
-      }
-      catch(e){}
       (function()
       {
         var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
@@ -851,33 +786,6 @@
       andSelf: function()
       {}
     });
-    ({
-      parent: function(elem)
-      {}, 
-      parents: function(elem)
-      {}, 
-      parentsUntil: function(elem, i, until)
-      {}, 
-      next: function(elem)
-      {}, 
-      prev: function(elem)
-      {}, 
-      nextAll: function(elem)
-      {}, 
-      prevAll: function(elem)
-      {}, 
-      nextUntil: function(elem, i, until)
-      {}, 
-      prevUntil: function(elem, i, until)
-      {}, 
-      siblings: function(elem)
-      {}, 
-      children: function(elem)
-      {}, 
-      contents: function(elem)
-      {}
-    }, null);
-    ({appendTo: 'append', prependTo: 'prepend', insertBefore: 'before', insertAfter: 'after', replaceAll: 'replaceWith'}, null);
     var rupper = /([A-Z]|^ms)/g, curCSS, getComputedStyle;
     jQuery.extend({
       cssHooks: {
@@ -948,47 +856,15 @@
         if((defaultView = elem.ownerDocument.defaultView) && (computedStyle = defaultView.getComputedStyle(elem, null)))
         {
           ret = computedStyle.getPropertyValue(name);
-          if(ret === '');
         }
-
-        if(!(jQuery.support.pixelMargin));
 
         return ret;
       };
     }
 
     curCSS = getComputedStyle;
-    (['height', 'width'], null);
     jQuery(function()
     {});
-    ({margin: '', padding: '', border: 'Width'}, null);
-    ('ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend'.split(' '), null);
-    (['get', 'post'], null);
-    ({
-      jsonp: 'callback', 
-      jsonpCallback: function()
-      {}
-    });
-    (null, function(s, originalSettings, jqXHR)
-    {});
-    ({
-      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
-      contents: {script: /javascript|ecmascript/}, 
-      converters: {
-        'text script': function(text)
-        {}
-      }
-    });
-    (null, function(s)
-    {});
-    (null, function(s)
-    {});
-    if(false)
-    {
-      (function(s)
-      {});
-    }
-
     var rfxtypes = /^(?:toggle|show|hide)$/, timerId, fxAttrs = [['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'], ['width', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'], ['opacity']], fxNow;
     jQuery.fn.extend({
       show: function(speed, easing, callback)
@@ -1007,8 +883,6 @@
               {
                 elem.style.display = '';
               }
-
-              if(jQuery.css(elem, 'display'));
             }
           }
 
@@ -1024,8 +898,6 @@
               }
             }
           }
-
-          return this;
         }
       }, 
       hide: function(speed, easing, callback)
@@ -1054,8 +926,6 @@
               this[i].style.display = 'none';
             }
           }
-
-          return this;
         }
       }, 
       _toggle: jQuery.fn.toggle, 
@@ -1069,7 +939,7 @@
         prop = jQuery.extend({}, prop);
         function doAnimation()
         {
-          var opt = jQuery.extend({}, optall), name, val, p, e, method;
+          var opt = jQuery.extend({}, optall), hidden = jQuery(this), name, val, p, e, method;
           opt.animatedProperties = {};
           for(name in prop)
           {
@@ -1095,8 +965,6 @@
               }
             }
           }
-
-          return true;
         }
         return optall.queue === false ? 0 : this.queue(optall.queue, doAnimation);
       }, 
@@ -1115,7 +983,6 @@
     function genFx(type, num)
     {
       var obj = {};
-      (fxAttrs.concat.apply([], fxAttrs.slice(0, num)), null);
       return obj;
     }
     jQuery.each({
@@ -1137,6 +1004,7 @@
       {
         var opt = speed ? 0 : {
           complete: fn || (!fn && easing) || jQuery.isFunction(speed), 
+          duration: speed, 
           easing: fn || easing
         };
         opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? 0 : opt.duration in jQuery.fx.speeds ? 0 : jQuery.fx.speeds._default;
@@ -1224,8 +1092,6 @@
               for(p in options.animatedProperties)
               {
                 jQuery.style(elem, p, options.orig[p]);
-                (null, 'fxshow' + p, null);
-                (null, 'toggle' + p, null);
               }
             }
 
@@ -1292,30 +1158,15 @@
         };
       }
     });
-    ({scrollLeft: 'pageXOffset', scrollTop: 'pageYOffset'}, null);
-    jQuery.each({Height: 'height', Width: 'width'}, function(name, type)
-    {
-      var clientProp = 'client' + name;
-      jQuery.fn[type] = function(value)
-      {
-        return jQuery.access(this, function(elem, type, value)
-        {
-          var doc;
-          if(jQuery.isWindow(elem))
-          {
-            doc = elem.document;
-            return jQuery.support.boxModel || (doc.body && doc.body[clientProp]);
-          }
-        }, type, value, arguments.length, null);
-      };
-    });
     window.$ = jQuery;
   })(window);
 </script>
-    <script type="text/javascript">
+        <script type="text/javascript">
   $(function()
   {
-
+    $('#ribbon');33;({
+      'height': $(window)
+    });
     $(window).resize(function()
     {});
     $('#frame-list li a').click(function(e)
@@ -1329,148 +1180,170 @@
     });
   });
 </script>
-</head>
-<body>
-<div id="wrapper">
-    <div id="wrapper-outer">
-        <div id="wrapper-inner">
-            <div id="ribbon">
-                
-            </div>
-            <div id="wrapper-right">
-                
-                
-                
+    </head>
+    
+    <body>
+        <div id="wrapper">
+            <div id="wrapper-outer">
+                <div id="wrapper-inner">
+                    <div id="ribbon">
+                        
+                    </div>
+                    <div id="wrapper-right">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <div id="content">
+                            <div class="inner-content">
+                                <section id="up-section">
+                                    <div id="col-1">
+                                        <div class="price">Introductory price of $1.99</div>
+                                        <div id="image-area">
+                                            <img alt="" src="images/ipad-screen-1.jpg" id="screen-1"/>
+                                            <img style="display:none" alt="" src="images/ipad-screen-2.jpg" id="screen-2"/>
+                                            <img style="display:none" alt="" src="images/ipad-screen-3.jpg" id="screen-3"/>
+                                        </div>
+                                    </div>
+                                    <div id="col-2">
+                                        <div id="frame-list">
+                                            <ul>
+                                                <li>
+                                                    <a href="#screen-1">
+                                                        <img alt="" src="images/thumb-1.jpg"/>
+                                                    </a><a href="#screen-1" class="icon">View</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#screen-2">
+                                                        <img alt="" src="images/thumb-2.jpg"/>
+                                                    </a><a href="#screen-2" class="icon">View</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#screen-3">
+                                                        <img alt="" src="images/thumb-3.jpg"/>
+                                                    </a><a href="#screen-3" class="icon">View</a>
+                                                </li>
+                                            </ul>
+                                        </div> <span class="app-store"><a href="http://itunes.apple.com/app/instagallery-for-ipad/id422065992?mt=8">Available on the <em>App Store</em></a></span>
 
-                
-                
-                
-
-                
-                <div id="content">
-                    <div class="inner-content">
-                        <section id="up-section">
-                            <div id="col-1">
-
-                                <div class="price">Introductory price of $1.99</div>
-
-                                <div id="image-area">
-                                    <img alt="" src="images/ipad-screen-1.jpg" id="screen-1"/>
-                                    <img style="display:none" alt="" src="images/ipad-screen-2.jpg" id="screen-2"/>
-                                    <img style="display:none" alt="" src="images/ipad-screen-3.jpg" id="screen-3"/>
+                                    </div>
+                                </section>
+                                <section id="down-section">
+                                    <div id="info-area">
+                                        <ul>
+                                            <li class="first">
+                                                <div class="main-area">
+                                                    <a href="#">
+                                                        <img alt="" src="images/btn1.png"/>
+                                                    </a>
+                                                    <div class="right-cont">
+                                                        <p><strong>View</strong> Instagram photos taken by your friends. See an assortment of <strong>popular photos</strong>, view all the photos you've posted, or see all the <strong>photos you've liked</strong>.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="sec">
+                                                <div class="main-area">
+                                                    <a href="#">
+                                                        <img alt="" src="images/btn2.png"/>
+                                                    </a>
+                                                    <div class="right-cont">
+                                                        <p>Easily <strong>navigate</strong> to photos by the same <strong>person</strong>, taken in the same <strong>location</strong>, or with a <strong>tag</strong> from the photo being viewed.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li class="first">
+                                                <div class="main-area">
+                                                    <a href="#">
+                                                        <img alt="" src="images/btn3.png"/>
+                                                    </a>
+                                                    <div class="right-cont">
+                                                        <p>Enjoy a photo you see? Quickly <strong>like</strong> it and see who else has. Or send the photographer a comment expressing your opinion.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="sec">
+                                                <div class="main-area">
+                                                    <a href="#">
+                                                        <img alt="" src="images/btn4.png"/>
+                                                    </a>
+                                                    <div class="right-cont">
+                                                        <p>Show any set of photos as a <strong>slideshow</strong>. Adjust the slide display time to taste. Use <strong>auto-repeat</strong> to keep a running display when your iPad or iPhone is docked at your desk.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li class="first">
+                                                <div class="main-area">
+                                                    <a href="#">
+                                                        <img alt="" src="images/btn5.png"/>
+                                                    </a>
+                                                    <div class="right-cont">
+                                                        <p>Share your own photos or others you like with your friends by posting them to <strong>Facebook</strong> or <strong>Twitter</strong> or sending an <strong>email</strong>. You can even show them on a TV using <strong>video out</strong> or <strong>AirPlay</strong> to
+                                                            an Apple TV.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="sec">
+                                                <div class="main-area">
+                                                    <a href="#">
+                                                        <img alt="" src="images/btn6.png"/>
+                                                    </a>
+                                                    <div class="right-cont">
+                                                        <p>Switch to a <strong>grid view</strong> of any set of photos. If you want to get back to the same set later, save it as one of your <strong>favorite sets</strong>, or see the <strong> recent sets</strong> you've visited.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="nobg">
+                                            <li class="first">
+                                                <div class="main-area">
+                                                    <a href="#">
+                                                        <img alt="" src="images/btn7.png"/>
+                                                    </a>
+                                                    <div class="right-cont">
+                                                        <p>View comments with version 1.2's <strong>improved comment display</strong> which shows more of each comment in the list view, <strong>color codes</strong> them, and can <strong>translate</strong> one to your preferred language. Also, it's now <strong>easier to add tags</strong> to
+                                                            your photos.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="sec">
+                                                <div class="main-area">
+                                                    <a href="#">
+                                                        <img alt="" src="images/btn8.png"/>
+                                                    </a>
+                                                    <div class="right-cont">
+                                                        <p><strong>Integrate</strong> with other apps: View photos in <strong>Safari</strong> or the <strong>Instagram</strong> app or copy the link. <strong>Save</strong> your own photos to your photo library, <strong>copy</strong> them to the clipboard, or <strong>print</strong> them
+                                                            to an AirPrint-compatible printer.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </section>
+                                <div id="iphone">
+                                    <div id="iphone-img">
+                                        <img alt="" src="images/iphone-screen-1.jpg" id="screen-1-iphone"/>
+                                        <img style="display:none" alt="" src="images/iphone-screen-2.jpg" id="screen-2-iphone"/>
+                                        <img style="display:none" alt="" src="images/iphone-screen-3.jpg" id="screen-3-iphone"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div id="col-2">
-                                <div id="frame-list">
-                                    <ul>
-                                        <li><a href="#screen-1"><img alt="" src="images/thumb-1.jpg"/></a><a href="#screen-1" class="icon">View</a></li>
-                                        <li><a href="#screen-2"><img alt="" src="images/thumb-2.jpg"/></a><a href="#screen-2" class="icon">View</a></li>
-                                        <li><a href="#screen-3"><img alt="" src="images/thumb-3.jpg"/></a><a href="#screen-3" class="icon">View</a></li>
-                                    </ul>
-                                </div>
-                                <span class="app-store"><a href="http://itunes.apple.com/app/instagallery-for-ipad/id422065992?mt=8">Available on the <em>App Store</em></a></span>
-                            </div>
-                        </section>
-                        <section id="down-section">
-                            <div id="info-area">
-                                <ul>
-                                    <li class="first">
-                                        <div class="main-area">
-                                            <a href="#"><img alt="" src="images/btn1.png"/></a>
-                                            <div class="right-cont">
-                                                <p><strong>View</strong> Instagram photos taken by your friends. See an assortment of <strong>popular photos</strong>, view all the photos you've posted, or see all the <strong>photos you've liked</strong>.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="sec">
-                                        <div class="main-area">
-                                            <a href="#"><img alt="" src="images/btn2.png"/></a>
-                                            <div class="right-cont">
-                                                <p>Easily <strong>navigate</strong> to photos by the same <strong>person</strong>, taken in the same <strong>location</strong>, or with a <strong>tag</strong> from the photo being viewed.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li class="first">
-                                        <div class="main-area">
-                                            <a href="#"><img alt="" src="images/btn3.png"/></a>
-                                            <div class="right-cont">
-                                                <p>Enjoy a photo you see? Quickly <strong>like</strong> it and see who else has. Or send the photographer a comment expressing your opinion.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="sec">
-                                        <div class="main-area">
-                                            <a href="#"><img alt="" src="images/btn4.png"/></a>
-                                            <div class="right-cont">
-                                                <p>Show any set of photos as a <strong>slideshow</strong>. Adjust the slide display time to taste. Use <strong>auto-repeat</strong> to keep a running display when your iPad or iPhone is docked at your desk.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li class="first">
-                                        <div class="main-area">
-                                            <a href="#"><img alt="" src="images/btn5.png"/></a>
-                                            <div class="right-cont">
-                                                <p>Share your own photos or others you like with your friends by posting them to <strong>Facebook</strong> or <strong>Twitter</strong> or sending an <strong>email</strong>. You can even show them on a TV using <strong>video out</strong> or <strong>AirPlay</strong> to an Apple TV.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="sec">
-                                        <div class="main-area">
-                                            <a href="#"><img alt="" src="images/btn6.png"/></a>
-                                            <div class="right-cont">
-                                                <p>Switch to a <strong>grid view</strong> of any set of photos. If you want to get back to the same set later, save it as one of your <strong>favorite sets</strong>, or see the <strong> recent sets</strong> you've visited.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul class="nobg">
-                                    <li class="first">
-                                        <div class="main-area">
-                                            <a href="#"><img alt="" src="images/btn7.png"/></a>
-                                            <div class="right-cont">
-                                                <p>View comments with version 1.2's <strong>improved comment display</strong> which shows more of each comment in the list view, <strong>color codes</strong> them, and can <strong>translate</strong> one to your preferred language. Also, it's now <strong>easier to add tags</strong> to your photos.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="sec">
-                                        <div class="main-area">
-                                            <a href="#"><img alt="" src="images/btn8.png"/></a>
-                                            <div class="right-cont">
-                                                <p><strong>Integrate</strong> with other apps: View photos in <strong>Safari</strong> or the <strong>Instagram</strong> app or copy the link. <strong>Save</strong> your own photos to your photo library, <strong>copy</strong> them to the clipboard, or <strong>print</strong> them to an AirPrint-compatible printer.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </section>
-
-
-                        <div id="iphone">
-
-                            <div id="iphone-img">
-                                <img alt="" src="images/iphone-screen-1.jpg" id="screen-1-iphone"/>
-                                <img style="display:none" alt="" src="images/iphone-screen-2.jpg" id="screen-2-iphone"/>
-                                <img style="display:none" alt="" src="images/iphone-screen-3.jpg" id="screen-3-iphone"/>
-                            </div>
-
                         </div>
-
-                    </div></div>
-                
-
-                
-                
-                
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    
 
 </body>
 </html>

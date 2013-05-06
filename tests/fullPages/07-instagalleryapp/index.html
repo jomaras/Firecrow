@@ -17,27 +17,7 @@
             document.createElement('footer');
         </script>
         <script type="text/javascript" src="js/jQuery.js"></script>
-        <script type='text/javascript'>
-            $(function () {
-                $('#ribbon').css({
-                    'height': (($(window).height())) + 'px'
-                });
-
-                $(window).resize(function () {
-                    $('#ribbon').css({
-                        'height': (($(window).height())) + 'px'
-                    });
-                });
-
-                $('#frame-list li a').click(function (e) {
-                    var id = $(this).attr('href');
-                    var iphoneId = id + '-iphone';
-                    $('#image-area img, #iphone-img img').hide();
-                    $(id).fadeIn();
-                    $(iphoneId).fadeIn();
-                    e.preventDefault();
-                })
-            });
+        <script type='text/javascript' src="js/script.js">
         </script>
     </head>
     
