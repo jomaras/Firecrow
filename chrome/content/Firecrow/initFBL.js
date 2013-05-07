@@ -39,7 +39,7 @@ FBL.ns(function () { with (FBL)
 
         includeNode: function(node, dependencyIndex)
         {
-            //if(node.loc != null && (node.loc.start.line == 3)) debugger;
+            //if(node.loc != null && (node.loc.start.line == 8845)) debugger;
             //if(node.nodeId == 39405) debugger;
             node.shouldBeIncluded = true;
 

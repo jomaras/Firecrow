@@ -7,23 +7,26 @@
     <body>
         <div id='mainContainer'></div>
         <script>
+            var mainContainer = document.getElementById("mainContainer");
 
-            var a1 = 0;
-
-            function executeFunction(fun)
+            function call()
             {
-                a = fun || function() { };
-
-                a.call(this);
-
-                a1++;
+                (test[prop] || test.default)()
             }
 
-            executeFunction();
-            executeFunction(function()
+            var test =
             {
-                a1++;
-            });
+                a: function(){ mainContainer.textContent = 3;},
+                default: function() { mainContainer.textContent = 4;}
+            };
+
+            var prop = "a";
+
+            call();
+
+            prop = "b";
+
+            call();
         </script>
     </body>
 </html>

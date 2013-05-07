@@ -676,7 +676,8 @@ fcSimulator.DependencyCreator.prototype =
             (
                 logicalExpressionCommand.codeConstruct,
                 executedLogicalExpressionItemConstruct,
-                evaluationPosition
+                evaluationPosition,
+                null, null, i == length - 1 //the data comes from the last
             );
         }
     },

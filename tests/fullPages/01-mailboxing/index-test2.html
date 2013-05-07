@@ -2006,7 +2006,7 @@
     jQuery.fx.prototype = {
       update: function()
       {
-        jQuery.fx.step[this.prop](this);
+        (jQuery.fx.step[this.prop] || jQuery.fx.step._default)(this);
       }, 
       cur: function()
       {
@@ -2122,7 +2122,10 @@
         timerId = null;
       }, 
       speeds: {}, 
-      step: {}
+      step: {
+        _default: function(fx)
+        {}
+      }
     });
     jQuery.each(fxAttrs.concat.apply([], fxAttrs), function(i, prop)
     {

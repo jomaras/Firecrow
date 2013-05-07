@@ -597,7 +597,7 @@ Firecrow.CodeTextGenerator.prototype =
     generateFromCallExpression: function(callExpression)
     {
         var calleeCode = this.generateJsCode(callExpression.callee);
-
+        if(calleeCode == "jQuery.fx.step[this.prop]") debugger;
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
         if(ASTHelper.isMemberExpression(callExpression.callee) && calleeCode[calleeCode.length-1] == ")")

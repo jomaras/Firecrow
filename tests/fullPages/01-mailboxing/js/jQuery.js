@@ -8842,7 +8842,7 @@
                 this.options.step.call(this.elem, this.now, this);
             }
 
-            ([this.prop] || jQuery.fx.step._default)(this);
+            (jQuery.fx.step[this.prop] || jQuery.fx.step._default)(this);
         },
 
         // Get the current size
