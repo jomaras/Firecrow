@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-        
-        
-        <link rel="stylesheet" type="text/css" href="css/reset.css"/>
-        <link rel="stylesheet" type="text/css" href="css/style.css"/>
-        
-        <script type="text/javascript">
+    
+    
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+
+    
+
+    <script type="text/javascript">
   (function(window, undefined)
   {
     var document = window.document;
@@ -420,13 +422,9 @@
           q = jQuery._data(elem, type);
           if(data)
           {
-            if(!q || jQuery.isArray(data))
+            if(!q)
             {
               q = jQuery._data(elem, type, jQuery.makeArray(data));
-            }
-            else 
-            {
-              q.push(data);
             }
           }
 
@@ -437,18 +435,8 @@
       {
         type = type;
         var queue = jQuery.queue(elem, type), fn = queue.shift(), hooks = {};
-        if(fn === 'inprogress')
-        {
-          fn = queue.shift();
-        }
-
         if(fn)
         {
-          if(type === 'fx')
-          {
-            queue.unshift('inprogress');
-          }
-
           fn.call(elem, function()
           {}, hooks);
         }
@@ -1015,12 +1003,7 @@
 
         opt.old = opt.complete;
         opt.complete = function(noUnmark)
-        {
-          if(opt.queue)
-          {
-            jQuery.dequeue(this, opt.queue);
-          }
-        };
+        {};
         return opt;
       }, 
       easing: {
@@ -1079,7 +1062,7 @@
       }, 
       step: function(gotoEnd)
       {
-        var p, n, complete, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
+        var p, n, t = fxNow || createFxNow(), done = true, elem = this.elem, options = this.options;
         if(gotoEnd || t >= (options.duration + this.startTime))
         {
           this.now = this.end;
@@ -1093,12 +1076,6 @@
               {
                 jQuery.style(elem, p, options.orig[p]);
               }
-            }
-
-            complete = options.complete;
-            if(complete)
-            {
-              complete.call(elem);
             }
           }
 
@@ -1161,7 +1138,7 @@
     window.$ = jQuery;
   })(window);
 </script>
-        <script type="text/javascript">
+    <script type="text/javascript">
   $(function()
   {
     $('#ribbon');33;({
@@ -1180,170 +1157,148 @@
     });
   });
 </script>
-    </head>
-    
-    <body>
-        <div id="wrapper">
-            <div id="wrapper-outer">
-                <div id="wrapper-inner">
-                    <div id="ribbon">
-                        
-                    </div>
-                    <div id="wrapper-right">
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <div id="content">
-                            <div class="inner-content">
-                                <section id="up-section">
-                                    <div id="col-1">
-                                        <div class="price">Introductory price of $1.99</div>
-                                        <div id="image-area">
-                                            <img alt="" src="images/ipad-screen-1.jpg" id="screen-1"/>
-                                            <img style="display:none" alt="" src="images/ipad-screen-2.jpg" id="screen-2"/>
-                                            <img style="display:none" alt="" src="images/ipad-screen-3.jpg" id="screen-3"/>
-                                        </div>
-                                    </div>
-                                    <div id="col-2">
-                                        <div id="frame-list">
-                                            <ul>
-                                                <li>
-                                                    <a href="#screen-1">
-                                                        <img alt="" src="images/thumb-1.jpg"/>
-                                                    </a><a href="#screen-1" class="icon">View</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#screen-2">
-                                                        <img alt="" src="images/thumb-2.jpg"/>
-                                                    </a><a href="#screen-2" class="icon">View</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#screen-3">
-                                                        <img alt="" src="images/thumb-3.jpg"/>
-                                                    </a><a href="#screen-3" class="icon">View</a>
-                                                </li>
-                                            </ul>
-                                        </div> <span class="app-store"><a href="http://itunes.apple.com/app/instagallery-for-ipad/id422065992?mt=8">Available on the <em>App Store</em></a></span>
+</head>
+<body>
+<div id="wrapper">
+    <div id="wrapper-outer">
+        <div id="wrapper-inner">
+            <div id="ribbon">
+                
+            </div>
+            <div id="wrapper-right">
+                
+                
+                
 
-                                    </div>
-                                </section>
-                                <section id="down-section">
-                                    <div id="info-area">
-                                        <ul>
-                                            <li class="first">
-                                                <div class="main-area">
-                                                    <a href="#">
-                                                        <img alt="" src="images/btn1.png"/>
-                                                    </a>
-                                                    <div class="right-cont">
-                                                        <p><strong>View</strong> Instagram photos taken by your friends. See an assortment of <strong>popular photos</strong>, view all the photos you've posted, or see all the <strong>photos you've liked</strong>.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="sec">
-                                                <div class="main-area">
-                                                    <a href="#">
-                                                        <img alt="" src="images/btn2.png"/>
-                                                    </a>
-                                                    <div class="right-cont">
-                                                        <p>Easily <strong>navigate</strong> to photos by the same <strong>person</strong>, taken in the same <strong>location</strong>, or with a <strong>tag</strong> from the photo being viewed.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul>
-                                            <li class="first">
-                                                <div class="main-area">
-                                                    <a href="#">
-                                                        <img alt="" src="images/btn3.png"/>
-                                                    </a>
-                                                    <div class="right-cont">
-                                                        <p>Enjoy a photo you see? Quickly <strong>like</strong> it and see who else has. Or send the photographer a comment expressing your opinion.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="sec">
-                                                <div class="main-area">
-                                                    <a href="#">
-                                                        <img alt="" src="images/btn4.png"/>
-                                                    </a>
-                                                    <div class="right-cont">
-                                                        <p>Show any set of photos as a <strong>slideshow</strong>. Adjust the slide display time to taste. Use <strong>auto-repeat</strong> to keep a running display when your iPad or iPhone is docked at your desk.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul>
-                                            <li class="first">
-                                                <div class="main-area">
-                                                    <a href="#">
-                                                        <img alt="" src="images/btn5.png"/>
-                                                    </a>
-                                                    <div class="right-cont">
-                                                        <p>Share your own photos or others you like with your friends by posting them to <strong>Facebook</strong> or <strong>Twitter</strong> or sending an <strong>email</strong>. You can even show them on a TV using <strong>video out</strong> or <strong>AirPlay</strong> to
-                                                            an Apple TV.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="sec">
-                                                <div class="main-area">
-                                                    <a href="#">
-                                                        <img alt="" src="images/btn6.png"/>
-                                                    </a>
-                                                    <div class="right-cont">
-                                                        <p>Switch to a <strong>grid view</strong> of any set of photos. If you want to get back to the same set later, save it as one of your <strong>favorite sets</strong>, or see the <strong> recent sets</strong> you've visited.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="nobg">
-                                            <li class="first">
-                                                <div class="main-area">
-                                                    <a href="#">
-                                                        <img alt="" src="images/btn7.png"/>
-                                                    </a>
-                                                    <div class="right-cont">
-                                                        <p>View comments with version 1.2's <strong>improved comment display</strong> which shows more of each comment in the list view, <strong>color codes</strong> them, and can <strong>translate</strong> one to your preferred language. Also, it's now <strong>easier to add tags</strong> to
-                                                            your photos.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="sec">
-                                                <div class="main-area">
-                                                    <a href="#">
-                                                        <img alt="" src="images/btn8.png"/>
-                                                    </a>
-                                                    <div class="right-cont">
-                                                        <p><strong>Integrate</strong> with other apps: View photos in <strong>Safari</strong> or the <strong>Instagram</strong> app or copy the link. <strong>Save</strong> your own photos to your photo library, <strong>copy</strong> them to the clipboard, or <strong>print</strong> them
-                                                            to an AirPrint-compatible printer.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </section>
-                                <div id="iphone">
-                                    <div id="iphone-img">
-                                        <img alt="" src="images/iphone-screen-1.jpg" id="screen-1-iphone"/>
-                                        <img style="display:none" alt="" src="images/iphone-screen-2.jpg" id="screen-2-iphone"/>
-                                        <img style="display:none" alt="" src="images/iphone-screen-3.jpg" id="screen-3-iphone"/>
-                                    </div>
+                
+                
+                
+
+                
+                <div id="content">
+                    <div class="inner-content">
+                        <section id="up-section">
+                            <div id="col-1">
+
+                                <div class="price">Introductory price of $1.99</div>
+
+                                <div id="image-area">
+                                    <img alt="" src="images/ipad-screen-1.jpg" id="screen-1"/>
+                                    <img style="display:none" alt="" src="images/ipad-screen-2.jpg" id="screen-2"/>
+                                    <img style="display:none" alt="" src="images/ipad-screen-3.jpg" id="screen-3"/>
                                 </div>
                             </div>
+                            <div id="col-2">
+                                <div id="frame-list">
+                                    <ul>
+                                        <li><a href="#screen-1"><img alt="" src="images/thumb-1.jpg"/></a><a href="#screen-1" class="icon">View</a></li>
+                                        <li><a href="#screen-2"><img alt="" src="images/thumb-2.jpg"/></a><a href="#screen-2" class="icon">View</a></li>
+                                        <li><a href="#screen-3"><img alt="" src="images/thumb-3.jpg"/></a><a href="#screen-3" class="icon">View</a></li>
+                                    </ul>
+                                </div>
+                                <span class="app-store"><a href="http://itunes.apple.com/app/instagallery-for-ipad/id422065992?mt=8">Available on the <em>App Store</em></a></span>
+                            </div>
+                        </section>
+                        <section id="down-section">
+                            <div id="info-area">
+                                <ul>
+                                    <li class="first">
+                                        <div class="main-area">
+                                            <a href="#"><img alt="" src="images/btn1.png"/></a>
+                                            <div class="right-cont">
+                                                <p><strong>View</strong> Instagram photos taken by your friends. See an assortment of <strong>popular photos</strong>, view all the photos you've posted, or see all the <strong>photos you've liked</strong>.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="sec">
+                                        <div class="main-area">
+                                            <a href="#"><img alt="" src="images/btn2.png"/></a>
+                                            <div class="right-cont">
+                                                <p>Easily <strong>navigate</strong> to photos by the same <strong>person</strong>, taken in the same <strong>location</strong>, or with a <strong>tag</strong> from the photo being viewed.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="first">
+                                        <div class="main-area">
+                                            <a href="#"><img alt="" src="images/btn3.png"/></a>
+                                            <div class="right-cont">
+                                                <p>Enjoy a photo you see? Quickly <strong>like</strong> it and see who else has. Or send the photographer a comment expressing your opinion.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="sec">
+                                        <div class="main-area">
+                                            <a href="#"><img alt="" src="images/btn4.png"/></a>
+                                            <div class="right-cont">
+                                                <p>Show any set of photos as a <strong>slideshow</strong>. Adjust the slide display time to taste. Use <strong>auto-repeat</strong> to keep a running display when your iPad or iPhone is docked at your desk.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="first">
+                                        <div class="main-area">
+                                            <a href="#"><img alt="" src="images/btn5.png"/></a>
+                                            <div class="right-cont">
+                                                <p>Share your own photos or others you like with your friends by posting them to <strong>Facebook</strong> or <strong>Twitter</strong> or sending an <strong>email</strong>. You can even show them on a TV using <strong>video out</strong> or <strong>AirPlay</strong> to an Apple TV.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="sec">
+                                        <div class="main-area">
+                                            <a href="#"><img alt="" src="images/btn6.png"/></a>
+                                            <div class="right-cont">
+                                                <p>Switch to a <strong>grid view</strong> of any set of photos. If you want to get back to the same set later, save it as one of your <strong>favorite sets</strong>, or see the <strong> recent sets</strong> you've visited.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="nobg">
+                                    <li class="first">
+                                        <div class="main-area">
+                                            <a href="#"><img alt="" src="images/btn7.png"/></a>
+                                            <div class="right-cont">
+                                                <p>View comments with version 1.2's <strong>improved comment display</strong> which shows more of each comment in the list view, <strong>color codes</strong> them, and can <strong>translate</strong> one to your preferred language. Also, it's now <strong>easier to add tags</strong> to your photos.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="sec">
+                                        <div class="main-area">
+                                            <a href="#"><img alt="" src="images/btn8.png"/></a>
+                                            <div class="right-cont">
+                                                <p><strong>Integrate</strong> with other apps: View photos in <strong>Safari</strong> or the <strong>Instagram</strong> app or copy the link. <strong>Save</strong> your own photos to your photo library, <strong>copy</strong> them to the clipboard, or <strong>print</strong> them to an AirPrint-compatible printer.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </section>
+
+
+                        <div id="iphone">
+
+                            <div id="iphone-img">
+                                <img alt="" src="images/iphone-screen-1.jpg" id="screen-1-iphone"/>
+                                <img style="display:none" alt="" src="images/iphone-screen-2.jpg" id="screen-2-iphone"/>
+                                <img style="display:none" alt="" src="images/iphone-screen-3.jpg" id="screen-3-iphone"/>
+                            </div>
+
                         </div>
-                        
-                        
-                        
-                        
-                    </div>
-                </div>
+
+                    </div></div>
+                
+
+                
+                
+                
             </div>
         </div>
-    
+    </div>
+</div>
 
 </body>
 </html>

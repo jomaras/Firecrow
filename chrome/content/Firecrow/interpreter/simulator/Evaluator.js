@@ -187,8 +187,7 @@ fcSimulator.Evaluator.prototype =
 
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
-
-        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 875 && identifierConstruct.name == "length" && identifierValue.jsValue == "0") debugger;
+        if((identifierConstruct.loc.start.line == 222 || identifierConstruct.loc.start.line == 223) && identifierConstruct.name == "object" && identifierValue != null && identifierValue.id >= 70415) debugger;
 
         this.executionContextStack.setExpressionValue
         (
@@ -846,7 +845,7 @@ fcSimulator.Evaluator.prototype =
             return secondArgumentValue != null && secondArgumentValue.jsValue != null ? secondArgumentValue.jsValue : [];
         }
 
-        return callExpressionArgs.map(function(arg)
+        return callExpressionArgs == null ? [] : callExpressionArgs.map(function(arg)
         {
             return this.executionContextStack.getExpressionValue(arg);
         }, this);

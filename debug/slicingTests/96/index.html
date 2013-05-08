@@ -7,26 +7,23 @@
     <body>
         <div id='mainContainer'></div>
         <script>
-            var mainContainer = document.getElementById("mainContainer");
+            var a1 = 3;
 
-            function call()
+            var arguments = [{a:{value:3}}, undefined]
+
+            for (var i = 0; i < arguments.length; i++)
             {
-                (test[prop] || test.default)()
+                var object = arguments[i];
+                if (object == null) continue;
+
+                for (var key in object)
+                {
+                    a1 += object[key].value;
+                }
             }
 
-            var test =
-            {
-                a: function(){ mainContainer.textContent = 3;},
-                default: function() { mainContainer.textContent = 4;}
-            };
 
-            var prop = "a";
-
-            call();
-
-            prop = "b";
-
-            call();
+            a1;
         </script>
     </body>
 </html>

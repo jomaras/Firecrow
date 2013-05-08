@@ -70,8 +70,6 @@ NEXT:
       whose index is less than the stored dependency.
 
 
-
-
 20-mooToolsPlay
  - Continue executing debugTestPages and 20-mooTools;
  - the same problem as with 01c
@@ -79,47 +77,30 @@ NEXT:
 
 *******UI Controls:
  - 01a - OK; F: 140 113; S: 102 979;
- - 01b - NOK; F: 194 325; S: 87 510;  (produces an error, but works, a different error - now a problem with expressions of )
- - 01c - NOK; F: 181 796; S: 136 277; (error on opts.animIn.left..)
-    - it seems that it takes a different path than the browser (the problem is the dependency from the node with the id 46899
-    - it creates a dependency to a construct which is not executed in the original execution at that point)
-    - ln450 ass buildOptions()
-    - ln640 ass resetState()
-    - ln1197 causes error
-    - It seems that this is a fundamental problem... :-/
-    - let's say that we have two slicing criteria that include a function call
-    func example() {
-        $cont.css('overflow', 'none'); -> this one gets included for the first slicing criteria
-        opts.animIn.left = 0; -> this one for the second
-    }
-
-    And let's say that we only have two calls to this function
-    the first call is mapped to the first slicing criteria and includes the first line
-    the second call to the second slicing criteria and includes the first and the second line
-    The problem is that opts.animIn object is created after the first call (and would not be included in the
-    first slice, but since it is included from the second slice, the code gets executed, and throws an error)
-
-    I think it is progressing ¨- the problem now is that it gets stuck on traversing the same dependencies
-
-
- - 02a - OK; F: 192 599; S: 101 255; (error when generating text)
- - 02b - NOK; F: 140 567; S: 76 935;
+ - 01b - OK; F: 194 325; S: 87 510;
+ - 01c - OK; F: 181 796; S: 136 277;
+ - 02a - OK; F: 192 599; S: 101 255;
+ - 02b - OK; F: 140 567; S: 76 935;
  - 03 -  OK; F: 86 088;  S: 38 036;
  - 04 -  OK; F: 107 054; S: 70 892;
-    - there is a problem with a return statement in the remove: function()
-    - the one in the if statement - maybe if an if condition is included when traversing return dependencies
-    - if it also contains a return statement, include that return statement (but not sure about the return expression value) - i've done it in the dependency postprocessor
-      but i'm not sure if it is a good place to do it
-    - doesn't terminate
-
  - 05 - OK;  F: 137 596; S: 99 555;
  - 06 - OK;
- - 07 - OK  F: 64 583; S: 35 072 (NOK - $(window).height() not working in FF) - važan je i argument
-   func(a).test({a:b()}) -> important func(a) and b();
-
- - 08 - OK  F: 34 040; S: 17 200
- - 09 - NOK F: 176 179; S:139 802   (fixHook in fix: function(event))
+ - 07 - OK  F: 64 583; S: 35 072;
+ - 08 - OK  F: 34 040; S: 17 200;
+ - 09 - NOK F: 176 179; S:139 802   (fixHook in fix: function(event)) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  - 10 - OK  F: 193 200; S:
+ - 11 - OK
+ - 12 - OK
+ - 13 - OK
+ - 14 - NOK
+ - 15 - OK
+ - 16 - OK
+ - 17 - OK
+ - 18 - NOK
+ - 19 - OK
+ - 20 - mislin da je problem u tome šta se unutar for petlje nalazi forin, a prije for-ina je continue; i onda vjerojatno ne izbriše dobro for-in naredbu neku!?
+      - test 96 u slicingu :)
+
 
 ******************* Libraries
 - gauss OK

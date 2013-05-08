@@ -830,7 +830,11 @@
       }, 
       fix: function(event)
       {
-        var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type], copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
+        var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
+
+        if(fixHook == null) { return 0;}
+
+        var copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
         event = jQuery.Event(originalEvent);
         for(i = copy.length;i;)
         {
@@ -1776,7 +1780,6 @@
     $.fn.jshowoff = function(settings)
     {
       var config = {
-        autoPlay: true, 
         changeSpeed: 1600, 
         controls: true, 
         controlText: {play: 'Play', pause: 'Pause', next: 'Next', previous: 'Previous'}, 
@@ -1813,21 +1816,12 @@
         {
           $cont.hover(function()
           {
-            if(isPlaying())
-            pause('hover');
+            if(isPlaying());
           }, function()
           {
             if(isPlaying())
             play('hover');
           });
-        }
-
-        if(config.autoPlay && gallery.length > 1)
-        {
-          timer = setInterval(function()
-          {
-            play();
-          }, config.speed);
         }
 
         function transitionTo(gallery, index)
@@ -1866,7 +1860,7 @@
         }
         function isPlaying()
         {
-          return $(('.' + uniqueClass) + '-play').hasClass('jshowoff-paused') ? false : true;
+          return $(('.' + uniqueClass) + '-play').hasClass('jshowoff-paused') ? 0 : true;
         }
         function play(src)
         {
@@ -1874,7 +1868,13 @@
           {
             counter++;
             transitionTo(gallery, counter);
-            if(src == 'hover' || !(isPlaying()));
+            if(src == 'hover' || !(isPlaying()))
+            {
+              timer = setInterval(function()
+              {
+                play();
+              }, config.speed);
+            }
 
             if(!(isPlaying()));
           }
@@ -1882,7 +1882,7 @@
         function pause(src)
         {
           clearInterval(timer);
-          if(!src || src == 'playBtn')
+          if(!src)
           $(('.' + uniqueClass) + '-play').text(config.controlText.play).addClass(('jshowoff-paused ' + uniqueClass) + '-paused');
         }
         function isBusy()
@@ -1892,7 +1892,7 @@
         function goToAndPause(index)
         {
           $cont.children().stop(true, true);
-          if(counter != index || (counter == index && isBusy()))
+          if(counter != index)
           {
             if(isBusy());
 
@@ -1955,7 +1955,7 @@
                 <a href="http://itunes.apple.com/us/app/id518827330?mt=8&ign-mpt=uo%3D6" class="DL"></a>
                 <div id="features">
                     <div class="slide1">	<span class="media">
-    						<span class="headline">Get the iPad application Gizmodo called “App of The Day”</span>
+    						<span class="headline">Get the iPad application Gizmodo called â€œApp of The Dayâ€</span>
 	<a target="_blank" href="http://gizmodo.com/5903562/iris-app-view-your-instagrams-on-your-ipad" class="link">Read the article</a>
 
                         </span>

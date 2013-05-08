@@ -50,15 +50,13 @@ fcSimulator.prototype = dummy =
 
                 var codeConstruct = command.codeConstruct;
 
-                //if(codeConstruct.nodeId == 51) debugger;
-
                 this.globalObject.setCurrentCommand(command);
 
                 this._processCommand(command);
 
                 this.callControlFlowConnectionCallbacks(codeConstruct);
 
-                if(ASTHelper.isMemberExpression(codeConstruct.parent) || ASTHelper.isCallExpressionCallee(codeConstruct))
+                if(codeConstruct != null && ASTHelper.isMemberExpression(codeConstruct.parent) || ASTHelper.isCallExpressionCallee(codeConstruct))
                 {
 
                     this.globalObject.importantExpressionsTrace.push({codeConstruct: codeConstruct, index: codeConstruct.maxCreatedDependencyIndex });
@@ -198,11 +196,14 @@ fcSimulator.prototype = dummy =
 
     _removeCommandsAfterBreak: function(breakCommand)
     {
+        var breakParent = ASTHelper.getLoopOrSwitchParent(breakCommand.codeConstruct);
+
         for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
         {
             var command = this.commands[i];
 
-            if(!command.isEndSwitchStatementCommand() && !command.isEndLoopStatementCommand()) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
+            if(!command.isEndSwitchStatementCommand()
+            && !command.isEndLoopStatementCommand()) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
             else{i++;}
 
             if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) { break;}
@@ -211,11 +212,15 @@ fcSimulator.prototype = dummy =
 
     _removeCommandsAfterContinue: function(continueCommand)
     {
+        var continueParent = ASTHelper.getLoopParent(continueCommand.codeConstruct);
+
         for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
         {
             var command = this.commands[i];
 
-            if(!command.isForUpdateStatementCommand() && !command.isEndLoopStatementCommand() && !command.isEvalForInWhereCommand()) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
+            if(!command.isForUpdateStatementCommand()
+            && !command.isEndLoopStatementCommand()
+            && (!command.isEvalForInWhereCommand() || command.codeConstruct != continueParent )) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
             else{i++;}
 
             if(command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) { break;}

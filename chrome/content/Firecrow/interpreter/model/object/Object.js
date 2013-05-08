@@ -369,7 +369,7 @@ fcModel.Object.prototype =
                 this.globalObject.getPreciseEvaluationPositionId()
             );
         }
-        catch(e) { fcModel.Object.notifyError("Error when adding dependencies to all properties: " + e); }
+        catch(e) { debugger; fcModel.Object.notifyError("Error when adding dependencies to all properties: " + e); }
     },
 
     addModification: function(codeConstruct)
