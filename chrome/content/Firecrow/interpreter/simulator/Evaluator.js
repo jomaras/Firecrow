@@ -356,6 +356,8 @@ fcSimulator.Evaluator.prototype =
 
         array.iValue.push(array.jsValue, expressionItemValue, arrayItemCreationCommand.codeConstruct);
 
+        this.dependencyCreator.createDataDependency(arrayItemCreationCommand.arrayExpressionCommand.codeConstruct, arrayItemCreationCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+
         this.globalObject.browser.logConstructExecuted(arrayItemCreationCommand.codeConstruct);
     },
 
