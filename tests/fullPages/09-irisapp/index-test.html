@@ -193,7 +193,7 @@
         {
           if(wait === true || (wait !== true && !(jQuery.isReady)))
           {
-            readyList.fireWith(document, [null]);
+            readyList.fireWith(document, [jQuery]);
             if(jQuery.fn.trigger)
             {
               jQuery(document);
@@ -830,11 +830,7 @@
       }, 
       fix: function(event)
       {
-        var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
-
-        if(fixHook == null) { return 0;}
-
-        var copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
+        var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type], copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
         event = jQuery.Event(originalEvent);
         for(i = copy.length;i;)
         {

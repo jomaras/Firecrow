@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            overflow:hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background:#333;
+        }
+
+        canvas {
+            background:#333;
+            width:1000px;
+            height:376px;
+            margin:0 auto;
+            display:block;
+        }
+
+        #info {
+            position:absolute;
+            left:-1px;
+            top:-1px;
+            width:auto;
+            max-width:380px;
+            height:auto;
+            background:#f2f2f2;
+            border-bottom-right-radius:10px;
+        }
+
+        #top {
+            background:#fff;
+            width:100%;
+            height:auto;
+            position:relative;
+            border-bottom:1px solid #eee;
+        }
+
+        p {
+            font-family:Arial, sans-serif;
+            color:#666;
+            text-align:justify;
+            font-size: 16px;
+            margin:10px;
+        }
+
+        a {
+            font-family:sans-serif;
+            color:#444;
+            text-decoration:none;
+            font-size: 20px;
+        }
+
+        #site {
+            float:left;
+            margin: 10px;
+            color: #38a;
+            border-bottom:1px dashed #888;
+        }
+
+        #site:hover {
+            color: #7af;
+        }
+
+        #close {
+            float:right;
+            margin: 10px;
+        }
+
+        #p {
+            font-family: Verdana, sans-serif;
+            position:absolute;
+            right:10px;
+            bottom:10px;
+            color:#adf;
+            border: 1px dashed #555;
+            padding:4px 8px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id = "c" > </canvas>
+
+<a target="_blank" href="http://codepen.io/stuffit/pen/fhjvk" id="p">Like playing with physics? Click here!</a>
+
+<div id="info">
+    <div id="top">
+        <a target="_blank" id="site" href="http://lonely-pixel.com">my website</a>
+        <a id="close" href="">close</a>
+    </div>
+    <p>
+        <br>
+        - Tear the cloth with your mouse.<br><br>
+        - Right click and drag to cut the cloth<br><br>
+        - Reduce physics_accuracy if it's laggy.<br><br>
+    </p>
+</div>
+<script src="script.js"></script>
+
+
+</body>
+</html>

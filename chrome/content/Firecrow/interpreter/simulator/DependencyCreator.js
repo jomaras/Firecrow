@@ -650,7 +650,8 @@ fcSimulator.DependencyCreator.prototype =
     createDependenciesForLogicalExpressionItemCommand: function(logicalExpression)
     {
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
-        if(logicalExpression.operator == "&&")
+        //TODO: not sure about this -> should it be for both
+        //if(logicalExpression.operator == "&&")
         {
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (

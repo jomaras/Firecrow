@@ -21,8 +21,6 @@
         - Guide: run C:\GitWebStorm\Firecrow\tests\libraries\medialize\tests\debugMedialize.html (and study errors)
         - it seems that i broke something when i added automatic toValue and toString invocation (check it by creating a smaller test suite behaving the same way)
     - sylvester
-
-
 ------------------------------------------------------------------------------------------------------------------------
 NEXT:
     - on a test example implement, after a slicing criteria is processed,
@@ -98,8 +96,14 @@ NEXT:
  - 17 - OK
  - 18 - NOK
  - 19 - OK
- - 20 - mislin da je problem u tome šta se unutar for petlje nalazi forin, a prije for-ina je continue; i onda vjerojatno ne izbriše dobro for-in naredbu neku!?
-      - test 96 u slicingu :)
+ - 20 - izgleda da neko HTML elementu promini uuid sa 3 na 8
+      - problme je šta funkcija uid ispadne
+            return item.uid = Native.UID++;
+
+        a tribala bi biti:
+            return item.uid || (item.uid = Native.UID++);
+
+            problem s ili izrazima; dal ovaj desno triba biti ovisna o ovom livo, triba bi imat bar kontrolnu ovisnost..
 
 
 ******************* Libraries

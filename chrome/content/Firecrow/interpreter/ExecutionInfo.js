@@ -267,8 +267,8 @@ FBL.ns(function() { with (FBL) {
 
         logForInIteration: function(codeConstruct, objectPrototype)
         {
-            console.log("Not logging for in iterations");
-            //this.objectForInIterations.push({ proto: objectPrototype, codeConstruct: codeConstruct });
+            //console.log("Not logging for in iterations");
+            this.objectForInIterations.push({ proto: objectPrototype, codeConstruct: codeConstruct });
         },
 
         getLastEventRegistrations: function()

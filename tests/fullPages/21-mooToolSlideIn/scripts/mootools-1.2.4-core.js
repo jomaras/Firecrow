@@ -1199,7 +1199,7 @@ new Native({name: 'Class', initialize: Class}).extend({
 		if (method._origin) method = method._origin;
 		
 		return function(){
-			if (method._protected && this._current == null) throw new Error('The method "' + key + '" cannot be called.');
+			if (method._protected && this._current == null) {debugger; throw new Error('The method "' + key + '" cannot be called.');}
 			var caller = this.caller, current = this._current;
 			this.caller = current; this._current = arguments.callee;
 			var result = method.apply(this, arguments);
@@ -1380,7 +1380,7 @@ Events.removeOn = function(string){
 var Options = new Class({
 
 	setOptions: function(){
-		this.options = $merge.run([this.options]);
+		this.options = $merge.run([this.options].extend(arguments));
 		if (!this.addEvent) return this;
 		for (var option in this.options){
 			if ($type(this.options[option]) != 'function' || !(/^on[A-Z]/).test(option)) continue;

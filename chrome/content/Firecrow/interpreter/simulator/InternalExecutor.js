@@ -262,7 +262,11 @@ fcSimulator.InternalExecutor.prototype =
 
     _isUserConstructorObjectCreation: function(constructorFunction)
     {
-        return ValueTypeHelper.isFunction(constructorFunction.jsValue) && !constructorFunction.isInternalFunction;
+        try
+        {
+            return ValueTypeHelper.isFunction(constructorFunction.jsValue) && !constructorFunction.isInternalFunction;
+        }
+        catch(e) { debugger;}
     },
 
     isInternalConstructor: function(constructorFunction)

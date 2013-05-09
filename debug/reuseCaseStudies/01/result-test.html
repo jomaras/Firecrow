@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script origin="Firecrow">
+  _FIRECROW_HANDLER_MAPPER = [];
+</script>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+    <title>Custom designed fancy check boxes and radio buttons with CSS and JavaScript</title>
+    <meta content="Custom designed HTML checkboxes and radio controls with CSS 3.0 and JavaScript." name="Description"/>
+    <style>
+    ._OR_ *, *._OR_{  margin: 0px; padding: 0px; }
+    html { font: 14px/18px 'HelveticaNeue-Light','Helvetica Neue',Arial,Helvetica,sans-serif; color: rgb(255, 255, 255); background: url("pageBImages/noise.png") repeat scroll 0% 0% transparent; }
+    ._OR_ ._OR_ a, a._OR_,  ._OR_ a, a._OR_._OR_:hover,  ._OR_ ._OR_ a, a._OR_,  ._OR_ a, a._OR_._OR_:active{   outline: medium none; }
+    #sizer { width: 340px; margin: 0px auto; padding: 144px 200px 240px; background: url("pageBImages/highlight.png") no-repeat scroll 50% 0px transparent; }
+    ._OR_ form, form._OR_{  width: 300px; padding: 18px 20px 0px; margin-bottom: 18px; background: url("pageBImages/box-grad.png") repeat-x scroll 0px 0px rgb(79, 132, 184); border-radius: 10px 10px 10px 10px; box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.4); }
+    ._OR_ fieldset, fieldset._OR_{  border: 0px none; padding-bottom: 9px; }
+    ._OR_ label, label._OR_{  display: block; cursor: pointer; line-height: 20px; padding-bottom: 9px; text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2); }
+    .radios { padding-top: 18px; background: url("pageBImages/divider.png") repeat-x scroll 0px 0px transparent; }
+    .label_check input, .label_radio input { margin-right: 5px; }
+    #footer { width: 100%; text-align: center; font-size: 12px; }
+    #footer a { padding: 2px 10px; margin: 0px 2px; color: rgb(153, 153, 153); background: none repeat scroll 0% 0% rgb(221, 221, 221); text-decoration: none; border-radius: 10px 10px 10px 10px; }
+    #footer a:hover, #footer a:focus { color: rgb(255, 255, 255); background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.3); }
+    .has-js .label_check, .has-js .label_radio { padding-left: 34px; }
+    .has-js .label_radio { background: url("pageBImages/radio-off.png") no-repeat scroll 0% 0% transparent; }
+    .has-js .label_check { background: url("pageBImages/check-off.png") no-repeat scroll 0% 0% transparent; }
+    .has-js label.c_on { background: url("pageBImages/check-on.png") no-repeat scroll 0% 0% transparent; }
+    .has-js label.r_on { background: url("pageBImages/radio-on.png") no-repeat scroll 0% 0% transparent; }
+    .has-js .label_check input, .has-js .label_radio input { position: absolute; left: -9999px; }
+</style>
+
+
+
+<style origin="reuse">
+    ._RU_ *, *._RU_{  margin: 0px; padding: 0px; }
+    #wrapper { width: 673px; margin: 50px auto; }
+    #container { position: relative; background: none repeat scroll 0% 0% rgb(255, 255, 255); padding: 32px; height: 235px; border-right: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204); }
+    .sliderbutton { float: left; width: 25px; height: 235px; cursor: pointer; }
+    #slideleft { background: url('pageAImages/icons.gif') no-repeat scroll -50px -265px transparent; }
+    #slideright { background: url('pageAImages/icons.gif') no-repeat scroll 0px 90px transparent; }
+    #slider { float: left; position: relative; overflow: auto; width: 558px; height: 235px; }
+    #slider ul { position: absolute; list-style: none outside none; top: 0px; left: 0px; }
+    #slider li { float: left; width: 558px; height: 235px; }
+    .pagination { position: absolute; top: 40px; right: 61px; list-style: none outside none; height: 25px; }
+    .pagination li { float: left; cursor: pointer; height: 8px; width: 8px; background: none repeat scroll 0% 0% rgb(204, 204, 204); margin: 0px 4px 0px 0px; border: 1px solid rgb(255, 255, 255); }
+    .pagination li:hover, li.current { background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+</style>
+<script type="text/javascript" origin="reuse">
+  var TINY = {};
+  function T$(i)
+  {
+    return document.getElementById(i);
+  }
+  function T$$(e, p)
+  {
+    return p.getElementsByTagName(e);
+  }
+  TINY.slider = (function()
+  {
+    function slide(n, p)
+    {
+      this.init(p);
+    }
+    slide.prototype.init = function(p)
+    {
+      var s = this.x = T$(p.id), u = this.u = T$$('ul', s)[0], c = this.m = T$$('li', u), l = c.length, i = this.l = this.c = 0;
+      this.b = 1;
+      if(p.navid && p.activeclass)
+      {
+        this.g = T$$('li', T$(p.navid));
+        this.s = p.activeclass;
+      }
+
+      this.a = p.auto;
+      this.r = p.rewind || 0;
+      this.e = p.elastic || false;
+      this.v = p.vertical || 0;
+      s.style.overflow = 'hidden';
+      for(;i < l;i++)
+      {
+        if(c[i].parentNode == u)
+        {
+          this.l++;
+        }
+      }
+
+      if(this.v);
+      else 
+      {
+        u.style.left = 0;
+        this.w = p.width || c[0].offsetWidth;
+        u.style.width = (this.l * this.w) + 'px';
+      }
+
+      this.nav(p.position || 0);
+      if(p.position);
+      else if(this.a)
+      {
+        this.auto();
+      }
+
+
+      if(p.left)
+      {
+        this.sel(p.left);
+      }
+
+      if(p.right)
+      {
+        this.sel(p.right);
+      }
+    }, slide.prototype.auto = function()
+    {
+      this.x.ai = setInterval(function()
+      {}, this.a * 1000);
+    }, slide.prototype.move = function(d, a)
+    {
+      var n = this.c + d;
+      this.pos(n, a, 1);
+    }, slide.prototype.pos = function(p, a, m)
+    {
+      var v = p;
+      clearInterval(this.x.ai);
+      clearInterval(this.x.si);
+      if(!(this.r))
+      {
+        if(m)
+        {
+          if(p == -1 || (p != 0 && (Math.abs(p) % this.l) == 0))
+          {
+            this.b++;
+            for(var i = 0;i < this.l;i++)
+            {
+              this.u.appendChild(this.m[i].cloneNode(1));
+            }
+
+            this.v ? 0 : this.u.style.width = ((this.l * this.w) * this.b) + 'px';
+          }
+
+          if(p == -1 || p < 0)
+          {
+            this.v ? 0 : this.u.style.left = ((this.l * this.w) * -1) + 'px';
+            v = this.l - 1;
+          }
+        }
+      }
+
+      var t = this.v ? 0 : (v * this.w) * -1, d = p < this.c ? -1 : 1;
+      this.c = v;
+      var n = this.c % this.l;
+      this.nav(n);
+      var that = this;
+      this.x.si = setInterval(function()
+      {
+        that.slide(t, d, 1, a);
+      }, 10);
+    }, slide.prototype.nav = function(n)
+    {
+      if(this.g)
+      {
+        for(var i = 0;i < this.l;i++)
+        {
+          this.g[i].className = i == n ? this.s : '';
+        }
+      }
+    }, slide.prototype.slide = function(t, d, i, a)
+    {
+      var o = this.v ? 0 : parseInt(this.u.style.left);
+      if(o == t)
+      {
+        clearInterval(this.x.si);
+        if(this.e);
+        else 
+        {
+          if(this.b > 1 && (this.c % this.l) == 0)
+          {
+            this.clear();
+          }
+        }
+      }
+      else 
+      {
+        var v = (o - (Math.ceil(Math.abs(t - o) * 0.1) * d)) + 'px';
+        this.v ? 0 : this.u.style.left = v;
+      }
+    }, slide.prototype.clear = function()
+    {
+      var c = T$$('li', this.u), t = i = c.length;
+      this.v ? 0 : this.u.style.left = 0;
+      this.b = 1;
+      this.c = 0;
+      for(;i > 0;i--)
+      {
+        var e = c[i - 1];
+        if(t > this.l && e.parentNode == this.u)
+        {
+          this.u.removeChild(e);
+          t--;
+        }
+      }
+    }, slide.prototype.sel = function(i)
+    {
+      var e = T$(i);
+      e.onselectstart = e.onmousedown = function()
+      {
+        return false;
+      };
+    };
+    return {
+      slide: slide
+    };
+  })();
+</script>
+</head><body>
+<div id="sizer" class="_OR_">
+    <form accept-charset="utf-8" method="get" action="#">
+        <fieldset class="checkboxes">
+            <label for="checkbox-01" class="label_check"><input type="checkbox" checked="" value="1" id="checkbox-01" name="sample-checkbox-01"/> I agree to the terms & conditions.</label>
+            <label for="checkbox-02" class="label_check"><input type="checkbox" value="1" id="checkbox-02" name="sample-checkbox-02"/> Please send me regular updates.</label>
+        </fieldset>
+        <fieldset class="radios">
+            <label for="radio-01" class="label_radio"><input type="radio" checked="" value="1" id="radio-01" name="sample-radio"/> This is option A...</label>
+            <label for="radio-02" class="label_radio"><input type="radio" value="1" id="radio-02" name="sample-radio"/> and this is option B...</label>
+            <label for="radio-03" class="label_radio"><input type="radio" value="1" id="radio-03" name="sample-radio"/> or simply choose option C</label>
+        </fieldset>
+    </form>
+    <div id="footer">
+        <a href="http://www.maratz.com/blog/archives/2006/06/11/fancy-checkboxes-and-radio-buttons/">← Full how-to article</a>
+        <a href="jquery.html">jQuery version →</a>
+    </div>
+</div>
+<script class="_OR_">
+  var d = document;
+  var safari = navigator.userAgent.toLowerCase().indexOf('safari') != -1 ? true : false;
+  var gebtn = function(parEl, child)
+  {
+    return parEl.getElementsByTagName(child);
+  };
+  _FIRECROW_HANDLER_MAPPER.push({
+    type: 'onload', 
+    handler: function()
+    {
+      var body = gebtn(d, 'body')[0];
+      body.className = body.className && body.className != '' ? body.className + ' has-js' : 'has-js';
+      if(!(d.getElementById) || !(d.createTextNode))
+      return ;
+
+      var ls = gebtn(d, 'label');
+      for(var i = 0;i < ls.length;i++)
+      {
+        var l = ls[i];
+        if(l.className.indexOf('label_') == -1)
+        continue;
+
+        var inp = gebtn(l, 'input')[0];
+        if(l.className == 'label_check')
+        {
+          l.className = (safari && inp.checked == true) || inp.checked ? 'label_check c_on' : 'label_check c_off';
+          l.onclick = check_it;
+        }
+
+        ;
+        if(l.className == 'label_radio')
+        {
+          l.className = (safari && inp.checked == true) || inp.checked ? 'label_radio r_on' : 'label_radio r_off';
+          l.onclick = turn_radio;
+        }
+
+        ;
+      }
+
+      ;
+    }
+  });
+  var check_it = function(e)
+  {
+    var inp = gebtn(this, 'input')[0];
+    if(this.className == 'label_check c_off' || (!safari && inp.checked))
+    {
+      this.className = 'label_check c_on';
+      if(safari)
+      inp.click();
+    }
+    else 
+    {
+      this.className = 'label_check c_off';
+      if(safari)
+      inp.click();
+    }
+
+    ;
+  };
+  var turn_radio = function()
+  {
+    var inp = gebtn(this, 'input')[0];
+    if(this.className == 'label_radio r_off' || inp.checked)
+    {
+      var ls = gebtn(this.parentNode, 'label');
+      for(var i = 0;i < ls.length;i++)
+      {
+        var l = ls[i];
+        if(l.className.indexOf('label_radio') == -1)
+        continue;
+
+        l.className = 'label_radio r_off';
+      }
+
+      ;
+      this.className = 'label_radio r_on';
+      if(safari)
+      inp.click();
+    }
+    else 
+    {
+      this.className = 'label_radio r_off';
+      if(safari)
+      inp.click();
+    }
+
+    ;
+  };
+</script>
+
+
+<div id="wrapper" style=" font: 12px Verdana,Arial; color: rgb(85, 85, 85); background: none repeat scroll 0% 0% rgb(221, 221, 221); " origin="reuse" class="_RU_">
+	<div id="container" origin="reuse">
+		<div id="slideleft" class="sliderbutton" origin="reuse"></div>
+		<div id="slider" origin="reuse">
+			<ul origin="reuse">
+				<li origin="reuse"><img width="558" height="235" alt="Image One" src="pageAImages/1.jpg" origin="reuse"/></li>
+				<li origin="reuse"><img width="558" height="235" alt="Image Two" src="pageAImages/2.jpg" origin="reuse"/></li>
+				<li origin="reuse"><img width="558" height="235" alt="Image Three" src="pageAImages/3.jpg" origin="reuse"/></li>
+				<li origin="reuse"><img width="558" height="235" alt="Image Four" src="pageAImages/4.jpg" origin="reuse"/></li>
+			</ul>
+		</div>
+		<div id="slideright" class="sliderbutton" origin="reuse"></div>
+		<ul class="pagination" id="pagination" origin="reuse">
+			<li origin="reuse"></li>
+			<li origin="reuse"></li>
+			<li origin="reuse"></li>
+			<li origin="reuse"></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript" origin="reuse" class="_RU_">
+  _FIRECROW_HANDLER_MAPPER.push({
+    type: 'onload', 
+    handler: function()
+    {
+      var slideshow = new TINY.slider.slide('slideshow', {id: 'slider', auto: 10, vertical: false, navid: 'pagination', activeclass: 'current', position: 0, rewind: false, elastic: false, left: 'slideleft', right: 'slideright'});
+      document.getElementById('slideleft').onclick = function()
+      {
+        slideshow.move(-1);
+      };
+      document.getElementById('slideright').onclick = function()
+      {
+        slideshow.move(1);
+      };
+      var pages = document.querySelectorAll('#pagination li');
+      for(var i = 0;i < pages.length;i++)
+      {
+        (function(index)
+        {
+          pages[index].onclick = function()
+          {
+            slideshow.pos(index);
+          };
+        })(i);
+      }
+    }
+  });
+</script>
+
+<script origin="Firecrow" origin="reuse" class="_RU_">
+        (function()
+        {
+            if(!(window._FIRECROW_HANDLER_MAPPER)) { return; }
+
+            var getHandlersOfType = function(handlerType)
+            {
+                var handlers = [];
+                for( var i = 0; i < _FIRECROW_HANDLER_MAPPER.length;i++)
+                {
+                    var map = _FIRECROW_HANDLER_MAPPER[i];
+                    if(handlerType == map.type)
+                    {
+                        handlers.push(map.handler);
+                    }
+                }
+
+                return handlers;
+            };
+            var onLoadHandlers = getHandlersOfType('onload');
+            if(onLoadHandlers.length != 0)
+            {
+                window.onload = function()
+                {
+                    var args = arguments;
+                    var that = this;
+                    onLoadHandlers.forEach(function(onloadHandler)
+                    {
+                        onloadHandler.apply(that, args);
+                    });
+                };
+            }
+        }());
+    </script></body>
+</html>

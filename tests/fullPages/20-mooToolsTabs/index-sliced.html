@@ -122,6 +122,9 @@
     for(var i = 1, l = arguments.length;i < l;i++)
     {
       var object = arguments[i];
+      if($type(object) != 'object')
+      continue;
+
       for(var key in object)
       {
         var op = object[key], mp = mix[key];
@@ -228,7 +231,7 @@
   Native.UID = 1;
   var $uid = Browser.Engine.trident ? 0 : function(item)
   {
-    return (item.uid = Native.UID++);
+    return item.uid || (item.uid = Native.UID++);
   };
   var Window = new Native({
     name: 'Window', 
@@ -236,6 +239,7 @@
     initialize: function(win)
     {
       $uid(win);
+      win.document.window = win;
     }, 
     afterImplement: function(property, value)
     {
@@ -262,6 +266,10 @@
   };
   new Document(document);
   Array.implement({
+    extend: function(array)
+    {
+      return this;
+    }, 
     getLast: function()
     {}, 
     erase: function(item)
@@ -284,7 +292,7 @@
       return function(event)
       {
         var args = options.arguments;
-        args = args != undefined ? 0 : Array.slice(arguments, options.event ? 0 : 0);
+        args = args != undefined ? $splat(args) : Array.slice(arguments, options.event ? 0 : 0);
         var returns = function()
         {
           return self.apply(options.bind, args);
@@ -323,6 +331,17 @@
     get: function(key)
     {
       return this.hasOwnProperty(key) ? this[key] : 0;
+    }
+  });
+  var Event = new Native({
+    name: 'Event', 
+    initialize: function(event, win)
+    {
+      event = event;
+      var target = event.target;
+      return $extend(this, {
+        target: target
+      });
     }
   });
   function Class(params)
@@ -470,7 +489,7 @@
   var Options = new Class({
     setOptions: function()
     {
-      this.options = $merge.run([this.options]);
+      this.options = $merge.run(([this.options]).extend(arguments));
       return this;
     }
   });
@@ -626,7 +645,9 @@
         this.className = ((this.className + ' ') + className).clean();
       }, 
       removeClass: function(className)
-      {}, 
+      {
+        this.className = this.className.replace(new RegExp(('(^|\\s)' + className) + '(?:\\s|$)'), '$1');
+      }, 
       toggleClass: function(className)
       {}, 
       adopt: function()
@@ -662,7 +683,9 @@
       getChildren: function(match, nocash)
       {}, 
       getWindow: function()
-      {}, 
+      {
+        return this.ownerDocument.window;
+      }, 
       getDocument: function()
       {}, 
       getElementById: function(id, nocash)
@@ -714,7 +737,7 @@
         'keys': []
       };
       events[type].keys.push(fn);
-      var realType = type, custom = Element.Events.get(type), self = this;
+      var realType = type, custom = Element.Events.get(type), condition = fn, self = this;
       if(custom)
       {
         realType = custom.base || realType;
@@ -730,7 +753,10 @@
         if(nativeEvent == 2)
         {
           defn = function(event)
-          {};
+          {
+            event = new Event(event, self.getWindow());
+            if(condition.call(self, event));
+          };
         }
 
         this.addListener(realType, defn);
@@ -843,7 +869,10 @@
   });
   Element.implement({
     match: function(selector)
-    {}
+    {
+      var parsed = Selectors.Utils.parseSelector(selector);
+      return parsed ? Selectors.Utils.filter(this, parsed, {}) : 0;
+    }
   });
   var Selectors = {
     Cache: {
@@ -1169,13 +1198,25 @@
     <script type="text/javascript">
   (function()
   {
-    var match = /(.*?):relay\(([^)]+)\)$/, splitType = function(type)
+    var match = /(.*?):relay\(([^)]+)\)$/, combinators = /[+>~\s]/, splitType = function(type)
     {
       var bits = type.match(match);
       return !bits ? {} : {
         event: bits[1], 
         selector: bits[2]
       };
+    }, check = function(e, selector)
+    {
+      var t = e.target;
+      if(combinators.test(selector = selector.trim()));
+      else 
+      {
+        for(;t && t != this;t = t.parentNode)
+        {
+          if(Element.match(t, selector))
+          return document.id(t);
+        }
+      }
     };
     var oldAddEvent = Element.prototype.addEvent;
     Element.implement({
@@ -1188,7 +1229,11 @@
           if(!(monitors[type]))
           {
             var monitor = (function(e)
-            {}).bind(this);
+            {
+              var el = check.call(this, e, splitted.selector);
+              if(el)
+              this.fireEvent(type, [e, el], 0, el);
+            }).bind(this);
             oldAddEvent.call(this, splitted.event, monitor);
           }
         }
@@ -1198,7 +1243,16 @@
       removeEvent: function(type, fn)
       {}, 
       fireEvent: function(type, args, delay, bind)
-      {}
+      {
+        var events = this.retrieve('events');
+        events[type].keys.each(function(fn)
+        {
+          fn.create({
+            bind: bind, 
+            arguments: args
+          })();
+        }, this);
+      }
     });
   })();
 </script>
@@ -1214,12 +1268,23 @@
       this.container = document.id(container);
       this.container.getElements(this.options.contentSelector).setStyle('display', 'none');
       this.container.addEvent(('click:relay(' + this.options.tabSelector) + ')', (function(event, tab)
-      {}).bind(this));
+      {
+        this.showTab(this.container.getElements(this.options.tabSelector).indexOf(tab), tab);
+      }).bind(this));
       this.container.getElement(this.options.tabSelector).addClass(this.options.activeClass);
       this.container.getElement(this.options.contentSelector).setStyle('display', 'block');
     }, 
     showTab: function(index, tab)
-    {}, 
+    {
+      var content = this.container.getElements(this.options.contentSelector)[index];
+      if(content)
+      {
+        this.container.getElements(this.options.tabSelector).removeClass(this.options.activeClass);
+        this.container.getElements(this.options.contentSelector).setStyle('display', 'none');
+        tab.addClass(this.options.activeClass);
+        content.setStyle('display', 'block');
+      }
+    }, 
     closeTab: function(index)
     {}
   });

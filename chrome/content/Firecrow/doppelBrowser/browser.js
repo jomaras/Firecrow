@@ -1000,6 +1000,8 @@ Browser.prototype = dummy =
 
         for(var propName in eventTraceArgs)
         {
+            if(propName == "currentInputStates") { continue; }
+
             if(propName.indexOf("XPath") != -1)
             {
                 var element =  this.globalObject.document.getElementByXPath(eventTraceArgs[propName]);
@@ -1009,7 +1011,7 @@ Browser.prototype = dummy =
             }
             else
             {
-                var value = new fcModel.fcValue(eventTraceArgs[propName], null, null);
+                var value = this.globalObject.internalExecutor.createInternalPrimitiveObject(null, eventTraceArgs[propName]);
                 eventInfoJsObject.addProperty(propName, value);
                 eventInfo[propName] = value;
             }

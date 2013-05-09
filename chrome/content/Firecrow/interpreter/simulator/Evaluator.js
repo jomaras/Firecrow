@@ -187,7 +187,6 @@ fcSimulator.Evaluator.prototype =
 
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
-        if((identifierConstruct.loc.start.line == 222 || identifierConstruct.loc.start.line == 223) && identifierConstruct.name == "object" && identifierValue != null && identifierValue.id >= 70415) debugger;
 
         this.executionContextStack.setExpressionValue
         (

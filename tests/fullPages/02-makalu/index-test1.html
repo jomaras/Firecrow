@@ -141,7 +141,7 @@
         {
           if(wait === true || (wait !== true && !(jQuery.isReady)))
           {
-            readyList.fireWith(document, [null]);
+            readyList.fireWith(document, [jQuery]);
             if(jQuery.fn.trigger)
             {
               jQuery(document);

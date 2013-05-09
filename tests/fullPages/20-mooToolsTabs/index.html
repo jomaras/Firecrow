@@ -3,34 +3,10 @@
 
 <head>
     <title>Simple MooTools TabPane component</title>
-    <script src="scripts/mootools-1.2.4-coreM.js" type="text/javascript"></script>
+    <script src="scripts/mootools-1.2.4-core.js" type="text/javascript"></script>
     <script src="scripts/mootools-1.2.4-more.js" type="text/javascript"></script>
     <script src="scripts/TabPane.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        document.addEvent('domready', function() {
-            var tabPane = new TabPane('demo');
-
-            $('demo').addEvent('click:relay(.remove)', function(e) {
-                new Event(e).stop();
-                var parent = this.getParent('.tab');
-                var index = $('demo').getElements('.tab').indexOf(parent);
-                tabPane.closeTab(index);
-            });
-
-            $('new-tab').addEvent('click', function() {
-                var title = $('new-tab-title').get('value');
-                var content = $('new-tab-content').get('value');
-
-                if (!title || !content) {
-                    window.alert('Title or content text empty, please fill in some text.');
-                    return;
-                }
-
-                $('demo').getElement('ul').adopt(new Element('li', {'class': 'tab', text: title}).adopt(new Element('span', {'class': 'remove', html: '&times'})));
-                $('demo').adopt(new Element('p', {'class': 'content', text: content}).setStyle('display', 'none'));
-            });
-        });
-    </script>
+    <script src="scripts/script.js" type="text/javascript"></script>
     <link href="styles/style.css" type="text/css" rel="stylesheet" />
     <style type="text/css">
         #image {
