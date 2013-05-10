@@ -49,6 +49,7 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
             this.cssStyleDeclaration[propertyName] = value.jsValue;
             this.addProperty(propertyName, value, codeConstruct);
 
+            this.dependencyCreator.createDataDependency(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
         };
     }

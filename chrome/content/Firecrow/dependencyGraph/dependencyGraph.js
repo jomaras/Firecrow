@@ -203,7 +203,7 @@ FBL.ns(function() { with (FBL) {
         {
             for(var i = 0, length = htmlNodes.length; i < length; i++)
             {
-                var htmlModelNode =  htmlNodes[i].model;
+                var htmlModelNode =  htmlNodes[i].model; if(i == 132) debugger;
 
                 if(!htmlModelNode.shouldBeIncluded) { continue; }
 

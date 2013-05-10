@@ -1199,7 +1199,7 @@ new Native({name: 'Class', initialize: Class}).extend({
 		if (method._origin) method = method._origin;
 		
 		return function(){
-			if (method._protected && this._current == null) {debugger; throw new Error('The method "' + key + '" cannot be called.');}
+			if (method._protected && this._current == null) { throw new Error('The method "' + key + '" cannot be called.');}
 			var caller = this.caller, current = this._current;
 			this.caller = current; this._current = arguments.callee;
 			var result = method.apply(this, arguments);

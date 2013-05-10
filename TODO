@@ -96,15 +96,11 @@ NEXT:
  - 17 - OK
  - 18 - NOK
  - 19 - OK
- - 20 - izgleda da neko HTML elementu promini uuid sa 3 na 8
-      - problme je šta funkcija uid ispadne
-            return item.uid = Native.UID++;
-
-        a tribala bi biti:
-            return item.uid || (item.uid = Native.UID++);
-
-            problem s ili izrazima; dal ovaj desno triba biti ovisna o ovom livo, triba bi imat bar kontrolnu ovisnost..
-
+ - 20 - OK
+ - 21 -
+         node id: 23619 -> (new Fx.Slide('login')).hide
+         node id: 23620 -> (new Fx.Slide('login')) -> tu je neki problem
+         marginTop ne postavi dobro za #top
 
 ******************* Libraries
 - gauss OK

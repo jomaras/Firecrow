@@ -209,7 +209,7 @@ fcModel.StringExecutor =
                     }
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
                 case "replace":
-                    if(ValueTypeHelper.isString(argumentValues[1]))
+                    if(ValueTypeHelper.isString(argumentValues[1]) || ValueTypeHelper.isNumber(argumentValues[1]))
                     {
                         var returnValue = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
                         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, returnValue);
@@ -262,7 +262,7 @@ fcModel.StringExecutor =
         return fcModel.StringPrototype.CONST.INTERNAL_PROPERTIES.METHODS.indexOf(functionObject.name) != -1;
     },
 
-    notifyError: function(message) { fcModel.String.notifyError(message); }
+    notifyError: function(message) { debugger; fcModel.String.notifyError(message); }
 };
 /*************************************************************************************/
 }});

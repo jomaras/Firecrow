@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+        function construct(a)
+        {
+            this.b = 3;
+            return a;
+        }
+
+        var obj = {b:4};
+
+        var b1 = new construct(3);
+        var a1 = b1.b;
+
+        var b2 = new construct("3");
+        var a2 = b2.b;
+
+        var b3 = new construct(obj);
+        var a3 = b3.b;
+
+        var b4 = new construct();
+        var a4 = b4.b;
+
+        a1; a2; a3; a4;
+    </script>
+</body>
+</html>

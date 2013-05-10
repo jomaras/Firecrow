@@ -1,0 +1,1524 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    
+    
+
+    
+    <link media="screen" type="text/css" href="styles/style.css" rel="stylesheet"/>
+
+    
+    
+    <link media="screen" type="text/css" href="styles/fx.slide.css" rel="stylesheet"/>
+    
+    <script type="text/javascript">
+  var Native = function(options)
+  {
+    options = options;
+    var name = options.name;
+    var legacy = options.legacy;
+    var protect = options.protect;
+    var generics = options.generics;
+    var initialize = options.initialize;
+    var afterImplement = options.afterImplement || function()
+    {};
+    var object = initialize;
+    generics = generics !== false;
+    if(legacy && initialize)
+    object.prototype = legacy.prototype;
+
+    if(name)
+    {
+      var family = name.toLowerCase();
+      object.prototype.$family = {
+        name: family
+      };
+    }
+
+    var add = function(obj, name, method, force)
+    {
+      if(!protect || force || !(obj.prototype[name]))
+      obj.prototype[name] = method;
+
+      if(generics)
+      Native.genericize(obj, name, protect);
+
+      if(afterImplement)
+      afterImplement.call(obj, name, method);
+    };
+    object.alias = function(a1, a2, a3)
+    {
+      if(typeof a1 == 'string')
+      {
+        var pa1 = this.prototype[a1];
+        if(a1 = pa1)
+        return add(this, a2, a1, a3);
+      }
+    };
+    object.implement = function(a1, a2, a3)
+    {
+      if(typeof a1 == 'string')
+      return add(this, a1, a2, a3);
+
+      for(var p in a1)
+      add(this, p, a1[p], a2);
+    };
+    return object;
+  };
+  Native.genericize = function(object, property, check)
+  {
+    if((!check || !(object[property])) && typeof (object.prototype[property]) == 'function')
+    object[property] = function()
+    {
+      var args = Array.prototype.slice.call(arguments);
+      return object.prototype[property].apply(args.shift(), args);
+    };
+  };
+  Native.implement = function(objects, properties)
+  {
+    for(var i = 0, l = objects.length;i < l;i++)
+    objects[i].implement(properties);
+  };
+  (function()
+  {
+    var natives = {
+      'Array': Array, 
+      'Function': Function, 
+      'Number': Number, 
+      'String': String
+    };
+    for(var n in natives)
+    new Native({
+      name: n, 
+      initialize: natives[n], 
+      protect: true
+    });
+  })();
+  var Hash = new Native({
+    name: 'Hash', 
+    initialize: function(object)
+    {
+      for(var key in object)
+      this[key] = object[key];
+
+      return this;
+    }
+  });
+  Hash.implement({
+    forEach: function(fn, bind)
+    {
+      for(var key in this)
+      {
+        if(this.hasOwnProperty(key))
+        fn.call(bind, this[key], key, this);
+      }
+    }
+  });
+  Hash.alias('forEach', 'each');
+  Array.alias('forEach', 'each');
+  function $chk(obj)
+  {
+    return !(!(obj || obj === 0));
+  }
+  function $clear(timer)
+  {
+    clearInterval(timer);
+    return null;
+  }
+  function $empty()
+  {}
+  function $extend(original, extended)
+  {
+    for(var key in extended)
+    original[key] = extended[key];
+
+    return original;
+  }
+  function $merge()
+  {
+    var args = Array.slice(arguments);
+    args.unshift({});
+    return $mixin.apply(null, args);
+  }
+  function $mixin(mix)
+  {
+    for(var i = 1, l = arguments.length;i < l;i++)
+    {
+      var object = arguments[i];
+      if($type(object) != 'object')
+      continue;
+
+      for(var key in object)
+      {
+        var op = object[key], mp = mix[key];
+        mix[key] = mp ? 0 : $unlink(op);
+      }
+    }
+
+    return mix;
+  }
+  function $pick()
+  {
+    for(var i = 0, l = arguments.length;i < l;i++)
+    {
+      if(arguments[i] != undefined)
+      return arguments[i];
+    }
+
+    return null;
+  }
+  function $splat(obj)
+  {
+    var type = $type(obj);
+    return type ? type != 'array' && type != 'arguments' ? [obj] : obj : [];
+  }
+  var $time = Date.now || function()
+  {
+    return +(new Date());
+  };
+  function $type(obj)
+  {
+    if(obj == undefined)
+    return false;
+
+    if(obj.$family)
+    return obj.$family.name == 'number' && !(isFinite(obj)) ? 0 : obj.$family.name;
+
+    if(obj.nodeName)
+    {
+      switch(obj.nodeType)
+      {
+        case 1:
+          return 'element';
+      }
+    }
+
+    return typeof obj;
+  }
+  function $unlink(object)
+  {
+    var unlinked;
+    switch($type(object))
+    {
+      case 'object':
+        unlinked = {};
+        for(var p in object)
+        unlinked[p] = $unlink(object[p]);
+
+        break;
+      case 'array':
+        unlinked = [];
+        break;
+      default:
+        return object;
+    }
+    return unlinked;
+  }
+  var Browser = $merge({
+    Engine: {name: 'unknown', version: 0}, 
+    Platform: {
+      name: window.orientation != undefined ? 0 : (navigator.platform.match(/mac|win|linux/i))[0].toLowerCase()
+    }, 
+    Features: {
+      xpath: !(!(document.evaluate)), 
+      air: !(!(window.runtime)), 
+      query: !(!(document.querySelector))
+    }, 
+    Plugins: {}, 
+    Engines: {
+      presto: function()
+      {
+        return !(window.opera) ? false : 0;
+      }, 
+      trident: function()
+      {
+        return !(window.ActiveXObject) ? false : 0;
+      }, 
+      webkit: function()
+      {
+        return navigator.taintEnabled ? false : 0;
+      }, 
+      gecko: function()
+      {
+        return !(document.getBoxObjectFor) && window.mozInnerScreenX == null ? 0 : document.getElementsByClassName ? 19 : 0;
+      }
+    }
+  }, Browser || {});
+  Browser.detect = function()
+  {
+    for(var engine in this.Engines)
+    {
+      var version = this.Engines[engine]();
+      if(version)
+      {
+        this.Engine = {};
+        break;
+      }
+    }
+  };
+  Browser.detect();
+  Native.UID = 1;
+  var $uid = Browser.Engine.trident ? 0 : function(item)
+  {
+    return item.uid || (item.uid = Native.UID++);
+  };
+  var Window = new Native({
+    name: 'Window', 
+    legacy: Browser.Engine.trident ? 0 : window.Window, 
+    initialize: function(win)
+    {
+      $uid(win);
+      win.document.window = win;
+    }, 
+    afterImplement: function(property, value)
+    {
+      window[property] = Window.Prototype[property] = value;
+    }
+  });
+  Window.Prototype = {};
+  new Window(window);
+  var Document = new Native({
+    name: 'Document', 
+    legacy: Browser.Engine.trident ? 0 : window.Document, 
+    initialize: function(doc)
+    {
+      $uid(doc);
+      return $extend(doc, Document.Prototype);
+    }, 
+    afterImplement: function(property, value)
+    {
+      document[property] = Document.Prototype[property] = value;
+    }
+  });
+  Document.Prototype = {
+    $family: {name: 'document'}
+  };
+  new Document(document);
+  Array.implement({
+    contains: function(item, from)
+    {
+      return this.indexOf(item, from) != -1;
+    }, 
+    extend: function(array)
+    {
+      return this;
+    }, 
+    getLast: function()
+    {}, 
+    include: function(item)
+    {
+      if(!(this.contains(item)))
+      this.push(item);
+    }, 
+    erase: function(item)
+    {}, 
+    empty: function()
+    {}, 
+    flatten: function()
+    {
+      var array = [];
+      for(var i = 0, l = this.length;i < l;i++)
+      {
+        var type = $type(this[i]);
+        array = array.concat(type == 'array' || type == 'collection' || type == 'arguments' ? 0 : this[i]);
+      }
+
+      return array;
+    }
+  });
+  Function.implement({
+    extend: function(properties)
+    {
+      for(var property in properties)
+      this[property] = properties[property];
+
+      return this;
+    }, 
+    create: function(options)
+    {
+      var self = this;
+      options = options;
+      return function(event)
+      {
+        var args = options.arguments;
+        args = args != undefined ? $splat(args) : Array.slice(arguments, options.event ? 0 : 0);
+        var returns = function()
+        {
+          return self.apply(options.bind, args);
+        };
+        if(options.periodical)
+        return setInterval(returns, options.periodical);
+
+        return returns();
+      };
+    }, 
+    run: function(args, bind)
+    {
+      return this.apply(bind, $splat(args));
+    }, 
+    periodical: function(periodical, bind, args)
+    {
+      return this.create({
+        bind: bind, 
+        arguments: args, 
+        periodical: periodical
+      })();
+    }
+  });
+  Number.implement({
+    times: function(fn, bind)
+    {
+      for(var i = 0;i < this;i++)
+      fn.call(bind, i, this);
+    }, 
+    toInt: function(base)
+    {
+      return parseInt(this, base || 10);
+    }
+  });
+  String.implement({
+    camelCase: function()
+    {
+      return this.replace(/-\D/g, function(match)
+      {
+        return match.charAt(1).toUpperCase();
+      });
+    }, 
+    capitalize: function()
+    {
+      return this.replace(/\b[a-z]/g, function(match)
+      {
+        return match.toUpperCase();
+      });
+    }, 
+    toInt: function(base)
+    {
+      return parseInt(this, base || 10);
+    }
+  });
+  Hash.implement({
+    extend: function(properties)
+    {}, 
+    get: function(key)
+    {
+      return this.hasOwnProperty(key) ? this[key] : 0;
+    }
+  });
+  var Event = new Native({
+    name: 'Event', 
+    initialize: function(event, win)
+    {
+      event = event;
+      if(event.$extended)
+      return event;
+
+      this.$extended = true;
+      return $extend(this, {
+        event: event
+      });
+    }
+  });
+  Event.implement({
+    stop: function()
+    {
+      return this.stopPropagation().preventDefault();
+    }, 
+    stopPropagation: function()
+    {
+      if(this.event.stopPropagation)
+      this.event.stopPropagation();
+
+      return this;
+    }, 
+    preventDefault: function()
+    {
+      if(this.event.preventDefault)
+      this.event.preventDefault();
+    }
+  });
+  function Class(params)
+  {
+    var newClass = (function()
+    {
+      Object.reset(this);
+      if(newClass._prototyping)
+      return this;
+
+      this._current = $empty;
+      var value = this.initialize ? this.initialize.apply(this, arguments) : 0;
+      return value;
+    }).extend(this);
+    newClass.implement(params);
+    return newClass;
+  }
+  Function.prototype.protect = function()
+  {
+    return this;
+  };
+  Object.reset = function(object, key)
+  {
+    if(key == null)
+    {
+      for(var p in object)
+      Object.reset(object, p);
+
+      return object;
+    }
+
+    switch($type(object[key]))
+    {
+      case 'object':
+        var F = function()
+        {}
+        F.prototype = object[key];
+        var i = new F()
+        object[key] = Object.reset(i);
+        break;
+      case 'array':
+        object[key] = $unlink(object[key]);
+        break;
+    }
+  };
+  (new Native({
+    name: 'Class', 
+    initialize: Class
+  })).extend({
+    instantiate: function(F)
+    {
+      F._prototyping = true;
+      var proto = new F();
+      return proto;
+    }, 
+    wrap: function(self, key, method)
+    {
+      if(method._origin)
+      method = method._origin;
+
+      return (function()
+      {
+        var current = this._current;
+        this.caller = current;
+        this._current = arguments.callee;
+        var result = method.apply(this, arguments);
+        this._current = current;
+        return result;
+      }).extend({
+        _owner: self, 
+        _origin: method, 
+        _name: key
+      });
+    }
+  });
+  Class.implement({
+    implement: function(key, value)
+    {
+      if($type(key) == 'object')
+      {
+        for(var p in key)
+        this.implement(p, key[p]);
+
+        return ;
+      }
+
+      var mutator = Class.Mutators[key];
+      if(mutator)
+      {
+        mutator.call(this, value);
+      }
+
+      var proto = this.prototype;
+      switch($type(value))
+      {
+        case 'function':
+          proto[key] = Class.wrap(this, key, value);
+          break;
+        case 'object':
+          var previous = proto[key]
+          if($type(previous) == 'object')
+          $mixin(previous, value);
+          else 
+          proto[key] = $unlink(value);
+
+          break;
+        case 'array':
+          proto[key] = $unlink(value);
+          break;
+      }
+    }
+  });
+  Class.Mutators = {
+    Extends: function(parent)
+    {
+      this.parent = parent;
+      this.prototype = Class.instantiate(parent);
+      this.implement('parent', (function()
+      {
+        var name = this.caller._name, previous = this.caller._owner.parent.prototype[name];
+        return previous.apply(this, arguments);
+      }).protect());
+    }, 
+    Implements: function(items)
+    {
+      $splat(items).each(function(item)
+      {
+        if(item instanceof Function)
+        item = Class.instantiate(item);
+
+        this.implement(item);
+      }, this);
+    }
+  };
+  var Chain = new Class({
+    $chain: [], 
+    chain: function()
+    {}, 
+    callChain: function()
+    {
+      return this.$chain.length ? 0 : false;
+    }, 
+    clearChain: function()
+    {}
+  });
+  var Events = new Class({
+    $events: {}, 
+    addEvent: function(type, fn, internal)
+    {
+      type = Events.removeOn(type);
+      if(fn != $empty)
+      {
+        this.$events[type] = this.$events[type] || [];
+        this.$events[type].include(fn);
+      }
+
+      return this;
+    }, 
+    addEvents: function(events)
+    {}, 
+    fireEvent: function(type, args, delay)
+    {
+      type = Events.removeOn(type);
+      if(!(this.$events) || !(this.$events[type]))
+      return this;
+
+      this.$events[type].each(function(fn)
+      {
+        fn.create({
+          'bind': this, 
+          'arguments': args
+        })();
+      }, this);
+      return this;
+    }, 
+    removeEvent: function(type, fn)
+    {}, 
+    removeEvents: function(events)
+    {}
+  });
+  Events.removeOn = function(string)
+  {
+    return string.replace(/^on([A-Z])/, function(full, first)
+    {});
+  };
+  var Options = new Class({
+    setOptions: function()
+    {
+      this.options = $merge.run(([this.options]).extend(arguments));
+      return this;
+    }
+  });
+  var Element = new Native({
+    name: 'Element', 
+    legacy: window.Element, 
+    initialize: function(tag, props)
+    {
+      if(typeof tag == 'string')
+      return document.newElement(tag, props);
+    }, 
+    afterImplement: function(key, value)
+    {
+      Element.Prototype[key] = value;
+      if(Array[key])
+      return ;
+
+      Elements.implement(key, function()
+      {});
+    }
+  });
+  Element.Prototype = {
+    $family: {name: 'element'}
+  };
+  var IFrame = new Native({
+    name: 'IFrame', 
+    initialize: function()
+    {}
+  });
+  var Elements = new Native({
+    initialize: function(elements, options)
+    {}
+  });
+  Document.implement({
+    newElement: function(tag, props)
+    {
+      return document.id(this.createElement(tag)).set(props);
+    }, 
+    id: (function()
+    {
+      var types = {
+        string: function(id, nocash, doc)
+        {
+          id = doc.getElementById(id);
+          return id ? types.element(id, nocash) : 0;
+        }, 
+        element: function(el, nocash)
+        {
+          $uid(el);
+          if(!nocash && !(el.$family) && !(/^object|embed$/i.test(el.tagName)))
+          {
+            var proto = Element.Prototype;
+            for(var p in proto)
+            el[p] = proto[p];
+          }
+
+          return el;
+        }
+      };
+      return function(el, nocash, doc)
+      {
+        if(el && el.$family && el.uid)
+        return el;
+
+        var type = $type(el);
+        return types[type] ? types[type](el, nocash, doc || document) : 0;
+      };
+    })()
+  });
+  if(window.$ == null)
+  Window.implement({
+    $: function(el, nc)
+    {
+      return document.id(el, nc, this.document);
+    }
+  });
+
+  Native.implement([Element, Document], {
+    getElement: function(selector, nocash)
+    {}, 
+    getElements: function(tags, nocash)
+    {}
+  });
+  (function()
+  {
+    var storage = {};
+    var get = function(uid)
+    {
+      return storage[uid] || (storage[uid] = {});
+    };
+    var inserters = {
+      before: function(context, element)
+      {}, 
+      after: function(context, element)
+      {}, 
+      bottom: function(context, element)
+      {
+        element.appendChild(context);
+      }, 
+      top: function(context, element)
+      {}
+    };
+    inserters.inside = inserters.bottom;
+    Hash.each(inserters, function(inserter, where)
+    {
+      where = where.capitalize();
+      Element.implement('inject' + where, function(el)
+      {});
+      Element.implement('grab' + where, function(el)
+      {});
+    });
+    Element.implement({
+      set: function(prop, value)
+      {
+        switch($type(prop))
+        {
+          case 'object':
+            for(var p in prop)
+            this.set(p, prop[p]);
+
+            break;
+          case 'string':
+            var property = Element.Properties.get(prop)
+            property && property.set ? property.set.apply(this, Array.slice(arguments, 1)) : 0;
+        }
+        return this;
+      }, 
+      get: function(prop)
+      {}, 
+      erase: function(prop)
+      {}, 
+      setProperty: function(attribute, value)
+      {}, 
+      setProperties: function(attributes)
+      {}, 
+      getProperty: function(attribute)
+      {}, 
+      getProperties: function()
+      {}, 
+      removeProperty: function(attribute)
+      {}, 
+      removeProperties: function()
+      {}, 
+      hasClass: function(className)
+      {}, 
+      addClass: function(className)
+      {}, 
+      removeClass: function(className)
+      {}, 
+      toggleClass: function(className)
+      {}, 
+      adopt: function()
+      {}, 
+      appendText: function(text, where)
+      {}, 
+      grab: function(el, where)
+      {
+        inserters[where || 'bottom'](document.id(el, true), this);
+        return this;
+      }, 
+      inject: function(el, where)
+      {}, 
+      replaces: function(el)
+      {
+        el = document.id(el, true);
+        el.parentNode.replaceChild(this, el);
+        return this;
+      }, 
+      wraps: function(el, where)
+      {
+        el = document.id(el, true);
+        return this.replaces(el).grab(el, where);
+      }, 
+      getPrevious: function(match, nocash)
+      {}, 
+      getAllPrevious: function(match, nocash)
+      {}, 
+      getNext: function(match, nocash)
+      {}, 
+      getAllNext: function(match, nocash)
+      {}, 
+      getFirst: function(match, nocash)
+      {}, 
+      getLast: function(match, nocash)
+      {}, 
+      getParent: function(match, nocash)
+      {}, 
+      getParents: function(match, nocash)
+      {}, 
+      getSiblings: function(match, nocash)
+      {}, 
+      getChildren: function(match, nocash)
+      {}, 
+      getWindow: function()
+      {
+        return this.ownerDocument.window;
+      }, 
+      getDocument: function()
+      {}, 
+      getElementById: function(id, nocash)
+      {}, 
+      getSelected: function()
+      {}, 
+      getComputedStyle: function(property)
+      {}, 
+      toQueryString: function()
+      {}, 
+      clone: function(contents, keepid)
+      {}, 
+      destroy: function()
+      {}, 
+      empty: function()
+      {}, 
+      dispose: function()
+      {}, 
+      hasChild: function(el)
+      {}
+    });
+    Native.implement([Element, Window, Document], {
+      addListener: function(type, fn)
+      {
+        if(this.addEventListener)
+        this.addEventListener(type, fn, false);
+      }, 
+      removeListener: function(type, fn)
+      {}, 
+      retrieve: function(property, dflt)
+      {
+        var storage = get(this.uid), prop = storage[property];
+        if(dflt != undefined && prop == undefined)
+        prop = storage[property] = dflt;
+
+        return $pick(prop);
+      }, 
+      store: function(property, value)
+      {
+        return this;
+      }, 
+      eliminate: function(property)
+      {}
+    });
+  })();
+  Element.Properties = new Hash();
+  Native.implement([Element, Window, Document], {
+    addEvent: function(type, fn)
+    {
+      var events = this.retrieve('events', {});
+      events[type] = events[type] || {
+        'keys': []
+      };
+      events[type].keys.push(fn);
+      var realType = type, custom = Element.Events.get(type), condition = fn, self = this;
+      if(custom)
+      {
+        realType = custom.base || realType;
+      }
+
+      var defn = function()
+      {
+        return fn.call(self);
+      };
+      var nativeEvent = Element.NativeEvents[realType];
+      if(nativeEvent)
+      {
+        if(nativeEvent == 2)
+        {
+          defn = function(event)
+          {
+            event = new Event(event, self.getWindow());
+            if(condition.call(self, event));
+          };
+        }
+
+        this.addListener(realType, defn);
+      }
+    }, 
+    removeEvent: function(type, fn)
+    {}, 
+    addEvents: function(events)
+    {}, 
+    removeEvents: function(events)
+    {}, 
+    fireEvent: function(type, args, delay)
+    {
+      var events = this.retrieve('events');
+      events[type].keys.each(function(fn)
+      {
+        fn.create({
+          'bind': this, 
+          'arguments': args
+        })();
+      }, this);
+    }, 
+    cloneEvents: function(from, type)
+    {}
+  });
+  Element.NativeEvents = {click: 2, load: 1, DOMContentLoaded: 1};
+  (function()
+  {
+    Element.Events = new Hash({});
+  })();
+  Element.Properties.styles = {
+    set: function(styles)
+    {
+      this.setStyles(styles);
+    }
+  };
+  Element.implement({
+    setOpacity: function(value)
+    {}, 
+    getOpacity: function()
+    {}, 
+    setStyle: function(property, value)
+    {
+      property = property.camelCase();
+      if($type(value) != 'string')
+      {
+        var map = (Element.Styles.get(property)).split(' ');
+        value = $splat(value).map(function(val, i)
+        {
+          return $type(val) == 'number' ? map[i].replace('@', Math.round(val)) : 0;
+        }).join(' ');
+      }
+
+      this.style[property] = value;
+    }, 
+    getStyle: function(property)
+    {
+      property = property.camelCase();
+      var result = this.style[property];
+      if(!($chk(result)))
+      {
+        result = [];
+        for(var style in Element.ShortStyles)
+        {
+          if(property != style)
+          continue;
+
+          for(var s in Element.ShortStyles[style])
+          result.push(this.getStyle(s));
+
+          return result.join(' ');
+        }
+      }
+
+      if(result)
+      {
+        result = String(result);
+      }
+
+      return result;
+    }, 
+    setStyles: function(styles)
+    {
+      for(var style in styles)
+      this.setStyle(style, styles[style]);
+    }, 
+    getStyles: function()
+    {
+      var result = {};
+      Array.flatten(arguments).each(function(key)
+      {
+        result[key] = this.getStyle(key);
+      }, this);
+      return result;
+    }
+  });
+  Element.Styles = new Hash({height: '@px', margin: '@px @px @px @px'});
+  Element.ShortStyles = {
+    margin: {}, 
+    padding: {}
+  };
+  (['Top', 'Right', 'Bottom', 'Left']).each(function(direction)
+  {
+    var Short = Element.ShortStyles;
+    var All = Element.Styles;
+    (['margin', 'padding']).each(function(style)
+    {
+      var sd = style + direction;
+      Short[style][sd] = All[sd] = '@px';
+    });
+  });
+  (function()
+  {
+    Element.implement({
+      scrollTo: function(x, y)
+      {}, 
+      getSize: function()
+      {}, 
+      getScrollSize: function()
+      {}, 
+      getScroll: function()
+      {}, 
+      getScrolls: function()
+      {}, 
+      getOffsetParent: function()
+      {}, 
+      getOffsets: function()
+      {}, 
+      getPosition: function(relative)
+      {}, 
+      getCoordinates: function(element)
+      {}, 
+      computePosition: function(obj)
+      {}, 
+      setPosition: function(obj)
+      {}
+    });
+  })();
+  Element.alias('setPosition', 'position');
+  Native.implement([Window, Document, Element], {
+    getHeight: function()
+    {}, 
+    getWidth: function()
+    {}, 
+    getScrollTop: function()
+    {}, 
+    getScrollLeft: function()
+    {}, 
+    getScrollHeight: function()
+    {}, 
+    getScrollWidth: function()
+    {}, 
+    getTop: function()
+    {}, 
+    getLeft: function()
+    {}
+  });
+  Native.implement([Document, Element], {
+    getElements: function(expression, nocash)
+    {}
+  });
+  Element.implement({
+    match: function(selector)
+    {}
+  });
+  Element.Events.domready = {};
+  (function()
+  {
+    var domready = function()
+    {
+      if(Browser.loaded)
+      return ;
+
+      Browser.loaded = true;
+      window.fireEvent('domready');
+    };
+    window.addEvent('load', domready);
+    if(Browser.Engine.trident);
+    else if(Browser.Engine.webkit);
+    else 
+    {
+      document.addEvent('DOMContentLoaded', domready);
+    }
+  })();
+  var Cookie = new Class({
+    Implements: Options, 
+    options: {
+      path: false, 
+      domain: false, 
+      duration: false, 
+      secure: false, 
+      document: document
+    }, 
+    initialize: function(key, options)
+    {}, 
+    write: function(value)
+    {}, 
+    read: function()
+    {}, 
+    dispose: function()
+    {}
+  });
+  var Swiff = new Class({
+    Implements: [Options], 
+    options: {
+      id: null, 
+      height: 1, 
+      width: 1, 
+      container: null, 
+      properties: {}, 
+      params: {quality: 'high', allowScriptAccess: 'always', wMode: 'transparent', swLiveConnect: true}, 
+      callBacks: {}, 
+      vars: {}
+    }, 
+    toElement: function()
+    {}, 
+    initialize: function(path, options)
+    {}, 
+    replaces: function(element)
+    {}, 
+    inject: function(element)
+    {}, 
+    remote: function()
+    {}
+  });
+  var Fx = new Class({
+    Implements: [Chain, Events, Options], 
+    options: {fps: 50, unit: false, duration: 500, link: 'ignore'}, 
+    initialize: function(options)
+    {
+      this.subject = this.subject;
+      this.setOptions(options);
+      this.options.duration = Fx.Durations[this.options.duration] || this.options.duration.toInt();
+    }, 
+    getTransition: function()
+    {}, 
+    step: function()
+    {
+      var time = $time();
+      if(time < (this.time + this.options.duration))
+      {
+        var delta = this.transition((time - this.time) / this.options.duration);
+        this.set(this.compute(this.from, this.to, delta));
+      }
+      else 
+      {
+        this.set(this.compute(this.from, this.to, 1));
+        this.complete();
+      }
+    }, 
+    set: function(now)
+    {}, 
+    compute: function(from, to, delta)
+    {}, 
+    check: function()
+    {
+      if(!(this.timer))
+      return true;
+    }, 
+    start: function(from, to)
+    {
+      if(!(this.check(from, to)));
+
+      this.from = from;
+      this.to = to;
+      this.time = 0;
+      this.transition = this.getTransition();
+      this.startTimer();
+      this.onStart();
+    }, 
+    complete: function()
+    {
+      if(this.stopTimer())
+      this.onComplete();
+
+      return this;
+    }, 
+    cancel: function()
+    {}, 
+    onStart: function()
+    {
+      this.fireEvent('start', this.subject);
+    }, 
+    onComplete: function()
+    {
+      this.fireEvent('complete', this.subject);
+      if(!(this.callChain()))
+      this.fireEvent('chainComplete', this.subject);
+    }, 
+    onCancel: function()
+    {}, 
+    pause: function()
+    {}, 
+    resume: function()
+    {}, 
+    stopTimer: function()
+    {
+      this.timer = $clear(this.timer);
+      return true;
+    }, 
+    startTimer: function()
+    {
+      this.time = $time() - this.time;
+      this.timer = this.step.periodical(Math.round(1000 / this.options.fps), this);
+      return true;
+    }
+  });
+  Fx.compute = function(from, to, delta)
+  {
+    return ((to - from) * delta) + from;
+  };
+  Fx.Durations = {};
+  Fx.CSS = new Class({
+    Extends: Fx, 
+    prepare: function(element, property, values)
+    {}, 
+    parse: function(value)
+    {}, 
+    compute: function(from, to, delta)
+    {}, 
+    serve: function(value, unit)
+    {}, 
+    render: function(element, property, value, unit)
+    {}, 
+    search: function(selector)
+    {}
+  });
+  new Class({
+    Extends: Fx.CSS, 
+    initialize: function(element, options)
+    {}, 
+    set: function(property, now)
+    {}, 
+    start: function(property, from, to)
+    {}
+  });
+  Element.implement({
+    tween: function(property, from, to)
+    {}, 
+    fade: function(how)
+    {}, 
+    highlight: function(start, end)
+    {}
+  });
+  new Class({
+    Extends: Fx.CSS, 
+    initialize: function(element, options)
+    {}, 
+    set: function(now)
+    {}, 
+    compute: function(from, to, delta)
+    {}, 
+    start: function(properties)
+    {}
+  });
+  Element.implement({
+    morph: function(props)
+    {}
+  });
+  Fx.implement({
+    getTransition: function()
+    {
+      var trans = this.options.transition || Fx.Transitions.Sine.easeInOut;
+      return trans;
+    }
+  });
+  Fx.Transition = function(transition, params)
+  {
+    params = $splat(params);
+    return $extend(transition, {
+      easeInOut: function(pos)
+      {
+        return pos <= 0.5 ? transition(2 * pos, params) / 2 : (2 - transition(2 * (1 - pos), params)) / 2;
+      }
+    });
+  };
+  Fx.Transitions = new Hash({});
+  Fx.Transitions.extend = function(transitions)
+  {
+    for(var transition in transitions)
+    Fx.Transitions[transition] = new Fx.Transition(transitions[transition]);
+  };
+  Fx.Transitions.extend({
+    Pow: function(p, x)
+    {}, 
+    Expo: function(p)
+    {}, 
+    Circ: function(p)
+    {}, 
+    Sine: function(p)
+    {
+      return 1 - Math.sin(((1 - p) * Math.PI) / 2);
+    }, 
+    Back: function(p, x)
+    {}, 
+    Bounce: function(p)
+    {}, 
+    Elastic: function(p, x)
+    {}
+  });
+  (['Quad', 'Cubic', 'Quart', 'Quint']).each(function(transition, i)
+  {
+    new Fx.Transition(function(p)
+    {});
+  });
+  var Request = new Class({
+    Implements: [Chain, Events, Options], 
+    options: {
+      url: '', 
+      data: '', 
+      headers: {'X-Requested-With': 'XMLHttpRequest', 'Accept': 'text/javascript, text/html, application/xml, text/xml, */*'}, 
+      async: true, 
+      format: false, 
+      method: 'post', 
+      link: 'ignore', 
+      isSuccess: null, 
+      emulation: true, 
+      urlEncoded: true, 
+      encoding: 'utf-8', 
+      evalScripts: false, 
+      evalResponse: false, 
+      noCache: false
+    }, 
+    initialize: function(options)
+    {}, 
+    onStateChange: function()
+    {}, 
+    isSuccess: function()
+    {}, 
+    processScripts: function(text)
+    {}, 
+    success: function(text, xml)
+    {}, 
+    onSuccess: function()
+    {}, 
+    failure: function()
+    {}, 
+    onFailure: function()
+    {}, 
+    setHeader: function(name, value)
+    {}, 
+    getHeader: function(name)
+    {}, 
+    check: function()
+    {}, 
+    send: function(options)
+    {}, 
+    cancel: function()
+    {}
+  });
+  (function()
+  {
+    var methods = {};
+    (['get', 'post', 'put', 'delete', 'GET', 'POST', 'PUT', 'DELETE']).each(function(method)
+    {
+      methods[method] = function()
+      {};
+    });
+    Request.implement(methods);
+  })();
+  Element.implement({
+    send: function(url)
+    {}
+  });
+  new Class({
+    Extends: Request, 
+    options: {update: false, append: false, evalScripts: true, filter: false}, 
+    processHTML: function(text)
+    {}, 
+    success: function(text)
+    {}
+  });
+  Element.implement({
+    load: function()
+    {}
+  });
+  new Class({
+    Extends: Request, 
+    options: {secure: true}, 
+    initialize: function(options)
+    {}, 
+    success: function(text)
+    {}
+  });
+</script>
+    
+    <script type="text/javascript">
+  Fx.Slide = new Class({
+    Extends: Fx, 
+    options: {mode: 'vertical'}, 
+    initialize: function(B, A)
+    {
+      this.addEvent('complete', function()
+      {
+        this.layout.capitalize();
+      }, true);
+      this.element = this.subject = $(B);
+      this.parent(A);
+      var C = this.element.retrieve('wrapper');
+      this.wrapper = C || (new Element('div', {
+        styles: $extend(this.element.getStyles('margin', 'position'), {overflow: 'hidden'})
+      })).wraps(this.element);
+      this.element.store('wrapper', this.wrapper).setStyle('margin', 0);
+    }, 
+    vertical: function()
+    {
+      this.margin = 'margin-top';
+      this.layout = 'height';
+      this.offset = this.element.offsetHeight;
+    }, 
+    horizontal: function()
+    {}, 
+    set: function(A)
+    {
+      this.element.setStyle(this.margin, A[0]);
+      this.wrapper.setStyle(this.layout, A[1]);
+      return this;
+    }, 
+    compute: function(E, D, C)
+    {
+      var B = [];
+      var A = 2;
+      A.times(function(F)
+      {
+        B[F] = Fx.compute(E[F], D[F], C);
+      });
+      return B;
+    }, 
+    start: function(B, E)
+    {
+      if(!(this.check(arguments.callee, B, E)));
+
+      this[E || this.options.mode]();
+      var D = this.element.getStyle(this.margin).toInt();
+      var C = this.wrapper.getStyle(this.layout).toInt();
+      var A = [[D, C], [0, this.offset]];
+      var G = [[D, C], [-(this.offset), 0]];
+      var F;
+      switch(B)
+      {
+        case 'toggle':
+          F = this.wrapper['offset' + this.layout.capitalize()] == 0 ? A : G;
+      }
+      return this.parent(F[0], F[1]);
+    }, 
+    slideIn: function(A)
+    {}, 
+    slideOut: function(A)
+    {}, 
+    hide: function(A)
+    {
+      this[A || this.options.mode]();
+      return this.set([-(this.offset), 0]);
+    }, 
+    show: function(A)
+    {}, 
+    toggle: function(A)
+    {
+      return this.start('toggle', A);
+    }
+  });
+  Element.implement({
+    slide: function(D, E)
+    {}
+  });
+</script>
+    <script type="text/javascript">
+  window.addEvent('domready', function()
+  {
+    $('login').setStyle('height', 'auto');
+    var mySlide = (new Fx.Slide('login')).hide();
+    $('toggleLogin').addEvent('click', function(e)
+    {
+      e = new Event(e);
+      mySlide.toggle();
+      e.stop();
+    });
+    $('closeLogin').addEvent('click', function(e)
+    {});
+  });
+</script>
+    
+
+</head>
+
+<body>
+
+<div id="myWrapper">
+<div id="login">
+    <div class="loginContent">
+        <form method="post" action="#">
+            <label for="log"><b>Username: </b></label>
+            <input type="text" size="23" value="" id="log" name="log" class="field"/>
+            <label for="pwd"><b>Password:</b></label>
+            <input type="password" size="23" id="pwd" name="pwd" class="field"/>
+            <input type="submit" class="button_login" value="" name="submit"/>
+            <input type="hidden" value="" name="redirect_to"/>
+        </form>
+        <div class="left">
+            <label for="rememberme"><input type="checkbox" value="forever" checked="checked" class="rememberme" id="rememberme" name="rememberme"/> Remember me</label></div>
+        <div class="right">Not a member? <a href="#">Register</a> | <a href="#">Lost your password?</a></div>
+    </div>
+    <div class="loginClose"><a id="closeLogin" href="#">Close Panel</a></div>
+</div> 
+</div>
+<div id="container">
+    <div id="top">
+        
+        <ul class="login">
+            <li class="left">Â </li>
+            <li>Hello Guest!</li>
+            <li>|</li>
+            <li><a href="#" id="toggleLogin">Log In</a></li>
+        </ul> 
+    </div> 
+
+    
+
+
+    
+    
+</div>
+
+
+
+
+</body>
+</html>

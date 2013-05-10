@@ -6,7 +6,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 fcModel.HtmlElementExecutor =
 {
     addDependencyIfImportantElement: function(htmlElement, globalObject, codeConstruct)
-    {
+    {  if(htmlElement != null && htmlElement.modelElement.type == "DummyCodeElement" && codeConstruct != null && codeConstruct.loc.start.line != 1558) debugger;
         if(globalObject.satisfiesDomSlicingCriteria(htmlElement))
         {
             globalObject.browser.callImportantConstructReachedCallbacks(codeConstruct);
@@ -59,6 +59,7 @@ fcModel.HtmlElementExecutor =
             case "appendChild":
             case "removeChild":
             case "insertBefore":
+            case "replaceChild":
                 return this._modifyDOM(functionName, thisObjectValue, arguments, jsArguments, globalObject, callExpression);
             case "cloneNode":
                 return this._cloneNode(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
@@ -275,6 +276,9 @@ fcModel.HtmlElementExecutor =
                 manipulatedElement.notifyElementInsertedIntoDom(callExpression);
             }
         }
+
+        if(functionName == "replaceChild") { return args[args.length - 1]; }
+
         return args[0];
     },
 

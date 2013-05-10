@@ -319,16 +319,23 @@ fcSimulator.Evaluator.prototype =
 
         returnCommand.parentFunctionCommand.executedReturnCommand = returnCommand;
 
+        var returnValue = this.executionContextStack.getExpressionValue(returnCommand.codeConstruct.argument);
+
         if(returnCommand.parentFunctionCommand.isExecuteCallbackCommand())
         {
             this._handleReturnFromCallbackFunction(returnCommand);
+        }
+        else if (returnCommand.parentFunctionCommand.isEvalNewExpressionCommand()
+             && (returnValue.isPrimitive() || returnValue.jsValue == null))
+        {
+            //DO NOTHING, should only write if returnValue is not a primitive
         }
         else
         {
             this.executionContextStack.setExpressionValueInPreviousContext
             (
                 returnCommand.parentFunctionCommand.codeConstruct,
-                returnCommand.codeConstruct.argument != null ? this.executionContextStack.getExpressionValue(returnCommand.codeConstruct.argument)
+                returnCommand.codeConstruct.argument != null ? returnValue
                                                              : null
             );
         }
