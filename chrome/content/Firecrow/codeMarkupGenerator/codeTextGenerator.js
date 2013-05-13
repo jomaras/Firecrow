@@ -1182,7 +1182,7 @@ Firecrow.CodeTextGenerator.prototype =
     indent: function() { this.whitespace += "  "; },
     deIndent: function()  { this.whitespace = this.whitespace.replace(/\s\s$/, "");},
 
-    notifyError: function(message) { Firecrow.CodeTextGenerator.notifyError(message); },
+    notifyError: function(message) { debugger; Firecrow.CodeTextGenerator.notifyError(message); },
 
     _LEFT_GULL_WING:  "{",
     _RIGHT_GULL_WING: "}",

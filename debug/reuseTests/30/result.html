@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse App</title>
+    <meta charset="UTF-8"/>
+    <style>
+        body { color: Blue; }
+    </style>
+
+
+
+    <style origin="reuse"></style>
+</head><body>
+<div id="mainContainerReuseInto" class="_OR_">
+</div>
+<script class="_OR_">
+    function implement(object, extensionObject)
+    {
+        for(var prop in extensionObject)
+        {
+            object[prop] = extensionObject[prop];
+        }
+    }
+    var container = document.getElementById('mainContainerReuseInto');
+    implement(window, {
+        test: function()
+        {
+            container.textContent = 'Added by JavaScript';
+        }
+    });
+    window.test();
+</script>
+
+
+<div id="mainContainerReuseControl" style=" color: Blue; " origin="reuse" class="_RU_">
+</div>
+<script origin="reuse" class="_RU_">
+    function implement2(object, extensionObject)
+    {
+        for(var prop in extensionObject)
+        {
+            object[prop] = extensionObject[prop];/*Firecrow - Rename global property; */
+        }
+    }
+    var mainContainer = document.getElementById('mainContainerReuseControl');
+    implement2(window, {
+        _RU_test: function()
+        {
+            mainContainer.textContent = 'Added by JavaScript';
+        }
+    });/*Firecrow - Rename global property; */
+    window._RU_test();/*Firecrow - Rename global property; */
+</script>
+
+</body>
+</html>

@@ -6,7 +6,7 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 fcModel.HtmlElementExecutor =
 {
     addDependencyIfImportantElement: function(htmlElement, globalObject, codeConstruct)
-    {  if(htmlElement != null && htmlElement.modelElement.type == "DummyCodeElement" && codeConstruct != null && codeConstruct.loc.start.line != 1558) debugger;
+    {
         if(globalObject.satisfiesDomSlicingCriteria(htmlElement))
         {
             globalObject.browser.callImportantConstructReachedCallbacks(codeConstruct);

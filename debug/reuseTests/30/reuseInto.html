@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse App</title>
+    <meta charset="UTF-8"/>
+    <style>
+        body { color: Blue; }
+    </style>
+</head>
+<body>
+<div id="mainContainerReuseInto">
+</div>
+<script>
+    function implement(object, extensionObject)
+    {
+        for(var prop in extensionObject)
+        {
+            object[prop] = extensionObject[prop];
+        }
+    }
+
+    var container = document.getElementById("mainContainerReuseInto");
+
+    implement(window,
+    {
+        test: function()
+        {
+            container.textContent = "Added by JavaScript";
+        }
+    });
+    window.test();
+</script>
+</body>
+</html>

@@ -75,7 +75,7 @@ Firecrow.Reuser =
         var newParents = this._getNodesBySelectors(mergedModel, reuseIntoDestinationSelectors);
 
         if(nodesToMove == null || nodesToMove.length == 0) { return; }
-        if(newParents == null || newParents.length != 1) { alert("A node should be moved to only one parent!"); return; }
+        if(newParents == null || newParents.length != 1) { debugger; alert("A node should be moved to only one parent!"); return; }
 
         var newParent = newParents[0];
 
@@ -140,9 +140,9 @@ Firecrow.Reuser =
         {
             var classAttr = this._getAttribute(node, "class");
 
-            if(classAttr == null) { return false; }
+            if(classAttr == null || classAttr.value == "") { return false; }
 
-            return classAttr.value == selector.substring(1);
+            return classAttr.value.split(/(\s)+/).indexOf(selector.substring(1)) != -1;
         }
         else if (this._isIdSelector(selector))
         {
@@ -863,8 +863,6 @@ Firecrow.ConflictFixer =
 
             var declarationConstruct = conflictedProperty.declarationPosition.codeConstruct;
 
-            this._addCommentToParentStatement(declarationConstruct, "Firecrow - Rename global property");
-
             if(Firecrow.ASTHelper.isAssignmentExpression(declarationConstruct))
             {
                 if(Firecrow.ASTHelper.isIdentifier(declarationConstruct.left))
@@ -873,7 +871,30 @@ Firecrow.ConflictFixer =
                 }
                 else if (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.left))
                 {
-                    declarationConstruct.left.property.name = newName;
+                    if(!declarationConstruct.left.computed || conflictedProperty.name == declarationConstruct.left.property.name)
+                    {
+                        declarationConstruct.left.property.name = newName;
+                    }
+                    else if (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right))
+                    {
+                        //TODO - consider improving (problem when the conflicting property is assigned over for-in object extension)
+                        console.log("Trying to replace computed member expression");
+                        var memberPropertyDeclaration = this._getMemberExpressionDeclaration(declarationConstruct.right, conflictedProperty.name);
+
+                        if(memberPropertyDeclaration != null)
+                        {
+                            this._addCommentToParentStatement(memberPropertyDeclaration, "Firecrow - Rename global property");
+                            memberPropertyDeclaration.name = newName;
+                        }
+                        else
+                        {
+                            alert("Can not find property declarator when fixing property conflicts");
+                        }
+                    }
+                    else
+                    {
+                        alert("Unhandled expression when fixing global properties conflicts in assignment expression");
+                    }
                 }
                 else
                 {
@@ -886,17 +907,26 @@ Firecrow.ConflictFixer =
             }
             else { alert("Unhandled expression when fixing global properties conflicts"); }
 
+            this._addCommentToParentStatement(declarationConstruct, "Firecrow - Rename global property");
+
             var dependentEdges = declarationConstruct.graphNode.reverseDependencies;
 
             for(var i = 0, length = dependentEdges.length; i < length; i++)
             {
                 var edge = dependentEdges[i];
 
-                this._addCommentToParentStatement(edge.sourceNode.model, "Firecrow - Rename global property");
+                var sourceConstruct = edge.sourceNode.model;
 
-                if(!Firecrow.ASTHelper.isIdentifier(edge.sourceNode.model) || edge.sourceNode.model.name != conflictedProperty.name) { continue; }
+                this._addCommentToParentStatement(sourceConstruct, "Firecrow - Rename global property");
 
-                edge.sourceNode.model.name = this.generateReusePrefix() + edge.sourceNode.model.name;
+                if(Firecrow.ASTHelper.isIdentifier(sourceConstruct) && sourceConstruct.name == conflictedProperty.name)
+                {
+                    sourceConstruct.name = this.generateReusePrefix() + sourceConstruct.name;
+                }
+                else if (Firecrow.ASTHelper.isMemberExpression(sourceConstruct) && sourceConstruct.property.name == conflictedProperty.name)
+                {
+                    sourceConstruct.property.name = this.generateReusePrefix() + sourceConstruct.property.name;
+                }
             }
 
             var undefinedGlobalPropertiesMap = reuseAppBrowser.getUndefinedGlobalPropertiesAccessMap();
@@ -922,6 +952,26 @@ Firecrow.ConflictFixer =
             }
 
         }, this);
+    },
+
+    _getMemberExpressionDeclaration: function(memberExpression, propertyName)
+    {
+        if(memberExpression == null) { return null; }
+        if(memberExpression.graphNode == null || memberExpression.graphNode.dataDependencies == null) { return null; }
+
+        var dependencies = memberExpression.graphNode.dataDependencies;
+
+        for(var i = 0; i < dependencies.length; i++)
+        {
+            var destinationConstruct = dependencies[i].destinationNode.model;
+
+            if(Firecrow.ASTHelper.isProperty(destinationConstruct.parent) && destinationConstruct.parent.key.name == propertyName)
+            {
+                return destinationConstruct.parent.key;
+            }
+        }
+
+        return null;
     },
 
     _addCommentToParentStatement: function(codeConstruct, comment)

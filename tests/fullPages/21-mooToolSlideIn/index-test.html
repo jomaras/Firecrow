@@ -1434,6 +1434,9 @@
       var F;
       switch(B)
       {
+        case 'out':
+          F = G;
+          break;
         case 'toggle':
           F = this.wrapper['offset' + this.layout.capitalize()] == 0 ? A : G;
       }
@@ -1442,7 +1445,9 @@
     slideIn: function(A)
     {}, 
     slideOut: function(A)
-    {}, 
+    {
+      return this.start('out', A);
+    }, 
     hide: function(A)
     {
       this[A || this.options.mode]();
@@ -1472,7 +1477,11 @@
       e.stop();
     });
     $('closeLogin').addEvent('click', function(e)
-    {});
+    {
+      e = new Event(e);
+      mySlide.slideOut();
+      e.stop();
+    });
   });
 </script>
     
