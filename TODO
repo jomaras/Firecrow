@@ -23,6 +23,7 @@
     - sylvester
 ------------------------------------------------------------------------------------------------------------------------
 NEXT:
+    - continue debugging - inspect HtmlElement dynamicClasses - who adds to that array for debugReuse.htmll
     - on a test example implement, after a slicing criteria is processed,
       create a map of all constructs included in the slice (i'm not sure how detailed it has to be, at least on memberExpression, callExpression, identifiers levels)
       then group them by functions, and see what could potentially cause problems.
@@ -75,6 +76,8 @@ NEXT:
 
 *******Reuse
 - add options to remove outside HTML nodes
+- fix the CSS Specificity problem
+
 - The problem comes from this:
           .or div { color:green}
           .container { color: red; }
@@ -105,8 +108,54 @@ NEXT:
 - 13-08_04 - NOK CSS Specificity problem, jQuery(document).trigger().off();
 - 14-01b_04 - NOK CSS Specificity problem, jQuery(document).trigger().off(), the style of the reused element is completely missing -> probably also overwrites
 - 15-01c_04 - NOK CSS Specificity problem, jQuery(document).trigger().off(), the style of the reused element is partially missing -> probably also overwrites
-- 16-02a_04 -
-
+- 16-02a_04 - NOK - even some javascript problems
+- 17-02b_04
+- 18-03_04
+- 19-11_04
+- 20-12_04
+  21-16_04
+  22-19_04
+  23-20_04
+  24-21_04
+  25-02a_05
+  26-02b_05
+  27-03_05
+  28-04_05
+  29-06_05
+  30-08_05
+  31-11_05
+  32-16_05
+  33-20_05
+  34-21_05
+  36-01c_06
+  37-02a_06
+  38-02b_06
+  39-11_06
+  40-15_06
+  41-19_06
+  42-21_06
+  43-01c_07
+  44-02a_07
+  45-02b_07
+  46-05_07
+  47-06_07
+  48-11_07
+  49-12_07
+  50-15_07
+  51-19_07
+  52-20_07
+  53-21_07
+  54-01b_08
+  55-01c_08
+  56-02b_08
+  57-03_08
+  58_04_08
+  59_06_08
+  60-11_08
+  61-15_08
+  62-19_08
+  63-20_08
+  63-21_08
 
 
 

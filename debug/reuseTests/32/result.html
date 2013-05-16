@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse Into</title>
+    <style>
+        a:not([origin='reuse']){  color: rgb(1, 150, 221); }
+        .active:not([origin='reuse']){  color: rgb(0, 45, 66); }
+    </style>
+
+
+    <style origin="reuse">
+        a[origin='reuse']{  color: gray; }
+        ._RU_active[origin='reuse']{    color: red; }
+    </style>
+</head><body>
+
+<div id="mainCont" class="_OR_">Text1</div>
+<a rel="Text1" class="active _OR_" href="#">1</a>
+<a rel="Text2" href="#" class="_OR_">2</a>
+
+<script class="_OR_">
+    var mainCont = document.getElementById('mainCont');
+    var as = document.querySelectorAll('._OR_ a, a._OR_ ')/*Firecrow - Rename:a -> ._OR_ a, a._OR_ ; */;
+    as[0].onclick = handleClick;
+    as[1].onclick = handleClick;
+    function handleClick()
+    {
+        mainCont.textContent = this.rel;
+        as[0].className = '';
+        as[1].className = '';
+        this.className = 'active';
+    }
+</script>
+
+
+<div id="reuseContainer" origin="reuse" class="_RU_">
+    <div id="mainContainer" origin="reuse">Text1</div>
+    <a rel="Text1" class="_RU_active" href="#" origin="reuse">1</a>
+    <a rel="Text2" href="#" origin="reuse">2</a>
+</div>
+
+<script origin="reuse" class="_RU_">
+    var mainContainer = document.getElementById('mainContainer');
+    var links = document.querySelectorAll('#reuseContainer a');
+    links[0].onclick = _RU_handleClick;/*Firecrow - Rename global property; */
+    links[1].onclick = _RU_handleClick;/*Firecrow - Rename global property; */
+    function _RU_handleClick()
+    {
+        mainContainer.textContent = this.rel;
+        links[0].className = '';
+        links[1].className = '';
+        this.className = '_RU_active';/*Firecrow - Rename:active -> _RU_active; */
+    }
+</script>
+
+</body>
+</html>

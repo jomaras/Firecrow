@@ -3066,6 +3066,8 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/43-01c_07/pageB.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/44-02a_07/pageB.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/45-02b_07/pageB.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/31/result.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/32/result.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/03-21_01/result.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/05-06_02/result.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/06-11_02/result.html" />
@@ -3079,6 +3081,10 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/14-01b_04/result.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/15-01c_04/result.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/16-02a_04/result.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/31/reuseApp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/32/reuseApp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/31/reuseInto.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/32/reuseInto.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/08-06_03/pageBScripts/script.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/09-08_03/pageBScripts/script.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/10-21_03/pageBScripts/script.js" />
@@ -3136,23 +3142,20 @@
       <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\03-15_12\pageBImages\radio-on.png" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/04-15_12/pageBImages/radio-on.png" />
       <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\03-15_12\pageBScripts\page.js" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/04-15_12/pageBScripts/page.js" />
       <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\03-15_12\result.html" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/04-15_12/result.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/UriHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/UriHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugReuse.html" afterPath="$PROJECT_DIR$/debug/debugReuse.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugReuseCaseStudy.html" afterPath="$PROJECT_DIR$/debug/debugReuseCaseStudy.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/fullPages/03-hipstamatic/index.html" afterPath="$PROJECT_DIR$/tests/fullPages/03-hipstamatic/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/reuseCaseStudies/01-16_01/pageA.html" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/01-16_01/pageA.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/reuseCaseStudies/02-20_01/pageA.html" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/02-20_01/pageA.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/reuseCaseStudies/01-16_01/pageB.html" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/01-16_01/pageB.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/reuseCaseStudies/02-20_01/pageB.html" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/02-20_01/pageB.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/play.html" afterPath="$PROJECT_DIR$/playground/play.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/reuseCaseStudies/01-16_01/result.html" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/01-16_01/result.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/reuseCaseStudies/02-20_01/result.html" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/02-20_01/result.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" afterPath="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -3180,8 +3183,8 @@
     <ignored path="debug/sylvester/10-LineSegment-Contains/htmlMapping.js" />
     <ignored path="debug/sylvester/22-Line-distanceFrom/htmlMapping.js" />
     <ignored path="debug/sylvester/24-Line-rotate/htmlMapping.js" />
-    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368688898027" ignored="false" />
-    <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368619591557" ignored="false" />
+    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368718078145" ignored="false" />
+    <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368711865099" ignored="false" />
     <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368686932840" ignored="false" />
     <file path="/Command.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368018354643" ignored="false" />
     <file path="/CommandGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366648155638" ignored="false" />
@@ -3231,21 +3234,23 @@
     <file path="/fx.slide.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368108489637" ignored="false" />
     <file path="/VariableObject.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368112180001" ignored="false" />
     <file path="/String.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368113463783" ignored="false" />
-    <file path="/HtmlElement.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368175056407" ignored="false" />
-    <file path="/debugReuseCaseStudy.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368620432423" ignored="false" />
-    <file path="/a.dummy" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368182905008" ignored="false" />
-    <file path="/Reuser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368620006347" ignored="false" />
-    <file path="/reuseApp.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368445735442" ignored="false" />
-    <file path="/reuseInto.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368445642174" ignored="false" />
-    <file path="/reuseModels.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368446144386" ignored="false" />
+    <file path="/HtmlElement.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368719330002" ignored="false" />
+    <file path="/debugReuseCaseStudy.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368702686044" ignored="false" />
+    <file path="/a.dummy" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368719330198" ignored="false" />
+    <file path="/Reuser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368728847963" ignored="false" />
+    <file path="/reuseApp.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368708497433" ignored="false" />
+    <file path="/reuseInto.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368708646448" ignored="false" />
+    <file path="/reuseModels.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368709042347" ignored="false" />
     <file path="/jquery.plugins.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368519594892" ignored="false" />
     <file path="/UriHelper.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368531775792" ignored="false" />
-    <file path="/result.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368538374308" ignored="false" />
+    <file path="/result.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368706056478" ignored="false" />
     <file path="$PROJECT_DIR$/tests/reuseCaseStudies/02-20_01/pageBStyles/screen.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368537242781" ignored="false" />
     <file path="$PROJECT_DIR$/tests/reuseCaseStudies/07-06_03/pageBStyles/style.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368538288921" ignored="false" />
     <file path="/page.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368602344915" ignored="false" />
     <file path="/play.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368617573267" ignored="false" />
     <file path="$PROJECT_DIR$/tests/reuseCaseStudies/25-02a_05/css/styles.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368639956498" ignored="false" />
+    <file path="/CssSelectorParser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368691205201" ignored="false" />
+    <file path="$PROJECT_DIR$/debug/reuseTests/32/reuseApp.html#-codeModel.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368721243047" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -3267,7 +3272,44 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="reuseModels.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="227" column="8" selection-start="420403" selection-end="420403" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Reuser.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1500" column="69" selection-start="55830" selection-end="55830" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="result.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/debug/reuseTests/32/result.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="41" selection-start="1534" selection-end="1534" vertical-scroll-proportion="0.6581353">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HtmlElement.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="292" column="55" selection-start="12477" selection-end="12491" vertical-scroll-proportion="-11.24">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -3298,31 +3340,31 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/25-02a_05/css/960.css" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/25-02a_05/css/styles.css" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/25-02a_05/index.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/25-02a_05/pageB.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/28-04_05/pageA.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/36-01c_06/pageB.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/36-01c_06/pageBScripts/page.js" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/46-05_07/pageA.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/20-12_04/pageA.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/20-12_04/pageAScripts/page.js" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/43-01c_07/css/reset.css" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/43-01c_07/css/style.css" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/43-01c_07/index.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/43-01c_07/pageB.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/27-03_05/pageA.html" />
-        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageB.html" />
+        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/16-02a_04/result.html" />
+        <option value="$PROJECT_DIR$/debug/debugReuseCaseStudy.html" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/31/reuseApp.html" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/31/result.html" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/31/reuseInto.html" />
+        <option value="$PROJECT_DIR$/tests/reuseCaseStudies/05-06_02/result.html" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/32/reuseInto.html" />
+        <option value="$PROJECT_DIR$/debug/debugReuse.html" />
+        <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/32/reuseApp.html" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/32/reuseApp.html#-codeModel.txt" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/32/reuseInto.html#-codeModel.txt" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/reuseModels.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/32/result.html" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="1358" />
-    <option name="y" value="-140" />
-    <option name="width" value="1696" />
-    <option name="height" value="1066" />
+    <option name="y" value="-264" />
+    <option name="width" value="1296" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -3407,6 +3449,92 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reuseCaseStudies" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="playground" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reuseTests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reuseTests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="32" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -3416,13 +3544,13 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="179" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="194" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="191" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="195" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="732" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="729" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="732" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="190" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="190" />
@@ -3442,11 +3570,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\reuseTests\32" />
       <recent name="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\0" />
       <recent name="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\63-21_08" />
       <recent name="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\63-20_08" />
       <recent name="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\62-19_08" />
-      <recent name="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\61-15_08" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\tests\reuseCaseStudies\15-01c_04" />
@@ -5663,7 +5791,11 @@
       <created>1368450752249</created>
       <updated>1368450752250</updated>
     </task>
-    <option name="localTasksCounter" value="521" />
+    <task id="LOCAL-00521" summary="Work on renaming properties assigned by iterating over the for-in loop">
+      <created>1368688938662</created>
+      <updated>1368688938662</updated>
+    </task>
+    <option name="localTasksCounter" value="522" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -5700,24 +5832,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <frame x="1358" y="-264" width="1296" height="1040" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49411765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49411765" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3410341" sideWeight="0.49973643" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.106819555" sideWeight="0.65882355" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19729514" sideWeight="0.6589659" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39764202" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5049505" sideWeight="0.43210623" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17967914" sideWeight="0.5624623" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14683816" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34117648" sideWeight="0.49973643" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279743" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
@@ -5821,84 +5953,106 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/42-21_06/pageB.html-codeModel.txt">
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.7890625" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/31-11_05/pageA.html-codeModel.txt">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/31/reuseApp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="12" column="8" selection-start="227" selection-end="227" vertical-scroll-proportion="-7.8461537" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/30-08_05/pageA.html-codeModel.txt">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/31/reuseInto.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="5" column="20" selection-start="92" selection-end="92" vertical-scroll-proportion="-3.2692308" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/46-05_07/pageA.html">
+    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/05-06_02/pageAScripts/page.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="987" column="43" selection-start="23625" selection-end="23625" vertical-scroll-proportion="6.03171" />
+        <state line="0" column="0" selection-start="0" selection-end="17" vertical-scroll-proportion="8.16" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/fullPages/12-fancyCheckbox/style.css">
+    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/05-06_02/result.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="60" selection-start="0" selection-end="1924" vertical-scroll-proportion="0.34151787" />
+        <state line="10808" column="36" selection-start="326179" selection-end="326187" vertical-scroll-proportion="-18.24" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/49-12_07/pageA.html-codeModel.txt">
+    <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="148" column="57" selection-start="8728" selection-end="8728" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/20-12_04/pageAScripts/page.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="16" selection-start="1319" selection-end="1319" vertical-scroll-proportion="0.579758" />
+        <state line="32" column="46" selection-start="1143" selection-end="1143" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/20-12_04/pageA.html">
+    <entry file="file://$PROJECT_DIR$/TODO">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="41" selection-start="2365" selection-end="2365" vertical-scroll-proportion="0.4497768" />
+        <state line="9" column="56" selection-start="963" selection-end="963" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/43-01c_07/pageB.html">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/32/reuseInto.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="437" column="57" selection-start="10727" selection-end="10727" vertical-scroll-proportion="0.56666666" />
+        <state line="6" column="32" selection-start="134" selection-end="134" vertical-scroll-proportion="0.119019836">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/44-02a_07/pageB.html-codeModel.txt">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/32/reuseInto.html#-codeModel.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/45-02b_07/pageB.html-codeModel.txt">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/32/reuseApp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="5" column="5" selection-start="76" selection-end="76" vertical-scroll-proportion="-3.2692308">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/57-03_08/pageA.html">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/reuseModels.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="227" column="8" selection-start="420403" selection-end="420403" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/27-03_05/pageA.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2252" column="27" selection-start="61398" selection-end="61398" vertical-scroll-proportion="0.3705357" />
+        <state line="292" column="55" selection-start="12477" selection-end="12491" vertical-scroll-proportion="-11.24">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/55-01c_08/pageAScripts/js.js">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/31/result.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="5" column="8" selection-start="80" selection-end="80" vertical-scroll-proportion="-3.2692308">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/30-08_05/pageA.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="25" selection-start="0" selection-end="31815" vertical-scroll-proportion="0.30357143" />
+        <state line="1500" column="69" selection-start="55830" selection-end="55830" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/reuseCaseStudies/58_04_08/pageAScripts/form_ajax.js">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/32/result.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="47" column="41" selection-start="1534" selection-end="1534" vertical-scroll-proportion="0.6581353">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>

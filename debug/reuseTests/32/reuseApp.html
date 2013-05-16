@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse App</title>
+    <style>
+     a { color: gray; }
+     .active { color: red; }
+    </style>
+</head>
+<body>
+    <div id="reuseContainer">
+      <div id="mainContainer">Text1</div>
+      <a href="#" class="active" rel="Text1">1</a>
+      <a href="#" rel="Text2">2</a>
+    </div>
+
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+        var links = document.querySelectorAll("#reuseContainer a");
+
+        links[0].onclick = handleClick;
+        links[1].onclick = handleClick;
+
+        function handleClick()
+        {
+            mainContainer.textContent = this.rel;
+            links[0].className = "";
+            links[1].className = "";
+
+            this.className = "active";
+        }
+    </script>
+</body>
+</html>

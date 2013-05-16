@@ -196,7 +196,11 @@ FBL.ns(function() { with (FBL) {
     Firecrow.CssSelectorParser = {
         parse: function(expression)
         {
+            if(expression == null) { debugger; }
+
             var result = parse(expression);
+
+            if(result == null) { return null; }
 
             result.combine = function()
             {

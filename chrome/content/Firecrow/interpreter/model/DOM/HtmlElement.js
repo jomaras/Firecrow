@@ -227,12 +227,16 @@ fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlE
 
         if(childNode.id != null && childNode.id != "")
         {
-            childNode.modelElement.dynamicIds = [{name:'id', value: childNode.id, setConstruct: codeConstruct}];
+            childNode.modelElement.dynamicIds = {};
+            var codeConstructId = codeConstruct != null ? codeConstruct.nodeId : 0;
+            childNode.modelElement.dynamicIds[childNode.id + codeConstructId] = {name:'id', value: childNode.id, setConstruct: codeConstruct};
         }
 
         if(childNode.className != null && childNode.className != "")
         {
-            childNode.modelElement.dynamicClasses = [{name:'class', value: childNode.className, setConstruct: codeConstruct}];
+            childNode.modelElement.dynamicClasses = {};
+            var codeConstructId = codeConstruct != null ? codeConstruct.nodeId : 0;
+            childNode.modelElement.dynamicClasses[childNode.className + codeConstructId] = {name:'class', value: childNode.className, setConstruct: codeConstruct};
         }
 
         this.globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(childNode.modelElement);
@@ -279,13 +283,17 @@ fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propert
 
     if(propertyName == "id")
     {
-        if(this.htmlElement.modelElement.dynamicIds == null) { this.htmlElement.modelElement.dynamicIds = []; }
-        this.htmlElement.modelElement.dynamicIds.push({name:'id', value: propertyValue.jsValue, setConstruct: codeConstruct});
+        if(this.htmlElement.modelElement.dynamicIds == null) { this.htmlElement.modelElement.dynamicIds = {}; }
+
+        var codeConstructId = codeConstruct != null ? codeConstruct.nodeId : 0;
+        this.htmlElement.modelElement.dynamicIds[propertyValue.jsValue + codeConstructId] = {name:'id', value: propertyValue.jsValue, setConstruct: codeConstruct};
     }
     else if(propertyName == "className")
     {
-        if(this.htmlElement.modelElement.dynamicClasses == null) { this.htmlElement.modelElement.dynamicClasses = []; }
-        this.htmlElement.modelElement.dynamicClasses.push({name:'class', value: propertyValue.jsValue, setConstruct: codeConstruct});
+        if(this.htmlElement.modelElement.dynamicClasses == null) { this.htmlElement.modelElement.dynamicClasses = {}; }
+
+        var codeConstructId = codeConstruct != null ? codeConstruct.nodeId : 0;
+        this.htmlElement.modelElement.dynamicClasses[propertyValue.jsValue + codeConstructId] = {name:'class', value: propertyValue.jsValue, setConstruct: codeConstruct};
     }
     else if(propertyName == "src")
     {

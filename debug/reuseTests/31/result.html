@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse Into</title>
+    <style>
+        div:not([origin='reuse']){  color: red; }
+        .test:not([origin='reuse']){  color: green; }
+    </style>
+
+
+    <style origin="reuse">
+        div[origin='reuse']{  color: blue; }
+        .container[origin='reuse']{  color: yellow; }
+    </style>
+</head><body>
+<div class="test _OR_">Green Color</div>
+<div class="_OR_">Red Color</div>
+
+
+<div id="reuseContainer" origin="reuse" class="_RU_">
+    <div origin="reuse">Blue</div>
+    <div class="container" origin="reuse">Yellow</div>
+</div>
+
+</body>
+</html>

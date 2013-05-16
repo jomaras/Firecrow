@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reuse Into</title>
+    <style>
+        a { color: #0196dd; }
+        .active { color: #002D42; }
+    </style>
+</head>
+<body>
+<body>
+    <div id="mainCont">Text1</div>
+    <a href="#" class="active" rel="Text1">1</a>
+    <a href="#" rel="Text2">2</a>
+
+    <script>
+        var mainCont = document.getElementById("mainCont");
+        var as = document.querySelectorAll("a");
+
+        as[0].onclick = handleClick;
+        as[1].onclick = handleClick;
+
+        function handleClick()
+        {
+            mainCont.textContent = this.rel;
+            as[0].className = "";
+            as[1].className = "";
+
+            this.className = "active";
+        }
+    </script>
+</body>
+</html>
