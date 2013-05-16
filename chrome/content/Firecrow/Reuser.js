@@ -63,8 +63,10 @@ Firecrow.Reuser =
 
             return mergedModel;
 
-        } catch(e)
+        }
+        catch(e)
         {
+            debugger;
             alert("Error when creating merged model:" + e);
         }
     },
@@ -431,7 +433,7 @@ Firecrow.ConflictFixer =
             this._fixResourceConflictsInHtml(reusedAppGraph, reuseAppBrowser);
             this._fixResourceConflictsInJs(reusedAppGraph, reuseAppBrowser);
         }
-        catch(e) { alert("Error when fixing resource conflicts: " + e); }
+        catch(e) { debugger; alert("Error when fixing resource conflicts: " + e); }
     },
 
     _fixResourceConflictsInCss: function(reusedAppGraph, reuseAppBrowser)
@@ -875,12 +877,28 @@ Firecrow.ConflictFixer =
                     {
                         declarationConstruct.left.property.name = newName;
                     }
-                    else if (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right))
+                    else if (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right)
+                        ||  (Firecrow.ASTHelper.isAssignmentExpression(declarationConstruct.right)
+                        && (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right.right)
+                          ||Firecrow.ASTHelper.isIdentifier(declarationConstruct.right.right))))
                     {
                         //TODO - consider improving (problem when the conflicting property is assigned over for-in object extension)
                         console.log("Trying to replace computed member expression");
-                        var memberPropertyDeclaration = this._getMemberExpressionDeclaration(declarationConstruct.right, conflictedProperty.name);
 
+                        var memberPropertyDeclaration = null;
+
+                        if(Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right))
+                        {
+                            memberPropertyDeclaration = this._getPropertyDeclaration(declarationConstruct.right, conflictedProperty.name);
+                        }
+                        else if (Firecrow.ASTHelper.isAssignmentExpression(declarationConstruct.right))
+                        {
+                            if(Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right.right)
+                            || Firecrow.ASTHelper.isIdentifier(declarationConstruct.right.right))
+                            {
+                                memberPropertyDeclaration = this._getPropertyDeclaration(declarationConstruct.right.right, conflictedProperty.name);
+                            }
+                        }
                         if(memberPropertyDeclaration != null)
                         {
                             this._addCommentToParentStatement(memberPropertyDeclaration, "Firecrow - Rename global property");
@@ -888,16 +906,19 @@ Firecrow.ConflictFixer =
                         }
                         else
                         {
+                            debugger;
                             alert("Can not find property declarator when fixing property conflicts");
                         }
                     }
                     else
                     {
+                        debugger;
                         alert("Unhandled expression when fixing global properties conflicts in assignment expression");
                     }
                 }
                 else
                 {
+                    debugger;
                     alert("Unhandled expression when fixing global properties conflicts in assignment expression");
                 }
             }
@@ -954,12 +975,12 @@ Firecrow.ConflictFixer =
         }, this);
     },
 
-    _getMemberExpressionDeclaration: function(memberExpression, propertyName)
+    _getPropertyDeclaration: function(codeConstruct, propertyName)
     {
-        if(memberExpression == null) { return null; }
-        if(memberExpression.graphNode == null || memberExpression.graphNode.dataDependencies == null) { return null; }
+        if(codeConstruct == null) { return null; }
+        if(codeConstruct.graphNode == null || codeConstruct.graphNode.dataDependencies == null) { return null; }
 
-        var dependencies = memberExpression.graphNode.dataDependencies;
+        var dependencies = codeConstruct.graphNode.dataDependencies;
 
         for(var i = 0; i < dependencies.length; i++)
         {

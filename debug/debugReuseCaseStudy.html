@@ -13,18 +13,34 @@
         var HtmlModelMapping = [];
     </script>
 
-    <script src="../tests/reuseCaseStudies/02-20_01/pageA.html-codeModel.txt"></script>
-    <script src="../tests/reuseCaseStudies/02-20_01/pageB.html-codeModel.txt"></script>
+    <script src="../tests/reuseCaseStudies/16-02a_04/pageA.html-codeModel.txt"></script>
+    <script src="../tests/reuseCaseStudies/16-02a_04/pageB.html-codeModel.txt"></script>
     <script>
-        /*01 - "#fb-root"
-        * 02 - "#fb-root"
+        /*01 - #fb-root
+        * 02 - #fb-root
+        * 03 - #fb-root
+        * 04 - body
+        * 05 - #contact
+        * 06 - #people
+        * 07 - #pageTop
+        * 08 - #press
+        * 09 - #press
+        * 10 - #press
+        * 11 - #topPagePart
+        * 12 - .wrpprFull
+        * 13 - .wrpprFull
+        * 14 - .wrpprFull
+        * 15 - .wrpprFull
+        * 16 - .wrpprFull
+        * 17 - .wrpprFull
         * */
-        var htmlModel =
+
+         var htmlModel =
         {
             reuseAppModel: HtmlModelMapping[0].model,
             reuseIntoAppModel: HtmlModelMapping[1].model,
             reuseSelectors: HtmlModelMapping[0].model.trackedElementsSelectors,
-            reuseIntoDestinationSelectors: ["#fb-root"]
+            reuseIntoDestinationSelectors: [".wrpprFull"]
         };
     </script>
 

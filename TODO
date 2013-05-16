@@ -73,6 +73,43 @@ NEXT:
  - the same problem as with 01c
 
 
+*******Reuse
+- add options to remove outside HTML nodes
+- The problem comes from this:
+          .or div { color:green}
+          .container { color: red; }
+      <div class ="or">
+          <div class="container">
+              Test -> Will be red (the problem is that in the original case it was only "div" which is weaker than ".container", so maybe the solution would be to also expand the ".container")
+              //All rules should be traversed and expanded: .container -> .or .container, .or.container
+          </div>
+      </div>
+
+
+- 01-16_01 - OK
+- 02-20_01 - OK
+- 03-21_01 - OK
+
+- 04-15_12 - OK
+
+- 05-06_02 - NOK CSS Specificity problem
+- 06-11_02 - NOK CSS Specificity problem
+- 07-21_02 - NOK CSS Specificity problem
+
+- 08-06_03 - NOK CSS Specificity problem
+- 09-08_03 - NOK CSS Specificity problem
+- 10-21_03 - NOK CSS Specificity problem
+
+- 11-21_04 - NOK CSS Specificity problem
+- 12-06_04 - NOK CSS Specificity problem, jQuery(document).trigger().off();
+- 13-08_04 - NOK CSS Specificity problem, jQuery(document).trigger().off();
+- 14-01b_04 - NOK CSS Specificity problem, jQuery(document).trigger().off(), the style of the reused element is completely missing -> probably also overwrites
+- 15-01c_04 - NOK CSS Specificity problem, jQuery(document).trigger().off(), the style of the reused element is partially missing -> probably also overwrites
+- 16-02a_04 -
+
+
+
+
 *******UI Controls:
  - 01a - OK; F: 140 113; S: 102 979;
  - 01b - OK; F: 194 325; S: 87 510;

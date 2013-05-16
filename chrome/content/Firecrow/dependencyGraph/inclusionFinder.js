@@ -49,6 +49,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
         }
         catch(e)
         {
+            debugger;
             this.notifyError("Error when finding inclusions in htmlElement: " + e);
         }
     },
@@ -401,7 +402,9 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
         if(tryStatement.shouldBeIncluded) { return true;}
         if(this.isIncludedElement(tryStatement.block)) { return true; }
 
-        var handlers = tryStatement.handlers || (ValueTypeHelper.isArray(tryStatement.handler) ? tryStatement.handler : [tryStatement.handler]);
+        var handlers = tryStatement.handlers ||
+           (ValueTypeHelper.isArray(tryStatement.handler) ? tryStatement.handler :
+                                                            [tryStatement.handler]);
 
         for(var i = 0; i < handlers.length; i++)
         {
@@ -454,6 +457,8 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
 
     isIncludedCatchClause: function(catchClause)
     {
+        if(catchClause == null) return false;
+
         return catchClause.shouldBeIncluded
             || this.isIncludedStatement(catchClause.body)
             || this.isIncludedElement(catchClause.param);

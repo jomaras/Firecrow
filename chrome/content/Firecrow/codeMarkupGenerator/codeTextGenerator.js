@@ -145,7 +145,7 @@ Firecrow.CodeTextGenerator.prototype =
                 htmlElementContent = this.generateCodeFromScriptElement(htmlElement);
                 this.deIndent();
             }
-            else if(htmlElement.type == "style")
+            else if(htmlElement.type == "style" || htmlElement.type == "link")
             {
                 this.indent();
                 htmlElementContent = this.generateCodeFromStyleElement(htmlElement);
@@ -597,7 +597,6 @@ Firecrow.CodeTextGenerator.prototype =
     generateFromCallExpression: function(callExpression)
     {
         var calleeCode = this.generateJsCode(callExpression.callee);
-        if(calleeCode == "jQuery.fx.step[this.prop]") debugger;
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
         if(ASTHelper.isMemberExpression(callExpression.callee) && calleeCode[calleeCode.length-1] == ")")
@@ -1039,6 +1038,8 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromCatchClause: function(catchClause)
     {
+        if(catchClause == null) { return ""; }
+
         var body = this.generateStatement(catchClause.body);
 
         body = body.length != 0 ? body : this._LEFT_GULL_WING + this._RIGHT_GULL_WING;
@@ -1158,11 +1159,6 @@ Firecrow.CodeTextGenerator.prototype =
                     continue;
                 }
 
-                if(attribute.name == "id" && attribute.value == "contact")
-                {
-                    var a = 3;
-                }
-
                 attributesText += " " + attribute.name + '="' + attribute.value + '"';
             }
 
@@ -1171,10 +1167,9 @@ Firecrow.CodeTextGenerator.prototype =
         catch(e) { this.notifyError("Error when generating html element attributes: " + e); }
     },
 
-    generateEndHtmlTagString: function(tagName)
+    generateEndHtmlTagString: function(tag)
     {
-        return this.isEmptyElementType(tagName) ? ""
-                                                : "</" + tagName + ">";
+        return this.isEmptyElementType(tag) ? "" : "</" + tag + ">";
     },
 
     whitespace: "",
@@ -1183,6 +1178,34 @@ Firecrow.CodeTextGenerator.prototype =
     deIndent: function()  { this.whitespace = this.whitespace.replace(/\s\s$/, "");},
 
     notifyError: function(message) { debugger; Firecrow.CodeTextGenerator.notifyError(message); },
+
+    _isExternalScriptElement: function(htmlElement)
+    {
+        if(htmlElement == null || htmlElement.type == null) { return false; }
+
+        return htmlElement.type.toLowerCase() == "script" && this._hasAttribute(htmlElement, "src");
+    },
+
+    _isExternalStyleElement: function(htmlElement)
+    {
+        if(htmlElement == null || htmlElement.type == null) { return false; }
+
+        return htmlElement.type.toLowerCase() == "link" && this._hasAttribute(htmlElement, "href") && this._hasAttribute(htmlElement, "rel");
+    },
+
+    _hasAttribute: function(htmlElement, attributeName)
+    {
+        if(htmlElement == null || htmlElement.attributes == null || htmlElement.attributes.length == 0) { return false; }
+
+        var attributes = htmlElement.attributes;
+
+        for(var i = 0, length = attributes.length; i < length; i++)
+        {
+            if(attributes[i].name == attributeName) { return true; }
+        }
+
+        return false;
+    },
 
     _LEFT_GULL_WING:  "{",
     _RIGHT_GULL_WING: "}",

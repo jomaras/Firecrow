@@ -8,14 +8,18 @@ Firecrow.UriHelper =
     {
         if(url == null) { return null; }
 
-        var uri = new this.URI(url);
-        var anchorUri = new this.URI(anchor);
+        try
+        {
+            var uri = new this.URI(url);
+            var anchorUri = new this.URI(anchor);
 
-        var a = new this.URI("http://www.fesb.hr/index.html");
-        var b = new this.URI("http://www.fesb.hr/images/img.jpg");
-        var rel = b.relativeTo(a);
-
-        return uri.relativeTo(anchor).build()._string;
+            return uri.relativeTo(anchorUri);
+        }
+        catch(e)
+        {
+            debugger;
+            alert("Error when getting relative uri")
+        }
     },
 
     getAbsoluteUrl: function(url, anchor)
