@@ -90,26 +90,26 @@ NEXT:
       </div>
 
 
-- 01-16_01 - OK
-- 02-20_01 - OK
-- 03-21_01 - OK
+- 01-16_01 - 137 sec, OK
+- 02-20_01 - 569 sec, OK
+- 03-21_01 - 218 sec, OK
 
-- 04-15_12 - OK
+- 04-15_12 - 31 sec,
 
-- 05-06_02 - NOK CSS Specificity problem
-- 06-11_02 - NOK CSS Specificity problem
-- 07-21_02 - NOK CSS Specificity problem
+- 05-06_02 -
+- 06-11_02 -
+- 07-21_02 -
 
-- 08-06_03 - NOK CSS Specificity problem
-- 09-08_03 - NOK CSS Specificity problem
-- 10-21_03 - NOK CSS Specificity problem
+- 08-06_03 -
+- 09-08_03 -
+- 10-21_03 -
 
-- 11-21_04 - NOK CSS Specificity problem
-- 12-06_04 - NOK CSS Specificity problem, jQuery(document).trigger().off();
-- 13-08_04 - NOK CSS Specificity problem, jQuery(document).trigger().off();
-- 14-01b_04 - NOK CSS Specificity problem, jQuery(document).trigger().off(), the style of the reused element is completely missing -> probably also overwrites
-- 15-01c_04 - NOK CSS Specificity problem, jQuery(document).trigger().off(), the style of the reused element is partially missing -> probably also overwrites
-- 16-02a_04 - NOK - even some javascript problems
+- 11-21_04 -
+- 12-06_04 -
+- 13-08_04 -
+- 14-01b_04
+- 15-01c_04
+- 16-02a_04
 - 17-02b_04
 - 18-03_04
 - 19-11_04

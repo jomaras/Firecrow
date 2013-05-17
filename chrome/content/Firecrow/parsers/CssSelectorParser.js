@@ -194,8 +194,8 @@ FBL.ns(function() { with (FBL) {
     };
 
     Firecrow.CssSelectorParser = {
-        isIdSelector: function(selector) { return selector != null && selector.indexOf(".") == 0; },
-        isClassSelector: function(selector) { return selector != null && selector.indexOf("#") == 0; },
+        isIdSelector: function(selector) { return selector != null && selector.indexOf("#") == 0; },
+        isClassSelector: function(selector) { return selector != null && selector.indexOf(".") == 0; },
 
         endsWithPseudoSelector: function(selector)
         {
@@ -226,7 +226,7 @@ FBL.ns(function() { with (FBL) {
         {
             if(cssSelector == null) { return []; }
 
-            var parts = cssSelector.split(/((\s)+|\.|>|\+|~)/gi);
+            var parts = cssSelector.split(/((\s)+|\.|>|\+|~|#)/gi);
             var primitives = [];
 
             for(var i = 0; i < parts.length; i++)

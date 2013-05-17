@@ -13,8 +13,8 @@
         var HtmlModelMapping = [];
     </script>
 
-    <script src="../tests/reuseCaseStudies/05-06_02/pageA.html-codeModel.txt"></script>
-    <script src="../tests/reuseCaseStudies/05-06_02/pageB.html-codeModel.txt"></script>
+    <script src="../tests/reuseCaseStudies/03-21_01/pageA.html-codeModel.txt"></script>
+    <script src="../tests/reuseCaseStudies/03-21_01/pageB.html-codeModel.txt"></script>
     <script>
         /*01 - #fb-root
         * 02 - #fb-root
@@ -40,7 +40,7 @@
             reuseAppModel: HtmlModelMapping[0].model,
             reuseIntoAppModel: HtmlModelMapping[1].model,
             reuseSelectors: HtmlModelMapping[0].model.trackedElementsSelectors,
-            reuseIntoDestinationSelectors: ["#contact"]
+            reuseIntoDestinationSelectors: ["#fb-root"]
         };
     </script>
 
@@ -159,6 +159,7 @@
 <iframe id="firecrowFrame" height="1" width="1"></iframe>
 
 <h1>Firecrow - Debugging reuse</h1>
+<div>Total process time: <span id="totalTimeContainer"></span> sec</div>
 
 <div class="codeContainer">
     <strong>Full app code:</strong>
@@ -186,6 +187,8 @@
     var reuseTimeContainer = document.getElementById("reuseTimeContainer");
 
     var slicingCriteria = [];
+
+    var startTimer = Firecrow.TimerHelper.createTimer();
 
     if(htmlModel.selectors != null)
     {
@@ -223,6 +226,8 @@
             fullAppSlicingResult.browser
     ));
     reuseTimeContainer.textContent = timer.getElapsedTimeInSeconds();
+
+    document.getElementById("totalTimeContainer").textContent = startTimer.getElapsedTimeInSeconds();
 </script>
 </body>
 </html>

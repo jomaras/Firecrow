@@ -107,6 +107,9 @@ Firecrow.Reuser =
         for(var i = 0; i < node.childNodes.length; i++)
         {
             var child = node.childNodes[i];
+            var lowerType = child.type.toLowerCase();
+
+            if(lowerType == "textnode" || child.type == "meta" || child.type == "script") { continue; }
 
             if(this._matchesSelectors(child, selectors))
             {
@@ -1342,6 +1345,8 @@ Firecrow.ConflictFixer =
             }
 
             cssNode.selector = updatedSelectors.join(", ");
+
+            if(cssNode.selector.trim() == "[o=r], body") { debugger; }
             cssNode.cssText = cssNode.cssText.replace(this._getSelectorPartFromCssText(cssNode.cssText), cssNode.selector + "{ ");
         }
     },
@@ -1499,7 +1504,7 @@ Firecrow.ConflictFixer =
             simpleSelectors[i] = joined;
         }
 
-        return simpleSelectors.join(",");
+        return simpleSelectors.filter(function(i){ return i != null && i !== "";}).join(",");
     },
 
     _getSelectorPartFromCssText: function(cssText)
