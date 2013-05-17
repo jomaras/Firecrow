@@ -1322,16 +1322,27 @@ Firecrow.ConflictFixer =
             var cssNode = cssNodes[i].model;
 
             var simpleSelectors = this._getSimpleSelectors(cssNode);
+            var updatedSelectors = [];
 
             for(var j = 0; j < simpleSelectors.length; j++)
             {
                 var simpleSelector = simpleSelectors[j];
                 var cleansedSelector = simpleSelector.trim();
 
-                if(cleansedSelector == "body" || cleansedSelector == "html") { continue; }
+                if(cleansedSelector == "body" || cleansedSelector == "html") { updatedSelectors.push(cleansedSelector); continue; }
 
-                this._replaceSelectorInCssNode(cssNode, cleansedSelector, cleansedSelector + attributeSelector);
+                if(fcCssSelectorParser.endsWithPseudoSelector(cleansedSelector))
+                {
+                    updatedSelectors.push(fcCssSelectorParser.appendBeforeLastPseudoSelector(cleansedSelector, attributeSelector));
+                }
+                else
+                {
+                    updatedSelectors.push(cleansedSelector + attributeSelector);
+                }
             }
+
+            cssNode.selector = updatedSelectors.join(", ");
+            cssNode.cssText = cssNode.cssText.replace(this._getSelectorPartFromCssText(cssNode.cssText), cssNode.selector + "{ ");
         }
     },
 

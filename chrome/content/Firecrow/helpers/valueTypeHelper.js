@@ -388,6 +388,14 @@ Firecrow.ValueTypeHelper =
         catch(e) { alert("Error while removing elements from array by index: " + e);}
     },
 
+    insertIntoStringAtPosition: function(baseString, insertionString, position)
+    {
+        if(baseString == "") { return insertionString; }
+        if(insertionString == "") { return baseString; }
+
+        return baseString.substr(0, position) + insertionString + baseString.substr(position);
+    },
+
     insertIntoArrayAtIndex: function(array, element, index)
     {
       try
