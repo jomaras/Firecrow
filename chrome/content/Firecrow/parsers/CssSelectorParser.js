@@ -194,6 +194,35 @@ FBL.ns(function() { with (FBL) {
     };
 
     Firecrow.CssSelectorParser = {
+        isIdSelector: function(selector) { return selector != null && selector.indexOf(".") == 0; },
+        isClassSelector: function(selector) { return selector != null && selector.indexOf("#") == 0; },
+        getCssPrimitives: function(cssSelector)
+        {
+            if(cssSelector == null) { return []; }
+
+            var parts = cssSelector.split(/((\s)+|\.|>|\+|~)/gi);
+            var primitives = [];
+
+            for(var i = 0; i < parts.length; i++)
+            {
+                var part = parts[i];
+
+                if(part == null) { continue; }
+
+                var trimmed = part.trim();
+
+                if(trimmed === "") { trimmed = " "; }
+
+                primitives.push
+                ({
+                    value: trimmed,
+                    isSeparator: trimmed === " " || trimmed == "+" || trimmed == "." || trimmed == "+" || trimmed == "~"
+                });
+            }
+
+            return primitives;
+        },
+
         parse: function(expression)
         {
             if(expression == null) { debugger; }

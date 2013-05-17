@@ -43,7 +43,7 @@ Firecrow.Reuser =
             var mergedHeadNode = this._cloneShallowMarkConflicts(reuseIntoHeadNode, reusedHeadNode);
             mergedHtmlElement.childNodes.push(mergedHeadNode);
             this._createChildren(mergedHeadNode, reuseIntoHeadNode);
-            this._createChildren(mergedHeadNode, reusedHeadNode, "reuse");
+            this._createChildren(mergedHeadNode, reusedHeadNode, "r");
 
 
             var reusedBodyNode = this.getBodyElement(reusedAppModel);
@@ -51,7 +51,7 @@ Firecrow.Reuser =
             var mergedBodyNode = this._cloneShallowMarkConflicts(reuseIntoBodyNode, reusedBodyNode);
             mergedHtmlElement.childNodes.push(mergedBodyNode);
             this._createChildren(mergedBodyNode, reuseIntoBodyNode, null);
-            this._createChildren(mergedBodyNode, reusedBodyNode, "reuse");
+            this._createChildren(mergedBodyNode, reusedBodyNode, "r");
 
             if(!this._areSelectorsSupported(reuseSelectors.concat(reuseIntoDestinationSelectors)))
             {
@@ -86,7 +86,7 @@ Firecrow.Reuser =
         {
             var node = nodesToMove[i];
 
-            this._appendDifferentiatingStructureClassAttribute(node, "reuse");
+            this._appendDifferentiatingStructureAttribute(node, "r");
 
             if(node.parent == newParent) { continue; }
 
@@ -139,7 +139,7 @@ Firecrow.Reuser =
         if(node == null || selector == null) { return false; }
 
         //TODO - make bulletproof; should break classes into sections...
-        if(this._isClassSelector(selector))
+        if(fcCssSelectorParser.isClassSelector(selector))
         {
             var classAttr = this._getAttribute(node, "class");
 
@@ -147,7 +147,7 @@ Firecrow.Reuser =
 
             return classAttr.value.split(/(\s)+/).indexOf(selector.substring(1)) != -1;
         }
-        else if (this._isIdSelector(selector))
+        else if (fcCssSelectorParser.isIdSelector(selector))
         {
             var idAttr = this._getAttribute(node, "id");
 
@@ -160,9 +160,6 @@ Firecrow.Reuser =
             return node.type == selector;
         }
     },
-
-    _isClassSelector: function(selector) { return selector != null && selector.indexOf(".") == 0; },
-    _isIdSelector: function(selector) { return selector != null && selector.indexOf("#") == 0; },
 
     _areSelectorsSupported: function(selectors)
     {
@@ -195,19 +192,19 @@ Firecrow.Reuser =
         {
             var child = originalNode.childNodes[i];
 
-            if(origin == "reuse" && (child.type == "title" || !child.shouldBeIncluded)) { continue; }
+            if(origin == "r" && (child.type == "title" || !child.shouldBeIncluded)) { continue; }
 
             var mergedChild = this._cloneShallow(child);
             mergedChild.parent = mergedNode;
 
             if(origin != null && mergedChild.attributes != null)
             {
-                mergedChild.attributes.push({name:"origin", value: origin});
+                mergedChild.attributes.push({name:"o", value: origin});
             }
 
             if(mergedNode.type == "body")
             {
-                this._appendDifferentiatingStructureClassAttribute(mergedChild, origin);
+                this._appendDifferentiatingStructureAttribute(mergedChild, origin);
             }
 
             mergedNode.childNodes.push(mergedChild);
@@ -223,28 +220,11 @@ Firecrow.Reuser =
         }
     },
 
-    _appendDifferentiatingStructureClassAttribute: function(node, origin)
+    _appendDifferentiatingStructureAttribute: function(node, origin)
     {
-        var classAttribute = this._getAttribute(node, "class");
+        if(origin != "r" || node == null) { return; }
 
-        var reusePrefix = origin == "reuse" ? Firecrow.ConflictFixer.generateReusePrefix()
-                                            : Firecrow.ConflictFixer.generateOriginalPrefix();
-
-        var differentiatingClassAttribute = reusePrefix;
-
-        //TODO possible problem with dynamically set class attributes
-        if(classAttribute == null)
-        {
-            node.attributes.push
-            ({
-                name:"class",
-                value: differentiatingClassAttribute
-            });
-        }
-        else if(classAttribute.value.match("^(.*?)(\\b" + reusePrefix + "\\b)(.*)$") == null)
-        {
-            classAttribute.value += " " + differentiatingClassAttribute;
-        }
+        node.attributes.push({name: "o", value: "r"});
     },
 
     _createChildrenForNonHtmlContent: function(mergedNode, originalNode, origin)
@@ -290,7 +270,7 @@ Firecrow.Reuser =
     {
         if(originalModel == null || originalModel.rules == null) { return null; }
 
-        var shouldSlice = origin == "reuse";
+        var shouldSlice = origin == "r";
 
         var mergedRules = [];
         var rules = originalModel.rules;
@@ -312,7 +292,7 @@ Firecrow.Reuser =
     {
         if(originalModel == null || originalModel.type != "Program") { return null; }
 
-        return Firecrow.ASTHelper.createCopy(originalModel, origin == "reuse");
+        return Firecrow.ASTHelper.createCopy(originalModel, origin == "r");
     },
 
     getHeadElement: function(model)
@@ -588,7 +568,7 @@ Firecrow.ConflictFixer =
 
     _fixTypeOnlyDomSelectors: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseIntoAppBrowser)
     {
-        this._fixTypeOnlyDomSelectorsInApplication(reusedAppGraph, reuseAppBrowser, "reuse");
+        this._fixTypeOnlyDomSelectorsInApplication(reusedAppGraph, reuseAppBrowser, "r");
         this._fixTypeOnlyDomSelectorsInApplication(reuseIntoAppGraph, reuseIntoAppBrowser);
     },
 
@@ -597,7 +577,8 @@ Firecrow.ConflictFixer =
         if(appBrowser == null) { return; }
         if(appBrowser.domQueriesMap == null) { return;}
 
-        var reusePrefix = "." + (origin == "reuse" ? this.generateReusePrefix() : this.generateOriginalPrefix()) + " ";
+        var attributeSelector = origin == "r" ? this.generateReuseAttributeSelector()
+                                                  : this.generateOriginalAttributeSelector();
 
         for(var domQueryProp in appBrowser.domQueriesMap)
         {
@@ -613,7 +594,7 @@ Firecrow.ConflictFixer =
                     (
                         {
                             oldValue: selector,
-                            newValue: reusePrefix + selector + ", " + selector + reusePrefix
+                            newValue: selector + attributeSelector
                         },
                         callExpressionFirstArgument
                     );
@@ -758,7 +739,7 @@ Firecrow.ConflictFixer =
 
         var scriptInvokerScriptElement =
         {
-            type: "script", childNodes:[], attributes:[{name:"origin", value: "Firecrow"}],
+            type: "script", childNodes:[], attributes:[{name:"o", value: "Firecrow"}],
             sourceCode: atob(Firecrow.Reuser.Templates._HANDLER_MAPPER_SCRIPT_INVOKER),
             shouldBeIncluded: true
         };
@@ -1087,6 +1068,29 @@ Firecrow.ConflictFixer =
     {
         if(reusedAppGraph == null || reuseIntoAppGraph == null) { return null; }
 
+        var changes = this._getHtmlConflictChanges(reusedAppGraph, reuseIntoAppGraph, reuseSelectors);
+        var reusedCssNodes = reusedAppGraph.cssNodes;
+
+        for(var i = 0; i < changes.length; i++)
+        {
+            var change = changes[i];
+
+            for(var j = 0; j < reusedCssNodes.length; j++)
+            {
+                var cssNode = reusedCssNodes[j].model;
+
+                if(cssNode.selector == null || cssNode.selector.indexOf(change.oldValue) == -1) { continue; }
+
+                this._replaceSelectorInCssNode(cssNode, change.oldValue, change.newValue);
+            }
+
+            this._fixDynamicallySetAttributes(change);
+            this._fixHtmlAttributeConflictsDomQueries(change, reuseAppBrowser);
+        }
+    },
+
+    _getHtmlConflictChanges: function(reusedAppGraph, reuseIntoAppGraph, reuseSelectors)
+    {
         var reusedHtmlNodes = reusedAppGraph.htmlNodes;
         var reuseIntoHtmlNodes = reuseIntoAppGraph.htmlNodes;
 
@@ -1100,39 +1104,29 @@ Firecrow.ConflictFixer =
             {
                 var reuseIntoNode = reuseIntoHtmlNodes[j].model;
 
-                var conflictingAttributes = this._getClassesAndIdsWithEqualValue(reusedNode, reuseIntoNode);
-
-                conflictingAttributes.forEach(function(conflictingArgument)
-                {
-                    var change = { oldValue:conflictingArgument.value, newValue: this.generateReusePrefix() + conflictingArgument.value, setConstruct: conflictingArgument.setConstruct};
-                    var changeId = change.oldValue + change.newValue + (conflictingArgument.setConstruct != null ? conflictingArgument.setConstruct.nodeId : "");
-
-                    changes[changeId] = change;
-
-                    this._handleSelectorChange(reuseSelectors, change);
-
-                    conflictingArgument.value = change.newValue;
-                }, this);
+                this._aggregateConflictChanges(changes, this._getClassesAndIdsWithEqualValue(reusedNode, reuseIntoNode), reuseSelectors);
             }
         }
 
-        changes = ValueTypeHelper.convertObjectMapToArray(changes);
+        return ValueTypeHelper.convertObjectMapToArray(changes);
+    },
 
-        for(var i = 0; i < changes.length; i++)
+    _aggregateConflictChanges: function(changes, conflictingAttributes, reuseSelectors)
+    {
+        if(changes == null || conflictingAttributes == null || conflictingAttributes.length == 0) { return; }
+
+        for(var i = 0; i < conflictingAttributes.length; i++)
         {
-            var change = changes[i];
+            var conflictingAttribute = conflictingAttributes[i];
 
-            for(var j = 0; j < reusedAppGraph.cssNodes.length; j++)
-            {
-                var cssNode = reusedAppGraph.cssNodes[j].model;
+            var change = { oldValue:conflictingAttribute.value, newValue: this.generateReusePrefix() + conflictingAttribute.value, setConstruct: conflictingAttribute.setConstruct};
+            var changeId = change.oldValue + change.newValue + (conflictingAttribute.setConstruct != null ? conflictingAttribute.setConstruct.nodeId : "");
 
-                if(cssNode.selector == null || cssNode.selector.indexOf(change.oldValue) == -1) { continue; }
+            changes[changeId] = change;
 
-                this._replaceSelectorInCssNode(cssNode, change.oldValue, change.newValue);
-            }
+            this._handleSelectorChange(reuseSelectors, change);
 
-            this._fixDynamicallySetAttributes(change);
-            this._fixHtmlAttributeConflictsDomQueries(change, reuseAppBrowser);
+            conflictingAttribute.value = change.newValue;
         }
     },
 
@@ -1238,7 +1232,7 @@ Firecrow.ConflictFixer =
     {
         this._migrateNonMovableNodeAttributes(reusedAppGraph.cssNodes, reuseAppBrowser, reuseSelectors, reuseAppModel);
 
-        this._expandAllSelectors(reusedAppGraph.cssNodes, "reuse");
+        this._expandAllSelectors(reusedAppGraph.cssNodes, "r");
         this._expandAllSelectors(reuseIntoAppGraph.cssNodes);
     },
 
@@ -1320,8 +1314,8 @@ Firecrow.ConflictFixer =
 
     _expandAllSelectors: function(cssNodes, origin)
     {
-        var attributeSelector = origin == "reuse" ? this.generateReuseAttributeSelector()
-                                                  : this.generateOriginalAttributeSelector();
+        var attributeSelector = origin == "r" ? this.generateReuseAttributeSelector()
+                                              : this.generateOriginalAttributeSelector();
 
         for(var i = 0; i < cssNodes.length; i++)
         {
@@ -1336,12 +1330,7 @@ Firecrow.ConflictFixer =
 
                 if(cleansedSelector == "body" || cleansedSelector == "html") { continue; }
 
-                this._replaceSelectorInCssNode
-                (
-                    cssNode,
-                    cleansedSelector,
-                    cleansedSelector + attributeSelector//"." + attributeSelector + " " + simpleSelector + ", " + simpleSelector + "." + attributeSelector
-                );
+                this._replaceSelectorInCssNode(cssNode, cleansedSelector, cleansedSelector + attributeSelector);
             }
         }
     },
@@ -1368,23 +1357,6 @@ Firecrow.ConflictFixer =
         }
 
         return nonMovableSelectorNodes;
-    },
-
-    _getTypeCssNodes: function(cssNodes)
-    {
-        var typeNodes = [];
-
-        for(var i = 0; i < cssNodes.length; i++)
-        {
-            var cssNode = cssNodes[i].model;
-
-            if(this._containsTypeSelector(cssNode.selector))
-            {
-                typeNodes.push(cssNode);
-            }
-        }
-
-        return typeNodes;
     },
 
     _containsTypeSelector: function(selector)
@@ -1425,11 +1397,6 @@ Firecrow.ConflictFixer =
         return false;
     },
 
-    generateOriginalPrefix: function()
-    {
-        return "_OR_";
-    },
-
     generateReusePrefix: function()
     {
         return "_RU_";
@@ -1437,12 +1404,12 @@ Firecrow.ConflictFixer =
 
     generateOriginalAttributeSelector: function()
     {
-        return ":not([origin='reuse'])";
+        return ":not([o=r])";
     },
 
     generateReuseAttributeSelector: function()
     {
-        return "[origin='reuse']";
+        return "[o=r]";
     },
 
     _getClassesAndIdsWithEqualValue: function(reusedNode, reuseIntoNode)
@@ -1497,13 +1464,13 @@ Firecrow.ConflictFixer =
     {
         var simpleSelectors = selector.split(",");
 
-        if(Firecrow.Reuser._isIdSelector(oldValue) || Firecrow.Reuser._isClassSelector(oldValue)) { oldValue = oldValue.substring(1, oldValue.length); }
-        if(Firecrow.Reuser._isIdSelector(newValue) || Firecrow.Reuser._isClassSelector(newValue)) { newValue = newValue.substring(1, newValue.length); }
+        if(fcCssSelectorParser.isIdSelector(oldValue) || fcCssSelectorParser.isClassSelector(oldValue)) { oldValue = oldValue.substring(1, oldValue.length); }
+        if(fcCssSelectorParser.isIdSelector(newValue) || fcCssSelectorParser.isClassSelector(newValue)) { newValue = newValue.substring(1, newValue.length); }
 
         for(var i = 0; i < simpleSelectors.length; i++)
         {
             var trimmed = simpleSelectors[i].trim();
-            var cssPrimitives = this._getCssPrimitives(trimmed);
+            var cssPrimitives = fcCssSelectorParser.getCssPrimitives(trimmed);
 
             var joined = "";
             for(var j = 0; j < cssPrimitives.length; j++)
@@ -1522,31 +1489,6 @@ Firecrow.ConflictFixer =
         }
 
         return simpleSelectors.join(",");
-    },
-
-    _getCssPrimitives: function(cssSelector)
-    {
-        var parts = cssSelector.split(/((\s)+|\.|>|\+|~)/gi);
-        var primitives = [];
-
-        for(var i = 0; i < parts.length; i++)
-        {
-            var part = parts[i];
-
-            if(part == null) { continue; }
-
-            var trimmed = part.trim();
-
-            if(trimmed === "") { trimmed = " "; }
-
-            primitives.push
-            ({
-                value: trimmed,
-                isSeparator: trimmed === " " || trimmed == "+" || trimmed == "." || trimmed == "+" || trimmed == "~"
-            });
-        }
-
-        return primitives;
     },
 
     _getSelectorPartFromCssText: function(cssText)

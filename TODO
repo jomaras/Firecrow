@@ -23,7 +23,8 @@
     - sylvester
 ------------------------------------------------------------------------------------------------------------------------
 NEXT:
-    - continue debugging - inspect HtmlElement dynamicClasses - who adds to that array for debugReuse.htmll
+
+    - continue debugging - it seems that the addition of :not([origin="reuse"]) does not work for complex selectors
     - on a test example implement, after a slicing criteria is processed,
       create a map of all constructs included in the slice (i'm not sure how detailed it has to be, at least on memberExpression, callExpression, identifiers levels)
       then group them by functions, and see what could potentially cause problems.

@@ -3,15 +3,32 @@
 <head>
     <title>Reuse Into</title>
     <style>
-        a { color: #0196dd; }
-        .active { color: #002D42; }
+        html, body, div, span, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, code,
+        del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, dialog, figure, footer, header,
+        hgroup, nav, section {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-weight: inherit;
+            font-style: inherit;
+            font-size: 100%;
+            font-family: inherit;
+            vertical-align: baseline; }
+
+        a { color: blue; }
+        .active { color: aqua; }
     </style>
 </head>
 <body>
 <body>
     <div id="mainCont">Text1</div>
-    <a href="#" class="active" rel="Text1">1</a>
-    <a href="#" rel="Text2">2</a>
+    <a href="#" class="active" rel="ReuseIntoApp1">1</a>
+    <a href="#" rel="ReuseIntoApp2">2</a>
 
     <script>
         var mainCont = document.getElementById("mainCont");
