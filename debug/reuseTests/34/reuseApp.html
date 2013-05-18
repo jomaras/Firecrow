@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        #reuseContainer .active
+        {
+            color:green;
+        }
+
+    </style>
+</head>
+<body>
+<div id="reuseContainer">
+    <span class="active">Reuse app</span>
+</div>
+
+<script>
+
+    function querySelector(selector)
+    {
+        return document.querySelector(selector);
+    }
+
+    var aContainer = querySelector("#reuseContainer .active");
+    aContainer.textContent += " added by JS in reuseApp";
+</script>
+
+</body>
+</html>

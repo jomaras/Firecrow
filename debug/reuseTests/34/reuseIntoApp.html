@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        .active{ color: blue;}
+    </style>
+</head>
+<body>
+    <div id="mainContainer">
+        <span class="active">Reuse Into App</span>
+    </div>
+
+    <script>
+
+        function querySelector1(selector)
+        {
+            return document.querySelector(selector);
+        }
+
+        var activeContainer = querySelector1("#mainContainer .active");
+        activeContainer.textContent += " added by JS in reuseInto";
+    </script>
+
+</body>
+</html>

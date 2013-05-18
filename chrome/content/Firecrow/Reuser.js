@@ -581,7 +581,7 @@ Firecrow.ConflictFixer =
         if(appBrowser.domQueriesMap == null) { return;}
 
         var attributeSelector = origin == "r" ? this.generateReuseAttributeSelector()
-                                                  : this.generateOriginalAttributeSelector();
+                                              : this.generateOriginalAttributeSelector();
 
         for(var domQueryProp in appBrowser.domQueriesMap)
         {
@@ -1184,6 +1184,17 @@ Firecrow.ConflictFixer =
                 this._addCommentToParentStatement(identifierDeclarator, renameMessage);
                 return;
             }
+
+            //Declarator was not find, maybe it's a literal sent as an argument to a call expression
+            var identifierSource = Firecrow.ASTHelper.getValueLiteral(codeConstruct);
+
+            if(identifierSource != null && identifierSource.value.indexOf(change.oldValue) != -1)
+            {
+                identifierSource.value = this._getReplacedCssSelector(identifierSource.value, change.oldValue, change.newValue);
+                this._addCommentToParentStatement(identifierSource, renameMessage);
+                return;
+            }
+
         }
         else if(Firecrow.ASTHelper.isMemberExpression(codeConstruct))
         {
@@ -1344,7 +1355,11 @@ Firecrow.ConflictFixer =
                 }
             }
 
-            cssNode.selector = updatedSelectors.join(", ");
+            var newSelectorValue = updatedSelectors.join(", ");
+
+            if(newSelectorValue.trim() == "") { continue; }
+
+            cssNode.selector = newSelectorValue;
 
             if(cssNode.selector.trim() == "[o=r], body") { debugger; }
             cssNode.cssText = cssNode.cssText.replace(this._getSelectorPartFromCssText(cssNode.cssText), cssNode.selector + "{ ");
@@ -1515,7 +1530,7 @@ Firecrow.ConflictFixer =
         {
             return cssText.substring(0, parenthesisIndex + 1);
         }
-
+        debugger;
         alert("There is no parenthesis in css rule!");
 
         return "";
