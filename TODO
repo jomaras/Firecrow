@@ -89,78 +89,99 @@ NEXT:
           </div>
       </div>
 
+      + 01-16_01
+      + 02-20_01
+      + 03-21_01
 
-- 01-16_01 - 137 sec, OK
-- 02-20_01 - 569 sec, OK
-- 03-21_01 - 218 sec, OK
+      + 04-15_12
+      + 06-11_02
+      + 07-21_02
+      + 08-06_03
+      + 08b-01a_03
+      + 10-21_03
+      + 11-21_04
+      + 50-15_07
+      + 52-20_07
+      + 53-21_07
 
-- 04-15_12 - 31 sec, OK
+
+      01; 03; 04; 06; 07; 11; 15; 16; 20; 21
+
+
++ 01-16_01 - 137 sec, OK
++ 02-20_01 - 569 sec, OK
++ 03-21_01 - 218 sec, OK
+
++ 04-15_12 - 31 sec, OK
 
 - 05-06_02 - 200 sec, OK
-- 06-11_02 - 164 sec, OK
-- 07-21_02 - 200 sec, OK
++ 06-11_02 - 164 sec, OK
++ 07-21_02 - 200 sec, OK
 
 - (maybe try with different reuse positions)
-- 08-06_03 - 108, OK
++ 08-06_03 - 108, OK
++ 08b-01a_03 - 179, OK
 - 09-08_03 - 81, OK
-- 10-21_03 - 114, OK
++ 10-21_03 - 114, OK
 
-- 11-21_04 - 102, OK
++ 11-21_04 - 102, OK
 - 12-06_04 - 90, OK
-- 13-08_04 - 67, NOK (buttons don't change class)
+- 13-08_04 - 67, NOK (buttons don't change class - the problem is that it uses a removeClass from jQuery - which dynamically constructs a new class name)
 - 14-01b_04 - 122, NOK (picked up everything else and looses styles)
 - 15-01c_04 - 168, NOK (looses some styles in the included)
 - 16-02a_04 - 179, NOK (skroz izneređeno)
 - 17-02b_04 -
-- 18-03_04
-- 19-11_04
-- 20-12_04
-  21-16_04
-  22-19_04
-  23-20_04
-  24-21_04
-  25-02a_05
-  26-02b_05
-  27-03_05
-  28-04_05
-  29-06_05
-  30-08_05
-  31-11_05
-  32-16_05
-  33-20_05
-  34-21_05
-  36-01c_06
-  37-02a_06
-  38-02b_06
-  39-11_06
-  40-15_06
-  41-19_06
-  42-21_06
-  43-01c_07
-  44-02a_07
-  45-02b_07
-  46-05_07
-  47-06_07
-  48-11_07
-  49-12_07
-  50-15_07
-  51-19_07
-  52-20_07
-  53-21_07
-  54-01b_08
-  55-01c_08
-  56-02b_08
-  57-03_08
-  58_04_08
-  59_06_08
-  60-11_08
-  61-15_08
-  62-19_08
-  63-20_08
-  63-21_08
 
+- 18-03_04 -
+- 19-11_04 -
+- 20-12_04 -
+- 21-16_04 -
+- 22-19_04 -
+- 23-20_04 -
+- 24-21_04 -
 
+- 25-02a_05 - 180 sec, more or less ok, but picks up strange stuff
+- 26-02b_05 -
+- 27-03_05 - 100 sec, Not working (skip whole 5)
+- 28-04_05 -
+- 29-06_05 -
+- 30-08_05 -
+- 31-11_05 -
+- 32-16_05 -
+- 33-20_05 -
+- 34-21_05 -
 
+- 36-01c_06 - 175sec, working, but the buttons are missing the styles (probably are set in a relationship towards a parent structure)
+- 37-02a_06 - skip
+- 38-02b_06 - skip
+- 39-11_06 - 73 sec, OK
+- 40-15_06 - 78 sec, ERROR (renames sliderright eventhough it conflicts in slider -> in getElementById)
+- 41-19_06 - 179 sec, OK
+- 42-21_06 - 101 sec, OK
+
+- 43-01c_07 - skip
+- 44-02a_07 - skip
+- 45-02b_07 - skip
+- 46-05_07 - 109, NOK (iPhone mask not included)
+- 47-06_07 - 102, OK
+- 48-11_07 - 73, OK
+- 49-12_07 - 52, NOK
++ 50-15_07 - 82, OK
+- 51-19_07 - skip
++ 52-20_07 - 482, OK
++ 53-21_07 - 99, OK
+
+- 54-01b_08
+- 55-01c_08
+- 56-02b_08
++ 57-03_08 75 sec, NOK
+- 58_04_08
+- 59_06_08
+- 60-11_08
+- 61-15_08
+- 62-19_08
+- 63-20_08
+- 63-21_08
 *******UI Controls:
  - 01a - OK; F: 140 113; S: 102 979;
  - 01b - OK; F: 194 325; S: 87 510;
