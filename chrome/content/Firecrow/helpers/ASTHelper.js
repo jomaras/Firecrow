@@ -651,10 +651,7 @@ Firecrow.ASTHelper =
             var mappedParentElement = parentElement.type == "Program" ? newModel
                                                                       : mapping[parentElement.nodeId];
 
-            if(mappedParentElement == null)
-            {
-                alert("Mapped parent element can not be null!"); return;
-            }
+            if(mappedParentElement == null) { return; }
 
             var isPropertyArray = Firecrow.ValueTypeHelper.isArray(parentElement[propertyName]);
 
@@ -691,11 +688,6 @@ Firecrow.ASTHelper =
     _cloneShallowASTNode: function(originalNode)
     {
         var clone = {};
-
-        if(originalNode.type == "FunctionDeclaration")
-        {
-            var a = 3;
-        }
 
         for(var prop in originalNode)
         {

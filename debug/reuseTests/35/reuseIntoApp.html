@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="testContainer"></div>
+<script>
+    var testContainer = document.getElementById("testContainer");
+    document.testMethod = function()
+    {
+        testContainer.textContent = "Test from reuse into";
+    };
+
+    document.testMethod();
+</script>
+</body>
+</html>

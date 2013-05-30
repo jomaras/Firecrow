@@ -107,7 +107,7 @@
             background-repeat: no-repeat;
         }
 
-        #imageSelectorContainer a:hover {
+        #imageSelectorContainer a:hover:not(.active) {
             background-position: 0px -20px;
         }
 
@@ -217,11 +217,11 @@
                 [
                     { title: "A1", address: "Prilaz tvornici 10", images: ["images/A1/1.jpg", "images/A1/2.jpg", "images/A1/3.jpg"], type: "apartment"},
                     { title: "A2", address: "Obala 6", images: ["images/A2/1.jpg", "images/A2/2.jpg", "images/A2/3.jpg"], type: "apartment"},
-                    { title: "H1", address: "Obala 10", images: ["images/A1/1.jpg", "images/A1/2.jpg", "images/A1/3.jpg"], type: "hotel"},
-                    { title: "H2", address: "Biogradska 7", images: ["images/A1/1.jpg", "images/A1/2.jpg", "images/A1/3.jpg"], type: "hotel"},
+                    { title: "H1", address: "Obala 10", images: ["images/H1/1.jpg", "images/H1/2.jpg", "images/H1/3.jpg"], type: "hotel"},
+                    { title: "H2", address: "Biogradska 7", images: ["images/H2/1.jpg", "images/H2/2.jpg", "images/H2/3.jpg"], type: "hotel"},
                     { title: "A3", address: "Drvarska 4", images: ["images/A3/1.jpg", "images/A3/2.jpg", "images/A3/3.jpg"], type: "apartment"},
                     { title: "M1", address: "Ninica 3", images: ["images/M1/1.jpg", "images/M1/2.jpg", "images/M1/3.jpg"], type: "museum"},
-                    { title: "H3", address: "Trlaje 11", images: ["images/A1/1.jpg", "images/A1/2.jpg", "images/A1/3.jpg"], type: "hotel"},
+                    { title: "H3", address: "Trlaje 11", images: ["images/H3/1.jpg", "images/H3/2.jpg", "images/H3/3.jpg"], type: "hotel"},
                     { title: "A4", address: "Zvonimirova 16", images: ["images/A4/1.jpg", "images/A4/2.jpg", "images/A4/3.jpg"], type: "apartment"}
                 ],
 
@@ -270,7 +270,7 @@
                 {
                     for(var i = 0; i < RealEstate.allMarkings.length; i++)
                     {
-                        RealEstate.allMarkings[i].style.opacity = 1;
+                        RealEstate.allMarkings[i].style.display = "block";
                     }
 
                     RealEstate.typeSelector.value = "All";
@@ -280,7 +280,7 @@
                 {
                     for(var i = 0; i < RealEstate.allMarkings.length; i++)
                     {
-                        RealEstate.allMarkings[i].style.opacity = 0;
+                        RealEstate.allMarkings[i].style.display = "none";
                     }
                 },
 
@@ -290,7 +290,7 @@
 
                     for(var i = 0; i < RealEstate.apartmentMarkings.length; i++)
                     {
-                        RealEstate.apartmentMarkings[i].style.opacity = 1;
+                        RealEstate.apartmentMarkings[i].style.display = "block";
                     }
 
                     RealEstate.typeSelector.value = "Apartments";
@@ -303,7 +303,7 @@
 
                     for(var i = 0; i < RealEstate.hotelMarkings.length; i++)
                     {
-                        RealEstate.hotelMarkings[i].style.opacity = 1;
+                        RealEstate.hotelMarkings[i].style.display = "block";
                     }
 
                     RealEstate.typeSelector.value = "Hotels";
@@ -316,7 +316,7 @@
 
                     for(var i = 0; i < RealEstate.museumMarkings.length; i++)
                     {
-                        RealEstate.museumMarkings[i].style.opacity = 1;
+                        RealEstate.museumMarkings[i].style.display = "block";
                     }
 
                     RealEstate.typeSelector.value = "Museums";

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+        document.testMethod = function()
+        {
+            mainContainer.textContent = "Test from reuse app";
+        };
+
+        document.testMethod();
+    </script>
+</body>
+</html>

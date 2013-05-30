@@ -273,6 +273,11 @@ fcModel.GlobalObject.prototype.getUserSetGlobalProperties = function()
     return userSetGlobalProperties;
 };
 
+fcModel.GlobalObject.prototype.getUserSetDocumentProperties = function()
+{
+    return this.document.getUserDefinedProperties();
+};
+
 fcModel.GlobalObject.prototype.logResourceSetting = function(codeConstruct, resourcePath)
 {
     this.browser.logResourceSetting(codeConstruct, resourcePath);
@@ -295,6 +300,8 @@ fcModel.GlobalObject.prototype.simpleDependencyEstablished = function(fromConstr
 
 fcModel.GlobalObject.prototype.getDOMContentLoadedHandlers = function()
 {
+    if(this.document == null || this.document.getEventListeners == null) { return this.getEventListeners("DOMContentLoaded"); }
+
     return this.document.getEventListeners("DOMContentLoaded").concat(this.getEventListeners("DOMContentLoaded"));
 };
 

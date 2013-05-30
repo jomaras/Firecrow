@@ -86,8 +86,6 @@ Firecrow.Reuser =
         {
             var node = nodesToMove[i];
 
-            this._appendDifferentiatingStructureAttribute(node, "r");
-
             if(node.parent == newParent) { continue; }
 
             //remove from previous position
@@ -205,11 +203,6 @@ Firecrow.Reuser =
                 mergedChild.attributes.push({name:"o", value: origin});
             }
 
-            if(mergedNode.type == "body")
-            {
-                this._appendDifferentiatingStructureAttribute(mergedChild, origin);
-            }
-
             mergedNode.childNodes.push(mergedChild);
 
             if(mergedChild.type == "script" || mergedChild.type == "style" || mergedChild.type == "link")
@@ -225,7 +218,7 @@ Firecrow.Reuser =
 
     _appendDifferentiatingStructureAttribute: function(node, origin)
     {
-        if(origin != "r" || node == null) { return; }
+        if(origin != "r" || node == null || node.type == "textNode") { return; }
 
         node.attributes.push({name: "o", value: "r"});
     },
@@ -722,7 +715,8 @@ Firecrow.ConflictFixer =
         }
         else
         {
-            alert("Reuser - Unhandled construct when prepending to ForIn body");
+            debugger;
+            //alert("Reuser - Unhandled construct when prepending to ForIn body");
         }
     },
 
@@ -865,14 +859,16 @@ Firecrow.ConflictFixer =
                     else if (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right)
                         ||  (Firecrow.ASTHelper.isAssignmentExpression(declarationConstruct.right)
                         && (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right.right)
-                          ||Firecrow.ASTHelper.isIdentifier(declarationConstruct.right.right))))
+                          || Firecrow.ASTHelper.isIdentifier(declarationConstruct.right.right)))
+                        || (declarationConstruct.left.computed && Firecrow.ASTHelper.isIdentifier(declarationConstruct.right)))
                     {
                         //TODO - consider improving (problem when the conflicting property is assigned over for-in object extension)
                         console.log("Trying to replace computed member expression");
 
                         var memberPropertyDeclaration = null;
 
-                        if(Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right))
+                        if(Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right)
+                        || Firecrow.ASTHelper.isIdentifier(declarationConstruct.right))
                         {
                             memberPropertyDeclaration = this._getPropertyDeclaration(declarationConstruct.right, conflictedProperty.name);
                         }
@@ -884,6 +880,7 @@ Firecrow.ConflictFixer =
                                 memberPropertyDeclaration = this._getPropertyDeclaration(declarationConstruct.right.right, conflictedProperty.name);
                             }
                         }
+
                         if(memberPropertyDeclaration != null)
                         {
                             this._addCommentToParentStatement(memberPropertyDeclaration, "Firecrow - Rename global property");
@@ -892,7 +889,8 @@ Firecrow.ConflictFixer =
                         else
                         {
                             debugger;
-                            alert("Can not find property declarator when fixing property conflicts");
+                            //In MooTools multiple objects can be extended with the same property, so it could have been fixed before
+                            //console.log("Can not find property declarator when fixing property conflicts");
                         }
                     }
                     else
@@ -1021,6 +1019,25 @@ Firecrow.ConflictFixer =
                 }
             }
         }
+
+        var reuseUserDocumentProperties = reuseAppBrowser.globalObject.getUserSetDocumentProperties();
+        var reuseIntoUserDocumentProperties = reuseIntoAppBrowser.globalObject.getUserSetGlobalProperties();
+
+        for(var i = 0; i < reuseIntoUserDocumentProperties.length; i++)
+        {
+            var reuseIntoGlobal = reuseIntoUserDocumentProperties[i];
+
+            for(var j = 0; j < reuseUserDocumentProperties.length; j++)
+            {
+                var reuseGlobal = reuseUserDocumentProperties[j];
+
+                if(reuseGlobal.name == reuseIntoGlobal.name)
+                {
+                    conflictedProperties.push(reuseGlobal);
+                }
+            }
+        }
+
 
         var reusePrototypeExtensions = this._getPrototypeExtensions(reuseAppBrowser);
         var reuseIntoPrototypeExtensions = this._getPrototypeExtensions(reuseIntoAppBrowser);

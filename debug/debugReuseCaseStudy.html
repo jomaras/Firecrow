@@ -13,58 +13,44 @@
         var HtmlModelMapping = [];
     </script>
 
-    <script src="../tests/reuseCaseStudies/58_04_08/pageA.html-codeModel.txt"></script>
-    <script src="../tests/reuseCaseStudies/58_04_08/pageB.html-codeModel.txt"></script>
+    <script src="../tests/reuseStudies/08-06_05/pageA.html-codeModel.txt"></script>
+    <script src="../tests/reuseStudies/08-06_05/pageB.html-codeModel.txt"></script>
     <script>
-        /*01 - #fb-root
-        * 02 - #fb-root
-        * 03 - #fb-root
-        * 04 - body
-        * 05 - body
-        * 06 - body
-        * 07 - #pageTop
-        * 08 - #beforeFooter
-        * 08a - #beforeFooter
-        * 09 - body
-        * 10 - body
-        * 11 - #topPagePart
-        * 12 - .wrpprFull
-        * 13 - .wrpprFull
-        * 14 - .wrpprFull
-        * 15 - .wrpprFull
-        * 16 - .wrpprFull
-        * 17 - .wrpprFull
-        *
+        /*01 - #fb-root; 02 - #fb-root; 03 - #fb-root
+        * 04 - body; 05 - body; 06 - body; 07 - #pageTop
+        * 08 - #beforeFooter; 08a - #beforeFooter; 09 - body
+        * 10 - body; 11 - #topPagePart; 12 - 17 .wrpprFull
         * 25 - body
-        *
         * 27 - body
-        *
         * 36 - #mainContent
-        *
         * 39 - #mainContent
         * 40 - #mainContent
         * 41 - #leftSideContainer
         * 42 - #pageTopContainer
-        *
         * 46 - body
         * 47 - body
-        *
         * 50 - body
-        *
         * 52 - #topPageContainer
         * 53 - #topPageContainer
-        *
         * 57 - #centralContainer
         * 58 - #centralContainer
         *
-        * */
+        * 01 - body
+        * 02 - #mainContent
+        * 03 - body
+        * 04 - body
+        * 05 - #bottomContainer
+        * 06 - #centralContainer
+        * 07 - body
+        * 08 - #topHeaderContainer
+        * 09 - #fb-root*/
 
          var htmlModel =
         {
             reuseAppModel: HtmlModelMapping[0].model,
             reuseIntoAppModel: HtmlModelMapping[1].model,
             reuseSelectors: HtmlModelMapping[0].model.trackedElementsSelectors,
-            reuseIntoDestinationSelectors: ["#centralContainer"]
+            reuseIntoDestinationSelectors: ["#topHeaderContainer"]
         };
     </script>
 
