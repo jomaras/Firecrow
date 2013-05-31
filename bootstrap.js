@@ -13,11 +13,11 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 let gAddon;
 let reload = function() {};
 let openSite = false;
-const toolsMenuitemID = "firecrow-tools-menu-item";
-const appMenuitemID = "firecrow-app-menu-item";
-const keyID = "firecrow-key";
-const keysetID = "firecrow-keyset";
-const toolbarButtonID = "developer-toolbar-firecrowui";
+const toolsMenuitemID = "Firecrow-tools-menu-item";
+const appMenuitemID = "Firecrow-app-menu-item";
+const keyID = "Firecrow-key";
+const keysetID = "Firecrow-keyset";
+const toolbarButtonID = "developer-toolbar-Firecrowui";
 const commandID = "Tools:FirecrowUI";
 const broadcasterID = "devtoolsMenuBroadcaster_FirecrowUI";
 
@@ -55,12 +55,12 @@ function addMenuItem(window) {
   let XUL = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
   let notificationBox;
   unload(function() {
-    notificationBox = firecrowWindow = null;
+    notificationBox = FirecrowWindow = null;
   }, window);
 
   let command = window.document.createElement("command");
   command.id = commandID;
-  window.TimelineUI = TimelineUI;
+  window.FirecrowUI = FirecrowUI;
   command.setAttribute("oncommand", "FirecrowUI.toggleFirecrowUI()");
   $("mainCommandSet").appendChild(command);
 
@@ -101,15 +101,15 @@ function addMenuItem(window) {
   button.classList.add("developer-toolbar-button");
   button.id = toolbarButtonID;
   button.setAttribute("style", "list-style-image: " +
-                               "url('chrome://Firecrow/skin" +
-                               "/firecrow16.png');" +
+                               "url('chrom://Firecrow/skin" +
+                               "/images/tools-icons-small.png');" +
                                "-moz-image-region: rect(0, 16px, 16px, 0);");
   $("developer-toolbar").insertBefore(button, $("developer-toolbar-webconsole").nextSibling);
 
   unload(removeMenuItem, window);
   unload(removeKey, window);
   unload(function() {
-    delete window.TimelineUI;
+    delete window.FirecrowUI;
   }, window);
 }
 
@@ -123,7 +123,7 @@ function startup(data, reason) AddonManager.getAddonByID(data.id, function(addon
   gAddon = addon;
   // Load various javascript includes for helper functions
   ["helper", "pref"].forEach(function(fileName) {
-    let fileURI = addon.getResourceURI("scripts/" + fileName + ".js");
+    let fileURI = addon.getResourceURI("bootstrapHelperScripts/" + fileName + ".js");
     Services.scriptloader.loadSubScript(fileURI.spec, global);
   });
 
@@ -145,7 +145,7 @@ function startup(data, reason) AddonManager.getAddonByID(data.id, function(addon
     }
     unload(function() {
       FirecrowUI._unload();
-      Components.utils.unload("chrome://Firecrow/content/frontend/FirecrowUI.jsm");
+      Components.utils.unload("chrom://Firecrow/content/frontend/FirecrowUI.jsm");
       global.FirecrowUI = null;
       delete global.FirecrowUI;
     });
@@ -154,8 +154,22 @@ function startup(data, reason) AddonManager.getAddonByID(data.id, function(addon
     unload();
     init();
   };
+  init();
 
-    init();
+  if ((reason == 7 || reason == 5) && data.version == "0.9.5")
+    openSite = true;
+  watchWindows(function(window) {
+    if (openSite) {
+      let stats = JSON.parse(pref("userStats"));
+      let statString = (stats.compactMode || 0) + "_" + (stats.recorded || 0) + "_" +
+                       (stats.linkClicked || 0) + "_" + (stats.networkPanel || 0) + "_" +
+                       (stats.rulerDragged || 0) + "_" + (pref("timesUIOpened") || 0) + "_" +
+                       (stats.windowZoomed || 0) + "_" + (stats.liveMode || 0) + "_" +
+                       (stats.inspector || 0);
+      window.openUILinkIn("http://grssam.com/addons/Firecrow/?stats=" + statString, "tab");
+      openSite = false;
+    }
+  });
 });
 
 function shutdown(data, reason) {
@@ -165,4 +179,5 @@ function shutdown(data, reason) {
 }
 
 function install() {}
+
 function uninstall() {}

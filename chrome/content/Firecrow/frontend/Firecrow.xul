@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/common.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/splitview.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/splitview.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/profiler.css" type="text/css"?>
+<?xml-stylesheet href="chrome://Firecrow/skin/Firecrow.css" type="text/css"?>
+<!DOCTYPE window [
+<!ENTITY % FirecrowDTD SYSTEM "chrome://Firecrow/locale/Firecrow.dtd" >
+ %FirecrowDTD;
+]>
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html="http://www.w3.org/1999/xhtml">
+
+  <script type="text/javascript" src="chrome://global/content/globalOverlay.js"/>
+  <script src="chrome://Firecrow/content/initFBL.js" type="application/x-javascript"/>
+  <script src="chrome://Firecrow/content/helpers/fbHelper.js" type="application/x-javascript"/>
+
+
+  <hbox id="Firecrow-content" flex="1">
+    <vbox>
+      <toolbar id="Firecrow-toolbar" class="devtools-toolbar">
+        <hbox id="Firecrow-controls">
+          <toolbarbutton id="record"
+                         class="devtools-toolbarbutton"
+                         type="checkbox"
+                         tooltiptext="&FirecrowUI.toggleRecording.tooltiptext;"
+                         tabindex="0"/>
+          <toolbarbutton id="clear"
+                         class="devtools-toolbarbutton"
+                         tooltiptext="&FirecrowUI.clearButton.tooltiptext;"
+                         tabindex="1"/>
+          <toolbarbutton id="options"
+                         class="devtools-toolbarbutton"
+                         type="menu"
+                         tooltiptext="&FirecrowUI.options.tooltiptext;"
+                         tabindex="5">
+            <menupopup id="option-popup"
+                       position="after_start">
+              <menuitem id="restart-on-reload"
+                        type="checkbox"
+                        label="&FirecrowUI.restartOnReloadLabel;"/>
+            </menupopup>
+          </toolbarbutton>
+        </hbox>
+      </toolbar>
+      <arrowscrollbox flex="1" orient="vertical" smoothscroll="true" id="sidePane">
+          <ol class="splitview-nav" id="FirecrowMenu">
+              <li id="slicingMenuItem" data-uid="1">
+                  <h1 class="FirecrowMenuItemName">Slicer</h1>
+              </li>
+
+              <li id="scenariosMenuItem"  data-uid="2" class="splitview-active">
+                  <h1 class="FirecrowMenuItemName">Scenario Generator</h1>
+              </li>
+
+              <li id="reuserMenuItem"  data-uid="2">
+                  <h1 class="FirecrowMenuItemName">Reuse</h1>
+              </li>
+          </ol>
+      </arrowscrollbox>
+    </vbox>
+    <splitter id="stack-panes-splitter" class="devtools-toolbar" />
+    <hbox id="mainContainer" flex="1">
+        <toolbar id="mainContainerToolbar" class="devtools-toolbar">
+            <hbox>
+                <menulist id="sources" class="devtools-menulist" sizetopopup="none" label="Select Source file">
+                    <menupopup>
+                        <menuitem label="None" value="None" tooltiptext="None" selected="true"/>
+                    </menupopup>
+                </menulist>
+            </hbox>
+        </toolbar>
+        <html:div id="mainContainerContent"></html:div>
+    </hbox>
+  </hbox>
+</window>

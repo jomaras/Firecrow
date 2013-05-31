@@ -1,26 +1,22 @@
-<?xml version="1.0"?>
-
-<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-
-  <Description about="urn:mozilla:install-manifest">
-    <em:id>Firecrow@fesb.hr</em:id>
-    <em:version>0.5</em:version>
+<?xml version="1.0" encoding="utf-8"?>
+<r:RDF xmlns="http://www.mozilla.org/2004/em-rdf#"
+       xmlns:r="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <r:Description about="urn:mozilla:install-manifest">
+    <creator>Josip Maras</creator>
+    <id>Firecrow@fesb.hr</id>
+    <name>Firecrow</name>
+    <version>0.6</version>
     <bootstrap>true</bootstrap>
-    <em:type>2</em:type>  
+    <type>2</type>
+    <homepageURL>www.fesb.hr/~jomaras</homepageURL>
+    <description>Set of Dynamic Analysis Tools for reuse</description>
 
-    <!-- Firefox -->
-    <em:targetApplication>
-      <Description>
-        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-        <em:minVersion>19.0</em:minVersion>
-        <em:maxVersion>23.*</em:maxVersion>
-      </Description>
-    </em:targetApplication>
-
-    <em:name>Firecrow</em:name>
-    <em:description>Firebug Firecrow Extension</em:description>
-    <em:creator>Josip Maras</em:creator>
-    <em:homepageURL>http://www.fesb.hr/~jomaras</em:homepageURL>
-  </Description>
-</RDF>
+    <targetApplication>
+      <r:Description>
+        <id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</id>
+        <minVersion>15.0a1</minVersion>
+        <maxVersion>23.*</maxVersion>
+      </r:Description>
+    </targetApplication>
+  </r:Description>
+</r:RDF>

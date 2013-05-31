@@ -2,7 +2,7 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
-<!-- LOCALIZATION NOTE : FILE This file contains the Firecrow strings -->
+<!-- LOCALIZATION NOTE : FILE This file contains Firecrow strings -->
 <!-- LOCALIZATION NOTE : FILE Do not translate commandkey -->
 
 <!-- LOCALIZATION NOTE : FILE The correct localization of this file might be to
@@ -15,6 +15,10 @@
   -  application menu item that opens the Firecrow UI. -->
 <!ENTITY FirecrowMenu.label2          "Firecrow">
 
+<!-- LOCALIZATION NOTE (FirecrowMenu.label): This is the label for the
+  -  application menu item that opens the remote Firecrow UI. -->
+<!ENTITY FirecrowMenu.label    "Firecrow">
+
 <!-- LOCALIZATION NOTE (FirecrowMenu.commandkey): This is the command key that
   -  launches the Firecrow UI. Do not translate this one! -->
 <!ENTITY FirecrowMenu.commandkey     "X">
@@ -24,21 +28,29 @@
 <!ENTITY FirecrowUI.closeButton.tooltip        "Close">
 
 <!-- LOCALIZATION NOTE (FirecrowUI.toggleOverviewButton.tooltiptext): This is the
-  -  tooltip text for the button that toggles the Overview mode in the timeline UI. -->
+  -  tooltip text for the button that toggles the Overview mode in the Firecrow UI. -->
 <!ENTITY FirecrowUI.toggleOverviewButton.tooltiptext        "Overview">
 
 <!-- LOCALIZATION NOTE (FirecrowUI.toggleRecording.tooltiptext): This is the
   -  tooltip text for the button that toggles the Recording in the Firecrow UI. -->
-<!ENTITY FirecrowUI.toggleRecording.tooltiptext        "Toggle Scenario Recording">
+<!ENTITY FirecrowUI.toggleRecording.tooltiptext        "Toggle Recording">
 
 <!-- LOCALIZATION NOTE (FirecrowUI.clearButton.tooltiptext): This is the
-  -  tooltip text for the button that clears the existing log from the Firecrow UI. -->
-<!ENTITY timelineUI.clearButton.tooltiptext        "Clear Log">
+  -  tooltip text for the button that clears the existing events from the Firecrow UI. -->
+<!ENTITY FirecrowUI.clearButton.tooltiptext        "Clear and Restart Firecrow">
 
 <!-- LOCALIZATION NOTE (FirecrowUI.options.tooltiptext): This is the
   -  tooltip text for the Options cog wheel. -->
 <!ENTITY FirecrowUI.options.tooltiptext        "Options">
 
+<!-- LOCALIZATION NOTE (FirecrowUI.noEventSelected): This is the placeholder
+  -  text for the empty details box. -->
+<!ENTITY FirecrowUI.noEventSelected                   "No event selected.">
+
 <!-- LOCALIZATION NOTE (FirecrowUI.emptyFilterText): This is the placeholder text
-  -  for the search bar in the firecrow UI. -->
+  -  for the search bar in the Firecrow UI. -->
 <!ENTITY FirecrowUI.emptyFilterText        "Click to Search">
+
+<!-- LOCALIZATION NOTE (FirecrowUI.restartOnReloadLabel): This is the label for the
+  -  checkbox to enable the feature to resstart the Firecrow on page reload. -->
+<!ENTITY FirecrowUI.restartOnReloadLabel        "Restart on page reload">

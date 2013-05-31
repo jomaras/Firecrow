@@ -294,6 +294,7 @@ Firecrow.fbHelper =
         return fcFrame != null ? fcFrame.contentWindow : null;
     },
     getFcFrame: function() { return this.getElementByID("fcIFrame"); },
+
     getCurrentPageDocument: function()
     {
         try { return content.document; }
