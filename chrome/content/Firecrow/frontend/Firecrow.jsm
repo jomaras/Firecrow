@@ -53,31 +53,39 @@ FirecrowView.prototype =
         this._frame.addEventListener("unload", this._onUnload, true);
 
         this.mainContainerContent = this.$("mainContainerContent");
+
+        this.codeMenuItem = this.$("codeMenuItem");
         this.slicingMenuItem = this.$("slicingMenuItem");
         this.scenariosMenuItem = this.$("scenariosMenuItem");
         this.reuserMenuItem = this.$("reuserMenuItem");
 
         var self = this;
 
+        this.codeMenuItem.onclick = function()
+        {
+            self.markSelectedMenuItem(self.codeMenuItem, [self.slicingMenuItem, self.scenariosMenuItem, self.reuserMenuItem]);
+        };
+
         this.slicingMenuItem.onclick = function()
         {
-            self.slicingMenuItem.classList.add("splitview-active");
-            self.scenariosMenuItem.classList.remove("splitview-active");
-            self.reuserMenuItem.classList.remove("splitview-active");
+            self.markSelectedMenuItem(self.slicingMenuItem, [self.codeMenuItem, self.scenariosMenuItem, self.reuserMenuItem]);
         };
 
         this.scenariosMenuItem.onclick = function()
         {
-            self.scenariosMenuItem.classList.add("splitview-active");
-            self.slicingMenuItem.classList.remove("splitview-active");
-            self.reuserMenuItem.classList.remove("splitview-active");
+            self.markSelectedMenuItem(self.scenariosMenuItem, [self.slicingMenuItem, self.codeMenuItem, self.reuserMenuItem]);
         };
 
         this.reuserMenuItem.onclick = function()
         {
-            self.scenariosMenuItem.classList.remove("splitview-active");
-            self.slicingMenuItem.classList.remove("splitview-active");
-            self.reuserMenuItem.classList.add("splitview-active");
+            self.markSelectedMenuItem(self.reuserMenuItem, [self.slicingMenuItem, self.scenariosMenuItem, self.codeMenuItem]);
+        };
+
+        this.markSelectedMenuItem = function(selectedItem, rest)
+        {
+            selectedItem.classList.add("splitview-active");
+
+            rest.forEach(function(item) { item.classList.remove("splitview-active"); })
         };
     },
 

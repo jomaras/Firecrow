@@ -252,15 +252,18 @@
 #record {
   list-style-image: url("images/Firecrow-record.png");
   -moz-image-region: rect(0px, 16px, 16px, 0px);
+    width: 16px;
 }
 
 #record[checked=true] {
   -moz-image-region: rect(0px, 32px, 16px, 16px);
 }
 
-#clear {
-  list-style-image: url("images/Firecrow-clear.png");
-  -moz-image-region: rect(1px, 16px, 19px, 0px);
+#clear
+{
+    list-style-image: url("images/Firecrow-clear.png");
+    -moz-image-region: rect(1px, 16px, 19px, 0px);
+    width: 16px;
 }
 
 #clear:active {

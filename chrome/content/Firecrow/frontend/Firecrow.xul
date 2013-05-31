@@ -47,15 +47,19 @@
       </toolbar>
       <arrowscrollbox flex="1" orient="vertical" smoothscroll="true" id="sidePane">
           <ol class="splitview-nav" id="FirecrowMenu">
-              <li id="slicingMenuItem" data-uid="1">
+              <li id="codeMenuItem" data-uid="1" class="splitview-active">
+                  <h1 class="FirecrowMenuItemName">Source Code</h1>
+              </li>
+
+              <li id="slicingMenuItem" data-uid="2">
                   <h1 class="FirecrowMenuItemName">Slicer</h1>
               </li>
 
-              <li id="scenariosMenuItem"  data-uid="2" class="splitview-active">
+              <li id="scenariosMenuItem"  data-uid="4">
                   <h1 class="FirecrowMenuItemName">Scenario Generator</h1>
               </li>
 
-              <li id="reuserMenuItem"  data-uid="2">
+              <li id="reuserMenuItem"  data-uid="5">
                   <h1 class="FirecrowMenuItemName">Reuse</h1>
               </li>
           </ol>
