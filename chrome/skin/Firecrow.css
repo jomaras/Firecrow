@@ -24,8 +24,32 @@
   padding: 3px 6px !important;
 }
 
+#FirecrowTabContainer
+{
+    width: 100% !important;
+    height: 100% !important;
+}
 
-#sources, #sources > menupopup
+#slicerTopContainer
+{
+    background-color: blueviolet;
+    display: inline-block !important;
+}
+
+#slicingCriteraTabBox
+{
+    width: 220px;
+    max-width: 220px;
+    min-width: 120px;
+}
+
+.sources
+{
+    height: 25px;
+}
+
+
+.sources, .sources > menupopup
 {
     width: 200px;
 }
@@ -43,6 +67,11 @@
     padding: 8px;
     cursor: pointer;
     -moz-user-select: none;
+}
+
+tab
+{
+    cursor: pointer;
 }
 
 #FirecrowMenu
@@ -333,11 +362,12 @@
   padding-left: 0px !important;
 }
 
-#Firecrow-content {
+#FirecrowContent {
   background: rgb(22,33,43);
   border-top: 1px solid rgb(20,30,39);
   padding: 0px !important;
   margin: 0px !important;
+  width: 100%;
 }
 
 #Firecrow-toolbar {
@@ -588,8 +618,6 @@
 }
 
 #mainContainerToolbar {
-  min-width: 100%;
-  max-width: 100%;
   margin: 0px !important;
   border-width: 0px !important;
 }

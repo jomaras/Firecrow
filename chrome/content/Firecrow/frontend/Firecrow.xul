@@ -18,66 +18,58 @@
   <script src="chrome://Firecrow/content/helpers/fbHelper.js" type="application/x-javascript"/>
 
 
-  <hbox id="Firecrow-content" flex="1">
-    <vbox>
-      <toolbar id="Firecrow-toolbar" class="devtools-toolbar">
-        <hbox id="Firecrow-controls">
-          <toolbarbutton id="record"
-                         class="devtools-toolbarbutton"
-                         type="checkbox"
-                         tooltiptext="&FirecrowUI.toggleRecording.tooltiptext;"
-                         tabindex="0"/>
-          <toolbarbutton id="clear"
-                         class="devtools-toolbarbutton"
-                         tooltiptext="&FirecrowUI.clearButton.tooltiptext;"
-                         tabindex="1"/>
-          <toolbarbutton id="options"
-                         class="devtools-toolbarbutton"
-                         type="menu"
-                         tooltiptext="&FirecrowUI.options.tooltiptext;"
-                         tabindex="5">
-            <menupopup id="option-popup"
-                       position="after_start">
-              <menuitem id="restart-on-reload"
-                        type="checkbox"
-                        label="&FirecrowUI.restartOnReloadLabel;"/>
-            </menupopup>
-          </toolbarbutton>
-        </hbox>
-      </toolbar>
-      <arrowscrollbox flex="1" orient="vertical" smoothscroll="true" id="sidePane">
-          <ol class="splitview-nav" id="FirecrowMenu">
-              <li id="codeMenuItem" data-uid="1" class="splitview-active">
-                  <h1 class="FirecrowMenuItemName">Source Code</h1>
-              </li>
+  <box id="FirecrowContent" flex="1" class="devtools-responsive-container">
+      <tabbox id="FirecrowTabContainer" flex="1" class="devtools-sidebar-tabs">
+          <tabpanels flex="1">
+              <tabpanel id="slicerTabPanel" class="tabpanel-content">
+                  <vbox flex="1" style="background-color: violet;">
+                      <toolbar class="devtools-toolbar">
+                          <hbox>
+                              <menulist class="sources devtools-menulist" sizetopopup="none" label="Select Source file">
+                                  <menupopup>
+                                      <menuitem label="None" value="None" tooltiptext="None" selected="true"/>
+                                  </menupopup>
+                              </menulist>
+                          </hbox>
+                      </toolbar>
+                  </vbox>
+                  <splitter class="devtools-side-splitter"/>
+                  <tabbox class="devtools-sidebar-tabs" id="slicingCriteraTabBox">
+                      <tabs>
+                        <tab label="Slicing Criteria"></tab>
+                      </tabs>
+                      <tabpanels flex="1">
+                          <tabpanel class="tabpanel-content">
+                              <vbox flex="1">
+                                  Slicing Criteria list
+                              </vbox>
+                          </tabpanel>
+                      </tabpanels>
+                  </tabbox>
+              </tabpanel>
+              <tabpanel id="scenarioGeneratorTabPanel" class="tabpanel-content">
+                  <vbox flex="1" style="background-color: yellow">
+                      Scenario Generator Tab Panel
+                  </vbox>
+              </tabpanel>
+              <tabpanel id="reuserTabPanel" class="tabpanel-content">
+                  <vbox flex="1">
+                      Reuser Tab Panel
+                  </vbox>
+              </tabpanel>
+              <tabpanel id="dependencyViewerTabPanel" class="tabpanel-content">
+                  <vbox flex="1">
+                      Dependency Viewer Tab Panel
+                  </vbox>
+              </tabpanel>
+          </tabpanels>
 
-              <li id="slicingMenuItem" data-uid="2">
-                  <h1 class="FirecrowMenuItemName">Slicer</h1>
-              </li>
-
-              <li id="scenariosMenuItem"  data-uid="4">
-                  <h1 class="FirecrowMenuItemName">Scenario Generator</h1>
-              </li>
-
-              <li id="reuserMenuItem"  data-uid="5">
-                  <h1 class="FirecrowMenuItemName">Reuse</h1>
-              </li>
-          </ol>
-      </arrowscrollbox>
-    </vbox>
-    <splitter id="stack-panes-splitter" class="devtools-toolbar" />
-    <hbox id="mainContainer" flex="1">
-        <toolbar id="mainContainerToolbar" class="devtools-toolbar">
-            <hbox>
-                <menulist id="sources" class="devtools-menulist" sizetopopup="none" label="Select Source file">
-                    <menupopup>
-                        <menuitem label="None" value="None" tooltiptext="None" selected="true"/>
-                    </menupopup>
-                </menulist>
-            </hbox>
-        </toolbar>
-        <html:div id="mainContainerContent"></html:div>
-        <vbox id="editor" flex="1"/>
-    </hbox>
-  </hbox>
+          <tabs id="FirecrowTabs">
+              <tab label="Slicer" style="max-width: 100px"/>
+              <tab label="Scenario Generator" style="max-width: 150px"/>
+              <tab label="Reuser" style="max-width: 100px"/>
+              <tab label="Dependency Viewer" style="max-width: 150px"/>
+          </tabs>
+      </tabbox>
+  </box>
 </window>
