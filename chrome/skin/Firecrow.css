@@ -13,7 +13,6 @@
 
 .devtools-toolbarbutton
 {
-    cursor: hand;
     cursor: pointer;
 }
 
@@ -31,15 +30,19 @@
     width: 200px;
 }
 
+#editor
+{
+    width: 100%;
+    height: 100%;
+}
+
 .FirecrowMenuItemName
 {
     font-size: 14px;
     font-weight: bolder;
     padding: 8px;
-    cursor: hand;
     cursor: pointer;
     -moz-user-select: none;
-    user-select: none;
 }
 
 #FirecrowMenu
