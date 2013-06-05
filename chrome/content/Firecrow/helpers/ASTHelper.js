@@ -112,7 +112,7 @@ Firecrow.ASTHelper =
             statementCoverage: executedNumberOfStatements/totalNumberOfStatements,
             totalNumberOfBranches: totalNumberOfBranches,
             executedNumberOfBranches: executedNumberOfBranches,
-            branchCoverage:  executedNumberOfBranches/totalNumberOfBranches
+            branchCoverage:  totalNumberOfBranches != 0 ? executedNumberOfBranches/totalNumberOfBranches : 1
         };
     },
 

@@ -1,66 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title></title>
-</head>
+    <head>
+        <style>
+            #container {
+                width: 100px; height: 100px;
+                background-color: blue;
+            }
+        </style>
+    </head>
 <body>
-   <input id="offsetInput"/>
-   <div style="float:left;">
-       <label style="vertical-align: top;">Input:</label>
-       <textarea cols="50" rows="20" id="inputContainer"></textarea>
-   </div>
-
-   <div style="float:left;">
-       <label style="vertical-align: top;">Output:</label>
-       <textarea cols="50" rows="20" id="outputContainer"></textarea>
-   </div>
-   <div style="clear:both"></div>
-   <button id="convertButton" value="Convert" onclick="convert()">Convert</button>
+    <div id="container"></div>
     <script>
-        function convert()
+        var container = document.getElementById("container");
+        container.onclick = function()
         {
-            var input = document.getElementById("inputContainer").value;
-            var offset = parseInt(document.getElementById("offsetInput").value);
-            if(isNaN(offset)) { offset = 0; }
-            var lines = input.split(/(\r)?\n/);
-            var outputLines = [];
+            container.style.backgroundColor = "red";
 
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open("GET", "serverSide.php", false);
+            httpRequest.send();
 
-            lines.forEach(function(line)
-            {
-                if(!line) { return; }
-
-                if(line.trim().indexOf("if") == 0)
-                {
-                    var working = line.replace(/if(\s)*\(/gi, "var a" + (outputLines.length + offset) + " = ").replace(/\)(\s)*{/gi, ";");
-                    if(working.indexOf("===") != -1)
-                    {
-                        working = working.replace("===", "!==");
-                    }
-                    else if (working.indexOf("!==") != -1)
-                    {
-                        working = working.replace("!==", "===");
-                    }
-                    else if(working.indexOf("==") != -1)
-                    {
-                        working = working.replace("==", "!=");
-                    }
-                    else if (working.indexOf("!=") != -1)
-                    {
-                        working = working.replace("!=", "==");
-                    }
-
-                    outputLines.push(working);
-                }
-
-              document.getElementById("outputContainer").value = outputLines.join("\n");
-              document.getElementById("offsetInput").value = outputLines.length + offset;
-
-                /*
-                * for(var i = 0; i < 99; i++) { if(!window["a"+i]){console.log(i)}}
-                * */
-            });
-        }
+            container.textContent += httpRequest.responseText;
+        };
     </script>
 </body>
 </html>

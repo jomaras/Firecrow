@@ -189,11 +189,11 @@ FBL.ns(function() { with (FBL) {
             }
         },
 
-        _traverseImportantDependencies: function(importantConstructDependencyIndexMapping)
+        _traverseImportantDependencies: function(executionTrace)
         {
-            for(var i = 0, length = importantConstructDependencyIndexMapping.length; i < length; i++)
+            for(var i = 0, length = executionTrace.length; i < length; i++)
             {
-                var mapping = importantConstructDependencyIndexMapping[i];
+                var mapping = executionTrace[i];
 
                 this._mainTraverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
             }

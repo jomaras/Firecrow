@@ -1,13 +1,11 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <title>Slicing test</title>
-        <meta charset="UTF-8"/>
-    </head>
+    <head></head>
     <body>
+        <div id="container1"></div>
+        <div id="container2"></div>
         <script>
+        var container1 = document.getElementById("container1");
 
-        var a1 = 3, a2 = 3;
         function Cont(afImplement)
         {
             if(afImplement)
@@ -21,7 +19,7 @@
 
             this.init = function()
             {
-                a1++;
+                container1.textContent += "1";
                 afterImplement();
             };
         }
@@ -29,10 +27,10 @@
         var b = new Cont();
         b.init();
 
-        var c = new Cont(function() { a2++; });
-        c.init();
+        var container2 = document.getElementById("container2");
 
-        a1; a2;
+        var c = new Cont(function() { container2.textContent += "2"; });
+        c.init();
         </script>
     </body>
 </html>

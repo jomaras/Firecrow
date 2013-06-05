@@ -22,7 +22,7 @@
       <tabbox id="FirecrowTabContainer" flex="1" class="devtools-sidebar-tabs">
           <tabpanels flex="1">
               <tabpanel id="slicerTabPanel" class="tabpanel-content">
-                  <vbox flex="1" style="background-color: violet;">
+                  <vbox flex="1">
                       <toolbar class="devtools-toolbar">
                           <hbox>
                               <menulist class="sources devtools-menulist" sizetopopup="none" label="Select Source file">
@@ -32,6 +32,12 @@
                               </menulist>
                           </hbox>
                       </toolbar>
+
+                      <vbox id="sources-pane" flex="1">
+                          <vbox id="sources" flex="1" style="background-color: red;">
+                              Test
+                          </vbox>
+                      </vbox>
                   </vbox>
                   <splitter class="devtools-side-splitter"/>
                   <tabbox class="devtools-sidebar-tabs" id="slicingCriteraTabBox">

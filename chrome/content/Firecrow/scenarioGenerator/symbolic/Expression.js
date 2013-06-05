@@ -237,6 +237,24 @@ fcSymbolic.Binary = function(left, right, operator)
 
     this.type = fcSymbolic.CONST.BINARY;
 };
+fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral = function(identifierName, literalValue)
+{
+    var binary = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(literalValue), "==");
+
+    binary.markAsIrreversible();
+
+    return binary;
+};
+
+fcSymbolic.Binary.createIrreversibleIdentifierGreaterEqualsThanLiteral = function(identifierName, literalValue)
+{
+    var binary = new fcSymbolic.Binary(new fcSymbolic.Identifier(identifierName), new fcSymbolic.Literal(literalValue), ">=");
+
+    binary.markAsIrreversible();
+
+    return binary;
+};
+
 fcSymbolic.Binary.prototype = new fcSymbolic.Expression();
 fcSymbolic.Binary.prototype.toString = function() { return this.left + " " + this.operator + " " + this.right; };
 fcSymbolic.Binary.prototype.containsNumericExpressions = function() { return this.left.containsNumericExpressions() || this.right.containsNumericExpressions(); };
@@ -264,6 +282,7 @@ fcSymbolic.Binary.prototype.createCopyWithIndex = function(index)
 {
     return new fcSymbolic.Binary(this.left.createCopyWithIndex(index), this.right.createCopyWithIndex(index), this.operator);
 };
+
 
 fcSymbolic.Update = function(argument, operator, prefix)
 {
@@ -316,6 +335,15 @@ fcSymbolic.Logical = function(left, right, operator)
 
     this.type = fcSymbolic.CONST.LOGICAL;
     this._fix();
+};
+
+fcSymbolic.Logical.createIrreversibleOr = function(left, right)
+{
+    var logical = new fcSymbolic.Logical(left, right, "||");
+
+    logical.markAsIrreversible();
+
+    return logical;
 };
 
 fcSymbolic.Logical.prototype = new fcSymbolic.Expression();

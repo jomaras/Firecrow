@@ -24,6 +24,22 @@ fcScenarioGenerator.Event.areEqual = function(eventA, eventB)
         && eventA.handlerConstruct == eventB.handlerConstruct;
 };
 
+fcScenarioGenerator.Event.createFromEventRegistration = function(eventRegistration)
+{
+    var event = new fcScenarioGenerator.Event
+    (
+        eventRegistration.thisObjectDescriptor,
+        eventRegistration.thisObjectModel,
+        eventRegistration.eventType,
+        eventRegistration.registrationConstruct,
+        eventRegistration.handlerConstruct
+    );
+
+    event.timePeriod = eventRegistration.timePeriod;
+
+    return event;
+};
+
 fcScenarioGenerator.Event.prototype =
 {
     generateFingerprint: function()
@@ -36,11 +52,13 @@ fcScenarioGenerator.Event.prototype =
         return this.eventType + this.handlerConstruct.nodeId;
     },
 
+    isTimingEvent: function()
+    {
+        return this.eventType == "timeout" || this.eventType == "interval"
+    },
+
     toString: function()
     {
-        var classAttribute = null;
-        var idAttribute = null;
-
         var attributes = this.thisObjectModel.attributes;
 
         var specifier = "";
@@ -69,6 +87,16 @@ fcScenarioGenerator.ParametrizedEvent = function (baseEvent, parameters)
     this.baseEvent = baseEvent;
     this.setParameters(parameters);
     this.fingerprint = this.baseEvent.fingerprint + JSON.stringify(this.parameters);
+};
+
+fcScenarioGenerator.ParametrizedEvent.createFromEvents = function(events, inputConstraint)
+{
+    var resolvedResults = inputConstraint != null ? inputConstraint.resolvedResult : [];
+
+    return events.map(function(event, index)
+    {
+        return new fcScenarioGenerator.ParametrizedEvent(event, resolvedResults[index]);
+    });
 };
 
 fcScenarioGenerator.ParametrizedEvent.prototype =
