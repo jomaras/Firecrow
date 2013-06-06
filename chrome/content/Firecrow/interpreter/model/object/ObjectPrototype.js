@@ -31,7 +31,7 @@ fcModel.ObjectPrototype.prototype.initMethods = function()
             false
         );
     }, this);
-}
+};
 
 fcModel.ObjectPrototype.CONST =
 {

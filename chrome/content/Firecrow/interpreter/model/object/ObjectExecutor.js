@@ -111,7 +111,7 @@ fcModel.ObjectExecutor =
         var iObject = fcBaseObject.iValue;
         iObject.addModification(callExpression);
 
-        var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
+        var dependencyCreator = globalObject.dependencyCreator;
 
         for(var propName in jsPropertyDescriptorsMap)
         {
@@ -162,7 +162,7 @@ fcModel.ObjectExecutor =
 
         args[0].iValue.addModification(callExpression);
 
-        var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
+        var dependencyCreator = globalObject.dependencyCreator;
 
         dependencyCreator.createDataDependency(args[2].codeConstruct, callExpression);
         dependencyCreator.createDependenciesForObjectPropertyDefinition(args[2].codeConstruct);
@@ -256,8 +256,7 @@ fcModel.ObjectExecutor =
 
         if(args[0] == null || args[0].iValue == null) { fcModel.Object.notifyError("Object isExtensible argument hast to have iValue"); return null; }
 
-
-        var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
+        var dependencyCreator = globalObject.dependencyCreator;
 
         if(args[0].iValue.preventExtensionPosition != null)
         {
@@ -294,7 +293,7 @@ fcModel.ObjectExecutor =
             {
                 if(ASTHelper.isObjectExpressionPropertyValue(lastModificationConstruct.parent))
                 {
-                    var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
+                    var dependencyCreator = globalObject.dependencyCreator;
 
                     dependencyCreator.createDataDependency(lastModificationConstruct, lastModificationConstruct.parent);
                 }

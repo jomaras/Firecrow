@@ -29,8 +29,6 @@ fcModel.Object.prototype =
         this.implementationObject = implementationObject;
         this.creationCodeConstruct = codeConstruct;
 
-        this.dependencyCreator = new fcSimulator.DependencyCreator(globalObject);
-
         this.properties = [];
         this.enumeratedProperties = [];
         this.modifications = [];
@@ -52,6 +50,23 @@ fcModel.Object.prototype =
         }
 
         return this;
+    },
+
+    deconstructObject: function()
+    {
+        delete this.globalObject;
+        delete this.implementationObject;
+        delete this.creationCodeConstruct;
+
+        delete this.properties;
+        delete this.enumeratedProperties;
+        delete this.modifications;
+
+        delete this.objectModifiedCallbackDescriptors;
+        delete this.addPropertyCallbackDescriptors;
+        delete this.getPropertyCallbackDescriptors;
+
+        delete this.creationContext;
     },
     //</editor-fold>
 
@@ -341,7 +356,7 @@ fcModel.Object.prototype =
         {
             var modification = modifications[i];
 
-            this.dependencyCreator.createDataDependency
+            this.globalObject.dependencyCreator.createDataDependency
             (
                 codeConstruct,
                 modification.codeConstruct,
@@ -362,7 +377,7 @@ fcModel.Object.prototype =
                 this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
             }
 
-            this.dependencyCreator.createDataDependency
+            this.globalObject.dependencyCreator.createDataDependency
             (
                 codeConstruct,
                 this.dummyDependencyNode,
@@ -402,7 +417,7 @@ fcModel.Object.prototype =
 
         if(this.prototypeDefinitionConstruct != null)
         {
-            this.dependencyCreator.createDataDependency
+            this.globalObject.dependencyCreator.createDataDependency
             (
                 readPropertyConstruct,
                 this.prototypeDefinitionConstruct.codeConstruct,
@@ -413,7 +428,7 @@ fcModel.Object.prototype =
 
         if(property.lastModificationPosition != null)
         {
-            this.dependencyCreator.createDataDependency
+            this.globalObject.dependencyCreator.createDataDependency
             (
                 readPropertyConstruct,
                 property.lastModificationPosition.codeConstruct,

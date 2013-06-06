@@ -332,6 +332,20 @@ fcModel.GlobalObject.prototype.getOnLoadFunctions = function()
 
     return onLoadFunctions;
 };
+
+fcModel.GlobalObject.prototype.destruct = function()
+{
+    this._retractFromFcValue();
+    this._removeExecutionEnvironment();
+
+    this._deleteInternalPrototypes();
+    this._deleteInternalFunctions();
+    this._deleteHandlerMaps();
+    this._deleteInternalObjects();
+    this._deleteInternalPrototypes();
+
+    this.deconstructObject();
+};
 //</editor-fold>
 
 //<editor-fold desc="Evaluation Position">
@@ -466,12 +480,33 @@ fcModel.GlobalObject.prototype._expandToFcValue = function()
     this.isSymbolic = function() { return false; }
     this.isNotSymbolic = function() { return true; }
 };
+
+fcModel.GlobalObject.prototype._retractFromFcValue = function()
+{
+    delete this.iValue;
+    delete this.jsValue;
+    delete this.codeConstruct;
+
+    delete this.isFunction;
+    delete this.isPrimitive;
+    delete this.isSymbolic;
+    delete this.isNotSymbolic;
+};
+
 fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 {
     this.browser = browser;
 
     this.origWindow = Firecrow.getWindow();
     this.origDocument = Firecrow.getDocument();
+};
+
+fcModel.GlobalObject.prototype._removeExecutionEnvironment = function()
+{
+    delete this.browser;
+
+    delete this.origWindow;
+    delete this.origDocument;
 };
 
 fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
@@ -527,6 +562,55 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
         this.numberPrototype, this.datePrototype, this.htmlImageElementPrototype,
         this.elementPrototype, this.canvasPrototype
     ];
+};
+
+fcModel.GlobalObject.prototype._deleteInternalPrototypes = function ()
+{
+    delete this.objectPrototype;
+    delete this.fcObjectPrototype;
+
+    delete this.functionPrototype;
+    delete this.fcFunctionPrototype;
+
+    delete this.objectPrototype;
+
+    delete this.booleanPrototype;
+    delete this.fcBooleanPrototype;
+
+    delete this.arrayPrototype;
+    delete this.fcArrayPrototype;
+
+    delete this.regExPrototype;
+    delete this.fcRegExPrototype;
+
+    delete this.stringPrototype;
+    delete this.fcStringPrototype;
+
+    delete this.numberPrototype;
+    delete this.fcNumberPrototype;
+
+    delete this.datePrototype;
+    delete this.fcDatePrototype;
+
+    delete this.htmlImageElementPrototype;
+    delete this.fcHtmlImagePrototype;
+
+    delete this.canvasPrototype;
+    delete this.fcCanvasPrototype;
+
+    delete this.canvasContextPrototype;
+    delete this.fcCanvasContextPrototype;
+
+    delete this.elementPrototype;
+    delete this.fcElementPrototype;
+
+    delete this.windowPrototype;
+    delete this.fcWindowPrototype;
+
+    delete this.documentPrototype;
+    delete this.fcDocumentPrototype;
+
+    delete this.internalPrototypes;
 };
 
 fcModel.GlobalObject.prototype._createInternalFunctions = function()
@@ -596,6 +680,37 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
     ];
 };
 
+fcModel.GlobalObject.prototype._deleteInternalFunctions = function()
+{
+    delete this.objectFunction;
+    delete this.fcObjectFunction;
+
+    delete this.arrayFunction;
+    delete this.fcArrayFunction;
+
+    delete this.booleanFunction;
+
+    delete this.stringFunction;
+    delete this.fcStringFunction;
+
+    delete this.imageFunction;
+    delete this.regExFunction;
+
+    delete this.numberFunction;
+
+    delete this.dateFunction;
+
+    delete this.functionFunction;
+
+    delete this.xmlHttpRequestFunction;
+
+    delete this.windowFunction;
+
+    delete this.documentFunction;
+
+    delete this.internalFunctions;
+};
+
 fcModel.GlobalObject.prototype._createInternalObjects = function()
 {
     this.document = new fcModel.Document(this.origDocument, this);
@@ -620,6 +735,21 @@ fcModel.GlobalObject.prototype._createInternalObjects = function()
     this.addProperty("Element", this.element, null);
 };
 
+fcModel.GlobalObject.prototype._deleteInternalObjects = function()
+{
+    delete this.document;
+    delete this.jsFcDocument;
+
+    delete this.math;
+    delete this.fcMath;
+
+    delete this.fcHTMLImageElement;
+    delete this.htmlImageElement;
+
+    delete this.fcElement;
+    delete this.element;
+};
+
 fcModel.GlobalObject.prototype._createInternalVariables = function()
 {
     this.addProperty("undefined", new fcModel.fcValue(undefined, undefined, null));
@@ -635,6 +765,14 @@ fcModel.GlobalObject.prototype._createHandlerMaps = function()
 
     this.timeoutHandlers = [];
     this.intervalHandlers = [];
+};
+fcModel.GlobalObject.prototype._deleteHandlerMaps = function()
+{
+    delete this.eventHandlerPropertiesMap;
+    delete this.htmlElementEventHandlingRegistrations;
+
+    delete this.timeoutHandlers;
+    delete this.intervalHandlers;
 };
 //</editor-fold>
 

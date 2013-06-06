@@ -105,7 +105,7 @@ Browser.prototype = dummy =
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
 
-    clean: function(){},
+    clear: function(){},
 
     getEventRegistrations: function()
     {
@@ -264,6 +264,7 @@ Browser.prototype = dummy =
         {
             //console.log("Interpreting @ " + codeModel.loc.start.line);
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
+            this.globalObject.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, interpreter.executionContextStack);
 
             interpreter.registerMessageGeneratedCallback(function(message)
             {
@@ -276,6 +277,7 @@ Browser.prototype = dummy =
             }, this);
 
             interpreter.runSync();
+            interpreter.destruct();
         }
         catch(e)
         {
@@ -1020,6 +1022,42 @@ Browser.prototype = dummy =
         arguments.push(new fcModel.fcValue(eventInfo, eventInfoJsObject, null));
 
         return arguments;
+    },
+
+    destruct: function()
+    {
+        fcBrowser.Browser.LAST_USED_ID = 0;
+
+        delete this.pageModel;
+
+        this.hostDocument = null;
+        delete this.hostDocument;
+
+        delete this.htmlWebFile;
+
+        this.globalObject.destruct();
+        delete this.globalObject;
+
+        delete this.nodeCreatedCallbacks;
+        delete this.nodeInsertedCallbacks;
+        delete this.interpretJsCallbacks;
+
+        delete this.dataDependencyEstablishedCallbacks;
+        delete this.controlDependencyEstablishedCallbacks;
+        delete this.interpreterMessageGeneratedCallbacks;
+        delete this.controlFlowConnectionCallbacks;
+        delete this.importantConstructReachedCallbacks;
+        delete this.documentReadyCallbacks;
+        delete this.enterFunctionCallbacks;
+        delete this.exitFunctionCallbacks;
+        delete this.breakContinueReturnEventsCallbacks;
+
+        delete this.domQueriesMap;
+
+        delete this.errorMessages;
+        delete this.cssRules;
+
+        delete this.executionInfo;
     },
 
     notifyError: function(message) { Firecrow.DoppelBrowser.Browser.notifyError(message); }

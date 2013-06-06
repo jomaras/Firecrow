@@ -57,9 +57,9 @@ fcSimulator.VariableObject.prototype =
         {
             ValueTypeHelper.removeFromArrayByElement(this.identifiers, identifier);
         }
-    },
+    }
 };
-    //</editor-fold>
+//</editor-fold>
 
 //<editor-fold desc="Variable Object Mixin">
 fcSimulator.VariableObjectMixin =

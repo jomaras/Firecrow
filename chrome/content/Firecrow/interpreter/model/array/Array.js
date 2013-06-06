@@ -344,7 +344,7 @@ fcModel.Array.prototype.slice = function(jsArray, callArguments, callExpression)
 
             if(lengthProperty != null && lengthProperty.lastModificationPosition != null)
             {
-                this.dependencyCreator.createDataDependency
+                this.globalObject.dependencyCreator.createDataDependency
                 (
                     callExpression,
                     lengthProperty.lastModificationPosition.codeConstruct,
@@ -394,7 +394,7 @@ fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpressio
 
             if(lengthProperty != null && lengthProperty.lastModificationPosition != null)
             {
-                this.dependencyCreator.createDataDependency
+                this.globalObject.dependencyCreator.createDataDependency
                 (
                     callExpression,
                     lengthProperty.lastModificationPosition.codeConstruct,
@@ -533,7 +533,7 @@ fcModel.Array.prototype._registerCallbacks = function()
     (
         function(modification)
         {
-            this.dependencyCreator.createDataDependency
+            this.globalObject.dependencyCreator.createDataDependency
             (
                 this.dummyDependencyNode,
                 modification.codeConstruct,
@@ -561,7 +561,7 @@ fcModel.Array.prototype._addRegExResultArrayProperties = function()
 
 fcModel.Array.prototype._addPreexistingObjects = function()
 {
-    var dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, this.globalObject.executionContextStack);;
+    var dependencyCreator = this.globalObject.dependencyCreator;
 
     for(var i = 0; i < this.jsArray.length; i++)
     {

@@ -17,7 +17,7 @@ fcModel.Identifier = function(name, value, codeConstruct, globalObject)
         this.value = value;
         this.globalObject = globalObject;
 
-        this.modificationPositions = [];
+        //this.modificationPositions = [];
         this.lastModificationPosition = null;
 
         if(codeConstruct != null)
@@ -33,7 +33,7 @@ fcModel.Identifier = function(name, value, codeConstruct, globalObject)
                 this.lastModificationPosition = this.declarationPosition;
             }
 
-            this.modificationPositions.push(this.declarationPosition);
+            //this.modificationPositions.push(this.declarationPosition);
         }
     }
     catch(e) { fcModel.Identifier.notifyError("Error when constructing: " + e ); }
@@ -54,7 +54,7 @@ fcModel.Identifier.prototype =
             if(modificationConstruct != null)
             {
                 this.lastModificationPosition = { codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
-                this.modificationPositions.push({ codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
+                //this.modificationPositions.push({ codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
             }
         }
         catch(e) { Firecrow.Interpreter.Model.Identifier.notifyError("Error when setting value: " + e); }

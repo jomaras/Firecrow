@@ -75,6 +75,19 @@ fcSimulator.ExecutionContext.prototype =
     popFromScopeChain: function()
     {
         return this.scopeChain.pop();
+    },
+
+    destruct: function()
+    {
+        delete this.variableObject;
+        delete this.thisObject;
+
+        delete this.globalObject;
+
+        delete this.scopeChain;
+
+        delete this.codeConstructValuesMapping;
+        delete this.commands;
     }
 };
 //</editor-fold>
@@ -107,11 +120,27 @@ fcSimulator.ExecutionContextStack = function(globalObject, handlerInfo)
 
 fcSimulator.ExecutionContextStack.prototype =
 {
+    destruct: function()
+    {
+        delete this.globalObject;
+
+        delete this.activeContext;
+        delete this.stack;
+
+        delete this.exceptionCallbacks;
+        delete this.blockCommandStack;
+        delete this.functionContextCommandsStack;
+
+        delete this.dependencyCreator;
+
+        delete this.evaluator;
+    },
+
     executeCommand: function(command)
     {
         try
         {
-            this.activeContext.commands.push(command);
+            //this.activeContext.commands.push(command);
 
             if(!command.isEnterFunctionContextCommand()) { this.activeContext.lastCommand = command; }
             this.globalObject.browser.logConstructExecuted(command.codeConstruct);

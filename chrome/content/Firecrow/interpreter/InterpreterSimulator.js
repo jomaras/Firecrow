@@ -128,6 +128,22 @@ fcSimulator.prototype = dummy =
         catch(e) { fcSimulator.notifyError("Error when executing async loop"); }
     },
 
+    destruct: function()
+    {
+        delete this.programAst;
+        delete this.globalObject;
+        delete this.handlerInfo;
+        delete this.tryStack;
+
+        this.executionContextStack.destruct();
+        delete this.executionContextStack;
+
+        delete this.commands;
+
+        delete this.messageGeneratedCallbacks;
+        delete this.controlFlowConnectionCallbacks;
+    },
+
     _processCommand: function(command)
     {
         if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { this._processTryCommand(command); }

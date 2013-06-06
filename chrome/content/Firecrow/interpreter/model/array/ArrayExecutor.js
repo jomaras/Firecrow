@@ -67,8 +67,6 @@ fcModel.ArrayExecutor =
                     callCommand.originatingObject = thisObject;
                     callCommand.callerFunction = functionObject;
 
-                    var dependencyCreator = new fcSimulator.DependencyCreator(globalObject, globalObject.executionContextStack);
-
                     if(callCommand.originatingObject != null && callCommand.originatingObject.iValue != null && callCommand.originatingObject.iValue.addDependenciesToAllProperties)
                     {
                         callCommand.originatingObject.iValue.addDependenciesToAllProperties(callExpression)

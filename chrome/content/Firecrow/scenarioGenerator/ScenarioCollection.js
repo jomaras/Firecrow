@@ -22,11 +22,11 @@ fcScenarioGenerator.ScenarioCollection = function()
 fcScenarioGenerator.ScenarioCollection.prototype =
 {
     randomPrioritization: false,
-    fifoPrioritization: false,
+    fifoPrioritization: true,
     eventLengthPrioritization: false,
     maximizingPathCoveragePrioritization: false,
     symbolicAndNewPrioritization: false,
-    symbolicNewCoveragePrioritization: true,
+    symbolicNewCoveragePrioritization: false,
 
     typeCoverageInfo: {},
     compareEvents: false,

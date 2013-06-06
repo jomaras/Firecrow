@@ -11,7 +11,7 @@ fcScenarioGenerator.ScenarioGenerator =
     achievedCoverage: 0,
     achievedCoverages: [],
     scenarios: null,
-    scenarioProcessingLimit: 32,
+    scenarioProcessingLimit: 100,
     uiControlsSelectors: null,
     uiControlsJointSelector: "",
 
@@ -197,6 +197,8 @@ fcScenarioGenerator.ScenarioGenerator =
 
         this._createInvertedPathScenarios(scenario, scenarios);
         this._createRegisteredEventsScenarios(scenario, scenarios, executionResult.browser);
+
+        executionResult.browser.destruct();
     },
 
     _createInvertedPathScenarios: function(scenario, scenarios)
