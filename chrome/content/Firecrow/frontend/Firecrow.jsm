@@ -6,6 +6,7 @@ var Cu = Components.utils;
 
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource:///modules/source-editor.jsm");
+Cu.import("chrome://Firecrow/content/helpers/fbHelper.js");
 
 var HTML = "http://www.w3.org/1999/xhtml";
 
@@ -42,23 +43,75 @@ function FirecrowView(aChromeWindow, aIframe)
 
 FirecrowView.prototype =
 {
-    _onLoad: function TV__onLoad()
+    _onLoad: function FV__onLoad()
     {
         this.loaded = true;
         this._frame.removeEventListener("load", this._onLoad, true);
         this._frameDoc = this._frame.contentDocument;
         this._frameDoc.defaultView.focus();
 
-        this.recordButton = this.$("record");
-        this.recordButton.addEventListener("command", this.toggleRecording, true);
         this._frame.addEventListener("unload", this._onUnload, true);
 
         this.mainContainerContent = this.$("mainContainerContent");
+        this.slicerMainContainer = this.$("slicerMainContainer");
+        this.sourcesMenuPopup = this.$("sourcesMenuPopup");
+        this.sourcesMenuList = this.$("sourcesMenuList");
 
-        this._initializeEditor();
+        this.editorPlaceHolder = this.$("editor");
+        this.invisibleBrowser = this.$("invisibleBrowser");
+
+        this._createSourceSelectionMenu();
+
+        this.sourcesMenuList.addEventListener("command", function()
+        {
+            this.editor.setText("---- LOADING SOURCE CODE ----");
+            this.invisibleBrowser.setAttribute("src", "view-source:" + this.sourcesMenuList.selectedItem.value);
+        }.bind(this));
+
+
+        this.invisibleBrowser.addEventListener("DOMContentLoaded", function()
+        {
+            if(this.sourcesMenuList.selectedItem != null && this.sourcesMenuList.selectedItem.label.startsWith("*"))
+            {
+                this.editor.setMode(SourceEditor.MODES.HTML);
+            }
+            else
+            {
+                this.editor.setMode(SourceEditor.MODES.JAVASCRIPT);
+            }
+
+            this.editor.setText(this.invisibleBrowser.contentDocument.getElementById('viewsource').textContent);
+        }.bind(this));
+
+
+        var config = {
+            mode: SourceEditor.MODES.JAVASCRIPT,
+            readOnly: true,
+            showLineNumbers: true,
+            showAnnotationRuler: true,
+            showOverviewRuler: true
+        };
+
+        this.editor = new SourceEditor();
+        this.editor.init(this.editorPlaceHolder, config, function()
+        {
+            this.editor.setText("---- SELECT SOURCE FILE ----");
+
+            this.editor.addEventListener
+            (
+                SourceEditor.EVENTS.BREAKPOINT_CHANGE,
+                function(e)
+                {
+                    //e.added array
+                    //e.removed array
+                    Cu.reportError(e.added.length);
+                }
+            );
+
+        }.bind(this));
     },
 
-    closeUI: function TV_closeUI()
+    closeUI: function FV_closeUI()
     {
         if (!this.loaded) { return; }
 
@@ -72,7 +125,7 @@ FirecrowView.prototype =
         this._frameDoc = this._window = null;
     },
 
-    _onUnload: function TV__onUnload()
+    _onUnload: function FV__onUnload()
     {
         this._frame = null;
         this._frameDoc = null;
@@ -81,9 +134,75 @@ FirecrowView.prototype =
         this.loaded = false;
     },
 
+    _createSourceSelectionMenu: function()
+    {
+        var scriptNameAndPaths = this._getContentScriptNameAndPaths();
+
+        for(var i = 0; i < scriptNameAndPaths.length; i++)
+        {
+            var scriptNameAndPath = scriptNameAndPaths[i];
+            this._createMenuItem(this.sourcesMenuPopup, scriptNameAndPath.name, scriptNameAndPath.path, true);
+        }
+    },
+
     $: function (ID)
     {
         return this._frameDoc.getElementById(ID);
+    },
+
+    _createMenuItem: function(menuPopupParent, menuItemName, menuItemPath, isSelected)
+    {
+        const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+        var menuItem = this._frameDoc.createElementNS(XUL_NS, "menuitem");
+
+        if (menuItemName != undefined) { menuItem.setAttribute("label", menuItemName); }
+        if (menuItemPath != undefined) { menuItem.setAttribute("value", menuItemPath); }
+        if (isSelected != undefined) { menuItem.setAttribute("selected", isSelected); }
+
+        menuPopupParent.appendChild(menuItem);
+    },
+
+    _getCurrentPageDocument: function()
+    {
+        return this._window.content.document;
+    },
+
+    _getContentScriptNameAndPaths: function()
+    {
+        var scriptPaths = [];
+        var document = this._getCurrentPageDocument();
+
+        scriptPaths.push({name: "* - " + this._getScriptName(document.baseURI), path: document.baseURI });
+
+        var scriptElements = document.querySelectorAll("script");
+
+        for(var i = 0; i < scriptElements.length; i++)
+        {
+            var src = scriptElements[i].src;
+
+            if(src != "")
+            {
+                scriptPaths.push({name: this._getScriptName(src), path: src });
+            }
+        }
+
+        return scriptPaths;
+    },
+
+    _getScriptName: function(url)
+    {
+        if(!url) { return ""; }
+
+        var lastIndexOfSlash = url.lastIndexOf("/");
+
+        if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
+
+        lastIndexOfSlash = url.lastIndexOf("\\");
+
+        if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
+
+        return url;
     }
 };
 

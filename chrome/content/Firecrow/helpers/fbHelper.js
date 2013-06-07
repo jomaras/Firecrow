@@ -1,7 +1,14 @@
+/**IF INCLUDED AS MODULE*/
+if(typeof FBL === "undefined") { FBL = {}; FBL.ns = function(namespaceFunction){ namespaceFunction(); }; FBL.Firecrow = {}; }
+/**END IF INCLUDED AS MODULE*/
+
+EXPORTED_SYMBOLS = ["FbHelper"];
+
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var CC = Components.classes;
 var CI = Components.interfaces;
+var CU = Components.utils;
 
 var fileHelper = Firecrow.FileHelper;
 var valueTypeHelper = Firecrow.ValueTypeHelper;
@@ -30,16 +37,16 @@ Firecrow.fbHelper =
                 args
             );
         }
-        catch (e) { alert("Error opening window:" + e); }
+        catch (e) { CU.reportError("Error opening window:" + e); }
     },
 
     getElementByID: function(elementID)
     {
         try{ return Firebug.chrome.$(elementID); }
-        catch(e) { alert("Error when getting element by id: " + e);}
+        catch(e) { CU.reportError("Error when getting element by id: " + e);}
     },
 
-    createMenuItem: function(label, value, selected)
+    createMenuItem: function(document, label, value, selected)
     {
        try
        {
@@ -54,7 +61,7 @@ Firecrow.fbHelper =
 
            return menuItem;
        }
-       catch(e) { alert("Error when creating menu item"); }
+       catch(e) { CU.reportError("Error when creating menu item: " + e); }
     },
 
     clearChildren: function(element)
@@ -68,7 +75,7 @@ Firecrow.fbHelper =
                 element.removeChild(element.firstChild);
             }
         }
-        catch(e) { alert("Error when clearing children");}
+        catch(e) { CU.reportError("Error when clearing children");}
     },
 
     getExternalScriptPaths: function()
@@ -86,7 +93,7 @@ Firecrow.fbHelper =
 
             return scripts;
         }
-        catch(e) { alert("Getting script paths error " + e); }
+        catch(e) { CU.reportError("Getting script paths error " + e); }
     },
 
     getStylesPathsAndModels: function(document)
@@ -113,7 +120,7 @@ Firecrow.fbHelper =
                 );
             }
         }
-        catch(e) { alert("fbHelper: an error has occurred when trying to get styles path and model: " + e); }
+        catch(e) { CU.reportError("fbHelper: an error has occurred when trying to get styles path and model: " + e); }
 
         return returnValue;
     },
@@ -143,7 +150,7 @@ Firecrow.fbHelper =
         }
         catch(e)
         {
-            alert("Error when getting stylesheet model: " + e);
+            CU.reportError("Error when getting stylesheet model: " + e);
         }
 
         return model;
@@ -192,13 +199,29 @@ Firecrow.fbHelper =
         }
         catch(e)
         {
-            alert("Error when getting style declarations: " + e  + " " + key + " " + newKey);
+            CU.reportError("Error when getting style declarations: " + e  + " " + key + " " + newKey);
             Firecrow._KEY = key;
             Firecrow._NEW_KEY = newKey;
             Firecrow._STYLE = style;
         }
 
         return declarations;
+    },
+
+    _getScriptName: function(url)
+    {
+        if(!url) { return ""; }
+
+        var lastIndexOfSlash = url.lastIndexOf("/");
+
+        if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
+
+        lastIndexOfSlash = url.lastIndexOf("\\");
+
+        if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
+
+        return url;
+
     },
 
     getScriptsPathsAndModels: function(document)
@@ -259,10 +282,10 @@ Firecrow.fbHelper =
 
             return returnValue;
         }
-        catch(e) { alert("An error has occurred while trying to get script paths and models: " + e);}
+        catch(e) { CU.reportError("An error has occurred while trying to get script paths and models: " + e);}
     },
 
-    getWindow: function() { return content.wrappedJSObject; },
+    getWindow: function() { return this.getMainWindow().gBrowser.contentWindow; },
 
     getMainWindow: function()
     {
@@ -277,7 +300,7 @@ Firecrow.fbHelper =
     getCurrentBrowser: function()
     {
         try { return this.getMainWindow().getBrowser().selectedBrowser; }
-        catch (e) { alert("Getting current browser error: " + e); }
+        catch (e) { CU.reportError("Getting current browser error: " + e); }
     },
 
     getDocument: function() { return this.getCurrentPageDocument(); },
@@ -297,14 +320,14 @@ Firecrow.fbHelper =
 
     getCurrentPageDocument: function()
     {
-        try { return content.document; }
-        catch(e) { alert("Error when getting current page document " + e ); }
+        try { return this.getWindow().document; }
+        catch(e) { CU.reportError("Error when getting current page document " + e ); }
     },
 
     getCurrentUrl: function()
     {
         try { return this.getCurrentPageDocument().baseURI; }
-        catch(e) { alert("Error when getting current url: " + e); }
+        catch(e) { CU.reportError("Error when getting current url: " + e); }
     },
 
     getCurrentPageName: function()
@@ -315,13 +338,13 @@ Firecrow.fbHelper =
 
             return currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
         }
-        catch(e) { alert("Error when getting current page name");}
+        catch(e) { CU.reportError("Error when getting current page name");}
     },
 
     reloadPage: function ()
     {
         try { this.getCurrentBrowser().reload(); }
-        catch (e) { alert("Reloading page error: " + e); }
+        catch (e) { CU.reportError("Reloading page error: " + e); }
     },
 
     getExtensionFilePath: function ()
@@ -333,7 +356,7 @@ Firecrow.fbHelper =
 
             return fmDir.target + "/extensions/Firecrow/";
         }
-        catch (e) { alert("Error while getting filePath" + e); }
+        catch (e) { CU.reportError("Error while getting filePath" + e); }
     },
 
     setButtonText: function(buttonId, text)
@@ -343,9 +366,9 @@ Firecrow.fbHelper =
             var button = this.getElementByID(buttonId);
 
             if(button != null) { button.label = text; }
-            else { alert("Could not find button"); }
+            else { CU.reportError("Could not find button"); }
         }
-        catch(e) { alert("Setting button text error: " + e); }
+        catch(e) { CU.reportError("Setting button text error: " + e); }
     },
 
     asyncSetPluginInstallLocation: function(ext_id)
@@ -367,11 +390,13 @@ Firecrow.fbHelper =
 
                     Firecrow.fbHelper.installLocation = installLocation;
                 }
-                catch(e) { alert("Error when getting addon: " + e); }
+                catch(e) { CU.reportError("Error when getting addon: " + e); }
             });
         }
-        catch(e) { alert("Error when async setting plugin location: " + e); }
+        catch(e) { CU.reportError("Error when async setting plugin location: " + e); }
     }
 };
 /*************************************************************************************/
 }});
+
+var FbHelper = FBL.Firecrow.fbHelper;

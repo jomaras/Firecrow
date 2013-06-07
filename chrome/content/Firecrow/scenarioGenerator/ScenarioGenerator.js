@@ -25,6 +25,8 @@ fcScenarioGenerator.ScenarioGenerator =
     globalObjectEventPriority: 0.6,
     externalEventPriority: 1,
 
+    generateAdditionalTimingEvents: true,
+
     generateScenarios: function(pageModel, uiControlsSelectors, scenarioExecutedCallback)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
@@ -57,7 +59,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
             currentScenario = that.scenarios.getNext();
 
-            setTimeout(asyncLoop, 1000);
+            setTimeout(asyncLoop, 1500);
         };
 
         setTimeout(asyncLoop, 100);
@@ -140,7 +142,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         var coverage = ASTHelper.calculateCoverage(pageModel);
 
-        this.achievedCoverage = coverage.branchCoverage;
+        this.achievedCoverage = coverage.expressionCoverage;
         this.achievedCoverages.push(coverage);
 
         return {
@@ -329,10 +331,11 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _createAdditionalTimingEvents: function(event, previousEvents, inputConstraint, parentScenario)
     {
-        return;
+        if(!this.generateAdditionalTimingEvents) { return; }
+
         if(parentScenario != null && parentScenario.isCreatedByWithTimingEvents()) { return; }
 
-        var times = Math.floor(100/event.timePeriod);
+        var times = Math.floor(250/event.timePeriod);
 
         if(!Number.isNaN(times) && times > 0)
         {

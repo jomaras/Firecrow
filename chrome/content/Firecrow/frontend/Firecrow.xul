@@ -19,24 +19,26 @@
 
 
   <box id="FirecrowContent" flex="1" class="devtools-responsive-container">
+      <browser id="invisibleBrowser" collapsed="true"/>
       <tabbox id="FirecrowTabContainer" flex="1" class="devtools-sidebar-tabs">
           <tabpanels flex="1">
+
+
+
+
               <tabpanel id="slicerTabPanel" class="tabpanel-content">
                   <vbox flex="1">
                       <toolbar class="devtools-toolbar">
                           <hbox>
-                              <menulist class="sources devtools-menulist" sizetopopup="none" label="Select Source file">
-                                  <menupopup>
-                                      <menuitem label="None" value="None" tooltiptext="None" selected="true"/>
+                              <menulist class="sources devtools-menulist" sizetopopup="none" label="Select Source file" id="sourcesMenuList">
+                                  <menupopup id="sourcesMenuPopup">
                                   </menupopup>
                               </menulist>
                           </hbox>
                       </toolbar>
 
                       <vbox id="sources-pane" flex="1">
-                          <vbox id="sources" flex="1" style="background-color: red;">
-                              Test
-                          </vbox>
+                          <vbox id="editor" flex="1"></vbox>
                       </vbox>
                   </vbox>
                   <splitter class="devtools-side-splitter"/>
@@ -53,21 +55,36 @@
                       </tabpanels>
                   </tabbox>
               </tabpanel>
+
+
+
               <tabpanel id="scenarioGeneratorTabPanel" class="tabpanel-content">
                   <vbox flex="1" style="background-color: yellow">
                       Scenario Generator Tab Panel
                   </vbox>
               </tabpanel>
+
+
+
+
               <tabpanel id="reuserTabPanel" class="tabpanel-content">
                   <vbox flex="1">
                       Reuser Tab Panel
                   </vbox>
               </tabpanel>
+
+
+
+
               <tabpanel id="dependencyViewerTabPanel" class="tabpanel-content">
                   <vbox flex="1">
                       Dependency Viewer Tab Panel
                   </vbox>
               </tabpanel>
+
+
+
+
           </tabpanels>
 
           <tabs id="FirecrowTabs">

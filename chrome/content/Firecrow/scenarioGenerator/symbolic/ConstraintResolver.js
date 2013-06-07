@@ -85,6 +85,15 @@ fcSymbolic.ConstraintResolver =
                     alert("Error when parsing constraint solver response: " + e + " -> " + numericExpressionsAjaxQuery.response);
                 }
             }
+            else
+            {
+                var expressions = "";
+                numericExpressions.forEach(function(numericExpression)
+                {
+                    expressions += numericExpression.toString() + ";";
+                });
+                console.log("Expressions: " + expressions + " could not be solved");
+            }
         }
 
         return numericResults;
@@ -107,17 +116,18 @@ fcSymbolic.ConstraintResolver =
                 var containsNumericExpressions = symbolicExpression.containsNumericExpressions();
                 var containsStringExpressions = symbolicExpression.containsStringExpressions();
 
-                if(containsNumericExpressions && !containsStringExpressions)
+                if(symbolicExpression.isIdentifier())
+                {
+                    numericExpressions.push(new fcSymbolic.Binary(symbolicExpression, new fcSymbolic.Literal(0), ">="));
+                }
+                else if((containsNumericExpressions && !containsStringExpressions)
+                 || symbolicExpression.hasOnlyIdentifiers())
                 {
                     numericExpressions.push(symbolicExpression);
                 }
                 else if(containsStringExpressions && !containsNumericExpressions)
                 {
                     stringExpressions.push(symbolicExpression);
-                }
-                else if(symbolicExpression.isIdentifier())
-                {
-                    numericExpressions.push(new fcSymbolic.Binary(symbolicExpression, new fcSymbolic.Literal(0), ">="));
                 }
                 else if(!containsStringExpressions && !containsNumericExpressions)
                 {
