@@ -36,11 +36,16 @@
     display: inline-block !important;
 }
 
-#slicingCriteraTabBox
+#slicingCriteriaTabBox
 {
     width: 220px;
     max-width: 220px;
     min-width: 120px;
+}
+
+#slicingCriteriaList
+{
+    padding: 2px;
 }
 
 .sources

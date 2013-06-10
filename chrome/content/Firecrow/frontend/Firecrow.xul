@@ -42,14 +42,13 @@
                       </vbox>
                   </vbox>
                   <splitter class="devtools-side-splitter"/>
-                  <tabbox class="devtools-sidebar-tabs" id="slicingCriteraTabBox">
+                  <tabbox class="devtools-sidebar-tabs" id="slicingCriteriaTabBox">
                       <tabs>
                         <tab label="Slicing Criteria"></tab>
                       </tabs>
                       <tabpanels flex="1">
                           <tabpanel class="tabpanel-content">
-                              <vbox flex="1">
-                                  Slicing Criteria list
+                              <vbox flex="1" id="slicingCriteriaList">
                               </vbox>
                           </tabpanel>
                       </tabpanels>
@@ -59,8 +58,7 @@
 
 
               <tabpanel id="scenarioGeneratorTabPanel" class="tabpanel-content">
-                  <vbox flex="1" style="background-color: yellow">
-                      Scenario Generator Tab Panel
+                  <vbox flex="1" id="markupBox">
                   </vbox>
               </tabpanel>
 

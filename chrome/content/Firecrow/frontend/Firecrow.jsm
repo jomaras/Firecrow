@@ -57,58 +57,21 @@ FirecrowView.prototype =
         this.sourcesMenuPopup = this.$("sourcesMenuPopup");
         this.sourcesMenuList = this.$("sourcesMenuList");
 
+        this.slicingCriteriaList = this.$("slicingCriteriaList");
+
         this.editorPlaceHolder = this.$("editor");
         this.invisibleBrowser = this.$("invisibleBrowser");
 
+        this.markupBox = this.$("markupBox");
+
         this._createSourceSelectionMenu();
+        this._createSourceCodeViewer();
+        this._handleSourceCodeEvents();
 
-        this.sourcesMenuList.addEventListener("command", function()
-        {
-            this.editor.setText("---- LOADING SOURCE CODE ----");
-            this.invisibleBrowser.setAttribute("src", "view-source:" + this.sourcesMenuList.selectedItem.value);
-        }.bind(this));
+        this._createMarkupViewer();
 
-
-        this.invisibleBrowser.addEventListener("DOMContentLoaded", function()
-        {
-            if(this.sourcesMenuList.selectedItem != null && this.sourcesMenuList.selectedItem.label.startsWith("*"))
-            {
-                this.editor.setMode(SourceEditor.MODES.HTML);
-            }
-            else
-            {
-                this.editor.setMode(SourceEditor.MODES.JAVASCRIPT);
-            }
-
-            this.editor.setText(this.invisibleBrowser.contentDocument.getElementById('viewsource').textContent);
-        }.bind(this));
-
-
-        var config = {
-            mode: SourceEditor.MODES.JAVASCRIPT,
-            readOnly: true,
-            showLineNumbers: true,
-            showAnnotationRuler: true,
-            showOverviewRuler: true
-        };
-
-        this.editor = new SourceEditor();
-        this.editor.init(this.editorPlaceHolder, config, function()
-        {
-            this.editor.setText("---- SELECT SOURCE FILE ----");
-
-            this.editor.addEventListener
-            (
-                SourceEditor.EVENTS.BREAKPOINT_CHANGE,
-                function(e)
-                {
-                    //e.added array
-                    //e.removed array
-                    Cu.reportError(e.added.length);
-                }
-            );
-
-        }.bind(this));
+        this._slicingCriteriaMap = {};
+        this._currentSelectedFile = null;
     },
 
     closeUI: function FV_closeUI()
@@ -145,9 +108,128 @@ FirecrowView.prototype =
         }
     },
 
+    _createSourceCodeViewer: function()
+    {
+        this.editor = new SourceEditor();
+
+        this.editor.init
+        (
+            this.editorPlaceHolder,
+            {
+                mode: SourceEditor.MODES.JAVASCRIPT,
+                readOnly: true,
+                showLineNumbers: true,
+                showAnnotationRuler: true,
+                showOverviewRuler: true
+            },
+            function()
+            {
+                this.editor.setText("---- SELECT SOURCE FILE ----");
+            }.bind(this)
+        );
+
+        this.editor.addEventListener
+        (
+            SourceEditor.EVENTS.BREAKPOINT_CHANGE,
+            function(e)
+            {
+                if(this._currentSelectedFile == null || this._ignoreBreakpointChanges) { return; }
+
+                if(this._slicingCriteriaMap[this._currentSelectedFile] == null) { this._slicingCriteriaMap[this._currentSelectedFile] = {}; }
+
+                for(var i = 0; i < e.added.length; i++)
+                {
+                    var addedLine = e.added[i].line;
+                    this._slicingCriteriaMap[this._currentSelectedFile][addedLine] = true;
+                }
+
+                for(var i = 0; i < e.removed.length; i++)
+                {
+                    var removedLine = e.removed[i].line;
+                    this._slicingCriteriaMap[this._currentSelectedFile][removedLine] = null;
+                    delete this._slicingCriteriaMap[this._currentSelectedFile][removedLine];
+                }
+
+                Cu.reportError(JSON.stringify(this.editor.getBreakpoints()));
+
+                this._updateSlicingCriteriaDisplay();
+            }.bind(this)
+        );
+    },
+
+    _updateSlicingCriteriaDisplay: function()
+    {
+        this.slicingCriteriaList.innerHTML = "";
+        var doc = this.slicingCriteriaList.ownerDocument;
+
+        for(var fileName in this._slicingCriteriaMap)
+        {
+            for(var line in this._slicingCriteriaMap[fileName])
+            {
+                var container = doc.createElement("div");
+                var link = doc.createElement("a");
+
+                link.textContent = "@" + (parseInt(line) + 1) + " - " + this._getScriptName(fileName);
+                link.href = "test.html";
+                container.appendChild(link);
+
+                this.slicingCriteriaList.appendChild(container);
+            }
+        }
+    },
+
+    _createMarkupViewer: function()
+    {
+        var currentPageDocument = this._getCurrentPageDocument();
+        this.markupBox.textContent = currentPageDocument.innerHTML;
+    },
+
+
+    _handleSourceCodeEvents: function()
+    {
+        this.sourcesMenuList.addEventListener("command", function()
+        {
+            this.editor.setText("---- LOADING SOURCE CODE ----");
+            this._currentSelectedFile = this.sourcesMenuList.selectedItem.value;
+            this.invisibleBrowser.setAttribute("src", "view-source:" + this.sourcesMenuList.selectedItem.value);
+        }.bind(this));
+
+
+        this.invisibleBrowser.addEventListener("DOMContentLoaded", function()
+        {
+            if(this.sourcesMenuList.selectedItem != null && this.sourcesMenuList.selectedItem.label.startsWith("*"))
+            {
+                this.editor.setMode(SourceEditor.MODES.HTML);
+            }
+            else
+            {
+                this.editor.setMode(SourceEditor.MODES.JAVASCRIPT);
+            }
+
+            this.editor.setText(this.invisibleBrowser.contentDocument.getElementById('viewsource').textContent);
+
+            this._showExistingBreakpoints();
+
+        }.bind(this));
+    },
+
     $: function (ID)
     {
         return this._frameDoc.getElementById(ID);
+    },
+
+    _showExistingBreakpoints: function()
+    {
+        var breakPointMap = this._slicingCriteriaMap[this._currentSelectedFile];
+        this._ignoreBreakpointChanges = true;
+        if(breakPointMap != null)
+        {
+            for(var line in breakPointMap)
+            {
+                this.editor.addBreakpoint(parseInt(line));
+            }
+        }
+        this._ignoreBreakpointChanges = false;
     },
 
     _createMenuItem: function(menuPopupParent, menuItemName, menuItemPath, isSelected)
