@@ -34,6 +34,8 @@
                                   <menupopup id="sourcesMenuPopup">
                                   </menupopup>
                               </menulist>
+
+                              <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Set as slicing criteria" disabled="false" id="setSlicingCriteriaButton"/>
                           </hbox>
                       </toolbar>
 

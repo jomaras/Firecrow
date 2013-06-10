@@ -5,14 +5,21 @@ var Ci = Components.interfaces;
 var Cu = Components.utils;
 
 Cu.import("resource://gre/modules/Services.jsm");
+Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+
 Cu.import("resource:///modules/source-editor.jsm");
-Cu.import("chrome://Firecrow/content/helpers/fbHelper.js");
+Cu.import("resource:///modules/devtools/CssLogic.jsm");
+
+XPCOMUtils.defineLazyModuleGetter(this, "MarkupView", "resource:///modules/devtools/MarkupView.jsm");
+XPCOMUtils.defineLazyModuleGetter(this, "Selection", "resource:///modules/devtools/Selection.jsm");
+
 
 var HTML = "http://www.w3.org/1999/xhtml";
 
 function FirecrowView(aChromeWindow, aIframe)
 {
     this._window = aChromeWindow;
+    this._aChromeWindow = aChromeWindow;
     var gBrowser = this._window.gBrowser;
     this._iframe = aIframe || null;
     var ownerDocument = gBrowser.parentNode.ownerDocument;
@@ -62,7 +69,7 @@ FirecrowView.prototype =
         this.editorPlaceHolder = this.$("editor");
         this.invisibleBrowser = this.$("invisibleBrowser");
 
-        this.markupBox = this.$("markupBox");
+        this._markupBox = this.$("markupBox");
 
         this._createSourceSelectionMenu();
         this._createSourceCodeViewer();
@@ -150,8 +157,6 @@ FirecrowView.prototype =
                     delete this._slicingCriteriaMap[this._currentSelectedFile][removedLine];
                 }
 
-                Cu.reportError(JSON.stringify(this.editor.getBreakpoints()));
-
                 this._updateSlicingCriteriaDisplay();
             }.bind(this)
         );
@@ -180,10 +185,55 @@ FirecrowView.prototype =
 
     _createMarkupViewer: function()
     {
-        var currentPageDocument = this._getCurrentPageDocument();
-        this.markupBox.textContent = currentPageDocument.innerHTML;
+        //var currentPageDocument = ;
+        //this.markupBox.textContent = currentPageDocument.body.innerHTML;
+
+        this.selection = new Selection();
+        this.onNewSelection = this.onNewSelection.bind(this);
+        this.selection.on("new-node", this.onNewSelection);
+        this.onBeforeNewSelection = this.onBeforeNewSelection.bind(this);
+        this.selection.on("before-new-node", this.onBeforeNewSelection);
+
+        this._markupFrame = this._frameDoc.createElement("iframe");
+        this._markupFrame.setAttribute("flex", "1");
+        this._markupFrame.setAttribute("tooltip", "aHTMLTooltip");
+        this._markupFrame.setAttribute("context", "inspector-node-popup");
+
+        // This is needed to enable tooltips inside the iframe document.
+        this._boundMarkupFrameLoad = function InspectorPanel_initMarkupPanel_onload() {
+            this._markupFrame.contentWindow.focus();
+            this._onMarkupFrameLoad();
+        }.bind(this);
+        this._markupFrame.addEventListener("load", this._boundMarkupFrameLoad, true);
+
+        this._markupBox.setAttribute("hidden", true);
+        this._markupBox.appendChild(this._markupFrame);
+        this._markupFrame.setAttribute("src", "chrome://browser/content/devtools/markup-view.xhtml");
     },
 
+    _onMarkupFrameLoad: function InspectorPanel__onMarkupFrameLoad()
+    {
+        this._markupFrame.removeEventListener("load", this._boundMarkupFrameLoad, true);
+        delete this._boundMarkupFrameLoad;
+
+        this._markupBox.removeAttribute("hidden");
+
+        this.markup = new MarkupView(this, this._markupFrame, this._aChromeWindow);
+
+        var root = this._getCurrentPageDocument().documentElement;
+        this.selection.setNode(root);
+    },
+
+    onNewSelection: function InspectorPanel_onNewSelection()
+    {
+    },
+
+    /**
+     * When a new node is selected, before the selection has changed.
+     */
+    onBeforeNewSelection: function InspectorPanel_onBeforeNewSelection(event, node)
+    {
+    },
 
     _handleSourceCodeEvents: function()
     {
@@ -247,7 +297,7 @@ FirecrowView.prototype =
 
     _getCurrentPageDocument: function()
     {
-        return this._window.content.document;
+        return this._aChromeWindow.content.document;
     },
 
     _getContentScriptNameAndPaths: function()

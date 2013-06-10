@@ -16,6 +16,11 @@
     cursor: pointer;
 }
 
+#setSlicingCriteriaButton
+{
+    list-style-image: url("images/setSlicingCriteria.png");
+}
+
 .devtools-toolbarbutton[checked=true],
 .devtools-toolbarbutton[checked=true]:hover:active ,
 .devtools-toolbarbutton:not([checked=true]):hover:active ,
