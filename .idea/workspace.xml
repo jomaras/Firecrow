@@ -9,7 +9,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/skin/images/slicing.png" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/2.html" />
@@ -49,7 +48,7 @@
     <ignored path="debug/sylvester/10-LineSegment-Contains/htmlMapping.js" />
     <ignored path="debug/sylvester/22-Line-distanceFrom/htmlMapping.js" />
     <ignored path="debug/sylvester/24-Line-rotate/htmlMapping.js" />
-    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370957289138" ignored="false" />
+    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370959381790" ignored="false" />
     <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369213531527" ignored="false" />
     <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370266530311" ignored="false" />
     <file path="/Command.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368018354643" ignored="false" />
@@ -102,7 +101,7 @@
     <file path="/String.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368113463783" ignored="false" />
     <file path="/HtmlElement.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370504864681" ignored="false" />
     <file path="/debugReuseCaseStudy.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369226194253" ignored="false" />
-    <file path="/a.dummy" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370953380147" ignored="false" />
+    <file path="/a.dummy" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370965399846" ignored="false" />
     <file path="/Reuser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369234492513" ignored="false" />
     <file path="/reuseApp.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369227943863" ignored="false" />
     <file path="/reuseInto.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368780611897" ignored="false" />
@@ -131,8 +130,8 @@
     <file path="/pref.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369894360214" ignored="false" />
     <file path="/install.rdf" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369989914961" ignored="false" />
     <file path="/Firecrow.jsm" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370956493011" ignored="false" />
-    <file path="/Firecrow.xul" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370958738424" ignored="false" />
-    <file path="/Firecrow.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370958764493" ignored="false" />
+    <file path="/Firecrow.xul" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370967694509" ignored="false" />
+    <file path="/Firecrow.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370967471371" ignored="false" />
     <file path="/test.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370078814136" ignored="false" />
     <file path="/conversion.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370252401047" ignored="false" />
     <file path="/serverSide.php" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370251501735" ignored="false" />
@@ -182,30 +181,21 @@
       <file leaf-file-name="Firecrow.xul" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="26" selection-start="1745" selection-end="1745" vertical-scroll-proportion="0.6369637">
+            <state line="38" column="158" selection-start="2083" selection-end="2083" vertical-scroll-proportion="0.15731573">
               <folding>
-                <marker date="1370958738031" expanded="true" signature="3385:3401" placeholder="{...}" />
-                <marker date="1370958738031" expanded="true" signature="3458:3474" placeholder="{...}" />
-                <marker date="1370958738031" expanded="true" signature="3519:3535" placeholder="{...}" />
-                <marker date="1370958738031" expanded="true" signature="3591:3607" placeholder="{...}" />
+                <marker date="1370967766506" expanded="true" signature="3929:3945" placeholder="{...}" />
+                <marker date="1370967766506" expanded="true" signature="4002:4018" placeholder="{...}" />
+                <marker date="1370967766506" expanded="true" signature="4063:4079" placeholder="{...}" />
+                <marker date="1370967766506" expanded="true" signature="4135:4151" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="example.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/playground/example.html">
+      <file leaf-file-name="webconsole.xul" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pluginExamples/devtools/webconsole/webconsole.xul">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="speedTests.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/playground/speedTests.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="46" selection-start="372" selection-end="372" vertical-scroll-proportion="-10.461538">
+            <state line="86" column="36" selection-start="4697" selection-end="4700" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -214,7 +204,7 @@
       <file leaf-file-name="Firecrow.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/skin/Firecrow.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="8" selection-start="438" selection-end="438" vertical-scroll-proportion="0.0">
+            <state line="57" column="26" selection-start="1169" selection-end="1169" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -265,8 +255,8 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/fbHelper.js" />
         <option value="$PROJECT_DIR$/playground/speedTests.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
         <option value="$PROJECT_DIR$/chrome/skin/Firecrow.css" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
       </list>
     </option>
   </component>
@@ -360,6 +350,14 @@
               <option name="myItemId" value="pluginExamples" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webconsole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -371,7 +369,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="playground" />
+              <option name="myItemId" value="pluginExamples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devtools" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -390,28 +392,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="skin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="skin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -448,32 +428,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="frontend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2808,7 +2762,11 @@
       <created>1370957292666</created>
       <updated>1370957292666</updated>
     </task>
-    <option name="localTasksCounter" value="540" />
+    <task id="LOCAL-00540" summary="Slicing button added">
+      <created>1370959384743</created>
+      <updated>1370959384743</updated>
+    </task>
+    <option name="localTasksCounter" value="541" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -2914,7 +2872,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Slicing criteria can be removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Slicing button added" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2929,7 +2887,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Update in merging dynamic slices" />
     <MESSAGE value="Update when generating code From callexpression" />
     <MESSAGE value="A pure data dependency is created from the logical expression to the last executed expression (that's where the data comes from)" />
     <MESSAGE value="Fix an error with removing commands after continue" />
@@ -2954,6 +2911,7 @@
     <MESSAGE value="HTML DOM Viewer integrated" />
     <MESSAGE value="Toggling between source and DOM view based on combobox selection" />
     <MESSAGE value="Slicing criteria can be removed" />
+    <MESSAGE value="Slicing button added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2966,16 +2924,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pluginExamples/devtools/styleeditor/styleeditor.xul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="10" selection-start="2292" selection-end="2564" vertical-scroll-proportion="0.331565" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pluginExamples/devtools/debugger/debugger.xul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="27" selection-start="11297" selection-end="11305" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pluginExamples/devtools/styles/debugger.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="277" column="2" selection-start="4986" selection-end="5064" vertical-scroll-proportion="0.4154229">
@@ -3060,21 +3008,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pluginExamples/devtools/styles/webconsole.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="2" selection-start="2705" selection-end="2727" vertical-scroll-proportion="0.20475113">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pluginExamples/devtools/webconsole/webconsole.xul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="36" selection-start="4697" selection-end="4700" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/skin/Firecrow.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="8" selection-start="438" selection-end="438" vertical-scroll-proportion="0.0">
+        <state line="57" column="26" selection-start="1169" selection-end="1169" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="26" selection-start="1745" selection-end="1745" vertical-scroll-proportion="0.6369637">
+        <state line="38" column="158" selection-start="2083" selection-end="2083" vertical-scroll-proportion="0.15731573">
           <folding>
-            <marker date="1370958738031" expanded="true" signature="3385:3401" placeholder="{...}" />
-            <marker date="1370958738031" expanded="true" signature="3458:3474" placeholder="{...}" />
-            <marker date="1370958738031" expanded="true" signature="3519:3535" placeholder="{...}" />
-            <marker date="1370958738031" expanded="true" signature="3591:3607" placeholder="{...}" />
+            <marker date="1370967766506" expanded="true" signature="3929:3945" placeholder="{...}" />
+            <marker date="1370967766506" expanded="true" signature="4002:4018" placeholder="{...}" />
+            <marker date="1370967766506" expanded="true" signature="4063:4079" placeholder="{...}" />
+            <marker date="1370967766506" expanded="true" signature="4135:4151" placeholder="{...}" />
           </folding>
         </state>
       </provider>

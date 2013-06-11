@@ -26,6 +26,38 @@
     list-style-image: url("images/slicing.png");
 }
 
+#recordButton
+{
+    font-weight: normal;
+    font-size: 8pt;
+    line-height: 1.6;
+}
+
+#recordButton[checked] {
+    color: white !important;
+}
+
+#recordButton > .toolbarbutton-menubutton-button:before {
+    content: "";
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-left: 5px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#recordButton > .toolbarbutton-menubutton-button:before {
+    background-image: linear-gradient(#B9B9B9, #AAAAAA);
+    border-color: #929292;
+}
+
+#recordButton[checked] > .toolbarbutton-menubutton-button:before {
+    background-image: linear-gradient(#2DC3F3, #00B6F0);
+    border-color: #1BA2CC;
+}
+
 .deleteSlicingCriteriaContainer
 {
     background-image: url("images/delete.png");
@@ -46,7 +78,7 @@
 .devtools-toolbarbutton:not([checked=true]):hover:active ,
 .devtools-toolbarbutton[open],
 .devtools-toolbarbutton:not([open]):hover:active{
-  padding: 3px 6px !important;
+  padding: 1px 6px !important;
 }
 
 #FirecrowTabContainer
@@ -72,12 +104,6 @@
 {
     padding: 2px;
 }
-
-.sources
-{
-    height: 25px;
-}
-
 
 .sources, .sources > menupopup
 {
@@ -376,7 +402,7 @@ tab
 
 .devtools-toolbarbutton[label] {
   min-width: 32px !important;
-  padding: 3px 6px !important;
+  padding: 1px 6px !important;
   font-weight: bold;
   font-size: 14px;
 }
