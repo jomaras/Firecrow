@@ -66,10 +66,10 @@ FirecrowView.prototype =
 
         this.slicingCriteriaList = this.$("slicingCriteriaList");
 
-        this.editorPlaceHolder = this.$("editor");
-        this.invisibleBrowser = this.$("invisibleBrowser");
+        this._editorContainer = this.$("editor");
+        this._markupContainer = this.$("markupBox");
 
-        this._markupBox = this.$("markupBox");
+        this.invisibleBrowser = this.$("invisibleBrowser");
 
         this._createSourceSelectionMenu();
         this._createSourceCodeViewer();
@@ -78,6 +78,7 @@ FirecrowView.prototype =
         this._createMarkupViewer();
 
         this._slicingCriteriaMap = {};
+        this._filePathSourceMap = {};
         this._currentSelectedFile = null;
     },
 
@@ -121,7 +122,7 @@ FirecrowView.prototype =
 
         this.editor.init
         (
-            this.editorPlaceHolder,
+            this._editorContainer,
             {
                 mode: SourceEditor.MODES.JAVASCRIPT,
                 readOnly: true,
@@ -187,7 +188,6 @@ FirecrowView.prototype =
     {
         //var currentPageDocument = ;
         //this.markupBox.textContent = currentPageDocument.body.innerHTML;
-
         this.selection = new Selection();
         this.onNewSelection = this.onNewSelection.bind(this);
         this.selection.on("new-node", this.onNewSelection);
@@ -206,8 +206,8 @@ FirecrowView.prototype =
         }.bind(this);
         this._markupFrame.addEventListener("load", this._boundMarkupFrameLoad, true);
 
-        this._markupBox.setAttribute("hidden", true);
-        this._markupBox.appendChild(this._markupFrame);
+        this._markupContainer.setAttribute("hidden", true);
+        this._markupContainer.appendChild(this._markupFrame);
         this._markupFrame.setAttribute("src", "chrome://browser/content/devtools/markup-view.xhtml");
     },
 
@@ -216,7 +216,7 @@ FirecrowView.prototype =
         this._markupFrame.removeEventListener("load", this._boundMarkupFrameLoad, true);
         delete this._boundMarkupFrameLoad;
 
-        this._markupBox.removeAttribute("hidden");
+        this._markupContainer.removeAttribute("hidden");
 
         this.markup = new MarkupView(this, this._markupFrame, this._aChromeWindow);
 
@@ -226,6 +226,7 @@ FirecrowView.prototype =
 
     onNewSelection: function InspectorPanel_onNewSelection()
     {
+
     },
 
     /**
@@ -233,34 +234,67 @@ FirecrowView.prototype =
      */
     onBeforeNewSelection: function InspectorPanel_onBeforeNewSelection(event, node)
     {
+
     },
 
     _handleSourceCodeEvents: function()
     {
         this.sourcesMenuList.addEventListener("command", function()
         {
-            this.editor.setText("---- LOADING SOURCE CODE ----");
+            if(this.sourcesMenuList.selectedItem == null) { return; }
+
             this._currentSelectedFile = this.sourcesMenuList.selectedItem.value;
-            this.invisibleBrowser.setAttribute("src", "view-source:" + this.sourcesMenuList.selectedItem.value);
+
+            if(this._filePathSourceMap[this._currentSelectedFile] == null)
+            {
+                this.invisibleBrowser.setAttribute("src", "view-source:" + this.sourcesMenuList.selectedItem.value);
+                this.editor.setText("---- LOADING SOURCE CODE ----");
+            }
+            else
+            {
+                this.editor.setText(this._filePathSourceMap[this._currentSelectedFile]);
+            }
+
+            if(this.sourcesMenuList.selectedItem.label.startsWith("DOM - "))
+            {
+                this._showMarkupEditor();
+            }
+            else
+            {
+                if(this.sourcesMenuList.selectedItem.label.startsWith("* - "))
+                {
+                    this.editor.setMode(SourceEditor.MODES.HTML);
+                }
+                else
+                {
+                    this.editor.setMode(SourceEditor.MODES.JAVASCRIPT);
+                }
+
+                this._showSourceEditor();
+            }
         }.bind(this));
 
 
         this.invisibleBrowser.addEventListener("DOMContentLoaded", function()
         {
-            if(this.sourcesMenuList.selectedItem != null && this.sourcesMenuList.selectedItem.label.startsWith("*"))
-            {
-                this.editor.setMode(SourceEditor.MODES.HTML);
-            }
-            else
-            {
-                this.editor.setMode(SourceEditor.MODES.JAVASCRIPT);
-            }
-
-            this.editor.setText(this.invisibleBrowser.contentDocument.getElementById('viewsource').textContent);
+            this._filePathSourceMap[this._currentSelectedFile] = this.invisibleBrowser.contentDocument.getElementById('viewsource').textContent;
+            this.editor.setText(this._filePathSourceMap[this._currentSelectedFile]);
 
             this._showExistingBreakpoints();
 
         }.bind(this));
+    },
+
+    _showSourceEditor: function()
+    {
+        this._editorContainer.setAttribute("collapsed", false);
+        this._markupContainer.setAttribute("collapsed", true);
+    },
+
+    _showMarkupEditor: function()
+    {
+        this._editorContainer.setAttribute("collapsed", true);
+        this._markupContainer.setAttribute("collapsed", false);
     },
 
     $: function (ID)
@@ -306,6 +340,7 @@ FirecrowView.prototype =
         var document = this._getCurrentPageDocument();
 
         scriptPaths.push({name: "* - " + this._getScriptName(document.baseURI), path: document.baseURI });
+        scriptPaths.push({name: "DOM - " + this._getScriptName(document.baseURI), path: document.baseURI });
 
         var scriptElements = document.querySelectorAll("script");
 

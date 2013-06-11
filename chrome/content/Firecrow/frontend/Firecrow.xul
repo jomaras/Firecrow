@@ -40,7 +40,8 @@
                       </toolbar>
 
                       <vbox id="sources-pane" flex="1">
-                          <vbox id="editor" flex="1"></vbox>
+                          <vbox id="editor" flex="1" collapsed="false"></vbox>
+                          <vbox id="markupBox" flex="1" collapsed="true"></vbox>
                       </vbox>
                   </vbox>
                   <splitter class="devtools-side-splitter"/>
@@ -60,8 +61,7 @@
 
 
               <tabpanel id="scenarioGeneratorTabPanel" class="tabpanel-content">
-                  <vbox flex="1" id="markupBox">
-                  </vbox>
+
               </tabpanel>
 
 
