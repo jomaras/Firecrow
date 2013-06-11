@@ -21,6 +21,14 @@
     list-style-image: url("images/setSlicingCriteria.png");
 }
 
+.deleteSlicingCriteriaContainer
+{
+    background-image: url("images/delete.png");
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
 .devtools-toolbarbutton[checked=true],
 .devtools-toolbarbutton[checked=true]:hover:active ,
 .devtools-toolbarbutton:not([checked=true]):hover:active ,

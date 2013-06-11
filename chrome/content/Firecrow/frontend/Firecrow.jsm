@@ -59,17 +59,19 @@ FirecrowView.prototype =
 
         this._frame.addEventListener("unload", this._onUnload, true);
 
-        this.mainContainerContent = this.$("mainContainerContent");
-        this.slicerMainContainer = this.$("slicerMainContainer");
-        this.sourcesMenuPopup = this.$("sourcesMenuPopup");
-        this.sourcesMenuList = this.$("sourcesMenuList");
+        this._mainContainerContent = this.$("mainContainerContent");
+        this._slicerMainContainer = this.$("slicerMainContainer");
+        this._sourcesMenuPopup = this.$("sourcesMenuPopup");
+        this._sourcesMenuList = this.$("sourcesMenuList");
 
         this.slicingCriteriaList = this.$("slicingCriteriaList");
 
         this._editorContainer = this.$("editor");
         this._markupContainer = this.$("markupBox");
 
-        this.invisibleBrowser = this.$("invisibleBrowser");
+        this._setSlicingCriteriaButton = this.$("setSlicingCriteriaButton");
+
+        this._invisibleBrowser = this.$("invisibleBrowser");
 
         this._createSourceSelectionMenu();
         this._createSourceCodeViewer();
@@ -77,9 +79,22 @@ FirecrowView.prototype =
 
         this._createMarkupViewer();
 
-        this._slicingCriteriaMap = {};
+        this._slicingCriteriaMap = { DOM: {} };
         this._filePathSourceMap = {};
         this._currentSelectedFile = null;
+
+        this._setSlicingCriteriaButton.onclick = function()
+        {
+            if(!this._isMarkupView()) { return; }
+
+            this._slicingCriteriaMap.DOM[CssLogic.findCssSelector(this.selection.node)] = true;
+            this._updateSlicingCriteriaDisplay();
+        }.bind(this);
+    },
+
+    _isMarkupView: function()
+    {
+        return !this._markupContainer.collapsed;
     },
 
     closeUI: function FV_closeUI()
@@ -112,7 +127,7 @@ FirecrowView.prototype =
         for(var i = 0; i < scriptNameAndPaths.length; i++)
         {
             var scriptNameAndPath = scriptNameAndPaths[i];
-            this._createMenuItem(this.sourcesMenuPopup, scriptNameAndPath.name, scriptNameAndPath.path, true);
+            this._createMenuItem(this._sourcesMenuPopup, scriptNameAndPath.name, scriptNameAndPath.path, true);
         }
     },
 
@@ -165,23 +180,71 @@ FirecrowView.prototype =
 
     _updateSlicingCriteriaDisplay: function()
     {
-        this.slicingCriteriaList.innerHTML = "";
+        this._clearSlicingCriteriaDisplay();
+
         var doc = this.slicingCriteriaList.ownerDocument;
 
         for(var fileName in this._slicingCriteriaMap)
         {
-            for(var line in this._slicingCriteriaMap[fileName])
+            if(fileName == "DOM")
             {
-                var container = doc.createElement("div");
-                var link = doc.createElement("a");
-
-                link.textContent = "@" + (parseInt(line) + 1) + " - " + this._getScriptName(fileName);
-                link.href = "test.html";
-                container.appendChild(link);
-
-                this.slicingCriteriaList.appendChild(container);
+                for(var selector in this._slicingCriteriaMap[fileName])
+                {
+                    this._createSlicingCriteriaView(doc, selector + " - DOM", fileName, selector);
+                }
+            }
+            else
+            {
+                for(var line in this._slicingCriteriaMap[fileName])
+                {
+                    this._createSlicingCriteriaView(doc, "@" + (parseInt(line) + 1) + " - " + this._getScriptName(fileName), fileName, line);
+                }
             }
         }
+    },
+
+    _createSlicingCriteriaView: function(doc, summary, firstPropertyId, secondPropertyId)
+    {
+        var container = doc.createElement("div");
+
+        container.innerHTML = "<span class='deleteSlicingCriteriaContainer'/><a>" + summary + "</a>";
+        var deleteButtonContainer = container.querySelector(".deleteSlicingCriteriaContainer");
+
+        deleteButtonContainer.firstPropertyId = firstPropertyId;
+        deleteButtonContainer.secondPropertyId = secondPropertyId;
+
+        deleteButtonContainer.onclick = function(e)
+        {
+            var button = e.target;
+
+            if(this._slicingCriteriaMap[button.firstPropertyId])
+            {
+                delete this._slicingCriteriaMap[button.firstPropertyId][button.secondPropertyId];
+            }
+
+            if(this._currentSelectedFile == button.firstPropertyId)
+            {
+                this.editor.removeBreakpoint(parseInt(secondPropertyId));
+            }
+
+            button.onclick = null;
+            var buttonContainer = button.parentNode;
+            buttonContainer.parentNode.removeChild(buttonContainer);
+        }.bind(this);
+
+        this.slicingCriteriaList.appendChild(container);
+    },
+
+    _clearSlicingCriteriaDisplay: function()
+    {
+        var deleteButtons = this.slicingCriteriaList.querySelectorAll(".deleteSlicingCriteriaContainer");
+
+        for(var i = 0; i < deleteButtons.length; i++)
+        {
+            deleteButtons[i].onclick = null;
+        }
+
+        this.slicingCriteriaList.innerHTML = "";
     },
 
     _createMarkupViewer: function()
@@ -224,44 +287,35 @@ FirecrowView.prototype =
         this.selection.setNode(root);
     },
 
-    onNewSelection: function InspectorPanel_onNewSelection()
-    {
-
-    },
-
-    /**
-     * When a new node is selected, before the selection has changed.
-     */
-    onBeforeNewSelection: function InspectorPanel_onBeforeNewSelection(event, node)
-    {
-
-    },
+    onNewSelection: function InspectorPanel_onNewSelection() {},
+    onBeforeNewSelection: function InspectorPanel_onBeforeNewSelection(event, node) {},
 
     _handleSourceCodeEvents: function()
     {
-        this.sourcesMenuList.addEventListener("command", function()
+        this._sourcesMenuList.addEventListener("command", function()
         {
-            if(this.sourcesMenuList.selectedItem == null) { return; }
+            if(this._sourcesMenuList.selectedItem == null) { return; }
 
-            this._currentSelectedFile = this.sourcesMenuList.selectedItem.value;
+            this._currentSelectedFile = this._sourcesMenuList.selectedItem.value;
 
             if(this._filePathSourceMap[this._currentSelectedFile] == null)
             {
-                this.invisibleBrowser.setAttribute("src", "view-source:" + this.sourcesMenuList.selectedItem.value);
+                this._invisibleBrowser.setAttribute("src", "view-source:" + this._sourcesMenuList.selectedItem.value);
                 this.editor.setText("---- LOADING SOURCE CODE ----");
             }
             else
             {
                 this.editor.setText(this._filePathSourceMap[this._currentSelectedFile]);
+                this._showExistingBreakpoints();
             }
 
-            if(this.sourcesMenuList.selectedItem.label.startsWith("DOM - "))
+            if(this._sourcesMenuList.selectedItem.label.startsWith("DOM - "))
             {
                 this._showMarkupEditor();
             }
             else
             {
-                if(this.sourcesMenuList.selectedItem.label.startsWith("* - "))
+                if(this._sourcesMenuList.selectedItem.label.startsWith("* - "))
                 {
                     this.editor.setMode(SourceEditor.MODES.HTML);
                 }
@@ -275,13 +329,12 @@ FirecrowView.prototype =
         }.bind(this));
 
 
-        this.invisibleBrowser.addEventListener("DOMContentLoaded", function()
+        this._invisibleBrowser.addEventListener("DOMContentLoaded", function()
         {
-            this._filePathSourceMap[this._currentSelectedFile] = this.invisibleBrowser.contentDocument.getElementById('viewsource').textContent;
+            this._filePathSourceMap[this._currentSelectedFile] = this._invisibleBrowser.contentDocument.getElementById('viewsource').textContent;
             this.editor.setText(this._filePathSourceMap[this._currentSelectedFile]);
 
             this._showExistingBreakpoints();
-
         }.bind(this));
     },
 

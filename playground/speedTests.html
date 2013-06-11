@@ -5,18 +5,17 @@
 </head>
 <body>
 <div id="container" style="width: 100px; height: 100px; background-color: red;">
-    <script>
-        var container = document.getElementById("container");
-        container.onclick = function()
-        {
-            alert("Click");
-        }
-
-        container.addEventListener("mouseover", function()
-        {
-            alert("on mouse over");
-        });
-    </script>
 </div>
+
+<script>
+    var container = document.getElementById("container");
+    container.onclick = function(e)
+    {
+        var button = e.target;
+        button.onclick = null;
+
+        button.parentNode.removeChild(button);
+    }
+</script>
 </body>
 </html>
