@@ -36,6 +36,7 @@
                               </menulist>
 
                               <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Set as slicing criteria" disabled="false" id="setSlicingCriteriaButton"/>
+                              <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Slice" disabled="false" id="slicingButton"/>
                           </hbox>
                       </toolbar>
 
@@ -45,17 +46,10 @@
                       </vbox>
                   </vbox>
                   <splitter class="devtools-side-splitter"/>
-                  <tabbox class="devtools-sidebar-tabs" id="slicingCriteriaTabBox">
-                      <tabs>
-                        <tab label="Slicing Criteria"></tab>
-                      </tabs>
-                      <tabpanels flex="1">
-                          <tabpanel class="tabpanel-content">
-                              <vbox flex="1" id="slicingCriteriaList">
-                              </vbox>
-                          </tabpanel>
-                      </tabpanels>
-                  </tabbox>
+                  <vbox id="slicingCriteriaTabBox">
+                      <toolbar class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1">Slicing Criteria</h2></toolbar>
+                      <vbox flex="1" id="slicingCriteriaList"/>
+                  </vbox>
               </tabpanel>
 
 

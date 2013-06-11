@@ -21,12 +21,24 @@
     list-style-image: url("images/setSlicingCriteria.png");
 }
 
+#slicingButton
+{
+    list-style-image: url("images/slicing.png");
+}
+
 .deleteSlicingCriteriaContainer
 {
     background-image: url("images/delete.png");
     width: 16px;
     height: 16px;
     cursor: pointer;
+}
+
+.toolbarTitle
+{
+    text-align: center;
+    padding-top: 5px;
+    font-weight: bolder;
 }
 
 .devtools-toolbarbutton[checked=true],
