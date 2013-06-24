@@ -38,9 +38,9 @@
                               <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Set as slicing criteria" disabled="false" id="setSlicingCriteriaButton"/>
                               <toolbarbutton label="Record" type="menu-button" class="devtools-toolbarbutton" tooltiptext="Record Execution" id="recordButton">
                                   <menupopup>
-                                      <radiogroup>
-                                          <radio label="Events"/>
-                                          <radio label="Every Execution"/>
+                                      <radiogroup id="recordOptions">
+                                          <radio label="Events" selected="true" value="Events"/>
+                                          <radio label="Every Execution" value="All"/>
                                       </radiogroup>
                                   </menupopup>
                               </toolbarbutton>

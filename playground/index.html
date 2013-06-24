@@ -2,19 +2,22 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        .or div { color:green; cursor: hand; cursor: pointer; -moz-user-select: none; user-select: none;}
-        .container { color: red; }
+        .container { background-color: red; width: 100px; height: 100px; }
     </style>
     <script src="test.js" type="text/javascript"></script>
 </head>
 <body>
     <div class ="or">
         <div class="container">
-            Test
         </div>
     </div>
     <script>
-        var obj = {test1: 3, test2: 4};
+        var container = document.querySelector(".container");
+
+        container.onclick = function(e)
+        {
+            container.textContent += "Click";
+        };
     </script>
 </body>
 </html>

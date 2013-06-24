@@ -16,12 +16,11 @@ XPCOMUtils.defineLazyModuleGetter(this, "Selection", "resource:///modules/devtoo
 
 var HTML = "http://www.w3.org/1999/xhtml";
 
-function FirecrowView(aChromeWindow, aIframe)
+function FirecrowView(window, aIframe)
 {
-    this._window = aChromeWindow;
-    this._aChromeWindow = aChromeWindow;
+    this._window = window;
     var gBrowser = this._window.gBrowser;
-    this._iframe = aIframe || null;
+    this._iframe = aIframe;
     var ownerDocument = gBrowser.parentNode.ownerDocument;
 
     if (!this._iframe)
@@ -38,7 +37,6 @@ function FirecrowView(aChromeWindow, aIframe)
     this.$ = this.$.bind(this);
 
     this._onLoad = this._onLoad.bind(this);
-    this._onUnload = this._onUnload.bind(this);
 
     this._frame.addEventListener("load", this._onLoad, true);
 
@@ -75,9 +73,9 @@ FirecrowView.prototype =
 
         this._createSourceSelectionMenu();
         this._createSourceCodeViewer();
-        this._handleSourceCodeEvents();
-
         this._createMarkupViewer();
+
+        this._handleSourceCodeEvents();
 
         this._slicingCriteriaMap = { DOM: {} };
         this._filePathSourceMap = {};
@@ -90,6 +88,68 @@ FirecrowView.prototype =
             this._slicingCriteriaMap.DOM[CssLogic.findCssSelector(this.selection.node)] = true;
             this._updateSlicingCriteriaDisplay();
         }.bind(this);
+
+        this._recordButton = this.$("recordButton");
+        this._recordOptionsElement = this.$("recordOptions");
+        this._recordButton.onclick = function(e)
+        {
+            if(e.target == this._recordButton
+            && e.currentTarget == this._recordButton && e.originalTarget != this._recordButton)
+            {
+                if(!this._recordButton.checked)
+                {
+                    this._scheduleRecording(this._recordButton, this._recordOptionsElement.selectedItem.value);
+                    this._getCurrentPageDocument().location.reload();
+                }
+                else
+                {
+                    this._scheduleRecording(this._recordButton, null);
+                }
+
+                this._recordButton.checked = !this._recordButton.checked;
+            }
+        }.bind(this);
+
+        if(this._getScheduledRecording())
+        {
+            this._recordButton.checked = true;
+        }
+    },
+
+    rebuild: function(newWindow)
+    {
+        this._slicingCriteriaMap = { DOM: {} };
+        this._filePathSourceMap = {};
+        this._currentSelectedFile = null;
+
+        this._window = newWindow;
+
+        this._clearSourceSelectionMenu();
+        this._createSourceSelectionMenu();
+
+        this._destroyMarkupSelection();
+        this._destroyMarkupFrame();
+        this._createMarkupViewer();
+
+        if(this._isMarkupView())
+        {
+            this._showMarkupEditor();
+        }
+        else
+        {
+            this.editor.setText("---- SELECT SOURCE FILE ----");
+            this._showSourceEditor();
+        }
+    },
+
+    _scheduleRecording: function(recordingType)
+    {
+        Services.prefs.setCharPref("Firecrow.record", recordingType);
+    },
+
+    _getScheduledRecording: function()
+    {
+        return Services.prefs.getCharPref("Firecrow.record");
     },
 
     _isMarkupView: function()
@@ -111,15 +171,6 @@ FirecrowView.prototype =
         this._frameDoc = this._window = null;
     },
 
-    _onUnload: function FV__onUnload()
-    {
-        this._frame = null;
-        this._frameDoc = null;
-        this._splitter = null;
-        this._window = null;
-        this.loaded = false;
-    },
-
     _createSourceSelectionMenu: function()
     {
         var scriptNameAndPaths = this._getContentScriptNameAndPaths();
@@ -129,6 +180,12 @@ FirecrowView.prototype =
             var scriptNameAndPath = scriptNameAndPaths[i];
             this._createMenuItem(this._sourcesMenuPopup, scriptNameAndPath.name, scriptNameAndPath.path, true);
         }
+    },
+
+    _clearSourceSelectionMenu: function()
+    {
+        this._sourcesMenuPopup.innerHTML = "";
+        this._sourcesMenuList.setAttribute("label","Select Source file");
     },
 
     _createSourceCodeViewer: function()
@@ -249,29 +306,56 @@ FirecrowView.prototype =
 
     _createMarkupViewer: function()
     {
-        //var currentPageDocument = ;
-        //this.markupBox.textContent = currentPageDocument.body.innerHTML;
+        this._markupContainer.setAttribute("hidden", true);
+
+        this._createMarkupSelection();
+        this._createMarkupFrame();
+    },
+
+    _createMarkupSelection: function()
+    {
         this.selection = new Selection();
         this.onNewSelection = this.onNewSelection.bind(this);
         this.selection.on("new-node", this.onNewSelection);
+
         this.onBeforeNewSelection = this.onBeforeNewSelection.bind(this);
         this.selection.on("before-new-node", this.onBeforeNewSelection);
+    },
 
+    _destroyMarkupSelection: function()
+    {
+        if(this.selection == null) { return; }
+
+        this.selection.off("new-node", this.onNewSelection);
+        this.selection.off("before-new-node", this.onBeforeNewSelection);
+
+        this.selection = null;
+    },
+
+    _createMarkupFrame: function()
+    {
         this._markupFrame = this._frameDoc.createElement("iframe");
         this._markupFrame.setAttribute("flex", "1");
         this._markupFrame.setAttribute("tooltip", "aHTMLTooltip");
         this._markupFrame.setAttribute("context", "inspector-node-popup");
 
         // This is needed to enable tooltips inside the iframe document.
-        this._boundMarkupFrameLoad = function InspectorPanel_initMarkupPanel_onload() {
+        this._boundMarkupFrameLoad = function ()
+        {
             this._markupFrame.contentWindow.focus();
             this._onMarkupFrameLoad();
         }.bind(this);
-        this._markupFrame.addEventListener("load", this._boundMarkupFrameLoad, true);
 
-        this._markupContainer.setAttribute("hidden", true);
-        this._markupContainer.appendChild(this._markupFrame);
+        this._markupFrame.addEventListener("load", this._boundMarkupFrameLoad, true);
         this._markupFrame.setAttribute("src", "chrome://browser/content/devtools/markup-view.xhtml");
+
+        this._markupContainer.appendChild(this._markupFrame);
+    },
+
+    _destroyMarkupFrame: function()
+    {
+        this._markupContainer.removeChild(this._markupFrame);
+        this._markupFrame = null;
     },
 
     _onMarkupFrameLoad: function InspectorPanel__onMarkupFrameLoad()
@@ -281,7 +365,7 @@ FirecrowView.prototype =
 
         this._markupContainer.removeAttribute("hidden");
 
-        this.markup = new MarkupView(this, this._markupFrame, this._aChromeWindow);
+        this.markup = new MarkupView(this, this._markupFrame, this._window);
 
         var root = this._getCurrentPageDocument().documentElement;
         this.selection.setNode(root);
@@ -384,7 +468,7 @@ FirecrowView.prototype =
 
     _getCurrentPageDocument: function()
     {
-        return this._aChromeWindow.content.document;
+        return this._window.content.document;
     },
 
     _getContentScriptNameAndPaths: function()
@@ -443,12 +527,13 @@ var Firecrow =
     init: function GUI_init(aCallback, aIframe, aToolbox)
     {
         Firecrow.callback = aCallback;
-        if (aIframe) { Firecrow._iframe = aIframe; }
 
+        Firecrow._iframe = aIframe;
         Firecrow._toolbox = aToolbox;
 
         if (Firecrow._toolbox)
         {
+            this._target = aToolbox._target;
             Firecrow._window = Firecrow._toolbox._target.tab.ownerDocument.defaultView;
         }
         else
@@ -462,7 +547,24 @@ var Firecrow =
             Firecrow.id = "Firecrow-ui-" + Date.now();
         }
 
+        this.onNavigatedAway = this.onNavigatedAway.bind(this);
+        this._target.on("navigate", this.onNavigatedAway);
+
         Firecrow._view = new FirecrowView(Firecrow._window, aIframe);
+    },
+
+    onNavigatedAway: function onNavigatedAway(event, payload) {
+        var newWindow = payload._navPayload || payload;
+        var self = this;
+
+        function onDOMReady() {
+            newWindow.removeEventListener("DOMContentLoaded", onDOMReady, true);
+
+            self._view.rebuild(newWindow);
+        }
+
+        if (newWindow.document.readyState == "loading") { newWindow.addEventListener("DOMContentLoaded", onDOMReady, true); }
+        else { onDOMReady(); }
     },
 
     destroy: function GUI_destroy()
@@ -472,6 +574,7 @@ var Firecrow =
             try
             {
                 Firecrow._window.removeEventListener("unload", Firecrow.destroy, false);
+                this.target.off("navigate", this.onNavigatedAway);
             } catch(ex) {}
         }
 
