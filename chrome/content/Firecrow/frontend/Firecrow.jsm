@@ -10,6 +10,9 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource:///modules/source-editor.jsm");
 Cu.import("resource:///modules/devtools/CssLogic.jsm");
 
+Cu.import("chrome://Firecrow/content/helpers/htmlHelper.js");
+Cu.import("chrome://Firecrow/content/jsRecorder/JsRecorder.js");
+
 XPCOMUtils.defineLazyModuleGetter(this, "MarkupView", "resource:///modules/devtools/MarkupView.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "Selection", "resource:///modules/devtools/Selection.jsm");
 
@@ -48,9 +51,15 @@ function FirecrowView(window, aIframe)
 
 FirecrowView.prototype =
 {
+    _jsRecorder: null,
+    _slicingCriteriaMap: { DOM: {} },
+    _filePathSourceMap: {},
+    _currentSelectedFile: null,
+
     _onLoad: function FV__onLoad()
     {
         this.loaded = true;
+
         this._frame.removeEventListener("load", this._onLoad, true);
         this._frameDoc = this._frame.contentDocument;
         this._frameDoc.defaultView.focus();
@@ -71,49 +80,65 @@ FirecrowView.prototype =
 
         this._invisibleBrowser = this.$("invisibleBrowser");
 
+        this._recordButton = this.$("recordButton");
+        this._recordOptionsElement = this.$("recordOptions");
+
         this._createSourceSelectionMenu();
         this._createSourceCodeViewer();
         this._createMarkupViewer();
 
         this._handleSourceCodeEvents();
 
-        this._slicingCriteriaMap = { DOM: {} };
-        this._filePathSourceMap = {};
-        this._currentSelectedFile = null;
+        this._setSlicingCriteriaButton.onclick = this._slicingClick.bind(this);
+        this._recordButton.onclick = this._recordClick.bind(this);
+    },
 
-        this._setSlicingCriteriaButton.onclick = function()
+    _slicingClick: function()
+    {
+        if(!this._isMarkupView()) { return; }
+
+        this._slicingCriteriaMap.DOM[CssLogic.findCssSelector(this.selection.node)] = true;
+        this._updateSlicingCriteriaDisplay();
+    },
+
+    _recordClick: function(e)
+    {
+        if(e.target == this._recordButton
+        && e.currentTarget == this._recordButton && e.originalTarget != this._recordButton)
         {
-            if(!this._isMarkupView()) { return; }
-
-            this._slicingCriteriaMap.DOM[CssLogic.findCssSelector(this.selection.node)] = true;
-            this._updateSlicingCriteriaDisplay();
-        }.bind(this);
-
-        this._recordButton = this.$("recordButton");
-        this._recordOptionsElement = this.$("recordOptions");
-        this._recordButton.onclick = function(e)
-        {
-            if(e.target == this._recordButton
-            && e.currentTarget == this._recordButton && e.originalTarget != this._recordButton)
+            if(!this._recordButton.checked)
             {
-                if(!this._recordButton.checked)
-                {
-                    this._scheduleRecording(this._recordButton, this._recordOptionsElement.selectedItem.value);
-                    this._getCurrentPageDocument().location.reload();
-                }
-                else
-                {
-                    this._scheduleRecording(this._recordButton, null);
-                }
-
-                this._recordButton.checked = !this._recordButton.checked;
+                var currentLocation = this._getCurrentPageDocument().location;
+                this._startRecording();
+                currentLocation.reload();
             }
-        }.bind(this);
+            else
+            {
+                this._stopRecording();
+            }
 
-        if(this._getScheduledRecording())
-        {
-            this._recordButton.checked = true;
+            this._recordButton.checked = !this._recordButton.checked;
         }
+    },
+
+    _startRecording: function()
+    {
+        this._jsRecorder = new JsRecorder();
+
+        if(this._recordOptionsElement.value == "All")
+        {
+            this._jsRecorder.startProfiling(this._getContentScriptNameAndPaths());
+        }
+        else
+        {
+            this._jsRecorder.start(this._getContentScriptNameAndPaths());
+        }
+    },
+
+    _stopRecording: function()
+    {
+        this._jsRecorder.stop();
+        Cu.reportError(JSON.stringify(this._jsRecorder.getExecutionTrace()));
     },
 
     rebuild: function(newWindow)
@@ -140,16 +165,6 @@ FirecrowView.prototype =
             this.editor.setText("---- SELECT SOURCE FILE ----");
             this._showSourceEditor();
         }
-    },
-
-    _scheduleRecording: function(recordingType)
-    {
-        Services.prefs.setCharPref("Firecrow.record", recordingType);
-    },
-
-    _getScheduledRecording: function()
-    {
-        return Services.prefs.getCharPref("Firecrow.record");
     },
 
     _isMarkupView: function()

@@ -1,6 +1,8 @@
+var EXPORTED_SYMBOLS = ["HtmlHelper"];
+if(typeof FBL === "undefined") { FBL = { Firecrow: {}, ns: function(namespaceFunction){ namespaceFunction(); }}; }
+
 FBL.ns(function () { with (FBL) {
 /******/
-
 Firecrow.htmlHelper =
 {
     serializeToHtmlJSON: function(htmlDocument, scriptPathsAndModels, stylesPathsAndModels)
@@ -220,3 +222,6 @@ Firecrow.htmlHelper =
     }
 };
 }});
+
+//EXPORTED
+var HtmlHelper = FBL.Firecrow.htmlHelper;

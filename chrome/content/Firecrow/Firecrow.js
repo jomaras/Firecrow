@@ -238,7 +238,7 @@ FBL.ns(function() { with (FBL) {
                 }
                 else
                 {
-                    var eventTrace = this.jsRecorder.getEventTrace();
+                    var eventTrace = this.jsRecorder.getExecutionTrace();
                     alert(eventTrace.length);
                     //FileHelper.writeToFile(fbHelper.getCurrentUrl().replace("file:///", "") + "-executionTrace.txt", JSON.stringify(eventTrace));
                     //FileHelper.appendToFile("C:\\GitWebStorm\\Firecrow\\tests\\libraries\\executions.txt", fbHelper.getCurrentUrl() + " -- " + eventTrace.length);

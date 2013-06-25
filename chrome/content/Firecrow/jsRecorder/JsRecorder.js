@@ -1,10 +1,23 @@
+var EXPORTED_SYMBOLS = ["JsRecorder"];
+if(typeof FBL === "undefined") { FBL = { Firecrow: {}, ns: function(namespaceFunction){ namespaceFunction(); }}; }
+
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var CC = Components.classes;
 var CI = Components.interfaces;
+var CU = Components.utils;
 
 var fbHelper = Firecrow.fbHelper;
 var htmlHelper = Firecrow.htmlHelper;
+
+if(fbHelper == null || htmlHelper == null)
+{
+    CU.import("chrome://Firecrow/content/helpers/htmlHelper.js");
+    CU.import("chrome://Firecrow/content/helpers/fbHelper.js");
+
+    fbHelper = FbHelper;
+    htmlHelper = HtmlHelper;
+}
 
 Firecrow.JsRecorder = function ()
 {
@@ -177,6 +190,7 @@ Firecrow.JsRecorder = function ()
     this.setScriptsToTrack = function(scriptsToTrack)
     {
         this.jsDebugger.clearFilters();
+
         scriptsToTrack.forEach(function(scriptToTrack)
         {
             this.jsDebugger.appendFilter(this.getFilterForFile(scriptToTrack.path));
@@ -245,6 +259,8 @@ Firecrow.JsRecorder = function ()
 
         return "NoExecutedLine: " + noExecutedLines + "\n" + "PcNum: " + pcNum;
     };
+
+    this.getExecutionTrace = function() { return this.resultExecutionTrace; };
 
     this.getEventTrace = function()
     {
@@ -380,3 +396,5 @@ Firecrow.JsRecorder = function ()
 };
 /*************************************************************************************/
 }});
+
+var JsRecorder = FBL.Firecrow.JsRecorder;
