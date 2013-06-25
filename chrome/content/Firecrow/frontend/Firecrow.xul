@@ -54,9 +54,11 @@
                       </vbox>
                   </vbox>
                   <splitter class="devtools-side-splitter"/>
-                  <vbox id="slicingCriteriaTabBox">
+                  <vbox id="slicingResourcesTabBox">
                       <toolbar class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1">Slicing Criteria</h2></toolbar>
                       <vbox flex="1" id="slicingCriteriaList"/>
+                      <toolbar class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1">Existing recordings</h2></toolbar>
+                      <vbox flex="1" id="existingRecordingsList"/>
                   </vbox>
               </tabpanel>
 

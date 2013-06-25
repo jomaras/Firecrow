@@ -10,7 +10,9 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource:///modules/source-editor.jsm");
 Cu.import("resource:///modules/devtools/CssLogic.jsm");
 
+Cu.import("chrome://Firecrow/content/helpers/fbHelper.js");
 Cu.import("chrome://Firecrow/content/helpers/htmlHelper.js");
+Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
 Cu.import("chrome://Firecrow/content/jsRecorder/JsRecorder.js");
 
 XPCOMUtils.defineLazyModuleGetter(this, "MarkupView", "resource:///modules/devtools/MarkupView.jsm");
@@ -71,16 +73,18 @@ FirecrowView.prototype =
         this._sourcesMenuPopup = this.$("sourcesMenuPopup");
         this._sourcesMenuList = this.$("sourcesMenuList");
 
-        this.slicingCriteriaList = this.$("slicingCriteriaList");
+        this._slicingCriteriaList = this.$("_slicingCriteriaList");
+        this._existingRecordingsList = this.$("existingRecordingsList");
 
         this._editorContainer = this.$("editor");
         this._markupContainer = this.$("markupBox");
 
         this._setSlicingCriteriaButton = this.$("setSlicingCriteriaButton");
+        this._recordButton = this.$("recordButton");
+        this._slicingButton = this.$("slicingButton");
 
         this._invisibleBrowser = this.$("invisibleBrowser");
 
-        this._recordButton = this.$("recordButton");
         this._recordOptionsElement = this.$("recordOptions");
 
         this._createSourceSelectionMenu();
@@ -89,11 +93,20 @@ FirecrowView.prototype =
 
         this._handleSourceCodeEvents();
 
-        this._setSlicingCriteriaButton.onclick = this._slicingClick.bind(this);
+        this._setSlicingCriteriaButton.onclick = this._slicingCriteriaClick.bind(this);
         this._recordButton.onclick = this._recordClick.bind(this);
+        this._slicingButton.onclick = this._slicingClick.bind(this);
+
+        this._updateCurrentRecordings();
     },
 
+
     _slicingClick: function()
+    {
+        FbHelper.openWindow("chrome://firecrow/content/windows/slicerWindow.html", "Firecrow", {});
+    },
+
+    _slicingCriteriaClick: function()
     {
         if(!this._isMarkupView()) { return; }
 
@@ -138,7 +151,20 @@ FirecrowView.prototype =
     _stopRecording: function()
     {
         this._jsRecorder.stop();
-        Cu.reportError(JSON.stringify(this._jsRecorder.getExecutionTrace()));
+
+        var document = this._getCurrentPageDocument();
+
+        FileHelper.createRecordingFile
+        (
+            encodeURIComponent(document.baseURI),
+            Date.now(),
+            JSON.stringify(this._jsRecorder.getExecutionTrace())
+        );
+
+        this._window.setTimeout(function()
+        {
+            this._updateCurrentRecordings();
+        }.bind(this), 1000);
     },
 
     rebuild: function(newWindow)
@@ -254,7 +280,7 @@ FirecrowView.prototype =
     {
         this._clearSlicingCriteriaDisplay();
 
-        var doc = this.slicingCriteriaList.ownerDocument;
+        var doc = this._slicingCriteriaList.ownerDocument;
 
         for(var fileName in this._slicingCriteriaMap)
         {
@@ -272,6 +298,17 @@ FirecrowView.prototype =
                     this._createSlicingCriteriaView(doc, "@" + (parseInt(line) + 1) + " - " + this._getScriptName(fileName), fileName, line);
                 }
             }
+        }
+    },
+
+    _updateCurrentRecordings: function()
+    {
+        this._clearRecordingInfoDisplay();
+        var recordingsFiles = FileHelper.getRecordingsFiles(encodeURIComponent(this._getCurrentPageDocument().baseURI));
+
+        for(var i = 0; i < recordingsFiles.length; i++)
+        {
+            this._createRecordingInfoView(recordingsFiles[i]);
         }
     },
 
@@ -304,19 +341,58 @@ FirecrowView.prototype =
             buttonContainer.parentNode.removeChild(buttonContainer);
         }.bind(this);
 
-        this.slicingCriteriaList.appendChild(container);
+        this._slicingCriteriaList.appendChild(container);
+    },
+
+    _createRecordingInfoView: function(recordingInfo)
+    {
+        var doc = this._existingRecordingsList.ownerDocument;
+
+        var container = doc.createElement("div");
+        container.innerHTML = "<span class='deleteRecordingContainer'/><a>" + recordingInfo.name + "</a>";
+
+        var deleteButtonContainer = container.querySelector(".deleteRecordingContainer");
+
+        deleteButtonContainer.filePath = recordingInfo.path;
+
+        deleteButtonContainer.onclick = function(e)
+        {
+            var button = e.target;
+
+            if(button.filePath)
+            {
+                FileHelper.deleteFile(button.filePath);
+                button.onclick = null;
+                var buttonContainer = button.parentNode;
+                buttonContainer.parentNode.removeChild(buttonContainer);
+            }
+        }
+
+        this._existingRecordingsList.appendChild(container);
     },
 
     _clearSlicingCriteriaDisplay: function()
     {
-        var deleteButtons = this.slicingCriteriaList.querySelectorAll(".deleteSlicingCriteriaContainer");
+        var deleteButtons = this._slicingCriteriaList.querySelectorAll(".deleteSlicingCriteriaContainer");
 
         for(var i = 0; i < deleteButtons.length; i++)
         {
             deleteButtons[i].onclick = null;
         }
 
-        this.slicingCriteriaList.innerHTML = "";
+        this._slicingCriteriaList.innerHTML = "";
+    },
+
+    _clearRecordingInfoDisplay: function()
+    {
+        var deleteButtons = this._existingRecordingsList.querySelectorAll(".deleteRecordingContainer");
+
+        for(var i = 0; i < deleteButtons.length; i++)
+        {
+            deleteButtons[i].onclick = null;
+        }
+
+        this._existingRecordingsList.innerHTML = "";
     },
 
     _createMarkupViewer: function()
@@ -566,6 +642,8 @@ var Firecrow =
         this._target.on("navigate", this.onNavigatedAway);
 
         Firecrow._view = new FirecrowView(Firecrow._window, aIframe);
+
+        FileHelper.createFirecrowDirs();
     },
 
     onNavigatedAway: function onNavigatedAway(event, payload) {

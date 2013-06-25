@@ -59,7 +59,7 @@
     border-color: #1BA2CC;
 }
 
-.deleteSlicingCriteriaContainer
+.deleteSlicingCriteriaContainer, .deleteRecordingContainer
 {
     background-image: url("images/delete.png");
     width: 16px;
@@ -94,7 +94,7 @@
     display: inline-block !important;
 }
 
-#slicingCriteriaTabBox
+#slicingResourcesTabBox
 {
     width: 220px;
     max-width: 220px;
@@ -104,6 +104,8 @@
 #slicingCriteriaList
 {
     padding: 2px;
+    height: 100px;
+    max-height: 100px;
 }
 
 .sources, .sources > menupopup

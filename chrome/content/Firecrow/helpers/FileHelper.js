@@ -1,10 +1,66 @@
+/**IF INCLUDED AS MODULE*/
+if(typeof FBL === "undefined") { FBL = {}; FBL.ns = function(namespaceFunction){ namespaceFunction(); }; FBL.Firecrow = {}; }
+/**END IF INCLUDED AS MODULE*/
+
+Components.utils.import("resource://gre/modules/NetUtil.jsm");
+Components.utils.import("resource://gre/modules/FileUtils.jsm");
+
+EXPORTED_SYMBOLS = ["FileHelper"];
 FBL.ns(function () { with (FBL) {
 /******/
 var CC = Components.classes;
 var CI = Components.interfaces;
+var CU = Components.utils;
+
+var recordingsFolderPath = ["Firecrow", "recordings"]
 
 Firecrow.FileHelper = 
 {
+    createFirecrowDirs: function()
+    {
+        FileUtils.getDir("ProfD", recordingsFolderPath, true);
+    },
+
+    createRecordingFile: function(siteName, recordingId, recordingContent)
+    {
+        recordingId += ".json";
+        //Create directory if not exists
+        FileUtils.getDir("ProfD", recordingsFolderPath.concat(siteName), true);
+
+        var file = FileUtils.getFile("ProfD", recordingsFolderPath.concat([siteName, recordingId]));
+        file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
+
+        var ostream = FileUtils.openSafeFileOutputStream(file)
+
+        var converter = CC["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(CI.nsIScriptableUnicodeConverter);
+        converter.charset = "UTF-8";
+        var istream = converter.convertToInputStream(recordingContent);
+
+        NetUtil.asyncCopy(istream, ostream);
+    },
+
+    getRecordingsFiles: function(siteName)
+    {
+        var dir = FileUtils.getDir("ProfD", recordingsFolderPath.concat(siteName), true);
+
+        var entries = dir.directoryEntries;
+        var files = [];
+
+        while(entries.hasMoreElements())
+        {
+            var entry = entries.getNext();
+
+            entry.QueryInterface(Components.interfaces.nsIFile);
+
+            if(!entry.isDirectory())
+            {
+                files.push({path: entry.path, name: entry.leafName, content: this.readFromFile(entry.path)});
+            }
+        }
+
+        return files;
+    },
+
     readFromFile: function (absoluteFilePath)
     {
         try
@@ -86,7 +142,7 @@ Firecrow.FileHelper =
             converter.close();
             stream.close();
         }
-        catch (e) { alert("Error while writing to file:" + e); }
+        catch (e) { CU.reportError("Error while writing to file:" + e); }
     },
 
     appendToFile: function (absoluteFilePath, content)
@@ -184,7 +240,7 @@ Firecrow.FileHelper =
 
             return file;
         }
-        catch (e) { alert("Trying to write to:" + absoluteFilePath + " " + e); }
+        catch (e) { CU.reportError("Trying to get file:" + absoluteFilePath + " " + e); }
     },
 
     getDirectoriesFromFolder: function(folderPath)
@@ -234,7 +290,21 @@ Firecrow.FileHelper =
             }
         }
         catch (e) { alert("Error while deleting files in a folder " + e); }
+    },
+
+    deleteFile: function(path)
+    {
+        var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+
+        file.initWithPath(path);
+
+        if(file.exists())
+        {
+            file.remove(true);
+        }
     }
 }
 /******/
 }});
+
+var FileHelper = FBL.Firecrow.FileHelper;
