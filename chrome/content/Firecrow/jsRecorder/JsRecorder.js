@@ -30,7 +30,7 @@ Firecrow.JsRecorder = function ()
 
     this.startProfiling = function(scriptsToTrack)
     {
-        if(this.jsDebugger == null) { alert("Error: jsDebugger is null when trying to start"); return; }
+        if(this.jsDebugger == null) { CU.reportError("Error: jsDebugger is null when trying to start"); return; }
 
         this.setScriptsToTrack(scriptsToTrack);
 
@@ -58,7 +58,7 @@ Firecrow.JsRecorder = function ()
         this.elementToTrackXPath = elementToTrackXPath;
         try
         {
-            if(this.jsDebugger == null) { alert("Error: jsDebugger is null when trying to start"); return; }
+            if(this.jsDebugger == null) { CU.reportError("Error: jsDebugger is null when trying to start"); return; }
 
             this.setScriptsToTrack(scriptsToTrack);
 
@@ -152,13 +152,13 @@ Firecrow.JsRecorder = function ()
 
                             if(trace.args.type == "elementEvent")
                             {
-                                alert("Shit - elementEvent: " + trace.thisValue.xPath + " " + trace.line);
+                                CU.reportError("Shit - elementEvent: " + trace.thisValue.xPath + " " + trace.line);
                             }
 
                             that.executionTrace.push(trace);
                         }
                     }
-                    catch(e) { alert("Error when recording: " + e); }
+                    catch(e) { CU.reportError("Error when recording: " + e); }
 
                     return returnContinue;
                 }
@@ -169,14 +169,14 @@ Firecrow.JsRecorder = function ()
             this.jsDebugger.asyncOn(function(){});
             this.isRecording = true;
         }
-        catch(e) { alert("Error while starting jsDebugger:" + e); }
+        catch(e) { CU.reportError("Error while starting jsDebugger:" + e); }
     };
 
     this.stop = function()
     {
         try
         {
-            if(this.jsDebugger == null) { alert("Error: jsDebugger is null when trying to stop"); return; }
+            if(this.jsDebugger == null) { CU.reportError("Error: jsDebugger is null when trying to stop"); return; }
 
             this.jsDebugger.off();
             this.isRecording = false;
@@ -184,7 +184,7 @@ Firecrow.JsRecorder = function ()
             this.resultExecutionTrace = this.executionTrace;
             this.executionTrace = [];
         }
-        catch(e) { alert("Error when stopping jsDebugger " + e); }
+        catch(e) { CU.reportError("Error when stopping jsDebugger " + e); }
     };
 
     this.setScriptsToTrack = function(scriptsToTrack)

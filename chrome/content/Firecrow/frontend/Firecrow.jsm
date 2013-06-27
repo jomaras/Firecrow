@@ -73,7 +73,7 @@ FirecrowView.prototype =
         this._sourcesMenuPopup = this.$("sourcesMenuPopup");
         this._sourcesMenuList = this.$("sourcesMenuList");
 
-        this._slicingCriteriaList = this.$("_slicingCriteriaList");
+        this._slicingCriteriaList = this.$("slicingCriteriaList");
         this._existingRecordingsList = this.$("existingRecordingsList");
 
         this._editorContainer = this.$("editor");
@@ -102,7 +102,19 @@ FirecrowView.prototype =
 
     _slicingClick: function()
     {
-        FbHelper.openWindow("chrome://firecrow/content/windows/slicerWindow.html", "Firecrow", {});
+        var selectedRecordings = this._getSelectedRecordingsPaths();
+        if(this._isSlicingCriteriaMapEmpty())
+        {
+            this._window.alert("Specify at least one slicing criteria");
+        }
+        else if(selectedRecordings.length == 0)
+        {
+            this._window.alert("Select at least one recording");
+        }
+        else
+        {
+            this._openSelectFolderDialog();
+        }
     },
 
     _slicingCriteriaClick: function()
@@ -275,6 +287,26 @@ FirecrowView.prototype =
         );
     },
 
+    _isSlicingCriteriaMapEmpty: function()
+    {
+        return this._slicingCriteriaList.children.length === 0;
+    },
+
+    _getSelectedRecordingsPaths: function()
+    {
+        var doc = this._existingRecordingsList.ownerDocument;
+
+        var selectedItems = doc.querySelectorAll(".selectRecordingCheckbox[checked]");
+        var paths = [];
+
+        for(var i = 0; i < selectedItems.length; i++)
+        {
+            paths.push(selectedItems[i].recordingFilePath);
+        }
+
+        return paths;
+    },
+
     _updateSlicingCriteriaDisplay: function()
     {
         this._clearSlicingCriteriaDisplay();
@@ -315,7 +347,9 @@ FirecrowView.prototype =
     {
         var container = doc.createElement("div");
 
-        container.innerHTML = "<span class='deleteSlicingCriteriaContainer'/><a>" + summary + "</a>";
+        container.className = "slicingCriteriaElement";
+
+        container.innerHTML = "<span class='deleteSlicingCriteriaContainer'/><label>" + summary + "</label>";
         var deleteButtonContainer = container.querySelector(".deleteSlicingCriteriaContainer");
 
         deleteButtonContainer.firstPropertyId = firstPropertyId;
@@ -347,8 +381,38 @@ FirecrowView.prototype =
     {
         var doc = this._existingRecordingsList.ownerDocument;
 
-        var container = doc.createElement("div");
-        container.innerHTML = "<span class='deleteRecordingContainer'/><a>" + recordingInfo.name + "</a>";
+        var container = doc.createElement("vbox");
+        container.className = "recordingView";
+
+        var titleContainer = doc.createElement("div");
+
+        var deleteRecordingContainer = doc.createElement("span");
+        deleteRecordingContainer.className = "deleteRecordingContainer";
+        titleContainer.appendChild(deleteRecordingContainer);
+
+        var checkbox = doc.createElement("checkbox");
+        checkbox.recordingFilePath = recordingInfo.path;
+        checkbox.className = "selectRecordingCheckbox";
+        titleContainer.appendChild(checkbox);
+
+        var timeLabel = doc.createElement("label");
+        timeLabel.textContent = this._getRecordingTime(recordingInfo.name);
+
+        titleContainer.appendChild(timeLabel);
+
+        container.appendChild(titleContainer);
+
+        var recordingInfos = JSON.parse(recordingInfo.content);
+
+        for(var i = 0; i < recordingInfos.length; i++)
+        {
+            var itemElement = doc.createElement("div");
+            itemElement.className = "eventRecordingElement";
+
+            itemElement.textContent = recordingInfos[i].args.type + " on " + recordingInfos[i].thisValue.xPath + "; ";
+
+            container.appendChild(itemElement);
+        }
 
         var deleteButtonContainer = container.querySelector(".deleteRecordingContainer");
 
@@ -362,12 +426,40 @@ FirecrowView.prototype =
             {
                 FileHelper.deleteFile(button.filePath);
                 button.onclick = null;
-                var buttonContainer = button.parentNode;
+                var buttonContainer = button.parentNode.parentNode;
                 buttonContainer.parentNode.removeChild(buttonContainer);
             }
         }
 
         this._existingRecordingsList.appendChild(container);
+    },
+
+    _openSelectFolderDialog: function()
+    {
+        var filePicker = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
+        filePicker.init(this._window, "Select destination folder",  2); // open folder
+        var returnValue = filePicker.show();
+
+        if (returnValue == Ci.nsIFilePicker.returnOK || returnValue == Ci.nsIFilePicker.returnReplace)
+        {
+            return filePicker.file.path;
+        }
+
+        return "";
+    },
+
+    _getRecordingTime: function(recordingName)
+    {
+        var date = new Date(parseInt(this._removeFileExtension(recordingName)));
+
+        return date.getDate() + "/" + (date.getMonth()+1)  + "/" + date.getFullYear() + " @ " + date.getHours() + ":" + date.getMinutes();
+    },
+
+    _removeFileExtension: function(name)
+    {
+        if(name == null || name.indexOf(".") == -1) { return name; }
+
+        return name.substring(0, name.indexOf("."));
     },
 
     _clearSlicingCriteriaDisplay: function()
