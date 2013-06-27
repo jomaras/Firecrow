@@ -103,6 +103,7 @@ FirecrowView.prototype =
     _slicingClick: function()
     {
         var selectedRecordings = this._getSelectedRecordingsPaths();
+
         if(this._isSlicingCriteriaMapEmpty())
         {
             this._window.alert("Specify at least one slicing criteria");
@@ -417,19 +418,20 @@ FirecrowView.prototype =
         var deleteButtonContainer = container.querySelector(".deleteRecordingContainer");
 
         deleteButtonContainer.filePath = recordingInfo.path;
+        deleteButtonContainer.recordingInfo = container.textContent;
 
         deleteButtonContainer.onclick = function(e)
         {
             var button = e.target;
 
-            if(button.filePath)
+            if(button.filePath && this._window.confirm("Permanently delete recording: " + button.recordingInfo))
             {
                 FileHelper.deleteFile(button.filePath);
                 button.onclick = null;
                 var buttonContainer = button.parentNode.parentNode;
                 buttonContainer.parentNode.removeChild(buttonContainer);
             }
-        }
+        }.bind(this);
 
         this._existingRecordingsList.appendChild(container);
     },
