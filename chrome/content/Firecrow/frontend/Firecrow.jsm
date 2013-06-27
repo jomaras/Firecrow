@@ -100,7 +100,6 @@ FirecrowView.prototype =
         this._updateCurrentRecordings();
     },
 
-
     _slicingClick: function()
     {
         FbHelper.openWindow("chrome://firecrow/content/windows/slicerWindow.html", "Firecrow", {});
