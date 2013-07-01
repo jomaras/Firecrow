@@ -1,6 +1,3 @@
-var EXPORTED_SYMBOLS = ["JsRecorder"];
-if(typeof FBL === "undefined") { FBL = { Firecrow: {}, ns: function(namespaceFunction){ namespaceFunction(); }}; }
-
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var CC = Components.classes;
@@ -12,11 +9,15 @@ var htmlHelper = Firecrow.htmlHelper;
 
 if(fbHelper == null || htmlHelper == null)
 {
-    CU.import("chrome://Firecrow/content/helpers/htmlHelper.js");
-    CU.import("chrome://Firecrow/content/helpers/fbHelper.js");
+    var scriptLoader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
 
-    fbHelper = FbHelper;
-    htmlHelper = HtmlHelper;
+    var importedScope = {};
+
+    scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/fbHelper.js", importedScope, "UTF-8");
+    scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/fbHelper.js", importedScope, "UTF-8");
+
+    fbHelper = importedScope.FbHelper;
+    htmlHelper = importedScope.HtmlHelper;
 }
 
 Firecrow.JsRecorder = function ()
@@ -396,5 +397,3 @@ Firecrow.JsRecorder = function ()
 };
 /*************************************************************************************/
 }});
-
-var JsRecorder = FBL.Firecrow.JsRecorder;

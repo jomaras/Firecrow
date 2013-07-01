@@ -1,6 +1,3 @@
-var EXPORTED_SYMBOLS = ["HtmlHelper"];
-if(typeof FBL === "undefined") { FBL = { Firecrow: {}, ns: function(namespaceFunction){ namespaceFunction(); }}; }
-
 FBL.ns(function () { with (FBL) {
 /******/
 Firecrow.htmlHelper =
@@ -14,27 +11,24 @@ Firecrow.htmlHelper =
             var docType = this.getDocumentType(htmlDocument);
             var htmlElement = this.getHtmlElement(htmlDocument);
 
-            scriptPathsAndModels = scriptPathsAndModels || Firecrow.fbHelper.getScriptsPathsAndModels();
-            stylesPathsAndModels = stylesPathsAndModels || Firecrow.fbHelper.getStylesPathsAndModels();
-
             this._lastUsedId = 0;
 
             serialized.docType = docType != null ? docType.systemId :"";
             serialized.htmlElement = htmlElement != null ? this.getSimplifiedElement(htmlElement, scriptPathsAndModels, stylesPathsAndModels)
                                                          : "null";
 
-            serialized.pageUrl = Firecrow.fbHelper.getCurrentUrl();
+            serialized.pageUrl = htmlDocument.baseURI;
 
             return serialized;
         }
-        catch(e) { alert("Error when serializing to HTML JSON:" + e);}
+        catch(e) { Components.utils.reportError("Error when serializing to HTML JSON:" + e + " " + e.lineNumber);}
     },
 
     _lastUsedId: 0,
 
     getDocumentType: function(htmlDocument)
     {
-        return htmlDocument.childNodes[0] instanceof DocumentType
+        return htmlDocument.childNodes[0] != null && htmlDocument.childNodes[0].nodeType == 10
             ?  htmlDocument.childNodes[0]
             :  null;
     },
@@ -43,7 +37,7 @@ Firecrow.htmlHelper =
     {
         for(var i = 0; i < htmlDocument.childNodes.length; i++)
         {
-            if(htmlDocument.childNodes[i] instanceof HTMLHtmlElement)
+            if(htmlDocument.childNodes[i].tagName == "HTML")
             {
                 return htmlDocument.childNodes[i];
             }
@@ -58,7 +52,7 @@ Firecrow.htmlHelper =
         {
             var elem =
             {
-                type: !(rootElement instanceof Text) ? rootElement.localName : "textNode",
+                type: rootElement.nodeType != 3 ? rootElement.localName : "textNode",
                 attributes: this.getAttributes(rootElement),
                 childNodes: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels),
                 nodeId: this._lastUsedId++
@@ -68,13 +62,13 @@ Firecrow.htmlHelper =
 
             var that = this;
 
-            if(rootElement instanceof Text
-            || rootElement instanceof HTMLScriptElement)
+            if(rootElement.nodeType == 3 //is text node
+            || rootElement.tagName == "SCRIPT")
             {
                 elem.textContent = rootElement.textContent;
             }
 
-            if(rootElement instanceof HTMLScriptElement)
+            if(rootElement.tagName == "SCRIPT")
             {
                 elem.pathAndModel = scriptPathsAndModels.splice(0,1)[0];
 
@@ -84,8 +78,8 @@ Firecrow.htmlHelper =
                 });
             }
 
-            else if (rootElement instanceof HTMLStyleElement
-                  || rootElement instanceof HTMLLinkElement)
+            else if (rootElement.tagName == "STYLE"
+                  || (rootElement.tagName == "LINK" && rootElement.rel != "" && rootElement.rel.toLowerCase() == "stylesheet"))
             {
                 elem.pathAndModel = stylesPathsAndModels.splice(0,1)[0];
 
@@ -101,7 +95,7 @@ Firecrow.htmlHelper =
         }
         catch(e)
         {
-            alert("helpers.htmlHelper: Error when getting simplified:" + e);
+            Cu.reportError("helpers.htmlHelper: Error when getting simplified:" + e);
         }
     },
 
@@ -114,12 +108,12 @@ Firecrow.htmlHelper =
 
         allNodes.forEach(function (currentNode)
         {
-            if(currentNode instanceof Text)
+            if(currentNode.nodeType == 3)
             {
                 previousTextNodes.push(currentNode);
             }
 
-            if(currentNode instanceof HTMLScriptElement)
+            if(currentNode.tagName == "SCRIPT")
             {
                 scriptPreviousTextNodesMapping.push
                 ({
@@ -147,7 +141,7 @@ Firecrow.htmlHelper =
                 Firecrow.ValueTypeHelper.pushAll(allNodes, this.getAllNodes(currentNode));
             }
         }
-        catch(e) {alert("helpers.htmlHelper error when getting allNodes:" + e);}
+        catch(e) { Cu.reportError("helpers.htmlHelper error when getting allNodes:" + e);}
 
         return allNodes;
     },
@@ -172,7 +166,7 @@ Firecrow.htmlHelper =
                 );
             }
         }
-        catch(e) { alert("Attributes" + e);}
+        catch(e) { Cu.reportError("Attributes" + e);}
 
         return attributes;
     },
@@ -216,12 +210,9 @@ Firecrow.htmlHelper =
                 }
             }
         }
-        catch(e) {alert("Children:" + e);}
+        catch(e) { Cu.reportError("Children:" + e);}
 
         return allNodes;
     }
 };
 }});
-
-//EXPORTED
-var HtmlHelper = FBL.Firecrow.htmlHelper;

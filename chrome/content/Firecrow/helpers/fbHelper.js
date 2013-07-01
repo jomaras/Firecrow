@@ -1,9 +1,3 @@
-/**IF INCLUDED AS MODULE*/
-if(typeof FBL === "undefined") { FBL = {}; FBL.ns = function(namespaceFunction){ namespaceFunction(); }; FBL.Firecrow = {}; }
-/**END IF INCLUDED AS MODULE*/
-
-EXPORTED_SYMBOLS = ["FbHelper"];
-
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var CC = Components.classes;
@@ -13,6 +7,29 @@ var CU = Components.utils;
 var fileHelper = Firecrow.FileHelper;
 var valueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
+
+var scriptLoader = CC["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
+
+var importedScope = {};
+
+if(fileHelper == null)
+{
+    scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/fileHelper.js", importedScope, "UTF-8");
+    fileHelper = importedScope.FileHelper;
+}
+
+if(valueTypeHelper == null)
+{
+    scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/valueTypeHelper.js", importedScope, "UTF-8");
+    valueTypeHelper = importedScope.ValueTypeHelper;
+}
+
+if(ASTHelper == null)
+{
+    scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/ASTHelper.js", importedScope, "UTF-8");
+    ASTHelper = importedScope.ASTHelper;
+}
+
 Firecrow.UnrecognizedCssProperties = {};
 
 Firecrow.fbHelper =
@@ -103,8 +120,6 @@ Firecrow.fbHelper =
         try
         {
             document = document || this.getCurrentPageDocument();
-
-            var currentPageUrl = document.baseURI;
 
             var stylesheets = document.styleSheets;
 
@@ -236,8 +251,6 @@ Firecrow.fbHelper =
             var currentPageContent = fileHelper.getFileContentFromUrl(currentPageUrl);
             currentPageContent = currentPageContent.replace(/(\r)?\n/g, "\n");
             var currentScriptIndex = 0;
-
-            this._MY_CONTENT = currentPageContent;
 
             valueTypeHelper.convertToArray(document.querySelectorAll("script")).forEach(function(scriptElement)
             {
@@ -398,5 +411,3 @@ Firecrow.fbHelper =
 };
 /*************************************************************************************/
 }});
-
-var FbHelper = FBL.Firecrow.fbHelper;

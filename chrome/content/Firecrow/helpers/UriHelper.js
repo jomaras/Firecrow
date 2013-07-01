@@ -64,7 +64,7 @@ Firecrow.UriHelper =
 
     var _use_module = typeof module !== "undefined" && module.exports,
         _load_module = function(module) {
-            return _use_module ? require('./' + module) : window[module];
+            return _use_module ? require('./' + module) : this[module];
         },
         punycode = _load_module('punycode'),
         IPv6 = _load_module('IPv6'),

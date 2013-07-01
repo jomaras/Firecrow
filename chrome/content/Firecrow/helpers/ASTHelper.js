@@ -1,5 +1,4 @@
 FBL.ns(function () { with (FBL) {
-/*******/
 
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
@@ -11,14 +10,15 @@ Firecrow.ASTHelper =
         {
             Components.utils.import("resource://gre/modules/reflect.jsm");
 
-            var model = Reflect.parse
-            (
-                sourceCode,
-                { loc:true, line: startLine }
-            );
+            var model = Reflect.parse(sourceCode);
 
-            if(model != null && model.loc != null)
+            if(model != null)
             {
+                if(model.loc == null)
+                {
+                    model.loc = { start: {line: startLine}, source: sourceCodePath};
+                }
+
                 if(model.loc.start.line != startLine)
                 {
                     model.lineAdjuster = startLine;
@@ -33,7 +33,7 @@ Firecrow.ASTHelper =
 
             return model;
         }
-        catch(e) { alert("Error while getting AST from source code@" + sourceCodePath + "; error: " + sourceCodePath); }
+        catch(e) { Cu.reportError("Error while getting AST from source code@" + sourceCodePath + "; error: " + e); }
     },
 
     calculateCoverage: function(pageModel)

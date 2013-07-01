@@ -51,7 +51,7 @@ FirecrowPanel.prototype =
         try
         {
             Components.utils.unload("chrome://Firecrow/content/frontend/Firecrow.jsm");
-            global.Firecrow = null;
+            global.FirecrowModule = null;
             delete global.Firecrow;
             global = null;
             global = {};

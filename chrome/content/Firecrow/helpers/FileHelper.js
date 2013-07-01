@@ -1,11 +1,6 @@
-/**IF INCLUDED AS MODULE*/
-if(typeof FBL === "undefined") { FBL = {}; FBL.ns = function(namespaceFunction){ namespaceFunction(); }; FBL.Firecrow = {}; }
-/**END IF INCLUDED AS MODULE*/
-
 Components.utils.import("resource://gre/modules/NetUtil.jsm");
 Components.utils.import("resource://gre/modules/FileUtils.jsm");
 
-EXPORTED_SYMBOLS = ["FileHelper"];
 FBL.ns(function () { with (FBL) {
 /******/
 var CC = Components.classes;
@@ -306,5 +301,3 @@ Firecrow.FileHelper =
 }
 /******/
 }});
-
-var FileHelper = FBL.Firecrow.FileHelper;

@@ -13,7 +13,8 @@ Firecrow.DependencyGraph.SlicingCriterion = function(type)
 Firecrow.DependencyGraph.SlicingCriterion.TYPES =
 {
     READ_IDENTIFIER: "READ_IDENTIFIER",
-    DOM_MODIFICATION: "DOM_MODIFICATION"
+    DOM_MODIFICATION: "DOM_MODIFICATION",
+    LINE_EXECUTED: "LINE_EXECUTED"
 };
 
 Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion = function(fileName, lineNumber, identifierName)
@@ -34,6 +35,14 @@ Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion = function(cs
     criterion.cssSelector = cssSelector;
 
     return criterion;
+};
+
+Firecrow.DependencyGraph.SlicingCriterion.createLineExecutedCriterion = function(fileName, lineNumber)
+{
+    var criterion = new Firecrow.DependencyGraph.SlicingCriterion(Firecrow.DependencyGraph.SlicingCriterion.TYPES.LINE_EXECUTED);
+
+    criterion.fileName = fileName;
+    criterion.lineNumber = lineNumber;
 };
 /*************************************************************************************/
 }});

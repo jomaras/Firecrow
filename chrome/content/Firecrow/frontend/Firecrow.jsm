@@ -10,16 +10,26 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource:///modules/source-editor.jsm");
 Cu.import("resource:///modules/devtools/CssLogic.jsm");
 
-Cu.import("chrome://Firecrow/content/helpers/fbHelper.js");
-Cu.import("chrome://Firecrow/content/helpers/htmlHelper.js");
-Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
-Cu.import("chrome://Firecrow/content/jsRecorder/JsRecorder.js");
-
 XPCOMUtils.defineLazyModuleGetter(this, "MarkupView", "resource:///modules/devtools/MarkupView.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "Selection", "resource:///modules/devtools/Selection.jsm");
 
+var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
+
+scriptLoader.loadSubScript("chrome://Firecrow/content/initFBL.js", this, "UTF-8");
+scriptLoader.loadSubScript("chrome://Firecrow/content/parsers/CssSelectorParser.js", this, "UTF-8");
+scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/valueTypeHelper.js", this, "UTF-8");
+scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/ASTHelper.js", this, "UTF-8");
+scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/htmlHelper.js", this, "UTF-8");
+scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/FileHelper.js", this, "UTF-8");
+scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/fbHelper.js", this, "UTF-8");
+scriptLoader.loadSubScript("chrome://Firecrow/content/jsRecorder/JsRecorder.js", this, "UTF-8");
 
 var HTML = "http://www.w3.org/1999/xhtml";
+
+var FileHelper = FBL.Firecrow.FileHelper;
+var FbHelper = FBL.Firecrow.fbHelper;
+var HtmlHelper = FBL.Firecrow.htmlHelper;
+var JsRecorder = FBL.Firecrow.JsRecorder;
 
 function FirecrowView(window, aIframe)
 {
@@ -55,7 +65,7 @@ FirecrowView.prototype =
 {
     _jsRecorder: null,
     _slicingCriteriaMap: { DOM: {} },
-    _filePathSourceMap: {},
+    _externalFilesMap: {},
     _currentSelectedFile: null,
 
     _onLoad: function FV__onLoad()
@@ -67,6 +77,8 @@ FirecrowView.prototype =
         this._frameDoc.defaultView.focus();
 
         this._frame.addEventListener("unload", this._onUnload, true);
+
+        this._hiddenIFrame = this.$("fdHiddenIFrame");
 
         this._mainContainerContent = this.$("mainContainerContent");
         this._slicerMainContainer = this.$("slicerMainContainer");
@@ -98,6 +110,8 @@ FirecrowView.prototype =
         this._slicingButton.onclick = this._slicingClick.bind(this);
 
         this._updateCurrentRecordings();
+
+        this._sourceCodeLoadedInInvisibleBrowser = this._sourceCodeLoadedInInvisibleBrowser.bind(this);
     },
 
     _slicingClick: function()
@@ -114,8 +128,63 @@ FirecrowView.prototype =
         }
         else
         {
-            this._openSelectFolderDialog();
+            var selectedFolder = this._openSelectFolderDialog();
+
+            if(selectedFolder)
+            {
+                this._loadUrlInHiddenIFrame(this._getCurrentPageDocument().baseURI, false, function(window, htmlJson)
+                {
+                    htmlJson.eventTraces = selectedRecordings[0];
+
+                    var slicedCode = Firecrow.slicer.getSlicedCode(htmlJson, this._getSlicingCriteria(), window.document.documentElement.baseURI);
+
+                    window.alert(slicedCode);
+                }, this);
+            }
         }
+    },
+
+    _getSlicingCriteria: function()
+    {
+        var slicingCriteria = [];
+
+        for(var propName in this._slicingCriteriaMap)
+        {
+            if(propName == "DOM") { slicingCriteria = slicingCriteria.concat(this._getCssSlicingCriteria(this._slicingCriteriaMap[propName])); }
+            else
+            {
+                var filePath = propName;
+
+                for(var lineNumber in this._slicingCriteriaMap[filePath])
+                {
+                    slicingCriteria.push(this._createLineExecutedCriterion(filePath, lineNumber));
+                }
+            }
+        }
+
+        return slicingCriteria;
+    },
+
+    _createLineExecutedCriterion: function(filePath, lineNumber)
+    {
+        return { type: "LINE_EXECUTED", fileName: filePath, lineNumber: lineNumber};
+    },
+
+    _createModifyDomCriterion: function(selector)
+    {
+        return { type: "DOM_MODIFICATION",  cssSelector: selector };
+    },
+
+    _getCssSlicingCriteria: function(cssSelectorsObject)
+    {
+        var cssSelectors = [];
+
+        for(var cssSelector in cssSelectorsObject)
+        {
+            cssSelectors.push(this._createModifyDomCriterion(cssSelector));
+        }
+
+        return cssSelectors;
     },
 
     _slicingCriteriaClick: function()
@@ -182,7 +251,7 @@ FirecrowView.prototype =
     rebuild: function(newWindow)
     {
         this._slicingCriteriaMap = { DOM: {} };
-        this._filePathSourceMap = {};
+        this._externalFilesMap = {};
         this._currentSelectedFile = null;
 
         this._window = newWindow;
@@ -566,14 +635,19 @@ FirecrowView.prototype =
 
             this._currentSelectedFile = this._sourcesMenuList.selectedItem.value;
 
-            if(this._filePathSourceMap[this._currentSelectedFile] == null)
+            if(this._externalFilesMap[this._currentSelectedFile] == null)
             {
-                this._invisibleBrowser.setAttribute("src", "view-source:" + this._sourcesMenuList.selectedItem.value);
+                this._cacheExternalFileContent(this._sourcesMenuList.selectedItem.value, function()
+                {
+                    this.editor.setText(this._externalFilesMap[this._currentSelectedFile]);
+                    this._showExistingBreakpoints();
+                }.bind(this));
+
                 this.editor.setText("---- LOADING SOURCE CODE ----");
             }
             else
             {
-                this.editor.setText(this._filePathSourceMap[this._currentSelectedFile]);
+                this.editor.setText(this._externalFilesMap[this._currentSelectedFile]);
                 this._showExistingBreakpoints();
             }
 
@@ -595,15 +669,36 @@ FirecrowView.prototype =
                 this._showSourceEditor();
             }
         }.bind(this));
+    },
 
+    _pathSourceLoadedCallbackMap: { },
 
-        this._invisibleBrowser.addEventListener("DOMContentLoaded", function()
+    _cacheExternalFileContent: function(path, finishedCallback)
+    {
+        if(this._externalFilesMap[path]) { finishedCallback && finishedCallback(); return; }
+
+        this._pathSourceLoadedCallbackMap[path] = { finishedCallback: finishedCallback, failCallbackId: this._window.setTimeout(function()
         {
-            this._filePathSourceMap[this._currentSelectedFile] = this._invisibleBrowser.contentDocument.getElementById('viewsource').textContent;
-            this.editor.setText(this._filePathSourceMap[this._currentSelectedFile]);
+            this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";
+            this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
+        }.bind(this), 500)};
 
-            this._showExistingBreakpoints();
-        }.bind(this));
+        this._invisibleBrowser.addEventListener("DOMContentLoaded", this._sourceCodeLoadedInInvisibleBrowser);
+        this._invisibleBrowser.setAttribute("src", "view-source:" + path);
+    },
+
+    _sourceCodeLoadedInInvisibleBrowser: function()
+    {
+        var path = this._invisibleBrowser.contentDocument.baseURI.replace("view-source:", "");
+
+        this._window.clearTimeout(this._pathSourceLoadedCallbackMap[path].failCallbackId);
+
+        this._invisibleBrowser.removeEventListener("DOMContentLoaded", this._sourceCodeLoadedInInvisibleBrowser);
+
+        this._externalFilesMap[path] = this._invisibleBrowser.contentDocument.getElementById('viewsource').textContent;
+
+        this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
+        this._pathSourceLoadedCallbackMap[path] = null;
     },
 
     _showSourceEditor: function()
@@ -691,6 +786,264 @@ FirecrowView.prototype =
         if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
 
         return url;
+    },
+
+    _loadUrlInHiddenIFrame: function(url, allowJavaScript, callbackFunction, thisObject)
+    {
+        try
+        {
+            this._hiddenIFrame.style.height = "0px";
+            this._hiddenIFrame.webNavigation.allowAuth = true;
+            this._hiddenIFrame.webNavigation.allowImages = false;
+            this._hiddenIFrame.webNavigation.allowJavascript = allowJavaScript;
+            this._hiddenIFrame.webNavigation.allowMetaRedirects = true;
+            this._hiddenIFrame.webNavigation.allowPlugins = false;
+            this._hiddenIFrame.webNavigation.allowSubframes = false;
+
+            this._hiddenIFrame.addEventListener("DOMContentLoaded", function listener(e)
+            {
+                try
+                {
+                    var document = e.originalTarget.wrappedJSObject;
+
+                    this._hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
+
+                    this._cacheAllExternalFilesContent(document, function()
+                    {
+                        var htmlJson = HtmlHelper.serializeToHtmlJSON
+                        (
+                            document,
+                            this._getScriptsPathsAndModels(document),
+                            this._getStylesPathsAndModels(document)
+                        );
+
+                        callbackFunction.call(thisObject, document.defaultView, htmlJson);
+                    }.bind(this));
+                }
+                catch(e) { Cu.reportError("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
+            }.bind(this), true);
+
+            this._hiddenIFrame.webNavigation.loadURI(url, Ci.nsIWebNavigation, null, null, null);
+        }
+        catch(e) { Cu.reportError("Loading html in iFrame errror: " + e); }
+    },
+
+    _cacheAllExternalFilesContent: function(document, allFinishedCallback)
+    {
+        var externalFileElements = this._getExternalFileElements(document);
+        externalFileElements.push({src: document.baseURI});
+        var processedFiles = 0;
+
+        for(var i = 0; i < externalFileElements.length; i++)
+        {
+            this._cacheExternalFileContent(externalFileElements[i].src || externalFileElements[i].href, function()
+            {
+                processedFiles++;
+
+                if(processedFiles == externalFileElements.length) { allFinishedCallback(); }
+            });
+        }
+    },
+
+    _getExternalFileElements: function(document)
+    {
+        var potentialExternalElements = document.querySelectorAll("script, link");
+        var externalElements = [];
+
+        for(var i = 0; i < potentialExternalElements.length; i++)
+        {
+            var element = potentialExternalElements[i];
+
+            if(element.tagName == "SCRIPT" && element.src != "")
+            {
+                externalElements.push(element)
+            }
+            else if(element.tagName == "LINK" && element.rel == "stylesheet" && element.href != "")
+            {
+                externalElements.push(element);
+            }
+        }
+
+        return externalElements;
+    },
+
+    _getScriptsPathsAndModels: function(document)
+    {
+        var scripts = document.getElementsByTagName("script");
+        var scriptPathsAndModels = [];
+
+        var currentPageContent = this._externalFilesMap[document.baseURI];
+        currentPageContent = currentPageContent.replace(/(\r)?\n/g, "\n");
+
+        var currentScriptIndex = 0;
+
+        for(var i = 0; i < scripts.length; i++)
+        {
+            var script = scripts[i];
+
+            if(script.src != "")
+            {
+                scriptPathsAndModels.push
+                ({
+                    path: script.src,
+                    model: this._parseSourceCode(this._externalFilesMap[script.src], script.src, 1)
+                });
+            }
+            else
+            {
+                scriptPathsAndModels.push
+                ({
+                    path: script.src,
+                    model: this._parseSourceCode
+                    (
+                        script.textContent,
+                        script.baseURI,
+                        (function()
+                        {
+                            var code = script.textContent.replace(/(\r)?\n/g, "\n");
+                            var scriptStringIndex = currentPageContent.indexOf(code, currentScriptIndex);
+
+                            if(scriptStringIndex == null || scriptStringIndex == -1) { return -1; }
+                            else
+                            {
+                                currentScriptIndex = scriptStringIndex + code.length;
+                                return currentPageContent.substring(0, scriptStringIndex).split("\n").length;
+                            }
+                        })()
+                    )
+                });
+            }
+        }
+
+        return scriptPathsAndModels;
+    },
+
+    _getStylesPathsAndModels: function(document)
+    {
+        var stylesheets = document.styleSheets;
+        var stylePathAndModels = [];
+
+        for(var i = 0; i < stylesheets.length; i++)
+        {
+            var styleSheet = stylesheets[i];
+            stylePathAndModels.push
+            (
+                {
+                    path : styleSheet.href != null ? styleSheet.href : document.baseURI,
+                    model:  this._getStyleSheetModel(styleSheet)
+                }
+            );
+        }
+
+        return stylePathAndModels;
+    },
+
+    _getStyleSheetModel: function(styleSheet)
+    {
+        if(styleSheet == null) { return {}; }
+
+        var model = { rules: [] };
+
+        try
+        {
+            var cssRules = styleSheet.cssRules;
+
+            for(var i = 0; i < cssRules.length; i++)
+            {
+                var cssRule = cssRules[i];
+                model.rules.push
+                (
+                    {
+                        selector: cssRule.selectorText,
+                        cssText: cssRule.cssText,
+                        declarations: this._getStyleDeclarations(cssRule)
+                    }
+                );
+            }
+        }
+        catch(e)
+        {
+            CU.reportError("Error when getting stylesheet model: " + e);
+        }
+
+        return model;
+    },
+
+    _getStyleDeclarations: function(cssRule)
+    {
+        var declarations = {};
+
+        try
+        {
+            //type == 1 for styles, so far we don't care about others
+            if(cssRule == null || cssRule.style == null || cssRule.type != 1) { return declarations;}
+
+            var style = cssRule.style;
+
+            for(var i = 0; i < style.length; i++)
+            {
+                var key = style[i];
+                declarations[key] = style[key];
+
+                if(declarations[key] == null)
+                {
+                    if(key == "float")
+                    {
+                        declarations[key] = style["cssFloat"];
+                    }
+                    else
+                    {
+                        var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
+                        declarations[key] = style[newKey];
+                    }
+                }
+
+                if(declarations[key] == null)
+                {
+                    newKey = newKey.replace("Value", "");
+                    declarations[key] = style[newKey];
+                }
+
+                if(declarations[key] == null)
+                {
+                    Cu.reportError("Unrecognized CSS Property: " + key);
+                }
+            }
+        }
+        catch(e)
+        {
+            CU.reportError("Error when getting style declarations: " + e  + " " + key + " " + newKey);
+        }
+
+        return declarations;
+    },
+
+    _parseSourceCode: function(sourceCode, path, startLine)
+    {
+        Components.utils.import("resource://gre/modules/reflect.jsm");
+
+        var model = Reflect.parse(sourceCode);
+
+        if(model != null)
+        {
+            if(model.loc == null)
+            {
+                model.loc = { start: {line: startLine}, source: path};
+            }
+
+            if(model.loc.start.line != startLine)
+            {
+                model.lineAdjuster = startLine;
+            }
+            else
+            {
+                model.lineAdjuster = 0;
+            }
+
+            model.source = path;
+        }
+
+        return model;
     }
 };
 
@@ -701,6 +1054,7 @@ var Firecrow =
     _window: null,
     _iframe: null,
     _toolbox: null,
+    slicer: null,
 
     UIOpened: false,
     id: null,
@@ -739,7 +1093,13 @@ var Firecrow =
         FileHelper.createFirecrowDirs();
     },
 
-    onNavigatedAway: function onNavigatedAway(event, payload) {
+    setSlicer: function(slicer)
+    {
+        this.slicer = slicer;
+    },
+
+    onNavigatedAway: function onNavigatedAway(event, payload)
+    {
         var newWindow = payload._navPayload || payload;
         var self = this;
 
