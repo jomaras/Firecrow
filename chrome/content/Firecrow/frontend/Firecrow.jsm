@@ -134,11 +134,15 @@ FirecrowView.prototype =
             {
                 this._loadUrlInHiddenIFrame(this._getCurrentPageDocument().baseURI, false, function(window, htmlJson)
                 {
-                    htmlJson.eventTraces = selectedRecordings[0];
+                    htmlJson.eventTraces = JSON.parse(FileHelper.readFromFile(selectedRecordings[0]));
 
-                    var slicedCode = Firecrow.slicer.getSlicedCode(htmlJson, this._getSlicingCriteria(), window.document.documentElement.baseURI);
+                    window.alert(selectedFolder + "\\index.html");
 
-                    window.alert(slicedCode);
+                    FileHelper.writeToFile
+                    (
+                        selectedFolder + "\\index.html",
+                        Firecrow.slicer.getSlicedCode(htmlJson, this._getSlicingCriteria(), window.document.documentElement.baseURI)
+                    );
                 }, this);
             }
         }
