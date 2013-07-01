@@ -7002,7 +7002,7 @@
     /* Transports bindings
      * 1) key is the dataType
      * 2) the catchall symbol "*" can be used
-     * 3) selection will start with transport dataType and THEN go to "*" if needed
+     * 3) slicerMarkupSelection will start with transport dataType and THEN go to "*" if needed
      */
         transports = {},
 

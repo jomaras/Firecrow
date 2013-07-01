@@ -568,7 +568,7 @@
             }
         }
         if (opts.multiFx && opts.randomizeEffects) {
-            // munge the fxs array to make effect selection random
+            // munge the fxs array to make effect slicerMarkupSelection random
             var r1 = Math.floor(Math.random() * 20) + 30;
             for (i = 0; i < r1; i++) {
                 var r2 = Math.floor(Math.random() * opts.fxs.length);

@@ -144,7 +144,7 @@
 
                       <vbox id="sources-pane" flex="1">
                           <vbox id="editor" flex="1" collapsed="false"></vbox>
-                          <vbox id="markupBox" flex="1" collapsed="true"></vbox>
+                          <vbox id="slicerMarkupViewerElement" flex="1" collapsed="true"></vbox>
                       </vbox>
                   </vbox>
                   <splitter class="devtools-side-splitter"/>
@@ -159,7 +159,17 @@
 
 
               <tabpanel id="scenarioGeneratorTabPanel" class="tabpanel-content">
+                  <vbox flex="1" id="scenarioMarkupViewerElement">
+                  </vbox>
 
+                  <splitter class="devtools-side-splitter"/>
+
+                  <vbox id="scenariosTabBox">
+                      <div class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1">Generated scenarios</h2></div>
+                      <vbox flex="1" id="generatedScenariosContainer"/>
+                      <div class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1">Kept scenarios</h2></div>
+                      <vbox flex="1" id="keptScenariosContainer"/>
+                  </vbox>
               </tabpanel>
 
 
@@ -184,10 +194,10 @@
           </tabpanels>
 
           <tabs id="FirecrowTabs">
-              <tab label="Slicer" style="max-width: 100px"/>
-              <tab label="Scenario Generator" style="max-width: 150px"/>
-              <tab label="Reuser" style="max-width: 100px"/>
-              <tab label="Dependency Viewer" style="max-width: 150px"/>
+              <tab label="Slicer" style="max-width: 100px" id="slicerTabButton"/>
+              <tab label="Scenario Generator" style="max-width: 150px" id="scenarioTabButton"/>
+              <tab label="Reuser" style="max-width: 100px" id="reuserTabButton"/>
+              <tab label="Dependency Viewer" style="max-width: 150px" id="dependencyViewerTabButton"/>
           </tabs>
       </tabbox>
   </box>
