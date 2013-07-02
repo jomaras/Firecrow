@@ -812,8 +812,46 @@ FirecrowView.prototype =
         this.scenarioSelection.setNode(root);
     },
 
-    onNewSelection: function SlicerPanel_onNewSelection() {},
-    onBeforeNewSelection: function SlicerPanel_onBeforeNewSelection(event, node) {},
+    _currentSelectedNode: null,
+
+    onNewSelection: function ()
+    {
+        if(this._currentSelectedNode != null)
+        {
+            this._markNodeAsDeselected(this._currentSelectedNode);
+        }
+
+        if(this.selection.node != null && this.selection.node.tagName != "HTML")
+        {
+            this._currentSelectedNode = this.selection.node;
+
+            this._markNodeAsSelected(this._currentSelectedNode);
+
+            if(this.selection != this.slicerSelection) { this.slicerSelection.setNode(this.selection.node); }
+            else { this.scenarioSelection.setNode(this.selection.node); }
+        }
+    },
+
+    onBeforeNewSelection: function () { },
+
+    _markNodeAsSelected: function(node)
+    {
+        if(node == null) { return; }
+
+        node.oldBorderStyle = node.style.borderStyle;
+        node.oldBorderColor = node.style.borderColor;
+
+        node.style.borderStyle = "dashed";
+        node.style.borderColor = "gray";
+    },
+
+    _markNodeAsDeselected: function(node)
+    {
+        if(node == null) { return; }
+
+        node.style.borderStyle = node.oldBorderStyle;
+        node.style.borderColor = node.oldBorderColor;
+    },
 
     _handleSourceCodeEvents: function()
     {
