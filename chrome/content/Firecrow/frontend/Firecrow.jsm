@@ -65,6 +65,7 @@ FirecrowView.prototype =
 {
     _jsRecorder: null,
     _slicingCriteriaMap: { DOM: {} },
+    _featureSelectorsMap: {},
     _externalFilesMap: {},
     _currentSelectedFile: null,
 
@@ -88,14 +89,21 @@ FirecrowView.prototype =
         this._slicingCriteriaList = this.$("slicingCriteriaList");
         this._existingRecordingsList = this.$("existingRecordingsList");
 
+        this._featureDescriptorContainer = this.$("featureDescriptorContainer");
+
         this._editorContainer = this.$("editor");
         this._slicerMarkupViewerElement = this.$("slicerMarkupViewerElement");
         this._slicerCodeContainer = this.$("sources-pane");
         this._scenarioMarkupViewerElement = this.$("scenarioMarkupViewerElement");
 
+        this._keptScenariosContainer = this.$("keptScenariosContainer");
+        this._generatedScenariosContainer = this.$("generatedScenariosContainer");
+
         this._setSlicingCriteriaButton = this.$("setSlicingCriteriaButton");
+        this._setFeatureSelectorButton = this.$("setFeatureSelectorButton");
         this._recordButton = this.$("recordButton");
         this._slicingButton = this.$("slicingButton");
+        this._generateScenariosButton = this.$("generateScenariosButton");
 
         this._invisibleBrowser = this.$("invisibleBrowser");
 
@@ -108,8 +116,10 @@ FirecrowView.prototype =
         this._handleSourceCodeEvents();
 
         this._setSlicingCriteriaButton.onclick = this._slicingCriteriaClick.bind(this);
+        this._setFeatureSelectorButton.onclick = this._featureSelectorClick.bind(this);
         this._recordButton.onclick = this._recordClick.bind(this);
         this._slicingButton.onclick = this._slicingClick.bind(this);
+        this._generateScenariosButton.onclick = this._generateScenariosClick.bind(this);
 
         this._slicerTabButton = this.$("slicerTabButton");
         this._scenarioTabButton = this.$("scenarioTabButton");
@@ -156,8 +166,6 @@ FirecrowView.prototype =
                 {
                     htmlJson.eventTraces = JSON.parse(FileHelper.readFromFile(selectedRecordings[0]));
 
-                    window.alert(selectedFolder + "\\index.html");
-
                     FileHelper.writeToFile
                     (
                         selectedFolder + "\\index.html",
@@ -166,6 +174,57 @@ FirecrowView.prototype =
                 }, this);
             }
         }
+    },
+
+    _generateScenariosClick: function()
+    {
+        if(this._isFeatureSelectorsMapEmpty()) { this._window.alert("Specify at least one feature selector!"); return; }
+
+        this._loadUrlInHiddenIFrame(this._getCurrentPageDocument().baseURI, false, function(window, htmlJson)
+        {
+            Firecrow.scenarioGenerator.generateScenarios(htmlJson, FBL.Firecrow.ValueTypeHelper.convertToArray(this._featureSelectorsMap), function(scenario)
+            {
+                if(scenario.length != null) { this._fillViewWithKeptScenarios(scenario); return;}
+
+                this._appendScenarioView(scenario, this._generatedScenariosContainer);
+            }.bind(this));
+        }.bind(this), this);
+    },
+
+    _fillViewWithKeptScenarios: function(scenarios)
+    {
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            this._appendScenarioView(scenarios[i], this._keptScenariosContainer);
+        }
+    },
+
+    _appendScenarioView: function(scenario, container)
+    {
+        var document = this._generatedScenariosContainer.ownerDocument;
+        var resolvedResult = scenario.inputConstraint != null ? scenario.inputConstraint.resolvedResult : {};
+        var html = "<h3><label>Scenario " + scenario.id + " - cov: " + Firecrow.scenarioGenerator.achievedCoverage + "&#37;</label></h3>";
+
+        html += "<ol start='0'>";
+
+        var events = scenario.events || {};
+
+        for(var i = 0; i < events.length; i++)
+        {
+            var event = events[i];
+
+            html += "<li><label>";
+            html += event.toString() + (resolvedResult[i] != null ? " -&gt; " + this._window.JSON.stringify(resolvedResult[i]) : "") ;
+            html += "</label></li>";
+        }
+
+        html += "</ol>";
+
+        var wrapper = document.createElement("vbox");
+        wrapper.className = "scenarioWrapperContainer";
+        wrapper.innerHTML = html;
+
+        container.appendChild(wrapper);
     },
 
     _getSlicingCriteria: function()
@@ -209,6 +268,12 @@ FirecrowView.prototype =
         }
 
         return cssSelectors;
+    },
+
+    _featureSelectorClick: function()
+    {
+        this._featureSelectorsMap[CssLogic.findCssSelector(this.scenarioSelection.node)] = true;
+        this._updateFeatureSelectorsDisplay();
     },
 
     _slicingCriteriaClick: function()
@@ -386,6 +451,13 @@ FirecrowView.prototype =
         return this._slicingCriteriaList.children.length === 0;
     },
 
+    _isFeatureSelectorsMapEmpty: function()
+    {
+        for(var prop in this._featureSelectorsMap) { return false; }
+
+        return true;
+    },
+
     _getSelectedRecordingsPaths: function()
     {
         var doc = this._existingRecordingsList.ownerDocument;
@@ -399,6 +471,36 @@ FirecrowView.prototype =
         }
 
         return paths;
+    },
+
+    _updateFeatureSelectorsDisplay: function()
+    {
+        this._clearFeatureSelectorsDisplay();
+
+        var doc = this._featureDescriptorContainer.ownerDocument;
+
+        for(var cssSelector in this._featureSelectorsMap)
+        {
+            var container = doc.createElement("div");
+            container.className = "featureSelectorContainer";
+            container.innerHTML = "<span class='deleteContainer'/><label style='margin-top:-1px'>" + cssSelector + "</label>";
+
+            this._featureDescriptorContainer.appendChild(container);
+
+            var deleteContainer = container.querySelector(".deleteContainer");
+            deleteContainer.cssSelector = cssSelector;
+
+            deleteContainer.onclick = function(e)
+            {
+                var button = e.target;
+
+                delete this._featureSelectorsMap[button.cssSelector];
+
+                button.onclick = null;
+                var buttonContainer = button.parentNode;
+                buttonContainer.parentNode.removeChild(buttonContainer);
+            }.bind(this);
+        }
     },
 
     _updateSlicingCriteriaDisplay: function()
@@ -443,8 +545,8 @@ FirecrowView.prototype =
 
         container.className = "slicingCriteriaElement";
 
-        container.innerHTML = "<span class='deleteSlicingCriteriaContainer'/><label>" + summary + "</label>";
-        var deleteButtonContainer = container.querySelector(".deleteSlicingCriteriaContainer");
+        container.innerHTML = "<span class='deleteContainer'/><label>" + summary + "</label>";
+        var deleteButtonContainer = container.querySelector(".deleteContainer");
 
         deleteButtonContainer.firstPropertyId = firstPropertyId;
         deleteButtonContainer.secondPropertyId = secondPropertyId;
@@ -481,7 +583,7 @@ FirecrowView.prototype =
         var titleContainer = doc.createElement("div");
 
         var deleteRecordingContainer = doc.createElement("span");
-        deleteRecordingContainer.className = "deleteRecordingContainer";
+        deleteRecordingContainer.className = "deleteContainer";
         titleContainer.appendChild(deleteRecordingContainer);
 
         var checkbox = doc.createElement("checkbox");
@@ -508,7 +610,7 @@ FirecrowView.prototype =
             container.appendChild(itemElement);
         }
 
-        var deleteButtonContainer = container.querySelector(".deleteRecordingContainer");
+        var deleteButtonContainer = container.querySelector(".deleteContainer");
 
         deleteButtonContainer.filePath = recordingInfo.path;
         deleteButtonContainer.recordingInfo = container.textContent;
@@ -557,9 +659,21 @@ FirecrowView.prototype =
         return name.substring(0, name.indexOf("."));
     },
 
+    _clearFeatureSelectorsDisplay: function()
+    {
+        var deleteButtons = this._featureDescriptorContainer.querySelectorAll(".deleteContainer");
+
+        for(var i = 0; i < deleteButtons.length; i++)
+        {
+            deleteButtons[i].onclick = null;
+        }
+
+        this._featureDescriptorContainer.innerHTML = "";
+    },
+
     _clearSlicingCriteriaDisplay: function()
     {
-        var deleteButtons = this._slicingCriteriaList.querySelectorAll(".deleteSlicingCriteriaContainer");
+        var deleteButtons = this._slicingCriteriaList.querySelectorAll(".deleteContainer");
 
         for(var i = 0; i < deleteButtons.length; i++)
         {
@@ -571,7 +685,7 @@ FirecrowView.prototype =
 
     _clearRecordingInfoDisplay: function()
     {
-        var deleteButtons = this._existingRecordingsList.querySelectorAll(".deleteRecordingContainer");
+        var deleteButtons = this._existingRecordingsList.querySelectorAll(".deleteContainer");
 
         for(var i = 0; i < deleteButtons.length; i++)
         {
@@ -1129,6 +1243,7 @@ var Firecrow =
     _iframe: null,
     _toolbox: null,
     slicer: null,
+    scenarioGenerator: null,
 
     UIOpened: false,
     id: null,
@@ -1170,6 +1285,11 @@ var Firecrow =
     setSlicer: function(slicer)
     {
         this.slicer = slicer;
+    },
+
+    setScenarioGenerator: function(scenarioGenerator)
+    {
+        this.scenarioGenerator = scenarioGenerator;
     },
 
     onNavigatedAway: function onNavigatedAway(event, payload)

@@ -28,7 +28,10 @@
 
     <script src="chrome://Firecrow/content/scenarioGenerator/Event.js"></script>
     <script src="chrome://Firecrow/content/scenarioGenerator/Scenario.js"></script>
+    <script src="chrome://Firecrow/content/scenarioGenerator/ScenarioCollection.js"></script>
+    <script src="chrome://Firecrow/content/scenarioGenerator/ScenarioBrowserHelper.js"></script>
     <script src="chrome://Firecrow/content/scenarioGenerator/ScenarioGenerator.js"></script>
+    <script src="chrome://Firecrow/content/scenarioGenerator/SeleniumCodeGenerator.js"></script>
 
     <script src="chrome://Firecrow/content/scenarioGenerator/symbolic/NumberRange.js"></script>
     <script src="chrome://Firecrow/content/scenarioGenerator/symbolic/StringConstraint.js"></script>
@@ -107,6 +110,7 @@
     <script>
         Components.utils.import("chrome://Firecrow/content/frontend/Firecrow.jsm");
         Firecrow.setSlicer(FBL.Firecrow.Slicer);
+        Firecrow.setScenarioGenerator(FBL.Firecrow.ScenarioGenerator.ScenarioGenerator);
     </script>
 
   <box id="FirecrowContent" flex="1" class="devtools-responsive-container">
@@ -129,7 +133,7 @@
                                   </menupopup>
                               </menulist>
 
-                              <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Set as slicing criteria" disabled="false" id="setSlicingCriteriaButton"/>
+                              <toolbarbutton class="devtools-toolbarbutton featureSelectorButton" tooltiptext="Set as slicing criteria" disabled="false" id="setSlicingCriteriaButton"/>
                               <toolbarbutton type="menu-button" class="devtools-toolbarbutton" tooltiptext="Record Execution" id="recordButton">
                                   <menupopup>
                                       <radiogroup id="recordOptions">
@@ -159,7 +163,14 @@
 
 
               <tabpanel id="scenarioGeneratorTabPanel" class="tabpanel-content">
-                  <vbox flex="1" id="scenarioMarkupViewerElement">
+                  <vbox flex="1">
+                      <hbox class="devtools-toolbar">
+                          <toolbarbutton class="devtools-toolbarbutton featureSelectorButton" tooltiptext="Set as feature descriptor" disabled="false" id="setFeatureSelectorButton"/>
+                          <toolbarbutton class="devtools-toolbarbutton gearsButton" tooltiptext="Generate Scenarios" disabled="false" id="generateScenariosButton"/>
+                          <label style="margin-top: 5px;">Feature descriptors:</label>
+                          <span style="margin-top: 5px;" id="featureDescriptorContainer"></span>
+                      </hbox>
+                      <vbox flex="1" id="scenarioMarkupViewerElement"></vbox>
                   </vbox>
 
                   <splitter class="devtools-side-splitter"/>
@@ -198,6 +209,7 @@
               <tab label="Scenario Generator" style="max-width: 150px" id="scenarioTabButton"/>
               <tab label="Reuser" style="max-width: 100px" id="reuserTabButton"/>
               <tab label="Dependency Viewer" style="max-width: 150px" id="dependencyViewerTabButton"/>
+              <tab label="" disabled="true" style="min-width:5px !important;max-width:5px !important;"/>
           </tabs>
       </tabbox>
   </box>

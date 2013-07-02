@@ -16,9 +16,14 @@
     cursor: pointer;
 }
 
-#setSlicingCriteriaButton
+.featureSelectorButton
 {
     list-style-image: url("images/setSlicingCriteria.png");
+}
+
+.gearsButton
+{
+    list-style-image: url("images/gears.png");
 }
 
 #slicingButton
@@ -31,7 +36,7 @@
     font-weight: normal;
     font-size: 8pt;
     line-height: 1.6;
-    width: 15px;
+    width: 34px;
 }
 
 #recordButton[checked] {
@@ -59,7 +64,7 @@
     border-color: #1BA2CC;
 }
 
-.deleteSlicingCriteriaContainer, .deleteRecordingContainer
+.deleteContainer
 {
     background-image: url("images/delete.png");
     width: 16px;
@@ -80,6 +85,7 @@
 .devtools-toolbarbutton[open],
 .devtools-toolbarbutton:not([open]):hover:active{
   padding: 1px 6px !important;
+  min-width: 34px;
 }
 
 #FirecrowTabContainer
@@ -99,6 +105,12 @@
     width: 220px;
     max-width: 250px;
     min-width: 200px;
+}
+
+#scenariosTabBox
+{
+    min-width: 300px;
+    max-width: 500px;
 }
 
 #slicingCriteriaList
@@ -416,7 +428,7 @@ tab
 }
 
 .devtools-toolbarbutton[label] {
-  min-width: 32px !important;
+  min-width: 34px !important;
   padding: 1px 6px !important;
   font-weight: bold;
   font-size: 14px;
