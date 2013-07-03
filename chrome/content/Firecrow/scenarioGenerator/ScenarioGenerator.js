@@ -27,7 +27,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
     generateAdditionalTimingEvents: true,
 
-    generateScenarios: function(pageModel, uiControlsSelectors, scenarioExecutedCallback)
+    generateScenarios: function(pageModel, uiControlsSelectors, scenarioExecutedCallback, scenariosSubsumedCallback)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
 
@@ -49,7 +49,7 @@ fcScenarioGenerator.ScenarioGenerator =
         {
             if(currentScenario == null || that.processedScenarioCounter >= that.scenarioProcessingLimit || that.achievedCoverage == 1)
             {
-                scenarioExecutedCallback(that.scenarios.getSubsumedProcessedScenarios());
+                scenariosSubsumedCallback(that.scenarios.getSubsumedProcessedScenarios());
                 return;
             }
 

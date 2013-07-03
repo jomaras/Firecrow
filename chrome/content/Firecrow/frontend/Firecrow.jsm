@@ -178,12 +178,19 @@ FirecrowView.prototype =
 
         FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
         {
-            Firecrow.scenarioGenerator.generateScenarios(htmlJson, FBL.Firecrow.ValueTypeHelper.convertToArray(this._featureSelectorsMap), function(scenario)
-            {
-                if(scenario.length != null) { this._fillViewWithKeptScenarios(scenario); return;}
-
-                this._appendScenarioView(scenario, this._generatedScenariosContainer);
-            }.bind(this));
+            Firecrow.scenarioGenerator.generateScenarios
+            (
+                htmlJson,
+                FBL.Firecrow.ValueTypeHelper.convertToArray(this._featureSelectorsMap),
+                function(scenario)
+                {
+                    this._appendScenarioView(scenario, this._generatedScenariosContainer);
+                }.bind(this),
+                function(scenarios)
+                {
+                    this._fillViewWithKeptScenarios(scenarios);
+                }.bind(this)
+            );
         }.bind(this));
     },
 

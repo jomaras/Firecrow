@@ -195,11 +195,26 @@
 
         var scGenerator = FBL.Firecrow.ScenarioGenerator;
 
-        scGenerator.ScenarioGenerator.generateScenarios(model.pageModel, uiControlsSelectors, function(scenario, eventCoverage)
-        {
-            if(FBL.Firecrow.ValueTypeHelper.isArray(scenario))
+        scGenerator.ScenarioGenerator.generateScenarios
+        (
+            model.pageModel,
+            uiControlsSelectors,
+            function(scenario)
             {
-                var usageScenarios = scenario;
+
+                elapsedTimeTitle.textContent = scenarioCounter
+                        + " - Time: " + timer.getElapsedTimeInSeconds()
+                        + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec"
+                        + " Coverage: " + scGenerator.ScenarioGenerator.achievedCoverage;
+                lastTime = timer.getElapsedTimeInSeconds();
+                document.title = scenarioCounter + "/" + scGenerator.ScenarioGenerator.scenarioProcessingLimit + " "
+                        + "C:" + scGenerator.ScenarioGenerator.achievedCoverage.toString().substring(0, 4) + " "
+                        + "T:" + (timer.getElapsedTimeInSeconds() - lastTime);
+
+                generateScenarioHtml(scenario);
+            },
+            function(usageScenarios)
+            {
                 var coverage = FBL.Firecrow.ASTHelper.calculateCoverage(model.pageModel);
                 executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + coverage.expressionCoverage *100  + "%</b>";
                 keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + coverage.expressionCoverage *100 + "%</b>";
@@ -222,20 +237,7 @@
 
                 document.title += " Fin!";
             }
-            else
-            {
-                elapsedTimeTitle.textContent = scenarioCounter
-                                            + " - Time: " + timer.getElapsedTimeInSeconds()
-                                            + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec"
-                                            + " Coverage: " + scGenerator.ScenarioGenerator.achievedCoverage;
-                lastTime = timer.getElapsedTimeInSeconds();
-                document.title = scenarioCounter + "/" + scGenerator.ScenarioGenerator.scenarioProcessingLimit + " "
-                               + "C:" + scGenerator.ScenarioGenerator.achievedCoverage.toString().substring(0, 4) + " "
-                               + "T:" + (timer.getElapsedTimeInSeconds() - lastTime);
-
-                generateScenarioHtml(scenario);
-            }
-        });
+        );
 
         function generateScenarioHtml(scenario)
         {
