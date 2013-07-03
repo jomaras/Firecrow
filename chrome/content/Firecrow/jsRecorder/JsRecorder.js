@@ -7,19 +7,6 @@ var CU = Components.utils;
 var fbHelper = Firecrow.fbHelper;
 var htmlHelper = Firecrow.htmlHelper;
 
-if(fbHelper == null || htmlHelper == null)
-{
-    var scriptLoader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
-
-    var importedScope = {};
-
-    scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/fbHelper.js", importedScope, "UTF-8");
-    scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/fbHelper.js", importedScope, "UTF-8");
-
-    fbHelper = importedScope.FbHelper;
-    htmlHelper = importedScope.HtmlHelper;
-}
-
 Firecrow.JsRecorder = function ()
 {
     this.jsDebugger = CC["@mozilla.org/js/jsd/debugger-service;1"].getService(CI.jsdIDebuggerService);
@@ -27,7 +14,6 @@ Firecrow.JsRecorder = function ()
     this.executionTrace = [];
 
     var that = this;
-    this.myFilePathCache = [];
 
     this.startProfiling = function(scriptsToTrack)
     {
@@ -54,9 +40,8 @@ Firecrow.JsRecorder = function ()
         this.isRecording = true;
     }
 
-    this.start = function(scriptsToTrack, elementToTrackXPath)
+    this.start = function(scriptsToTrack)
     {
-        this.elementToTrackXPath = elementToTrackXPath;
         try
         {
             if(this.jsDebugger == null) { CU.reportError("Error: jsDebugger is null when trying to start"); return; }
@@ -115,7 +100,7 @@ Firecrow.JsRecorder = function ()
 
                             if(firstArgument == null)
                             {
-                                var propArray = {}, length = {};
+                                propArray = {}, length = {};
                                 frame.callee.getProperties(propArray, length);
                                 var calleeProperties = propArray.value;
 
@@ -225,131 +210,8 @@ Firecrow.JsRecorder = function ()
         return url != null ? url.replace(/file:\/\/\//, "file:/") : "";
     };
 
-    this.getProfilingSummary = function()
-    {
-       var executionTrace = this.resultExecutionTrace;
-       var summary = {pcNum:0};
-       for(var i = 0, length = executionTrace.length; i < length; i++)
-       {
-           var trace = executionTrace[i];
-           var file = trace.file;
-           var pc = trace.pc;
-           var line = trace.line;
-
-           if(summary[file] == null) { summary[file] = {}; }
-           summary[file][line] = 1;
-           summary.pcNum++;
-       }
-        var pcNum;
-        var noExecutedLines = 0
-
-        for(var prop in summary)
-        {
-            if(prop == "pcNum") { pcNum = summary[prop];}
-            else
-            {
-                //is fileName
-                var fileSummary = summary[prop];
-
-                for(var line in fileSummary)
-                {
-                    noExecutedLines++;
-                }
-            }
-        }
-
-        return "NoExecutedLine: " + noExecutedLines + "\n" + "PcNum: " + pcNum;
-    };
-
     this.getExecutionTrace = function() { return this.resultExecutionTrace; };
 
-    this.getEventTrace = function()
-    {
-        return this.resultExecutionTrace;
-    };
-
-    this.getExecutionSummary = function()
-    {
-        if(this.resultExecutionTrace == null || this.resultExecutionTrace.length == 0) { return {}; }
-
-        var executionSummary = [];
-        var files = [];
-
-        for(var i = 0; i < this.resultExecutionTrace.length; i++)
-        {
-            var lastExecutionTrace = i > 0 ? this.resultExecutionTrace[i - 1] : null;
-            var currentExecutionTrace = this.resultExecutionTrace[i];
-
-            if(!this.filePathAllreadyExists(files, currentExecutionTrace.filePath))
-            {
-                files.push({filePath : currentExecutionTrace.filePath});
-            }
-
-            if(lastExecutionTrace == null
-            || lastExecutionTrace.filePath != currentExecutionTrace.filePath)
-            {
-                executionSummary.push
-                (
-                    {
-                        filePath: currentExecutionTrace.filePath,
-                        lines : []
-                    }
-                );
-            }
-
-            if(executionSummary.length == 0) { continue; }
-
-            var lastSummary = executionSummary[executionSummary.length - 1];
-
-            if(lastSummary != null)
-            {
-                lastSummary.lines.push
-                (
-                    {
-                        lnNum: currentExecutionTrace.line,
-                        thisVal: currentExecutionTrace.thisValue,
-                        args: currentExecutionTrace.args,
-                        isIntrExec: currentExecutionTrace.isInterestingExecution
-                    }
-                );
-            }
-        }
-
-        var currentWebPagePath = fbHelper.getCurrentUrl().replace("file:///", "file:/");
-
-        if(!this.filePathAllreadyExists(files, currentWebPagePath))
-        {
-            files.push(
-            {
-                filePath: currentWebPagePath,
-                model: Firebug.FirecrowModule.htmlJson
-            });
-        }
-        else
-        {
-            files.forEach(function(file)
-            {
-                if(file.filePath == currentWebPagePath)
-                {
-                    file.model = Firebug.FirecrowModule.htmlJson;
-                }
-            });
-        }
-
-        fbHelper.getScriptPaths().forEach(function(script)
-        {
-            script = script.replace("file:///", "file:/");
-            if(!this.filePathAllreadyExists(files, script))
-            {
-                files.push({filePath : script});
-            }
-        }, this);
-
-        return {
-            files: files,
-            executionSummary : executionSummary
-        };
-    };
 
     this.getCurrentInputStates = function(element)
     {
@@ -381,19 +243,6 @@ Firecrow.JsRecorder = function ()
 
         return inputStates;
     }
-
-    /********* UTILS ********************/
-    this.filePathAllreadyExists = function(files, filePath)
-    {
-        for(var i = 0; i < files.length; i++)
-        {
-            var currentFilePath = files[i].filePath;
-
-            if(currentFilePath == filePath) { return true; }
-        }
-
-        return false;
-    };
 };
 /*************************************************************************************/
 }});

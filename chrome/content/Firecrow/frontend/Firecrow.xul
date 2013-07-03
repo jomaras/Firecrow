@@ -20,7 +20,6 @@
     <script src="chrome://Firecrow/content/helpers/ASTHelper.js"></script>
     <script src="chrome://Firecrow/content/helpers/htmlHelper.js"></script>
     <script src="chrome://Firecrow/content/helpers/FileHelper.js"></script>
-    <script src="chrome://Firecrow/content/helpers/fbHelper.js"></script>
     <script src="chrome://Firecrow/content/jsRecorder/JsRecorder.js"></script>
 
     <script src="chrome://Firecrow/content/helpers/UriHelper.js"></script>
@@ -114,7 +113,7 @@
     </script>
 
   <box id="FirecrowContent" flex="1" class="devtools-responsive-container">
-      <browser id="invisibleBrowser" collapsed="true"/>
+      <browser id="invisibleBrowser" collapsed="true" type="content"/>
       <vbox hidden="false" height="0" collapsed="true">
           <iframe type="content" src="" name="fdHiddenIFrame" hidden="false" id="fdHiddenIFrame" height="0"/>
       </vbox>

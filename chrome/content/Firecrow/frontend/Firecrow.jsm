@@ -9,6 +9,7 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
 Cu.import("resource:///modules/source-editor.jsm");
 Cu.import("resource:///modules/devtools/CssLogic.jsm");
+Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 
 XPCOMUtils.defineLazyModuleGetter(this, "MarkupView", "resource:///modules/devtools/MarkupView.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "Selection", "resource:///modules/devtools/Selection.jsm");
@@ -16,24 +17,24 @@ XPCOMUtils.defineLazyModuleGetter(this, "Selection", "resource:///modules/devtoo
 var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
 
 scriptLoader.loadSubScript("chrome://Firecrow/content/initFBL.js", this, "UTF-8");
-scriptLoader.loadSubScript("chrome://Firecrow/content/parsers/CssSelectorParser.js", this, "UTF-8");
 scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/valueTypeHelper.js", this, "UTF-8");
 scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/ASTHelper.js", this, "UTF-8");
 scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/htmlHelper.js", this, "UTF-8");
 scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/FileHelper.js", this, "UTF-8");
-scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/fbHelper.js", this, "UTF-8");
 scriptLoader.loadSubScript("chrome://Firecrow/content/jsRecorder/JsRecorder.js", this, "UTF-8");
 
 var HTML = "http://www.w3.org/1999/xhtml";
 
 var FileHelper = FBL.Firecrow.FileHelper;
-var FbHelper = FBL.Firecrow.fbHelper;
 var HtmlHelper = FBL.Firecrow.htmlHelper;
 var JsRecorder = FBL.Firecrow.JsRecorder;
 
 function FirecrowView(window, aIframe)
 {
     this._window = window;
+
+    FireDataAccess.reset(window, HtmlHelper);
+
     var gBrowser = this._window.gBrowser;
     this._iframe = aIframe;
     var ownerDocument = gBrowser.parentNode.ownerDocument;
@@ -81,8 +82,6 @@ FirecrowView.prototype =
 
         this._hiddenIFrame = this.$("fdHiddenIFrame");
 
-        this._mainContainerContent = this.$("mainContainerContent");
-        this._slicerMainContainer = this.$("slicerMainContainer");
         this._sourcesMenuPopup = this.$("sourcesMenuPopup");
         this._sourcesMenuList = this.$("sourcesMenuList");
 
@@ -93,7 +92,6 @@ FirecrowView.prototype =
 
         this._editorContainer = this.$("editor");
         this._slicerMarkupViewerElement = this.$("slicerMarkupViewerElement");
-        this._slicerCodeContainer = this.$("sources-pane");
         this._scenarioMarkupViewerElement = this.$("scenarioMarkupViewerElement");
 
         this._keptScenariosContainer = this.$("keptScenariosContainer");
@@ -105,7 +103,7 @@ FirecrowView.prototype =
         this._slicingButton = this.$("slicingButton");
         this._generateScenariosButton = this.$("generateScenariosButton");
 
-        this._invisibleBrowser = this.$("invisibleBrowser");
+        FireDataAccess.setBrowser(this.$("invisibleBrowser"));
 
         this._recordOptionsElement = this.$("recordOptions");
 
@@ -128,8 +126,6 @@ FirecrowView.prototype =
         this._scenarioTabButton.onclick = this._scenarioTabClick.bind(this);
 
         this._updateCurrentRecordings();
-
-        this._sourceCodeLoadedInInvisibleBrowser = this._sourceCodeLoadedInInvisibleBrowser.bind(this);
     },
 
     emit: function(){}, //For selection
@@ -162,7 +158,7 @@ FirecrowView.prototype =
 
             if(selectedFolder)
             {
-                this._loadUrlInHiddenIFrame(this._getCurrentPageDocument().baseURI, false, function(window, htmlJson)
+                FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
                 {
                     htmlJson.eventTraces = JSON.parse(FileHelper.readFromFile(selectedRecordings[0]));
 
@@ -171,7 +167,7 @@ FirecrowView.prototype =
                         selectedFolder + "\\index.html",
                         Firecrow.slicer.getSlicedCode(htmlJson, this._getSlicingCriteria(), window.document.documentElement.baseURI)
                     );
-                }, this);
+                }.bind(this));
             }
         }
     },
@@ -180,7 +176,7 @@ FirecrowView.prototype =
     {
         if(this._isFeatureSelectorsMapEmpty()) { this._window.alert("Specify at least one feature selector!"); return; }
 
-        this._loadUrlInHiddenIFrame(this._getCurrentPageDocument().baseURI, false, function(window, htmlJson)
+        FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
         {
             Firecrow.scenarioGenerator.generateScenarios(htmlJson, FBL.Firecrow.ValueTypeHelper.convertToArray(this._featureSelectorsMap), function(scenario)
             {
@@ -188,7 +184,7 @@ FirecrowView.prototype =
 
                 this._appendScenarioView(scenario, this._generatedScenariosContainer);
             }.bind(this));
-        }.bind(this), this);
+        }.bind(this));
     },
 
     _fillViewWithKeptScenarios: function(scenarios)
@@ -308,13 +304,15 @@ FirecrowView.prototype =
     {
         this._jsRecorder = new JsRecorder();
 
+        var scriptNamesAndPaths = FireDataAccess.getContentScriptNameAndPaths(this._getCurrentPageDocument());
+
         if(this._recordOptionsElement.value == "All")
         {
-            this._jsRecorder.startProfiling(this._getContentScriptNameAndPaths());
+            this._jsRecorder.startProfiling(scriptNamesAndPaths);
         }
         else
         {
-            this._jsRecorder.start(this._getContentScriptNameAndPaths());
+            this._jsRecorder.start(scriptNamesAndPaths);
         }
     },
 
@@ -340,10 +338,11 @@ FirecrowView.prototype =
     rebuild: function(newWindow)
     {
         this._slicingCriteriaMap = { DOM: {} };
-        this._externalFilesMap = {};
+
         this._currentSelectedFile = null;
 
         this._window = newWindow;
+        FireDataAccess.reset(newWindow, HtmlHelper);
 
         this._clearSourceSelectionMenu();
         this._createSourceSelectionMenu();
@@ -384,7 +383,7 @@ FirecrowView.prototype =
 
     _createSourceSelectionMenu: function()
     {
-        var scriptNameAndPaths = this._getContentScriptNameAndPaths();
+        var scriptNameAndPaths = FireDataAccess.getContentScriptNameAndPaths(this._getCurrentPageDocument());
 
         for(var i = 0; i < scriptNameAndPaths.length; i++)
         {
@@ -522,7 +521,7 @@ FirecrowView.prototype =
             {
                 for(var line in this._slicingCriteriaMap[fileName])
                 {
-                    this._createSlicingCriteriaView(doc, "@" + (parseInt(line) + 1) + " - " + this._getScriptName(fileName), fileName, line);
+                    this._createSlicingCriteriaView(doc, "@" + (parseInt(line) + 1) + " - " + FireDataAccess.getScriptName(fileName), fileName, line);
                 }
             }
         }
@@ -860,21 +859,22 @@ FirecrowView.prototype =
             if(this._sourcesMenuList.selectedItem == null) { return; }
 
             this._currentSelectedFile = this._sourcesMenuList.selectedItem.value;
+            var currentContent = FireDataAccess.getFileContent(this._currentSelectedFile);
 
-            if(this._externalFilesMap[this._currentSelectedFile] == null)
+            if(currentContent != null)
             {
-                this._cacheExternalFileContent(this._sourcesMenuList.selectedItem.value, function()
+                this.editor.setText(currentContent);
+                this._showExistingBreakpoints();
+            }
+            else
+            {
+                FireDataAccess.cacheExternalFileContent(this._sourcesMenuList.selectedItem.value, function()
                 {
-                    this.editor.setText(this._externalFilesMap[this._currentSelectedFile]);
+                    this.editor.setText(FireDataAccess.getFileContent(this._currentSelectedFile));
                     this._showExistingBreakpoints();
                 }.bind(this));
 
                 this.editor.setText("---- LOADING SOURCE CODE ----");
-            }
-            else
-            {
-                this.editor.setText(this._externalFilesMap[this._currentSelectedFile]);
-                this._showExistingBreakpoints();
             }
 
             if(this._sourcesMenuList.selectedItem.label.startsWith("DOM - "))
@@ -895,36 +895,6 @@ FirecrowView.prototype =
                 this._showSourceEditor();
             }
         }.bind(this));
-    },
-
-    _pathSourceLoadedCallbackMap: { },
-
-    _cacheExternalFileContent: function(path, finishedCallback)
-    {
-        if(this._externalFilesMap[path]) { finishedCallback && finishedCallback(); return; }
-
-        this._pathSourceLoadedCallbackMap[path] = { finishedCallback: finishedCallback, failCallbackId: this._window.setTimeout(function()
-        {
-            this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";
-            this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
-        }.bind(this), 500)};
-
-        this._invisibleBrowser.addEventListener("DOMContentLoaded", this._sourceCodeLoadedInInvisibleBrowser);
-        this._invisibleBrowser.setAttribute("src", "view-source:" + path);
-    },
-
-    _sourceCodeLoadedInInvisibleBrowser: function()
-    {
-        var path = this._invisibleBrowser.contentDocument.baseURI.replace("view-source:", "");
-
-        this._window.clearTimeout(this._pathSourceLoadedCallbackMap[path].failCallbackId);
-
-        this._invisibleBrowser.removeEventListener("DOMContentLoaded", this._sourceCodeLoadedInInvisibleBrowser);
-
-        this._externalFilesMap[path] = this._invisibleBrowser.contentDocument.getElementById('viewsource').textContent;
-
-        this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
-        this._pathSourceLoadedCallbackMap[path] = null;
     },
 
     _showSourceEditor: function()
@@ -974,302 +944,6 @@ FirecrowView.prototype =
     _getCurrentPageDocument: function()
     {
         return this._window.content.document;
-    },
-
-    _getContentScriptNameAndPaths: function()
-    {
-        var scriptPaths = [];
-        var document = this._getCurrentPageDocument();
-
-        scriptPaths.push({name: "* - " + this._getScriptName(document.baseURI), path: document.baseURI });
-        scriptPaths.push({name: "DOM - " + this._getScriptName(document.baseURI), path: document.baseURI });
-
-        var scriptElements = document.querySelectorAll("script");
-
-        for(var i = 0; i < scriptElements.length; i++)
-        {
-            var src = scriptElements[i].src;
-
-            if(src != "")
-            {
-                scriptPaths.push({name: this._getScriptName(src), path: src });
-            }
-        }
-
-        return scriptPaths;
-    },
-
-    _getScriptName: function(url)
-    {
-        if(!url) { return ""; }
-
-        var lastIndexOfSlash = url.lastIndexOf("/");
-
-        if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
-
-        lastIndexOfSlash = url.lastIndexOf("\\");
-
-        if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
-
-        return url;
-    },
-
-    _loadUrlInHiddenIFrame: function(url, allowJavaScript, callbackFunction, thisObject)
-    {
-        try
-        {
-            this._hiddenIFrame.style.height = "0px";
-            this._hiddenIFrame.webNavigation.allowAuth = true;
-            this._hiddenIFrame.webNavigation.allowImages = false;
-            this._hiddenIFrame.webNavigation.allowJavascript = allowJavaScript;
-            this._hiddenIFrame.webNavigation.allowMetaRedirects = true;
-            this._hiddenIFrame.webNavigation.allowPlugins = false;
-            this._hiddenIFrame.webNavigation.allowSubframes = false;
-
-            this._hiddenIFrame.addEventListener("DOMContentLoaded", function listener(e)
-            {
-                try
-                {
-                    var document = e.originalTarget.wrappedJSObject;
-
-                    this._hiddenIFrame.removeEventListener("DOMContentLoaded", listener, true);
-
-                    this._cacheAllExternalFilesContent(document, function()
-                    {
-                        var htmlJson = HtmlHelper.serializeToHtmlJSON
-                        (
-                            document,
-                            this._getScriptsPathsAndModels(document),
-                            this._getStylesPathsAndModels(document)
-                        );
-
-                        callbackFunction.call(thisObject, document.defaultView, htmlJson);
-                    }.bind(this));
-                }
-                catch(e) { Cu.reportError("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
-            }.bind(this), true);
-
-            this._hiddenIFrame.webNavigation.loadURI(url, Ci.nsIWebNavigation, null, null, null);
-        }
-        catch(e) { Cu.reportError("Loading html in iFrame errror: " + e); }
-    },
-
-    _cacheAllExternalFilesContent: function(document, allFinishedCallback)
-    {
-        var externalFileElements = this._getExternalFileElements(document);
-        externalFileElements.push({src: document.baseURI});
-        var processedFiles = 0;
-
-        for(var i = 0; i < externalFileElements.length; i++)
-        {
-            this._cacheExternalFileContent(externalFileElements[i].src || externalFileElements[i].href, function()
-            {
-                processedFiles++;
-
-                if(processedFiles == externalFileElements.length) { allFinishedCallback(); }
-            });
-        }
-    },
-
-    _getExternalFileElements: function(document)
-    {
-        var potentialExternalElements = document.querySelectorAll("script, link");
-        var externalElements = [];
-
-        for(var i = 0; i < potentialExternalElements.length; i++)
-        {
-            var element = potentialExternalElements[i];
-
-            if(element.tagName == "SCRIPT" && element.src != "")
-            {
-                externalElements.push(element)
-            }
-            else if(element.tagName == "LINK" && element.rel == "stylesheet" && element.href != "")
-            {
-                externalElements.push(element);
-            }
-        }
-
-        return externalElements;
-    },
-
-    _getScriptsPathsAndModels: function(document)
-    {
-        var scripts = document.getElementsByTagName("script");
-        var scriptPathsAndModels = [];
-
-        var currentPageContent = this._externalFilesMap[document.baseURI];
-        currentPageContent = currentPageContent.replace(/(\r)?\n/g, "\n");
-
-        var currentScriptIndex = 0;
-
-        for(var i = 0; i < scripts.length; i++)
-        {
-            var script = scripts[i];
-
-            if(script.src != "")
-            {
-                scriptPathsAndModels.push
-                ({
-                    path: script.src,
-                    model: this._parseSourceCode(this._externalFilesMap[script.src], script.src, 1)
-                });
-            }
-            else
-            {
-                scriptPathsAndModels.push
-                ({
-                    path: script.src,
-                    model: this._parseSourceCode
-                    (
-                        script.textContent,
-                        script.baseURI,
-                        (function()
-                        {
-                            var code = script.textContent.replace(/(\r)?\n/g, "\n");
-                            var scriptStringIndex = currentPageContent.indexOf(code, currentScriptIndex);
-
-                            if(scriptStringIndex == null || scriptStringIndex == -1) { return -1; }
-                            else
-                            {
-                                currentScriptIndex = scriptStringIndex + code.length;
-                                return currentPageContent.substring(0, scriptStringIndex).split("\n").length;
-                            }
-                        })()
-                    )
-                });
-            }
-        }
-
-        return scriptPathsAndModels;
-    },
-
-    _getStylesPathsAndModels: function(document)
-    {
-        var stylesheets = document.styleSheets;
-        var stylePathAndModels = [];
-
-        for(var i = 0; i < stylesheets.length; i++)
-        {
-            var styleSheet = stylesheets[i];
-            stylePathAndModels.push
-            (
-                {
-                    path : styleSheet.href != null ? styleSheet.href : document.baseURI,
-                    model:  this._getStyleSheetModel(styleSheet)
-                }
-            );
-        }
-
-        return stylePathAndModels;
-    },
-
-    _getStyleSheetModel: function(styleSheet)
-    {
-        if(styleSheet == null) { return {}; }
-
-        var model = { rules: [] };
-
-        try
-        {
-            var cssRules = styleSheet.cssRules;
-
-            for(var i = 0; i < cssRules.length; i++)
-            {
-                var cssRule = cssRules[i];
-                model.rules.push
-                (
-                    {
-                        selector: cssRule.selectorText,
-                        cssText: cssRule.cssText,
-                        declarations: this._getStyleDeclarations(cssRule)
-                    }
-                );
-            }
-        }
-        catch(e)
-        {
-            CU.reportError("Error when getting stylesheet model: " + e);
-        }
-
-        return model;
-    },
-
-    _getStyleDeclarations: function(cssRule)
-    {
-        var declarations = {};
-
-        try
-        {
-            //type == 1 for styles, so far we don't care about others
-            if(cssRule == null || cssRule.style == null || cssRule.type != 1) { return declarations;}
-
-            var style = cssRule.style;
-
-            for(var i = 0; i < style.length; i++)
-            {
-                var key = style[i];
-                declarations[key] = style[key];
-
-                if(declarations[key] == null)
-                {
-                    if(key == "float")
-                    {
-                        declarations[key] = style["cssFloat"];
-                    }
-                    else
-                    {
-                        var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
-                        declarations[key] = style[newKey];
-                    }
-                }
-
-                if(declarations[key] == null)
-                {
-                    newKey = newKey.replace("Value", "");
-                    declarations[key] = style[newKey];
-                }
-
-                if(declarations[key] == null)
-                {
-                    Cu.reportError("Unrecognized CSS Property: " + key);
-                }
-            }
-        }
-        catch(e)
-        {
-            CU.reportError("Error when getting style declarations: " + e  + " " + key + " " + newKey);
-        }
-
-        return declarations;
-    },
-
-    _parseSourceCode: function(sourceCode, path, startLine)
-    {
-        Components.utils.import("resource://gre/modules/reflect.jsm");
-
-        var model = Reflect.parse(sourceCode);
-
-        if(model != null)
-        {
-            if(model.loc == null)
-            {
-                model.loc = { start: {line: startLine}, source: path};
-            }
-
-            if(model.loc.start.line != startLine)
-            {
-                model.lineAdjuster = startLine;
-            }
-            else
-            {
-                model.lineAdjuster = 0;
-            }
-
-            model.source = path;
-        }
-
-        return model;
     }
 };
 
@@ -1291,31 +965,32 @@ var Firecrow =
 
     init: function GUI_init(aCallback, aIframe, aToolbox)
     {
-        Firecrow.callback = aCallback;
+        this.callback = aCallback;
 
-        Firecrow._iframe = aIframe;
-        Firecrow._toolbox = aToolbox;
+        this._iframe = aIframe;
+        this._toolbox = aToolbox;
 
-        if (Firecrow._toolbox)
+        if (this._toolbox)
         {
             this._target = aToolbox._target;
-            Firecrow._window = Firecrow._toolbox._target.tab.ownerDocument.defaultView;
+            this._window = Firecrow._toolbox._target.tab.ownerDocument.defaultView;
+            this.aTab = aToolbox._target.tab;
         }
         else
         {
-            Firecrow._window = Services.wm.getMostRecentWindow("navigator:browser");
+            this._window = Services.wm.getMostRecentWindow("navigator:browser");
         }
 
-        Firecrow._window.addEventListener("unload", Firecrow.destroy, false);
-        if (!Firecrow.id)
+        this._window.addEventListener("unload", Firecrow.destroy, false);
+        if (!this.id)
         {
-            Firecrow.id = "Firecrow-ui-" + Date.now();
+            this.id = "Firecrow-ui-" + Date.now();
         }
 
         this.onNavigatedAway = this.onNavigatedAway.bind(this);
         this._target.on("navigate", this.onNavigatedAway);
 
-        Firecrow._view = new FirecrowView(Firecrow._window, aIframe);
+        this._view = new FirecrowView(Firecrow._window, aIframe);
 
         FileHelper.createFirecrowDirs();
     },

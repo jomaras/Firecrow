@@ -26,6 +26,7 @@ function FirecrowPanel(iframeWindow, toolbox, callback)
     this.callback = callback;
 
     this.window = toolbox._target.tab.ownerDocument.defaultView;
+    this.aTab = toolbox._target.tab;
     var parentDoc = iframeWindow.document.defaultView.parent.document;
     var iframe = parentDoc.getElementById("toolbox-panel-iframe-Firecrow");
 

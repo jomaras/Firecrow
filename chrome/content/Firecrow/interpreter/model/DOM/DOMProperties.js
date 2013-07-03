@@ -13,7 +13,7 @@ fcModel.DOM_PROPERTIES =
         [
             "async", "characterSet", "compatMode", "contentType",
             "cookie", "designMode", "dir", "documentURI", "domain",
-            "inputEncoding", "lastModified", "lastStyleSheetSet",
+            "lastModified", "lastStyleSheetSet",
             "mozSyntheticDocument", "mozFullScreen", "mozFullScreenEnabled",
             "preferredStyleSheetSet", "readyState", "referrer", "selectedStyleSheetSet",
             "title", "URL", "vlinkColor"

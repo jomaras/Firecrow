@@ -99,33 +99,6 @@ Firecrow.htmlHelper =
         }
     },
 
-    getTextNodesBeforeScriptElements: function()
-    {
-        var allNodes = this.getAllNodes(Firecrow.fbHelper.getCurrentPageDocument());
-
-        var scriptPreviousTextNodesMapping =  [];
-        var previousTextNodes = [];
-
-        allNodes.forEach(function (currentNode)
-        {
-            if(currentNode.nodeType == 3)
-            {
-                previousTextNodes.push(currentNode);
-            }
-
-            if(currentNode.tagName == "SCRIPT")
-            {
-                scriptPreviousTextNodesMapping.push
-                ({
-                    scriptElement: currentNode,
-                    previousTextNodes: Firecrow.ValueTypeHelper.createArrayCopy(previousTextNodes)
-                })
-            }
-        });
-
-        return scriptPreviousTextNodesMapping;
-    },
-
     getAllNodes: function(rootElement)
     {
         var allNodes = [];
@@ -161,7 +134,7 @@ Firecrow.htmlHelper =
                 (
                     {
                         name: currentAttribute.name,
-                        value: currentAttribute.nodeValue
+                        value: currentAttribute.value
                     }
                 );
             }
