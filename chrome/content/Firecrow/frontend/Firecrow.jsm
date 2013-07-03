@@ -605,7 +605,7 @@ FirecrowView.prototype =
             var itemElement = doc.createElement("div");
             itemElement.className = "eventRecordingElement";
 
-            itemElement.textContent = recordingInfos[i].args.type + " on " + recordingInfos[i].thisValue.xPath + "; ";
+            itemElement.innerHTML = "<label>" + recordingInfos[i].args.type + " on " + recordingInfos[i].thisValue.xPath + "; </label>";
 
             container.appendChild(itemElement);
         }
