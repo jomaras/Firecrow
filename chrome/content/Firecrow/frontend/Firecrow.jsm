@@ -206,7 +206,7 @@ FirecrowView.prototype =
     {
         var document = this._generatedScenariosContainer.ownerDocument;
         var resolvedResult = scenario.inputConstraint != null ? scenario.inputConstraint.resolvedResult : {};
-        var html = "<h3><label>Scenario " + scenario.id + " - cov: " + Firecrow.scenarioGenerator.achievedCoverage + "&#37;</label></h3>";
+        var html = "<h3><label>Scenario " + scenario.id + " - cov: " + Firecrow.scenarioGenerator.achievedCoverage + "</label></h3>";
 
         html += "<ol start='0'>";
 

@@ -97,13 +97,13 @@ fcScenarioGenerator.ScenarioGenerator =
 
         while(scenario != null)
         {
-            scenarioExecutedCallback != null && scenarioExecutedCallback(scenario);
-
             executionResultsScenarios.push
             ({
                scenario: scenario,
                executionResult: this._executeScenario(pageModel, scenario)
             });
+
+            scenarioExecutedCallback != null && scenarioExecutedCallback(scenario);
 
             this.processedScenarioCounter++;
 

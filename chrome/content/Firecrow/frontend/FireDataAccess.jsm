@@ -104,7 +104,10 @@ var FireDataAccess =
     {
         var path = this._browser.contentDocument.baseURI.replace("view-source:", "");
 
-        this._window.clearTimeout(this._pathSourceLoadedCallbackMap[path].failCallbackId);
+        if(this._pathSourceLoadedCallbackMap[path] != null)
+        {
+            this._window.clearTimeout(this._pathSourceLoadedCallbackMap[path].failCallbackId);
+        }
 
         this._browser.removeEventListener("DOMContentLoaded", this._sourceCodeLoadedInBrowser);
 
@@ -252,6 +255,10 @@ var FireDataAccess =
             for(var i = 0; i < style.length; i++)
             {
                 var key = style[i];
+
+                if(key.indexOf("-value")) { key = key.replace("-value", ""); }
+                if(key.indexOf("-ltr") != -1 || key.indexOf("-rtl") != -1) { continue; }
+
                 declarations[key] = style[key];
 
                 if(declarations[key] == null)
@@ -263,6 +270,7 @@ var FireDataAccess =
                     else
                     {
                         var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
+
                         declarations[key] = style[newKey];
                     }
                 }
