@@ -1,0 +1,43 @@
+<html>
+    <head>
+         <style>
+             #mainContainer
+             {
+                 background-color: red;
+                 width: 400px;
+                 height: 400px;
+             }
+             #loadingContainer
+             {
+                 width: 200px;
+                 height: 200px;
+             }
+         </style>
+    </head>
+
+    <body>
+        <div id="mainContainer"></div>
+        <button id="button">Click me</button>
+        <div id="loadingContainer"></div>
+        <script>
+            var button = document.getElementById("button");
+            var mainContainer = document.getElementById("mainContainer");
+
+            sendAjaxRequest("ajax.php?loading=true", mainContainer);
+
+            function sendAjaxRequest(url, container)
+            {
+                var xmlHttp = new XMLHttpRequest();
+
+                xmlHttp.open("GET", url, false);
+                xmlHttp.send();
+
+                if(xmlHttp.status == 200)
+                {
+                    container.textContent += "SYNC LOAD: " + xmlHttp.responseText;
+                }
+            }
+        </script>
+
+    </body>
+</html>

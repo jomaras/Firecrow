@@ -1,0 +1,58 @@
+<html>
+    <head>
+         <style>
+             #mainContainer
+             {
+                 background-color: red;
+                 width: 400px;
+                 height: 400px;
+             }
+             #loadingContainer
+             {
+                 width: 200px;
+                 height: 200px;
+             }
+         </style>
+    </head>
+
+    <body>
+        <div id="mainContainer"></div>
+        <button id="button">Click me</button>
+        <div id="loadingContainer"></div>
+        <script>
+            var button = document.getElementById("button");
+            var mainContainer = document.getElementById("mainContainer");
+
+            sendAjaxRequest("ajax.php?loading=true", mainContainer);
+
+            function sendAjaxRequest(url, container)
+            {
+                var xmlHttp = new XMLHttpRequest();
+
+                xmlHttp.onreadystatechange = function()
+                {
+                    if(xmlHttp.readyState == 1)
+                    {
+                        container.textContent += xmlHttp.responseText + " 1111; ";
+                    }
+                    else if(xmlHttp.readyState == 2)
+                    {
+                        container.textContent += xmlHttp.responseText + " 2222; ";
+                    }
+                    else if(xmlHttp.readyState == 3)
+                    {
+                        container.textContent += xmlHttp.responseText + " 3333; ";
+                    }
+                    else if (xmlHttp.readyState == 4)
+                    {
+                        container.textContent += xmlHttp.responseText + " 44444; ";
+                    }
+                }
+
+                xmlHttp.open("GET", url,true);
+                xmlHttp.send();
+            }
+        </script>
+
+    </body>
+</html>

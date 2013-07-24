@@ -150,14 +150,14 @@ fcModel.XMLHttpRequestExecutor =
                     this.notifyError("Unknown method on XMLHttpRequest object: " + functionName);
             }
         }
-        catch(e) {this.notifyError("Error when executing internal XMLHttpRequest method: " + e); }
+        catch(e) { this.notifyError("Error when executing internal XMLHttpRequest method: " + e); }
     },
 
     _updateOpenParameters: function(fcThisValue, nativeArgs, callExpression)
     {
         fcThisValue.method = nativeArgs[0] || "GET";
         fcThisValue.url = nativeArgs[1] || "";
-        fcThisValue.async = nativeArgs[2] || true;
+        fcThisValue.async = nativeArgs[2];
         fcThisValue.user = nativeArgs[3] || "";
         fcThisValue.password = nativeArgs[4] || "";
 
@@ -195,7 +195,7 @@ fcModel.XMLHttpRequestExecutor =
         }
     },
 
-    notifyError: function(message) { Firecrow.Interpreter.Model.XMLHttpRequest.notifyError(message);}
+    notifyError: function(message) { debugger; Firecrow.Interpreter.Model.XMLHttpRequest.notifyError(message);}
 };
 /*************************************************************************************/
 }});
