@@ -1,0 +1,64 @@
+<html>
+<head>
+    <style>
+        #mainContainer
+        {
+            background-color: red;
+            width: 400px;
+            height: 400px;
+        }
+        #loadingContainer
+        {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<button id="button">Click me</button>
+<div id="loadingContainer"></div>
+<script>
+    var button = document.getElementById("button");
+    var mainContainer = document.getElementById("mainContainer");
+
+    button.onclick = function()
+    {
+        mainContainer.textContent += "Loading by AJAX; ";
+        sendAjaxRequest("ajax.php?click=true", loadingContainer);
+    };
+
+    sendAjaxRequest("ajax.php?loading=true", mainContainer);
+
+    function sendAjaxRequest(url, container)
+    {
+        var xmlHttp = new XMLHttpRequest();
+
+        xmlHttp.onreadystatechange = function()
+        {
+            if(xmlHttp.readyState == 1)
+            {
+                container.textContent += xmlHttp.responseText + " 1; ";
+            }
+            else if(xmlHttp.readyState == 2)
+            {
+                container.textContent += xmlHttp.responseText + " 2; ";
+            }
+            else if(xmlHttp.readyState == 3)
+            {
+                container.textContent += xmlHttp.responseText + " 3; ";
+            }
+            else if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            {
+                container.textContent += xmlHttp.responseText + "; ";
+            }
+        }
+
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send();
+    };
+</script>
+
+</body>
+</html>

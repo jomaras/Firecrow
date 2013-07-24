@@ -100,6 +100,13 @@ Firecrow.ValueTypeHelper =
         return variable instanceof RegExp || (variable.constructor && variable.constructor.name == "RegExp");
     },
 
+    isXMLHttpRequest: function(variable)
+    {
+        if(variable == null) { return false; }
+
+        return variable instanceof XMLHttpRequest || (variable.constructor && variable.constructor.name == "XMLHttpRequest");
+    },
+
     isBoolean: function(variable)
     {
         if (this.isNull(variable)) { return false; }

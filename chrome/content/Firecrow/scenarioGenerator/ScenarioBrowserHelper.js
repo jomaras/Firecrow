@@ -45,25 +45,16 @@ fcScenarioGenerator.ScenarioBrowserHelper =
 
     getMatchingEventRegistration: function(browser, thisObjectModel, registrationConstruct)
     {
-        var intervalHandlers = browser.globalObject.intervalHandlers;
-        for(var i = 0; i < intervalHandlers.length; i++)
+        var handlers = browser.globalObject.intervalHandlers.concat(browser.globalObject.timeoutHandlers)
+                                                            .concat(browser.globalObject.ajaxHandlers);
+
+        for(var i = 0; i < handlers.length; i++)
         {
-            var intervalHandler = intervalHandlers[i];
+            var handler = handlers[i];
 
-            if(intervalHandler.registrationConstruct == registrationConstruct)
+            if(handler.registrationConstruct == registrationConstruct)
             {
-                return intervalHandler;
-            }
-        }
-
-        var timeoutHandlers = browser.globalObject.timeoutHandlers;
-        for(var i = 0; i < timeoutHandlers.length; i++)
-        {
-            var timeoutHandler = timeoutHandlers[i];
-
-            if(timeoutHandler.registrationConstruct == registrationConstruct)
-            {
-                return timeoutHandler;
+                return handler;
             }
         }
 

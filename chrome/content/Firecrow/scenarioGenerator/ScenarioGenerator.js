@@ -69,6 +69,7 @@ fcScenarioGenerator.ScenarioGenerator =
     _executeApplication: function(pageModel)
     {
         var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
+        browser.url = pageModel.pageUrl;
 
         browser.registerSlicingCriteria(this.slicingCriteria);
 
@@ -612,7 +613,8 @@ fcScenarioGenerator.ScenarioGenerator =
 
     _getEventPriority: function(eventRegistration, browser)
     {
-        if(eventRegistration.thisObjectDescriptor == "window" || eventRegistration.thisObjectDescriptor == "document")
+        if(eventRegistration.thisObjectDescriptor == "window" || eventRegistration.thisObjectDescriptor == "document"
+        || eventRegistration.thisObjectDescriptor.indexOf("ajax") == 0)
         {
             return this.globalObjectEventPriority;
         }

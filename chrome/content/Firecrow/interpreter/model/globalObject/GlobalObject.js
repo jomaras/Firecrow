@@ -142,10 +142,36 @@ fcModel.GlobalObject.prototype.unregisterTimeout = function(timeoutId, codeConst
     }
 };
 
+fcModel.GlobalObject.prototype.registerAjaxEvent = function(baseObject, handler, registrationPoint)
+{
+    this.ajaxHandlers.push
+    ({
+        thisObject: baseObject,
+        ajaxObject: baseObject,
+        handler: handler,
+        registrationPoint: registrationPoint,
+        registrationConstruct: registrationPoint.codeConstruct,
+        handlerConstruct: handler.codeConstruct,
+        eventType: "onreadystatechange",
+        thisObjectDescriptor: "ajax",
+        thisObjectModel: "ajax"
+    });
+
+    this.browser.executionInfo.logEventRegistered
+    (
+        "ajax",
+        "ajax",
+        "onreadystatechange",
+        registrationPoint.codeConstruct,
+        handler.codeConstruct,
+        this.browser.loadingEventsExecuted
+    );
+},
+
 fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, timePeriod, callArguments, registrationPoint)
 {
-    this.intervalHandlers.push(
-    {
+    this.intervalHandlers.push
+    ({
         intervalId: intervalId,
         handler: handler,
         timePeriod: timePeriod,
@@ -290,7 +316,7 @@ fcModel.GlobalObject.prototype.logForInIteration = function(codeConstruct, objec
 
 fcModel.GlobalObject.prototype.getLoadedHandlers = function()
 {
-    return this.getDOMContentLoadedHandlers().concat(this.getOnLoadFunctions());
+    return this.getDOMContentLoadedHandlers().concat(this.getOnLoadFunctions()).concat(this.ajaxHandlers);
 };
 
 fcModel.GlobalObject.prototype.simpleDependencyEstablished = function(fromConstruct, toConstruct)
@@ -528,6 +554,9 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
     this.regExPrototype = new fcModel.RegExPrototype(this);
     this.fcRegExPrototype = new fcModel.fcValue(RegExp.prototype, this.regExPrototype, null);
 
+    this.xmlHttpRequestPrototype = new fcModel.XMLHttpRequestPrototype(this);
+    this.fcXMLHttpRequestPrototype = new fcModel.fcValue(XMLHttpRequest.prototype, this.xmlHttpRequestPrototype, null);
+
     this.stringPrototype = new fcModel.StringPrototype(this);
     this.fcStringPrototype = new fcModel.fcValue(String.prototype, this.stringPrototype, null);
 
@@ -560,7 +589,7 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
         this.objectPrototype, this.functionPrototype, this.booleanPrototype,
         this.arrayPrototype, this.regExPrototype, this.stringPrototype,
         this.numberPrototype, this.datePrototype, this.htmlImageElementPrototype,
-        this.elementPrototype, this.canvasPrototype
+        this.elementPrototype, this.canvasPrototype, this.xmlHttpRequestPrototype
     ];
 };
 
@@ -582,6 +611,9 @@ fcModel.GlobalObject.prototype._deleteInternalPrototypes = function ()
 
     delete this.regExPrototype;
     delete this.fcRegExPrototype;
+
+    delete this.xmlHttpRequestPrototype;
+    delete this.fcXMLHttpRequestPrototype;
 
     delete this.stringPrototype;
     delete this.fcStringPrototype;
@@ -762,6 +794,7 @@ fcModel.GlobalObject.prototype._createHandlerMaps = function()
 {
     this.eventHandlerPropertiesMap = {};
     this.htmlElementEventHandlingRegistrations = [];
+    this.ajaxHandlers = [];
 
     this.timeoutHandlers = [];
     this.intervalHandlers = [];
@@ -770,6 +803,7 @@ fcModel.GlobalObject.prototype._deleteHandlerMaps = function()
 {
     delete this.eventHandlerPropertiesMap;
     delete this.htmlElementEventHandlingRegistrations;
+    delete this.ajaxHandlers;
 
     delete this.timeoutHandlers;
     delete this.intervalHandlers;

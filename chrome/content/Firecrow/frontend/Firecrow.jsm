@@ -101,6 +101,7 @@ FirecrowView.prototype =
         this._setFeatureSelectorButton = this.$("setFeatureSelectorButton");
         this._recordButton = this.$("recordButton");
         this._slicingButton = this.$("slicingButton");
+        this._saveModelButton = this.$("saveModelButton");
         this._generateScenariosButton = this.$("generateScenariosButton");
 
         FireDataAccess.setBrowser(this.$("invisibleBrowser"));
@@ -117,6 +118,7 @@ FirecrowView.prototype =
         this._setFeatureSelectorButton.onclick = this._featureSelectorClick.bind(this);
         this._recordButton.onclick = this._recordClick.bind(this);
         this._slicingButton.onclick = this._slicingClick.bind(this);
+        this._saveModelButton.onclick = this._saveModelClick.bind(this);
         this._generateScenariosButton.onclick = this._generateScenariosClick.bind(this);
 
         this._slicerTabButton = this.$("slicerTabButton");
@@ -172,6 +174,19 @@ FirecrowView.prototype =
         }
     },
 
+    _saveModelClick: function()
+    {
+        var selectedFolder = this._openSelectFolderDialog();
+
+        if(selectedFolder)
+        {
+            FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
+            {
+                FileHelper.writeToFile(selectedFolder + "\\model.json", JSON.stringify(htmlJson));
+            }.bind(this));
+        }
+    },
+
     _generateScenariosClick: function()
     {
         if(this._isFeatureSelectorsMapEmpty()) { this._window.alert("Specify at least one feature selector!"); return; }
@@ -217,7 +232,7 @@ FirecrowView.prototype =
             var event = events[i];
 
             html += "<li><label>";
-            html += event.toString() + (resolvedResult[i] != null ? " -&gt; " + this._window.JSON.stringify(resolvedResult[i]) : "") ;
+            html += event.toString() + (resolvedResult[i] != null ? " -&gt; " + JSON.stringify(resolvedResult[i]) : "") ;
             html += "</label></li>";
         }
 

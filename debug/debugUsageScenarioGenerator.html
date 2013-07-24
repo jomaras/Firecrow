@@ -93,7 +93,6 @@
 
     <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
 
-    <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/ExecutionInfo.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
@@ -171,9 +170,9 @@
     <script type="text/javascript">
         //TODO - test 37 is not executed twice
         //6- does not cover everything, gets stuck extending
-        var model = models[37];
+        var model = models[38];
         //var model = fullPageModel;
-        var uiControlsSelectors = model.uiControlsSelectors;
+        var uiControlsSelectors = model.uiControlsSelectors || ["*"];
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
         var executedScenarioTracesContainer = document.getElementById("executedScenarioTracesContainer");

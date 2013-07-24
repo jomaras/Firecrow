@@ -83,6 +83,7 @@ fcSimulator.InternalExecutor.prototype =
         return new fcModel.fcValue(regEx, new fcModel.RegEx(regEx, this.globalObject, creationConstruct), creationConstruct);
     },
 
+
     createString: function(creationConstruct, string)
     {
         return new fcModel.fcValue(string, new fcModel.String(string, this.globalObject, creationConstruct, false), creationConstruct);
@@ -231,6 +232,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (thisObject == this.globalObject.fcObjectFunction) { return fcModel.ObjectExecutor.executeInternalObjectFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
             else if (ValueTypeHelper.isString(thisObject.jsValue)) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, args, callExpression, callCommand); }
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.RegEx) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, args, callExpression); }
+            else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.XMLHttpRequest) { return fcModel.XMLHttpRequestExecutor.executeInternalXmlHttpRequestMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject == this.globalObject.jsFcDocument){ return fcModel.DocumentExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression);}
             else if (ValueTypeHelper.isHtmlElement(thisObject.jsValue) || ValueTypeHelper.isDocumentFragment(thisObject.jsValue)) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue.constructor == fcModel.CSSStyleDeclaration) { return fcModel.CSSStyleDeclarationExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
@@ -308,7 +310,7 @@ fcSimulator.InternalExecutor.prototype =
         else if (internalConstructor.iValue == this.globalObject.objectFunction) { return fcModel.ObjectExecutor.executeInternalConstructor(constructorConstruct, args, this.globalObject);}
         else if (internalConstructor.iValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeInternalConstructor(constructorConstruct, args, this.globalObject); }
         else if (internalConstructor.iValue == this.globalObject.imageFunction) { return this._createImageObject(constructorConstruct); }
-        else if (internalConstructor.iValue == this.globalObject.xmlHttpRequestFunction) { return this._createEmptyObject(constructorConstruct); }
+        else if (internalConstructor.iValue == this.globalObject.xmlHttpRequestFunction) { return this._createXMLHttpRequestObject(constructorConstruct, new XMLHttpRequest()); }
         else
         {
             this.notifyError("Unhandled internal constructor" + constructorConstruct.loc.start.line);
@@ -321,6 +323,11 @@ fcSimulator.InternalExecutor.prototype =
         return fcModel.HtmlElementExecutor.wrapToFcElement(new Image(), this.globalObject, constructorConstruct);
     },
 
+    _createXMLHttpRequestObject: function(creationConstruct, xmlHttpRequest)
+    {
+        return new fcModel.fcValue(xmlHttpRequest, new fcModel.XMLHttpRequest(xmlHttpRequest, this.globalObject, creationConstruct), creationConstruct);
+    },
+
     _createEmptyObject: function(constructorConstruct)
     {
         var obj = {};
@@ -331,8 +338,8 @@ fcSimulator.InternalExecutor.prototype =
     {
         var ownerObject = functionObject.iValue.ownerObject;
 
-             if(ownerObject == this.globalObject.arrayPrototype) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
-        else if(ownerObject == this.globalObject.regExPrototype) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, args, callExpression); }
+             if (ownerObject == this.globalObject.arrayPrototype) { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
+        else if (ownerObject == this.globalObject.regExPrototype) { return fcModel.RegExExecutor.executeInternalRegExMethod(thisObject, functionObject, args, callExpression); }
         else if (ownerObject == this.globalObject.math) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
         else if (ownerObject == this.globalObject.objectPrototype) { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (ownerObject == this.globalObject.stringPrototype) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, args, callExpression, callCommand); }

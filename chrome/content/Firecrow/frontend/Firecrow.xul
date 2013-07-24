@@ -20,6 +20,7 @@
     <script src="chrome://Firecrow/content/helpers/ASTHelper.js"></script>
     <script src="chrome://Firecrow/content/helpers/htmlHelper.js"></script>
     <script src="chrome://Firecrow/content/helpers/FileHelper.js"></script>
+    <script src="chrome://Firecrow/content/helpers/RequestHelper.js"></script>
     <script src="chrome://Firecrow/content/jsRecorder/JsRecorder.js"></script>
 
     <script src="chrome://Firecrow/content/helpers/UriHelper.js"></script>
@@ -142,6 +143,7 @@
                                   </menupopup>
                               </toolbarbutton>
                               <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Slice" disabled="false" id="slicingButton"/>
+                              <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model" disabled="false" id="saveModelButton"/>
                           </hbox>
                       </toolbar>
 

@@ -109,7 +109,9 @@ Browser.prototype = dummy =
 
     getEventRegistrations: function()
     {
-        return this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers).concat(this.globalObject.htmlElementEventHandlingRegistrations);
+        return this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers)
+                                                .concat(this.globalObject.htmlElementEventHandlingRegistrations)
+                                                .concat(this.globalObject.ajaxHandlers);
     },
 
     setLoadingEventsExecuted: function()
@@ -133,6 +135,11 @@ Browser.prototype = dummy =
                 registrationPoint: eventInfo.registrationPoint
             }
         );
+
+        if(eventInfo.eventType == "onreadystatechange")
+        {
+            eventInfo.thisObject.updateToNext();
+        }
     },
 
     _clearHostDocument: function()

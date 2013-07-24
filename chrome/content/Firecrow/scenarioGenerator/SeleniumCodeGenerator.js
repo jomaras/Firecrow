@@ -65,6 +65,7 @@ FBL.ns(function() { with (FBL) {
                     {
                         code += this.getWaitingCode();
                     }
+                    else if(eventType == "onreadystatechange") {}
                     else
                     {
                         debugger;

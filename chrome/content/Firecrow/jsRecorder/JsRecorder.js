@@ -98,6 +98,8 @@ Firecrow.JsRecorder = function ()
 
                             var firstArgument = args != null ? args[0] : null;
 
+                            CU.reportError("Event processed: ");
+
                             if(firstArgument == null)
                             {
                                 propArray = {}, length = {};

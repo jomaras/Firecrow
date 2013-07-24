@@ -31,6 +31,11 @@
     list-style-image: url("images/slicing.png");
 }
 
+#saveModelButton
+{
+    list-style-image: url("images/saveModel.png");
+}
+
 #recordButton
 {
     font-weight: normal;
@@ -116,15 +121,17 @@
 #slicingCriteriaList
 {
     padding: 2px;
-    height: 100px;
-    max-height: 100px;
     overflow: auto;
+    min-height: 100px;
 }
 
 #existingRecordingsList
 {
     overflow: auto;
     padding: 2px;
+    max-height: 50%;
+    min-height: 50%;
+    min-height: 100px;
 }
 
 .eventRecordingElement
@@ -974,5 +981,12 @@ tab
 
 #generatedScenariosContainer
 {
-    max-height: 150px;
+    min-height: 100px;
+    overflow: auto;
+}
+
+#keptScenariosContainer
+{
+    min-height: 100px;
+    overflow: auto;
 }
