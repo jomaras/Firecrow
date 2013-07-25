@@ -371,6 +371,12 @@ FirecrowView.prototype =
         this._currentSelectedFile = null;
 
         this._window = newWindow;
+
+        if(FireDataAccess == null)
+        {
+            this._window.alert("Error when rebuilding, can not access FireDataAccess");
+        }
+
         FireDataAccess.reset(newWindow, HtmlHelper);
 
         this._clearSourceSelectionMenu();

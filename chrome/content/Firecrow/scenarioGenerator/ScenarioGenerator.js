@@ -11,7 +11,7 @@ fcScenarioGenerator.ScenarioGenerator =
     achievedCoverage: 0,
     achievedCoverages: [],
     scenarios: null,
-    scenarioProcessingLimit: 100,
+    scenarioProcessingLimit: 5,
     uiControlsSelectors: null,
     uiControlsJointSelector: "",
 

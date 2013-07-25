@@ -94,7 +94,7 @@ fcModel.XMLHttpRequestPrototype.CONST =
 {
     INTERNAL_PROPERTIES :
     {
-        METHODS: ["open","setRequestHeader","send", "abort", "getAllResponseHeaders"],
+        METHODS: ["open","setRequestHeader","send", "abort", "getAllResponseHeaders", "getResponseHeader"],
         PROPERTIES: ["onreadystatechange", "readyState", "response", "responseText", "responseType", "responseXML", "status", "statusText", "timeout", "upload", "withCredentials"]
     }
 };
@@ -153,6 +153,9 @@ fcModel.XMLHttpRequestExecutor =
                 case "setRequestHeader":
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     break;
+                case "getAllResponseHeaders":
+                case "getResponseHeader":
+                    return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, thisObjectValue[functionName].apply(thisObjectValue, nativeArgs));
                 default:
                     this.notifyError("Unknown method on XMLHttpRequest object: " + functionName);
             }

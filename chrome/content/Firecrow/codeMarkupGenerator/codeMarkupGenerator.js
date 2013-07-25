@@ -74,9 +74,9 @@ FBL.ns(function () { with (FBL) {
         {
             try
             {
-                if(element.type == "textNode") { return element.textContent; }
+                if(element.type == "textNode") { return element.textContent.trim() != "" ? "<span class='label'>" + element.textContent + "</span>" : ""; }
 
-                var html = '<div class="node ' + element.type + " indented" + '" id="node' + this.formatId(element.nodeId) + '">'
+                var html = '<div class="node ' + element.type + (element.type != "html" ? " indented" : "") + '" id="node' + this.formatId(element.nodeId) + '">'
                           + this.generateOpeningTags(element.type, element.attributes);
 
                 if (element.type === "script")

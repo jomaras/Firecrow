@@ -105,18 +105,38 @@
     <style>
         #pageCodeContainer
         {
-            width: 800px;
+            line-height: normal;
+            font-size: 10pt;
+            margin: 5px;
+            margin-top: 17px;
+            width: 49%;
+        }
+
+        #scenarioContainer
+        {
+            width: 49%;
         }
 
         .reportContainer
         {
             float: left;
+            margin: 5px;
+            height: 400px;
+            overflow: auto;
+        }
+
+        .panel
+        {
+            background: #f2f2f2;
+            border: solid 1px #e6e6e6;
+            padding: 10px;
         }
 
         #executedScenarioTracesContainer,
         #keptScenarioTracesContainer
         {
             width: 400px;
+            margin: 5px;
         }
 
         iframe
@@ -133,46 +153,201 @@
 
         .scenarioHeader { color: blue; font-weight: bold; }
         .formulaHeader { color: red; font-weight: bold; }
+
+        .script.node > .node.htmlTag, .style.node > .node.htmlTag { cursor: pointer;}
+        body{ margin: 0; padding: 0;}
+
+        #topBar
+        {
+            background: #222;
+            min-height: 45px;
+            line-height: 45px;
+            padding: 0;
+            width: 100%;
+            position: relative;
+        }
+
+        .titleSpan
+        {
+            color: white;
+            font-size: 13pt;
+            padding-left: 10px;
+        }
+
+        #frameContainer
+        {
+            width: 98%;
+            margin: 10px;
+        }
+
+        ul.tabsContent
+        {
+            display: block;
+            margin: 0 0 20px;
+            padding: 0;
+            list-style: none;
+            overflow: auto;
+            font-size: 11pt;
+        }
+
+        ul.tabsContent>li.activeTab
+        {
+            display: block;
+        }
+
+        ul.tabsContent>li
+        {
+            display: none;
+        }
+
+        .tabs
+        {
+            list-style: none;
+            border-bottom: solid 1px #e6e6e6;
+            display: block;
+            height: 40px;
+            padding: 0;
+        }
+
+        .tabs dd:first-child, .tabs li:first-child
+        {
+            margin-left: 0;
+        }
+
+        .tabs dd.activeTab, .tabs li.activeTab
+        {
+            border-top: 3px solid #2ba6cb;
+            margin-top: -2px;
+        }
+
+        .tabs dd, .tabs li
+        {
+            display: block;
+            float: left;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tabs dd.activeTab a, .tabs li.activeTab a {
+            cursor: default;
+            color: #3c3c3c;
+            background: #fff;
+            border-left: 1px solid #e6e6e6;
+            border-right: 1px solid #e6e6e6;
+            font-weight: bold;
+        }
+        .tabs dd a, .tabs li a {
+            color: #6f6f6f;
+            display: block;
+            font-size: 12px;
+            height: 40px;
+            line-height: 40px;
+            padding: 0px 10px;
+        }
+
+        .button.radius {
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px;
+            border-radius: 3px;
+        }
+
+        .button.medium {
+            font-size: 14px;
+        }
+
+        .button {
+            width: auto;
+            background: #2ba6cb;
+            border: 1px solid #1e728c;
+            -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
+            -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
+            box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1;
+            margin: 0;
+            padding: 10px 20px 11px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            -webkit-transition: background-color 0.15s ease-in-out;
+            -moz-transition: background-color 0.15s ease-in-out;
+            -o-transition: background-color 0.15s ease-in-out;
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .right { float: right; }
+        .left { float: left; }
+
+        #scriptPathInputs label { margin: 5px;}
     </style>
 </head>
 <body>
-    <h1>Firecrow - Debugging Usage Scenario Generator</h1>
-    <iframe id="firecrowFrame" height="300" width="300" style="overflow:scroll;"></iframe>
-
-    <div class="reportContainer" id="pageCodeContainer"></div>
-    <div class="reportContainer">
-        <h2 id="executedScenariosTitle">Executed scenarios: </h2>
-        <h4 id="elapsedTimeTitle"></h4>
-        <div style="font-weight: bolder;">
-            <div id="statementCoverageTitle"></div>
-            <div id="branchCoverageTitle"></div>
-        </div>
-        <hr/>
-
-        <div id="executedScenarioTracesContainer"></div>
-        <br/><br/>
-
-        <h2 id="keptScenarioTitle">Kept scenarios: </h2>
-        <div id="keptScenarioTracesContainer">
-
-        </div>
-        <br/><br/>
-
-        <h2>Selenium Code: </h2>
-        <textarea style="width: 400px; min-height: 400px;" id="seleniumCodeContainer"></textarea>
-
+    <div id="topBar">
+        <span class="titleSpan">Firecrow - Debugging Usage Scenario Generator</span>
+        <input class="medium radius button right" type="button" value="Run" id="runButton" style="margin: 5px;">
     </div>
 
+    <div class="panel">
+        <div>Measure coverage of: </div>
+        <div id="scriptPathInputs">
+        </div>
+    </div>
+
+    <div style="width:1200px; margin-left: auto; margin-right: auto;">
+        <div class="reportContainer" id="pageCodeContainer"></div>
+        <div class="reportContainer" id="scenarioContainer">
+            <dl class="tabs">
+                <dd id="showAllScenariosTab" class="activeTab"><a href="#">All Scenarios</a></dd>
+                <dd id="showKeptScenariosTab" class=""><a href="#">Kept Scenarios</a></dd>
+                <dd id="showSeleniumCodeTab" class=""><a href="#">Selenium Code</a></dd>
+            </dl>
+
+            <ul class="tabsContent">
+                <li id="tabAllScenarios" class="activeTab">
+                    <h2 id="executedScenariosTitle">Executed scenarios: </h2>
+                    <h4 id="elapsedTimeTitle"></h4>
+                    <div style="font-weight: bolder;">
+                        <div id="statementCoverageTitle"></div>
+                        <div id="branchCoverageTitle"></div>
+                    </div>
+                    <hr/>
+                    <div id="executedScenarioTracesContainer"></div>
+                </li>
+                <li id="tabKeptScenarios">
+                    <h2 id="keptScenarioTitle">Kept scenarios: </h2>
+                    <div id="keptScenarioTracesContainer">
+                    </div>
+                </li>
+                <li id="tabSeleniumCode">
+                    <pre id="seleniumCodeContainer"></pre>
+                </li>
+            </ul>
+        </div>
+        <br/>
+        <div style="clear:both"></div>
+        <hr style="margin: 10px"/>
+        <div id="frameContainer">
+            <h2>Rendered page</h2>
+            <iframe id="firecrowFrame" height="100%" width="100%" style="overflow:auto;"></iframe>
+        </div>
+    </div>
     <!--<script src="usageScenarioGenerator/fullPages/original/snake/modelMapping.js"></script>-->
     <!--<script src="usageScenarioGenerator/fullPages/original/snake/modelMapping.js"></script>-->
     <!--<script src="usageScenarioGenerator/fullPages/original/ticTacToeCase/modelMapping.js"></script>-->
     <!--<script src="usageScenarioGenerator/fullPages/evaluationApplications/3dmodel/modelMapping.js"></script>-->
-    <script src="usageScenarioGenerator/fullPages/simplified/jQueryAjax/1-okasync/modelMapping.js"></script>
+    <!--<script src="usageScenarioGenerator/fullPages/simplified/jQueryAjax/1-okasync/modelMapping.js"></script>-->
     <script type="text/javascript">
         //TODO - test 37 is not executed twice
         //6- does not cover everything, gets stuck extending
-        //var model = models[41];
-        var model = fullPageModel;
+        var model = models[42];
+        //var model = fullPageModel;
         var uiControlsSelectors = model.uiControlsSelectors || ["*"];
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");
@@ -183,68 +358,103 @@
         var elapsedTimeTitle = document.getElementById("elapsedTimeTitle");
         var statementCoverageTitle = document.getElementById("statementCoverageTitle");
         var branchCoverageTitle = document.getElementById("branchCoverageTitle");
+        var scriptPathInputs = document.getElementById("scriptPathInputs");
+        var runButton = document.getElementById("runButton");
 
         var scenarioInfoContainer = executedScenarioTracesContainer;
 
         pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
+        handleScriptAndStyleNodeMinimize();
+
+        (function createExternalScriptCheckboxes()
+        {
+            FBL.Firecrow.ASTHelper.getScriptElements(model.pageModel.htmlElement).filter(function(scriptElement)
+            {
+                var src = FBL.Firecrow.ASTHelper.getAttributeValue(scriptElement, "src");
+                if(src != null && src != "")
+                {
+                    var inputElement = document.createElement("input");
+                    var labelElement = document.createElement("label");
+
+                    inputElement.scriptSrc = src;
+                    inputElement.type = "checkbox";
+                    inputElement.checked = true;
+
+                    var startIndex = src.lastIndexOf("/");
+                    if(startIndex == -1) { startIndex = src.lastIndexOf("\\"); }
+                    if(startIndex == -1) { startIndex = 0; }
+
+                    labelElement.appendChild(inputElement);
+                    labelElement.appendChild(document.createTextNode(src.substring(startIndex, src.length))) ;
+
+                    scriptPathInputs.appendChild(labelElement);
+                }
+            });
+        })();
 
         var scenarioCounter = 0;
-
-        var timer = new FBL.Firecrow.TimerHelper.createTimer();
-        var lastTime = 0;
-
         var scGenerator = FBL.Firecrow.ScenarioGenerator;
 
-        scGenerator.ScenarioGenerator.generateScenarios
-        (
-            model.pageModel,
-            uiControlsSelectors,
-            function(scenario)
-            {
+        runButton.onclick = function()
+        {
+            var timer = new FBL.Firecrow.TimerHelper.createTimer();
+            var lastTime = 0;
 
-                elapsedTimeTitle.textContent = scenarioCounter
-                        + " - Time: " + timer.getElapsedTimeInSeconds()
-                        + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec"
-                        + " Coverage: " + scGenerator.ScenarioGenerator.achievedCoverage;
-                lastTime = timer.getElapsedTimeInSeconds();
-                document.title = scenarioCounter + "/" + scGenerator.ScenarioGenerator.scenarioProcessingLimit + " "
-                        + "C:" + scGenerator.ScenarioGenerator.achievedCoverage.toString().substring(0, 4) + " "
-                        + "T:" + (timer.getElapsedTimeInSeconds() - lastTime);
-
-                generateScenarioHtml(scenario);
-            },
-            function(usageScenarios)
-            {
-                var coverage = FBL.Firecrow.ASTHelper.calculateCoverage(model.pageModel);
-                executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + coverage.expressionCoverage *100  + "%</b>";
-                keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + coverage.expressionCoverage *100 + "%</b>";
-                pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
-                statementCoverageTitle.textContent = "Statement coverage: " + coverage.statementCoverage*100 + "% ";
-                branchCoverageTitle.textContent = "Branch coverage: " + coverage.branchCoverage*100 + "%";
-
-                scenarioCounter = 0;
-                scenarioInfoContainer = keptScenarioTracesContainer;
-
-                setTimeout(function()
-                {
-                    usageScenarios.forEach(function(scenario)
+            scGenerator.ScenarioGenerator.generateScenarios
+            (
+                    model.pageModel,
+                    uiControlsSelectors,
+                    function(scenario)
                     {
+
+                        elapsedTimeTitle.textContent = scenarioCounter
+                                + " - Time: " + timer.getElapsedTimeInSeconds()
+                                + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec"
+                                + " Coverage: " + scGenerator.ScenarioGenerator.achievedCoverage;
+                        lastTime = timer.getElapsedTimeInSeconds();
+                        document.title = scenarioCounter + "/" + scGenerator.ScenarioGenerator.scenarioProcessingLimit + " "
+                                + "C:" + scGenerator.ScenarioGenerator.achievedCoverage.toString().substring(0, 4) + " "
+                                + "T:" + (timer.getElapsedTimeInSeconds() - lastTime);
+
                         generateScenarioHtml(scenario);
-                    });
+                    },
 
-                    document.getElementById("seleniumCodeContainer").textContent = scGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
-                }, 1000);
+                    function(usageScenarios)
+                    {
+                        var coverage = FBL.Firecrow.ASTHelper.calculateCoverage(model.pageModel);
+                        executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + coverage.expressionCoverage *100  + "%</b>";
+                        keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + coverage.expressionCoverage *100 + "%</b>";
+                        pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
+                        handleScriptAndStyleNodeMinimize();
+                        statementCoverageTitle.textContent = "Statement coverage: " + coverage.statementCoverage*100 + "% ";
+                        branchCoverageTitle.textContent = "Branch coverage: " + coverage.branchCoverage*100 + "%";
 
-                document.title += " Fin!";
-            }
-        );
+                        scenarioCounter = 0;
+                        scenarioInfoContainer = keptScenarioTracesContainer;
+
+                        setTimeout(function()
+                        {
+                            usageScenarios.forEach(function(scenario)
+                            {
+                                generateScenarioHtml(scenario);
+                            });
+
+                            document.getElementById("seleniumCodeContainer").textContent = scGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
+                        }, 1000);
+
+                        document.title += " Fin!";
+                    }
+            );
+        };
+
+
 
         function generateScenarioHtml(scenario)
         {
             var resolvedResult = scenario.inputConstraint.resolvedResult;
-            var html = "<div class='scenarioHeader'>Scenario " + scenarioCounter + " (id: " + scenario.id + ") " + scenario.createdBy +"</div>";
+            var html = "<div class='scenarioHeader'>Scenario " + scenarioCounter + " (id: " + scenario.id + ") " + (scenario.createdBy != null ? scenario.createdBy : "") +"</div>";
             var formulaString = scenario.inputConstraint != null ? (scenario.inputConstraint + " =&gt; " + JSON.stringify(resolvedResult))
-                                                                 : "undefined";
+                                                                 : "()";
 
             if(scenarioInfoContainer == executedScenarioTracesContainer)
             {
@@ -266,7 +476,7 @@
                 html += "</li>";
             }
 
-            html += "</ol>";
+            html += "</ol><br/><br/>";
 
             var wrapper = document.createElement("div");
             wrapper.className = "scenarioWrapperContainer";
@@ -278,6 +488,107 @@
 
             scenarioCounter++;
         }
+
+        function handleScriptAndStyleNodeMinimize()
+        {
+            var scriptTags = pageCodeContainer.querySelectorAll(".script.node > .node.htmlTag");
+
+            for(var i = 0; i < scriptTags.length; i++)
+            {
+                scriptTags[i].onclick = function()
+                {
+                    toggleScriptNodeVisibility(this);
+                };
+            }
+
+            var styleTags = pageCodeContainer.querySelectorAll(".style.node > .node.htmlTag");
+
+            for(var i = 0; i < styleTags.length; i++)
+            {
+                styleTags[i].onclick = function()
+                {
+                    toggleStyleNodeVisibility(this);
+                };
+            }
+        }
+
+        function toggleScriptNodeVisibility(scriptNode)
+        {
+            var jsContainer = scriptNode.parentElement.querySelector(".jsContainer");
+            if(jsContainer.style.visibility == "collapse")
+            {
+                jsContainer.style.visibility = "visible";
+                jsContainer.style.height = "auto";
+            }
+            else
+            {
+                jsContainer.style.visibility = "collapse";
+                jsContainer.style.height = 0;
+            }
+        }
+
+        function toggleStyleNodeVisibility(scriptNode)
+        {
+            var cssContainer = scriptNode.parentElement.querySelector(".cssContainer");
+            if(cssContainer.style.visibility == "collapse")
+            {
+                cssContainer.style.visibility = "visible";
+                cssContainer.style.height = "auto";
+            }
+            else
+            {
+                cssContainer.style.visibility = "collapse";
+                cssContainer.style.height = 0;
+            }
+        }
+
+        (function handleTabEvents()
+        {
+            var tabLinks = document.querySelectorAll(".tabs>dd>a");
+
+            for(var i = 0; i < tabLinks.length; i++) { tabLinks[i].onclick = function(){return false; }}
+
+            var showAllScenariosTab = document.querySelector("#showAllScenariosTab");
+            var showKeptScenariosTab = document.querySelector("#showKeptScenariosTab");
+            var showSeleniumCodeTab = document.querySelector("#showSeleniumCodeTab");
+
+            var tabAllScenarios = document.querySelector("#tabAllScenarios");
+            var tabKeptScenarios = document.querySelector("#tabKeptScenarios");
+            var tabSeleniumCode = document.querySelector("#tabSeleniumCode");
+
+            showAllScenariosTab.onclick = function()
+            {
+                this.className = "activeTab";
+                showKeptScenariosTab.className = "";
+                showSeleniumCodeTab.className = "";
+
+                tabAllScenarios.className = "activeTab";
+                tabKeptScenarios.className = "";
+                tabSeleniumCode.className = "";
+            };
+
+            showKeptScenariosTab.onclick = function()
+            {
+                this.className = "activeTab";
+                showAllScenariosTab.className = "";
+                showSeleniumCodeTab.className = "";
+
+                tabAllScenarios.className = "";
+                tabKeptScenarios.className = "activeTab";
+                tabSeleniumCode.className = "";
+            };
+
+            showSeleniumCodeTab.onclick = function()
+            {
+                this.className = "activeTab";
+                showAllScenariosTab.className = "";
+                showKeptScenariosTab.className = "";
+
+                tabAllScenarios.className = "";
+                tabKeptScenarios.className = "";
+                tabSeleniumCode.className = "activeTab";
+            };
+        })();
     </script>
 </body>
 </html>

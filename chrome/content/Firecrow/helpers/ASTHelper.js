@@ -542,6 +542,23 @@ Firecrow.ASTHelper =
         return scriptElements;
     },
 
+    getAttributeValue: function(element, attributeName)
+    {
+        if(element == null || element.attributes == null) { return null; }
+
+        var attributes = element.attributes;
+
+        for(var i = 0; i < attributes.length; i++)
+        {
+            if(attributes[i].name === attributeName)
+            {
+                return attributes[i].value;
+            }
+        }
+
+        return null;
+    },
+
     hasAttribute: function(element, key, value)
     {
         if(element == null) { return false; }

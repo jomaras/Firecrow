@@ -35,7 +35,7 @@
 .cssCharset
 {
     color: #5f9ea0;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 .cssRule
 {
@@ -44,7 +44,7 @@
 
 .BlockStatement > *
 {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 .BlockStatement > .Bracket
 {
@@ -74,7 +74,7 @@
 }
 .jsContainer
 {
-    padding-left: 20px;
+    padding-left: 10px;
 }
 .documentType
 {
@@ -82,11 +82,11 @@
 }
 .cssContainer
 {
-    padding-left: 20px;
+    padding-left: 10px;
 }
 .cssRule
 {
-    padding-left: 20px;
+    padding-left: 10px;
 }
 #lineNumberContainer
 {
@@ -174,14 +174,20 @@ body
     height: 12px;
     background-color: #5f9ea0;
 }
+
+.label
+{
+    color: black;
+}
+
 .indented
 {
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .BlockStatement > *, .IfStatement > .BlockStatement
 {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 .clearer { clear: both;}
 
