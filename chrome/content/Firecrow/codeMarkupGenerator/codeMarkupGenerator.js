@@ -209,7 +209,7 @@ FBL.ns(function () { with (FBL) {
                 }
             }
             catch(e)
-            {
+            {   debugger;
                 alert("Error while generating HTML in codeMarkupGenerator: " + e);
             }
         },

@@ -184,17 +184,29 @@ fcSimulator.prototype = dummy =
     {
         if(command.isStartTryStatementCommand())
         {
-            this.tryStack.push(command); return;
+            this.tryStack.push(command);
         }
         else if (command.isEndTryStatementCommand())
         {
-            var topCommand = this.tryStack[this.tryStack.length - 1];
-
-            if(topCommand == null || topCommand.codeConstruct != command.codeConstruct) { fcSimulator.notifyError("Error while popping try command from Stack"); return; }
-
-            this.tryStack.pop();
+            this._removeTryCommandFromStack(command);
         }
         else { fcSimulator.notifyError("Unknown command type when processing try command"); }
+    },
+
+    _removeTryCommandFromStack: function(command)
+    {
+        var topCommand = this.tryStack[this.tryStack.length - 1];
+
+        if(topCommand != null && topCommand.codeConstruct == command.codeConstruct)
+        {
+            if(topCommand.id == 20237) debugger;
+            this.tryStack.pop();
+        }
+        else if (topCommand == null || topCommand.codeConstruct != command.codeConstruct)
+        {
+            debugger;
+            fcSimulator.notifyError("No top command to remove from stack!");
+        }
     },
 
     _removeCommandsAfterReturnStatement: function(returnCommand)
@@ -205,7 +217,15 @@ fcSimulator.prototype = dummy =
         {
             var command = this.commands[i];
 
-            if(!command.isExitFunctionContextCommand() && command.parentFunctionCommand == callExpressionCommand) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
+            if(!command.isExitFunctionContextCommand() && command.parentFunctionCommand == callExpressionCommand)
+            {
+                ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+
+                if(command.isEndTryStatementCommand() && command.startCommand.hasBeenExecuted)
+                {
+                    this._removeTryCommandFromStack(command);
+                }
+            }
             else { break; }
         }
     },

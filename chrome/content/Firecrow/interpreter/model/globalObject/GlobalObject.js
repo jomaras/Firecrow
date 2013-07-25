@@ -142,8 +142,34 @@ fcModel.GlobalObject.prototype.unregisterTimeout = function(timeoutId, codeConst
     }
 };
 
+fcModel.GlobalObject.prototype.preRegisterAjaxEvent = function(baseObject, registrationPoint)
+{
+    this.ajaxPreregistrations.push({
+        baseObject: baseObject,
+        registrationPoint: registrationPoint
+    });
+};
+
+fcModel.GlobalObject.prototype.registerPreRegisteredAjaxEvents = function()
+{
+    for(var i = 0; i < this.ajaxPreregistrations.length; i++)
+    {
+        var ajaxPreregistration = this.ajaxPreregistrations[i];
+
+        this.registerAjaxEvent
+        (
+            ajaxPreregistration.baseObject,
+            ajaxPreregistration.baseObject.getPropertyValue("onreadystatechange"),
+            ajaxPreregistration.registrationPoint
+        );
+    }
+
+    this.ajaxPreregistrations = [];
+};
+
 fcModel.GlobalObject.prototype.registerAjaxEvent = function(baseObject, handler, registrationPoint)
 {
+    //the onreadystatechange property does not have to be set before the
     this.ajaxHandlers.push
     ({
         thisObject: baseObject,
@@ -166,7 +192,7 @@ fcModel.GlobalObject.prototype.registerAjaxEvent = function(baseObject, handler,
         handler.codeConstruct,
         this.browser.loadingEventsExecuted
     );
-},
+};
 
 fcModel.GlobalObject.prototype.registerInterval = function(intervalId, handler, timePeriod, callArguments, registrationPoint)
 {
@@ -794,6 +820,7 @@ fcModel.GlobalObject.prototype._createHandlerMaps = function()
 {
     this.eventHandlerPropertiesMap = {};
     this.htmlElementEventHandlingRegistrations = [];
+    this.ajaxPreregistrations = [];
     this.ajaxHandlers = [];
 
     this.timeoutHandlers = [];
@@ -804,6 +831,7 @@ fcModel.GlobalObject.prototype._deleteHandlerMaps = function()
     delete this.eventHandlerPropertiesMap;
     delete this.htmlElementEventHandlingRegistrations;
     delete this.ajaxHandlers;
+    delete this.ajaxPreregistrations;
 
     delete this.timeoutHandlers;
     delete this.intervalHandlers;

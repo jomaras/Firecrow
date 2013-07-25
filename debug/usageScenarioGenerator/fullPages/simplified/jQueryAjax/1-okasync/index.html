@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+         <style>
+             #mainContainer
+             {
+                 background-color: red;
+                 width: 400px;
+                 height: 400px;
+             }
+             #loadingContainer
+             {
+                 width: 200px;
+                 height: 200px;
+             }
+         </style>
+        <script src="jQuery.js"></script>
+    </head>
+
+    <body>
+        <div id="mainContainer"></div>
+        <button id="button">Click me</button>
+        <div id="loadingContainer"></div>
+        <script>
+            var button = document.getElementById("button");
+            var mainContainer = document.getElementById("mainContainer");
+
+            $.ajax
+            ({
+                url: "ajax.php",
+                success: function(data)
+                {
+                    mainContainer.textContent += "Success: " + data;
+                }
+            });
+        </script>
+    </body>
+</html>

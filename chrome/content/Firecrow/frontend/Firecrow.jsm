@@ -182,7 +182,14 @@ FirecrowView.prototype =
         {
             FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
             {
-                FileHelper.writeToFile(selectedFolder + "\\model.json", JSON.stringify(htmlJson));
+                FileHelper.writeToFile(selectedFolder + "\\model.json", JSON.stringify(htmlJson, function(key, value)
+                {
+                    if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+                    {
+                        return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
+                    }
+                    return value;
+                }));
             }.bind(this));
         }
     },

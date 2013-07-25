@@ -35,6 +35,9 @@
     {
         var xmlHttp = new XMLHttpRequest();
 
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send();
+
         xmlHttp.onreadystatechange = function()
         {
             if(xmlHttp.readyState == 1)
@@ -54,9 +57,6 @@
                 container.textContent += xmlHttp.responseText + "; ";
             }
         }
-
-        xmlHttp.open("GET", url, true);
-        xmlHttp.send();
     };
 </script>
 

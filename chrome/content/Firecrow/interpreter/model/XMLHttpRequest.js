@@ -13,6 +13,7 @@ fcModel.XMLHttpRequest = function(xmlHttpRequestObject, globalObject, codeConstr
     this.initObject(globalObject, codeConstruct, xmlHttpRequestObject);
     this.constructor = fcModel.XMLHttpRequest;
 
+    this.addProperty("status", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.implementationObject.status));
     this.addProperty("readyState", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, 0), codeConstruct);
     this.addProperty("responseType", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, ""), codeConstruct);
 
@@ -130,6 +131,9 @@ fcModel.XMLHttpRequestExecutor =
             var globalObject = fcThisValue.globalObject;
             var nativeArgs = args.map(function(arg){ return arg.jsValue;});
 
+            //this.addModification(callExpression);
+            //this.addDependencyToAllModifications(callExpression);
+
             switch(functionName)
             {
                 case "open":
@@ -143,14 +147,17 @@ fcModel.XMLHttpRequestExecutor =
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     this._updateSendParameters(fcThisValue, callExpression);
 
-                    fcThisValue.async ? this._aggregateEvents(fcThisValue, globalObject)
+                    fcThisValue.async ? this._aggregateEvents(fcThisValue, globalObject, callExpression)
                                       : fcThisValue.updateToDone(callExpression);
+                    break;
+                case "setRequestHeader":
+                    thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     break;
                 default:
                     this.notifyError("Unknown method on XMLHttpRequest object: " + functionName);
             }
         }
-        catch(e) { this.notifyError("Error when executing internal XMLHttpRequest method: " + e); }
+        catch(e) { debugger; this.notifyError("Error when executing internal XMLHttpRequest method: " + e); }
     },
 
     _updateOpenParameters: function(fcThisValue, nativeArgs, callExpression)
@@ -183,10 +190,9 @@ fcModel.XMLHttpRequestExecutor =
     {
         for(var i = 0; i < 4; i++)
         {
-            globalObject.registerAjaxEvent
+            globalObject.preRegisterAjaxEvent
             (
                 fcThisValue,
-                fcThisValue.getPropertyValue("onreadystatechange"),
                 {
                     codeConstruct: callExpression,
                     evaluationPositionId: globalObject.getPreciseEvaluationPositionId()

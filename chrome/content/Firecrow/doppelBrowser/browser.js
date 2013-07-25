@@ -285,6 +285,8 @@ Browser.prototype = dummy =
 
             interpreter.runSync();
             interpreter.destruct();
+
+            this.globalObject.registerPreRegisteredAjaxEvents();
         }
         catch(e)
         {

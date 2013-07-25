@@ -52,7 +52,7 @@ var FireDataAccess =
         {
             this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";
             this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
-        }.bind(this), 500)};
+        }.bind(this), 1000)};
 
         this._sourceCodeLoadedInBrowser = this._sourceCodeLoadedInBrowser.bind(this);
 
