@@ -43,6 +43,14 @@ Firecrow.UriHelper =
         }
 
         return null;
+    },
+
+    areOnSameDomain: function(url1, url2)
+    {
+        var uri1 = new this.URI(url1);
+        var uri2 = new this.URI(url2);
+
+        return uri1.hostname() == uri2.hostname() && uri2.hostname() != "";
     }
 };
 

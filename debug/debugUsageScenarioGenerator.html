@@ -245,7 +245,7 @@
             padding: 0px 10px;
         }
 
-        .button.radius {
+        .myButton.radius {
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             -ms-border-radius: 3px;
@@ -253,11 +253,11 @@
             border-radius: 3px;
         }
 
-        .button.medium {
+        .myButton.medium {
             font-size: 14px;
         }
 
-        .button {
+        .myButton {
             width: auto;
             background: #2ba6cb;
             border: 1px solid #1e728c;
@@ -272,7 +272,7 @@
             font-weight: bold;
             line-height: 1;
             margin: 0;
-            padding: 10px 20px 11px;
+            padding: 8px 20px 8px;
             position: relative;
             text-align: center;
             text-decoration: none;
@@ -291,7 +291,7 @@
 <body>
     <div id="topBar">
         <span class="titleSpan">Firecrow - Debugging Usage Scenario Generator</span>
-        <input class="medium radius button right" type="button" value="Run" id="runButton" style="margin: 5px;">
+        <input class="medium radius myButton right" type="button" value="Run" id="runButton" style="margin: 5px;">
     </div>
 
     <div class="panel">
@@ -346,7 +346,7 @@
     <script type="text/javascript">
         //TODO - test 37 is not executed twice
         //6- does not cover everything, gets stuck extending
-        var model = models[42];
+        var model = models[43];
         //var model = fullPageModel;
         var uiControlsSelectors = model.uiControlsSelectors || ["*"];
 
@@ -434,7 +434,7 @@
 
                 function(usageScenarios)
                 {
-                    var coverage = FBL.Firecrow.ASTHelper.calculateCoverage(model.pageModel);
+                    var coverage = FBL.Firecrow.ASTHelper.calculateCoverage(model.pageModel, getIgnoredExternalScripts());
                     executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + coverage.expressionCoverage *100  + "%</b>";
                     keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + coverage.expressionCoverage *100 + "%</b>";
                     pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);

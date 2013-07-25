@@ -140,7 +140,17 @@ fcModel.XMLHttpRequestExecutor =
                     this._updateOpenParameters(fcThisValue, nativeArgs, callExpression);
                     //Apply to native object, but change to sync
                     nativeArgs[2] = false;
-                    nativeArgs[1] = Firecrow.UriHelper.getAbsoluteUrl(nativeArgs[1], globalObject.browser.url)
+                    var url = Firecrow.UriHelper.getAbsoluteUrl(nativeArgs[1], globalObject.browser.url);
+
+                    if(Firecrow.UriHelper.areOnSameDomain(url, Firecrow.getDocument().location.href))
+                    {
+                        nativeArgs[1] = url;
+                    }
+                    else
+                    {
+                        debugger;
+                    }
+
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     break;
                 case "send":
