@@ -27,16 +27,17 @@ fcScenarioGenerator.ScenarioGenerator =
 
     generateAdditionalTimingEvents: true,
 
-    generateScenarios: function(pageModel, uiControlsSelectors, scenarioExecutedCallback, scenariosSubsumedCallback)
+    generateScenarios: function(pageModel, uiControlsSelectors, scenarioExecutedCallback, scenariosSubsumedCallback, coverageIgnoreScripts)
     {
         ASTHelper.setParentsChildRelationships(pageModel);
 
         this._setUiControlsSelectors(uiControlsSelectors);
 
         this.scenarios = new fcScenarioGenerator.ScenarioCollection();
+        this.coverageIgnoreScripts = coverageIgnoreScripts || [];
 
         var browser = this._executeApplication(pageModel);
-        var coverage = ASTHelper.calculateCoverage(pageModel);
+        var coverage = ASTHelper.calculateCoverage(pageModel, this.coverageIgnoreScripts);
         this.achievedCoverage = coverage.expressionCoverage;
 
         this._createInitialRegisteredEventsScenarios(browser, this.scenarios);
@@ -141,7 +142,7 @@ fcScenarioGenerator.ScenarioGenerator =
 
         scenario.setExecutionInfo(executionInfo);
 
-        var coverage = ASTHelper.calculateCoverage(pageModel);
+        var coverage = ASTHelper.calculateCoverage(pageModel, this.coverageIgnoreScripts);
 
         this.achievedCoverage = coverage.expressionCoverage;
         this.achievedCoverages.push(coverage);

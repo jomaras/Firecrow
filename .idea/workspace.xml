@@ -8,29 +8,22 @@
     <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" line="127" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Fixed a problem when returning from try statement did not remove the endTryStatement command">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/2.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/2.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/3.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/3.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/42/externalFile1.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/42/externalFile2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/42/index.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/XMLHttpRequest.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/XMLHttpRequest.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/style/codeColoring.css" afterPath="$PROJECT_DIR$/debug/style/codeColoring.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" afterPath="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -59,7 +52,7 @@
     <ignored path="debug/sylvester/10-LineSegment-Contains/htmlMapping.js" />
     <ignored path="debug/sylvester/22-Line-distanceFrom/htmlMapping.js" />
     <ignored path="debug/sylvester/24-Line-rotate/htmlMapping.js" />
-    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374737639509" ignored="false" />
+    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374759121114" ignored="false" />
     <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369213531527" ignored="false" />
     <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374744993531" ignored="false" />
     <file path="/Command.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368018354643" ignored="false" />
@@ -79,7 +72,7 @@
     <file path="/FcValue.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368033214592" ignored="false" />
     <file path="/InterpreterSimulator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374737185788" ignored="false" />
     <file path="/slides.min.jquery.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366216724714" ignored="false" />
-    <file path="/ASTHelper.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374757899540" ignored="false" />
+    <file path="/ASTHelper.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374760044654" ignored="false" />
     <file path="/dependencyGraph.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370326319044" ignored="false" />
     <file path="/inclusionFinder.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368519660745" ignored="false" />
     <file path="/codeMarkupGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374743060490" ignored="false" />
@@ -130,7 +123,7 @@
     <file path="$PROJECT_DIR$/tests/reuseStudies/00-allApplications/02/styles/style.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369141733473" ignored="false" />
     <file path="/GlobalObject.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374732586000" ignored="false" />
     <file path="/simpleHtml.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369236854335" ignored="false" />
-    <file path="/debugUsageScenarioGenerator.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374758940068" ignored="false" />
+    <file path="/debugUsageScenarioGenerator.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374761218431" ignored="false" />
     <file path="/FirecrowChromePanel.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369812322279" ignored="false" />
     <file path="/ChromePanel.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369812739011" ignored="false" />
     <file path="/ChromePanel.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369812690388" ignored="false" />
@@ -148,7 +141,7 @@
     <file path="/serverSide.php" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370251501735" ignored="false" />
     <file path="/SourceScripts.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370338413577" ignored="false" />
     <file path="/Scenario.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370431008234" ignored="false" />
-    <file path="/ScenarioGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374649472325" ignored="false" />
+    <file path="/ScenarioGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374760666750" ignored="false" />
     <file path="/Event.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370435690862" ignored="false" />
     <file path="/ScenarioCollection.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370449379642" ignored="false" />
     <file path="/Expression.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370519137887" ignored="false" />
@@ -245,7 +238,7 @@
       <file leaf-file-name="debugUsageScenarioGenerator.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="118" column="63" selection-start="7944" selection-end="7944" vertical-scroll-proportion="0.39425287">
+            <state line="385" column="87" selection-start="16996" selection-end="16996" vertical-scroll-proportion="0.22413793">
               <folding>
                 <element signature="n#style#0;n#input#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -253,9 +246,19 @@
                 <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#hr#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#iframe#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1374759065792" expanded="true" signature="18829:18838" placeholder="..." />
-                <marker date="1374759065792" expanded="true" signature="18982:18991" placeholder="..." />
+                <element signature="e#17421#20700#0" expanded="false" />
+                <marker date="1374761261026" expanded="true" signature="19374:19383" placeholder="..." />
+                <marker date="1374761261026" expanded="true" signature="19523:19532" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="67" selection-start="1347" selection-end="1347" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -316,7 +319,6 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/XMLHttpRequest.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
         <option value="$PROJECT_DIR$/debug/style/codeColoring.css" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/42/index.html" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/42/externalFile1.js" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/42/externalFile2.js" />
@@ -324,6 +326,7 @@
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/42/model.json" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/modelMapping.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html" />
       </list>
     </option>
@@ -3068,7 +3071,11 @@
       <created>1374737290114</created>
       <updated>1374737290115</updated>
     </task>
-    <option name="localTasksCounter" value="560" />
+    <task id="LOCAL-00560" summary="Upgrading debugginUsageScenarioGenerator">
+      <created>1374759127502</created>
+      <updated>1374759127502</updated>
+    </task>
+    <option name="localTasksCounter" value="561" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3174,7 +3181,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a problem when returning from try statement did not remove the endTryStatement command" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upgrading debugginUsageScenarioGenerator" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3189,7 +3196,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="SourceEditor integrated in slicer" />
     <MESSAGE value="Breakpoint tracking" />
     <MESSAGE value="HTML DOM Viewer integrated" />
     <MESSAGE value="Toggling between source and DOM view based on combobox selection" />
@@ -3214,6 +3220,7 @@
     <MESSAGE value="Ajax events first working" />
     <MESSAGE value="Working on ajax" />
     <MESSAGE value="Fixed a problem when returning from try statement did not remove the endTryStatement command" />
+    <MESSAGE value="Upgrading debugginUsageScenarioGenerator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3226,20 +3233,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="348" column="8" selection-start="13943" selection-end="14034" vertical-scroll-proportion="0.569857">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="30" selection-start="485" selection-end="485" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="73" column="43" selection-start="3801" selection-end="3801" vertical-scroll-proportion="0.0">
@@ -3328,16 +3321,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="8" selection-start="689" selection-end="689" vertical-scroll-proportion="0.38283828">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="548" column="8" selection-start="17622" selection-end="17622" vertical-scroll-proportion="0.79427946">
+        <state line="57" column="88" selection-start="1698" selection-end="1698" vertical-scroll-proportion="0.70737076">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="67" selection-start="1347" selection-end="1347" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugUsageScenarioGenerator.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="63" selection-start="7944" selection-end="7944" vertical-scroll-proportion="0.39425287">
+        <state line="385" column="87" selection-start="16996" selection-end="16996" vertical-scroll-proportion="0.22413793">
           <folding>
             <element signature="n#style#0;n#input#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -3345,8 +3352,9 @@
             <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#hr#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#iframe#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1374759065792" expanded="true" signature="18829:18838" placeholder="..." />
-            <marker date="1374759065792" expanded="true" signature="18982:18991" placeholder="..." />
+            <element signature="e#17421#20700#0" expanded="false" />
+            <marker date="1374761261026" expanded="true" signature="19374:19383" placeholder="..." />
+            <marker date="1374761261026" expanded="true" signature="19523:19532" placeholder="..." />
           </folding>
         </state>
       </provider>

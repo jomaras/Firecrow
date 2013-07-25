@@ -36,10 +36,11 @@ Firecrow.ASTHelper =
         catch(e) { Cu.reportError("Error while getting AST from source code@" + sourceCodePath + "; error: " + e); }
     },
 
-    calculateCoverage: function(pageModel)
+    calculateCoverage: function(pageModel, scriptPathsToIgnore)
     {
         var ASTHelper = FBL.Firecrow.ASTHelper;
         var scripts = ASTHelper.getScriptElements(pageModel.htmlElement);
+        scriptPathsToIgnore = scriptPathsToIgnore || [];
 
         var totalNumberOfExpressions = 0;
         var executedNumberOfExpressions = 0;
@@ -53,6 +54,8 @@ Firecrow.ASTHelper =
         for(var i = 0; i < scripts.length; i++)
         {
             var script = scripts[i];
+
+            if(scriptPathsToIgnore.indexOf(ASTHelper.getAttributeValue(script, "src")) != -1) { continue; }
 
             ASTHelper.traverseAst(script.pathAndModel.model, function(astElement)
             {

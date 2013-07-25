@@ -399,55 +399,84 @@
         {
             var timer = new FBL.Firecrow.TimerHelper.createTimer();
             var lastTime = 0;
+            scenarioCounter = 0;
+
+            scenarioInfoContainer.innerHTML = "";
+
+            document.getElementById("seleniumCodeContainer").textContent = "";
+            document.title = "Scenario Generator";
+            executedScenarioTitle.textContent = "Executed scenarios: ";
+            keptScenarioTitle.textContent = "Kept scenarios: ";
+            elapsedTimeTitle.textContent = "";
+            statementCoverageTitle.textContent = "";
+            branchCoverageTitle.textContent = "";
+            executedScenarioTracesContainer.innerHTML = "";
+            keptScenarioTracesContainer.innerHTML = "";
 
             scGenerator.ScenarioGenerator.generateScenarios
             (
-                    model.pageModel,
-                    uiControlsSelectors,
-                    function(scenario)
+                model.pageModel,
+                uiControlsSelectors,
+                function(scenario)
+                {
+
+                    elapsedTimeTitle.textContent = scenarioCounter
+                            + " - Time: " + timer.getElapsedTimeInSeconds()
+                            + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec"
+                            + " Coverage: " + scGenerator.ScenarioGenerator.achievedCoverage;
+                    lastTime = timer.getElapsedTimeInSeconds();
+                    document.title = scenarioCounter + "/" + scGenerator.ScenarioGenerator.scenarioProcessingLimit + " "
+                            + "C:" + scGenerator.ScenarioGenerator.achievedCoverage.toString().substring(0, 4) + " "
+                            + "T:" + (timer.getElapsedTimeInSeconds() - lastTime);
+
+                    generateScenarioHtml(scenario);
+                },
+
+                function(usageScenarios)
+                {
+                    var coverage = FBL.Firecrow.ASTHelper.calculateCoverage(model.pageModel);
+                    executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + coverage.expressionCoverage *100  + "%</b>";
+                    keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + coverage.expressionCoverage *100 + "%</b>";
+                    pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
+                    handleScriptAndStyleNodeMinimize();
+                    statementCoverageTitle.textContent = "Statement coverage: " + coverage.statementCoverage*100 + "% ";
+                    branchCoverageTitle.textContent = "Branch coverage: " + coverage.branchCoverage*100 + "%";
+
+                    scenarioCounter = 0;
+                    scenarioInfoContainer = keptScenarioTracesContainer;
+
+                    setTimeout(function()
                     {
-
-                        elapsedTimeTitle.textContent = scenarioCounter
-                                + " - Time: " + timer.getElapsedTimeInSeconds()
-                                + " sec; Delta: " + (timer.getElapsedTimeInSeconds() - lastTime) + " sec"
-                                + " Coverage: " + scGenerator.ScenarioGenerator.achievedCoverage;
-                        lastTime = timer.getElapsedTimeInSeconds();
-                        document.title = scenarioCounter + "/" + scGenerator.ScenarioGenerator.scenarioProcessingLimit + " "
-                                + "C:" + scGenerator.ScenarioGenerator.achievedCoverage.toString().substring(0, 4) + " "
-                                + "T:" + (timer.getElapsedTimeInSeconds() - lastTime);
-
-                        generateScenarioHtml(scenario);
-                    },
-
-                    function(usageScenarios)
-                    {
-                        var coverage = FBL.Firecrow.ASTHelper.calculateCoverage(model.pageModel);
-                        executedScenarioTitle.innerHTML += scenarioCounter + " - <b style='color:red'>" + coverage.expressionCoverage *100  + "%</b>";
-                        keptScenarioTitle.innerHTML += usageScenarios.length + " - <b style='color:red'>" + coverage.expressionCoverage *100 + "%</b>";
-                        pageCodeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.pageModel);
-                        handleScriptAndStyleNodeMinimize();
-                        statementCoverageTitle.textContent = "Statement coverage: " + coverage.statementCoverage*100 + "% ";
-                        branchCoverageTitle.textContent = "Branch coverage: " + coverage.branchCoverage*100 + "%";
-
-                        scenarioCounter = 0;
-                        scenarioInfoContainer = keptScenarioTracesContainer;
-
-                        setTimeout(function()
+                        usageScenarios.forEach(function(scenario)
                         {
-                            usageScenarios.forEach(function(scenario)
-                            {
-                                generateScenarioHtml(scenario);
-                            });
+                            generateScenarioHtml(scenario);
+                        });
 
-                            document.getElementById("seleniumCodeContainer").textContent = scGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
-                        }, 1000);
+                        document.getElementById("seleniumCodeContainer").textContent = scGenerator.SeleniumCodeGenerator.generateCode(usageScenarios, model.pageModel.pageUrl);
+                    }, 1000);
 
-                        document.title += " Fin!";
-                    }
+                    document.title += " Fin!";
+                },
+                getIgnoredExternalScripts()
             );
         };
 
+        function getIgnoredExternalScripts()
+        {
+            var inputs = scriptPathInputs.querySelectorAll("input[type=checkbox]");
 
+            var ignoredScripts = [];
+
+            for(var i = 0; i < inputs.length; i++)
+            {
+                if(!inputs[i].checked && inputs[i].scriptSrc != "")
+                {
+                    ignoredScripts.push(inputs[i].scriptSrc);
+                }
+            }
+
+            return ignoredScripts;
+        }
 
         function generateScenarioHtml(scenario)
         {
