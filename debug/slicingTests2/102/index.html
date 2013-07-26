@@ -1,0 +1,42 @@
+<html>
+<head>
+    <style>
+        #mainContainer
+        {
+            background-color: red;
+            width: 400px;
+            height: 400px;
+        }
+        #loadingContainer
+        {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<button id="button">Click me</button>
+<div id="loadingContainer"></div>
+<script>
+    var button = document.getElementById("button");
+    var mainContainer = document.getElementById("mainContainer");
+    var a1 = 0;
+
+    var http = new XMLHttpRequest();
+
+    var url = "ajax.php";
+    var params = "lorem=ipsum&name=1";
+
+    http.open("POST", url, false);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send(params);
+
+    a1 = http.responseText;
+    mainContainer.textContent += a1;
+    a1;
+</script>
+
+</body>
+</html>

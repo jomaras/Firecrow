@@ -14,6 +14,10 @@ fcModel.XMLHttpRequest = function(xmlHttpRequestObject, globalObject, codeConstr
     this.initObject(globalObject, codeConstruct, xmlHttpRequestObject);
     this.constructor = fcModel.XMLHttpRequest;
 
+    this.openConstruct = null;
+    this.sendConstruct = null;
+    this.setHeadersConstructs = [];
+
     this.addProperty("status", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.implementationObject.status));
     this.addProperty("readyState", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, 0), codeConstruct);
     this.addProperty("responseType", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, ""), codeConstruct);
@@ -145,25 +149,48 @@ fcModel.XMLHttpRequestExecutor =
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     break;
                 case "send":
-
                     this._updateNativeSendArguments(fcThisValue, nativeArgs);
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     this._updateSendParameters(fcThisValue, callExpression);
 
                     fcThisValue.async ? this._aggregateEvents(fcThisValue, globalObject, callExpression)
                                       : fcThisValue.updateToDone(callExpression);
+
+                    this._createSendDependencies(fcThisValue, globalObject, callExpression);
                     break;
                 case "setRequestHeader":
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
+                    fcThisValue.setHeadersConstructs.push(callExpression);
                     break;
                 case "getAllResponseHeaders":
                 case "getResponseHeader":
                     return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, thisObjectValue[functionName].apply(thisObjectValue, nativeArgs));
+                    this._createGetResponseHeaderDependencies(fcThisValue, globalObject, callExpression);
                 default:
                     this.notifyError("Unknown method on XMLHttpRequest object: " + functionName);
             }
         }
         catch(e) { debugger; this.notifyError("Error when executing internal XMLHttpRequest method: " + e); }
+    },
+
+    _createSendDependencies: function(fcThisValue, globalObject, callExpression)
+    {
+        globalObject.dependencyCreator.createDataDependency(callExpression, fcThisValue.openConstruct, globalObject.getPreciseEvaluationPositionId());
+
+        fcThisValue.setHeadersConstructs.forEach(function(construct)
+        {
+            globalObject.dependencyCreator.createDataDependency(callExpression, construct, globalObject.getPreciseEvaluationPositionId());
+        });
+    },
+
+    _createGetResponseHeaderDependencies: function(fcThisValue, globalObject, callExpression)
+    {
+        globalObject.dependencyCreator.createDataDependency(callExpression, fcThisValue.openConstruct, globalObject.getPreciseEvaluationPositionId());
+
+        if(fcThisValue.sendConstruct != null)
+        {
+            globalObject.dependencyCreator.createDataDependency(callExpression, fcThisValue.sendConstruct, globalObject.getPreciseEvaluationPositionId())
+        }
     },
 
     _updateNativeOpenArguments: function(nativeArgs, globalObject)

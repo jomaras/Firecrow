@@ -15,7 +15,7 @@ Firecrow.Slicer = {
         Firecrow.DoppelBrowser.Browser.isForSlicing = true;
         var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
         Firecrow.Slicer.browser = browser;
-        browser.url = url;
+        browser.url = url || htmlModel.pageUrl;
 
         Firecrow.Interpreter.Simulator.DependencyCreator.shouldCreateDependencies = true;
 
