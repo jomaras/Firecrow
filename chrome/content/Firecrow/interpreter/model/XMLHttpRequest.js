@@ -140,11 +140,13 @@ fcModel.XMLHttpRequestExecutor =
             switch(functionName)
             {
                 case "open":
-                    this._updateOpenParameters(fcThisValue, nativeArgs, callExpression);
+                    this._updateOpenParameters(fcThisValue, nativeArgs, globalObject, callExpression);
                     this._updateNativeOpenArguments(nativeArgs, globalObject);
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     break;
                 case "send":
+
+                    this._updateNativeSendArguments(fcThisValue, nativeArgs);
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     this._updateSendParameters(fcThisValue, callExpression);
 
@@ -183,7 +185,7 @@ fcModel.XMLHttpRequestExecutor =
             }
             else
             {
-                debugger;
+                nativeArgs[1] = FIRECROW_AJAX_PROXY_URL;
             }
         }
 
@@ -191,10 +193,21 @@ fcModel.XMLHttpRequestExecutor =
         //Apply to native object, but change to sync
     },
 
-    _updateOpenParameters: function(fcThisValue, nativeArgs, callExpression)
+    _updateNativeSendArguments: function(fcThisValue, nativeArgs)
+    {
+        if(fcThisValue.method != "POST") { return; }
+        if(nativeArgs[0] == null) { nativeArgs[0] = ""; }
+
+        if(nativeArgs[0] != "") { nativeArgs[0] += "&"; }
+
+        nativeArgs[0] += "csurl=" + encodeURIComponent(fcThisValue.absoluteUrl);
+    },
+
+    _updateOpenParameters: function(fcThisValue, nativeArgs, globalObject, callExpression)
     {
         fcThisValue.method = nativeArgs[0] || "GET";
         fcThisValue.url = nativeArgs[1] || "";
+        fcThisValue.absoluteUrl = Firecrow.UriHelper.getAbsoluteUrl(nativeArgs[1], globalObject.browser.url);
         fcThisValue.async = nativeArgs[2];
         fcThisValue.user = nativeArgs[3] || "";
         fcThisValue.password = nativeArgs[4] || "";
