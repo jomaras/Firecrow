@@ -4,6 +4,43 @@ Firecrow.UriHelper =
 {
     URI: null,
 
+    appendQuery: function(url, key, value)
+    {
+        if(url == null) { return null; }
+
+        var uri = new this.URI(url);
+
+        uri.addQuery(key, value);
+
+        return uri.href();
+    },
+
+    getRequestAddress: function(url)
+    {
+        if(url == null) { return null; }
+
+        var uri = new this.URI(url);
+
+        var href = uri.href();
+
+        var query = this.getQuery(url);
+
+        var startOfQueryIndex = href.indexOf(query);
+
+        if(startOfQueryIndex == -1) { return href; }
+
+        return href.substring(0, startOfQueryIndex - 1);
+    },
+
+    getQuery: function(url)
+    {
+        if(url == null) { return null; }
+
+        var uri = new this.URI(url);
+
+        return uri.query();
+    },
+
     getRelativeFrom: function(url, anchor)
     {
         if(url == null) { return null; }

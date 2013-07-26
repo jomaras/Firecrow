@@ -29,7 +29,7 @@
         sendAjaxRequest("ajax.php?click=true", loadingContainer);
     };
 
-    sendAjaxRequest("ajax.php?loading=true", mainContainer);
+    sendAjaxRequest("http://localhost/Firecrow/proxy/proxy.php?loading=true&csurl=http%3A%2F%2Fpzi.fesb.hr%2Fjosip.maras%2Ftest%2Fajax.php", mainContainer);
 
     function sendAjaxRequest(url, container)
     {

@@ -7,6 +7,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var FIRECROW_AJAX_PROXY_URL = "http://localhost/Firecrow/proxy/proxy.php";
 
 fcModel.XMLHttpRequest = function(xmlHttpRequestObject, globalObject, codeConstruct)
 {
@@ -16,6 +17,7 @@ fcModel.XMLHttpRequest = function(xmlHttpRequestObject, globalObject, codeConstr
     this.addProperty("status", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.implementationObject.status));
     this.addProperty("readyState", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, 0), codeConstruct);
     this.addProperty("responseType", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, ""), codeConstruct);
+    this.addProperty("responseText", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, ""), codeConstruct);
 
     fcModel.XMLHttpRequestPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
     {
@@ -51,8 +53,9 @@ fcModel.XMLHttpRequest = function(xmlHttpRequestObject, globalObject, codeConstr
     {
         this.addProperty("readyState", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, 4));
         this.addProperty("responseText", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.responseText));
+        this.addProperty("responseType", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.responseType));
         this.addProperty("status", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.status));
-        this.addProperty("statusText", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.statusText));
+        this.addProperty("statusText", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.statusText))
     };
 
     this.updateToNext = function()
@@ -138,19 +141,7 @@ fcModel.XMLHttpRequestExecutor =
             {
                 case "open":
                     this._updateOpenParameters(fcThisValue, nativeArgs, callExpression);
-                    //Apply to native object, but change to sync
-                    nativeArgs[2] = false;
-                    var url = Firecrow.UriHelper.getAbsoluteUrl(nativeArgs[1], globalObject.browser.url);
-
-                    if(Firecrow.UriHelper.areOnSameDomain(url, Firecrow.getDocument().location.href))
-                    {
-                        nativeArgs[1] = url;
-                    }
-                    else
-                    {
-                        debugger;
-                    }
-
+                    this._updateNativeOpenArguments(nativeArgs, globalObject);
                     thisObjectValue[functionName].apply(thisObjectValue, nativeArgs);
                     break;
                 case "send":
@@ -173,6 +164,33 @@ fcModel.XMLHttpRequestExecutor =
         catch(e) { debugger; this.notifyError("Error when executing internal XMLHttpRequest method: " + e); }
     },
 
+    _updateNativeOpenArguments: function(nativeArgs, globalObject)
+    {
+        nativeArgs[0] = nativeArgs[0] || "GET";
+        var url = Firecrow.UriHelper.getAbsoluteUrl(nativeArgs[1], globalObject.browser.url);
+
+        if(Firecrow.UriHelper.areOnSameDomain(url, Firecrow.getDocument().location.href))
+        {
+            nativeArgs[1] = url;
+        }
+        else
+        {
+            var requestUrl = Firecrow.UriHelper.getRequestAddress(url);
+            if(nativeArgs[0] == "GET")
+            {
+                var extendedRequest = Firecrow.UriHelper.appendQuery(url, "csurl", requestUrl);
+                nativeArgs[1] = FIRECROW_AJAX_PROXY_URL + "?" + Firecrow.UriHelper.getQuery(extendedRequest);
+            }
+            else
+            {
+                debugger;
+            }
+        }
+
+        nativeArgs[2] = false;
+        //Apply to native object, but change to sync
+    },
+
     _updateOpenParameters: function(fcThisValue, nativeArgs, callExpression)
     {
         fcThisValue.method = nativeArgs[0] || "GET";
@@ -188,13 +206,14 @@ fcModel.XMLHttpRequestExecutor =
     _updateSendParameters: function(fcThisValue, callExpression)
     {
         fcThisValue.readyState = fcThisValue.implementationObject.readyState;
-        fcThisValue.response = fcThisValue.implementationObject.response;
+        fcThisValue.timeout = fcThisValue.implementationObject.timeout;
+
+        fcThisValue.status = fcThisValue.implementationObject.status;
         fcThisValue.responseText = fcThisValue.implementationObject.responseText;
+        fcThisValue.response = fcThisValue.implementationObject.response;
         fcThisValue.responseType = fcThisValue.implementationObject.responseType;
         fcThisValue.responseXML = fcThisValue.implementationObject.responseXML;
         fcThisValue.statusText = fcThisValue.implementationObject.statusText;
-        fcThisValue.status = fcThisValue.implementationObject.status;
-        fcThisValue.timeout = fcThisValue.implementationObject.timeout;
 
         fcThisValue.sendConstruct = callExpression;
     },
