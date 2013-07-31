@@ -1,43 +1,119 @@
+<!DOCTYPE html>
 <html>
 <head>
+    <title></title>
+    <meta charset="UTF-8">
     <style>
-        #mainContainer
+        #mainStyleContainer
         {
-            background-color: red;
-            width: 400px;
-            height: 400px;
-        }
-        #loadingContainer
-        {
-            width: 200px;
-            height: 200px;
+            width: 358px;
+            height: 312px;
+            background-image: url("CountyMap.png");
         }
     </style>
+    <link href="externalStyle/externalStyle.css" rel="stylesheet"/>
+    <script src="../../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/UriHelper.js"></script>
 </head>
-
 <body>
-<div id="mainContainer"></div>
-<button id="button">Click me</button>
-<div id="loadingContainer"></div>
-<script>
-    var button = document.getElementById("button");
-    var mainContainer = document.getElementById("mainContainer");
+    <img src="adobe.png">
+    <div id="mainStyleContainer"></div>
+    <div id="externalStyleContainer"></div>
+    <div id="includedExternalStyleContainer"></div>
 
-    var http = new XMLHttpRequest();
-    var url = "http://localhost/Firecrow/proxy/proxy.php";
-    var params = "lorem=ipsum&name=binny&csurl=http%3A%2F%2Flocalhost%2FFirecrow%2Fdebug%2FusageScenarioGenerator%2F44%2Fajax.php";
-    http.open("POST", url, true);
+    <script>
+        var stylesPathsAndModels = getStylesPathsAndModels(document);
 
-    //Send the proper header information along with the request
-    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        function getStylesPathsAndModels(document)
+        {
+            var stylesheets = document.styleSheets;
+            var stylePathAndModels = [];
 
-    http.onreadystatechange = function() {//Call a function when the state changes.
-        if(http.readyState == 4 && http.status == 200) {
-            mainContainer.textContent = http.responseText;
+            for(var i = 0; i < stylesheets.length; i++)
+            {
+                var styleSheet = stylesheets[i];
+                var path = styleSheet.href != null ? styleSheet.href : document.baseURI;
+                var model = { rules: [] };
+
+                fillStyleSheetModel(model, styleSheet, path)
+
+                stylePathAndModels.push({path : path, model: model });
+            }
+
+            return stylePathAndModels;
         }
-    }
-    http.send(params);
-</script>
 
+        function fillStyleSheetModel(model, styleSheet, path)
+        {
+            if(styleSheet == null) { return model; }
+
+            var cssRules = styleSheet.cssRules;
+
+            for(var i = 0; i < cssRules.length; i++)
+            {
+                var cssRule = cssRules[i];
+
+                if(cssRule.type == 3)//import command
+                {
+                    fillStyleSheetModel(model, cssRule.styleSheet, FBL.Firecrow.UriHelper.getAbsoluteUrl(cssRule.href, path))
+                }
+                else
+                {
+                    var result = getStyleDeclarationsAndUpdatedCssText(cssRule, path);
+
+                    model.rules.push
+                    (
+                        {
+                            selector: cssRule.selectorText,
+                            cssText: result.cssText,
+                            declarations: result.declarations
+                        }
+                    );
+                }
+            }
+        }
+
+        function getStyleDeclarationsAndUpdatedCssText(cssRule, path)
+        {
+            var result = { declarations: [], cssText: cssRule.cssText };
+
+            function urlReplacementFunction(match, p1)
+            {
+                if(p1 == null) { return match; }
+
+                p1 = p1.trim();
+
+                var enclosing = p1[0] == "'" || p1[0] == '"' ? p1[0] : "";
+
+                if(enclosing != "") { p1 = p1.substring(1, p1.length-1); }
+
+                return "url(" + enclosing + FBL.Firecrow.UriHelper.getAbsoluteUrl(p1, path) + enclosing + ")";
+            }
+
+            if(cssRule == null || cssRule.style == null || cssRule.type != 1) { return result;}
+
+            var style = cssRule.style;
+
+            for(var i = 0; i < style.length; i++)
+            {
+                var key = style[i].toLowerCase();
+
+                var value = style.getPropertyValue(key);
+
+                if(key == "background-image" || key == "background")
+                {
+                    if(value.indexOf("url") != -1 || value.indexOf("URL") != -1)
+                    {
+                        value = value.replace(/url\s*\(([^)]*)\)/gi, urlReplacementFunction);
+                        result.cssText = result.cssText.replace(/url\s*\(([^)]*)\)/gi, urlReplacementFunction);
+                    }
+                }
+
+                result.declarations[key] = value;
+            }
+
+            return result;
+        }
+    </script>
 </body>
 </html>

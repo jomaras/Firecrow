@@ -154,6 +154,24 @@ fcSimulator.InternalExecutor.prototype =
         return new fcModel.fcValue(location, fcLocation, null);
     },
 
+    createScreenObject: function()
+    {
+        var fcScreen = fcModel.Object.createObjectWithInit(this.globalObject, null, this.globalObject.origWindow.screen);
+
+        this._createProperty(fcScreen, "availTop", this.globalObject.origWindow.screen.availTop);
+        this._createProperty(fcScreen, "availLeft", this.globalObject.origWindow.screen.availLeft);
+        this._createProperty(fcScreen, "availHeight", this.globalObject.origWindow.screen.availHeight);
+        this._createProperty(fcScreen, "availWidth", this.globalObject.origWindow.screen.availWidth);
+        this._createProperty(fcScreen, "colorDepth", this.globalObject.origWindow.screen.colorDepth);
+        this._createProperty(fcScreen, "height", this.globalObject.origWindow.screen.height);
+        this._createProperty(fcScreen, "left", this.globalObject.origWindow.screen.left);
+        this._createProperty(fcScreen, "pixelDepth", this.globalObject.origWindow.screen.pixelDepth);
+        this._createProperty(fcScreen, "top", this.globalObject.origWindow.screen.top);
+        this._createProperty(fcScreen, "width", this.globalObject.origWindow.screen.width);
+
+        return new fcModel.fcValue(this.globalObject.origWindow.screen, fcScreen, null);
+    },
+
     createNavigatorObject: function()
     {
         var fcNavigator = fcModel.Object.createObjectWithInit(this.globalObject, null, navigator);

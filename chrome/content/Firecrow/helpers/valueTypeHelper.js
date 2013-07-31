@@ -546,6 +546,22 @@ Firecrow.ValueTypeHelper =
             || (object.nodeType == 1 && object.nodeName === "CANVAS");
     },
 
+    isScriptElement: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof HTMLScriptElement
+            || (object.nodeType == 1 && object.nodeName === "SCRIPT");
+    },
+
+    isIFrameElement: function(object)
+    {
+        if(object == null) { return false; }
+
+        return object instanceof HTMLScriptElement
+            || (object.nodeType == 1 && object.nodeName === "IFRAME");
+    },
+
     isTextNode: function(object)
     {
         if(object == null) { return false; }

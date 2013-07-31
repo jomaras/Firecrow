@@ -3,6 +3,9 @@ var EXPORTED_SYMBOLS = ["FireDataAccess"];
 var Cu = Components.utils;
 var Ci = Components.interfaces;
 
+Cu.import("chrome://Firecrow/content/initFBL.js");
+Cu.import("chrome://Firecrow/content/helpers/UriHelper.js");
+
 var FireDataAccess =
 {
      _externalFilesMap: {},
@@ -52,7 +55,7 @@ var FireDataAccess =
         {
             this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";
             this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
-        }.bind(this), 1000)};
+        }.bind(this), 3000)};
 
         this._sourceCodeLoadedInBrowser = this._sourceCodeLoadedInBrowser.bind(this);
 
@@ -92,7 +95,7 @@ var FireDataAccess =
                         callback(document.defaultView, htmlJson);
                     }.bind(this));
                 }
-                catch(e) { Cu.reportError("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href);}
+                catch(e) { Cu.reportError("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href + ";" + e.stack);}
             }.bind(this), true);
 
             iFrame.webNavigation.loadURI(url, Ci.nsIWebNavigation, null, null, null);
@@ -198,101 +201,87 @@ var FireDataAccess =
         for(var i = 0; i < stylesheets.length; i++)
         {
             var styleSheet = stylesheets[i];
-            stylePathAndModels.push
-            (
-                {
-                    path : styleSheet.href != null ? styleSheet.href : document.baseURI,
-                    model:  this._getStyleSheetModel(styleSheet)
-                }
-            );
+            var path = styleSheet.href != null ? styleSheet.href : document.baseURI;
+            var model = { rules: [] };
+
+            this._fillStyleSheetModel(model, styleSheet, path)
+
+            stylePathAndModels.push({path : path, model: model });
         }
 
         return stylePathAndModels;
     },
 
-    _getStyleSheetModel: function(styleSheet)
+    _fillStyleSheetModel: function(model, styleSheet, path)
     {
-        if(styleSheet == null) { return {}; }
+        if(styleSheet == null) { return model; }
 
-        var model = { rules: [] };
+        var cssRules = styleSheet.cssRules;
 
-        try
+        for(var i = 0; i < cssRules.length; i++)
         {
-            var cssRules = styleSheet.cssRules;
+            var cssRule = cssRules[i];
 
-            for(var i = 0; i < cssRules.length; i++)
+            if(cssRule.type == 3)//import command
             {
-                var cssRule = cssRules[i];
+                this._fillStyleSheetModel(model, cssRule.styleSheet, UriHelper.getAbsoluteUrl(cssRule.href, path))
+            }
+            else
+            {
+                var result = this._getStyleDeclarationsAndUpdatedCssText(cssRule, path);
+
                 model.rules.push
                 (
                     {
                         selector: cssRule.selectorText,
-                        cssText: cssRule.cssText,
-                        declarations: this._getStyleDeclarations(cssRule)
+                        cssText: result.cssText,
+                        declarations: result.declarations
                     }
                 );
             }
         }
-        catch(e)
-        {
-            CU.reportError("Error when getting stylesheet model: " + e);
-        }
-
-        return model;
     },
 
-    _getStyleDeclarations: function(cssRule)
+    _getStyleDeclarationsAndUpdatedCssText: function(cssRule, path)
     {
-        var declarations = {};
+        var result = { declarations: [], cssText: cssRule.cssText };
 
-        try
+        function urlReplacementFunction(match, p1)
         {
-            //type == 1 for styles, so far we don't care about others
-            if(cssRule == null || cssRule.style == null || cssRule.type != 1) { return declarations;}
+            if(p1 == null) { return match; }
 
-            var style = cssRule.style;
+            p1 = p1.trim();
 
-            for(var i = 0; i < style.length; i++)
+            var enclosing = p1[0] == "'" || p1[0] == '"' ? p1[0] : "";
+
+            if(enclosing != "") { p1 = p1.substring(1, p1.length-1); }
+
+            return "url(" + enclosing + UriHelper.getAbsoluteUrl(p1, path) + enclosing + ")";
+        }
+
+        if(cssRule == null || cssRule.style == null || cssRule.type != 1) { return result;}
+
+        var style = cssRule.style;
+
+        for(var i = 0; i < style.length; i++)
+        {
+            var key = style[i].toLowerCase();
+
+            var value = style.getPropertyValue(key);
+
+            if(key == "background-image" || key == "background")
             {
-                var key = style[i];
-
-                if(key.indexOf("-value")) { key = key.replace("-value", ""); }
-                if(key.indexOf("-ltr") != -1 || key.indexOf("-rtl") != -1) { continue; }
-
-                declarations[key] = style[key];
-
-                if(declarations[key] == null)
+                if(value.indexOf("url") != -1 || value.indexOf("URL") != -1)
                 {
-                    if(key == "float")
-                    {
-                        declarations[key] = style["cssFloat"];
-                    }
-                    else
-                    {
-                        var newKey = key.replace(/-[a-z]/g, function(match){ return match[1].toUpperCase()});
-
-                        declarations[key] = style[newKey];
-                    }
-                }
-
-                if(declarations[key] == null)
-                {
-                    newKey = newKey.replace("Value", "");
-                    declarations[key] = style[newKey];
-                }
-
-                if(declarations[key] == null)
-                {
-                    Cu.reportError("Unrecognized CSS Property: " + key);
+                    value = value.replace(/url\s*\(([^)]*)\)/gi, urlReplacementFunction);
+                    result.cssText = result.cssText.replace(/url\s*\(([^)]*)\)/gi, urlReplacementFunction);
                 }
             }
-        }
-        catch(e)
-        {
-            CU.reportError("Error when getting style declarations: " + e  + " " + key + " " + newKey);
+
+            result.declarations[key] = value;
         }
 
-        return declarations;
+        return result;
     },
 
     getScriptName: function(url)
@@ -334,29 +323,38 @@ var FireDataAccess =
 
     parseSourceCode: function(sourceCode, path, startLine)
     {
+        if(path != null && Firecrow.isIgnoredScript(path)) { return {};}
+
         Components.utils.import("resource://gre/modules/reflect.jsm");
 
-        var model = Reflect.parse(sourceCode);
-
-        if(model != null)
+        try
         {
-            if(model.loc == null)
+            var model = Reflect.parse(sourceCode);
+
+            if(model != null)
             {
-                model.loc = { start: {line: startLine}, source: path};
+                if(model.loc == null)
+                {
+                    model.loc = { start: {line: startLine}, source: path};
+                }
+
+                if(model.loc.start.line != startLine)
+                {
+                    model.lineAdjuster = startLine;
+                }
+                else
+                {
+                    model.lineAdjuster = 0;
+                }
+
+                model.source = path;
             }
 
-            if(model.loc.start.line != startLine)
-            {
-                model.lineAdjuster = startLine;
-            }
-            else
-            {
-                model.lineAdjuster = 0;
-            }
-
-            model.source = path;
+            return model;
         }
-
-        return model;
+        catch(e)
+        {
+            Cu.reportError("Error when parsing source code: " + e + "; path:" + path + e.lineNumber);
+        }
     }
 };

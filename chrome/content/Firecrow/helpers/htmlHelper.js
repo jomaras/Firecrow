@@ -77,7 +77,6 @@ Firecrow.htmlHelper =
                     currentElement.nodeId = that._lastUsedId++;
                 });
             }
-
             else if (rootElement.tagName == "STYLE"
                   || (rootElement.tagName == "LINK" && rootElement.rel != "" && rootElement.rel.toLowerCase() == "stylesheet"))
             {
@@ -85,10 +84,18 @@ Firecrow.htmlHelper =
 
                 var model = elem.pathAndModel.model;
 
+                var textContent = "";
+
                 model.rules.forEach(function(rule)
                 {
                     rule.nodeId = that._lastUsedId++;
+                    textContent += rule.cssText + "\n";
                 });
+
+                Cu.reportError("Current textContent: " + elem.textContent);
+                Cu.reportError("Rules textContent: " + textContent);
+
+                elem.textContent = textContent;
             }
 
             return elem;
@@ -130,11 +137,18 @@ Firecrow.htmlHelper =
             for(var i = 0; i < element.attributes.length; i++)
             {
                 var currentAttribute = element.attributes[i];
+                var value = currentAttribute.value;
+
+                if(element.tagName == "IMG" && currentAttribute.name.toLowerCase() == "src")
+                {
+                    value = element.src;
+                }
+
                 attributes.push
                 (
                     {
                         name: currentAttribute.name,
-                        value: currentAttribute.value
+                        value: value
                     }
                 );
             }
@@ -169,21 +183,17 @@ Firecrow.htmlHelper =
     {
         var allNodes = [];
 
-        if(rootElement.childNodes == null) { return allNodes;}
+        if(rootElement.childNodes == null ||rootElement.tagName == "STYLE" || rootElement.tagName == "LINK") { return allNodes; }
 
-        try
+        for(var i = 0; i < rootElement.childNodes.length;i++)
         {
-            for(var i = 0; i < rootElement.childNodes.length;i++)
-            {
-                var simplifiedNode = this.getSimplifiedElement(rootElement.childNodes[i], scriptPathsAndModels, stylesPathsAndModels);
+            var simplifiedNode = this.getSimplifiedElement(rootElement.childNodes[i], scriptPathsAndModels, stylesPathsAndModels);
 
-                if(simplifiedNode != null)
-                {
-                    allNodes.push(simplifiedNode);
-                }
+            if(simplifiedNode != null)
+            {
+                allNodes.push(simplifiedNode);
             }
         }
-        catch(e) { Cu.reportError("Children:" + e);}
 
         return allNodes;
     }

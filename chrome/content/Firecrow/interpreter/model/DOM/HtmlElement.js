@@ -95,7 +95,15 @@ fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyVal
 {
     try
     {
-        this.htmlElement[propertyName] = propertyValue.jsValue;
+        if(propertyName == "src" && (ValueTypeHelper.isScriptElement(this.htmlElement) || ValueTypeHelper.isIFrameElement(this.htmlElement))
+        && Firecrow.isIgnoredScript(propertyValue.jsValue))
+        {
+            //Do not write to a src property of script elements that should be skipped
+        }
+        else
+        {
+            this.htmlElement[propertyName] = propertyValue.jsValue;
+        }
 
         this._createDependencies(propertyName, codeConstruct);
         this._logDynamicPropertyModification(propertyName, propertyValue, codeConstruct);

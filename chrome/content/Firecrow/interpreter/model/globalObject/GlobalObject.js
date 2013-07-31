@@ -783,6 +783,7 @@ fcModel.GlobalObject.prototype._createInternalObjects = function()
 
     this.addProperty("location", this.internalExecutor.createLocationObject());
     this.addProperty("navigator", this.internalExecutor.createNavigatorObject());
+    this.addProperty("screen", this.internalExecutor.createScreenObject());
 
     this.fcHTMLImageElement = new fcModel.HTMLImageElement(this);
     this.htmlImageElement = new fcModel.fcValue(HTMLImageElement, this.fcHTMLImageElement, null);

@@ -121,6 +121,8 @@ Browser.prototype = dummy =
 
     executeEvent: function(eventInfo, argumentValues)
     {
+        if(eventInfo == null) { return; }
+
         var handlerConstruct = eventInfo.handler.codeConstruct;
 
         this.executionInfo.logEventExecution(eventInfo.thisObjectDescriptor, eventInfo.eventType, handlerConstruct);
@@ -204,6 +206,7 @@ Browser.prototype = dummy =
         for(var i = 0, length = attributes.length; i < length; i++)
         {
             var attribute = attributes[i];
+
             htmlDomElement.setAttribute(attribute.name, attribute.value);
         }
     },

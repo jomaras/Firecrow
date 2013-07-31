@@ -1,3 +1,4 @@
+var EXPORTED_SYMBOLS = ["Firecrow"];
 /*Just for the intellisense*/
 if(typeof FBL === "undefined")
 {
@@ -54,7 +55,32 @@ FBL.ns(function () { with (FBL)
             //TODO - sort on insertion
             node.includedByDependencies = node.includedByDependencies || [];
             node.includedByDependencies.push(dependencyIndex);
+        },
+
+        IGNORED_SCRIPTS:
+        [
+            "google-analytics.com/ga.js",
+            "twitter",
+            "stumbleupon",
+            "facebook",
+            "linkedin",
+            "apis.google.com",
+            "widgets.dzone.com",
+        ],
+
+        isIgnoredScript: function(path)
+        {
+            if(path == null) { return false; }
+
+            for(var i = 0; i < this.IGNORED_SCRIPTS.length; i++)
+            {
+                if(path.indexOf(this.IGNORED_SCRIPTS[i]) != -1) { return true; }
+            }
+
+            return false;
         }
     };
 }});
+
+var Firecrow = FBL.Firecrow;
 

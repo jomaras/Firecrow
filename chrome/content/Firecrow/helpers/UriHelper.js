@@ -1,3 +1,10 @@
+var EXPORTED_SYMBOLS = ["UriHelper"];
+
+if(typeof FBL === "undefined")
+{
+    FBL =  { ns:  function(namespaceFunction){ namespaceFunction(); }, Firecrow: {}};
+}
+
 FBL.ns(function () { with (FBL) {
 /******/
 Firecrow.UriHelper =
@@ -1708,3 +1715,5 @@ Firecrow.UriHelper =
 
 /******/
 }});
+
+var UriHelper = FBL.Firecrow.UriHelper;
