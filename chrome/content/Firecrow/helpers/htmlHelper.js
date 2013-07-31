@@ -92,9 +92,6 @@ Firecrow.htmlHelper =
                     textContent += rule.cssText + "\n";
                 });
 
-                Cu.reportError("Current textContent: " + elem.textContent);
-                Cu.reportError("Rules textContent: " + textContent);
-
                 elem.textContent = textContent;
             }
 
