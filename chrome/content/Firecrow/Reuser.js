@@ -1354,25 +1354,34 @@ Firecrow.ConflictFixer =
 
             var simpleSelectors = this._getSimpleSelectors(cssNode);
             var updatedSelectors = [];
+            var newSelectorValue = "";
 
             for(var j = 0; j < simpleSelectors.length; j++)
             {
                 var simpleSelector = simpleSelectors[j];
                 var cleansedSelector = simpleSelector.trim();
 
-                if(cleansedSelector == "body" || cleansedSelector == "html") { updatedSelectors.push(cleansedSelector); continue; }
+                if(updatedSelectors.length != 0) { newSelectorValue += ", "; }
+
+                if(cleansedSelector == "body" || cleansedSelector == "html")
+                {
+                    updatedSelectors.push(cleansedSelector);
+                    newSelectorValue += cleansedSelector;
+                    continue;
+                }
 
                 if(fcCssSelectorParser.endsWithPseudoSelector(cleansedSelector))
                 {
-                    updatedSelectors.push(fcCssSelectorParser.appendBeforeLastPseudoSelector(cleansedSelector, attributeSelector));
+                    var modifiedSelector = fcCssSelectorParser.appendBeforeLastPseudoSelector(cleansedSelector, attributeSelector);
+                    updatedSelectors.push(modifiedSelector);
+                    newSelectorValue += modifiedSelector;
                 }
                 else
                 {
                     updatedSelectors.push(cleansedSelector + attributeSelector);
+                    newSelectorValue += cleansedSelector + attributeSelector;
                 }
             }
-
-            var newSelectorValue = updatedSelectors.join(", ");
 
             if(newSelectorValue.trim() == "") { continue; }
 
@@ -1536,7 +1545,23 @@ Firecrow.ConflictFixer =
             simpleSelectors[i] = joined;
         }
 
-        return simpleSelectors.filter(function(i){ return i != null && i !== "";}).join(",");
+        var nonNullSelectors = [];
+        var joined = "";
+
+        for(var i = 0; i < simpleSelectors.length;i++)
+        {
+            var simpleSelector = simpleSelectors[i];
+
+            if(nonNullSelectors.length != 0) { joined += ","; }
+
+            if(simpleSelector != null && simpleSelector != "")
+            {
+                nonNullSelectors.push(simpleSelector);
+                joined += simpleSelector;
+            }
+        }
+
+        return joined;
     },
 
     _getSelectorPartFromCssText: function(cssText)

@@ -94,13 +94,13 @@ fcModel.DateFunction.prototype = new fcModel.Object(null);
 
 fcModel.DateExecutor =
 {
-    executeFunctionMethod: function(thisObject, functionObject, arguments, callExpression, globalObject)
+    executeFunctionMethod: function(thisObject, functionObject, args, callExpression, globalObject)
     {
         try
         {
             return new fcModel.fcValue
             (
-                Date[functionObject.value.name].apply(null, arguments.map(function(item) { return item.value; })),
+                Date[functionObject.value.name].apply(null, globalObject.getJsValues(args)),
                 null,
                 callExpression
             );
@@ -135,7 +135,7 @@ fcModel.DateExecutor =
         catch(e) { fcModel.Date.notifyError("Date - error when creating Date object:" + e); }
     },
 
-    executeInternalDateMethod : function(thisObject, functionObject, arguments, callExpression, callCommand)
+    executeInternalDateMethod : function(thisObject, functionObject, args, callExpression, callCommand)
     {
         try
         {
@@ -148,7 +148,7 @@ fcModel.DateExecutor =
             var globalObject = fcThisValue != null ? fcThisValue.globalObject
                                                    : functionObjectValue.fcValue.iValue.globalObject;
 
-            var argumentValues = arguments.map(function(argument){ return argument.jsValue;});
+            var argumentValues = globalObject.getJsValues(args);
 
             if(functionName.indexOf("set") == 0)
             {

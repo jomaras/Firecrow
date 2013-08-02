@@ -58,7 +58,7 @@ Firecrow.Interpreter.Commands.Command.createEnterFunctionContextCommand = functi
     if(functionObject == null || !ASTHelper.isFunction(functionObject.codeConstruct))
     {
         debugger;
-        this.notifyError("Calle code construct has to be a function");
+        this.notifyError("Callee code construct has to be a function");
     }
 
     command.callee = functionObject;

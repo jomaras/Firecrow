@@ -128,7 +128,7 @@ fcModel.RegExFunction.prototype = new fcModel.Object();
 
 fcModel.RegExExecutor =
 {
-    executeInternalRegExMethod: function(thisObject, functionObject, arguments, callExpression)
+    executeInternalRegExMethod: function(thisObject, functionObject, args, callExpression)
     {
         try
         {
@@ -144,7 +144,7 @@ fcModel.RegExExecutor =
             switch(functionName)
             {
                 case "exec":
-                    var result = thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.jsValue;}));
+                    var result = thisObjectValue[functionName].apply(thisObjectValue, globalObject.getJsValues(args));
                     fcThisValue.addProperty("lastIndex", new fcModel.fcValue(thisObjectValue.lastIndex, thisObjectValue.lastIndex, callExpression),callExpression);
 
                     fcThisValue.addDependenciesToAllModifications(callExpression);
@@ -153,14 +153,18 @@ fcModel.RegExExecutor =
                     if(result == null) { return new fcModel.fcValue(null, null, callExpression); }
                     else if (ValueTypeHelper.isArray(result))
                     {
-                        return fcThisValue.globalObject.internalExecutor.createArray(callExpression, result.map(function(arg)
+                        var internalPrimitives = [];
+
+                        for(var i = 0; i < result.length; i++)
                         {
-                            return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, arg);
-                        }, this));
+                            internalPrimitives.push(globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result[i]));
+                        }
+
+                        return fcThisValue.globalObject.internalExecutor.createArray(callExpression, internalPrimitives);
                     }
                     else { this.notifyError("Unknown result when exec regexp"); return null; }
                 case "test":
-                    var result = thisObjectValue[functionName].apply(thisObjectValue, arguments.map(function(argument){ return argument.jsValue;}));
+                    var result = thisObjectValue[functionName].apply(thisObjectValue, globalObject.getJsValues(args));
                     return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
                 case "toSource":
                     this.notifyError("ToSource not supported on regExp!");

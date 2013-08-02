@@ -5,6 +5,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
 var fcSimulator = Firecrow.Interpreter.Simulator;
 var fcModel = Firecrow.Interpreter.Model;
 
@@ -25,8 +26,19 @@ fcSimulator.VariableObject.prototype =
 
         var existingIdentifier = this.getIdentifier(identifier.name);
 
-        if(existingIdentifier == null) { this.identifiers.push(identifier); }
-        else { existingIdentifier.setValue(identifier.value, identifier.lastModificationPosition.codeConstruct); }
+        if(existingIdentifier == null)
+        {
+            this.identifiers.push(identifier);
+        }
+        else if(existingIdentifier.value != null && ASTHelper.isFunctionDeclaration(existingIdentifier.value.codeConstruct)
+            &&  identifier.value != null && !ASTHelper.isFunction(identifier.value.codeConstruct))
+        {
+            //a variable declaration can not override a function declaration
+        }
+        else
+        {
+            existingIdentifier.setValue(identifier.value, identifier.lastModificationPosition.codeConstruct);
+        }
     },
 
     getIdentifierValue: function(identifierName)
@@ -152,7 +164,13 @@ fcSimulator.VariableObject._getArgumentsConstructs = function(callCommand, callC
         else if (callCommand.isApply)
         {
             var argumentsArray = callConstruct.arguments[1];
-            argumentsConstruct = sentArguments.map(function(arg) { return argumentsArray; })
+
+            argumentsConstruct = [];
+
+            for(var i = 0; i < sentArguments.length; i++)
+            {
+                argumentsConstruct.push(argumentsArray);
+            }
         }
     }
 

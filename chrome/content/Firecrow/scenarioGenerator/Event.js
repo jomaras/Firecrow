@@ -93,10 +93,14 @@ fcScenarioGenerator.ParametrizedEvent.createFromEvents = function(events, inputC
 {
     var resolvedResults = inputConstraint != null ? inputConstraint.resolvedResult : [];
 
-    return events.map(function(event, index)
+    var parametrizedEvents = [];
+
+    for(var i = 0; i < events.length; i++)
     {
-        return new fcScenarioGenerator.ParametrizedEvent(event, resolvedResults[index]);
-    });
+        parametrizedEvents.push(new fcScenarioGenerator.ParametrizedEvent(event[i], resolvedResults[i]));
+    }
+
+    return parametrizedEvents;
 };
 
 fcScenarioGenerator.ParametrizedEvent.prototype =

@@ -369,7 +369,7 @@ fcModel.Array.prototype.slice = function(jsArray, callArguments, callExpression)
         return this.globalObject.internalExecutor.createArray
         (
             callExpression,
-            [].slice.apply((isCalledOnArray ? jsArray : substituteObject), callArguments.map(function(argument){ return argument.jsValue}))
+            [].slice.apply((isCalledOnArray ? jsArray : substituteObject), this.globalObject.getJsValues(callArguments))
         );
     }
     catch(e) { fcModel.Array.notifyError("When slicing array: " + e);}

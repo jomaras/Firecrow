@@ -20,7 +20,7 @@ fcModel.DocumentExecutor =
         else if (functionName == "removeEventListener") { return globalObject.document.removeEventListener(args, callExpression, globalObject); }
         else if (functionName == "createDocumentFragment") { return globalObject.internalExecutor.createDocumentFragment(callExpression, globalObject); }
         else if (functionName == "createComment") { return new fcModel.fcValue(globalObject.origDocument.createComment(""), null, callExpression)}
-        else if (functionName == "getElementsByTagName" || functionName == "querySelectorAll" || functionName == "getElementsByClassName") { return this.getElements(globalObject, functionName, args[0].jsValue, callExpression);}
+        else if (functionName == "getElementsByTagName" || functionName == "querySelectorAll" || functionName == "getElementsByClassName" || functionName == "getElementsByName") { return this.getElements(globalObject, functionName, args[0].jsValue, callExpression, functionName);}
         else if (functionName == "getElementById" || functionName == "querySelector") { return this.getElement(globalObject, functionName, args[0].jsValue, callExpression); }
 
         this.notifyError("Unhandled document method: " +  functionName);
@@ -28,7 +28,7 @@ fcModel.DocumentExecutor =
         return null;
     },
 
-    getElements: function(globalObject, queryType, selector, callExpression)
+    getElements: function(globalObject, queryType, selector, callExpression, functionName)
     {
         globalObject.browser.logDomQueried(queryType, selector, callExpression);
 
@@ -37,7 +37,14 @@ fcModel.DocumentExecutor =
         var elements = [];
         try
         {
-            elements = globalObject.origDocument.querySelectorAll(selector);
+            if(functionName == "getElementsByName")
+            {
+                elements = globalObject.origDocument.getElementsByName(selector);
+            }
+            else
+            {
+                elements = globalObject.origDocument.querySelectorAll(selector);
+            }
         }
         catch(e)
         {
@@ -45,7 +52,7 @@ fcModel.DocumentExecutor =
             (
                 {
                     exceptionGeneratingConstruct: callExpression,
-                    isMatchesSelectorException: true
+                    isDomStringException: true
                 }
             );
         }
@@ -75,7 +82,7 @@ fcModel.DocumentExecutor =
             (
                 {
                     exceptionGeneratingConstruct: callExpression,
-                    isMatchesSelectorException: true
+                    isDomStringException: true
                 }
             );
         }

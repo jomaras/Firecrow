@@ -48,7 +48,7 @@ fcModel.Event.CONST =
 
 fcModel.EventExecutor =
 {
-    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+    executeInternalMethod: function(thisObject, functionObject, args, callExpression)
     {
         if(!functionObject.isInternalFunction) { fcModel.Event.notifyError("The function should be internal when executing html method!"); return; }
 
@@ -57,7 +57,7 @@ fcModel.EventExecutor =
         var functionName = functionObjectValue.name;
         var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  arguments.map(function(argument){ return argument.jsValue;});
+        var jsArguments =  globalObject.getJsValues(args);
 
         if(fcModel.Event.CONST.INTERNAL_PROPERTIES.METHODS.indexOf(functionName) == -1) { fcModel.Event.notifyError("Unhandled event method!"); return; }
 

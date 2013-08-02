@@ -380,6 +380,18 @@ fcSimulator.ExecutionContextStack.prototype =
         return returnValue;
     },
 
+    getExpressionsValues: function(expressions)
+    {
+        var values = [];
+
+        for(var i = 0; i < expressions.length; i++)
+        {
+            values.push(this.getExpressionValue(expressions[i]));
+        }
+
+        return values;
+    },
+
     getBaseObject: function(codeConstruct)
     {
         if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)
@@ -755,19 +767,28 @@ fcSimulator.ExecutionContextStack.prototype =
 
     _getFormalParameters: function(functionConstruct)
     {
-        if(functionConstruct == null || functionConstruct.params == null)
+        try
         {
-            debugger;
-            this.notifyError("Error when getting formal parameters");
-            return;
-        }
+            if(functionConstruct == null || functionConstruct.params == null)
+            {
+                debugger;
+                this.notifyError("Error when getting formal parameters");
+                return;
+            }
 
-        return functionConstruct.params.map(function(param)
-        {
-            var identifier = new fcModel.Identifier(param.name, new fcModel.fcValue(undefined, undefined, param), param, this.globalObject);
-            identifier.isFunctionFormalParameter = true;
-            return identifier
-        }, this);
+            var identifiers = [];
+
+            for(var i = 0; i < functionConstruct.params.length; i++)
+            {
+                var param = functionConstruct.params[i];
+                var identifier = new fcModel.Identifier(param.name, new fcModel.fcValue(undefined, undefined, param), param, this.globalObject);
+                identifier.isFunctionFormalParameter = true;
+                identifiers.push(identifier);
+            }
+
+            return identifiers;
+        }
+        catch(e) { debugger; }
     },
 
     _getSentArgumentValues: function(callCommand)
@@ -813,10 +834,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
         if(args == null) { return []; }
 
-        return args.map(function(argument)
-        {
-            return this.getExpressionValue(argument);
-        }, this);
+        return this.getExpressionsValues(args);
     },
 
     _evalStartWithCommand: function(startWithCommand)

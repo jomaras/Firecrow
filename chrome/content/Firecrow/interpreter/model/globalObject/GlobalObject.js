@@ -398,6 +398,18 @@ fcModel.GlobalObject.prototype.destruct = function()
 
     this.deconstructObject();
 };
+
+fcModel.GlobalObject.prototype.getJsValues = function(internalValues)
+{
+    var jsValues = [];
+
+    for(var i = 0; i < internalValues.length; i++)
+    {
+        jsValues.push(internalValues[i].jsValue);
+    }
+
+    return jsValues;
+},
 //</editor-fold>
 
 //<editor-fold desc="Evaluation Position">

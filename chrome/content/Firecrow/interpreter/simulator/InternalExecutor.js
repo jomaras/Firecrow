@@ -91,7 +91,23 @@ fcSimulator.InternalExecutor.prototype =
 
     createHtmlElement: function(creationConstruct, tagName)
     {
-        var jsElement = this.globalObject.origDocument.createElement(tagName);
+        try
+        {
+            var jsElement = this.globalObject.origDocument.createElement(tagName);
+        }
+        catch(e)
+        {
+            this.globalObject.executionContextStack.callExceptionCallbacks
+            (
+                {
+                    exceptionGeneratingConstruct: creationConstruct,
+                    isDomStringException: true
+                }
+            );
+
+            return;
+        }
+
         jsElement.modelElement = { type: "DummyCodeElement", domElement: jsElement };
         this.globalObject.browser.callNodeCreatedCallbacks(jsElement.modelElement, "html", true);
 
@@ -105,8 +121,7 @@ fcSimulator.InternalExecutor.prototype =
 
         if(ValueTypeHelper.isImageElement(jsElement))
         {
-            fcHtmlElement.addProperty("__proto__", this.globalObject.htmlImageElementPrototype);
-            fcHtmlElement.proto = this.globalObject.htmlImageElementPrototype;
+            fcHtmlElement.addProperty("__proto__", this.globalObject.fcHtmlImagePrototype);
         }
 
         this.globalObject.dependencyCreator.createDataDependency(creationConstruct, jsElement.modelElement, this.globalObject.getPreciseEvaluationPositionId());
@@ -262,7 +277,7 @@ fcSimulator.InternalExecutor.prototype =
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.LinearGradient){ return fcModel.LinearGradientExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject.iValue != null && thisObject.iValue.constructor == fcModel.CanvasGradient){ return fcModel.CanvasGradientExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
             else if (thisObject == this.globalObject.fcArrayFunction) { return fcModel.ArrayExecutor.executeInternalArrayMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand); }
-            else if (thisObject == this.globalObject.fcStringFunction) { return fcModel.StringExecutor.executeInternalStringMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand); }
+            else if (thisObject == this.globalObject.fcStringFunction) { return fcModel.StringExecutor.executeInternalStringFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
             else if (functionObject.isInternalFunction) { return this._executeInternalFunction(thisObject, functionObject, args, callExpression, callCommand); }
             else
             {
@@ -318,7 +333,7 @@ fcSimulator.InternalExecutor.prototype =
     {
         if(internalConstructor == null) { this.notifyError("InternalConstructor can not be null!"); return; }
 
-        var jsArgs = args.map(function(item) { return item.jsValue; });
+        var jsArgs = this.globalObject.getJsValues(args);
 
         if(internalConstructor.iValue == this.globalObject.arrayFunction) { return this.createArray(constructorConstruct, Array.apply(null, args));}
         else if (internalConstructor.iValue == this.globalObject.regExFunction) { return this.createRegEx(constructorConstruct, RegExp.apply(null, jsArgs));}
@@ -338,7 +353,7 @@ fcSimulator.InternalExecutor.prototype =
 
     _createImageObject: function(constructorConstruct)
     {
-        return fcModel.HtmlElementExecutor.wrapToFcElement(new Image(), this.globalObject, constructorConstruct);
+        return this.createHtmlElement(constructorConstruct, "IMG");
     },
 
     _createXMLHttpRequestObject: function(creationConstruct, xmlHttpRequest)
@@ -371,7 +386,7 @@ fcSimulator.InternalExecutor.prototype =
     _executeInternalFunction: function(thisObject, functionObject, args, callExpression, callCommand)
     {
              if (functionObject.jsValue == this.globalObject.arrayFunction) { return this.createArray(callExpression, Array.apply(null, args)); }
-        else if (functionObject.jsValue == this.globalObject.regExFunction) { return this.createRegEx(callExpression, Array.apply(null, args.map(function(item){ return item.jsValue; }))); }
+        else if (functionObject.jsValue == this.globalObject.regExFunction) { return this.createRegEx(callExpression, Array.apply(null, this.globalObject.getJsValues(args))); }
         else if (functionObject.jsValue == toString) { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (functionObject.jsValue != null && functionObject.jsValue.name == "hasOwnProperty") { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
         else if (fcModel.ArrayExecutor.isInternalArrayMethod(functionObject.jsValue))  { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }

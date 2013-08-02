@@ -56,7 +56,7 @@ fcModel.Math.CONST =
 fcModel.Math.prototype = new fcModel.Object();
 fcModel.MathExecutor =
 {
-    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+    executeInternalMethod: function(thisObject, functionObject, args, callExpression)
     {
         try
         {
@@ -64,7 +64,7 @@ fcModel.MathExecutor =
 
             return new fcModel.fcValue
             (
-                Math[functionObject.jsValue.name].apply(null, arguments.map(function(argument) { return argument.jsValue; })),
+                Math[functionObject.jsValue.name].apply(null, functionObject.iValue.globalObject.getJsValues(args)),
                 null,
                 callExpression
             );

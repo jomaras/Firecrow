@@ -14,7 +14,7 @@ fcModel.Object.createObjectWithInit = function(globalObject, codeConstruct, impl
 
 fcModel.Object.LAST_ID = 0;
 
-fcModel.Object.notifyError = function(message) { alert("Object - " + message); }
+fcModel.Object.notifyError = function(message) { debugger; alert("Object - " + message); }
 //</editor-fold>
 
 //<editor-fold desc="Prototype definition">

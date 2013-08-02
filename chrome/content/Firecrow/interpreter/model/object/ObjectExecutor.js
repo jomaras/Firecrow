@@ -26,7 +26,7 @@ fcModel.ObjectExecutor =
                 result = thisObject.jsValue.toString();
             }
 
-            return thisObject.iValue.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
+            return functionObject.iValue.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
         }
         else
         {
@@ -40,9 +40,9 @@ fcModel.ObjectExecutor =
         var thisObjectValue = thisObject.jsValue;
         var functionName = functionObjectValue.name;
         var fcThisValue =  thisObject.iValue;
-        var argumentValues = args.map(function(argument){ return argument.jsValue;});
         var globalObject = fcThisValue != null ? fcThisValue.globalObject
                                                : functionObjectValue.fcValue.iValue.globalObject;
+        var argumentValues = globalObject.getJsValues(args);
 
         switch(functionName)
         {

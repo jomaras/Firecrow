@@ -24,15 +24,25 @@ fcSymbolic.ConstraintResolver =
     {
         var compoundExpressions = this._groupStringAndNumericExpressionsSeparately(symbolicExpressionsList);
 
-        var numericExpressions = compoundExpressions.filter(function(symbolicExpression)
-        {
-            return symbolicExpression.containsNumericExpressions();
-        });
+        var numericExpressions = [];
 
-        var stringExpressions = compoundExpressions.filter(function(symbolicExpression)
+        for(var i = 0; i < compoundExpressions.length; i++)
         {
-            return symbolicExpression.containsStringExpressions();
-        });
+            if(compoundExpressions[i].containsNumericExpressions())
+            {
+                numericExpressions.push(compoundExpressions[i])
+            }
+        }
+
+        var stringExpressions = [];
+
+        for(var i = 0; i < compoundExpressions.length; i++)
+        {
+            if(compoundExpressions[i].containsStringExpressions())
+            {
+                numericExpressions.push(compoundExpressions[i])
+            }
+        }
 
         var numericResults = this._resolveNumericExpressions(numericExpressions);
         var stringResults = this._resolveStringExpressions(stringExpressions);

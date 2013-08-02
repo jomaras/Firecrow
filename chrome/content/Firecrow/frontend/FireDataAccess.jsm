@@ -55,7 +55,8 @@ var FireDataAccess =
         {
             this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";
             this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
-        }.bind(this), 3000)};
+            Cu.reportError("Could not load: " + path);
+        }.bind(this), 5000)};
 
         this._sourceCodeLoadedInBrowser = this._sourceCodeLoadedInBrowser.bind(this);
 

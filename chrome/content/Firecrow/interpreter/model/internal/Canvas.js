@@ -95,7 +95,7 @@ fcModel.CanvasExecutor =
         var functionName = functionObjectValue.name;
         var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  args.map(function(argument){ return argument.jsValue;});
+        var jsArguments =  globalObject.getJsValues(args)
 
         if(functionName == "getContext")
         {
@@ -115,7 +115,7 @@ fcModel.CanvasContextExecutor =
         var functionName = functionObjectValue.name;
         var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  args.map(function(argument){ return argument.jsValue;});
+        var jsArguments = globalObject.getJsValues(args);
 
         try
         {
@@ -188,7 +188,7 @@ fcModel.LinearGradientExecutor =
         var functionName = functionObjectValue.name;
         var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  args.map(function(argument){ return argument.jsValue;});
+        var jsArguments =  globalObject.getJsValues(args);
 
         thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
 
@@ -236,7 +236,7 @@ fcModel.CanvasGradientExecutor =
         var functionName = functionObjectValue.name;
         var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  args.map(function(argument){ return argument.jsValue;});
+        var jsArguments =  globalObject.getJsValues(args);
 
         thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
 

@@ -695,8 +695,8 @@ fcSimulator.Evaluator.prototype =
             //TODO - temp jQuery hack
             if(ValueTypeHelper.isArray(leftValue) && ValueTypeHelper.isArray(rightValue))
             {
-                return (leftValue.map(function(item) { return item.jsValue})).join("")
-                     + (rightValue.map(function(item) { return item.jsValue})).join("")
+                return this.globalObject.getJsValues(leftValue).join("")
+                     + this.globalObject.getJsValues(rightValue).join("")
             }
             else if (ValueTypeHelper.isObject(rightValue) || ValueTypeHelper.isObject(leftValue))
             {
@@ -840,10 +840,7 @@ fcSimulator.Evaluator.prototype =
     {
         if(callInternalFunctionCommand.isCall)
         {
-            return callExpressionArgs.slice(1).map(function(arg)
-            {
-                return this.executionContextStack.getExpressionValue(arg);
-            }, this);
+            return this.executionContextStack.getExpressionsValues(ValueTypeHelper.getWithoutFirstElement(callExpressionArgs));
         }
 
         if(callInternalFunctionCommand.isApply)
@@ -852,11 +849,7 @@ fcSimulator.Evaluator.prototype =
 
             return secondArgumentValue != null && secondArgumentValue.jsValue != null ? secondArgumentValue.jsValue : [];
         }
-
-        return callExpressionArgs == null ? [] : callExpressionArgs.map(function(arg)
-        {
-            return this.executionContextStack.getExpressionValue(arg);
-        }, this);
+        return callExpressionArgs == null ? [] : this.executionContextStack.getExpressionsValues(callExpressionArgs);
     },
 
     _logForInIteration: function(forInWhereCommand, whereObject)

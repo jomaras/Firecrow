@@ -267,6 +267,18 @@ Firecrow.ValueTypeHelper =
         return sum;
     },
 
+    getWithoutFirstElement: function(array)
+    {
+        var withoutFirst = [];
+
+        for(var i = 1; i < array.length; i++)
+        {
+            withoutFirst.push(array[i]);
+        }
+
+        return withoutFirst;
+    },
+
     getRandomElementFromArray: function(array)
     {
         if(array == null) { return null; }

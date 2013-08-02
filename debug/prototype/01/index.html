@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <script src="../prototype.js"></script>
+    <script>
+        var Person = Class.create();
+        Person.prototype = {
+            initialize: function(name) {
+                this.name = name;
+            },
+            say: function(message) {
+                return this.name + ': ' + message;
+            }
+        };
+
+        var guy = new Person('Miro');
+        guy.say('hi');
+
+        var Pirate = Class.create();
+        // inherit from Person class:
+        Pirate.prototype = Object.extend(new Person(), {
+            // redefine the speak method
+            say: function(message) {
+                return this.name + ': ' + message + ', yarr!';
+            }
+        });
+
+        var john = new Pirate('Long John');
+        var a1 = john.say('ahoy matey');
+        a1;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

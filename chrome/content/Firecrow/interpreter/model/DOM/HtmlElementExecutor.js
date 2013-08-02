@@ -34,7 +34,7 @@ fcModel.HtmlElementExecutor =
         }
     },
 
-    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+    executeInternalMethod: function(thisObject, functionObject, args, callExpression)
     {
         if(!functionObject.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing html method!"); return; }
 
@@ -43,14 +43,14 @@ fcModel.HtmlElementExecutor =
         var functionName = functionObjectValue.name;
         var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  arguments.map(function(argument){ return argument.jsValue;});
+        var jsArguments =  globalObject.getJsValues(args)
 
         switch(functionName)
         {
             case "getElementsByTagName":
             case "getElementsByClassName":
             case "querySelectorAll":
-                return this._getElements(functionName, globalObject, arguments[0].jsValue, thisObjectValue, jsArguments, callExpression);
+                return this._getElements(functionName, globalObject, args[0].jsValue, thisObjectValue, jsArguments, callExpression);
             case "getAttribute":
                 return this._getAttribute(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "setAttribute":
@@ -60,18 +60,18 @@ fcModel.HtmlElementExecutor =
             case "removeChild":
             case "insertBefore":
             case "replaceChild":
-                return this._modifyDOM(functionName, thisObjectValue, arguments, jsArguments, globalObject, callExpression);
+                return this._modifyDOM(functionName, thisObjectValue, args, jsArguments, globalObject, callExpression);
             case "cloneNode":
                 return this._cloneNode(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "addEventListener":
-                this._registerEventHandler(fcThisValue, jsArguments, arguments[1], globalObject, callExpression);
+                this._registerEventHandler(fcThisValue, jsArguments, args[1], globalObject, callExpression);
             case "removeEventListener":
                 this._removeEventHandler(thisObjectValue, globalObject, callExpression);
                 return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
             case "matchesSelector":
             case "mozMatchesSelector":
             case "webkitMatchesSelector":
-                globalObject.browser.logDomQueried(functionName, arguments[0].jsValue, callExpression);
+                globalObject.browser.logDomQueried(functionName, args[0].jsValue, callExpression);
             case "compareDocumentPosition":
             case "contains":
                 return this._queryDocument(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
@@ -80,7 +80,7 @@ fcModel.HtmlElementExecutor =
             case "getContext":
                 if(ValueTypeHelper.isCanvasElement(thisObjectValue))
                 {
-                    return fcModel.CanvasExecutor.executeCanvasMethod(thisObject, functionObject, arguments, callExpression);
+                    return fcModel.CanvasExecutor.executeCanvasMethod(thisObject, functionObject, args, callExpression);
                 }
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
@@ -232,7 +232,7 @@ fcModel.HtmlElementExecutor =
             (
                 {
                     exceptionGeneratingConstruct: callExpression,
-                    isMatchesSelectorException: true
+                    isDomStringException: true
                 }
             );
         }
@@ -273,7 +273,12 @@ fcModel.HtmlElementExecutor =
 
             if(manipulatedElement != null) //Because of comments
             {
-                manipulatedElement.notifyElementInsertedIntoDom(callExpression);
+                try
+                {
+                    manipulatedElement.notifyElementInsertedIntoDom(callExpression);
+                }
+                catch(e) { debugger;}
+
             }
         }
 
@@ -341,7 +346,7 @@ fcModel.HtmlElementExecutor =
             (
                 {
                     exceptionGeneratingConstruct: callExpression,
-                    isMatchesSelectorException: true
+                    isDomStringException: true
                 }
             );
         }

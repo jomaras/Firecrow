@@ -75,7 +75,7 @@ fcModel.CSSStyleDeclaration.notifyError =  function (message){ alert("CSSStyleDe
 
 fcModel.CSSStyleDeclarationExecutor =
 {
-    executeInternalMethod: function(thisObject, functionObject, arguments, callExpression)
+    executeInternalMethod: function(thisObject, functionObject, args, callExpression)
     {
         if(!functionObject.isInternalFunction) { fcModel.CSSStyleDeclaration.notifyError("The function should be internal when css declaration method!"); return; }
 
@@ -84,7 +84,7 @@ fcModel.CSSStyleDeclarationExecutor =
         var functionName = functionObjectValue.name;
         var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
-        var jsArguments =  arguments.map(function(argument){ return argument.jsValue;});
+        var jsArguments =  globalObject.getJsValues(args);
 
         switch(functionName)
         {

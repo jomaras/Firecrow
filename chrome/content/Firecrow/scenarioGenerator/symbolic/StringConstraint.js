@@ -48,17 +48,29 @@ fcSymbolic.StringConstraintChain.prototype =
 
     _filterConstraintsValues: function(operators)
     {
-        var constraints = this.chain.filter(function(chainItem)
-        {
-            return operators.indexOf(chainItem.operator) != -1;
-        });
+        var constraints = [];
 
-        var values = constraints.map(function(constraint) { return constraint.value; });
-
-        return values.filter(function(value, position)
+        for(var i = 0; i < this.chain.length; i++)
         {
-            return values.indexOf(value) == position;
-        });
+            var chainItem = this.chain[i];
+
+            if(operators.indexOf(chainItem.operator) != -1)
+            {
+                constraints.push(chainItem);
+            }
+        }
+
+        var values = [];
+
+        for(var i = 0; i < constraints.length; i++)
+        {
+            if(values.indexOf(constraint.value) == -1)
+            {
+                values.push(constraint.value);
+            }
+        }
+
+        return values;
     },
 
     _containAtLeastOneCommonValue: function(arrayA, arrayB)

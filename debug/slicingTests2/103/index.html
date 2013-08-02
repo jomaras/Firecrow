@@ -1,0 +1,32 @@
+<html>
+<head>
+    <style>
+        #mainContainer
+        {
+            background-color: red;
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="mainContainer"></div>
+<script>
+    var arr = [1,2,3,4];
+
+    var a1 = arr.reduce(function(previousValue, currentValue, index, array)
+    {
+        return previousValue + currentValue;
+    }, 1);
+
+    var a2 = arr.reduce(function(previousValue, currentValue, index, array)
+    {
+        return previousValue + currentValue;
+    });
+
+    a1;a2;
+</script>
+
+</body>
+</html>

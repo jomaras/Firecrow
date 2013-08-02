@@ -9,7 +9,6 @@
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
     <script src="../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
     <script src="slicingModelMapping.js"></script>
-    <script src="slicingModelMappingLarge.js"></script>
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
@@ -138,11 +137,11 @@
     <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
-
+    <!--<script src="prototype/01/model.json"></script>-->
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var pageIndex = "102";
+        var pageIndex = "103";
 
         var href = document.location.href;
 
@@ -153,6 +152,7 @@
 
         var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests2/" + pageIndex + "/index.html";
         var htmlModel = HtmlModelMapping.getWholeFileModel(url);
+        var pageModel = htmlModel.model;
         var slicingCriteria = htmlModel.results.map(function(result)
         {
             for(var propName in result)
@@ -161,9 +161,9 @@
             }
         });
 
-        if(htmlModel.model.trackedElementsSelectors != null)
+        if(pageModel.trackedElementsSelectors != null)
         {
-            htmlModel.model.trackedElementsSelectors.forEach(function(selector)
+            pageModel.trackedElementsSelectors.forEach(function(selector)
             {
                 slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
             });
@@ -171,7 +171,7 @@
 
         setTitle(url);
 
-        var result = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria);
+        var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
 
         var browser = result.browser;
         var dependencyGraph = result.dependencyGraph;
@@ -180,8 +180,8 @@
 
         var codeContainer = document.getElementById("codeContainer");
 
-        codeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
-        document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+        codeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(pageModel);
+        document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
 
         (new FBL.Firecrow.DependencyGraph.DependencyHighlighter(codeContainer, dependencyGraph));
 

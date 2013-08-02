@@ -80,13 +80,19 @@ fcSymbolic.PathConstraint.resolvePathConstraints = function(pathConstraints)
     {
         var pathConstraint = pathConstraints[i];
 
-        symbolicExpressionsList.push(pathConstraint.pathConstraintItems.filter(function(item)
+        var constrainedItems = [];
+
+        for(var j = 0; j < pathConstraint.pathConstraintItems.length; j++)
         {
-            return item.constraint != null;
-        }).map(function(item)
-        {
-            return item.constraint;
-        }));
+            var item = pathConstraint.pathConstraintItems[j];
+
+            if(item.constraint != null)
+            {
+                constrainedItems.push(item.constraint);
+            }
+        }
+
+        symbolicExpressionsList.push(constrainedItems);
     }
 
     var results = fcSymbolic.ConstraintResolver.resolveConstraints(symbolicExpressionsList);

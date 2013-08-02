@@ -136,7 +136,7 @@ fcModel.XMLHttpRequestExecutor =
             var functionName = functionObjectValue.name;
             var fcThisValue =  thisObject.iValue;
             var globalObject = fcThisValue.globalObject;
-            var nativeArgs = args.map(function(arg){ return arg.jsValue;});
+            var nativeArgs = globalObject.getJsValues(args);
 
             //this.addModification(callExpression);
             //this.addDependencyToAllModifications(callExpression);

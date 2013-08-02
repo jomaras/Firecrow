@@ -57,12 +57,13 @@ fcModel.ArrayExecutor =
                 case "every":
                 case "some":
                 case "map":
+                case "reduce":
                     var callbackParams = callExpression.arguments != null ? callExpression.arguments[0].params : [];
 
                     callCommand.generatesNewCommands = true;
                     callCommand.generatesCallbacks = true;
                     callCommand.callbackFunction = args[0];
-                    callCommand.callbackArgumentGroups = this._generateCallbackArguments(thisObject, callbackParams || [], functionName);
+                    callCommand.callbackArgumentGroups = this._generateCallbackArguments(thisObject, callbackParams || [], functionName, args);
                     callCommand.thisObject =  args[1] || globalObject;
                     callCommand.originatingObject = thisObject;
                     callCommand.callerFunction = functionObject;
@@ -86,7 +87,8 @@ fcModel.ArrayExecutor =
                     {
                         return new fcModel.fcValue(undefined, undefined, callExpression);
                     }
-
+                break;
+                    break;
                 default:
                     fcModel.Array.notifyError("Unknown internal array method: " + functionObjectValue.name);
             }
@@ -94,9 +96,10 @@ fcModel.ArrayExecutor =
         catch(e) { fcModel.Array.notifyError("Error when executing internal array method: " + e + e.fileName + e.lineNumber); }
     },
 
-    _generateCallbackArguments: function(thisObject, callbackParams, functionName)
+    _generateCallbackArguments: function(thisObject, callbackParams, functionName, callArgs)
     {
         if(functionName == "sort") { return this._generateSortCallbackArguments(thisObject, callbackParams); }
+        if(functionName == "reduce") { return this._generateReduceCallbackArguments(thisObject, callbackParams, callArgs);}
         else { return this._generateIterateOverAllItemsCallbackArguments(thisObject, callbackParams); }
     },
 
@@ -116,6 +119,12 @@ fcModel.ArrayExecutor =
         }
 
         return callbackArguments;
+    },
+
+    _generateReduceCallbackArguments: function(thisObject, callbackParams, callArgs)
+    {
+        var initialObject = callArgs[1] || thisObject.
+        return [];
     },
 
     _generateIterateOverAllItemsCallbackArguments: function(thisObject, callbackParams)

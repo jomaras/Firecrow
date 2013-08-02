@@ -265,7 +265,7 @@ fcSimulator.prototype = dummy =
 
     _removeCommandsAfterException: function(exceptionGeneratingArgument)
     {
-        if(exceptionGeneratingArgument == null || !exceptionGeneratingArgument.isMatchesSelectorException)
+        if(exceptionGeneratingArgument == null || !exceptionGeneratingArgument.isDomStringException)
         {
             debugger;
             fcSimulator.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + this.globalObject.browser.url);
@@ -344,7 +344,7 @@ fcSimulator.prototype = dummy =
         (
             callee,
             newCommand.codeConstruct,
-            callConstruct.arguments.map(function(argument) { return this.executionContextStack.getExpressionValue(argument)}, this)
+            this.executionContextStack.getExpressionsValues(callConstruct.arguments)
         );
 
         this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
@@ -363,6 +363,7 @@ fcSimulator.prototype = dummy =
             this.currentCommandIndex + 1
         );
     },
+
 
     _generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)
     {

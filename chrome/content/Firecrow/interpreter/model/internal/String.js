@@ -58,7 +58,7 @@ fcModel.StringPrototype.CONST =
     {
         METHODS:
         [
-            "charAt","charCodeAt","concat","indexOf","lastIndexOf","localeCompare",
+            "charAt","charCodeAt", "fromCharCode" , "concat","indexOf","lastIndexOf","localeCompare",
             "match","replace","search","slice","split","substr","substring","toLocaleLowerCase",
             "toLocaleUpperCase","toLowerCase","toString","toUpperCase","trim","trimLeft","trimRight","valueOf"
         ]
@@ -149,11 +149,10 @@ fcModel.StringExecutor =
         catch(e) { this.notifyError("Error when evaluating callback return " + e); }
     },
 
-    executeInternalStringMethod : function(thisObject, functionObject, arguments, callExpression, callCommand)
+    executeInternalStringMethod : function(thisObject, functionObject, args, callExpression, callCommand)
     {
         try
         {
-            if(!ValueTypeHelper.isString(thisObject.jsValue)) { this.notifyError("The called on object should be a string!"); return; }
             if(!functionObject.isInternalFunction) { this.notifyError("The function should be internal when executing string method!"); return; }
 
             var functionObjectValue = functionObject.jsValue;
@@ -163,7 +162,12 @@ fcModel.StringExecutor =
             var globalObject = fcThisValue != null ? fcThisValue.globalObject
                                                    : functionObjectValue.fcValue.iValue.globalObject;
 
-            var argumentValues = arguments.map(function(argument){ return argument.jsValue;});
+            var argumentValues = globalObject.getJsValues(args);
+
+            if(functionName == "toString" && ValueTypeHelper.isFunction(thisObject.jsValue)) //toString called on a function
+            {
+                return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, Firecrow.CodeTextGenerator.generateJsCode(thisObject.codeConstruct));
+            }
 
             switch(functionName)
             {
@@ -190,7 +194,7 @@ fcModel.StringExecutor =
 
                     var codeConstruct = callExpression;
 
-                    if(codeConstruct == null) { codeConstruct = arguments[0].codeConstruct; }
+                    if(codeConstruct == null) { codeConstruct = args[0].codeConstruct; }
 
                     return globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, returnValue);
                 case "match":
@@ -202,10 +206,14 @@ fcModel.StringExecutor =
                     }
                     else if (ValueTypeHelper.isArray(result))
                     {
-                        return globalObject.internalExecutor.createArray(callExpression, result.map(function(item)
+                        var internalPrimitives = [];
+
+                        for(var i = 0; i < result.length; i++)
                         {
-                            return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, item);
-                        }));
+                            internalPrimitives.push(globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result[i]));
+                        }
+
+                        return fcThisValue.globalObject.internalExecutor.createArray(callExpression, internalPrimitives);
                     }
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
                 case "replace":
@@ -217,7 +225,7 @@ fcModel.StringExecutor =
                     else if(ValueTypeHelper.isFunction(argumentValues[1]))
                     {
                         var allCallbackArguments = [];
-                        var callbackFunction = arguments[1];
+                        var callbackFunction = args[1];
 
                         var params = callbackFunction.codeConstruct.params;
 
@@ -255,6 +263,27 @@ fcModel.StringExecutor =
             }
         }
         catch(e) {this.notifyError("Error when executing internal string method: " + e); }
+    },
+
+    executeInternalStringFunctionMethod: function(thisObject, functionObject, args, callExpression, callCommand)
+    {
+        var functionObjectValue = functionObject.jsValue;
+        var functionName = functionObjectValue.name;
+
+        if(functionName == "fromCharCode")
+        {
+            var fcThisValue =  thisObject.iValue;
+            var globalObject = fcThisValue != null ? fcThisValue.globalObject
+                                                    : functionObjectValue.fcValue.iValue.globalObject;
+
+            var argumentValues = globalObject.getJsValues(args);
+
+            return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, String.fromCharCode.apply(String, argumentValues));
+        }
+        else
+        {
+            return this.executeInternalStringMethod(args[0], functionObject, args.slice(1, args.length), callExpression, callCommand);
+        }
     },
 
     isInternalStringFunctionMethod: function(functionObject)
