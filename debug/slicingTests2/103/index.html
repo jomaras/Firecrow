@@ -15,17 +15,26 @@
 <script>
     var arr = [1,2,3,4];
 
-    var a1 = arr.reduce(function(previousValue, currentValue, index, array)
+    var emptyArray = [];
+
+    var a1 = emptyArray.reduce(function(){}, 1);
+
+    var singleItemArray = [2];
+    var a2 = singleItemArray.reduce(function(){});
+
+    var a3 = singleItemArray.reduce(function(a, b){ return a + b; }, 1);
+
+    var a4 = arr.reduce(function(previousValue, currentValue, index, array)
     {
         return previousValue + currentValue;
     }, 1);
 
-    var a2 = arr.reduce(function(previousValue, currentValue, index, array)
+    var a5 = arr.reduce(function(previousValue, currentValue, index, array)
     {
         return previousValue + currentValue;
     });
 
-    a1;a2;
+    a1;a2;a3;a4;a5;
 </script>
 
 </body>

@@ -163,7 +163,7 @@ Firecrow.Interpreter.Commands.Command.createCallCallbackMethodCommand = function
     return command;
 };
 
-Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(callCallbackCommand, arguments)
+Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(callCallbackCommand, arguments, index)
 {
     var command = new fcCommands.Command(callCallbackCommand.callbackFunction.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExecuteCallback, callCallbackCommand.parentFunctionCommand);
 
@@ -175,6 +175,7 @@ Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(ca
     command.targetObject = callCallbackCommand.targetObject;
     command.arguments = arguments;
     command.callCallbackCommand = callCallbackCommand;
+    command.index = index;
 
     return command;
 };

@@ -22,98 +22,15 @@
     <div id="includedExternalStyleContainer"></div>
 
     <script>
-        var stylesPathsAndModels = getStylesPathsAndModels(document);
 
-        function getStylesPathsAndModels(document)
+        var array = [{a:1}];
+
+        var result = array.reduce(function(previous, current)
         {
-            var stylesheets = document.styleSheets;
-            var stylePathAndModels = [];
+            return { a: previous.a + current.a};
+        });
 
-            for(var i = 0; i < stylesheets.length; i++)
-            {
-                var styleSheet = stylesheets[i];
-                var path = styleSheet.href != null ? styleSheet.href : document.baseURI;
-                var model = { rules: [] };
-
-                fillStyleSheetModel(model, styleSheet, path)
-
-                stylePathAndModels.push({path : path, model: model });
-            }
-
-            return stylePathAndModels;
-        }
-
-        function fillStyleSheetModel(model, styleSheet, path)
-        {
-            if(styleSheet == null) { return model; }
-
-            var cssRules = styleSheet.cssRules;
-
-            for(var i = 0; i < cssRules.length; i++)
-            {
-                var cssRule = cssRules[i];
-
-                if(cssRule.type == 3)//import command
-                {
-                    fillStyleSheetModel(model, cssRule.styleSheet, FBL.Firecrow.UriHelper.getAbsoluteUrl(cssRule.href, path))
-                }
-                else
-                {
-                    var result = getStyleDeclarationsAndUpdatedCssText(cssRule, path);
-
-                    model.rules.push
-                    (
-                        {
-                            selector: cssRule.selectorText,
-                            cssText: result.cssText,
-                            declarations: result.declarations
-                        }
-                    );
-                }
-            }
-        }
-
-        function getStyleDeclarationsAndUpdatedCssText(cssRule, path)
-        {
-            var result = { declarations: [], cssText: cssRule.cssText };
-
-            function urlReplacementFunction(match, p1)
-            {
-                if(p1 == null) { return match; }
-
-                p1 = p1.trim();
-
-                var enclosing = p1[0] == "'" || p1[0] == '"' ? p1[0] : "";
-
-                if(enclosing != "") { p1 = p1.substring(1, p1.length-1); }
-
-                return "url(" + enclosing + FBL.Firecrow.UriHelper.getAbsoluteUrl(p1, path) + enclosing + ")";
-            }
-
-            if(cssRule == null || cssRule.style == null || cssRule.type != 1) { return result;}
-
-            var style = cssRule.style;
-
-            for(var i = 0; i < style.length; i++)
-            {
-                var key = style[i].toLowerCase();
-
-                var value = style.getPropertyValue(key);
-
-                if(key == "background-image" || key == "background")
-                {
-                    if(value.indexOf("url") != -1 || value.indexOf("URL") != -1)
-                    {
-                        value = value.replace(/url\s*\(([^)]*)\)/gi, urlReplacementFunction);
-                        result.cssText = result.cssText.replace(/url\s*\(([^)]*)\)/gi, urlReplacementFunction);
-                    }
-                }
-
-                result.declarations[key] = value;
-            }
-
-            return result;
-        }
+        alert(result.a);
     </script>
 </body>
 </html>

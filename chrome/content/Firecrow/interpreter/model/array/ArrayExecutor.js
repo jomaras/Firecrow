@@ -28,6 +28,12 @@ fcModel.ArrayExecutor =
                 console.log(functionName + " called on a non-array object!");
             }
 
+            if(functionName == "reduce" || functionName == "reduceRight")
+            {
+                if(thisObjectValue.length == 1 && args[1] == null) { return thisObjectValue[0]; }
+                else if (thisObjectValue.length == 0) { return args[1] || globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined); }
+            }
+
             switch(functionName)
             {
                 case "toString":
@@ -63,7 +69,7 @@ fcModel.ArrayExecutor =
                     callCommand.generatesNewCommands = true;
                     callCommand.generatesCallbacks = true;
                     callCommand.callbackFunction = args[0];
-                    callCommand.callbackArgumentGroups = this._generateCallbackArguments(thisObject, callbackParams || [], functionName, args);
+                    callCommand.callbackArgumentGroups = this._generateCallbackArguments(thisObject, callbackParams || [], functionName, args, callExpression);
                     callCommand.thisObject =  args[1] || globalObject;
                     callCommand.originatingObject = thisObject;
                     callCommand.callerFunction = functionObject;
@@ -96,10 +102,10 @@ fcModel.ArrayExecutor =
         catch(e) { fcModel.Array.notifyError("Error when executing internal array method: " + e + e.fileName + e.lineNumber); }
     },
 
-    _generateCallbackArguments: function(thisObject, callbackParams, functionName, callArgs)
+    _generateCallbackArguments: function(thisObject, callbackParams, functionName, callArgs, callExpression)
     {
         if(functionName == "sort") { return this._generateSortCallbackArguments(thisObject, callbackParams); }
-        if(functionName == "reduce") { return this._generateReduceCallbackArguments(thisObject, callbackParams, callArgs);}
+        if(functionName == "reduce") { return this._generateReduceCallbackArguments(thisObject, callbackParams, callArgs, callExpression);}
         else { return this._generateIterateOverAllItemsCallbackArguments(thisObject, callbackParams); }
     },
 
@@ -121,10 +127,25 @@ fcModel.ArrayExecutor =
         return callbackArguments;
     },
 
-    _generateReduceCallbackArguments: function(thisObject, callbackParams, callArgs)
+    _generateReduceCallbackArguments: function(thisObject, callbackParams, callArgs, callExpression)
     {
-        var initialObject = callArgs[1] || thisObject.
-        return [];
+        var callbackArguments = [];
+        var hasInitialValue = callArgs[1] != null;
+        var thisObjectValue = thisObject.jsValue;
+
+        var length = thisObjectValue.length;
+        for(var i = hasInitialValue ? 0 : 1; i < length; i++)
+        {
+            callbackArguments.push
+            ([
+                i == 0 ? callArgs[1] : thisObject.jsValue[i - 1],
+                thisObject.jsValue[i],
+                thisObject.iValue.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, i),
+                thisObject
+            ]);
+        }
+
+        return callbackArguments;
     },
 
     _generateIterateOverAllItemsCallbackArguments: function(thisObject, callbackParams)

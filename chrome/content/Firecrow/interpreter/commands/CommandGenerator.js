@@ -501,11 +501,13 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         if(argumentGroups == null) { return commands; }
 
         callbackCommand.intermediateResults = [];
+        callbackCommand.childCommands = [];
 
         for(var i = 0, length = argumentGroups.length; i < length; i++)
         {
-            var executeCallbackCommand = fcCommands.Command.createExecuteCallbackCommand(callbackCommand, argumentGroups[i]);
+            var executeCallbackCommand = fcCommands.Command.createExecuteCallbackCommand(callbackCommand, argumentGroups[i], i);
             executeCallbackCommand.parentInitCallbackCommand = callbackCommand;
+            callbackCommand.childCommands.push(executeCallbackCommand);
 
             commands.push(executeCallbackCommand);
 

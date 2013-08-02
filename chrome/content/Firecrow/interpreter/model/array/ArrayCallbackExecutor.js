@@ -24,7 +24,7 @@ fcModel.ArrayCallbackEvaluator =
             else if(callbackFunctionValue.name == "sort") { this._evaluateSortCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return;}
             else if(callbackFunctionValue.name == "every") { fcModel.Array.notifyError("Still not handling evaluate return from every"); return; }
             else if(callbackFunctionValue.name == "some") { fcModel.Array.notifyError("Still not handling evaluate return from some"); return; }
-            else if(callbackFunctionValue.name == "reduce") { fcModel.Array.notifyError("Still not handling evaluate return from reduce"); return; }
+            else if(callbackFunctionValue.name == "reduce") { this._evaluateReduceCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return; }
             else if(callbackFunctionValue.name == "reduceRight") { fcModel.Array.notifyError("Still not handling evaluate return from reduceRight"); return; }
             else if(callbackFunctionValue.name == "forEach") { }
             else
@@ -59,6 +59,21 @@ fcModel.ArrayCallbackEvaluator =
         if(!ValueTypeHelper.isArray(targetObjectValue)) { fcModel.Array.notifyError("A new array should be created when calling filter: "); return; }
 
         targetObject.iValue.push(targetObjectValue, [returnValue], valueExpression.argument || valueExpression);
+    },
+
+    _evaluateReduceCallback: function(targetObject, returnValue, callbackCommand, valueExpression)
+    {
+        var parentCommand = callbackCommand.parentInitCallbackCommand;
+        var nextCommand = parentCommand.childCommands[callbackCommand.index + 1];
+
+        if(nextCommand != null)
+        {
+            nextCommand.arguments[0] = returnValue;
+        }
+        else
+        {
+            parentCommand.originatingObject.iValue.globalObject.executionContextStack.setExpressionValueInPreviousContext(parentCommand.codeConstruct, returnValue);
+        }
     },
 
     _evaluateSortCallback: function(targetObject, returnValue, callbackCommand, valueExpression)
