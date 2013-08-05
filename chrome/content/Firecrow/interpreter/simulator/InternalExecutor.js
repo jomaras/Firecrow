@@ -344,6 +344,7 @@ fcSimulator.InternalExecutor.prototype =
         else if (internalConstructor.iValue == this.globalObject.dateFunction) { return fcModel.DateExecutor.executeInternalConstructor(constructorConstruct, args, this.globalObject); }
         else if (internalConstructor.iValue == this.globalObject.imageFunction) { return this._createImageObject(constructorConstruct); }
         else if (internalConstructor.iValue == this.globalObject.xmlHttpRequestFunction) { return this._createXMLHttpRequestObject(constructorConstruct, new XMLHttpRequest()); }
+        else if (internalConstructor.iValue == this.globalObject.errorFunction) { return this._createErrorObject(constructorConstruct, Error.apply(null, jsArgs), this.globalObject); }
         else
         {
             this.notifyError("Unhandled internal constructor" + constructorConstruct.loc.start.line);
@@ -354,6 +355,11 @@ fcSimulator.InternalExecutor.prototype =
     _createImageObject: function(constructorConstruct)
     {
         return this.createHtmlElement(constructorConstruct, "IMG");
+    },
+
+    _createErrorObject: function(constructorConstruct, errorObject, globalObject)
+    {
+        return new fcModel.fcValue(errorObject, new fcModel.Error(errorObject, globalObject, constructorConstruct), constructorConstruct, null);
     },
 
     _createXMLHttpRequestObject: function(creationConstruct, xmlHttpRequest)

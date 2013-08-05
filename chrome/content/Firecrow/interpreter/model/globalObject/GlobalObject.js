@@ -604,6 +604,12 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
     this.datePrototype = new fcModel.DatePrototype(this);
     this.fcDatePrototype = new fcModel.fcValue(Date.prototype, this.datePrototype, null);
 
+    this.errorPrototype = new fcModel.ErrorPrototype(this);
+    this.fcErrorPrototype = new fcModel.fcValue(Error.prototype, this.errorPrototype, null);
+
+    this.eventPrototype = new fcModel.EventPrototype(this);
+    this.fcEventPrototype = new fcModel.fcValue(Event.prototype, this.eventPrototype, null);
+
     this.htmlImageElementPrototype = new fcModel.HTMLImageElementPrototype(this);
     this.fcHtmlImagePrototype = new fcModel.fcValue(HTMLImageElement.prototype, this.htmlImageElementPrototype, null);
 
@@ -627,7 +633,8 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
         this.objectPrototype, this.functionPrototype, this.booleanPrototype,
         this.arrayPrototype, this.regExPrototype, this.stringPrototype,
         this.numberPrototype, this.datePrototype, this.htmlImageElementPrototype,
-        this.elementPrototype, this.canvasPrototype, this.xmlHttpRequestPrototype
+        this.elementPrototype, this.canvasPrototype, this.xmlHttpRequestPrototype,
+        this.eventPrototype, this.errorPrototype
     ];
 };
 
@@ -661,6 +668,12 @@ fcModel.GlobalObject.prototype._deleteInternalPrototypes = function ()
 
     delete this.datePrototype;
     delete this.fcDatePrototype;
+
+    delete this.errorPrototype;
+    delete this.fcErrorPrototype;
+
+    delete this.eventPrototype;
+    delete this.fcEventPrototype;
 
     delete this.htmlImageElementPrototype;
     delete this.fcHtmlImagePrototype;
@@ -713,6 +726,12 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
     this.dateFunction = new fcModel.DateFunction(this);
     this.addProperty("Date", new fcModel.fcValue(Date, this.dateFunction, null), null);
 
+    this.errorFunction = new fcModel.ErrorFunction(this);
+    this.addProperty("Error", new fcModel.fcValue(Error, this.errorFunction, null), null);
+
+    this.eventFunction = new fcModel.EventFunction(this);
+    this.addProperty("Event", new fcModel.fcValue(Event, this.eventFunction, null), null),
+
     this.functionFunction = new fcModel.FunctionFunction(this);
     this.addProperty("Function", new fcModel.fcValue(Function, this.functionFunction), null);
 
@@ -746,7 +765,7 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
         this.objectFunction, this.arrayFunction, this.booleanFunction,
         this.stringFunction, this.imageFunction, this.regExFunction,
         this.numberFunction, this.dateFunction, this.functionFunction,
-        this.xmlHttpRequestFunction
+        this.xmlHttpRequestFunction, this.eventFunction, this.errorFunction
     ];
 };
 
@@ -769,6 +788,10 @@ fcModel.GlobalObject.prototype._deleteInternalFunctions = function()
     delete this.numberFunction;
 
     delete this.dateFunction;
+
+    delete this.errorFunction;
+
+    delete this.eventFunction;
 
     delete this.functionFunction;
 
@@ -804,6 +827,10 @@ fcModel.GlobalObject.prototype._createInternalObjects = function()
     this.fcElement = new fcModel.Element(this);
     this.element = new fcModel.fcValue(Element, this.fcElement, null);
     this.addProperty("Element", this.element, null);
+
+    //this.fcEvent = new fcModel.Event(this);
+    //this.event = new fcModel.fcValue(Event, this.fcEvent, null);
+    //this.addProperty("Event", this.event, null);
 };
 
 fcModel.GlobalObject.prototype._deleteInternalObjects = function()
@@ -819,6 +846,9 @@ fcModel.GlobalObject.prototype._deleteInternalObjects = function()
 
     delete this.fcElement;
     delete this.element;
+
+    delete this.fcEvent;
+    delete this.event;
 };
 
 fcModel.GlobalObject.prototype._createInternalVariables = function()

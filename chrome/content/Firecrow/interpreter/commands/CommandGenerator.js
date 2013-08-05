@@ -41,7 +41,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
                 false
             );
 
-            return declarationCommands.concat(executionCommands);
+            return ValueTypeHelper.concatArray(declarationCommands, executionCommands);
         }
         catch(e) { this.notifyError("Error while generating commands: " + e);}
     },
@@ -1115,7 +1115,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
     toString: function(commands) { return commands.join("\n"); },
 
-    notifyError: function(message) { alert("CommandGenerator - " + message); }
+    notifyError: function(message) { debugger; alert("CommandGenerator - " + message); }
 };
 /*************************************************************************************/
 }});

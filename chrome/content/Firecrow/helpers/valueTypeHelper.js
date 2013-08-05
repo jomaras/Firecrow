@@ -445,6 +445,19 @@ Firecrow.ValueTypeHelper =
         catch(e) { alert("Error when Creating array copy - ValueTypeHelper:" + e);}
     },
 
+    concatArray: function(firstArray, secondArray)
+    {
+        if(firstArray == null) { return secondArray; }
+        if(secondArray == null) { return firstArray; }
+
+        var joinedArray = [];
+
+        for(var i = 0; i < firstArray.length; i++) { joinedArray.push(firstArray[i]); }
+        for(var i = 0; i < secondArray.length; i++) { joinedArray.push(secondArray[i]); }
+
+        return joinedArray;
+    },
+
     pushAll: function(baseArray, arrayWithItems)
     {
         try

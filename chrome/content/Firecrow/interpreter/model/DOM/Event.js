@@ -46,6 +46,70 @@ fcModel.Event.CONST =
     }
 };
 
+fcModel.EventPrototype = function(globalObject)
+{
+    try
+    {
+        this.initObject(globalObject);
+        this.constructor = fcModel.EventPrototype;
+        fcModel.EventPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+        {
+            if(Event.prototype[propertyName] == null) { return; }
+            this.addProperty
+            (
+                propertyName,
+                new fcModel.fcValue
+                (
+                    Event.prototype[propertyName],
+                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+                    null
+                ),
+                null,
+                false
+            );
+        }, this);
+    }
+    catch(e) { fcModel.Event.notifyError("EventPrototype - error when creating date prototype:" + e); }
+};
+
+fcModel.EventPrototype.CONST =
+{
+    INTERNAL_PROPERTIES :
+    {
+        METHODS:
+        [
+            "initEvent", "preventDefault", "stopImmediatePropagation", "stopPropagation"
+        ],
+        PROPERTIES:
+        [
+            "bubbles", "cancelable", "currentTarget", "defaultPrevented", "eventPhase", "explicitOriginalTarget",
+            "originalTarget", "target", "timeStamp", "type", "isTrusted"
+        ]
+    },
+    FUNCTION_PROPERTIES:
+    {
+        METHODS:  ["now", "parse", "UTC"]
+    }
+};
+
+fcModel.EventPrototype.prototype = new fcModel.Object(null);
+
+fcModel.EventFunction = function(globalObject)
+{
+    try
+    {
+        this.initObject(globalObject);
+
+        this.addProperty("prototype", globalObject.fcEventPrototype);
+
+        this.isInternalFunction = true;
+        this.name = "Event";
+    }
+    catch(e){ fcModel.Event.notifyError("Event - error when creating Event Function:" + e); }
+};
+
+fcModel.EventFunction.prototype = new fcModel.Object(null);
+
 fcModel.EventExecutor =
 {
     executeInternalMethod: function(thisObject, functionObject, args, callExpression)
