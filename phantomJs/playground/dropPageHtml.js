@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "C:\\GitWebStorm\\Firecrow\\phantomJs\\playground\\index.html";
+var url = "file:///C:/GitWebStorm/Firecrow/phantomJs/playground/index.html";
 
 console.log("Started loading page");
 
@@ -11,6 +11,10 @@ page.onConsoleMessage = function(msg) {
 
 page.onAlert = function(msg) {
     console.log('ALERT: ' + msg);
+};
+
+page.onInitialized = function() {
+    page.injectJs("./evaluationHelpers/assertDefinitions.js");
 };
 
 var t = Date.now();
@@ -28,7 +32,7 @@ page.open(encodeURI(url), function(status)
 
         var result = page.evaluate(function()
         {
-            return document.documentElement.textContent;
+            return document.getElementById("sourceTextArea").value;
         });
 
         console.log(result);

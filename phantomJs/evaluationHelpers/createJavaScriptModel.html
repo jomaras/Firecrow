@@ -53,7 +53,7 @@
 
         sourceContainer.textContent = urlSource;
 
-        var urlSourceModel = esprima.parse(urlSource, {loc:true});
+        var urlSourceModel = esprima.parse(urlSource, {loc:true, raw:true});
 
         astContainer.textContent = JSON.stringify(urlSourceModel);
     </script>

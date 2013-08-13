@@ -4,9 +4,27 @@
     <title></title>
 </head>
 <body>
-<script>
-    document.write(navigator.userAgent);
-</script>
+<style>
+    textarea
+    {
+        width: 200px;
+        height: 300px;
+    }
+</style>
+<script src="../evaluationHelpers/esprima.js"></script>
+<script src="../evaluationHelpers/escodegen.js"></script>
 
+<textarea id="inputTextArea">assertMatch( /^\[[0-9\-\.]+, [0-9\-\.]+, [0-9\-\.]+\]\n\[0, [0-9\-\.]+, [0-9\-\.]+\]\n\[0, 0, [0-9\-\.]+\]$/,
+    M.toRightTriangular().inspect() )</textarea>
+<textarea id="outputTextArea"></textarea>
+<textarea id="sourceTextArea"></textarea>
+<script>
+    var inputTextArea = document.getElementById("inputTextArea");
+    var outputTextArea = document.getElementById("outputTextArea");
+    var sourceTextArea = document.getElementById("sourceTextArea");
+
+    outputTextArea.textContent = JSON.stringify(esprima.parse(inputTextArea.value));
+    sourceTextArea.textContent = escodegen.generate(esprima.parse(inputTextArea.value));
+</script>
 </body>
 </html>

@@ -9,12 +9,10 @@ var escodegen = require("C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
-VARIABLE_INDEX = 0;
-
 //http://localhost/Firecrow/evaluation/libraries/sylvester/test/specs/line_segment_spec.js
 
 var url = "http://localhost/Firecrow/phantomJs/evaluationHelpers/createJavaScriptModel.html";
-url += "?url=http://localhost/Firecrow/evaluation/libraries/sylvester/test/specs/line_segment_spec.js";
+url += "?url=http://localhost/Firecrow/evaluation/libraries/sylvester/test/specs/matrix_spec.js";
 
 var EsprimaHelper = {
 
@@ -68,96 +66,6 @@ var EsprimaHelper = {
         return testCallStatement.expression.arguments[1].body.body[0].body.body;
     },
 
-    convertTestStatements: function(testCallStatement)
-    {
-        var originalTestStatements = this.getTestStatements(testCallStatement);
-
-        return originalTestStatements.map(function(originalTestStatement)
-        {
-            var converted = this.convertOriginalTestStatement(originalTestStatement);
-
-            if(converted == null) debugger;
-
-            return converted;
-        }, this);
-    },
-
-    convertOriginalTestStatement: function(originalTestStatement)
-    {
-        var callExpression = originalTestStatement.expression;
-
-        if(callExpression == null || callExpression.callee == null) { return originalTestStatement; }
-
-        if(callExpression.callee.name == "assert")
-        {
-            return this.convertAssert(originalTestStatement, VARIABLE_INDEX++);
-        }
-        else if(callExpression.callee.name == "assertNull")
-        {
-            return this.convertAssertNull(originalTestStatement, VARIABLE_INDEX++);
-        }
-        else if (callExpression.callee.name == "assertEqual")
-        {
-            return this.convertAssertEqual(originalTestStatement, VARIABLE_INDEX++);
-        }
-
-        return originalTestStatement;
-    },
-
-    convertAssert: function(originalTestStatement, index)
-    {
-        var callExpression = originalTestStatement.expression;
-
-        return {
-            type: "AssignmentExpression",
-            operator: "=",
-            left: { type: "Identifier", name: "a" + index},
-            right:
-            {
-                type: "BinaryExpression",
-                operator: "==",
-                left: callExpression.arguments[0],
-                right: { type: "Literal", value: true, raw: "true" }
-            }
-        };
-    },
-
-    convertAssertNull: function(originalTestStatement, index)
-    {
-        var callExpression = originalTestStatement.expression;
-
-        return {
-            type: "AssignmentExpression",
-            operator: "=",
-            left: { type: "Identifier", name: "a" + index},
-            right:
-            {
-                type: "BinaryExpression",
-                operator: "==",
-                left: callExpression.arguments[0],
-                right: { type: "Literal", value: null, raw: "null" }
-            }
-        };
-    },
-
-    convertAssertEqual: function(originalTestStatement, index)
-    {
-        var callExpression = originalTestStatement.expression;
-
-        return {
-            type: "AssignmentExpression",
-            operator: "=",
-            left: { type: "Identifier", name: "a" + index},
-            right:
-            {
-                type: "BinaryExpression",
-                operator: "==",
-                left: callExpression.arguments[0],
-                right: callExpression.arguments[1]
-            }
-        };
-    },
-
     getCode: function(statements)
     {
         var code = "";
@@ -166,7 +74,14 @@ var EsprimaHelper = {
         {
             try
             {
-                code += escodegen.generate(statement, {format:{indent:{style: '    ', base: 1}}}) + "\n";
+                var statementCode = escodegen.generate(statement);
+
+                if(statementCode.indexOf("assertMatch") != -1)
+                {
+                    console.log(JSON.stringify(statement));
+                }
+
+                code += statementCode + "\n";
             }
             catch(e) { debugger; }
         });
@@ -180,7 +95,7 @@ function saveTestCode(rootFolder, suiteName, testName, testCode)
     var html = "<html>\n"
              + "    <head><title>Sylvester Test: " + suiteName + "-" + testName  + "</title><meta charset='UTF-8'></head>\n"
              + "    <body>\n"
-             + "        <script src='../sylvester.src.js'></script>\n"
+             + "        <script src='http://localhost/Firecrow/evaluation/libraries/sylvester/sylvester.src.js'></script>\n"
              + "        <script>\n"
              +          testCode
              + "        </script>\n"
@@ -220,11 +135,8 @@ page.open(encodeURI(url), function(status)
 
         testStatements.forEach(function(testStatement)
         {
-            VARIABLE_INDEX = 0;
-
             var testName = EsprimaHelper.getTestName(testStatement);
-            var testCode = beforeCode + EsprimaHelper.getCode(EsprimaHelper.convertTestStatements(testStatement)) + "\n MAX_INDEX = " + VARIABLE_INDEX + ";";
-
+            var testCode = beforeCode + EsprimaHelper.getCode(EsprimaHelper.getTestStatements(testStatement));
 
             saveTestCode("C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\adjusted", suiteName, testName, testCode);
         });
