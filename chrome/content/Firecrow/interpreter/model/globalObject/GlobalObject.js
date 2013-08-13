@@ -33,7 +33,7 @@ fcModel.GlobalObject = function(browser)
     }
     catch(e)
     {
-        fcModel.GlobalObject.notifyError("Error when initializing global object:" + e);
+        fcModel.GlobalObject.notifyError("Error when initializing global object:" + e + ";; " + e.stack);
     }
 };
 
@@ -622,8 +622,11 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
     this.elementPrototype = new fcModel.ElementPrototype(this);
     this.fcElementPrototype = new fcModel.fcValue(Element.prototype, this.elementPrototype, null);
 
-    this.windowPrototype = new fcModel.WindowPrototype(this);
-    this.fcWindowPrototype = new fcModel.fcValue(Window.prototype, this.windowPrototype, null);
+    if(typeof Window !== "undefined")
+    {
+        this.windowPrototype = new fcModel.WindowPrototype(this);
+        this.fcWindowPrototype = new fcModel.fcValue(Window.prototype, this.windowPrototype, null);
+    }
 
     this.documentPrototype = new fcModel.DocumentPrototype(this);
     this.fcDocumentPrototype = new fcModel.fcValue(Document.prototype, this.documentPrototype, null);
@@ -739,7 +742,11 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
     this.addProperty("XMLHttpRequest", new fcModel.fcValue(XMLHttpRequest, this.xmlHttpRequestFunction, null), null);
 
     this.windowFunction = new fcModel.WindowFunction(this);
-    this.addProperty("Window", new fcModel.fcValue(Window, this.windowFunction, null), null);
+
+    if(typeof Window !== "undefined")
+    {
+        this.addProperty("Window", new fcModel.fcValue(Window, this.windowFunction, null), null);
+    }
 
     this.documentFunction = new fcModel.DocumentFunction(this);
     this.addProperty("Document", new fcModel.fcValue(Document, this.documentFunction, null), null);

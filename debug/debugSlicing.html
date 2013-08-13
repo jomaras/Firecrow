@@ -138,11 +138,11 @@
     <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
-    <script src="prototype/01/model.json"></script>
+    <!--<script src="prototype/01/model.json"></script>-->
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var pageIndex = "103";
+        var pageIndex = "01";
 
         var href = document.location.href;
 
@@ -151,7 +151,7 @@
             pageIndex = href.substring(href.indexOf("?") + 1);
         }
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests2/" + pageIndex + "/index.html";
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/" + pageIndex + "/index.html";
         var htmlModel = HtmlModelMapping.getWholeFileModel(url);
         var pageModel = htmlModel.model;
         var slicingCriteria = htmlModel.results.map(function(result)
@@ -249,6 +249,7 @@
                 newDiv.style.color = "green";
                 newDiv.textContent = "Test successful";
                 messageContainer.appendChild(newDiv);
+                console.log("Test successful");
             }
         }
     </script>
