@@ -1150,6 +1150,8 @@ Firecrow.CodeTextGenerator.prototype =
             var attributes = htmlElement.attributes;
             var attributesText = "";
 
+            if(attributes == null) { return attributesText; }
+
             for(var i = 0, length = attributes.length; i < length; i++)
             {
                 var attribute = attributes[i];

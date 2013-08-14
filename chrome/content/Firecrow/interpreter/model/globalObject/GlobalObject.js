@@ -49,7 +49,9 @@ fcModel.GlobalObject.CONST =
             "encodeURIComponent", "eval", "isFinite", "isNaN",
             "parseFloat", "parseInt", "addEventListener", "removeEventListener",
             "setTimeout", "clearTimeout", "setInterval", "clearInterval",
-            "getComputedStyle", "unescape"
+            "getComputedStyle", "unescape",
+            //Testing methods
+            "assert", "assertEquals", "assertMatch", "assertNull", "assertNotNull"
         ],
         EVENT_PROPERTIES:
         [
@@ -563,6 +565,12 @@ fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 
     this.origWindow = Firecrow.getWindow();
     this.origDocument = Firecrow.getDocument();
+
+    this.origWindow.assert = function assert(){};
+    this.origWindow.assertEquals = function assertEquals(){};
+    this.origWindow.assertMatch = function assertMatch(){};
+    this.origWindow.assertNull = function assertNull(){};
+    this.origWindow.assertNotNull = function assertNotNull(){};
 };
 
 fcModel.GlobalObject.prototype._removeExecutionEnvironment = function()

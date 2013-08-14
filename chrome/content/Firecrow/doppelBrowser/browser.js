@@ -276,7 +276,6 @@ Browser.prototype = dummy =
     {
         try
         {
-            //console.log("Interpreting @ " + codeModel.loc.start.line);
             var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
             this.globalObject.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, interpreter.executionContextStack);
 
