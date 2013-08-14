@@ -102,11 +102,13 @@
     <iframe id="firecrowFrame" height="1" width="1"></iframe>
     <textarea id="slicingResultTextArea"></textarea>
     <textarea id="loadingTimeTextArea"></textarea>
+    <textarea id="astNodesTextArea"></textarea>
     <script>
         (function()
         {
             var slicingResultTextArea = document.getElementById("slicingResultTextArea");
             var loadingTimeTextArea = document.getElementById("loadingTimeTextArea");
+            var astNodesTextArea = document.getElementById("astNodesTextArea");
 
             var pageModel = { doctype:"", htmlElement: JSON.parse(window.getSource(window.queryString["url"]))};
 
@@ -131,11 +133,13 @@
                 }
             });
 
-            Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
+            //Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
+            //Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
 
             var startTime = Date.now();
             Firecrow.Slicer.slice(pageModel);
             slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
+            astNodesTextArea.textContent = nodeId;
             loadingTimeTextArea.textContent = Date.now() - startTime;
         })();
     </script>

@@ -195,7 +195,7 @@ fcSimulator.ExecutionContextStack.prototype =
             else if (command.isStartLogicalExpressionCommand()) { }
             else if (command.isCallInternalConstructorCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isCallCallbackMethodCommand()) {}
-            else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
+            else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct);}
             else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.createExecuteCallbackDependencies(command); }
             else if (command.isConvertToPrimitiveCommand()) {}
             else

@@ -13,6 +13,8 @@ fcModel.Object.createObjectWithInit = function(globalObject, codeConstruct, impl
 }
 
 fcModel.Object.LAST_ID = 0;
+//a flag that disables slicing of array objects, setting it to false causes that dependencies between items in array-like objects are not created.
+fcModel.Object.MONOLITIC_ARRAYS = true;
 
 fcModel.Object.notifyError = function(message) { debugger; alert("Object - " + message); }
 //</editor-fold>
@@ -348,7 +350,7 @@ fcModel.Object.prototype =
     addDependencyToAllModifications: function(codeConstruct, modifications)
     {
         modifications = modifications || this.modifications;
-        if(codeConstruct == null || modifications == null || modifications.length == 0) { return; }
+        if(codeConstruct == null || modifications == null || modifications.length == 0 || !fcModel.Object.MONOLITIC_ARRAYS) { return; }
 
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
@@ -370,7 +372,8 @@ fcModel.Object.prototype =
     {
         try
         {
-            if(codeConstruct == null) { return; }
+            if(codeConstruct == null || !fcModel.Object.MONOLITIC_ARRAYS) { return; }
+
             if(this.dummyDependencyNode == null)
             {
                 this.dummyDependencyNode = { type: "DummyCodeElement" };

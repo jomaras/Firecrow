@@ -254,9 +254,17 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
 
         Firecrow.includeNode(callExpression);
 
-        if(ASTHelper.isMemberExpression(callExpression.callee) && ASTHelper.isIdentifier(callExpression.callee.property))
+        if(ASTHelper.isMemberExpression(callExpression.callee))
         {
-            callExpression.callee.property.shouldBeIncluded = true;
+            if(ASTHelper.isIdentifier(callExpression.callee.property))
+            {
+                callExpression.callee.property.shouldBeIncluded = true;
+            }
+
+            if(ASTHelper.isIdentifier(callExpression.callee.object))
+            {
+                callExpression.callee.object.shouldBeIncluded = true;
+            }
         }
 
         this.processElement(callExpression.callee);

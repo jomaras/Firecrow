@@ -11,7 +11,7 @@ var pageIndex = 0;
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;
-var destinationName = "slicedWithoutSliceUnions";
+var destinationName = "slicedAll";//slicedAll; slicedWithoutSliceUnions; slicedWithoutSliceUnionsAndArrays
 var destinationFolder = libraryFolder + destinationName;
 var logFile = destinationFolder + "\\logAll.txt";
 
@@ -60,13 +60,15 @@ page.onLoadFinished = function()
     {
         return {
             source: document.getElementById("slicingResultTextArea").textContent,
-            slicingTime: document.getElementById("loadingTimeTextArea").textContent
+            slicingTime: document.getElementById("loadingTimeTextArea").textContent,
+            numberOfNodes: document.getElementById("astNodesTextArea").textContent
         }
     });
 
     fs.write(modelFiles[pageIndex].replace(".json", ".html").replace(rootName, destinationName), result.source);
     console.log(modelFiles[pageIndex] + " sliced in " + result.slicingTime + " msec " + " and has " + result.source.split("\n").length + " LOC");
-    log += modelFiles[pageIndex] + " --- " + result.slicingTime + " --- " + result.source.split("\n").length + "\n";
+    //file name --- time required in ms --- number of lines --- number of ast nodes
+    log += modelFiles[pageIndex] + " --- " + result.slicingTime + " --- " + result.source.split("\n").length + " --- " + result.numberOfNodes + "\n";
 
     loadInProgress = false;
 

@@ -817,6 +817,8 @@ Firecrow.CodeTextGenerator.prototype =
 
         if(whileBody === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(whileStatement.test)) { return ""; }
 
+        if(whileTest === "") { whileTest = "false"; }
+
         return this._WHILE_KEYWORD + this._LEFT_PARENTHESIS + whileTest  + this._RIGHT_PARENTHESIS
             + (whileBody.length != 0 ? this.newLine + whileBody : this._SEMI_COLON);
     },
