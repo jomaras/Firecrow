@@ -385,8 +385,11 @@ fcSimulator.prototype = dummy =
         var baseObject = this.executionContextStack.getBaseObject(callConstruct.callee);
         var callFunction = this.executionContextStack.getExpressionValue(callConstruct.callee);
 
+        if(callFunction == null) { debugger; alert("Call function can not be null!"); }
+
         var baseObjectValue = baseObject.jsValue;
         var callFunctionValue = callFunction.jsValue;
+
 
         if(ValueTypeHelper.isFunction(baseObjectValue) && ValueTypeHelper.isFunction(callFunctionValue))
         {

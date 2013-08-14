@@ -1060,7 +1060,7 @@ Firecrow.CodeTextGenerator.prototype =
         if(ValueTypeHelper.isNull(literal.value)) { return "null"; }
         if (ValueTypeHelper.isString(literal.value))
         {
-            return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/, "\\n").replace(/\r/, "\\r") + "'";
+            return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/g, "\\n").replace(/\r/g, "\\r") + "'";
         }
         else if (ValueTypeHelper.isBoolean(literal.value) || ValueTypeHelper.isNumber(literal.value)) { return literal.value; }
         else if(ValueTypeHelper.isObject(literal.value))

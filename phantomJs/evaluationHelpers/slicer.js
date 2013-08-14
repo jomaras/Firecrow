@@ -8,8 +8,16 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\adjusted_models";
-var logFile = rootFolder + "\\logAll.txt";
+var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\";
+var rootName = "adjusted_models";
+var rootFolder = libraryFolder + rootName;
+var destinationName = "slicedWithoutSliceUnions";
+var destinationFolder = libraryFolder + destinationName;
+var logFile = destinationFolder + "\\logAll.txt";
+
+page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
+page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
+
 
 var log = "";
 
@@ -56,9 +64,9 @@ page.onLoadFinished = function()
         }
     });
 
-    fs.write(modelFiles[pageIndex].replace(".json", ".html").replace("adjusted_models", "slicedAll"), result.source);
-    console.log(modelFiles[pageIndex] + " sliced in " + result.slicingTime + " msec");
-    log += modelFiles[pageIndex] + " --- " + result.slicingTime + "\n";
+    fs.write(modelFiles[pageIndex].replace(".json", ".html").replace(rootName, destinationName), result.source);
+    console.log(modelFiles[pageIndex] + " sliced in " + result.slicingTime + " msec " + " and has " + result.source.split("\n").length + " LOC");
+    log += modelFiles[pageIndex] + " --- " + result.slicingTime + " --- " + result.source.split("\n").length + "\n";
 
     loadInProgress = false;
 

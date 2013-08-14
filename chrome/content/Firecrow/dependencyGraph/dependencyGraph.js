@@ -34,6 +34,7 @@ FBL.ns(function() { with (FBL) {
     DependencyGraph.notifyError = function(message) { alert("DependencyGraph - " + message); };
     DependencyGraph.log = [];
     DependencyGraph.shouldLog = false;
+    DependencyGraph.sliceUnions = true;
 
     DependencyGraph.prototype = dummy =
     {
@@ -74,7 +75,8 @@ FBL.ns(function() { with (FBL) {
                     var edge = sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject[i].graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
                     edge.isValueDependency = isValueDependency;
                     sourceNodeModelObject.maxCreatedDependencyIndex = edge.index;
-                    this._registerDependencyCallExpressionRelationship(edge);
+
+                    if(DependencyGraph.sliceUnions) {  this._registerDependencyCallExpressionRelationship(edge); }
                 }
             }
             else
@@ -82,7 +84,8 @@ FBL.ns(function() { with (FBL) {
                 var edge = sourceNodeModelObject.graphNode.addDataDependency(targetNodeModelObject.graphNode, true, this.dependencyEdgesCounter++, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency);
                 edge.isValueDependency = isValueDependency;
                 sourceNodeModelObject.maxCreatedDependencyIndex = edge.index;
-                this._registerDependencyCallExpressionRelationship(edge);
+
+                if(DependencyGraph.sliceUnions) {  this._registerDependencyCallExpressionRelationship(edge); }
             }
         },
 
@@ -173,11 +176,14 @@ FBL.ns(function() { with (FBL) {
                 this._traverseExecutedBlockDependencies();
                 this._traverseBreakContinueReturnEventsDependencies();
 
-                var addedDependencies = this._traverseSliceUnionPossibleProblems(executionTrace);
-
-                while(addedDependencies != 0)
+                if(fcGraph.DependencyGraph.sliceUnions)
                 {
-                    addedDependencies = this._traverseSliceUnionPossibleProblems(executionTrace);
+                    var addedDependencies = this._traverseSliceUnionPossibleProblems(executionTrace);
+
+                    while(addedDependencies != 0)
+                    {
+                        addedDependencies = this._traverseSliceUnionPossibleProblems(executionTrace);
+                    }
                 }
 
                 Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement(model);

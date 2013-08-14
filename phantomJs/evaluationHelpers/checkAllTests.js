@@ -13,7 +13,7 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 var htmlFiles = [];
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\slicedAll";
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\slicedWithoutSliceUnions";
 
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {

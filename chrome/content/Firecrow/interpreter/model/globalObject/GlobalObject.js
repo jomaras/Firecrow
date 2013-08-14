@@ -51,7 +51,7 @@ fcModel.GlobalObject.CONST =
             "setTimeout", "clearTimeout", "setInterval", "clearInterval",
             "getComputedStyle", "unescape",
             //Testing methods
-            "assert", "assertEquals", "assertMatch", "assertNull", "assertNotNull"
+            "assert", "assertEquals", "assertMatch", "assertNull", "assertNotNull", "assertEqual"
         ],
         EVENT_PROPERTIES:
         [
@@ -568,6 +568,7 @@ fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
 
     this.origWindow.assert = function assert(){};
     this.origWindow.assertEquals = function assertEquals(){};
+    this.origWindow.assertEqual = function assertEqual(){};
     this.origWindow.assertMatch = function assertMatch(){};
     this.origWindow.assertNull = function assertNull(){};
     this.origWindow.assertNotNull = function assertNotNull(){};
