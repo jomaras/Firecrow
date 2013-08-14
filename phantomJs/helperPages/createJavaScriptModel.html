@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Model Generator</title>
+    <script src="../evaluationHelpers/esprima.js"></script>
+    <script src="../evaluationHelpers/escodegen.js"></script>
+    <style>
+        textarea
+        {
+            width: 49%;
+            min-height: 600px;
+        }
+    </style>
+    <script src="helper.js"></script>
+</head>
+<body>
+    <textarea id="sourceContainer"></textarea>
+    <textarea id="astContainer"></textarea>
+
+    <script>
+        var pageUrl = window.queryString["url"];
+        var urlSource = window.getSource(pageUrl);
+
+        var sourceContainer = document.getElementById("sourceContainer");
+        var astContainer = document.getElementById("astContainer");
+
+        sourceContainer.textContent = urlSource;
+
+        var urlSourceModel = esprima.parse(urlSource, {loc:true, raw:true});
+
+        astContainer.textContent = JSON.stringify(urlSourceModel);
+    </script>
+</body>
+</html>

@@ -140,7 +140,7 @@ fcSimulator.ExecutionContextStack.prototype =
     {
         try
         {
-            console.log("Executing command " + command.type + " @" + (command.codeConstruct != null && command.codeConstruct.loc != null ? command.codeConstruct.loc.start.line : -1));
+            //console.log("Executing command " + command.type + " @" + (command.codeConstruct != null && command.codeConstruct.loc != null ? command.codeConstruct.loc.start.line : -1));
 
             if(!command.isEnterFunctionContextCommand()) { this.activeContext.lastCommand = command; }
             this.globalObject.browser.logConstructExecuted(command.codeConstruct);

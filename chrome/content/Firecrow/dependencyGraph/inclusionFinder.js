@@ -12,6 +12,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
     {
         try
         {
+            if(htmlElement == null) debugger;
             if(htmlElement.shouldBeIncluded) { return true; }
 
             if(htmlElement.type == "script")
@@ -36,11 +37,14 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
             else
             {
                 var childNodes = htmlElement.childNodes;
-                for(var i = 0, length = childNodes.length; i < length; i++)
+                if(childNodes != null)
                 {
-                    if(this.isIncludedHtmlElement(childNodes[i]))
+                    for(var i = 0, length = childNodes.length; i < length; i++)
                     {
-                        return true;
+                        if(this.isIncludedHtmlElement(childNodes[i]))
+                        {
+                            return true;
+                        }
                     }
                 }
             }

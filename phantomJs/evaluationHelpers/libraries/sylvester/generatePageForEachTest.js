@@ -11,7 +11,7 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 //http://localhost/Firecrow/evaluation/libraries/sylvester/test/specs/line_segment_spec.js
 
-var url = "http://localhost/Firecrow/phantomJs/evaluationHelpers/createJavaScriptModel.html";
+var url = "http://localhost/Firecrow/phantomJs/evaluationHelpers/helperPages/createJavaScriptModel.html";
 url += "?url=http://localhost/Firecrow/evaluation/libraries/sylvester/test/specs/matrix_spec.js";
 
 var EsprimaHelper = {

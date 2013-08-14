@@ -88,7 +88,7 @@ fcBrowser.Browser = function(pageModel)
     catch(e) { fcBrowser.Browser.notifyError("Error when initialising Doppel Browser.Browser: " + e); }
 };
 
-fcBrowser.Browser.notifyError = function(message) { alert("Browser - " + message); };
+fcBrowser.Browser.notifyError = function(message) { debugger; alert("Browser - " + message); };
 fcBrowser.Browser.LAST_USED_ID = 0;
 
 var Browser = Firecrow.DoppelBrowser.Browser;
@@ -203,6 +203,8 @@ Browser.prototype = dummy =
     {
         var attributes = htmlModelElement.attributes;
 
+        if(attributes == null) { return; }
+
         for(var i = 0, length = attributes.length; i < length; i++)
         {
             var attribute = attributes[i];
@@ -214,6 +216,8 @@ Browser.prototype = dummy =
     _processChildren: function(htmlDomElement, htmlModelElement)
     {
         var childNodes = htmlModelElement.childNodes;
+
+        if(childNodes == null) { return; }
 
         for(var i = 0, length = childNodes.length; i < length; i++)
         {
