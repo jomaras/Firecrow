@@ -138,121 +138,128 @@
     <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
-    <!--<script src="prototype/01/model.json"></script>-->
     <script>
+        window.queryString = (function(a)
+        {
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i)
+            {
+                var p=a[i].split('=');
+                if (p.length != 2) continue;
+                b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+        })(window.location.search.substr(1).split('&'));
+
         var Firecrow = FBL.Firecrow;
 
-        var pageIndex = "100";
+        var htmlModel = HtmlModelMapping.getFileModelByIndex(window.queryString["index"]);
+        var url = htmlModel.url;
 
-        var href = document.location.href;
-
-        if(href.indexOf("?") != -1)
+        if(htmlModel != null)
         {
-            pageIndex = href.substring(href.indexOf("?") + 1);
-        }
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests2/" + pageIndex + "/index.html";
-        var htmlModel = HtmlModelMapping.getWholeFileModel(url);
-        var pageModel = htmlModel.model;
-        var slicingCriteria = htmlModel.results.map(function(result)
-        {
-            for(var propName in result)
-            {
-                return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
-            }
-        });
-
-        if(pageModel.trackedElementsSelectors != null)
-        {
-            pageModel.trackedElementsSelectors.forEach(function(selector)
-            {
-                slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
-            });
-        }
-
-        //Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
-       // Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
-
-        setTitle(url);
-
-        var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
-
-        var browser = result.browser;
-        var dependencyGraph = result.dependencyGraph;
-
-        checkForErrors(browser, htmlModel);
-
-        var codeContainer = document.getElementById("codeContainer");
-
-        codeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(pageModel);
-        document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
-
-        (new FBL.Firecrow.DependencyGraph.DependencyHighlighter(codeContainer, dependencyGraph));
-
-        function setTitle(url)
-        {
-            var testIdContainer = document.getElementById("testIdContainer");
-            testIdContainer.textContent = url;
-            testIdContainer.href = url;
-        }
-
-        function checkForErrors(browser, htmlModel)
-        {
-            var messageContainer = document.getElementById("messageContainer");
-            var globalObjectProperties = browser.globalObject.properties;
-
-            var errors = "";
-
-            var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
-            var specifiedCode = atob(htmlModel.slicingResult || "");
-
-            if(generatedCode.replace(/(\r|\n| )+/g, "") != specifiedCode.replace(/(\r|\n| )+/g, "")) { errors += "Slicing does not match!"; }
-
-
-            htmlModel.results.forEach(function(result)
+            var pageModel = htmlModel.model;
+            var slicingCriteria = htmlModel.results.map(function(result)
             {
                 for(var propName in result)
                 {
-                    var hasBeenFound = false;
-                    for(var i = 0; i < globalObjectProperties.length; i++)
-                    {
-                        var property = globalObjectProperties[i];
-                        var propertyValue = property.value;
-
-                        if(property.name == propName)
-                        {
-                            hasBeenFound = true;
-
-                            if(propertyValue == null)
-                            {
-                                errors += propName + " is null, and should be: " + result[propName] + "\n";
-                                break;
-                            }
-
-                            if(propertyValue.jsValue != result[propName])
-                            {
-                                errors += propName + " does not match: " + result[propName] + " != " + propertyValue.jsValue + "\n";
-                            }
-
-                            break;
-                        }
-                    }
-
-                    if(!hasBeenFound)
-                    {
-                        errors += propName + " could not be found in global object!\n";
-                    }
+                    return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
                 }
             });
 
-            if(errors != "") { alert("Errors on validating result:\n" + errors); }
-            else
+            if(pageModel.trackedElementsSelectors != null)
             {
-                var newDiv = document.createElement("div");
-                newDiv.style.color = "green";
-                newDiv.textContent = "Test successful";
-                messageContainer.appendChild(newDiv);
-                console.log("Test successful");
+                pageModel.trackedElementsSelectors.forEach(function(selector)
+                {
+                    slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
+                });
+            }
+
+            //Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
+           // Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
+
+            setTitle(url);
+
+            var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
+
+            var browser = result.browser;
+            var dependencyGraph = result.dependencyGraph;
+
+            checkForErrors(browser, htmlModel);
+
+            var codeContainer = document.getElementById("codeContainer");
+
+            codeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(pageModel);
+            document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
+
+            (new FBL.Firecrow.DependencyGraph.DependencyHighlighter(codeContainer, dependencyGraph));
+
+            function setTitle(url)
+            {
+                var testIdContainer = document.getElementById("testIdContainer");
+                testIdContainer.textContent = url;
+                testIdContainer.href = url;
+            }
+
+            function checkForErrors(browser, htmlModel)
+            {
+                var messageContainer = document.getElementById("messageContainer");
+                var globalObjectProperties = browser.globalObject.properties;
+
+                var errors = "";
+
+                var generatedCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+                var specifiedCode = atob(htmlModel.slicingResult || "");
+
+                if(generatedCode.replace(/(\r|\n| )+/g, "") != specifiedCode.replace(/(\r|\n| )+/g, "")) { errors += "Slicing does not match!"; }
+
+
+                htmlModel.results.forEach(function(result)
+                {
+                    for(var propName in result)
+                    {
+                        var hasBeenFound = false;
+                        for(var i = 0; i < globalObjectProperties.length; i++)
+                        {
+                            var property = globalObjectProperties[i];
+                            var propertyValue = property.value;
+
+                            if(property.name == propName)
+                            {
+                                hasBeenFound = true;
+
+                                if(propertyValue == null)
+                                {
+                                    errors += propName + " is null, and should be: " + result[propName] + "\n";
+                                    break;
+                                }
+
+                                if(propertyValue.jsValue != result[propName])
+                                {
+                                    errors += propName + " does not match: " + result[propName] + " != " + propertyValue.jsValue + "\n";
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if(!hasBeenFound)
+                        {
+                            errors += propName + " could not be found in global object!\n";
+                        }
+                    }
+                });
+
+                if(errors != "") { alert("Errors on validating result:\n" + errors); }
+                else
+                {
+                    var newDiv = document.createElement("div");
+                    newDiv.style.color = "green";
+                    newDiv.textContent = "Test successful";
+                    messageContainer.appendChild(newDiv);
+                }
             }
         }
     </script>

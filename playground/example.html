@@ -1,33 +1,32 @@
+<!DOCTYPE html>
 <html>
 <head>
+    <title>Slicing test</title>
     <meta charset="UTF-8">
-    <style>
-        #outerContainer1{ background-color: red; border-style: dashed; width: 200px; height: 200px; }
-        #outerContainer2{ background-color: blue; border-style: dotted; width: 200px; height: 200px; }
-        #container { background-color: green; width: 50px; height: 50px; }
-        #smallContainer { background-color: yellow; width: 20px; height: 20px; }
-    </style>
 </head>
 <body>
-    <div id="outerContainer1">
-        <div id="container">
-            <iframe src="view-source:index.html" id="sourceContainer"></iframe>
-        </div>
-    </div>
-
-    <div id="outerContainer2"></div>
-
-    <button id="button">Swap</button>
-
-    <script type="text/javascript">
-        button.onclick = function()
+<div id="mainContainer"></div>
+<script>
+    var a1 = 3;
+    var arguments = [
         {
-            var isFirstParent = container.parentNode == outerContainer1;
-
-            isFirstParent ? outerContainer2.appendChild(container)
-                          : outerContainer1.appendChild(container);
+            a:
+            {
+                value: 3
+            }
         }
-    </script>
-
+        , undefined];
+    for (var i = 0; i < arguments.length; i++)
+    {
+        var object = arguments[i];
+        if (object == null)
+            continue;
+        for (var key in object)
+        {
+            a1 += object[key].value
+        }
+    }
+    a1
+</script>
 </body>
 </html>

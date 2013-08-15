@@ -8,7 +8,7 @@ var loadInProgress = false;
 var htmlFiles = [];
 var pageIndex = 0;
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\adjusted";
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\underscore\\adjusted";
 
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
@@ -27,7 +27,6 @@ var interval = setInterval(function() {
     }
     if (pageIndex == htmlFiles.length)
     {
-        console.log("Testing complete - # processed pages: " + pageIndex);
         phantom.exit();
     }
 }, 250);

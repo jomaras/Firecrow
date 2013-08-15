@@ -5,9 +5,9 @@ var fs = require('fs');
 
 var logFiles =
 [
-    "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\slicedAll\\logAll.txt",
-    "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\slicedWithoutSliceUnions\\logAll.txt",
-    "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\sylvester\\slicedWithoutSliceUnionsAndArrays\\logAll.txt"
+    "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\gauss\\slicedAll\\logAll.txt",
+    "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\gauss\\slicedWithoutSliceUnions\\logAll.txt",
+    "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\gauss\\slicedWithoutSliceUnionsAndArrays\\logAll.txt"
 ];
 
 var comparatorObject = {};

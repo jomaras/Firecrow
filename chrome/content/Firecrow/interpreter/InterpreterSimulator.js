@@ -58,9 +58,10 @@ fcSimulator.prototype = dummy =
 
                 if(codeConstruct != null && ASTHelper.isMemberExpression(codeConstruct.parent) || ASTHelper.isCallExpressionCallee(codeConstruct))
                 {
-
                     this.globalObject.importantExpressionsTrace.push({codeConstruct: codeConstruct, index: codeConstruct.maxCreatedDependencyIndex });
                 }
+
+
 
                 /*if(timer.hasMoreThanSecondsElapsed(120))
                 {

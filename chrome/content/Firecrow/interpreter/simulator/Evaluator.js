@@ -495,7 +495,6 @@ fcSimulator.Evaluator.prototype =
 
             if(executedLogicalItemCommands.length == 0) { alert("There are no executed logical commands"); return; }
 
-
             logicalExpressionValue.symbolicValue = fcSymbolic.SymbolicExecutor.evalLogicalExpression
             (
                 executedLogicalItemCommands[0] != null ?  this.executionContextStack.getExpressionValue(executedLogicalItemCommands[0].codeConstruct) : null,

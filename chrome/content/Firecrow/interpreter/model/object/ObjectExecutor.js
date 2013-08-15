@@ -7,6 +7,21 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 fcModel.ObjectExecutor =
 {
+    isInternalObjectMethod: function(potentialFunction)
+    {
+        var methods = fcModel.ObjectFunction.CONST.INTERNAL_PROPERTIES.METHODS;
+
+        for(var i = 0; i < methods.length; i++)
+        {
+            if(Object[methods[i]] === potentialFunction)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
     executeInternalMethod: function(thisObject, functionObject, args, callExpression, callCommand)
     {
         if(functionObject.jsValue.name == "hasOwnProperty")

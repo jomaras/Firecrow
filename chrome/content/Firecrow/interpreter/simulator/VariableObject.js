@@ -134,7 +134,14 @@ fcSimulator.VariableObject.createFunctionVariableObject = function(functionIdent
 
 fcSimulator.VariableObject._registerArgumentsVariable = function(functionVariableObject, callConstruct, sentArguments, globalObject)
 {
-    var argumentsValue = globalObject.internalExecutor.createArray(callConstruct, sentArguments);
+    var argumentsValue = globalObject.internalExecutor.createEmptyObject(callConstruct);
+
+    for(var i = 0; i < sentArguments.length; i++)
+    {
+        argumentsValue.iValue.addProperty(i, sentArguments[i], callConstruct);
+    }
+
+    argumentsValue.iValue.addProperty("length", globalObject.internalExecutor.createInternalPrimitiveObject(callConstruct, sentArguments.length), callConstruct);
 
     argumentsValue.jsValue.callee = functionVariableObject.calleeFunction;
     argumentsValue.iValue.addProperty("callee", functionVariableObject.calleeFunction, callConstruct, false);

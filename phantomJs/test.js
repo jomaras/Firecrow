@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "file:///C:/GitWebStorm/Firecrow/debug/debugSlicing.html";
+var url = "http://kangax.github.io/es5-compat-table/";
 
 console.log("Started loading page");
 
@@ -12,6 +12,11 @@ page.onConsoleMessage = function(msg) {
 page.onAlert = function(msg) {
     console.log('ALERT: ' + msg);
 };
+
+page.onShouldInterruptJs = function()
+{
+    console.log("considering interrupting page");
+}
 
 var t = Date.now();
 page.open(encodeURI(url), function(status)
@@ -28,7 +33,7 @@ page.open(encodeURI(url), function(status)
 
         var result = page.evaluate(function()
         {
-            return document.getElementById("slicedSourceTextContainer").value;
+            return document.documentElement.innerHTML;
         });
 
         console.log(result);
