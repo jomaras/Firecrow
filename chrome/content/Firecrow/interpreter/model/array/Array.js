@@ -29,6 +29,14 @@ fcModel.Array.notifyError = function(message) { alert("Array - " + message);}
 //<editor-fold desc="Prototype Definition">
 fcModel.Array.prototype = new fcModel.Object();
 
+fcModel.Array.prototype.removePrototypeMethods = function()
+{
+    fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+    {
+        this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(null, undefined));
+    }, this);
+};
+
 //<editor-fold desc="Internal array methods">
 fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, fcValue, dontFillJsArray)
 {
@@ -291,9 +299,9 @@ fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression
     {
         this.addDependenciesToAllProperties(callExpression);
 
-        var isCalledOnArray = this.constructor === fcModel.Array;
+        var isCalledOnArray = this.constructor === fcModel.Array || this == this.globalObject.arrayPrototype;
 
-        if(!isCalledOnArray) { alert("Concat called on non-array!");}
+        if(!isCalledOnArray) { debugger; alert("Concat called on non-array!");}
 
         var lengthProperty = this.getPropertyValue("length");
         var length = lengthProperty != null ? lengthProperty.jsValue : 0;

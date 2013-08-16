@@ -276,21 +276,23 @@ Browser.prototype = dummy =
     {
         try
         {
-            var interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
-            this.globalObject.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, interpreter.executionContextStack);
+            this.interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
+            this.globalObject.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, this.interpreter.executionContextStack);
 
-            interpreter.registerMessageGeneratedCallback(function(message)
+            this.interpreter.registerMessageGeneratedCallback(function(message)
             {
                 this._callInterpreterMessageGeneratedCallbacks(message);
             }, this);
 
-            interpreter.registerControlFlowConnectionCallback(function(codeConstruct)
+            this.interpreter.registerControlFlowConnectionCallback(function(codeConstruct)
             {
                 this._callControlFlowConnectionCallbacks(codeConstruct);
             }, this);
 
-            interpreter.runSync();
-            interpreter.destruct();
+            this.interpreter.runSync();
+            this.interpreter.destruct();
+            delete this.interpreter;
+            this.interpreter = null;
 
             this.globalObject.registerPreRegisteredAjaxEvents();
         }

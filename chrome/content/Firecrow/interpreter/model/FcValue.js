@@ -8,7 +8,6 @@ fcModel.fcValue = function(jsValue, iValue, codeConstruct, symbolicValue)
     try
     {
         this.id = fcModel.fcValue.LAST_ID++;
-
         this.jsValue = jsValue;
         this.iValue = iValue;
         this.codeConstruct = codeConstruct;

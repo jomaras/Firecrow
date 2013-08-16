@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script>
+    var array = [2,4,5,6];
+
+    var a0 = 0;
+
+    var a1 = array.every(function (i)
+    {
+        a0 += i;
+        return i % 2 == 0;
+    });
+
+    var a2 = 0;
+    var a3 = array.every(function(i)
+    {
+        a2 += i;
+        return i > 0;
+    });
+
+    a0; a1; a2; a3;
+</script>
+</body>
+</html>

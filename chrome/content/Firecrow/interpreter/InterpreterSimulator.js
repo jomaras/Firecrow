@@ -210,6 +210,27 @@ fcSimulator.prototype = dummy =
         }
     },
 
+    removeOtherCallbackCommands: function (command)
+    {
+        var endIndex = this.commands.indexOf(command.lastCallbackCommand);
+        var hasFirstExitContextCommandBeenSkipped = false;
+        for(var i = this.currentCommandIndex + 1; i <= endIndex;)
+        {
+            var currentCommand = this.commands[i];
+
+            if(currentCommand.isExitFunctionContextCommand() && !hasFirstExitContextCommandBeenSkipped)
+            {
+                i++;
+                hasFirstExitContextCommandBeenSkipped = true;
+            }
+            else
+            {
+                ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+                endIndex--;
+            }
+        }
+    },
+
     _removeCommandsAfterReturnStatement: function(returnCommand)
     {
         var callExpressionCommand = returnCommand.parentFunctionCommand;

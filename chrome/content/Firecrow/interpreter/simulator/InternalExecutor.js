@@ -50,13 +50,18 @@ fcSimulator.InternalExecutor.prototype =
 
     createFunction: function(scopeChain, functionConstruct)
     {
-        var newFunction = ASTHelper.isFunctionDeclaration(functionConstruct) ? eval("(function " + functionConstruct.id.name + "(){})")
-                                                                             : function(){};
+        var newFunction = functionConstruct.id != null ? eval("(function " + functionConstruct.id.name + "(){})")
+                                                          : function(){};
 
         var fcFunction = new fcModel.Function(this.globalObject, scopeChain, functionConstruct, newFunction);
         var fcValue = new fcModel.fcValue(newFunction, fcFunction,functionConstruct);
 
         fcFunction.getPropertyValue("prototype").iValue.addProperty("constructor", fcValue, functionConstruct, false);
+
+        if(functionConstruct.id != null)
+        {
+            fcFunction.addProperty("name", this.globalObject.internalExecutor.createInternalPrimitiveObject(functionConstruct, functionConstruct.id.name));
+        }
 
         return fcValue;
     },

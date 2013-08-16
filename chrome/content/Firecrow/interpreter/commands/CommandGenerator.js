@@ -529,6 +529,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             {
                 evalCallbackCommand.isLastCallbackCommand = true;
                 executeCallbackCommand.isLastCallbackCommand = true;
+                callbackCommand.lastCallbackCommand = evalCallbackCommand;
             }
 
             commands.push(evalCallbackCommand);

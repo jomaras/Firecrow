@@ -142,7 +142,7 @@
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var pageIndex = "100";
+        var pageIndex = "101";
 
         var href = document.location.href;
 
@@ -151,7 +151,7 @@
             pageIndex = href.substring(href.indexOf("?") + 1);
         }
 
-        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests2/" + pageIndex + "/index.html";
+        var url = "file:///C:/GitWebStorm/Firecrow/debug/slicingTests/" + pageIndex + "/index.html";
         var htmlModel = HtmlModelMapping.getWholeFileModel(url);
         var pageModel = htmlModel.model;
         var slicingCriteria = htmlModel.results.map(function(result)

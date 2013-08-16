@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "http://kangax.github.io/es5-compat-table/";
+var url = "file:///C:/GitWebStorm/Firecrow/evaluation/libraries/underscore/adjusted/Arrays-flatten.html";
 
 console.log("Started loading page");
 

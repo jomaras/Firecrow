@@ -6,9 +6,9 @@
     (function()
     {
         var root = this;
-        var breaker = {};
         var ArrayProto = Array.prototype;
-        var nativeForEach = ArrayProto.forEach, nativeFilter = ArrayProto.filter;
+        var slice = ArrayProto.slice, concat = ArrayProto.concat;
+        var nativeFilter = ArrayProto.filter, nativeIndexOf = ArrayProto.indexOf;
         var _ = function(obj)
         {};
         if(typeof exports !== 'undefined');
@@ -17,37 +17,23 @@
             root._ = _;
         }
 
-        var each = _.each = _.forEach = function(obj, iterator, context)
-        {
-            if(nativeForEach && obj.forEach === nativeForEach);
-            else if(obj.length === +(obj.length))
-            {
-                for(var i = 0, length = obj.length;i < length;i++)
-                {
-                    if(iterator.call(context, obj[i], i, obj) === breaker);
-                }
-            }
-        };
         _.filter = _.select = function(obj, iterator, context)
         {
-            var results = [];
             if(nativeFilter && obj.filter === nativeFilter)
                 return obj.filter(iterator, context);
-
-            each(obj, function(value, index, list)
+        };
+        _.contains = _.include = function(obj, target)
+        {
+            if(nativeIndexOf && obj.indexOf === nativeIndexOf)
+                return obj.indexOf(target) != -1;
+        };
+        _.difference = function(array)
+        {
+            var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
+            return _.filter(array, function(value)
             {
-                if(iterator.call(context, value, index, list))
-                    results.push(value);
+                return !(_.contains(rest, value));
             });
-            return results;
-        };
-        _.compact = function(array)
-        {
-            return _.filter(array, _.identity);
-        };
-        _.identity = function(value)
-        {
-            return value;
         };
         _.mixin = function(obj)
         {
@@ -59,13 +45,11 @@
         _.mixin(_);
     }).call(this);
 </script>
-<script>  function assertEqual(a,b) { if(a!=b) console.log("failed")}
-    assertEqual(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values');
-    var result = (function()
-    {
-        return _.compact(arguments).length;
-    })(0, 1, false, 2, false, 3);
-    assertEqual(result, 3, 'works on an arguments object');
+<script>    function assertEqual(){debugger;}
+    var result = _.difference([1, 2, 3], [2, 30, 40]);
+    assertEqual(result.join(' '), '1 3', 'takes the difference of two arrays');
+    result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
+    assertEqual(result.join(' '), '3 4', 'takes the difference of three arrays');
 </script>
 
 </body>

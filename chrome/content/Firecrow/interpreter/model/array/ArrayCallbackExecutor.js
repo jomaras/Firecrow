@@ -22,7 +22,7 @@ fcModel.ArrayCallbackEvaluator =
                  if(callbackFunctionValue.name == "filter") { this._evaluateFilterCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return; }
             else if(callbackFunctionValue.name == "map") { this._evaluateMapCallback(targetObject, returnValue, valueCodeConstruct); return; }
             else if(callbackFunctionValue.name == "sort") { this._evaluateSortCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return;}
-            else if(callbackFunctionValue.name == "every") { fcModel.Array.notifyError("Still not handling evaluate return from every"); return; }
+            else if(callbackFunctionValue.name == "every") { this._evaluateEveryCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return; }
             else if(callbackFunctionValue.name == "some") { fcModel.Array.notifyError("Still not handling evaluate return from some"); return; }
             else if(callbackFunctionValue.name == "reduce") { this._evaluateReduceCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return; }
             else if(callbackFunctionValue.name == "reduceRight") { fcModel.Array.notifyError("Still not handling evaluate return from reduceRight"); return; }
@@ -99,6 +99,17 @@ fcModel.ArrayCallbackEvaluator =
         if(firstItemIndex + 1 < secondItemIndex)
         {
             this._swapArrayIndexes(targetObject, firstItemIndex + 1, secondItemIndex, valueExpression);
+        }
+    },
+
+    _evaluateEveryCallback: function(targetObject, returnValue, callbackCommand)
+    {
+        var parentCommand = callbackCommand.parentInitCallbackCommand;
+        parentCommand.originatingObject.iValue.globalObject.executionContextStack.setExpressionValueInPreviousContext(parentCommand.codeConstruct, returnValue);
+
+        if(!returnValue.jsValue)
+        {
+            parentCommand.originatingObject.iValue.globalObject.browser.interpreter.removeOtherCallbackCommands(parentCommand)
         }
     },
 
