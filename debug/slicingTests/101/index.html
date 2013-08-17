@@ -5,19 +5,56 @@
 </head>
 <body>
     <script>
-     var functions = [(function increment(a) { return a+1;}), (function decrement(a) { return a-1;})];
-     var obj = {};
+        var _ = {};
+        _.functions = ["forEach"];
 
-     functions.forEach(function(func)
-     {
-        obj[func.name] = func;
-     });
+        var nativeForEach = Array.prototype.forEach;
 
-     var a1 = 0;
+        var each = _.each = _.forEach = function(obj, iterator, context)
+        {
+            if (obj == null) return;
+            if (nativeForEach && obj.forEach === nativeForEach)
+            {
+                obj.forEach(iterator, context);
+            }
+            else if (obj.length === +obj.length)
+            {
+                for (var i = 0, length = obj.length; i < length; i++)
+                {
+                    if (iterator.call(context, obj[i], i, obj) === breaker) return;
+                }
+            }
+            else
+            {
+                var keys = _.keys(obj);
+                for (var i = 0, length = keys.length; i < length; i++)
+                {
+                    if (iterator.call(context, obj[keys[i]], keys[i], obj) === breaker)
+                        return;
+                }
+            }
+        };
 
-     a1 = obj.increment(a1);
-     a1;
+        _.mixin = function(obj) {
+            each(_.functions(obj), function(name)
+            {
+                var func = _[name] = obj[name];
+                _.prototype[name] = function()
+                {
+                    var args = [this._wrapped];
+                    push.apply(args, arguments);
+                    return result.call(this, func.apply(_, args));
+                };
+            });
+        };
 
+        _.first = _.head = _.take = function(array, n, guard) {
+            if (array == null) return void 0;
+            return (n == null) || guard ? array[0] : slice.call(array, 0, n);
+        }
+
+        var a1 = _([1, 2, 3]).first() == 1;
+        a1;
     </script>
 
 </body>

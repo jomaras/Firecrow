@@ -43,7 +43,6 @@ FBL.ns(function () { with (FBL)
         includeNode: function(node, dependencyIndex)
         {
             //if(node.loc != null && (node.loc.start.line == 403)) { console.log(Firecrow.CodeTextGenerator.generateJsCode(node));};
-            //if(node.nodeId == 33) debugger;
             node.shouldBeIncluded = true;
 
             if(node.maxIncludedByDependencyIndex == null) { node.maxIncludedByDependencyIndex = dependencyIndex; }

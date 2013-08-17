@@ -7,7 +7,7 @@ var loadInProgress = false;
 
 var modelFiles = [];
 var pageIndex = 0;
-var maxPageIndex = 99;
+var maxPageIndex = 103;
 
 //Problems in tests: 88 (bind function)
 // 91 - not sure why
@@ -47,7 +47,7 @@ page.onLoadFinished = function()
 
     if(result.message.trim() != "Test successful")
     {
-        console.log("Problem in test no " + pageIndex + " -> " + result.message);
+        console.log("Problem in test no " + pageIndex);
     }
 
     loadInProgress = false;

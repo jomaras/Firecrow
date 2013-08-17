@@ -1,6 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcSimulator = Firecrow.Interpreter.Simulator;
+var fcModel = Firecrow.Interpreter.Model;
 var ASTHelper = Firecrow.ASTHelper;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
@@ -282,16 +283,29 @@ fcSimulator.DependencyCreator.prototype =
 
         var firstArgument = executeCallbackCommand.arguments != null ? executeCallbackCommand.arguments[0] : null;
 
-        if(firstArgument == null || firstArgument.isFunction == null || !firstArgument.isFunction()) { return; }
+        if(firstArgument != null && firstArgument.isFunction && firstArgument.isFunction())
+        {
+            if(executeCallbackCommand.callCallbackCommand == null) { return; }
 
-        if(executeCallbackCommand.callCallbackCommand == null) { return; }
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                firstArgument.codeConstruct,
+                executeCallbackCommand.callCallbackCommand.codeConstruct,
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
+        }
 
-        this.globalObject.browser.callDataDependencyEstablishedCallbacks
-        (
-            firstArgument.codeConstruct,
-            executeCallbackCommand.callCallbackCommand.codeConstruct,
-            this.globalObject.getPreciseEvaluationPositionId()
-        );
+        var parentCallExpressionCommand = executeCallbackCommand.callCallbackCommand && executeCallbackCommand.callCallbackCommand.parentCallExpressionCommand;
+
+        if(parentCallExpressionCommand != null && parentCallExpressionCommand.codeConstruct != null)
+        {
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                executeCallbackCommand.codeConstruct,
+                parentCallExpressionCommand.codeConstruct,
+                this.globalObject.getPreciseEvaluationPositionId()
+            );
+        }
     },
 
     createAssignmentDependencies: function(assignmentCommand)
@@ -340,6 +354,11 @@ fcSimulator.DependencyCreator.prototype =
         if(this._willIdentifierBeReadInAssignmentExpression(identifierConstruct))
         {
             this._addDependencyToLastModificationPoint(identifier, identifierConstruct, evaluationPosition);
+        }
+
+        if(identifier != null && identifier.value != null && identifier.value.iValue != null && identifier.value.iValue.dummyDependencyNode != null)
+        {
+            this.createDataDependency(identifierConstruct, identifier.value.iValue.dummyDependencyNode, evaluationPosition);
         }
     },
 
@@ -804,13 +823,13 @@ fcSimulator.DependencyCreator.prototype =
 
         var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
         var callExpression = parentInitCallbackCommand.codeConstruct;
-        var arguments = callExpression.arguments;
+        var args = callExpression.arguments;
 
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
-        for(var i = 0; i < arguments.length; i++)
+        for(var i = 0; i < args.length; i++)
         {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(arguments[i], callExpression, evaluationPosition);
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(args[i], callExpression, evaluationPosition);
         }
     },
 
@@ -818,11 +837,11 @@ fcSimulator.DependencyCreator.prototype =
     {
         var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
         var callExpression = parentInitCallbackCommand.codeConstruct;
-        var arguments = callExpression.arguments;
+        var args = callExpression.arguments;
 
-        for(var i = 0; i < arguments.length; i++)
+        for(var i = 0; i < args.length; i++)
         {
-            this._createSimpleDependency(arguments[i], callExpression);
+            this._createSimpleDependency(args[i], callExpression);
         }
     },
 

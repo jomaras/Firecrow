@@ -97,6 +97,17 @@
 
     </script>
     <script src="../evaluationHelpers/esprima.js"></script>
+    <style>
+        textarea
+        {
+            vertical-align: top;
+        }
+        #slicingResultTextArea
+        {
+            width: 70%;
+            height: 600px;
+        }
+    </style>
 </head>
 <body>
     <iframe id="firecrowFrame" height="1" width="1"></iframe>
@@ -133,6 +144,8 @@
                 }
             });
 
+
+            //SHOULD ALSO ENABLE DISREGARDING DEPENDENCIES TO ALL CONDITIONS
             //Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
             //Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
 

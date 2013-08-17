@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+        var each = function(arr, iterator)
+        {
+            arr.forEach(iterator);
+        };
+
+        var obj = { a: function(b){ this.b = b; }}
+
+        each(['a'], function(name)
+        {
+            obj[name](3);
+        });
+
+        var a1 = obj.b;
+        a1;
+    </script>
+</body>
+</html>
