@@ -81,7 +81,14 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
     {
-        this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(creationConstruct, this.htmlElement[propertyName]), creationConstruct);
+        if(ValueTypeHelper.isPrimitive(this.htmlElement[propertyName]))
+        {
+            this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(creationConstruct, this.htmlElement[propertyName]), creationConstruct);
+        }
+        else if (ValueTypeHelper.isHtmlElement(this.htmlElement[propertyName]))
+        {
+            this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, creationConstruct), creationConstruct);
+        }
 
         fcModel.HtmlElementExecutor.addDependencies(this.htmlElement, codeConstruct, this.globalObject);
     }
@@ -361,7 +368,7 @@ fcModel.HtmlElement.CONST =
             "removeChild", "removeEventListener", "replaceChild", "scrollIntoView", "setAttribute", "setAttributeNS", "setAttributeNode",
             "setAttributeNodeNS", "setCapture", "setIdAttribute", "setIdAttributeNS", "setIdAttributeNode", "setUserData", "insertAdjacentHTML",
             "mozMatchesSelector", "webkitMatchesSelector", "contains",
-            "getContext"
+            "getContext", "reset"
         ]
     }
 };

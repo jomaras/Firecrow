@@ -19,9 +19,17 @@ fcModel.DocumentExecutor =
         else if (functionName == "addEventListener") { return globalObject.document.addEventListener(args, callExpression, globalObject); }
         else if (functionName == "removeEventListener") { return globalObject.document.removeEventListener(args, callExpression, globalObject); }
         else if (functionName == "createDocumentFragment") { return globalObject.internalExecutor.createDocumentFragment(callExpression, globalObject); }
-        else if (functionName == "createComment") { return new fcModel.fcValue(globalObject.origDocument.createComment(""), null, callExpression)}
+        else if (functionName == "createComment")
+        {
+            var fcComment = fcModel.Object.createObjectWithInit(globalObject, callExpression, {});
+            fcComment.addProperty("nodeType", globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, 8));
+            fcComment.isComment = true;
+
+            return new fcModel.fcValue(globalObject.origDocument.createComment(""), fcComment, callExpression);
+        }
         else if (functionName == "getElementsByTagName" || functionName == "querySelectorAll" || functionName == "getElementsByClassName" || functionName == "getElementsByName") { return this.getElements(globalObject, functionName, args[0].jsValue, callExpression, functionName);}
         else if (functionName == "getElementById" || functionName == "querySelector") { return this.getElement(globalObject, functionName, args[0].jsValue, callExpression); }
+        else if (functionName == "createAttribute") { return fcModel.Attr.wrapAttribute(globalObject.origDocument.createAttribute(args[0].jsValue), globalObject, callExpression);}
 
         this.notifyError("Unhandled document method: " +  functionName);
 
@@ -94,7 +102,7 @@ fcModel.DocumentExecutor =
         return fcModel.HtmlElementExecutor.wrapToFcElement(element, globalObject, callExpression);
     },
 
-    notifyError: function(message) { alert("DocumentExecutor - " + message);}
+    notifyError: function(message) { debugger; alert("DocumentExecutor - " + message);}
 };
 /**************************************************************************************/
 }});

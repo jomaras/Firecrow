@@ -43,7 +43,7 @@ fcModel.TextNode.prototype.addJsProperty = function(propertyName, propertyFcValu
 {
     fcModel.TextNode.accessedProperties[propertyName] = true;
 
-    if(propertyName != "textContent") { fcModel.TextNode.notifyError("Add property to text node not yet implemented"); return; }
+    //if(propertyName != "textContent") { fcModel.TextNode.notifyError("Add property to text node not yet implemented"); return; }
 
     this.textNode[propertyName] = propertyFcValue.jsValue;
     this.addProperty(propertyName, propertyFcValue, codeConstruct);

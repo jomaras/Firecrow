@@ -34,13 +34,27 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
         {
             return this.getPropertyValue(propertyName, codeConstruct);
         };
-        this.addJsProperty = function(propertyName, value, codeConstruct) { fcModel.Attr.notifyError("add property Attr not yet handled"); };
+        this.addJsProperty = function(propertyName, propertyFcValue, codeConstruct)
+        {
+            this.attr[propertyName] = propertyFcValue.jsValue;
+            this.addProperty(propertyName, propertyFcValue, codeConstruct);
+        };
     }
     catch(e) { fcModel.Attr.notifyError("Error when creating Html Attr object: " + e); }
 };
 fcModel.Attr.notifyError = function(message) { debugger; alert("Attr - " + message); };
 
 fcModel.Attr.prototype = new fcModel.Object();
+
+fcModel.Attr.wrapAttribute = function(attribute, globalObject, codeConstruct)
+{
+    return new fcModel.fcValue
+    (
+        attribute,
+        new fcModel.Attr(attribute, null, globalObject, codeConstruct),
+        codeConstruct
+    );
+};
 
 fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConstruct)
 {

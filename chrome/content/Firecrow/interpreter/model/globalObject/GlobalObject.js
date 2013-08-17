@@ -483,7 +483,6 @@ fcModel.GlobalObject.prototype.satisfiesDomSlicingCriteria = function(htmlElemen
     try
     {
         if(htmlElement == null || htmlElement instanceof Text) { return false; }
-        return true;
         if(this.domModificationSlicingCriteria.length == 0) { return false; }
 
         if(this.includeAllDomModifications) { return true; }

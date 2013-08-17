@@ -82,6 +82,15 @@ fcModel.HtmlElementExecutor =
                 {
                     return fcModel.CanvasExecutor.executeCanvasMethod(thisObject, functionObject, args, callExpression);
                 }
+            case "click":
+            case "reset":
+                if(thisObjectValue[functionName] != null)
+                {
+                    try{thisObjectValue[functionName]();}catch(e){}
+                    thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
+                    fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
+                }
+                break;
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
         }
@@ -271,7 +280,7 @@ fcModel.HtmlElementExecutor =
         {
             var manipulatedElement = args[i].iValue;
 
-            if(manipulatedElement != null) //Because of comments
+            if(manipulatedElement != null && !manipulatedElement.isComment) //Because of comments
             {
                 try
                 {

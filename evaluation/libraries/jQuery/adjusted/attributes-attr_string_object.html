@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>jQuery Test Suite</title>
+    <script src="../jQuery-src.js"></script>
+</head>
+
+<body id="body">
+<div id="qunit"></div>
+
+<dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
+<div id="qunit-fixture">
+<p id="firstp">See <a id="simon1" href="http://simon.incutio.com/archive/2003/03/25/#getElementsBySelector" rel="bookmark">this blog entry</a> for more information.</p>
+<p id="ap">
+    Here are some links in a normal paragraph: <a id="google" href="http://www.google.com/" title="Google!">Google</a>,
+    <a id="groups" href="http://groups.google.com/" class="GROUPS">Google Groups (Link)</a>.
+    This link has <code><a href="http://smin" id="anchor1">class="blog"</a></code>:
+    <a href="http://diveintomark.org/" class="blog" hreflang="en" id="mark">diveintomark</a>
+
+</p>
+<div id="foo">
+    <p id="sndp">Everything inside the red border is inside a div with <code>id="foo"</code>.</p>
+    <p lang="en" id="en">This is a normal link: <a id="yahoo" href="http://www.yahoo.com/" class="blogTest">Yahoo</a></p>
+    <p id="sap">This link has <code><a href="#2" id="anchor2">class="blog"</a></code>: <a href="http://simon.incutio.com/" class="blog link" id="simon">Simon Willison's Weblog</a></p>
+
+</div>
+<div id="nothiddendiv" style="height:1px;background:white;" class="nothiddendiv">
+    <div id="nothiddendivchild"></div>
+</div>
+<span id="name+value"></span>
+<p id="first">Try them out:</p>
+<ul id="firstUL"></ul>
+<ol id="empty"></ol>
+<form id="form" action="formaction">
+    <label for="action" id="label-for">Action:</label>
+    <input type="text" name="action" value="Test" id="text1" maxlength="30"/>
+    <input type="text" name="text2" value="Test" id="text2" disabled="disabled"/>
+    <input type="radio" name="radio1" id="radio1" value="on"/>
+
+    <input type="radio" name="radio2" id="radio2" checked="checked"/>
+    <input type="checkbox" name="check" id="check1" checked="checked"/>
+    <input type="checkbox" id="check2" value="on"/>
+
+    <input type="hidden" name="hidden" id="hidden1"/>
+    <input type="text" style="display:none;" name="foo[bar]" id="hidden2"/>
+
+    <input type="text" id="name" name="name" value="name" />
+    <input type="search" id="search" name="search" value="search" />
+
+    <button id="button" name="button" type="button">Button</button>
+
+    <textarea id="area1" maxlength="30">foobar</textarea>
+
+    <select name="select1" id="select1">
+        <option id="option1a" class="emptyopt" value="">Nothing</option>
+        <option id="option1b" value="1">1</option>
+        <option id="option1c" value="2">2</option>
+        <option id="option1d" value="3">3</option>
+    </select>
+    <select name="select2" id="select2">
+        <option id="option2a" class="emptyopt" value="">Nothing</option>
+        <option id="option2b" value="1">1</option>
+        <option id="option2c" value="2">2</option>
+        <option id="option2d" selected="selected" value="3">3</option>
+    </select>
+    <select name="select3" id="select3" multiple="multiple">
+        <option id="option3a" class="emptyopt" value="">Nothing</option>
+        <option id="option3b" selected="selected" value="1">1</option>
+        <option id="option3c" selected="selected" value="2">2</option>
+        <option id="option3d" value="3">3</option>
+        <option id="option3e">no value</option>
+    </select>
+    <select name="select4" id="select4" multiple="multiple">
+        <optgroup disabled="disabled">
+            <option id="option4a" class="emptyopt" value="">Nothing</option>
+            <option id="option4b" disabled="disabled" selected="selected" value="1">1</option>
+            <option id="option4c" selected="selected" value="2">2</option>
+        </optgroup>
+        <option selected="selected" disabled="disabled" id="option4d" value="3">3</option>
+        <option id="option4e">no value</option>
+    </select>
+    <select name="select5" id="select5">
+        <option id="option5a" value="3">1</option>
+        <option id="option5b" value="2">2</option>
+        <option id="option5c" value="1" data-attr="">3</option>
+    </select>
+
+    <object id="object1" codebase="stupid">
+        <param name="p1" value="x1" />
+        <param name="p2" value="x2" />
+    </object>
+
+    <span id="台北Táiběi"></span>
+    <span id="台北" lang="中文"></span>
+    <span id="utf8class1" class="台北Táiběi 台北"></span>
+    <span id="utf8class2" class="台北"></span>
+    <span id="foo:bar" class="foo:bar"></span>
+    <span id="test.foo[5]bar" class="test.foo[5]bar"></span>
+
+    <foo_bar id="foobar">test element</foo_bar>
+</form>
+<b id="floatTest">Float test.</b>
+<iframe id="iframe" name="iframe"></iframe>
+<form id="lengthtest">
+    <input type="text" id="length" name="test"/>
+    <input type="text" id="idTest" name="id"/>
+</form>
+<table id="table"></table>
+
+<form id="name-tests">
+    <!-- Inputs with a grouped name attribute. -->
+    <input name="types[]" id="types_all" type="checkbox" value="all" />
+    <input name="types[]" id="types_anime" type="checkbox" value="anime" />
+    <input name="types[]" id="types_movie" type="checkbox" value="movie" />
+</form>
+
+<form id="testForm" action="#" method="get">
+    <textarea name="T3" rows="2" cols="15">?
+        Z</textarea>
+    <input type="hidden" name="H1" value="x" />
+    <input type="hidden" name="H2" />
+    <input name="PWD" type="password" value="" />
+    <input name="T1" type="text" />
+    <input name="T2" type="text" value="YES" readonly="readonly" />
+    <input type="checkbox" name="C1" value="1" />
+    <input type="checkbox" name="C2" />
+    <input type="radio" name="R1" value="1" />
+    <input type="radio" name="R1" value="2" />
+    <input type="text" name="My Name" value="me" />
+    <input type="reset" name="reset" value="NO" />
+    <select name="S1">
+        <option value="abc">ABC</option>
+        <option value="abc">ABC</option>
+        <option value="abc">ABC</option>
+    </select>
+    <select name="S2" multiple="multiple" size="3">
+        <option value="abc">ABC</option>
+        <option value="abc">ABC</option>
+        <option value="abc">ABC</option>
+    </select>
+    <select name="S3">
+        <option selected="selected">YES</option>
+    </select>
+    <select name="S4">
+        <option value="" selected="selected">NO</option>
+    </select>
+    <input type="submit" name="sub1" value="NO" />
+    <input type="submit" name="sub2" value="NO" />
+    <input type="image" name="sub3" value="NO" />
+    <button name="sub4" type="submit" value="NO">NO</button>
+    <input name="D1" type="text" value="NO" disabled="disabled" />
+    <input type="checkbox" checked="checked" disabled="disabled" name="D2" value="NO" />
+    <input type="radio" name="D3" value="NO" checked="checked" disabled="disabled" />
+    <select name="D4" disabled="disabled">
+        <option selected="selected" value="NO">NO</option>
+    </select>
+    <input id="list-test" type="text" />
+    <datalist id="datalist">
+        <option value="option"></option>
+    </datalist>
+</form>
+<div id="moretests">
+    <form>
+        <div id="checkedtest" style="display:none;">
+            <input type="radio" name="checkedtestradios" checked="checked"/>
+            <input type="radio" name="checkedtestradios" value="on"/>
+            <input type="checkbox" name="checkedtestcheckboxes" checked="checked"/>
+            <input type="checkbox" name="checkedtestcheckboxes" />
+        </div>
+    </form>
+    <div id="nonnodes"><span id="nonnodesElement">hi</span> there <!-- mon ami --></div>
+    <div id="t2037">
+        <div><div class="hidden">hidden</div></div>
+    </div>
+    <div id="t6652">
+        <div></div>
+    </div>
+    <div id="no-clone-exception"><object><embed></embed></object></div>
+</div>
+
+<div id="tabindex-tests">
+    <ol id="listWithTabIndex" tabindex="5">
+        <li id="foodWithNegativeTabIndex" tabindex="-1">Rice</li>
+        <li id="foodNoTabIndex">Beans</li>
+        <li>Blinis</li>
+        <li>Tofu</li>
+    </ol>
+
+    <div id="divWithNoTabIndex">I'm hungry. I should...</div>
+    <span>...</span><a href="#" id="linkWithNoTabIndex">Eat lots of food</a><span>...</span> |
+    <span>...</span><a href="#" id="linkWithTabIndex" tabindex="2">Eat a little food</a><span>...</span> |
+    <span>...</span><a href="#" id="linkWithNegativeTabIndex" tabindex="-1">Eat no food</a><span>...</span>
+    <span>...</span><a id="linkWithNoHrefWithNoTabIndex">Eat a burger</a><span>...</span>
+    <span>...</span><a id="linkWithNoHrefWithTabIndex" tabindex="1">Eat some funyuns</a><span>...</span>
+    <span>...</span><a id="linkWithNoHrefWithNegativeTabIndex" tabindex="-1">Eat some funyuns</a><span>...</span>
+    <input id="inputWithoutTabIndex"/>
+    <button id="buttonWithoutTabIndex"></button>
+    <textarea id="textareaWithoutTabIndex"></textarea>
+    <menu type="popup">
+        <menuitem id="menuitemWithoutTabIndex" command="submitbutton" default/>
+    </menu>
+</div>
+
+<div id="liveHandlerOrder">
+    <span id="liveSpan1"><a href="#" id="liveLink1"></a></span>
+    <span id="liveSpan2"><a href="#" id="liveLink2"></a></span>
+</div>
+
+<div id="siblingTest">
+    <em id="siblingfirst">1</em>
+    <em id="siblingnext">2</em>
+    <em id="siblingthird">
+        <em id="siblingchild">
+            <em id="siblinggrandchild">
+                <em id="siblinggreatgrandchild"></em>
+            </em>
+        </em>
+    </em>
+    <span id="siblingspan"></span>
+</div>
+<div id="fx-test-group" style="position: absolute; width: 1px; height: 1px; overflow: hidden;">
+    <div id="fx-queue" name="test">
+        <div id="fadein" class='chain-test' name='div'>fadeIn<div>fadeIn</div></div>
+        <div id="fadeout" class='chain-test chain-test-out'>fadeOut<div>fadeOut</div></div>
+
+        <div id="show" class='chain-test'>show<div>show</div></div>
+        <div id="hide" class='chain-test chain-test-out'>hide<div>hide</div></div>
+        <div id="easehide" class='chain-test chain-test-out'>hide<div>hide</div></div>
+
+        <div id="togglein" class='chain-test'>togglein<div>togglein</div></div>
+        <div id="toggleout" class='chain-test chain-test-out'>toggleout<div>toggleout</div></div>
+        <div id="easetoggleout" class='chain-test chain-test-out'>toggleout<div>toggleout</div></div>
+
+        <div id="slideup" class='chain-test'>slideUp<div>slideUp</div></div>
+        <div id="slidedown" class='chain-test chain-test-out'>slideDown<div>slideDown</div></div>
+        <div id="easeslideup" class='chain-test'>slideUp<div>slideUp</div></div>
+
+        <div id="slidetogglein" class='chain-test'>slideToggleIn<div>slideToggleIn</div></div>
+        <div id="slidetoggleout" class='chain-test chain-test-out'>slideToggleOut<div>slideToggleOut</div></div>
+
+        <div id="fadetogglein" class='chain-test'>fadeToggleIn<div>fadeToggleIn</div></div>
+        <div id="fadetoggleout" class='chain-test chain-test-out'>fadeToggleOut<div>fadeToggleOut</div></div>
+
+        <div id="fadeto" class='chain-test'>fadeTo<div>fadeTo</div></div>
+    </div>
+
+    <div id="fx-tests"></div>
+    <span id="display"></span>
+</div>
+</div>
+</dl>
+<map name="imgmap" id="imgmap">
+    <area shape="rect" coords="0,0,200,50">
+</map>
+
+<script>
+    var $input, $text, $details,
+            attributeNode, commentNode, textNode, obj,
+            table, td, j, type,
+            check, thrown, button, $radio, $radios, $svg,
+            div = jQuery("div").attr("foo", "bar"),
+            i = 0,
+            fail = false;
+
+    for ( ; i < div.length; i++ ) {
+        if ( div[ i ].getAttribute("foo") !== "bar" ) {
+            fail = i;
+            break;
+        }
+    }
+
+    assertEqual( fail, false, "Set Attribute, the #" + fail + " element didn't get the attribute 'foo'" );
+
+    assert(
+            jQuery("#foo").attr({
+                "width": null
+            }),
+            "Try to set an attribute to nothing"
+    );
+
+    jQuery("#name").attr( "name", "something" );
+    assertEqual( jQuery("#name").attr("name"), "something", "Set name attribute" );
+    jQuery("#name").attr( "name", null );
+    assertEqual( jQuery("#name").attr("name"), undefined, "Remove name attribute" );
+
+    $input = jQuery( "<input>", {
+        name: "something",
+        id: "specified"
+    });
+    assertEqual( $input.attr("name"), "something", "Check element creation gets/sets the name attribute." );
+    assertEqual( $input.attr("id"), "specified", "Check element creation gets/sets the id attribute." );
+
+    // As of fixing #11115, we only guarantee boolean property update for checked and selected
+    $input = jQuery("<input type='checkbox'/>").attr( "checked", true );
+    assertEqual( $input.prop("checked"), true, "Setting checked updates property (verified by .prop)" );
+    assertEqual( $input[0].checked, true, "Setting checked updates property (verified by native property)" );
+    $input = jQuery("<option/>").attr( "selected", true );
+    assertEqual( $input.prop("selected"), true, "Setting selected updates property (verified by .prop)" );
+    assertEqual( $input[0].selected, true, "Setting selected updates property (verified by native property)" );
+
+    $input = jQuery("#check2");
+    $input.prop( "checked", true ).prop( "checked", false ).attr( "checked", true );
+    assertEqual( $input.attr("checked"), "checked", "Set checked (verified by .attr)" );
+    $input.prop( "checked", false ).prop( "checked", true ).attr( "checked", false );
+    assertEqual( $input.attr("checked"), undefined, "Remove checked (verified by .attr)" );
+
+    $input = jQuery("#text1").prop( "readOnly", true ).prop( "readOnly", false ).attr( "readonly", true );
+    assertEqual( $input.attr("readonly"), "readonly", "Set readonly (verified by .attr)" );
+    $input.prop( "readOnly", false ).prop( "readOnly", true ).attr( "readonly", false );
+    assertEqual( $input.attr("readonly"), undefined, "Remove readonly (verified by .attr)" );
+
+    $input = jQuery("#check2").attr( "checked", true ).attr( "checked", false ).prop( "checked", true );
+    assertEqual( $input[0].checked, true, "Set checked property (verified by native property)" );
+    assertEqual( $input.prop("checked"), true, "Set checked property (verified by .prop)" );
+    assertEqual( $input.attr("checked"), undefined, "Setting checked property doesn't affect checked attribute" );
+    $input.attr( "checked", false ).attr( "checked", true ).prop( "checked", false );
+    assertEqual( $input[0].checked, false, "Clear checked property (verified by native property)" );
+    assertEqual( $input.prop("checked"), false, "Clear checked property (verified by .prop)" );
+    assertEqual( $input.attr("checked"), "checked", "Clearing checked property doesn't affect checked attribute" );
+
+    $input = jQuery("#check2").attr( "checked", false ).attr( "checked", "checked" );
+    assertEqual( $input.attr("checked"), "checked", "Set checked to 'checked' (verified by .attr)" );
+
+    $radios = jQuery("#checkedtest").find("input[type='radio']");
+    $radios.eq( 1 ).trigger("click");
+    assertEqual( $radios.eq( 1 ).prop("checked"), true, "Second radio was checked when clicked" );
+    assertEqual( $radios.eq( 0 ).attr("checked"), "checked", "First radio is still [checked]" );
+
+    $input = jQuery("#text1").attr( "readonly", false ).prop( "readOnly", true );
+    assertEqual( $input[0].readOnly, true, "Set readonly property (verified by native property)" );
+    assertEqual( $input.prop("readOnly"), true, "Set readonly property (verified by .prop)" );
+    $input.attr( "readonly", true ).prop( "readOnly", false );
+    assertEqual( $input[0].readOnly, false, "Clear readonly property (verified by native property)" );
+    assertEqual( $input.prop("readOnly"), false, "Clear readonly property (verified by .prop)" );
+
+    $input = jQuery("#name").attr( "maxlength", "5" );
+    assertEqual( $input[0].maxLength, 5, "Set maxlength (verified by native property)" );
+    $input.attr( "maxLength", "10" );
+    assertEqual( $input[0].maxLength, 10, "Set maxlength (verified by native property)" );
+
+    // HTML5 boolean attributes
+    $text = jQuery("#text1").attr({
+        "autofocus": true,
+        "required": true
+    });
+    assertEqual( $text.attr("autofocus"), "autofocus", "Reading autofocus attribute yields 'autofocus'" );
+    assertEqual( $text.attr( "autofocus", false ).attr("autofocus"), undefined, "Setting autofocus to false removes it" );
+    assertEqual( $text.attr("required"), "required", "Reading required attribute yields 'required'" );
+    assertEqual( $text.attr( "required", false ).attr("required"), undefined, "Setting required attribute to false removes it" );
+
+    $details = jQuery("<details open></details>").appendTo("#qunit-fixture");
+    assertEqual( $details.attr("open"), "open", "open attribute presence indicates true" );
+    assertEqual( $details.attr( "open", false ).attr("open"), undefined, "Setting open attribute to false removes it" );
+
+    $text.attr( "data-something", true );
+    assertEqual( $text.attr("data-something"), "true", "Set data attributes");
+    assertEqual( $text.data("something"), true, "Setting data attributes are not affected by boolean settings");
+    $text.attr( "data-another", false );
+    assertEqual( $text.attr("data-another"), "false", "Set data attributes");
+    assertEqual( $text.data("another"), false, "Setting data attributes are not affected by boolean settings" );
+    assertEqual( $text.attr( "aria-disabled", false ).attr("aria-disabled"), "false", "Setting aria attributes are not affected by boolean settings" );
+    $text.removeData("something").removeData("another").removeAttr("aria-disabled");
+
+    jQuery("#foo").attr("contenteditable", true);
+    assertEqual( jQuery("#foo").attr("contenteditable"), "true", "Enumerated attributes are set properly" );
+
+    attributeNode = document.createAttribute("irrelevant");
+    commentNode = document.createComment("some comment");
+    textNode = document.createTextNode("some text");
+    obj = {};
+
+    jQuery.each( [ commentNode, textNode, attributeNode ], function( i, elem ) {
+        var $elem = jQuery( elem );
+        $elem.attr( "nonexisting", "foo" );
+        assertEqual( $elem.attr("nonexisting"), undefined, "attr(name, value) works correctly on comment and text nodes (bug #7500)." );
+    });
+
+
+    jQuery.each( [ window, document, obj, "#firstp" ], function( i, elem ) {
+        var oldVal = elem.nonexisting,
+                $elem = jQuery( elem );
+        assertEqual( $elem.attr("nonexisting"), undefined, "attr works correctly for non existing attributes (bug #7500)." );
+        assertEqual( $elem.attr( "nonexisting", "foo" ).attr("nonexisting"), "foo", "attr falls back to prop on unsupported arguments" );
+        elem.nonexisting = oldVal;
+    });
+
+    table = jQuery("#table").append("<tr><td>cell</td></tr><tr><td>cell</td><td>cell</td></tr><tr><td>cell</td><td>cell</td></tr>");
+    td = table.find("td").eq(0);
+    td.attr( "rowspan", "2" );
+    assertEqual( td[ 0 ]["rowSpan"], 2, "Check rowspan is correctly set" );
+    td.attr( "colspan", "2" );
+    assertEqual( td[ 0 ]["colSpan"], 2, "Check colspan is correctly set" );
+    table.attr("cellspacing", "2");
+    assertEqual( table[ 0 ]["cellSpacing"], "2", "Check cellspacing is correctly set" );
+
+    assertEqual( jQuery("#area1").attr("value"), undefined, "Value attribute is distinct from value property." );
+
+    // for #1070
+    jQuery("#name").attr( "someAttr", "0" );
+    assertEqual( jQuery("#name").attr("someAttr"), "0", "Set attribute to a string of '0'" );
+    jQuery("#name").attr( "someAttr", 0 );
+    assertEqual( jQuery("#name").attr("someAttr"), "0", "Set attribute to the number 0" );
+    jQuery("#name").attr( "someAttr", 1 );
+    assertEqual( jQuery("#name").attr("someAttr"), "1", "Set attribute to the number 1" );
+
+    // using contents will get comments regular, text, and comment nodes
+    j = jQuery("#nonnodes").contents();
+
+    j.attr( "name", "attrvalue" );
+    assertEqual( j.attr("name"), "attrvalue", "Check node,textnode,comment for attr" );
+    j.removeAttr("name");
+
+    // Type
+    type = jQuery("#check2").attr("type");
+    try {
+        jQuery("#check2").attr( "type", "hidden" );
+        assert( true, "No exception thrown on input type change" );
+    } catch( e ) {
+        assert( true, "Exception thrown on input type change: " + e );
+    }
+
+    check = document.createElement("input");
+    thrown = true;
+    try {
+        jQuery( check ).attr( "type", "checkbox" );
+    } catch( e ) {
+        thrown = false;
+    }
+    assert( thrown, "Exception thrown when trying to change type property" );
+    assertEqual( "checkbox", jQuery( check ).attr("type"), "Verify that you can change the type of an input element that isn't in the DOM" );
+
+    check = jQuery("<input />");
+    thrown = true;
+    try {
+        check.attr( "type", "checkbox" );
+    } catch( e ) {
+        thrown = false;
+    }
+    assert( thrown, "Exception thrown when trying to change type property" );
+    assertEqual( "checkbox", check.attr("type"), "Verify that you can change the type of an input element that isn't in the DOM" );
+
+    button = jQuery("#button");
+    try {
+        button.attr( "type", "submit" );
+        assert( true, "No exception thrown on button type change" );
+    } catch( e ) {
+        assert( true, "Exception thrown on button type change: " + e );
+    }
+
+    $radio = jQuery( "<input>", {
+        "value": "sup",
+        "type": "radio"
+    }).appendTo("#testForm");
+    assertEqual( $radio.val(), "sup", "Value is not reset when type is set after value on a radio" );
+
+    // Setting attributes on svg elements (bug #3116)
+    $svg = jQuery(
+            "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' width='200' height='200'>" +
+
+                    "<circle cx='200' cy='200' r='150' />" +
+                    "</svg>"
+    ).appendTo("body");
+    assertEqual( $svg.attr( "cx", 100 ).attr("cx"), "100", "Set attribute on svg element" );
+    $svg.remove();
+
+    // undefined values are chainable
+    jQuery("#name").attr( "maxlength", "5" ).removeAttr("nonexisting");
+    assertEqual( typeof jQuery("#name").attr( "maxlength", undefined ), "object", ".attr('attribute', undefined) is chainable (#5571)" );
+    assertEqual( jQuery("#name").attr( "maxlength", undefined ).attr("maxlength"), "5", ".attr('attribute', undefined) does not change value (#5571)" );
+    assertEqual( jQuery("#name").attr( "nonexisting", undefined ).attr("nonexisting"), undefined, ".attr('attribute', undefined) does not create attribute (#5571)" );
+</script>
+
+</body>
+</html>
