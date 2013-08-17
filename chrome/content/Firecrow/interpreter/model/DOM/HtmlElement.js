@@ -26,7 +26,7 @@ fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
 
             if(this.htmlElement.modelElement == null && this.htmlElement.tagName != "BODY")
             {
-                debugger;
+                //debugger;
             }
         }
     }
@@ -64,8 +64,10 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
     if(fcModel.DOM_PROPERTIES.isNodeElements(propertyName) || fcModel.DOM_PROPERTIES.isElementElements(propertyName))
     {
         var elements = this._getElements(propertyName, codeConstruct);
+        var array = this.globalObject.internalExecutor.createArray(codeConstruct, elements);
+        array.iValue.removePrototypeMethods();
 
-        this.addProperty(propertyName, this.globalObject.internalExecutor.createArray(codeConstruct, elements), creationConstruct);
+        this.addProperty(propertyName, array, creationConstruct);
 
         fcModel.HtmlElementExecutor.addDependencies(elements, codeConstruct, this.globalObject);
     }
@@ -166,13 +168,16 @@ fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruc
     {
         var descendents = this.htmlElement[propertyName];
 
-        for(var i = 0; i < descendents.length; i++)
+        if(descendents != null)
         {
-            var descendant = descendents[i];
+            for(var i = 0; i < descendents.length; i++)
+            {
+                var descendant = descendents[i];
 
-            if(descendant == null) { continue; }
+                if(descendant == null) { continue; }
 
-            this.globalObject.dependencyCreator.createDataDependency(getPropertyConstruct, descendant.modelElement, evaluationPositionId);
+                this.globalObject.dependencyCreator.createDataDependency(getPropertyConstruct, descendant.modelElement, evaluationPositionId);
+            }
         }
     }
     else if (fcModel.DOM_PROPERTIES.isElementElement(propertyName) || fcModel.DOM_PROPERTIES.isNodeElement(propertyName))

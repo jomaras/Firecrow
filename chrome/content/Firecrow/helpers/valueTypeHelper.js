@@ -485,6 +485,7 @@ Firecrow.ValueTypeHelper =
         }
         catch(e)
         {
+            debugger;
             alert("ValueTypeHelper - Error while finding in array: " + e);
         }
     },

@@ -182,16 +182,22 @@ FirecrowView.prototype =
         {
             FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
             {
-                FileHelper.writeToFile(selectedFolder + "\\model.json", "var fullPageModel = { pageModel:"  + JSON.stringify(htmlJson, function(key, value)
+                FileHelper.writeToFile(selectedFolder + "\\model.json", this._wrapModel(JSON.stringify(htmlJson, function(key, value)
                 {
                     if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
                     {
                         return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
                     }
                     return value;
-                }) + "};");
+                })));
             }.bind(this));
         }
+    },
+
+    _wrapModel: function(model)
+    {
+        //return "var fullPageModel = { pageModel:" + model + "};";
+        return "HtmlModelMapping.push({url: '',results: [], model: " + model + "});"
     },
 
     _generateScenariosClick: function()

@@ -483,6 +483,7 @@ fcModel.GlobalObject.prototype.satisfiesDomSlicingCriteria = function(htmlElemen
     try
     {
         if(htmlElement == null || htmlElement instanceof Text) { return false; }
+        return true;
         if(this.domModificationSlicingCriteria.length == 0) { return false; }
 
         if(this.includeAllDomModifications) { return true; }
@@ -873,6 +874,23 @@ fcModel.GlobalObject.prototype._createInternalVariables = function()
     this.addProperty("Infinity", new fcModel.fcValue(Infinity, Infinity, null));
     this.addProperty("mozInnerScreenX", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenX));
     this.addProperty("mozInnerScreenY", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenY));
+
+    var eventHandlerNames = ("onafterprint, onbeforeprint, onbeforeunload, onhashchange, onmessage, onoffline, ononline, onpopstate"
+    +"onpagehide, onpageshow, onresize, onunload, ondevicemotion, ondeviceorientation, ondeviceproximity"
+    +"onuserproximity, ondevicelight, onabort, onblur, oncanplay, oncanplaythrough, onchange, onclick"
+    +"oncontextmenu, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart"
+    + "ondrop, ondurationchange, onemptied, onended, onerror, onfocus, oninput, oninvalid, onkeydown, onkeypress"
+    + "onkeyup, onload, onloadeddata, onloadedmetadata, onloadstart, onmousedown, onmousemove, onmouseout, onmouseover"
+    + "onmouseup, onmozfullscreenchange, onmozfullscreenerror, onmozpointerlockchange, onmozpointerlockerror, onpause"
+    + "onplay, onplaying, onprogress, onratechange, onreset, onscroll, onseeked, onseeking, onselect, onshow, onstalled"
+    + "onsubmit, onsuspend, ontimeupdate, onvolumechange, onwaiting, oncopy, oncut, onpaste, onbeforescriptexecute, onafterscriptexecute").split(",");
+
+    for(var i = 0 ; i < eventHandlerNames.length; i++)
+    {
+        var eventHandlerName = eventHandlerNames[i].trim();
+
+        this.addProperty(eventHandlerName, this.internalExecutor.createInternalPrimitiveObject(null, null));
+    }
 };
 
 fcModel.GlobalObject.prototype._createHandlerMaps = function()

@@ -55,7 +55,13 @@ fcModel.Document.prototype.getJsPropertyValue = function(propertyName, codeConst
     }
     else if (fcModel.DOM_PROPERTIES.isDocumentElements(propertyName) || fcModel.DOM_PROPERTIES.isNodeElements(propertyName))
     {
-        this.addProperty(propertyName, this._getElements(propertyName));
+        var elements = this._getElements(propertyName, codeConstruct);
+
+        var array = this.globalObject.internalExecutor.createArray(codeConstruct, elements);
+        array.iValue.removePrototypeMethods()
+
+        this.addProperty(propertyName, array);
+
         hasBeenHandled = true;
     }
     else if(fcModel.DOM_PROPERTIES.isDocumentPrimitives(propertyName) || fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName))
@@ -137,38 +143,18 @@ fcModel.Document.prototype._createDefaultProperties = function()
 
 fcModel.Document.prototype._getElements = function(propertyName, codeConstruct)
 {
-    var implObj = {};
-    var fcObj = new fcModel.Object(this.globalObject, codeConstruct, implObj);
-    var returnObj = new fcModel.fcValue(implObj, fcObj, codeConstruct);
+    var array = [];
+    var items = this.document[propertyName];
 
-    var items = document[propertyName];
+    if(items == null) { return array; }
 
-    if(items == null) { return returnObj; }
-
-    for(var i = items.length - 1; i >= 0; i--)
+    for(var i = 0, length = items.length; i < length; i++)
     {
-        var htmlItem = items[i];
-        var wrappedElement = fcModel.HtmlElementExecutor.wrapToFcElement(htmlItem, this.globalObject, codeConstruct);
-
-        implObj[i] = wrappedElement;
-        fcObj.addProperty(i, wrappedElement, codeConstruct);
-
-        if(htmlItem.name != "")
-        {
-            implObj[htmlItem.name] = wrappedElement;
-            fcObj.addProperty(htmlItem.name, wrappedElement, codeConstruct);
-        }
-
-        if(htmlItem.id != "")
-        {
-            implObj[htmlItem.id] = wrappedElement;
-            fcObj.addProperty(htmlItem.id, wrappedElement, codeConstruct);
-        }
+        if(items[i].nodeType == 10) { continue; } //skip doctype
+        array.push(fcModel.HtmlElementExecutor.wrapToFcElement(items[i], this.globalObject, codeConstruct));
     }
 
-    fcObj.addProperty(item.length, item.length, codeConstruct);
-
-    return returnObj;
+    return array;
 };
 
 fcModel.Document.prototype._getChild = function(htmlElement, tagName, index)

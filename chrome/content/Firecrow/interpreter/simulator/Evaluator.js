@@ -205,7 +205,7 @@ fcSimulator.Evaluator.prototype =
 
     _evalMemberCommand: function(memberCommand)
     {
-        var memberExpression = memberCommand.codeConstruct;
+        var memberExpression = memberCommand.codeConstruct; if(memberCommand.id == 37340 || memberCommand.id == 37310 || memberCommand.id == 37330) debugger;
 
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
 

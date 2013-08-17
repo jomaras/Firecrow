@@ -7,7 +7,7 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
 {
     try
     {
-        this.initObject(this.globalObject, codeConstruct, attr);
+        this.initObject(globalObject, codeConstruct, attr);
 
         this.htmlElement = htmlElement;
         this.attr = attr;
@@ -30,12 +30,15 @@ fcModel.Attr = function(attr, htmlElement, globalObject, codeConstruct)
             fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
         }, this);
 
-        this.getJsPropertyValue = function(propertyName, codeConstruct) { fcModel.Attr.notifyError("get property Attr not yet handled"); };
+        this.getJsPropertyValue = function(propertyName, codeConstruct)
+        {
+            return this.getPropertyValue(propertyName, codeConstruct);
+        };
         this.addJsProperty = function(propertyName, value, codeConstruct) { fcModel.Attr.notifyError("add property Attr not yet handled"); };
     }
     catch(e) { fcModel.Attr.notifyError("Error when creating Html Attr object: " + e); }
 };
-fcModel.Attr.notifyError = function(message) { alert("Attr - " + message); };
+fcModel.Attr.notifyError = function(message) { debugger; alert("Attr - " + message); };
 
 fcModel.Attr.prototype = new fcModel.Object();
 
@@ -47,25 +50,36 @@ fcModel.Attr.createAttributeList = function(htmlElement, globalObject, codeConst
 
         var attributeList = [];
         var attributes = htmlElement.attributes;
+        var attributeNameFcValueMap = {};
 
         if(attributes != null)
         {
             for(var i = 0, length = attributes.length; i < length; i++)
             {
                 var attribute = attributes[i];
-                attributeList.push
+                var fcAttribute = new fcModel.fcValue
                 (
-                    new fcModel.fcValue
-                    (
-                        attribute,
-                        new fcModel.Attr(attribute, htmlElement, globalObject, codeConstruct),
-                        codeConstruct
-                    )
+                    attribute,
+                    new fcModel.Attr(attribute, htmlElement, globalObject, codeConstruct),
+                    codeConstruct
                 );
+
+                attributeList.push(fcAttribute);
+
+                attributeNameFcValueMap[attribute.name] = fcAttribute;
             }
         }
 
-        return globalObject.internalExecutor.createArray(codeConstruct, attributeList);
+        var array = globalObject.internalExecutor.createArray(codeConstruct, attributeList);
+
+        array.iValue.removePrototypeMethods();
+
+        for(var attributeName in attributeNameFcValueMap)
+        {
+            array.iValue.addProperty(attributeName, attributeNameFcValueMap[attributeName]);
+        }
+
+        return array;
     }
     catch(e) { fcModel.Attr.notifyError("Attr - error when creating attribute list:" + e); }
 };

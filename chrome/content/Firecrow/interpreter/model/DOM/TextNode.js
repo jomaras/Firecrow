@@ -23,7 +23,7 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
 
 //<editor-fold desc="'Static' Methods">
 fcModel.TextNode.accessedProperties = {};
-fcModel.TextNode.notifyError = function(message) { fcModel.TextNode.notifyError("TextNode - " + message); };
+fcModel.TextNode.notifyError = function(message) { debugger; alert("TextNode - " + message); };
 //</editor-fold>
 
 //<editor-fold desc="Prototype Definition">
@@ -35,8 +35,8 @@ fcModel.TextNode.prototype.getJsPropertyValue = function(propertyName, codeConst
     fcModel.TextNode.accessedProperties[propertyName] = true;
 
     if (fcModel.DOM_PROPERTIES.isNodeElement(propertyName)) { return fcModel.HtmlElementExecutor.wrapToFcElement(this.textNode[propertyName], this.globalObject, codeConstruct) }
-    else if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName)) { return this.getPropertyValue(propertyName, codeConstruct); }
-    else { fcModel.TextNode.notifyError("Text node get element property not yet handled: " + propertyName); }
+
+    return this.getPropertyValue(propertyName, codeConstruct);
 };
 
 fcModel.TextNode.prototype.addJsProperty = function(propertyName, propertyFcValue, codeConstruct)

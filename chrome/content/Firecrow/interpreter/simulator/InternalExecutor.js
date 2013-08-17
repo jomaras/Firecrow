@@ -11,7 +11,7 @@ fcSimulator.InternalExecutor = function(globalObject)
     this.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject);
 };
 
-fcSimulator.InternalExecutor.notifyError = function(message) { alert("InternalExecutor - " + message);}
+fcSimulator.InternalExecutor.notifyError = function(message) { debugger; alert("InternalExecutor - " + message);}
 
 fcSimulator.InternalExecutor.prototype =
 {
