@@ -257,107 +257,36 @@
 
 <script>
 
-    var elem, i,
-            obj = jQuery("div"),
-            code = jQuery("<code/>"),
-            img = jQuery("<img/>"),
-            div = jQuery("<div/><hr/><code/><b/>"),
-            exec = false,
-            lng = "",
-            expected = 22,
-            attrObj = {
-                "text": "test",
-                "class": "test2",
-                "id": "test3"
-            };
+    jQuery["foo"] = false;
+    s = jQuery("<script>jQuery.foo='test';</script>")[0];
+ok( s, "Creating a script" );
+ok( !jQuery["foo"], "Make sure the script wasn't executed prematurely" );
+jQuery("body").append("<script>jQuery.foo='test';</script>");
+ok( jQuery["foo"], "Executing a scripts contents in the right context" );
 
-    // The $(html, props) signature can stealth-call any $.fn method, check for a
-    // few here but beware of modular builds where these methods may be excluded.
-    if ( jQuery.fn.click ) {
-        expected++;
-        attrObj["click"] = function() { assert( exec, "Click executed." ); };
-    }
-    if ( jQuery.fn.width ) {
-        expected++;
-        attrObj["width"] = 10;
-    }
-    if ( jQuery.fn.offset ) {
-        expected++;
-        attrObj["offset"] = { "top": 1, "left": 1 };
-    }
-    if ( jQuery.fn.css ) {
-        expected += 2;
-        attrObj["css"] = { "paddingLeft": 1, "paddingRight": 1 };
-    }
-    if ( jQuery.fn.attr ) {
-        expected++;
-        attrObj.attr = { "desired": "very" };
-    }
+// Test multi-line HTML
+div = jQuery("<div>\r\nsome text\n<p>some p</p>\nmore text\r\n</div>")[0];
+equal( div.nodeName.toUpperCase(), "DIV", "Make sure we're getting a div." );
+equal( div.firstChild.nodeType, 3, "Text node." );
+equal( div.lastChild.nodeType, 3, "Text node." );
+equal( div.childNodes[1].nodeType, 1, "Paragraph." );
+equal( div.childNodes[1].firstChild.nodeType, 3, "Paragraph text." );
 
-    // Basic constructor's behavior
-    assertEquals( jQuery().length, 0, "jQuery() === jQuery([])" );
-    assertEquals( jQuery(undefined).length, 0, "jQuery(undefined) === jQuery([])" );
-    assertEquals( jQuery(null).length, 0, "jQuery(null) === jQuery([])" );
-    assertEquals( jQuery("").length, 0, "jQuery('') === jQuery([])" );
-    assertEquals( jQuery("#").length, 0, "jQuery('#') === jQuery([])" );
+QUnit.reset();
+ok( jQuery("<link rel='stylesheet'/>")[0], "Creating a link" );
 
-    assertEquals( jQuery(obj).selector, "div", "jQuery(jQueryObj) == jQueryObj" );
+ok( !jQuery("<script/>")[0].parentNode, "Create a script" );
 
-    assertEquals( jQuery(window).length, 1, "Correct number of elements generated for jQuery(window)" );
+ok( jQuery("<input/>").attr("type", "hidden"), "Create an input and set the type." );
 
-    assertEquals( code.length, 1, "Correct number of elements generated for code" );
-    assertEquals( code.parent().length, 0, "Make sure that the generated HTML has no parent." );
+j = jQuery("<span>hi</span> there <!-- mon ami -->");
+ok( j.length >= 2, "Check node,textnode,comment creation (some browsers delete comments)" );
 
-    assertEquals( img.length, 1, "Correct number of elements generated for img" );
-    assertEquals( img.parent().length, 0, "Make sure that the generated HTML has no parent." );
+ok( !jQuery("<option>test</option>")[0].selected, "Make sure that options are auto-selected #2050" );
 
-    assertEquals( div.length, 4, "Correct number of elements generated for div hr code b" );
-    assertEquals( div.parent().length, 0, "Make sure that the generated HTML has no parent." );
+ok( jQuery("<div></div>")[0], "Create a div with closing tag." );
+ok( jQuery("<table></table>")[0], "Create a table with closing tag." );
 
-    assertEquals( jQuery([1,2,3]).get(1), 2, "Test passing an array to the factory" );
-
-    assertEquals( jQuery(document.body).get(0), jQuery("body").get(0), "Test passing an html node to the factory" );
-
-    elem = jQuery("  <em>hello</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading space" );
-
-    elem = jQuery("\n\n<em>world</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading newlines" );
-
-    elem = jQuery("<div/>", attrObj );
-
-    if ( jQuery.fn.width ) {
-        assertEquals( elem[0].style.width, "10px", "jQuery() quick setter width");
-    }
-
-    if ( jQuery.fn.offset ) {
-        assertEquals( elem[0].style.top, "1px", "jQuery() quick setter offset");
-    }
-
-    if ( jQuery.fn.css ) {
-        assertEquals( elem[0].style.paddingLeft, "1px", "jQuery quick setter css");
-        assertEquals( elem[0].style.paddingRight, "1px", "jQuery quick setter css");
-    }
-
-    if ( jQuery.fn.attr ) {
-        assertEquals( elem[0].getAttribute("desired"), "very", "jQuery quick setter attr");
-    }
-
-    assertEquals( elem[0].childNodes.length, 1, "jQuery quick setter text");
-    assertEquals( elem[0].firstChild.nodeValue, "test", "jQuery quick setter text");
-    assertEquals( elem[0].className, "test2", "jQuery() quick setter class");
-    assertEquals( elem[0].id, "test3", "jQuery() quick setter id");
-
-    exec = true;
-    elem.trigger("click");
-
-    // manually clean up detached elements
-    elem.remove();
-
-    for ( i = 0; i < 3; ++i ) {
-        elem = jQuery("<input type='text' value='TEST' />");
-    }
-    assertEquals( elem[0].defaultValue, "TEST", "Ensure cached nodes are cloned properly (Bug #6655)" );
 </script>
 
 </body>

@@ -256,108 +256,55 @@
 </map>
 
 <script>
+    var t = jQuery.isNumeric,
+            Traditionalists = /** @constructor */ function(n) {
+                this.value = n;
+                this.toString = function(){
+                    return String(this.value);
+                };
+            },
+            answer = new Traditionalists( "42" ),
+            rong = new Traditionalists( "Devo" );
 
-    var elem, i,
-            obj = jQuery("div"),
-            code = jQuery("<code/>"),
-            img = jQuery("<img/>"),
-            div = jQuery("<div/><hr/><code/><b/>"),
-            exec = false,
-            lng = "",
-            expected = 22,
-            attrObj = {
-                "text": "test",
-                "class": "test2",
-                "id": "test3"
-            };
-
-    // The $(html, props) signature can stealth-call any $.fn method, check for a
-    // few here but beware of modular builds where these methods may be excluded.
-    if ( jQuery.fn.click ) {
-        expected++;
-        attrObj["click"] = function() { assert( exec, "Click executed." ); };
-    }
-    if ( jQuery.fn.width ) {
-        expected++;
-        attrObj["width"] = 10;
-    }
-    if ( jQuery.fn.offset ) {
-        expected++;
-        attrObj["offset"] = { "top": 1, "left": 1 };
-    }
-    if ( jQuery.fn.css ) {
-        expected += 2;
-        attrObj["css"] = { "paddingLeft": 1, "paddingRight": 1 };
-    }
-    if ( jQuery.fn.attr ) {
-        expected++;
-        attrObj.attr = { "desired": "very" };
-    }
-
-    // Basic constructor's behavior
-    assertEquals( jQuery().length, 0, "jQuery() === jQuery([])" );
-    assertEquals( jQuery(undefined).length, 0, "jQuery(undefined) === jQuery([])" );
-    assertEquals( jQuery(null).length, 0, "jQuery(null) === jQuery([])" );
-    assertEquals( jQuery("").length, 0, "jQuery('') === jQuery([])" );
-    assertEquals( jQuery("#").length, 0, "jQuery('#') === jQuery([])" );
-
-    assertEquals( jQuery(obj).selector, "div", "jQuery(jQueryObj) == jQueryObj" );
-
-    assertEquals( jQuery(window).length, 1, "Correct number of elements generated for jQuery(window)" );
-
-    assertEquals( code.length, 1, "Correct number of elements generated for code" );
-    assertEquals( code.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
-    assertEquals( img.length, 1, "Correct number of elements generated for img" );
-    assertEquals( img.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
-    assertEquals( div.length, 4, "Correct number of elements generated for div hr code b" );
-    assertEquals( div.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
-    assertEquals( jQuery([1,2,3]).get(1), 2, "Test passing an array to the factory" );
-
-    assertEquals( jQuery(document.body).get(0), jQuery("body").get(0), "Test passing an html node to the factory" );
-
-    elem = jQuery("  <em>hello</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading space" );
-
-    elem = jQuery("\n\n<em>world</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading newlines" );
-
-    elem = jQuery("<div/>", attrObj );
-
-    if ( jQuery.fn.width ) {
-        assertEquals( elem[0].style.width, "10px", "jQuery() quick setter width");
-    }
-
-    if ( jQuery.fn.offset ) {
-        assertEquals( elem[0].style.top, "1px", "jQuery() quick setter offset");
-    }
-
-    if ( jQuery.fn.css ) {
-        assertEquals( elem[0].style.paddingLeft, "1px", "jQuery quick setter css");
-        assertEquals( elem[0].style.paddingRight, "1px", "jQuery quick setter css");
-    }
-
-    if ( jQuery.fn.attr ) {
-        assertEquals( elem[0].getAttribute("desired"), "very", "jQuery quick setter attr");
-    }
-
-    assertEquals( elem[0].childNodes.length, 1, "jQuery quick setter text");
-    assertEquals( elem[0].firstChild.nodeValue, "test", "jQuery quick setter text");
-    assertEquals( elem[0].className, "test2", "jQuery() quick setter class");
-    assertEquals( elem[0].id, "test3", "jQuery() quick setter id");
-
-    exec = true;
-    elem.trigger("click");
-
-    // manually clean up detached elements
-    elem.remove();
-
-    for ( i = 0; i < 3; ++i ) {
-        elem = jQuery("<input type='text' value='TEST' />");
-    }
-    assertEquals( elem[0].defaultValue, "TEST", "Ensure cached nodes are cloned properly (Bug #6655)" );
+    assert( t("-10"), "Negative integer string");
+    assert( t("0"), "Zero string");
+    assert( t("5"), "Positive integer string");
+    assert( t(-16), "Negative integer number");
+    assert( t(0), "Zero integer number");
+    assert( t(32), "Positive integer number");
+    assert( t("040"), "Octal integer literal string");
+    // OctalIntegerLiteral has been deprecated since ES3/1999
+    // It doesn't pass lint, so disabling until a solution can be found
+    //assert( t(0144), "Octal integer literal");
+    assert( t("0xFF"), "Hexadecimal integer literal string");
+    assert( t(0xFFF), "Hexadecimal integer literal");
+    assert( t("-1.6"), "Negative floating point string");
+    assert( t("4.536"), "Positive floating point string");
+    assert( t(-2.6), "Negative floating point number");
+    assert( t(3.1415), "Positive floating point number");
+    assert( t(8e5), "Exponential notation");
+    assert( t("123e-2"), "Exponential notation string");
+    assert( t(answer), "Custom .toString returning number");
+    assertEquals( t(""), false, "Empty string");
+    assertEquals( t("        "), false, "Whitespace characters string");
+    assertEquals( t("\t\t"), false, "Tab characters string");
+    assertEquals( t("abcdefghijklm1234567890"), false, "Alphanumeric character string");
+    assertEquals( t("xabcdefx"), false, "Non-numeric character string");
+    assertEquals( t(true), false, "Boolean true literal");
+    assertEquals( t(false), false, "Boolean false literal");
+    assertEquals( t("bcfed5.2"), false, "Number with preceding non-numeric characters");
+    assertEquals( t("7.2acdgs"), false, "Number with trailling non-numeric characters");
+    assertEquals( t(undefined), false, "Undefined value");
+    assertEquals( t(null), false, "Null value");
+    assertEquals( t(NaN), false, "NaN value");
+    assertEquals( t(Infinity), false, "Infinity primitive");
+    assertEquals( t(Number.POSITIVE_INFINITY), false, "Positive Infinity");
+    assertEquals( t(Number.NEGATIVE_INFINITY), false, "Negative Infinity");
+    assertEquals( t(rong), false, "Custom .toString returning non-number");
+    assertEquals( t({}), false, "Empty object");
+    assertEquals( t(function(){} ), false, "Instance of a function");
+    assertEquals( t( new Date() ), false, "Instance of a Date");
+    assertEquals( t(function(){} ), false, "Instance of a function");
 </script>
 
 </body>

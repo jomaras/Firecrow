@@ -177,12 +177,16 @@ FirecrowView.prototype =
     _saveModelClick: function()
     {
         var selectedFolder = this._openSelectFolderDialog();
+        var pageUrl = this._getCurrentPageDocument().baseURI;
+
+        var pageName = pageUrl.substring(pageUrl.lastIndexOf("/") + 1, pageUrl.indexOf("."));
+        if(pageName == "") { pageName = "model"}
 
         if(selectedFolder)
         {
             FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
             {
-                FileHelper.writeToFile(selectedFolder + "\\model.json", this._wrapModel(JSON.stringify(htmlJson, function(key, value)
+                FileHelper.writeToFile(selectedFolder + "\\" + pageName + ".json", this._wrapModel(JSON.stringify(htmlJson, function(key, value)
                 {
                     if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
                     {

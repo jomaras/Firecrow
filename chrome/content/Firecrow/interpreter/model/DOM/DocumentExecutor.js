@@ -40,19 +40,10 @@ fcModel.DocumentExecutor =
     {
         globalObject.browser.logDomQueried(queryType, selector, callExpression);
 
-        if(queryType == "getElementsByClassName") { selector = "." + selector; }
-
         var elements = [];
         try
         {
-            if(functionName == "getElementsByName")
-            {
-                elements = globalObject.origDocument.getElementsByName(selector);
-            }
-            else
-            {
-                elements = globalObject.origDocument.querySelectorAll(selector);
-            }
+            elements = globalObject.origDocument[queryType](selector);
         }
         catch(e)
         {
@@ -77,12 +68,10 @@ fcModel.DocumentExecutor =
     {
         globalObject.browser.logDomQueried(queryType, selector, callExpression);
 
-        if(queryType == "getElementById") { selector = "#" + selector; }
-
         var element = null;
         try
         {
-            element = globalObject.origDocument.querySelector(selector);
+            element = globalObject.origDocument[queryType](selector);
         }
         catch(e)
         {

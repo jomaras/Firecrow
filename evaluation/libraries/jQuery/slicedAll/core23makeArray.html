@@ -256,108 +256,39 @@
 </map>
 
 <script>
+    assertEquals( jQuery.makeArray(jQuery("html>*"))[0].nodeName.toUpperCase(), "HEAD", "Pass makeArray a jQuery object" );
 
-    var elem, i,
-            obj = jQuery("div"),
-            code = jQuery("<code/>"),
-            img = jQuery("<img/>"),
-            div = jQuery("<div/><hr/><code/><b/>"),
-            exec = false,
-            lng = "",
-            expected = 22,
-            attrObj = {
-                "text": "test",
-                "class": "test2",
-                "id": "test3"
-            };
+    assertEquals( jQuery.makeArray(document.getElementsByName("PWD")).slice(0,1)[0].name, "PWD", "Pass makeArray a nodelist" );
 
-    // The $(html, props) signature can stealth-call any $.fn method, check for a
-    // few here but beware of modular builds where these methods may be excluded.
-    if ( jQuery.fn.click ) {
-        expected++;
-        attrObj["click"] = function() { assert( exec, "Click executed." ); };
-    }
-    if ( jQuery.fn.width ) {
-        expected++;
-        attrObj["width"] = 10;
-    }
-    if ( jQuery.fn.offset ) {
-        expected++;
-        attrObj["offset"] = { "top": 1, "left": 1 };
-    }
-    if ( jQuery.fn.css ) {
-        expected += 2;
-        attrObj["css"] = { "paddingLeft": 1, "paddingRight": 1 };
-    }
-    if ( jQuery.fn.attr ) {
-        expected++;
-        attrObj.attr = { "desired": "very" };
-    }
+    assertEquals( (function() { return jQuery.makeArray(arguments); })(1,2).join(""), "12", "Pass makeArray an arguments array" );
 
-    // Basic constructor's behavior
-    assertEquals( jQuery().length, 0, "jQuery() === jQuery([])" );
-    assertEquals( jQuery(undefined).length, 0, "jQuery(undefined) === jQuery([])" );
-    assertEquals( jQuery(null).length, 0, "jQuery(null) === jQuery([])" );
-    assertEquals( jQuery("").length, 0, "jQuery('') === jQuery([])" );
-    assertEquals( jQuery("#").length, 0, "jQuery('#') === jQuery([])" );
+    assertEquals( jQuery.makeArray([1,2,3]).join(""), "123", "Pass makeArray a real array" );
 
-    assertEquals( jQuery(obj).selector, "div", "jQuery(jQueryObj) == jQueryObj" );
+    assertEquals( jQuery.makeArray().length, 0, "Pass nothing to makeArray and expect an empty array" );
 
-    assertEquals( jQuery(window).length, 1, "Correct number of elements generated for jQuery(window)" );
+    assertEquals( jQuery.makeArray( 0 )[0], 0 , "Pass makeArray a number" );
 
-    assertEquals( code.length, 1, "Correct number of elements generated for code" );
-    assertEquals( code.parent().length, 0, "Make sure that the generated HTML has no parent." );
+    assertEquals( jQuery.makeArray( "foo" )[0], "foo", "Pass makeArray a string" );
 
-    assertEquals( img.length, 1, "Correct number of elements generated for img" );
-    assertEquals( img.parent().length, 0, "Make sure that the generated HTML has no parent." );
+    assertEquals( jQuery.makeArray( true )[0].constructor, Boolean, "Pass makeArray a boolean" );
 
-    assertEquals( div.length, 4, "Correct number of elements generated for div hr code b" );
-    assertEquals( div.parent().length, 0, "Make sure that the generated HTML has no parent." );
+    assertEquals( jQuery.makeArray( document.createElement("div") )[0].nodeName.toUpperCase(), "DIV", "Pass makeArray a single node" );
 
-    assertEquals( jQuery([1,2,3]).get(1), 2, "Test passing an array to the factory" );
+    assertEquals( jQuery.makeArray( {length:2, 0:"a", 1:"b"} ).join(""), "ab", "Pass makeArray an array like map (with length)" );
 
-    assertEquals( jQuery(document.body).get(0), jQuery("body").get(0), "Test passing an html node to the factory" );
+    ok( !!jQuery.makeArray( document.documentElement.childNodes ).slice(0,1)[0].nodeName, "Pass makeArray a childNodes array" );
 
-    elem = jQuery("  <em>hello</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading space" );
+    // function, is tricky as it has length
+    assertEquals( jQuery.makeArray( function(){ return 1;} )[0](), 1, "Pass makeArray a function" );
 
-    elem = jQuery("\n\n<em>world</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading newlines" );
+    //window, also has length
+    assertEquals( jQuery.makeArray(window)[0], window, "Pass makeArray the window" );
 
-    elem = jQuery("<div/>", attrObj );
+    assertEquals( jQuery.makeArray(/a/)[0].constructor, RegExp, "Pass makeArray a regex" );
 
-    if ( jQuery.fn.width ) {
-        assertEquals( elem[0].style.width, "10px", "jQuery() quick setter width");
-    }
-
-    if ( jQuery.fn.offset ) {
-        assertEquals( elem[0].style.top, "1px", "jQuery() quick setter offset");
-    }
-
-    if ( jQuery.fn.css ) {
-        assertEquals( elem[0].style.paddingLeft, "1px", "jQuery quick setter css");
-        assertEquals( elem[0].style.paddingRight, "1px", "jQuery quick setter css");
-    }
-
-    if ( jQuery.fn.attr ) {
-        assertEquals( elem[0].getAttribute("desired"), "very", "jQuery quick setter attr");
-    }
-
-    assertEquals( elem[0].childNodes.length, 1, "jQuery quick setter text");
-    assertEquals( elem[0].firstChild.nodeValue, "test", "jQuery quick setter text");
-    assertEquals( elem[0].className, "test2", "jQuery() quick setter class");
-    assertEquals( elem[0].id, "test3", "jQuery() quick setter id");
-
-    exec = true;
-    elem.trigger("click");
-
-    // manually clean up detached elements
-    elem.remove();
-
-    for ( i = 0; i < 3; ++i ) {
-        elem = jQuery("<input type='text' value='TEST' />");
-    }
-    assertEquals( elem[0].defaultValue, "TEST", "Ensure cached nodes are cloned properly (Bug #6655)" );
+    // Some nodes inherit traits of nodelists
+    assert( jQuery.makeArray(document.getElementById("form")).length >= 13,
+            "Pass makeArray a form (treat as elements)" );
 </script>
 
 </body>

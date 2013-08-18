@@ -256,108 +256,42 @@
 </map>
 
 <script>
-
-    var elem, i,
-            obj = jQuery("div"),
-            code = jQuery("<code/>"),
-            img = jQuery("<img/>"),
-            div = jQuery("<div/><hr/><code/><b/>"),
-            exec = false,
-            lng = "",
-            expected = 22,
-            attrObj = {
-                "text": "test",
-                "class": "test2",
-                "id": "test3"
+    var selections = {
+                p:   q("firstp", "sap", "ap", "first"),
+                em:  q("siblingnext", "siblingfirst"),
+                div: q("qunit-testrunner-toolbar", "nothiddendiv", "nothiddendivchild", "foo"),
+                a:   q("mark", "groups", "google", "simon1"),
+                empty: []
+            },
+            tests = {
+                p:    { elem: jQuery("#ap")[0],           index: 2 },
+                em:   { elem: jQuery("#siblingfirst")[0], index: 1 },
+                div:  { elem: jQuery("#nothiddendiv")[0], index: 1 },
+                a:    { elem: jQuery("#simon1")[0],       index: 3 }
+            },
+            falseTests = {
+                p:  jQuery("#liveSpan1")[0],
+                em: jQuery("#nothiddendiv")[0],
+                empty: ""
             };
 
-    // The $(html, props) signature can stealth-call any $.fn method, check for a
-    // few here but beware of modular builds where these methods may be excluded.
-    if ( jQuery.fn.click ) {
-        expected++;
-        attrObj["click"] = function() { assert( exec, "Click executed." ); };
-    }
-    if ( jQuery.fn.width ) {
-        expected++;
-        attrObj["width"] = 10;
-    }
-    if ( jQuery.fn.offset ) {
-        expected++;
-        attrObj["offset"] = { "top": 1, "left": 1 };
-    }
-    if ( jQuery.fn.css ) {
-        expected += 2;
-        attrObj["css"] = { "paddingLeft": 1, "paddingRight": 1 };
-    }
-    if ( jQuery.fn.attr ) {
-        expected++;
-        attrObj.attr = { "desired": "very" };
-    }
+    jQuery.each( tests, function( key, obj ) {
+        assertEquals( jQuery.inArray( obj.elem, selections[ key ] ), obj.index, "elem is in the array of selections of its tag" );
+        // Third argument (fromIndex)
+        assertEquals( !!~jQuery.inArray( obj.elem, selections[ key ], 5 ), false, "elem is NOT in the array of selections given a starting index greater than its position" );
+        assertEquals( !!~jQuery.inArray( obj.elem, selections[ key ], 1 ), true, "elem is in the array of selections given a starting index less than or assertEquals to its position" );
+        assertEquals( !!~jQuery.inArray( obj.elem, selections[ key ], -3 ), true, "elem is in the array of selections given a negative index" );
+    });
 
-    // Basic constructor's behavior
-    assertEquals( jQuery().length, 0, "jQuery() === jQuery([])" );
-    assertEquals( jQuery(undefined).length, 0, "jQuery(undefined) === jQuery([])" );
-    assertEquals( jQuery(null).length, 0, "jQuery(null) === jQuery([])" );
-    assertEquals( jQuery("").length, 0, "jQuery('') === jQuery([])" );
-    assertEquals( jQuery("#").length, 0, "jQuery('#') === jQuery([])" );
+    jQuery.each( falseTests, function( key, elem ) {
+        assertEquals( !!~jQuery.inArray( elem, selections[ key ] ), false, "elem is NOT in the array of selections" );
+    });
 
-    assertEquals( jQuery(obj).selector, "div", "jQuery(jQueryObj) == jQueryObj" );
+    assertEquals( jQuery.inArray( 0, false ), -1 , "Search in 'false' as array returns -1 and doesn't throw exception" );
 
-    assertEquals( jQuery(window).length, 1, "Correct number of elements generated for jQuery(window)" );
+    assertEquals( jQuery.inArray( 0, null ), -1 , "Search in 'null' as array returns -1 and doesn't throw exception" );
 
-    assertEquals( code.length, 1, "Correct number of elements generated for code" );
-    assertEquals( code.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
-    assertEquals( img.length, 1, "Correct number of elements generated for img" );
-    assertEquals( img.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
-    assertEquals( div.length, 4, "Correct number of elements generated for div hr code b" );
-    assertEquals( div.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
-    assertEquals( jQuery([1,2,3]).get(1), 2, "Test passing an array to the factory" );
-
-    assertEquals( jQuery(document.body).get(0), jQuery("body").get(0), "Test passing an html node to the factory" );
-
-    elem = jQuery("  <em>hello</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading space" );
-
-    elem = jQuery("\n\n<em>world</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading newlines" );
-
-    elem = jQuery("<div/>", attrObj );
-
-    if ( jQuery.fn.width ) {
-        assertEquals( elem[0].style.width, "10px", "jQuery() quick setter width");
-    }
-
-    if ( jQuery.fn.offset ) {
-        assertEquals( elem[0].style.top, "1px", "jQuery() quick setter offset");
-    }
-
-    if ( jQuery.fn.css ) {
-        assertEquals( elem[0].style.paddingLeft, "1px", "jQuery quick setter css");
-        assertEquals( elem[0].style.paddingRight, "1px", "jQuery quick setter css");
-    }
-
-    if ( jQuery.fn.attr ) {
-        assertEquals( elem[0].getAttribute("desired"), "very", "jQuery quick setter attr");
-    }
-
-    assertEquals( elem[0].childNodes.length, 1, "jQuery quick setter text");
-    assertEquals( elem[0].firstChild.nodeValue, "test", "jQuery quick setter text");
-    assertEquals( elem[0].className, "test2", "jQuery() quick setter class");
-    assertEquals( elem[0].id, "test3", "jQuery() quick setter id");
-
-    exec = true;
-    elem.trigger("click");
-
-    // manually clean up detached elements
-    elem.remove();
-
-    for ( i = 0; i < 3; ++i ) {
-        elem = jQuery("<input type='text' value='TEST' />");
-    }
-    assertEquals( elem[0].defaultValue, "TEST", "Ensure cached nodes are cloned properly (Bug #6655)" );
+    assertEquals( jQuery.inArray( 0, undefined ), -1 , "Search in 'undefined' as array returns -1 and doesn't throw exception" )
 </script>
 
 </body>

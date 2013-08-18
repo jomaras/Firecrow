@@ -256,108 +256,90 @@
 </map>
 
 <script>
+    var mystr, myarr, myfunction, fn, obj, nodes, first, input, a;
 
-    var elem, i,
-            obj = jQuery("div"),
-            code = jQuery("<code/>"),
-            img = jQuery("<img/>"),
-            div = jQuery("<div/><hr/><code/><b/>"),
-            exec = false,
-            lng = "",
-            expected = 22,
-            attrObj = {
-                "text": "test",
-                "class": "test2",
-                "id": "test3"
-            };
+    // Make sure that false values return false
+    assert( !jQuery.isFunction(), "No Value" );
+    assert( !jQuery.isFunction( null ), "null Value" );
+    assert( !jQuery.isFunction( undefined ), "undefined Value" );
+    assert( !jQuery.isFunction( "" ), "Empty String Value" );
+    assert( !jQuery.isFunction( 0 ), "0 Value" );
 
-    // The $(html, props) signature can stealth-call any $.fn method, check for a
-    // few here but beware of modular builds where these methods may be excluded.
-    if ( jQuery.fn.click ) {
-        expected++;
-        attrObj["click"] = function() { assert( exec, "Click executed." ); };
-    }
-    if ( jQuery.fn.width ) {
-        expected++;
-        attrObj["width"] = 10;
-    }
-    if ( jQuery.fn.offset ) {
-        expected++;
-        attrObj["offset"] = { "top": 1, "left": 1 };
-    }
-    if ( jQuery.fn.css ) {
-        expected += 2;
-        attrObj["css"] = { "paddingLeft": 1, "paddingRight": 1 };
-    }
-    if ( jQuery.fn.attr ) {
-        expected++;
-        attrObj.attr = { "desired": "very" };
-    }
+    // Check built-ins
+    // Safari uses "(Internal Function)"
+    assert( jQuery.isFunction(String), "String Function("+String+")" );
+    assert( jQuery.isFunction(Array), "Array Function("+Array+")" );
+    assert( jQuery.isFunction(Object), "Object Function("+Object+")" );
+    assert( jQuery.isFunction(Function), "Function Function("+Function+")" );
 
-    // Basic constructor's behavior
-    assertEquals( jQuery().length, 0, "jQuery() === jQuery([])" );
-    assertEquals( jQuery(undefined).length, 0, "jQuery(undefined) === jQuery([])" );
-    assertEquals( jQuery(null).length, 0, "jQuery(null) === jQuery([])" );
-    assertEquals( jQuery("").length, 0, "jQuery('') === jQuery([])" );
-    assertEquals( jQuery("#").length, 0, "jQuery('#') === jQuery([])" );
+    // When stringified, this could be misinterpreted
+    mystr = "function";
+    assert( !jQuery.isFunction(mystr), "Function String" );
 
-    assertEquals( jQuery(obj).selector, "div", "jQuery(jQueryObj) == jQueryObj" );
+    // When stringified, this could be misinterpreted
+    myarr = [ "function" ];
+    assert( !jQuery.isFunction(myarr), "Function Array" );
 
-    assertEquals( jQuery(window).length, 1, "Correct number of elements generated for jQuery(window)" );
+    // When stringified, this could be misinterpreted
+    myfunction = { "function": "test" };
+    assert( !jQuery.isFunction(myfunction), "Function Object" );
 
-    assertEquals( code.length, 1, "Correct number of elements generated for code" );
-    assertEquals( code.parent().length, 0, "Make sure that the generated HTML has no parent." );
+    // Make sure normal functions still work
+    fn = function(){};
+    assert( jQuery.isFunction(fn), "Normal Function" );
 
-    assertEquals( img.length, 1, "Correct number of elements generated for img" );
-    assertEquals( img.parent().length, 0, "Make sure that the generated HTML has no parent." );
+    obj = document.createElement("object");
 
-    assertEquals( div.length, 4, "Correct number of elements generated for div hr code b" );
-    assertEquals( div.parent().length, 0, "Make sure that the generated HTML has no parent." );
+    // Firefox says this is a function
+    assert( !jQuery.isFunction(obj), "Object Element" );
 
-    assertEquals( jQuery([1,2,3]).get(1), 2, "Test passing an array to the factory" );
+    // IE says this is an object
+    // Since 1.3, this isn't supported (#2968)
+    //assert( jQuery.isFunction(obj.getAttribute), "getAttribute Function" );
 
-    assertEquals( jQuery(document.body).get(0), jQuery("body").get(0), "Test passing an html node to the factory" );
+    nodes = document.body.childNodes;
 
-    elem = jQuery("  <em>hello</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading space" );
+    // Safari says this is a function
+    assert( !jQuery.isFunction(nodes), "childNodes Property" );
 
-    elem = jQuery("\n\n<em>world</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading newlines" );
+    first = document.body.firstChild;
 
-    elem = jQuery("<div/>", attrObj );
+    // Normal elements are reported assert everywhere
+    assert( !jQuery.isFunction(first), "A normal DOM Element" );
 
-    if ( jQuery.fn.width ) {
-        assertEquals( elem[0].style.width, "10px", "jQuery() quick setter width");
-    }
+    input = document.createElement("input");
+    input.type = "text";
+    document.body.appendChild( input );
 
-    if ( jQuery.fn.offset ) {
-        assertEquals( elem[0].style.top, "1px", "jQuery() quick setter offset");
-    }
+    // IE says this is an object
+    // Since 1.3, this isn't supported (#2968)
+    //assert( jQuery.isFunction(input.focus), "A default function property" );
 
-    if ( jQuery.fn.css ) {
-        assertEquals( elem[0].style.paddingLeft, "1px", "jQuery quick setter css");
-        assertEquals( elem[0].style.paddingRight, "1px", "jQuery quick setter css");
+    document.body.removeChild( input );
+
+    a = document.createElement("a");
+    a.href = "some-function";
+    document.body.appendChild( a );
+
+    // This serializes with the word 'function' in it
+    assert( !jQuery.isFunction(a), "Anchor Element" );
+
+    document.body.removeChild( a );
+
+    // Recursive function calls have lengths and array-like properties
+    function callme(callback){
+        function fn(response){
+            callback(response);
+        }
+
+        assert( jQuery.isFunction(fn), "Recursive Function Call" );
+
+        fn({ some: "data" });
     }
 
-    if ( jQuery.fn.attr ) {
-        assertEquals( elem[0].getAttribute("desired"), "very", "jQuery quick setter attr");
-    }
-
-    assertEquals( elem[0].childNodes.length, 1, "jQuery quick setter text");
-    assertEquals( elem[0].firstChild.nodeValue, "test", "jQuery quick setter text");
-    assertEquals( elem[0].className, "test2", "jQuery() quick setter class");
-    assertEquals( elem[0].id, "test3", "jQuery() quick setter id");
-
-    exec = true;
-    elem.trigger("click");
-
-    // manually clean up detached elements
-    elem.remove();
-
-    for ( i = 0; i < 3; ++i ) {
-        elem = jQuery("<input type='text' value='TEST' />");
-    }
-    assertEquals( elem[0].defaultValue, "TEST", "Ensure cached nodes are cloned properly (Bug #6655)" );
+    callme(function(){
+        callme(function(){});
+    });
 </script>
 
 </body>

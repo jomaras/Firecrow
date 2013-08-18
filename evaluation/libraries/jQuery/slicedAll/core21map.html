@@ -256,108 +256,104 @@
 </map>
 
 <script>
+    var i, label, result, callback;
 
-    var elem, i,
-            obj = jQuery("div"),
-            code = jQuery("<code/>"),
-            img = jQuery("<img/>"),
-            div = jQuery("<div/><hr/><code/><b/>"),
-            exec = false,
-            lng = "",
-            expected = 22,
-            attrObj = {
-                "text": "test",
-                "class": "test2",
-                "id": "test3"
-            };
+    result = jQuery.map( [ 3, 4, 5 ], function( v, k ) {
+        return k;
+    });
+    assertEquals( result.join(""), "012", "Map the keys from an array" );
 
-    // The $(html, props) signature can stealth-call any $.fn method, check for a
-    // few here but beware of modular builds where these methods may be excluded.
-    if ( jQuery.fn.click ) {
-        expected++;
-        attrObj["click"] = function() { assert( exec, "Click executed." ); };
-    }
-    if ( jQuery.fn.width ) {
-        expected++;
-        attrObj["width"] = 10;
-    }
-    if ( jQuery.fn.offset ) {
-        expected++;
-        attrObj["offset"] = { "top": 1, "left": 1 };
-    }
-    if ( jQuery.fn.css ) {
-        expected += 2;
-        attrObj["css"] = { "paddingLeft": 1, "paddingRight": 1 };
-    }
-    if ( jQuery.fn.attr ) {
-        expected++;
-        attrObj.attr = { "desired": "very" };
-    }
+    result = jQuery.map( [ 3, 4, 5 ], function( v ) {
+        return v;
+    });
+    assertEquals( result.join(""), "345", "Map the values from an array" );
 
-    // Basic constructor's behavior
-    assertEquals( jQuery().length, 0, "jQuery() === jQuery([])" );
-    assertEquals( jQuery(undefined).length, 0, "jQuery(undefined) === jQuery([])" );
-    assertEquals( jQuery(null).length, 0, "jQuery(null) === jQuery([])" );
-    assertEquals( jQuery("").length, 0, "jQuery('') === jQuery([])" );
-    assertEquals( jQuery("#").length, 0, "jQuery('#') === jQuery([])" );
+    result = jQuery.map( { a: 1, b: 2 }, function( v, k ) {
+        return k;
+    });
+    assertEquals( result.join(""), "ab", "Map the keys from an object" );
 
-    assertEquals( jQuery(obj).selector, "div", "jQuery(jQueryObj) == jQueryObj" );
+    result = jQuery.map( { a: 1, b: 2 }, function( v ) {
+        return v;
+    });
+    assertEquals( result.join(""), "12", "Map the values from an object" );
 
-    assertEquals( jQuery(window).length, 1, "Correct number of elements generated for jQuery(window)" );
+    result = jQuery.map( [ "a", undefined, null, "b" ], function( v ) {
+        return v;
+    });
+    assertEquals( result.join(""), "ab", "Array iteration does not include undefined/null results" );
 
-    assertEquals( code.length, 1, "Correct number of elements generated for code" );
-    assertEquals( code.parent().length, 0, "Make sure that the generated HTML has no parent." );
+    result = jQuery.map( { a: "a", b: undefined, c: null, d: "b" }, function( v ) {
+        return v;
+    });
+    assertEquals( result.join(""), "ab", "Object iteration does not include undefined/null results" );
 
-    assertEquals( img.length, 1, "Correct number of elements generated for img" );
-    assertEquals( img.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
-    assertEquals( div.length, 4, "Correct number of elements generated for div hr code b" );
-    assertEquals( div.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
-    assertEquals( jQuery([1,2,3]).get(1), 2, "Test passing an array to the factory" );
-
-    assertEquals( jQuery(document.body).get(0), jQuery("body").get(0), "Test passing an html node to the factory" );
-
-    elem = jQuery("  <em>hello</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading space" );
-
-    elem = jQuery("\n\n<em>world</em>")[0];
-    assertEquals( elem.nodeName.toLowerCase(), "em", "leading newlines" );
-
-    elem = jQuery("<div/>", attrObj );
-
-    if ( jQuery.fn.width ) {
-        assertEquals( elem[0].style.width, "10px", "jQuery() quick setter width");
+    result = {
+        Zero: function() {},
+        One: function( a ) { a = a; },
+        Two: function( a, b ) { a = a; b = b; }
+    };
+    callback = function( v, k ) {
+        assertEquals( k, "foo", label + "-argument function treated like object" );
+    };
+    for ( i in result ) {
+        label = i;
+        result[ i ].foo = "bar";
+        jQuery.map( result[ i ], callback );
     }
 
-    if ( jQuery.fn.offset ) {
-        assertEquals( elem[0].style.top, "1px", "jQuery() quick setter offset");
+    result = {
+        "undefined": undefined,
+        "null": null,
+        "false": false,
+        "true": true,
+        "empty string": "",
+        "nonempty string": "string",
+        "string \"0\"": "0",
+        "negative": -1,
+        "excess": 1
+    };
+    callback = function( v, k ) {
+        assertEquals( k, "length", "Object with " + label + " length treated like object" );
+    };
+    for ( i in result ) {
+        label = i;
+        jQuery.map( { length: result[ i ] }, callback );
     }
 
-    if ( jQuery.fn.css ) {
-        assertEquals( elem[0].style.paddingLeft, "1px", "jQuery quick setter css");
-        assertEquals( elem[0].style.paddingRight, "1px", "jQuery quick setter css");
+    result = {
+        "sparse Array": Array( 4 ),
+        "length: 1 plain object": { length: 1, "0": true },
+        "length: 2 plain object": { length: 2, "0": true, "1": true },
+        NodeList: document.getElementsByTagName("html")
+    };
+    callback = function( v, k ) {
+        if ( result[ label ] ) {
+            delete result[ label ];
+            assertEquals( k, "0", label + " treated like array" );
+        }
+    };
+    for ( i in result ) {
+        label = i;
+        jQuery.map( result[ i ], callback );
     }
 
-    if ( jQuery.fn.attr ) {
-        assertEquals( elem[0].getAttribute("desired"), "very", "jQuery quick setter attr");
-    }
+    result = false;
+    jQuery.map( { length: 0 }, function() {
+        result = true;
+    });
+    assert( !result, "length: 0 plain object treated like array" );
 
-    assertEquals( elem[0].childNodes.length, 1, "jQuery quick setter text");
-    assertEquals( elem[0].firstChild.nodeValue, "test", "jQuery quick setter text");
-    assertEquals( elem[0].className, "test2", "jQuery() quick setter class");
-    assertEquals( elem[0].id, "test3", "jQuery() quick setter id");
+    result = false;
+    jQuery.map( document.getElementsByTagName("asdf"), function() {
+        result = true;
+    });
+    assert( !result, "empty NodeList treated like array" );
 
-    exec = true;
-    elem.trigger("click");
-
-    // manually clean up detached elements
-    elem.remove();
-
-    for ( i = 0; i < 3; ++i ) {
-        elem = jQuery("<input type='text' value='TEST' />");
-    }
-    assertEquals( elem[0].defaultValue, "TEST", "Ensure cached nodes are cloned properly (Bug #6655)" );
+    result = jQuery.map( Array(4), function( v, k ){
+        return k % 2 ? k : [k,k,k];
+    });
+    assertEquals( result.join(""), "00012223", "Array results flattened (#2616)" );
 </script>
 
 </body>
