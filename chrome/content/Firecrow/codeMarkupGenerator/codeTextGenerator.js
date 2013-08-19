@@ -159,9 +159,12 @@ Firecrow.CodeTextGenerator.prototype =
             {
                 var children = htmlElement.childNodes;
 
-                for(var i = 0, length = children.length; i < length; i++)
+                if(children != null)
                 {
-                    htmlElementContent += this.generateCodeFromHtmlElement(children[i]);
+                    for(var i = 0, length = children.length; i < length; i++)
+                    {
+                        htmlElementContent += this.generateCodeFromHtmlElement(children[i]);
+                    }
                 }
             }
 
@@ -1062,6 +1065,11 @@ Firecrow.CodeTextGenerator.prototype =
         if(ValueTypeHelper.isNull(literal.value)) { return "null"; }
         if (ValueTypeHelper.isString(literal.value))
         {
+            if(literal.raw != null)
+            {
+                return literal.raw;
+            }
+
             return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/g, "\\n").replace(/\r/g, "\\r") + "'";
         }
         else if (ValueTypeHelper.isBoolean(literal.value) || ValueTypeHelper.isNumber(literal.value)) { return literal.value; }

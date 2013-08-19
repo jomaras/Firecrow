@@ -58,7 +58,7 @@ fcModel.Document.prototype.getJsPropertyValue = function(propertyName, codeConst
         var elements = this._getElements(propertyName, codeConstruct);
 
         var array = this.globalObject.internalExecutor.createArray(codeConstruct, elements);
-        array.iValue.removePrototypeMethods()
+        array.iValue.markAsNodeList();
 
         this.addProperty(propertyName, array);
 

@@ -17,6 +17,7 @@ fcModel.GlobalObject = function(browser)
         this.internalExecutor = new Firecrow.Interpreter.Simulator.InternalExecutor(this);
 
         this._setExecutionEnvironment(browser);
+        this._detectExecutionEnvironentProperties();
 
         this._createInternalPrototypes();
         this._createInternalObjects();
@@ -51,7 +52,7 @@ fcModel.GlobalObject.CONST =
             "setTimeout", "clearTimeout", "setInterval", "clearInterval",
             "getComputedStyle", "unescape",
             //Testing methods
-            "assert", "assertEquals", "assertMatch", "assertNull", "assertNotNull", "assertEqual"
+            "assert", "assertEquals", "assertMatch", "assertNull", "assertNotNull", "assertEqual", "assertNotEquals"
         ],
         EVENT_PROPERTIES:
         [
@@ -572,6 +573,23 @@ fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
     this.origWindow.assertMatch = function assertMatch(){};
     this.origWindow.assertNull = function assertNull(){};
     this.origWindow.assertNotNull = function assertNotNull(){};
+    this.origWindow.assertNotEquals = function assertNotEquals(){};
+};
+
+fcModel.GlobalObject.prototype._detectExecutionEnvironentProperties = function()
+{
+    this.throwsExceptionOnPushWithNodeList = (function()
+    {
+        try
+        {
+            Array.prototype.push.apply([], this.origDocument.childNodes);
+            return false;
+        }
+        catch(e)
+        {
+            return true;
+        }
+    }).call(this);
 };
 
 fcModel.GlobalObject.prototype._removeExecutionEnvironment = function()

@@ -71,7 +71,7 @@ fcModel.DOM_PROPERTIES =
             "validity", "valueAsNumber", "width", "cols", "rows", "wrap", "value",
             "htmlFor", "hash", "coords", "host", "hreflang", "pathname", "port", "protocol", "rev", "search",
             "shape", "caption", "align", "bgColor", "border", "cellPadding", "cellSpacing", "frame", "rules",
-            "summary", "ch", "chOff", "rowIndex", "sectionRowIndex", "vAlign"
+            "summary", "ch", "chOff", "rowIndex", "sectionRowIndex", "vAlign", "rowSpan", "rowspan", "colspan", "colSpan"
         ],
         EVENT_PROPERTIES:
         [

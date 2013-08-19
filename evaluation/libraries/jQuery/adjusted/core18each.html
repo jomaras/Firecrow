@@ -365,13 +365,6 @@
         seen = true;
     });
     assert( !seen, "empty NodeList treated like array" );
-
-    i = 0;
-    jQuery.each( document.styleSheets, function() {
-        i++;
-    });
-    assertEquals( i, 2, "Iteration over document.styleSheets" );
-
 </script>
 
 </body>

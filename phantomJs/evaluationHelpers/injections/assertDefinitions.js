@@ -3,23 +3,34 @@
  * Date: 13.08.13.
  * Time: 12:17
  */
-function assert(value)
+function assert(value, message)
 {
     if(!value)
     {
-        console.log("Assert fail: ");
+        console.log("Assert fail: " + message);
     }
 }
 
 var ALL_EQUAL = {};
 
-function assertEqual(expected, actual)
+
+function assertEqual(expected, actual, message)
 {
     if(!areEqual(expected, actual))
     {
-        console.log("AssertEqual failed: " + expected + "; " + actual);
+        console.log("AssertEqual failed: " + expected + "; " + actual + ":" + message);
     }
 }
+
+function assertNotEquals(expected, actual, message)
+{
+    if(areEqual(expected, actual))
+    {
+        console.log("AssertNotEquals failed: " + expected + "; " + actual + ":" + message);
+    }
+}
+
+var assertEquals = assertEqual;
 
 function areEqual(expected, actual)
 {

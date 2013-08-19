@@ -287,7 +287,7 @@ fcSimulator.prototype = dummy =
 
     _removeCommandsAfterException: function(exceptionGeneratingArgument)
     {
-        if(exceptionGeneratingArgument == null || !exceptionGeneratingArgument.isDomStringException)
+        if(exceptionGeneratingArgument == null || !(exceptionGeneratingArgument.isDomStringException || exceptionGeneratingArgument.isPushExpectedException))
         {
             debugger;
             fcSimulator.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + this.globalObject.browser.url);

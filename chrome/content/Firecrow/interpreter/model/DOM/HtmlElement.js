@@ -3,7 +3,7 @@ FBL.ns(function() { with (FBL) {
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-fcModel.HtmlElement = function(htmlElement, globalObject, codeConstruct)
+fcModel.HtmlElement = function fcModelHtmlElement(htmlElement, globalObject, codeConstruct)
 {
     try
     {
@@ -65,7 +65,7 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
     {
         var elements = this._getElements(propertyName, codeConstruct);
         var array = this.globalObject.internalExecutor.createArray(codeConstruct, elements);
-        array.iValue.removePrototypeMethods();
+        array.iValue.markAsNodeList();
 
         this.addProperty(propertyName, array, creationConstruct);
 
@@ -96,6 +96,10 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
     var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
 
     if(this._isInputElement() && propertyName == "value") { return this._expandWithSymbolic(propertyName, propertyValue); }
+    if(ValueTypeHelper.isHtmlSelectElement(this.htmlElement) && propertyName == "selectedIndex")
+    {
+        fcModel.HtmlElementExecutor.addDependencies(ValueTypeHelper.convertToArray(this.htmlElement.children), codeConstruct, this.globalObject);
+    }
 
     return propertyValue;
 };
@@ -166,7 +170,6 @@ fcModel.HtmlElement.prototype._registerEventHandler = function (propertyName, pr
 fcModel.HtmlElement.prototype._getPropertyHandler = function(getPropertyConstruct, propertyName)
 {
     var evaluationPositionId = this.globalObject.getPreciseEvaluationPositionId();
-
     this.addDependencyToAllModifications(getPropertyConstruct, this.htmlElement.elementModificationPoints);
 
     this.globalObject.dependencyCreator.createDataDependency(getPropertyConstruct, this.htmlElement.modelElement, evaluationPositionId);

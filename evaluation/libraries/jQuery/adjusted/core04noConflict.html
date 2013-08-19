@@ -255,8 +255,10 @@
     <area shape="rect" coords="0,0,200,50">
 </map>
 
-<script>
+<script>    function assertEquals(a,b, message) { if(a!=b) {console.log(message)}} function assert(a, message){ if(!a) { console.log(message)};}
     var $$ = jQuery;
+    var originaljQuery = this.jQuery || "jQuery",
+        original$ = this.$ || "$"
 
     assertEquals( jQuery, jQuery.noConflict(), "noConflict returned the jQuery object" );
     assertEquals( window["jQuery"], $$, "Make sure jQuery wasn't touched." );

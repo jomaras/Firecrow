@@ -1,341 +1,338 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" id="html" dir="ltr" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
 <head>
-
-
-
-<script>
-(function(window, undefined)
-{
-    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = '1.10.2', core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    
+    
+    
+    <script>
+  (function(window, undefined)
+  {
+    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
     {
-        return new jQuery.fn.init(selector, context, rootjQuery);
+      return new jQuery.fn.init(selector, context, rootjQuery);
     }, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
     jQuery.fn = jQuery.prototype = {
-        init: function(selector, context, rootjQuery)
+      init: function(selector, context, rootjQuery)
+      {
+        var match, elem;
+        if(typeof selector === "string")
         {
-            var match, elem;
-            if(typeof selector === 'string')
-            {
-                if(selector.charAt(0) === '<');
-                else
-                {
-                    match = rquickExpr.exec(selector);
-                }
+          if(selector.charAt(0) === "<");
+          else 
+          {
+            match = rquickExpr.exec(selector);
+          }
 
-                if(match && (match[1] || !context))
-                {
-                    if(match[1]);
-                    else
-                    {
-                        elem = document.getElementById(match[2]);
-                        if(elem && elem.parentNode)
-                        {
-                            this.length = 1;
-                            this[0] = elem;
-                        }
-
-                        return this;
-                    }
-                }
-            }
-            else if(selector.nodeType)
+          if(match && (match[1] || !context))
+          {
+            if(match[1]);
+            else 
             {
-                this[0] = selector;
+              elem = document.getElementById(match[2]);
+              if(elem && elem.parentNode)
+              {
                 this.length = 1;
-                return this;
+                this[0] = elem;
+              }
+
+              return this;
             }
-            else if(jQuery.isFunction(selector))
-            {
-                return rootjQuery.ready(selector);
-            }
-
-
-
-            return jQuery.makeArray(selector, this);
-        },
-        length: 0,
-        each: function(callback, args)
-        {
-            return jQuery.each(this, callback, args);
-        },
-        ready: function(fn)
-        {
-            return this;
+          }
         }
+        else if(selector.nodeType)
+        {
+          this[0] = selector;
+          this.length = 1;
+          return this;
+        }
+        else if(jQuery.isFunction(selector))
+        {
+          return rootjQuery.ready(selector);
+        }
+
+
+
+        return jQuery.makeArray(selector, this);
+      }, 
+      length: 0, 
+      each: function(callback, args)
+      {
+        return jQuery.each(this, callback, args);
+      }, 
+      ready: function(fn)
+      {
+        return this;
+      }
     };
     jQuery.fn.init.prototype = jQuery.fn;
     jQuery.extend = jQuery.fn.extend = function()
     {
-        var copy, name, options, target, i = 1, length = arguments.length, deep = false;
-        if(length === i)
-        {
-            target = this;
-            --i;
-        }
+      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      if(length === i)
+      {
+        target = this;
+        --i;
+      }
 
-        for(;i < length;i++)
+      for(;i < length;i++)
+      {
+        if((options = arguments[i]) != null)
         {
-            if((options = arguments[i]) != null)
+          for(name in options)
+          {
+            copy = options[name];
+            if(deep);
+            else if(copy !== undefined)
             {
-                for(name in options)
-                {
-                    copy = options[name];
-                    if(deep);
-                    else if(copy !== undefined)
-                    {
-                        target[name] = copy;
-                    }
-                }
+              target[name] = copy;
             }
+          }
         }
+      }
     };
     jQuery.extend({
-        expando: 'jQuery' + (core_version + Math.random()).replace(/\D/g, ''),
-        noConflict: function(deep)
-        {},
-        isReady: false,
-        readyWait: 1,
-        holdReady: function(hold)
-        {},
-        ready: function(wait)
-        {},
-        isFunction: function(obj)
+      expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
+      noConflict: function(deep)
+      {}, 
+      isReady: false, 
+      readyWait: 1, 
+      holdReady: function(hold)
+      {}, 
+      ready: function(wait)
+      {}, 
+      isFunction: function(obj)
+      {
+        return jQuery.type(obj) === "function";
+      }, 
+      isArray: Array.isArray || function(obj)
+      {}, 
+      isWindow: function(obj)
+      {}, 
+      isNumeric: function(obj)
+      {}, 
+      type: function(obj)
+      {
+        return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
+      }, 
+      isPlainObject: function(obj)
+      {}, 
+      isEmptyObject: function(obj)
+      {}, 
+      error: function(msg)
+      {}, 
+      parseHTML: function(data, context, keepScripts)
+      {}, 
+      parseJSON: function(data)
+      {}, 
+      parseXML: function(data)
+      {}, 
+      noop: function()
+      {}, 
+      globalEval: function(data)
+      {}, 
+      camelCase: function(string)
+      {}, 
+      nodeName: function(elem, name)
+      {}, 
+      each: function(obj, callback, args)
+      {
+        var i = 0, length = obj.length, isArray = isArraylike(obj);
+        if(args);
+        else 
         {
-            return jQuery.type(obj) === 'function';
-        },
-        isArray: Array.isArray || function(obj)
-        {},
-        isWindow: function(obj)
-        {},
-        isNumeric: function(obj)
-        {},
-        type: function(obj)
-        {
-            return typeof obj === 'object' || typeof obj === 'function' ? class2type[core_toString.call(obj)] || 'object' : typeof obj;
-        },
-        isPlainObject: function(obj)
-        {},
-        isEmptyObject: function(obj)
-        {},
-        error: function(msg)
-        {},
-        parseHTML: function(data, context, keepScripts)
-        {},
-        parseJSON: function(data)
-        {},
-        parseXML: function(data)
-        {},
-        noop: function()
-        {},
-        globalEval: function(data)
-        {},
-        camelCase: function(string)
-        {},
-        nodeName: function(elem, name)
-        {},
-        each: function(obj, callback, args)
-        {
-            var i = 0, length = obj.length, isArray = isArraylike(obj);
-            if(args);
-            else
+          if(isArray)
+          {
+            for(;i < length;i++)
             {
-                if(isArray)
-                {
-                    for(;i < length;i++)
-                    {
-                        callback.call(obj[i], i, obj[i]);
-                    }
-                }
+              callback.call(obj[i], i, obj[i]);
             }
+          }
+        }
 
-            return obj;
-        },
-        trim: core_trim && !(core_trim.call('ď»żÂ ')) ? 0 : function(text)
-        {},
-        makeArray: function(arr, results)
+        return obj;
+      }, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
+      {} : 0, 
+      makeArray: function(arr, results)
+      {
+        var ret = results;
+        if(arr != null)
         {
-            var ret = results;
-            if(arr != null)
-            {
-                if(isArraylike(Object(arr)));
-                else
-                {
-                    core_push.call(ret, arr);
-                }
-            }
+          if(isArraylike(Object(arr)));
+          else 
+          {
+            core_push.call(ret, arr);
+          }
+        }
 
-            return ret;
-        },
-        inArray: function(elem, arr, i)
-        {},
-        merge: function(first, second)
-        {},
-        grep: function(elems, callback, inv)
-        {},
-        map: function(elems, callback, arg)
-        {},
-        guid: 1,
-        proxy: function(fn, context)
-        {},
-        access: function(elems, fn, key, value, chainable, emptyGet, raw)
+        return ret;
+      }, 
+      inArray: function(elem, arr, i)
+      {}, 
+      merge: function(first, second)
+      {}, 
+      grep: function(elems, callback, inv)
+      {}, 
+      map: function(elems, callback, arg)
+      {}, 
+      guid: 1, 
+      proxy: function(fn, context)
+      {}, 
+      access: function(elems, fn, key, value, chainable, emptyGet, raw)
+      {
+        var i = 0, length = elems.length;
+        if(jQuery.type(key) === "object");
+        else if(value !== undefined)
         {
-            var i = 0, length = elems.length;
-            if(jQuery.type(key) === 'object');
-            else if(value !== undefined)
+          chainable = true;
+          if(!(jQuery.isFunction(value)))
+          {
+            raw = true;
+          }
+
+          if(fn)
+          {
+            for(;i < length;i++)
             {
-                chainable = true;
-                if(!(jQuery.isFunction(value)))
-                {
-                    raw = true;
-                }
-
-                if(fn)
-                {
-                    for(;i < length;i++)
-                    {
-                        fn(elems[i], key, raw ? value : 0);
-                    }
-                }
+              fn(elems[i], key, raw ? value : 0);
             }
+          }
+        }
 
 
-            return chainable ? elems : 0;
-        },
-        now: function()
-        {},
-        swap: function(elem, options, callback, args)
-        {}
+        return chainable ? elems : 0;
+      }, 
+      now: function()
+      {}, 
+      swap: function(elem, options, callback, args)
+      {}
     });
-    jQuery.each('Boolean Number String Function Array Date RegExp Object Error'.split(' '), function(i, name)
+    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
-        class2type[('[object ' + name) + ']'] = name.toLowerCase();
+      class2type[("[object " + name) + "]"] = name.toLowerCase();
     });
     function isArraylike(obj)
     {
-        var length = obj.length, type = jQuery.type(obj);
-        return type === 'array' || (type !== 'function' && (length === 0 || (typeof length === 'number' && length > 0 && (length - 1) in obj)));
+      var length = obj.length, type = jQuery.type(obj);
+      return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-        var setDocument, document, docElem, expando = 'sizzle' + -(new Date()), preferredDoc = window.document;
-        function Sizzle(selector, context, results, seed)
-        {}
-        function assert(fn)
+      var setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document;
+      function Sizzle(selector, context, results, seed)
+      {}
+      function assert(fn)
+      {
+        var div = document.createElement("div");
+        try
         {
-            var div = document.createElement('div');
-            try
-            {
-                return !(!(fn(div)));
-            }
-            catch(e){}
+          return !(!(fn(div)));
         }
-        Sizzle.isXML = function(elem)
+        catch(e){}
+      }
+      Sizzle.isXML = function(elem)
+      {
+        var documentElement = elem && (elem.ownerDocument).documentElement;
+        return documentElement ? documentElement.nodeName !== "HTML" : 0;
+      };
+      setDocument = Sizzle.setDocument = function(node)
+      {
+        var doc = node ? 0 : preferredDoc;
+        document = doc;
+        docElem = doc.documentElement;
+        assert(function(div)
         {
-            var documentElement = elem && (elem.ownerDocument).documentElement;
-            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
-        };
-        setDocument = Sizzle.setDocument = function(node)
-        {
-            var doc = node ? 0 : preferredDoc;
-            document = doc;
-            docElem = doc.documentElement;
-            assert(function(div)
-            {
-                docElem.appendChild(div).id = expando;
-            });
-        };
-        setDocument();
-        jQuery.isXMLDoc = Sizzle.isXML;
+          docElem.appendChild(div).id = expando;
+        });
+      };
+      setDocument();
+      jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
     (function(support)
     {
-        for(i in jQuery(support))
-        {
-            break;
-        }
+      for(i in jQuery(support))
+      {
+        break;
+      }
 
-        jQuery(function()
-        {});
+      jQuery(function()
+      {});
     })({});
     jQuery.fn.extend({
-        attr: function(name, value)
-        {},
-        removeAttr: function(name)
-        {},
-        prop: function(name, value)
+      attr: function(name, value)
+      {}, 
+      removeAttr: function(name)
+      {}, 
+      prop: function(name, value)
+      {
+        return jQuery.access(this, jQuery.prop, name, value, arguments.length > 1);
+      }, 
+      removeProp: function(name)
+      {
+        name = jQuery.propFix[name] || name;
+        return this.each(function()
         {
-            return jQuery.access(this, jQuery.prop, name, value, arguments.length > 1);
-        },
-        removeProp: function(name)
-        {
-            name = jQuery.propFix[name] || name;
-            return this.each(function()
-            {
-                try
-                {
-                    this[name] = undefined;
-                }
-                catch(e){}
-            });
-        },
-        addClass: function(value)
-        {},
-        removeClass: function(value)
-        {},
-        toggleClass: function(value, stateVal)
-        {},
-        hasClass: function(selector)
-        {},
-        val: function(value)
-        {}
+          try
+          {
+            this[name] = undefined;
+          }
+          catch(e){}
+        });
+      }, 
+      addClass: function(value)
+      {}, 
+      removeClass: function(value)
+      {}, 
+      toggleClass: function(value, stateVal)
+      {}, 
+      hasClass: function(selector)
+      {}, 
+      val: function(value)
+      {}
     });
     jQuery.extend({
-        valHooks: {},
-        attr: function(elem, name, value)
-        {},
-        removeAttr: function(elem, value)
-        {},
-        attrHooks: {},
-        propFix: {},
-        prop: function(elem, name, value)
+      valHooks: {}, 
+      attr: function(elem, name, value)
+      {}, 
+      removeAttr: function(elem, value)
+      {}, 
+      attrHooks: {}, 
+      propFix: {}, 
+      prop: function(elem, name, value)
+      {
+        var hooks, notxml, nType = elem.nodeType;
+        notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
+        if(notxml)
         {
-            var hooks, notxml, nType = elem.nodeType;
-            notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
-            if(notxml)
-            {
-                name = jQuery.propFix[name] || name;
-                hooks = jQuery.propHooks[name];
-            }
+          name = jQuery.propFix[name] || name;
+          hooks = jQuery.propHooks[name];
+        }
 
-            if(value !== undefined)
-            {
-                return hooks ? 0 : elem[name] = value;
-            }
-        },
-        propHooks: {}
+        if(value !== undefined)
+        {
+          return hooks ? 0 : elem[name] = value;
+        }
+      }, 
+      propHooks: {}
     });
     jQuery(function()
     {});
-    if(typeof module === 'object');
-    else
+    if(typeof module === "object");
+    else 
     {
-        window.jQuery = window.$ = jQuery;
+      window.jQuery = window.$ = jQuery;
     }
-})(window);
+  })(window);
 </script>
 </head>
 
-<body id="body">
+<body id="body" style="">
 
 
-<dl style="position:absolute;top:-32767px;left:-32767px;width:1px;" id="dl">
-    <div id="qunit-fixture">
-        <p id="firstp">See  for more information.</p>
-
-
-
+<dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
+<div id="qunit-fixture">
+<p id="firstp">See  for more information.</p>
 
 
 
@@ -357,25 +354,28 @@
 
 
 
-    </div>
+
+
+
+</div>
 </dl>
 
 
-<script>  function assertEquals(a,b, message) { if(a!=b) {console.log(message)}} function assert(a, message){ if(!a) { console.log(message)};}
-    var attributeNode = document.createAttribute('irrelevant'), commentNode = document.createComment('some comment'), textNode = document.createTextNode('some text'), obj = {};
-    assertEquals(jQuery('#firstp').prop('nonexisting', 'foo').removeProp('nonexisting')[0]['nonexisting'], undefined, 'removeprop works correctly on DOM element nodes');
-    jQuery.each([document, obj], function(i, ele)
-    {
-        var $ele = jQuery(ele);
-        $ele.prop('nonexisting', 'foo').removeProp('nonexisting');
-        assertEquals(ele['nonexisting'], undefined, 'removeProp works correctly on non DOM element nodes (bug #7500).');
-    });
-    jQuery.each([commentNode, textNode, attributeNode], function(i, ele)
-    {
-        var $ele = jQuery(ele);
-        $ele.prop('nonexisting', 'foo').removeProp('nonexisting');
-        assertEquals(ele['nonexisting'], undefined, 'removeProp works correctly on non DOM element nodes (bug #7500).');
-    });
+<script>
+  var attributeNode = document.createAttribute("irrelevant"), commentNode = document.createComment("some comment"), textNode = document.createTextNode("some text"), obj = {};
+  assertEquals(jQuery("#firstp").prop("nonexisting", "foo").removeProp("nonexisting")[0]["nonexisting"], undefined, "removeprop works correctly on DOM element nodes");
+  jQuery.each([document, obj], function(i, ele)
+  {
+    var $ele = jQuery(ele);
+    $ele.prop("nonexisting", "foo").removeProp("nonexisting");
+    assertEquals(ele["nonexisting"], undefined, "removeProp works correctly on non DOM element nodes (bug #7500).");
+  });
+  jQuery.each([commentNode, textNode, attributeNode], function(i, ele)
+  {
+    var $ele = jQuery(ele);
+    $ele.prop("nonexisting", "foo").removeProp("nonexisting");
+    assertEquals(ele["nonexisting"], undefined, "removeProp works correctly on non DOM element nodes (bug #7500).");
+  });
 </script>
 
 

@@ -256,37 +256,7 @@
 </map>
 
 <script>
-
-    jQuery["foo"] = false;
-    s = jQuery("<script>jQuery.foo='test';</script>")[0];
-ok( s, "Creating a script" );
-ok( !jQuery["foo"], "Make sure the script wasn't executed prematurely" );
-jQuery("body").append("<script>jQuery.foo='test';</script>");
-ok( jQuery["foo"], "Executing a scripts contents in the right context" );
-
-// Test multi-line HTML
-div = jQuery("<div>\r\nsome text\n<p>some p</p>\nmore text\r\n</div>")[0];
-equal( div.nodeName.toUpperCase(), "DIV", "Make sure we're getting a div." );
-equal( div.firstChild.nodeType, 3, "Text node." );
-equal( div.lastChild.nodeType, 3, "Text node." );
-equal( div.childNodes[1].nodeType, 1, "Paragraph." );
-equal( div.childNodes[1].firstChild.nodeType, 3, "Paragraph text." );
-
-QUnit.reset();
-ok( jQuery("<link rel='stylesheet'/>")[0], "Creating a link" );
-
-ok( !jQuery("<script/>")[0].parentNode, "Create a script" );
-
-ok( jQuery("<input/>").attr("type", "hidden"), "Create an input and set the type." );
-
-j = jQuery("<span>hi</span> there <!-- mon ami -->");
-ok( j.length >= 2, "Check node,textnode,comment creation (some browsers delete comments)" );
-
-ok( !jQuery("<option>test</option>")[0].selected, "Make sure that options are auto-selected #2050" );
-
-ok( jQuery("<div></div>")[0], "Create a div with closing tag." );
-ok( jQuery("<table></table>")[0], "Create a table with closing tag." );
-
+    assertEquals(true, false, "Test is not yet done");
 </script>
 
 </body>

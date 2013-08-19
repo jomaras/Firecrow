@@ -599,7 +599,7 @@ fcSimulator.DependencyCreator.prototype =
 
         var property = whereObject.iValue.getProperty(nextPropertyName.jsValue);
 
-        if(property != null)
+        if(property != null && property.lastModificationPosition != null)
         {
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
@@ -636,7 +636,7 @@ fcSimulator.DependencyCreator.prototype =
 
         var property = whereObject.iValue.getProperty(nextPropertyName.jsValue);
 
-        if(property != null)
+        if(property != null && property.lastModificationPosition != null)
         {
             this._createSimpleDependency(forInWhereConstruct.left, property.lastModificationPosition.codeConstruct);
 

@@ -36,7 +36,7 @@ fcModel.DocumentExecutor =
         return null;
     },
 
-    getElements: function(globalObject, queryType, selector, callExpression, functionName)
+    getElements: function(globalObject, queryType, selector, callExpression)
     {
         globalObject.browser.logDomQueried(queryType, selector, callExpression);
 
@@ -61,7 +61,10 @@ fcModel.DocumentExecutor =
             fcModel.HtmlElementExecutor.addDependencies(elements[i], callExpression, globalObject);
         }
 
-        return fcModel.HtmlElementExecutor.wrapToFcElements(elements, globalObject, callExpression);
+        var wrappedArray = fcModel.HtmlElementExecutor.wrapToFcElements(elements, globalObject, callExpression);
+        wrappedArray.iValue.markAsNodeList();
+
+        return wrappedArray;
     },
 
     getElement: function(globalObject, queryType, selector, callExpression)

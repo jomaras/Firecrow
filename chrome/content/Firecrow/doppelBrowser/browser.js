@@ -153,6 +153,7 @@ Browser.prototype = dummy =
     _buildSubtree: function(htmlModelElement, parentDomElement)
     {
         var htmlDomElement = this._createStaticHtmlNode(htmlModelElement);
+        if(htmlDomElement == null) { return; }
         htmlModelElement.hasBeenExecuted = true;
 
         this._setAttributes(htmlDomElement, htmlModelElement);
@@ -229,7 +230,8 @@ Browser.prototype = dummy =
     {
         var htmlDomElement = null;
 
-        if(htmlModelNode.type == "html") { htmlDomElement = this.hostDocument.documentElement; }
+        if(htmlModelNode.type == null) { return null; }
+        else if(htmlModelNode.type == "html") { htmlDomElement = this.hostDocument.documentElement; }
         else if (htmlModelNode.type == "head" || htmlModelNode.type == "body") { htmlDomElement = this.hostDocument[htmlModelNode.type]; }
         else if (htmlModelNode.type == "textNode") { htmlDomElement = this.hostDocument.createTextNode(htmlModelNode.textContent); }
         else

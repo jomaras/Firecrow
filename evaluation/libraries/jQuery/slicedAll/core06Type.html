@@ -1,13 +1,169 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <title>jQuery Test Suite</title>
-    <script src="../jQuery-src.js"></script>
+    <script>
+  (function(window, undefined)
+  {
+    var class2type = {}, core_version = "1.10.2", core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    {};
+    jQuery.fn = jQuery.prototype = {};
+    jQuery.extend = jQuery.fn.extend = function()
+    {
+      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      if(length === i)
+      {
+        target = this;
+        --i;
+      }
+
+      for(;i < length;i++)
+      {
+        if((options = arguments[i]) != null)
+        {
+          for(name in options)
+          {
+            copy = options[name];
+            if(deep);
+            else if(copy !== undefined)
+            {
+              target[name] = copy;
+            }
+          }
+        }
+      }
+    };
+    jQuery.extend({
+      expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
+      noConflict: function(deep)
+      {}, 
+      isReady: false, 
+      readyWait: 1, 
+      holdReady: function(hold)
+      {}, 
+      ready: function(wait)
+      {}, 
+      isFunction: function(obj)
+      {}, 
+      isArray: Array.isArray || function(obj)
+      {}, 
+      isWindow: function(obj)
+      {}, 
+      isNumeric: function(obj)
+      {}, 
+      type: function(obj)
+      {
+        if(obj == null)
+        {
+          return String(obj);
+        }
+
+        return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
+      }, 
+      isPlainObject: function(obj)
+      {}, 
+      isEmptyObject: function(obj)
+      {}, 
+      error: function(msg)
+      {}, 
+      parseHTML: function(data, context, keepScripts)
+      {}, 
+      parseJSON: function(data)
+      {}, 
+      parseXML: function(data)
+      {}, 
+      noop: function()
+      {}, 
+      globalEval: function(data)
+      {}, 
+      camelCase: function(string)
+      {}, 
+      nodeName: function(elem, name)
+      {}, 
+      each: function(obj, callback, args)
+      {
+        var i = 0, length = obj.length, isArray = isArraylike(obj);
+        if(args);
+        else 
+        {
+          if(isArray)
+          {
+            for(;i < length;i++)
+            {
+              callback.call(obj[i], i, obj[i]);
+            }
+          }
+        }
+      }, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
+      {} : 0, 
+      makeArray: function(arr, results)
+      {}, 
+      inArray: function(elem, arr, i)
+      {}, 
+      merge: function(first, second)
+      {}, 
+      grep: function(elems, callback, inv)
+      {}, 
+      map: function(elems, callback, arg)
+      {}, 
+      guid: 1, 
+      proxy: function(fn, context)
+      {}, 
+      access: function(elems, fn, key, value, chainable, emptyGet, raw)
+      {}, 
+      now: function()
+      {}, 
+      swap: function(elem, options, callback, args)
+      {}
+    });
+    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
+    {
+      class2type[("[object " + name) + "]"] = name.toLowerCase();
+    });
+    function isArraylike(obj)
+    {
+      var length = obj.length, type = jQuery.type(obj);
+      return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
+    }
+    (function(window, undefined)
+    {
+      var setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document;
+      function Sizzle(selector, context, results, seed)
+      {}
+      function assert(fn)
+      {
+        var div = document.createElement("div");
+        try
+        {
+          return !(!(fn(div)));
+        }
+        catch(e){}
+      }
+      setDocument = Sizzle.setDocument = function(node)
+      {
+        var doc = node ? 0 : preferredDoc;
+        document = doc;
+        docElem = doc.documentElement;
+        assert(function(div)
+        {
+          docElem.appendChild(div).id = expando;
+        });
+      };
+      setDocument();
+    })(window);
+    if(typeof module === "object");
+    else 
+    {
+      window.jQuery = window.$ = jQuery;
+    }
+  })(window);
+</script>
 </head>
 
-<body id="body">
+<body id="body" style="">
 <div id="qunit"></div>
 
 <dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
@@ -46,8 +202,8 @@
     <input type="hidden" name="hidden" id="hidden1"/>
     <input type="text" style="display:none;" name="foo[bar]" id="hidden2"/>
 
-    <input type="text" id="name" name="name" value="name" />
-    <input type="search" id="search" name="search" value="search" />
+    <input type="text" id="name" name="name" value="name"/>
+    <input type="search" id="search" name="search" value="search"/>
 
     <button id="button" name="button" type="button">Button</button>
 
@@ -88,8 +244,8 @@
     </select>
 
     <object id="object1" codebase="stupid">
-        <param name="p1" value="x1" />
-        <param name="p2" value="x2" />
+        <param name="p1" value="x1"></param>
+        <param name="p2" value="x2"></param>
     </object>
 
     <span id="??Ta?ibe?i"></span>
@@ -110,26 +266,26 @@
 <table id="table"></table>
 
 <form id="name-tests">
-    <!-- Inputs with a grouped name attribute. -->
-    <input name="types[]" id="types_all" type="checkbox" value="all" />
-    <input name="types[]" id="types_anime" type="checkbox" value="anime" />
-    <input name="types[]" id="types_movie" type="checkbox" value="movie" />
+    
+    <input name="types[]" id="types_all" type="checkbox" value="all"/>
+    <input name="types[]" id="types_anime" type="checkbox" value="anime"/>
+    <input name="types[]" id="types_movie" type="checkbox" value="movie"/>
 </form>
 
 <form id="testForm" action="#" method="get">
     <textarea name="T3" rows="2" cols="15">?
         Z</textarea>
-    <input type="hidden" name="H1" value="x" />
-    <input type="hidden" name="H2" />
-    <input name="PWD" type="password" value="" />
-    <input name="T1" type="text" />
-    <input name="T2" type="text" value="YES" readonly="readonly" />
-    <input type="checkbox" name="C1" value="1" />
-    <input type="checkbox" name="C2" />
-    <input type="radio" name="R1" value="1" />
-    <input type="radio" name="R1" value="2" />
-    <input type="text" name="My Name" value="me" />
-    <input type="reset" name="reset" value="NO" />
+    <input type="hidden" name="H1" value="x"/>
+    <input type="hidden" name="H2"/>
+    <input name="PWD" type="password" value=""/>
+    <input name="T1" type="text"/>
+    <input name="T2" type="text" value="YES" readonly="readonly"/>
+    <input type="checkbox" name="C1" value="1"/>
+    <input type="checkbox" name="C2"/>
+    <input type="radio" name="R1" value="1"/>
+    <input type="radio" name="R1" value="2"/>
+    <input type="text" name="My Name" value="me"/>
+    <input type="reset" name="reset" value="NO"/>
     <select name="S1">
         <option value="abc">ABC</option>
         <option value="abc">ABC</option>
@@ -146,17 +302,17 @@
     <select name="S4">
         <option value="" selected="selected">NO</option>
     </select>
-    <input type="submit" name="sub1" value="NO" />
-    <input type="submit" name="sub2" value="NO" />
-    <input type="image" name="sub3" value="NO" />
+    <input type="submit" name="sub1" value="NO"/>
+    <input type="submit" name="sub2" value="NO"/>
+    <input type="image" name="sub3" value="NO"/>
     <button name="sub4" type="submit" value="NO">NO</button>
-    <input name="D1" type="text" value="NO" disabled="disabled" />
-    <input type="checkbox" checked="checked" disabled="disabled" name="D2" value="NO" />
-    <input type="radio" name="D3" value="NO" checked="checked" disabled="disabled" />
+    <input name="D1" type="text" value="NO" disabled="disabled"/>
+    <input type="checkbox" checked="checked" disabled="disabled" name="D2" value="NO"/>
+    <input type="radio" name="D3" value="NO" checked="checked" disabled="disabled"/>
     <select name="D4" disabled="disabled">
         <option selected="selected" value="NO">NO</option>
     </select>
-    <input id="list-test" type="text" />
+    <input id="list-test" type="text"/>
     <datalist id="datalist">
         <option value="option"></option>
     </datalist>
@@ -167,10 +323,10 @@
             <input type="radio" name="checkedtestradios" checked="checked"/>
             <input type="radio" name="checkedtestradios" value="on"/>
             <input type="checkbox" name="checkedtestcheckboxes" checked="checked"/>
-            <input type="checkbox" name="checkedtestcheckboxes" />
+            <input type="checkbox" name="checkedtestcheckboxes"/>
         </div>
     </form>
-    <div id="nonnodes"><span id="nonnodesElement">hi</span> there <!-- mon ami --></div>
+    <div id="nonnodes"><span id="nonnodesElement">hi</span> there </div>
     <div id="t2037">
         <div><div class="hidden">hidden</div></div>
     </div>
@@ -199,8 +355,8 @@
     <button id="buttonWithoutTabIndex"></button>
     <textarea id="textareaWithoutTabIndex"></textarea>
     <menu type="popup">
-        <menuitem id="menuitemWithoutTabIndex" command="submitbutton" default/>
-    </menu>
+        <menuitem id="menuitemWithoutTabIndex" command="submitbutton" default="">
+    </menuitem></menu>
 </div>
 
 <div id="liveHandlerOrder">
@@ -222,28 +378,28 @@
 </div>
 <div id="fx-test-group" style="position: absolute; width: 1px; height: 1px; overflow: hidden;">
     <div id="fx-queue" name="test">
-        <div id="fadein" class='chain-test' name='div'>fadeIn<div>fadeIn</div></div>
-        <div id="fadeout" class='chain-test chain-test-out'>fadeOut<div>fadeOut</div></div>
+        <div id="fadein" class="chain-test" name="div">fadeIn<div>fadeIn</div></div>
+        <div id="fadeout" class="chain-test chain-test-out">fadeOut<div>fadeOut</div></div>
 
-        <div id="show" class='chain-test'>show<div>show</div></div>
-        <div id="hide" class='chain-test chain-test-out'>hide<div>hide</div></div>
-        <div id="easehide" class='chain-test chain-test-out'>hide<div>hide</div></div>
+        <div id="show" class="chain-test">show<div>show</div></div>
+        <div id="hide" class="chain-test chain-test-out">hide<div>hide</div></div>
+        <div id="easehide" class="chain-test chain-test-out">hide<div>hide</div></div>
 
-        <div id="togglein" class='chain-test'>togglein<div>togglein</div></div>
-        <div id="toggleout" class='chain-test chain-test-out'>toggleout<div>toggleout</div></div>
-        <div id="easetoggleout" class='chain-test chain-test-out'>toggleout<div>toggleout</div></div>
+        <div id="togglein" class="chain-test">togglein<div>togglein</div></div>
+        <div id="toggleout" class="chain-test chain-test-out">toggleout<div>toggleout</div></div>
+        <div id="easetoggleout" class="chain-test chain-test-out">toggleout<div>toggleout</div></div>
 
-        <div id="slideup" class='chain-test'>slideUp<div>slideUp</div></div>
-        <div id="slidedown" class='chain-test chain-test-out'>slideDown<div>slideDown</div></div>
-        <div id="easeslideup" class='chain-test'>slideUp<div>slideUp</div></div>
+        <div id="slideup" class="chain-test">slideUp<div>slideUp</div></div>
+        <div id="slidedown" class="chain-test chain-test-out">slideDown<div>slideDown</div></div>
+        <div id="easeslideup" class="chain-test">slideUp<div>slideUp</div></div>
 
-        <div id="slidetogglein" class='chain-test'>slideToggleIn<div>slideToggleIn</div></div>
-        <div id="slidetoggleout" class='chain-test chain-test-out'>slideToggleOut<div>slideToggleOut</div></div>
+        <div id="slidetogglein" class="chain-test">slideToggleIn<div>slideToggleIn</div></div>
+        <div id="slidetoggleout" class="chain-test chain-test-out">slideToggleOut<div>slideToggleOut</div></div>
 
-        <div id="fadetogglein" class='chain-test'>fadeToggleIn<div>fadeToggleIn</div></div>
-        <div id="fadetoggleout" class='chain-test chain-test-out'>fadeToggleOut<div>fadeToggleOut</div></div>
+        <div id="fadetogglein" class="chain-test">fadeToggleIn<div>fadeToggleIn</div></div>
+        <div id="fadetoggleout" class="chain-test chain-test-out">fadeToggleOut<div>fadeToggleOut</div></div>
 
-        <div id="fadeto" class='chain-test'>fadeTo<div>fadeTo</div></div>
+        <div id="fadeto" class="chain-test">fadeTo<div>fadeTo</div></div>
     </div>
 
     <div id="fx-tests"></div>
@@ -252,45 +408,42 @@
 </div>
 </dl>
 <map name="imgmap" id="imgmap">
-    <area shape="rect" coords="0,0,200,50">
+    <area shape="rect" coords="0,0,200,50"></area>
 </map>
 
 <script>
-    assertEquals( jQuery.type(null), "null", "null" );
-    assertEquals( jQuery.type(undefined), "undefined", "undefined" );
-    assertEquals( jQuery.type(true), "boolean", "Boolean" );
-    assertEquals( jQuery.type(false), "boolean", "Boolean" );
-    assertEquals( jQuery.type(Boolean(true)), "boolean", "Boolean" );
-    assertEquals( jQuery.type(0), "number", "Number" );
-    assertEquals( jQuery.type(1), "number", "Number" );
-    assertEquals( jQuery.type(Number(1)), "number", "Number" );
-    assertEquals( jQuery.type(""), "string", "String" );
-    assertEquals( jQuery.type("a"), "string", "String" );
-    assertEquals( jQuery.type(String("a")), "string", "String" );
-    assertEquals( jQuery.type({}), "object", "Object" );
-    assertEquals( jQuery.type(/foo/), "regexp", "RegExp" );
-    assertEquals( jQuery.type(new RegExp("asdf")), "regexp", "RegExp" );
-    assertEquals( jQuery.type([1]), "array", "Array" );
-    assertEquals( jQuery.type(new Date()), "date", "Date" );
-    assertEquals( jQuery.type(new Function("return;")), "function", "Function" );
-    assertEquals( jQuery.type(function(){}), "function", "Function" );
-    assertEquals( jQuery.type(new Error()), "error", "Error" );
-    assertEquals( jQuery.type(window), "object", "Window" );
-    assertEquals( jQuery.type(document), "object", "Document" );
-    assertEquals( jQuery.type(document.body), "object", "Element" );
-    assertEquals( jQuery.type(document.createTextNode("foo")), "object", "TextNode" );
-    assertEquals( jQuery.type(document.getElementsByTagName("*")), "object", "NodeList" );
-
-    // Avoid Lint complaints
-    var MyString = String,
-            MyNumber = Number,
-            MyBoolean = Boolean,
-            MyObject = Object;
-    assertEquals( jQuery.type(new MyBoolean(true)), "boolean", "Boolean" );
-    assertEquals( jQuery.type(new MyNumber(1)), "number", "Number" );
-    assertEquals( jQuery.type(new MyString("a")), "string", "String" );
-    assertEquals( jQuery.type(new MyObject()), "object", "Object" );
+  assertEquals(jQuery.type(null), "null", "null");
+  assertEquals(jQuery.type(undefined), "undefined", "undefined");
+  assertEquals(jQuery.type(true), "boolean", "Boolean");
+  assertEquals(jQuery.type(false), "boolean", "Boolean");
+  assertEquals(jQuery.type(Boolean(true)), "boolean", "Boolean");
+  assertEquals(jQuery.type(0), "number", "Number");
+  assertEquals(jQuery.type(1), "number", "Number");
+  assertEquals(jQuery.type(Number(1)), "number", "Number");
+  assertEquals(jQuery.type(""), "string", "String");
+  assertEquals(jQuery.type("a"), "string", "String");
+  assertEquals(jQuery.type(String("a")), "string", "String");
+  assertEquals(jQuery.type({}), "object", "Object");
+  assertEquals(jQuery.type(/foo/), "regexp", "RegExp");
+  assertEquals(jQuery.type(new RegExp("asdf")), "regexp", "RegExp");
+  assertEquals(jQuery.type([1]), "array", "Array");
+  assertEquals(jQuery.type(new Date()), "date", "Date");
+  assertEquals(jQuery.type(new Function("return;")), "function", "Function");
+  assertEquals(jQuery.type(function()
+  {}), "function", "Function");
+  assertEquals(jQuery.type(new Error()), "error", "Error");
+  assertEquals(jQuery.type(window), "object", "Window");
+  assertEquals(jQuery.type(document), "object", "Document");
+  assertEquals(jQuery.type(document.body), "object", "Element");
+  assertEquals(jQuery.type(document.createTextNode("foo")), "object", "TextNode");
+  assertEquals(jQuery.type(document.getElementsByTagName("*")), "object", "NodeList");
+  var MyString = String, MyNumber = Number, MyBoolean = Boolean, MyObject = Object;
+  assertEquals(jQuery.type(new MyBoolean(true)), "boolean", "Boolean");
+  assertEquals(jQuery.type(new MyNumber(1)), "number", "Number");
+  assertEquals(jQuery.type(new MyString("a")), "string", "String");
+  assertEquals(jQuery.type(new MyObject()), "object", "Object");
 </script>
+
 
 </body>
 </html>

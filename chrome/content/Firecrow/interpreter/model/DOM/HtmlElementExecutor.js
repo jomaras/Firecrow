@@ -251,7 +251,11 @@ fcModel.HtmlElementExecutor =
             this.addDependencies(elements[i], callExpression, globalObject);
         }
 
-        return this.wrapToFcElements(elements, globalObject, callExpression);
+        var wrappedArray = this.wrapToFcElements(elements, globalObject, callExpression);
+
+        wrappedArray.iValue.markAsNodeList();
+
+        return wrappedArray;
     },
 
     _getAttribute: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)

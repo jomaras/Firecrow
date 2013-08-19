@@ -8,7 +8,7 @@ var loadInProgress = false;
 var htmlFiles = [];
 var pageIndex = 0;
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\underscore\\adjusted";
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\adjusted";
 
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {

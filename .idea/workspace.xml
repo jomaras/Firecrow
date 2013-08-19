@@ -8,7 +8,7 @@
     <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" line="139" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="-fixed a problem when generating code when an element does not have childNodes (comments)&#10;-">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/2.html" />
@@ -18,9 +18,138 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/css.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css01StringHash.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css02ExplicitAndRelativeValues.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css03StringObject.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css04Array.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css05StringFunction.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css06StringFunctionValue.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css07ObjectValuesFunctions.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css08ObjectValuesFunctionsIncoming.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css09ShowHide.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css09bShowHide.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css10showDefault.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css11ShowDetached.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css12toggle.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css13hideHidden.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css14cssElemHeight.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css15marginRight.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css16cssProps.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css17Hooks.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/css18VisibleHidden.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/data.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data01Expando.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data02DataAndRemoveDataExpectedReturns.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data03_DataAnd_RemoveDataExpectedReturns.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data04hasDataNoSideEffects.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data05dataOnElement.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data06dataOnEmptyObject.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data07DataOnWindow.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data08Data.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data09dataStringObjectString.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data10plainObjectDataStringObjectString.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data11dataAttributes.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data12dataObject.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data13removeData.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data14removeData.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data15CamelCasing.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data16MissData.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data16dataOnlyChecksElementAttributes.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data17MissAttr.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data18Interoperable.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data19removeDataHyphenated.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/deffered.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/dimensions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/effects.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/event.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/test/adjusted/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/manipulation.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/offset.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/queue.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/traversing.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Document.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Document.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/injections/assertDefinitions.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/injections/assertDefinitions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addClass.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addRemoveHasClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addRemoveHasClass.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_hash.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_hash.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_propStringObject.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_propStringObject.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_stringFunction.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_stringFunction.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_stringOnClonedElements.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_stringOnClonedElements.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/attributes-attr_string_object.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/attributes-attr_string_object.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string_object.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string_object.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_tabIndex.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_tabIndex.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-propTabIndex.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-propTabIndex.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-propTabIndex.json" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-propTabIndex.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-propTabIndexValue.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-propTabIndexValue.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-propTabIndexValue.json" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-propTabIndexValue.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removaAttrMultiString.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removaAttrMultiString.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-removaAttrMultiString.json" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-removaAttrMultiString.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removeAttrString.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removeAttrString.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-removeAttrString.json" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-removeAttrString.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removeClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removeClass.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removePropString.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removePropString.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-toggleClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-toggleClass.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-toggleClass.json" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-toggleClass.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-toggleClassFunction.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-toggleClassFunction.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-toggleClassFunction.json" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-toggleClassFunction.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-val.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-val.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-val.json" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-val.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valFunction.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valFunction.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-valFunction.json" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-valFunction.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valSelect.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valSelect.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core01jQuery.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core01jQuery.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core02SelectorContext.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core02SelectorContext.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core03SelectorState.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core03SelectorState.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core04noConflict.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core04noConflict.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core04noConflict.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core04noConflict.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core05trim.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core05trim.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core06Type.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core06Type.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core07isPlainObject.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core07isPlainObject.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core08isFunction.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core08isFunction.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core09isNumeric.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core09isNumeric.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core10isWindow.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core10isWindow.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core11jQueryHtml.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core11jQueryHtml.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core11jQueryHtml.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core11jQueryHtml.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core12jQueryHtmlContext.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core12jQueryHtmlContext.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core13End.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core13End.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core14Length.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core14Length.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core15InArray.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core15InArray.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core16GetNumber.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core16GetNumber.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core17Get-Number.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core17Get-Number.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core18each.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core18each.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core18each.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core18each.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core19slice.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core19slice.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core20firstLast.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core20firstLast.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core21map.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core21map.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core22merge.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core22merge.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core23makeArray.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core23makeArray.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core24isEmptyObject.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core24isEmptyObject.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core25parseHTML.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core25parseHTML.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core26camelCase.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core26camelCase.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/index-sliced.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/index-sliced.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/index.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/test.js" afterPath="$PROJECT_DIR$/phantomJs/test.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -48,39 +177,39 @@
     <ignored path="debug/sylvester/10-LineSegment-Contains/htmlMapping.js" />
     <ignored path="debug/sylvester/22-Line-distanceFrom/htmlMapping.js" />
     <ignored path="debug/sylvester/24-Line-rotate/htmlMapping.js" />
-    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376801399790" ignored="false" />
+    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376904886114" ignored="false" />
     <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369213531527" ignored="false" />
-    <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376731967405" ignored="false" />
+    <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376892824508" ignored="false" />
     <file path="/Command.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375431056408" ignored="false" />
     <file path="/CommandGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376585314317" ignored="false" />
     <file path="/ExecutionContextStack.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376580444131" ignored="false" />
-    <file path="/Evaluator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376744790608" ignored="false" />
-    <file path="/debugTestPages.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376801702105" ignored="false" />
+    <file path="/Evaluator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376895941573" ignored="false" />
+    <file path="/debugTestPages.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376806729106" ignored="false" />
     <file path="/js.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366038765820" ignored="false" />
     <file path="/initFBL.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376576499506" ignored="false" />
     <file path="/index-slicedTest.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366050095696" ignored="false" />
     <file path="/index-profiled3.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366185317889" ignored="false" />
-    <file path="/codeTextGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376716799519" ignored="false" />
+    <file path="/codeTextGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376848454095" ignored="false" />
     <file path="/valueTypeHelper.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376727590332" ignored="false" />
-    <file path="/browser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376583861983" ignored="false" />
+    <file path="/browser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376812320002" ignored="false" />
     <file path="/index-small.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366198333884" ignored="false" />
-    <file path="/HtmlElementExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376757092501" ignored="false" />
+    <file path="/HtmlElementExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376903884252" ignored="false" />
     <file path="/FcValue.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376629536160" ignored="false" />
-    <file path="/InterpreterSimulator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376585930104" ignored="false" />
+    <file path="/InterpreterSimulator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376896972914" ignored="false" />
     <file path="/slides.min.jquery.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366216724714" ignored="false" />
     <file path="/ASTHelper.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374760044654" ignored="false" />
-    <file path="/dependencyGraph.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376719942865" ignored="false" />
+    <file path="/dependencyGraph.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376902740158" ignored="false" />
     <file path="/inclusionFinder.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376470139407" ignored="false" />
-    <file path="/codeMarkupGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374743060490" ignored="false" />
+    <file path="/codeMarkupGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376838394331" ignored="false" />
     <file path="/edge.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1367592452080" ignored="false" />
     <file path="/index-test.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368167955213" ignored="false" />
-    <file path="/dependencyPostprocessor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376577149755" ignored="false" />
+    <file path="/dependencyPostprocessor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376838424133" ignored="false" />
     <file path="/index-test2.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1367922158626" ignored="false" />
     <file path="/Firecrow.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1372873129925" ignored="false" />
     <file path="/jquery.cycle.all.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366826661376" ignored="false" />
     <file path="/mooTools-simple.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366973671800" ignored="false" />
     <file path="/index1.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366978835907" ignored="false" />
-    <file path="/DependencyCreator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376724040349" ignored="false" />
+    <file path="/DependencyCreator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376804846821" ignored="false" />
     <file path="/node.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1367593997640" ignored="false" />
     <file path="/Slicer.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376483388882" ignored="false" />
     <file path="/index-test1.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1367240833201" ignored="false" />
@@ -92,16 +221,16 @@
     <file path="/Object.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376719214186" ignored="false" />
     <file path="/slicingModelMapping.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376582198737" ignored="false" />
     <file path="/mootools-1.2.4-core.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368109515657" ignored="false" />
-    <file path="/index-sliced.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368085326257" ignored="false" />
+    <file path="/index-sliced.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376847806118" ignored="false" />
     <file path="/mootools-1.2.4-coreM.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368030170781" ignored="false" />
     <file path="/pageB.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369203383286" ignored="false" />
     <file path="/pageA.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369201433672" ignored="false" />
     <file path="/fx.slide.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368108489637" ignored="false" />
     <file path="/VariableObject.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376581309356" ignored="false" />
     <file path="/String.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375400489909" ignored="false" />
-    <file path="/HtmlElement.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376757047867" ignored="false" />
+    <file path="/HtmlElement.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376904190207" ignored="false" />
     <file path="/debugReuseCaseStudy.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369226194253" ignored="false" />
-    <file path="/a.dummy" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376728971467" ignored="false" />
+    <file path="/a.dummy" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376903895974" ignored="false" />
     <file path="/Reuser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375397659986" ignored="false" />
     <file path="/reuseApp.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369227943863" ignored="false" />
     <file path="/reuseInto.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368780611897" ignored="false" />
@@ -117,7 +246,7 @@
     <file path="/CssSelectorParser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368814570980" ignored="false" />
     <file path="/reuseIntoApp.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369227963620" ignored="false" />
     <file path="$PROJECT_DIR$/tests/reuseStudies/00-allApplications/02/styles/style.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369141733473" ignored="false" />
-    <file path="/GlobalObject.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376729838706" ignored="false" />
+    <file path="/GlobalObject.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376896660657" ignored="false" />
     <file path="/simpleHtml.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369236854335" ignored="false" />
     <file path="/debugUsageScenarioGenerator.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375694769063" ignored="false" />
     <file path="/FirecrowChromePanel.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369812322279" ignored="false" />
@@ -143,7 +272,7 @@
     <file path="/Expression.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370519137887" ignored="false" />
     <file path="/ScenarioBrowserHelper.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1374649156257" ignored="false" />
     <file path="/ObjectPrototype.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1370501330981" ignored="false" />
-    <file path="/Array.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376581521986" ignored="false" />
+    <file path="/Array.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376901462245" ignored="false" />
     <file path="/ConstraintResolver.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375397024296" ignored="false" />
     <file path="/fbHelper.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1372409006081" ignored="false" />
     <file path="/speedTests.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376572842113" ignored="false" />
@@ -173,7 +302,7 @@
     <file path="/EventListenerMixin.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375116691802" ignored="false" />
     <file path="/externalStyle.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375200207341" ignored="false" />
     <file path="/external.css" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375200183296" ignored="false" />
-    <file path="/DocumentExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376752335730" ignored="false" />
+    <file path="/DocumentExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376894204684" ignored="false" />
     <file path="/debugSlicing.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375698050623" ignored="false" />
     <file path="/Math.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375394670995" ignored="false" />
     <file path="/CSSStyleDeclaration.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375394874576" ignored="false" />
@@ -181,23 +310,23 @@
     <file path="/RegEx.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375395117909" ignored="false" />
     <file path="/PathConstraint.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375396268966" ignored="false" />
     <file path="/StringConstraint.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375397551490" ignored="false" />
-    <file path="/ArrayExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376717998231" ignored="false" />
+    <file path="/ArrayExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376838732281" ignored="false" />
     <file path="/ArrayCallbackExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376583019905" ignored="false" />
     <file path="/Error.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375695370242" ignored="false" />
     <file path="/createJavaScriptModel.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376411945069" ignored="false" />
     <file path="/generatePageForEachTest.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376567557146" ignored="false" />
-    <file path="/checkAllTests.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376402902709" ignored="false" />
-    <file path="/assertDefinitions.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376402696193" ignored="false" />
+    <file path="/checkAllTests.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376897036022" ignored="false" />
+    <file path="/assertDefinitions.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376899278926" ignored="false" />
     <file path="/dropPageHtml.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376400259328" ignored="false" />
     <file path="/Line-contains.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376491362681" ignored="false" />
     <file path="/external.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376390031762" ignored="false" />
     <file path="/Matrix-rowsAndColumns.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376398744007" ignored="false" />
     <file path="/Line.Segment-bisectingPlane.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376403132401" ignored="false" />
-    <file path="/pageModeler.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376550184822" ignored="false" />
+    <file path="/pageModeler.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376891682213" ignored="false" />
     <file path="/getExternalSources.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376407439053" ignored="false" />
     <file path="/slicer.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376716674494" ignored="false" />
     <file path="/GlobalObjectExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376472576753" ignored="false" />
-    <file path="/slicer.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376490908583" ignored="false" />
+    <file path="/slicer.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376893632078" ignored="false" />
     <file path="/comparator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376494527182" ignored="false" />
     <file path="/Matrix-augment.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376487348354" ignored="false" />
     <file path="/Line-intersectionWith.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376492052661" ignored="false" />
@@ -229,16 +358,16 @@
     <file path="/slicingTests.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376577683691" ignored="false" />
     <file path="/Arrays-first.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376586884403" ignored="false" />
     <file path="/Arrays-flatten.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376671634832" ignored="false" />
-    <file path="/Document.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376729044922" ignored="false" />
+    <file path="/Document.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376894463265" ignored="false" />
     <file path="/Attribute.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376755370553" ignored="false" />
     <file path="/TextNode.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376745134620" ignored="false" />
-    <file path="/jQuery-src.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376744524599" ignored="false" />
+    <file path="/jQuery-src.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376892130350" ignored="false" />
     <file path="/mainTestPage.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376745936630" ignored="false" />
     <file path="/Attributes-AttrString.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376746322305" ignored="false" />
-    <file path="/attributes-attr_string.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376746650206" ignored="false" />
+    <file path="/attributes-attr_string.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376899172340" ignored="false" />
     <file path="/attributes-attr_stringFunction.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376749587669" ignored="false" />
-    <file path="/attributes-attr_hash.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376750488321" ignored="false" />
-    <file path="/attributes-attr_string_object.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376752474313" ignored="false" />
+    <file path="/attributes-attr_hash.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376892603046" ignored="false" />
+    <file path="/attributes-attr_string_object.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376901697140" ignored="false" />
     <file path="/attributes-removeAttrString.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376753555376" ignored="false" />
     <file path="/attributes-removaAttrMultiString.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376753845089" ignored="false" />
     <file path="/attributes-attr_propStringObject.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376754384767" ignored="false" />
@@ -256,12 +385,28 @@
     <file path="/core18each.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376767717580" ignored="false" />
     <file path="/core19slice.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376766968861" ignored="false" />
     <file path="/core20firstLast.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376767068334" ignored="false" />
-    <file path="/core22merge.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376767177546" ignored="false" />
+    <file path="/core22merge.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376806602027" ignored="false" />
     <file path="/core23makeArray.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376767748304" ignored="false" />
     <file path="/core15InArray.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376767772149" ignored="false" />
-    <file path="/core04noConflict.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376767959849" ignored="false" />
+    <file path="/core04noConflict.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376802625742" ignored="false" />
     <file path="/core25parseHTML.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376767890396" ignored="false" />
     <file path="/core26camelCase.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376767918702" ignored="false" />
+    <file path="/css02ExplicitAndRelativeValues.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376808085959" ignored="false" />
+    <file path="/css04Array.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376808207994" ignored="false" />
+    <file path="/css05StringFunction.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376808289095" ignored="false" />
+    <file path="/css06StringFunctionValue.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376808323222" ignored="false" />
+    <file path="/pageModeler1.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376810046758" ignored="false" />
+    <file path="/css07ObjectValuesFunctions.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376810847966" ignored="false" />
+    <file path="/css08ObjectValuesFunctionsIncoming.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376810868453" ignored="false" />
+    <file path="/css13hideHidden.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376811096505" ignored="false" />
+    <file path="/css15marginRight.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376811182299" ignored="false" />
+    <file path="/css16cssProps.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376811202538" ignored="false" />
+    <file path="/css17Hooks.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376811395286" ignored="false" />
+    <file path="/core11jQueryHtml.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376839542853" ignored="false" />
+    <file path="/data01Expando.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376904217954" ignored="false" />
+    <file path="/data02DataAndRemoveDataExpectedReturns.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376904266542" ignored="false" />
+    <file path="/data03_DataAnd_RemoveDataExpectedReturns.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376904347310" ignored="false" />
+    <file path="/DOMProperties.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376904589908" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,40 +429,89 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="core.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/core.js">
+      <file leaf-file-name="slicer.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="251" column="64" selection-start="9377" selection-end="9377" vertical-scroll-proportion="0.0">
+            <state line="44" column="50" selection-start="1456" selection-end="1456" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Firecrow.jsm" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm">
+      <file leaf-file-name="attributes-attr_string_object.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/attributes-attr_string_object.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="162" column="47" selection-start="5836" selection-end="5836" vertical-scroll-proportion="-7.16">
+            <state line="392" column="21" selection-start="19309" selection-end="19316" vertical-scroll-proportion="-7.076923">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HtmlElement.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="183" column="82" selection-start="8063" selection-end="8063" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DOMProperties.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="73" column="117" selection-start="4178" selection-end="4178" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HtmlElementExecutor.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="234" column="22" selection-start="9528" selection-end="9528" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/data.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="729" column="18" selection-start="26152" selection-end="26152" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dependencyGraph.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="46" column="66" selection-start="1533" selection-end="1533" vertical-scroll-proportion="0.2359375">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="attributes-attr_string_object.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string_object.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1341" column="35" selection-start="38044" selection-end="38044" vertical-scroll-proportion="-12.653846">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data03_DataAnd_RemoveDataExpectedReturns.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data03_DataAnd_RemoveDataExpectedReturns.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="269" column="107" selection-start="11873" selection-end="11873" vertical-scroll-proportion="-9.384615">
               <folding>
-                <marker date="1376800707438" expanded="false" signature="17303:17318" placeholder="..." />
+                <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugTestPages.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="103" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.42825848">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DocumentExecutor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="12" selection-start="2794" selection-end="2794" vertical-scroll-proportion="-9.96">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -338,46 +532,46 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/playground/comparator/index.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/playground/comparator/index.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/FcValue.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/playground/index.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/debug/debugSlicing.html" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core21map.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core22merge.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core23extend.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core18each.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core23makeArray.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core15InArray.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core24isEmptyObject.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core25parseHTML.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core26camelCase.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core04noConflict.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core01jQuery.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/jQuery-src.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core01jQuery.html" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/attributes-attr_string.html" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/injections/assertDefinitions.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string_object.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/data.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data06dataOnEmptyObject.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/attributes-attr_string_object.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data01Expando.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data02DataAndRemoveDataExpectedReturns.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data03_DataAnd_RemoveDataExpectedReturns.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="1358" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1096" />
+    <option name="y" value="-140" />
+    <option name="width" value="1696" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -458,11 +652,91 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluationHelpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluationHelpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="injections" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adjusted" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -510,7 +784,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="slicedAll" />
+              <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -536,7 +810,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="adjusted_models" />
+              <option name="myItemId" value="adjusted" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -563,14 +837,14 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="179" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="194" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="191" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="C:/phantomJs/phantomjs.exe" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="195" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="732" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="729" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="732" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="190" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="190" />
@@ -590,18 +864,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted" />
+      <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore" />
       <recent name="C:\GitWebStorm\Firecrow\debug" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\datejs" />
       <recent name="C:\GitWebStorm\Firecrow\phantomJs\evaluationHelpers" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\sylvester\slicedAll" />
       <recent name="C:\GitWebStorm\Firecrow\phantomJs\helperPages" />
-      <recent name="C:\GitWebStorm\Firecrow\phantomJs\evaluationHelpers\injections" />
     </key>
   </component>
   <component name="RunManager" selected="JsTestDriver.slicing.jstd">
@@ -689,12 +963,12 @@
       <method />
     </configuration>
     <list size="6">
-      <item index="0" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
-      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
-      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
-      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
-      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
-      <item index="5" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
+      <item index="0" class="java.lang.String" itemvalue="Node.js.NodeJsTest" />
+      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
+      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
+      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
+      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
+      <item index="5" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -3063,7 +3337,11 @@
       <created>1376801420489</created>
       <updated>1376801420489</updated>
     </task>
-    <option name="localTasksCounter" value="584" />
+    <task id="LOCAL-00584" summary="jQuery core tests&#10;modifications to the DocumentExecuter (get elements queries are no longer turned into querySelector and querySelectorAll but are handled by the respective methods)">
+      <created>1376801927717</created>
+      <updated>1376801927717</updated>
+    </task>
+    <option name="localTasksCounter" value="585" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3100,26 +3378,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32746115" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49411765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49411765" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47807488" sideWeight="0.49973643" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17129135" sideWeight="0.39957264" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17870322" sideWeight="0.5212435" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2070006" sideWeight="0.7486631" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39764202" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5040783" sideWeight="0.43210623" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25181347" sideWeight="0.5624623" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2513369" sideWeight="0.5624623" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14683816" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4787565" sideWeight="0.49973643" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32746115" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -3221,147 +3499,128 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core18each.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data17MissAttr.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="332" column="31" selection-start="13516" selection-end="13516" vertical-scroll-proportion="0.43867925">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core23makeArray.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data18Interoperable.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="289" column="10" selection-start="13133" selection-end="13133" vertical-scroll-proportion="0.7622378">
-          <folding>
-            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core15InArray.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="293" column="16" selection-start="13456" selection-end="13456" vertical-scroll-proportion="0.9009434">
-          <folding>
-            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core25parseHTML.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="269" column="49" selection-start="11898" selection-end="11898" vertical-scroll-proportion="0.6037296">
-          <folding>
-            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core26camelCase.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="269" column="20" selection-start="11816" selection-end="11816" vertical-scroll-proportion="0.5641026">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core24isEmptyObject.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data19removeDataHyphenated.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="259" column="99" selection-start="11664" selection-end="11664" vertical-scroll-proportion="0.6433566">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core04noConflict.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data16dataOnlyChecksElementAttributes.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="269" column="10" selection-start="12020" selection-end="12020" vertical-scroll-proportion="0.8414918">
-          <folding>
-            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/core.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="251" column="64" selection-start="9377" selection-end="9377" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="162" column="47" selection-start="5836" selection-end="5836" vertical-scroll-proportion="-7.16">
-          <folding>
-            <marker date="1376800707438" expanded="false" signature="17303:17318" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core02SelectorContext.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="54" selection-start="2267" selection-end="2267" vertical-scroll-proportion="-0.9496167">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valSelect.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="646" column="144" selection-start="18567" selection-end="18699" vertical-scroll-proportion="0.66">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core01jQuery.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1159" column="141" selection-start="36099" selection-end="36099" vertical-scroll-proportion="0.5466667">
-          <folding>
-            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/core01jQuery.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="297" column="64" selection-start="12676" selection-end="12676" vertical-scroll-proportion="0.27382258">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/jQuery-src.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="30" selection-start="5117" selection-end="5117" vertical-scroll-proportion="0.15228967">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-329.17096">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data01Expando.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="12" selection-start="2794" selection-end="2794" vertical-scroll-proportion="-9.96">
+        <state line="258" column="15" selection-start="11488" selection-end="11488" vertical-scroll-proportion="0.5760599">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data02DataAndRemoveDataExpectedReturns.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="103" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.42825848">
+        <state line="269" column="70" selection-start="11866" selection-end="11866" vertical-scroll-proportion="0.55526316">
+          <folding>
+            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="50" selection-start="1456" selection-end="1456" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/attributes-attr_string_object.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="392" column="21" selection-start="19309" selection-end="19316" vertical-scroll-proportion="-7.076923">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="117" selection-start="4178" selection-end="4178" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="234" column="22" selection-start="9528" selection-end="9528" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/data.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="729" column="18" selection-start="26152" selection-end="26152" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string_object.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1341" column="35" selection-start="38044" selection-end="38044" vertical-scroll-proportion="-12.653846">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data03_DataAnd_RemoveDataExpectedReturns.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="269" column="107" selection-start="11873" selection-end="11873" vertical-scroll-proportion="-9.384615">
+          <folding>
+            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="183" column="82" selection-start="8063" selection-end="8063" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="66" selection-start="1533" selection-end="1533" vertical-scroll-proportion="0.2359375">
           <folding />
         </state>
       </provider>

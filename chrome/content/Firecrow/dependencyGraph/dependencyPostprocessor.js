@@ -34,9 +34,13 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         else
         {
             var childNodes = htmlElement.childNodes;
-            for(var i = 0, length = childNodes.length; i < length; i++)
+
+            if(childNodes != null)
             {
-                this.processHtmlElement(childNodes[i]);
+                for(var i = 0, length = childNodes.length; i < length; i++)
+                {
+                    this.processHtmlElement(childNodes[i]);
+                }
             }
         }
     },

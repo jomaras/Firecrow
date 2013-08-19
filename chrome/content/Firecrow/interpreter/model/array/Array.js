@@ -5,7 +5,7 @@ var fcSimulator = Firecrow.Interpreter.Simulator;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 var ASTHelper = Firecrow.ASTHelper;
 
-fcModel.Array = function(jsArray, globalObject, codeConstruct)
+fcModel.Array = function fcModelArray(jsArray, globalObject, codeConstruct)
 {
     try
     {
@@ -37,8 +37,24 @@ fcModel.Array.prototype.removePrototypeMethods = function()
     }, this);
 };
 
+fcModel.Array.prototype.markAsNodeList = function()
+{
+    this.isNodeList = true;
+    try
+    {
+        Object.defineProperty(this.jsArray, "isNodeList", {
+            enumerable: false,
+            configurable: false,
+            writable: false,
+            value: true
+        });
+    }
+    catch(e) { fcModel.Array.notifyError("Failed in defining non-enumerable property for isNodeList"); }
+    this.removePrototypeMethods();
+};
+
 //<editor-fold desc="Internal array methods">
-fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, fcValue, dontFillJsArray)
+fcModel.Array.prototype.push = function(jsArray, args, codeConstruct, fcValue, dontFillJsArray)
 {
     try
     {
@@ -46,16 +62,29 @@ fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, fcVal
 
         var isCalledOnArray = this.constructor === fcModel.Array;
 
+        if(args != null && args.isNodeList && this.globalObject.throwsExceptionOnPushWithNodeList)
+        {
+            this.globalObject.executionContextStack.callExceptionCallbacks
+            (
+                {
+                    exceptionGeneratingConstruct: codeConstruct,
+                    isPushExpectedException: true
+                }
+            );
+
+            return;
+        }
+
         if(!isCalledOnArray) { this.addDependencyToAllModifications(codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
         var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
-        arguments = ValueTypeHelper.isArray(arguments) ? arguments : [arguments];
+        args = ValueTypeHelper.isArray(args) ? args : [args];
 
-        for(var i = 0, argsLength = arguments.length; i < argsLength; i++, length++)
+        for(var i = 0, argsLength = args.length; i < argsLength; i++, length++)
         {
-            var argument = arguments[i];
+            var argument = args[i];
 
             if(isCalledOnArray)
             {
@@ -80,7 +109,7 @@ fcModel.Array.prototype.push = function(jsArray, arguments, codeConstruct, fcVal
     catch(e) { fcModel.Array.notifyError("Error when pushing item: " + e + " " + e.fileName + " " + e.lineNumber); }
 };
 
-fcModel.Array.prototype.pop = function(jsArray, arguments, codeConstruct)
+fcModel.Array.prototype.pop = function(jsArray, args, codeConstruct)
 {
     try
     {
@@ -113,7 +142,7 @@ fcModel.Array.prototype.pop = function(jsArray, arguments, codeConstruct)
     catch(e) { fcModel.Array.notifyError("Error when popping item: " + e); }
 };
 
-fcModel.Array.prototype.reverse = function(jsArray, arguments, codeConstruct, fcValue)
+fcModel.Array.prototype.reverse = function(jsArray, args, codeConstruct, fcValue)
 {
     try
     {
@@ -143,7 +172,7 @@ fcModel.Array.prototype.reverse = function(jsArray, arguments, codeConstruct, fc
     catch(e) { fcModel.Array.notifyError("Error when reversing the array: " + e); }
 };
 
-fcModel.Array.prototype.shift = function(jsArray, arguments, codeConstruct)
+fcModel.Array.prototype.shift = function(jsArray, args, codeConstruct)
 {
     try
     {
@@ -258,7 +287,7 @@ fcModel.Array.prototype.sort = function(jsArray, args, codeConstruct, fcValue)
     return fcValue;
 };
 
-fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
+fcModel.Array.prototype.splice = function(jsArray, args, codeConstruct)
 {
     try
     {
@@ -275,10 +304,10 @@ fcModel.Array.prototype.splice = function(jsArray, arguments, codeConstruct)
 
         var argumentValues = [];
 
-        for(i = 0; i < arguments.length; i++)
+        for(i = 0; i < args.length; i++)
         {
-            if(i <= 1) { argumentValues.push(arguments[i].jsValue);}
-            else { argumentValues.push(arguments[i]); }
+            if(i <= 1) { argumentValues.push(args[i].jsValue);}
+            else { argumentValues.push(args[i]); }
         }
 
         var splicedItems = this.items.splice.apply(this.items, argumentValues);

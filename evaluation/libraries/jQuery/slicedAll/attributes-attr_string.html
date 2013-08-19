@@ -1,988 +1,826 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" id="html" dir="ltr" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
 <head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
-<title>jQuery Test Suite</title>
-<script>
-(function(window, undefined)
-{
-    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = '1.10.2', core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    
+    
+    
+    <script>
+  (function(window, undefined)
+  {
+    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
     {
-        return new jQuery.fn.init(selector, context, rootjQuery);
+      return new jQuery.fn.init(selector, context, rootjQuery);
     }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
     jQuery.fn = jQuery.prototype = {
-        constructor: jQuery,
-        init: function(selector, context, rootjQuery)
+      constructor: jQuery, 
+      init: function(selector, context, rootjQuery)
+      {
+        var match, elem;
+        if(!selector)
         {
-            var match, elem;
-            if(!selector)
-            {
-                return this;
-            }
-
-            if(typeof selector === 'string')
-            {
-                if(selector.charAt(0) === '<' && selector.charAt(selector.length - 1) === '>' && selector.length >= 3)
-                {
-                    match = [null, selector, null];
-                }
-                else
-                {
-                    match = rquickExpr.exec(selector);
-                }
-
-                if(match && (match[1] || !context))
-                {
-                    if(match[1])
-                    {
-                        context = context instanceof jQuery ? 0 : context;
-                        jQuery.merge(this, jQuery.parseHTML(match[1], context ? 0 : document, true));
-                        return this;
-                    }
-                    else
-                    {
-                        elem = document.getElementById(match[2]);
-                        if(elem && elem.parentNode)
-                        {
-                            if(elem.id !== match[2])
-                            {
-                                return rootjQuery.find(selector);
-                            }
-
-                            this.length = 1;
-                            this[0] = elem;
-                        }
-
-                        return this;
-                    }
-                }
-            }
-            else if(selector.nodeType)
-            {
-                this[0] = selector;
-                this.length = 1;
-                return this;
-            }
-            else if(jQuery.isFunction(selector))
-            {
-                return rootjQuery.ready(selector);
-            }
-
-
-
-            return jQuery.makeArray(selector, this);
-        },
-        length: 0,
-        toArray: function()
-        {
-            return core_slice.call(this);
-        },
-        get: function(num)
-        {
-            return num == null ? this.toArray() : 0;
-        },
-        pushStack: function(elems)
-        {
-            var ret = jQuery.merge(this.constructor(), elems);
-            return ret;
-        },
-        each: function(callback, args)
-        {
-            return jQuery.each(this, callback, args);
-        },
-        ready: function(fn)
-        {
-            return this;
+          return this;
         }
+
+        if(typeof selector === "string")
+        {
+          if(selector.charAt(0) === "<" && selector.charAt(selector.length - 1) === ">" && selector.length >= 3)
+          {
+            match = [null, selector, null];
+          }
+          else 
+          {
+            match = rquickExpr.exec(selector);
+          }
+
+          if(match && (match[1] || !context))
+          {
+            if(match[1])
+            {
+              context = context instanceof jQuery ? 0 : context;
+              jQuery.merge(this, jQuery.parseHTML(match[1], context ? 0 : document, true));
+              return this;
+            }
+            else 
+            {
+              elem = document.getElementById(match[2]);
+              if(elem && elem.parentNode)
+              {
+                if(elem.id !== match[2])
+                {
+                  return rootjQuery.find(selector);
+                }
+
+                this.length = 1;
+                this[0] = elem;
+              }
+
+              return this;
+            }
+          }
+        }
+        else if(selector.nodeType)
+        {
+          this[0] = selector;
+          this.length = 1;
+          return this;
+        }
+        else if(jQuery.isFunction(selector))
+        {
+          return rootjQuery.ready(selector);
+        }
+
+
+
+        return jQuery.makeArray(selector, this);
+      }, 
+      length: 0, 
+      toArray: function()
+      {
+        return core_slice.call(this);
+      }, 
+      get: function(num)
+      {
+        return num == null ? this.toArray() : 0;
+      }, 
+      pushStack: function(elems)
+      {
+        var ret = jQuery.merge(this.constructor(), elems);
+        return ret;
+      }, 
+      each: function(callback, args)
+      {
+        return jQuery.each(this, callback, args);
+      }, 
+      ready: function(fn)
+      {
+        return this;
+      }
     };
     jQuery.fn.init.prototype = jQuery.fn;
     jQuery.extend = jQuery.fn.extend = function()
     {
-        var copy, name, options, target, i = 1, length = arguments.length, deep = false;
-        if(length === i)
-        {
-            target = this;
-            --i;
-        }
+      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      if(length === i)
+      {
+        target = this;
+        --i;
+      }
 
-        for(;i < length;i++)
+      for(;i < length;i++)
+      {
+        if((options = arguments[i]) != null)
         {
-            if((options = arguments[i]) != null)
+          for(name in options)
+          {
+            copy = options[name];
+            if(deep);
+            else if(copy !== undefined)
             {
-                for(name in options)
-                {
-                    copy = options[name];
-                    if(deep);
-                    else if(copy !== undefined)
-                    {
-                        target[name] = copy;
-                    }
-                }
+              target[name] = copy;
             }
+          }
         }
+      }
     };
     jQuery.extend({
-        expando: 'jQuery' + (core_version + Math.random()).replace(/\D/g, ''),
-        noConflict: function(deep)
-        {},
-        isReady: false,
-        readyWait: 1,
-        holdReady: function(hold)
-        {},
-        ready: function(wait)
-        {},
-        isFunction: function(obj)
+      expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
+      noConflict: function(deep)
+      {}, 
+      isReady: false, 
+      readyWait: 1, 
+      holdReady: function(hold)
+      {}, 
+      ready: function(wait)
+      {}, 
+      isFunction: function(obj)
+      {
+        return jQuery.type(obj) === "function";
+      }, 
+      isArray: Array.isArray || function(obj)
+      {}, 
+      isWindow: function(obj)
+      {}, 
+      isNumeric: function(obj)
+      {}, 
+      type: function(obj)
+      {
+        return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
+      }, 
+      isPlainObject: function(obj)
+      {}, 
+      isEmptyObject: function(obj)
+      {}, 
+      error: function(msg)
+      {}, 
+      parseHTML: function(data, context, keepScripts)
+      {
+        context = context;
+        var parsed = rsingleTag.exec(data), scripts = !keepScripts;
+        if(parsed)
         {
-            return jQuery.type(obj) === 'function';
-        },
-        isArray: Array.isArray || function(obj)
-        {},
-        isWindow: function(obj)
-        {},
-        isNumeric: function(obj)
-        {},
-        type: function(obj)
+          return [context.createElement(parsed[1])];
+        }
+
+        parsed = jQuery.buildFragment([data], context, scripts);
+        return jQuery.merge([], parsed.childNodes);
+      }, 
+      parseJSON: function(data)
+      {}, 
+      parseXML: function(data)
+      {}, 
+      noop: function()
+      {}, 
+      globalEval: function(data)
+      {}, 
+      camelCase: function(string)
+      {}, 
+      nodeName: function(elem, name)
+      {
+        return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
+      }, 
+      each: function(obj, callback, args)
+      {
+        var i = 0, length = obj.length, isArray = isArraylike(obj);
+        if(args);
+        else 
         {
-            return typeof obj === 'object' || typeof obj === 'function' ? class2type[core_toString.call(obj)] || 'object' : typeof obj;
-        },
-        isPlainObject: function(obj)
-        {},
-        isEmptyObject: function(obj)
-        {},
-        error: function(msg)
-        {},
-        parseHTML: function(data, context, keepScripts)
-        {
-            context = context;
-            var parsed = rsingleTag.exec(data), scripts = !keepScripts;
-            if(parsed)
+          if(isArray)
+          {
+            for(;i < length;i++)
             {
-                return [context.createElement(parsed[1])];
+              callback.call(obj[i], i, obj[i]);
             }
-
-            parsed = jQuery.buildFragment([data], context, scripts);
-            return jQuery.merge([], parsed.childNodes);
-        },
-        parseJSON: function(data)
-        {},
-        parseXML: function(data)
-        {},
-        noop: function()
-        {},
-        globalEval: function(data)
-        {},
-        camelCase: function(string)
-        {},
-        nodeName: function(elem, name)
-        {
-            return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
-        },
-        each: function(obj, callback, args)
-        {
-            var i = 0, length = obj.length, isArray = isArraylike(obj);
-            if(args);
-            else
+          }
+          else 
+          {
+            for(i in obj)
             {
-                if(isArray)
-                {
-                    for(;i < length;i++)
-                    {
-                        callback.call(obj[i], i, obj[i]);
-                    }
-                }
-                else
-                {
-                    for(i in obj)
-                    {
-                        callback.call(obj[i], i, obj[i]);
-                    }
-                }
+              callback.call(obj[i], i, obj[i]);
             }
+          }
+        }
 
-            return obj;
-        },
-        trim: core_trim && !(core_trim.call('ď»żÂ ')) ? 0 : function(text)
-        {},
-        makeArray: function(arr, results)
+        return obj;
+      }, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
+      {} : 0, 
+      makeArray: function(arr, results)
+      {
+        var ret = results;
+        return ret;
+      }, 
+      inArray: function(elem, arr, i)
+      {}, 
+      merge: function(first, second)
+      {
+        var l = second.length, i = first.length, j = 0;
+        if(typeof l === "number")
         {
-            var ret = results;
-            return ret;
-        },
-        inArray: function(elem, arr, i)
-        {},
-        merge: function(first, second)
+          for(;j < l;j++)
+          {
+            first[i++] = second[j];
+          }
+        }
+
+        first.length = i;
+        return first;
+      }, 
+      grep: function(elems, callback, inv)
+      {}, 
+      map: function(elems, callback, arg)
+      {}, 
+      guid: 1, 
+      proxy: function(fn, context)
+      {}, 
+      access: function(elems, fn, key, value, chainable, emptyGet, raw)
+      {
+        var i = 0, length = elems.length, bulk = key == null;
+        if(jQuery.type(key) === "object")
         {
-            var l = second.length, i = first.length, j = 0;
-            if(typeof l === 'number')
-            {
-                for(;j < l;j++)
-                {
-                    first[i++] = second[j];
-                }
-            }
-
-            first.length = i;
-            return first;
-        },
-        grep: function(elems, callback, inv)
-        {},
-        map: function(elems, callback, arg)
-        {},
-        guid: 1,
-        proxy: function(fn, context)
-        {},
-        access: function(elems, fn, key, value, chainable, emptyGet, raw)
+          chainable = true;
+          for(i in key)
+          {
+            jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
+          }
+        }
+        else if(value !== undefined)
         {
-            var i = 0, length = elems.length, bulk = key == null;
-            if(jQuery.type(key) === 'object')
+          chainable = true;
+          if(!(jQuery.isFunction(value)))
+          {
+            raw = true;
+          }
+
+          if(fn)
+          {
+            for(;i < length;i++)
             {
-                chainable = true;
-                for(i in key)
-                {
-                    jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
-                }
+              fn(elems[i], key, raw ? value : 0);
             }
-            else if(value !== undefined)
-            {
-                chainable = true;
-                if(!(jQuery.isFunction(value)))
-                {
-                    raw = true;
-                }
-
-                if(fn)
-                {
-                    for(;i < length;i++)
-                    {
-                        fn(elems[i], key, raw ? value : 0);
-                    }
-                }
-            }
+          }
+        }
 
 
-            return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : emptyGet;
-        },
-        now: function()
-        {},
-        swap: function(elem, options, callback, args)
-        {}
+        return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : emptyGet;
+      }, 
+      now: function()
+      {}, 
+      swap: function(elem, options, callback, args)
+      {}
     });
-    jQuery.each('Boolean Number String Function Array Date RegExp Object Error'.split(' '), function(i, name)
+    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
-        class2type[('[object ' + name) + ']'] = name.toLowerCase();
+      class2type[("[object " + name) + "]"] = name.toLowerCase();
     });
     function isArraylike(obj)
     {
-        var length = obj.length, type = jQuery.type(obj);
-        return type === 'array' || (type !== 'function' && (length === 0 || (typeof length === 'number' && length > 0 && (length - 1) in obj)));
+      var length = obj.length, type = jQuery.type(obj);
+      return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-        var support, Expr, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, expando = 'sizzle' + -(new Date()), preferredDoc = window.document, arr = [], push = arr.push, booleans = 'checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped', matchExpr = {
-            'bool': new RegExp(('^(?:' + booleans) + ')$', 'i')
-        }, rnative = /^[^{]+\{\s*\[native \w/;
-        function Sizzle(selector, context, results, seed)
-        {
-            var nodeType, newContext, newSelector;
-            context = context;
-            results = results;
-            if((nodeType = context.nodeType) !== 1 && nodeType !== 9);
+      var support, Expr, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, expando = "sizzle" + -(new Date()), preferredDoc = window.document, arr = [], push_native = arr.push, push = arr.push, slice = arr.slice, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
+        "bool": new RegExp(("^(?:" + booleans) + ")$", "i")
+      }, rnative = /^[^{]+\{\s*\[native \w/;
+      try
+      {
+        push.apply(arr = slice.call(preferredDoc.childNodes), preferredDoc.childNodes);
+      }
+      catch(e)
+      {
+        push = {
+          apply: arr.length ? function(target, els)
+          {
+            push_native.apply(target, slice.call(els));
+          } : 0
+        };
+      }
+      function Sizzle(selector, context, results, seed)
+      {
+        var nodeType, newContext, newSelector;
+        context = context;
+        results = results;
+        if((nodeType = context.nodeType) !== 1 && nodeType !== 9);
 
-            if(documentIsHTML && !seed)
+        if(documentIsHTML && !seed)
+        {
+          if(support.qsa && (!rbuggyQSA || !(rbuggyQSA.test(selector))))
+          {
+            newContext = context;
+            newSelector = nodeType === 9 && selector;
+            if(newSelector)
             {
-                if(support.qsa && !rbuggyQSA)
-                {
-                    newContext = context;
-                    newSelector = nodeType === 9 && selector;
-                    if(newSelector)
-                    {
-                        try
-                        {
-                            push.apply(results, newContext.querySelectorAll(newSelector));
-                        }
-                        catch(qsaError){}
-                    }
-                }
+              try
+              {
+                push.apply(results, newContext.querySelectorAll(newSelector));
+              }
+              catch(qsaError){}
             }
+          }
         }
-        function assert(fn)
+      }
+      function assert(fn)
+      {
+        var div = document.createElement("div");
+        try
         {
-            var div = document.createElement('div');
-            try
-            {
-                return !(!(fn(div)));
-            }
-            catch(e){}
+          return !(!(fn(div)));
         }
-        isXML = Sizzle.isXML = function(elem)
+        catch(e){}
+      }
+      isXML = Sizzle.isXML = function(elem)
+      {
+        var documentElement = elem && (elem.ownerDocument || elem).documentElement;
+        return documentElement ? documentElement.nodeName !== "HTML" : 0;
+      };
+      support = Sizzle.support = {};
+      setDocument = Sizzle.setDocument = function(node)
+      {
+        var doc = node ? 0 : preferredDoc;
+        document = doc;
+        docElem = doc.documentElement;
+        documentIsHTML = !(isXML(doc));
+        support.attributes = assert(function(div)
         {
-            var documentElement = elem && (elem.ownerDocument || elem).documentElement;
-            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
-        };
-        support = Sizzle.support = {};
-        setDocument = Sizzle.setDocument = function(node)
+          div.className = "i";
+          return !(div.getAttribute("className"));
+        });
+        assert(function(div)
         {
-            var doc = node ? 0 : preferredDoc;
-            document = doc;
-            docElem = doc.documentElement;
-            documentIsHTML = !(isXML(doc));
-            support.attributes = assert(function(div)
+          docElem.appendChild(div).id = expando;
+        });
+        rbuggyQSA = [];
+        if(support.qsa = rnative.test(doc.querySelectorAll))
+        {
+          assert(function(div)
+          {
+            div.innerHTML = "<select><option selected=''></option></select>";
+            if(!(div.querySelectorAll(":checked").length))
             {
-                div.className = 'i';
-                return !(div.getAttribute('className'));
-            });
-            assert(function(div)
-            {
-                div.appendChild(doc.createComment(''));
-            });
-            assert(function(div)
-            {
-                div.innerHTML = '<div class=\'a\'></div><div class=\'a i\'></div>';
-                div.firstChild.className = 'i';
-            });
-            assert(function(div)
-            {
-                docElem.appendChild(div).id = expando;
-            });
-            rbuggyQSA = [];
-            if(support.qsa = rnative.test(doc.querySelectorAll))
-            {
-                assert(function(div)
-                {
-                    div.innerHTML = '<select><option selected=\'\'></option></select>';
-                });
-                assert(function(div)
-                {
-                    var input = doc.createElement('input');
-                    input.setAttribute('type', 'hidden');
-                    div.appendChild(input).setAttribute('t', '');
-                });
+              rbuggyQSA.push(":checked");
             }
+          });
+        }
 
-            rbuggyQSA = rbuggyQSA.length;
-        };
-        Sizzle.attr = function(elem, name)
-        {
-            var fn = Expr.attrHandle[name.toLowerCase()], val = fn ? 0 : undefined;
-            return val === undefined ? support.attributes ? elem.getAttribute(name) : 0 : 0;
-        };
-        Expr = Sizzle.selectors = {
-            match: matchExpr,
-            attrHandle: {}
-        };
-        setDocument();
-        if(!(assert(function(div)
-        {
-            div.innerHTML = '<a href=\'#\'></a>';
-            return div.firstChild.getAttribute('href') === '#';
-        })));
-
-        if(!(support.attributes) || !(assert(function(div)
-        {
-            div.innerHTML = '<input/>';
-            div.firstChild.setAttribute('value', '');
-            return div.firstChild.getAttribute('value') === '';
-        })));
-
-        jQuery.find = Sizzle;
-        jQuery.expr = Sizzle.selectors;
-        jQuery.isXMLDoc = Sizzle.isXML;
+        rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
+      };
+      Sizzle.attr = function(elem, name)
+      {
+        var fn = Expr.attrHandle[name.toLowerCase()], val = fn ? 0 : undefined;
+        return val === undefined ? support.attributes ? elem.getAttribute(name) : 0 : 0;
+      };
+      Expr = Sizzle.selectors = {
+        match: matchExpr, 
+        attrHandle: {}
+      };
+      setDocument();
+      jQuery.find = Sizzle;
+      jQuery.expr = Sizzle.selectors;
+      jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
     jQuery.support = (function(support)
     {
-        var a, input, select, fragment, eventName, i, div = document.createElement('div');
-        div.setAttribute('className', 't');
-        div.innerHTML = '  <link/><table></table><a href=\'/a\'>a</a><input type=\'checkbox\'/>';
-        a = div.getElementsByTagName('a')[0];
-        select = document.createElement('select');
-        select.appendChild(document.createElement('option'));
-        input = div.getElementsByTagName('input')[0];
-        a.style.cssText = 'top:1px;float:left;opacity:.5';
-        support.getSetAttribute = div.className !== 't';
-        support.htmlSerialize = !(!(div.getElementsByTagName('link').length));
-        input.checked = true;
-        select.disabled = true;
-        input = document.createElement('input');
-        input.setAttribute('value', '');
-        input.value = 't';
-        input.setAttribute('type', 'radio');
-        input.setAttribute('checked', 't');
-        input.setAttribute('name', 't');
-        fragment = document.createDocumentFragment();
-        fragment.appendChild(input);
-        for(i in {submit: true, change: true, focusin: true})
-        {
-            div.setAttribute(eventName = 'on' + i, 't');
-        }
+      var a, input, eventName, i, div = document.createElement("div");
+      div.setAttribute("className", "t");
+      div.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
+      a = div.getElementsByTagName("a")[0];
+      input = div.getElementsByTagName("input")[0];
+      a.style.cssText = "top:1px;float:left;opacity:.5";
+      support.getSetAttribute = div.className !== "t";
+      support.htmlSerialize = !(!(div.getElementsByTagName("link").length));
+      input.checked = true;
+      for(i in {submit: true, change: true, focusin: true})
+      {
+        div.setAttribute(eventName = "on" + i, "t");
+      }
 
-        div.style.backgroundClip = 'content-box';
-        div.cloneNode(true).style.backgroundClip = '';
-        for(i in jQuery(support))
-        {
-            break;
-        }
+      div.style.backgroundClip = "content-box";
+      div.cloneNode(true).style.backgroundClip = "";
+      for(i in jQuery(support))
+      {
+        break;
+      }
 
-        jQuery(function()
-        {});
-        return support;
+      jQuery(function()
+      {});
+      return support;
     })({});
     var nodeHook, getSetAttribute = jQuery.support.getSetAttribute;
     jQuery.fn.extend({
-        attr: function(name, value)
+      attr: function(name, value)
+      {
+        return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
+      }, 
+      removeAttr: function(name)
+      {
+        return this.each(function()
         {
-            return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
-        },
-        removeAttr: function(name)
-        {
-            return this.each(function()
-            {
-                jQuery.removeAttr(this, name);
-            });
-        },
-        prop: function(name, value)
-        {
-            return jQuery.access(this, jQuery.prop, name, value, arguments.length > 1);
-        },
-        removeProp: function(name)
-        {},
-        addClass: function(value)
-        {},
-        removeClass: function(value)
-        {},
-        toggleClass: function(value, stateVal)
-        {},
-        hasClass: function(selector)
-        {},
-        val: function(value)
-        {}
+          jQuery.removeAttr(this, name);
+        });
+      }, 
+      prop: function(name, value)
+      {
+        return jQuery.access(this, jQuery.prop, name, value, arguments.length > 1);
+      }, 
+      removeProp: function(name)
+      {}, 
+      addClass: function(value)
+      {}, 
+      removeClass: function(value)
+      {}, 
+      toggleClass: function(value, stateVal)
+      {}, 
+      hasClass: function(selector)
+      {}, 
+      val: function(value)
+      {}
     });
     jQuery.extend({
-        valHooks: {},
-        attr: function(elem, name, value)
+      valHooks: {}, 
+      attr: function(elem, name, value)
+      {
+        var hooks, ret, nType = elem.nodeType;
+        if(nType !== 1 || !(jQuery.isXMLDoc(elem)))
         {
-            var hooks, ret, nType = elem.nodeType;
-            if(nType !== 1 || !(jQuery.isXMLDoc(elem)))
+          name = name.toLowerCase();
+          hooks = jQuery.attrHooks[name] || (jQuery.expr.match.bool.test(name) ? 0 : nodeHook);
+        }
+
+        if(value !== undefined)
+        {
+          if(value === null);
+          else if(hooks);
+          else 
+          {
+            elem.setAttribute(name, value + "");
+          }
+        }
+        else if(hooks && "get" in hooks);
+        else 
+        {
+          ret = jQuery.find.attr(elem, name);
+          return ret == null ? undefined : ret;
+        }
+      }, 
+      removeAttr: function(elem, value)
+      {
+        var name, i = 0, attrNames = value && value.match(core_rnotwhite);
+        if(attrNames && elem.nodeType === 1)
+        {
+          while(name = attrNames[i++])
+          {
+            if(jQuery.expr.match.bool.test(name));
+            else 
             {
-                name = name.toLowerCase();
-                hooks = jQuery.attrHooks[name] || (jQuery.expr.match.bool.test(name) ? 0 : nodeHook);
+              jQuery.attr(elem, name, "");
             }
 
-            if(value !== undefined)
-            {
-                if(value === null);
-                else if(hooks);
-                else
-                {
-                    elem.setAttribute(name, value + '');
-                }
-            }
-            else if(hooks && 'get' in hooks);
-            else
-            {
-                ret = jQuery.find.attr(elem, name);
-                return ret == null ? undefined : ret;
-            }
-        },
-        removeAttr: function(elem, value)
+            elem.removeAttribute(getSetAttribute ? name : 0);
+          }
+        }
+      }, 
+      attrHooks: {
+        type: {}
+      }, 
+      propFix: {}, 
+      prop: function(elem, name, value)
+      {
+        var hooks, notxml, nType = elem.nodeType;
+        notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
+        if(notxml)
         {
-            var name, i = 0, attrNames = value && value.match(core_rnotwhite);
-            if(attrNames && elem.nodeType === 1)
-            {
-                while(name = attrNames[i++])
-                {
-                    if(jQuery.expr.match.bool.test(name));
-                    else
-                    {
-                        jQuery.attr(elem, name, '');
-                    }
+          name = jQuery.propFix[name] || name;
+          hooks = jQuery.propHooks[name];
+        }
 
-                    elem.removeAttribute(getSetAttribute ? name : 0);
-                }
-            }
-        },
-        attrHooks: {
-            type: {}
-        },
-        propFix: {},
-        prop: function(elem, name, value)
+        if(value !== undefined);
+        else 
         {
-            var hooks, notxml, nType = elem.nodeType;
-            notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
-            if(notxml)
-            {
-                name = jQuery.propFix[name] || name;
-                hooks = jQuery.propHooks[name];
-            }
-
-            if(value !== undefined);
-            else
-            {
-                return hooks ? 0 : elem[name];
-            }
-        },
-        propHooks: {}
+          return hooks ? 0 : elem[name];
+        }
+      }, 
+      propHooks: {}
     });
     jQuery.fn.extend({
-        find: function(selector)
+      find: function(selector)
+      {
+        var i, ret = [], self = this, len = self.length;
+        for(i = 0;i < len;i++)
         {
-            var i, ret = [], self = this, len = self.length;
-            for(i = 0;i < len;i++)
-            {
-                jQuery.find(selector, self[i], ret);
-            }
+          jQuery.find(selector, self[i], ret);
+        }
 
-            ret = this.pushStack(len > 1 ? 0 : ret);
-            return ret;
-        },
-        has: function(target)
-        {},
-        not: function(selector)
-        {},
-        filter: function(selector)
-        {},
-        is: function(selector)
-        {},
-        closest: function(selectors, context)
-        {},
-        index: function(elem)
-        {},
-        add: function(selector, context)
-        {},
-        addBack: function(selector)
-        {}
+        ret = this.pushStack(len > 1 ? 0 : ret);
+        return ret;
+      }, 
+      has: function(target)
+      {}, 
+      not: function(selector)
+      {}, 
+      filter: function(selector)
+      {}, 
+      is: function(selector)
+      {}, 
+      closest: function(selectors, context)
+      {}, 
+      index: function(elem)
+      {}, 
+      add: function(selector, context)
+      {}, 
+      addBack: function(selector)
+      {}
     });
     function createSafeFragment(document)
     {
-        var safeFrag = document.createDocumentFragment();
-        return safeFrag;
+      var safeFrag = document.createDocumentFragment();
+      return safeFrag;
     }
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
-        _default: jQuery.support.htmlSerialize ? [0, '', ''] : 0
-    }, safeFragment = createSafeFragment(document), fragmentDiv = safeFragment.appendChild(document.createElement('div'));
+      _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
+    };
     jQuery.fn.extend({
-        text: function(value)
-        {},
-        append: function()
+      text: function(value)
+      {}, 
+      append: function()
+      {
+        return this.domManip(arguments, function(elem)
         {
-            return this.domManip(arguments, function(elem)
-            {
-                if(this.nodeType === 1)
-                {
-                    var target = manipulationTarget(this, elem);
-                    target.appendChild(elem);
-                }
-            });
-        },
-        prepend: function()
-        {},
-        before: function()
-        {},
-        after: function()
-        {},
-        remove: function(selector, keepData)
+          if(this.nodeType === 1)
+          {
+            var target = manipulationTarget(this, elem);
+            target.appendChild(elem);
+          }
+        });
+      }, 
+      prepend: function()
+      {}, 
+      before: function()
+      {}, 
+      after: function()
+      {}, 
+      remove: function(selector, keepData)
+      {
+        var elem, elems = selector ? 0 : this, i = 0;
+        for(;(elem = elems[i]) != null;i++)
         {
-            var elem, elems = selector ? 0 : this, i = 0;
-            for(;(elem = elems[i]) != null;i++)
-            {
-                if(elem.parentNode)
-                {
-                    elem.parentNode.removeChild(elem);
-                }
-            }
-        },
-        empty: function()
-        {},
-        clone: function(dataAndEvents, deepDataAndEvents)
-        {},
-        html: function(value)
-        {},
-        replaceWith: function()
-        {},
-        detach: function(selector)
-        {},
-        domManip: function(args, callback, allowIntersection)
-        {
-            args = core_concat.apply([], args);
-            var first, node, fragment, i = 0, l = this.length;
-            if(l)
-            {
-                fragment = jQuery.buildFragment(args, this[0].ownerDocument, false, !allowIntersection && this);
-                first = fragment.firstChild;
-                if(fragment.childNodes.length === 1)
-                {
-                    fragment = first;
-                }
-
-                if(first)
-                {
-                    for(;i < l;i++)
-                    {
-                        node = fragment;
-                        callback.call(this[i], node, i);
-                    }
-                }
-            }
+          if(elem.parentNode)
+          {
+            elem.parentNode.removeChild(elem);
+          }
         }
+      }, 
+      empty: function()
+      {}, 
+      clone: function(dataAndEvents, deepDataAndEvents)
+      {}, 
+      html: function(value)
+      {}, 
+      replaceWith: function()
+      {}, 
+      detach: function(selector)
+      {}, 
+      domManip: function(args, callback, allowIntersection)
+      {
+        args = core_concat.apply([], args);
+        var first, node, fragment, i = 0, l = this.length;
+        if(l)
+        {
+          fragment = jQuery.buildFragment(args, this[0].ownerDocument, false, !allowIntersection && this);
+          first = fragment.firstChild;
+          if(fragment.childNodes.length === 1)
+          {
+            fragment = first;
+          }
+
+          if(first)
+          {
+            for(;i < l;i++)
+            {
+              node = fragment;
+              callback.call(this[i], node, i);
+            }
+          }
+        }
+      }
     });
     function manipulationTarget(elem, content)
     {
-        return jQuery.nodeName(elem, 'table') ? 0 : elem;
+      return jQuery.nodeName(elem, "table") ? 0 : elem;
     }
-    jQuery.each({appendTo: 'append', replaceAll: 'replaceWith'}, function(name, original)
+    jQuery.each({appendTo: "append", replaceAll: "replaceWith"}, function(name, original)
     {
-        jQuery.fn[name] = function(selector)
+      jQuery.fn[name] = function(selector)
+      {
+        var elems, i = 0, ret = [], insert = jQuery(selector), last = insert.length - 1;
+        for(;i <= last;i++)
         {
-            var elems, i = 0, ret = [], insert = jQuery(selector), last = insert.length - 1;
-            for(;i <= last;i++)
-            {
-                elems = i === last ? this : 0;
-                jQuery(insert[i])[original](elems);
-                core_push.apply(ret, elems.get());
-            }
+          elems = i === last ? this : 0;
+          jQuery(insert[i])[original](elems);
+          core_push.apply(ret, elems.get());
+        }
 
-            return this.pushStack(ret);
-        };
+        return this.pushStack(ret);
+      };
     });
     jQuery.extend({
-        clone: function(elem, dataAndEvents, deepDataAndEvents)
-        {},
-        buildFragment: function(elems, context, scripts, selection)
+      clone: function(elem, dataAndEvents, deepDataAndEvents)
+      {}, 
+      buildFragment: function(elems, context, scripts, selection)
+      {
+        var elem, tmp, tag, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0;
+        for(;i < l;i++)
         {
-            var elem, tmp, tag, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0;
-            for(;i < l;i++)
+          elem = elems[i];
+          if(elem)
+          {
+            if(jQuery.type(elem) === "object")
             {
-                elem = elems[i];
-                if(elem)
-                {
-                    if(jQuery.type(elem) === 'object')
-                    {
-                        jQuery.merge(nodes, elem.nodeType ? 0 : elem);
-                    }
-                    else if(!(rhtml.test(elem)));
-                    else
-                    {
-                        tmp = tmp || safe.appendChild(context.createElement('div'));
-                        tag = (rtagName.exec(elem))[1].toLowerCase();
-                        wrap = wrapMap[tag] || wrapMap._default;
-                        tmp.innerHTML = (wrap[1] + elem.replace(rxhtmlTag, '<$1></$2>')) + wrap[2];
-                        jQuery.merge(nodes, tmp.childNodes);
-                        tmp.textContent = '';
-                        tmp = safe.lastChild;
-                    }
-                }
+              jQuery.merge(nodes, elem.nodeType ? 0 : elem);
             }
-
-            if(tmp)
+            else if(!(rhtml.test(elem)));
+            else 
             {
-                safe.removeChild(tmp);
+              tmp = tmp || safe.appendChild(context.createElement("div"));
+              tag = (rtagName.exec(elem))[1].toLowerCase();
+              wrap = wrapMap[tag] || wrapMap._default;
+              tmp.innerHTML = (wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>")) + wrap[2];
+              jQuery.merge(nodes, tmp.childNodes);
+              tmp.textContent = "";
+              tmp = safe.lastChild;
             }
+          }
+        }
 
-            i = 0;
-            while(elem = nodes[i++])
-            {
-                (safe.appendChild(elem), null);
-            }
+        if(tmp)
+        {
+          safe.removeChild(tmp);
+        }
 
-            return safe;
-        },
-        cleanData: function(elems, acceptData)
-        {},
-        _evalUrl: function(url)
-        {}
+        i = 0;
+        while(elem = nodes[i++])
+        {
+          (safe.appendChild(elem), null);
+        }
+
+        return safe;
+      }, 
+      cleanData: function(elems, acceptData)
+      {}, 
+      _evalUrl: function(url)
+      {}
     });
     jQuery(function()
     {});
-    if(typeof module === 'object');
-    else
+    if(typeof module === "object");
+    else 
     {
-        window.jQuery = window.$ = jQuery;
+      window.jQuery = window.$ = jQuery;
     }
-})(window);
+  })(window);
 </script>
 </head>
 
-<body id="body">
-<div id="qunit"></div>
+<body id="body" style="">
 
-<dl style="position:absolute;top:-32767px;left:-32767px;width:1px;" id="dl">
+
+<dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
 <div id="qunit-fixture">
-<p id="firstp">See <a rel="bookmark" href="http://simon.incutio.com/archive/2003/03/25/#getElementsBySelector" id="simon1">this blog entry</a> for more information.</p>
+<p id="firstp">See <a id="simon1" href="http://simon.incutio.com/archive/2003/03/25/#getElementsBySelector" rel="bookmark">this blog entry</a> for more information.</p>
 <p id="ap">
-    Here are some links in a normal paragraph: <a title="Google!" href="http://www.google.com/" id="google">Google</a>,
-    <a class="GROUPS" href="http://groups.google.com/" id="groups">Google Groups (Link)</a>.
-    This link has <code><a id="anchor1" href="http://smin">class="blog"</a></code>:
-    <a id="mark" hreflang="en" class="blog" href="http://diveintomark.org/">diveintomark</a>
+    Here are some links in a normal paragraph: <a id="google" href="http://www.google.com/" title="Google!">Google</a>,
+    .
+    This link has :
+    <a href="http://diveintomark.org/" class="blog" hreflang="en" id="mark">diveintomark</a>
 
 </p>
 <div id="foo">
-    <p id="sndp">Everything inside the red border is inside a div with <code>id="foo"</code>.</p>
-    <p lang="en" id="en">This is a normal link: <a class="blogTest" href="http://www.yahoo.com/" id="yahoo">Yahoo</a></p>
-    <p id="sap">This link has <code><a id="anchor2" href="#2">class="blog"</a></code>: <a id="simon" class="blog link" href="http://simon.incutio.com/">Simon Willison's Weblog</a></p>
+    
+    <p lang="en" id="en">This is a normal link: </p>
+    <p id="sap">This link has : <a href="http://simon.incutio.com/" class="blog link" id="simon">Simon Willison's Weblog</a></p>
 
 </div>
-<div class="nothiddendiv" style="height:1px;background:white;" id="nothiddendiv">
-    <div id="nothiddendivchild"></div>
-</div>
-<span id="name+value"></span>
-<p id="first">Try them out:</p>
-<ul id="firstUL"></ul>
-<ol id="empty"></ol>
-<form action="formaction" id="form">
-    <label id="label-for" for="action">Action:</label>
-    <input type="text" maxlength="30" id="text1" value="Test" name="action"/>
-    <input type="text" disabled="disabled" id="text2" value="Test" name="text2"/>
-    <input type="radio" value="on" id="radio1" name="radio1"/>
 
-    <input type="radio" checked="checked" id="radio2" name="radio2"/>
-    <input type="checkbox" checked="checked" id="check1" name="check"/>
-    <input type="checkbox" value="on" id="check2"/>
 
-    <input type="hidden" id="hidden1" name="hidden"/>
-    <input type="text" id="hidden2" name="foo[bar]" style="display:none;"/>
 
-    <input type="text" value="name" name="name" id="name"/>
-    <input type="search" value="search" name="search" id="search"/>
 
-    <button type="button" name="button" id="button">Button</button>
 
-    <textarea maxlength="30" id="area1">foobar</textarea>
+<form id="form" action="formaction">
+    
+    <input type="text" name="action" value="Test" id="text1" maxlength="30"/>
+    
+    <input type="radio" name="radio1" id="radio1" value="on"/>
 
-    <select id="select1" name="select1">
-        <option value="" class="emptyopt" id="option1a">Nothing</option>
-        <option value="1" id="option1b">1</option>
-        <option value="2" id="option1c">2</option>
-        <option value="3" id="option1d">3</option>
-    </select>
-    <select id="select2" name="select2">
-        <option value="" class="emptyopt" id="option2a">Nothing</option>
-        <option value="1" id="option2b">1</option>
-        <option value="2" id="option2c">2</option>
-        <option value="3" selected="selected" id="option2d">3</option>
-    </select>
-    <select multiple="multiple" id="select3" name="select3">
-        <option value="" class="emptyopt" id="option3a">Nothing</option>
-        <option value="1" selected="selected" id="option3b">1</option>
-        <option value="2" selected="selected" id="option3c">2</option>
-        <option value="3" id="option3d">3</option>
-        <option id="option3e">no value</option>
-    </select>
-    <select multiple="multiple" id="select4" name="select4">
-        <optgroup disabled="disabled">
-            <option value="" class="emptyopt" id="option4a">Nothing</option>
-            <option value="1" selected="selected" disabled="disabled" id="option4b">1</option>
-            <option value="2" selected="selected" id="option4c">2</option>
-        </optgroup>
-        <option value="3" id="option4d" disabled="disabled" selected="selected">3</option>
-        <option id="option4e">no value</option>
-    </select>
-    <select id="select5" name="select5">
-        <option value="3" id="option5a">1</option>
-        <option value="2" id="option5b">2</option>
-        <option data-attr="" value="1" id="option5c">3</option>
-    </select>
+    
+    <input type="checkbox" name="check" id="check1" checked="checked"/>
+    
 
-    <object codebase="stupid" id="object1">
-        <param value="x1" name="p1"></param>
-        <param value="x2" name="p2"></param>
-    </object>
+    
+    
 
-    <span id="ĺŹ°ĺŚ—TaĚibeĚŚi"></span>
-    <span lang="ä¸­ć–‡" id="ĺŹ°ĺŚ—"></span>
-    <span class="ĺŹ°ĺŚ—TaĚibeĚŚi ĺŹ°ĺŚ—" id="utf8class1"></span>
-    <span class="ĺŹ°ĺŚ—" id="utf8class2"></span>
-    <span class="foo:bar" id="foo:bar"></span>
-    <span class="test.foo[5]bar" id="test.foo[5]bar"></span>
+    <input type="text" id="name" name="name" value="name"/>
+    
 
-    <foo_bar id="foobar">test element</foo_bar>
-</form>
-<b id="floatTest">Float test.</b>
-<iframe name="iframe" id="iframe"></iframe>
-<form id="lengthtest">
-    <input type="text" name="test" id="length"/>
-    <input type="text" name="id" id="idTest"/>
-</form>
-<table id="table"></table>
+    
 
-<form id="name-tests">
+    <textarea id="area1" maxlength="30">foobar</textarea>
 
-    <input type="checkbox" value="all" id="types_all" name="types[]"/>
-    <input type="checkbox" value="anime" id="types_anime" name="types[]"/>
-    <input type="checkbox" value="movie" id="types_movie" name="types[]"/>
+    
+    
+    
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+
+    
 </form>
 
-<form method="get" action="#" id="testForm">
-    <textarea cols="15" rows="2" name="T3">?
-        Z</textarea>
-    <input type="hidden" value="x" name="H1"/>
-    <input type="hidden" name="H2"/>
-    <input type="password" value="" name="PWD"/>
-    <input type="text" name="T1"/>
-    <input type="text" readonly="readonly" value="YES" name="T2"/>
-    <input type="checkbox" value="1" name="C1"/>
-    <input type="checkbox" name="C2"/>
-    <input type="radio" value="1" name="R1"/>
-    <input type="radio" value="2" name="R1"/>
-    <input type="text" value="me" name="My Name"/>
-    <input type="reset" value="NO" name="reset"/>
-    <select name="S1">
-        <option value="abc">ABC</option>
-        <option value="abc">ABC</option>
-        <option value="abc">ABC</option>
-    </select>
-    <select size="3" multiple="multiple" name="S2">
-        <option value="abc">ABC</option>
-        <option value="abc">ABC</option>
-        <option value="abc">ABC</option>
-    </select>
-    <select name="S3">
-        <option selected="selected">YES</option>
-    </select>
-    <select name="S4">
-        <option selected="selected" value="">NO</option>
-    </select>
-    <input type="submit" value="NO" name="sub1"/>
-    <input type="submit" value="NO" name="sub2"/>
-    <input type="image" value="NO" name="sub3"/>
-    <button value="NO" type="submit" name="sub4">NO</button>
-    <input type="text" disabled="disabled" value="NO" name="D1"/>
-    <input type="checkbox" value="NO" name="D2" disabled="disabled" checked="checked"/>
-    <input type="radio" disabled="disabled" checked="checked" value="NO" name="D3"/>
-    <select disabled="disabled" name="D4">
-        <option value="NO" selected="selected">NO</option>
-    </select>
-    <input type="text" id="list-test"/>
-    <datalist id="datalist">
-        <option value="option"></option>
-    </datalist>
+
+
+
+
+
+
+<form id="testForm" action="#" method="get">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </form>
-<div id="moretests">
-    <form>
-        <div style="display:none;" id="checkedtest">
-            <input type="radio" checked="checked" name="checkedtestradios"/>
-            <input type="radio" value="on" name="checkedtestradios"/>
-            <input type="checkbox" checked="checked" name="checkedtestcheckboxes"/>
-            <input type="checkbox" name="checkedtestcheckboxes"/>
-        </div>
-    </form>
-    <div id="nonnodes"><span id="nonnodesElement">hi</span> there </div>
-    <div id="t2037">
-        <div><div class="hidden">hidden</div></div>
-    </div>
-    <div id="t6652">
-        <div></div>
-    </div>
-    <div id="no-clone-exception"><object><embed></embed></object></div>
-</div>
 
-<div id="tabindex-tests">
-    <ol tabindex="5" id="listWithTabIndex">
-        <li tabindex="-1" id="foodWithNegativeTabIndex">Rice</li>
-        <li id="foodNoTabIndex">Beans</li>
-        <li>Blinis</li>
-        <li>Tofu</li>
-    </ol>
 
-    <div id="divWithNoTabIndex">I'm hungry. I should...</div>
-    <span>...</span><a id="linkWithNoTabIndex" href="#">Eat lots of food</a><span>...</span> |
-    <span>...</span><a tabindex="2" id="linkWithTabIndex" href="#">Eat a little food</a><span>...</span> |
-    <span>...</span><a tabindex="-1" id="linkWithNegativeTabIndex" href="#">Eat no food</a><span>...</span>
-    <span>...</span><a id="linkWithNoHrefWithNoTabIndex">Eat a burger</a><span>...</span>
-    <span>...</span><a tabindex="1" id="linkWithNoHrefWithTabIndex">Eat some funyuns</a><span>...</span>
-    <span>...</span><a tabindex="-1" id="linkWithNoHrefWithNegativeTabIndex">Eat some funyuns</a><span>...</span>
-    <input id="inputWithoutTabIndex"/>
-    <button id="buttonWithoutTabIndex"></button>
-    <textarea id="textareaWithoutTabIndex"></textarea>
-    <menu type="popup">
-        <menuitem default="" command="submitbutton" id="menuitemWithoutTabIndex">
-        </menuitem></menu>
-</div>
 
-<div id="liveHandlerOrder">
-    <span id="liveSpan1"><a id="liveLink1" href="#"></a></span>
-    <span id="liveSpan2"><a id="liveLink2" href="#"></a></span>
-</div>
 
-<div id="siblingTest">
-    <em id="siblingfirst">1</em>
-    <em id="siblingnext">2</em>
-    <em id="siblingthird">
-        <em id="siblingchild">
-            <em id="siblinggrandchild">
-                <em id="siblinggreatgrandchild"></em>
-            </em>
-        </em>
-    </em>
-    <span id="siblingspan"></span>
-</div>
-<div style="position: absolute; width: 1px; height: 1px; overflow: hidden;" id="fx-test-group">
-    <div name="test" id="fx-queue">
-        <div name="div" class="chain-test" id="fadein">fadeIn<div>fadeIn</div></div>
-        <div class="chain-test chain-test-out" id="fadeout">fadeOut<div>fadeOut</div></div>
 
-        <div class="chain-test" id="show">show<div>show</div></div>
-        <div class="chain-test chain-test-out" id="hide">hide<div>hide</div></div>
-        <div class="chain-test chain-test-out" id="easehide">hide<div>hide</div></div>
 
-        <div class="chain-test" id="togglein">togglein<div>togglein</div></div>
-        <div class="chain-test chain-test-out" id="toggleout">toggleout<div>toggleout</div></div>
-        <div class="chain-test chain-test-out" id="easetoggleout">toggleout<div>toggleout</div></div>
 
-        <div class="chain-test" id="slideup">slideUp<div>slideUp</div></div>
-        <div class="chain-test chain-test-out" id="slidedown">slideDown<div>slideDown</div></div>
-        <div class="chain-test" id="easeslideup">slideUp<div>slideUp</div></div>
 
-        <div class="chain-test" id="slidetogglein">slideToggleIn<div>slideToggleIn</div></div>
-        <div class="chain-test chain-test-out" id="slidetoggleout">slideToggleOut<div>slideToggleOut</div></div>
-
-        <div class="chain-test" id="fadetogglein">fadeToggleIn<div>fadeToggleIn</div></div>
-        <div class="chain-test chain-test-out" id="fadetoggleout">fadeToggleOut<div>fadeToggleOut</div></div>
-
-        <div class="chain-test" id="fadeto">fadeTo<div>fadeTo</div></div>
-    </div>
-
-    <div id="fx-tests"></div>
-    <span id="display"></span>
-</div>
 </div>
 </dl>
-<map id="imgmap" name="imgmap">
-    <area coords="0,0,200,50" shape="rect"></area>
-</map>
 
-<script> function assertEqual(a,b, message) { if(a!=b) {console.log(message)}} function assert(a, message){ if(!a) { console.log(message)};}
-    var extras;
-    assertEqual(jQuery('#text1').attr('type'), 'text', 'Check for type attribute');
-    assertEqual(jQuery('#radio1').attr('type'), 'radio', 'Check for type attribute');
-    assertEqual(jQuery('#check1').attr('type'), 'checkbox', 'Check for type attribute');
-    assertEqual(jQuery('#simon1').attr('rel'), 'bookmark', 'Check for rel attribute');
-    assertEqual(jQuery('#google').attr('title'), 'Google!', 'Check for title attribute');
-    assertEqual(jQuery('#mark').attr('hreflang'), 'en', 'Check for hreflang attribute');
-    assertEqual(jQuery('#en').attr('lang'), 'en', 'Check for lang attribute');
-    assertEqual(jQuery('#simon').attr('class'), 'blog link', 'Check for class attribute');
-    assertEqual(jQuery('#name').attr('name'), 'name', 'Check for name attribute');
-    assertEqual(jQuery('#text1').attr('name'), 'action', 'Check for name attribute');
-    assert(jQuery('#form').attr('action').indexOf('formaction') >= 0, 'Check for action attribute');
-    assertEqual(jQuery('#text1').attr('value', 't').attr('value'), 't', 'Check setting the value attribute');
-    assertEqual(jQuery('#text1').attr('value', '').attr('value'), '', 'Check setting the value attribute to empty string');
-    assertEqual(jQuery('<div value=\'t\'></div>').attr('value'), 't', 'Check setting custom attr named \'value\' on a div');
-    assertEqual(jQuery('#form').attr('blah', 'blah').attr('blah'), 'blah', 'Set non-existent attribute on a form');
-    assertEqual(jQuery('#foo').attr('height'), undefined, 'Non existent height attribute should return undefined');
-    extras = jQuery('<input id=\'id\' name=\'id\' /><input id=\'name\' name=\'name\' /><input id=\'target\' name=\'target\' />').appendTo('#testForm');
-    assertEqual(jQuery('#form').attr('action', 'newformaction').attr('action'), 'newformaction', 'Check that action attribute was changed');
-    assertEqual(jQuery('#testForm').attr('target'), undefined, 'Retrieving target does not assertEqual the input with name=target');
-    assertEqual(jQuery('#testForm').attr('target', 'newTarget').attr('target'), 'newTarget', 'Set target successfully on a form');
-    assertEqual(jQuery('#testForm').removeAttr('id').attr('id'), undefined, 'Retrieving id does not assertEqual the input with name=id after id is removed [#7472]');
-    assertEqual(jQuery('#testForm').attr('name'), undefined, 'Retrieving name does not retrieve input with name=name');
-    extras.remove();
-    assertEqual(jQuery('#text1').attr('maxlength'), '30', 'Check for maxlength attribute');
-    assertEqual(jQuery('#text1').attr('maxLength'), '30', 'Check for maxLength attribute');
-    assertEqual(jQuery('#area1').attr('maxLength'), '30', 'Check for maxLength attribute');
-    jQuery('<a/>').attr({'id': 'tAnchor5', 'href': '#5'}).appendTo('#qunit-fixture');
-    assertEqual(jQuery('#tAnchor5').attr('href'), '#5', 'Check for non-absolute href (an anchor)');
-    jQuery('<a id=\'tAnchor6\' href=\'#5\' />').appendTo('#qunit-fixture');
-    assertEqual(jQuery('#tAnchor5').prop('href'), jQuery('#tAnchor6').prop('href'), 'Check for absolute href prop on an anchor');
+
+<script>
+  var extras;
+  assertEqual(jQuery("#text1").attr("type"), "text", "Check for type attribute");
+  assertEqual(jQuery("#radio1").attr("type"), "radio", "Check for type attribute");
+  assertEqual(jQuery("#check1").attr("type"), "checkbox", "Check for type attribute");
+  assertEqual(jQuery("#simon1").attr("rel"), "bookmark", "Check for rel attribute");
+  assertEqual(jQuery("#google").attr("title"), "Google!", "Check for title attribute");
+  assertEqual(jQuery("#mark").attr("hreflang"), "en", "Check for hreflang attribute");
+  assertEqual(jQuery("#en").attr("lang"), "en", "Check for lang attribute");
+  assertEqual(jQuery("#simon").attr("class"), "blog link", "Check for class attribute");
+  assertEqual(jQuery("#name").attr("name"), "name", "Check for name attribute");
+  assertEqual(jQuery("#text1").attr("name"), "action", "Check for name attribute");
+  assert(jQuery("#form").attr("action").indexOf("formaction") >= 0, "Check for action attribute");
+  assertEqual(jQuery("#text1").attr("value", "t").attr("value"), "t", "Check setting the value attribute");
+  assertEqual(jQuery("#text1").attr("value", "").attr("value"), "", "Check setting the value attribute to empty string");
+  assertEqual(jQuery("<div value='t'></div>").attr("value"), "t", "Check setting custom attr named 'value' on a div");
+  assertEqual(jQuery("#form").attr("blah", "blah").attr("blah"), "blah", "Set non-existent attribute on a form");
+  assertEqual(jQuery("#foo").attr("height"), undefined, "Non existent height attribute should return undefined");
+  extras = jQuery("<input id='id' name='id' /><input id='name' name='name' /><input id='target' name='target' />").appendTo("#testForm");
+  assertEqual(jQuery("#form").attr("action", "newformaction").attr("action"), "newformaction", "Check that action attribute was changed");
+  assertEqual(jQuery("#testForm").attr("target"), undefined, "Retrieving target does not assertEqual the input with name=target");
+  assertEqual(jQuery("#testForm").attr("target", "newTarget").attr("target"), "newTarget", "Set target successfully on a form");
+  assertEqual(jQuery("#testForm").removeAttr("id").attr("id"), undefined, "Retrieving id does not assertEqual the input with name=id after id is removed [#7472]");
+  assertEqual(jQuery("#testForm").attr("name"), undefined, "Retrieving name does not retrieve input with name=name");
+  extras.remove();
+  assertEqual(jQuery("#text1").attr("maxlength"), "30", "Check for maxlength attribute");
+  assertEqual(jQuery("#text1").attr("maxLength"), "30", "Check for maxLength attribute");
+  assertEqual(jQuery("#area1").attr("maxLength"), "30", "Check for maxLength attribute");
+  jQuery("<a/>").attr({"id": "tAnchor5", "href": "#5"}).appendTo("#qunit-fixture");
+  assertEqual(jQuery("#tAnchor5").attr("href"), "#5", "Check for non-absolute href (an anchor)");
+  jQuery("<a id='tAnchor6' href='#5' />").appendTo("#qunit-fixture");
+  assertEqual(jQuery("#tAnchor5").prop("href"), jQuery("#tAnchor6").prop("href"), "Check for absolute href prop on an anchor");
 </script>
 
 

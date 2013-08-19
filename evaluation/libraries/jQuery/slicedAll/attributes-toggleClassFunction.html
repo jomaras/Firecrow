@@ -1,491 +1,500 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" id="html" dir="ltr" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
 <head>
-
-
-
-<script>
-(function(window, undefined)
-{
-    var rootjQuery, document = window.document, class2type = {}, core_version = '1.10.2', core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    
+    
+    
+    <script>
+  (function(window, undefined)
+  {
+    var rootjQuery, document = window.document, class2type = {}, core_version = "1.10.2", core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
     {
-        return new jQuery.fn.init(selector, context, rootjQuery);
-    }, core_rnotwhite = /\S+/g, rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+      return new jQuery.fn.init(selector, context, rootjQuery);
+    }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
     jQuery.fn = jQuery.prototype = {
-        init: function(selector, context, rootjQuery)
+      init: function(selector, context, rootjQuery)
+      {
+        var match, elem;
+        if(typeof selector === "string")
         {
-            var match, elem;
-            if(typeof selector === 'string')
-            {
-                if(selector.charAt(0) === '<');
-                else
-                {
-                    match = rquickExpr.exec(selector);
-                }
+          if(selector.charAt(0) === "<");
+          else 
+          {
+            match = rquickExpr.exec(selector);
+          }
 
-                if(match && (match[1] || !context))
-                {
-                    if(match[1]);
-                    else
-                    {
-                        elem = document.getElementById(match[2]);
-                        if(elem && elem.parentNode)
-                        {
-                            this.length = 1;
-                            this[0] = elem;
-                        }
-
-                        return this;
-                    }
-                }
-            }
-            else if(selector.nodeType)
+          if(match && (match[1] || !context))
+          {
+            if(match[1]);
+            else 
             {
-                this[0] = selector;
+              elem = document.getElementById(match[2]);
+              if(elem && elem.parentNode)
+              {
                 this.length = 1;
-                return this;
+                this[0] = elem;
+              }
+
+              return this;
             }
-            else if(jQuery.isFunction(selector))
-            {
-                return rootjQuery.ready(selector);
-            }
-
-
-
-            return jQuery.makeArray(selector, this);
-        },
-        length: 0,
-        each: function(callback, args)
-        {
-            return jQuery.each(this, callback, args);
-        },
-        ready: function(fn)
-        {
-            return this;
+          }
         }
+        else if(selector.nodeType)
+        {
+          this[0] = selector;
+          this.length = 1;
+          return this;
+        }
+        else if(jQuery.isFunction(selector))
+        {
+          return rootjQuery.ready(selector);
+        }
+
+
+
+        return jQuery.makeArray(selector, this);
+      }, 
+      length: 0, 
+      each: function(callback, args)
+      {
+        return jQuery.each(this, callback, args);
+      }, 
+      ready: function(fn)
+      {
+        return this;
+      }
     };
     jQuery.fn.init.prototype = jQuery.fn;
     jQuery.extend = jQuery.fn.extend = function()
     {
-        var copy, name, options, target, i = 1, length = arguments.length, deep = false;
-        if(length === i)
-        {
-            target = this;
-            --i;
-        }
+      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      if(length === i)
+      {
+        target = this;
+        --i;
+      }
 
-        for(;i < length;i++)
+      for(;i < length;i++)
+      {
+        if((options = arguments[i]) != null)
         {
-            if((options = arguments[i]) != null)
+          for(name in options)
+          {
+            copy = options[name];
+            if(deep);
+            else if(copy !== undefined)
             {
-                for(name in options)
-                {
-                    copy = options[name];
-                    if(deep);
-                    else if(copy !== undefined)
-                    {
-                        target[name] = copy;
-                    }
-                }
+              target[name] = copy;
             }
+          }
         }
+      }
     };
     jQuery.extend({
-        expando: 'jQuery' + (core_version + Math.random()).replace(/\D/g, ''),
-        noConflict: function(deep)
-        {},
-        isReady: false,
-        readyWait: 1,
-        holdReady: function(hold)
-        {},
-        ready: function(wait)
-        {},
-        isFunction: function(obj)
+      expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
+      noConflict: function(deep)
+      {}, 
+      isReady: false, 
+      readyWait: 1, 
+      holdReady: function(hold)
+      {}, 
+      ready: function(wait)
+      {}, 
+      isFunction: function(obj)
+      {
+        return jQuery.type(obj) === "function";
+      }, 
+      isArray: Array.isArray || function(obj)
+      {}, 
+      isWindow: function(obj)
+      {}, 
+      isNumeric: function(obj)
+      {}, 
+      type: function(obj)
+      {
+        return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
+      }, 
+      isPlainObject: function(obj)
+      {}, 
+      isEmptyObject: function(obj)
+      {}, 
+      error: function(msg)
+      {}, 
+      parseHTML: function(data, context, keepScripts)
+      {}, 
+      parseJSON: function(data)
+      {}, 
+      parseXML: function(data)
+      {}, 
+      noop: function()
+      {}, 
+      globalEval: function(data)
+      {}, 
+      camelCase: function(string)
+      {}, 
+      nodeName: function(elem, name)
+      {}, 
+      each: function(obj, callback, args)
+      {
+        var i = 0, length = obj.length, isArray = isArraylike(obj);
+        if(args);
+        else 
         {
-            return jQuery.type(obj) === 'function';
-        },
-        isArray: Array.isArray || function(obj)
-        {},
-        isWindow: function(obj)
-        {},
-        isNumeric: function(obj)
-        {},
-        type: function(obj)
-        {
-            return typeof obj === 'object' || typeof obj === 'function' ? class2type[core_toString.call(obj)] || 'object' : typeof obj;
-        },
-        isPlainObject: function(obj)
-        {},
-        isEmptyObject: function(obj)
-        {},
-        error: function(msg)
-        {},
-        parseHTML: function(data, context, keepScripts)
-        {},
-        parseJSON: function(data)
-        {},
-        parseXML: function(data)
-        {},
-        noop: function()
-        {},
-        globalEval: function(data)
-        {},
-        camelCase: function(string)
-        {},
-        nodeName: function(elem, name)
-        {},
-        each: function(obj, callback, args)
-        {
-            var i = 0, length = obj.length, isArray = isArraylike(obj);
-            if(args);
-            else
+          if(isArray)
+          {
+            for(;i < length;i++)
             {
-                if(isArray)
-                {
-                    for(;i < length;i++)
-                    {
-                        callback.call(obj[i], i, obj[i]);
-                    }
-                }
+              callback.call(obj[i], i, obj[i]);
             }
-        },
-        trim: core_trim && !(core_trim.call('ď»żÂ ')) ? 0 : function(text)
-        {
-            return text == null ? 0 : (text + '').replace(rtrim, '');
-        },
-        makeArray: function(arr, results)
-        {
-            var ret = results;
-            return ret;
-        },
-        inArray: function(elem, arr, i)
-        {},
-        merge: function(first, second)
-        {},
-        grep: function(elems, callback, inv)
-        {},
-        map: function(elems, callback, arg)
-        {},
-        guid: 1,
-        proxy: function(fn, context)
-        {},
-        access: function(elems, fn, key, value, chainable, emptyGet, raw)
-        {
-            var length = elems.length, bulk = key == null;
-            return chainable ? 0 : bulk ? 0 : length ? fn(elems[0], key) : 0;
-        },
-        now: function()
-        {},
-        swap: function(elem, options, callback, args)
-        {}
+          }
+        }
+      }, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
+      {
+        return text == null ? 0 : core_trim.call(text);
+      } : 0, 
+      makeArray: function(arr, results)
+      {
+        var ret = results;
+        return ret;
+      }, 
+      inArray: function(elem, arr, i)
+      {}, 
+      merge: function(first, second)
+      {}, 
+      grep: function(elems, callback, inv)
+      {}, 
+      map: function(elems, callback, arg)
+      {}, 
+      guid: 1, 
+      proxy: function(fn, context)
+      {}, 
+      access: function(elems, fn, key, value, chainable, emptyGet, raw)
+      {
+        var length = elems.length, bulk = key == null;
+        return chainable ? 0 : bulk ? 0 : length ? fn(elems[0], key) : 0;
+      }, 
+      now: function()
+      {}, 
+      swap: function(elem, options, callback, args)
+      {}
     });
-    jQuery.each('Boolean Number String Function Array Date RegExp Object Error'.split(' '), function(i, name)
+    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
-        class2type[('[object ' + name) + ']'] = name.toLowerCase();
+      class2type[("[object " + name) + "]"] = name.toLowerCase();
     });
     function isArraylike(obj)
     {
-        var length = obj.length, type = jQuery.type(obj);
-        return type === 'array' || (type !== 'function' && (length === 0 || (typeof length === 'number' && length > 0 && (length - 1) in obj)));
+      var length = obj.length, type = jQuery.type(obj);
+      return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-        var support, Expr, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, rbuggyMatches, matches, expando = 'sizzle' + -(new Date()), preferredDoc = window.document, booleans = 'checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped', whitespace = '[\\x20\\t\\r\\n\\f]', rattributeQuotes = new RegExp(((('=' + whitespace) + '*([^\\]\'"]*)') + whitespace) + '*\\]', 'g'), matchExpr = {
-            'bool': new RegExp(('^(?:' + booleans) + ')$', 'i'),
-            'needsContext': new RegExp(((((('^' + whitespace) + '*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(') + whitespace) + '*((?:-\\d)?\\d*)') + whitespace) + '*\\)|)(?=[^-]|$)', 'i')
-        }, rnative = /^[^{]+\{\s*\[native \w/;
-        function Sizzle(selector, context, results, seed)
-        {}
-        function assert(fn)
+      var support, Expr, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, rbuggyMatches, matches, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", whitespace = "[\\x20\\t\\r\\n\\f]", rattributeQuotes = new RegExp(((("=" + whitespace) + "*([^\\]'\"]*)") + whitespace) + "*\\]", "g"), matchExpr = {
+        "bool": new RegExp(("^(?:" + booleans) + ")$", "i"), 
+        "needsContext": new RegExp(((((("^" + whitespace) + "*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(") + whitespace) + "*((?:-\\d)?\\d*)") + whitespace) + "*\\)|)(?=[^-]|$)", "i")
+      }, rnative = /^[^{]+\{\s*\[native \w/;
+      function Sizzle(selector, context, results, seed)
+      {}
+      function assert(fn)
+      {
+        var div = document.createElement("div");
+        try
         {
-            var div = document.createElement('div');
-            try
-            {
-                return !(!(fn(div)));
-            }
-            catch(e){}
+          return !(!(fn(div)));
         }
-        isXML = Sizzle.isXML = function(elem)
+        catch(e){}
+      }
+      isXML = Sizzle.isXML = function(elem)
+      {
+        var documentElement = elem && (elem.ownerDocument || elem).documentElement;
+        return documentElement ? documentElement.nodeName !== "HTML" : 0;
+      };
+      support = Sizzle.support = {};
+      setDocument = Sizzle.setDocument = function(node)
+      {
+        var doc = node ? 0 : preferredDoc;
+        document = doc;
+        docElem = doc.documentElement;
+        documentIsHTML = !(isXML(doc));
+        support.attributes = assert(function(div)
         {
-            var documentElement = elem && (elem.ownerDocument || elem).documentElement;
-            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
-        };
-        support = Sizzle.support = {};
-        setDocument = Sizzle.setDocument = function(node)
+          div.className = "i";
+          return !(div.getAttribute("className"));
+        });
+        assert(function(div)
         {
-            var doc = node ? 0 : preferredDoc;
-            document = doc;
-            docElem = doc.documentElement;
-            documentIsHTML = !(isXML(doc));
-            support.attributes = assert(function(div)
+          docElem.appendChild(div).id = expando;
+        });
+        rbuggyMatches = [];
+        rbuggyQSA = [];
+        if(support.qsa = rnative.test(doc.querySelectorAll))
+        {
+          assert(function(div)
+          {
+            div.innerHTML = "<select><option selected=''></option></select>";
+            if(!(div.querySelectorAll(":checked").length))
             {
-                div.className = 'i';
-                return !(div.getAttribute('className'));
-            });
-            assert(function(div)
-            {
-                docElem.appendChild(div).id = expando;
-            });
-            rbuggyMatches = [];
-            rbuggyQSA = [];
-            if(support.matchesSelector = rnative.test(matches = docElem.webkitMatchesSelector))
-            {
-                assert(function(div)
-                {
-                    support.disconnectedMatch = matches.call(div, 'div');
-                });
+              rbuggyQSA.push(":checked");
             }
+          });
+        }
 
-            rbuggyQSA = rbuggyQSA.length;
-            rbuggyMatches = rbuggyMatches.length;
-        };
-        Sizzle.matchesSelector = function(elem, expr)
+        if(support.matchesSelector = rnative.test(matches = docElem.webkitMatchesSelector))
         {
-            expr = expr.replace(rattributeQuotes, '=\'$1\']');
-            if(support.matchesSelector && documentIsHTML && !rbuggyMatches && !rbuggyQSA)
+          assert(function(div)
+          {
+            support.disconnectedMatch = matches.call(div, "div");
+          });
+        }
+
+        rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
+        rbuggyMatches = rbuggyMatches.length;
+      };
+      Sizzle.matchesSelector = function(elem, expr)
+      {
+        expr = expr.replace(rattributeQuotes, "='$1']");
+        if(support.matchesSelector && documentIsHTML && !rbuggyMatches && (!rbuggyQSA || !(rbuggyQSA.test(expr))))
+        {
+          try
+          {
+            var ret = matches.call(elem, expr);
+            if(ret || support.disconnectedMatch)
             {
-                try
-                {
-                    var ret = matches.call(elem, expr);
-                    if(ret || support.disconnectedMatch)
-                    {
-                        return ret;
-                    }
-                }
-                catch(e){}
+              return ret;
             }
-        };
-        Sizzle.attr = function(elem, name)
-        {
-            var fn = Expr.attrHandle[name.toLowerCase()], val = fn ? 0 : undefined;
-            return val === undefined ? support.attributes ? elem.getAttribute(name) : 0 : 0;
-        };
-        Expr = Sizzle.selectors = {
-            match: matchExpr,
-            attrHandle: {}
-        };
-        setDocument();
-        jQuery.find = Sizzle;
-        jQuery.expr = Sizzle.selectors;
-        jQuery.isXMLDoc = Sizzle.isXML;
+          }
+          catch(e){}
+        }
+      };
+      Sizzle.attr = function(elem, name)
+      {
+        var fn = Expr.attrHandle[name.toLowerCase()], val = fn ? 0 : undefined;
+        return val === undefined ? support.attributes ? elem.getAttribute(name) : 0 : 0;
+      };
+      Expr = Sizzle.selectors = {
+        match: matchExpr, 
+        attrHandle: {}
+      };
+      setDocument();
+      jQuery.find = Sizzle;
+      jQuery.expr = Sizzle.selectors;
+      jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
     (function(support)
     {
-        for(i in jQuery(support))
-        {
-            break;
-        }
+      for(i in jQuery(support))
+      {
+        break;
+      }
 
-        jQuery(function()
-        {});
+      jQuery(function()
+      {});
     })({});
     var nodeHook, rclass = /[\t\r\n\f]/g;
     jQuery.fn.extend({
-        attr: function(name, value)
+      attr: function(name, value)
+      {
+        return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
+      }, 
+      removeAttr: function(name)
+      {}, 
+      prop: function(name, value)
+      {}, 
+      removeProp: function(name)
+      {}, 
+      addClass: function(value)
+      {
+        var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = typeof value === "string" && value;
+        if(proceed)
         {
-            return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
-        },
-        removeAttr: function(name)
-        {},
-        prop: function(name, value)
-        {},
-        removeProp: function(name)
-        {},
-        addClass: function(value)
-        {
-            var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = typeof value === 'string' && value;
-            if(proceed)
+          classes = (value).match(core_rnotwhite);
+          for(;i < len;i++)
+          {
+            elem = this[i];
+            cur = elem.nodeType === 1 && (elem.className ? 0 : " ");
+            if(cur)
             {
-                classes = (value).match(core_rnotwhite);
-                for(;i < len;i++)
+              j = 0;
+              while(clazz = classes[j++])
+              {
+                if(cur.indexOf((" " + clazz) + " ") < 0)
                 {
-                    elem = this[i];
-                    cur = elem.nodeType === 1 && (elem.className ? 0 : ' ');
-                    if(cur)
-                    {
-                        j = 0;
-                        while(clazz = classes[j++])
-                        {
-                            if(cur.indexOf((' ' + clazz) + ' ') < 0)
-                            {
-                                cur += clazz + ' ';
-                            }
-                        }
-
-                        elem.className = jQuery.trim(cur);
-                    }
+                  cur += clazz + " ";
                 }
+              }
+
+              elem.className = jQuery.trim(cur);
             }
-        },
-        removeClass: function(value)
+          }
+        }
+      }, 
+      removeClass: function(value)
+      {
+        var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = arguments.length === 0 || (typeof value === "string" && value);
+        if(proceed)
         {
-            var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = arguments.length === 0 || (typeof value === 'string' && value);
-            if(proceed)
+          classes = (value).match(core_rnotwhite);
+          for(;i < len;i++)
+          {
+            elem = this[i];
+            cur = elem.nodeType === 1 && (elem.className ? ((" " + elem.className) + " ").replace(rclass, " ") : 0);
+            if(cur)
             {
-                classes = (value).match(core_rnotwhite);
-                for(;i < len;i++)
+              j = 0;
+              while(clazz = classes[j++])
+              {
+                while(cur.indexOf((" " + clazz) + " ") >= 0)
                 {
-                    elem = this[i];
-                    cur = elem.nodeType === 1 && (elem.className ? ((' ' + elem.className) + ' ').replace(rclass, ' ') : 0);
-                    if(cur)
-                    {
-                        j = 0;
-                        while(clazz = classes[j++])
-                        {
-                            while(cur.indexOf((' ' + clazz) + ' ') >= 0)
-                            {
-                                cur = cur.replace((' ' + clazz) + ' ', ' ');
-                            }
-                        }
-
-                        elem.className = value ? jQuery.trim(cur) : 0;
-                    }
+                  cur = cur.replace((" " + clazz) + " ", " ");
                 }
+              }
+
+              elem.className = value ? jQuery.trim(cur) : 0;
             }
-        },
-        toggleClass: function(value, stateVal)
+          }
+        }
+      }, 
+      toggleClass: function(value, stateVal)
+      {
+        var type = typeof value;
+        if(typeof stateVal === "boolean" && type === "string")
         {
-            var type = typeof value;
-            if(typeof stateVal === 'boolean' && type === 'string')
-            {
-                return stateVal ? this.addClass(value) : this.removeClass(value);
-            }
+          return stateVal ? this.addClass(value) : this.removeClass(value);
+        }
 
-            if(jQuery.isFunction(value))
-            {
-                return this.each(function(i)
-                {
-                    jQuery(this).toggleClass(value.call(this, i, this.className, stateVal), stateVal);
-                });
-            }
-
-            return this.each(function()
-            {
-                if(type === 'string')
-                {
-                    var className, i = 0, self = jQuery(this), classNames = value.match(core_rnotwhite);
-                    while(className = classNames[i++])
-                    {
-                        if(self.hasClass(className))
-                        {
-                            self.removeClass(className);
-                        }
-                        else
-                        {
-                            self.addClass(className);
-                        }
-                    }
-                }
-            });
-        },
-        hasClass: function(selector)
+        if(jQuery.isFunction(value))
         {
-            var className = (' ' + selector) + ' ', i = 0, l = this.length;
-            for(;i < l;i++)
-            {
-                if(this[i].nodeType === 1 && ((' ' + this[i].className) + ' ').replace(rclass, ' ').indexOf(className) >= 0)
-                {
-                    return true;
-                }
-            }
+          return this.each(function(i)
+          {
+            jQuery(this).toggleClass(value.call(this, i, this.className, stateVal), stateVal);
+          });
+        }
 
-            return false;
-        },
-        val: function(value)
-        {}
+        return this.each(function()
+        {
+          if(type === "string")
+          {
+            var className, i = 0, self = jQuery(this), classNames = value.match(core_rnotwhite);
+            while(className = classNames[i++])
+            {
+              if(self.hasClass(className))
+              {
+                self.removeClass(className);
+              }
+              else 
+              {
+                self.addClass(className);
+              }
+            }
+          }
+        });
+      }, 
+      hasClass: function(selector)
+      {
+        var className = (" " + selector) + " ", i = 0, l = this.length;
+        for(;i < l;i++)
+        {
+          if(this[i].nodeType === 1 && ((" " + this[i].className) + " ").replace(rclass, " ").indexOf(className) >= 0)
+          {
+            return true;
+          }
+        }
+
+        return false;
+      }, 
+      val: function(value)
+      {}
     });
     jQuery.extend({
-        valHooks: {},
-        attr: function(elem, name, value)
+      valHooks: {}, 
+      attr: function(elem, name, value)
+      {
+        var hooks, ret, nType = elem.nodeType;
+        if(nType !== 1 || !(jQuery.isXMLDoc(elem)))
         {
-            var hooks, ret, nType = elem.nodeType;
-            if(nType !== 1 || !(jQuery.isXMLDoc(elem)))
-            {
-                name = name.toLowerCase();
-                hooks = jQuery.attrHooks[name] || (jQuery.expr.match.bool.test(name) ? 0 : nodeHook);
-            }
+          name = name.toLowerCase();
+          hooks = jQuery.attrHooks[name] || (jQuery.expr.match.bool.test(name) ? 0 : nodeHook);
+        }
 
-            if(value !== undefined);
-            else if(hooks);
-            else
-            {
-                ret = jQuery.find.attr(elem, name);
-                return ret == null ? undefined : ret;
-            }
-        },
-        removeAttr: function(elem, value)
-        {},
-        attrHooks: {},
-        propFix: {},
-        prop: function(elem, name, value)
-        {},
-        propHooks: {}
+        if(value !== undefined);
+        else if(hooks);
+        else 
+        {
+          ret = jQuery.find.attr(elem, name);
+          return ret == null ? undefined : ret;
+        }
+      }, 
+      removeAttr: function(elem, value)
+      {}, 
+      attrHooks: {}, 
+      propFix: {}, 
+      prop: function(elem, name, value)
+      {}, 
+      propHooks: {}
     });
     var isSimple = /^.[^:#\[\.,]*$/, rneedsContext = jQuery.expr.match.needsContext;
     jQuery.fn.extend({
-        find: function(selector)
-        {},
-        has: function(target)
-        {},
-        not: function(selector)
-        {},
-        filter: function(selector)
-        {},
-        is: function(selector)
-        {
-            return !(!(winnow(this, typeof selector === 'string' && rneedsContext.test(selector) ? 0 : selector, false).length));
-        },
-        closest: function(selectors, context)
-        {},
-        index: function(elem)
-        {},
-        add: function(selector, context)
-        {},
-        addBack: function(selector)
-        {}
+      find: function(selector)
+      {}, 
+      has: function(target)
+      {}, 
+      not: function(selector)
+      {}, 
+      filter: function(selector)
+      {}, 
+      is: function(selector)
+      {
+        return !(!(winnow(this, typeof selector === "string" && rneedsContext.test(selector) ? 0 : selector, false).length));
+      }, 
+      closest: function(selectors, context)
+      {}, 
+      index: function(elem)
+      {}, 
+      add: function(selector, context)
+      {}, 
+      addBack: function(selector)
+      {}
     });
     jQuery.extend({
-        filter: function(expr, elems, not)
-        {
-            var elem = elems[0];
-            return elems.length === 1 && elem.nodeType === 1 ? jQuery.find.matchesSelector(elem, expr) ? [elem] : [] : 0;
-        },
-        dir: function(elem, dir, until)
-        {},
-        sibling: function(n, elem)
-        {}
+      filter: function(expr, elems, not)
+      {
+        var elem = elems[0];
+        return elems.length === 1 && elem.nodeType === 1 ? jQuery.find.matchesSelector(elem, expr) ? [elem] : [] : 0;
+      }, 
+      dir: function(elem, dir, until)
+      {}, 
+      sibling: function(n, elem)
+      {}
     });
     function winnow(elements, qualifier, not)
     {
-        if(typeof qualifier === 'string')
+      if(typeof qualifier === "string")
+      {
+        if(isSimple.test(qualifier))
         {
-            if(isSimple.test(qualifier))
-            {
-                return jQuery.filter(qualifier, elements, not);
-            }
+          return jQuery.filter(qualifier, elements, not);
         }
+      }
     }
     jQuery(function()
     {});
-    if(typeof module === 'object');
-    else
+    if(typeof module === "object");
+    else 
     {
-        window.jQuery = window.$ = jQuery;
+      window.jQuery = window.$ = jQuery;
     }
-})(window);
+  })(window);
 </script>
 </head>
 
-<body id="body">
+<body id="body" style="">
 
 
-<dl style="position:absolute;top:-32767px;left:-32767px;width:1px;" id="dl">
-    <div id="qunit-fixture">
-        <p id="firstp">See  for more information.</p>
-
-
-
+<dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
+<div id="qunit-fixture">
+<p id="firstp">See  for more information.</p>
 
 
 
@@ -507,49 +516,52 @@
 
 
 
-    </div>
+
+
+
+</div>
 </dl>
 
 
-<script>  function assertEquals(a,b, message) { if(a!=b) {console.log(message)}} function assert(a, message){ if(!a) { console.log(message)};}
-    var e = jQuery('#firstp'), old = e.attr('class') || '';
-    assert(!(e.is('.test')), 'Assert class not present');
-    e.toggleClass(function(i, val)
-    {
-        assertEquals(old, val, 'Make sure the incoming value is correct.');
-        return 'test';
-    });
-    assert(e.is('.test'), 'Assert class present');
-    old = e.attr('class');
-    e.toggleClass(function(i, val)
-    {
-        assertEquals(old, val, 'Make sure the incoming value is correct.');
-        return 'test';
-    });
-    assert(!(e.is('.test')), 'Assert class not present');
-    old = e.attr('class') || '';
-    e.toggleClass(function(i, val, state)
-    {
-        assertEquals(old, val, 'Make sure the incoming value is correct.');
-        assertEquals(state, false, 'Make sure that the state is passed in.');
-    }, false);
-    assert(!(e.is('.test')), 'Assert class not present');
-    old = e.attr('class') || '';
-    e.toggleClass(function(i, val, state)
-    {
-        assertEquals(old, val, 'Make sure the incoming value is correct.');
-        assertEquals(state, true, 'Make sure that the state is passed in.');
-        return 'test';
-    }, true);
-    assert(e.is('.test'), 'Assert class present');
-    old = e.attr('class');
-    e.toggleClass(function(i, val, state)
-    {
-        assertEquals(old, val, 'Make sure the incoming value is correct.');
-        assertEquals(state, false, 'Make sure that the state is passed in.');
-        return 'test';
-    }, false);
-    assert(!(e.is('.test')), 'Assert class not present');
+<script>
+  var e = jQuery("#firstp"), old = e.attr("class") || "";
+  assert(!(e.is(".test")), "Assert class not present");
+  e.toggleClass(function(i, val)
+  {
+    assertEquals(old, val, "Make sure the incoming value is correct.");
+    return "test";
+  });
+  assert(e.is(".test"), "Assert class present");
+  old = e.attr("class");
+  e.toggleClass(function(i, val)
+  {
+    assertEquals(old, val, "Make sure the incoming value is correct.");
+    return "test";
+  });
+  assert(!(e.is(".test")), "Assert class not present");
+  old = e.attr("class") || "";
+  e.toggleClass(function(i, val, state)
+  {
+    assertEquals(old, val, "Make sure the incoming value is correct.");
+    assertEquals(state, false, "Make sure that the state is passed in.");
+  }, false);
+  assert(!(e.is(".test")), "Assert class not present");
+  old = e.attr("class") || "";
+  e.toggleClass(function(i, val, state)
+  {
+    assertEquals(old, val, "Make sure the incoming value is correct.");
+    assertEquals(state, true, "Make sure that the state is passed in.");
+    return "test";
+  }, true);
+  assert(e.is(".test"), "Assert class present");
+  old = e.attr("class");
+  e.toggleClass(function(i, val, state)
+  {
+    assertEquals(old, val, "Make sure the incoming value is correct.");
+    assertEquals(state, false, "Make sure that the state is passed in.");
+    return "test";
+  }, false);
+  assert(!(e.is(".test")), "Assert class not present");
 </script>
 
 

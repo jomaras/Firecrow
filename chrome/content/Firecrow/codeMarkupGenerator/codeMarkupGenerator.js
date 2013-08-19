@@ -109,9 +109,12 @@ FBL.ns(function () { with (FBL) {
                 {
                     if(element.textContent != undefined) { html += element.textContent; }
 
-                    for(var i=0; i < element.childNodes.length; i++)
+                    if(element.childNodes != null)
                     {
-                        html += this.generateHtmlElement(element.childNodes[i]);
+                        for(var i=0; i < element.childNodes.length; i++)
+                        {
+                            html += this.generateHtmlElement(element.childNodes[i]);
+                        }
                     }
                 }
 
