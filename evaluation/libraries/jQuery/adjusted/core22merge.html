@@ -271,8 +271,9 @@
     // After fixing #5527
     assertEquals( jQuery.merge([], [ null, undefined ]).join(), [ null, undefined ].join(),
             "Second array including null and undefined values");
-    assertEquals( jQuery.merge({ length: 0 }, [ 1, 2 ] ).join(), { length: 2, 0: 1, 1: 2}.join(),
-            "First array like");
+    assertEquals( jQuery.merge({ length: 0 }, [ 1, 2 ] )[0], 1,"First array like");
+assertEquals( jQuery.merge({ length: 0 }, [ 1, 2 ] )[1], 2,"First array like");
+assertEquals( jQuery.merge({ length: 0 }, [ 1, 2 ]).length, 2,"First array like");
 </script>
 
 </body>

@@ -1083,7 +1083,7 @@
     });
     function manipulationTarget(elem, content)
     {
-      return jQuery.nodeName(elem, "table") && jQuery.nodeName(content.nodeType === 1 ? 0 : content.firstChild, "tr") ? elem.getElementsByTagName("tbody")[0] || elem.appendChild(elem.ownerDocument.createElement("tbody")) : elem;
+      return jQuery.nodeName(elem, "table") && jQuery.nodeName(content.nodeType === 1 ? 0 : content.firstChild, "tr") ? elem.getElementsByTagName("tbody")[0] : elem;
     }
     jQuery.each({appendTo: "append", replaceAll: "replaceWith"}, function(name, original)
     {
@@ -1169,9 +1169,9 @@
 
 <dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
 <div id="qunit-fixture" foo="bar">
-<p id="firstp">See  for more information.</p>
+<p id="firstp" nonexisting="foo">See  for more information.</p>
 
-<div id="foo" foo="bar">
+<div id="foo" foo="bar" contenteditable="true">
     
     
     
@@ -1186,21 +1186,21 @@
 
 <form id="form" action="formaction">
     
-    <input type="text" name="action" value="Test" id="text1" maxlength="30"/>
+    <input type="text" name="action" value="Test" id="text1" maxlength="30" data-something="true" data-another="false"/>
     
     
 
     
     
-    <input type="checkbox" id="check2" value="on"/>
+    <input type="hidden" id="check2" value="on" checked="checked"/>
 
     
     
 
-    <input type="text" id="name" name="name" value="name"/>
+    <input type="text" id="name" value="name" maxlength="5" someattr="1"/>
     
 
-    <button id="button" name="button" type="button">Button</button>
+    <button id="button" name="button" type="submit">Button</button>
 
     <textarea id="area1" maxlength="30">foobar</textarea>
 
@@ -1224,7 +1224,7 @@
 
 
 
-<table id="table"></table>
+<table id="table" cellspacing="2"><tbody><tr><td rowspan="2" colspan="2">cell</td></tr><tr><td>cell</td><td>cell</td></tr><tr><td>cell</td><td>cell</td></tr></tbody></table>
 
 
 
@@ -1335,7 +1335,7 @@
 </dl>
 
 
-<script>  function assert(){}; function assertEqual(){}
+<script>
   var $input, $text, $details, attributeNode, commentNode, textNode, obj, table, td, j, check, thrown, $radio, $radios, $svg, div = jQuery("div").attr("foo", "bar"), fail = false;
   assertEqual(fail, false, ("Set Attribute, the #" + fail) + " element didn't get the attribute 'foo'");
   assert(jQuery("#foo").attr({"width": null}), "Try to set an attribute to nothing");
@@ -1414,12 +1414,13 @@
   jQuery.each([window, document, obj, "#firstp"], function(i, elem)
   {
     var $elem = jQuery(elem);
-    assertEqual($elem.attr("nonexisting"), undefined, "attr works correctly for non existing attributes (bug #7500).");
     assertEqual($elem.attr("nonexisting", "foo").attr("nonexisting"), "foo", "attr falls back to prop on unsupported arguments");
   });
   table = jQuery("#table").append("<tr><td>cell</td></tr><tr><td>cell</td><td>cell</td></tr><tr><td>cell</td><td>cell</td></tr>");
   td = table.find("td").eq(0);
+  td.attr("rowspan", "2");
   assertEqual(td[0]["rowSpan"], 2, "Check rowspan is correctly set");
+  td.attr("colspan", "2");
   assertEqual(td[0]["colSpan"], 2, "Check colspan is correctly set");
   table.attr("cellspacing", "2");
   assertEqual(table[0]["cellSpacing"], "2", "Check cellspacing is correctly set");

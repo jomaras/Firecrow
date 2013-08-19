@@ -276,7 +276,7 @@
 
     assertEquals( jQuery.makeArray( {length:2, 0:"a", 1:"b"} ).join(""), "ab", "Pass makeArray an array like map (with length)" );
 
-    ok( !!jQuery.makeArray( document.documentElement.childNodes ).slice(0,1)[0].nodeName, "Pass makeArray a childNodes array" );
+    assert( !!jQuery.makeArray( document.documentElement.childNodes ).slice(0,1)[0].nodeName, "Pass makeArray a childNodes array" );
 
     // function, is tricky as it has length
     assertEquals( jQuery.makeArray( function(){ return 1;} )[0](), 1, "Pass makeArray a function" );

@@ -256,47 +256,26 @@
 </map>
 
 <script>
-    var pass, j, i,
-            div = jQuery("#qunit-fixture div");
-    div.addClass( "test" );
-    pass = true;
-    for ( i = 0; i < div.length; i++ ) {
-        if ( !~div.get( i ).className.indexOf("test") ) {
-            pass = false;
-        }
-    }
-    assert( pass, "Add Class" );
+    var div, dataObj, nodiv, obj;
 
-    // using contents will get regular, text, and comment nodes
-    j = jQuery("#nonnodes").contents();
-    j.addClass( "asdf" );
-    assert( j.hasClass("asdf"), "Check node,textnode,comment for addClass" );
+    div = jQuery("#foo");
+    assertEquals( div.data("foo"), undefined, "Make sure that missing result is undefined" );
+    div.data("test", "success");
 
-    div = jQuery("<div/>");
+    dataObj = div.data();
 
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "test", "Make sure there's no extra whitespace." );
+    assertEquals( dataObj, {test: "success"}, "data() returns entire data object with expected properties" );
+    assertEquals( div.data("foo"), undefined, "Make sure that missing result is still undefined" );
 
-    div.attr( "class", " foo" );
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "foo test", "Make sure there's no extra whitespace." );
+    nodiv = jQuery("#unfound");
+    assertEquals( nodiv.data(), null, "data() on empty set returns null" );
 
-    div.attr( "class", "foo" );
-    div.addClass( "bar baz");
-    assertEquals( div.attr("class"), "foo bar baz", "Make sure there isn't too much trimming." );
+    obj = { foo: "bar" };
+    jQuery(obj).data("foo", "baz");
 
-    div.removeClass();
-    div.addClass( "foo" ).addClass( "foo");
-    assertEquals( div.attr("class"), "foo", "Do not add the same class twice in separate calls." );
+    dataObj = jQuery.extend(true, {}, jQuery(obj).data());
 
-    div.addClass( "fo" );
-    assertEquals( div.attr("class"), "foo fo", "Adding a similar class does not get interrupted." );
-    div.removeClass().addClass("wrap2");
-    assert( div.addClass("wrap").hasClass("wrap"), "Can add similarly named classes");
-
-    div.removeClass();
-    div.addClass( "bar bar");
-    assertEquals( div.attr("class"), "bar", "Do not add the same class twice in the same call." );
+    assertEquals( dataObj.foo, "baz", "Retrieve data object from a wrapped JS object (#7524)" );
 </script>
 
 </body>

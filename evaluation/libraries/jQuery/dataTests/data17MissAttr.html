@@ -256,47 +256,22 @@
 </map>
 
 <script>
-    var pass, j, i,
-            div = jQuery("#qunit-fixture div");
-    div.addClass( "test" );
-    pass = true;
-    for ( i = 0; i < div.length; i++ ) {
-        if ( !~div.get( i ).className.indexOf("test") ) {
-            pass = false;
-        }
-    }
-    assert( pass, "Add Class" );
+    var a, b;
 
-    // using contents will get regular, text, and comment nodes
-    j = jQuery("#nonnodes").contents();
-    j.addClass( "asdf" );
-    assert( j.hasClass("asdf"), "Check node,textnode,comment for addClass" );
+    a = jQuery("<div/>").appendTo("#qunit-fixture");
 
-    div = jQuery("<div/>");
+    a.attr( "data-long-param", "test" );
+    a.data( "long-param", { a: 2 });
 
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "test", "Make sure there's no extra whitespace." );
+    assertEquals( a.data("long-param").a, 2, "data with property long-param was found, 1" );
 
-    div.attr( "class", " foo" );
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "foo test", "Make sure there's no extra whitespace." );
+    b = jQuery("<div/>").appendTo("#qunit-fixture");
 
-    div.attr( "class", "foo" );
-    div.addClass( "bar baz");
-    assertEquals( div.attr("class"), "foo bar baz", "Make sure there isn't too much trimming." );
+    b.attr( "data-long-param", "test" );
+    b.data( "long-param" );
+    b.data( "long-param", { a: 2 });
 
-    div.removeClass();
-    div.addClass( "foo" ).addClass( "foo");
-    assertEquals( div.attr("class"), "foo", "Do not add the same class twice in separate calls." );
-
-    div.addClass( "fo" );
-    assertEquals( div.attr("class"), "foo fo", "Adding a similar class does not get interrupted." );
-    div.removeClass().addClass("wrap2");
-    assert( div.addClass("wrap").hasClass("wrap"), "Can add similarly named classes");
-
-    div.removeClass();
-    div.addClass( "bar bar");
-    assertEquals( div.attr("class"), "bar", "Do not add the same class twice in the same call." );
+    assertEquals( b.data("long-param").a, 2, "data with property long-param was found, 2" );
 </script>
 
 </body>

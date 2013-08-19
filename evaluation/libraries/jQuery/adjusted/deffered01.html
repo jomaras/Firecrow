@@ -256,47 +256,73 @@
 </map>
 
 <script>
-    var pass, j, i,
-            div = jQuery("#qunit-fixture div");
-    div.addClass( "test" );
-    pass = true;
-    for ( i = 0; i < div.length; i++ ) {
-        if ( !~div.get( i ).className.indexOf("test") ) {
-            pass = false;
-        }
+    withNew = false;
+    function createDeferred( fn ) {
+        return withNew ? new jQuery.Deferred( fn ) : jQuery.Deferred( fn );
     }
-    assert( pass, "Add Class" );
 
-    // using contents will get regular, text, and comment nodes
-    j = jQuery("#nonnodes").contents();
-    j.addClass( "asdf" );
-    assert( j.hasClass("asdf"), "Check node,textnode,comment for addClass" );
+    var defer = createDeferred();
 
-    div = jQuery("<div/>");
+    assertEquals( defer.pipe, defer.then, "pipe is an alias of then" );
 
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "test", "Make sure there's no extra whitespace." );
+    createDeferred().resolve().done(function() {
+        assert( true, "Success on resolve" );
+        assertEquals( this.state(), "resolved", "Deferred is resolved (state)" );
+    }).fail(function() {
+                assert( false, "Error on resolve" );
+            }).always(function() {
+                assert( true, "Always callback on resolve" );
+            });
 
-    div.attr( "class", " foo" );
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "foo test", "Make sure there's no extra whitespace." );
+    createDeferred().reject().done(function() {
+        assert( false, "Success on reject" );
+    }).fail(function() {
+                assert( true, "Error on reject" );
+                assertEquals( this.state(), "rejected", "Deferred is rejected (state)" );
+            }).always(function() {
+                assert( true, "Always callback on reject" );
+            });
 
-    div.attr( "class", "foo" );
-    div.addClass( "bar baz");
-    assertEquals( div.attr("class"), "foo bar baz", "Make sure there isn't too much trimming." );
+    createDeferred(function( defer ) {
+        assert( this === defer, "Defer passed as this & first argument" );
+        this.resolve("done");
+    }).done(function( value ) {
+                assertEquals( value, "done", "Passed function executed" );
+            });
 
-    div.removeClass();
-    div.addClass( "foo" ).addClass( "foo");
-    assertEquals( div.attr("class"), "foo", "Do not add the same class twice in separate calls." );
+    createDeferred(function( defer ) {
+        var promise = defer.promise(),
+                func = function() {},
+                funcPromise = defer.promise( func );
+        assertEquals( defer.promise(), promise, "promise is always the same" );
+        assertEquals( funcPromise, func, "non objects get extended" );
+        jQuery.each( promise, function( key ) {
+            if ( !jQuery.isFunction( promise[ key ] ) ) {
+                assert( false, key + " is a function (" + jQuery.type( promise[ key ] ) + ")" );
+            }
+            if ( promise[ key ] !== func[ key ] ) {
+                assertEquals( func[ key ], promise[ key ], key + " is the same" );
+            }
+        });
+    });
 
-    div.addClass( "fo" );
-    assertEquals( div.attr("class"), "foo fo", "Adding a similar class does not get interrupted." );
-    div.removeClass().addClass("wrap2");
-    assert( div.addClass("wrap").hasClass("wrap"), "Can add similarly named classes");
-
-    div.removeClass();
-    div.addClass( "bar bar");
-    assertEquals( div.attr("class"), "bar", "Do not add the same class twice in the same call." );
+    jQuery.expandedEach = jQuery.each;
+    jQuery.expandedEach( "resolve reject".split(" "), function( _, change ) {
+        createDeferred(function( defer ) {
+            assertEquals( defer.state(), "pending", "pending after creation" );
+            var checked = 0;
+            defer.progress(function( value ) {
+                assertEquals( value, checked, "Progress: right value (" + value + ") received" );
+            });
+            for ( checked = 0; checked < 3; checked++ ) {
+                defer.notify( checked );
+            }
+            assertEquals( defer.state(), "pending", "pending after notification" );
+            defer[ change ]();
+            assertNotEquals( defer.state(), "pending", "not pending after " + change );
+            defer.notify();
+        });
+    });
 </script>
 
 </body>

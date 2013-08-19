@@ -879,15 +879,6 @@
     checks = jQuery("<input type='checkbox' name='test' value='1'/><input type='checkbox' name='test' value='2'/><input type='checkbox' name='test' value=''/><input type='checkbox' name='test'/>").appendTo("#form");
     assertEquals(checks.serialize(), "", "Get unchecked values.");
     assertEquals(checks.eq(3).val(), "on", "Make sure a value of 'on' is provided if none is specified.");
-    checks.val(["2"]);
-    assertEquals(checks.serialize(), "test=2", "Get a single checked value.");
-    checks.val(["1", ""]);
-    assertEquals(checks.serialize(), "test=1&test=", "Get multiple checked values.");
-    checks.val(["", "2"]);
-    assertEquals(checks.serialize(), "test=2&test=", "Get multiple checked values.");
-    checks.val(["1", "on"]);
-    assertEquals(checks.serialize(), "test=1&test=on", "Get multiple checked values.");
-    checks.remove();
   }
 
   $button = jQuery("<button value='foobar'>text</button>").insertAfter("#button");

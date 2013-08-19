@@ -1,1 +1,304 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
+<head>
+    
+    
+    
+    <script>
+  (function(window, undefined)
+  {
+    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_indexOf = core_deletedIds.indexOf, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    {
+      return new jQuery.fn.init(selector, context, rootjQuery);
+    }, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+    jQuery.fn = jQuery.prototype = {
+      init: function(selector, context, rootjQuery)
+      {
+        var match, elem;
+        if(typeof selector === "string")
+        {
+          if(selector.charAt(0) === "<");
+          else 
+          {
+            match = rquickExpr.exec(selector);
+          }
+
+          if(match && (match[1] || !context))
+          {
+            if(match[1]);
+            else 
+            {
+              elem = document.getElementById(match[2]);
+              if(elem && elem.parentNode)
+              {
+                this[0] = elem;
+              }
+
+              return this;
+            }
+          }
+        }
+        else if(selector.nodeType)
+        {
+          return this;
+        }
+        else if(jQuery.isFunction(selector))
+        {
+          return rootjQuery.ready(selector);
+        }
+
+
+
+        return jQuery.makeArray(selector, this);
+      }, 
+      ready: function(fn)
+      {
+        return this;
+      }
+    };
+    jQuery.fn.init.prototype = jQuery.fn;
+    jQuery.extend = jQuery.fn.extend = function()
+    {
+      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      if(length === i)
+      {
+        target = this;
+        --i;
+      }
+
+      for(;i < length;i++)
+      {
+        if((options = arguments[i]) != null)
+        {
+          for(name in options)
+          {
+            copy = options[name];
+            if(deep);
+            else if(copy !== undefined)
+            {
+              target[name] = copy;
+            }
+          }
+        }
+      }
+    };
+    jQuery.extend({
+      expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
+      noConflict: function(deep)
+      {}, 
+      isReady: false, 
+      readyWait: 1, 
+      holdReady: function(hold)
+      {}, 
+      ready: function(wait)
+      {}, 
+      isFunction: function(obj)
+      {
+        return jQuery.type(obj) === "function";
+      }, 
+      isArray: Array.isArray || function(obj)
+      {}, 
+      isWindow: function(obj)
+      {}, 
+      isNumeric: function(obj)
+      {}, 
+      type: function(obj)
+      {
+        return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : 0;
+      }, 
+      isPlainObject: function(obj)
+      {}, 
+      isEmptyObject: function(obj)
+      {}, 
+      error: function(msg)
+      {}, 
+      parseHTML: function(data, context, keepScripts)
+      {}, 
+      parseJSON: function(data)
+      {}, 
+      parseXML: function(data)
+      {}, 
+      noop: function()
+      {}, 
+      globalEval: function(data)
+      {}, 
+      camelCase: function(string)
+      {}, 
+      nodeName: function(elem, name)
+      {}, 
+      each: function(obj, callback, args)
+      {
+        var i = 0, length = obj.length, isArray = isArraylike(obj);
+        if(args);
+        else 
+        {
+          if(isArray)
+          {
+            for(;i < length;i++)
+            {
+              callback.call(obj[i], i, obj[i]);
+            }
+          }
+          else 
+          {
+            for(i in obj)
+            {
+              callback.call(obj[i], i, obj[i]);
+            }
+          }
+        }
+      }, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
+      {} : 0, 
+      makeArray: function(arr, results)
+      {
+        var ret = results;
+        return ret;
+      }, 
+      inArray: function(elem, arr, i)
+      {
+        if(arr)
+        {
+          if(core_indexOf)
+          {
+            return core_indexOf.call(arr, elem, i);
+          }
+        }
+
+        return -1;
+      }, 
+      merge: function(first, second)
+      {}, 
+      grep: function(elems, callback, inv)
+      {}, 
+      map: function(elems, callback, arg)
+      {}, 
+      guid: 1, 
+      proxy: function(fn, context)
+      {}, 
+      access: function(elems, fn, key, value, chainable, emptyGet, raw)
+      {}, 
+      now: function()
+      {}, 
+      swap: function(elem, options, callback, args)
+      {}
+    });
+    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
+    {
+      class2type[("[object " + name) + "]"] = name.toLowerCase();
+    });
+    function isArraylike(obj)
+    {
+      var length = obj.length, type = jQuery.type(obj);
+      return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
+    }
+    rootjQuery = jQuery(document);
+    (function(support)
+    {
+      for(i in jQuery(support))
+      {
+        break;
+      }
+
+      jQuery(function()
+      {});
+    })({});
+    jQuery(function()
+    {});
+    if(typeof module === "object");
+    else 
+    {
+      window.jQuery = window.$ = jQuery;
+    }
+  })(window);
+</script>
+</head>
+
+<body id="body" style="">
+
+
+<dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
+<div id="qunit-fixture">
+<p id="firstp">See  for more information.</p>
+<p id="ap">
+    Here are some links in a normal paragraph: ,
+    .
+    This link has :
+    
+
+</p>
+<div id="foo">
+    
+    
+    <p id="sap">This link has : </p>
+
+</div>
+<div id="nothiddendiv" style="height:1px;background:white;" class="nothiddendiv">
+    <div id="nothiddendivchild"></div>
+</div>
+
+<p id="first">Try them out:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="liveHandlerOrder">
+    <span id="liveSpan1"></span>
+    
+</div>
+
+
+
+</div>
+</dl>
+
+
+<script>
+  var selections = {
+    p: document.querySelectorAll("#firstp, #sap, #ap, #first"), 
+    div: document.querySelectorAll("#qunit-testrunner-toolbar, #nothiddendiv, #nothiddendivchild, #foo"), 
+    empty: []
+  }, tests = {
+    p: {
+      elem: jQuery("#ap")[0], 
+      index: 1
+    }, 
+    div: {
+      elem: jQuery("#nothiddendiv")[0], 
+      index: 1
+    }
+  }, falseTests = {
+    p: jQuery("#liveSpan1")[0], 
+    em: jQuery("#nothiddendiv")[0], 
+    empty: ""
+  };
+  jQuery.each(tests, function(key, obj)
+  {
+    assertEquals(jQuery.inArray(obj.elem, selections[key]), obj.index, "elem is in the array of selections of its tag");
+    assertEquals(!(!(~(jQuery.inArray(obj.elem, selections[key], 5)))), false, "elem is NOT in the array of selections given a starting index greater than its position");
+    assertEquals(!(!(~(jQuery.inArray(obj.elem, selections[key], 1)))), true, "elem is in the array of selections given a starting index less than or equal to its position");
+    assertEquals(!(!(~(jQuery.inArray(obj.elem, selections[key], -3)))), true, "elem is in the array of selections given a negative index");
+  });
+  jQuery.each(falseTests, function(key, elem)
+  {
+    assertEquals(!(!(~(jQuery.inArray(elem, selections[key])))), false, "elem is NOT in the array of selections");
+  });
+  assertEquals(jQuery.inArray(0, false), -1, "Search in 'false' as array returns -1 and doesn't throw exception");
+  assertEquals(jQuery.inArray(0, null), -1, "Search in 'null' as array returns -1 and doesn't throw exception");
+  assertEquals(jQuery.inArray(0, undefined), -1, "Search in 'undefined' as array returns -1 and doesn't throw exception");
+</script>
+
+
+</body>
+</html>

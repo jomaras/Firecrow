@@ -256,47 +256,33 @@
 </map>
 
 <script>
-    var pass, j, i,
-            div = jQuery("#qunit-fixture div");
-    div.addClass( "test" );
-    pass = true;
-    for ( i = 0; i < div.length; i++ ) {
-        if ( !~div.get( i ).className.indexOf("test") ) {
-            pass = false;
-        }
-    }
-    assert( pass, "Add Class" );
+    var div, plain, compare;
 
-    // using contents will get regular, text, and comment nodes
-    j = jQuery("#nonnodes").contents();
-    j.addClass( "asdf" );
-    assert( j.hasClass("asdf"), "Check node,textnode,comment for addClass" );
+    div = jQuery("<div>").appendTo("#qunit-fixture");
+    plain = jQuery({});
 
-    div = jQuery("<div/>");
+    // When data is batch assigned (via plain object), the properties
+    // are not camel cased as they are with (property, value) calls
+    compare = {
+        // From batch assignment .data({ "a-a": 1 })
+        "a-a": 1,
+        // From property, value assignment .data( "b-b", 1 )
+        "bB": 1
+    };
 
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "test", "Make sure there's no extra whitespace." );
+    // Mixed assignment
+    div.data({ "a-a": 1 }).data( "b-b", 1 );
+    plain.data({ "a-a": 1 }).data( "b-b", 1 );
 
-    div.attr( "class", " foo" );
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "foo test", "Make sure there's no extra whitespace." );
+    assertEquals( div.data()["a-a"], compare["a-a"], "Data appears as expected. (div)" );
+    assertEquals( plain.data()["a-a"], compare["a-a"], "Data appears as expected. (plain)" );
 
-    div.attr( "class", "foo" );
-    div.addClass( "bar baz");
-    assertEquals( div.attr("class"), "foo bar baz", "Make sure there isn't too much trimming." );
+    div.removeData([ "a-a", "b-b" ]);
+    plain.removeData([ "a-a", "b-b" ]);
 
-    div.removeClass();
-    div.addClass( "foo" ).addClass( "foo");
-    assertEquals( div.attr("class"), "foo", "Do not add the same class twice in separate calls." );
-
-    div.addClass( "fo" );
-    assertEquals( div.attr("class"), "foo fo", "Adding a similar class does not get interrupted." );
-    div.removeClass().addClass("wrap2");
-    assert( div.addClass("wrap").hasClass("wrap"), "Can add similarly named classes");
-
-    div.removeClass();
-    div.addClass( "bar bar");
-    assertEquals( div.attr("class"), "bar", "Do not add the same class twice in the same call." );
+    // NOTE: Timo's proposal for "propEqual" (or similar) would be nice here
+    assertEquals( div.data()["a-a"], null, "Data is empty. (div)" );
+    assertEquals( plain.data()["a-a"], null, "Data is empty. (plain)" );
 </script>
 
 </body>

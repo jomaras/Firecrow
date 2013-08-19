@@ -134,7 +134,9 @@
   assertEquals(jQuery.merge([], [1, 2]).join(), ([1, 2]).join(), "First empty");
   assertEquals(jQuery.merge([-2, -1], [0, 1, 2]).join(), ([-2, -1, 0, 1, 2]).join(), "Second array including a zero (falsy)");
   assertEquals(jQuery.merge([], [null, undefined]).join(), ([null, undefined]).join(), "Second array including null and undefined values");
-  assertEquals(jQuery.merge({}, [1, 2]).join(), ({}).join(), "First array like");
+  assertEquals(jQuery.merge({length: 0}, [1, 2])[0], 1, "First array like");
+  assertEquals(jQuery.merge({length: 0}, [1, 2])[1], 2, "First array like");
+  assertEquals(jQuery.merge({length: 0}, [1, 2]).length, 2, "First array like");
 </script>
 
 

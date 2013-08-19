@@ -117,8 +117,7 @@
 
 
 <script>
-  var t = jQuery.isNumeric, Traditionalists = function(n)
-  {}, answer = new Traditionalists("42"), rong = new Traditionalists("Devo");
+  var t = jQuery.isNumeric;
   assert(t("-10"), "Negative integer string");
   assert(t("0"), "Zero string");
   assert(t("5"), "Positive integer string");
@@ -134,7 +133,6 @@
   assert(t(3.1415), "Positive floating point number");
   assert(t(800000), "Exponential notation");
   assert(t("123e-2"), "Exponential notation string");
-  assert(t(answer), "Custom .toString returning number");
   assertEquals(t(""), false, "Empty string");
   assertEquals(t("        "), false, "Whitespace characters string");
   assertEquals(t("\t\t"), false, "Tab characters string");
@@ -150,7 +148,6 @@
   assertEquals(t(Infinity), false, "Infinity primitive");
   assertEquals(t(Number.POSITIVE_INFINITY), false, "Positive Infinity");
   assertEquals(t(Number.NEGATIVE_INFINITY), false, "Negative Infinity");
-  assertEquals(t(rong), false, "Custom .toString returning non-number");
   assertEquals(t({}), false, "Empty object");
   assertEquals(t(function()
   {}), false, "Instance of a function");

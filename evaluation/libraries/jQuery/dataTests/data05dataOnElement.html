@@ -256,47 +256,68 @@
 </map>
 
 <script>
-    var pass, j, i,
-            div = jQuery("#qunit-fixture div");
-    div.addClass( "test" );
-    pass = true;
-    for ( i = 0; i < div.length; i++ ) {
-        if ( !~div.get( i ).className.indexOf("test") ) {
-            pass = false;
-        }
-    }
-    assert( pass, "Add Class" );
+    var elem = document.createElement("div");
+    var dataObj, internalDataObj;
 
-    // using contents will get regular, text, and comment nodes
-    j = jQuery("#nonnodes").contents();
-    j.addClass( "asdf" );
-    assert( j.hasClass("asdf"), "Check node,textnode,comment for addClass" );
+    assertEquals( jQuery.data(elem, "foo"), undefined, "No data exists initially" );
+    assertEquals( jQuery.hasData(elem), false, "jQuery.hasData agrees no data exists initially" );
 
-    div = jQuery("<div/>");
+    dataObj = jQuery.data(elem);
+    assertEquals( typeof dataObj, "object", "Calling data with no args gives us a data object reference" );
+    assertEquals( jQuery.data(elem), dataObj, "Calling jQuery.data returns the same data object when called multiple times" );
 
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "test", "Make sure there's no extra whitespace." );
+    assertEquals( jQuery.hasData(elem), false, "jQuery.hasData agrees no data exists even when an empty data obj exists" );
 
-    div.attr( "class", " foo" );
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "foo test", "Make sure there's no extra whitespace." );
+    dataObj["foo"] = "bar";
+    assertEquals( jQuery.data(elem, "foo"), "bar", "Data is readable by jQuery.data when set directly on a returned data object" );
 
-    div.attr( "class", "foo" );
-    div.addClass( "bar baz");
-    assertEquals( div.attr("class"), "foo bar baz", "Make sure there isn't too much trimming." );
+    assertEquals( jQuery.hasData(elem), true, "jQuery.hasData agrees data exists when data exists" );
 
-    div.removeClass();
-    div.addClass( "foo" ).addClass( "foo");
-    assertEquals( div.attr("class"), "foo", "Do not add the same class twice in separate calls." );
+    jQuery.data(elem, "foo", "baz");
+    assertEquals( jQuery.data(elem, "foo"), "baz", "Data can be changed by jQuery.data" );
+    assertEquals( dataObj["foo"], "baz", "Changes made through jQuery.data propagate to referenced data object" );
 
-    div.addClass( "fo" );
-    assertEquals( div.attr("class"), "foo fo", "Adding a similar class does not get interrupted." );
-    div.removeClass().addClass("wrap2");
-    assert( div.addClass("wrap").hasClass("wrap"), "Can add similarly named classes");
+    jQuery.data(elem, "foo", undefined);
+    assertEquals( jQuery.data(elem, "foo"), "baz", "Data is not unset by passing undefined to jQuery.data" );
 
-    div.removeClass();
-    div.addClass( "bar bar");
-    assertEquals( div.attr("class"), "bar", "Do not add the same class twice in the same call." );
+    jQuery.data(elem, "foo", null);
+    assertEquals( jQuery.data(elem, "foo"), null, "Setting null using jQuery.data works OK" );
+
+    jQuery.data(elem, "foo", "foo1");
+
+    jQuery.data(elem, { "bar" : "baz", "boom" : "bloz" });
+    assertEquals( jQuery.data(elem, "foo"), "foo1", "Passing an object extends the data object instead of replacing it" );
+    assertEquals( jQuery.data(elem, "boom"), "bloz", "Extending the data object works" );
+
+    jQuery._data(elem, "foo", "foo2", true);
+    assertEquals( jQuery._data(elem, "foo"), "foo2", "Setting internal data works" );
+    assertEquals( jQuery.data(elem, "foo"), "foo1", "Setting internal data does not override user data" );
+
+    internalDataObj = jQuery._data( elem );
+    assert( internalDataObj, "Internal data object exists" );
+    assertNotEquals( dataObj, internalDataObj, "Internal data object is not the same as user data object" );
+
+    assertEquals( elem.boom, undefined, "Data is never stored directly on the object" );
+
+    jQuery.removeData(elem, "foo");
+    assertEquals( jQuery.data(elem, "foo"), undefined, "jQuery.removeData removes single properties" );
+
+    jQuery.removeData(elem);
+    assertEquals( jQuery._data(elem), internalDataObj, "jQuery.removeData does not remove internal data if it exists" );
+
+    jQuery.data(elem, "foo", "foo1");
+    jQuery._data(elem, "foo", "foo2");
+
+    assertEquals( jQuery.data(elem, "foo"), "foo1", "(sanity check) Ensure data is set in user data object" );
+    assertEquals( jQuery._data(elem, "foo"), "foo2", "(sanity check) Ensure data is set in internal data object" );
+
+    assertEquals( jQuery._data(elem, jQuery.expando), undefined, "Removing the last item in internal data destroys the internal data object" );
+
+    jQuery._data(elem, "foo", "foo2");
+    assertEquals( jQuery._data(elem, "foo"), "foo2", "(sanity check) Ensure data is set in internal data object" );
+
+    jQuery.removeData(elem, "foo");
+    assertEquals( jQuery._data(elem, "foo"), "foo2", "(sanity check) jQuery.removeData for user data does not remove internal data" )
 </script>
 
 </body>

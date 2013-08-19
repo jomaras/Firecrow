@@ -36,7 +36,7 @@ function areEqual(expected, actual)
 {
     var result;
 
-    if (expected === actual)
+    if (expected == actual)
         return true;
 
     if (expected && typeof expected.equals === 'function')

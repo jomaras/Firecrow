@@ -104,7 +104,9 @@
       isArray: Array.isArray || function(obj)
       {}, 
       isWindow: function(obj)
-      {}, 
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj)
       {}, 
       type: function(obj)
@@ -202,6 +204,16 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj))
+      {
+        return false;
+      }
+
+      if(obj.nodeType === 1 && length)
+      {
+        return true;
+      }
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -351,7 +363,70 @@
 
 
 
+<form id="form" action="formaction">
+    
+    <input type="text" name="action" value="Test" id="text1" maxlength="30"/>
+    <input type="text" name="text2" value="Test" id="text2" disabled="disabled"/>
+    <input type="radio" name="radio1" id="radio1" value="on"/>
 
+    <input type="radio" name="radio2" id="radio2" checked="checked"/>
+    <input type="checkbox" name="check" id="check1" checked="checked"/>
+    <input type="checkbox" id="check2" value="on"/>
+
+    <input type="hidden" name="hidden" id="hidden1"/>
+    <input type="text" style="display:none;" name="foo[bar]" id="hidden2"/>
+
+    <input type="text" id="name" name="name" value="name"/>
+    <input type="search" id="search" name="search" value="search"/>
+
+    <button id="button" name="button" type="button">Button</button>
+
+    <textarea id="area1" maxlength="30">foobar</textarea>
+
+    <select name="select1" id="select1">
+        
+        
+        
+        
+    </select>
+    <select name="select2" id="select2">
+        
+        
+        
+        
+    </select>
+    <select name="select3" id="select3" multiple="multiple">
+        
+        
+        
+        
+        
+    </select>
+    <select name="select4" id="select4" multiple="multiple">
+        
+        
+        
+    </select>
+    <select name="select5" id="select5">
+        
+        
+        
+    </select>
+
+    <object id="object1" codebase="stupid">
+        
+        
+    </object>
+
+    
+    
+    
+    
+    
+    
+
+    
+</form>
 
 
 
@@ -413,6 +488,14 @@
   assertEquals(jQuery.makeArray(true)[0].constructor, Boolean, "Pass makeArray a boolean");
   assertEquals(jQuery.makeArray(document.createElement("div"))[0].nodeName.toUpperCase(), "DIV", "Pass makeArray a single node");
   assertEquals(jQuery.makeArray({length: 2, 0: "a", 1: "b"}).join(""), "ab", "Pass makeArray an array like map (with length)");
+  assert(!(!(jQuery.makeArray(document.documentElement.childNodes).slice(0, 1)[0].nodeName)), "Pass makeArray a childNodes array");
+  assertEquals(jQuery.makeArray(function()
+  {
+    return 1;
+  })[0](), 1, "Pass makeArray a function");
+  assertEquals(jQuery.makeArray(window)[0], window, "Pass makeArray the window");
+  assertEquals(jQuery.makeArray(/a/)[0].constructor, RegExp, "Pass makeArray a regex");
+  assert(jQuery.makeArray(document.getElementById("form")).length >= 13, "Pass makeArray a form (treat as elements)");
 </script>
 
 

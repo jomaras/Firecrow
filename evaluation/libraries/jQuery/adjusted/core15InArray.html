@@ -257,17 +257,13 @@
 
 <script>
     var selections = {
-                p:   q("firstp", "sap", "ap", "first"),
-                em:  q("siblingnext", "siblingfirst"),
-                div: q("qunit-testrunner-toolbar", "nothiddendiv", "nothiddendivchild", "foo"),
-                a:   q("mark", "groups", "google", "simon1"),
+                p:   document.querySelectorAll("#firstp, #sap, #ap, #first"),
+                div: document.querySelectorAll("#qunit-testrunner-toolbar, #nothiddendiv, #nothiddendivchild, #foo"),
                 empty: []
             },
             tests = {
-                p:    { elem: jQuery("#ap")[0],           index: 2 },
-                em:   { elem: jQuery("#siblingfirst")[0], index: 1 },
-                div:  { elem: jQuery("#nothiddendiv")[0], index: 1 },
-                a:    { elem: jQuery("#simon1")[0],       index: 3 }
+                p:    { elem: jQuery("#ap")[0],           index: 1 },
+                div:  { elem: jQuery("#nothiddendiv")[0], index: 1 }
             },
             falseTests = {
                 p:  jQuery("#liveSpan1")[0],
@@ -279,7 +275,7 @@
         assertEquals( jQuery.inArray( obj.elem, selections[ key ] ), obj.index, "elem is in the array of selections of its tag" );
         // Third argument (fromIndex)
         assertEquals( !!~jQuery.inArray( obj.elem, selections[ key ], 5 ), false, "elem is NOT in the array of selections given a starting index greater than its position" );
-        assertEquals( !!~jQuery.inArray( obj.elem, selections[ key ], 1 ), true, "elem is in the array of selections given a starting index less than or assertEquals to its position" );
+        assertEquals( !!~jQuery.inArray( obj.elem, selections[ key ], 1 ), true, "elem is in the array of selections given a starting index less than or equal to its position" );
         assertEquals( !!~jQuery.inArray( obj.elem, selections[ key ], -3 ), true, "elem is in the array of selections given a negative index" );
     });
 

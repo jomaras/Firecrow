@@ -256,47 +256,48 @@
 </map>
 
 <script>
-    var pass, j, i,
-            div = jQuery("#qunit-fixture div");
-    div.addClass( "test" );
-    pass = true;
-    for ( i = 0; i < div.length; i++ ) {
-        if ( !~div.get( i ).className.indexOf("test") ) {
-            pass = false;
-        }
-    }
-    assert( pass, "Add Class" );
+    var obj,
+            div = jQuery("#foo")[0];
+    jQuery.data(div, "test", "testing");
+    jQuery.removeData(div, "test");
+    assertEquals( jQuery.data(div, "test"), undefined, "Check removal of data" );
 
-    // using contents will get regular, text, and comment nodes
-    j = jQuery("#nonnodes").contents();
-    j.addClass( "asdf" );
-    assert( j.hasClass("asdf"), "Check node,textnode,comment for addClass" );
+    jQuery.data(div, "test2", "testing");
+    jQuery.removeData( div );
+    assert( !jQuery.data(div, "test2"), "Make sure that the data property no longer exists." );
+    assert( !div[ jQuery.expando ], "Make sure the expando no longer exists, as well." );
 
-    div = jQuery("<div/>");
+    jQuery.data(div, {
+        test3: "testing",
+        test4: "testing"
+    });
+    jQuery.removeData( div, "test3 test4" );
+    assert( !jQuery.data(div, "test3") || jQuery.data(div, "test4"), "Multiple delete with spaces." );
 
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "test", "Make sure there's no extra whitespace." );
+    jQuery.data(div, {
+        test3: "testing",
+        test4: "testing"
+    });
+    jQuery.removeData( div, [ "test3", "test4" ] );
+    assert( !jQuery.data(div, "test3") || jQuery.data(div, "test4"), "Multiple delete by array." );
 
-    div.attr( "class", " foo" );
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "foo test", "Make sure there's no extra whitespace." );
+    jQuery.data(div, {
+        "test3 test4": "testing",
+        "test3": "testing"
+    });
+    jQuery.removeData( div, "test3 test4" );
+    assert( !jQuery.data(div, "test3 test4"), "Multiple delete with spaces deleted key with exact name" );
+    assert( jQuery.data(div, "test3"), "Left the partial matched key alone" );
 
-    div.attr( "class", "foo" );
-    div.addClass( "bar baz");
-    assertEquals( div.attr("class"), "foo bar baz", "Make sure there isn't too much trimming." );
+    obj = {};
+    jQuery.data(obj, "test", "testing");
+    assertEquals( jQuery(obj).data("test"), "testing", "verify data on plain object");
+    jQuery.removeData(obj, "test");
+    assertEquals( jQuery.data(obj, "test"), undefined, "Check removal of data on plain object" );
 
-    div.removeClass();
-    div.addClass( "foo" ).addClass( "foo");
-    assertEquals( div.attr("class"), "foo", "Do not add the same class twice in separate calls." );
-
-    div.addClass( "fo" );
-    assertEquals( div.attr("class"), "foo fo", "Adding a similar class does not get interrupted." );
-    div.removeClass().addClass("wrap2");
-    assert( div.addClass("wrap").hasClass("wrap"), "Can add similarly named classes");
-
-    div.removeClass();
-    div.addClass( "bar bar");
-    assertEquals( div.attr("class"), "bar", "Do not add the same class twice in the same call." );
+    jQuery.data( window, "BAD", true );
+    jQuery.removeData( window, "BAD" );
+    assert( !jQuery.data( window, "BAD" ), "Make sure that the value was not still set." );
 </script>
 
 </body>

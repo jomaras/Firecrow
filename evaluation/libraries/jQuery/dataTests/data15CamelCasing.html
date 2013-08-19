@@ -256,47 +256,29 @@
 </map>
 
 <script>
-    var pass, j, i,
-            div = jQuery("#qunit-fixture div");
-    div.addClass( "test" );
-    pass = true;
-    for ( i = 0; i < div.length; i++ ) {
-        if ( !~div.get( i ).className.indexOf("test") ) {
-            pass = false;
-        }
-    }
-    assert( pass, "Add Class" );
+    var div = jQuery("<div id='myObject' data-w-t-f='ftw' data-big-a-little-a='bouncing-b' data-foo='a' data-foo-bar='b' data-foo-bar-baz='c'></div>")
+            .prependTo("body");
 
-    // using contents will get regular, text, and comment nodes
-    j = jQuery("#nonnodes").contents();
-    j.addClass( "asdf" );
-    assert( j.hasClass("asdf"), "Check node,textnode,comment for addClass" );
+    assertEquals( div.data()["wTF"], "ftw", "Verify single letter data-* key" );
+    assertEquals( div.data()["bigALittleA"], "bouncing-b", "Verify single letter mixed data-* key" );
 
-    div = jQuery("<div/>");
+    assertEquals( div.data()["foo"], "a", "Verify single word data-* key" );
+    assertEquals( div.data()["fooBar"], "b", "Verify multiple word data-* key" );
+    assertEquals( div.data()["fooBarBaz"], "c", "Verify multiple word data-* key" );
 
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "test", "Make sure there's no extra whitespace." );
+    assertEquals( div.data("foo"), "a", "Verify single word data-* key" );
+    assertEquals( div.data("fooBar"), "b", "Verify multiple word data-* key" );
+    assertEquals( div.data("fooBarBaz"), "c", "Verify multiple word data-* key" );
 
-    div.attr( "class", " foo" );
-    div.addClass( "test" );
-    assertEquals( div.attr("class"), "foo test", "Make sure there's no extra whitespace." );
+    div.data("foo-bar", "d");
 
-    div.attr( "class", "foo" );
-    div.addClass( "bar baz");
-    assertEquals( div.attr("class"), "foo bar baz", "Make sure there isn't too much trimming." );
+    assertEquals( div.data("fooBar"), "d", "Verify updated data-* key" );
+    assertEquals( div.data("foo-bar"), "d", "Verify updated data-* key" );
 
-    div.removeClass();
-    div.addClass( "foo" ).addClass( "foo");
-    assertEquals( div.attr("class"), "foo", "Do not add the same class twice in separate calls." );
+    assertEquals( div.data("fooBar"), "d", "Verify updated data-* key (fooBar)" );
+    assertEquals( div.data("foo-bar"), "d", "Verify updated data-* key (foo-bar)" );
 
-    div.addClass( "fo" );
-    assertEquals( div.attr("class"), "foo fo", "Adding a similar class does not get interrupted." );
-    div.removeClass().addClass("wrap2");
-    assert( div.addClass("wrap").hasClass("wrap"), "Can add similarly named classes");
-
-    div.removeClass();
-    div.addClass( "bar bar");
-    assertEquals( div.attr("class"), "bar", "Do not add the same class twice in the same call." );
+    div.remove();
 </script>
 
 </body>

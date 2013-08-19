@@ -162,6 +162,11 @@ fcModel.StringExecutor =
             var globalObject = fcThisValue != null ? fcThisValue.globalObject
                                                    : functionObjectValue.fcValue.iValue.globalObject;
 
+            if(ValueTypeHelper.isNumber(thisObjectValue) || ValueTypeHelper.isBoolean(thisObjectValue))
+            {
+                thisObjectValue = thisObjectValue.toString();
+            }
+
             var argumentValues = globalObject.getJsValues(args);
 
             if(functionName == "toString" && ValueTypeHelper.isFunction(thisObject.jsValue)) //toString called on a function

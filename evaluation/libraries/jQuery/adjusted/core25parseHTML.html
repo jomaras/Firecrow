@@ -267,7 +267,7 @@
     }
     catch(e) { a++ };
 
-    assertEquals(a, 0, "Should raise exception");
+    assertEquals(a, 1, "Should raise exception");
 
     nodes = jQuery.parseHTML( jQuery("body")[0].innerHTML );
     assert( nodes.length > 4, "Parse a large html string" );
