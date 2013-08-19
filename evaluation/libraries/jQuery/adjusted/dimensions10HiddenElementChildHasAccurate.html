@@ -256,32 +256,37 @@
 </map>
 
 <script>
-    var $div, blah;
+    var $divNormal = jQuery("<div>").css({ "width": "100px", "height": "100px", "border": "10px solid white", "padding": "2px", "margin": "3px" }),
+            $divChild = $divNormal.clone(),
+            $divUnconnected = $divNormal.clone(),
+            $divHiddenParent = jQuery("<div>").css( "display", "none" ).append( $divChild ).appendTo("body");
+    $divNormal.appendTo("body");
 
-    $div = jQuery("#nothiddendiv");
-    $div.height( val(30) );
-    assertEquals($div.height(), 30, "Test set to 30 correctly");
-    $div.hide();
-    assertEquals($div.height(), 30, "Test hidden div");
-    $div.show();
-    $div.height( val(-1) ); // handle negative numbers by setting to 0 #11604
-    assertEquals($div.height(), 0, "Test negative height normalized to 0");
-    $div.css("padding", "20px");
-    assertEquals($div.height(), 0, "Test padding specified with pixels");
-    $div.css("border", "2px solid #fff");
-    assertEquals($div.height(), 0, "Test border specified with pixels");
+    // tests that child div of a hidden div works the same as a normal div
+    assertEquals( $divChild.width(), $divNormal.width(), "child of a hidden element width() is wrong see #9441" );
+    assertEquals( $divChild.innerWidth(), $divNormal.innerWidth(), "child of a hidden element innerWidth() is wrong see #9441" );
+    assertEquals( $divChild.outerWidth(), $divNormal.outerWidth(), "child of a hidden element outerWidth() is wrong see #9441" );
+    assertEquals( $divChild.outerWidth(true), $divNormal.outerWidth( true ), "child of a hidden element outerWidth( true ) is wrong see #9300" );
 
-    $div.css({ "display": "", "border": "", "padding": "", "height": "1px" });
+    assertEquals( $divChild.height(), $divNormal.height(), "child of a hidden element height() is wrong see #9441" );
+    assertEquals( $divChild.innerHeight(), $divNormal.innerHeight(), "child of a hidden element innerHeight() is wrong see #9441" );
+    assertEquals( $divChild.outerHeight(), $divNormal.outerHeight(), "child of a hidden element outerHeight() is wrong see #9441" );
+    assertEquals( $divChild.outerHeight(true), $divNormal.outerHeight( true ), "child of a hidden element outerHeight( true ) is wrong see #9300" );
 
-    jQuery("#nothiddendivchild").css({ "height": 20, "padding": "3px", "border": "2px solid #fff" });
-    assertEquals(jQuery("#nothiddendivchild").height(), 20, "Test child height with border and padding");
-    jQuery("#nothiddendiv, #nothiddendivchild").css({ "border": "", "padding": "", "height": "" });
+    // tests that child div of an unconnected div works the same as a normal div
+    assertEquals( $divUnconnected.width(), $divNormal.width(), "unconnected element width() is wrong see #9441" );
+    assertEquals( $divUnconnected.innerWidth(), $divNormal.innerWidth(), "unconnected element innerWidth() is wrong see #9441" );
+    assertEquals( $divUnconnected.outerWidth(), $divNormal.outerWidth(), "unconnected element outerWidth() is wrong see #9441" );
+    assertEquals( $divUnconnected.outerWidth(true), $divNormal.outerWidth( true ), "unconnected element outerWidth( true ) is wrong see #9300" );
 
-    blah = jQuery("blah");
-    assertEquals( blah.height( val(10) ), blah, "Make sure that setting a height on an empty set returns the set." );
-    assertEquals( blah.height(), null, "Make sure 'null' is returned on an empty set");
+    assertEquals( $divUnconnected.height(), $divNormal.height(), "unconnected element height() is wrong see #9441" );
+    assertEquals( $divUnconnected.innerHeight(), $divNormal.innerHeight(), "unconnected element innerHeight() is wrong see #9441" );
+    assertEquals( $divUnconnected.outerHeight(), $divNormal.outerHeight(), "unconnected element outerHeight() is wrong see #9441" );
+    assertEquals( $divUnconnected.outerHeight(true), $divNormal.outerHeight( true ), "unconnected element outerHeight( true ) is wrong see #9300" );
 
-    assertEquals( jQuery(window).height(), document.documentElement.clientHeight, "Window width is assertEquals to width reported by window/document." );
+    // teardown html
+    $divHiddenParent.remove();
+    $divNormal.remove();
 </script>
 
 </body>

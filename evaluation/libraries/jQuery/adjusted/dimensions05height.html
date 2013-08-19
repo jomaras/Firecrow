@@ -258,6 +258,18 @@
 <script>
     var $div, blah;
 
+    function pass( val ) {
+        return val;
+    }
+
+    function fn( val ) {
+        return function() {
+            return val;
+        };
+    }
+
+    var val = fn;
+
     $div = jQuery("#nothiddendiv");
     $div.height( val(30) );
     assertEquals($div.height(), 30, "Test set to 30 correctly");

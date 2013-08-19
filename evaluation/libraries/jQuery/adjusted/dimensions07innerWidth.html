@@ -256,32 +256,36 @@
 </map>
 
 <script>
-    var $div, blah;
+    var $div, div,
+            winWidth = jQuery( window ).width(),
+            docWidth = jQuery( document ).width();
+
+    assertEquals(jQuery(window).innerWidth(), winWidth, "Test on window");
+    assertEquals(jQuery(document).innerWidth(), docWidth, "Test on document");
 
     $div = jQuery("#nothiddendiv");
-    $div.height( val(30) );
-    assertEquals($div.height(), 30, "Test set to 30 correctly");
-    $div.hide();
-    assertEquals($div.height(), 30, "Test hidden div");
-    $div.show();
-    $div.height( val(-1) ); // handle negative numbers by setting to 0 #11604
-    assertEquals($div.height(), 0, "Test negative height normalized to 0");
+    // set styles
+    $div.css({
+        "margin": 10,
+        "border": "2px solid #fff",
+        "width": 30
+    });
+
+    assertEquals($div.innerWidth(), 30, "Test with margin and border");
     $div.css("padding", "20px");
-    assertEquals($div.height(), 0, "Test padding specified with pixels");
-    $div.css("border", "2px solid #fff");
-    assertEquals($div.height(), 0, "Test border specified with pixels");
+    assertEquals($div.innerWidth(), 70, "Test with margin, border and padding");
+    $div.hide();
+    assertEquals($div.innerWidth(), 70, "Test hidden div");
 
-    $div.css({ "display": "", "border": "", "padding": "", "height": "1px" });
+    // reset styles
+    $div.css({ "display": "", "border": "", "padding": "", "width": "", "height": "" });
 
-    jQuery("#nothiddendivchild").css({ "height": 20, "padding": "3px", "border": "2px solid #fff" });
-    assertEquals(jQuery("#nothiddendivchild").height(), 20, "Test child height with border and padding");
-    jQuery("#nothiddendiv, #nothiddendivchild").css({ "border": "", "padding": "", "height": "" });
+    div = jQuery( "<div>" );
 
-    blah = jQuery("blah");
-    assertEquals( blah.height( val(10) ), blah, "Make sure that setting a height on an empty set returns the set." );
-    assertEquals( blah.height(), null, "Make sure 'null' is returned on an empty set");
+    // Temporarily require 0 for backwards compat - should be auto
+    assertEquals( div.innerWidth(), 0, "Make sure that disconnected nodes are handled." );
 
-    assertEquals( jQuery(window).height(), document.documentElement.clientHeight, "Window width is assertEquals to width reported by window/document." );
+    div.remove();
 </script>
 
 </body>

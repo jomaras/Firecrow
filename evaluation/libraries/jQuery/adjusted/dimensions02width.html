@@ -258,30 +258,42 @@
 <script>
     var $div, blah;
 
+    function pass( val ) {
+        return val;
+    }
+
+    function fn( val ) {
+        return function() {
+            return val;
+        };
+    }
+
+    var val = fn;
+
     $div = jQuery("#nothiddendiv");
-    $div.height( val(30) );
-    assertEquals($div.height(), 30, "Test set to 30 correctly");
+    $div.width( val(30) );
+    assertEquals($div.width(), 30, "Test set to 30 correctly");
     $div.hide();
-    assertEquals($div.height(), 30, "Test hidden div");
+    assertEquals($div.width(), 30, "Test hidden div");
     $div.show();
-    $div.height( val(-1) ); // handle negative numbers by setting to 0 #11604
-    assertEquals($div.height(), 0, "Test negative height normalized to 0");
+    $div.width( val(-1) ); // handle negative numbers by setting to 0 #11604
+    assertEquals($div.width(), 0, "Test negative width normalized to 0");
     $div.css("padding", "20px");
-    assertEquals($div.height(), 0, "Test padding specified with pixels");
+    assertEquals($div.width(), 0, "Test padding specified with pixels");
     $div.css("border", "2px solid #fff");
-    assertEquals($div.height(), 0, "Test border specified with pixels");
+    assertEquals($div.width(), 0, "Test border specified with pixels");
 
-    $div.css({ "display": "", "border": "", "padding": "", "height": "1px" });
+    $div.css({ "display": "", "border": "", "padding": "" });
 
-    jQuery("#nothiddendivchild").css({ "height": 20, "padding": "3px", "border": "2px solid #fff" });
-    assertEquals(jQuery("#nothiddendivchild").height(), 20, "Test child height with border and padding");
-    jQuery("#nothiddendiv, #nothiddendivchild").css({ "border": "", "padding": "", "height": "" });
+    jQuery("#nothiddendivchild").css({ "width": 20, "padding": "3px", "border": "2px solid #fff" });
+    assertEquals(jQuery("#nothiddendivchild").width(), 20, "Test child width with border and padding");
+    jQuery("#nothiddendiv, #nothiddendivchild").css({ "border": "", "padding": "", "width": "" });
 
     blah = jQuery("blah");
-    assertEquals( blah.height( val(10) ), blah, "Make sure that setting a height on an empty set returns the set." );
-    assertEquals( blah.height(), null, "Make sure 'null' is returned on an empty set");
+    assertEquals( blah.width( val(10) ), blah, "Make sure that setting a width on an empty set returns the set." );
+    assertEquals( blah.width(), null, "Make sure 'null' is returned on an empty set");
 
-    assertEquals( jQuery(window).height(), document.documentElement.clientHeight, "Window width is assertEquals to width reported by window/document." );
+    assertEquals( jQuery(window).width(), document.documentElement.clientWidth, "Window width is assertEquals to width reported by window/document." );
 </script>
 
 </body>

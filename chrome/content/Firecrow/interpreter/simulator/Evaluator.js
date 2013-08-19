@@ -38,8 +38,6 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
-            if(!ValueTypeHelper.isOfType(command, Firecrow.Interpreter.Commands.Command)) { this.notifyError(command, "When evaluating the argument has to be of type command"); return; }
-
                  if (command.isEvalIdentifierCommand()) { this._evalIdentifierCommand(command); }
             else if (command.isEvalAssignmentExpressionCommand()) { this._evalAssignmentCommand(command); }
             else if (command.isEvalMemberExpressionCommand()) { this._evalMemberCommand(command); }
@@ -423,9 +421,9 @@ fcSimulator.Evaluator.prototype =
 
         this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName);
 
-        forInWhereCommand.willBodyBeExecuted = !!nextPropertyName.jsValue;
+        forInWhereCommand.willBodyBeExecuted = !(nextPropertyName.jsValue === null || nextPropertyName.jsValue === undefined);
 
-        if(!nextPropertyName.jsValue){ return; }
+        if(!forInWhereCommand.willBodyBeExecuted){ return; }
 
         if(ASTHelper.isIdentifier(forInWhereConstruct.left))
         {

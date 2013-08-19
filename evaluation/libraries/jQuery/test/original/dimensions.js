@@ -137,35 +137,35 @@
         expect(6);
 
         var $div, div,
-            winWidth = jQuery( window ).width(),
-            docWidth = jQuery( document ).width();
+                                 winWidth = jQuery( window ).width(),
+                                 docWidth = jQuery( document ).width();
 
-        equal(jQuery(window).innerWidth(), winWidth, "Test on window");
-        equal(jQuery(document).innerWidth(), docWidth, "Test on document");
+                             equal(jQuery(window).innerWidth(), winWidth, "Test on window");
+                             equal(jQuery(document).innerWidth(), docWidth, "Test on document");
 
-        $div = jQuery("#nothiddendiv");
-        // set styles
-        $div.css({
-            "margin": 10,
-            "border": "2px solid #fff",
-            "width": 30
-        });
+                             $div = jQuery("#nothiddendiv");
+                             // set styles
+                             $div.css({
+                                 "margin": 10,
+                                 "border": "2px solid #fff",
+                                 "width": 30
+                             });
 
-        equal($div.innerWidth(), 30, "Test with margin and border");
-        $div.css("padding", "20px");
-        equal($div.innerWidth(), 70, "Test with margin, border and padding");
-        $div.hide();
-        equal($div.innerWidth(), 70, "Test hidden div");
+                             equal($div.innerWidth(), 30, "Test with margin and border");
+                             $div.css("padding", "20px");
+                             equal($div.innerWidth(), 70, "Test with margin, border and padding");
+                             $div.hide();
+                             equal($div.innerWidth(), 70, "Test hidden div");
 
-        // reset styles
-        $div.css({ "display": "", "border": "", "padding": "", "width": "", "height": "" });
+                             // reset styles
+                             $div.css({ "display": "", "border": "", "padding": "", "width": "", "height": "" });
 
-        div = jQuery( "<div>" );
+                             div = jQuery( "<div>" );
 
-        // Temporarily require 0 for backwards compat - should be auto
-        equal( div.innerWidth(), 0, "Make sure that disconnected nodes are handled." );
+                             // Temporarily require 0 for backwards compat - should be auto
+                             equal( div.innerWidth(), 0, "Make sure that disconnected nodes are handled." );
 
-        div.remove();
+                             div.remove();
         QUnit.expectJqData( $div[0], "olddisplay" );
     });
 
