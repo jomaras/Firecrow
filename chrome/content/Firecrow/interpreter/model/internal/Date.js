@@ -28,7 +28,7 @@ fcModel.DatePrototype = function(globalObject)
 {
     try
     {
-        this.initObject(globalObject);
+        this.initObject(globalObject, null, Date.prototype, globalObject.fcObjectPrototype);
         this.constructor = fcModel.DatePrototype;
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date#Methods_2
         fcModel.DatePrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
@@ -80,7 +80,7 @@ fcModel.DateFunction = function(globalObject)
 {
     try
     {
-        this.initObject(globalObject);
+        this.initObject(globalObject, null, Date, globalObject.fcFunctionPrototype);
 
         this.addProperty("prototype", globalObject.fcDatePrototype);
 

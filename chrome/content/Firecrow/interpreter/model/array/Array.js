@@ -295,7 +295,7 @@ fcModel.Array.prototype.splice = function(jsArray, args, codeConstruct)
 
         var isCalledOnArray = this.constructor === fcModel.Array;
 
-        if(!isCalledOnArray) { alert("Splice called on non-array!");}
+        if(!isCalledOnArray) { return fcModel.Array.prototype._spliceOnNonArray.call(this, jsArray, args, codeConstruct); }
 
         var lengthProperty = this.getPropertyValue("length");
         var length = lengthProperty != null ? lengthProperty.jsValue : 0;
@@ -320,6 +320,39 @@ fcModel.Array.prototype.splice = function(jsArray, args, codeConstruct)
         return this.globalObject.internalExecutor.createArray(codeConstruct, splicedItems);
     }
     catch(e) { fcModel.Array.notifyError("Error when splicing item: " + e); }
+};
+
+fcModel.Array.prototype._spliceOnNonArray = function(jsArray, args, codeConstruct)
+{
+    this.addDependencyToAllModifications(codeConstruct);
+    if(jsArray.length != null)
+    {
+        this.globalObject.dependencyCreator.createDataDependency(codeConstruct, jsArray.length.codeConstruct)
+    }
+
+    var adjustedArguments = [];
+
+    jsArray.length = jsArray.length != null ? jsArray.length.jsValue : null;
+
+    for(var i = 0; i < args.length; i++)
+    {
+        if(i <= 1) { adjustedArguments.push(args[i].jsValue); }
+        else  { adjustedArguments.push(args[i]); }
+    }
+
+    var oldLength = jsArray.length;
+
+    var resultArray = Array.prototype.splice.apply(jsArray, adjustedArguments);
+
+    var newLength = jsArray.length;
+
+    for(var i = 0; i < newLength; i++) { this.addProperty(i + "", jsArray[i], codeConstruct, true); }
+    for(i = newLength; i < oldLength; i++) { this.deleteProperty(i + "", codeConstruct);}
+
+    jsArray.length = this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, jsArray.length);
+    this.addProperty("length", jsArray.length, codeConstruct, false);
+
+    return this.globalObject.internalExecutor.createArray(codeConstruct, resultArray);
 };
 
 fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression)

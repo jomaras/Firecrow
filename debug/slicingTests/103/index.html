@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+        var myFish = ["angel", "clown", "mandarin", "surgeon"];
+
+        var removed = myFish.splice(2, 0, "drum");
+        var a1 = myFish.join(", ") == "angel, clown, drum, mandarin, surgeon";
+        var a2 = removed.join("") == "";
+
+        removed = myFish.splice(3, 1);
+        var a3 = myFish.join(", ") == "angel, clown, drum, surgeon";
+        var a4 = removed.join("") == "mandarin";
+
+        removed = myFish.splice(2, 1, "trumpet");
+        var a5 = myFish.join(", ") == "angel, clown, trumpet, surgeon";
+        var a6 = removed.join("") == "drum";
+
+        removed = myFish.splice(0, 2, "parrot", "anemone", "blue");
+        var a5 = myFish.join(", ") == "parrot, anemone, blue, trumpet, surgeon";
+        var a6 = removed.join(", ") == "angel, clown";
+
+        removed = myFish.splice(3, Number.MAX_VALUE);
+        var a5 = myFish.join(", ") == "parrot, anemone, blue";
+        var a6 = removed.join(", ") == "trumpet, surgeon";
+        a1;a2;a3;a4;a5;a6;
+    </script>
+</body>
+</html>
