@@ -417,9 +417,11 @@ fcSimulator.Evaluator.prototype =
 
         this._logForInIteration(forInWhereCommand, whereObject.iValue);
 
-        var nextPropertyName = whereObject.iValue.getPropertyNameAtIndex(forInWhereCommand.currentPropertyIndex + 1);
+        var nextPropertyIndex = forInWhereCommand.currentPropertyIndex + 1;
 
-        this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName);
+        var nextPropertyName = whereObject.iValue.getPropertyNameAtIndex(nextPropertyIndex);
+
+        this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName, nextPropertyIndex);
 
         forInWhereCommand.willBodyBeExecuted = !(nextPropertyName.jsValue === null || nextPropertyName.jsValue === undefined);
 

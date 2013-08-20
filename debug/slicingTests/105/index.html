@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+        function isEmptyObject(obj)
+        {
+            for(var prop in obj)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        var a1 = !isEmptyObject({a:3});
+        var a2 = isEmptyObject({});
+        a1; a2;
+    </script>
+</body>
+</html>
