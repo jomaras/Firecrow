@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+    <script>
+        var Local = {};
+
+        Local.Chain = new Class({
+            Implements: Chain
+        });
+
+        var foo = new Local.Chain();
+        var bar = new Local.Chain();
+        foo.val = "F";
+        bar.val = "B";
+        foo.chain(function(){
+            this.val += 'OO';
+        });
+        bar.chain(function(){
+            this.val += 'AR';
+        });
+        assertEquals(foo.val, 'F');
+        assertEquals(bar.val, 'B');
+        foo.callChain();
+        bar.callChain();
+        assertEquals(foo.val, 'FOO');
+        assertEquals(bar.val, 'BAR');
+    </script>
+</body>
+</html>

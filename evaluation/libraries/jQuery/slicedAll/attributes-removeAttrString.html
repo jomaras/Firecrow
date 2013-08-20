@@ -197,6 +197,15 @@
       makeArray: function(arr, results)
       {
         var ret = results;
+        if(arr != null)
+        {
+          if(isArraylike(Object(arr)));
+          else 
+          {
+            core_push.call(ret, arr);
+          }
+        }
+
         return ret;
       }, 
       inArray: function(elem, arr, i)

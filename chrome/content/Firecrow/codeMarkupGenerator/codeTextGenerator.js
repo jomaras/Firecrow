@@ -403,13 +403,15 @@ Firecrow.CodeTextGenerator.prototype =
 
         var functionBodyCode = this.generateFromFunctionBody(functionDecExp);
 
+        var isFunctionBodyNotEmpty = functionBodyCode.trim() != "{}";
+
         var shouldBeInParentheses = ASTHelper.isFunctionExpression(functionDecExp)
                                  && ASTHelper.isCallExpressionCallee(functionDecExp);
 
         return (shouldBeInParentheses ? this._LEFT_PARENTHESIS : "")
              +  this._FUNCTION_KEYWORD + (functionDecExp.id != null ? " " + this.generateFromIdentifier(functionDecExp.id) : "")
              +  this.generateFunctionParameters(functionDecExp)
-             +  this.newLine + functionBodyCode
+             +  (isFunctionBodyNotEmpty ? this.newLine + functionBodyCode : functionBodyCode.trim())
              +  (shouldBeInParentheses ? this._RIGHT_PARENTHESIS : "");
     },
 
@@ -602,16 +604,10 @@ Firecrow.CodeTextGenerator.prototype =
         var calleeCode = this.generateJsCode(callExpression.callee);
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
-        if(ASTHelper.isMemberExpression(callExpression.callee) && calleeCode[calleeCode.length-1] == ")")
+        if((ASTHelper.isMemberExpression(callExpression.callee) || ASTHelper.isCallExpression(callExpression.callee))
+         && calleeCode[calleeCode.length-1] == ")" && this._areArgumentsNotIncluded(callExpression.arguments))
         {
-            if(this._areArgumentsNotIncluded(callExpression.arguments))
-            {
-                return calleeCode;
-            }
-            else
-            {
-                calleeCode += ";33;";
-            }
+            return calleeCode;
         }
         //END HACKY
         return calleeCode

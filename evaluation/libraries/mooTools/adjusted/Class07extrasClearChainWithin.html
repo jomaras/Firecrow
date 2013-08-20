@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+    <script>
+        var Local = {};
+
+        Local.Chain = new Class({
+            Implements: Chain
+        });
+
+        var foo = new Local.Chain();
+
+        var test = 0;
+        foo.chain(function(){
+            test++;
+            foo.clearChain();
+        }).chain(function(){
+                    test++;
+                }).callChain();
+
+        assertEquals(test, 1);
+    </script>
+</body>
+</html>

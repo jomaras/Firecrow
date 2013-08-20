@@ -1040,7 +1040,8 @@
     {
       jQuery.each({
         padding: "inner" + name, 
-        content: type
+        content: type, 
+        "": "outer" + name
       }, function(defaultExtra, funcName)
       {
         jQuery.fn[funcName] = function(margin, value)

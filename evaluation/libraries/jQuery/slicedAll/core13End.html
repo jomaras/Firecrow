@@ -7,7 +7,7 @@
     <script>
   (function(window, undefined)
   {
-    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
     }, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
@@ -171,6 +171,15 @@
       makeArray: function(arr, results)
       {
         var ret = results;
+        if(arr != null)
+        {
+          if(isArraylike(Object(arr)));
+          else 
+          {
+            core_push.call(ret, arr);
+          }
+        }
+
         return ret;
       }, 
       inArray: function(elem, arr, i)

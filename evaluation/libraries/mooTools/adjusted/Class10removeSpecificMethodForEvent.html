@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+    <script>
+        var Local = {};
+        var fire = 'fireEvent';
+
+        Local.Chain = new Class({
+            Implements: Chain
+        });
+
+        Local.called = 0;
+        Local.fn = function(){
+            return Local.called++;
+        };
+
+        var object = new Events();
+        var x = 0, fn = function(){ x++; };
+
+        object.addEvent('event', Local.fn).addEvent('event', fn).removeEvent('event', Local.fn)[fire]('event');
+
+        assertEquals(x, 1);
+        assertEquals(Local.called, 0);
+    </script>
+</body>
+</html>

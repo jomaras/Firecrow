@@ -541,6 +541,13 @@ fcSimulator.DependencyCreator.prototype =
         }
         else
         {
+            var propertyDeletePosition = object.iValue.getPropertyDeletionPosition(property.jsValue);
+
+            if(propertyDeletePosition != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, propertyDeletePosition.codeConstruct, evaluationPosition, propertyDeletePosition.evaluationPosition);
+            }
+
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition, evaluationPosition, true);
 
             if(memberExpression.computed && ASTHelper.isIdentifier(memberExpression.property))

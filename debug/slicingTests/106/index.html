@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+        var a1 = 0;
+        var force = function(number)
+        {
+            if(number %2 == 0)
+            {
+                a1 += number;
+            }
+            return force;
+        }
+
+        force(2)(4)(3);
+
+        a1;
+    </script>
+</body>
+</html>

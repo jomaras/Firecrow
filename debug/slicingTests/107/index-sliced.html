@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+<script>
+    var myFish = {0: 'angel', 1: 'clown', 2: 'mandarin', 3: 'surgeon', length: 4};
+    var removed = Array.prototype.splice.call(myFish, 2, 0, 'drum');
+    var a1 = myFish[0] == 'angel' && myFish[1] == 'clown' && myFish[2] == 'drum' && myFish[3] == 'mandarin' && myFish[4] == 'surgeon' && myFish.length == 5;
+    var a2 = removed.length == 0;
+    removed = Array.prototype.splice.call(myFish, 3, 1);
+    var a3 = myFish[0] == 'angel' && myFish[1] == 'clown' && myFish[2] == 'drum' && myFish[3] == 'surgeon' && myFish.length == 4;
+    var a4 = removed[0] == 'mandarin' && removed.length == 1;
+    Array.prototype.splice.call(myFish, 2, 1, 'trumpet');
+    var a5;
+    var a6;
+    Array.prototype.splice.call(myFish, 0, 2, 'parrot', 'anemone', 'blue');
+    var a5;
+    var a6;
+    removed = Array.prototype.splice.call(myFish, 3, Number.MAX_VALUE);
+    var a5 = myFish[0] == 'parrot' && myFish[1] == 'anemone' && myFish[2] == 'blue' && myFish.length == 3;
+    var a6 = removed[0] == 'trumpet' && removed[1] == 'surgeon' && removed.length == 2;
+    a1;
+    a2;
+    a3;
+    a4;
+    a5;
+    a6;
+</script>
+
+</body>
+</html>

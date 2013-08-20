@@ -123,7 +123,7 @@
 
 <script>
   assertEquals(true, jQuery.isEmptyObject({}), "isEmptyObject on empty object literal");
-  assertEquals(false, jQuery.isEmptyObject({}), "isEmptyObject on non-empty object literal");
+  assertEquals(false, jQuery.isEmptyObject({a: 1}), "isEmptyObject on non-empty object literal");
 </script>
 
 

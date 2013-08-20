@@ -117,6 +117,7 @@
     <script>
         (function()
         {
+            var dateNow = Date.now;
             var slicingResultTextArea = document.getElementById("slicingResultTextArea");
             var loadingTimeTextArea = document.getElementById("loadingTimeTextArea");
             var astNodesTextArea = document.getElementById("astNodesTextArea");
@@ -149,11 +150,11 @@
             //Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
             //Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
 
-            var startTime = Date.now();
+            var startTime = dateNow();
             Firecrow.Slicer.slice(pageModel);
             slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
             astNodesTextArea.textContent = nodeId;
-            loadingTimeTextArea.textContent = Date.now() - startTime;
+            loadingTimeTextArea.textContent = dateNow - startTime;
         })();
     </script>
 

@@ -34,6 +34,7 @@ fcModel.Object.prototype =
         this.properties = [];
         this.enumeratedProperties = [];
         this.modifications = [];
+        this.propertyDeletionPositionMap = {};
 
         this.addProperty("__proto__", proto, codeConstruct, false);
 
@@ -286,6 +287,11 @@ fcModel.Object.prototype =
                 if(this.properties[i].name == propertyName)
                 {
                     ValueTypeHelper.removeFromArrayByIndex(this.properties, i);
+                    this.propertyDeletionPositionMap[propertyName] =
+                    {
+                        codeConstruct: codeConstruct,
+                        evaluationPosition: this.globalObject.getPreciseEvaluationPositionId()
+                    };
                     break;
                 }
             }
@@ -300,6 +306,11 @@ fcModel.Object.prototype =
             }
         }
         catch(e) { fcModel.Object.notifyError("Error when deleting property:" + e);}
+    },
+
+    getPropertyDeletionPosition: function(propertyName)
+    {
+        return this.propertyDeletionPositionMap[propertyName];
     },
     //</editor-fold>
 

@@ -20,7 +20,7 @@ fcSimulator.InternalExecutor.prototype =
         if(this._isNonConstructorObjectCreation(constructorFunction, creationCodeConstruct)) { return this.createNonConstructorObject(creationCodeConstruct); }
         else if(this._isUserConstructorObjectCreation(constructorFunction)) { return this._createObjectFromUserFunction(constructorFunction, creationCodeConstruct, argumentValues); }
         else if (this.isInternalConstructor(constructorFunction)) { return this.executeInternalConstructor(creationCodeConstruct, constructorFunction, argumentValues); }
-        else { this.notifyError("Unknown state when creating object"); return null; }
+        else { console.log(Firecrow.CodeTextGenerator.generateJsCode(creationCodeConstruct)); this.notifyError("Unknown state when creating object"); return null; }
     },
 
     createInternalPrimitiveObject: function(codeConstruct, value, symbolicValue)
@@ -226,10 +226,13 @@ fcSimulator.InternalExecutor.prototype =
             }
         }
 
-        if(navigator.plugins['Shockwave Flash'] != null)
+        var flashPlugin = navigator.plugins["Shockwave Flash"];
+        if(flashPlugin == null)
         {
-            this._createProperty(pluginsArrayObject, 'Shockwave Flash', this._createPluginInfo(navigator.plugins['Shockwave Flash']), navigator.plugins['Shockwave Flash']);
+            flashPlugin = { description: "0 r0", filename: "Flash", name:"Flash", version: 0};
         }
+
+        this._createProperty(pluginsArrayObject, 'Shockwave Flash', this._createPluginInfo(flashPlugin), flashPlugin);
         this._createProperty(pluginsArrayObject, "length", navigator.plugins.length);
 
         return pluginsArrayObject;
@@ -237,13 +240,13 @@ fcSimulator.InternalExecutor.prototype =
 
     _createPluginInfo: function(plugin)
     {
+        plugin = plugin || {};
         var pluginValue = fcModel.Object.createObjectWithInit(this.globalObject, null, plugin);
 
         this._createProperty(pluginValue, "description", plugin.description);
         this._createProperty(pluginValue, "filename", plugin.filename);
         this._createProperty(pluginValue, "name", plugin.name);
         this._createProperty(pluginValue, "version", plugin.version);
-
         return pluginValue;
     },
 
@@ -340,7 +343,7 @@ fcSimulator.InternalExecutor.prototype =
 
         var jsArgs = this.globalObject.getJsValues(args);
 
-        if(internalConstructor.iValue == this.globalObject.arrayFunction) { return this.createArray(constructorConstruct, Array.apply(null, args));}
+        if(internalConstructor.iValue == this.globalObject.arrayFunction) { return this.createArray(constructorConstruct, Array.apply(null, jsArgs));}
         else if (internalConstructor.iValue == this.globalObject.regExFunction) { return this.createRegEx(constructorConstruct, RegExp.apply(null, jsArgs));}
         else if (internalConstructor.iValue == this.globalObject.stringFunction) { return this.createString(constructorConstruct, String.apply(null, jsArgs));}
         else if (internalConstructor.iValue == this.globalObject.booleanFunction) { return new fcModel.fcValue(Boolean.apply(null, jsArgs), Boolean.apply(null, jsArgs), constructorConstruct); }

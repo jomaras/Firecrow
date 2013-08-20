@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+    <script>
+        var Local = {};
+        var fire = 'fireEvent';
+
+        Local.Chain = new Class({
+            Implements: Chain
+        });
+
+        Local.OptionsTest = new Class({
+            Implements: [Options, Events],
+
+            options: {
+                a: 1,
+                b: 2
+            },
+
+            initialize: function(options){
+                this.setOptions(options);
+            }
+        });
+
+        var myTest = new Local.OptionsTest({a: 3, b: 4});
+        assertEquals(myTest.options.a, 3);
+        assertEquals(myTest.options.b, 4);
+    </script>
+</body>
+</html>

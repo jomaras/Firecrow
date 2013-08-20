@@ -200,6 +200,10 @@
           {
             jQuery.merge(ret, typeof arr === "string" ? [arr] : 0);
           }
+          else 
+          {
+            core_push.call(ret, arr);
+          }
         }
 
         return ret;

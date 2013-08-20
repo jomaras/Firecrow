@@ -4,7 +4,7 @@
     
     
     
-    <script>
+    <script>  function assertEqual(a,b,message){if(a!=b)console.log(message)} function assert(a, message) { if(!a)console.log(message);}
   (function(window, undefined)
   {
     var rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
@@ -993,6 +993,8 @@
       {}
     });
     jQuery.each({
+      parent: function(elem)
+      {}, 
       contents: function(elem)
       {
         return jQuery.nodeName(elem, "iframe") ? 0 : jQuery.merge([], elem.childNodes);
@@ -1414,6 +1416,7 @@
   jQuery.each([window, document, obj, "#firstp"], function(i, elem)
   {
     var $elem = jQuery(elem);
+    assertEqual($elem.attr("nonexisting"), undefined, "attr works correctly for non existing attributes (bug #7500).");
     assertEqual($elem.attr("nonexisting", "foo").attr("nonexisting"), "foo", "attr falls back to prop on unsupported arguments");
   });
   table = jQuery("#table").append("<tr><td>cell</td></tr><tr><td>cell</td><td>cell</td></tr><tr><td>cell</td><td>cell</td></tr>");
