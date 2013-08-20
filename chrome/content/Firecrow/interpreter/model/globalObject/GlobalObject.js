@@ -607,6 +607,7 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
 
     this.functionPrototype = new fcModel.FunctionPrototype(this);
     this.fcFunctionPrototype = new fcModel.fcValue(Function.prototype, this.functionPrototype, null);
+    this.functionPrototype.initFunctionPrototype();
 
     this.objectPrototype.initMethods();
 

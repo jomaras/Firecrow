@@ -29,7 +29,7 @@ fcModel.StringPrototype = function(globalObject)
 {
     try
     {
-        this.initObject(globalObject);
+        this.initObject(globalObject, null, String.prototype, globalObject.fcObjectPrototype);
         this.constructor = fcModel.StringPrototype;
 
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array#Methods_2
@@ -71,10 +71,9 @@ fcModel.StringFunction = function(globalObject)
 {
     try
     {
-        this.initObject(globalObject);
+        this.initObject(globalObject, null, String, globalObject.fcFunctionPrototype);
 
         this.addProperty("prototype", globalObject.fcStringPrototype);
-        this.proto = globalObject.fcFunctionPrototype;
 
         this.isInternalFunction = true;
         this.name = "String";

@@ -754,10 +754,6 @@ fcSimulator.Evaluator.prototype =
 
     _getPropertyValue: function(object, property, memberExpression)
     {
-        try
-        {
-
-
         var propertyValue = object.iValue.getJsPropertyValue(property.jsValue, memberExpression);
 
         if(!ValueTypeHelper.isOfType(propertyValue, fcModel.fcValue) && propertyValue != this.globalObject)
@@ -768,11 +764,6 @@ fcSimulator.Evaluator.prototype =
         }
 
         return propertyValue;
-        }
-        catch(e)
-        {
-            debugger;
-        }
     },
 
     _isLogicalExpressionDoneWithEvaluation: function(value, operator)

@@ -11,7 +11,7 @@ fcModel.ArrayPrototype = function(globalObject)
 {
     try
     {
-        this.initObject(globalObject);
+        this.initObject(globalObject, null, Array.prototype, globalObject.fcObjectPrototype);
 
         this.constructor = fcModel.ArrayPrototype;
         this.addProperty("__proto__", this.globalObject.fcObjectPrototype);

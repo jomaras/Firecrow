@@ -74,32 +74,35 @@ fcModel.FunctionPrototype = function(globalObject)
 {
     try
     {
-        this.initObject(globalObject);
+        this.initObject(globalObject, null, Function.prototype, globalObject.fcObjectPrototype);
 
         this.constructor = fcModel.FunctionPrototype;
         this.proto = this.globalObject.fcObjectPrototype;
 
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
-        fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
-        {
-            this.addProperty
-            (
-                propertyName,
-                new fcModel.fcValue
-                (
-                    Function.prototype[propertyName],
-                    fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
-                    null
-                ),
-                null,
-                false
-            );
-        }, this);
     }
     catch(e) { fcModel.Function.notifyError ("Error when creating function prototype:" + e); }
 };
 
 fcModel.FunctionPrototype.prototype = new fcModel.Object();
+fcModel.FunctionPrototype.prototype.initFunctionPrototype = function()
+{
+    fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
+    {
+        this.addProperty
+        (
+            propertyName,
+            new fcModel.fcValue
+            (
+                Function.prototype[propertyName],
+                fcModel.Function.createInternalNamedFunction(this.globalObject, propertyName, this),
+                null
+            ),
+            null,
+            false
+        );
+    }, this);
+}
 
 fcModel.FunctionPrototype.CONST =
 {

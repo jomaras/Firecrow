@@ -37,7 +37,7 @@ fcModel.ObjectPrototype.CONST =
 {
     INTERNAL_PROPERTIES :
     {
-        METHODS: ["toString", "hasOwnProperty", "isPrototypeOf", "valueOf"]
+        METHODS: ["toString", "hasOwnProperty", "isPrototypeOf", "valueOf", "propertyIsEnumerable"]
     }
 };
 /*************************************************************************************/

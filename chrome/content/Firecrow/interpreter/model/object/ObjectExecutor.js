@@ -83,6 +83,8 @@ fcModel.ObjectExecutor =
                 return this._seal(callExpression, args, globalObject);
             case "isSealed":
                 return this._isSealed(callExpression, args, globalObject);
+            case "propertyIsEnumerable":
+                return this._propertyIsEnumerable(thisObject, argumentValues, globalObject, callExpression)
             default:
                 alert("Object Function unhandled function: " + functionName);
         }
@@ -279,6 +281,11 @@ fcModel.ObjectExecutor =
         }
 
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, !args[0].iValue.preventExtensions);
+    },
+
+    _propertyIsEnumerable: function(thisObject, argumentValues, globalObject, callExpression)
+    {
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, thisObject.jsValue.propertyIsEnumerable(argumentValues[0]));
     },
 
     _createArrayFromPropertyNames: function(iObject, propertyNames, globalObject, callExpression)
