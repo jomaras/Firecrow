@@ -5,7 +5,7 @@ var fcModel = Firecrow.Interpreter.Model;
 
 Firecrow.Interpreter.Model.FunctionFunction = function(globalObject)
 {
-    this.initObject(globalObject);
+    this.initObject(globalObject, null, Function, globalObject.fcFunctionPrototype);
 
     this.addProperty("prototype", this.globalObject.fcFunctionPrototype);
 

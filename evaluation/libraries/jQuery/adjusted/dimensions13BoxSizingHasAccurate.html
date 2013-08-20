@@ -255,7 +255,7 @@
     <area shape="rect" coords="0,0,200,50">
 </map>
 
-<script>
+<script> function assertEquals(a,b,message){if(a!=b)console.log(message);}
     var $divNormal = jQuery("<div>").css({ "boxSizing": "border-box", "width": "100px", "height": "100px", "border": "10px solid white", "padding": "2px", "margin": "3px" }),
             $divChild = $divNormal.clone(),
             $divUnconnected = $divNormal.clone(),
