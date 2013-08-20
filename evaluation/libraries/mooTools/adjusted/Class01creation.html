@@ -43,9 +43,6 @@
             size: function(){ return 'attributes:size:' + this.name; }
         });
 
-        assertEquals($type(Animal), 'class');
-        assertEquals(Class.type(Animal), true);
-
         var animal = new Animal('lamina');
         assertEquals(animal.name, 'lamina');
         assertEquals(animal.initialized, true);

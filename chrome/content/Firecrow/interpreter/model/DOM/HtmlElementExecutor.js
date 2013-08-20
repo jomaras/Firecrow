@@ -53,6 +53,8 @@ fcModel.HtmlElementExecutor =
                 return this._getElements(functionName, globalObject, args[0].jsValue, thisObjectValue, jsArguments, callExpression);
             case "getAttribute":
                 return this._getAttribute(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
+            case "getAttributeNode":
+                return this._getAttributeNode(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "setAttribute":
             case "removeAttribute":
                 return this._modifyAttribute(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
@@ -264,6 +266,17 @@ fcModel.HtmlElementExecutor =
         this.addDependencies(thisObjectValue, callExpression, globalObject);
 
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);
+    },
+
+    _getAttributeNode: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
+    {
+        var attribute = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+
+        if(attribute == null) { return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, null); }
+
+        this.addDependencies(thisObjectValue, callExpression, globalObject);
+
+        return fcModel.Attr.wrapAttribute(attribute, globalObject, callExpression);
     },
 
     _modifyAttribute: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)

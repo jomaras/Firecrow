@@ -425,7 +425,7 @@ Firecrow.DependencyGraph.InclusionFinder.prototype =
 
     isIncludedLabeledStatement: function(labeledStatement)
     {
-        return label.shouldBeIncluded
+        return labeledStatement.shouldBeIncluded
             || this.isIncludedIdentifier(labeledStatement.label)
             || this.isIncludedElement(labeledStatement.body);
     },

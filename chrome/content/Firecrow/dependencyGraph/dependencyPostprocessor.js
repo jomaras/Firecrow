@@ -9,11 +9,11 @@ Firecrow.DependencyGraph.DependencyPostprocessor = function()
     this.inclusionFinder = new InclusionFinder();
 };
 
-Firecrow.DependencyGraph.DependencyPostprocessor.notifyError = function(message) { alert("DependencyPostprocessor - " + message); }
+Firecrow.DependencyGraph.DependencyPostprocessor.notifyError = function(message) { debugger; alert("DependencyPostprocessor - " + message); }
 Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement = function(model)
 {
     try { (new Firecrow.DependencyGraph.DependencyPostprocessor()).processHtmlElement(model); }
-    catch(e) { Firecrow.DependencyGraph.DependencyPostprocessor.notifyError("Error when processing HTML element " + e); }
+    catch(e) {  Firecrow.DependencyGraph.DependencyPostprocessor.notifyError("Error when processing HTML element " + e); }
 };
 
 Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
