@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="shortMoo.js"></script>
+</head>
+<body>
+<script>
+    var Animal = new Class({
+        initialized: false,
+        initialize: function(name)
+        {
+            this.name = name;
+        },
+        eat: function(){}
+    });
+    var animal = new Animal("mici");
+    assertEquals(animal.name, "mici", "Animal name does not match");
+</script>
+
+</body>
+</html>

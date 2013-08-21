@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    
+    <script>
+  (function()
+  {
+    var typeOf = this.typeOf = function(item)
+    {
+      if(item == null)
+      return 'null';
+
+      if(item.$family != null)
+      return item.$family();
+
+      return typeof item;
+    };
+    var instanceOf = this.instanceOf = function(item, object)
+    {
+      return item instanceof object;
+    };
+    var Function = this.Function;
+    Function.prototype.overloadSetter = function(usePlural)
+    {
+      var self = this;
+      return function(a, b)
+      {
+        if(usePlural || typeof a != 'string')
+        {
+          for(var k in a)
+          self.call(this, k, a[k]);
+        }
+        else 
+        {
+          self.call(this, a, b);
+        }
+
+        return this;
+      };
+    };
+    Function.prototype.extend = (function(key, value)
+    {
+      this[key] = value;
+    }).overloadSetter();
+    Function.prototype.implement = (function(key, value)
+    {
+      this.prototype[key] = value;
+    }).overloadSetter();
+    var slice = Array.prototype.slice;
+    Function.from = function(item)
+    {
+      return typeOf(item) == 'function' ? 0 : function(){};
+    };
+    Array.from = function(item)
+    {
+      return false ? 0 : [item];
+    };
+    Function.implement({
+      hide: function()
+      {
+        return this;
+      }, 
+      protect: function()
+      {
+        return this;
+      }
+    });
+    var Type = this.Type = function(name, object)
+    {
+      if(name)
+      {
+        var lower = name.toLowerCase();
+        if(object != null)
+        {
+          object.prototype.$family = (function()
+          {
+            return lower;
+          }).hide();
+        }
+      }
+
+      object.extend(this);
+      return object;
+    };
+    var hooks = {};
+    var hooksOf = function(object)
+    {
+      var type = typeOf(object.prototype);
+      return hooks[type] || (hooks[type] = []);
+    };
+    var implement = function(name, method)
+    {
+      var hooks = hooksOf(this);
+      for(var i = 0;i < hooks.length;i++)
+      {
+        var hook = hooks[i];
+        if(typeOf(hook) == 'type');
+        else 
+        hook.call(this, name, method);
+      }
+
+      var previous = this.prototype[name];
+      if(previous == null)
+      this.prototype[name] = method;
+
+      if(this[name] == null && typeOf(method) == 'function')
+      extend.call(this, name, function(item)
+      {
+        return method.apply(item, slice.call(arguments, 1));
+      });
+    };
+    var extend = function(name, method)
+    {
+      var previous = this[name];
+      if(previous == null)
+      this[name] = method;
+    };
+    Type.implement({
+      implement: implement.overloadSetter(), 
+      mirror: function(hook)
+      {
+        hooksOf(this).push(hook);
+      }
+    });
+    var force = function(name, object, methods)
+    {
+      var isType = object != Object, prototype = object.prototype;
+      if(isType)
+      object = new Type(name, object);
+
+      for(var i = 0, l = methods.length;i < l;i++)
+      {
+        var key = methods[i], proto = prototype[key];
+        if(isType && proto)
+        object.implement(key, proto.protect());
+      }
+
+      return force;
+    };
+    force('String', String, ['charAt', 'charCodeAt', 'concat', 'indexOf', 'lastIndexOf', 'match', 'quote', 'replace', 'search', 'slice', 'split', 'substr', 'substring', 'trim', 'toLowerCase', 'toUpperCase'])('Array', Array, ['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice', 'indexOf', 'lastIndexOf', 'filter', 'forEach', 'every', 'map', 'some', 'reduce', 'reduceRight'])('Number', Number, ['toExponential', 'toFixed', 'toLocaleString', 'toPrecision'])('Function', Function, ['apply', 'call', 'bind']);
+    Object.extend = extend.overloadSetter();
+    new Type('Boolean', Boolean);
+    Number.prototype.$family = (function()
+    {
+      return isFinite(this) ? 'number' : 0;
+    }).hide();
+    var cloneOf = function(item)
+    {
+      switch(typeOf(item))
+      {
+        case 'object':
+          return Object.clone(item);
+        default:
+          return item;
+      }
+    };
+    Array.implement('clone', function()
+    {
+      var i = this.length, clone = new Array(i);
+      return clone;
+    });
+    var mergeOne = function(source, key, current)
+    {
+      switch(typeOf(current))
+      {
+        case 'object':
+          if(typeOf(source[key]) == 'object')
+          Object.merge(source[key], current);
+          else 
+          source[key] = Object.clone(current);
+
+          break;
+        case 'array':
+          source[key] = current.clone();
+          break;
+      }
+    };
+    Object.extend({
+      merge: function(source, k, v)
+      {
+        if(typeOf(k) == 'string')
+        return mergeOne(source, k, v);
+
+        for(var i = 1, l = arguments.length;i < l;i++)
+        {
+          var object = arguments[i];
+          for(var key in object)
+          mergeOne(source, key, object[key]);
+        }
+      }, 
+      clone: function(object)
+      {
+        var clone = {};
+        for(var key in object)
+        clone[key] = cloneOf(object[key]);
+
+        return clone;
+      }
+    });
+    ['Object', 'WhiteSpace', 'TextNode', 'Collection', 'Arguments'](function(name)
+    {
+      new Type(name);
+    });
+  })();
+  Array.implement({
+    every: function(fn, bind){}, 
+    clean: function(){}, 
+    invoke: function(methodName){}, 
+    associate: function(keys){}, 
+    link: function(object){}, 
+    contains: function(item, from){}, 
+    append: function(array)
+    {
+      this.push.apply(this, array);
+    }, 
+    getLast: function(){}, 
+    getRandom: function(){}, 
+    include: function(item){}, 
+    combine: function(array){}, 
+    erase: function(item){}, 
+    empty: function(){}, 
+    flatten: function()
+    {
+      var array = [];
+      for(var i = 0, l = this.length;i < l;i++)
+      {
+        var type = typeOf(this[i]);
+        array = array.concat(type == 'array' || type == 'collection' || type == 'arguments' || instanceOf(this[i], Array) ? 0 : this[i]);
+      }
+
+      return array;
+    }, 
+    pick: function(){}, 
+    hexToRgb: function(array){}, 
+    rgbToHex: function(array){}
+  });
+  (function()
+  {
+    var document = this.document;
+    var Browser = this.Browser = {
+      extend: Function.prototype.extend
+    };
+    Browser.extend({
+      Document: this.Document, 
+      Element: this.Element
+    });
+    document.$family = Function.from('document').hide();
+  })();
+  (function()
+  {
+    var Class = this.Class = new Type('Class', function(params)
+    {
+      var newClass = (function()
+      {
+        reset(this);
+        if(newClass.$prototyping)
+        return this;
+
+        var value = this.initialize ? 0 : this;
+        return value;
+      }).extend(this).implement(params);
+      newClass.prototype.parent = parent;
+      return newClass;
+    });
+    var parent = function(){};
+    var reset = function(object)
+    {
+      for(var key in object)
+      {
+        var value = object[key];
+        switch(typeOf(value))
+        {
+          case 'object':
+            var F = function(){}
+            F.prototype = value;
+            object[key] = reset(new F());
+            break;
+          case 'array':
+            object[key] = value.clone();
+            break;
+        }
+      }
+
+      return object;
+    };
+    var wrap = function(self, key, method)
+    {
+      var wrapper = (function()
+      {
+        var result = method.apply(this, arguments);
+        return result;
+      }).extend({
+        $owner: self
+      });
+      return wrapper;
+    };
+    var implement = function(key, value, retain)
+    {
+      if(Class.Mutators.hasOwnProperty(key))
+      {
+        Class.Mutators[key].call(this, value);
+      }
+
+      if(typeOf(value) == 'function')
+      {
+        this.prototype[key] = retain ? value : wrap(this, key, value);
+      }
+      else 
+      {
+        Object.merge(this.prototype, key, value);
+      }
+    };
+    var getInstance = function(klass)
+    {
+      klass.$prototyping = true;
+      var proto = new klass();
+      return proto;
+    };
+    Class.implement('implement', implement.overloadSetter());
+    Class.Mutators = {
+      Extends: function(parent)
+      {
+        this.prototype = getInstance(parent);
+      }, 
+      Implements: function(items)
+      {
+        Array.from(items)(function(item)
+        {
+          var instance = new item();
+          for(var key in instance)
+          implement.call(this, key, instance[key], true);
+        }, null);
+      }
+    };
+  })();
+  (function()
+  {
+    this.Chain = new Class({
+      $chain: [], 
+      chain: function()
+      {
+        this.$chain.append(Array.flatten(arguments));
+      }, 
+      callChain: function()
+      {
+        return this.$chain.length ? this.$chain.shift().apply(this, arguments) : false;
+      }, 
+      clearChain: function(){}
+    });
+    this.Events = new Class({
+      $events: {}, 
+      addEvent: function(type, fn, internal){}, 
+      addEvents: function(events){}, 
+      fireEvent: function(type, args, delay){}, 
+      removeEvent: function(type, fn){}, 
+      removeEvents: function(events){}
+    });
+    this.Options = new Class({
+      setOptions: function(){}
+    });
+  })();
+  var Element = function(tag, props){};
+  if(Browser.Element)
+  {
+    Element.prototype = Browser.Element.prototype;
+  }
+
+  (new Type('Element', Element)).mirror(function(name)
+  {
+    var obj = {};
+    obj[name] = function(){};
+    Elements.implement(obj);
+  });
+  var Elements = this.Elements = function(nodes){};
+  Elements.prototype = {};
+  (new Type('Elements', Elements)).implement({
+    filter: (function(filter, bind){}).protect(), 
+    push: (function(){}).protect(), 
+    unshift: (function(){}).protect(), 
+    concat: (function(){}).protect(), 
+    append: (function(collection){}).protect(), 
+    empty: (function(){}).protect()
+  });
+  (function()
+  {
+    var Fx = this.Fx = new Class({
+      Implements: [Chain, Events, Options], 
+      options: {fps: 60, unit: false, duration: 500, frameSkip: true, link: 'ignore'}, 
+      initialize: function(options){}, 
+      getTransition: function(){}, 
+      step: function(now){}, 
+      set: function(now){}, 
+      compute: function(from, to, delta){}, 
+      check: function(){}, 
+      start: function(from, to){}, 
+      stop: function(){}, 
+      cancel: function(){}, 
+      pause: function(){}, 
+      resume: function(){}, 
+      isRunning: function(){}
+    });
+  })();
+  Fx.CSS = new Class({
+    Extends: Fx, 
+    prepare: function(element, property, values){}, 
+    parse: function(value){}, 
+    compute: function(from, to, delta){}, 
+    serve: function(value, unit){}, 
+    render: function(element, property, value, unit){}, 
+    search: function(selector){}
+  });
+  new Class({
+    Extends: Fx.CSS, 
+    initialize: function(element, options){}, 
+    set: function(property, now){}, 
+    start: function(property, from, to){}
+  });
+  new Class({
+    Extends: Fx.CSS, 
+    initialize: function(element, options){}, 
+    set: function(now){}, 
+    compute: function(from, to, delta){}, 
+    start: function(properties){}
+  });
+  (function()
+  {
+    var Request = this.Request = new Class({
+      Implements: [Chain, Events, Options], 
+      options: {
+        url: '', 
+        data: '', 
+        headers: {'X-Requested-With': 'XMLHttpRequest', 'Accept': 'text/javascript, text/html, application/xml, text/xml, */*'}, 
+        async: true, 
+        format: false, 
+        method: 'post', 
+        link: 'ignore', 
+        emulation: true, 
+        urlEncoded: true, 
+        encoding: 'utf-8', 
+        evalScripts: false, 
+        evalResponse: false, 
+        timeout: 0, 
+        noCache: false
+      }, 
+      initialize: function(options){}, 
+      onStateChange: function(){}, 
+      isSuccess: function(){}, 
+      isRunning: function(){}, 
+      processScripts: function(text){}, 
+      success: function(text, xml){}, 
+      onSuccess: function(){}, 
+      failure: function(){}, 
+      onFailure: function(){}, 
+      loadstart: function(event){}, 
+      progress: function(event){}, 
+      timeout: function(){}, 
+      setHeader: function(name, value){}, 
+      getHeader: function(name){}, 
+      check: function(){}, 
+      send: function(options){}, 
+      cancel: function(){}
+    });
+  })();
+  new Class({
+    Extends: Request, 
+    options: {
+      update: false, 
+      append: false, 
+      evalScripts: true, 
+      filter: false, 
+      headers: {Accept: 'text/html, application/xml, text/xml, */*'}
+    }, 
+    success: function(text){}
+  });
+  Element.implement({
+    load: function(){}
+  });
+  new Class({
+    Extends: Request, 
+    options: {secure: true}, 
+    initialize: function(options){}, 
+    success: function(text){}
+  });
+  var Cookie = new Class({
+    Implements: Options, 
+    options: {
+      path: '/', 
+      domain: false, 
+      duration: false, 
+      secure: false, 
+      document: document, 
+      encode: true
+    }, 
+    initialize: function(key, options){}, 
+    write: function(value){}, 
+    read: function(){}, 
+    dispose: function(){}
+  });
+  (function()
+  {
+    var Swiff = new Class({
+      Implements: Options, 
+      options: {
+        id: null, 
+        height: 1, 
+        width: 1, 
+        properties: {}, 
+        params: {quality: 'high', allowScriptAccess: 'always', wMode: 'window', swLiveConnect: true}, 
+        callBacks: {}, 
+        vars: {}
+      }, 
+      toElement: function(){}, 
+      initialize: function(path, options){}, 
+      replaces: function(element){}, 
+      inject: function(element){}, 
+      remote: function(){}
+    });
+  })();
+</script>
+</head>
+<body>
+    <script>
+  var Local = {};
+  Local.Chain = new Class({
+    Implements: Chain
+  });
+  var chain = new Local.Chain();
+  var arr = [];
+  chain.chain(function(a, b)
+  {
+    var str = ("0" + b) + a;
+    arr.push(str);
+    return str;
+  });
+  chain.chain(function(a, b)
+  {
+    var str = ("1" + b) + a;
+    arr.push(str);
+    return str;
+  });
+  var ret;
+  assertEquals(arr.join(), "");
+  ret = chain.callChain("a", "A");
+  assertEquals(ret, "0Aa");
+  assertEquals(arr.join(), "0Aa");
+  ret = chain.callChain("b", "B");
+  assertEquals(ret, "1Bb");
+  assertEquals(arr.join(","), "0Aa,1Bb");
+  ret = chain.callChain();
+  assertEquals(ret, false);
+  assertEquals(arr.join(","), "0Aa,1Bb");
+</script>
+
+</body>
+</html>

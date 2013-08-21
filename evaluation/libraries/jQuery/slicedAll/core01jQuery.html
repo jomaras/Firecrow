@@ -10,8 +10,7 @@
     var rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
-    }, core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter)
-    {};
+    }, core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter){};
     jQuery.fn = jQuery.prototype = {
       constructor: jQuery, 
       init: function(selector, context, rootjQuery)
@@ -136,26 +135,21 @@
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
-      noConflict: function(deep)
-      {}, 
+      noConflict: function(deep){}, 
       isReady: false, 
       readyWait: 1, 
-      holdReady: function(hold)
-      {}, 
-      ready: function(wait)
-      {}, 
+      holdReady: function(hold){}, 
+      ready: function(wait){}, 
       isFunction: function(obj)
       {
         return jQuery.type(obj) === "function";
       }, 
-      isArray: Array.isArray || function(obj)
-      {}, 
+      isArray: Array.isArray || function(obj){}, 
       isWindow: function(obj)
       {
         return obj != null && obj == obj.window;
       }, 
-      isNumeric: function(obj)
-      {}, 
+      isNumeric: function(obj){}, 
       type: function(obj)
       {
         if(obj == null)
@@ -177,10 +171,8 @@
 ;
         return key === undefined || core_hasOwn.call(obj, key);
       }, 
-      isEmptyObject: function(obj)
-      {}, 
-      error: function(msg)
-      {}, 
+      isEmptyObject: function(obj){}, 
+      error: function(msg){}, 
       parseHTML: function(data, context, keepScripts)
       {
         context = context;
@@ -193,14 +185,10 @@
         parsed = jQuery.buildFragment([data], context, scripts);
         return jQuery.merge([], parsed.childNodes);
       }, 
-      parseJSON: function(data)
-      {}, 
-      parseXML: function(data)
-      {}, 
-      noop: function()
-      {}, 
-      globalEval: function(data)
-      {}, 
+      parseJSON: function(data){}, 
+      parseXML: function(data){}, 
+      noop: function(){}, 
+      globalEval: function(data){}, 
       camelCase: function(string)
       {
         return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, fcamelCase);
@@ -231,8 +219,7 @@
           }
         }
       }, 
-      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
-      {} : 0, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
       {
         var ret = results;
@@ -250,8 +237,7 @@
 
         return ret;
       }, 
-      inArray: function(elem, arr, i)
-      {}, 
+      inArray: function(elem, arr, i){}, 
       merge: function(first, second)
       {
         var l = second.length, i = first.length, j = 0;
@@ -266,16 +252,14 @@
         first.length = i;
         return first;
       }, 
-      grep: function(elems, callback, inv)
-      {}, 
+      grep: function(elems, callback, inv){}, 
       map: function(elems, callback, arg)
       {
         var ret = [];
         return core_concat.apply([], ret);
       }, 
       guid: 1, 
-      proxy: function(fn, context)
-      {}, 
+      proxy: function(fn, context){}, 
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
         var i = 0, length = elems.length, bulk = key == null;
@@ -311,10 +295,8 @@
           }
         }
       }, 
-      now: function()
-      {}, 
-      swap: function(elem, options, callback, args)
-      {}
+      now: function(){}, 
+      swap: function(elem, options, callback, args){}
     });
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
@@ -437,8 +419,7 @@
         break;
       }
 
-      jQuery(function()
-      {});
+      jQuery(function(){});
       return support;
     })({});
     function internalData(elem, name, data, pvt)
@@ -472,20 +453,15 @@
     jQuery.extend({
       cache: {}, 
       noData: {}, 
-      hasData: function(elem)
-      {}, 
-      data: function(elem, name, data)
-      {}, 
-      removeData: function(elem, name)
-      {}, 
+      hasData: function(elem){}, 
+      data: function(elem, name, data){}, 
+      removeData: function(elem, name){}, 
       _data: function(elem, name, data)
       {
         return internalData(elem, name, data, true);
       }, 
-      _removeData: function(elem, name)
-      {}, 
-      acceptData: function(elem)
-      {}
+      _removeData: function(elem, name){}, 
+      acceptData: function(elem){}
     });
     var nodeHook;
     jQuery.fn.extend({
@@ -493,22 +469,14 @@
       {
         return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
       }, 
-      removeAttr: function(name)
-      {}, 
-      prop: function(name, value)
-      {}, 
-      removeProp: function(name)
-      {}, 
-      addClass: function(value)
-      {}, 
-      removeClass: function(value)
-      {}, 
-      toggleClass: function(value, stateVal)
-      {}, 
-      hasClass: function(selector)
-      {}, 
-      val: function(value)
-      {}
+      removeAttr: function(name){}, 
+      prop: function(name, value){}, 
+      removeProp: function(name){}, 
+      addClass: function(value){}, 
+      removeClass: function(value){}, 
+      toggleClass: function(value, stateVal){}, 
+      hasClass: function(selector){}, 
+      val: function(value){}
     });
     jQuery.extend({
       valHooks: {}, 
@@ -531,12 +499,10 @@
           }
         }
       }, 
-      removeAttr: function(elem, value)
-      {}, 
+      removeAttr: function(elem, value){}, 
       attrHooks: {}, 
       propFix: {}, 
-      prop: function(elem, name, value)
-      {}, 
+      prop: function(elem, name, value){}, 
       propHooks: {}
     });
     var rtypenamespace = /^([^.]*)(?:\.(.+)|)$/;
@@ -686,10 +652,8 @@
           jQuery.event.add(this, types, fn, data, selector);
         });
       }, 
-      one: function(types, selector, data, fn)
-      {}, 
-      off: function(types, selector, fn)
-      {}, 
+      one: function(types, selector, data, fn){}, 
+      off: function(types, selector, fn){}, 
       trigger: function(type, data)
       {
         return this.each(function()
@@ -697,8 +661,7 @@
           jQuery.event.trigger(type, data, this);
         });
       }, 
-      triggerHandler: function(type, data)
-      {}
+      triggerHandler: function(type, data){}
     });
     var guaranteedUnique = {};
     jQuery.fn.extend({
@@ -714,28 +677,18 @@
         ret.selector = this.selector ? 0 : selector;
         return ret;
       }, 
-      has: function(target)
-      {}, 
-      not: function(selector)
-      {}, 
-      filter: function(selector)
-      {}, 
-      is: function(selector)
-      {}, 
-      closest: function(selectors, context)
-      {}, 
-      index: function(elem)
-      {}, 
-      add: function(selector, context)
-      {}, 
-      addBack: function(selector)
-      {}
+      has: function(target){}, 
+      not: function(selector){}, 
+      filter: function(selector){}, 
+      is: function(selector){}, 
+      closest: function(selectors, context){}, 
+      index: function(elem){}, 
+      add: function(selector, context){}, 
+      addBack: function(selector){}
     });
     jQuery.each({
-      parent: function(elem)
-      {}, 
-      contents: function(elem)
-      {}
+      parent: function(elem){}, 
+      contents: function(elem){}
     }, function(name, fn)
     {
       jQuery.fn[name] = function(until, selector)
@@ -779,26 +732,18 @@
           }
         });
       }, 
-      prepend: function()
-      {}, 
-      before: function()
-      {}, 
-      after: function()
-      {}, 
-      remove: function(selector, keepData)
-      {}, 
+      prepend: function(){}, 
+      before: function(){}, 
+      after: function(){}, 
+      remove: function(selector, keepData){}, 
       empty: function()
       {
         return this;
       }, 
-      clone: function(dataAndEvents, deepDataAndEvents)
-      {}, 
-      html: function(value)
-      {}, 
-      replaceWith: function()
-      {}, 
-      detach: function(selector)
-      {}, 
+      clone: function(dataAndEvents, deepDataAndEvents){}, 
+      html: function(value){}, 
+      replaceWith: function(){}, 
+      detach: function(selector){}, 
       domManip: function(args, callback, allowIntersection)
       {
         args = core_concat.apply([], args);
@@ -828,8 +773,7 @@
       return jQuery.nodeName(elem, "table") ? 0 : elem;
     }
     jQuery.extend({
-      clone: function(elem, dataAndEvents, deepDataAndEvents)
-      {}, 
+      clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection)
       {
         var elem, tmp, tag, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0;
@@ -869,10 +813,8 @@
 
         return safe;
       }, 
-      cleanData: function(elems, acceptData)
-      {}, 
-      _evalUrl: function(url)
-      {}
+      cleanData: function(elems, acceptData){}, 
+      _evalUrl: function(url){}
     });
     var getStyles, curCSS, rnumsplit = new RegExp(("^(" + core_pnum) + ")(.*)$", "i");
     function vendorPropName(style, name)
@@ -890,12 +832,9 @@
           return value !== undefined ? jQuery.style(elem, name, value) : 0;
         }, name, value, arguments.length > 1);
       }, 
-      show: function()
-      {}, 
-      hide: function()
-      {}, 
-      toggle: function(state)
-      {}
+      show: function(){}, 
+      hide: function(){}, 
+      toggle: function(state){}
     });
     jQuery.extend({
       cssHooks: {}, 
@@ -981,8 +920,7 @@
         }
       };
     });
-    jQuery(function()
-    {});
+    jQuery(function(){});
     jQuery.each((("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ") + "change select submit keydown keypress keyup error contextmenu").split(" "), function(i, name)
     {
       jQuery.fn[name] = function(data, fn)

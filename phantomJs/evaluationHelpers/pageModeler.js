@@ -14,7 +14,7 @@ htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1 && fullPath.indexOf("test") != -1)
     {
         return fullPath;
     }
@@ -40,8 +40,10 @@ page.onLoadFinished = function() {
 
     var externalFiles = page.evaluate(function()
     {
-        return window.FIRECROW_EXTERNAL_SOURCES;
+        return FIRECROW_EXTERNAL_SOURCES;
     });
+
+    console.log(externalFiles);
 
     var pageJSON = page.evaluate(function(externalFiles)
     {

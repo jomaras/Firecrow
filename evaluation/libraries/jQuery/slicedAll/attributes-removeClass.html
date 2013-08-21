@@ -116,34 +116,25 @@
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
-      noConflict: function(deep)
-      {}, 
+      noConflict: function(deep){}, 
       isReady: false, 
       readyWait: 1, 
-      holdReady: function(hold)
-      {}, 
-      ready: function(wait)
-      {}, 
+      holdReady: function(hold){}, 
+      ready: function(wait){}, 
       isFunction: function(obj)
       {
         return jQuery.type(obj) === "function";
       }, 
-      isArray: Array.isArray || function(obj)
-      {}, 
-      isWindow: function(obj)
-      {}, 
-      isNumeric: function(obj)
-      {}, 
+      isArray: Array.isArray || function(obj){}, 
+      isWindow: function(obj){}, 
+      isNumeric: function(obj){}, 
       type: function(obj)
       {
         return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
       }, 
-      isPlainObject: function(obj)
-      {}, 
-      isEmptyObject: function(obj)
-      {}, 
-      error: function(msg)
-      {}, 
+      isPlainObject: function(obj){}, 
+      isEmptyObject: function(obj){}, 
+      error: function(msg){}, 
       parseHTML: function(data, context, keepScripts)
       {
         context = context || document;
@@ -156,16 +147,11 @@
 
         return jQuery.merge([], parsed.childNodes);
       }, 
-      parseJSON: function(data)
-      {}, 
-      parseXML: function(data)
-      {}, 
-      noop: function()
-      {}, 
-      globalEval: function(data)
-      {}, 
-      camelCase: function(string)
-      {}, 
+      parseJSON: function(data){}, 
+      parseXML: function(data){}, 
+      noop: function(){}, 
+      globalEval: function(data){}, 
+      camelCase: function(string){}, 
       nodeName: function(elem, name)
       {
         return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
@@ -270,17 +256,14 @@
         return core_concat.apply([], ret);
       }, 
       guid: 1, 
-      proxy: function(fn, context)
-      {}, 
+      proxy: function(fn, context){}, 
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
         var length = elems.length, bulk = key == null;
         return chainable ? 0 : bulk ? 0 : length ? fn(elems[0], key) : 0;
       }, 
-      now: function()
-      {}, 
-      swap: function(elem, options, callback, args)
-      {}
+      now: function(){}, 
+      swap: function(elem, options, callback, args){}
     });
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
@@ -446,8 +429,7 @@
         break;
       }
 
-      jQuery(function()
-      {});
+      jQuery(function(){});
       return support;
     })({});
     var nodeHook, rclass = /[\t\r\n\f]/g;
@@ -456,12 +438,9 @@
       {
         return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
       }, 
-      removeAttr: function(name)
-      {}, 
-      prop: function(name, value)
-      {}, 
-      removeProp: function(name)
-      {}, 
+      removeAttr: function(name){}, 
+      prop: function(name, value){}, 
+      removeProp: function(name){}, 
       addClass: function(value)
       {
         var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = typeof value === "string" && value;
@@ -518,8 +497,7 @@
 
         return this;
       }, 
-      toggleClass: function(value, stateVal)
-      {}, 
+      toggleClass: function(value, stateVal){}, 
       hasClass: function(selector)
       {
         var className = (" " + selector) + " ", i = 0, l = this.length;
@@ -533,8 +511,7 @@
 
         return false;
       }, 
-      val: function(value)
-      {}
+      val: function(value){}
     });
     jQuery.extend({
       valHooks: {}, 
@@ -555,12 +532,10 @@
           return ret == null ? undefined : 0;
         }
       }, 
-      removeAttr: function(elem, value)
-      {}, 
+      removeAttr: function(elem, value){}, 
       attrHooks: {}, 
       propFix: {}, 
-      prop: function(elem, name, value)
-      {}, 
+      prop: function(elem, name, value){}, 
       propHooks: {}
     });
     var isSimple = /^.[^:#\[\.,]*$/, rneedsContext = jQuery.expr.match.needsContext;
@@ -576,28 +551,20 @@
         ret = this.pushStack(len > 1 ? 0 : ret);
         return ret;
       }, 
-      has: function(target)
-      {}, 
-      not: function(selector)
-      {}, 
-      filter: function(selector)
-      {}, 
+      has: function(target){}, 
+      not: function(selector){}, 
+      filter: function(selector){}, 
       is: function(selector)
       {
         return !(!(winnow(this, typeof selector === "string" && rneedsContext.test(selector) ? 0 : selector, false).length));
       }, 
-      closest: function(selectors, context)
-      {}, 
-      index: function(elem)
-      {}, 
-      add: function(selector, context)
-      {}, 
-      addBack: function(selector)
-      {}
+      closest: function(selectors, context){}, 
+      index: function(elem){}, 
+      add: function(selector, context){}, 
+      addBack: function(selector){}
     });
     jQuery.each({
-      parent: function(elem)
-      {}, 
+      parent: function(elem){}, 
       contents: function(elem)
       {
         return jQuery.nodeName(elem, "iframe") ? 0 : jQuery.merge([], elem.childNodes);
@@ -619,10 +586,8 @@
           return elem.nodeType === 1;
         }));
       }, 
-      dir: function(elem, dir, until)
-      {}, 
-      sibling: function(n, elem)
-      {}
+      dir: function(elem, dir, until){}, 
+      sibling: function(n, elem){}
     });
     function winnow(elements, qualifier, not)
     {
@@ -650,8 +615,7 @@
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
     };
     jQuery.extend({
-      clone: function(elem, dataAndEvents, deepDataAndEvents)
-      {}, 
+      clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection)
       {
         var elem, tmp, tag, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0;
@@ -688,13 +652,10 @@
 
         return safe;
       }, 
-      cleanData: function(elems, acceptData)
-      {}, 
-      _evalUrl: function(url)
-      {}
+      cleanData: function(elems, acceptData){}, 
+      _evalUrl: function(url){}
     });
-    jQuery(function()
-    {});
+    jQuery(function(){});
     if(typeof module === "object");
     else 
     {

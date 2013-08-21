@@ -7,8 +7,7 @@
     <script>
   (function(window, undefined)
   {
-    var core_version = "1.10.2", core_trim = core_version.trim, jQuery = function(selector, context)
-    {};
+    var core_version = "1.10.2", core_trim = core_version.trim, jQuery = function(selector, context){};
     jQuery.fn = jQuery.prototype = {};
     jQuery.extend = jQuery.fn.extend = function()
     {
@@ -37,69 +36,41 @@
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
-      noConflict: function(deep)
-      {}, 
+      noConflict: function(deep){}, 
       isReady: false, 
       readyWait: 1, 
-      holdReady: function(hold)
-      {}, 
-      ready: function(wait)
-      {}, 
-      isFunction: function(obj)
-      {}, 
-      isArray: Array.isArray || function(obj)
-      {}, 
+      holdReady: function(hold){}, 
+      ready: function(wait){}, 
+      isFunction: function(obj){}, 
+      isArray: Array.isArray || function(obj){}, 
       isWindow: function(obj)
       {
         return obj != null && obj == obj.window;
       }, 
-      isNumeric: function(obj)
-      {}, 
-      type: function(obj)
-      {}, 
-      isPlainObject: function(obj)
-      {}, 
-      isEmptyObject: function(obj)
-      {}, 
-      error: function(msg)
-      {}, 
-      parseHTML: function(data, context, keepScripts)
-      {}, 
-      parseJSON: function(data)
-      {}, 
-      parseXML: function(data)
-      {}, 
-      noop: function()
-      {}, 
-      globalEval: function(data)
-      {}, 
-      camelCase: function(string)
-      {}, 
-      nodeName: function(elem, name)
-      {}, 
-      each: function(obj, callback, args)
-      {}, 
-      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
-      {} : 0, 
-      makeArray: function(arr, results)
-      {}, 
-      inArray: function(elem, arr, i)
-      {}, 
-      merge: function(first, second)
-      {}, 
-      grep: function(elems, callback, inv)
-      {}, 
-      map: function(elems, callback, arg)
-      {}, 
+      isNumeric: function(obj){}, 
+      type: function(obj){}, 
+      isPlainObject: function(obj){}, 
+      isEmptyObject: function(obj){}, 
+      error: function(msg){}, 
+      parseHTML: function(data, context, keepScripts){}, 
+      parseJSON: function(data){}, 
+      parseXML: function(data){}, 
+      noop: function(){}, 
+      globalEval: function(data){}, 
+      camelCase: function(string){}, 
+      nodeName: function(elem, name){}, 
+      each: function(obj, callback, args){}, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
+      makeArray: function(arr, results){}, 
+      inArray: function(elem, arr, i){}, 
+      merge: function(first, second){}, 
+      grep: function(elems, callback, inv){}, 
+      map: function(elems, callback, arg){}, 
       guid: 1, 
-      proxy: function(fn, context)
-      {}, 
-      access: function(elems, fn, key, value, chainable, emptyGet, raw)
-      {}, 
-      now: function()
-      {}, 
-      swap: function(elem, options, callback, args)
-      {}
+      proxy: function(fn, context){}, 
+      access: function(elems, fn, key, value, chainable, emptyGet, raw){}, 
+      now: function(){}, 
+      swap: function(elem, options, callback, args){}
     });
     if(typeof module === "object");
     else 
@@ -158,8 +129,7 @@
   assert(!(jQuery.isWindow({})), "object");
   assert(!(jQuery.isWindow({})), "fake window");
   assert(!(jQuery.isWindow(/window/)), "regexp");
-  assert(!(jQuery.isWindow(function()
-  {})), "function");
+  assert(!(jQuery.isWindow(function(){})), "function");
 </script>
 
 

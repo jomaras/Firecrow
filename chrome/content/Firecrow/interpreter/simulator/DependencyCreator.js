@@ -289,8 +289,8 @@ fcSimulator.DependencyCreator.prototype =
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
-                firstArgument.codeConstruct,
                 executeCallbackCommand.callCallbackCommand.codeConstruct,
+                firstArgument.codeConstruct,
                 this.globalObject.getPreciseEvaluationPositionId()
             );
         }

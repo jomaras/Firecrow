@@ -102,48 +102,32 @@
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
-      noConflict: function(deep)
-      {}, 
+      noConflict: function(deep){}, 
       isReady: false, 
       readyWait: 1, 
-      holdReady: function(hold)
-      {}, 
-      ready: function(wait)
-      {}, 
+      holdReady: function(hold){}, 
+      ready: function(wait){}, 
       isFunction: function(obj)
       {
         return jQuery.type(obj) === "function";
       }, 
-      isArray: Array.isArray || function(obj)
-      {}, 
-      isWindow: function(obj)
-      {}, 
-      isNumeric: function(obj)
-      {}, 
+      isArray: Array.isArray || function(obj){}, 
+      isWindow: function(obj){}, 
+      isNumeric: function(obj){}, 
       type: function(obj)
       {
         return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : 0;
       }, 
-      isPlainObject: function(obj)
-      {}, 
-      isEmptyObject: function(obj)
-      {}, 
-      error: function(msg)
-      {}, 
-      parseHTML: function(data, context, keepScripts)
-      {}, 
-      parseJSON: function(data)
-      {}, 
-      parseXML: function(data)
-      {}, 
-      noop: function()
-      {}, 
-      globalEval: function(data)
-      {}, 
-      camelCase: function(string)
-      {}, 
-      nodeName: function(elem, name)
-      {}, 
+      isPlainObject: function(obj){}, 
+      isEmptyObject: function(obj){}, 
+      error: function(msg){}, 
+      parseHTML: function(data, context, keepScripts){}, 
+      parseJSON: function(data){}, 
+      parseXML: function(data){}, 
+      noop: function(){}, 
+      globalEval: function(data){}, 
+      camelCase: function(string){}, 
+      nodeName: function(elem, name){}, 
       each: function(obj, callback, args)
       {
         var i = 0, length = obj.length, isArray = isArraylike(obj);
@@ -166,8 +150,7 @@
           }
         }
       }, 
-      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
-      {} : 0, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
       {
         var ret = results;
@@ -182,14 +165,12 @@
 
         return ret;
       }, 
-      inArray: function(elem, arr, i)
-      {}, 
+      inArray: function(elem, arr, i){}, 
       merge: function(first, second)
       {
         return first;
       }, 
-      grep: function(elems, callback, inv)
-      {}, 
+      grep: function(elems, callback, inv){}, 
       map: function(elems, callback, arg)
       {
         var value, i = 0, length = elems.length, isArray = isArraylike(elems), ret = [];
@@ -208,17 +189,14 @@
         return core_concat.apply([], ret);
       }, 
       guid: 1, 
-      proxy: function(fn, context)
-      {}, 
+      proxy: function(fn, context){}, 
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
         var bulk = key == null;
         return chainable ? 0 : bulk ? fn.call(elems) : 0;
       }, 
-      now: function()
-      {}, 
-      swap: function(elem, options, callback, args)
-      {}
+      now: function(){}, 
+      swap: function(elem, options, callback, args){}
     });
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
@@ -233,9 +211,7 @@
     (function(window, undefined)
     {
       var getText;
-      function Sizzle(selector, context, results, seed)
-      {}
-      getText = Sizzle.getText = function(elem)
+      function Sizzle(selector, context, results, seed){}      getText = Sizzle.getText = function(elem)
       {
         var node, ret = "", i = 0, nodeType = elem.nodeType;
         if(!nodeType)
@@ -265,8 +241,7 @@
         break;
       }
 
-      jQuery(function()
-      {});
+      jQuery(function(){});
     })({});
     jQuery.each({
       parent: function(elem)
@@ -274,8 +249,7 @@
         var parent = elem.parentNode;
         return parent && parent.nodeType !== 11 ? parent : 0;
       }, 
-      contents: function(elem)
-      {}
+      contents: function(elem){}
     }, function(name, fn)
     {
       jQuery.fn[name] = function(until, selector)
@@ -292,31 +266,19 @@
           return value === undefined ? jQuery.text(this) : 0;
         }, null, value, arguments.length);
       }, 
-      append: function()
-      {}, 
-      prepend: function()
-      {}, 
-      before: function()
-      {}, 
-      after: function()
-      {}, 
-      remove: function(selector, keepData)
-      {}, 
-      empty: function()
-      {}, 
-      clone: function(dataAndEvents, deepDataAndEvents)
-      {}, 
-      html: function(value)
-      {}, 
-      replaceWith: function()
-      {}, 
-      detach: function(selector)
-      {}, 
-      domManip: function(args, callback, allowIntersection)
-      {}
+      append: function(){}, 
+      prepend: function(){}, 
+      before: function(){}, 
+      after: function(){}, 
+      remove: function(selector, keepData){}, 
+      empty: function(){}, 
+      clone: function(dataAndEvents, deepDataAndEvents){}, 
+      html: function(value){}, 
+      replaceWith: function(){}, 
+      detach: function(selector){}, 
+      domManip: function(args, callback, allowIntersection){}
     });
-    jQuery(function()
-    {});
+    jQuery(function(){});
     if(typeof module === "object");
     else 
     {

@@ -602,17 +602,18 @@ Firecrow.CodeTextGenerator.prototype =
     generateFromCallExpression: function(callExpression)
     {
         var calleeCode = this.generateJsCode(callExpression.callee);
+        var argumentsCode = this.getSequenceCode(callExpression.arguments);
         //TODO HACKY WAY
         if(calleeCode[calleeCode.length-1] == ".") { return calleeCode.substring(0, calleeCode.length-1); }
         if((ASTHelper.isMemberExpression(callExpression.callee) || ASTHelper.isCallExpression(callExpression.callee))
-         && calleeCode[calleeCode.length-1] == ")" && this._areArgumentsNotIncluded(callExpression.arguments))
+         && calleeCode[calleeCode.length-1] == ")" && this._areArgumentsNotIncluded(callExpression.arguments) && callExpression.isIncludedByPostprocessor)
         {
             return calleeCode;
         }
         //END HACKY
         return calleeCode
             +  this._LEFT_PARENTHESIS
-                +  this.getSequenceCode(callExpression.arguments)
+                +  argumentsCode
             +  this._RIGHT_PARENTHESIS;
     },
 

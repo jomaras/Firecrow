@@ -118,34 +118,25 @@
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
-      noConflict: function(deep)
-      {}, 
+      noConflict: function(deep){}, 
       isReady: false, 
       readyWait: 1, 
-      holdReady: function(hold)
-      {}, 
-      ready: function(wait)
-      {}, 
+      holdReady: function(hold){}, 
+      ready: function(wait){}, 
       isFunction: function(obj)
       {
         return jQuery.type(obj) === "function";
       }, 
-      isArray: Array.isArray || function(obj)
-      {}, 
-      isWindow: function(obj)
-      {}, 
-      isNumeric: function(obj)
-      {}, 
+      isArray: Array.isArray || function(obj){}, 
+      isWindow: function(obj){}, 
+      isNumeric: function(obj){}, 
       type: function(obj)
       {
         return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
       }, 
-      isPlainObject: function(obj)
-      {}, 
-      isEmptyObject: function(obj)
-      {}, 
-      error: function(msg)
-      {}, 
+      isPlainObject: function(obj){}, 
+      isEmptyObject: function(obj){}, 
+      error: function(msg){}, 
       parseHTML: function(data, context, keepScripts)
       {
         context = context;
@@ -153,16 +144,11 @@
         parsed = jQuery.buildFragment([data], context, scripts);
         return jQuery.merge([], parsed.childNodes);
       }, 
-      parseJSON: function(data)
-      {}, 
-      parseXML: function(data)
-      {}, 
-      noop: function()
-      {}, 
-      globalEval: function(data)
-      {}, 
-      camelCase: function(string)
-      {}, 
+      parseJSON: function(data){}, 
+      parseXML: function(data){}, 
+      noop: function(){}, 
+      globalEval: function(data){}, 
+      camelCase: function(string){}, 
       nodeName: function(elem, name)
       {
         return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
@@ -189,8 +175,7 @@
           }
         }
       }, 
-      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
-      {} : 0, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
       {
         var ret = results || [];
@@ -232,19 +217,13 @@
         first.length = i;
         return first;
       }, 
-      grep: function(elems, callback, inv)
-      {}, 
-      map: function(elems, callback, arg)
-      {}, 
+      grep: function(elems, callback, inv){}, 
+      map: function(elems, callback, arg){}, 
       guid: 1, 
-      proxy: function(fn, context)
-      {}, 
-      access: function(elems, fn, key, value, chainable, emptyGet, raw)
-      {}, 
-      now: function()
-      {}, 
-      swap: function(elem, options, callback, args)
-      {}
+      proxy: function(fn, context){}, 
+      access: function(elems, fn, key, value, chainable, emptyGet, raw){}, 
+      now: function(){}, 
+      swap: function(elem, options, callback, args){}
     });
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
@@ -259,9 +238,7 @@
     (function(window, undefined)
     {
       var support, Expr, setDocument, document, preferredDoc = window.document;
-      function Sizzle(selector, context, results, seed)
-      {}
-      function assert(fn)
+      function Sizzle(selector, context, results, seed){}      function assert(fn)
       {
         var div = document.createElement("div");
         try
@@ -318,27 +295,18 @@
         break;
       }
 
-      jQuery(function()
-      {});
+      jQuery(function(){});
       return support;
     })({});
     jQuery.fn.extend({
-      attr: function(name, value)
-      {}, 
-      removeAttr: function(name)
-      {}, 
-      prop: function(name, value)
-      {}, 
-      removeProp: function(name)
-      {}, 
-      addClass: function(value)
-      {}, 
-      removeClass: function(value)
-      {}, 
-      toggleClass: function(value, stateVal)
-      {}, 
-      hasClass: function(selector)
-      {}, 
+      attr: function(name, value){}, 
+      removeAttr: function(name){}, 
+      prop: function(name, value){}, 
+      removeProp: function(name){}, 
+      addClass: function(value){}, 
+      removeClass: function(value){}, 
+      toggleClass: function(value, stateVal){}, 
+      hasClass: function(selector){}, 
       val: function(value)
       {
         var ret, hooks, isFunction, elem = this[0];
@@ -412,14 +380,11 @@
           }
         }
       }, 
-      attr: function(elem, name, value)
-      {}, 
-      removeAttr: function(elem, value)
-      {}, 
+      attr: function(elem, name, value){}, 
+      removeAttr: function(elem, value){}, 
       attrHooks: {}, 
       propFix: {}, 
-      prop: function(elem, name, value)
-      {}, 
+      prop: function(elem, name, value){}, 
       propHooks: {}
     });
     function createSafeFragment(document)
@@ -431,8 +396,7 @@
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
     };
     jQuery.fn.extend({
-      text: function(value)
-      {}, 
+      text: function(value){}, 
       append: function()
       {
         return this.domManip(arguments, function(elem)
@@ -444,12 +408,9 @@
           }
         });
       }, 
-      prepend: function()
-      {}, 
-      before: function()
-      {}, 
-      after: function()
-      {}, 
+      prepend: function(){}, 
+      before: function(){}, 
+      after: function(){}, 
       remove: function(selector, keepData)
       {
         var elem, elems = selector ? 0 : this, i = 0;
@@ -461,16 +422,11 @@
           }
         }
       }, 
-      empty: function()
-      {}, 
-      clone: function(dataAndEvents, deepDataAndEvents)
-      {}, 
-      html: function(value)
-      {}, 
-      replaceWith: function()
-      {}, 
-      detach: function(selector)
-      {}, 
+      empty: function(){}, 
+      clone: function(dataAndEvents, deepDataAndEvents){}, 
+      html: function(value){}, 
+      replaceWith: function(){}, 
+      detach: function(selector){}, 
       domManip: function(args, callback, allowIntersection)
       {
         args = core_concat.apply([], args);
@@ -515,8 +471,7 @@
       };
     });
     jQuery.extend({
-      clone: function(elem, dataAndEvents, deepDataAndEvents)
-      {}, 
+      clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection)
       {
         var elem, tmp, tag, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0;
@@ -556,13 +511,10 @@
 
         return safe;
       }, 
-      cleanData: function(elems, acceptData)
-      {}, 
-      _evalUrl: function(url)
-      {}
+      cleanData: function(elems, acceptData){}, 
+      _evalUrl: function(url){}
     });
-    jQuery(function()
-    {});
+    jQuery(function(){});
     if(typeof module === "object");
     else 
     {

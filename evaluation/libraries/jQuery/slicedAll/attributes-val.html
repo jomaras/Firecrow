@@ -133,14 +133,11 @@
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
-      noConflict: function(deep)
-      {}, 
+      noConflict: function(deep){}, 
       isReady: false, 
       readyWait: 1, 
-      holdReady: function(hold)
-      {}, 
-      ready: function(wait)
-      {}, 
+      holdReady: function(hold){}, 
+      ready: function(wait){}, 
       isFunction: function(obj)
       {
         return jQuery.type(obj) === "function";
@@ -149,20 +146,15 @@
       {
         return jQuery.type(obj) === "array";
       }, 
-      isWindow: function(obj)
-      {}, 
-      isNumeric: function(obj)
-      {}, 
+      isWindow: function(obj){}, 
+      isNumeric: function(obj){}, 
       type: function(obj)
       {
         return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
       }, 
-      isPlainObject: function(obj)
-      {}, 
-      isEmptyObject: function(obj)
-      {}, 
-      error: function(msg)
-      {}, 
+      isPlainObject: function(obj){}, 
+      isEmptyObject: function(obj){}, 
+      error: function(msg){}, 
       parseHTML: function(data, context, keepScripts)
       {
         context = context;
@@ -175,16 +167,11 @@
         parsed = jQuery.buildFragment([data], context, scripts);
         return jQuery.merge([], parsed.childNodes);
       }, 
-      parseJSON: function(data)
-      {}, 
-      parseXML: function(data)
-      {}, 
-      noop: function()
-      {}, 
-      globalEval: function(data)
-      {}, 
-      camelCase: function(string)
-      {}, 
+      parseJSON: function(data){}, 
+      parseXML: function(data){}, 
+      noop: function(){}, 
+      globalEval: function(data){}, 
+      camelCase: function(string){}, 
       nodeName: function(elem, name)
       {
         return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
@@ -213,8 +200,7 @@
 
         return obj;
       }, 
-      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
-      {} : 0, 
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
       {
         var ret = results || [];
@@ -279,17 +265,14 @@
         return core_concat.apply([], ret);
       }, 
       guid: 1, 
-      proxy: function(fn, context)
-      {}, 
+      proxy: function(fn, context){}, 
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
         var length = elems.length, bulk = key == null;
         return chainable ? 0 : bulk ? fn.call(elems) : length ? fn(elems[0], key) : 0;
       }, 
-      now: function()
-      {}, 
-      swap: function(elem, options, callback, args)
-      {}
+      now: function(){}, 
+      swap: function(elem, options, callback, args){}
     });
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
@@ -306,9 +289,7 @@
       var support, Expr, setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
         "bool": new RegExp(("^(?:" + booleans) + ")$", "i")
       };
-      function Sizzle(selector, context, results, seed)
-      {}
-      function assert(fn)
+      function Sizzle(selector, context, results, seed){}      function assert(fn)
       {
         var div = document.createElement("div");
         try
@@ -379,8 +360,7 @@
         break;
       }
 
-      jQuery(function()
-      {});
+      jQuery(function(){});
       return support;
     })({});
     var nodeHook, rreturn = /\r/g;
@@ -389,20 +369,13 @@
       {
         return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
       }, 
-      removeAttr: function(name)
-      {}, 
-      prop: function(name, value)
-      {}, 
-      removeProp: function(name)
-      {}, 
-      addClass: function(value)
-      {}, 
-      removeClass: function(value)
-      {}, 
-      toggleClass: function(value, stateVal)
-      {}, 
-      hasClass: function(selector)
-      {}, 
+      removeAttr: function(name){}, 
+      prop: function(name, value){}, 
+      removeProp: function(name){}, 
+      addClass: function(value){}, 
+      removeClass: function(value){}, 
+      toggleClass: function(value, stateVal){}, 
+      hasClass: function(selector){}, 
       val: function(value)
       {
         var ret, hooks, isFunction, elem = this[0];
@@ -514,8 +487,7 @@
           return ret == null ? 0 : ret;
         }
       }, 
-      removeAttr: function(elem, value)
-      {}, 
+      removeAttr: function(elem, value){}, 
       attrHooks: {}, 
       propFix: {}, 
       prop: function(elem, name, value)
@@ -556,33 +528,24 @@
       }
     });
     jQuery.fn.extend({
-      find: function(selector)
-      {}, 
-      has: function(target)
-      {}, 
-      not: function(selector)
-      {}, 
+      find: function(selector){}, 
+      has: function(target){}, 
+      not: function(selector){}, 
       filter: function(selector)
       {
         return this.pushStack(winnow(this, selector, false));
       }, 
-      is: function(selector)
-      {}, 
-      closest: function(selectors, context)
-      {}, 
-      index: function(elem)
-      {}, 
-      add: function(selector, context)
-      {}, 
-      addBack: function(selector)
-      {}
+      is: function(selector){}, 
+      closest: function(selectors, context){}, 
+      index: function(elem){}, 
+      add: function(selector, context){}, 
+      addBack: function(selector){}
     });
     function winnow(elements, qualifier, not)
     {
       if(jQuery.isFunction(qualifier))
       {
-        return jQuery.grep(elements, function(elem, i)
-        {});
+        return jQuery.grep(elements, function(elem, i){});
       }
     }
     function createSafeFragment(document)
@@ -594,8 +557,7 @@
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
     };
     jQuery.fn.extend({
-      text: function(value)
-      {}, 
+      text: function(value){}, 
       append: function()
       {
         return this.domManip(arguments, function(elem)
@@ -607,10 +569,8 @@
           }
         });
       }, 
-      prepend: function()
-      {}, 
-      before: function()
-      {}, 
+      prepend: function(){}, 
+      before: function(){}, 
       after: function()
       {
         return this.domManip(arguments, function(elem)
@@ -632,10 +592,8 @@
           }
         }
       }, 
-      empty: function()
-      {}, 
-      clone: function(dataAndEvents, deepDataAndEvents)
-      {}, 
+      empty: function(){}, 
+      clone: function(dataAndEvents, deepDataAndEvents){}, 
       html: function(value)
       {
         return jQuery.access(this, function(value)
@@ -647,10 +605,8 @@
           }
         }, null, value, arguments.length);
       }, 
-      replaceWith: function()
-      {}, 
-      detach: function(selector)
-      {}, 
+      replaceWith: function(){}, 
+      detach: function(selector){}, 
       domManip: function(args, callback, allowIntersection)
       {
         args = core_concat.apply([], args);
@@ -695,8 +651,7 @@
       };
     });
     jQuery.extend({
-      clone: function(elem, dataAndEvents, deepDataAndEvents)
-      {}, 
+      clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection)
       {
         var elem, tmp, tag, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0;
@@ -736,13 +691,10 @@
 
         return safe;
       }, 
-      cleanData: function(elems, acceptData)
-      {}, 
-      _evalUrl: function(url)
-      {}
+      cleanData: function(elems, acceptData){}, 
+      _evalUrl: function(url){}
     });
-    jQuery(function()
-    {});
+    jQuery(function(){});
     var r20 = /%20/g;
     jQuery.fn.extend({
       serialize: function()
@@ -755,9 +707,7 @@
         {
           var elements = jQuery.prop(this, "elements");
           return elements ? jQuery.makeArray(elements) : 0;
-        }).filter(function()
-        {}).map(function(i, elem)
-        {}).get();
+        }).filter(function(){}).map(function(i, elem){}).get();
       }
     });
     jQuery.param = function(a, traditional)

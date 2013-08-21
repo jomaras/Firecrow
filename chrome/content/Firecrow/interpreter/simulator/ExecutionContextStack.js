@@ -120,6 +120,19 @@ fcSimulator.ExecutionContextStack = function(globalObject, handlerInfo)
 
 fcSimulator.ExecutionContextStack.prototype =
 {
+    getStackLines: function()
+    {
+        var lines = "";
+
+        for(var i = 0; i < this.stack.length; i++)
+        {
+            if(i != 0) { lines += "-"; }
+            lines += this.stack[i].lastCommand.codeConstruct.loc.start.line;
+        }
+
+        return lines;
+    },
+
     destruct: function()
     {
         delete this.globalObject;

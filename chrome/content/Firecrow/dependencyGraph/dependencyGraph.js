@@ -328,7 +328,10 @@ FBL.ns(function() { with (FBL) {
 
         _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint)
         {
-            Firecrow.includeNode(codeConstruct, maxDependencyIndex);
+            if(!codeConstruct.shouldBeIncluded)
+            {
+                Firecrow.includeNode(codeConstruct);
+            }
 
             if((ASTHelper.isMemberExpression(codeConstruct) || ASTHelper.isMemberExpression(codeConstruct.parent)
               || ASTHelper.isCallExpression(codeConstruct) || ASTHelper.isCallExpressionCallee(codeConstruct)))

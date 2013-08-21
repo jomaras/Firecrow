@@ -154,7 +154,7 @@
             Firecrow.Slicer.slice(pageModel);
             slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
             astNodesTextArea.textContent = nodeId;
-            loadingTimeTextArea.textContent = dateNow - startTime;
+            loadingTimeTextArea.textContent = dateNow() - startTime;
         })();
     </script>
 

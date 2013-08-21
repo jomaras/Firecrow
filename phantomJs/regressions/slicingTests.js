@@ -7,8 +7,8 @@ var loadInProgress = false;
 
 var modelFiles = [];
 var pageIndex = 0;
-var maxPageIndex = 103;
-
+var maxPageIndex = 108;
+ console.log("Started reggression tests");
 //Problems in tests: 88 (bind function)
 // 91 - not sure why
 
