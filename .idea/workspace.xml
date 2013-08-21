@@ -9,31 +9,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/3.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/3.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/playground/new.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/playground/orig.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\shortMoo.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\test.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/edge.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/edge.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/index.html" afterPath="$PROJECT_DIR$/playground/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -61,7 +36,7 @@
     <ignored path="debug/sylvester/10-LineSegment-Contains/htmlMapping.js" />
     <ignored path="debug/sylvester/22-Line-distanceFrom/htmlMapping.js" />
     <ignored path="debug/sylvester/24-Line-rotate/htmlMapping.js" />
-    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1377086368991" ignored="false" />
+    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1377093110193" ignored="false" />
     <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369213531527" ignored="false" />
     <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1377090797060" ignored="false" />
     <file path="/Command.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1377092263649" ignored="false" />
@@ -414,7 +389,7 @@
       <file leaf-file-name="Class01creation.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/evaluation/libraries/mooTools/slicedAll/Class01creation.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="549" column="73" selection-start="15263" selection-end="15263" vertical-scroll-proportion="0.59810877">
+            <state line="551" column="46" selection-start="15303" selection-end="15303" vertical-scroll-proportion="0.678487">
               <folding />
             </state>
           </provider>
@@ -3312,7 +3287,11 @@
       <created>1377086382057</created>
       <updated>1377086382057</updated>
     </task>
-    <option name="localTasksCounter" value="595" />
+    <task id="LOCAL-00595" summary="- setCallbackFunction centralized in command&#10;- when getting indexed properties - the property name is parsed&#10;- function argument object is switched to array-like object and not to array">
+      <created>1377093131015</created>
+      <updated>1377093131015</updated>
+    </task>
+    <option name="localTasksCounter" value="596" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3418,7 +3397,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="- code text generator upgraded call expression hack generation&#10;- dependency graph - call includeNode only if it has not already been included&#10;- signal which nodes have been included by the postprocessor&#10;- callback commands dependency creation changes&#10;- added a function for printing current stack position" />
+    <option name="LAST_COMMIT_MESSAGE" value="- setCallbackFunction centralized in command&#10;- when getting indexed properties - the property name is parsed&#10;- function argument object is switched to array-like object and not to array" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3433,7 +3412,6 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="When creating page models external resources are now referenced by absolute urls" />
     <MESSAGE value="Working on prototype - changed internals (removed dependence on Array methods)" />
     <MESSAGE value="Array.reduce implementation" />
     <MESSAGE value="Added implementation for Event and Error objects. Basic prototype library functionality now works" />
@@ -3458,6 +3436,7 @@
     <MESSAGE value="a modification to the Dependency creator on creating dependencies in ForIn loop. The problem is exemplified in the jQuery function isEmptyObject, which returns false from the forIn body, if this is called on a object literaral, technically there is no dependency to the property - so the literal property would not be included. This is why i have added creating dependencies from the object to the construct of the properties last modification" />
     <MESSAGE value="- empty function body is placed in one line&#10;- added support for tracking positions of property deletions&#10;- when creating memberExpression dependencies if a property is null, check if it was deleted (if was create a dependency towards the deletion position)&#10;- fixed a problem with flash in phantomJs&#10;- array creation new Array(n) fixed (invalid arguments were provided)&#10;" />
     <MESSAGE value="- code text generator upgraded call expression hack generation&#10;- dependency graph - call includeNode only if it has not already been included&#10;- signal which nodes have been included by the postprocessor&#10;- callback commands dependency creation changes&#10;- added a function for printing current stack position" />
+    <MESSAGE value="- setCallbackFunction centralized in command&#10;- when getting indexed properties - the property name is parsed&#10;- function argument object is switched to array-like object and not to array" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3579,7 +3558,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/libraries/mooTools/slicedAll/Class01creation.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="549" column="73" selection-start="15263" selection-end="15263" vertical-scroll-proportion="0.59810877">
+        <state line="551" column="46" selection-start="15303" selection-end="15303" vertical-scroll-proportion="0.678487">
           <folding />
         </state>
       </provider>
