@@ -828,7 +828,10 @@ fcSimulator.DependencyCreator.prototype =
             {
                 for(var i = 0; i < secondArgumentValue.jsValue.length; i++)
                 {
-                    this._createSimpleDependency(callExpression, secondArgumentValue.jsValue[i].codeConstruct);
+                    if(secondArgumentValue.jsValue[i] != null)
+                    {
+                        this._createSimpleDependency(callExpression, secondArgumentValue.jsValue[i].codeConstruct);
+                    }
                 }
             }
         }

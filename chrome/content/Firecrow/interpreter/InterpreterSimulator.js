@@ -61,8 +61,6 @@ fcSimulator.prototype = dummy =
                     this.globalObject.importantExpressionsTrace.push({codeConstruct: codeConstruct, index: codeConstruct.maxCreatedDependencyIndex });
                 }
 
-
-
                 /*if(timer.hasMoreThanSecondsElapsed(120))
                 {
                     if(!confirm("Interpreter Simulator - runSync has been running for more than 2 minutes, Continue?"))

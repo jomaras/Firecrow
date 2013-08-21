@@ -42,6 +42,7 @@ FBL.ns(function () { with (FBL)
 
         includeNode: function(node, isIncludedByPostprocessor)
         {
+            //if(node.loc != null && node.loc.start.line >= 5882 && node.loc.start.line <= 5973) debugger;
             if(isIncludedByPostprocessor && !node.shouldBeIncluded)
             {
                 node.isIncludedByPostprocessor = isIncludedByPostprocessor;

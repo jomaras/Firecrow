@@ -69,7 +69,7 @@ fcModel.ArrayExecutor =
 
                     callCommand.generatesNewCommands = true;
                     callCommand.generatesCallbacks = true;
-                    callCommand.callbackFunction = args[0];
+                    callCommand.setCallbackFunction(args[0]);
                     callCommand.callbackArgumentGroups = this._generateCallbackArguments(thisObject, callbackParams || [], functionName, args, callExpression);
                     callCommand.thisObject =  args[1] || globalObject;
                     callCommand.originatingObject = thisObject;

@@ -179,7 +179,7 @@ fcModel.Object.prototype =
 
         for(var i = 0; i < this.properties.length; i++)
         {
-            if(ValueTypeHelper.isInteger(this.properties[i].name))
+            if(ValueTypeHelper.isInteger(parseInt(this.properties[i].name)))
             {
                 indexProperties.push(this.properties[i]);
             }

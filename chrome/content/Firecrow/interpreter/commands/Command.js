@@ -153,7 +153,7 @@ Firecrow.Interpreter.Commands.Command.createCallCallbackMethodCommand = function
 
     command.generatesNewCommands = true;
     command.generatesCallbacks = true;
-    command.callbackFunction = callCommand.callbackFunction;
+    command.setCallbackFunction(callCommand.callbackFunction);
     command.callbackArgumentGroups = callCommand.callbackArgumentGroups;
     command.thisObject = callCommand.thisObject;
     command.originatingObject = callCommand.originatingObject;
@@ -167,7 +167,7 @@ Firecrow.Interpreter.Commands.Command.createExecuteCallbackCommand = function(ca
 {
     var command = new fcCommands.Command(callCallbackCommand.callbackFunction.codeConstruct, fcCommands.Command.COMMAND_TYPE.ExecuteCallback, callCallbackCommand.parentFunctionCommand);
 
-    command.callbackFunction = callCallbackCommand.callbackFunction;
+    command.setCallbackFunction(callCallbackCommand.callbackFunction);
     command.callbackArgumentGroups = callCallbackCommand.callbackArgumentGroups;
     command.thisObject = callCallbackCommand.thisObject;
     command.originatingObject = callCallbackCommand.originatingObject;
@@ -265,6 +265,11 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isExecuteCallbackCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ExecuteCallback; },
 
     isConvertToPrimitiveCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ConvertToPrimitive; },
+
+    setCallbackFunction: function(callbackFunction)
+    {
+        this.callbackFunction = callbackFunction;
+    },
 
     getLineNo: function()
     {

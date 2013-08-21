@@ -247,7 +247,7 @@ fcModel.StringExecutor =
 
                         callCommand.generatesNewCommands = true;
                         callCommand.generatesCallbacks = true;
-                        callCommand.callbackFunction = callbackFunction;
+                        callCommand.setCallbackFunction(callbackFunction);
                         callCommand.callbackArgumentGroups = allCallbackArguments;
                         callCommand.thisObject = globalObject;
                         callCommand.originatingObject = thisObject;

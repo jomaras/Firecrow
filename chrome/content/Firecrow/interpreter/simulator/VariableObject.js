@@ -134,11 +134,26 @@ FBL.ns(function() { with (FBL) {
 
     fcSimulator.VariableObject._registerArgumentsVariable = function(functionVariableObject, callConstruct, sentArguments, globalObject)
     {
-        var argumentsValue = globalObject.internalExecutor.createArray(callConstruct, sentArguments);
+        var argumentsValue = globalObject.internalExecutor.createNonConstructorObject(callConstruct);
+
+        for(var i = 0; i < sentArguments.length;i++)
+        {
+            argumentsValue.iValue.addProperty(i +"", sentArguments[i], callConstruct);
+            argumentsValue.jsValue[i] = sentArguments[i];
+        }
+
+        var length = globalObject.internalExecutor.createInternalPrimitiveObject(callConstruct, sentArguments.length);
+
+        argumentsValue.iValue.addProperty("length", length, callConstruct);
+        Object.defineProperty(argumentsValue.jsValue, "length", { enumerable: false, value: sentArguments.length, writable:true, configurable:true});
+
+        argumentsValue.iValue.addProperty("callee", functionVariableObject.calleeFunction, callConstruct, false);
+        Object.defineProperty(argumentsValue.jsValue, "callee", { enumerable: false, value: functionVariableObject.calleeFunction});
+        /*var argumentsValue = globalObject.internalExecutor.createArray(callConstruct, sentArguments);
 
         argumentsValue.jsValue.callee = functionVariableObject.calleeFunction;
         argumentsValue.iValue.addProperty("callee", functionVariableObject.calleeFunction, callConstruct, false);
-        argumentsValue.iValue.removePrototypeMethods();
+        argumentsValue.iValue.removePrototypeMethods(); */
 
         functionVariableObject.registerIdentifier
         (
