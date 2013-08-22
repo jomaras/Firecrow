@@ -293,6 +293,15 @@ fcSimulator.DependencyCreator.prototype =
             (
                 executeCallbackCommand.callCallbackCommand.codeConstruct,
                 firstArgument.codeConstruct,
+                evaluationPosition,
+                evaluationPosition
+            );
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks
+            (
+                firstArgument.codeConstruct,
+                executeCallbackCommand.callCallbackCommand.codeConstruct,
+                evaluationPosition,
                 evaluationPosition
             );
         }
@@ -305,21 +314,6 @@ fcSimulator.DependencyCreator.prototype =
 
             if(parentCallExpression != null)
             {
-                var firstArgument = executeCallbackCommand.arguments != null ? executeCallbackCommand.arguments[0] : null;
-
-                if(firstArgument != null && firstArgument.isFunction && firstArgument.isFunction())
-                {
-                    if(executeCallbackCommand.callCallbackCommand == null) { return; }
-
-                    this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                    (
-                        firstArgument.codeConstruct,
-                        executeCallbackCommand.callCallbackCommand.codeConstruct,
-                        evaluationPosition,
-                        evaluationPosition
-                    );
-                }
-
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks
                 (
                     executeCallbackCommand.codeConstruct,
