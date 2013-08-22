@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script>
+    Element.prototype.set = function()
+    {
+        return 3;
+    }
+
+    var newElement = document.createElement("div");
+
+    var a1 = newElement.set();
+    a1;
+</script>
+</body>
+</html>

@@ -208,6 +208,7 @@ fcModel.HtmlElement.prototype._expandWithDefaultProperties = function()
     var creationConstruct = this.htmlElement != null && this.htmlElement.modelElement != null ? this.htmlElement.modelElement : this.creationCodeConstruct;
 
     this.addProperty("ownerDocument", this.globalObject.jsFcDocument, creationConstruct);
+    this.addProperty("__proto__", this.globalObject.fcElementPrototype, null, false);
     this._addMethods(creationConstruct);
 
     this.htmlElement.elementModificationPoints = [];

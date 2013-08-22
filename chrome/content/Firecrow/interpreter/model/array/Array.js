@@ -586,7 +586,22 @@ fcModel.Array.prototype.addJsProperty = function(propertyName, propertyValue, co
     {
         if(propertyName == "length")
         {
-            if(this.jsArray[propertyName] !== propertyValue.jsValue) { alert("Warning: Directly modifying array length property!"); }
+            if(this.jsArray[propertyName] !== propertyValue.jsValue)
+            {
+                var oldLength = this.jsArray.length;
+                var newLength = propertyValue.jsValue
+
+                if(newLength < oldLength)
+                {
+                    this.jsArray.length = newLength;
+                    this.items.length = newLength;
+                }
+
+                for(var i = newLength; i < oldLength; i++)
+                {
+                    this.deleteProperty(i, codeConstruct);
+                }
+            }
         }
 
         this.addProperty(propertyName, propertyValue, codeConstruct, propertyName != "length");
