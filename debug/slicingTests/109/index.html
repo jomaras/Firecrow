@@ -6,28 +6,17 @@
 <body>
 <script>
 
-    Array.forEach = function(base, fn)
+    function test(a, b)
     {
-        for (var i = 0, l = base.length; i < l; i++)
-        {
-            if (i in base) fn.call(null, base[i], i, base);
-        }
+        return a + b;
     }
-    var obj = { a: function(b){ this.b = b; }}
 
-    Array.forEach (['a'], function(name)
+    function redirector()
     {
-        obj[name](3);
-    });
+        return test.apply(this, arguments);
+    }
 
-    obj = { a: function(b){ this.b = b; }}
-
-    Array.forEach (['a'], function(name)
-    {
-        obj[name](3);
-    });
-
-    var a1 = obj.b;
+    var a1 = redirector(1,1);
     a1;
 </script>
 </body>

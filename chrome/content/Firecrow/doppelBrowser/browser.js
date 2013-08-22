@@ -37,6 +37,7 @@ fcBrowser.Browser = function(pageModel)
         this.documentReadyCallbacks = [];
         this.enterFunctionCallbacks = [];
         this.exitFunctionCallbacks = [];
+        this.callbackCalledCallbacks = [];
         this.breakContinueReturnEventsCallbacks = [];
 
         this.domQueriesMap = {};
@@ -866,6 +867,13 @@ Browser.prototype = dummy =
         this.exitFunctionCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerCallbackCalled: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - enter function callback has to be a function!"); return; }
+
+        this.callbackCalledCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     _callDocumentReadyCallbacks: function()
     {
         this.documentReadyCallbacks.forEach(function(callbackObject)
@@ -879,6 +887,14 @@ Browser.prototype = dummy =
         this.enterFunctionCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, callExpression, functionConstruct);
+        });
+    },
+
+    callCallbackCalledCallbacks: function(callbackConstruct, callCallbackConstruct, evaluationPosition)
+    {
+        this.callbackCalledCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, callbackConstruct, callCallbackConstruct, evaluationPosition);
         });
     },
 

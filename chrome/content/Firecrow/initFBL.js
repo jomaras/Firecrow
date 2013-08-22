@@ -40,7 +40,7 @@ FBL.ns(function () { with (FBL)
         getWindow: function() { return frames[0] || window;},
         getDocument: function() { return this.getWindow().document; },
 
-        includeNode: function(node, isIncludedByPostprocessor, dependencyIndex)
+        includeNode: function(node, isIncludedByPostprocessor, dependencyIndex, dependencyConstraint)
         {
             //if(node.loc != null && node.loc.start.line >= 1378 && node.loc.start.line <= 5975) debugger;
             if(isIncludedByPostprocessor && !node.shouldBeIncluded)
@@ -57,8 +57,17 @@ FBL.ns(function () { with (FBL)
             else if(node.minIncludedByDependencyIndex > dependencyIndex) { node.minIncludedByDependencyIndex = dependencyIndex ; }
 
             //TODO - sort on insertion
-            node.includedByDependencies = node.includedByDependencies || [];
-            node.includedByDependencies.push(dependencyIndex);
+            if(dependencyIndex != null)
+            {
+                node.includedByDependencies = node.includedByDependencies || [];
+                node.includedByDependencies.push(dependencyIndex);
+            }
+
+            if(dependencyConstraint != null)
+            {
+                node.includedConstraints = node.includedConstraints || [];
+                node.includedConstraints.push(dependencyConstraint);
+            }
         },
 
         IGNORED_SCRIPTS:

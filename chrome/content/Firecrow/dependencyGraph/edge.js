@@ -16,7 +16,7 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
     this.sourceNode = sourceNode;
     this.destinationNode = destinationNode;
     this.isDynamic = !!isDynamic;
-    this.index = index; //if(index == 244080)debugger;3
+    this.index = index; //if(index == 245280)debugger;3
 
     this.dependencyCreationInfo = dependencyCreationInfo;
     this.destinationNodeDependencyConstraints = destinationNodeDependencyConstraints || dependencyCreationInfo;

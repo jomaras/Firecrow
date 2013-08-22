@@ -209,7 +209,10 @@ fcSimulator.ExecutionContextStack.prototype =
             else if (command.isCallInternalConstructorCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isCallCallbackMethodCommand()) {}
             else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct);}
-            else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.createExecuteCallbackDependencies(command); }
+            else if (command.isExecuteCallbackCommand())
+            {
+                this.globalObject.logCallbackExecution(command.codeConstruct, command.callCallbackCommand.codeConstruct);
+            }
             else if (command.isConvertToPrimitiveCommand()) {}
             else
             {
@@ -824,9 +827,7 @@ fcSimulator.ExecutionContextStack.prototype =
 
         var secondArgValue = this.getExpressionValue(secondArgument);
 
-        if(!ValueTypeHelper.isArray(secondArgValue.jsValue)) { return []; }
-
-        return secondArgValue.jsValue;
+        return secondArgValue.jsValue || [];
     },
 
     _getArgumentValuesFromCall: function(callCommand)

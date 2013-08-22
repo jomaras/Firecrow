@@ -277,84 +277,8 @@ fcSimulator.DependencyCreator.prototype =
          }*/
     },
 
-    createExecuteCallbackDependencies: function(executeCallbackCommand)
-    {
-        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
-
-        var firstArgument = executeCallbackCommand.arguments != null ? executeCallbackCommand.arguments[0] : null;
-
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        if(firstArgument != null && firstArgument.isFunction && firstArgument.isFunction())
-        {
-            if(executeCallbackCommand.callCallbackCommand == null) { return; }
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                executeCallbackCommand.callCallbackCommand.codeConstruct,
-                firstArgument.codeConstruct,
-                evaluationPosition,
-                evaluationPosition
-            );
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks
-            (
-                firstArgument.codeConstruct,
-                executeCallbackCommand.callCallbackCommand.codeConstruct,
-                evaluationPosition,
-                evaluationPosition
-            );
-        }
-
-        var parentCallExpressionCommand = executeCallbackCommand.callCallbackCommand && executeCallbackCommand.callCallbackCommand.parentCallExpressionCommand;
-
-        if(parentCallExpressionCommand != null)
-        {
-            var parentCallExpression = parentCallExpressionCommand.codeConstruct;
-
-            if(parentCallExpression != null)
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks
-                (
-                    executeCallbackCommand.codeConstruct,
-                    parentCallExpression,
-                    evaluationPosition,
-                    evaluationPosition
-                );
-            }
-        }
-    },
-
-    createCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand)
-    {
-        if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createSimpleCallbackFunctionCommandDependencies(evalCallbackFunctionCommand); }
-        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
-
-        var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
-        var callExpression = parentInitCallbackCommand.codeConstruct;
-        var args = callExpression.arguments;
-
-        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        for(var i = 0; i < args.length; i++)
-        {
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(args[i], callExpression, evaluationPosition);
-        }
-    },
-
-    callbackEvalPositionMap: {},
-
-    _createSimpleCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand)
-    {
-        var parentInitCallbackCommand = evalCallbackFunctionCommand.parentInitCallbackCommand;
-        var callExpression = parentInitCallbackCommand.codeConstruct;
-        var args = callExpression.arguments;
-
-        for(var i = 0; i < args.length; i++)
-        {
-            this._createSimpleDependency(args[i], callExpression);
-        }
-    },
+    createCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand){},
+    _createSimpleCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand) {},
 
     createAssignmentDependencies: function(assignmentCommand)
     {

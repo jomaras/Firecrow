@@ -333,6 +333,13 @@ fcModel.GlobalObject.prototype.getUserSetDocumentProperties = function()
     return this.document.getUserDefinedProperties();
 };
 
+fcModel.GlobalObject.prototype.logCallbackExecution = function(callbackConstruct, callCallbackConstruct)
+{
+    if(callbackConstruct == null) { return; }
+
+    this.browser.callCallbackCalledCallbacks(callbackConstruct, callCallbackConstruct, this.getPreciseEvaluationPositionId());
+};
+
 fcModel.GlobalObject.prototype.logResourceSetting = function(codeConstruct, resourcePath)
 {
     this.browser.logResourceSetting(codeConstruct, resourcePath);

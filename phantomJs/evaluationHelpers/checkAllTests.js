@@ -13,7 +13,7 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 var htmlFiles = [];
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\slicedAll";
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\mooTools\\slicedAll";
 
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
