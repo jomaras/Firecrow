@@ -52,7 +52,7 @@ fcSimulator.prototype = dummy =
 
                 this.globalObject.setCurrentCommand(command);
 
-                this._processCommand(command);
+                this._processCommand(command); //if(command.codeConstruct.loc != null && command.codeConstruct.loc.start.line == 1378)debugger;3
 
                 this.callControlFlowConnectionCallbacks(codeConstruct);
 
@@ -198,7 +198,6 @@ fcSimulator.prototype = dummy =
 
         if(topCommand != null && topCommand.codeConstruct == command.codeConstruct)
         {
-            if(topCommand.id == 20237) debugger;
             this.tryStack.pop();
         }
         else if (topCommand == null || topCommand.codeConstruct != command.codeConstruct)

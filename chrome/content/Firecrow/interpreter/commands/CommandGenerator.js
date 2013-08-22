@@ -524,6 +524,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             evalCallbackCommand.thisObject = executeCallbackCommand.thisObject;
             evalCallbackCommand.originatingObject = executeCallbackCommand.originatingObject;
             evalCallbackCommand.targetObject = executeCallbackCommand.targetObject;
+            evalCallbackCommand.executeCallbackCommand = executeCallbackCommand;
 
             if(i == length - 1)
             {

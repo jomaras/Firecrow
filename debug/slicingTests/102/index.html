@@ -17,6 +17,13 @@
             obj[name](3);
         });
 
+        obj = { a: function(b){ this.b = b; }}
+
+        each(['a'], function(name)
+        {
+            obj[name](3);
+        });
+
         var a1 = obj.b;
         a1;
     </script>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script>
+
+    Array.forEach = function(base, fn)
+    {
+        for (var i = 0, l = base.length; i < l; i++)
+        {
+            if (i in base) fn.call(null, base[i], i, base);
+        }
+    }
+    var obj = { a: function(b){ this.b = b; }}
+
+    Array.forEach (['a'], function(name)
+    {
+        obj[name](3);
+    });
+
+    obj = { a: function(b){ this.b = b; }}
+
+    Array.forEach (['a'], function(name)
+    {
+        obj[name](3);
+    });
+
+    var a1 = obj.b;
+    a1;
+</script>
+</body>
+</html>

@@ -174,7 +174,6 @@ FBL.ns(function() { with (FBL) {
                 this._traverseHtmlNodeDependencies(this.htmlNodes);
 
                 this._traverseExecutedBlockDependencies();
-                this._traverseBreakContinueReturnEventsDependencies();
 
                 if(fcGraph.DependencyGraph.sliceUnions)
                 {
@@ -185,6 +184,8 @@ FBL.ns(function() { with (FBL) {
                         addedDependencies = this._traverseSliceUnionPossibleProblems(executionTrace);
                     }
                 }
+
+                this._traverseBreakContinueReturnEventsDependencies();
 
                 Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement(model);
             }
@@ -258,11 +259,33 @@ FBL.ns(function() { with (FBL) {
             for(var i = 0; i < this.breakContinueReturnEventsMapping.length; i++)
             {
                 var mapping = this.breakContinueReturnEventsMapping[i];
-                var parent = ASTHelper.getBreakContinueReturnImportantAncestor(mapping.codeConstruct);
+                var codeConstruct = mapping.codeConstruct;
+                var parent = ASTHelper.getBreakContinueReturnImportantAncestor(codeConstruct);
 
-                if(this.inclusionFinder.isIncludedElement(parent))
+                if(!this.inclusionFinder.isIncludedElement(parent)) { continue; }
+
+                if(ASTHelper.isSwitchStatement(parent))
                 {
-                    this._mainTraverseAndMark(mapping.codeConstruct, mapping.maxDependencyIndex, null, null);
+                    if(ASTHelper.isSwitchCase(codeConstruct.parent) && this.inclusionFinder.isIncludedElement(codeConstruct.parent))
+                    {
+                        Firecrow.includeNode(codeConstruct);
+                    }
+                }
+                else if(ASTHelper.isLoopStatement(parent))
+                {
+                    if(this.inclusionFinder.isIncludedElement(codeConstruct.parent))
+                    {
+                        Firecrow.includeNode(codeConstruct);
+                    }
+                    else
+                    {
+                        this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
+                    }
+                }
+                else
+                {
+                    debugger;
+                    alert("Unhandled when traversing break continue2");
                 }
             }
         },
@@ -328,10 +351,7 @@ FBL.ns(function() { with (FBL) {
 
         _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint)
         {
-            if(!codeConstruct.shouldBeIncluded)
-            {
-                Firecrow.includeNode(codeConstruct);
-            }
+            Firecrow.includeNode(codeConstruct, false, maxDependencyIndex);
 
             if((ASTHelper.isMemberExpression(codeConstruct) || ASTHelper.isMemberExpression(codeConstruct.parent)
               || ASTHelper.isCallExpression(codeConstruct) || ASTHelper.isCallExpressionCallee(codeConstruct)))
@@ -381,7 +401,7 @@ FBL.ns(function() { with (FBL) {
 
                     continue;
                 }
-
+                //if(dependencyEdge.index >= 46247 && dependencyEdge.index < 248948) debugger;3
                 this._traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);
             }
         },

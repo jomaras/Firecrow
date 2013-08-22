@@ -40,9 +40,9 @@ FBL.ns(function () { with (FBL)
         getWindow: function() { return frames[0] || window;},
         getDocument: function() { return this.getWindow().document; },
 
-        includeNode: function(node, isIncludedByPostprocessor)
+        includeNode: function(node, isIncludedByPostprocessor, dependencyIndex)
         {
-            //if(node.loc != null && node.loc.start.line >= 5882 && node.loc.start.line <= 5973) debugger;
+            //if(node.loc != null && node.loc.start.line >= 1378 && node.loc.start.line <= 5975) debugger;
             if(isIncludedByPostprocessor && !node.shouldBeIncluded)
             {
                 node.isIncludedByPostprocessor = isIncludedByPostprocessor;
@@ -50,9 +50,7 @@ FBL.ns(function () { with (FBL)
 
             node.shouldBeIncluded = true;
 
-            //if(node.loc != null && node.loc.start.line == 214) debugger;
-
-            /*if(node.maxIncludedByDependencyIndex == null) { node.maxIncludedByDependencyIndex = dependencyIndex; }
+            if(node.maxIncludedByDependencyIndex == null) { node.maxIncludedByDependencyIndex = dependencyIndex; }
             else if(node.maxIncludedByDependencyIndex < dependencyIndex) { node.maxIncludedByDependencyIndex = dependencyIndex ; }
 
             if(node.minIncludedByDependencyIndex == null) { node.minIncludedByDependencyIndex = dependencyIndex; }
@@ -60,7 +58,7 @@ FBL.ns(function () { with (FBL)
 
             //TODO - sort on insertion
             node.includedByDependencies = node.includedByDependencies || [];
-            node.includedByDependencies.push(dependencyIndex);*/
+            node.includedByDependencies.push(dependencyIndex);
         },
 
         IGNORED_SCRIPTS:
