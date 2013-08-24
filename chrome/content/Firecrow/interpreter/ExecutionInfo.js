@@ -41,6 +41,150 @@ fcBrowser.ExecutionInfo = function()
 
 fcBrowser.ExecutionInfo.prototype =
 {
+    toJSON: function()
+    {
+        return {
+            pathConstraint: this.pathConstraint,
+
+            undefinedGlobalPropertiesAccessMap: this.getUndefinedGlobalPropertiesAccessMapJson(),
+            /*Resource setter and for in iterations are not required*/
+
+            globalModifiedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(this.globalModifiedIdentifiers),
+            /*SKIPPED global modified objects, for now*/
+
+            afterLoadingModifiedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(this.afterLoadingModifiedIdentifiers),
+            /*SKIPPED after loading modified objects, for now*/
+
+            globalAccessedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(this.globalAccessedIdentifiers),
+            /*SKIPPED global accessed objects, for now*/
+
+            afterLoadingAccessedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(this.afterLoadingAccessedIdentifiers),
+            afterLoadingAccessedObjects: ValueTypeHelper.convertObjectPropertyNamesToArray(this.afterLoadingAccessedObjects),
+
+            eventRegistrations: this._getEventRegistrationsJson(this.eventRegistrations),
+            eventExecutionsMap: this._getEventExecutionsMapJson(),
+            typeExecutionMap: this._getTypeExecutionMapJson(),
+            eventExecutions: this._getEventExecutionsJson(),
+            executedConstructsIdMap: ValueTypeHelper.convertObjectPropertyNamesToArray(this.executedConstructsIdMap),
+            /*SKIPPED DATA DEPENDENCIES*/
+            branchingConstructs: ValueTypeHelper.convertObjectPropertyNamesToArray(this.branchingConstructs),
+            /*SKIPPED IMPORTANT MODIFICATIONS*/
+
+            achievedCoverage: this.achievedCoverage
+        };
+    },
+
+    _getEventExecutionJson: function(eventExecution)
+    {
+        return {
+            baseObjectDescriptor: eventExecution.baseObjectDescriptor,
+            branchingConstructs: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.branchingConstructs),
+            eventDescriptor: eventExecution.eventDescriptor,
+            eventRegistrations: this._getEventRegistrationsJson(eventExecution.eventRegistrations),
+            eventType: eventExecution.eventType,
+            globalAccessedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.globalAccessedIdentifiers),
+            /*SKIPPED GLOBAL ACCESSED OBJECTS, for now*/
+            globalModifiedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.globalModifiedIdentifiers),
+            /*SKIPPED global modified objects, for now*/
+            /*SKIPPED important modifications*/
+            typeDescriptor: eventExecution.typeDescriptor,
+            typeVisitedFunctionsMap: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.typeVisitedFunctionsMap),
+            visitedFunctionsMap: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.visitedFunctionsMap)
+        };
+    },
+
+
+    getUndefinedGlobalPropertiesAccessMapJson: function()
+    {
+        var obj = {};
+
+        for(var propertyName in this.undefinedGlobalPropertiesAccessMap)
+        {
+            if(obj[propertyName] == null) { obj[propertyName] = [] }
+
+            for(var constructId in this.undefinedGlobalPropertiesAccessMap[propertyName])
+            {
+                obj[propertyName].push(constructId);
+            }
+        }
+
+        return obj;
+    },
+
+    _getEventRegistrationsJson: function(eventRegistrations)
+    {
+        var eventRegistrationsInfo = [];
+
+        for(var i = 0; i < eventRegistrations.length; i++)
+        {
+            var eventRegistration = eventRegistrations[i];
+
+            eventRegistrationsInfo.push
+            ({
+                eventType: eventRegistration.eventType,
+                thisObjectDescriptor: eventRegistration.thisObjectDescriptor,
+                thisObjectModelNodeId: eventRegistration.thisObjectModel != null ? eventRegistration.thisObjectModel.nodeId || eventRegistration.thisObjectModel : null,
+                registrationConstructNodeId: eventRegistration.registrationConstruct != null ? eventRegistration.registrationConstruct.nodeId : null,
+                handlerConstructNodeId: eventRegistration.handlerConstruct != null ? eventRegistration.handlerConstruct.nodeId : null,
+                timePeriod: eventRegistration.timePeriod,
+                timerId: eventRegistration.timerId
+            });
+        }
+
+        return eventRegistrationsInfo;
+    },
+
+    _getEventExecutionsMapJson: function()
+    {
+        var object = {};
+
+        for(var thisDescriptor in this.eventExecutionsMap)
+        {
+            object[thisDescriptor] = {};
+
+            for(var eventType in this.eventExecutionsMap[thisDescriptor])
+            {
+                object[thisDescriptor][eventType] = [];
+
+                for(var functionNodeId in this.eventExecutionsMap[thisDescriptor][eventType])
+                {
+                    object[thisDescriptor][eventType].push(functionNodeId);
+                }
+            }
+        }
+
+        return object;
+    },
+
+    _getTypeExecutionMapJson: function()
+    {
+        var object = { };
+
+        for(var eventTypeId in this.typeExecutionMap)
+        {
+            object[eventTypeId] = [];
+
+            for(var functionConstructId in this.typeExecutionMap[eventTypeId])
+            {
+                object[eventTypeId].push(functionConstructId);
+            }
+        }
+
+        return object;
+    },
+
+    _getEventExecutionsJson: function()
+    {
+        var eventExecutionsJson = [];
+
+        for(var i = 0; i < this.eventExecutions.length; i++)
+        {
+            eventExecutionsJson.push(this._getEventExecutionJson(this.eventExecutions[i]));
+        }
+
+        return eventExecutionsJson;
+    },
+
     getLastEventInfoString: function()
     {
         var object = this.currentEventExecutionInfo != null ? this.currentEventExecutionInfo : this;
@@ -129,6 +273,8 @@ fcBrowser.ExecutionInfo.prototype =
     {
         if(codeConstruct == null) { return; }
 
+        this.executedConstructsIdMap[codeConstruct.nodeId] = true;
+
         if(this.currentEventExecutionInfo != null)
         {
             if(codeConstruct.test != null)
@@ -151,8 +297,6 @@ fcBrowser.ExecutionInfo.prototype =
         {
             this.branchingConstructs[codeConstruct.discriminant.nodeId] = codeConstruct.discriminant;
         }
-
-        this.executedConstructsIdMap[codeConstruct.nodeId] = true;
 
         if(this.currentEventExecutionInfo != null)
         {

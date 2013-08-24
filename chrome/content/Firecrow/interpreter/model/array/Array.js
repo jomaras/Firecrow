@@ -23,7 +23,7 @@ fcModel.Array = function fcModelArray(jsArray, globalObject, codeConstruct)
 };
 
 //<editor-fold desc="'Static' Methods">
-fcModel.Array.notifyError = function(message) { alert("Array - " + message);}
+fcModel.Array.notifyError = function(message) { debugger; alert("Array - " + message);}
 //</editor-fold>
 
 //<editor-fold desc="Prototype Definition">
@@ -80,7 +80,7 @@ fcModel.Array.prototype.push = function(jsArray, args, codeConstruct, fcValue, d
         var lengthProperty = this.getPropertyValue("length");
         var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
-        args = ValueTypeHelper.isArray(args) ? args : [args];
+        args = args.length !== null && args.length !== undefined ? args : [args];
 
         for(var i = 0, argsLength = args.length; i < argsLength; i++, length++)
         {
@@ -650,7 +650,14 @@ fcModel.Array.prototype._addPreexistingObjects = function()
 
     for(var i = 0; i < this.jsArray.length; i++)
     {
-        this.push(this.jsArray, this.jsArray[i], this.creationCodeConstruct, this, true);
+        var item = this.jsArray[i];
+
+        if(item === undefined)
+        {
+            item = this.globalObject.internalExecutor.createInternalPrimitiveObject(this.creationCodeConstruct, undefined);
+        }
+
+        this.push(this.jsArray, item, this.creationCodeConstruct, this, true);
 
         if(this.jsArray[i] != null && this.jsArray[i].codeConstruct != null)
         {

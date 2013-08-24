@@ -59,6 +59,7 @@
       }, 
       protect: function()
       {
+        this.$protected = true;
         return this;
       }
     });
@@ -102,7 +103,7 @@
       }
 
       var previous = this.prototype[name];
-      if(previous == null)
+      if(previous == null || !(previous.$protected))
       this.prototype[name] = method;
 
       if(this[name] == null && typeOf(method) == 'function')
@@ -213,7 +214,7 @@
     invoke: function(methodName)
     {
       var args = Array.slice(arguments, 1);
-      return (function(item)
+      return this.map(function(item)
       {
         return item[methodName].apply(item, args);
       });

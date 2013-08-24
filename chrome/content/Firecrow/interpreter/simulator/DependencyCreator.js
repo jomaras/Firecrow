@@ -206,24 +206,6 @@ fcSimulator.DependencyCreator.prototype =
         }
     },
 
-    _createFormalParameterDependenciesInCallback: function(callCommand, formalParameters, args)
-    {
-        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
-        var params = callCommand.callbackFunction.codeConstruct.params;
-        var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
-
-        for(var i = 0; i < params.length; i++)
-        {
-            var arg = callCommand.arguments[i];
-
-            if(arg != null)
-            {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], arg.codeConstruct, evalPosition);
-            }
-
-            this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], callCommand.codeConstruct, evalPosition);
-        }
-    },
 
     addDependenciesToPreviouslyExecutedBlockConstructs: function(codeConstruct, previouslyExecutedBlockConstructs)
     {
@@ -275,6 +257,70 @@ fcSimulator.DependencyCreator.prototype =
          {
          this.globalObject.browser.callControlDependencyEstablishedCallbacks(currentConstruct, currentConstruct.previousCondition, evaluationPosition);
          }*/
+    },
+
+    addNewExpressionDependencies: function(newExpression)
+    {
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+        this.globalObject.dependencyCreator.createDataDependency(newExpression, newExpression.callee, evaluationPosition);
+
+        for(var i = 0; i < newExpression.arguments.length; i++)
+        {
+            this.globalObject.dependencyCreator.createDataDependency(newExpression, newExpression.arguments[i], evaluationPosition);
+        }
+
+        this.addDependenciesToTopBlockConstructs(newExpression);
+    },
+
+    addCallExpressionDependencies: function(callConstruct)
+    {
+        //TODO - hack to cover problems of object[callExpression()] where only callExpression is important
+         /*if(ASTHelper.isMemberExpressionProperty(callConstruct))
+         {
+            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.parent, this.globalObject.getPreciseEvaluationPositionId());
+         } */
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+        this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.callee, evaluationPosition);
+
+        for(var i = 0; i < callConstruct.arguments.length; i++)
+        {
+            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.arguments[i], evaluationPosition);
+        }
+
+        this.addDependenciesToTopBlockConstructs(callConstruct);
+    },
+
+    _createFormalParameterDependenciesInCallback: function(callCommand, formalParameters, args)
+    {
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+        var params = callCommand.callbackFunction.codeConstruct.params;
+        var evalPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0; i < params.length; i++)
+        {
+            var arg = callCommand.arguments[i];
+
+            if(arg != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], arg.codeConstruct, evalPosition);
+            }
+
+            this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], callCommand.codeConstruct, evalPosition);
+            if(callCommand.parentInitCallbackCommand != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(params[i], callCommand.parentInitCallbackCommand.codeConstruct, evalPosition);
+            }
+        }
+    },
+
+    addCallbackDependencies: function(callbackConstruct, callCallbackConstruct)
+    {
+        /*this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            callbackConstruct,
+            callCallbackConstruct,
+            this.globalObject.getPreciseEvaluationPositionId()
+        );*/
     },
 
     createCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand){},

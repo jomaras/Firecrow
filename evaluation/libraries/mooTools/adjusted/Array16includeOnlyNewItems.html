@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+<script>
+    var arr = [1,2,3,4].include(1).include(5);
+    assertEquals(arr.join(","), [1,2,3,4,5].join(","));
+</script>
+</body>
+</html>

@@ -7,21 +7,23 @@ var loadInProgress = false;
 
 var modelFiles = [];
 var pageIndex = 0;
-var maxPageIndex = 108;
+var maxPageIndex = 110;
  console.log("Started reggression tests");
 //Problems in tests: 88 (bind function)
 // 91 - not sure why
 
-page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
-page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
+page.onConsoleMessage = function(msg) { system.stderr.writeLine('console - ' + url + ":" + msg); };
+page.onAlert = function(msg) { console.log('ALERT - ' + url + ":" + msg); };
 
 var log = "";
+var url = "";
 
 var interval = setInterval(function()
 {
     if (!loadInProgress && pageIndex < maxPageIndex)
     {
-        page.open(encodeURI("http://localhost/Firecrow/debug/debugSlicingPhantom.html" + "?index=" + pageIndex));
+        url = "http://localhost/Firecrow/debug/debugSlicingPhantom.html" + "?index=" + pageIndex;
+        page.open(encodeURI(url));
     }
 
     if (pageIndex >= maxPageIndex)

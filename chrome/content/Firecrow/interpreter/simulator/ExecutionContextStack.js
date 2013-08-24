@@ -204,15 +204,12 @@ fcSimulator.ExecutionContextStack.prototype =
             else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) { }
             else if (command.isStartCatchStatementCommand()){ this._addToBlockCommandStack(command);}
             else if (command.isEndCatchStatementCommand()) { this._tryPopCommand(command);}
-            else if (command.isEvalNewExpressionCommand()){ this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
+            else if (command.isEvalNewExpressionCommand()){ this.dependencyCreator.addNewExpressionDependencies(command.codeConstruct);}
             else if (command.isStartLogicalExpressionCommand()) { }
             else if (command.isCallInternalConstructorCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
             else if (command.isCallCallbackMethodCommand()) {}
-            else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct);}
-            else if (command.isExecuteCallbackCommand())
-            {
-                this.globalObject.logCallbackExecution(command.codeConstruct, command.callCallbackCommand.codeConstruct);
-            }
+            else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addCallExpressionDependencies(command.codeConstruct); }
+            else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.addCallbackDependencies(command.codeConstruct, command.callCallbackCommand.codeConstruct);}
             else if (command.isConvertToPrimitiveCommand()) {}
             else
             {

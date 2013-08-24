@@ -1,4 +1,10 @@
-﻿FBL.ns(function () { with (FBL) {
+﻿var usesModule = typeof module !== 'undefined' && module.exports
+if(usesModule)
+{
+    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+}
+
+FBL.ns(function () { with (FBL) {
 /*************************************************************/
 Firecrow.ValueTypeHelper =
 {
@@ -886,3 +892,8 @@ Firecrow.ValueTypeHelper.WeightedList = (function() {
 })();
 /******/
 }});
+
+if(usesModule)
+{
+    exports.ValueTypeHelper = FBL.Firecrow.ValueTypeHelper;
+}

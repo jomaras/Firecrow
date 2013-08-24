@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+<script>
+    var arr = [1,2,3,[4,5,[6,7,[8]]], [[[[[9]]]]]];
+
+    var flattened = arr.flatten();
+
+    assertEquals(flattened.join(","), [1,2,3,4,5,6,7,8,9].join(","));
+    assertEquals(flattened.length, [1,2,3,4,5,6,7,8,9].length);
+</script>
+</body>
+</html>

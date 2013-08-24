@@ -366,13 +366,6 @@ fcSimulator.prototype = dummy =
             this.executionContextStack.getExpressionsValues(callConstruct.arguments)
         );
 
-        this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
-
-        for(var i = 0; i < callConstruct.arguments.length; i++)
-        {
-            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.arguments[i], this.globalObject.getPreciseEvaluationPositionId());
-        }
-
         this.executionContextStack.setExpressionValue(newCommand.codeConstruct, newObject);
 
         ValueTypeHelper.insertElementsIntoArrayAtIndex
@@ -383,23 +376,9 @@ fcSimulator.prototype = dummy =
         );
     },
 
-
     _generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)
     {
         var callConstruct = callExpressionCommand.codeConstruct;
-
-        //TODO - hack to cover problems of object[callExpression()] where only callExpression is important
-        /*if(ASTHelper.isMemberExpressionProperty(callConstruct))
-        {
-            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.parent, this.globalObject.getPreciseEvaluationPositionId());
-        }*/
-
-        this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.callee, this.globalObject.getPreciseEvaluationPositionId());
-
-        for(var i = 0; i < callConstruct.arguments.length; i++)
-        {
-            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.arguments[i], this.globalObject.getPreciseEvaluationPositionId());
-        }
 
         var baseObject = this.executionContextStack.getBaseObject(callConstruct.callee);
         var callFunction = this.executionContextStack.getExpressionValue(callConstruct.callee);
@@ -408,7 +387,6 @@ fcSimulator.prototype = dummy =
 
         var baseObjectValue = baseObject.jsValue;
         var callFunctionValue = callFunction.jsValue;
-
 
         if(ValueTypeHelper.isFunction(baseObjectValue) && ValueTypeHelper.isFunction(callFunctionValue))
         {

@@ -93,6 +93,7 @@ fcModel.HtmlElementExecutor =
                     fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
                 }
                 break;
+                break;
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;
         }
@@ -270,13 +271,18 @@ fcModel.HtmlElementExecutor =
 
     _getAttributeNode: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
     {
-        var attribute = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        try
+        {
+           var attribute = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        }
+        catch(e) { console.log("Exception when getAttributeNode - probably irrelevant"); }
 
         if(attribute == null) { return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, null); }
 
         this.addDependencies(thisObjectValue, callExpression, globalObject);
 
         return fcModel.Attr.wrapAttribute(attribute, globalObject, callExpression);
+
     },
 
     _modifyAttribute: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)

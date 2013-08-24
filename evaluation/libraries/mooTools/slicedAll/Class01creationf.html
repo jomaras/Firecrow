@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<script>
+(function()
+{
+    var typeOf = this.typeOf = function(item)
+    {
+        if(item == null)
+            return 'null';
+
+        if(item.$family != null)
+            return item.$family();
+
+        return typeof item;
+    };
+    var Function = this.Function;
+    Function.prototype.overloadSetter = function(usePlural)
+    {
+        var self = this;
+        return function(a, b)
+        {
+            if(usePlural || typeof a != 'string')
+            {
+                for(var k in a)
+                    self.call(this, k, a[k]);
+            }
+            else
+            {
+                self.call(this, a, b);
+            }
+
+            return this;
+        };
+    };
+    Function.prototype.extend = (function(key, value)
+    {
+        this[key] = value;
+    }).overloadSetter();
+    Function.prototype.implement = (function(key, value)
+    {
+        this.prototype[key] = value;
+    }).overloadSetter();
+    var slice = Array.prototype.slice;
+    Array.from = function(item)
+    {
+        return Type.isEnumerable(item) && typeof item != 'string' ? typeOf(item) == 'array' ? item : 0 : [item];
+    };
+    Function.implement({
+        hide: function()
+        {
+            return this;
+        },
+        protect: function()
+        {
+            this.$protected = true;
+            return this;
+        }
+    });
+    var Type = this.Type = function(name, object)
+    {
+        if(name)
+        {
+            var lower = name.toLowerCase();
+            if(object != null)
+            {
+                object.prototype.$family = (function()
+                {
+                    return lower;
+                }).hide();
+            }
+        }
+
+        object.extend(this);
+        return object;
+    };
+    var toString = Object.prototype.toString;
+    Type.isEnumerable = function(item)
+    {
+        return item != null && typeof (item.length) == 'number' && toString.call(item) != '[object Function]';
+    };
+    var hooks = {};
+    var hooksOf = function(object)
+    {
+        var type = typeOf(object.prototype);
+        return hooks[type] || (hooks[type] = []);
+    };
+    var implement = function(name, method)
+    {
+        var hooks = hooksOf(this);
+        for(var i = 0;i < hooks.length;i++)
+        {
+            var hook = hooks[i];
+            if(typeOf(hook) == 'type');
+            else
+                hook.call(this, name, method);
+        }
+
+        var previous = this.prototype[name];
+        if(previous == null || !(previous.$protected))
+            this.prototype[name] = method;
+
+        if(this[name] == null && typeOf(method) == 'function')
+            extend.call(this, name, function(item)
+            {
+                return method.apply(item, slice.call(arguments, 1));
+            });
+    };
+    var extend = function(name, method)
+    {
+        var previous = this[name];
+        if(previous == null)
+            this[name] = method;
+    };
+    Type.implement({
+        implement: implement.overloadSetter(),
+        mirror: function(hook)
+        {
+            hooksOf(this).push(hook);
+        }
+    });
+    var force = function(name, object, methods)
+    {
+        var isType = object != Object, prototype = object.prototype;
+        if(isType)
+            object = new Type(name, object);
+
+        for(var i = 0, l = methods.length;i < l;i++)
+        {
+            var key = methods[i], proto = prototype[key];
+            if(isType && proto)
+                object.implement(key, proto.protect());
+        }
+
+        return force;
+    };
+    force('String', String, ['charAt', 'charCodeAt', 'concat', 'indexOf', 'lastIndexOf', 'match', 'quote', 'replace', 'search', 'slice', 'split', 'substr', 'substring', 'trim', 'toLowerCase', 'toUpperCase'])('Array', Array, ['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice', 'indexOf', 'lastIndexOf', 'filter', 'forEach', 'every', 'map', 'some', 'reduce', 'reduceRight'])('Number', Number, ['toExponential', 'toFixed', 'toLocaleString', 'toPrecision'])('Function', Function, ['apply', 'call', 'bind']);
+    Object.extend = extend.overloadSetter();
+    new Type('Boolean', Boolean);
+    Array.implement({
+        forEach: function(fn, bind){},
+        each: function(fn, bind)
+        {
+            Array.forEach(this, fn, bind);
+        }
+    });
+    var mergeOne = function(source, key, current)
+    {
+        switch(typeOf(current))
+        {
+            default:
+                source[key] = current;
+        }
+    };
+    Object.extend({
+        merge: function(source, k, v)
+        {
+            if(typeOf(k) == 'string')
+                return mergeOne(source, k, v);
+        }
+    });
+})();
+(function()
+{
+    var Browser = this.Browser = {
+        extend: Function.prototype.extend
+    };
+    Browser.extend({
+        Document: this.Document,
+        Element: this.Element
+    });
+})();
+(function()
+{
+    var Class = this.Class = new Type('Class', function(params)
+    {
+        var newClass = (function()
+        {
+            if(newClass.$prototyping)
+                return this;
+
+            var value = this.initialize ? this.initialize.apply(this, arguments) : this;
+            this.$caller = this.caller = null;
+            return value;
+        }).extend(this).implement(params);
+        newClass.prototype.parent = parent;
+        return newClass;
+    });
+    var parent = function()
+    {
+        var name = this.$caller.$name, parent = this.$caller.$owner.parent, previous = parent ? parent.prototype[name] : 0;
+        return previous.apply(this, arguments);
+    };
+    var wrap = function(self, key, method)
+    {
+        var wrapper = (function()
+        {
+            this.$caller = wrapper;
+            var result = method.apply(this, arguments);
+            return result;
+        }).extend({
+                    $owner: self,
+                    $name: key
+                });
+        return wrapper;
+    };
+    var implement = function(key, value, retain)
+    {
+        if(Class.Mutators.hasOwnProperty(key))
+        {
+            Class.Mutators[key].call(this, value);
+        }
+
+        if(typeOf(value) == 'function')
+        {
+            this.prototype[key] = retain ? value : wrap(this, key, value);
+        }
+        else
+        {
+            Object.merge(this.prototype, key, value);
+        }
+    };
+    var getInstance = function(klass)
+    {
+        klass.$prototyping = true;
+        var proto = new klass();
+        delete (klass.$prototyping);
+        return proto;
+    };
+    Class.implement('implement', implement.overloadSetter());
+    Class.Mutators = {
+        Extends: function(parent)
+        {
+            this.parent = parent;
+            this.prototype = getInstance(parent);
+        },
+        Implements: function(items)
+        {
+            Array.from(items).each(function(item)
+            {
+                var instance = new item();
+                for(var key in instance)
+                    implement.call(this, key, instance[key], true);
+            }, this);
+        }
+    };
+})();
+var Element = function(tag, props){};
+if(Browser.Element)
+{
+    Element.prototype = Browser.Element.prototype;
+}
+
+(new Type('Element', Element)).mirror(function(name)
+{
+    var obj = {};
+    obj[name] = function(){};
+    Elements.implement(obj);
+});
+var Elements = this.Elements = function(nodes){};
+Elements.prototype = {};
+(new Type('Elements', Elements)).implement({
+    filter: (function(filter, bind){}).protect(),
+    push: (function(){}).protect(),
+    unshift: (function(){}).protect(),
+    concat: (function(){}).protect(),
+    append: (function(collection){}).protect(),
+    empty: (function(){}).protect()
+});
+Element.implement({
+    load: function(){}
+});
+</script>
+</head>
+<body>
+<script>  function assertEquals(a,b){ if(a!=b)console.log(a,b)}
+    var Animal = new Class({
+        initialized: false,
+        initialize: function(name, sound)
+        {
+            this.name = name;
+            this.sound = sound || '';
+            this.initialized = true;
+        },
+        eat: function()
+        {
+            return 'animal:eat:' + this.name;
+        },
+        say: function()
+        {
+            return 'animal:say:' + this.name;
+        }
+    });
+    var Cat = new Class({
+        Extends: Animal,
+        ferocious: false,
+        initialize: function(name, sound)
+        {
+            this.parent(name, sound || 'miao');
+        },
+        eat: function()
+        {
+            return 'cat:eat:' + this.name;
+        },
+        play: function()
+        {
+            return 'cat:play:' + this.name;
+        }
+    });
+    var Lion = new Class({
+        Extends: Cat,
+        ferocious: true,
+        initialize: function(name)
+        {
+            this.parent(name, 'rarr');
+        },
+        eat: function()
+        {
+            return 'lion:eat:' + this.name;
+        }
+    });
+    var Actions = new Class({
+        jump: function()
+        {
+            return 'actions:jump:' + this.name;
+        },
+        sleep: function()
+        {
+            return 'actions:sleep:' + this.name;
+        }
+    });
+    var Attributes = new Class({
+        color: function()
+        {
+            return 'attributes:color:' + this.name;
+        },
+        size: function()
+        {
+            return 'attributes:size:' + this.name;
+        }
+    });
+    var animal = new Animal('lamina');
+    assertEquals(animal.name, 'lamina');
+    assertEquals(animal.initialized, true);
+    assertEquals(animal.say(), 'animal:say:lamina');
+    var cat = new Cat('fluffy');
+    assertEquals(cat.name, 'fluffy');
+    assertEquals(cat.sound, 'miao');
+    assertEquals(cat.ferocious, false);
+    assertEquals(cat.say(), 'animal:say:fluffy');
+    assertEquals(cat.eat(), 'cat:eat:fluffy');
+    assertEquals(cat.play(), 'cat:play:fluffy');
+    var leo = new Lion('leo');
+    assertEquals(leo.name, 'leo');
+    assertEquals(leo.sound, 'rarr');
+    assertEquals(leo.ferocious, true);
+    assertEquals(leo.say(), 'animal:say:leo');
+    assertEquals(leo.eat(), 'lion:eat:leo');
+    assertEquals(leo.play(), 'cat:play:leo');
+    var Dog = new Class({
+        Implements: Animal
+    });
+    var rover = new Dog('rover');
+    assertEquals(rover.name, 'rover');
+    assertEquals(rover.initialized, true);
+    assertEquals(rover.eat(), 'animal:eat:rover');
+    Dog = new Class({
+        Extends: Animal,
+        Implements: [Actions, Attributes]
+    });
+    var rover = new Dog('rover');
+    assertEquals(rover.initialized, true);
+    assertEquals(rover.eat(), 'animal:eat:rover');
+    assertEquals(rover.say(), 'animal:say:rover');
+    assertEquals(rover.jump(), 'actions:jump:rover');
+    assertEquals(rover.sleep(), 'actions:sleep:rover');
+    assertEquals(rover.size(), 'attributes:size:rover');
+    assertEquals(rover.color(), 'attributes:color:rover');
+    Dog = new Class({
+        Extends: Animal
+    });
+    var rover = new Dog('rover');
+    Dog.implement({
+        jump: function()
+        {
+            return 'dog:jump:' + this.name;
+        }
+    });
+    var spot = new Dog('spot');
+    assertEquals(spot.jump(), 'dog:jump:spot');
+    assertEquals(rover.jump(), 'dog:jump:rover');
+    Dog = new Class({
+        Extends: Animal
+    });
+    var rover = new Dog('rover');
+    Animal.implement({
+        jump: function()
+        {
+            return 'animal:jump:' + this.name;
+        }
+    });
+    var spot = new Dog('spot');
+    assertEquals(spot.jump(), 'animal:jump:spot');
+    assertEquals(rover.jump(), 'animal:jump:rover');
+    Dog = new Class({
+        Extends: Animal
+    });
+    var rover = new Dog('rover');
+    assertEquals(rover.say(), 'animal:say:rover');
+    Animal.implement({
+        say: function()
+        {
+            return 'NEW:animal:say:' + this.name;
+        }
+    });
+    var spot = new Dog('spot');
+    assertEquals(spot.say(), 'NEW:animal:say:spot');
+    assertEquals(rover.say(), 'NEW:animal:say:rover');
+</script>
+
+</body>
+</html>

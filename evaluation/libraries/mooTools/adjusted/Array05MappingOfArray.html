@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+<script>
+    var arr = [1,2,3,0,0,0].map(function(item){
+        return (item + 1);
+    });
+
+    assertEquals(arr.join(","), [2,3,4,1,1,1].join(","));
+</script>
+</body>
+</html>

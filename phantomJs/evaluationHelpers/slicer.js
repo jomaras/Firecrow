@@ -25,7 +25,7 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf("Array") != -1)
     {
         return fullPath;
     }
@@ -47,7 +47,7 @@ var interval = setInterval(function()
         fs.write(logFile, log);
         phantom.exit();
     }
-}, 250);
+}, 500);
 
 page.onLoadStarted = function()
 {

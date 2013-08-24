@@ -14,6 +14,8 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
 
         this.constructor = fcModel.CSSStyleDeclaration;
 
+        var methodObject = this.cssStyleDeclaration || CSSStyleDeclaration.prototype;
+
         var methods = fcModel.CSSStyleDeclaration.CONST.INTERNAL_PROPERTIES.METHODS;
 
         for(var i = 0, length = methods.length; i < length; i++)
@@ -25,7 +27,7 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
                 method,
                 new fcModel.fcValue
                 (
-                    this.cssStyleDeclaration[method],
+                    methodObject[method],
                     fcModel.Function.createInternalNamedFunction(globalObject, method, this),
                     codeConstruct
                 ),
@@ -71,7 +73,7 @@ fcModel.CSSStyleDeclaration.createStyleDeclaration = function(htmlElement, cssSt
     );
 };
 
-fcModel.CSSStyleDeclaration.notifyError =  function (message){ alert("CSSStyleDeclaration - " + message); }
+fcModel.CSSStyleDeclaration.notifyError =  function (message){debugger; alert("CSSStyleDeclaration - " + message); }
 
 fcModel.CSSStyleDeclarationExecutor =
 {

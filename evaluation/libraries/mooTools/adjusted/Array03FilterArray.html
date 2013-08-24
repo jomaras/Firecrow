@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+<script>
+    var array = [1,2,3,0,0,0];
+    var arr = array.concat([false, null, 4].filter(Number));
+    assertEquals(arr.join(","), array.concat(4).join(","));
+</script>
+</body>
+</html>

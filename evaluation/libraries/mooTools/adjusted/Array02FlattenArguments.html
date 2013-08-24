@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="../mootools-core.js"></script>
+</head>
+<body>
+<script>
+    var test = function(){
+        return Array.flatten(arguments);
+    };
+    assertEquals(test(1,2,3).join(","), [1,2,3].join(","));
+    assertEquals(test([1,2,3]).join(","), [1,2,3].join(","));
+    assertEquals(test(1,2,[3]).join(","), [1,2,3].join(","));
+</script>
+</body>
+</html>

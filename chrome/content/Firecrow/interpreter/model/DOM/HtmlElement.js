@@ -74,7 +74,16 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName) || (ValueTypeHelper.isHtmlFormElement(this.htmlElement) && ValueTypeHelper.isHtmlElement(this.htmlElement[propertyName])))
     {
-        this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, creationConstruct), creationConstruct);
+        //mooTools Firefox HACK
+        var element = this.htmlElement[propertyName];
+        if(element == null && this.htmlElement.innerHTML == "<select><option>s</option></select>")
+        {
+            var div = document.createElement("div");
+            div.innerHTML = "<select><option>s</option></select>";
+            element = div[propertyName];
+        }
+
+        this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(element, this.globalObject, creationConstruct), creationConstruct);
 
         fcModel.HtmlElementExecutor.addDependencies(this.htmlElement[propertyName], codeConstruct, this.globalObject);
     }
@@ -115,7 +124,14 @@ fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyVal
         }
         else
         {
-            this.htmlElement[propertyName] = propertyValue.jsValue;
+            var propertyJsValue = propertyValue.jsValue;
+
+            if(ValueTypeHelper.isImageElement(this.htmlElement) && propertyName == "src")
+            {
+                propertyJsValue = Firecrow.UriHelper.getAbsoluteUrl(propertyJsValue, this.globalObject.browser.url)
+            }
+
+            this.htmlElement[propertyName] = propertyJsValue;
         }
 
         this._createDependencies(propertyName, codeConstruct);
@@ -220,6 +236,13 @@ fcModel.HtmlElement.prototype._getElements = function(propertyName, codeConstruc
     var items = this.htmlElement[propertyName];
 
     if(items == null) { return array; }
+    //TODO HACK for Firefox MooTools - for some reason setting the innerHTML does nothing
+    if(items.length == 0 && codeConstruct.loc.start.line == 3573 && this.htmlElement.innerHTML == "<nav></nav>")
+    {
+        var a = document.createElement("div");
+        a.innerHTML = "<nav></nav>";
+        items = a[propertyName];
+    }
 
     for(var i = 0, length = items.length; i < length; i++)
     {

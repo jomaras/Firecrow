@@ -199,7 +199,6 @@ FBL.ns(function() { with (FBL) {
                 this._traverseHtmlNodeDependencies(this.htmlNodes);
 
                 this._traverseExecutedBlockDependencies();
-                this._traverseCallbacks();
 
                 if(fcGraph.DependencyGraph.sliceUnions)
                 {
@@ -305,6 +304,8 @@ FBL.ns(function() { with (FBL) {
                     }
                     else
                     {
+                        //this is not ok, should only be done if the parent parent loop has been included
+                        //by a similar (whatever that means) index.
                         this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
                     }
                 }
@@ -312,33 +313,6 @@ FBL.ns(function() { with (FBL) {
                 {
                     debugger;
                     alert("Unhandled when traversing break continue2");
-                }
-            }
-        },
-
-        _traverseCallbacks: function()
-        {
-            for(var callbackConstructId in this.callbackExecutionMap)
-            {
-                var callbackMapping = this.callbackExecutionMap[callbackConstructId];
-
-                var callbackConstruct = callbackMapping.callbackConstruct;
-
-                for(var callCallbackConstructId in callbackMapping.callCallbackMap)
-                {
-                    var callCallbackMapping = callbackMapping.callCallbackMap[callCallbackConstructId];
-                    var callCallbackConstruct = callCallbackMapping.callCallbackConstruct;
-
-                    if(callbackConstruct.shouldBeIncluded)
-                    {
-                        var includedByConstraintsLength = callbackConstruct.includedConstraints.length;
-                        for(var i = 0; i < includedByConstraintsLength; i++)
-                        {
-                            var constraint = callbackConstruct.includedConstraints[i];
-                            var evaluationPosition = this._findClosestSmallestPosition(constraint, callCallbackMapping.evaluationPositions)
-                            this._traverseAndMark(callCallbackConstruct, callbackConstruct.includedByDependencies[i], evaluationPosition);
-                        }
-                    }
                 }
             }
         },
@@ -426,7 +400,7 @@ FBL.ns(function() { with (FBL) {
         },
 
         _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint)
-        { //if(maxDependencyIndex == 261674)debugger;
+        {   if(maxDependencyIndex == 266179)debugger;3;
             Firecrow.includeNode(codeConstruct, false, maxDependencyIndex, dependencyConstraint);
 
             if((ASTHelper.isMemberExpression(codeConstruct) || ASTHelper.isMemberExpression(codeConstruct.parent)
@@ -440,7 +414,7 @@ FBL.ns(function() { with (FBL) {
             for(var i = potentialDependencyEdges.length - 1; i >= 0; i--)
             {
                 var dependencyEdge = potentialDependencyEdges[i];
-
+                //if(dependencyEdge.index == 266219)debugger;
                 if(dependencyEdge.hasBeenTraversed) { continue; }
 
                 dependencyEdge.hasBeenTraversed = true;
@@ -475,7 +449,7 @@ FBL.ns(function() { with (FBL) {
 
                     continue;
                 }
-                //if(dependencyEdge.index >= 49934 && dependencyEdge.index < 253177) debugger;3
+                //if(dependencyEdge.index >= 49955 && dependencyEdge.index < 253284) debugger;3
                 this._traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);
             }
         },

@@ -1,8 +1,20 @@
+var usesModule = typeof module !== 'undefined' && module.exports;
+var ASTHelper;
+if(usesModule)
+{
+    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+}
+
 FBL.ns(function () { with (FBL) {
 
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-Firecrow.ASTHelper =
+if(ValueTypeHelper == null && usesModule)
+{
+    ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\valueTypeHelper.js").ValueTypeHelper;
+}
+
+Firecrow.ASTHelper = ASTHelper =
 {
     parseSourceCodeToAST: function(sourceCode, sourceCodePath, startLine)
     {
@@ -38,7 +50,6 @@ Firecrow.ASTHelper =
 
     calculateCoverage: function(pageModel, scriptPathsToIgnore)
     {
-        var ASTHelper = FBL.Firecrow.ASTHelper;
         var scripts = ASTHelper.getScriptElements(pageModel.htmlElement);
         scriptPathsToIgnore = scriptPathsToIgnore || [];
 
@@ -253,8 +264,6 @@ Firecrow.ASTHelper =
 
     getFunctionCoverageInfo: function(functionConstruct, executionId)
     {
-        var ASTHelper = this;
-
         var totalNumberOfExpressions = 0;
         var executedNumberOfExpressions = 0;
 
@@ -311,9 +320,8 @@ Firecrow.ASTHelper =
             }
         }, ["FunctionExpression", "FunctionDeclaration"]);
 
-        var branchCoverage = executedNumberOfBranches/totalNumberOfBranches;
-
-        if(Number.isNaN(branchCoverage)) { branchCoverage = 1; }
+        var branchCoverage = totalNumberOfBranches != 0 ? executedNumberOfBranches/totalNumberOfBranches
+                                                        : 1;
 
          return {
             totalNumberOfExpressions: totalNumberOfExpressions,
@@ -341,7 +349,6 @@ Firecrow.ASTHelper =
         {
             if(rootElement == null || rootElement.parentChildRelationshipsHaveBeenSet) { return; }
 
-            var ASTHelper = Firecrow.ASTHelper;
             var lineNumberAdjust = rootElement.lineAdjuster || 0;
             var source = rootElement.source || "";
 
@@ -1206,8 +1213,6 @@ Firecrow.ASTHelper =
 
         var containsCallOrUpdateOrAssignmentExpression = false;
 
-        var ASTHelper = Firecrow.ASTHelper;
-
         this.traverseAst(element, function(currentElement)
         {
             if(ASTHelper.isCallExpression(currentElement)
@@ -1659,3 +1664,8 @@ Firecrow.ASTHelper.parentStatementOrFunctionTypes =
 ];
 /******/
 }});
+
+if(usesModule)
+{
+    exports.ASTHelper = ASTHelper;
+}

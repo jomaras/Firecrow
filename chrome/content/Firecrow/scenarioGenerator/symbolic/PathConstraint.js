@@ -51,6 +51,14 @@ fcSymbolic.PathConstraintItem.prototype =
         catch(e) { debugger; }
     },
 
+    toJSON: function()
+    {
+        return {
+            codeConstructId: this.codeConstruct != null ? this.codeConstruct.nodeId : 0,
+            constraint: this.constraint
+        };
+    },
+
     createCopyUpgradedByIndex: function(upgradeByIndex)
     {
         return new fcSymbolic.PathConstraintItem(this.codeConstruct, this.constraint.createCopyUpgradedByIndex(upgradeByIndex))
@@ -397,6 +405,13 @@ fcSymbolic.PathConstraint.prototype =
         }
 
         return binaryArray;
+    },
+
+    toJSON: function()
+    {
+        return {
+            pathConstraintItems: this.pathConstraintItems
+        };
     },
 
     toString: function()

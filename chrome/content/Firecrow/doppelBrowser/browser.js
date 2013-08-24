@@ -212,6 +212,11 @@ Browser.prototype = dummy =
             var attribute = attributes[i];
 
             htmlDomElement.setAttribute(attribute.name, attribute.value);
+
+            if(attribute.name == "src" && htmlModelElement.type == "img")
+            {
+                htmlDomElement.setAttribute(attribute.name, Firecrow.UriHelper.getAbsoluteUrl(attribute.value, this.url));
+            }
         }
     },
 
@@ -372,21 +377,15 @@ Browser.prototype = dummy =
     {
         if(codeConstruct == null || codeConstruct.type == null) { return; }
 
-        if(!codeConstruct.hasBeenExecuted)
-        {
-            var parentStatement = ASTHelper.getParentStatementOrFunction(codeConstruct);
-
-            if(parentStatement != null)
-            {
-                parentStatement.hasBeenExecuted = true;
-            }
-        }
-
-        //TODO - add command that represents statment execution, from the perspective of
-        //the evaluator it does nothing, but it can be usefull for determining coverage
-        this.executionInfo.logExecutedConstruct(ASTHelper.getParentStatementOrFunction(codeConstruct));
-
         codeConstruct.hasBeenExecuted = true;
+        this.executionInfo.logExecutedConstruct(codeConstruct);
+
+        var parentStatementOrFunction = ASTHelper.getParentStatementOrFunction(codeConstruct);
+        if(parentStatementOrFunction != null)
+        {
+            parentStatementOrFunction.hasBeenExecuted = true;
+            this.executionInfo.logExecutedConstruct(parentStatementOrFunction);
+        }
     },
 
     getForInIterationsLog: function()
