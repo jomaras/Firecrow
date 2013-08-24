@@ -149,7 +149,7 @@ fcSymbolic.Identifier.prototype.createCopyWithIndex = function(newIndex)
 
 fcSymbolic.Identifier.prototype.createCopyWithReplacedLiterals = function(replacement) { return new fcSymbolic.Identifier(this.name); }
 fcSymbolic.Identifier.prototype.hasOnlyIdentifiers = function() { return true; }
-fcSymbolic.Identifier.prototype.toJSON = function() { return { type: this.type, name: this.name }; }
+fcSymbolic.Identifier.prototype.toJSON = function() { return { type: this.type, name: this.name, isIrreversible: this.isIrreversible }; }
 
 fcSymbolic.Literal = function(value)
 {
@@ -188,7 +188,7 @@ fcSymbolic.Literal.prototype.createCopyWithIndex = function(index)
     return new fcSymbolic.Literal(this.value);
 };
 fcSymbolic.Literal.prototype.hasOnlyIdentifiers = function() { return false; }
-fcSymbolic.Literal.prototype.toJSON = function() { return { type: this.type, value: this.value }; }
+fcSymbolic.Literal.prototype.toJSON = function() { return { type: this.type, value: this.value, isIrreversible: this.isIrreversible }; }
 
 fcSymbolic.Unary = function(argument, operator, prefix)
 {
@@ -232,7 +232,7 @@ fcSymbolic.Unary.prototype.createCopyWithIndex = function(index)
 };
 
 fcSymbolic.Unary.prototype.hasOnlyIdentifiers = function() { return this.argument.hasOnlyIdentifiers(); }
-fcSymbolic.Unary.prototype.toJSON = function() { return { type: this.type, operator: this.operator, prefix: this.prefix, argument: this.argument.toJSON() }; }
+fcSymbolic.Unary.prototype.toJSON = function() { return { type: this.type, operator: this.operator, prefix: this.prefix, argument: this.argument.toJSON(), isIrreversible: this.isIrreversible }; }
 
 fcSymbolic.Binary = function(left, right, operator)
 {
@@ -290,7 +290,7 @@ fcSymbolic.Binary.prototype.createCopyWithIndex = function(index)
     return new fcSymbolic.Binary(this.left.createCopyWithIndex(index), this.right.createCopyWithIndex(index), this.operator);
 };
 fcSymbolic.Binary.prototype.hasOnlyIdentifiers = function() { return this.left.hasOnlyIdentifiers() && this.right.hasOnlyIdentifiers(); }
-fcSymbolic.Binary.prototype.toJSON = function() { return { type: this.type, operator: this.operator, left: this.left.toJSON(), rigth: this.right.toJSON() }; }
+fcSymbolic.Binary.prototype.toJSON = function() { return { type: this.type, operator: this.operator, left: this.left.toJSON(), right: this.right.toJSON(), isIrreversible: this.isIrreversible }; }
 
 fcSymbolic.Update = function(argument, operator, prefix)
 {
@@ -333,7 +333,7 @@ fcSymbolic.Update.prototype.createCopyWithIndex = function(index)
     return new fcSymbolic.Update(this.argument.createCopyWithIndex(index), this.operator, this.prefix);
 };
 fcSymbolic.Update.prototype.hasOnlyIdentifiers = function() { return this.argument.hasOnlyIdentifiers(); }
-fcSymbolic.Update.prototype.toJSON = function() { return { type: this.type, operator: this.operator, prefix: this.prefix, argument: this.argument.toJSON() }; }
+fcSymbolic.Update.prototype.toJSON = function() { return { type: this.type, operator: this.operator, prefix: this.prefix, argument: this.argument.toJSON(), isIrreversible: this.isIrreversible }; }
 
 fcSymbolic.Logical = function(left, right, operator)
 {
@@ -393,5 +393,5 @@ fcSymbolic.Logical.prototype._fix = function()
 };
 
 fcSymbolic.Logical.prototype.hasOnlyIdentifiers = function() { return this.left.hasOnlyIdentifiers() && this.right.hasOnlyIdentifiers(); }
-fcSymbolic.Logical.prototype.toJSON = function() { return { type: this.type, operator: this.operator, left: this.left.toJSON(), rigth: this.right.toJSON() }; }
+fcSymbolic.Logical.prototype.toJSON = function() { return { type: this.type, operator: this.operator, left: this.left.toJSON(), right: this.right.toJSON(), isIrreversible: this.isIrreversible}; }
 }});

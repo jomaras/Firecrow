@@ -53,7 +53,7 @@ fcBrowser.ExecutionInfo.prototype =
             /*SKIPPED global modified objects, for now*/
 
             afterLoadingModifiedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(this.afterLoadingModifiedIdentifiers),
-            /*SKIPPED after loading modified objects, for now*/
+            afterLoadingModifiedObjects: this.afterLoadingModifiedObjects,
 
             globalAccessedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(this.globalAccessedIdentifiers),
             /*SKIPPED global accessed objects, for now*/
@@ -70,6 +70,7 @@ fcBrowser.ExecutionInfo.prototype =
             branchingConstructs: ValueTypeHelper.convertObjectPropertyNamesToArray(this.branchingConstructs),
             /*SKIPPED IMPORTANT MODIFICATIONS*/
 
+            dataDependencies: Firecrow.DATA_DEPENDENCIES,
             achievedCoverage: this.achievedCoverage
         };
     },
@@ -85,7 +86,7 @@ fcBrowser.ExecutionInfo.prototype =
             globalAccessedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.globalAccessedIdentifiers),
             /*SKIPPED GLOBAL ACCESSED OBJECTS, for now*/
             globalModifiedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.globalModifiedIdentifiers),
-            /*SKIPPED global modified objects, for now*/
+            globalModifiedObjects: eventExecution.globalModifiedObjects,
             /*SKIPPED important modifications*/
             typeDescriptor: eventExecution.typeDescriptor,
             typeVisitedFunctionsMap: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.typeVisitedFunctionsMap),

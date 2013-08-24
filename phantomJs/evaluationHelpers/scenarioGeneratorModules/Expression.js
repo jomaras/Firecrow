@@ -108,13 +108,19 @@ Expression.fromObjectLiteral = function(objectLiteral)
 
     var type = objectLiteral.type;
 
-         if(type == CONST.IDENTIFIER) { return new Identifier(objectLiteral.name); }
-    else if(type == CONST.LITERAL) { return new Literal(objectLiteral.value); }
-    else if(type == CONST.UNARY) { return new Unary(Expression.fromObjectLiteral(objectLiteral.argument), objectLiteral.operator, objectLiteral.prefix);}
-    else if(type == CONST.BINARY) { return new Binary(Expression.fromObjectLiteral(objectLiteral.left), Expression.fromObjectLiteral(objectLiteral.right), objectLiteral.operator); }
-    else if(type == CONST.UPDATE) { return new Update(Expression.fromObjectLiteral(objectLiteral.argument), objectLiteral.operator, objectLiteral.prefix);}
-    else if(type == CONST.LOGICAL) { return new Logical(Expression.fromObjectLiteral(objectLiteral.left), Expression.fromObjectLiteral(objectLiteral.right), objectLiteral.operator); }
+    var expression = null;
+
+         if(type == CONST.IDENTIFIER) { expression = new Identifier(objectLiteral.name); }
+    else if(type == CONST.LITERAL) { expression = new Literal(objectLiteral.value); }
+    else if(type == CONST.UNARY) { expression = new Unary(Expression.fromObjectLiteral(objectLiteral.argument), objectLiteral.operator, objectLiteral.prefix);}
+    else if(type == CONST.BINARY) { expression = new Binary(Expression.fromObjectLiteral(objectLiteral.left), Expression.fromObjectLiteral(objectLiteral.right), objectLiteral.operator); }
+    else if(type == CONST.UPDATE) { expression = new Update(Expression.fromObjectLiteral(objectLiteral.argument), objectLiteral.operator, objectLiteral.prefix);}
+    else if(type == CONST.LOGICAL) { expression = new Logical(Expression.fromObjectLiteral(objectLiteral.left), Expression.fromObjectLiteral(objectLiteral.right), objectLiteral.operator); }
     else { alert("UNKNOWN EXPRESSION!") ;}
+
+    expression.isIrreversible = objectLiteral.isIrreversible;
+
+    return expression;
 };
 
 Expression.prototype =
@@ -408,3 +414,4 @@ exports.Unary = Unary;
 exports.Binary = Binary;
 exports.Update = Update;
 exports.Logical = Logical;
+exports.CONST = CONST;

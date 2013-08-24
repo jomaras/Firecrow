@@ -18,14 +18,17 @@ var ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\h
 
 /*!!!!!!!!!!!!!!!!!!  input data  !!!!!!!!!!!!!!!!!!!!!*/
 var scenarioExecutorPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
-var pageModelUrl = "http://localhost/Firecrow/evaluation/fullPages/rentingAgency/index.json";
-var pageModelFilePath = "C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\rentingAgency\\index.json";
+var pageModelUrl = "http://localhost/Firecrow/evaluation/fullPages/3dmodel/index.json";
+var pageModelFilePath = "C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\3dmodel\\index.json";
 /*******************************************************/
 var pageModel = JSON.parse(fs.read(pageModelFilePath));
 var pageModelMapping = {};
 var parametrizedEventsMap = {};
 var scenarios = new ScenarioCollectionModule.ScenarioCollection();
 var numberOfProcessedScenarios = 0;
+var generateAdditionalTimingEvents = false;
+var dependencyCache = {};
+var traversedDependencies = {};
 
 console.log("Scenario Generator started");
 
@@ -167,7 +170,7 @@ function getUndefinedGlobalPropertiesAccessMap(undefinedGlobalPropertiesAccessMa
     return obj;
 }
 
-function getExecutionInfoSummaryFromPage(page)
+function getExecutionInfoFromPage(page)
 {
     return convertToFullObjects(JSON.parse(page.evaluate(function()
     {
@@ -199,10 +202,28 @@ function printCoverage(coverage, message)
 
 function updateTotalCoverage(executedConstructIds)
 {
+
     for(var i = 0; i < executedConstructIds.length; i++)
     {
         pageModelMapping[executedConstructIds[i]].hasBeenExecuted = true;
     }
+}
+
+function allParametrizedEventsAlreadyMapped(parametrizedEvents)
+{
+    if(parametrizedEvents == null || parametrizedEvents.length == 0) { return true; }
+
+    for(var i = 0; i < parametrizedEvents.length; i++)
+    {
+        var parametrizedEvent = parametrizedEvents[i];
+        if(parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint] == null
+        || parametrizedEventsMap[parametrizedEvent.baseEvent.fingerprint][parametrizedEvent.fingerprint] == null)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /****************************** PROCESS STEPS ***************************/
@@ -225,7 +246,7 @@ var startTime = Date.now();
         if(status != "success") { console.log("Could not load: " + page.url); phantom.exit();}
         console.log("Executed page without user events in " + (Date.now() - startTime) + " ms");
 
-        var executionInfoSummary = getExecutionInfoSummaryFromPage(page);
+        var executionInfoSummary = getExecutionInfoFromPage(page);
 
         var eventRegistrations = executionInfoSummary.eventRegistrations;
         var achievedCoverage = executionInfoSummary.achievedCoverage;
@@ -269,41 +290,188 @@ function deriveScenarios()
 
     startTime = Date.now();
     var pageUrl = getScenarioExecutorUrl(scenarioExecutorPageUrl, pageModelUrl, scenario.getEventsQuery());
+
     console.log("****** Processing Scenario No. " + numberOfProcessedScenarios + " " + pageUrl);
+    console.log("Input Constraint: " + scenario.inputConstraint);
+    console.log("Events: " + scenario.getEventsInfo());
 
     page.open(pageUrl, function(status)
     {
         if(status != "success") { console.log ("Could not process scenario: " + page.url); }
         console.log("Processing time: " + (Date.now() - startTime) + " ms");
 
-        var executionInfoSummary = getExecutionInfoSummaryFromPage(page);
+        var executionInfo = getExecutionInfoFromPage(page);
 
-        scenario.setExecutionInfo(executionInfoSummary);
+        scenario.setExecutionInfo(executionInfo);
 
-        var achievedCoverage = executionInfoSummary.achievedCoverage;
-        updateTotalCoverage(executionInfoSummary.executedConstructsIdMap);
+        var achievedCoverage = executionInfo.achievedCoverage;
+        updateTotalCoverage(executionInfo.executedConstructsIdMap);
 
         checkCoverage(achievedCoverage);
 
         printCoverage(achievedCoverage, "Scenario Coverage");
         printCoverage(ASTHelper.calculateCoverage(pageModel), "TotalApp Coverage");
 
-        createInvertedPathScenarios(executionInfoSummary);
-        createRegisteredEventsScenarios(executionInfoSummary);
+        createInvertedPathScenarios(scenario);
+        createRegisteredEventsScenarios(scenario);
 
         setTimeout(deriveScenarios, 1000);
         numberOfProcessedScenarios++;
     });
 }
 
-function createInvertedPathScenarios(executionInfoSummary)
+function createInvertedPathScenarios(scenario)
 {
+    var executionInfo = scenario.executionInfo;
+    var invertedPaths = executionInfo.pathConstraint.getAllResolvedInversions();
 
+    for(var i = 0; i < invertedPaths.length; i++)
+    {
+        var invertedPath = invertedPaths[i];
+
+        var highestIndexProperty = ValueTypeHelper.getHighestIndexProperty(invertedPath.resolvedResult);
+
+        if(highestIndexProperty !== null)
+        {
+            var influencedEvents = scenario.events.slice(0, highestIndexProperty + 1);
+            var parametrizedEvents = EventModule.ParametrizedEvent.createFromEvents(influencedEvents, invertedPath);
+
+            if(!allParametrizedEventsAlreadyMapped(parametrizedEvents))
+            {
+                var createdScenario = scenarios.addScenarioByComponents(influencedEvents, invertedPath, [scenario]);
+
+                if(createdScenario != null)
+                {
+                    createdScenario.setParametrizedEvents(parametrizedEvents);
+                    createdScenario.setCreationTypeSymbolic();
+                }
+            }
+        }
+    }
 }
 
-function createRegisteredEventsScenarios(executionInfoSummary)
+function createRegisteredEventsScenarios(scenario)
 {
+    var executionInfo = scenario.executionInfo;
+    var eventRegistrations = executionInfo.eventRegistrations;
 
+    for(var i = 0; i < eventRegistrations.length; i++)
+    {
+        var eventRegistration = eventRegistrations[i];
+
+        if(!ASTHelper.isFunction(eventRegistration.handlerConstruct)) { return; }
+
+        var eventRegistrationFingerprint = eventRegistration.thisObjectDescriptor + eventRegistration.eventType + eventRegistration.handlerConstruct.nodeId
+
+        //has not been executed so far
+        if(parametrizedEventsMap[eventRegistrationFingerprint] == null)
+        {
+            createNewScenarioByAppendingNewEvent(scenario, scenarios, eventRegistration);
+        }
+        else //this event was executed so far
+        {
+            var parametrizedEventsLog = parametrizedEventsMap[eventRegistrationFingerprint];
+            createNewScenariosByAppendingParametrizedEvents(scenario, scenarios, eventRegistration, parametrizedEventsLog);
+        }
+    }
+}
+
+function createNewScenarioByAppendingNewEvent(scenario, scenarios, eventRegistration)
+{
+    var newScenario = scenario.createCopy();
+
+    var newEvent = EventModule.Event.createFromEventRegistration(eventRegistration);
+    this.scenarios.assignEventPriority(eventRegistration, 0.4);
+
+    newScenario.events.push(newEvent);
+    newScenario.setCreationTypeNewEvent();
+    newScenario.generateFingerprint();
+
+    newScenario.parentScenarios.push(scenario);
+
+    scenarios.addScenario(newScenario);
+
+    if(newEvent.isTimingEvent())
+    {
+        createAdditionalTimingEvents(newEvent, newScenario.events, null, newScenario);
+    }
+}
+
+function createNewScenariosByAppendingParametrizedEvents(scenario, scenarios, eventRegistration, parametrizedEventsLog)
+{
+    for(var propName in parametrizedEventsLog)
+    {
+        var log = parametrizedEventsLog[propName];
+
+        for(var i = 0; i < log.scenarios.length; i++)
+        {
+            var scenarioWithParametrizedEvent = log.scenarios[i];
+
+            var executionsInfo = scenarioWithParametrizedEvent.getEventExecutionsInfo(eventRegistration.thisObjectDescriptor, eventRegistration.eventType);
+
+            for(var j = 0; j < executionsInfo.length; j++)
+            {
+                var executionInfo = executionsInfo[j];
+
+                if(isExecutionInfoDependentOnScenario(executionInfo, scenario))
+                {
+                    createNewScenarioByAppendingExistingEvent(scenario, scenarios, log.parametrizedEvents[i], scenarioWithParametrizedEvent);
+                }
+            }
+        }
+    }
+}
+
+function createNewScenarioByAppendingExistingEvent(scenario, scenarios, parametrizedEvent, scenarioWithParametrizedEvent)
+{
+    var mergedEvents = scenario.events.concat([parametrizedEvent.baseEvent]);
+    var mergedInputConstraint = scenario.inputConstraint.createCopyUpgradedByIndex(0);
+
+    var singleItemConstraint = scenarioWithParametrizedEvent.inputConstraint.createSingleItemBasedOnIndex
+    (
+        scenarioWithParametrizedEvent.parametrizedEvents.indexOf(parametrizedEvent),
+        mergedEvents.length - 1
+    );
+
+    if(singleItemConstraint != null)
+    {
+        mergedInputConstraint.append(singleItemConstraint);
+    }
+
+    var newScenario = new ScenarioModule.Scenario(mergedEvents, mergedInputConstraint, [scenario], ScenarioModule.Scenario.CREATION_TYPE.existingEvent);
+    scenarios.addScenario(newScenario);
+
+    if(parametrizedEvent.baseEvent.isTimingEvent())
+    {
+        createAdditionalTimingEvents(parametrizedEvent.baseEvent, mergedEvents, mergedInputConstraint, scenario);
+    }
+}
+
+function createAdditionalTimingEvents(event, previousEvents, inputConstraint, parentScenario)
+{
+    if(!generateAdditionalTimingEvents) { return; }
+
+    if(parentScenario != null && parentScenario.isCreatedByWithTimingEvents()) { return; }
+
+    var times = Math.floor(250/event.timePeriod);
+
+    if(!Number.isNaN(times) && times > 0)
+    {
+        previousEvents = previousEvents.slice();
+
+        for(var i = 0; i < times; i++)
+        {
+            previousEvents.push(event);
+
+            this.scenarios.addScenario(new ScenarioModule.Scenario
+            (
+                previousEvents,
+                inputConstraint && inputConstraint.createCopy(),
+                [parentScenario],
+                ScenarioModule.Scenario.CREATION_TYPE.timingEvents
+            ));
+        }
+    }
 }
 
 function mapParametrizedEvents (scenario, parametrizedEvents)
@@ -329,4 +497,68 @@ function mapParametrizedEvents (scenario, parametrizedEvents)
         parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint].scenarios.push(scenario);
         parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint].parametrizedEvents.push(parametrizedEvent);
     }
+}
+
+
+function isExecutionInfoDependentOnScenario(executionInfo, scenario)
+{
+    var scenarioExecutionInfo = scenario.executionInfo;
+    if(scenarioExecutionInfo == null) { return false;}
+
+    for(var branchingConstructId in executionInfo.branchingConstructs)
+    {
+        for(var modifiedIdentifierId in scenarioExecutionInfo.afterLoadingModifiedIdentifiers)
+        {
+            if(dependencyExists(branchingConstructId, modifiedIdentifierId, scenarioExecutionInfo))
+            {
+                return true;
+            }
+        }
+
+        for(var modifiedObjectId in scenarioExecutionInfo.afterLoadingModifiedObjects)
+        {
+            if(dependencyExists(branchingConstructId, modifiedObjectId, scenarioExecutionInfo))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+function dependencyExists(sourceNodeId, targetNodeId, executionInfo)
+{
+    if(dependencyCache[sourceNodeId + "-" + targetNodeId]) { return true; }
+
+    traversedDependencies = {};
+
+    return pathExists(sourceNodeId, targetNodeId, executionInfo);
+}
+
+function pathExists(sourceNodeId, targetNodeId, executionInfo)
+{
+    var dataDependencies = executionInfo.dataDependencies;
+
+    if(dataDependencies[sourceNodeId] == null) { return false; }
+
+    if(dataDependencies[sourceNodeId][targetNodeId])
+    {
+        dependencyCache[sourceNodeId + "-" + targetNodeId] = true;
+        return true;
+    }
+
+    traversedDependencies[sourceNodeId] = true;
+
+    for(var dependencyId in dataDependencies[sourceNodeId])
+    {
+        if(traversedDependencies[dependencyId]) { continue; }
+
+        if(pathExists(dependencyId, targetNodeId, executionInfo))
+        {
+            return true;
+        }
+    }
+
+    return false;
 }

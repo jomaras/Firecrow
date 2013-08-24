@@ -1,6 +1,16 @@
+var fs = require('fs');
+var webPage = require('webpage');
+var page = webPage.create();
+page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
+page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
+
 var ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
 var ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ValueTypeHelper.js").ValueTypeHelper;
 var ExpressionModule = require("C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGeneratorModules\\Expression.js");
+
+var solverUrl = "http://localhost/Firecrow/constraintSolver/index.php";
+page.open(solverUrl, function() {});
+
 var ConstraintResolver =
 {
     _getCompoundConstraint: function(symbolicExpressions)
@@ -38,7 +48,7 @@ var ConstraintResolver =
         {
             if(compoundExpressions[i].containsStringExpressions())
             {
-                numericExpressions.push(compoundExpressions[i])
+                stringExpressions.push(compoundExpressions[i])
             }
         }
 
@@ -78,34 +88,33 @@ var ConstraintResolver =
             try { var json = JSON.stringify(numericExpressions); }
             catch(e) { debugger; alert(e); }
 
-            var numericExpressionsAjaxQuery = RequestHelper.performSynchronousPost
-            (
-                "http://localhost/Firecrow/constraintSolver/index.php",
-                {
-                    Constraint: encodeURIComponent(json)
-                }
-            );
+            var solution = this._getSolution(json);
 
-            if(numericExpressionsAjaxQuery.isSuccessful)
+            if(solution.isSuccessful)
             {
                 try
                 {
-                    numericResults = JSON.parse(numericExpressionsAjaxQuery.response);
+                    numericResults = JSON.parse(solution.response);
                 }
-                catch (e)
+                catch(e)
                 {
-                    alert("Error when parsing constraint solver response: " + e + " -> " + numericExpressionsAjaxQuery.response);
+                    numericExpressions.forEach(function(numericExpression)
+                    {
+                        expressions += numericExpression.toString() + ";";
+                    });
+
+                    console.log("Expressions: " + expressions + " could not be solved");
                 }
             }
             else
             {
-                var expressions = "";
+                /*var expressions = "";
                 numericExpressions.forEach(function(numericExpression)
                 {
                     expressions += numericExpression.toString() + ";";
                 });
 
-                console.log("Expressions: " + expressions + " could not be solved");
+                console.log("Expressions: " + expressions + " could not be solved");*/
             }
         }
 
@@ -193,6 +202,7 @@ var ConstraintResolver =
         for(var i = 0; i < results.length; i++)
         {
             var reverseReplacement = reverseReplacements[i];
+            if(reverseReplacement == null) { continue; }
             var result = results[i];
             for(var propName in result)
             {
@@ -337,6 +347,35 @@ var ConstraintResolver =
             symbolicExpression.right,
             ExpressionModule.CONST.BINARY_OP.getInverse(symbolicExpression.operator)
         );
+    },
+
+    _getSolution: function(json)
+    {
+        return page.evaluate(function(solverUrl, json)
+        {
+            var http = new XMLHttpRequest();
+
+            try
+            {
+                http.open("POST", solverUrl, false);
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                http.send("Constraint=" + encodeURIComponent(json));
+
+                return {
+                    isSuccessful: http.status == 200,
+                    response: http.responseText
+                };
+            }
+            catch(e)
+            {
+                console.log(e);
+
+                return {
+                    isSuccessful: false,
+                    response: e
+                };
+            }
+        }, solverUrl, json);
     }
 };
 

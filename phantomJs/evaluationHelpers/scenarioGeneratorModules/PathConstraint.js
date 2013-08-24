@@ -150,7 +150,7 @@ PathConstraint.fromObjectLiteral = function(objectLiteral, pageModelMapping)
         pathConstraintItems.push(PathConstraintItem.fromObjectLiteral(objectLiteral.pathConstraintItems[i], pageModelMapping));
     }
 
-    return pathConstraintItems;
+    return new PathConstraint(pathConstraintItems);
 };
 
 PathConstraint.prototype =
@@ -354,7 +354,7 @@ PathConstraint.prototype =
         var pathConstraintItems = this.pathConstraintItems;
         var allInversions = [];
 
-        var flipCombinations = this._generateAllFlipCombinations(pathConstraintItems);
+        //var flipCombinations = this._generateAllFlipCombinations(pathConstraintItems);
 
         for(var i = pathConstraintItems.length - 1; i >= 0; i--)
         {

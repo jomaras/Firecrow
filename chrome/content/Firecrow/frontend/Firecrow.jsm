@@ -201,7 +201,8 @@ FirecrowView.prototype =
     _wrapModel: function(model)
     {
         //return "var fullPageModel = { pageModel:" + model + "};";
-        return "HtmlModelMapping.push({url: '',results: [], model: " + model + "});"
+        return model;
+        //return "HtmlModelMapping.push({url: '',results: [], model: " + model + "});"
     },
 
     _generateScenariosClick: function()

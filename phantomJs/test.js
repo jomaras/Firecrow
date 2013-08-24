@@ -31,13 +31,22 @@ page.open(encodeURI(url), function(status)
         t = Date.now() - t;
         console.log('Loading time ' + t + ' msec');
 
-        var result = page.evaluate(function()
+        /*var result = page.evaluate(function()
         {
             return document.documentElement.innerHTML;
-        });
+        });*/
 
-        console.log(result);
+        //console.log(result);
 
-        phantom.exit();
+        setTimeout(function()
+        {
+            console.log("After some time:");
+            console.log(page.evaluate(function()
+            {
+                return document.documentElement.innerHTML;
+            }));
+
+            phantom.exit();
+        }, 2000);
     }
 });

@@ -179,7 +179,6 @@ window.onload = function()
                         RealEstate.setInfo(index);
                     };
                 })(i);
-
             }
         },
 

@@ -237,6 +237,21 @@ Scenario.prototype =
         return string;
     },
 
+    getEventsInfo: function()
+    {
+        var resolvedResult = (this.inputConstraint != null && this.inputConstraint.resolvedResult) || {};
+
+        var string = "";
+
+        for(var i = 0; i < this.events.length; i++)
+        {
+            string += this.events[i].toString() + " -> " + JSON.stringify(resolvedResult[i] || {});
+        }
+
+        return string;
+
+    },
+
     setCreationTypeSymbolic: function()
     {
         this.creationType = Scenario.CREATION_TYPE.symbolic;
