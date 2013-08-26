@@ -14,12 +14,17 @@ var PathConstraintModule = require('C:\\GitWebStorm\\Firecrow\\phantomJs\\evalua
 var ScenarioGeneratorHelper = require('C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGeneratorModules\\ScenarioGeneratorHelper.js').ScenarioGeneratorHelper;
 var ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ValueTypeHelper.js").ValueTypeHelper;
 var ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
+var CodeMarkupGenerator = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\codeMarkupGenerator\\codeMarkupGenerator.js").CodeMarkupGenerator;
+var CodeTextGenerator = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\codeMarkupGenerator\\codeTextGenerator.js").CodeTextGenerator;
 /*******************************************************/
 
 /*!!!!!!!!!!!!!!!!!!  input data  !!!!!!!!!!!!!!!!!!!!!*/
 var scenarioExecutorPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
-var pageModelUrl = "http://localhost/Firecrow/evaluation/fullPages/3dmodel/index.json";
-var pageModelFilePath = "C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\3dmodel\\index.json";
+var pageModelUrl = "http://localhost/Firecrow/evaluation/fullPages/rentingAgency/index.json";
+var pageModelFilePath = "C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\rentingAgency\\index.json";
+
+var markupViewerPageTemplatePath = "C:\\GitWebStorm\\Firecrow\\phantomJs\\helperPages\\viewExecutedCodeTemplate.html";
+var markupViewerPagePath = "C:\\GitWebStorm\\Firecrow\\phantomJs\\helperPages\\viewExecutedCode.html";
 /*******************************************************/
 var pageModel = JSON.parse(fs.read(pageModelFilePath));
 var pageModelMapping = {};
@@ -185,7 +190,7 @@ function trimReportNum(str)
 
 function checkCoverage(coverage)
 {
-    if(coverage.expressionCoverage == 1)
+    if(coverage.branchCoverage == 1)
     {
         console.log("The process has achieved full coverage, shutting down...");
         phantom.exit();
@@ -202,7 +207,6 @@ function printCoverage(coverage, message)
 
 function updateTotalCoverage(executedConstructIds)
 {
-
     for(var i = 0; i < executedConstructIds.length; i++)
     {
         pageModelMapping[executedConstructIds[i]].hasBeenExecuted = true;
@@ -226,6 +230,18 @@ function allParametrizedEventsAlreadyMapped(parametrizedEvents)
     return true;
 }
 
+function noMoreScenariosForProcessing()
+{
+    console.log("There are no more scenarios for processing, generating application markup...");
+    console.log("Generating page markup..");
+
+    var content = fs.read(markupViewerPageTemplatePath);
+    content = content.replace("{SOURCE_CODE}", CodeMarkupGenerator.generateHtmlRepresentation(pageModel));
+    fs.write(markupViewerPagePath, content);
+    console.log("Page markup has been generated to file: " + markupViewerPagePath);
+    phantom.exit();
+}
+
 /****************************** PROCESS STEPS ***************************/
 
 (function setUpPageModel()
@@ -244,6 +260,7 @@ var startTime = Date.now();
     page.open(getScenarioExecutorUrl(scenarioExecutorPageUrl, pageModelUrl), function(status)
     {
         if(status != "success") { console.log("Could not load: " + page.url); phantom.exit();}
+
         console.log("Executed page without user events in " + (Date.now() - startTime) + " ms");
 
         var executionInfoSummary = getExecutionInfoFromPage(page);
@@ -254,8 +271,8 @@ var startTime = Date.now();
 
         if(eventRegistrations.length == 0)
         {
-            console.log("There are no event registrations to follow, shutting down...");
-            phantom.exit();
+            noMoreScenariosForProcessing();
+            return;
         }
 
         checkCoverage(achievedCoverage);
@@ -284,8 +301,8 @@ function deriveScenarios()
 
     if(scenario == null)
     {
-        console.log("There are no more scenarios for execution. Exiting..");
-        phantom.exit();
+        noMoreScenariosForProcessing();
+        return;
     }
 
     startTime = Date.now();
@@ -293,7 +310,8 @@ function deriveScenarios()
 
     console.log("****** Processing Scenario No. " + numberOfProcessedScenarios + " " + pageUrl);
     console.log("Input Constraint: " + scenario.inputConstraint);
-    console.log("Events: " + scenario.getEventsInfo());
+    console.log("Events: ");
+    console.log(scenario.getEventsInfo());
 
     page.open(pageUrl, function(status)
     {
@@ -425,6 +443,7 @@ function createNewScenariosByAppendingParametrizedEvents(scenario, scenarios, ev
 function createNewScenarioByAppendingExistingEvent(scenario, scenarios, parametrizedEvent, scenarioWithParametrizedEvent)
 {
     var mergedEvents = scenario.events.concat([parametrizedEvent.baseEvent]);
+    var mergedParametrizedEvents = scenario.parametrizedEvents.concat([parametrizedEvent]);
     var mergedInputConstraint = scenario.inputConstraint.createCopyUpgradedByIndex(0);
 
     var singleItemConstraint = scenarioWithParametrizedEvent.inputConstraint.createSingleItemBasedOnIndex
@@ -439,6 +458,7 @@ function createNewScenarioByAppendingExistingEvent(scenario, scenarios, parametr
     }
 
     var newScenario = new ScenarioModule.Scenario(mergedEvents, mergedInputConstraint, [scenario], ScenarioModule.Scenario.CREATION_TYPE.existingEvent);
+    newScenario.setParametrizedEvents(mergedParametrizedEvents);
     scenarios.addScenario(newScenario);
 
     if(parametrizedEvent.baseEvent.isTimingEvent())
@@ -499,7 +519,7 @@ function mapParametrizedEvents (scenario, parametrizedEvents)
     }
 }
 
-
+var dependencyPair = {}
 function isExecutionInfoDependentOnScenario(executionInfo, scenario)
 {
     var scenarioExecutionInfo = scenario.executionInfo;
@@ -507,6 +527,9 @@ function isExecutionInfoDependentOnScenario(executionInfo, scenario)
 
     for(var branchingConstructId in executionInfo.branchingConstructs)
     {
+        if(isBodyExecuted(pageModelMapping[branchingConstructId])) { continue; }
+
+        //Track only branching constructs which don't have their bodies executed!
         for(var modifiedIdentifierId in scenarioExecutionInfo.afterLoadingModifiedIdentifiers)
         {
             if(dependencyExists(branchingConstructId, modifiedIdentifierId, scenarioExecutionInfo))
@@ -522,6 +545,36 @@ function isExecutionInfoDependentOnScenario(executionInfo, scenario)
                 return true;
             }
         }
+    }
+
+    return false;
+}
+
+function isBodyExecuted(branchingConditionConstruct)
+{
+    //can be if, loop, conditionalExpression
+    var parent = branchingConditionConstruct.parent;
+
+    if(ASTHelper.isLoopStatement(parent))
+    {
+        return ASTHelper.isLoopStatementExecuted(parent);
+    }
+    else if(ASTHelper.isIfStatement(parent))
+    {
+        return ASTHelper.isIfStatementBodyExecuted(parent) && (parent.alternate == null || ASTHelper.isIfStatementElseExecuted(parent));
+    }
+    else if(ASTHelper.isSwitchStatement(parent))
+    {
+        return false;
+    }
+    else if(ASTHelper.isConditionalExpression(parent))
+    {
+        return parent.consequent.hasBeenExecuted && parent.alternate.hasBeenExecuted;
+    }
+    else
+    {
+        console.log("Unrecognized construct when checking is body executed!");
+        phantom.exit(-1);
     }
 
     return false;
@@ -550,12 +603,13 @@ function pathExists(sourceNodeId, targetNodeId, executionInfo)
 
     traversedDependencies[sourceNodeId] = true;
 
-    for(var dependencyId in dataDependencies[sourceNodeId])
+    for(var destinationId in dataDependencies[sourceNodeId])
     {
-        if(traversedDependencies[dependencyId]) { continue; }
+        if(traversedDependencies[destinationId]) { continue; }
 
-        if(pathExists(dependencyId, targetNodeId, executionInfo))
+        if(pathExists(destinationId, targetNodeId, executionInfo))
         {
+            dependencyCache[sourceNodeId + "-" + targetNodeId] = true;
             return true;
         }
     }

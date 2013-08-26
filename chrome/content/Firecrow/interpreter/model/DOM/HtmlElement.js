@@ -128,6 +128,10 @@ fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyVal
 
             if(ValueTypeHelper.isImageElement(this.htmlElement) && propertyName == "src")
             {
+                if(propertyJsValue.indexOf("CountyMap.png") != -1)
+                {
+                    debugger;
+                }
                 propertyJsValue = Firecrow.UriHelper.getAbsoluteUrl(propertyJsValue, this.globalObject.browser.url)
             }
 
@@ -141,6 +145,11 @@ fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyVal
         else if(fcModel.DOM_PROPERTIES.isElementEventProperty(propertyName)) { this._registerEventHandler(propertyName, propertyValue, codeConstruct); }
 
         this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
+
+        if(this.htmlElement != null && this.htmlElement.modelElement != null )
+        {
+            this.globalObject.browser.logModifyingExternalContextObject(this.htmlElement.modelElement.nodeId, propertyName);
+        }
     }
     catch(e) { fcModel.HtmlElement.notifyError("Error when adding property: " + e);}
 };

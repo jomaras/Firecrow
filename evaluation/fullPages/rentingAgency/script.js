@@ -26,25 +26,25 @@ window.onload = function()
         currentInfo: null,
 
         infos:
-            [
-                { title: "A1", address: "Prilaz tvornici 10", images: ["images/A1/1.jpg", "images/A1/2.jpg", "images/A1/3.jpg"], type: "apartment"},
-                { title: "A2", address: "Obala 6", images: ["images/A2/1.jpg", "images/A2/2.jpg", "images/A2/3.jpg"], type: "apartment"},
-                { title: "H1", address: "Obala 10", images: ["images/H1/1.jpg", "images/H1/2.jpg", "images/H1/3.jpg"], type: "hotel"},
-                { title: "H2", address: "Biogradska 7", images: ["images/H2/1.jpg", "images/H2/2.jpg", "images/H2/3.jpg"], type: "hotel"},
-                { title: "A3", address: "Drvarska 4", images: ["images/A3/1.jpg", "images/A3/2.jpg", "images/A3/3.jpg"], type: "apartment"},
-                { title: "M1", address: "Ninica 3", images: ["images/M1/1.jpg", "images/M1/2.jpg", "images/M1/3.jpg"], type: "museum"},
-                { title: "H3", address: "Trlaje 11", images: ["images/H3/1.jpg", "images/H3/2.jpg", "images/H3/3.jpg"], type: "hotel"},
-                { title: "A4", address: "Zvonimirova 16", images: ["images/A4/1.jpg", "images/A4/2.jpg", "images/A4/3.jpg"], type: "apartment"}
-            ],
+        [
+            { title: "A1", address: "Prilaz tvornici 10", images: ["images/A1/1.jpg", "images/A1/2.jpg", "images/A1/3.jpg"], type: "apartment"},
+            { title: "A2", address: "Obala 6", images: ["images/A2/1.jpg", "images/A2/2.jpg", "images/A2/3.jpg"], type: "apartment"},
+            { title: "H1", address: "Obala 10", images: ["images/H1/1.jpg", "images/H1/2.jpg", "images/H1/3.jpg"], type: "hotel"},
+            { title: "H2", address: "Biogradska 7", images: ["images/H2/1.jpg", "images/H2/2.jpg", "images/H2/3.jpg"], type: "hotel"},
+            { title: "A3", address: "Drvarska 4", images: ["images/A3/1.jpg", "images/A3/2.jpg", "images/A3/3.jpg"], type: "apartment"},
+            { title: "M1", address: "Ninica 3", images: ["images/M1/1.jpg", "images/M1/2.jpg", "images/M1/3.jpg"], type: "museum"},
+            { title: "H3", address: "Trlaje 11", images: ["images/H3/1.jpg", "images/H3/2.jpg", "images/H3/3.jpg"], type: "hotel"},
+            { title: "A4", address: "Zvonimirova 16", images: ["images/A4/1.jpg", "images/A4/2.jpg", "images/A4/3.jpg"], type: "apartment"}
+        ],
 
         currentEventIndex: -1,
 
         events:
-            [
-                { location: "Vodice", date: "29/07/2013 - 30/07/2013", title: "Jazz festival", image: "images/thumbnails/vodice.jpg"},
-                { location: "Skradin", date: "01/05/2013 - 02/05/2013", title: "Eco & ethno fair", image: "images/thumbnails/Skradin.jpg"},
-                { location: "Šibenik", date: "22/06/2013 - 07/07/2013", title: "Children’s Festival", image: "images/thumbnails/sibenik.jpg"}
-            ],
+        [
+            { location: "Vodice", date: "29/07/2013 - 30/07/2013", title: "Jazz festival", image: "images/thumbnails/vodice.jpg"},
+            { location: "Skradin", date: "01/05/2013 - 02/05/2013", title: "Eco & ethno fair", image: "images/thumbnails/Skradin.jpg"},
+            { location: "Šibenik", date: "22/06/2013 - 07/07/2013", title: "Children’s Festival", image: "images/thumbnails/sibenik.jpg"}
+        ],
 
         setNextEvent: function()
         {
@@ -67,7 +67,6 @@ window.onload = function()
 
             if(this.selectedMarking != null)
             {
-
                 this.selectedMarking.className += " selectedMarking";
 
                 this.currentInfo = this.infos[index];
@@ -84,8 +83,6 @@ window.onload = function()
             {
                 RealEstate.allMarkings[i].style.display = "block";
             }
-
-            RealEstate.typeSelector.value = "All";
         },
 
         hideAll: function()
@@ -105,7 +102,6 @@ window.onload = function()
                 RealEstate.apartmentMarkings[i].style.display = "block";
             }
 
-            RealEstate.typeSelector.value = "Apartments";
             RealEstate.setInfo(RealEstate._getFirstApartmentIndex());
         },
 
@@ -118,7 +114,6 @@ window.onload = function()
                 RealEstate.hotelMarkings[i].style.display = "block";
             }
 
-            RealEstate.typeSelector.value = "Hotels";
             RealEstate.setInfo(RealEstate._getFirstHotelIndex());
         },
 
@@ -131,7 +126,6 @@ window.onload = function()
                 RealEstate.museumMarkings[i].style.display = "block";
             }
 
-            RealEstate.typeSelector.value = "Museums";
             RealEstate.setInfo(RealEstate._getFirstMuseumIndex());
         },
 

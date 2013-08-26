@@ -245,7 +245,7 @@ Scenario.prototype =
 
         for(var i = 0; i < this.events.length; i++)
         {
-            string += this.events[i].toString() + " -> " + JSON.stringify(resolvedResult[i] || {});
+            string += "\t" + this.events[i].toString() + " -> " + JSON.stringify(resolvedResult[i] || {}) + "\n";
         }
 
         return string;

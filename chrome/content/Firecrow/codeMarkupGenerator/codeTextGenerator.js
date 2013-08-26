@@ -1,14 +1,25 @@
-/**
- * User: Jomaras
- * Date: 11.06.12.
- * Time: 17:58
- */
+var usesModule = typeof module !== 'undefined' && module.exports;
+if(usesModule)
+{
+    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+}
+var CodeTextGenerator;
 FBL.ns(function () { with (FBL) {
 /*******/
 var ASTHelper = Firecrow.ASTHelper;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-Firecrow.CodeTextGenerator = function(isSlicing)
+if(ValueTypeHelper == null && usesModule)
+{
+    ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\valueTypeHelper.js").ValueTypeHelper;
+}
+
+if(ASTHelper == null && usesModule)
+{
+    ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
+}
+
+Firecrow.CodeTextGenerator = CodeTextGenerator = function(isSlicing)
 {
     this.isSlicing = !!isSlicing;
 };
@@ -1248,3 +1259,8 @@ Firecrow.CodeTextGenerator.prototype =
     _DEFAULT_KEYWORD: "default"
 };
 }});
+
+if(usesModule)
+{
+    exports.CodeTextGenerator = CodeTextGenerator;
+}

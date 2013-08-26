@@ -1,13 +1,27 @@
-/**
- * Created by Jomaras.
- * Date: 27.03.12.@07:54
- */
+var usesModule = typeof module !== 'undefined' && module.exports;
+if(usesModule)
+{
+    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+    var CodeTextGenerator = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\codeMarkupGenerator\\codeTextGenerator.js").CodeTextGenerator;
+}
+
+var CodeMarkupGenerator;
 FBL.ns(function () { with (FBL) {
     /*******/
-    const ASTHelper = Firecrow.ASTHelper;
-    const ValueTypeHelper = Firecrow.ValueTypeHelper;
+    var ASTHelper = Firecrow.ASTHelper;
+    var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
-    Firecrow.CodeMarkupGenerator =
+    if(ValueTypeHelper == null && usesModule)
+    {
+        ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\valueTypeHelper.js").ValueTypeHelper;
+    }
+
+    if(ASTHelper == null && usesModule)
+    {
+        ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
+    }
+
+    Firecrow.CodeMarkupGenerator = CodeMarkupGenerator =
     {
         generateHtmlRepresentation: function(root)
         {
@@ -45,13 +59,14 @@ FBL.ns(function () { with (FBL) {
 
         generateOpeningTags: function (elementType, elementAttributes)
         {
-            if(elementType === 'textNode') { return ''};
+            if(elementType === 'textNode' || elementAttributes == null) { return ''};
 
             var html = '';
 
             // generate <elementType attribute[0].name="attribute[0].value" ... attribute[N].name="attribute[N].value">
             // <elementType
             html += '&#60;<span class="node htmlTag">' + elementType + '</span>';
+
             for (var i = 0; i < elementAttributes.length; i++)
             {
                 html += '<span class="node htmlAttributeName"> ' + elementAttributes[i].name + '</span>=';
@@ -127,7 +142,7 @@ FBL.ns(function () { with (FBL) {
 
                 return html;
             }
-            catch(e) { alert("Error while generating a html element: " + e);}
+            catch(e) { debugger; alert("Error while generating a html element: " + e);}
         },
 
         generateCSSRepresentation: function(cssModel)
@@ -1172,3 +1187,8 @@ FBL.ns(function () { with (FBL) {
         _DEFAULT_KEYWORD: "default"
     }
 }});
+
+if(usesModule)
+{
+    exports.CodeMarkupGenerator = CodeMarkupGenerator;
+}
