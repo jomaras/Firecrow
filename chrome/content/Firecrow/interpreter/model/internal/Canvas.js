@@ -92,7 +92,7 @@ fcModel.CanvasExecutor =
     {
         var functionObjectValue = functionObject.jsValue;
         var thisObjectValue = thisObject.jsValue;
-        var functionName = functionObjectValue.name;
+        var functionName = functionObjectValue != null ? functionObjectValue.name : functionObject.iValue.name;
         var fcThisValue =  thisObject.iValue;
         var globalObject = fcThisValue.globalObject;
         var jsArguments =  globalObject.getJsValues(args)

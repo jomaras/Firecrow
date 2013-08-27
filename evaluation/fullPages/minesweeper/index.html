@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head><title>Mines</title>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Classic Minesweeper game by Jonathon Bolster for the 10k Competition">
+    <style type="text/css">body {
+        font-family: verdana;
+        text-align: center;
+        font-style: italic
+    }
+
+    .t {
+        font-size: 45px
+    }
+
+    a, a:link, a:visited, a:hover, a:active {
+        color: #000;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    div {
+        padding: 20px;
+    }</style>
+</head>
+<body>
+<div class="t" id="mainTitle">Minesweeper</div>
+<div id="d">New game: <button id="easyButton">Easy</button> | <button id="mediumButton">Medium</button> | <button id="difficultButton">Difficult</button>
+</div>
+<canvas id="game" width="540" height="540"></canvas>
+<div id="t" class="t"></div>
+<script src="script.js"></script>
+</body>
+</html>

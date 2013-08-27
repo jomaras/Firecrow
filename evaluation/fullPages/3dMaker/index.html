@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>The Smallest 3D Maker</title>
+<script type="text/javascript">
+
+</script>
+<style rel="stylesheet">
+    *{padding: 0;
+        margin: 0;
+    }
+    canvas{
+        border: solid 1px red;
+        padding:0px;
+        background: #222;
+        margin:0px;
+    }
+    body{
+        font: 100% Lucida, Arial, Helvetica, san-serif;
+        background: #000;
+    }
+    header{
+        color: #fff;
+    }
+    aside {
+        float:right;
+    }
+    h1{
+        background-color:#369300;
+        padding-left:10px;
+        border:1px solid #1A7101;
+    }
+    h2{
+        background-color:#67ae26;
+        padding-left:10px;
+        border:1px solid #1A7101;
+        margin-bottom:10px;
+    }
+    ul{
+        list-style-type:none;
+    }
+    .editmode{
+        color:#3EE4AA;
+        border:1px solid #3EE4AA;
+    }
+    .showmode{
+        display:none;
+        color:#04E604;
+        border:1px solid #04E604;
+    }
+    .editmode h3{
+        background-color:#3EE4AA;
+        color:#fff;
+        border:1px solid #3EE4AA;
+    }
+    .showmode h3{
+        background-color:#04E604;
+        color:#fff;
+        border:1px solid #04E604;
+    }
+    section{
+        margin-top:10px;
+    }
+</style>
+
+</head>
+<body>
+<header>
+    <h1>The Smallest 3D Maker</h1>
+
+    <h2>The 10k way to get your beautiful 3d wireframe!</h2>
+</header>
+<section>
+
+    <canvas id="showCanvas" width="500" height="500"></canvas>
+    <aside>
+        <div id="editmode" class="tip editmode">
+            <h3>Edit Mode Tips</h3>
+            <ul>
+                <li>Click into red square to create a new control point;</li>
+                <li>Create at least two control points;</li>
+                <li>You can drag a control point to modify the Bezier Curve;</li>
+                <li>Maintain the mouse pointer over a control point and press DEL to delete; and</li>
+                <li>Press ENTER when finish.</li>
+            </ul>
+
+        </div>
+
+        <div id="viewmode" class="tip showmode">
+            <h3>View Mode Tips</h3>
+            <ul>
+                <li>Use the arrow keys to rotate your wireframe;</li>
+                <li>Press ESC to return to the edit mode.</li>
+            </ul>
+        </div>
+    </aside>
+</section>
+</body>
+</html>

@@ -207,7 +207,7 @@
                     pageModelMapping[eventDescriptor.registrationConstructId]
                 );
 
-                if(eventRegistration == null) { debugger; alert("Can not find matching event registration"); }
+                if(eventRegistration == null) { debugger; alert("Can not find matching event registration"); continue;}
 
                 updateDomWithConstraintInfo(eventRegistration, eventDescriptor.parameters);
 

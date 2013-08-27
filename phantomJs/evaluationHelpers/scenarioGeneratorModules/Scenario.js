@@ -114,7 +114,11 @@ Scenario.prototype =
 
     createCopy: function()
     {
-        return new Scenario(this.events.slice(), this.inputConstraint.createCopy());
+        var scenario = new Scenario(this.events.slice(), this.inputConstraint.createCopy());
+
+        scenario.setParametrizedEvents(this.parametrizedEvents.slice());
+
+        return scenario;
     },
 
     generateFingerprint: function()

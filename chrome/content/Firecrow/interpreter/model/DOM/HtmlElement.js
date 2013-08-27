@@ -308,9 +308,15 @@ fcModel.HtmlElement.prototype._addMethods = function(codeConstruct)
 
         for(var i = 0, length = methods.length; i < length; i++)
         {
-            var method = methods[i];
+            var methodName = methods[i];
+            var htmlElementMethod = this.htmlElement[methodName];
 
-            this.addProperty(method, this.globalObject.internalExecutor.createInternalFunction(this.htmlElement[method], method, this), codeConstruct);
+            if(methodName == "getContext" && ValueTypeHelper.isCanvasElement(this.htmlElement) && htmlElementMethod == null)
+            {
+                htmlElementMethod = HTMLCanvasElement.prototype.getContext;
+            }
+
+            this.addProperty(methodName, this.globalObject.internalExecutor.createInternalFunction(htmlElementMethod, methodName, this), codeConstruct);
         }
     }
     catch(e) { fcModel.HtmlElement.notifyError("Error when adding methods: " + e);}

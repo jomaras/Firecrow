@@ -372,7 +372,7 @@ fcModel.GlobalObject.prototype.getOnLoadFunctions = function()
     var onLoadFunctions =  this.getEventListeners("load");
     var onLoadFunction = this.getPropertyValue("onload");
 
-    if(onLoadFunction != null)
+    if(onLoadFunction != null && onLoadFunction.jsValue != null)
     {
         var registrationPoint = this.getProperty("onload").lastModificationPosition;
         onLoadFunctions.push

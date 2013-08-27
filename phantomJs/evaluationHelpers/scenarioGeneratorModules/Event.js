@@ -56,7 +56,12 @@ Event.prototype =
 
     isTimingEvent: function()
     {
-        return this.eventType == "timeout" || this.eventType == "interval"
+        return this.eventType == "timeout" || this.eventType == "interval";
+    },
+
+    isIntervalEvent: function()
+    {
+        return this.eventType == "interval";
     },
 
     toString: function()
