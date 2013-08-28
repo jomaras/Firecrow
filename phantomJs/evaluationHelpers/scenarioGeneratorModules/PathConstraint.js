@@ -355,13 +355,12 @@ PathConstraint.prototype =
         var allInversions = [];
 
         //var flipCombinations = this._generateAllFlipCombinations(pathConstraintItems);
-
         for(var i = pathConstraintItems.length - 1; i >= 0; i--)
         {
             var currentPathConstraintItem = pathConstraintItems[i];
 
             if(currentPathConstraintItem.constraint == null) { continue; }
-            if(currentPathConstraintItem.constraint.isIrreversible) { continue; } //TODO NOT SURE ABOUT IT
+            //if(currentPathConstraintItem.constraint.isIrreversible) { continue; } //TODO NOT SURE ABOUT IT - if this is done, then the getStricter is not called, which is not good for mouse move events
 
             var modifiedConstraint = !currentPathConstraintItem.constraint.isIrreversible ? ConstraintResolverModule.ConstraintResolver.getInverseConstraint(currentPathConstraintItem.constraint)
                                                                                           : ConstraintResolverModule.ConstraintResolver.getStricterConstraint(currentPathConstraintItem.constraint);

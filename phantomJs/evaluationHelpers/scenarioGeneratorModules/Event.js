@@ -64,6 +64,11 @@ Event.prototype =
         return this.eventType == "interval";
     },
 
+    isMouseMoveEvent: function()
+    {
+        return this.eventType.indexOf("mousemove") != -1;
+    },
+
     toString: function()
     {
         var attributes = this.thisObjectModel.attributes;
@@ -165,6 +170,11 @@ ParametrizedEvent.prototype =
     _isMousePositionProperty: function(propertyName)
     {
         return this._mousePositionProperties.indexOf(propertyName) >= 0;
+    },
+
+    createCopy: function()
+    {
+        return new ParametrizedEvent(this.baseEvent, JSON.parse(JSON.stringify(this.parameters)));
     },
 
     _mousePositionProperties: ["pageX", "pageY", "clientX", "clientY", "screenX", "screenY"]

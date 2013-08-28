@@ -10,6 +10,7 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 var ScenarioCollectionModule = require('C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGeneratorModules\\ScenarioCollection.js')
 var EventModule = require('C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGeneratorModules\\Event.js')
 var ScenarioModule = require('C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGeneratorModules\\Scenario.js');
+var ScenarioGeneratorHelper = require('C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGeneratorModules\\ScenarioGeneratorHelper.js').ScenarioGeneratorHelper;
 var ObjectConverter = require('C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGeneratorModules\\ObjectConverter.js').ObjectConverter;
 var ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ValueTypeHelper.js").ValueTypeHelper;
 var ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
@@ -23,14 +24,18 @@ var scenarioExecutorPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/s
 var ScenarioGenerator =
 {
     shouldPrintDetailedMessages: false,
-    MAX_NUMBER_OF_SCENARIOS: 200,
+    MAX_NUMBER_OF_SCENARIOS: 50,
     numberOfProcessedScenarios: 0,
-    generateAdditionalTimingEvents: true,
+    generateAdditionalTimingEvents: false,
+    generateAdditionalMouseMoveEvents: false,
     generateScenarios: function(pageModelUrl, completedCallback)
     {
         this.pageModelUrl = pageModelUrl;
         this.scenarios = new ScenarioCollectionModule.ScenarioCollection();
         this.completedCallback = completedCallback;
+        this.lastCoverage = null;
+
+        this.numberOfProcessedScenarios = 0;
 
         this._pageModelMapping = {};
         this._parametrizedEventsMap = {};
@@ -47,7 +52,7 @@ var ScenarioGenerator =
 
     _callCallback: function(message)
     {
-        this.completedCallback != null && this.completedCallback(this.scenarios, message);
+        this.completedCallback != null && this.completedCallback(this.scenarios, message, this.lastCoverage);
     },
 
     _setUpPageModel: function()
@@ -106,12 +111,16 @@ var ScenarioGenerator =
         return (str + "").substr(0, 4);
     },
 
-    _checkCoverage: function(coverage)
+    _hasAcchievedFullCoverage: function(coverage)
     {
-        if(coverage.branchCoverage == 1)
+        ScenarioGenerator.lastCoverage = coverage;
+        if(coverage.statementCoverage == 1)
         {
             ScenarioGenerator._callCallback("The process has achieved full coverage: " + ScenarioGenerator.pageModelUrl);
+            return true;
         }
+
+        return false;
     },
 
     _printCoverage: function (coverage, message)
@@ -170,7 +179,7 @@ var ScenarioGenerator =
 
         page.open(this._getScenarioExecutorUrl(scenarioExecutorPageUrl, this.pageModelUrl), function(status)
         {
-            if(status != "success") { ScenarioGenerator._callCallback("Could not load scenario for: " + page.url);}
+            if(status != "success") { ScenarioGenerator._callCallback("Could not load scenario for: " + page.url); return;}
 
             if(ScenarioGenerator.shouldPrintDetailedMessages)
             {
@@ -187,13 +196,17 @@ var ScenarioGenerator =
                 ScenarioGenerator._printCoverage(achievedCoverage, "Page loading Coverage");
             }
 
+            if(ScenarioGenerator._hasAcchievedFullCoverage(achievedCoverage))
+            {
+                return;
+            }
+
             if(eventRegistrations.length == 0)
             {
                 ScenarioGenerator._noMoreScenariosForProcessing();
                 return;
             }
 
-            ScenarioGenerator._checkCoverage(achievedCoverage);
             ScenarioGenerator._updateTotalCoverage(executionInfoSummary.executedConstructsIdMap);
 
             for(var i = 0; i < eventRegistrations.length; i++)
@@ -235,7 +248,7 @@ var ScenarioGenerator =
 
         if(ScenarioGenerator.shouldPrintDetailedMessages)
         {
-            console.log("****** Processing Scenario No. " + ScenarioGenerator.numberOfProcessedScenarios + " " + pageUrl);
+            console.log("****** Processing Scenario No. " + ScenarioGenerator.numberOfProcessedScenarios + " with id: " + scenario.id + " " + pageUrl);
             console.log("Input Constraint: " + scenario.inputConstraint);
             console.log("Events: ");
             console.log(scenario.getEventsInfo());
@@ -243,7 +256,7 @@ var ScenarioGenerator =
 
         page.open(pageUrl, function(status)
         {
-            if(status != "success") { ScenarioGenerator._callCallback("Could not load scenario for: " + page.url); }
+            if(status != "success") { ScenarioGenerator._callCallback("Could not load scenario for: " + page.url); return;}
 
             if(ScenarioGenerator.shouldPrintDetailedMessages)
             {
@@ -257,12 +270,14 @@ var ScenarioGenerator =
             var achievedCoverage = executionInfo.achievedCoverage;
             ScenarioGenerator._updateTotalCoverage(executionInfo.executedConstructsIdMap);
 
-            ScenarioGenerator._checkCoverage(achievedCoverage);
+            var totalCoverage = ASTHelper.calculateCoverage(ScenarioGenerator.pageModel);
+
+            if(ScenarioGenerator._hasAcchievedFullCoverage(totalCoverage)) { return; }
 
             if(ScenarioGenerator.shouldPrintDetailedMessages)
             {
                 ScenarioGenerator._printCoverage(achievedCoverage, "Scenario Coverage");
-                ScenarioGenerator._printCoverage(ASTHelper.calculateCoverage(ScenarioGenerator.pageModel), "TotalApp Coverage");
+                ScenarioGenerator._printCoverage(totalCoverage, "TotalApp Coverage");
             }
 
             ScenarioGenerator._createInvertedPathScenarios(scenario);
@@ -350,6 +365,11 @@ var ScenarioGenerator =
         {
             ScenarioGenerator._createAdditionalTimingEvents(newParametrizedEvent, newScenario.events, newScenario.parametrizedEvents, null, newScenario);
         }
+
+        if(newEvent.isMouseMoveEvent())
+        {
+            ScenarioGenerator._createAdditionalMouseMoveEvents(newParametrizedEvent, newScenario.events, newScenario.parametrizedEvents, null, newScenario);
+        }
     },
 
     _createNewScenariosByAppendingParametrizedEvents: function (scenario, scenarios, eventRegistration, parametrizedEventsLog)
@@ -401,6 +421,62 @@ var ScenarioGenerator =
         if(parametrizedEvent.baseEvent.isIntervalEvent())
         {
             ScenarioGenerator._createAdditionalTimingEvents(parametrizedEvent, mergedEvents, mergedParametrizedEvents, mergedInputConstraint, scenario);
+        }
+        if(parametrizedEvent.baseEvent.isMouseMoveEvent())
+        {
+            ScenarioGenerator._createAdditionalMouseMoveEvents(parametrizedEvent, mergedEvents, mergedParametrizedEvents, mergedInputConstraint, scenario);
+        }
+    },
+
+    _createAdditionalMouseMoveEvents: function(parametrizedEvent, previousEvents, previousParametrizedEvents, inputConstraint, parentScenario)
+    {
+        if(!ScenarioGenerator.generateAdditionalMouseMoveEvents) { return; }
+
+        //generate events in four directions - move left, right, up, down, up right..
+        var delta = 10;
+        var deltas = [
+                        {x:-1*delta, y:0}, {x:delta, y:0}, {x:0, y:delta}, {x:0, y:-1*delta},
+                        {x:-1*delta, y:-1*delta}, {x:delta, y:-1*delta}, {x:delta, y:delta}, {x:-1*delta, y:delta}
+                     ];
+
+        for(var i = 0; i < deltas.length; i++)
+        {
+            var change = deltas[i];
+            var events = previousEvents.slice();
+            var parametrizedEvents = previousParametrizedEvents.slice();
+
+            events.push(parametrizedEvent.baseEvent);
+            var parametrizedEventCopy = parametrizedEvent.createCopy();
+
+            var eventIndex = parametrizedEvents.length;
+
+            var previousXProperty = ScenarioGeneratorHelper.addSuffix("pageX", eventIndex-1);
+            var previousYProperty = ScenarioGeneratorHelper.addSuffix("pageY", eventIndex-1);
+
+            var previousXValue = parametrizedEventCopy.parameters[previousXProperty] || parametrizedEventCopy.parameters["pageX"] || 0;
+            var previousYValue = parametrizedEventCopy.parameters[previousYProperty] || parametrizedEventCopy.parameters["pageY"] || 0;
+
+            delete parametrizedEventCopy[previousXProperty];
+            delete parametrizedEventCopy[previousYProperty];
+
+            parametrizedEventCopy.parameters[ScenarioGeneratorHelper.addSuffix("pageX", eventIndex)] = previousXValue + change.x;
+            parametrizedEventCopy.parameters[ScenarioGeneratorHelper.addSuffix("pageY", eventIndex)] = previousYValue + change.y;
+            parametrizedEventCopy.parameters.pageX = previousXValue + change.x;
+            parametrizedEventCopy.parameters.pageY = previousYValue + change.y;
+
+            parametrizedEvents.push(parametrizedEventCopy);
+
+            var newScenario = new ScenarioModule.Scenario
+            (
+                events,
+                inputConstraint && inputConstraint.createCopy(),
+                [parentScenario],
+                ScenarioModule.Scenario.CREATION_TYPE.mouseMoveEvents
+            );
+
+            newScenario.setParametrizedEvents(parametrizedEvents);
+
+            ScenarioGenerator.scenarios.addScenario(newScenario);
         }
     },
 
@@ -475,7 +551,7 @@ var ScenarioGenerator =
             //Track only branching constructs which don't have their bodies executed!
             for(var modifiedIdentifierId in scenarioExecutionInfo.afterLoadingModifiedIdentifiers)
             {
-                if(ScenarioGenerator._dependencyExists(branchingConstructId, modifiedIdentifierId, scenarioExecutionInfo))
+                if(ScenarioGenerator._dependencyExists(branchingConstructId, modifiedIdentifierId, executionInfo))
                 {
                     return true;
                 }
@@ -483,7 +559,7 @@ var ScenarioGenerator =
 
             for(var modifiedObjectId in scenarioExecutionInfo.afterLoadingModifiedObjects)
             {
-                if(ScenarioGenerator._dependencyExists(branchingConstructId, modifiedObjectId, scenarioExecutionInfo))
+                if(ScenarioGenerator._dependencyExists(branchingConstructId, modifiedObjectId, executionInfo))
                 {
                     return true;
                 }

@@ -435,10 +435,7 @@ Browser.prototype = dummy =
 
     simpleDependencyEstablished: function(fromConstruct, toConstruct)
     {
-        if(this.loadingEventsExecuted)
-        {
-            this.executionInfo.logDependencies(fromConstruct, toConstruct);
-        }
+        this.executionInfo.logDependencies(fromConstruct, toConstruct);
     },
 
     _insertIntoDom: function(htmlDomElement, parentDomElement)

@@ -23,7 +23,8 @@ Scenario.CREATION_TYPE =
     symbolic: "symbolic",
     newEvent: "newEvent",
     existingEvent: "existingEvent",
-    timingEvents: "timingEvents"
+    timingEvents: "timingEvents",
+    mouseMoveEvents: "mouseMoveEvents"
 };
 
 Scenario.prototype =
@@ -247,13 +248,12 @@ Scenario.prototype =
 
         var string = "";
 
-        for(var i = 0; i < this.events.length; i++)
+        for(var i = 0; i < this.parametrizedEvents.length; i++)
         {
-            string += "\t" + this.events[i].toString() + " -> " + JSON.stringify(resolvedResult[i] || {}) + "\n";
+            string += "\t" + this.parametrizedEvents[i].baseEvent.toString() + " -> " + JSON.stringify(this.parametrizedEvents[i].parameters) + "\n";
         }
 
         return string;
-
     },
 
     setCreationTypeSymbolic: function()

@@ -5,6 +5,7 @@ var ObjectConverter =
     convertToFullObjects: function (executionInfo, pageModelMapping)
     {
         this._pageModelMapping = pageModelMapping;
+
         executionInfo.pathConstraint = PathConstraintModule.PathConstraint.fromObjectLiteral(executionInfo.pathConstraint, pageModelMapping);
         executionInfo.undefinedGlobalPropertiesAccessMap = this.convertUndefinedGlobalPropertiesAccessMap(executionInfo.undefinedGlobalPropertiesAccessMap);
         executionInfo.globalModifiedIdentifiers = this.convertToObjectWithCodeConstructs(executionInfo.globalModifiedIdentifiers);
@@ -47,7 +48,8 @@ var ObjectConverter =
             /*SKIPPED important modifications*/
             typeDescriptor: eventExecution.typeDescriptor,
             typeVisitedFunctionsMap: this.convertToObjectWithCodeConstructs(eventExecution.typeVisitedFunctionsMap),
-            visitedFunctionsMap: this.convertToObjectWithCodeConstructs(eventExecution.visitedFunctionsMap)
+            visitedFunctionsMap: this.convertToObjectWithCodeConstructs(eventExecution.visitedFunctionsMap),
+            dataDependencies: eventExecution.dataDependencies
         };
     },
 

@@ -346,13 +346,13 @@
     <!--<script src="usageScenarioGenerator/fullPages/simplified/jQueryAjax/1-okasync/modelMapping.js"></script>-->
     <!--<script src="usageScenarioGenerator/fullPages/simplified/externalResources/model.json"></script>-->
     <!--<script src="usageScenarioGenerator/fullPages/evaluationApplications/rentingAgency/"></script>-->
-    <script src="../tests/fullPages/apple/ipod/model.json"></script>
+    <script src="usageScenarioGenerator/06/index.json"></script>
 
     <script type="text/javascript">
         //TODO - test 37 is not executed twice
         //6- does not cover everything, gets stuck extending
         //var model = models[44];
-        var model = fullPageModel;
+        var model = {pageModel: fullPageModel};
         var uiControlsSelectors = model.uiControlsSelectors || ["*"];
 
         var pageCodeContainer = document.getElementById("pageCodeContainer");

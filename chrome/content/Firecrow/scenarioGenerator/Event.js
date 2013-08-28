@@ -97,7 +97,7 @@ fcScenarioGenerator.ParametrizedEvent.createFromEvents = function(events, inputC
 
     for(var i = 0; i < events.length; i++)
     {
-        parametrizedEvents.push(new fcScenarioGenerator.ParametrizedEvent(event[i], resolvedResults[i]));
+        parametrizedEvents.push(new fcScenarioGenerator.ParametrizedEvent(events[i], resolvedResults[i]));
     }
 
     return parametrizedEvents;

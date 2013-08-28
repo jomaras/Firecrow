@@ -70,7 +70,7 @@ fcBrowser.ExecutionInfo.prototype =
             branchingConstructs: ValueTypeHelper.convertObjectPropertyNamesToArray(this.branchingConstructs),
             /*SKIPPED IMPORTANT MODIFICATIONS*/
 
-            dataDependencies: Firecrow.DATA_DEPENDENCIES,
+            dataDependencies: this.dataDependencies,
             achievedCoverage: this.achievedCoverage
         };
     },
@@ -90,7 +90,8 @@ fcBrowser.ExecutionInfo.prototype =
             /*SKIPPED important modifications*/
             typeDescriptor: eventExecution.typeDescriptor,
             typeVisitedFunctionsMap: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.typeVisitedFunctionsMap),
-            visitedFunctionsMap: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.visitedFunctionsMap)
+            visitedFunctionsMap: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.visitedFunctionsMap),
+            dataDependencies: eventExecution.dataDependencies
         };
     },
 
@@ -264,7 +265,8 @@ fcBrowser.ExecutionInfo.prototype =
             globalAccessedObjects: {},
             globalModifiedObjects: {},
             branchingConstructs: {},
-            importantModifications: {}
+            importantModifications: {},
+            dataDependencies: {}
         };
 
         this.eventExecutions.push(this.currentEventExecutionInfo);
@@ -323,9 +325,17 @@ fcBrowser.ExecutionInfo.prototype =
     {
         if(fromConstruct == null || toConstruct == null || fromConstruct.nodeId == null || toConstruct.nodeId == null) { return; }
 
+        if(this.dataDependencies[fromConstruct.nodeId] == null) { this.dataDependencies[fromConstruct.nodeId] = {}; }
         if(Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] == null) { Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] = {}; }
 
+        this.dataDependencies[fromConstruct.nodeId][toConstruct.nodeId] = true;
         Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId][toConstruct.nodeId] = true;
+
+        if(this.currentEventExecutionInfo != null)
+        {
+            if(this.currentEventExecutionInfo.dataDependencies[fromConstruct.nodeId] == null) { this.currentEventExecutionInfo.dataDependencies[fromConstruct.nodeId] = {}; }
+            this.currentEventExecutionInfo.dataDependencies[fromConstruct.nodeId][toConstruct.nodeId] = true;
+        }
     },
 
     addConstraint: function(codeConstruct, constraint, inverse)

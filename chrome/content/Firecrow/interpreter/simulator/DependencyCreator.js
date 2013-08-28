@@ -424,9 +424,15 @@ fcSimulator.DependencyCreator.prototype =
 
     _addSimpleDependencyToLastModificationPoint: function(identifier, identifierConstruct)
     {
-        if(identifier.lastModificationPosition == null) { return; }
+        if(identifier.lastModificationPosition != null)
+        {
+            this._createSimpleDependency(identifierConstruct, identifier.lastModificationPosition.codeConstruct);
+        }
 
-        this._createSimpleDependency(identifierConstruct, identifier.lastModificationPosition.codeConstruct);
+        if(identifier.value != null)
+        {
+            this._createSimpleDependency(identifierConstruct, identifier.value.codeConstruct);
+        }
     },
 
     _addDependencyToIdentifierDeclaration: function(identifier, identifierConstruct, evaluationPosition)
