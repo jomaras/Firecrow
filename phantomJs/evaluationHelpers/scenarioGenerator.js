@@ -11,7 +11,7 @@ console.log("Starting scenario generator");
 ScenarioGenerator.shouldPrintDetailedMessages = true;
 ScenarioGenerator.generateAdditionalMouseMoveEvents = true;
 ScenarioGenerator.generateAdditionalTimingEvents = true;
-ScenarioGenerator.generateScenarios("http://localhost/Firecrow/debug/usageScenarioGenerator/18/index.json", function(scenarios, message, coverage)
+ScenarioGenerator.generateScenarios("http://localhost/Firecrow/evaluation/fullPages/tinySlider/index.json", function(scenarios, message, coverage)
 {
     console.log(message);
     console.log("The process has achieved branch coverage: " + coverage.branchCoverage);

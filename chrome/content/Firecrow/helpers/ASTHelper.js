@@ -961,7 +961,7 @@ Firecrow.ASTHelper = ASTHelper =
                 this.traverseDirectSourceElements(statement, processSourceElementFunction, enterBranchAndLoops);
             }, this);
         }
-        catch(e) { alert("Error while traversing direct statements: " + e + " for " + JSON.stringify(parentElement));}
+        catch(e) { debugger; alert("Error while traversing direct statements: " + e + " for " + JSON.stringify(parentElement));}
     },
 
     getParentOfTypes: function(codeConstruct, types)

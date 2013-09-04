@@ -282,9 +282,12 @@ fcSimulator.DependencyCreator.prototype =
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
         this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.callee, evaluationPosition);
 
-        for(var i = 0; i < callConstruct.arguments.length; i++)
+        if(callConstruct.arguments != null)
         {
-            this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.arguments[i], evaluationPosition);
+            for(var i = 0; i < callConstruct.arguments.length; i++)
+            {
+                this.globalObject.dependencyCreator.createDataDependency(callConstruct, callConstruct.arguments[i], evaluationPosition);
+            }
         }
 
         this.addDependenciesToTopBlockConstructs(callConstruct);

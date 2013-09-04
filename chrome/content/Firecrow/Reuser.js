@@ -1,8 +1,3 @@
-/**
- * User: Jomaras
- * Date: 08.10.12.
- * Time: 10:52
- */
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
 var fcModel = Firecrow.Interpreter.Model;
@@ -11,6 +6,9 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 Firecrow.Reuser =
 {
+    replacementsMap: {},
+    markEveryReusedHtmlNode: false,
+
     getMergedModel: function(reusedAppModel, reuseIntoAppModel, reuseAppGraph, reuseIntoAppGraph, reuseSelectors, reuseIntoDestinationSelectors, reuseAppBrowser, reuseIntoAppBrowser)
     {
         try
@@ -63,7 +61,6 @@ Firecrow.Reuser =
             Firecrow.ASTHelper.setParentsChildRelationships(mergedModel);
 
             return mergedModel;
-
         }
         catch(e)
         {
@@ -198,7 +195,7 @@ Firecrow.Reuser =
             var mergedChild = this._cloneShallow(child);
             mergedChild.parent = mergedNode;
 
-            if(origin != null && mergedChild.attributes != null)
+            if(origin != null && mergedChild.attributes != null && mergedChild.type != "textNode")
             {
                 mergedChild.attributes.push({name:"o", value: origin});
             }
@@ -216,9 +213,22 @@ Firecrow.Reuser =
         }
     },
 
+    _markEveryNodeForDifferentiation: function(reusedAppGraph)
+    {
+        var htmlGraphNodes = reusedAppGraph.htmlNodes;
+
+        for(var i = 0; i < htmlGraphNodes.length; i++)
+        {
+            var htmlNode = htmlGraphNodes[i].model;
+            this._appendDifferentiatingStructureAttribute(htmlNode, "r");
+        }
+    },
+
     _appendDifferentiatingStructureAttribute: function(node, origin)
     {
         if(origin != "r" || node == null || node.type == "textNode") { return; }
+
+        if(node.attributes == null) { node.attributes = []; }
 
         node.attributes.push({name: "o", value: "r"});
     },
@@ -374,7 +384,6 @@ Firecrow.Reuser =
         for(var i = 0; i < node.attributes.length; i++)
         {
             var attribute = node.attributes[i];
-
             clonedNode.attributes.push({name: attribute.name, value: attribute.value});
         }
 
@@ -1165,6 +1174,8 @@ Firecrow.ConflictFixer =
                reuseSelectors[i] = "#" + change.newValue;
            }
        }
+
+       this.replacementsMap[change.oldValue] = change.newValue;
     },
 
     _fixDynamicallySetAttributes: function(change)
@@ -1184,6 +1195,7 @@ Firecrow.ConflictFixer =
     _replaceLiteralOrDirectIdentifierValue: function(change, codeConstruct)
     {
         var renameMessage = "Firecrow - Rename:" + change.oldValue + " -> " + change.newValue;
+        this.replacementsMap[change.oldValue] = change.newValue;
 
         if(Firecrow.ASTHelper.isLiteral(codeConstruct))
         {
@@ -1510,6 +1522,8 @@ Firecrow.ConflictFixer =
         var oldSelectorValue = cssNode.selector;
 
         if(oldSelectorValue == null) { return; }
+
+        this.replacementsMap[oldValue] = newValue;
 
         var replacedCssSelector = this._getReplacedCssSelector(oldSelectorValue, oldValue, newValue);
 

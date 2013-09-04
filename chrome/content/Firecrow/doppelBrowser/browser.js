@@ -205,13 +205,17 @@ Browser.prototype = dummy =
     {
         var attributes = htmlModelElement.attributes;
 
-        if(attributes == null) { return; }
+        if(attributes == null || htmlModelElement.type == "textNode") { return; }
 
         for(var i = 0, length = attributes.length; i < length; i++)
         {
             var attribute = attributes[i];
 
-            htmlDomElement.setAttribute(attribute.name, attribute.value);
+            try
+            {
+                htmlDomElement.setAttribute(attribute.name, attribute.value);
+            }
+            catch(e) { debugger; }
 
             if(attribute.name == "src" && htmlModelElement.type == "img")
             {

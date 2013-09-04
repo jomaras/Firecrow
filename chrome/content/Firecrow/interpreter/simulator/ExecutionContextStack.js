@@ -782,7 +782,7 @@ fcSimulator.ExecutionContextStack.prototype =
     {
         try
         {
-            if(functionConstruct == null || functionConstruct.params == null)
+            if(functionConstruct == null)
             {
                 debugger;
                 this.notifyError("Error when getting formal parameters");
@@ -790,6 +790,8 @@ fcSimulator.ExecutionContextStack.prototype =
             }
 
             var identifiers = [];
+
+            if(functionConstruct.params == null) { return identifiers; }
 
             for(var i = 0; i < functionConstruct.params.length; i++)
             {

@@ -16,11 +16,11 @@ var ScenarioCollection = function ScenarioCollection()
 ScenarioCollection.prototype =
 {
     randomPrioritization: false,
-    fifoPrioritization: true,
+    fifoPrioritization: false,
     eventLengthPrioritization: false,
     maximizingPathCoveragePrioritization: false,
     symbolicAndNewPrioritization: false,
-    symbolicNewCoveragePrioritization: false,
+    symbolicNewCoveragePrioritization: true,
 
     typeCoverageInfo: {},
     compareEvents: false,
@@ -454,7 +454,7 @@ ScenarioCollection.prototype =
 
         var averageCoverage = coverageCoefficient/scenario.events.length;
 
-        if(Number.isNaN(averageCoverage) || averageCoverage > 1) { return 1; }
+        if(scenario.events.length == 0 || averageCoverage > 1) { return 1; }
 
         return averageCoverage;
     }

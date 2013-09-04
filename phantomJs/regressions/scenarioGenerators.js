@@ -13,6 +13,7 @@ var modelFiles = fs.list(pageModelRoot).map(function(folder)
     }
 }).filter(function(item){ return item != null; });
 
+//18, 19, 26, 31, 38, 42
 if(modelFiles.length == 0) { console.log("No model files have been found"); phantom.exit(); }
 var currentModelFileIndex = 0;
 

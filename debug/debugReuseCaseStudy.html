@@ -13,8 +13,8 @@
         var HtmlModelMapping = [];
     </script>
 
-    <script src="../tests/reuseStudies/08-06_05/pageA.html-codeModel.txt"></script>
-    <script src="../tests/reuseStudies/08-06_05/pageB.html-codeModel.txt"></script>
+    <script src="../tests/reuseStudies/01-01_02/pageA.html-codeModel.txt"></script>
+    <script src="../tests/reuseStudies/01-01_02/pageB.html-codeModel.txt"></script>
     <script>
         /*01 - #fb-root; 02 - #fb-root; 03 - #fb-root
         * 04 - body; 05 - body; 06 - body; 07 - #pageTop
@@ -50,8 +50,17 @@
             reuseAppModel: HtmlModelMapping[0].model,
             reuseIntoAppModel: HtmlModelMapping[1].model,
             reuseSelectors: HtmlModelMapping[0].model.trackedElementsSelectors,
-            reuseIntoDestinationSelectors: ["#topHeaderContainer"]
+            reuseIntoDestinationSelectors: ["body"]
         };
+
+        /*TODO:
+            - log every DOM modification (is already logged in the htmlElement.elementModificationPoints)
+            - Create an esprima wrapper that gets the model of the page
+            - Parse the web page code, but watch the origin
+            - Execute the source code and gather the execution info, which includes events from both applications
+            - Check for consistency (do the same constructs modify the nodes, when node modification is done, is it
+              with the code from the matching application, etc.)
+        */
     </script>
 
     <script src="../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js"></script>
@@ -138,14 +147,15 @@
 
     <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
 
-    <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/ExecutionInfo.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
     <script src="../chrome/content/Firecrow/Slicer.js"></script>
 
     <script src="../chrome/content/Firecrow/Reuser.js"></script>
+    <script src="../chrome/content/Firecrow/reuseValidator/ReuseValidator.js"></script>
     <script src="../chrome/content/Firecrow/templates/reuserTemplates.js"></script>
+    <script src="../chrome/content/Firecrow/parsers/esprima.js"></script>
 
     <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
@@ -191,6 +201,8 @@
     <strong>Extracted code:</strong><span id="extractionTimeContainer"></span> sec
     <textarea id="extractedSlicedAppCodeContainer"></textarea>
 </div>
+<br/>
+<iframe id="mergedCodeIFrame"></iframe>
 <script>
     var Firecrow = FBL.Firecrow;
 
@@ -225,20 +237,37 @@
     var fullAppSlicingResult = Firecrow.Slicer.slice(htmlModel.reuseIntoAppModel);
     document.getElementById("fullAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(htmlModel.reuseIntoAppModel);
     timer = Firecrow.TimerHelper.createTimer();
-    document.getElementById("reusedAppCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateCode(Firecrow.Reuser.getMergedModel
+
+    var mergedModel = Firecrow.Reuser.getMergedModel
     (
-            htmlModel.reuseAppModel,
-            htmlModel.reuseIntoAppModel,
-            extractedAppSlicingResult.dependencyGraph,
-            fullAppSlicingResult.dependencyGraph,
-            htmlModel.reuseSelectors,
-            htmlModel.reuseIntoDestinationSelectors,
-            extractedAppSlicingResult.browser,
-            fullAppSlicingResult.browser
-    ));
+        htmlModel.reuseAppModel,
+        htmlModel.reuseIntoAppModel,
+        extractedAppSlicingResult.dependencyGraph,
+        fullAppSlicingResult.dependencyGraph,
+        htmlModel.reuseSelectors,
+        htmlModel.reuseIntoDestinationSelectors,
+        extractedAppSlicingResult.browser,
+        fullAppSlicingResult.browser
+    );
+    var mergedCode = FBL.Firecrow.CodeTextGenerator.generateCode(mergedModel);
+
+    document.getElementById("reusedAppCodeContainer").textContent = mergedCode;
     reuseTimeContainer.textContent = timer.getElapsedTimeInSeconds();
 
     document.getElementById("totalTimeContainer").textContent = startTimer.getElapsedTimeInSeconds();
+
+    var mergedCodeIFrame = document.getElementById("mergedCodeIFrame");
+    mergedCodeIFrame.contentDocument.documentElement.innerHTML = mergedCode;
+
+    FBL.Firecrow.ReuseValidator.validate
+    (
+        htmlModel.reuseAppModel,
+        extractedAppSlicingResult.dependencyGraph,
+        htmlModel.reuseIntoAppModel,
+        fullAppSlicingResult.dependencyGraph,
+        mergedModel,
+        Firecrow.Reuser.replacementsMap
+    );
 </script>
 </body>
 </html>

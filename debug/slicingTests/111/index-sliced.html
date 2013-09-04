@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script>
+        function Vector(values)
+        {
+            this.vector = values;
+        }
+        Vector.prototype = {
+            mode: function()
+            {
+                var map = {};
+                var count = 1;
+                var modes;
+                for(var i = 0;i < this.vector.length;i++)
+                {
+                    var e = this.vector[i];
+                    if(map[e] == null)
+                        map[e] = 1;
+                    else
+                        map[e]++;
+
+                    if(map[e] > count)
+                    {
+                        modes = new Vector([e]);
+                        count = map[e];
+                    }
+                    else if(map[e] == count)
+                    {
+                        count = map[e];
+                    }
+                }
+
+                return modes;
+            }
+        };
+    </script>
+</head>
+<body>
+<script>
+    var set = new Vector([1, 2, 1, 3]);
+    var b1 = set.mode();
+    var a1 = b1.vector[0];
+    a1;
+</script>
+
+
+</body>
+</html>

@@ -128,10 +128,6 @@ fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyVal
 
             if(ValueTypeHelper.isImageElement(this.htmlElement) && propertyName == "src")
             {
-                if(propertyJsValue.indexOf("CountyMap.png") != -1)
-                {
-                    debugger;
-                }
                 propertyJsValue = Firecrow.UriHelper.getAbsoluteUrl(propertyJsValue, this.globalObject.browser.url)
             }
 

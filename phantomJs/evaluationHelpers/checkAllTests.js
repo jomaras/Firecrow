@@ -13,13 +13,13 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 var htmlFiles = [];
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\mooTools\\slicedAll";
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\gauss\\slicedAll";
 
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1 && fullPath.indexOf("Class") != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1)
     {
         return fullPath
     }

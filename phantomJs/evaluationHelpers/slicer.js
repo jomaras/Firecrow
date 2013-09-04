@@ -8,7 +8,7 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\mooTools\\";
+var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\gauss\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;
 var destinationName = "slicedAll";//slicedAll; slicedWithoutSliceUnions; slicedWithoutSliceUnionsAndArrays
@@ -25,7 +25,7 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf("Array") != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1)
     {
         return fullPath;
     }

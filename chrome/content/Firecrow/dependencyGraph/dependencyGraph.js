@@ -309,6 +309,10 @@ FBL.ns(function() { with (FBL) {
                         this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
                     }
                 }
+                else if(ASTHelper.isFunction(parent))
+                {
+                    this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
+                }
                 else
                 {
                     debugger;

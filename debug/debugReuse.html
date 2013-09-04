@@ -10,8 +10,6 @@
     <script src="reuseTests/reuseModels.js"></script>
     <script src="../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
 
-    <script src="../chrome/content/Firecrow/usageScenarioGenerator/UsageScenarioGenerator.js"></script>
-
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
@@ -38,7 +36,6 @@
     <script src="../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
-    <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeHtmlGenerator.js"></script>
     <script src="../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
 
     <script src="../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
@@ -94,7 +91,6 @@
 
     <script src="../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
 
-    <script src="../chrome/content/Firecrow/doppelBrowser/webFile.js"></script>
     <script src="../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
     <script src="../chrome/content/Firecrow/interpreter/ExecutionInfo.js"></script>
     <script src="../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
@@ -102,6 +98,8 @@
 
     <script src="../chrome/content/Firecrow/Reuser.js"></script>
     <script src="../chrome/content/Firecrow/templates/reuserTemplates.js"></script>
+    <script src="../chrome/content/Firecrow/parsers/esprima.js"></script>
+    <script src="../chrome/content/Firecrow/parsers/PageModelParser.js"></script>
 
     <link href="style/codeColoring.css" rel="stylesheet" type="text/css">
 
@@ -146,6 +144,7 @@
     <strong>Extracted code:</strong>
     <textarea id="extractedSlicedAppCodeContainer"></textarea>
 </div>
+<br/>
 <script type="text/javascript">
     var Firecrow = FBL.Firecrow;
 
@@ -183,6 +182,9 @@
         extractedAppSlicingResult.browser,
         fullAppSlicingResult.browser
     ));
+
+    var mergedModel = PageModelParser.parsePageSource(document.getElementById("reusedAppCodeContainer").textContent);
+
 </script>
 </body>
 </html>

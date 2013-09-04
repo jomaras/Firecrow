@@ -580,7 +580,7 @@ var ScenarioGenerator =
         }
         else if(ASTHelper.isIfStatement(parent))
         {
-            return ASTHelper.isIfStatementBodyExecuted(parent) && (parent.alternate == null || ASTHelper.isIfStatementElseExecuted(parent));
+            return ASTHelper.isIfStatementBodyExecuted(parent) && (parent.alternate != null && ASTHelper.isIfStatementElseExecuted(parent));
         }
         else if(ASTHelper.isSwitchStatement(parent))
         {

@@ -141,7 +141,7 @@ FBL.ns(function() { with (FBL) {
 
                 if(dependency.isValueDependency && dependency.index > minExclusiveIndex && dependency.index <= maxInclusiveIndex)
                 {
-                    if(!dependency.hasBeenTraversed && !dependency.destinationNode.model.shouldBeIncluded)
+                    if(!dependency.hasBeenTraversed)
                     {
                         selectedDependencies.push(dependency);
 

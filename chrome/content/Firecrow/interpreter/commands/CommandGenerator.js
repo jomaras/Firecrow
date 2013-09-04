@@ -873,6 +873,8 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         var elements = sourceElement.elements;
 
+        if(elements == null || elements.length == 0) { return commands; }
+
         for(var i = 0, length = elements.length; i < length; i++)
         {
             var item = elements[i];
@@ -897,6 +899,8 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         commands.push(objectExpressionCommand);
 
         var properties = sourceElement.properties;
+
+        if(properties == null || properties.length == 0) { return commands; }
 
         for(var i = 0, length = properties.length; i < length; i++)
         {
