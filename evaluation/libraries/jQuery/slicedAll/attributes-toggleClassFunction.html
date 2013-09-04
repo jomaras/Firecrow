@@ -335,6 +335,8 @@
             }
           }
         }
+
+        return this;
       }, 
       toggleClass: function(value, stateVal)
       {
@@ -446,6 +448,10 @@
       }
     }
     jQuery(function(){});
+    jQuery.fn.extend({
+      position: function(){}, 
+      offsetParent: function(){}
+    });
     if(typeof module === "object");
     else 
     {
@@ -510,6 +516,7 @@
   {
     assertEquals(old, val, "Make sure the incoming value is correct.");
     assertEquals(state, false, "Make sure that the state is passed in.");
+    return "test";
   }, false);
   assert(!(e.is(".test")), "Assert class not present");
   old = e.attr("class") || "";

@@ -501,7 +501,7 @@
     {
       return jQuery.nodeName(elem, "table") ? 0 : elem;
     }
-    jQuery.each({appendTo: "append", replaceAll: "replaceWith"}, function(name, original)
+    jQuery.each({appendTo: "append", prependTo: "prepend", insertBefore: "before", insertAfter: "after", replaceAll: "replaceWith"}, function(name, original)
     {
       jQuery.fn[name] = function(selector)
       {

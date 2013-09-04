@@ -249,6 +249,16 @@
         var parent = elem.parentNode;
         return parent && parent.nodeType !== 11 ? parent : 0;
       }, 
+      parents: function(elem){}, 
+      parentsUntil: function(elem, i, until){}, 
+      next: function(elem){}, 
+      prev: function(elem){}, 
+      nextAll: function(elem){}, 
+      prevAll: function(elem){}, 
+      nextUntil: function(elem, i, until){}, 
+      prevUntil: function(elem, i, until){}, 
+      siblings: function(elem){}, 
+      children: function(elem){}, 
       contents: function(elem){}
     }, function(name, fn)
     {
@@ -279,6 +289,10 @@
       domManip: function(args, callback, allowIntersection){}
     });
     jQuery(function(){});
+    jQuery.fn.extend({
+      position: function(){}, 
+      offsetParent: function(){}
+    });
     if(typeof module === "object");
     else 
     {

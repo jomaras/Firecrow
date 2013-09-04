@@ -635,7 +635,7 @@
     {
       return jQuery.nodeName(elem, "table") ? 0 : elem;
     }
-    jQuery.each({appendTo: "append", insertAfter: "after", replaceAll: "replaceWith"}, function(name, original)
+    jQuery.each({appendTo: "append", prependTo: "prepend", insertBefore: "before", insertAfter: "after", replaceAll: "replaceWith"}, function(name, original)
     {
       jQuery.fn[name] = function(selector)
       {
@@ -715,6 +715,10 @@
       var s = [];
       return s.join("&").replace(r20, "+");
     };
+    jQuery.fn.extend({
+      position: function(){}, 
+      offsetParent: function(){}
+    });
     if(typeof module === "object");
     else 
     {

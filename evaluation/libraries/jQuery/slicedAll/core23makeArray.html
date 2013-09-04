@@ -277,6 +277,10 @@
       setDocument();
       jQuery.find = Sizzle;
     })(window);
+    jQuery.extend({
+      Deferred: function(func){}, 
+      when: function(subordinate){}
+    });
     (function(support)
     {
       for(i in jQuery(support))
@@ -308,6 +312,10 @@
       addBack: function(selector){}
     });
     jQuery(function(){});
+    jQuery.fn.extend({
+      position: function(){}, 
+      offsetParent: function(){}
+    });
     if(typeof module === "object");
     else 
     {

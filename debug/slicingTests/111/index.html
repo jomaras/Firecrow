@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <script>
-        function Vector(values)
+        var docFragment = document.createDocumentFragment();
+
+        var a1 = 1;
+
+        if(docFragment.getElementsByTagName)
         {
-            this.vector = values || [];
+            a1 = 3;
+        }
+        else
+        {
+            a1 = 4;
         }
 
-        function test()
-        {
-            this.vector.push(3);
-        }
-
-        var a = new Vector();
-
+        a1;
     </script>
 </head>
 <body>

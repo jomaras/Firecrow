@@ -455,7 +455,7 @@
     {
       return jQuery.nodeName(elem, "table") ? 0 : elem;
     }
-    jQuery.each({appendTo: "append", replaceAll: "replaceWith"}, function(name, original)
+    jQuery.each({appendTo: "append", prependTo: "prepend", insertBefore: "before", insertAfter: "after", replaceAll: "replaceWith"}, function(name, original)
     {
       jQuery.fn[name] = function(selector)
       {
@@ -603,7 +603,6 @@
 <script>
   jQuery("<form id='kk' name='kk'><select id='kkk'><option value='cf'>cf</option><option value='gf'>gf</option></select></form>").appendTo("#qunit-fixture");
   jQuery("#kkk").val("gf");
-  document.getElementById("kk").reset();
   assertEquals(jQuery("#kkk")[0].value, "cf", "Check value of select after form reset.");
   assertEquals(jQuery("#kkk").val(), "cf", "Check value of select after form reset.");
   assertEquals(jQuery("#select3").val().join(), "1,2", "Call val() on a multiple='multiple' select");

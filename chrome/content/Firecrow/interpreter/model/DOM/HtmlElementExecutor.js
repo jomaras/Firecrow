@@ -240,13 +240,23 @@ fcModel.HtmlElementExecutor =
         }
         catch(e)
         {
-            globalObject.executionContextStack.callExceptionCallbacks
-            (
-                {
-                    exceptionGeneratingConstruct: callExpression,
-                    isDomStringException: true
-                }
-            );
+            //TODO - IF statement (the else should always be, but the if should not)
+            // is a jQuery hack, for some reason - should not throw an exception if thisObjectValue is documentFragment
+            //and jsArguments only has "script"
+            if(ValueTypeHelper.isDocumentFragment(thisObjectValue) && jsArguments.length == 1 && jsArguments[0] == "script")
+            {
+                //HACK!
+            }
+            else
+            {
+                globalObject.executionContextStack.callExceptionCallbacks
+                (
+                    {
+                        exceptionGeneratingConstruct: callExpression,
+                        isDomStringException: true
+                    }
+                );
+            }
         }
 
         for(var i = 0, length = elements.length; i < length; i++)

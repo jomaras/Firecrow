@@ -494,6 +494,16 @@
     });
     jQuery.each({
       parent: function(elem){}, 
+      parents: function(elem){}, 
+      parentsUntil: function(elem, i, until){}, 
+      next: function(elem){}, 
+      prev: function(elem){}, 
+      nextAll: function(elem){}, 
+      prevAll: function(elem){}, 
+      nextUntil: function(elem, i, until){}, 
+      prevUntil: function(elem, i, until){}, 
+      siblings: function(elem){}, 
+      children: function(elem){}, 
       contents: function(elem)
       {
         return jQuery.nodeName(elem, "iframe") ? 0 : jQuery.merge([], elem.childNodes);

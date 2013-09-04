@@ -300,7 +300,8 @@ fcModel.HtmlElement.prototype._addMethods = function(codeConstruct)
 {
     try
     {
-        var methods = fcModel.HtmlElement.CONST.INTERNAL_PROPERTIES.METHODS;
+        var methods = ValueTypeHelper.isDocumentFragment(this.htmlElement) ? fcModel.HtmlElement.CONST.INTERNAL_PROPERTIES.DOCUMENT_FRAGMENT_METHODS
+                                                                           : fcModel.HtmlElement.CONST.INTERNAL_PROPERTIES.METHODS;
 
         for(var i = 0, length = methods.length; i < length; i++)
         {
@@ -401,12 +402,20 @@ fcModel.HtmlElement.CONST =
             "dispatchEvent", "focus", "getAttribute", "getAttributeNS", "getAttributeNode", "getAttributeNodeNS",
             "getBoundingRect", "getClientRects", "getBoundingClientRect", "getElementsByClassName", "getElementsByTagName", "getElementsByTagNameNS",
             "getFeature", "getUserData", "hasAttribute", "hasAttributeNS", "hasAttributes", "hasChildNodes", "insertBefore",
-            "isDefaultNamespace", "isEqualNode", "isSameNode", "isSupported", "lookupNamespaceURI", "lookupPrefix", "mozMatchesSelector",
+            "isDefaultNamespace", "isEqualNode", "isSameNode", "isSupported", "lookupNamespaceURI", "lookupPrefix",
             "mozRequestFullScreen", "normalize", "querySelector", "querySelectorAll", "removeAttribute", "removeAttributeNS", "removeAttributeNode",
             "removeChild", "removeEventListener", "replaceChild", "scrollIntoView", "setAttribute", "setAttributeNS", "setAttributeNode",
             "setAttributeNodeNS", "setCapture", "setIdAttribute", "setIdAttributeNS", "setIdAttributeNode", "setUserData", "insertAdjacentHTML",
             "mozMatchesSelector", "webkitMatchesSelector", "contains",
             "getContext", "reset"
+        ],
+        DOCUMENT_FRAGMENT_METHODS:
+        [
+            "addEventListener", "appendChild", "cloneNode", "compareDocumentPosition",
+            "dispatchEvent", "hasChildNodes", "insertBefore",
+            "isDefaultNamespace", "isEqualNode", "isSameNode", "isSupported", "lookupNamespaceURI", "lookupPrefix",
+            "normalize", "querySelector", "querySelectorAll",
+            "removeChild", "removeEventListener", "replaceChild", "setUserData", "contains",
         ]
     }
 };

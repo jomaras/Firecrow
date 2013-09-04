@@ -266,6 +266,11 @@
       prop: function(elem, name, value)
       {
         var hooks, notxml, nType = elem.nodeType;
+        if(!elem || nType === 3 || nType === 8 || nType === 2)
+        {
+          return ;
+        }
+
         notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
         if(notxml)
         {
@@ -281,6 +286,10 @@
       propHooks: {}
     });
     jQuery(function(){});
+    jQuery.fn.extend({
+      position: function(){}, 
+      offsetParent: function(){}
+    });
     if(typeof module === "object");
     else 
     {

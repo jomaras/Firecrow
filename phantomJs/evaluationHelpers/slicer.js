@@ -8,7 +8,7 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\gauss\\";
+var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;
 var destinationName = "slicedAll";//slicedAll; slicedWithoutSliceUnions; slicedWithoutSliceUnionsAndArrays
