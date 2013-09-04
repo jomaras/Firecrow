@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
 <head>
     <title>jQuery Test Suite</title>
-    <script src="jQuery-src.js"></script>
+    <script src="../jQuery-src.js"></script>
 </head>
 
 <body id="body">
@@ -13,10 +13,10 @@
 </form>
 
 <script>
-var radios = document.querySelectorAll("input[type='radio']");
-var $radio = $(radios[1]);
-$radio.trigger("click");
-assertEquals( $radio.prop("checked"), true, "Second radio was checked when clicked" );
+    var radios = document.querySelectorAll("input[type='radio']");
+    var $radio = $(radios[1]);
+    $radio.trigger("click");
+    assertEquals( $radio.prop("checked"), true, "Second radio was checked when clicked" );
 </script>
 
 </body>

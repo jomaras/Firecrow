@@ -629,7 +629,11 @@
       removeData: function(elem, name){}, 
       _data: function(elem, name, data){}, 
       _removeData: function(elem, name){}, 
-      acceptData: function(elem){}
+      acceptData: function(elem)
+      {
+        var noData = elem.nodeName && jQuery.noData[elem.nodeName.toLowerCase()];
+        return !noData;
+      }
     });
     jQuery.fn.extend({
       data: function(key, value)
@@ -840,6 +844,86 @@
           return elem.getAttribute("value") === null ? 0 : elem.value;
         };
       }
+    });
+    var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/;
+    function returnFalse()
+    {
+      return false;
+    }
+    jQuery.event = {
+      trigger: function(event, data, elem, onlyHandlers)
+      {
+        var ontype, cur, bubbleType, special, tmp, eventPath = [elem], type = core_hasOwn.call(event, "type") ? 0 : event;
+        cur = tmp = elem = elem;
+        ontype = type.indexOf(":") < 0 && "on" + type;
+        event = event[jQuery.expando] ? 0 : new jQuery.Event(type, typeof event === "object");
+        if(!(event.target))
+        {
+          event.target = elem;
+        }
+
+        data = data == null ? [event] : 0;
+        special = jQuery.event.special[type];
+        if(!onlyHandlers && !(special.noBubble) && !(jQuery.isWindow(elem)))
+        {
+          bubbleType = special.delegateType || type;
+          if(!(rfocusMorph.test(bubbleType + type)))
+          {
+            cur = cur.parentNode;
+          }
+
+          for(;cur;cur = cur.parentNode)
+          {
+            eventPath.push(cur);
+            tmp = cur;
+          }
+
+          if(tmp === elem.ownerDocument)
+          {
+            eventPath.push(tmp.defaultView);
+          }
+        }
+
+        if(!onlyHandlers && !(event.isDefaultPrevented()))
+        {
+          if((!(special._default) || special._default.apply(eventPath.pop(), data) === false) && jQuery.acceptData(elem))
+          {
+            if(ontype && elem[type] && !(jQuery.isWindow(elem)))
+            {
+              try
+              {
+                elem[type]();
+              }
+              catch(e){}
+            }
+          }
+        }
+      }, 
+      special: {
+        click: {
+          _default: function(event)
+          {
+            return jQuery.nodeName(event.target, "a");
+          }
+        }
+      }
+    };
+    jQuery.Event = function(src, props){};
+    jQuery.Event.prototype = {
+      isDefaultPrevented: returnFalse
+    };
+    jQuery.fn.extend({
+      on: function(types, selector, data, fn, one){}, 
+      one: function(types, selector, data, fn){}, 
+      off: function(types, selector, fn){}, 
+      trigger: function(type, data)
+      {
+        return this.each(function()
+        {
+          jQuery.event.trigger(type, data, this);
+        });
+      }, 
+      triggerHandler: function(type, data){}
     });
     jQuery.fn.extend({
       find: function(selector)
@@ -1244,7 +1328,7 @@
   $input = jQuery("#check2").attr("checked", false).attr("checked", "checked");
   assertEqual($input.attr("checked"), "checked", "Set checked to 'checked' (verified by .attr)");
   $radios = jQuery("#checkedtest").find("input[type='radio']");
-  $radios.eq(1);
+  $radios.eq(1).trigger("click");
   assertEqual($radios.eq(1).prop("checked"), true, "Second radio was checked when clicked");
   assertEqual($radios.eq(0).attr("checked"), "checked", "First radio is still [checked]");
   $input = jQuery("#text1").attr("readonly", false).prop("readOnly", true);

@@ -85,7 +85,7 @@ fcModel.HtmlElementExecutor =
                     return fcModel.CanvasExecutor.executeCanvasMethod(thisObject, functionObject, args, callExpression);
                 }
             case "click":
-            case "reset":
+            case "reset":debugger;
                 if(thisObjectValue[functionName] != null)
                 {
                     try{thisObjectValue[functionName]();}catch(e){}

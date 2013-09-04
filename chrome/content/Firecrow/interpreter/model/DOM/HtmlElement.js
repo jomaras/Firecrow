@@ -52,7 +52,10 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     var currentPropertyValue = this.getPropertyValue(propertyName, codeConstruct);
 
-    if(this._isMethod(propertyName)) { return currentPropertyValue; }
+    if(this._isMethod(propertyName))
+    {
+        return currentPropertyValue;
+    }
 
     if(fcModel.DOM_PROPERTIES.isElementOther(propertyName) || fcModel.DOM_PROPERTIES.isNodeOther(propertyName))
     {
@@ -311,6 +314,12 @@ fcModel.HtmlElement.prototype._addMethods = function(codeConstruct)
             if(methodName == "getContext" && ValueTypeHelper.isCanvasElement(this.htmlElement) && htmlElementMethod == null)
             {
                 htmlElementMethod = HTMLCanvasElement.prototype.getContext;
+                this.htmlElement[methodName] = htmlElementMethod;
+            }
+            else if (methodName == "click" && ValueTypeHelper.isHtmlInputElement(this.htmlElement) && htmlElementMethod == null)
+            {
+                htmlElementMethod = HTMLInputElement.prototype.click;
+                this.htmlElement[methodName] = htmlElementMethod;
             }
 
             this.addProperty(methodName, this.globalObject.internalExecutor.createInternalFunction(htmlElementMethod, methodName, this), codeConstruct);

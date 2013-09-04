@@ -61,18 +61,13 @@ fcSimulator.prototype = dummy =
                     this.globalObject.importantExpressionsTrace.push({codeConstruct: codeConstruct, index: codeConstruct.maxCreatedDependencyIndex });
                 }
 
-                /*if(timer.hasMoreThanSecondsElapsed(120))
-                {
-                    if(!confirm("Interpreter Simulator - runSync has been running for more than 2 minutes, Continue?"))
-                    {
-                        return;
-                    }
-
-                    timer = Firecrow.TimerHelper.createTimer();
-                }*/
-
                 //Uncomment to enable application tracing
-                /*if(!fcSimulator.logTrace || command.codeConstruct == null) { continue; }
+                /*if(codeConstruct.loc != null && codeConstruct.loc.start.line == 4922)
+                {
+                    fcSimulator.logTrace = true;
+                }
+
+                if(!fcSimulator.logTrace || command.codeConstruct == null) { continue; }
 
                 if(command.codeConstruct.loc == null) { continue; }
 

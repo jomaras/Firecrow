@@ -7,13 +7,14 @@ var loadInProgress = false;
 
 var PAGE_ASSERTION_FAILS = 0;
 var TOTAL_ASSERTION_FAILS = 0;
+var PAGE_FAILS = 0;
 
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); PAGE_ASSERTION_FAILS++; };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 var htmlFiles = [];
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\gauss\\slicedAll";
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\slicedAll";
 
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
@@ -34,7 +35,7 @@ var interval = setInterval(function() {
     }
     if (pageIndex == htmlFiles.length)
     {
-        console.log("Testing complete - # processed pages: " + pageIndex + ", fails: " + TOTAL_ASSERTION_FAILS);
+        console.log("Testing complete - # processed pages: " + pageIndex + ", fails: " + PAGE_FAILS);
         phantom.exit();
     }
 }, 250);
@@ -55,6 +56,7 @@ page.onLoadFinished = function() {
 
     if(PAGE_ASSERTION_FAILS != 0)
     {
+        PAGE_FAILS++;
         console.log("ERROR - Assertions failed in file: " + htmlFiles[pageIndex]);
     }
     else

@@ -2,61 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
 <head>
 
-
-
 <script>
 (function(window, undefined)
 {
-    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = '1.10.2', core_concat = core_deletedIds.concat, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
     {
         return new jQuery.fn.init(selector, context, rootjQuery);
-    }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
+    };
     jQuery.fn = jQuery.prototype = {
-        constructor: jQuery,
         init: function(selector, context, rootjQuery)
         {
-            var match, elem;
-            if(!selector)
-            {
-                return this;
-            }
-
-            if(typeof selector === 'string')
-            {
-                if(selector.charAt(0) === '<' && selector.charAt(selector.length - 1) === '>' && selector.length >= 3)
-                {
-                    match = [null, selector, null];
-                }
-                else
-                {
-                    match = rquickExpr.exec(selector);
-                }
-
-                if(match && (match[1] || !context))
-                {
-                    if(match[1])
-                    {
-                        context = context instanceof jQuery ? 0 : context;
-                        jQuery.merge(this, jQuery.parseHTML(match[1], context ? 0 : document, true));
-                        return this;
-                    }
-                    else
-                    {
-                        elem = document.getElementById(match[2]);
-                        if(elem && elem.parentNode)
-                        {
-                            this.length = 1;
-                            this[0] = elem;
-                        }
-
-                        return this;
-                    }
-                }
-                else if(!context)
-                {
-                    return (context || rootjQuery).find(selector);
-                }
-            }
+            if(typeof selector === "string");
             else if(selector.nodeType)
             {
                 this[0] = selector;
@@ -73,10 +29,9 @@
             return jQuery.makeArray(selector, this);
         },
         length: 0,
-        pushStack: function(elems)
+        each: function(callback, args)
         {
-            var ret = jQuery.merge(this.constructor(), elems);
-            return ret;
+            return jQuery.each(this, callback, args);
         },
         ready: function(fn)
         {
@@ -110,54 +65,35 @@
         }
     };
     jQuery.extend({
-        expando: 'jQuery' + (core_version + Math.random()).replace(/\D/g, ''),
-        noConflict: function(deep)
-        {},
+        expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""),
+        noConflict: function(deep){},
         isReady: false,
         readyWait: 1,
-        holdReady: function(hold)
-        {},
-        ready: function(wait)
-        {},
+        holdReady: function(hold){},
+        ready: function(wait){},
         isFunction: function(obj)
         {
-            return jQuery.type(obj) === 'function';
+            return jQuery.type(obj) === "function";
         },
-        isArray: Array.isArray || function(obj)
-        {},
+        isArray: Array.isArray || function(obj){},
         isWindow: function(obj)
-        {},
-        isNumeric: function(obj)
-        {},
+        {
+            return obj != null && obj == obj.window;
+        },
+        isNumeric: function(obj){},
         type: function(obj)
         {
-            return typeof obj === 'object' || typeof obj === 'function' ? class2type[core_toString.call(obj)] || 'object' : typeof obj;
+            return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : 0;
         },
-        isPlainObject: function(obj)
-        {},
-        isEmptyObject: function(obj)
-        {},
-        error: function(msg)
-        {},
-        parseHTML: function(data, context, keepScripts)
-        {
-            context = context;
-            var parsed = rsingleTag.exec(data);
-            if(parsed)
-            {
-                return [context.createElement(parsed[1])];
-            }
-        },
-        parseJSON: function(data)
-        {},
-        parseXML: function(data)
-        {},
-        noop: function()
-        {},
-        globalEval: function(data)
-        {},
-        camelCase: function(string)
-        {},
+        isPlainObject: function(obj){},
+        isEmptyObject: function(obj){},
+        error: function(msg){},
+        parseHTML: function(data, context, keepScripts){},
+        parseJSON: function(data){},
+        parseXML: function(data){},
+        noop: function(){},
+        globalEval: function(data){},
+        camelCase: function(string){},
         nodeName: function(elem, name)
         {
             return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
@@ -175,177 +111,75 @@
                         callback.call(obj[i], i, obj[i]);
                     }
                 }
-                else
-                {
-                    for(i in obj)
-                    {
-                        callback.call(obj[i], i, obj[i]);
-                    }
-                }
             }
         },
-        trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
-        {
-            return text == null ? 0 : core_trim.call(text);
-        } : 0,
+        trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0,
         makeArray: function(arr, results)
         {
             var ret = results;
+            if(arr != null)
+            {
+                if(isArraylike(Object(arr)));
+                else
+                {
+                    core_push.call(ret, arr);
+                }
+            }
+
             return ret;
         },
-        inArray: function(elem, arr, i)
-        {},
-        merge: function(first, second)
-        {
-            var l = second.length, i = first.length, j = 0;
-            if(typeof l === 'number')
-            {
-                for(;j < l;j++)
-                {
-                    first[i++] = second[j];
-                }
-            }
-
-            first.length = i;
-            return first;
-        },
-        grep: function(elems, callback, inv)
-        {},
-        map: function(elems, callback, arg)
-        {
-            var value, i = 0, length = elems.length, isArray = isArraylike(elems), ret = [];
-            if(isArray)
-            {
-                for(;i < length;i++)
-                {
-                    value = callback(elems[i], i, arg);
-                    if(value != null)
-                    {
-                        ret[ret.length] = value;
-                    }
-                }
-            }
-
-            return core_concat.apply([], ret);
-        },
+        inArray: function(elem, arr, i){},
+        merge: function(first, second){},
+        grep: function(elems, callback, inv){},
+        map: function(elems, callback, arg){},
         guid: 1,
-        proxy: function(fn, context)
-        {},
+        proxy: function(fn, context){},
         access: function(elems, fn, key, value, chainable, emptyGet, raw)
         {
-            var i = 0, length = elems.length, bulk = key == null;
-            if(jQuery.type(key) === 'object');
-            else if(value !== undefined)
-            {
-                if(!(jQuery.isFunction(value)))
-                {
-                    raw = true;
-                }
-
-                if(fn)
-                {
-                    for(;i < length;i++)
-                    {
-                        fn(elems[i], key, raw ? value : 0);
-                    }
-                }
-            }
-
-
+            var length = elems.length, bulk = key == null;
             return chainable ? 0 : bulk ? 0 : length ? fn(elems[0], key) : 0;
         },
-        now: function()
-        {},
-        swap: function(elem, options, callback, args)
-        {}
+        now: function(){},
+        swap: function(elem, options, callback, args){}
     });
-
-    jQuery.each('Boolean Number String Function Array Date RegExp Object Error'.split(' '), function(i, name)
+    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
-        class2type[('[object ' + name) + ']'] = name.toLowerCase();
+        class2type[("[object " + name) + "]"] = name.toLowerCase();
     });
     function isArraylike(obj)
     {
         var length = obj.length, type = jQuery.type(obj);
-        return type === 'array' || (type !== 'function' && (length === 0 || (typeof length === 'number' && length > 0 && (length - 1) in obj)));
+        return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-        var support, Expr, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, expando = 'sizzle' + -(new Date()), preferredDoc = window.document, arr = [], push = arr.push, booleans = 'checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped', matchExpr = {
-            'bool': new RegExp(('^(?:' + booleans) + ')$', 'i')
-        }, rnative = /^[^{]+\{\s*\[native \w/;
-        function Sizzle(selector, context, results, seed)
+        var setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document;
+        function Sizzle(selector, context, results, seed){}      function assert(fn)
+    {
+        var div = document.createElement("div");
+        try
         {
-            var nodeType, newContext, newSelector;
-            context = context;
-            results = results;
-            if((nodeType = context.nodeType) !== 1 && nodeType !== 9);
-
-            if(documentIsHTML && !seed)
-            {
-                if(support.qsa && !rbuggyQSA)
-                {
-                    newContext = context;
-                    newSelector = nodeType === 9 && selector;
-                    if(newSelector)
-                    {
-                        try
-                        {
-                            push.apply(results, newContext.querySelectorAll(newSelector));
-                        }
-                        catch(qsaError){}
-                    }
-                }
-            }
+            return !(!(fn(div)));
         }
-        function assert(fn)
+        catch(e){}
+    }
+        Sizzle.isXML = function(elem)
         {
-            var div = document.createElement('div');
-            try
-            {
-                return !(!(fn(div)));
-            }
-            catch(e){}
-        }
-        isXML = Sizzle.isXML = function(elem)
-        {
-            var documentElement = elem && (elem.ownerDocument || elem).documentElement;
-            return documentElement ? documentElement.nodeName !== 'HTML' : 0;
+            var documentElement = elem && (elem.ownerDocument).documentElement;
+            return documentElement ? documentElement.nodeName !== "HTML" : 0;
         };
-        support = Sizzle.support = {};
         setDocument = Sizzle.setDocument = function(node)
         {
             var doc = node ? 0 : preferredDoc;
             document = doc;
             docElem = doc.documentElement;
-            documentIsHTML = !(isXML(doc));
-            support.attributes = assert(function(div)
-            {
-                div.className = 'i';
-                return !(div.getAttribute('className'));
-            });
             assert(function(div)
             {
                 docElem.appendChild(div).id = expando;
             });
-            rbuggyQSA = [];
-            if(support.qsa = rnative.test(doc.querySelectorAll));
-
-            rbuggyQSA = rbuggyQSA.length;
-        };
-        Sizzle.attr = function(elem, name)
-        {
-            var fn = Expr.attrHandle[name.toLowerCase()], val = fn ? 0 : undefined;
-            return val === undefined ? support.attributes ? elem.getAttribute(name) : 0 : 0;
-        };
-        Expr = Sizzle.selectors = {
-            match: matchExpr,
-            attrHandle: {}
         };
         setDocument();
-        jQuery.find = Sizzle;
-        jQuery.expr = Sizzle.selectors;
         jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
     (function(support)
@@ -355,166 +189,145 @@
             break;
         }
 
-        jQuery(function()
-        {});
+        jQuery(function(){});
     })({});
-    var nodeHook, rclass = /[\t\r\n\f]/g;
+    jQuery.extend({
+        cache: {},
+        noData: {},
+        hasData: function(elem){},
+        data: function(elem, name, data){},
+        removeData: function(elem, name){},
+        _data: function(elem, name, data){},
+        _removeData: function(elem, name){},
+        acceptData: function(elem)
+        {
+            var noData = elem.nodeName && jQuery.noData[elem.nodeName.toLowerCase()];
+            return !noData;
+        }
+    });
     jQuery.fn.extend({
-        attr: function(name, value)
-        {
-            return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
-        },
-        removeAttr: function(name)
-        {},
+        attr: function(name, value){},
+        removeAttr: function(name){},
         prop: function(name, value)
-        {},
-        removeProp: function(name)
-        {},
-        addClass: function(value)
         {
-            var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = typeof value === 'string' && value;
-            if(proceed)
-            {
-                classes = (value).match(core_rnotwhite);
-                for(;i < len;i++)
-                {
-                    elem = this[i];
-                    cur = elem.nodeType === 1 && (elem.className ? ((' ' + elem.className) + ' ').replace(rclass, ' ') : ' ');
-                    if(cur)
-                    {
-                        j = 0;
-                        while(clazz = classes[j++])
-                        {
-                            if(cur.indexOf((' ' + clazz) + ' ') < 0)
-                            {
-                                cur += clazz + ' ';
-                            }
-                        }
-
-                        elem.className = jQuery.trim(cur);
-                    }
-                }
-            }
-
-            return this;
+            return jQuery.access(this, jQuery.prop, name, value, arguments.length > 1);
         },
-        removeClass: function(value)
-        {
-            var elem, cur, i = 0, len = this.length, proceed = arguments.length === 0;
-            if(proceed)
-            {
-                for(;i < len;i++)
-                {
-                    elem = this[i];
-                    cur = elem.nodeType === 1 && (elem.className ? ((' ' + elem.className) + ' ').replace(rclass, ' ') : 0);
-                    if(cur)
-                    {
-                        elem.className = value ? 0 : '';
-                    }
-                }
-            }
-
-            return this;
-        },
-        toggleClass: function(value, stateVal)
-        {},
-        hasClass: function(selector)
-        {
-            var className = (' ' + selector) + ' ', i = 0, l = this.length;
-            for(;i < l;i++)
-            {
-                if(this[i].nodeType === 1 && ((' ' + this[i].className) + ' ').replace(rclass, ' ').indexOf(className) >= 0)
-                {
-                    return true;
-                }
-            }
-        },
-        val: function(value)
-        {}
+        removeProp: function(name){},
+        addClass: function(value){},
+        removeClass: function(value){},
+        toggleClass: function(value, stateVal){},
+        hasClass: function(selector){},
+        val: function(value){}
     });
     jQuery.extend({
         valHooks: {},
-        attr: function(elem, name, value)
-        {
-            var hooks, ret, nType = elem.nodeType;
-            if(nType !== 1 || !(jQuery.isXMLDoc(elem)))
-            {
-                name = name.toLowerCase();
-                hooks = jQuery.attrHooks[name] || (jQuery.expr.match.bool.test(name) ? 0 : nodeHook);
-            }
-
-            if(value !== undefined)
-            {
-                if(value === null);
-                else if(hooks);
-                else
-                {
-                    elem.setAttribute(name, value + '');
-                }
-            }
-            else if(hooks);
-            else
-            {
-                ret = jQuery.find.attr(elem, name);
-                return ret == null ? 0 : ret;
-            }
-        },
-        removeAttr: function(elem, value)
-        {},
+        attr: function(elem, name, value){},
+        removeAttr: function(elem, value){},
         attrHooks: {},
         propFix: {},
         prop: function(elem, name, value)
-        {},
-        propHooks: {}
-    });
-    jQuery.fn.extend({
-        find: function(selector)
         {
-            var i, ret = [], self = this, len = self.length;
-            for(i = 0;i < len;i++)
+            var hooks, notxml, nType = elem.nodeType;
+            notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
+            if(notxml)
             {
-                jQuery.find(selector, self[i], ret);
+                name = jQuery.propFix[name] || name;
+                hooks = jQuery.propHooks[name];
             }
 
-            ret = this.pushStack(len > 1 ? 0 : ret);
-            return ret;
+            if(value !== undefined);
+            else
+            {
+                return hooks ? 0 : elem[name];
+            }
         },
-        has: function(target)
-        {},
-        not: function(selector)
-        {},
-        filter: function(selector)
-        {},
-        is: function(selector)
-        {},
-        closest: function(selectors, context)
-        {},
-        index: function(elem)
-        {},
-        add: function(selector, context)
-        {},
-        addBack: function(selector)
-        {}
+        propHooks: {}
     });
-    jQuery.each({
-        contents: function(elem)
-        {
-            return jQuery.nodeName(elem, 'iframe') ? 0 : jQuery.merge([], elem.childNodes);
-        }
-    }, function(name, fn)
+    var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/;
+    function returnFalse()
     {
-        jQuery.fn[name] = function(until, selector)
+        return false;
+    }
+    jQuery.event = {
+        trigger: function(event, data, elem, onlyHandlers)
         {
-            var ret = jQuery.map(this, fn, until);
-            return this.pushStack(ret);
-        };
+            var ontype, cur, bubbleType, special, tmp, eventPath = [elem], type = core_hasOwn.call(event, "type") ? 0 : event;
+            cur = tmp = elem = elem;
+            ontype = type.indexOf(":") < 0 && "on" + type;
+            event = event[jQuery.expando] ? 0 : new jQuery.Event(type, typeof event === "object");
+            if(!(event.target))
+            {
+                event.target = elem;
+            }
+
+            data = data == null ? [event] : 0;
+            special = jQuery.event.special[type];
+            if(!onlyHandlers && !(special.noBubble) && !(jQuery.isWindow(elem)))
+            {
+                bubbleType = special.delegateType || type;
+                if(!(rfocusMorph.test(bubbleType + type)))
+                {
+                    cur = cur.parentNode;
+                }
+
+                for(;cur;cur = cur.parentNode)
+                {
+                    eventPath.push(cur);
+                    tmp = cur;
+                }
+
+                if(tmp === elem.ownerDocument)
+                {
+                    eventPath.push(tmp.defaultView);
+                }
+            }
+
+            if(!onlyHandlers && !(event.isDefaultPrevented()))
+            {
+                if((!(special._default) || special._default.apply(eventPath.pop(), data) === false) && jQuery.acceptData(elem))
+                {
+                    if(ontype && elem[type] && !(jQuery.isWindow(elem)))
+                    {
+                        try
+                        {
+                            elem[type]();
+                        }
+                        catch(e){}
+                    }
+                }
+            }
+        },
+        special: {
+            click: {
+                _default: function(event)
+                {
+                    return jQuery.nodeName(event.target, "a");
+                }
+            }
+        }
+    };
+    jQuery.Event = function(src, props){};
+    jQuery.Event.prototype = {
+        isDefaultPrevented: returnFalse
+    };
+    jQuery.fn.extend({
+        on: function(types, selector, data, fn, one){},
+        one: function(types, selector, data, fn){},
+        off: function(types, selector, fn){},
+        trigger: function(type, data)
+        {
+            return this.each(function()
+            {
+                jQuery.event.trigger(type, data, this);
+            });
+        },
+        triggerHandler: function(type, data){}
     });
-    jQuery(function()
-    {});
-    if(typeof module === 'object');
+    jQuery(function(){});
+    if(typeof module === "object");
     else
     {
-        window.jQuery = window.$ = jQuery;
+        window.$ = jQuery;
     }
 })(window);
 </script>
@@ -522,139 +335,16 @@
 
 <body id="body" style="">
 
-
-<dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
-    <div id="qunit-fixture">
-
-
-        <div id="foo" class="test">
-
-
-
-
-        </div>
-        <div id="nothiddendiv" style="height:1px;background:white;" class="nothiddendiv test">
-            <div id="nothiddendivchild" class="test"></div>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div id="moretests" class="test">
-            <form>
-                <div id="checkedtest" style="display:none;" class="test">
-
-
-
-
-                </div>
-            </form>
-            <div id="nonnodes" class="test"><span id="nonnodesElement">hi</span> there </div>
-            <div id="t2037" class="test">
-                <div class="test"><div class="hidden test">hidden</div></div>
-            </div>
-            <div id="t6652" class="test">
-                <div class="test"></div>
-            </div>
-            <div id="no-clone-exception" class="test"></div>
-        </div>
-
-        <div id="tabindex-tests" class="test">
-
-
-            <div id="divWithNoTabIndex" class="test">I'm hungry. I should...</div>
-            |
-            |
-
-
-
-
-
-
-
-
-        </div>
-
-        <div id="liveHandlerOrder" class="test">
-
-
-        </div>
-
-        <div id="siblingTest" class="test">
-
-
-
-
-        </div>
-        <div id="fx-test-group" style="position: absolute; width: 1px; height: 1px; overflow: hidden;" class="test">
-            <div id="fx-queue" name="test" class="test">
-                <div id="fadein" class="chain-test test" name="div">fadeIn<div class="test">fadeIn</div></div>
-                <div id="fadeout" class="chain-test chain-test-out test">fadeOut<div class="test">fadeOut</div></div>
-
-                <div id="show" class="chain-test test">show<div class="test">show</div></div>
-                <div id="hide" class="chain-test chain-test-out test">hide<div class="test">hide</div></div>
-                <div id="easehide" class="chain-test chain-test-out test">hide<div class="test">hide</div></div>
-
-                <div id="togglein" class="chain-test test">togglein<div class="test">togglein</div></div>
-                <div id="toggleout" class="chain-test chain-test-out test">toggleout<div class="test">toggleout</div></div>
-                <div id="easetoggleout" class="chain-test chain-test-out test">toggleout<div class="test">toggleout</div></div>
-
-                <div id="slideup" class="chain-test test">slideUp<div class="test">slideUp</div></div>
-                <div id="slidedown" class="chain-test chain-test-out test">slideDown<div class="test">slideDown</div></div>
-                <div id="easeslideup" class="chain-test test">slideUp<div class="test">slideUp</div></div>
-
-                <div id="slidetogglein" class="chain-test test">slideToggleIn<div class="test">slideToggleIn</div></div>
-                <div id="slidetoggleout" class="chain-test chain-test-out test">slideToggleOut<div class="test">slideToggleOut</div></div>
-
-                <div id="fadetogglein" class="chain-test test">fadeToggleIn<div class="test">fadeToggleIn</div></div>
-                <div id="fadetoggleout" class="chain-test chain-test-out test">fadeToggleOut<div class="test">fadeToggleOut</div></div>
-
-                <div id="fadeto" class="chain-test test">fadeTo<div class="test">fadeTo</div></div>
-            </div>
-
-            <div id="fx-tests" class="test"></div>
-
-        </div>
-    </div>
-</dl>
-
+<form id="form" action="formaction">
+    <input type="radio" name="radio1" id="radio1" value="on"/>
+    <input type="radio" name="radio2" id="radio2" checked="checked"/>
+</form>
 
 <script>
-    var pass, j, div = jQuery('#qunit-fixture div');
-    div.addClass('test');
-    pass = true;
-    assert(pass, 'Add Class');
-    j = jQuery('#nonnodes').contents();
-    j.addClass('asdf');
-    assert(j.hasClass('asdf'), 'Check node,textnode,comment for addClass');
-    div = jQuery('<div/>');
-    div.addClass('test');
-    assertEquals(div.attr('class'), 'test', 'Make sure there\'s no extra whitespace.');
-    div.attr('class', ' foo');
-    div.addClass('test');
-    assertEquals(div.attr('class'), 'foo test', 'Make sure there\'s no extra whitespace.');
-    div.attr('class', 'foo');
-    div.addClass('bar baz');
-    assertEquals(div.attr('class'), 'foo bar baz', 'Make sure there isn\'t too much trimming.');
-    div.removeClass();
-    div.addClass('foo').addClass('foo');
-    assertEquals(div.attr('class'), 'foo', 'Do not add the same class twice in separate calls.');
-    div.addClass('fo');
-    assertEquals(div.attr('class'), 'foo fo', 'Adding a similar class does not get interrupted.');
-    div.removeClass().addClass('wrap2');
-    assert(div.addClass('wrap').hasClass('wrap'), 'Can add similarly named classes');
-    div.removeClass();
-    div.addClass('bar bar');
-    assertEquals(div.attr('class'), 'bar', 'Do not add the same class twice in the same call.');
+    var radios = document.querySelectorAll("input[type='radio']");
+    var $radio = $(radios[1]);
+    $radio.trigger("click");
+    assertEquals($radio.prop("checked"), true, "Second radio was checked when clicked");
 </script>
 
 
