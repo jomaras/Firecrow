@@ -128,7 +128,7 @@ fcModel.StringExecutor =
                         return resultMapping[index++].jsValue;
                     });
 
-                    targetObject.iValue = targetObject.jsValue;
+                    targetObject.iValue = new fcModel.String(targetObject.jsValue, globalObject, returnExpression, true);
                 }
 
                 globalObject.dependencyCreator.createDataDependency
