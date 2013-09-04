@@ -493,6 +493,11 @@ fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpressio
 
         if(fromIndex == null) { fromIndex = 0; }
 
+        if(fromIndex < 0)
+        {
+            fromIndex = length + fromIndex;
+        }
+
         for(var i = fromIndex; i < length; i++)
         {
             if(searchObject[i].jsValue === searchForItem.jsValue)
