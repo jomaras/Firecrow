@@ -66,13 +66,20 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     if(fcModel.DOM_PROPERTIES.isNodeElements(propertyName) || fcModel.DOM_PROPERTIES.isElementElements(propertyName))
     {
-        var elements = this._getElements(propertyName, codeConstruct);
-        var array = this.globalObject.internalExecutor.createArray(codeConstruct, elements);
-        array.iValue.markAsNodeList();
+        if(this.htmlElement[propertyName] == null)
+        {
+            return currentPropertyValue;
+        }
+        else
+        {
+            var elements = this._getElements(propertyName, codeConstruct);
+            var array = this.globalObject.internalExecutor.createArray(codeConstruct, elements);
+            array.iValue.markAsNodeList();
 
-        this.addProperty(propertyName, array, creationConstruct);
+            this.addProperty(propertyName, array, creationConstruct);
 
-        fcModel.HtmlElementExecutor.addDependencies(elements, codeConstruct, this.globalObject);
+            fcModel.HtmlElementExecutor.addDependencies(elements, codeConstruct, this.globalObject);
+        }
     }
 
     if(fcModel.DOM_PROPERTIES.isNodeElement(propertyName) || fcModel.DOM_PROPERTIES.isElementElement(propertyName) || (ValueTypeHelper.isHtmlFormElement(this.htmlElement) && ValueTypeHelper.isHtmlElement(this.htmlElement[propertyName])))

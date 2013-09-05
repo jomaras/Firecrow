@@ -1039,7 +1039,7 @@
     });
     function manipulationTarget(elem, content)
     {
-      return jQuery.nodeName(elem, "table") && jQuery.nodeName(content.nodeType === 1 ? 0 : content.firstChild, "tr") ? elem.getElementsByTagName("tbody")[0] : elem;
+      return jQuery.nodeName(elem, "table") && jQuery.nodeName(content.nodeType === 1 ? 0 : content.firstChild, "tr") ? elem.getElementsByTagName("tbody")[0] || elem.appendChild(elem.ownerDocument.createElement("tbody")) : elem;
     }
     jQuery.each({appendTo: "append", prependTo: "prepend", insertBefore: "before", insertAfter: "after", replaceAll: "replaceWith"}, function(name, original)
     {
@@ -1125,9 +1125,9 @@
 
 <dl id="dl" style="position:absolute;top:-32767px;left:-32767px;width:1px;">
 <div id="qunit-fixture" foo="bar">
-<p id="firstp" nonexisting="foo">See  for more information.</p>
+<p id="firstp">See  for more information.</p>
 
-<div id="foo" foo="bar" contenteditable="true">
+<div id="foo" foo="bar">
     
     
     
@@ -1142,21 +1142,21 @@
 
 <form id="form" action="formaction">
     
-    <input type="text" name="action" value="Test" id="text1" maxlength="30" data-something="true" data-another="false"/>
+    <input type="text" name="action" value="Test" id="text1" maxlength="30"/>
     
     
 
     
     
-    <input type="hidden" id="check2" value="on" checked="checked"/>
+    <input type="checkbox" id="check2" value="on"/>
 
     
     
 
-    <input type="text" id="name" value="name" maxlength="5" someattr="1"/>
+    <input type="text" id="name" name="name" value="name"/>
     
 
-    <button id="button" name="button" type="submit">Button</button>
+    <button id="button" name="button" type="button">Button</button>
 
     <textarea id="area1" maxlength="30">foobar</textarea>
 
@@ -1180,7 +1180,7 @@
 
 
 
-<table id="table" cellspacing="2"><tbody><tr><td rowspan="2" colspan="2">cell</td></tr><tr><td>cell</td><td>cell</td></tr><tr><td>cell</td><td>cell</td></tr></tbody></table>
+<table id="table"></table>
 
 
 

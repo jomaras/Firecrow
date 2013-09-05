@@ -8,15 +8,14 @@
 <body id="body">
 
 <form id="form" action="formaction">
-    <input type="radio" name="radio1" id="radio1" value="on"/>
-    <input type="radio" name="radio2" id="radio2" checked="checked"/>
+    <input type='checkbox' name='test' value='1'/>
+    <input type='checkbox' name='test' value='2'/>
 </form>
 
 <script>
-    var radios = document.querySelectorAll("input[type='radio']");
-    var $radio = $(radios[1]);
-    $radio.trigger("click");
-    assertEquals( $radio.prop("checked"), true, "Second radio was checked when clicked" );
+    var checks = $("input");
+    checks.val([ "2" ]);
+    assertEquals( checks.serialize(), "test=2", "Get a single checked value." );
 </script>
 
 </body>
