@@ -38,6 +38,8 @@
             {
               context = context instanceof jQuery ? 0 : context;
               jQuery.merge(this, jQuery.parseHTML(match[1], context ? 0 : document, true));
+              if(jQuery.isPlainObject(context));
+
               return this;
             }
             else 
@@ -108,6 +110,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -121,13 +125,22 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj){}, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
         return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
       }, 
-      isPlainObject: function(obj){}, 
+      isPlainObject: function(obj)
+      {
+        if(!obj)
+        {
+          return false;
+        }
+      }, 
       isEmptyObject: function(obj){}, 
       error: function(msg){}, 
       parseHTML: function(data, context, keepScripts)
@@ -169,6 +182,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
       {
@@ -229,6 +244,7 @@
         if(jQuery.type(key) === "object");
         else if(value !== undefined)
         {
+          chainable = true;
           if(!(jQuery.isFunction(value)))
           {
             raw = true;
@@ -244,7 +260,7 @@
         }
 
 
-        return chainable ? 0 : bulk ? 0 : length ? fn(elems[0], key) : 0;
+        return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : 0;
       }, 
       now: function(){}, 
       swap: function(elem, options, callback, args){}
@@ -256,6 +272,8 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj));
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -295,6 +313,7 @@
               try
               {
                 push.apply(results, newContext.querySelectorAll(newSelector));
+                return results;
               }
               catch(qsaError){}
             }
@@ -330,6 +349,7 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
         rbuggyQSA = [];
         if(support.qsa = rnative.test(doc.querySelectorAll))
@@ -345,6 +365,7 @@
         }
 
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
+        return doc;
       };
       Sizzle.attr = function(elem, name)
       {
@@ -360,6 +381,7 @@
       jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
+    jQuery.extend({});
     (function(support)
     {
       for(i in jQuery(support))
@@ -368,7 +390,9 @@
       }
 
       jQuery(function(){});
+      return support;
     })({});
+    jQuery.fn.extend({});
     var nodeHook, rclass = /[\t\r\n\f]/g;
     jQuery.fn.extend({
       attr: function(name, value)
@@ -456,6 +480,7 @@
           else 
           {
             elem.setAttribute(name, value + "");
+            return value;
           }
         }
         else if(hooks);
@@ -471,6 +496,7 @@
       prop: function(elem, name, value){}, 
       propHooks: {}
     });
+    jQuery.fn.extend({});
     jQuery.fn.extend({
       find: function(selector)
       {

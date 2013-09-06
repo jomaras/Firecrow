@@ -5,7 +5,7 @@
 <script>
 (function(window, undefined)
 {
-    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, jQuery = function(selector, context)
     {
         return new jQuery.fn.init(selector, context, rootjQuery);
     }, core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter){};
@@ -64,38 +64,18 @@
     };
     jQuery.extend({
         expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""),
-        noConflict: function(deep){},
-        isReady: false,
-        readyWait: 1,
-        holdReady: function(hold){},
-        ready: function(wait){},
         isFunction: function(obj)
         {
             return jQuery.type(obj) === "function";
         },
-        isArray: Array.isArray || function(obj){},
-        isWindow: function(obj)
-        {
-            return obj != null && obj == obj.window;
-        },
-        isNumeric: function(obj){},
         type: function(obj)
         {
             return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
         },
-        isPlainObject: function(obj){},
-        isEmptyObject: function(obj){},
-        error: function(msg){},
-        parseHTML: function(data, context, keepScripts){},
-        parseJSON: function(data){},
-        parseXML: function(data){},
-        noop: function(){},
-        globalEval: function(data){},
         camelCase: function(string)
         {
             return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, fcamelCase);
         },
-        nodeName: function(elem, name){},
         each: function(obj, callback, args)
         {
             var i = 0, length = obj.length, isArray = isArraylike(obj);
@@ -113,7 +93,6 @@
 
             return obj;
         },
-        trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0,
         makeArray: function(arr, results)
         {
             var ret = results;
@@ -128,12 +107,6 @@
 
             return ret;
         },
-        inArray: function(elem, arr, i){},
-        merge: function(first, second){},
-        grep: function(elems, callback, inv){},
-        map: function(elems, callback, arg){},
-        guid: 1,
-        proxy: function(fn, context){},
         access: function(elems, fn, key, value, chainable, emptyGet, raw)
         {
             var i = 0, length = elems.length, bulk = key == null;
@@ -164,9 +137,7 @@
 
 
             return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : 0;
-        },
-        now: function(){},
-        swap: function(elem, options, callback, args){}
+        }
     });
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
@@ -175,8 +146,6 @@
     function isArraylike(obj)
     {
         var length = obj.length, type = jQuery.type(obj);
-        if(jQuery.isWindow(obj));
-
         return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -207,14 +176,10 @@
             {
                 return value !== undefined ? jQuery.style(elem, name, value) : jQuery.css(elem, name);
             }, name, value, arguments.length > 1);
-        },
-        show: function(){},
-        hide: function(){},
-        toggle: function(state){}
+        }
     });
     jQuery.extend({
         cssHooks: {},
-        cssNumber: {},
         cssProps: {},
         style: function(elem, name, value, extra)
         {

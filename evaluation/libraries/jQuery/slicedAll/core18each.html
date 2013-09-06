@@ -90,6 +90,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -103,7 +105,10 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj){}, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -148,6 +153,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -194,6 +201,8 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj));
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -226,7 +235,7 @@
             else if(match[2])
             {
               push.apply(results, context.getElementsByTagName(selector));
-              return ;
+              return results;
             }
           }
         }
@@ -254,11 +263,14 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
+        return doc;
       };
       setDocument();
       jQuery.find = Sizzle;
     })(window);
+    jQuery.extend({});
     (function(support)
     {
       for(i in jQuery(support))
@@ -267,7 +279,9 @@
       }
 
       jQuery(function(){});
+      return support;
     })({});
+    jQuery.fn.extend({});
     jQuery.fn.extend({
       find: function(selector)
       {
@@ -407,7 +421,7 @@
 </dl>
 
 
-<script>   function assert(a){if(!a)debugger;} function assertEquals(a,b){if(a!=b)debugger;}
+<script>
   var div, pass, i;
   div = jQuery("div");
   div.each(function()

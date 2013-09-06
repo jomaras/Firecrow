@@ -28,6 +28,7 @@ fcBrowser.Browser = function(pageModel)
         this.nodeCreatedCallbacks = [];
         this.nodeInsertedCallbacks = [];
         this.interpretJsCallbacks = [];
+        this.nullProblematicCallbacks = [];
 
         this.dataDependencyEstablishedCallbacks = [];
         this.controlDependencyEstablishedCallbacks = [];
@@ -362,11 +363,16 @@ Browser.prototype = dummy =
         return map;
     },
 
+    logNullProblematicExpressionReached: function(codeConstruct)
+    {
+
+    },
+
     logEnteringFunction: function(callExpression, functionConstruct, executionContextId)
     {
         if(functionConstruct != null)
         {
-            this.executionInfo.logEnteringFunction(functionConstruct);
+            this.executionInfo.logEnteringFunction(functionConstruct, executionContextId);
         }
 
         this.callEnterFunctionCallbacks(callExpression, functionConstruct, executionContextId);
@@ -800,6 +806,13 @@ Browser.prototype = dummy =
         this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerNullProblematicExpressionReachedCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - null problematic callback has to be a function!"); return; }
+
+        this.nullProblematicCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     registerInterpreterMessageGeneratedCallback: function(callback, thisObject)
     {
         if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - interpreter message generated callback has to be a function!"); return; }
@@ -914,6 +927,14 @@ Browser.prototype = dummy =
         this.nodeCreatedCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, nodeModelObject, nodeType, isDynamic);
+        });
+    },
+
+    callNullProblematicReachedCallbacks: function(codeConstruct)
+    {
+        this.nullProblematicCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
         });
     },
 

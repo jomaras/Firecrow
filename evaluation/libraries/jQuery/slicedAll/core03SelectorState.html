@@ -104,6 +104,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -117,7 +119,10 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj){}, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -147,6 +152,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -154,7 +161,10 @@
         var ret = results;
         if(arr != null)
         {
-          if(isArraylike(Object(arr)));
+          if(isArraylike(Object(arr)))
+          {
+            jQuery.merge(ret, typeof arr === "string" ? 0 : arr);
+          }
           else 
           {
             core_push.call(ret, arr);
@@ -166,6 +176,16 @@
       inArray: function(elem, arr, i){}, 
       merge: function(first, second)
       {
+        var l = second.length, i = first.length, j = 0;
+        if(typeof l === "number")
+        {
+          for(;j < l;j++)
+          {
+            first[i++];
+          }
+        }
+
+        first.length = i;
         return first;
       }, 
       grep: function(elems, callback, inv){}, 
@@ -183,6 +203,8 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj));
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -210,7 +232,7 @@
                   if(elem.id === m)
                   {
                     results.push(elem);
-                    return ;
+                    return results;
                   }
                 }
               }
@@ -219,7 +241,7 @@
                 if(context.ownerDocument && (elem = context.ownerDocument.getElementById(m)) && contains(context, elem) && elem.id === m)
                 {
                   results.push(elem);
-                  return ;
+                  return results;
                 }
               }
             }
@@ -249,16 +271,19 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
         contains = rnative.test(docElem.contains) ? function(a, b)
         {
           var adown = a.nodeType === 9 ? 0 : a, bup = b && b.parentNode;
           return a === bup || !(!(bup && bup.nodeType === 1 && (adown.contains ? adown.contains(bup) : 0)));
         } : 0;
+        return doc;
       };
       setDocument();
       jQuery.find = Sizzle;
     })(window);
+    jQuery.extend({});
     (function(support)
     {
       for(i in jQuery(support))
@@ -267,7 +292,9 @@
       }
 
       jQuery(function(){});
+      return support;
     })({});
+    jQuery.fn.extend({});
     jQuery.fn.extend({
       find: function(selector)
       {

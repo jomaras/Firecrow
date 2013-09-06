@@ -7,7 +7,7 @@
     <script>
   (function(window, undefined)
   {
-    var rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
+    var readyList, rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
     }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter){};
@@ -104,6 +104,7 @@
       }, 
       ready: function(fn)
       {
+        jQuery.ready.promise();
         return this;
       }, 
       eq: function(i)
@@ -115,7 +116,7 @@
     jQuery.fn.init.prototype = jQuery.fn;
     jQuery.extend = jQuery.fn.extend = function()
     {
-      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      var copy, name, options, target = arguments[0], i = 1, length = arguments.length, deep = false;
       if(length === i)
       {
         target = this;
@@ -137,6 +138,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -223,6 +226,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -305,9 +310,21 @@
 
         return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : 0;
       }, 
-      now: function(){}, 
+      now: function()
+      {
+        return (new Date()).getTime();
+      }, 
       swap: function(elem, options, callback, args){}
     });
+    jQuery.ready.promise = function(obj)
+    {
+      if(!readyList)
+      {
+        readyList = jQuery.Deferred();
+      }
+
+      return readyList.promise(obj);
+    };
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
       class2type[("[object " + name) + "]"] = name.toLowerCase();
@@ -325,7 +342,7 @@
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-      var support, Expr, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, expando = "sizzle" + -(new Date()), preferredDoc = window.document, tokenCache = createCache(), hasOwn = ({}).hasOwnProperty, arr = [], push_native = arr.push, push = arr.push, slice = arr.slice, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", whitespace = "[\\x20\\t\\r\\n\\f]", characterEncoding = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+", identifier = characterEncoding.replace("w", "w#"), attributes = ((((((((((("\\[" + whitespace) + "*(") + characterEncoding) + ")") + whitespace) + "*(?:([*^$|!~]?=)") + whitespace) + "*(?:(['\"])((?:\\\\.|[^\\\\])*?)\\3|(") + identifier) + ")|)|)") + whitespace) + "*\\]", pseudos = (((":(" + characterEncoding) + ")(?:\\(((['\"])((?:\\\\.|[^\\\\])*?)\\3|((?:\\\\.|[^\\\\()[\\]]|") + attributes.replace(3, 8)) + ")*)|.*)\\)|)", rsibling = new RegExp(whitespace + "*[+~]"), matchExpr = {
+      var support, Expr, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, expando = "sizzle" + -(new Date()), preferredDoc = window.document, classCache = createCache(), tokenCache = createCache(), compilerCache = createCache(), hasOwn = ({}).hasOwnProperty, arr = [], push_native = arr.push, push = arr.push, slice = arr.slice, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", whitespace = "[\\x20\\t\\r\\n\\f]", characterEncoding = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+", identifier = characterEncoding.replace("w", "w#"), attributes = ((((((((((("\\[" + whitespace) + "*(") + characterEncoding) + ")") + whitespace) + "*(?:([*^$|!~]?=)") + whitespace) + "*(?:(['\"])((?:\\\\.|[^\\\\])*?)\\3|(") + identifier) + ")|)|)") + whitespace) + "*\\]", pseudos = (((":(" + characterEncoding) + ")(?:\\(((['\"])((?:\\\\.|[^\\\\])*?)\\3|((?:\\\\.|[^\\\\()[\\]]|") + attributes.replace(3, 8)) + ")*)|.*)\\)|)", rsibling = new RegExp(whitespace + "*[+~]"), matchExpr = {
         "ID": new RegExp(("^#(" + characterEncoding) + ")"), 
         "CLASS": new RegExp(("^\\.(" + characterEncoding) + ")"), 
         "TAG": new RegExp(("^(" + characterEncoding.replace("w", "w*")) + ")"), 
@@ -362,7 +379,7 @@
             else if(match[2])
             {
               push.apply(results, context.getElementsByTagName(selector));
-              return ;
+              return results;
             }
           }
 
@@ -392,6 +409,7 @@
               try
               {
                 push.apply(results, newContext.querySelectorAll(newSelector));
+                return results;
               }
               catch(qsaError){}
             }
@@ -459,6 +477,7 @@
         }
 
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
+        return doc;
       };
       Sizzle.attr = function(elem, name)
       {
@@ -529,7 +548,18 @@
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
     jQuery.extend({
-      Deferred: function(func){}, 
+      Deferred: function(func)
+      {
+        var promise = {
+          state: function(){}, 
+          promise: function(obj)
+          {
+            return obj != null ? jQuery.extend(obj, promise) : promise;
+          }
+        }, deferred = {};
+        promise.promise(deferred);
+        return deferred;
+      }, 
       when: function(subordinate){}
     });
     jQuery.support = (function(support)
@@ -572,6 +602,8 @@
     var rmultiDash = /([A-Z])/g;
     function internalData(elem, name, data, pvt)
     {
+      if(!(jQuery.acceptData(elem)));
+
       var ret, thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
       if((!id || !(cache[id]) || (!pvt && !(cache[id].data))) && data === undefined && typeof name === "string")
       {
@@ -662,6 +694,7 @@
 
       return data;
     }
+    jQuery.fn.extend({});
     var nodeHook, boolHook, getSetAttribute = jQuery.support.getSetAttribute, getSetInput = jQuery.support.input;
     jQuery.fn.extend({
       attr: function(name, value)
@@ -729,11 +762,12 @@
           }
           else if(hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined)
           {
-            return ;
+            return ret;
           }
           else 
           {
             elem.setAttribute(name, value + "");
+            return value;
           }
         }
         else if(hooks && "get" in hooks);
@@ -857,6 +891,7 @@
         cur = tmp = elem = elem;
         ontype = type.indexOf(":") < 0 && "on" + type;
         event = event[jQuery.expando] ? 0 : new jQuery.Event(type, typeof event === "object");
+        event.result = undefined;
         if(!(event.target))
         {
           event.target = elem;
@@ -898,6 +933,8 @@
             }
           }
         }
+
+        return event.result;
       }, 
       special: {
         click: {
@@ -908,7 +945,10 @@
         }
       }
     };
-    jQuery.Event = function(src, props){};
+    jQuery.Event = function(src, props)
+    {
+      jQuery.now();
+    };
     jQuery.Event.prototype = {
       isDefaultPrevented: returnFalse
     };
@@ -970,6 +1010,7 @@
         return this.pushStack(ret);
       };
     });
+    jQuery.extend({});
     function createSafeFragment(document)
     {
       var safeFrag = document.createDocumentFragment();
@@ -978,7 +1019,7 @@
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
       tr: [2, "<table><tbody>", "</tbody></table>"], 
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
-    };
+    }, safeFragment = createSafeFragment(document);
     jQuery.fn.extend({
       text: function(value){}, 
       append: function()
@@ -1005,6 +1046,8 @@
             elem.parentNode.removeChild(elem);
           }
         }
+
+        return this;
       }, 
       empty: function(){}, 
       clone: function(dataAndEvents, deepDataAndEvents){}, 

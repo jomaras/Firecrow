@@ -76,6 +76,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -89,7 +91,10 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj){}, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -125,6 +130,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
       {
@@ -174,6 +181,8 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj));
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -206,6 +215,7 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
         rbuggyMatches = [];
         rbuggyQSA = [];
@@ -225,6 +235,7 @@
 
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
         rbuggyMatches = rbuggyMatches.length;
+        return doc;
       };
       Sizzle.matchesSelector = function(elem, expr)
       {
@@ -249,6 +260,7 @@
       jQuery.find = Sizzle;
       jQuery.expr = Sizzle.selectors;
     })(window);
+    jQuery.extend({});
     jQuery.support = (function(support)
     {
       var a, input, eventName, i, div = document.createElement("div");
@@ -274,6 +286,7 @@
       jQuery(function(){});
       return support;
     })({});
+    jQuery.fn.extend({});
     var rclass = /[\t\r\n\f]/g;
     jQuery.fn.extend({
       attr: function(name, value){}, 
@@ -305,6 +318,8 @@
             }
           }
         }
+
+        return this;
       }, 
       removeClass: function(value)
       {
@@ -331,6 +346,8 @@
             }
           }
         }
+
+        return this;
       }, 
       toggleClass: function(value, stateVal){}, 
       hasClass: function(selector)
@@ -348,6 +365,7 @@
       }, 
       val: function(value){}
     });
+    jQuery.fn.extend({});
     var isSimple = /^.[^:#\[\.,]*$/, rneedsContext = jQuery.expr.match.needsContext;
     jQuery.fn.extend({
       find: function(selector){}, 
@@ -390,6 +408,7 @@
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
     };
+    jQuery.fn.extend({});
     jQuery.extend({
       clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection)

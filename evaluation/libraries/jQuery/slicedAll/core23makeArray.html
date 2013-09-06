@@ -86,6 +86,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -132,6 +134,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -228,6 +232,7 @@
               try
               {
                 push.apply(results, newContext.querySelectorAll(newSelector));
+                return results;
               }
               catch(qsaError){}
             }
@@ -258,6 +263,7 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
         rbuggyQSA = [];
         if(support.qsa = rnative.test(doc.querySelectorAll))
@@ -273,6 +279,7 @@
         }
 
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
+        return doc;
       };
       setDocument();
       jQuery.find = Sizzle;
@@ -289,7 +296,9 @@
       }
 
       jQuery(function(){});
+      return support;
     })({});
+    jQuery.fn.extend({});
     jQuery.fn.extend({
       find: function(selector)
       {

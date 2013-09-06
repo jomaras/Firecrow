@@ -38,6 +38,8 @@
             {
               context = context instanceof jQuery ? 0 : context;
               jQuery.merge(this, jQuery.parseHTML(match[1], context ? 0 : document, true));
+              if(jQuery.isPlainObject(context));
+
               return this;
             }
             else 
@@ -130,6 +132,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -146,13 +150,27 @@
       {
         return jQuery.type(obj) === "array";
       }, 
-      isWindow: function(obj){}, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
+        if(obj == null)
+        {
+          return String(obj);
+        }
+
         return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
       }, 
-      isPlainObject: function(obj){}, 
+      isPlainObject: function(obj)
+      {
+        if(!obj)
+        {
+          return false;
+        }
+      }, 
       isEmptyObject: function(obj){}, 
       error: function(msg){}, 
       parseHTML: function(data, context, keepScripts)
@@ -279,6 +297,8 @@
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
         var length = elems.length, bulk = key == null;
+        if(jQuery.type(key));
+
         return chainable ? 0 : bulk ? fn.call(elems) : length ? fn(elems[0], key) : 0;
       }, 
       now: function(){}, 
@@ -291,6 +311,8 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj));
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -307,7 +329,10 @@
         {
           return !(!(fn(div)));
         }
-        catch(e){}
+        catch(e)
+        {
+          return false;
+        }
       }
       isXML = Sizzle.isXML = function(elem)
       {
@@ -329,6 +354,7 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
         rbuggyMatches = [];
         rbuggyQSA = [];
@@ -349,11 +375,13 @@
           assert(function(div)
           {
             support.disconnectedMatch = matches.call(div, "div");
+            matches.call(div, "[s!='']:x");
           });
         }
 
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
         rbuggyMatches = rbuggyMatches.length;
+        return doc;
       };
       Sizzle.matchesSelector = function(elem, expr)
       {
@@ -385,6 +413,7 @@
       jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
+    jQuery.extend({});
     jQuery.support = (function(support)
     {
       var a, input, select, opt, eventName, i, div = document.createElement("div");
@@ -415,6 +444,7 @@
       jQuery(function(){});
       return support;
     })({});
+    jQuery.fn.extend({});
     var nodeHook, rreturn = /\r/g;
     jQuery.fn.extend({
       attr: function(name, value)
@@ -579,6 +609,7 @@
         };
       }
     });
+    jQuery.fn.extend({});
     var isSimple = /^.[^:#\[\.,]*$/, rneedsContext = jQuery.expr.match.needsContext;
     jQuery.fn.extend({
       find: function(selector){}, 
@@ -631,7 +662,7 @@
     }
     var rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g, rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, manipulation_rcheckableType = /^(?:checkbox|radio)$/i, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
-    };
+    }, safeFragment = createSafeFragment(document);
     jQuery.fn.extend({
       text: function(value){}, 
       append: function()
@@ -667,6 +698,8 @@
             elem.parentNode.removeChild(elem);
           }
         }
+
+        return this;
       }, 
       empty: function(){}, 
       clone: function(dataAndEvents, deepDataAndEvents){}, 
@@ -705,6 +738,8 @@
             }
           }
         }
+
+        return this;
       }
     });
     function manipulationTarget(elem, content)
@@ -770,6 +805,7 @@
       cleanData: function(elems, acceptData){}, 
       _evalUrl: function(url){}
     });
+    jQuery.extend({});
     jQuery(function(){});
     var r20 = /%20/g, rCRLF = /\r?\n/g, rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i, rsubmittable = /^(?:input|select|textarea|keygen)/i;
     jQuery.fn.extend({
@@ -856,7 +892,7 @@
     
     
 
-    <button id="button" name="button" type="button">Button</button>
+    <button id="button" name="button" type="button">Button</button><button value="baz">text</button>
 
     
 

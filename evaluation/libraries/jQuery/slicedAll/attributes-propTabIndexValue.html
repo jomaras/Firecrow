@@ -101,6 +101,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -114,7 +116,10 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj){}, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -144,6 +149,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -201,6 +208,7 @@
         if(jQuery.type(key) === "object");
         else if(value !== undefined)
         {
+          chainable = true;
           if(!(jQuery.isFunction(value)))
           {
             raw = true;
@@ -216,7 +224,7 @@
         }
 
 
-        return chainable ? 0 : bulk ? 0 : length ? fn(elems[0], key) : 0;
+        return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : 0;
       }, 
       now: function(){}, 
       swap: function(elem, options, callback, args){}
@@ -228,12 +236,14 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj));
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-      var support, Expr, setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document;
+      var support, Expr, isXML, setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document;
       function Sizzle(selector, context, results, seed){}      function assert(fn)
       {
         var div = document.createElement("div");
@@ -243,9 +253,9 @@
         }
         catch(e){}
       }
-      Sizzle.isXML = function(elem)
+      isXML = Sizzle.isXML = function(elem)
       {
-        var documentElement = elem && (elem.ownerDocument).documentElement;
+        var documentElement = elem && (elem.ownerDocument || elem).documentElement;
         return documentElement ? documentElement.nodeName !== "HTML" : 0;
       };
       support = Sizzle.support = {};
@@ -254,6 +264,7 @@
         var doc = node ? 0 : preferredDoc;
         document = doc;
         docElem = doc.documentElement;
+        !(isXML(doc));
         support.attributes = assert(function(div)
         {
           div.className = "i";
@@ -262,7 +273,9 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
+        return doc;
       };
       Sizzle.attr = function(elem, name)
       {
@@ -276,6 +289,7 @@
       jQuery.find = Sizzle;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
+    jQuery.extend({});
     jQuery.support = (function(support)
     {
       support.html5Clone = document.createElement("nav").cloneNode(true).outerHTML !== "<:nav></:nav>";
@@ -287,6 +301,7 @@
       jQuery(function(){});
       return support;
     })({});
+    jQuery.fn.extend({});
     var rfocusable = /^(?:input|select|textarea|button|object)$/i, rclickable = /^(?:a|area)$/i;
     jQuery.fn.extend({
       attr: function(name, value){}, 
@@ -341,6 +356,7 @@
     {
       jQuery.propFix[this.toLowerCase()] = this;
     });
+    jQuery.extend({});
     jQuery.fn.extend({
       text: function(value){}, 
       append: function(){}, 

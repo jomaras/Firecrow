@@ -31,6 +31,7 @@ FBL.ns(function() { with (FBL) {
         this.executionContextIdStack = [];
         this.pushExecutionContextId("root");
         this.traversedEdgesMap = {};
+        this.nullProblematicTrace = [];
     };
 
     var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
@@ -64,7 +65,18 @@ FBL.ns(function() { with (FBL) {
 
         popExecutionContextId: function()
         {
-            this.executionContextId = this.executionContextIdStack.pop();
+            this.executionContextIdStack.pop();
+            this.executionContextId = this.executionContextIdStack[this.executionContextIdStack.length-1];
+        },
+
+        handleNullProblematicReached: function(codeConstruct)
+        {
+            this.nullProblematicTrace.push
+            ({
+                codeConstruct: codeConstruct,
+                dependencyIndex: codeConstruct.maxCreatedDependencyIndex,
+                executionContextId: this.executionContextId
+            });
         },
 
         handleNodeCreated: function(nodeModelObject, type, isDynamic)
@@ -97,6 +109,7 @@ FBL.ns(function() { with (FBL) {
                     if(DependencyGraph.sliceUnions) {  this._registerDependencyCallExpressionRelationship(edge); }
 
                     this.executionContextIndexMap[this.executionContextId].push(edge.index);
+                    edge.executionContextId = this.executionContextId;
                 }
             }
             else
@@ -108,6 +121,7 @@ FBL.ns(function() { with (FBL) {
                 if(DependencyGraph.sliceUnions) {  this._registerDependencyCallExpressionRelationship(edge); }
 
                 this.executionContextIndexMap[this.executionContextId].push(edge.index);
+                edge.executionContextId = this.executionContextId;
             }
         },
 
@@ -139,6 +153,7 @@ FBL.ns(function() { with (FBL) {
             this._registerDependencyCallExpressionRelationship(edge);
 
             this.executionContextIndexMap[this.executionContextId].push(edge.index);
+            edge.executionContextId = this.executionContextId;
         },
 
         _registerDependencyCallExpressionRelationship: function(edge)
@@ -218,7 +233,7 @@ FBL.ns(function() { with (FBL) {
             this.popExecutionContextId();
         },
 
-        markGraph: function(model, executionTrace)
+        markGraph: function(model)
         {
             try
             {
@@ -232,11 +247,11 @@ FBL.ns(function() { with (FBL) {
 
                 if(fcGraph.DependencyGraph.sliceUnions)
                 {
-                    var addedDependencies = this._traverseSliceUnionPossibleProblems(executionTrace);
+                    var addedDependencies = this._traverseSliceUnionPossibleProblems(this.nullProblematicTrace);
 
                     while(addedDependencies != 0)
                     {
-                        addedDependencies = this._traverseSliceUnionPossibleProblems(executionTrace);
+                        addedDependencies = this._traverseSliceUnionPossibleProblems(this.nullProblematicTrace);
                     }
                 }
 
@@ -318,15 +333,16 @@ FBL.ns(function() { with (FBL) {
                 var parent = ASTHelper.getBreakContinueReturnImportantAncestor(codeConstruct);
 
                 if(!this.inclusionFinder.isIncludedElement(parent)) { continue; }
+                if(ASTHelper.isReturnStatement(codeConstruct) && !this.inclusionFinder.isIncludedElement(codeConstruct)) { continue;}
 
-                if(this._shouldTraverseBreakContinueReturnDependency(mapping.executionContextId))
+                if(this._contextHasIncludedDependencies(mapping.executionContextId))
                 {
                     this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
                 }
             }
         },
 
-        _shouldTraverseBreakContinueReturnDependency: function(referentExecutionContextId)
+        _contextHasIncludedDependencies: function(referentExecutionContextId)
         {
             return this._isAtLeastOneDependencyTraversed(this.executionContextIndexMap[referentExecutionContextId]);
         },
@@ -355,12 +371,12 @@ FBL.ns(function() { with (FBL) {
 
                 if(!codeConstruct.shouldBeIncluded) { continue; }
 
-                if(!this._areAllIncluded(this.dependencyCallExpressionMapping[trace[i].index])) { continue; }
+                if(!this._areAllIncluded(this.dependencyCallExpressionMapping[trace[i].dependencyIndex])) { continue; }
 
                 var dependencies = codeConstruct.graphNode.getSliceUnionImportantDependencies
                 (
                     previousIndexMapping[codeConstruct.nodeId] || -1,
-                    trace[i].index
+                    trace[i].dependencyIndex
                 );
 
                 addedDependencies += dependencies.length;
@@ -445,7 +461,8 @@ FBL.ns(function() { with (FBL) {
                         codeConstruct:dependencyEdge.destinationNode.model,
                         maxDependencyIndex: dependencyEdge.index,
                         dependencyConstraint: dependencyConstraintToFollow,
-                        includedByNode:  dependencyEdge.sourceNode.model
+                        includedByNode:  dependencyEdge.sourceNode.model,
+                        executionContextId: dependencyEdge.executionContextId
                     });
 
                     continue;

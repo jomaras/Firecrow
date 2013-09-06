@@ -192,7 +192,7 @@ FBL.ns(function() { with (FBL) {
             if(this.isHtmlNode()) { return this._generateIdForHtmlNode(); }
             else if (this.isCssNode()) { return this._generateIdForCssNode(); }
             else if (this.isJsNode()) { return this._generateIdForJsNode(); }
-            else { alert("Node.generateId - unknown node type!"); return ""; }
+            else { debugger; alert("Node.generateId - unknown node type!"); return ""; }
         },
 
         _generateIdForHtmlNode: function()

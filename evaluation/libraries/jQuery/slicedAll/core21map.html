@@ -33,6 +33,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -43,7 +45,10 @@
       ready: function(wait){}, 
       isFunction: function(obj){}, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj){}, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -73,6 +78,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results){}, 
@@ -120,6 +127,8 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj));
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     (function(window, undefined)
@@ -142,7 +151,9 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
+        return doc;
       };
       setDocument();
     })(window);
@@ -247,8 +258,7 @@
   {
     if(result[label])
     {
-        delete result[ label ];
-        assertEquals(k, "0", label + " treated like array");
+      assertEquals(k, "0", label + " treated like array");
     }
   };
   for(i in result)

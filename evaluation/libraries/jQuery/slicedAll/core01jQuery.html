@@ -7,7 +7,7 @@
     <script>
   (function(window, undefined)
   {
-    var rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
+    var readyList, rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
     }, core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter){};
@@ -102,6 +102,7 @@
       }, 
       ready: function(fn)
       {
+        jQuery.ready.promise();
         return this;
       }
     };
@@ -218,6 +219,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -255,7 +258,15 @@
       grep: function(elems, callback, inv){}, 
       map: function(elems, callback, arg)
       {
-        var ret = [];
+        var i = 0, length = elems.length, isArray = isArraylike(elems), ret = [];
+        if(isArray)
+        {
+          for(;i < length;i++)
+          {
+            callback(elems[i], i, arg);
+          }
+        }
+
         return core_concat.apply([], ret);
       }, 
       guid: 1, 
@@ -265,6 +276,7 @@
         var i = 0, length = elems.length, bulk = key == null;
         if(jQuery.type(key) === "object")
         {
+          chainable = true;
           for(i in key)
           {
             jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
@@ -272,6 +284,7 @@
         }
         else if(value !== undefined)
         {
+          chainable = true;
           if(!(jQuery.isFunction(value)))
           {
             raw = true;
@@ -294,10 +307,25 @@
             }
           }
         }
+
+
+        return chainable ? elems : 0;
       }, 
-      now: function(){}, 
+      now: function()
+      {
+        return (new Date()).getTime();
+      }, 
       swap: function(elem, options, callback, args){}
     });
+    jQuery.ready.promise = function(obj)
+    {
+      if(!readyList)
+      {
+        readyList = jQuery.Deferred();
+      }
+
+      return readyList.promise(obj);
+    };
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
       class2type[("[object " + name) + "]"] = name.toLowerCase();
@@ -344,7 +372,7 @@
             else if(match[2])
             {
               push.apply(results, context.getElementsByTagName(selector));
-              return ;
+              return results;
             }
           }
         }
@@ -372,12 +400,14 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
         contains = rnative.test(docElem.contains) ? function(a, b)
         {
           var bup = b && b.parentNode;
           return a === bup || !(!(bup));
         } : 0;
+        return doc;
       };
       Sizzle.contains = function(context, elem)
       {
@@ -398,7 +428,18 @@
       jQuery.contains = Sizzle.contains;
     })(window);
     jQuery.extend({
-      Deferred: function(func){}, 
+      Deferred: function(func)
+      {
+        var promise = {
+          state: function(){}, 
+          promise: function(obj)
+          {
+            return obj != null ? jQuery.extend(obj, promise) : promise;
+          }
+        }, deferred = {};
+        promise.promise(deferred);
+        return deferred;
+      }, 
       when: function(subordinate){}
     });
     jQuery.support = (function(support)
@@ -428,6 +469,8 @@
     })({});
     function internalData(elem, name, data, pvt)
     {
+      if(!(jQuery.acceptData(elem)));
+
       var ret, thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
       if(!id)
       {
@@ -465,8 +508,13 @@
         return internalData(elem, name, data, true);
       }, 
       _removeData: function(elem, name){}, 
-      acceptData: function(elem){}
+      acceptData: function(elem)
+      {
+        var noData = elem.nodeName && jQuery.noData[elem.nodeName.toLowerCase()];
+        return !noData;
+      }
     });
+    jQuery.fn.extend({});
     var nodeHook;
     jQuery.fn.extend({
       attr: function(name, value)
@@ -500,6 +548,7 @@
           else 
           {
             elem.setAttribute(name, value + "");
+            return value;
           }
         }
       }, 
@@ -568,11 +617,15 @@
       trigger: function(event, data, elem, onlyHandlers)
       {
         var handle, cur, special, i, eventPath = [elem], type = core_hasOwn.call(event, "type") ? 0 : event, namespaces = core_hasOwn.call(event, "namespace") ? 0 : [];
+        elem = elem;
         event = event[jQuery.expando] ? 0 : new jQuery.Event(type, typeof event === "object");
         event.namespace = namespaces.join(".");
         event.namespace_re = event.namespace ? 0 : null;
+        event.result = undefined;
         data = data == null ? [event] : 0;
         special = jQuery.event.special[type];
+        if(!(jQuery.isWindow(elem)));
+
         i = 0;
         while((cur = eventPath[i++]) && !(event.isPropagationStopped()))
         {
@@ -583,6 +636,13 @@
             handle.apply(cur, data);
           }
         }
+
+        if(!onlyHandlers && !(event.isDefaultPrevented()))
+        {
+          if(jQuery.acceptData(elem));
+        }
+
+        return event.result;
       }, 
       dispatch: function(event)
       {
@@ -602,6 +662,8 @@
             }
           }
         }
+
+        return event.result;
       }, 
       handlers: function(event, handlers)
       {
@@ -629,9 +691,11 @@
     };
     jQuery.Event = function(src, props)
     {
+      jQuery.now();
       this[jQuery.expando] = true;
     };
     jQuery.Event.prototype = {
+      isDefaultPrevented: returnFalse, 
       isPropagationStopped: returnFalse, 
       isImmediatePropagationStopped: returnFalse
     };
@@ -691,7 +755,11 @@
       addBack: function(selector){}
     });
     jQuery.each({
-      parent: function(elem){}, 
+      parent: function(elem)
+      {
+        var parent = elem.parentNode;
+        return parent && parent.nodeType !== 11 ? 0 : null;
+      }, 
       parents: function(elem){}, 
       parentsUntil: function(elem, i, until){}, 
       next: function(elem){}, 
@@ -719,6 +787,7 @@
         return this.pushStack(ret);
       };
     });
+    jQuery.extend({});
     function createSafeFragment(document)
     {
       var safeFrag = document.createDocumentFragment();
@@ -726,7 +795,7 @@
     }
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
-    };
+    }, safeFragment = createSafeFragment(document);
     jQuery.fn.extend({
       text: function(value)
       {
@@ -780,6 +849,8 @@
             }
           }
         }
+
+        return this;
       }
     });
     function manipulationTarget(elem, content)
@@ -830,6 +901,7 @@
       cleanData: function(elems, acceptData){}, 
       _evalUrl: function(url){}
     });
+    jQuery.fn.extend({});
     var getStyles, curCSS, rnumsplit = new RegExp(("^(" + core_pnum) + ")(.*)$", "i");
     function vendorPropName(style, name)
     {
@@ -935,6 +1007,7 @@
       };
     });
     jQuery(function(){});
+    jQuery.fn.extend({});
     jQuery.each((("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ") + "change select submit keydown keypress keyup error contextmenu").split(" "), function(i, name)
     {
       jQuery.fn[name] = function(data, fn)
@@ -1005,6 +1078,8 @@
           var chainable = arguments.length && defaultExtra, extra = defaultExtra;
           return jQuery.access(this, function(elem, type, value)
           {
+            if(jQuery.isWindow(elem));
+
             return value === undefined ? 0 : jQuery.style(elem, type, value, extra);
           }, type, chainable ? margin : 0, chainable, null);
         };

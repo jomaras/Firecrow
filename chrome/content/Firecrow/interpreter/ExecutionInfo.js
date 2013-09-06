@@ -310,7 +310,7 @@ fcBrowser.ExecutionInfo.prototype =
         }
     },
 
-    logEnteringFunction: function(functionConstruct)
+    logEnteringFunction: function(functionConstruct, executionContextId)
     {
         if(functionConstruct == null) { return; }
 

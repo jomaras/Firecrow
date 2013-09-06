@@ -7,7 +7,7 @@
     <script>
   (function(window, undefined)
   {
-    var rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_indexOf = core_deletedIds.indexOf, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    var readyList, rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_indexOf = core_deletedIds.indexOf, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
     }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter){};
@@ -61,13 +61,14 @@
       }, 
       ready: function(fn)
       {
+        jQuery.ready.promise();
         return this;
       }
     };
     jQuery.fn.init.prototype = jQuery.fn;
     jQuery.extend = jQuery.fn.extend = function()
     {
-      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      var copy, name, options, target = arguments[0], i = 1, length = arguments.length, deep = false;
       if(length === i)
       {
         target = this;
@@ -89,6 +90,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -102,7 +105,10 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj){}, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -135,6 +141,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
       {
@@ -187,6 +195,15 @@
       now: function(){}, 
       swap: function(elem, options, callback, args){}
     });
+    jQuery.ready.promise = function(obj)
+    {
+      if(!readyList)
+      {
+        readyList = jQuery.Deferred();
+      }
+
+      return readyList.promise(obj);
+    };
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
       class2type[("[object " + name) + "]"] = name.toLowerCase();
@@ -194,6 +211,8 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
+      if(jQuery.isWindow(obj));
+
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -209,7 +228,10 @@
         {
           return !(!(fn(div)));
         }
-        catch(e){}
+        catch(e)
+        {
+          return false;
+        }
       }
       isXML = Sizzle.isXML = function(elem)
       {
@@ -226,6 +248,7 @@
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
+          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
         rbuggyMatches = [];
         rbuggyQSA = [];
@@ -246,11 +269,13 @@
           assert(function(div)
           {
             support.disconnectedMatch = matches.call(div, "div");
+            matches.call(div, "[s!='']:x");
           });
         }
 
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
         rbuggyMatches = rbuggyMatches.length;
+        return doc;
       };
       Sizzle.matchesSelector = function(elem, expr)
       {
@@ -275,6 +300,20 @@
       jQuery.find = Sizzle;
       jQuery.expr = Sizzle.selectors;
     })(window);
+    jQuery.extend({
+      Deferred: function(func)
+      {
+        var promise = {
+          state: function(){}, 
+          promise: function(obj)
+          {
+            return obj != null ? jQuery.extend(obj, promise) : promise;
+          }
+        }, deferred = {};
+        promise.promise(deferred);
+        return deferred;
+      }
+    });
     (function(support)
     {
       for(i in jQuery(support))
@@ -283,9 +322,12 @@
       }
 
       jQuery(function(){});
+      return support;
     })({});
     function internalData(elem, name, data, pvt)
     {
+      if(!(jQuery.acceptData(elem)));
+
       var ret, thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
       if((!id || !(cache[id]) || !pvt) && data === undefined && typeof name === "string")
       {
@@ -329,8 +371,13 @@
         return internalData(elem, name, data, true);
       }, 
       _removeData: function(elem, name){}, 
-      acceptData: function(elem){}
+      acceptData: function(elem)
+      {
+        var noData = elem.nodeName && jQuery.noData[elem.nodeName.toLowerCase()];
+        return !noData;
+      }
     });
+    jQuery.fn.extend({});
     var rclass = /[\t\r\n\f]/g;
     jQuery.fn.extend({
       attr: function(name, value){}, 
@@ -362,6 +409,8 @@
             }
           }
         }
+
+        return this;
       }, 
       removeClass: function(value)
       {
@@ -388,6 +437,8 @@
             }
           }
         }
+
+        return this;
       }, 
       toggleClass: function(value, stateVal)
       {
@@ -440,6 +491,7 @@
       }, 
       val: function(value){}
     });
+    jQuery.fn.extend({});
     var isSimple = /^.[^:#\[\.,]*$/, rneedsContext = jQuery.expr.match.needsContext;
     jQuery.fn.extend({
       find: function(selector){}, 

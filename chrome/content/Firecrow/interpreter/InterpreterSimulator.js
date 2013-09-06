@@ -25,8 +25,6 @@ Firecrow.Interpreter.InterpreterSimulator = function(programAst, globalObject, h
 
     this.messageGeneratedCallbacks = [];
     this.controlFlowConnectionCallbacks = [];
-
-    globalObject.importantExpressionsTrace = globalObject.importantExpressionsTrace || [];
 };
 
 var fcSimulator = Firecrow.Interpreter.InterpreterSimulator;
@@ -58,7 +56,7 @@ fcSimulator.prototype = dummy =
 
                 if(codeConstruct != null && ASTHelper.isMemberExpression(codeConstruct.parent) || ASTHelper.isCallExpressionCallee(codeConstruct))
                 {
-                    this.globalObject.importantExpressionsTrace.push({codeConstruct: codeConstruct, index: codeConstruct.maxCreatedDependencyIndex });
+                    this.globalObject.browser.callNullProblematicReachedCallbacks(codeConstruct);
                 }
 
                 //Uncomment to enable application tracing
