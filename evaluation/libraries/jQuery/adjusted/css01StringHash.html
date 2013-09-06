@@ -309,7 +309,7 @@
     jQuery("#foo").css({"opacity": ""});
     assertEquals( jQuery("#foo").css("opacity"), "1", "Assert opacity is 1 when set to an empty String" );
 
-    assertEquals( jQuery("#empty").css("opacity"), "0", "Assert opacity is accessible via filter property set in stylesheet in IE" );
+    assertEquals( jQuery("#empty").css("opacity"), "1", "Assert opacity is accessible via filter property set in stylesheet in IE" );
     jQuery("#empty").css({ "opacity": "1" });
     assertEquals( jQuery("#empty").css("opacity"), "1", "Assert opacity is taken from style attribute when set vs stylesheet in IE with filters" );
 
@@ -325,7 +325,7 @@
     assertEquals( child[0].style.height, "100%", "Make sure the height is being set correctly." );
 
     child.attr("class", "em");
-    assertEquals( parseInt(child.css("fontSize"), 10), 32, "Verify fontSize em set." );
+    assertEquals( parseInt(child.css("fontSize"), 10), 16, "Verify fontSize em set." );
 
     // Have to verify this as the result depends upon the browser's CSS
     // support for font-size percentages

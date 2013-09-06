@@ -723,7 +723,8 @@ fcSimulator.ExecutionContextStack.prototype =
         this.globalObject.browser.logEnteringFunction
         (
             enterFunctionCommand.parentFunctionCommand != null ? enterFunctionCommand.parentFunctionCommand.codeConstruct : null,
-            functionConstruct
+            functionConstruct,
+            fcSimulator.ExecutionContext.LAST_ID
         );
 
         if(enterFunctionCommand.isEnterEventHandler) { sentArgumentsValues = enterFunctionCommand.argumentValues; }

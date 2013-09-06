@@ -244,7 +244,17 @@
       }, 
       grep: function(elems, callback, inv)
       {
-        var ret = [];
+        var retVal, ret = [], i = 0, length = elems.length;
+        inv = !(!inv);
+        for(;i < length;i++)
+        {
+          retVal = !(!(callback(elems[i], i)));
+          if(inv !== retVal)
+          {
+            ret.push(elems[i]);
+          }
+        }
+
         return ret;
       }, 
       map: function(elems, callback, arg)
@@ -286,9 +296,10 @@
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-      var support, Expr, setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
-        "bool": new RegExp(("^(?:" + booleans) + ")$", "i")
-      };
+      var support, Expr, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, rbuggyMatches, matches, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", whitespace = "[\\x20\\t\\r\\n\\f]", rattributeQuotes = new RegExp(((("=" + whitespace) + "*([^\\]'\"]*)") + whitespace) + "*\\]", "g"), matchExpr = {
+        "bool": new RegExp(("^(?:" + booleans) + ")$", "i"), 
+        "needsContext": new RegExp(((((("^" + whitespace) + "*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(") + whitespace) + "*((?:-\\d)?\\d*)") + whitespace) + "*\\)|)(?=[^-]|$)", "i")
+      }, rnative = /^[^{]+\{\s*\[native \w/;
       function Sizzle(selector, context, results, seed){}      function assert(fn)
       {
         var div = document.createElement("div");
@@ -298,9 +309,9 @@
         }
         catch(e){}
       }
-      Sizzle.isXML = function(elem)
+      isXML = Sizzle.isXML = function(elem)
       {
-        var documentElement = elem && (elem.ownerDocument).documentElement;
+        var documentElement = elem && (elem.ownerDocument || elem).documentElement;
         return documentElement ? documentElement.nodeName !== "HTML" : 0;
       };
       support = Sizzle.support = {};
@@ -309,6 +320,7 @@
         var doc = node ? 0 : preferredDoc;
         document = doc;
         docElem = doc.documentElement;
+        documentIsHTML = !(isXML(doc));
         support.attributes = assert(function(div)
         {
           div.className = "i";
@@ -318,6 +330,46 @@
         {
           docElem.appendChild(div).id = expando;
         });
+        rbuggyMatches = [];
+        rbuggyQSA = [];
+        if(support.qsa = rnative.test(doc.querySelectorAll))
+        {
+          assert(function(div)
+          {
+            div.innerHTML = "<select><option selected=''></option></select>";
+            if(!(div.querySelectorAll(":checked").length))
+            {
+              rbuggyQSA.push(":checked");
+            }
+          });
+        }
+
+        if(support.matchesSelector = rnative.test(matches = docElem.webkitMatchesSelector))
+        {
+          assert(function(div)
+          {
+            support.disconnectedMatch = matches.call(div, "div");
+          });
+        }
+
+        rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
+        rbuggyMatches = rbuggyMatches.length;
+      };
+      Sizzle.matchesSelector = function(elem, expr)
+      {
+        expr = expr.replace(rattributeQuotes, "='$1']");
+        if(support.matchesSelector && documentIsHTML && !rbuggyMatches && (!rbuggyQSA || !(rbuggyQSA.test(expr))))
+        {
+          try
+          {
+            var ret = matches.call(elem, expr);
+            if(ret || support.disconnectedMatch)
+            {
+              return ret;
+            }
+          }
+          catch(e){}
+        }
       };
       Sizzle.attr = function(elem, name)
       {
@@ -527,6 +579,7 @@
         };
       }
     });
+    var isSimple = /^.[^:#\[\.,]*$/, rneedsContext = jQuery.expr.match.needsContext;
     jQuery.fn.extend({
       find: function(selector){}, 
       has: function(target){}, 
@@ -535,17 +588,40 @@
       {
         return this.pushStack(winnow(this, selector, false));
       }, 
-      is: function(selector){}, 
+      is: function(selector)
+      {
+        return !(!(winnow(this, typeof selector === "string" && rneedsContext.test(selector) ? 0 : selector, false).length));
+      }, 
       closest: function(selectors, context){}, 
       index: function(elem){}, 
       add: function(selector, context){}, 
       addBack: function(selector){}
     });
+    jQuery.extend({
+      filter: function(expr, elems, not)
+      {
+        var elem = elems[0];
+        return elems.length === 1 && elem.nodeType === 1 ? jQuery.find.matchesSelector(elem, expr) ? 0 : [] : 0;
+      }, 
+      dir: function(elem, dir, until){}, 
+      sibling: function(n, elem){}
+    });
     function winnow(elements, qualifier, not)
     {
       if(jQuery.isFunction(qualifier))
       {
-        return jQuery.grep(elements, function(elem, i){});
+        return jQuery.grep(elements, function(elem, i)
+        {
+          return !(!(qualifier.call(elem, i, elem))) !== not;
+        });
+      }
+
+      if(typeof qualifier === "string")
+      {
+        if(isSimple.test(qualifier))
+        {
+          return jQuery.filter(qualifier, elements, not);
+        }
       }
     }
     function createSafeFragment(document)
@@ -553,7 +629,7 @@
       var safeFrag = document.createDocumentFragment();
       return safeFrag;
     }
-    var rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g, rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
+    var rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g, rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, manipulation_rcheckableType = /^(?:checkbox|radio)$/i, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
     };
     jQuery.fn.extend({
@@ -695,7 +771,7 @@
       _evalUrl: function(url){}
     });
     jQuery(function(){});
-    var r20 = /%20/g;
+    var r20 = /%20/g, rCRLF = /\r?\n/g, rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i, rsubmittable = /^(?:input|select|textarea|keygen)/i;
     jQuery.fn.extend({
       serialize: function()
       {
@@ -706,13 +782,36 @@
         return this.map(function()
         {
           var elements = jQuery.prop(this, "elements");
-          return elements ? jQuery.makeArray(elements) : 0;
-        }).filter(function(){}).map(function(i, elem){}).get();
+          return elements ? 0 : this;
+        }).filter(function()
+        {
+          var type = this.type;
+          return this.name && !(jQuery(this).is(":disabled")) && rsubmittable.test(this.nodeName) && !(rsubmitterTypes.test(type)) && (this.checked || !(manipulation_rcheckableType.test(type)));
+        }).map(function(i, elem)
+        {
+          var val = jQuery(this).val();
+          return val == null ? 0 : jQuery.isArray(val) ? 0 : {
+            name: elem.name, 
+            value: val.replace(rCRLF, "\r\n")
+          };
+        }).get();
       }
     });
     jQuery.param = function(a, traditional)
     {
-      var s = [];
+      var s = [], add = function(key, value)
+      {
+        value = jQuery.isFunction(value) ? 0 : value == null ? 0 : value;
+        s[s.length] = (encodeURIComponent(key) + "=") + encodeURIComponent(value);
+      };
+      if(jQuery.isArray(a))
+      {
+        jQuery.each(a, function()
+        {
+          add(this.name, this.value);
+        });
+      }
+
       return s.join("&").replace(r20, "+");
     };
     jQuery.fn.extend({
@@ -813,7 +912,7 @@
 </dl>
 
 
-<script>  function assert(a){if(!a)debugger;} function assertEquals(a,b){if(a!=b)debugger;}
+<script>
   var checks, $button;
   document.getElementById("text1").value = "bla";
   assertEquals(jQuery("#text1").val(), "bla", "Check for modified value of input element");

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
+<head>
+
+<script>
+(function(window, undefined)
+{
+    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    {
+        return new jQuery.fn.init(selector, context, rootjQuery);
+    }, core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter){};
+    jQuery.fn = jQuery.prototype = {
+        init: function(selector, context, rootjQuery)
+        {
+            if(typeof selector === "string");
+            else if(selector.nodeType)
+            {
+                this[0] = selector;
+                this.length = 1;
+                return this;
+            }
+            else if(jQuery.isFunction(selector))
+            {
+                return rootjQuery.ready(selector);
+            }
+
+
+
+            return jQuery.makeArray(selector, this);
+        },
+        length: 0,
+        ready: function(fn)
+        {
+            return this;
+        }
+    };
+    jQuery.fn.init.prototype = jQuery.fn;
+    jQuery.extend = jQuery.fn.extend = function()
+    {
+        var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+        if(length === i)
+        {
+            target = this;
+            --i;
+        }
+
+        for(;i < length;i++)
+        {
+            if((options = arguments[i]) != null)
+            {
+                for(name in options)
+                {
+                    copy = options[name];
+                    if(deep);
+                    else if(copy !== undefined)
+                    {
+                        target[name] = copy;
+                    }
+                }
+            }
+        }
+
+        return target;
+    };
+    jQuery.extend({
+        expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""),
+        noConflict: function(deep){},
+        isReady: false,
+        readyWait: 1,
+        holdReady: function(hold){},
+        ready: function(wait){},
+        isFunction: function(obj)
+        {
+            return jQuery.type(obj) === "function";
+        },
+        isArray: Array.isArray || function(obj){},
+        isWindow: function(obj)
+        {
+            return obj != null && obj == obj.window;
+        },
+        isNumeric: function(obj){},
+        type: function(obj)
+        {
+            return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
+        },
+        isPlainObject: function(obj){},
+        isEmptyObject: function(obj){},
+        error: function(msg){},
+        parseHTML: function(data, context, keepScripts){},
+        parseJSON: function(data){},
+        parseXML: function(data){},
+        noop: function(){},
+        globalEval: function(data){},
+        camelCase: function(string)
+        {
+            return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, fcamelCase);
+        },
+        nodeName: function(elem, name){},
+        each: function(obj, callback, args)
+        {
+            var i = 0, length = obj.length, isArray = isArraylike(obj);
+            if(args);
+            else
+            {
+                if(isArray)
+                {
+                    for(;i < length;i++)
+                    {
+                        callback.call(obj[i], i, obj[i]);
+                    }
+                }
+            }
+
+            return obj;
+        },
+        trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0,
+        makeArray: function(arr, results)
+        {
+            var ret = results;
+            if(arr != null)
+            {
+                if(isArraylike(Object(arr)));
+                else
+                {
+                    core_push.call(ret, arr);
+                }
+            }
+
+            return ret;
+        },
+        inArray: function(elem, arr, i){},
+        merge: function(first, second){},
+        grep: function(elems, callback, inv){},
+        map: function(elems, callback, arg){},
+        guid: 1,
+        proxy: function(fn, context){},
+        access: function(elems, fn, key, value, chainable, emptyGet, raw)
+        {
+            var i = 0, length = elems.length, bulk = key == null;
+            if(jQuery.type(key) === "object")
+            {
+                chainable = true;
+                for(i in key)
+                {
+                    jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
+                }
+            }
+            else if(value !== undefined)
+            {
+                chainable = true;
+                if(!(jQuery.isFunction(value)))
+                {
+                    raw = true;
+                }
+
+                if(fn)
+                {
+                    for(;i < length;i++)
+                    {
+                        fn(elems[i], key, raw ? value : 0);
+                    }
+                }
+            }
+
+
+            return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : 0;
+        },
+        now: function(){},
+        swap: function(elem, options, callback, args){}
+    });
+    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
+    {
+        class2type[("[object " + name) + "]"] = name.toLowerCase();
+    });
+    function isArraylike(obj)
+    {
+        var length = obj.length, type = jQuery.type(obj);
+        if(jQuery.isWindow(obj));
+
+        return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
+    }
+    rootjQuery = jQuery(document);
+    jQuery.extend({});
+    jQuery.support = (function(support)
+    {
+        for(i in jQuery(support))
+        {
+            break;
+        }
+
+        jQuery(function(){});
+        return support;
+    })({});
+    jQuery.fn.extend({});
+    var getStyles, curCSS, rnumsplit = new RegExp(("^(" + core_pnum) + ")(.*)$", "i"), cssExpand = ["Top", "Right", "Bottom", "Left"];
+    function vendorPropName(style, name)
+    {
+        if(name in style)
+        {
+            return name;
+        }
+    }
+    jQuery.fn.extend({
+        css: function(name, value)
+        {
+            return jQuery.access(this, function(elem, name, value)
+            {
+                return value !== undefined ? jQuery.style(elem, name, value) : jQuery.css(elem, name);
+            }, name, value, arguments.length > 1);
+        },
+        show: function(){},
+        hide: function(){},
+        toggle: function(state){}
+    });
+    jQuery.extend({
+        cssHooks: {},
+        cssNumber: {},
+        cssProps: {},
+        style: function(elem, name, value, extra)
+        {
+            var hooks, origName = jQuery.camelCase(name), style = elem.style;
+            name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(style, origName));
+            hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName];
+            if(value !== undefined)
+            {
+                if(!hooks || !("set" in hooks) || (value = hooks.set(elem, value, extra)) !== undefined)
+                {
+                    try
+                    {
+                        style[name] = value;
+                    }
+                    catch(e){}
+                }
+            }
+        },
+        css: function(elem, name, extra, styles)
+        {
+            var num, val, hooks, origName = jQuery.camelCase(name);
+            name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(elem.style, origName));
+            hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName];
+            if(hooks && "get" in hooks)
+            {
+                val = hooks.get(elem, true, extra);
+            }
+
+            if(val === undefined)
+            {
+                val = curCSS(elem, name, styles);
+            }
+
+            if(extra === "" || extra)
+            {
+                num = parseFloat(val);
+                return extra === true ? num || 0 : 0;
+            }
+
+            return val;
+        }
+    });
+    if(window.getComputedStyle)
+    {
+        getStyles = function(elem)
+        {
+            return window.getComputedStyle(elem, null);
+        };
+        curCSS = function(elem, name, _computed)
+        {
+            var computed = _computed, ret = computed ? computed.getPropertyValue(name) || computed[name] : 0;
+            return ret;
+        };
+    }
+
+    function setPositiveNumber(elem, value, subtract)
+    {
+        var matches = rnumsplit.exec(value);
+        return matches ? Math.max(0, matches[1] - (subtract || 0)) + matches[2] : 0;
+    }
+    function augmentWidthOrHeight(elem, name, extra, isBorderBox, styles)
+    {
+        var i = extra === (isBorderBox ? "border" : 0) ? 0 : name === "width" ? 1 : 0, val = 0;
+        for(;i < 4;i += 2)
+        {
+            if(isBorderBox)
+            {
+                if(extra === "content")
+                {
+                    val -= jQuery.css(elem, "padding" + cssExpand[i], true, styles);
+                }
+
+                if(extra !== "margin")
+                {
+                    val -= jQuery.css(elem, ("border" + cssExpand[i]) + "Width", true, styles);
+                }
+            }
+        }
+
+        return val;
+    }
+    function getWidthOrHeight(elem, name, extra)
+    {
+        var valueIsBorderBox = true, val = name === "width" ? elem.offsetWidth : 0, styles = getStyles(elem), isBorderBox = jQuery.support.boxSizing;
+        return (val + augmentWidthOrHeight(elem, name, extra || (isBorderBox ? 0 : "content"), valueIsBorderBox, styles)) + "px";
+    }
+    jQuery.each(["height", "width"], function(i, name)
+    {
+        jQuery.cssHooks[name] = {
+            get: function(elem, computed, extra)
+            {
+                if(computed)
+                {
+                    return elem.offsetWidth === 0 ? 0 : getWidthOrHeight(elem, name, extra);
+                }
+            },
+            set: function(elem, value, extra)
+            {
+                return setPositiveNumber(elem, value, extra ? 0 : 0);
+            }
+        };
+    });
+    jQuery(function(){});
+    if(typeof module === "object");
+    else
+    {
+        window.$ = jQuery;
+    }
+})(window);
+</script>
+</head>
+
+<body id="body" style="">
+<div id="container" style="height: 100px; background-color: red; width: 100px; "></div>
+<script>
+    var container = document.getElementById("container");
+    var $elem = $(container);
+    $elem.css({"backgroundColor": "red", width: "100px"});
+    assertEquals($elem.css("width"), "100px");
+</script>
+
+
+</body>
+</html>

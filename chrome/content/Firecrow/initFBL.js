@@ -42,12 +42,10 @@ FBL.ns(function () { with (FBL)
 
         includeNode: function(node, isIncludedByPostprocessor, dependencyIndex, dependencyConstraint)
         {
-            //if(node.loc != null && node.loc.start.line >= 1378 && node.loc.start.line <= 5975) debugger;
             if(isIncludedByPostprocessor && !node.shouldBeIncluded)
             {
                 node.isIncludedByPostprocessor = isIncludedByPostprocessor;
             }
-
             node.shouldBeIncluded = true;
 
             if(node.maxIncludedByDependencyIndex == null) { node.maxIncludedByDependencyIndex = dependencyIndex; }

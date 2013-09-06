@@ -6,16 +6,12 @@
 </head>
 
 <body id="body">
-
-<form id="form" action="formaction">
-    <input type='checkbox' name='test' value='1'/>
-    <input type='checkbox' name='test' value='2'/>
-</form>
-
+    <div id="container" style="height: 100px"></div>
 <script>
-    var checks = $("input");
-    checks.val([ "2" ]);
-    assertEquals( checks.serialize(), "test=2", "Get a single checked value." );
+    var container = document.getElementById("container");
+    var $elem = $(container);
+    $elem.css({ "backgroundColor": "red", width: "100px"});
+    assertEquals($elem.css("width"), "100px");
 </script>
 
 </body>

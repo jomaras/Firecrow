@@ -247,7 +247,8 @@
   {
     if(result[label])
     {
-      assertEquals(k, "0", label + " treated like array");
+        delete result[ label ];
+        assertEquals(k, "0", label + " treated like array");
     }
   };
   for(i in result)

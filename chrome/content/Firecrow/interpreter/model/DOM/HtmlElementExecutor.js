@@ -86,6 +86,8 @@ fcModel.HtmlElementExecutor =
                 }
             case "click":
             case "reset":
+                //TODO - problem with reset, my html nodes are created by document.createElement() and then
+                //setting properties, and reset resets to the values in the HTML code, and not to the dynamically set ones
                 if(thisObjectValue[functionName] != null)
                 {
                     try{thisObjectValue[functionName]();}catch(e){}

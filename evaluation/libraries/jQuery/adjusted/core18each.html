@@ -301,7 +301,7 @@
         seen.push( v );
         return false;
     });
-    assertEquals( seen.a, 1, "Broken object iteration" );
+    assertEquals( seen[0], 1, "Broken object iteration" );
 
     seen = {
         Zero: function() {},

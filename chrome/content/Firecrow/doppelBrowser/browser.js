@@ -362,14 +362,14 @@ Browser.prototype = dummy =
         return map;
     },
 
-    logEnteringFunction: function(callExpression, functionConstruct)
+    logEnteringFunction: function(callExpression, functionConstruct, executionContextId)
     {
         if(functionConstruct != null)
         {
             this.executionInfo.logEnteringFunction(functionConstruct);
         }
 
-        this.callEnterFunctionCallbacks(callExpression, functionConstruct);
+        this.callEnterFunctionCallbacks(callExpression, functionConstruct, executionContextId);
     },
 
     logExitingFunction: function()
@@ -885,11 +885,11 @@ Browser.prototype = dummy =
         });
     },
 
-    callEnterFunctionCallbacks: function(callExpression, functionConstruct)
+    callEnterFunctionCallbacks: function(callExpression, functionConstruct, executionContextId)
     {
         this.enterFunctionCallbacks.forEach(function(callbackObject)
         {
-            callbackObject.callback.call(callbackObject.thisObject, callExpression, functionConstruct);
+            callbackObject.callback.call(callbackObject.thisObject, callExpression, functionConstruct, executionContextId);
         });
     },
 

@@ -407,7 +407,7 @@
 </dl>
 
 
-<script>
+<script>   function assert(a){if(!a)debugger;} function assertEquals(a,b){if(a!=b)debugger;}
   var div, pass, i;
   div = jQuery("div");
   div.each(function()
@@ -449,7 +449,7 @@
     seen.push(v);
     return false;
   });
-  assertEquals(seen.a, 1, "Broken object iteration");
+  assertEquals(seen[0], 1, "Broken object iteration");
   seen = {
     Zero: function(){}, 
     One: function(a){}, 
@@ -500,7 +500,7 @@
     if(seen[label])
     {
       assertEquals(k, "0", label + " treated like array");
-      return ;
+      return false;
     }
   };
   for(i in seen)

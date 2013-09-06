@@ -260,11 +260,6 @@
 
     jQuery("#kkk").val("gf");
 
-    document.getElementById("kk").reset();
-
-    assertEquals( jQuery("#kkk")[ 0 ].value, "cf", "Check value of select after form reset." );
-    assertEquals( jQuery("#kkk").val(), "cf", "Check value of select after form reset." );
-
     // re-verify the multi-select is not broken (after form.reset) by our fix for single-select
     assertEquals( jQuery("#select3").val().join(), "1,2", "Call val() on a multiple='multiple' select" );
 

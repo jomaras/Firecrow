@@ -371,8 +371,8 @@
 
 <script>
   var $links = jQuery("#ap a"), $none = jQuery("asdf");
-  assertEquals($links.first().get(), $links[0], "first()");
-  assertEquals($links.last().get(), $links[$links.length - 1], "last()");
+  assertEquals($links.first().get()[0], $links[0], "first()");
+  assertEquals($links.last().get()[0], $links[$links.length - 1], "last()");
   assertEquals($none.first().get().length, 0, "first() none");
   assertEquals($none.last().get().length, 0, "last() none");
 </script>

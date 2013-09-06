@@ -308,10 +308,11 @@ fcSimulator.Evaluator.prototype =
 
         this.globalObject.browser.logConstructExecuted(returnCommand.codeConstruct);
 
+        this.globalObject.browser.callBreakContinueReturnEventCallbacks(returnCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+
         //If return is in event handler function
         if(returnCommand.parentFunctionCommand == null)
         {
-            this.globalObject.browser.callBreakContinueReturnEventCallbacks(returnCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
             return;
         }
 
