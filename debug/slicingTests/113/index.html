@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        var obj = {arr: [1,2]};
+        var a1 = 0;
+
+        obj.arr.map(function(i)
+        {
+            if(obj.arr)
+            {
+                delete obj.arr;
+                a1+=i;
+            }
+        });
+
+        a1;
+    </script>
+</body>
+</html>

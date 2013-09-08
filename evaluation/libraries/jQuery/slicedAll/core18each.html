@@ -7,10 +7,10 @@
     <script>
   (function(window, undefined)
   {
-    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    var readyList, rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
-    }, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+    }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
     jQuery.fn = jQuery.prototype = {
       constructor: jQuery, 
       init: function(selector, context, rootjQuery)
@@ -62,6 +62,7 @@
       }, 
       ready: function(fn)
       {
+        jQuery.ready.promise();
         return this;
       }
     };
@@ -90,8 +91,6 @@
           }
         }
       }
-
-      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -105,10 +104,7 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj)
-      {
-        return obj != null && obj == obj.window;
-      }, 
+      isWindow: function(obj){}, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -194,6 +190,13 @@
       now: function(){}, 
       swap: function(elem, options, callback, args){}
     });
+    jQuery.ready.promise = function(obj)
+    {
+      if(!readyList)
+      {
+        jQuery.Deferred();
+      }
+    };
     jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
       class2type[("[object " + name) + "]"] = name.toLowerCase();
@@ -201,14 +204,14 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
-      if(jQuery.isWindow(obj));
-
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-      var isXML, setDocument, document, docElem, documentIsHTML, expando = "sizzle" + -(new Date()), preferredDoc = window.document, arr = [], push_native = arr.push, push = arr.push, slice = arr.slice, rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/;
+      var isXML, setDocument, document, docElem, documentIsHTML, expando = "sizzle" + -(new Date()), preferredDoc = window.document, arr = [], push_native = arr.push, push = arr.push, slice = arr.slice, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
+        "bool": new RegExp(("^(?:" + booleans) + ")$", "i")
+      }, rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/;
       try
       {
         push.apply(arr = slice.call(preferredDoc.childNodes), preferredDoc.childNodes);
@@ -235,7 +238,7 @@
             else if(match[2])
             {
               push.apply(results, context.getElementsByTagName(selector));
-              return results;
+              return ;
             }
           }
         }
@@ -265,14 +268,63 @@
           docElem.appendChild(div).id = expando;
           return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
-        return doc;
+      };
+      Sizzle.selectors = {
+        match: matchExpr
       };
       setDocument();
       jQuery.find = Sizzle;
+      jQuery.expr = Sizzle.selectors;
     })(window);
-    jQuery.extend({});
-    (function(support)
+    function createOptions(options)
     {
+      jQuery.each(options.match(core_rnotwhite), function(_, flag){});
+    }
+    jQuery.Callbacks = function(options)
+    {
+      typeof options === "string" ? createOptions(options) : 0;
+      var list = [], self = {
+        add: function()
+        {
+          if(list)
+          {
+            (function add(args)
+            {
+              jQuery.each(args, function(_, arg){});
+            })(arguments);
+          }
+        }, 
+        disable: function(){}, 
+        lock: function(){}
+      };
+      return self;
+    };
+    jQuery.extend({
+      Deferred: function(func)
+      {
+        var tuples = [["resolve", "done", jQuery.Callbacks("once memory"), "resolved"], ["reject", "fail", jQuery.Callbacks("once memory"), "rejected"], ["notify", "progress", jQuery.Callbacks("memory")]];
+        jQuery.each(tuples, function(i, tuple)
+        {
+          var list = tuple[2], stateString = tuple[3];
+          if(stateString)
+          {
+            list.add(function(){}, tuples[i ^ 1][2].disable, tuples[2][2].lock);
+          }
+        });
+      }, 
+      when: function(subordinate){}
+    });
+    jQuery.support = (function(support)
+    {
+      var eventName, i, div = document.createElement("div");
+      div.setAttribute("className", "t");
+      div.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
+      for(i in {submit: true, change: true, focusin: true})
+      {
+        div.setAttribute(eventName = "on" + i, "t");
+        support[i + "Bubbles"] = eventName in window || div.attributes[eventName].expando === false;
+      }
+
       for(i in jQuery(support))
       {
         break;
@@ -281,7 +333,15 @@
       jQuery(function(){});
       return support;
     })({});
-    jQuery.fn.extend({});
+    jQuery.each(jQuery.expr.match.bool.source.match(/\w+/g), function(i, name){});
+    jQuery.each(["tabIndex", "readOnly", "maxLength", "cellSpacing", "cellPadding", "rowSpan", "colSpan", "useMap", "frameBorder", "contentEditable"], function(){});
+    jQuery.each(["radio", "checkbox"], function(){});
+    jQuery.each({mouseenter: "mouseover", mouseleave: "mouseout"}, function(orig, fix){});
+    if(!(jQuery.support.focusinBubbles))
+    {
+      jQuery.each({focus: "focusin", blur: "focusout"}, function(orig, fix){});
+    }
+
     jQuery.fn.extend({
       find: function(selector)
       {
@@ -303,7 +363,57 @@
       add: function(selector, context){}, 
       addBack: function(selector){}
     });
+    jQuery.each({
+      parent: function(elem){}, 
+      parents: function(elem){}, 
+      parentsUntil: function(elem, i, until){}, 
+      next: function(elem){}, 
+      prev: function(elem){}, 
+      nextAll: function(elem){}, 
+      prevAll: function(elem){}, 
+      nextUntil: function(elem, i, until){}, 
+      prevUntil: function(elem, i, until){}, 
+      siblings: function(elem){}, 
+      children: function(elem){}, 
+      contents: function(elem){}
+    }, function(name, fn){});
+    jQuery.each({appendTo: "append", prependTo: "prepend", insertBefore: "before", insertAfter: "after", replaceAll: "replaceWith"}, function(name, original){});
+    jQuery.extend({
+      cssHooks: {}, 
+      cssNumber: {}, 
+      cssProps: {}, 
+      style: function(elem, name, value, extra){}, 
+      css: function(elem, name, extra, styles){}
+    });
+    jQuery.each(["height", "width"], function(i, name){});
     jQuery(function(){});
+    jQuery.each({margin: "", padding: "", border: "Width"}, function(prefix, suffix){});
+    jQuery.each((("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ") + "change select submit keydown keypress keyup error contextmenu").split(" "), function(i, name){});
+    jQuery.each(["ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend"], function(i, type){});
+    jQuery.each(["get", "post"], function(i, method){});
+    jQuery.each(["toggle", "show", "hide"], function(i, name){});
+    function genFx(type, includeWidth)
+    {
+      var attrs = {};
+      return attrs;
+    }
+    jQuery.each({
+      slideDown: genFx("show"), 
+      slideUp: genFx("hide"), 
+      slideToggle: genFx("toggle"), 
+      fadeIn: {}, 
+      fadeOut: {}, 
+      fadeToggle: {}
+    }, function(name, props){});
+    jQuery.each({scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function(method, prop){});
+    jQuery.each({Height: "height", Width: "width"}, function(name, type)
+    {
+      jQuery.each({
+        padding: "inner" + name, 
+        content: type, 
+        "": "outer" + name
+      }, function(defaultExtra, funcName){});
+    });
     if(typeof module === "object");
     else 
     {
@@ -506,7 +616,7 @@
   seen = {
     "sparse Array": Array(4), 
     "length: 1 plain object": {length: 1, "0": true}, 
-    "length: 2 plain object": {length: 2, "0": true}, 
+    "length: 2 plain object": {length: 2, "0": true, "1": true}, 
     NodeList: document.getElementsByTagName("html")
   };
   callback = function(k)

@@ -259,7 +259,6 @@
     var tt8099 = jQuery("<tt/>").appendTo("body"),
             dfn8099 = jQuery("<dfn/>", { "html": "foo"}).appendTo("body");
 
-    assertEquals( tt8099.css("display"), "none", "default display override for all tt" );
     assertEquals( tt8099.show().css("display"), "inline", "Correctly resolves display:inline" );
 
     assertEquals( jQuery("#foo").hide().show().css("display"), "block", "Correctly resolves display:block after hide/show" );
@@ -267,7 +266,6 @@
     assertEquals( tt8099.hide().css("display"), "none", "default display override for all tt" );
     assertEquals( tt8099.show().css("display"), "inline", "Correctly resolves display:inline" );
 
-    assertEquals( dfn8099.css("display"), "none", "default display override for all dfn" );
     assertEquals( dfn8099.show().css("display"), "inline", "Correctly resolves display:inline" );
 
     tt8099.remove();

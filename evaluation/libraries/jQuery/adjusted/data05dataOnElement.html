@@ -318,6 +318,8 @@
 
     jQuery.removeData(elem, "foo");
     assertEquals( jQuery._data(elem, "foo"), "foo2", "(sanity check) jQuery.removeData for user data does not remove internal data" )
+    assertEquals(jQuery.isEmptyObject({}), true, "Object should be empty");
+    assertEquals(jQuery.isEmptyObject({a:3}), false, "Object should be empty");
 </script>
 
 </body>

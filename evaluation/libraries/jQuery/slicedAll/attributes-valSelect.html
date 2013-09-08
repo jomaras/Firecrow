@@ -116,8 +116,6 @@
           }
         }
       }
-
-      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -131,10 +129,7 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj)
-      {
-        return obj != null && obj == obj.window;
-      }, 
+      isWindow: function(obj){}, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -240,8 +235,6 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
-      if(jQuery.isWindow(obj));
-
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -267,7 +260,6 @@
           div.className = "i";
           return !(div.getAttribute("className"));
         });
-        return doc;
       };
       Sizzle.attr = function(elem, name)
       {
@@ -280,7 +272,6 @@
       setDocument();
       jQuery.find = Sizzle;
     })(window);
-    jQuery.extend({});
     jQuery.support = (function(support)
     {
       var a, input, select, opt, eventName, i, div = document.createElement("div");
@@ -310,7 +301,6 @@
       jQuery(function(){});
       return support;
     })({});
-    jQuery.fn.extend({});
     jQuery.fn.extend({
       attr: function(name, value){}, 
       removeAttr: function(name){}, 
@@ -395,7 +385,6 @@
       prop: function(elem, name, value){}, 
       propHooks: {}
     });
-    jQuery.extend({});
     function createSafeFragment(document)
     {
       var safeFrag = document.createDocumentFragment();
@@ -403,7 +392,7 @@
     }
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
-    }, safeFragment = createSafeFragment(document);
+    };
     jQuery.fn.extend({
       text: function(value){}, 
       append: function()
@@ -430,8 +419,6 @@
             elem.parentNode.removeChild(elem);
           }
         }
-
-        return this;
       }, 
       empty: function(){}, 
       clone: function(dataAndEvents, deepDataAndEvents){}, 

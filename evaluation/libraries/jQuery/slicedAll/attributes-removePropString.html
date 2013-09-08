@@ -89,8 +89,6 @@
           }
         }
       }
-
-      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -104,10 +102,7 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj)
-      {
-        return obj != null && obj == obj.window;
-      }, 
+      isWindow: function(obj){}, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -195,8 +190,6 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
-      if(jQuery.isWindow(obj));
-
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -227,12 +220,10 @@
           docElem.appendChild(div).id = expando;
           return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
-        return doc;
       };
       setDocument();
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
-    jQuery.extend({});
     (function(support)
     {
       for(i in jQuery(support))
@@ -241,9 +232,7 @@
       }
 
       jQuery(function(){});
-      return support;
     })({});
-    jQuery.fn.extend({});
     jQuery.fn.extend({
       attr: function(name, value){}, 
       removeAttr: function(name){}, 

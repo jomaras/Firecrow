@@ -243,19 +243,15 @@ FBL.ns(function() { with (FBL) {
                 this._traverseImportantDependencies(this.importantConstructDependencyIndexMapping);
                 this._traverseHtmlNodeDependencies(this.htmlNodes);
 
-                this._traverseExecutedBlockDependencies();
-
                 if(fcGraph.DependencyGraph.sliceUnions)
                 {
-                    var addedDependencies = this._traverseSliceUnionPossibleProblems(this.nullProblematicTrace);
+                    var addedDependencies = this._traverseSliceUnionProblematicDependencies();
 
                     while(addedDependencies != 0)
                     {
-                        addedDependencies = this._traverseSliceUnionPossibleProblems(this.nullProblematicTrace);
+                        addedDependencies = this._traverseSliceUnionProblematicDependencies();
                     }
                 }
-
-                this._traverseBreakContinueReturnEventsDependencies();
 
                 Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement(model);
             }
@@ -264,6 +260,19 @@ FBL.ns(function() { with (FBL) {
                 debugger;
                 this.notifyError("Error when marking graph: " + e);
             }
+        },
+
+        _traverseSliceUnionProblematicDependencies: function()
+        {
+            var addedDependencies = 0;
+
+            addedDependencies += this._traverseExecutedBlockDependencies();
+            addedDependencies += this._traverseSliceUnionPossibleProblems(this.nullProblematicTrace);
+
+            addedDependencies += this._traverseBreakContinueReturnEventsDependencies();
+            addedDependencies += this._traverseExecutedBlockDependencies();
+
+            return addedDependencies
         },
 
         _traverseImportantDependencies: function(executionTrace)
@@ -312,6 +321,8 @@ FBL.ns(function() { with (FBL) {
 
         _traverseExecutedBlockDependencies: function()
         {
+            var addedDependencies = 0;
+
             for(var i = 0, length = this.previouslyExecutedBlockDependencies.length; i < length; i++)
             {
                 var blockDependency = this.previouslyExecutedBlockDependencies[i];
@@ -319,17 +330,22 @@ FBL.ns(function() { with (FBL) {
                 //only if some of at least one sub-expression is already included in the previous phases
                 if(this.inclusionFinder.isIncludedElement(blockDependency.codeConstruct.parent))
                 {
-                    this._mainTraverseAndMark(blockDependency.codeConstruct, blockDependency.maxDependencyIndex, blockDependency.dependencyConstraint, blockDependency.includedByNode);
+                    addedDependencies += this._mainTraverseAndMark(blockDependency.codeConstruct, blockDependency.maxDependencyIndex, blockDependency.dependencyConstraint, blockDependency.includedByNode);
                 }
             }
+
+            return addedDependencies;
         },
 
         _traverseBreakContinueReturnEventsDependencies: function()
         {
+            var addedDependencies = 0;
+
             for(var i = 0; i < this.breakContinueReturnEventsMapping.length; i++)
             {
                 var mapping = this.breakContinueReturnEventsMapping[i];
                 var codeConstruct = mapping.codeConstruct;
+
                 var parent = ASTHelper.getBreakContinueReturnImportantAncestor(codeConstruct);
 
                 if(!this.inclusionFinder.isIncludedElement(parent)) { continue; }
@@ -337,9 +353,11 @@ FBL.ns(function() { with (FBL) {
 
                 if(this._contextHasIncludedDependencies(mapping.executionContextId))
                 {
-                    this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
+                    addedDependencies += this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
                 }
             }
+
+            return addedDependencies;
         },
 
         _contextHasIncludedDependencies: function(referentExecutionContextId)
@@ -413,10 +431,10 @@ FBL.ns(function() { with (FBL) {
 
         _mainTraverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint)
         {
-            this._traverseAndMark(codeConstruct, maxDependencyIndex, dependencyConstraint);
+            return this._traverseAndMark(codeConstruct, maxDependencyIndex, dependencyConstraint, 0);
         },
 
-        _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint)
+        _traverseAndMark: function(codeConstruct, maxDependencyIndex, dependencyConstraint, addedDependencies)
         {
             Firecrow.includeNode(codeConstruct, false, maxDependencyIndex, dependencyConstraint);
 
@@ -435,7 +453,7 @@ FBL.ns(function() { with (FBL) {
 
                 dependencyEdge.hasBeenTraversed = true;
                 this.traversedEdgesMap[dependencyEdge.index] = true;
-
+                addedDependencies++;
                 var dependencyConstraintToFollow = dependencyConstraint;
 
                 if(dependencyConstraintToFollow == null){ dependencyConstraintToFollow = dependencyEdge.destinationNodeDependencyConstraints; }
@@ -468,8 +486,10 @@ FBL.ns(function() { with (FBL) {
                     continue;
                 }
                 //if(dependencyEdge.index >= 49955 && dependencyEdge.index < 253284) debugger;3
-                this._traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model);
+                this._traverseAndMark(dependencyEdge.destinationNode.model, dependencyEdge.index, dependencyConstraintToFollow, dependencyEdge.sourceNode.model, addedDependencies);
             }
+
+            return addedDependencies;
         },
 
         notifyError: function(message)

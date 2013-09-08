@@ -28,8 +28,6 @@
             {
               context = context instanceof jQuery ? 0 : context;
               jQuery.merge(this, jQuery.parseHTML(match[1], context && context.nodeType ? context.ownerDocument : document, true));
-              if(jQuery.isPlainObject(context));
-
               return this;
             }
           }
@@ -78,8 +76,6 @@
           }
         }
       }
-
-      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -93,22 +89,13 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj)
-      {
-        return obj != null && obj == obj.window;
-      }, 
+      isWindow: function(obj){}, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
         return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : 0;
       }, 
-      isPlainObject: function(obj)
-      {
-        if(!obj)
-        {
-          return false;
-        }
-      }, 
+      isPlainObject: function(obj){}, 
       isEmptyObject: function(obj){}, 
       error: function(msg){}, 
       parseHTML: function(data, context, keepScripts)
@@ -140,8 +127,6 @@
             }
           }
         }
-
-        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -171,7 +156,6 @@
         }
 
         first.length = i;
-        return first;
       }, 
       grep: function(elems, callback, inv){}, 
       map: function(elems, callback, arg){}, 
@@ -188,12 +172,9 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
-      if(jQuery.isWindow(obj));
-
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
-    jQuery.extend({});
     (function(support)
     {
       for(i in jQuery(support))
@@ -202,7 +183,6 @@
       }
 
       jQuery(function(){});
-      return support;
     })({});
     jQuery(function(){});
     if(typeof module === "object");

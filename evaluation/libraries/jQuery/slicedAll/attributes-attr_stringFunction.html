@@ -83,8 +83,6 @@
           }
         }
       }
-
-      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -98,10 +96,7 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj)
-      {
-        return obj != null && obj == obj.window;
-      }, 
+      isWindow: function(obj){}, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -131,8 +126,6 @@
             }
           }
         }
-
-        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -184,14 +177,12 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
-      if(jQuery.isWindow(obj));
-
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-      var support, Expr, isXML, setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
+      var support, Expr, setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
         "bool": new RegExp(("^(?:" + booleans) + ")$", "i")
       };
       function Sizzle(selector, context, results, seed){}      function assert(fn)
@@ -203,9 +194,9 @@
         }
         catch(e){}
       }
-      isXML = Sizzle.isXML = function(elem)
+      Sizzle.isXML = function(elem)
       {
-        var documentElement = elem && (elem.ownerDocument || elem).documentElement;
+        var documentElement = elem && (elem.ownerDocument).documentElement;
         return documentElement ? documentElement.nodeName !== "HTML" : 0;
       };
       support = Sizzle.support = {};
@@ -214,7 +205,6 @@
         var doc = node ? 0 : preferredDoc;
         document = doc;
         docElem = doc.documentElement;
-        !(isXML(doc));
         support.attributes = assert(function(div)
         {
           div.className = "i";
@@ -225,7 +215,6 @@
           docElem.appendChild(div).id = expando;
           return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
-        return doc;
       };
       Sizzle.attr = function(elem, name)
       {
@@ -241,7 +230,6 @@
       jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
-    jQuery.extend({});
     (function(support)
     {
       for(i in jQuery(support))
@@ -250,9 +238,7 @@
       }
 
       jQuery(function(){});
-      return support;
     })({});
-    jQuery.fn.extend({});
     var nodeHook;
     jQuery.fn.extend({
       attr: function(name, value)
@@ -286,7 +272,6 @@
           else 
           {
             elem.setAttribute(name, value + "");
-            return value;
           }
         }
         else if(hooks);

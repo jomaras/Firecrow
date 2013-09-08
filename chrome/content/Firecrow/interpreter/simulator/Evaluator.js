@@ -220,7 +220,6 @@ fcSimulator.Evaluator.prototype =
 
         if(propertyObject == null || propertyObject.modificationContext != this.executionContextStack.activeContext)
         {
-            //TODO HOW DO I UNIQUELY DIFFERENTIATE BETWEEN OBJECTS!?
             var creationConstructId = object.iValue.creationCodeConstruct != null ? object.iValue.creationCodeConstruct.nodeId : -1;
             this.globalObject.browser.logReadingObjectPropertyOutsideCurrentScope(creationConstructId, property.jsValue, memberExpression);
         }
@@ -285,6 +284,11 @@ fcSimulator.Evaluator.prototype =
 
         if(leftValue == null) { this._callExceptionCallbacks(); return; }
         if(rightValue == null) { this._callExceptionCallbacks(); return; }
+
+        if(binaryExpression.operator == "in")
+        {
+            this.dependencyCreator.createBinaryExpressionInDependencies(binaryExpression, rightValue, leftValue);
+        }
 
         var result = this._evalBinaryExpression(leftValue, rightValue, binaryExpression.operator);
 

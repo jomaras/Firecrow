@@ -113,8 +113,6 @@
           }
         }
       }
-
-      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -128,10 +126,7 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj)
-      {
-        return obj != null && obj == obj.window;
-      }, 
+      isWindow: function(obj){}, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -182,8 +177,6 @@
             }
           }
         }
-
-        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text)
       {
@@ -267,8 +260,6 @@
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
         var length = elems.length, bulk = key == null;
-        if(jQuery.type(key));
-
         return chainable ? 0 : bulk ? 0 : length ? fn(elems[0], key) : 0;
       }, 
       now: function(){}, 
@@ -281,8 +272,6 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
-      if(jQuery.isWindow(obj));
-
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -323,7 +312,6 @@
               try
               {
                 push.apply(results, newContext.querySelectorAll(newSelector));
-                return results;
               }
               catch(qsaError){}
             }
@@ -381,7 +369,6 @@
 
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
         rbuggyMatches = rbuggyMatches.length;
-        return doc;
       };
       Sizzle.matches = function(expr, elements)
       {
@@ -421,7 +408,6 @@
       jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
-    jQuery.extend({});
     jQuery.support = (function(support)
     {
       var a, input, eventName, i, div = document.createElement("div");
@@ -447,7 +433,6 @@
       jQuery(function(){});
       return support;
     })({});
-    jQuery.fn.extend({});
     var nodeHook, rclass = /[\t\r\n\f]/g;
     jQuery.fn.extend({
       attr: function(name, value)
@@ -494,7 +479,7 @@
           for(;i < len;i++)
           {
             elem = this[i];
-            cur = elem.nodeType === 1 && (elem.className ? ((" " + elem.className) + " ").replace(rclass, " ") : 0);
+            cur = elem.nodeType === 1 && (elem.className ? ((" " + elem.className) + " ").replace(rclass, " ") : "");
             if(cur)
             {
               j = 0;
@@ -554,7 +539,6 @@
       prop: function(elem, name, value){}, 
       propHooks: {}
     });
-    jQuery.fn.extend({});
     var isSimple = /^.[^:#\[\.,]*$/, rneedsContext = jQuery.expr.match.needsContext;
     jQuery.fn.extend({
       find: function(selector)
@@ -641,7 +625,6 @@
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
     };
-    jQuery.fn.extend({});
     jQuery.extend({
       clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection)

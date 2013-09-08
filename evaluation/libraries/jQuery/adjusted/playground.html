@@ -1,18 +1,28 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
 <head>
-    <title>jQuery Test Suite</title>
-    <script src="../jQuery-src.js"></script>
 </head>
+<script src="../jQuery-src.js"></script>
+<body id="body" style="">
 
-<body id="body">
-    <div id="container" style="height: 100px"></div>
 <script>
-    var container = document.getElementById("container");
-    var $elem = $(container);
-    $elem.css({ "backgroundColor": "red", width: "100px"});
-    assertEquals($elem.css("width"), "100px");
+    var a = Array(4);
+
+    callback = function(v, k)
+    {
+        if(result[label])
+        {
+            assertEquals(k, "0", label + " treated like array");
+        }
+    };
+    for(i in result)
+    {
+        label = i;
+        jQuery.map(result[i], callback);
+    }
 </script>
+
+
 
 </body>
 </html>

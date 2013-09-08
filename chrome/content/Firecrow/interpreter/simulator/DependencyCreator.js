@@ -473,10 +473,62 @@ fcSimulator.DependencyCreator.prototype =
     {
         if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createBinarySimpleDependencies(binaryExpression); }
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
 
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.left, evaluationPosition);
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, binaryExpression.right, evaluationPosition);
+    },
+
+    createBinaryExpressionInDependencies: function(binaryExpression, objectFcValue, propertyNameFcValue)
+    {
+        if(objectFcValue == null || propertyNameFcValue == null) { return; }
+        if(objectFcValue.iValue == null) { return; }
+
+        var propertyValue = objectFcValue.iValue.getJsPropertyValue(propertyNameFcValue.jsValue, binaryExpression);
+        var propertyExists = propertyValue !== undefined && propertyValue.jsValue !== undefined;
+
+        var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+        var fcProperty = objectFcValue.iValue.getProperty(propertyNameFcValue.jsValue, binaryExpression);
+
+        if(fcProperty != null)
+        {
+            if(fcProperty.lastModificationPosition != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    binaryExpression,
+                    fcProperty.lastModificationPosition.codeConstruct,
+                    evaluationPosition,
+                    fcProperty.lastModificationPosition.evaluationPositionId,
+                    null,
+                    true
+                );
+            }
+            else  if(fcProperty.declarationPosition != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks
+                (
+                    binaryExpression,
+                    fcProperty.declarationPosition.codeConstruct,
+                    evaluationPosition,
+                    fcProperty.declarationPosition.evaluationPositionId,
+                    null,
+                    true
+                );
+            }
+        }
+
+        if(!propertyExists)
+        {
+            var propertyDeletePosition = objectFcValue.iValue.getPropertyDeletionPosition(propertyNameFcValue.jsValue);
+
+            if(propertyDeletePosition != null)
+            {
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(binaryExpression, propertyDeletePosition.codeConstruct, evaluationPosition, propertyDeletePosition.evaluationPosition);
+            }
+        }
     },
 
     _createBinarySimpleDependencies: function(binaryExpression)

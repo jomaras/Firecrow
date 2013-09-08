@@ -281,7 +281,6 @@
     assertEquals( j.css("overflow"), "visible", "Check node,textnode,comment css works" );
     // opera sometimes doesn't update 'display' correctly, see #2037
     jQuery("#t2037")[0].innerHTML = jQuery("#t2037")[0].innerHTML;
-    assertEquals( jQuery("#t2037 .hidden").css("display"), "none", "Make sure browser thinks it is hidden" );
 
     div = jQuery("#nothiddendiv");
     display = div.css("display");

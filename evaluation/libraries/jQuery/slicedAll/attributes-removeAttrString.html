@@ -116,8 +116,6 @@
           }
         }
       }
-
-      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -131,10 +129,7 @@
         return jQuery.type(obj) === "function";
       }, 
       isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj)
-      {
-        return obj != null && obj == obj.window;
-      }, 
+      isWindow: function(obj){}, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
@@ -251,8 +246,6 @@
     function isArraylike(obj)
     {
       var length = obj.length, type = jQuery.type(obj);
-      if(jQuery.isWindow(obj));
-
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
     rootjQuery = jQuery(document);
@@ -292,7 +285,6 @@
           docElem.appendChild(div).id = expando;
           return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
-        return doc;
       };
       Sizzle.attr = function(elem, name)
       {
@@ -308,7 +300,6 @@
       jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
-    jQuery.extend({});
     jQuery.support = (function(support)
     {
       var a, input, fragment, eventName, i, div = document.createElement("div");
@@ -341,7 +332,6 @@
       jQuery(function(){});
       return support;
     })({});
-    jQuery.fn.extend({});
     var nodeHook, boolHook, getSetAttribute = jQuery.support.getSetAttribute, getSetInput = jQuery.support.input;
     jQuery.fn.extend({
       attr: function(name, value)
@@ -384,7 +374,6 @@
           else 
           {
             elem.setAttribute(name, value + "");
-            return value;
           }
         }
         else if(hooks && "get" in hooks);
@@ -455,7 +444,6 @@
     {
       jQuery.propFix[this.toLowerCase()] = this;
     });
-    jQuery.extend({});
     function createSafeFragment(document)
     {
       var safeFrag = document.createDocumentFragment();
@@ -463,7 +451,7 @@
     }
     var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, "", ""] : 0
-    }, safeFragment = createSafeFragment(document);
+    };
     jQuery.fn.extend({
       text: function(value){}, 
       append: function()
