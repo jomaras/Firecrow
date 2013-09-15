@@ -1049,6 +1049,13 @@ Firecrow.ASTHelper = ASTHelper =
         return this.isIfStatement(codeConstruct.parent) && codeConstruct.parent.alternate == codeConstruct && !this.isIfStatement(codeConstruct);
     },
 
+    isIfStatementCondition: function(codeConstruct)
+    {
+        if(codeConstruct == null) { return false; }
+
+        return this.isIfStatement(codeConstruct.parent) && codeConstruct.parent.test == codeConstruct;
+    },
+
     isElseIfStatement: function(codeConstruct)
     {
         if(!this.isIfStatement(codeConstruct)){ return false; }
@@ -1084,6 +1091,34 @@ Firecrow.ASTHelper = ASTHelper =
 
         return this.isMemberExpression(element.parent) && this.isAssignmentExpression(element.parent.parent)
              && element.parent.parent.left == element.parent && element.parent.parent.operator.length == 1;
+    },
+
+    isIfTest: function(element)
+    {
+        if(element == null) { return false; }
+
+        return ASTHelper.isIfStatement(element.parent) && element.parent.test == element;
+    },
+
+    isWhileTest: function(element)
+    {
+        if(element == null) { return false; }
+
+        return ASTHelper.isWhileStatement(element.parent) && element.parent.test == element;
+    },
+
+    isDoWhileTest: function(element)
+    {
+        if(element == null) { return false; }
+
+        return ASTHelper.isDoWhileStatement(element.parent) && element.parent.test == element;
+    },
+
+    isConditionalTest: function(element)
+    {
+        if(element == null) { return false; }
+
+        return ASTHelper.isConditionalExpression(element.parent) && element.parent.test == element;
     },
 
     areRelated: function(statements1, statements2)
@@ -1284,6 +1319,11 @@ Firecrow.ASTHelper = ASTHelper =
         return false;
     },
 
+    isDeleteExpression: function(element)
+    {
+        return this.isUnaryExpression(element) && element.operator == "delete";
+    },
+
     isMemberExpressionObject: function(element)
     {
         if(element == null) { return false; }
@@ -1402,6 +1442,27 @@ Firecrow.ASTHelper = ASTHelper =
             codeConstruct,
             [ this.CONST.STATEMENT.SwitchStatement ]
         );
+    },
+
+    getDescendantConditionsMap: function(codeConstruct)
+    {
+        var conditions = {};
+
+        if(codeConstruct == null) { return conditions; }
+
+        ASTHelper.traverseAst(codeConstruct, function(element)
+        {
+            //TODO - Do this for if, while, and conditional expressions
+            //For and for-in are also possibilities, switch, but i'm not sure should i include them
+            //This is a rare problem why i do this
+            if(ASTHelper.isIfTest(element) || ASTHelper.isWhileTest(element)
+            || ASTHelper.isDoWhileTest(element) || ASTHelper.isConditionalTest(element))
+            {
+                conditions[element.nodeId] = element;
+            }
+        });
+
+        return conditions;
     },
 
     isElementOfType: function(element, type)

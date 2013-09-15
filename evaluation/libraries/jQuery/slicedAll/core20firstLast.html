@@ -37,7 +37,7 @@
         }
         else if(selector.nodeType)
         {
-          this.context = this[0] = selector;
+          this[0] = selector;
           this.length = 1;
           return this;
         }
@@ -62,8 +62,6 @@
       pushStack: function(elems)
       {
         var ret = jQuery.merge(this.constructor(), elems);
-        ret.prevObject = this;
-        ret.context = this.context;
         return ret;
       }, 
       ready: function(fn)

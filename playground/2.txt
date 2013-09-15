@@ -1,800 +1,139 @@
-{
-  "docType": "",
-  "htmlElement": {
-    "type": "html",
-    "attributes": [
-      
-    ],
-    "childNodes": [
-      {
-        "type": "head",
-        "attributes": [
-          
-        ],
-        "childNodes": [
-          {
-            "type": "textNode",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 0,
-            "textContent": "\n    "
-          },
-          {
-            "type": "meta",
-            "attributes": [
-              {
-                "name": "charset",
-                "value": "UTF-8"
-              }
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 1
-          },
-          {
-            "type": "textNode",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 2,
-            "textContent": "\n    "
-          },
-          {
-            "type": "style",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              {
-                "type": "textNode",
-                "attributes": [
-                  
-                ],
-                "childNodes": [
-                  
-                ],
-                "nodeId": 3,
-                "textContent": "\n        .container { background-color: red; width: 100px; height: 100px; }\n    "
-              }
-            ],
-            "nodeId": 4,
-            "pathAndModel": {
-              "path": "file:///C:/GitWebStorm/Firecrow/playground/index.html",
-              "model": {
-                "rules": [
-                  {
-                    "selector": ".container",
-                    "cssText": ".container { background-color: red; width: 100px; height: 100px; }",
-                    "declarations": {
-                      "background-color": "red",
-                      "width": "100px",
-                      "height": "100px"
-                    },
-                    "nodeId": 5
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "type": "textNode",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 6,
-            "textContent": "\n    "
-          },
-          {
-            "type": "link",
-            "attributes": [
-              {
-                "name": "href",
-                "value": "style.css"
-              },
-              {
-                "name": "rel",
-                "value": "stylesheet"
-              }
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 7,
-            "pathAndModel": {
-              "path": "file:///C:/GitWebStorm/Firecrow/playground/style.css",
-              "model": {
-                "rules": [
-                  {
-                    "selector": ".or",
-                    "cssText": ".or { font-weight: bolder; }",
-                    "declarations": {
-                      "font-weight": "bolder"
-                    },
-                    "nodeId": 8
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "type": "textNode",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 9,
-            "textContent": "\n    "
-          },
-          {
-            "type": "script",
-            "attributes": [
-              {
-                "name": "type",
-                "value": "text/javascript"
-              },
-              {
-                "name": "src",
-                "value": "test.js"
-              }
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 10,
-            "textContent": "",
-            "pathAndModel": {
-              "path": "file:///C:/GitWebStorm/Firecrow/playground/test.js",
-              "model": {
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 24
-                  },
-                  "source": null
-                },
-                "type": "Program",
-                "body": [
-                  {
-                    "loc": {
-                      "start": {
-                        "line": 6,
-                        "column": 0
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 23
-                      },
-                      "source": null
-                    },
-                    "type": "VariableDeclaration",
-                    "kind": "var",
-                    "declarations": [
-                      {
-                        "loc": {
-                          "start": {
-                            "line": 6,
-                            "column": 4
-                          },
-                          "end": {
-                            "line": 6,
-                            "column": 23
-                          },
-                          "source": null
-                        },
-                        "type": "VariableDeclarator",
-                        "id": {
-                          "loc": {
-                            "start": {
-                              "line": 6,
-                              "column": 4
-                            },
-                            "end": {
-                              "line": 6,
-                              "column": 23
-                            },
-                            "source": null
-                          },
-                          "type": "Identifier",
-                          "name": "somethingVar",
-                          "nodeId": 15
-                        },
-                        "init": {
-                          "loc": {
-                            "start": {
-                              "line": 6,
-                              "column": 19
-                            },
-                            "end": {
-                              "line": 6,
-                              "column": 23
-                            },
-                            "source": null
-                          },
-                          "type": "Literal",
-                          "value": null,
-                          "nodeId": 16
-                        },
-                        "nodeId": 14
-                      }
-                    ],
-                    "nodeId": 12
-                  }
-                ],
-                "lineAdjuster": 0,
-                "source": "file:///C:/GitWebStorm/Firecrow/playground/test.js"
-              }
-            }
-          },
-          {
-            "type": "textNode",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 17,
-            "textContent": "\n"
-          }
-        ],
-        "nodeId": 18
-      },
-      {
-        "type": "textNode",
-        "attributes": [
-          
-        ],
-        "childNodes": [
-          
-        ],
-        "nodeId": 19,
-        "textContent": "\n"
-      },
-      {
-        "type": "body",
-        "attributes": [
-          
-        ],
-        "childNodes": [
-          {
-            "type": "textNode",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 20,
-            "textContent": "\n    "
-          },
-          {
-            "type": "div",
-            "attributes": [
-              {
-                "name": "class",
-                "value": "or"
-              }
-            ],
-            "childNodes": [
-              {
-                "type": "textNode",
-                "attributes": [
-                  
-                ],
-                "childNodes": [
-                  
-                ],
-                "nodeId": 21,
-                "textContent": "\n        "
-              },
-              {
-                "type": "div",
-                "attributes": [
-                  {
-                    "name": "class",
-                    "value": "container"
-                  }
-                ],
-                "childNodes": [
-                  {
-                    "type": "textNode",
-                    "attributes": [
-                      
-                    ],
-                    "childNodes": [
-                      
-                    ],
-                    "nodeId": 22,
-                    "textContent": "\n        "
-                  }
-                ],
-                "nodeId": 23
-              },
-              {
-                "type": "textNode",
-                "attributes": [
-                  
-                ],
-                "childNodes": [
-                  
-                ],
-                "nodeId": 24,
-                "textContent": "\n    "
-              }
-            ],
-            "nodeId": 25
-          },
-          {
-            "type": "textNode",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 26,
-            "textContent": "\n    "
-          },
-          {
-            "type": "script",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              {
-                "type": "textNode",
-                "attributes": [
-                  
-                ],
-                "childNodes": [
-                  
-                ],
-                "nodeId": 27,
-                "textContent": "\n        var container = document.querySelector(\".container\");\n\n        container.onclick = function(e)\n        {\n            container.textContent += \"Click\";\n        };\n    "
-              }
-            ],
-            "nodeId": 28,
-            "textContent": "\n        var container = document.querySelector(\".container\");\n\n        container.onclick = function(e)\n        {\n            container.textContent += \"Click\";\n        };\n    ",
-            "pathAndModel": {
-              "path": "file:///C:/GitWebStorm/Firecrow/playground/index.html",
-              "model": {
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 7,
-                    "column": 10
-                  },
-                  "source": null
-                },
-                "type": "Program",
-                "body": [
-                  {
-                    "loc": {
-                      "start": {
-                        "line": 2,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 60
-                      },
-                      "source": null
-                    },
-                    "type": "VariableDeclaration",
-                    "kind": "var",
-                    "declarations": [
-                      {
-                        "loc": {
-                          "start": {
-                            "line": 2,
-                            "column": 12
-                          },
-                          "end": {
-                            "line": 2,
-                            "column": 60
-                          },
-                          "source": null
-                        },
-                        "type": "VariableDeclarator",
-                        "id": {
-                          "loc": {
-                            "start": {
-                              "line": 2,
-                              "column": 12
-                            },
-                            "end": {
-                              "line": 2,
-                              "column": 60
-                            },
-                            "source": null
-                          },
-                          "type": "Identifier",
-                          "name": "container",
-                          "nodeId": 33
-                        },
-                        "init": {
-                          "loc": {
-                            "start": {
-                              "line": 2,
-                              "column": 24
-                            },
-                            "end": {
-                              "line": 2,
-                              "column": 60
-                            },
-                            "source": null
-                          },
-                          "type": "CallExpression",
-                          "callee": {
-                            "loc": {
-                              "start": {
-                                "line": 2,
-                                "column": 24
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 46
-                              },
-                              "source": null
-                            },
-                            "type": "MemberExpression",
-                            "object": {
-                              "loc": {
-                                "start": {
-                                  "line": 2,
-                                  "column": 24
-                                },
-                                "end": {
-                                  "line": 2,
-                                  "column": 32
-                                },
-                                "source": null
-                              },
-                              "type": "Identifier",
-                              "name": "document",
-                              "nodeId": 36
-                            },
-                            "property": {
-                              "loc": null,
-                              "type": "Identifier",
-                              "name": "querySelector",
-                              "nodeId": 37
-                            },
-                            "computed": false,
-                            "nodeId": 35
-                          },
-                          "arguments": [
-                            {
-                              "loc": {
-                                "start": {
-                                  "line": 2,
-                                  "column": 47
-                                },
-                                "end": {
-                                  "line": 2,
-                                  "column": 59
-                                },
-                                "source": null
-                              },
-                              "type": "Literal",
-                              "value": ".container",
-                              "nodeId": 39
-                            }
-                          ],
-                          "nodeId": 34
-                        },
-                        "nodeId": 32
-                      }
-                    ],
-                    "nodeId": 30
-                  },
-                  {
-                    "loc": {
-                      "start": {
-                        "line": 4,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 9
-                      },
-                      "source": null
-                    },
-                    "type": "ExpressionStatement",
-                    "expression": {
-                      "loc": {
-                        "start": {
-                          "line": 4,
-                          "column": 8
-                        },
-                        "end": {
-                          "line": 7,
-                          "column": 9
-                        },
-                        "source": null
-                      },
-                      "type": "AssignmentExpression",
-                      "operator": "=",
-                      "left": {
-                        "loc": {
-                          "start": {
-                            "line": 4,
-                            "column": 8
-                          },
-                          "end": {
-                            "line": 4,
-                            "column": 25
-                          },
-                          "source": null
-                        },
-                        "type": "MemberExpression",
-                        "object": {
-                          "loc": {
-                            "start": {
-                              "line": 4,
-                              "column": 8
-                            },
-                            "end": {
-                              "line": 4,
-                              "column": 17
-                            },
-                            "source": null
-                          },
-                          "type": "Identifier",
-                          "name": "container",
-                          "nodeId": 43
-                        },
-                        "property": {
-                          "loc": null,
-                          "type": "Identifier",
-                          "name": "onclick",
-                          "nodeId": 44
-                        },
-                        "computed": false,
-                        "nodeId": 42
-                      },
-                      "right": {
-                        "loc": {
-                          "start": {
-                            "line": 4,
-                            "column": 28
-                          },
-                          "end": {
-                            "line": 7,
-                            "column": 9
-                          },
-                          "source": null
-                        },
-                        "type": "FunctionExpression",
-                        "id": null,
-                        "params": [
-                          {
-                            "loc": {
-                              "start": {
-                                "line": 4,
-                                "column": 37
-                              },
-                              "end": {
-                                "line": 4,
-                                "column": 38
-                              },
-                              "source": null
-                            },
-                            "type": "Identifier",
-                            "name": "e",
-                            "nodeId": 47
-                          }
-                        ],
-                        "defaults": [
-                          
-                        ],
-                        "body": {
-                          "loc": {
-                            "start": {
-                              "line": 5,
-                              "column": 8
-                            },
-                            "end": {
-                              "line": 6,
-                              "column": 45
-                            },
-                            "source": null
-                          },
-                          "type": "BlockStatement",
-                          "body": [
-                            {
-                              "loc": {
-                                "start": {
-                                  "line": 6,
-                                  "column": 12
-                                },
-                                "end": {
-                                  "line": 6,
-                                  "column": 44
-                                },
-                                "source": null
-                              },
-                              "type": "ExpressionStatement",
-                              "expression": {
-                                "loc": {
-                                  "start": {
-                                    "line": 6,
-                                    "column": 12
-                                  },
-                                  "end": {
-                                    "line": 6,
-                                    "column": 44
-                                  },
-                                  "source": null
-                                },
-                                "type": "AssignmentExpression",
-                                "operator": "+=",
-                                "left": {
-                                  "loc": {
-                                    "start": {
-                                      "line": 6,
-                                      "column": 12
-                                    },
-                                    "end": {
-                                      "line": 6,
-                                      "column": 33
-                                    },
-                                    "source": null
-                                  },
-                                  "type": "MemberExpression",
-                                  "object": {
-                                    "loc": {
-                                      "start": {
-                                        "line": 6,
-                                        "column": 12
-                                      },
-                                      "end": {
-                                        "line": 6,
-                                        "column": 21
-                                      },
-                                      "source": null
-                                    },
-                                    "type": "Identifier",
-                                    "name": "container",
-                                    "nodeId": 54
-                                  },
-                                  "property": {
-                                    "loc": null,
-                                    "type": "Identifier",
-                                    "name": "textContent",
-                                    "nodeId": 55
-                                  },
-                                  "computed": false,
-                                  "nodeId": 53
-                                },
-                                "right": {
-                                  "loc": {
-                                    "start": {
-                                      "line": 6,
-                                      "column": 37
-                                    },
-                                    "end": {
-                                      "line": 6,
-                                      "column": 44
-                                    },
-                                    "source": null
-                                  },
-                                  "type": "Literal",
-                                  "value": "Click",
-                                  "nodeId": 56
-                                },
-                                "nodeId": 52
-                              },
-                              "nodeId": 51
-                            }
-                          ],
-                          "nodeId": 49
-                        },
-                        "rest": null,
-                        "generator": false,
-                        "expression": false,
-                        "nodeId": 45
-                      },
-                      "nodeId": 41
-                    },
-                    "nodeId": 40
-                  }
-                ],
-                "lineAdjuster": 15,
-                "source": "file:///C:/GitWebStorm/Firecrow/playground/index.html"
-              }
-            }
-          },
-          {
-            "type": "textNode",
-            "attributes": [
-              
-            ],
-            "childNodes": [
-              
-            ],
-            "nodeId": 57,
-            "textContent": "\n\n\n"
-          }
-        ],
-        "nodeId": 58
-      }
-    ],
-    "nodeId": 59
-  },
-  "pageUrl": "file:///C:/GitWebStorm/Firecrow/playground/index.html",
-  "eventTraces": [
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
+<head>
+<script>
+  (function(window, undefined)
+  {
+    var class2type = {}, core_version = "1.10.2", core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context){};
+    jQuery.fn = jQuery.prototype = {};
+    jQuery.extend = jQuery.fn.extend = function()
     {
-      "filePath": "file:/C:/GitWebStorm/Firecrow/playground/index.html",
-      "line": 20,
-      "currentTime": 1372688662104,
-      "thisValue": {
-        "xPath": "/html/body/div/div"
-      },
-      "args": {
-        "targetXPath": "/html/body/div/div",
-        "originalTargetXPath": "/html/body/div/div",
-        "currentTargetXPath": "/html/body/div/div",
-        "explicitOriginalTargetXPath": "/html/body/div/div",
-        "rangeParentXPath": "/html/body/div/div",
-        "relatedTargetXPath": "",
-        "clientX": 89,
-        "clientY": 73,
-        "screenX": 1455,
-        "screenY": 5,
-        "pageX": 89,
-        "pageY": 73,
-        "type": "click",
-        "currentInputStates": [
-          
-        ]
+      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      if(length === i)
+      {
+        target = this;
+        --i;
       }
-    },
+
+      for(;i < length;i++)
+      {
+        if((options = arguments[i]) != null)
+        {
+          for(name in options)
+          {
+            copy = options[name];
+            if(deep);
+            else if(copy !== undefined)
+            {
+              target[name] = copy;
+            }
+          }
+        }
+      }
+    };
+    jQuery.extend({
+      expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""),
+      noConflict: function(deep){},
+      isReady: false,
+      readyWait: 1,
+      holdReady: function(hold){},
+      ready: function(wait){},
+      isFunction: function(obj){},
+      isArray: Array.isArray || function(obj){},
+      isWindow: function(obj){},
+      isNumeric: function(obj){},
+      type: function(obj)
+      {
+        return typeof obj === "object" ? class2type[core_toString.call(obj)] || "object" : 0;
+      },
+      isPlainObject: function(obj){},
+      isEmptyObject: function(obj){},
+      error: function(msg){},
+      parseHTML: function(data, context, keepScripts){},
+      parseJSON: function(data){},
+      parseXML: function(data){},
+      noop: function(){},
+      globalEval: function(data){},
+      camelCase: function(string){},
+      nodeName: function(elem, name){},
+      each: function(obj, callback, args)
+      {
+        var i = 0, length = obj.length, isArray = isArraylike(obj);
+        if(args);
+        else
+        {
+          if(isArray)
+          {
+            for(;i < length;i++)
+            {
+              callback.call(obj[i], i, obj[i]);
+            }
+          }
+        }
+      },
+      trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0,
+      makeArray: function(arr, results){},
+      inArray: function(elem, arr, i){},
+      merge: function(first, second){},
+      grep: function(elems, callback, inv){},
+      map: function(elems, callback, arg)
+      {
+        var i = 0, length = elems.length, isArray = isArraylike(elems);
+        if(isArray)
+        {
+          for(;i < length;i++)
+          {
+            callback(elems[i], i, arg);
+          }
+        }
+      },
+      guid: 1,
+      proxy: function(fn, context){},
+      access: function(elems, fn, key, value, chainable, emptyGet, raw){},
+      now: function(){},
+      swap: function(elem, options, callback, args){}
+    });
+    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
     {
-      "filePath": "file:/C:/GitWebStorm/Firecrow/playground/index.html",
-      "line": 20,
-      "currentTime": 1372688662544,
-      "thisValue": {
-        "xPath": "/html/body/div/div"
-      },
-      "args": {
-        "targetXPath": "/html/body/div/div",
-        "originalTargetXPath": "/html/body/div/div",
-        "currentTargetXPath": "/html/body/div/div",
-        "explicitOriginalTargetXPath": "/html/body/div/div",
-        "rangeParentXPath": "",
-        "relatedTargetXPath": "",
-        "clientX": 89,
-        "clientY": 73,
-        "screenX": 1455,
-        "screenY": 5,
-        "pageX": 89,
-        "pageY": 73,
-        "type": "click",
-        "currentInputStates": [
-          
-        ]
-      }
+      class2type[("[object " + name) + "]"] = name.toLowerCase();
+    });
+    function isArraylike(obj)
+    {
+      var length = obj.length, type = jQuery.type(obj);
+      return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
-  ]
-}
+    if(typeof module === "object");
+    else
+    {
+      window.jQuery = window.$ = jQuery;
+    }
+  })(window);
+</script></head>
+
+<body id="body" style="">
+
+<script>
+  var result = {
+    array: Array(4)
+  };
+  var label;
+  callback = function(v, k)
+  {
+    if(result[label])
+    {
+      assertEquals(k, "0", label + " treated like array");
+    }
+  };
+  for(var i in result)
+  {
+    label = i;
+    jQuery.map(result[i], callback);
+  }
+
+</script>
+
+
+
+
+</body>
+</html>

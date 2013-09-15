@@ -84,8 +84,8 @@ fcModel.ArrayCallbackEvaluator =
         var firstItemIndex = targetObject.jsValue.indexOf(firstItem);
         var secondItemIndex = targetObject.jsValue.indexOf(secondItem);
 
-        targetObject.iValue.addModification(valueExpression);
-        targetObject.iValue.addModification(callbackCommand.callCallbackCommand.codeConstruct);
+        targetObject.iValue.addModification(valueExpression, firstItemIndex);
+        targetObject.iValue.addModification(callbackCommand.callCallbackCommand.codeConstruct, secondItemIndex);
 
         //if return value = 0 -> leave a and b unchanged
         if(returnValue.jsValue == 0) { return; }

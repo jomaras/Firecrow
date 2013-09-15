@@ -37,7 +37,7 @@
         }
         else if(selector.nodeType)
         {
-          this.context = this[0] = selector;
+          this[0] = selector;
           this.length = 1;
           return this;
         }
@@ -50,7 +50,6 @@
 
         return jQuery.makeArray(selector, this);
       }, 
-      selector: "", 
       length: 0, 
       toArray: function()
       {
@@ -63,8 +62,6 @@
       pushStack: function(elems)
       {
         var ret = jQuery.merge(this.constructor(), elems);
-        ret.prevObject = this;
-        ret.context = this.context;
         return ret;
       }, 
       ready: function(fn)
@@ -295,7 +292,6 @@
         }
 
         ret = this.pushStack(len > 1 ? 0 : ret);
-        ret.selector = this.selector ? 0 : selector;
         return ret;
       }, 
       has: function(target){}, 

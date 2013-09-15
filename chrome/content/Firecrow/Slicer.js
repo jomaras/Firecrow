@@ -30,6 +30,9 @@ Firecrow.Slicer = {
         browser.registerExitFunctionCallback(dependencyGraph.handleExitFunction, dependencyGraph);
         browser.registerCallbackCalled(dependencyGraph.handleCallbackCalled, dependencyGraph);
         browser.registerNullProblematicExpressionReachedCallback(dependencyGraph.handleNullProblematicReached, dependencyGraph);
+        browser.registerControlFlowProblematicExpressionReachedCallback(dependencyGraph.handleControlFlowProblematicReached, dependencyGraph);
+        browser.registerCallbackStartedExecuting(dependencyGraph.handleCallbackStartedExecuting, dependencyGraph);
+        browser.registerCallbackStoppedExecuting(dependencyGraph.handleCallbackStoppedExecuting, dependencyGraph);
 
         browser.evaluatePage();
         dependencyGraph.markGraph(htmlModel.htmlElement);

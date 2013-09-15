@@ -6,16 +6,22 @@
 <body id="body" style="">
 
 <script>
-    var a = Array(4);
+    var result = {
+        array: Array(4)
+    };
+
+    var label = null;
 
     callback = function(v, k)
     {
         if(result[label])
         {
+            delete result[ label ];
             assertEquals(k, "0", label + " treated like array");
         }
     };
-    for(i in result)
+
+    for(var i in result)
     {
         label = i;
         jQuery.map(result[i], callback);

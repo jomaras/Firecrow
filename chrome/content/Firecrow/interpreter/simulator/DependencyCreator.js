@@ -624,7 +624,7 @@ fcSimulator.DependencyCreator.prototype =
 
             if(propertyDeletePosition != null)
             {
-                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, propertyDeletePosition.codeConstruct, evaluationPosition, propertyDeletePosition.evaluationPosition);
+                this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, propertyDeletePosition.codeConstruct, evaluationPosition, propertyDeletePosition.evaluationPosition, null, true);
             }
 
             this.globalObject.browser.callDataDependencyEstablishedCallbacks(memberExpression, memberExpression.property, evaluationPosition, evaluationPosition, true);

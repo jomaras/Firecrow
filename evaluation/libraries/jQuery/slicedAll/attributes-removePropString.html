@@ -217,7 +217,7 @@
         docElem = doc.documentElement;
         assert(function(div)
         {
-          docElem.appendChild(div).id = expando;
+          docElem.appendChild(div);
           return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
       };

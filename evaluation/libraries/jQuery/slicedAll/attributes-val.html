@@ -80,8 +80,6 @@
       pushStack: function(elems)
       {
         var ret = jQuery.merge(this.constructor(), elems);
-        ret.prevObject = this;
-        ret.context = this.context;
         return ret;
       }, 
       each: function(callback, args)

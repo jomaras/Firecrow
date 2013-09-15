@@ -85,7 +85,7 @@ fcModel.StringFunction = function(globalObject)
                 propertyName,
                 new fcModel.fcValue
                 (
-                    String[propertyName],
+                    FBL.Firecrow.INTERNAL_PROTOTYPE_FUNCTIONS.String[propertyName],
                     fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
                     null
                 ),
@@ -272,7 +272,7 @@ fcModel.StringExecutor =
     executeInternalStringFunctionMethod: function(thisObject, functionObject, args, callExpression, callCommand)
     {
         var functionObjectValue = functionObject.jsValue;
-        var functionName = functionObjectValue.name;
+        var functionName = (functionObjectValue || functionObject.iValue).name;
 
         if(functionName == "fromCharCode")
         {

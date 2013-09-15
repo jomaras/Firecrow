@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head><body>
+<div id="testContainer"></div>
+<script>
+    var names = ['toUpperCase', 'toLowerCase'];
+    for(var i = 0;i < names.length;i++)
+    {
+        var name = names[i];
+        String[name] = String.prototype[name];
+    }
+
+    document.getElementById('testContainer').textContent = String.toUpperCase.call('application B');
+</script>
+
+
+<div id="mainContainer" o="r"></div>
+<script o="r">
+    var _RU_names = ['toUpperCase', 'toLowerCase']/*Firecrow - Rename global property; */;
+    /*Firecrow - Rename global property; */
+    for(var _RU_i = 0/*Firecrow - Rename global property; */;_RU_i < _RU_names.length;_RU_i++)
+    {
+        var _RU_name = _RU_names[_RU_i]/*Firecrow - Rename global property; */;
+        String[_RU_name] = String.prototype[_RU_name];/*Firecrow - Rename global property; */
+    }
+
+    document.getElementById('mainContainer').textContent = String.toUpperCase.call('Application A');
+</script>
+
+</body>
+</html>

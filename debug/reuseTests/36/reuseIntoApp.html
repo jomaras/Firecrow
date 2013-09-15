@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="testContainer"></div>
+<script>
+    var names = ["toUpperCase", "toLowerCase"];
+
+    for(var i = 0; i < names.length; i++)
+    {
+        var name = names[i];
+        String[name] = String.prototype[name];
+    }
+
+    document.getElementById("testContainer").textContent = String.toUpperCase.call("application B");
+</script>
+</body>
+</html>

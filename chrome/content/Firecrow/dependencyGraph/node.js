@@ -1,6 +1,7 @@
 FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
     var ValueTypeHelper = Firecrow.ValueTypeHelper;
+    var ASTHelper = Firecrow.ASTHelper;
     var fcGraph = Firecrow.DependencyGraph;
 
     fcGraph.Node = function(model, type, isDynamic)
@@ -123,6 +124,25 @@ FBL.ns(function() { with (FBL) {
                 }
 
                 break;
+            }
+
+            return selectedDependencies;
+        },
+
+        getNonTraversedValueDependencies: function()
+        {
+            var dependencies = this.dataDependencies;
+            var selectedDependencies = [];
+
+            for(var i = 0; i < dependencies.length; i++)
+            {
+                var dependency = dependencies[i];
+                if(dependency.isValueDependency && !dependency.hasBeenTraversed
+                //TODO not sure about this delete thing, maybe it should be all, but then, too much is included
+                && ASTHelper.isDeleteExpression(dependency.destinationNode.model))
+                {
+                    selectedDependencies.push(dependency);
+                }
             }
 
             return selectedDependencies;

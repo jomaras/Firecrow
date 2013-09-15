@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    
+    <head>
+        <title>Show/hide Login and Signup Panel using Mootools 1.2</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <!-- The main style sheet -->
+        <style>
+            html, body {
+                border: 0;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font: 85%/0.9 arial, helvetica, sans-serif;
+                background: url(pageBImages/bg_repeat.jpg) repeat 0 0;
+                line-height: 130%;
+                width: 100%;
+                min-width: 970px;
+            }
+            a {
+                color: #0099CC;
+                text-decoration: none;
+            }
+            a:hover {
+                color: #00CCFF;
+            }
+            a img {
+                border: none;
+            }
+            .clear {
+                clear: both;
+                height: 0;
+                line-height: 0;
+            }
+            .clearfix:after {
+                content:".";
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden;
+            }
+            .clearfix {
+                display: inline-block;
+            }
+            * html .clearfix {
+                height: 1%;
+            }
+            .clearfix {
+                display: block;
+            }
+            .clearfix {
+                height: 1%;
+            }
+            .clearfix {
+                display: block;
+            }
+            #container {
+                width: 100%;
+                height: 100%;
+                text-align: center;
+            }
+            #content {
+                width: 900px;
+                margin: 0 auto;
+                text-align: left;
+                padding: 20px;
+            }
+        </style>
+        <!-- START Fx.Slide -->
+        <!-- The CSS -->
+        <style>
+            #top {
+                background: url(pageBImages/login_top.jpg) repeat-x 0 0;
+                height: 38px;
+                position: relative;
+            }
+            #top ul.login {
+                display: block;
+                position: relative;
+                float: right;
+                clear: right;
+                height: 38px;
+                width: auto;
+                font-weight: bold;
+                line-height: 38px;
+                margin: 0;
+                right: 150px;
+                color: white;
+                font-size: 80%;
+                text-align: center;
+                background: url(pageBImages/login_r.jpg) no-repeat right 0;
+                padding-right: 45px;
+            }
+            #top ul.login li.left {
+                background: url(pageBImages/login_l.jpg) no-repeat left 0;
+                height: 38px;
+                width: 45px;
+                padding: 0;
+                margin: 0;
+                display: block;
+                float: left;
+            }
+            #top ul.login li {
+                text-align: left;
+                padding: 0 6px;
+                display: block;
+                float: left;
+                height: 38px;
+                background: url(pageBImages/login_m.jpg) repeat-x 0 0;
+            }
+            #top ul.login li a {
+                color: #33CCCC;
+            }
+            #top ul.login li a:hover {
+                color: white;
+            }
+            #login {
+                width: 100%;
+                color: white;
+                background: #1E1E1E;
+                overflow: hidden;
+                position: relative;
+                z-index: 3;
+                height: 0;
+            }
+            #login a {
+                text-decoration: none;
+                color: #33CCCC;
+            }
+            #login a:hover {
+                color: white;
+            }
+            #login .loginContent {
+                width: 550px;
+                height: 80px;
+                margin: 0 auto;
+                padding-top: 25px;
+                text-align: left;
+                font-size: 0.85em;
+            }
+            #login .loginContent .left {
+                width: 120px;
+                float: left;
+                padding-left: 65px;
+                font-size: 0.95em;
+            }
+            #login .loginContent .right {
+                width: 290px;
+                float: right;
+                text-align: right;
+                padding-right: 65px;
+                font-size: 0.95em;
+            }
+            #login .loginContent form {
+                margin: 0 0 10px 0;
+                height: 26px;
+            }
+            #login .loginContent input.field {
+                border: 1px #1A1A1A solid;
+                background: #464646;
+                margin-right: 5px;
+                margin-top: 4px;
+                color: white;
+                height: 16px;
+            }
+            #login .loginContent input:focus.field {
+                background: #545454;
+            }
+            #login .loginContent input.rememberme {
+                border: none;
+                background: transparent;
+                margin: 0;
+                padding: 0;
+            }
+            #login .loginContent input.button_login {
+                width: 47px;
+                height: 20px;
+                cursor: pointer;
+                border: none;
+                background: transparent url("pageBImages/button_login.jpg") no-repeat 0 0;
+            }
+            #login .loginClose {
+                display: block;
+                position: absolute;
+                right: 15px;
+                top: 10px;
+                width: 70px;
+                font-size: 0.8em;
+                text-align: left;
+            }
+            #login .loginClose a {
+                display: block;
+                width: 100%;
+                height: 20px;
+                background: url("pageBImages/button_close.jpg") no-repeat right 0;
+                padding-right: 10px;
+                border: none;
+                font-size: 0.9em;
+                color: white;
+            }
+            #login .loginClose a:hover {
+                background: url(pageBImages/button_close.jpg) no-repeat right -20px;
+            }
+        </style>
+        <!-- Mootools - the core -->
+        <script type="text/javascript" src="pageBScripts/mootools-1.2.4-core.js"></script>
+        <!--Toggle effect (show/hide login form) -->
+        <script type="text/javascript" src="pageBScripts/mootools-1.2-more.js"></script>
+        <script type="text/javascript" src="pageBScripts/fx.slide.js"></script>
+        <!-- END Fx.Slide -->
+    </head>
+    
+    <body>
+        <div id="loginDemo">
+            <!-- Login -->
+            <div id="myWrapper">
+                <div id="login">
+                    <div class="loginContent">
+                        <form action="#" method="post">
+                            <label for="log"><b>Username: </b>
+                            </label>
+                            <input class="field" type="text" name="log" id="log" value="" size="23" />
+                            <label for="pwd"><b>Password:</b>
+                            </label>
+                            <input class="field" type="password" name="pwd" id="pwd" size="23" />
+                            <input type="submit" name="submit" value="" class="button_login" />
+                            <input type="hidden" name="redirect_to" value="" />
+                        </form>
+                        <div class="left">
+                            <label for="rememberme">
+                                <input name="rememberme" id="rememberme" class="rememberme" type="checkbox" checked="checked" value="forever" />Remember me</label>
+                        </div>
+                        <div class="right">Not a member? <a href="#">Register</a> | <a href="#">Lost your password?</a>
+                        </div>
+                    </div>
+                    <div class="loginClose"><a href="#" id="closeLogin">Close Panel</a>
+                    </div>
+                </div>
+                <!-- /login -->
+            </div>
+            <div id="container">
+                <div id="top">
+                    <!-- login -->
+                    <ul class="login">
+                        <li class="left">&nbsp;</li>
+                        <li>Hello Guest!</li>
+                        <li>|</li>
+                        <li><a id="toggleLogin" href="#">Log In</a>
+                        </li>
+                    </ul>
+                    <!-- / login -->
+                </div>
+                <!-- / top -->
+                <div class="clearfix"></div>
+                <div id="content">
+                    <p style="margin-top: 60px;">Click <em>"Login"</em> on the upper-right corner of this page to show/hide the login panel.
+                        <br /> <small>(<b>NOTE:</b> The login/signup form is not active! This is just an example to explain you how to use Mootools Fx.Slide to show/hide a login form on your Web page).</small>
+
+                    </p>
+                    <p>Go back to <a href="http://web-kreation.com/index.php/ajax-javascript/nice-login-and-signup-panel-using-mootools-12" title="Back to Tutorial">tutorial &raquo;</a>
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- / container -->
+        </div>
+    </body>
+
+</html>

@@ -122,31 +122,6 @@
       var length = obj.length, type = jQuery.type(obj);
       return type === "array" || (type !== "function" && (length === 0 || (typeof length === "number" && length > 0 && (length - 1) in obj)));
     }
-    (function(window, undefined)
-    {
-      var setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document;
-      function Sizzle(selector, context, results, seed){}      function assert(fn)
-      {
-        var div = document.createElement("div");
-        try
-        {
-          return !(!(fn(div)));
-        }
-        catch(e){}
-      }
-      setDocument = Sizzle.setDocument = function(node)
-      {
-        var doc = node ? 0 : preferredDoc;
-        document = doc;
-        docElem = doc.documentElement;
-        assert(function(div)
-        {
-          docElem.appendChild(div).id = expando;
-          return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
-        });
-      };
-      setDocument();
-    })(window);
     if(typeof module === "object");
     else 
     {
@@ -240,14 +215,13 @@
 
   result = {
     "sparse Array": Array(4), 
-    "length: 1 plain object": {length: 1, "0": true}, 
-    "length: 2 plain object": {length: 2, "0": true, "1": true}, 
-    NodeList: document.getElementsByTagName("html")
+    "length: 2 plain object": {length: 2, "0": true, "1": true}
   };
   callback = function(v, k)
   {
     if(result[label])
     {
+      delete (result[label]);
       assertEquals(k, "0", label + " treated like array");
     }
   };

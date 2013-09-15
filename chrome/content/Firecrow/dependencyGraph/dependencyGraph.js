@@ -32,6 +32,7 @@ FBL.ns(function() { with (FBL) {
         this.pushExecutionContextId("root");
         this.traversedEdgesMap = {};
         this.nullProblematicTrace = [];
+        this.controlFlowProblematicTrace = [];
     };
 
     var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
@@ -67,6 +68,16 @@ FBL.ns(function() { with (FBL) {
         {
             this.executionContextIdStack.pop();
             this.executionContextId = this.executionContextIdStack[this.executionContextIdStack.length-1];
+        },
+
+        handleControlFlowProblematicReached: function(codeConstruct)
+        {
+            this.controlFlowProblematicTrace.push
+            ({
+                codeConstruct: codeConstruct,
+                dependencyIndex: codeConstruct.maxCreatedDependencyIndex,
+                executionContextId: this.executionContextId
+            });
         },
 
         handleNullProblematicReached: function(codeConstruct)
@@ -216,6 +227,27 @@ FBL.ns(function() { with (FBL) {
             );
         },
 
+
+        //This is so that i know which callback executions are related
+        //in the map i will keep track of all execution context id's
+        //for the executed callback functions
+        _callbackStartStopTrackingMap: {},
+        _currentCallbackStartStopExecutionIdStack: [],
+
+        handleCallbackStartedExecuting: function(functionConstruct)
+        {
+            /*if(functionConstruct == null) { return; }
+
+            if(this._callbackStartStopTrackingMap[functionConstruct.nodeId] == null) { this._callbackStartStopTrackingMap[functionConstruct.nodeId] = []; }
+
+            this._currentCallbackStartStopExecutionIdStack.push([]);*/
+        },
+
+        handleCallbackStoppedExecuting: function(functionConstruct)
+        {
+            //debugger;
+        },
+
         handleEnterFunction: function(callExpression, functionConstruct, executionContextId)
         {
             if(callExpression == null) return;
@@ -268,9 +300,8 @@ FBL.ns(function() { with (FBL) {
 
             addedDependencies += this._traverseExecutedBlockDependencies();
             addedDependencies += this._traverseSliceUnionPossibleProblems(this.nullProblematicTrace);
-
+            addedDependencies += this._traverseControlFlowProblematic(this.controlFlowProblematicTrace);
             addedDependencies += this._traverseBreakContinueReturnEventsDependencies();
-            addedDependencies += this._traverseExecutedBlockDependencies();
 
             return addedDependencies
         },
@@ -360,21 +391,6 @@ FBL.ns(function() { with (FBL) {
             return addedDependencies;
         },
 
-        _contextHasIncludedDependencies: function(referentExecutionContextId)
-        {
-            return this._isAtLeastOneDependencyTraversed(this.executionContextIndexMap[referentExecutionContextId]);
-        },
-
-        _isAtLeastOneDependencyTraversed: function(dependencyIndexes)
-        {
-            for(var i = 0; i < dependencyIndexes.length; i++)
-            {
-                if(this.traversedEdgesMap[dependencyIndexes[i]]) { return true; }
-            }
-
-            return false;
-        },
-
         _traverseSliceUnionPossibleProblems: function(trace)
         {
             var addedDependencies = 0;
@@ -412,6 +428,52 @@ FBL.ns(function() { with (FBL) {
             }
 
             return addedDependencies;
+        },
+
+        _traverseControlFlowProblematic: function(trace)
+        {
+            var addedDependencies = 0;
+
+            if(trace == null) { return addedDependencies; }
+
+            for(var i = 0; i < trace.length; i++)
+            {
+                var codeConstruct = trace[i].codeConstruct;
+
+                if(!codeConstruct.shouldBeIncluded) { continue; }
+
+                if(!this._areAllIncluded(this.dependencyCallExpressionMapping[trace[i].dependencyIndex])) { continue; }
+
+                var dependencies = codeConstruct.graphNode.getNonTraversedValueDependencies();
+
+                addedDependencies += dependencies.length;
+
+                for(var j = 0; j < dependencies.length; j++)
+                {
+                    var dependency = dependencies[j];
+
+                    dependency.hasBeenTraversed = true;
+
+                    this._traverseAndMark(dependency.destinationNode.model, dependency.index);
+                }
+            }
+
+            return addedDependencies;
+        },
+
+        _contextHasIncludedDependencies: function(referentExecutionContextId)
+        {
+            return this._isAtLeastOneDependencyTraversed(this.executionContextIndexMap[referentExecutionContextId]);
+        },
+
+        _isAtLeastOneDependencyTraversed: function(dependencyIndexes)
+        {
+            for(var i = 0; i < dependencyIndexes.length; i++)
+            {
+                if(this.traversedEdgesMap[dependencyIndexes[i]]) { return true; }
+            }
+
+            return false;
         },
 
         _areAllIncluded: function(callExpressions)

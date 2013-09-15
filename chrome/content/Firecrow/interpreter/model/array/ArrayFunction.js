@@ -16,12 +16,15 @@ fcModel.ArrayFunction = function(globalObject)
 
         fcModel.ArrayPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
+            //Right instanceof reuse HACK - the problem that the second
+            //application is executed within the same scope, so they target the same global objects
+            //RW the reuse process, to be independent in phantomJs
             this.addProperty
             (
                 propertyName,
                 new fcModel.fcValue
                 (
-                    Array[propertyName],
+                    FBL.Firecrow.INTERNAL_PROTOTYPE_FUNCTIONS.Array[propertyName],
                     fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
                     null
                 ),

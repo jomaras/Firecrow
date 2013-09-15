@@ -29,6 +29,7 @@ fcBrowser.Browser = function(pageModel)
         this.nodeInsertedCallbacks = [];
         this.interpretJsCallbacks = [];
         this.nullProblematicCallbacks = [];
+        this.controlFlowProblematicCallbacks = [];
 
         this.dataDependencyEstablishedCallbacks = [];
         this.controlDependencyEstablishedCallbacks = [];
@@ -39,6 +40,8 @@ fcBrowser.Browser = function(pageModel)
         this.enterFunctionCallbacks = [];
         this.exitFunctionCallbacks = [];
         this.callbackCalledCallbacks = [];
+        this.startedExecutingCallbackCallbacks = [];
+        this.stoppedExecutingCallbackCallbacks = [];
         this.breakContinueReturnEventsCallbacks = [];
 
         this.domQueriesMap = {};
@@ -363,9 +366,20 @@ Browser.prototype = dummy =
         return map;
     },
 
-    logNullProblematicExpressionReached: function(codeConstruct)
+    logStartExecutingCallbacks: function(codeConstruct)
     {
+        this.startedExecutingCallbackCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
+        });
+    },
 
+    logEndExecutingCallbacks: function(codeConstruct)
+    {
+        this.stoppedExecutingCallbackCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
+        });
     },
 
     logEnteringFunction: function(callExpression, functionConstruct, executionContextId)
@@ -813,6 +827,13 @@ Browser.prototype = dummy =
         this.nullProblematicCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerControlFlowProblematicExpressionReachedCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - control flow problematic callback has to be a function!"); return; }
+
+        this.controlFlowProblematicCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     registerInterpreterMessageGeneratedCallback: function(callback, thisObject)
     {
         if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - interpreter message generated callback has to be a function!"); return; }
@@ -890,6 +911,20 @@ Browser.prototype = dummy =
         this.callbackCalledCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
+    registerCallbackStartedExecuting: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - enter function callback has to be a function!"); return; }
+
+        this.startedExecutingCallbackCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
+    registerCallbackStoppedExecuting: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - enter function callback has to be a function!"); return; }
+
+        this.stoppedExecutingCallbackCallbacks.push({callback: callback, thisObject: thisObject || this});
+    },
+
     _callDocumentReadyCallbacks: function()
     {
         this.documentReadyCallbacks.forEach(function(callbackObject)
@@ -933,6 +968,14 @@ Browser.prototype = dummy =
     callNullProblematicReachedCallbacks: function(codeConstruct)
     {
         this.nullProblematicCallbacks.forEach(function(callbackObject)
+        {
+            callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
+        });
+    },
+
+    callControlFlowProblematicReachedCallbacks: function(codeConstruct)
+    {
+        this.controlFlowProblematicCallbacks.forEach(function(callbackObject)
         {
             callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
         });

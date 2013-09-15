@@ -42,8 +42,6 @@
                 this[0] = elem;
               }
 
-              this.context = document;
-              this.selector = selector;
               return this;
             }
           }
@@ -69,7 +67,6 @@
 
         return jQuery.makeArray(selector, this);
       }, 
-      selector: "", 
       length: 0, 
       toArray: function()
       {
@@ -82,8 +79,6 @@
       pushStack: function(elems)
       {
         var ret = jQuery.merge(this.constructor(), elems);
-        ret.prevObject = this;
-        ret.context = this.context;
         return ret;
       }, 
       ready: function(fn)
@@ -412,7 +407,6 @@
         }
 
         ret = this.pushStack(len > 1 ? 0 : ret);
-        ret.selector = this.selector ? (this.selector + " ") + selector : 0;
         return ret;
       }, 
       has: function(target){}, 

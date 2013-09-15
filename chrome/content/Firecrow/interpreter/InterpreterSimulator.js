@@ -54,7 +54,8 @@ fcSimulator.prototype = dummy =
 
                 this.callControlFlowConnectionCallbacks(codeConstruct);
 
-                if(codeConstruct != null && ASTHelper.isMemberExpression(codeConstruct.parent) || ASTHelper.isCallExpressionCallee(codeConstruct))
+                if(codeConstruct != null && ASTHelper.isMemberExpression(codeConstruct.parent)
+                                         || ASTHelper.isCallExpressionCallee(codeConstruct))
                 {
                     this.globalObject.browser.callNullProblematicReachedCallbacks(codeConstruct);
                 }
@@ -153,7 +154,7 @@ fcSimulator.prototype = dummy =
              if (command.isEvalCallbackFunctionCommand()) { this._generateCommandsAfterCallbackFunctionCommand(command); }
         else if (command.isEvalNewExpressionCommand()) { this._generateCommandsAfterNewExpressionCommand(command); }
         else if (command.isEvalCallExpressionCommand()) { this._generateCommandsAfterCallFunctionCommand(command); }
-        else if (command.isCallInternalFunctionCommand()) { if(command.generatesCallbacks) { this._generateCommandsAfterCallbackFunctionCommand(command); }}
+        else if (command.isCallInternalFunctionCommand()) { if(command.generatesCallbacks) { this._generateCommandsAfterCallbackFunctionCommand(command); this.globalObject.browser.logStartExecutingCallbacks(command.callbackFunction != null && command.callbackFunction.codeConstruct); }}
         else if (command.isLoopStatementCommand()) { this._generateCommandsAfterLoopCommand(command); }
         else if (command.isIfStatementCommand()) { this._generateCommandsAfterIfCommand(command); }
         else if (command.isEvalConditionalExpressionBodyCommand()) { this._generateCommandsAfterConditionalCommand(command); }

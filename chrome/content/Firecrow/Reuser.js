@@ -75,7 +75,7 @@ Firecrow.Reuser =
         var newParents = this._getNodesBySelectors(mergedModel, reuseIntoDestinationSelectors);
 
         if(nodesToMove == null || nodesToMove.length == 0) { return; }
-        if(newParents == null || newParents.length != 1) { debugger; alert("A node should be moved to only one parent!"); return; }
+        if(newParents == null || newParents.length == 0) { debugger; alert("A node should be moved!"); return; }
 
         var newParent = newParents[0];
 
@@ -86,7 +86,12 @@ Firecrow.Reuser =
             if(node.parent == newParent) { continue; }
 
             //remove from previous position
-            Firecrow.ValueTypeHelper.removeFromArrayByElement(node.parent.childNodes, node);
+            try
+            {
+                Firecrow.ValueTypeHelper.removeFromArrayByElement(node.parent.childNodes, node);
+            }
+            catch(e){debugger;}
+
 
             newParent.childNodes.push(node);
             node.parent = newParent;
@@ -852,18 +857,21 @@ Firecrow.ConflictFixer =
             var newName = this.generateReusePrefix() + conflictedProperty.name;
 
             var declarationConstruct = conflictedProperty.declarationPosition.codeConstruct;
+            var hasDeclarationBeenChanged = false;
 
             if(Firecrow.ASTHelper.isAssignmentExpression(declarationConstruct))
             {
                 if(Firecrow.ASTHelper.isIdentifier(declarationConstruct.left))
                 {
                     declarationConstruct.left.name = newName;
+                    hasDeclarationBeenChanged = true;
                 }
                 else if (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.left))
                 {
                     if(!declarationConstruct.left.computed || conflictedProperty.name == declarationConstruct.left.property.name)
                     {
                         declarationConstruct.left.property.name = newName;
+                        hasDeclarationBeenChanged = true;
                     }
                     else if (Firecrow.ASTHelper.isMemberExpression(declarationConstruct.right)
                         ||  (Firecrow.ASTHelper.isAssignmentExpression(declarationConstruct.right)
@@ -894,6 +902,7 @@ Firecrow.ConflictFixer =
                         {
                             this._addCommentToParentStatement(memberPropertyDeclaration, "Firecrow - Rename global property");
                             memberPropertyDeclaration.name = newName;
+                            hasDeclarationBeenChanged = true;
                         }
                         else
                         {
@@ -918,6 +927,7 @@ Firecrow.ConflictFixer =
                   || Firecrow.ASTHelper.isFunctionDeclaration(declarationConstruct))
             {
                 declarationConstruct.id.name = newName;
+                hasDeclarationBeenChanged = true;
             }
             else
             {
@@ -925,6 +935,7 @@ Firecrow.ConflictFixer =
                 alert("Unhandled expression when fixing global properties conflicts");
             }
 
+            if(!hasDeclarationBeenChanged) { return; }
             this._addCommentToParentStatement(declarationConstruct, "Firecrow - Rename global property");
 
             var dependentEdges = declarationConstruct.graphNode.reverseDependencies;
@@ -1002,7 +1013,10 @@ Firecrow.ConflictFixer =
 
         if(parentStatement.comments == null) { parentStatement.comments = []; }
 
-        parentStatement.comments.push(comment);
+        if(parentStatement.comments.indexOf(comment) == -1)
+        {
+            parentStatement.comments.push(comment);
+        }
     },
 
     _getConflictingProperties: function(reuseAppBrowser, reuseIntoAppBrowser)
@@ -1175,7 +1189,7 @@ Firecrow.ConflictFixer =
            }
        }
 
-       this.replacementsMap[change.oldValue] = change.newValue;
+        Firecrow.Reuser.replacementsMap[change.oldValue] = change.newValue;
     },
 
     _fixDynamicallySetAttributes: function(change)
@@ -1195,7 +1209,7 @@ Firecrow.ConflictFixer =
     _replaceLiteralOrDirectIdentifierValue: function(change, codeConstruct)
     {
         var renameMessage = "Firecrow - Rename:" + change.oldValue + " -> " + change.newValue;
-        this.replacementsMap[change.oldValue] = change.newValue;
+        Firecrow.Reuser.replacementsMap[change.oldValue] = change.newValue;
 
         if(Firecrow.ASTHelper.isLiteral(codeConstruct))
         {
@@ -1223,7 +1237,6 @@ Firecrow.ConflictFixer =
                 this._addCommentToParentStatement(identifierSource, renameMessage);
                 return;
             }
-
         }
         else if(Firecrow.ASTHelper.isMemberExpression(codeConstruct))
         {
@@ -1263,12 +1276,24 @@ Firecrow.ConflictFixer =
 
             for(var selector in domQuery.selectorsMap)
             {
-                if(selector.indexOf(change.oldValue) != -1)
+                if(this._containsCssFragment(selector, change.oldValue))
                 {
                     this._replaceLiteralOrDirectIdentifierValue(change, callExpressionFirstArgument);
                 }
             }
         }
+    },
+
+    _containsCssFragment: function(selector, needle)
+    {
+        var parts = selector.split(/(\s)+|\.|#|>/gi);
+
+        for(var i = 0; i < parts.length; i++)
+        {
+            if(parts[i] == needle) { return true; }
+        }
+
+        return false;
     },
 
     fixCssConflicts: function(reusedAppGraph, reuseIntoAppGraph, reuseAppBrowser, reuseSelectors, reuseAppModel)
@@ -1523,7 +1548,7 @@ Firecrow.ConflictFixer =
 
         if(oldSelectorValue == null) { return; }
 
-        this.replacementsMap[oldValue] = newValue;
+        Firecrow.Reuser.replacementsMap[oldValue] = newValue;
 
         var replacedCssSelector = this._getReplacedCssSelector(oldSelectorValue, oldValue, newValue);
 

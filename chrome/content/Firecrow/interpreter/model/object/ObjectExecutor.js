@@ -115,8 +115,6 @@ fcModel.ObjectExecutor =
     {
         if(args.length < 2) { fcModel.Object.notifyError("Object.defineProperties can not have less than 2 arguments"); return null;}
 
-        args[0].iValue.addModification(callExpression);
-
         this._definePropertiesOnObject(args[0], args[1], globalObject, callExpression);
     },
 
@@ -126,7 +124,6 @@ fcModel.ObjectExecutor =
         var fcPropertyDescriptorsMap = propertyDescriptorsMap.iValue;
 
         var iObject = fcBaseObject.iValue;
-        iObject.addModification(callExpression);
 
         var dependencyCreator = globalObject.dependencyCreator;
 
@@ -155,6 +152,7 @@ fcModel.ObjectExecutor =
                 value: propertyValue
             });
 
+            iObject.addModification(callExpression, propName);
             iObject.addProperty(propName, propertyValue, propertyDescriptor.codeConstruct, enumerable, configurable, writable);
         }
     },
@@ -177,7 +175,7 @@ fcModel.ObjectExecutor =
         if(get != null || set != null) { fcModel.Object.notifyError("Still does not handle defining getters and setters"); return; }
         if(value == null) { fcModel.Object.notifyError("Value must be set when definining property"); return; }
 
-        args[0].iValue.addModification(callExpression);
+        args[0].iValue.addModification(callExpression, propertyName);
 
         var dependencyCreator = globalObject.dependencyCreator;
 

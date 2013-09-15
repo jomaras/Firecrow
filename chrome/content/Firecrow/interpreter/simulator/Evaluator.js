@@ -539,6 +539,18 @@ fcSimulator.Evaluator.prototype =
     _evalCallbackFunctionCommand: function(callbackFunctionCommand)
     {
         this.dependencyCreator.createCallbackFunctionCommandDependencies(callbackFunctionCommand);
+
+        this.globalObject.logCallbackExecution
+        (
+            callbackFunctionCommand.codeConstruct,
+            callbackFunctionCommand.parentInitCallbackCommand != null ? callbackFunctionCommand.parentInitCallbackCommand.codeConstruct
+                                                                      : null
+        );
+
+        if(callbackFunctionCommand.isLastCallbackCommand)
+        {
+            this.globalObject.browser.logEndExecutingCallbacks(callbackFunctionCommand.codeConstruct);
+        }
     },
 
     _evalSequence: function(sequenceCommand)
@@ -815,7 +827,7 @@ fcSimulator.Evaluator.prototype =
             if(deleteExpression.argument.computed)
             {
                 var propertyValue = this.executionContextStack.getExpressionValue(deleteExpression.argument.property);
-                propertyName = propertyValue != null ? propertyValue.value : "";
+                propertyName = propertyValue != null ? propertyValue.jsValue : "";
             }
             else
             {

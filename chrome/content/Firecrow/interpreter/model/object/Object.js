@@ -253,7 +253,7 @@ fcModel.Object.prototype =
 
             if(codeConstruct != null)
             {
-                this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+                this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId(), propertyName);
             }
 
             this._callCallbacks(this.addPropertyCallbackDescriptors, [propertyName, propertyValue, codeConstruct]);
@@ -401,20 +401,21 @@ fcModel.Object.prototype =
         catch(e) { debugger; fcModel.Object.notifyError("Error when adding dependencies to all properties: " + e); }
     },
 
-    addModification: function(codeConstruct)
+    addModification: function(codeConstruct, propertyName)
     {
         if(codeConstruct == null) { return; }
 
-        this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+        this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId(), propertyName);
     },
     //</editor-fold>
 
     //<editor-fold desc="'Private' methods">
-    _addModification: function(codeConstruct, evaluationPositionId)
+    _addModification: function(codeConstruct, evaluationPositionId, propertyName)
     {
         try
         {
             if(codeConstruct == null) { return; }
+            if(!ValueTypeHelper.isStringInteger(propertyName) && propertyName != "length") { return; }
 
             var modificationDescription = { codeConstruct: codeConstruct, evaluationPositionId: evaluationPositionId };
 
