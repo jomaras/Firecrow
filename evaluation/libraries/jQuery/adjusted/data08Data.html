@@ -264,7 +264,7 @@
 
     dataObj = div.data();
 
-    assertEquals( dataObj, {test: "success"}, "data() returns entire data object with expected properties" );
+    assertEquals( dataObj.test, "success", "data() returns entire data object with expected properties" );
     assertEquals( div.data("foo"), undefined, "Make sure that missing result is still undefined" );
 
     nodiv = jQuery("#unfound");
