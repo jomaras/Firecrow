@@ -258,22 +258,16 @@
 <script>
     jQuery("#qunit-fixture").append("<div id='show-tests'><span style='position:absolute;'>foo</span></div>");
 
-    var $span = jQuery("#show-tests span"),
-            displayNone = $span.css("display"),
-            display = "";
-
-    $span.show();
-
-    display = $span.css("display");
+    var $span = jQuery("#show-tests span");
 
     $span.hide();
 
     $span.fadeIn(100, function() {
-        assertEquals($span.css("display"), display, "Expecting display: " + display);
+        assertEquals($span.css("display"), "block", "Expecting display: block");
         $span.fadeOut(100, function () {
-            assertEquals($span.css("display"), displayNone, "Expecting display: " + displayNone);
+            assertEquals($span.css("display"), "none", "Expecting display: none");
             $span.fadeIn(100, function() {
-                assertEquals($span.css("display"), display, "Expecting display: " + display);
+                assertEquals($span.css("display"), "block", "Expecting display: block");
             });
         });
     });

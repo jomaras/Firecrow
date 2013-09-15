@@ -271,9 +271,9 @@
         nw = $foo.css("width");
         assert( parseFloat( nw ) !== w, "Stop didn't reset the animation " + nw + " " + w + "px");
 
-        equal( $foo.queue().length, 0, "The animation queue was cleared" );
+        assertEquals( $foo.queue().length, 0, "The animation queue was cleared" );
         setTimeout(function(){
-            equal( nw, $foo.css("width"), "The animation didn't continue" );
+            assertEquals( nw, $foo.css("width"), "The animation didn't continue" );
         }, 100);
     }, 100);
 </script>

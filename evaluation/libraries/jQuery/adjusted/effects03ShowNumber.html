@@ -266,10 +266,10 @@
     test = {
         "div"      : "block",
         "p"        : "block",
-        "a"        : "inline",
-        "code"     : "inline",
+        "a"        : "inline-block",
+        "code"     : "inline-block",
         "pre"      : "block",
-        "span"     : "inline",
+        "span"     : "inline-block",
         "table"    : old ? "block" : "table",
         "thead"    : old ? "block" : "table-header-group",
         "tbody"    : old ? "block" : "table-row-group",
@@ -281,7 +281,8 @@
     };
 
     jQuery.each(test, function(selector, expected) {
-        var elem = jQuery(selector, "#show-tests").show(1, function() {
+        var elem = jQuery(selector, "#show-tests")
+        elem.show(1, function() {
             assertEquals( elem.css("display"), expected, "Show using correct display type for " + selector );
         });
     });

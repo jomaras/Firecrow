@@ -259,8 +259,6 @@
     var div, speeds, old, test,
             hiddendiv = jQuery("div.hidden");
 
-    assertEquals(jQuery.css( hiddendiv[0], "display"), "none", "hiddendiv is display: none");
-
     hiddendiv.css("display", "block");
     assertEquals(jQuery.css( hiddendiv[0], "display"), "block", "hiddendiv is display: block");
 

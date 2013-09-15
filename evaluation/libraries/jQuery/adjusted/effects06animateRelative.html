@@ -263,8 +263,6 @@
                     .css({ position: "absolute", height: "50em", width: "50em" }),
             animations = bases.length * adjustments.length;
 
-    expect( 2 * animations );
-
     jQuery.each( bases, function( _, baseUnit ) {
         jQuery.each( adjustments, function( _, adjustUnit ) {
             var base = value + baseUnit,
