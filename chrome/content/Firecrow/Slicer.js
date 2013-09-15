@@ -35,6 +35,8 @@ Firecrow.Slicer = {
         browser.registerCallbackStoppedExecuting(dependencyGraph.handleCallbackStoppedExecuting, dependencyGraph);
 
         browser.evaluatePage();
+        browser.executeLoadingEvents();
+        browser.executeTimingEvents();
         dependencyGraph.markGraph(htmlModel.htmlElement);
 
         return {

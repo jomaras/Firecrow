@@ -110,6 +110,50 @@ Browser.prototype = dummy =
         catch(e) { this.notifyError("Exception when building page from model: " + e); }
     },
 
+    executeLoadingEvents: function()
+    {
+        var loadedHandlers = this.globalObject.getLoadedHandlers();
+
+        for(var i = 0; i < loadedHandlers.length; i++)
+        {
+            this.executeEvent(loadedHandlers[i]);
+        }
+
+        this.setLoadingEventsExecuted();
+    },
+
+    executeTimingEvents: function()
+    {
+        var events = this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers);
+
+        while(events.length != 0)
+        {
+            var event = events[0];
+            this._interpretJsCode
+            (
+                event.handlerConstruct.body,
+                {
+                    functionHandler: event.handler,
+                    thisObject: this.globalObject,
+                    argumentValues: event.callArguments,
+                    registrationPoint: event.registrationPoint
+                }
+            );
+
+            if(event.eventType == "timeout")
+            {
+                var eventIndex = this.globalObject.timeoutHandlers.indexOf(event);
+
+                if(eventIndex != -1)
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(this.globalObject.timeoutHandlers, event);
+                }
+            }
+
+            events = this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers);
+        }
+    },
+
     clear: function(){},
 
     getEventRegistrations: function()

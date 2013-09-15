@@ -184,14 +184,7 @@
 
         (function executePageLoadingEvents()
         {
-            var loadedHandlers = browser.globalObject.getLoadedHandlers();
-
-            for(var i = 0; i < loadedHandlers.length; i++)
-            {
-                browser.executeEvent(loadedHandlers[i]);
-            }
-
-            browser.setLoadingEventsExecuted();
+            browser.executeLoadingEvents();
         })();
 
         (function executeEvents()
