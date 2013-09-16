@@ -5,30 +5,15 @@
 <script src="../jQuery-src.js"></script>
 <body id="body" style="">
 
+<div id="mainContainer" style="background-color: red; width: 200px; height: 200px; display: none"></div>
+
 <script>
-    var result = {
-        array: Array(4)
-    };
+    var mainContainer = $("#mainContainer");
 
-    var label = null;
-
-    callback = function(v, k)
+    mainContainer.show(1, function()
     {
-        if(result[label])
-        {
-            delete result[ label ];
-            assertEquals(k, "0", label + " treated like array");
-        }
-    };
-
-    for(var i in result)
-    {
-        label = i;
-        jQuery.map(result[i], callback);
-    }
+        assertEquals(mainContainer.css("display"), "block");
+    });
 </script>
-
-
-
 </body>
 </html>

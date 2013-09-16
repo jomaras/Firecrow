@@ -61,7 +61,7 @@ fcSimulator.prototype = dummy =
                 }
 
                 //Uncomment to enable application tracing
-                /*if(codeConstruct.loc != null && codeConstruct.loc.start.line == 4922)
+                /*if(codeConstruct.loc != null && codeConstruct.loc.start.line >= 9491 && codeConstruct.loc.start.line <= 9507)
                 {
                     fcSimulator.logTrace = true;
                 }

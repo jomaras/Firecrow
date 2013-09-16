@@ -12,8 +12,8 @@ fcModel.GlobalObjectExecutor =
                  if (fcFunction.jsValue.name == "eval") { return _handleEval(fcFunction, args, callExpression, globalObject); }
             else if (fcFunction.jsValue.name == "addEventListener") { return globalObject.addEventListener(args, callExpression, globalObject); }
             else if (fcFunction.jsValue.name == "removeEventListener") { return globalObject.removeEventListener(args, callExpression, globalObject); }
-            else if (fcFunction.jsValue.name == "setTimeout" || fcFunction.jsValue.name == "setInterval") { return this._setTimingEvents(fcFunction.jsValue.name, args[0], args[1].jsValue, args.slice(2), globalObject, callExpression); }
-            else if (fcFunction.jsValue.name == "clearTimeout" || fcFunction.jsValue.name == "clearInterval") { return this._clearTimingEvents(fcFunction.jsValue.name, args[0].jsValue, globalObject, callExpression); }
+            else if (fcFunction.jsValue.name == "setTimeout" || fcFunction.jsValue.name == "setInterval") { return this._setTimingEvents(fcFunction.jsValue.name, args[0], args[1] != null ? args[1].jsValue : 0, args.slice(2), globalObject, callExpression); }
+            else if (fcFunction.jsValue.name == "clearTimeout" || fcFunction.jsValue.name == "clearInterval") { return this._clearTimingEvents(fcFunction.jsValue.name, args[0] != null ? args[0].jsValue : 0, globalObject, callExpression); }
             else if (fcFunction.jsValue.name == "getComputedStyle") { return this._getComputedStyle(args[0], globalObject.getJsValues(args), globalObject, callExpression) }
             else if (fcFunction.jsValue.name.indexOf("assert") != -1)
             {
@@ -54,14 +54,14 @@ fcModel.GlobalObjectExecutor =
 
     _setTimingEvents: function(functionName, handler, timePeriod, sentArguments, globalObject, callExpression)
     {
-        var timeoutId = setTimeout(function(){});
+        var timeoutId = globalObject.TIMEOUT_ID_COUNTER++;
 
         var timingEventArguments = [timeoutId, handler, timePeriod, sentArguments, { codeConstruct:callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()}];
 
         if(functionName == "setTimeout") { globalObject.registerTimeout.apply(globalObject, timingEventArguments); }
         else if(functionName == "setInterval") { globalObject.registerInterval.apply(globalObject, timingEventArguments); }
 
-        return new fcModel.fcValue(timeoutId, null, null);
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, timeoutId);
     },
 
     _clearTimingEvents: function(functionName, timerId, globalObject, callExpression)
@@ -69,14 +69,14 @@ fcModel.GlobalObjectExecutor =
         if(functionName == "clearTimeout") { globalObject.unregisterTimeout(arguments[0] != null ? timerId : null, callExpression); }
         else { globalObject.unregisterInterval(arguments[0] != null ? timerId : null, callExpression); }
 
-        return new fcModel.fcValue(undefined, undefined, null);
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
     },
 
     _handleEval: function(fcFunction, arguments, callExpression, globalObject)
     {
         fcModel.GlobalObject.notifyError("Not handling eval function!");
 
-        return new fcModel.fcValue(null, null, callExpression);
+        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, null);
     },
 
     executesFunction: function(globalObject, functionName)

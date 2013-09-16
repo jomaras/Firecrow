@@ -129,6 +129,7 @@ Browser.prototype = dummy =
         while(events.length != 0)
         {
             var event = events[0];
+
             this._interpretJsCode
             (
                 event.handlerConstruct.body,

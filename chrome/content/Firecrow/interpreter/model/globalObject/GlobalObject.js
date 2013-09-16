@@ -31,6 +31,7 @@ fcModel.GlobalObject = function(browser)
         this._createEvaluationPositionProperties();
 
         this._EXECUTION_COMMAND_COUNTER = 0;
+        this.TIMEOUT_ID_COUNTER = 0;
     }
     catch(e)
     {
