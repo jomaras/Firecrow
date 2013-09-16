@@ -281,7 +281,7 @@ fcSimulator.prototype = dummy =
         if(exceptionGeneratingArgument == null || !(exceptionGeneratingArgument.isDomStringException || exceptionGeneratingArgument.isPushExpectedException))
         {
             debugger;
-            fcSimulator.notifyError("Exception generating error at:" + this.commands[this.currentCommandIndex].codeConstruct.loc.source + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + this.globalObject.browser.url);
+            fcSimulator.notifyError("Exception generating error at:" + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + FBL.Firecrow.CodeTextGenerator.generateJsCode(this.commands[this.currentCommandIndex].codeConstruct));
         }
 
         if(this.tryStack.length == 0)

@@ -149,7 +149,7 @@
             //Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
 
             var startTime = dateNow();
-            Firecrow.Slicer.slice(pageModel);
+            Firecrow.Slicer.slice(pageModel, undefined, undefined, window.queryString["executeRegisteredEvents"]);
             slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
             astNodesTextArea.textContent = nodeId;
             loadingTimeTextArea.textContent = dateNow() - startTime;

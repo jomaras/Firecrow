@@ -48,6 +48,13 @@
       this.prototype[key] = value;
     }).overloadSetter();
     var slice = Array.prototype.slice;
+    Function.from = function(item)
+    {
+      return typeOf(item) == 'function' ? 0 : function()
+      {
+        return item;
+      };
+    };
     Array.from = function(item)
     {
       return Type.isEnumerable(item) && typeof item != 'string' ? typeOf(item) == 'array' ? item : 0 : [item];
@@ -59,6 +66,7 @@
       }, 
       protect: function()
       {
+        this.$protected = true;
         return this;
       }
     });
@@ -77,6 +85,7 @@
       }
 
       object.extend(this);
+      object.prototype.$constructor = object;
       return object;
     };
     var toString = Object.prototype.toString;
@@ -102,7 +111,7 @@
       }
 
       var previous = this.prototype[name];
-      if(previous == null)
+      if(previous == null || !(previous.$protected))
       this.prototype[name] = method;
 
       if(this[name] == null && typeOf(method) == 'function')
@@ -119,6 +128,7 @@
     };
     Type.implement({
       implement: implement.overloadSetter(), 
+      extend: extend.overloadSetter(), 
       alias: (function(name, existing)
       {
         implement.call(this, name, this.prototype[existing]);
@@ -128,6 +138,7 @@
         hooksOf(this).push(hook);
       }
     });
+    new Type('Type', Type);
     var force = function(name, object, methods)
     {
       var isType = object != Object, prototype = object.prototype;
@@ -177,7 +188,8 @@
       switch(typeOf(current))
       {
         case 'object':
-          if(typeOf(source[key]) == 'object');
+          if(typeOf(source[key]) == 'object')
+          Object.merge(source[key], current);
           else 
           source[key] = Object.clone(current);
 
@@ -185,13 +197,25 @@
         case 'array':
           source[key] = current.clone();
           break;
+        default:
+          source[key] = current;
       }
+      return source;
     };
     Object.extend({
       merge: function(source, k, v)
       {
         if(typeOf(k) == 'string')
         return mergeOne(source, k, v);
+
+        for(var i = 1, l = arguments.length;i < l;i++)
+        {
+          var object = arguments[i];
+          for(var key in object)
+          mergeOne(source, key, object[key]);
+        }
+
+        return source;
       }, 
       clone: function(object)
       {
@@ -200,7 +224,8 @@
         clone[key] = cloneOf(object[key]);
 
         return clone;
-      }
+      }, 
+      append: function(original){}
     });
     (['Object', 'WhiteSpace', 'TextNode', 'Collection', 'Arguments']).each(function(name)
     {
@@ -209,11 +234,15 @@
   })();
   Array.implement({
     every: function(fn, bind){}, 
+    filter: function(fn, bind){}, 
+    indexOf: function(item, from){}, 
+    map: function(fn, bind){}, 
+    some: function(fn, bind){}, 
     clean: function(){}, 
     invoke: function(methodName)
     {
       var args = Array.slice(arguments, 1);
-      return (function(item)
+      return this.map(function(item)
       {
         return item[methodName].apply(item, args);
       });
@@ -254,12 +283,26 @@
     };
     Browser.extend({
       Document: this.Document, 
-      Element: this.Element
+      Window: this.Window, 
+      Element: this.Element, 
+      Event: this.Event
     });
     this.Window = this.$constructor = new Type('Window', function(){});
     Window.mirror(function(name, method){});
     this.Document = document.$constructor = new Type('Document', function(){});
+    document.$family = Function.from('document').hide();
     Document.mirror(function(name, method){});
+  })();
+  (function()
+  {
+    var DOMEvent = this.DOMEvent = new Type('DOMEvent', function(event, win){});
+    DOMEvent.implement({
+      stop: function(){}, 
+      stopPropagation: function(){}, 
+      preventDefault: function(){}
+    });
+    DOMEvent.defineKey = function(code, key){};
+    DOMEvent.defineKey.overloadSetter(true);
   })();
   (function()
   {
@@ -272,8 +315,10 @@
         return this;
 
         var value = this.initialize ? 0 : this;
+        this.$caller = this.caller = null;
         return value;
       }).extend(this).implement(params);
+      newClass.prototype.$constructor = newClass;
       newClass.prototype.parent = parent;
       return newClass;
     });
@@ -304,7 +349,9 @@
       {
         var result = method.apply(this, arguments);
       }).extend({
-        $owner: self
+        $owner: self, 
+        $origin: method, 
+        $name: key
       });
       return wrapper;
     };
@@ -397,6 +444,12 @@
   });
   (function()
   {
+    ({
+      set: (function(prop, value){}).overloadSetter()
+    });
+  })();
+  (function()
+  {
     var element = document.createElement('div'), child = document.createElement('div');
     element.style.height = '0';
     element.appendChild(child);
@@ -430,7 +483,7 @@
   {
     var Fx = this.Fx = new Class({
       Implements: [Chain, Events, Options], 
-      options: {fps: 60, unit: false, duration: 500, frameSkip: true, link: 'ignore'}, 
+      options: {fps: 60, unit: false, duration: 500, frames: null, frameSkip: true, link: 'ignore'}, 
       initialize: function(options){}, 
       getTransition: function(){}, 
       step: function(now){}, 
@@ -454,6 +507,11 @@
     render: function(element, property, value, unit){}, 
     search: function(selector){}
   });
+  {
+    String: {
+      parse: Function.from(false)
+    }
+  };
   new Class({
     Extends: Fx.CSS, 
     initialize: function(element, options){}, 
@@ -482,6 +540,7 @@
         format: false, 
         method: 'post', 
         link: 'ignore', 
+        isSuccess: null, 
         emulation: true, 
         urlEncoded: true, 
         encoding: 'utf-8', 
@@ -508,10 +567,25 @@
       send: function(options){}, 
       cancel: function(){}
     });
+    var methods = {};
+    (['get', 'post', 'put', 'delete', 'GET', 'POST', 'PUT', 'DELETE']).each(function(method)
+    {
+      methods[method] = function(data){};
+    });
+    Request.implement(methods);
+    Element.implement({
+      send: function(url){}
+    });
   })();
   new Class({
     Extends: Request, 
-    options: {}, 
+    options: {
+      update: false, 
+      append: false, 
+      evalScripts: true, 
+      filter: false, 
+      headers: {Accept: 'text/html, application/xml, text/xml, */*'}
+    }, 
     success: function(text){}
   });
   Element.implement({
@@ -519,9 +593,24 @@
   });
   new Class({
     Extends: Request, 
-    options: {}, 
+    options: {secure: true}, 
     initialize: function(options){}, 
     success: function(text){}
+  });
+  var Cookie = new Class({
+    Implements: Options, 
+    options: {
+      path: '/', 
+      domain: false, 
+      duration: false, 
+      secure: false, 
+      document: document, 
+      encode: true
+    }, 
+    initialize: function(key, options){}, 
+    write: function(value){}, 
+    read: function(){}, 
+    dispose: function(){}
   });
   (function()
   {
@@ -531,6 +620,7 @@
         id: null, 
         height: 1, 
         width: 1, 
+        container: null, 
         properties: {}, 
         params: {quality: 'high', allowScriptAccess: 'always', wMode: 'window', swLiveConnect: true}, 
         callBacks: {}, 

@@ -167,6 +167,11 @@ fcModel.Object.prototype =
         return lastModifications;
     },
 
+    getPropertyNames: function()
+    {
+        return this._getEnumeratedPropertiesFromImplementationObject();
+    },
+
     getPropertyNameAtIndex: function(index, codeConstruct)
     {
         var propertyName = this._getEnumeratedPropertiesFromImplementationObject()[index];
@@ -213,8 +218,6 @@ fcModel.Object.prototype =
         {
             if(this.preventExtensions) { return; }
             if(propertyName == "__proto__") { this.setProto(propertyValue, codeConstruct); return; }
-
-            if(propertyName == "nextSlide" && this.id == 22810) debugger;
 
             var property = this.getOwnProperty(propertyName);
 
@@ -292,6 +295,7 @@ fcModel.Object.prototype =
                         codeConstruct: codeConstruct,
                         evaluationPosition: this.globalObject.getPreciseEvaluationPositionId()
                     };
+                    this._addModification(codeConstruct, this.globalObject.getPreciseEvaluationPositionId(), propertyName);
                     break;
                 }
             }

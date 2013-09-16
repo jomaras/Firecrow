@@ -416,21 +416,34 @@ fcSimulator.Evaluator.prototype =
     _evalForInWhereCommand: function(forInWhereCommand)
     {
         var forInWhereConstruct = forInWhereCommand.codeConstruct;
+
         var whereObject = this.executionContextStack.getExpressionValue(forInWhereConstruct.right);
 
         if(whereObject.iValue == null) { forInWhereCommand.willBodyBeExecuted = false; return; }
 
-        this._logForInIteration(forInWhereCommand, whereObject.iValue);
+        if(!forInWhereCommand.propertyNames)
+        {
+            var isFirstIteration = true;
+            forInWhereCommand.propertyNames = whereObject.iValue.getPropertyNames();
+        }
 
-        var nextPropertyIndex = forInWhereCommand.currentPropertyIndex + 1;
+        this._logForInIteration(forInWhereCommand, whereObject.iValue, isFirstIteration);
 
-        var nextPropertyName = whereObject.iValue.getPropertyNameAtIndex(nextPropertyIndex);
+        while(forInWhereCommand.propertyNames.length > 0 && !propertyValue)
+        {
+            var nextPropertyNameString = forInWhereCommand.propertyNames[0];
+            ValueTypeHelper.removeFromArrayByIndex(forInWhereCommand.propertyNames, 0);
 
-        this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName, nextPropertyIndex);
+            var propertyValue = whereObject.iValue.getPropertyValue(nextPropertyNameString);
+        }
 
-        forInWhereCommand.willBodyBeExecuted = !(nextPropertyName.jsValue === null || nextPropertyName.jsValue === undefined);
+        forInWhereCommand.willBodyBeExecuted = !!propertyValue;
 
-        if(!forInWhereCommand.willBodyBeExecuted){ return; }
+        if(!propertyValue) { return; }
+
+        var nextPropertyName = this.globalObject.internalExecutor.createInternalPrimitiveObject(forInWhereConstruct.left, nextPropertyNameString);
+
+        this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName, isFirstIteration);
 
         if(ASTHelper.isIdentifier(forInWhereConstruct.left))
         {
@@ -864,9 +877,9 @@ fcSimulator.Evaluator.prototype =
         return callExpressionArgs == null ? [] : this.executionContextStack.getExpressionsValues(callExpressionArgs);
     },
 
-    _logForInIteration: function(forInWhereCommand, whereObject)
+    _logForInIteration: function(forInWhereCommand, whereObject, isFirstIteration)
     {
-        if(forInWhereCommand == null || forInWhereCommand.currentPropertyIndex !== 0 || whereObject == null) { return; }
+        if(forInWhereCommand == null || !isFirstIteration || whereObject == null) { return; }
 
         this.globalObject.logForInIteration(forInWhereCommand.codeConstruct, whereObject.proto);
     },

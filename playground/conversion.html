@@ -11,17 +11,16 @@
 <body>
     <div id="container"></div>
     <script>
-        var container = document.getElementById("container");
-        container.onclick = function()
+        var a = { b:1, c:2, d:3 };
+
+        var a1 = 0;
+        for(var prop in a)
         {
-            container.style.backgroundColor = "red";
+            a1 += a[prop];
+            delete a.c;
+        }
 
-            var httpRequest = new XMLHttpRequest();
-            httpRequest.open("GET", "serverSide.php", false);
-            httpRequest.send();
-
-            container.textContent += httpRequest.responseText;
-        };
+        a1;
     </script>
 </body>
 </html>

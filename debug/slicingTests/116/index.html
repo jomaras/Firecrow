@@ -3,19 +3,20 @@
 <head>
 </head>
 <body>
-    <div id="mainContainer"></div>
-    <script>
-        var a1 = 0;
-        window.onload = function()
-        {
-            a1++;
-        };
+<div id="mainContainer"></div>
+<script>
+    var a = [{b:1}, {b:2}];
 
-        setTimeout(function()
-        {
-            a1++;
-            a1;
-        }, 100);
-    </script>
+    var a1 = 0;
+
+    delete a[0];
+
+    a.forEach(function(item)
+    {
+        a1 += item.b;
+    });
+
+    a1;
+</script>
 </body>
 </html>

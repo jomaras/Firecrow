@@ -500,6 +500,8 @@ fcModel.Array.prototype.indexOf = function(jsArray, callArguments, callExpressio
 
         for(var i = fromIndex; i < length; i++)
         {
+            if(searchObject[i] === undefined) { return; }
+
             if(searchObject[i].jsValue === searchForItem.jsValue)
             {
                 return this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, i);

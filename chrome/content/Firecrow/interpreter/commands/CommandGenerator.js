@@ -204,7 +204,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
 
         ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.right, parentFunctionCommand));
 
-        commands.push(fcCommands.Command.createForInWhereCommand(sourceElement, -1, parentFunctionCommand));
+        commands.push(fcCommands.Command.createForInWhereCommand(sourceElement, undefined, parentFunctionCommand));
 
         return commands;
     },
@@ -762,11 +762,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         var endLoopCommand = new fcCommands.Command(forInCommand.codeConstruct, fcCommands.Command.COMMAND_TYPE.EndLoopStatement, forInCommand.parentFunctionCommand);
         endLoopCommand.startCommand = forInCommand;
 
-        if(forInCommand.id == 64147)
-        {
-            var a = 3;
-        }
-
         if(forInCommand.willBodyBeExecuted)
         {
             ASTHelper.traverseDirectSourceElements
@@ -780,7 +775,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
             );
 
             commands.push(endLoopCommand);
-            commands.push(fcCommands.Command.createForInWhereCommand(forInCommand.codeConstruct, forInCommand.currentPropertyIndex + 1, forInCommand.parentFunctionCommand));
+            commands.push(fcCommands.Command.createForInWhereCommand(forInCommand.codeConstruct, forInCommand.propertyNames, forInCommand.parentFunctionCommand));
         }
         else
         {

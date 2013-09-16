@@ -7,7 +7,7 @@ fcModel.HtmlElement = function fcModelHtmlElement(htmlElement, globalObject, cod
 {
     try
     {
-        this.initObject(globalObject, codeConstruct);
+        this.initObject(globalObject, codeConstruct, htmlElement);
         ValueTypeHelper.expand(this, fcModel.EventListenerMixin);
 
         this.constructor = fcModel.HtmlElement;

@@ -108,13 +108,13 @@ Firecrow.Interpreter.Commands.Command.createArrayExpressionItemCommand = functio
     return command;
 };
 
-Firecrow.Interpreter.Commands.Command.createForInWhereCommand = function(codeConstruct, currentPropertyIndex, parentFunctionCommand)
+Firecrow.Interpreter.Commands.Command.createForInWhereCommand = function(codeConstruct, propertyNames, parentFunctionCommand)
 {
-    var newForInWhereCommand = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.EvalForInWhere, parentFunctionCommand);
+    var command = new fcCommands.Command(codeConstruct, fcCommands.Command.COMMAND_TYPE.EvalForInWhere, parentFunctionCommand);
 
-    newForInWhereCommand.currentPropertyIndex  = currentPropertyIndex;
+    command.propertyNames = propertyNames;
 
-    return newForInWhereCommand;
+    return command;
 };
 
 Firecrow.Interpreter.Commands.Command.createCallInternalConstructorCommand = function(codeConstruct, functionObject, parentFunctionCommand)

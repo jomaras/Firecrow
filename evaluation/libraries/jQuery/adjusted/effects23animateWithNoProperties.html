@@ -257,9 +257,7 @@
 
 <script>
     assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
-    var foo,
-            divs = jQuery("div"),
-            count = 0;
+    var foo, divs = jQuery("div").slice(0, 3), count = 0;
 
     divs.animate({}, function(){
         count++;

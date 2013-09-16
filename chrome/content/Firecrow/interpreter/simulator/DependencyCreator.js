@@ -672,7 +672,7 @@ fcSimulator.DependencyCreator.prototype =
         }
     },
 
-    createDependenciesInForInWhereCommand: function(forInWhereConstruct, whereObject, nextPropertyName, propertyIndex)
+    createDependenciesInForInWhereCommand: function(forInWhereConstruct, whereObject, nextPropertyName, isFirstIteration)
     {
         if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createForInWhereSimpleDependencies(forInWhereConstruct, whereObject, nextPropertyName); }
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
@@ -711,7 +711,7 @@ fcSimulator.DependencyCreator.prototype =
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks(declarator.id, forInWhereConstruct.right, evaluationPosition);
             }
 
-            if(propertyIndex === 0)
+            if(isFirstIteration)
             {
                 this.globalObject.browser.callDataDependencyEstablishedCallbacks
                 (

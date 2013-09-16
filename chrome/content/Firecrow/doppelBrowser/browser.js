@@ -124,7 +124,7 @@ Browser.prototype = dummy =
 
     executeTimingEvents: function()
     {
-        var events = this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers);
+        var events = this._getTimingEventsSortedByRegistrationPoint();
 
         while(events.length != 0)
         {
@@ -151,8 +151,20 @@ Browser.prototype = dummy =
                 }
             }
 
-            events = this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers);
+            events = this._getTimingEventsSortedByRegistrationPoint();
         }
+    },
+
+    _getTimingEventsSortedByRegistrationPoint: function()
+    {
+        var events = this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers);
+
+        events.sort(function(event1, event2)
+        {
+            return event1.registrationPoint.evaluationPositionId.currentCommandId - event2.registrationPoint.evaluationPositionId.currentCommandId;
+        });
+
+        return events;
     },
 
     clear: function(){},

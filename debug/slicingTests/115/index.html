@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-</head>
+<head></head>
 <body>
-    <div id="mainContainer"></div>
-    <script>
-        var a = {0: 0, 1:1, length: 2};
-        a.getFirst = function() { return this[0]; };
-        var b = Array.prototype.slice.call(a);
-
-        var a1 = 0;
-        for(var i = 0; i < b.length; i++)
-        {
-            a1 += a[i];
-        }
-
-        a1;
-    </script>
+<div id="mainContainer"></div>
+<script>
+    var a = {
+                0: 0,
+                1: 1,
+                length: 2
+    };
+    a.getFirst = function ()
+    {
+        return this[0];
+    }
+    var b = Array.prototype.slice.call(a);
+    var a1 = 0;
+    for (var i = 0; i < b.length; i++)
+    {
+        a1 += a[i]
+    }
+    a1
+</script>
 </body>
 </html>

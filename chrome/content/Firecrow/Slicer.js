@@ -6,7 +6,7 @@
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
 Firecrow.Slicer = {
-    slice: function(htmlModel, slicingCriteria, url)
+    slice: function(htmlModel, slicingCriteria, url, executeRegisteredEvents)
     {
         var Firecrow = FBL.Firecrow;
         Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
@@ -35,8 +35,14 @@ Firecrow.Slicer = {
         browser.registerCallbackStoppedExecuting(dependencyGraph.handleCallbackStoppedExecuting, dependencyGraph);
 
         browser.evaluatePage();
-        browser.executeLoadingEvents();
-        browser.executeTimingEvents();
+
+        if(executeRegisteredEvents)
+        {
+            console.log("Executing registered events");
+            browser.executeLoadingEvents();
+            browser.executeTimingEvents();
+        }
+
         dependencyGraph.markGraph(htmlModel.htmlElement);
 
         return {

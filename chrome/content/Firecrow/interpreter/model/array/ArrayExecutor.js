@@ -157,7 +157,11 @@ fcModel.ArrayExecutor =
 
         for(var i = 0, length = thisObjectValue.length; i < length; i++)
         {
-            callbackArguments.push([thisObject.jsValue[i], globalObject.internalExecutor.createInternalPrimitiveObject(callbackParams[i], i), thisObject]);
+            var item = thisObjectValue[i];
+            if(item !== undefined)
+            {
+                callbackArguments.push([item, globalObject.internalExecutor.createInternalPrimitiveObject(callbackParams[i], i), thisObject]);
+            }
         }
 
         return callbackArguments;

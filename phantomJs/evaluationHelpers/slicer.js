@@ -8,7 +8,9 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\";
+var libraryName = "mooTools"
+var executeRegisteredEvents = undefined;
+var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;
 var destinationName = "slicedAll";//slicedAll; slicedWithoutSliceUnions; slicedWithoutSliceUnionsAndArrays
@@ -25,7 +27,7 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf("effects") != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf("Class22") != -1)
     {
         return fullPath;
     }
@@ -37,7 +39,7 @@ var interval = setInterval(function()
     {
         var modelUrl = modelFiles[pageIndex].replace("C:\\GitWebStorm\\", "http:\\\\localhost\\").replace(/\\/g, "/");
         var slicerPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/slicer.html"
-                        + "?url=" + modelUrl;
+                        + "?url=" + modelUrl + (executeRegisteredEvents ? ("&executeRegisteredEvents=" + executeRegisteredEvents)  : "");
 
         page.open(encodeURI(slicerPageUrl));
     }
