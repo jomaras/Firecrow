@@ -256,6 +256,7 @@
 </map>
 
 <script>
+    assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
     var div = jQuery("<div style='display:none'></div>").appendTo("#qunit-fixture");
     assertEquals( div.css("display"), "none", "Element is hidden by default" );
     div.hide(1, function () {

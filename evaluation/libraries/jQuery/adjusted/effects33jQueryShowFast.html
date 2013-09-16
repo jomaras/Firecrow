@@ -256,6 +256,7 @@
 </map>
 
 <script>
+    assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
     var $checkedtest = jQuery("#checkedtest");
     $checkedtest.hide().show("fast", function() {
         assert( jQuery("input[type='radio']", $checkedtest).first().attr("checked"), "Check first radio still checked." );

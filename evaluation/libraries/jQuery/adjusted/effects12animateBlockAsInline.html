@@ -256,6 +256,7 @@
 </map>
 
 <script>
+    assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
     jQuery("#foo").css({ display: "inline", width: "", height: "" }).animate({ width: 42, height: 42 }, 100, function() {
         assertEquals( jQuery(this).css("display"), "inline-block", "inline-block was set on non-floated inline element when animating width/height" );
         assertEquals( this.offsetWidth, 42, "width was animated" );

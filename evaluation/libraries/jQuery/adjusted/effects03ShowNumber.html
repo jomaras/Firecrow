@@ -255,7 +255,8 @@
     <area shape="rect" coords="0,0,200,50">
 </map>
 
-<script> function assertEquals(a,b){}
+<script>
+    assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
     jQuery("#qunit-fixture").append("<div id='show-tests'><div><p><a href='#'></a></p><code></code><pre></pre><span></span></div><table><thead><tr><th></th></tr></thead><tbody><tr><td></td></tr></tbody></table><ul><li></li></ul></div><table id='test-table'></table>");
 
     var test,

@@ -256,6 +256,7 @@
 </map>
 
 <script>
+    assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
     jQuery("#foo")
             .css({ display: "block", width: 20, height: 20, overflowX: "visible", overflowY: "auto" })
             .animate({ width: 42, height: 42 }, 100, function() {

@@ -256,6 +256,7 @@
 </map>
 
 <script>
+    assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
     jQuery("#foo").animate({ height: -100 }, 100, function() {
         assertEquals( this.offsetHeight, 0, "Verify height." );
     });
