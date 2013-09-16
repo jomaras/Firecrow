@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="mainContainer"></div>
+<script>
+    var a = { b:1, c:2, d:3 };
+
+    var a1 = 0;
+    for(var prop in a)
+    {
+        a1 += a[prop];
+        a.e = 4;
+    }
+
+    a1;
+</script>
+</body>
+</html>
