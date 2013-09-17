@@ -8,11 +8,11 @@
 <div id="mainContainer" style="background-color: red; width: 200px; height: 200px; display: none"></div>
 
 <script>
-    var mainContainer = $("#mainContainer");
-
-    mainContainer.show(1, function()
+    assert(true);
+    var $foo = jQuery("#mainContainer");
+    $foo.animate({"width": "show"}, 400, function()
     {
-        assertEquals(mainContainer.css("display"), "block");
+        assertEquals($foo.css("width"), 400, "An animation occurred");
     });
 </script>
 </body>

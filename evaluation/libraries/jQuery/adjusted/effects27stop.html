@@ -255,7 +255,7 @@
     <area shape="rect" coords="0,0,200,50">
 </map>
 
-<script>
+<script>    function assert(a) {if(!a) debugger; } function assertEquals(a,b){ if(a!=b)debugger;} function assertNotEquals(a,b) { if(a == b) debugger; }
     assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
     var $one, $two,
             $foo = jQuery("#foo"),

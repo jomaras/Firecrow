@@ -38,7 +38,6 @@ Firecrow.Slicer = {
 
         if(executeRegisteredEvents)
         {
-            console.log("Executing registered events");
             browser.executeLoadingEvents();
             browser.executeTimingEvents();
         }

@@ -214,7 +214,7 @@ FBL.ns(function() { with (FBL) {
             );
         },
 
-        handleBreakContinueReturnEventReached: function(sourceNode)
+        handleBreakContinueReturnEventReached: function(sourceNode,  evaluationPosition, isCallbackReturn)
         {
             var dataDependencies = sourceNode.graphNode.dataDependencies;
             this.breakContinueReturnEventsMapping.push
@@ -222,7 +222,8 @@ FBL.ns(function() { with (FBL) {
                 {
                     codeConstruct: sourceNode,
                     dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1,
-                    executionContextId: this.executionContextId
+                    executionContextId: this.executionContextId,
+                    isCallbackReturn: isCallbackReturn
                 }
             );
         },
@@ -371,7 +372,6 @@ FBL.ns(function() { with (FBL) {
         _traverseBreakContinueReturnEventsDependencies: function()
         {
             var addedDependencies = 0;
-
             for(var i = 0; i < this.breakContinueReturnEventsMapping.length; i++)
             {
                 var mapping = this.breakContinueReturnEventsMapping[i];
@@ -380,7 +380,11 @@ FBL.ns(function() { with (FBL) {
                 var parent = ASTHelper.getBreakContinueReturnImportantAncestor(codeConstruct);
 
                 if(!this.inclusionFinder.isIncludedElement(parent)) { continue; }
-                if(ASTHelper.isReturnStatement(codeConstruct) && !this.inclusionFinder.isIncludedElement(codeConstruct)) { continue;}
+                if(ASTHelper.isReturnStatement(codeConstruct)
+                && !mapping.isCallbackReturn && !this.inclusionFinder.isIncludedElement(codeConstruct))
+                {
+                    continue;
+                }
 
                 if(this._contextHasIncludedDependencies(mapping.executionContextId))
                 {

@@ -5,16 +5,18 @@
 <body>
 <div id="mainContainer"></div>
 <script>
-    var a = { b:1, c:2, d:3 };
-
     var a1 = 0;
-    for(var prop in a)
+    var a = [1,3, 4, 5];
+
+    a.every(function(item)
     {
-        a1 += a[prop];
-        a.e = 4;
-    }
+        a1 += item;
+
+        return item % 2 == 1;
+    });
 
     a1;
+
 </script>
 </body>
 </html>

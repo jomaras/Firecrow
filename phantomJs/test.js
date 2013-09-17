@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "file:///C:/GitWebStorm/Firecrow/evaluation/libraries/jQuery/index.html";
+var url = "file:///C:/GitWebStorm/Firecrow/evaluation/libraries/jQuery/slicedAll/effects28stopInQueue.html";
 
 console.log("Started loading page");
 
@@ -43,7 +43,7 @@ page.open(encodeURI(url), function(status)
             console.log("After some time:");
             console.log(page.evaluate(function()
             {
-                return document.documentElement.innerHTML;
+                //return document.documentElement.innerHTML;
             }));
 
             phantom.exit();

@@ -1104,11 +1104,11 @@ Browser.prototype = dummy =
     },
 
     //TODO - think about new name
-    callBreakContinueReturnEventCallbacks: function(node, evaluationPosition)
+    callBreakContinueReturnEventCallbacks: function(node, evaluationPosition, isCallbackReturn)
     {
         this.breakContinueReturnEventsCallbacks.forEach(function(callbackObject)
         {
-            callbackObject.callback.call(callbackObject.thisObject, node, evaluationPosition);
+            callbackObject.callback.call(callbackObject.thisObject, node, evaluationPosition, isCallbackReturn);
         });
     },
 

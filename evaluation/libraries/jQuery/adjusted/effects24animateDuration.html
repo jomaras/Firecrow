@@ -257,14 +257,14 @@
 
 <script>
     assert(true);//pageModeler also includes dynamic added HTML nodes in the tree if it is executed
-    var $elem,
-            $elems = jQuery([{ a:0 },{ a:0 }]),
-            counter = 0;
+    var obj1 = { a:0 };
+    var obj2 = { a:0 };
+    var $elem, $elems = jQuery([obj1,obj2]),counter = 0;
 
     assertEquals( jQuery.timers.length, 0, "Make sure no animation was running from another test" );
 
     $elems.eq(0).animate( {a:1}, 0, function(){
-        assert( true, "Animate a simple property." );
+        assertEquals( obj1.a, 1, "Animate a simple property.");
         counter++;
     });
 
@@ -274,19 +274,20 @@
     assertEquals( counter, 1, "One synchronic animations" );
 
     $elems.animate( { a:2 }, 0, function(){
-        assert( true, "Animate a second simple property." );
+        assertEquals( this.a, 2, "Animate a second simple property." );
         counter++;
     });
 
     assertEquals( counter, 3, "Multiple synchronic animations" );
 
     $elems.eq(0).animate( {a:3}, 0, function(){
-        assert( true, "Animate a third simple property." );
+        assertEquals( this.a, 3, "Animate a third simple property." );
         counter++;
     });
     $elems.eq(1).animate( {a:3}, 200, function(){
         counter++;
         // Failed until [6115]
+        assertEquals( this.a, 3, "" );
         assertEquals( counter, 5, "One synchronic and one asynchronic" );
     });
 

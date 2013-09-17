@@ -311,8 +311,12 @@ fcSimulator.Evaluator.prototype =
         this.dependencyCreator.createReturnDependencies(returnCommand);
 
         this.globalObject.browser.logConstructExecuted(returnCommand.codeConstruct);
-
-        this.globalObject.browser.callBreakContinueReturnEventCallbacks(returnCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+        this.globalObject.browser.callBreakContinueReturnEventCallbacks
+        (
+            returnCommand.codeConstruct,
+            this.globalObject.getPreciseEvaluationPositionId(),
+            returnCommand.parentFunctionCommand && returnCommand.parentFunctionCommand.isExecuteCallbackCommand()
+        );
 
         //If return is in event handler function
         if(returnCommand.parentFunctionCommand == null)
