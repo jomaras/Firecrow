@@ -9,7 +9,7 @@ var modelFiles = [];
 var pageIndex = 0;
 
 var libraryName = "underscore"
-var executeRegisteredEvents = false;
+var executeRegisteredEvents = true;
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;

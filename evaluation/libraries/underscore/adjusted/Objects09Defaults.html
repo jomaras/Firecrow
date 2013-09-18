@@ -1,0 +1,21 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var result;
+            var options = {zero: 0, one: 1, empty: "", nan: NaN, nothing: null};
+
+            _.defaults(options, {zero: 1, one: 10, twenty: 20, nothing: 'str'});
+            assertEquals(options.zero, 0, 'value exists');
+            assertEquals(options.one, 1, 'value exists');
+            assertEquals(options.twenty, 20, 'default applied');
+            assertEquals(options.nothing, null, "null isn't overridden");
+
+            _.defaults(options, {empty: "full"}, {nan: "nan"}, {word: "word"}, {word: "dog"});
+            assertEquals(options.empty, "", 'value exists');
+            assert(_.isNaN(options.nan), "NaN isn't overridden");
+            assertEquals(options.word, "word", 'new value is added, first one wins');
+        </script>
+    </body>
+</html>

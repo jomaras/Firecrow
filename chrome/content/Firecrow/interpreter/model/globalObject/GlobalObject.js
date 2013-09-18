@@ -896,8 +896,9 @@ fcModel.GlobalObject.prototype._deleteInternalObjects = function()
 
 fcModel.GlobalObject.prototype._createInternalVariables = function()
 {
-    this.addProperty("undefined", new fcModel.fcValue(undefined, undefined, null));
-    this.addProperty("Infinity", new fcModel.fcValue(Infinity, Infinity, null));
+    this.addProperty("undefined", this.internalExecutor.createInternalPrimitiveObject(null, undefined));
+    this.addProperty("Infinity", this.internalExecutor.createInternalPrimitiveObject(null, Infinity));
+    this.addProperty("NaN", this.internalExecutor.createInternalPrimitiveObject(null, NaN));
     this.addProperty("mozInnerScreenX", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenX));
     this.addProperty("mozInnerScreenY", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenY));
 

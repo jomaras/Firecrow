@@ -1,0 +1,20 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            (function()
+            {
+                assert(_.isObject(arguments), 'the arguments object is object');
+                assert(_.isObject([1, 2, 3]), 'and arrays');
+                assert(_.isObject(function () {}), 'and functions');
+                assert(!_.isObject(null), 'but not null');
+                assert(!_.isObject(undefined), 'and not undefined');
+                assert(!_.isObject('string'), 'and not string');
+                assert(!_.isObject(12), 'and not number');
+                assert(!_.isObject(true), 'and not boolean');
+                assert(_.isObject(new String('string')), 'but new String()');
+            })();
+        </script>
+    </body>
+</html>

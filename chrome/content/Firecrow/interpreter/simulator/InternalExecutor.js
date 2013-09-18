@@ -390,10 +390,11 @@ fcSimulator.InternalExecutor.prototype =
         else if (ownerObject == this.globalObject.math) { return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
         else if (ownerObject == this.globalObject.objectPrototype) { return fcModel.ObjectExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (ownerObject == this.globalObject.stringPrototype) { return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, args, callExpression, callCommand); }
+        else if (ownerObject == this.globalObject.functionPrototype && functionObject.iValue.name == "bind") { return this._executeBindFunction(thisObject, args[0], args, callExpression); }
         else if (ownerObject.constructor == fcModel.HtmlElement) { return fcModel.HtmlElementExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression); }
         else
         {
-            this.notifyError("Unhandled call applied internal method: " + codeConstruct.loc.source);
+            this.notifyError("Unhandled call applied internal method: " + callExpression.loc.source);
         }
     },
 

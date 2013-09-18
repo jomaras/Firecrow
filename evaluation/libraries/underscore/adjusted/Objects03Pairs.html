@@ -1,0 +1,16 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var firstPairs = _.pairs({one: 1, two: 2});
+            assertEquals(firstPairs[0].join(", ") , "one, 1", "first");
+            assertEquals(firstPairs[1].join(", ") , "two, 2", "second");
+
+            var secondPairs = _.pairs({one: 1, two: 2, length: 3});
+            assertEquals(secondPairs[0].join(", "), "one, 1", "third");
+            assertEquals(secondPairs[1].join(", "), "two, 2", "fourth");
+            assertEquals(secondPairs[2].join(", "), "length, 3", "fifth");
+        </script>
+    </body>
+</html>

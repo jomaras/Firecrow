@@ -394,9 +394,7 @@ fcSimulator.Evaluator.prototype =
         var propertyCodeConstruct = objectPropertyCreationCommand.codeConstruct;
 
         var propertyValue = this.executionContextStack.getExpressionValue(propertyCodeConstruct.value);
-
         propertyValue = propertyValue.isPrimitive() ? propertyValue.createCopy(propertyCodeConstruct) : propertyValue;
-
         var propertyKey = ASTHelper.isLiteral(propertyCodeConstruct.key) ? propertyCodeConstruct.key.value
                                                                          : propertyCodeConstruct.key.name;
 

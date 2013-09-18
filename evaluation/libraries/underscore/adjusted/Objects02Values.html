@@ -1,0 +1,10 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            assertEquals(_.values({one: 1, two: 2}).join(', '), '1, 2', 'can extract the values from an object');
+            assertEquals(_.values({one: 1, two: 2, length: 3}).join(', '), '1, 2, 3', '... even when one of them is "length"');
+        </script>
+    </body>
+</html>

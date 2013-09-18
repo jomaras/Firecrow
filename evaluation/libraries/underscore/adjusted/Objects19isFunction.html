@@ -1,0 +1,13 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            assert(!_.isFunction(undefined), 'undefined vars are not functions');
+            assert(!_.isFunction([1, 2, 3]), 'arrays are not functions');
+            assert(!_.isFunction('moe'), 'strings are not functions');
+            assert(_.isFunction(_.isFunction), 'but functions are');
+            assert(_.isFunction(function(){}), 'even anonymous ones');
+        </script>
+    </body>
+</html>

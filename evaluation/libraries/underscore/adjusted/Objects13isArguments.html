@@ -1,0 +1,14 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var args = (function(){ return arguments; })(1, 2, 3);
+            assert(!_.isArguments('string'), 'a string is not an arguments object');
+            assert(!_.isArguments(_.isArguments), 'a function is not an arguments object');
+            assert(_.isArguments(args), 'but the arguments object is an arguments object');
+            assert(!_.isArguments(_.toArray(args)), 'but not when it\'s converted into an array');
+            assert(!_.isArguments([1,2,3]), 'and not vanilla arrays.');
+        </script>
+    </body>
+</html>

@@ -1,0 +1,12 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            assertEquals(_.keys({one : 1, two : 2}).join(', '), 'one, two', 'can extract the keys from an object');
+            // the test above is not safe because it relies on for-in enumeration order
+            var a = []; a[1] = 0;
+            assertEquals(_.keys(a).join(', '), '1', 'is not fooled by sparse arrays; see issue #95');
+        </script>
+    </body>
+</html>

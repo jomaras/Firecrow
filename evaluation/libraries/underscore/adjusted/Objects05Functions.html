@@ -1,0 +1,14 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var obj = {a : 'dash', b : _.map, c : (/yo/), d : _.reduce};
+            assert(_.isEqual(['b', 'd'], _.functions(obj)), 'can grab the function names of any passed-in object');
+
+            var Animal = function(){};
+            Animal.prototype.run = function(){};
+            assertEquals(_.functions(new Animal).join(''), 'run', 'also looks up functions on the prototype');
+        </script>
+    </body>
+</html>

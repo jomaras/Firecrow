@@ -1,0 +1,19 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var result;
+            result = _.omit({a:1, b:2, c:3}, 'b');
+            assert(_.isEqual(result, {a:1, c:3}), 'can omit a single named property');
+            result = _.omit({a:1, b:2, c:3}, 'a', 'c');
+            assert(_.isEqual(result, {b:2}), 'can omit several named properties');
+            result = _.omit({a:1, b:2, c:3}, ['b', 'c']);
+            assert(_.isEqual(result, {a:1}), 'can omit properties named in an array');
+
+            var Obj = function(){};
+            Obj.prototype = {a: 1, b: 2, c: 3};
+            assert(_.isEqual(_.omit(new Obj, 'b'), {a:1, c: 3}), 'include prototype props');
+        </script>
+    </body>
+</html>

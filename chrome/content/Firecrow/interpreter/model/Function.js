@@ -34,7 +34,6 @@ fcModel.Function.createInternalNamedFunction = function(globalObject, name, owne
 fcModel.Function.notifyError = function(message) { alert("Function - " + message); };
 fcModel.Function.prototype = new fcModel.Object();
 
-
 fcModel.Function.prototype.bind = function(args, callExpression)
 {
     this.isBound = true;
@@ -89,18 +88,21 @@ fcModel.FunctionPrototype.prototype.initFunctionPrototype = function()
 {
     fcModel.FunctionPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
     {
-        this.addProperty
-        (
-            propertyName,
-            new fcModel.fcValue
+        if(Function.prototype[propertyName])
+        {
+            this.addProperty
             (
-                Function.prototype[propertyName],
-                fcModel.Function.createInternalNamedFunction(this.globalObject, propertyName, this),
-                null
-            ),
-            null,
-            false
-        );
+                propertyName,
+                new fcModel.fcValue
+                (
+                    Function.prototype[propertyName],
+                    fcModel.Function.createInternalNamedFunction(this.globalObject, propertyName, this),
+                    null
+                ),
+                null,
+                false
+            );
+        }
     }, this);
 }
 

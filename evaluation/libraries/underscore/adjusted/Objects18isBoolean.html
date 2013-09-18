@@ -1,0 +1,20 @@
+<html>
+    <head><title>Sylvester Test: Arrays-compact</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            (function (){
+                assert(!_.isBoolean(2), 'a number is not a boolean');
+                assert(!_.isBoolean("string"), 'a string is not a boolean');
+                assert(!_.isBoolean("false"), 'the string "false" is not a boolean');
+                assert(!_.isBoolean("true"), 'the string "true" is not a boolean');
+                assert(!_.isBoolean(arguments), 'the arguments object is not a boolean');
+                assert(!_.isBoolean(undefined), 'undefined is not a boolean');
+                assert(!_.isBoolean(NaN), 'NaN is not a boolean');
+                assert(!_.isBoolean(null), 'null is not a boolean');
+                assert(_.isBoolean(true), 'but true is');
+                assert(_.isBoolean(false), 'and so is false');
+            })();
+        </script>
+    </body>
+</html>
