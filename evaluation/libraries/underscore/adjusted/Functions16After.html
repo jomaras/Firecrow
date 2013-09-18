@@ -1,0 +1,21 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var testAfter = function(afterAmount, timesCalled) {
+                var afterCalled = 0;
+                var after = _.after(afterAmount, function() {
+                    afterCalled++;
+                });
+                while (timesCalled--) after();
+                return afterCalled;
+            };
+
+            assertEquals(testAfter(5, 5), 1, "after(N) should fire after being called N times");
+            assertEquals(testAfter(5, 4), 0, "after(N) should not fire unless called N times");
+            assertEquals(testAfter(0, 0), 0, "after(0) should not fire immediately");
+            assertEquals(testAfter(0, 1), 1, "after(0) should fire when first invoked");
+        </script>
+    </body>
+</html>

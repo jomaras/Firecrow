@@ -1,0 +1,10 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
+            assertEquals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+        </script>
+    </body>
+</html>

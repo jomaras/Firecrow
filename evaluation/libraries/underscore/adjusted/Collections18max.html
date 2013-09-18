@@ -1,0 +1,16 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            assertEquals(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
+
+            var neg = _.max([1, 2, 3], function(num){ return -num; });
+            assertEquals(neg, 1, 'can perform a computation-based max');
+
+            assertEquals(-Infinity, _.max({}), 'Maximum value of an empty object');
+            assertEquals(-Infinity, _.max([]), 'Maximum value of an empty array');
+            assertEquals(_.max({'a': 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
+        </script>
+    </body>
+</html>

@@ -1,0 +1,12 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var numbers = _.range(10);
+            var shuffled = _.shuffle(numbers).sort();
+            assertEquals(numbers, shuffled, 'original object is unmodified');
+            assertEquals(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
+        </script>
+    </body>
+</html>

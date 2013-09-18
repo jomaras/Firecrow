@@ -8,8 +8,8 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryName = "jQuery"
-var executeRegisteredEvents = true;
+var libraryName = "underscore"
+var executeRegisteredEvents = false;
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;

@@ -1,0 +1,12 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var delayed = false;
+            _.delay(function(){ delayed = true; }, 100);
+            setTimeout(function(){ assert(!delayed, "didn't delay the function quite yet"); }, 50);
+            setTimeout(function(){ assert(delayed, 'delayed the function'); }, 150);
+        </script>
+    </body>
+</html>

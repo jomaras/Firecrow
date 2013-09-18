@@ -1,0 +1,23 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var numbers = [10, 20, 30, 40, 50], num = 35;
+            var indexForNum = _.sortedIndex(numbers, num);
+            assertEquals(indexForNum, 3, '35 should be inserted at index 3');
+
+            var indexFor30 = _.sortedIndex(numbers, 30);
+            assertEquals(indexFor30, 2, '30 should be inserted at index 2');
+
+            var objects = [{x: 10}, {x: 20}, {x: 30}, {x: 40}];
+            var iterator = function(obj){ return obj.x; };
+            assertEquals(_.sortedIndex(objects, {x: 25}, iterator), 2);
+            assertEquals(_.sortedIndex(objects, {x: 35}, 'x'), 3);
+
+            var context = {1: 2, 2: 3, 3: 4};
+            iterator = function(obj){ return this[obj]; };
+            assertEquals(_.sortedIndex([1, 3], 2, iterator, context), 1);
+        </script>
+    </body>
+</html>

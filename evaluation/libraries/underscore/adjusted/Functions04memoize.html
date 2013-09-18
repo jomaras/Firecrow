@@ -1,0 +1,21 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var fib = function(n) {
+                return n < 2 ? n : fib(n - 1) + fib(n - 2);
+            };
+            assertEquals(fib(10), 55, 'a memoized version of fibonacci produces identical results');
+            fib = _.memoize(fib); // Redefine `fib` for memoization
+            assertEquals(fib(10), 55, 'a memoized version of fibonacci produces identical results');
+
+            var o = function(str) {
+                return str;
+            };
+            var fastO = _.memoize(o);
+            assertEquals(o('toString'), 'toString', 'checks hasOwnProperty');
+            assertEquals(fastO('toString'), 'toString', 'checks hasOwnProperty');
+        </script>
+    </body>
+</html>

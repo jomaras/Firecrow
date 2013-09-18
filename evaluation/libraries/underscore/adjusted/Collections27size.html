@@ -1,0 +1,21 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            assertEquals(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
+            assertEquals(_.size([1, 2, 3]), 3, 'can compute the size of an array');
+
+            var func = function() {
+                return _.size(arguments);
+            };
+
+            assertEquals(func(1, 2, 3, 4), 4, 'can test the size of the arguments object');
+
+            assertEquals(_.size('hello'), 5, 'can compute the size of a string literal');
+            assertEquals(_.size(new String('hello')), 5, 'can compute the size of string object');
+
+            assertEquals(_.size(null), 0, 'handles nulls');
+        </script>
+    </body>
+</html>

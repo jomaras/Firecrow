@@ -1,0 +1,13 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+            assertEquals(evens.join(', '), '2, 4, 6', 'selected each even number');
+
+            evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+            assertEquals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
+        </script>
+    </body>
+</html>

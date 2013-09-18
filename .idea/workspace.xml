@@ -4,7 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/debug/slicingTests/78/index.html" line="23" />
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
     <bookmark url="file://$PROJECT_DIR$/debug/usageScenarioGenerator" />
-    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" line="490" />
+    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" line="492" />
     <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" line="149" mnemonic="9" />
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="17" />
   </component>
@@ -16,13 +16,81 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/2.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/3.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/3.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/ChainingMapFlattenReduce.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/ChainingReverseConcatUnshiftPopMap.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/ChainingSelectRejectSortBy.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/ChainingSelectRejectSortByFunctional.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/ChainingSmallStages.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections01each.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections02map.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections03reduce.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections05find.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections06detect.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections07select.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections08reject.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections09all.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections10any.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections11include.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections12invoke.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections13invokeFunction.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections14invokeStrings.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections15pluck.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections16where.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections17findWhere.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections18max.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections19min.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections20sortBy.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections21groupBy.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections22indexBy.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections23countBy.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections24sortedIndex.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections25shuffle.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections26toArray.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections27size.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions01bind.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions02partial.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions03bindAll.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions04memoize.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions05delay.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions06defer.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions07throttle.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions08throttleArgs.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions09throttleOnce.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions10throttleTwice.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions11debounce.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions12once.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions13recursiveOnce.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions14Wrap.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions15Compose.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions16After.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/RangeTest.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/RegEx.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/SelectorEngine.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/SelectorTest.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/StringTest.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/domTest.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/enumerable.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/eventHandler.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/eventTest.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/formTest.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/functionTest.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/120/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/layout.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/number.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/object.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/prototype/tests/periodical.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/playground.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/playground.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/test.js" afterPath="$PROJECT_DIR$/phantomJs/test.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -50,9 +118,9 @@
     <ignored path="debug/sylvester/10-LineSegment-Contains/htmlMapping.js" />
     <ignored path="debug/sylvester/22-Line-distanceFrom/htmlMapping.js" />
     <ignored path="debug/sylvester/24-Line-rotate/htmlMapping.js" />
-    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379449805952" ignored="false" />
+    <file path="/Dummy.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379494972981" ignored="false" />
     <file path="/TODO" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1369213531527" ignored="false" />
-    <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379447443560" ignored="false" />
+    <file path="/index.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379514271041" ignored="false" />
     <file path="/Command.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379343749954" ignored="false" />
     <file path="/CommandGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379343760571" ignored="false" />
     <file path="/ExecutionContextStack.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379232527415" ignored="false" />
@@ -71,7 +139,7 @@
     <file path="/InterpreterSimulator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379329708013" ignored="false" />
     <file path="/slides.min.jquery.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1366216724714" ignored="false" />
     <file path="/ASTHelper.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379234938654" ignored="false" />
-    <file path="/dependencyGraph.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379448517450" ignored="false" />
+    <file path="/dependencyGraph.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379496950821" ignored="false" />
     <file path="/inclusionFinder.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376990917004" ignored="false" />
     <file path="/codeMarkupGenerator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1377525968666" ignored="false" />
     <file path="/edge.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1377268278376" ignored="false" />
@@ -92,7 +160,7 @@
     <file path="/Identifier.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376580293700" ignored="false" />
     <file path="/jQuery.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1367921832131" ignored="false" />
     <file path="/Object.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379343949719" ignored="false" />
-    <file path="/slicingModelMapping.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1378555796261" ignored="false" />
+    <file path="/slicingModelMapping.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379514397500" ignored="false" />
     <file path="/mootools-1.2.4-core.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368109515657" ignored="false" />
     <file path="/index-sliced.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376847806118" ignored="false" />
     <file path="/mootools-1.2.4-coreM.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1368030170781" ignored="false" />
@@ -184,7 +252,7 @@
     <file path="/PathConstraint.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1377674145159" ignored="false" />
     <file path="/StringConstraint.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1377348586919" ignored="false" />
     <file path="/ArrayExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379336733934" ignored="false" />
-    <file path="/ArrayCallbackExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379236018354" ignored="false" />
+    <file path="/ArrayCallbackExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379514515898" ignored="false" />
     <file path="/Error.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1375695370242" ignored="false" />
     <file path="/createJavaScriptModel.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376411945069" ignored="false" />
     <file path="/generatePageForEachTest.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376567557146" ignored="false" />
@@ -195,11 +263,11 @@
     <file path="/external.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376390031762" ignored="false" />
     <file path="/Matrix-rowsAndColumns.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376398744007" ignored="false" />
     <file path="/Line.Segment-bisectingPlane.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376403132401" ignored="false" />
-    <file path="/pageModeler.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379339082478" ignored="false" />
+    <file path="/pageModeler.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379506648326" ignored="false" />
     <file path="/getExternalSources.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376407439053" ignored="false" />
     <file path="/slicer.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379329974316" ignored="false" />
     <file path="/GlobalObjectExecutor.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379311580340" ignored="false" />
-    <file path="/slicer.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379449115679" ignored="false" />
+    <file path="/slicer.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379506888191" ignored="false" />
     <file path="/comparator.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376494527182" ignored="false" />
     <file path="/Matrix-augment.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376487348354" ignored="false" />
     <file path="/Line-intersectionWith.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1376492052661" ignored="false" />
@@ -361,7 +429,7 @@
     <file path="/debugReuse.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1378202900755" ignored="false" />
     <file path="/PageModelParser.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1378286889559" ignored="false" />
     <file path="/status.txt" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379401838792" ignored="false" />
-    <file path="/playground.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379446062745" ignored="false" />
+    <file path="/playground.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379508901653" ignored="false" />
     <file path="/css01StringHash.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1378384212711" ignored="false" />
     <file path="/playground1.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1378554673905" ignored="false" />
     <file path="/ArrayFunction.js" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379055256810" ignored="false" />
@@ -373,6 +441,24 @@
     <file path="/effects23animateWithNoProperties.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379321361470" ignored="false" />
     <file path="/effects24animateDuration.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379404904901" ignored="false" />
     <file path="/effects28stopInQueue.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379438245879" ignored="false" />
+    <file path="/ChainingMapFlattenReduce.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379495183101" ignored="false" />
+    <file path="/ChainingSelectRejectSortBy.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379507095220" ignored="false" />
+    <file path="/ChainingSelectRejectSortByFunctional.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379495430910" ignored="false" />
+    <file path="/ChainingReverseConcatUnshiftPopMap.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379495480581" ignored="false" />
+    <file path="/ChainingSmallStages.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379495530126" ignored="false" />
+    <file path="/Collections02map.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379512034570" ignored="false" />
+    <file path="/Collections03reduce.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379509712454" ignored="false" />
+    <file path="/Collections04reduceRight.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379509924128" ignored="false" />
+    <file path="/Collections05find.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379510016982" ignored="false" />
+    <file path="/Collections06detect.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379510046528" ignored="false" />
+    <file path="/Collections17findWhere.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379512244521" ignored="false" />
+    <file path="/Collections20sortBy.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379510533043" ignored="false" />
+    <file path="/Collections21groupBy.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379510732065" ignored="false" />
+    <file path="/Collections26toArray.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379511309197" ignored="false" />
+    <file path="/Collections23countBy.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379512333712" ignored="false" />
+    <file path="/Functions05delay.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379515083317" ignored="false" />
+    <file path="/Functions07throttle.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379515157167" ignored="false" />
+    <file path="/Functions14Wrap.html" changelist="589486df-f252-4c1b-bdc6-ca84c26fa51b" time="1379515538320" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -394,7 +480,35 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="slicer.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="0" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="checkAllTests.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="88" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Functions14Wrap.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions14Wrap.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="58" selection-start="739" selection-end="739" vertical-scroll-proportion="0.42746615">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -425,31 +539,31 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/evaluation/libraries/prototype/prototype.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/prototype/adjusted/playground.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions04memoizel.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions05defer.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions11moreThrottling.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions12once.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions15Compose.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions16After.html" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
-        <option value="$PROJECT_DIR$/debug/slicingTests/119/index.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/prototype/tests/array.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/prototype/tests/base.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/prototype/tests/class.js" />
-        <option value="$PROJECT_DIR$/debug/slicingTests/119/index.json" />
-        <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/prototype/tests/domTest.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/prototype/tests/enumerable.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions05delay.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions06defer.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions07throttle.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions08throttleArgs.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions09throttleOnce.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions10throttleTwice.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions11debounce.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions13recursiveOnce.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions14Wrap.html" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="x" value="1358" />
+    <option name="y" value="-290" />
+    <option name="width" value="1696" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -502,7 +616,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -531,6 +644,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -557,7 +684,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="prototype" />
+              <option name="myItemId" value="underscore" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -579,11 +706,41 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="prototype" />
+              <option name="myItemId" value="underscore" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="original" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="underscore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adjusted" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -612,28 +769,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slicingTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="119" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -657,6 +792,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -690,18 +826,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted" />
+      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\120" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\118" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\117" />
-      <recent name="C:\GitWebStorm\Firecrow\tests\ICSE_reuseStudies\09_05_06" />
-      <recent name="C:\GitWebStorm\Firecrow\tests\ICSE_reuseStudies\08_05_04" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\120" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\scriptaculus" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\117" />
       <recent name="C:\GitWebStorm\Firecrow\tests\ICSE_reuseStudies\03_01_06" />
       <recent name="C:\GitWebStorm\Firecrow\tests\ICSE_reuseStudies\06_03_06" />
-      <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted" />
     </key>
   </component>
   <component name="RunManager" selected="JsTestDriver.slicing.jstd">
@@ -3331,7 +3467,11 @@
       <created>1379449313415</created>
       <updated>1379449313415</updated>
     </task>
-    <option name="localTasksCounter" value="626" />
+    <task id="LOCAL-00626" summary="Fixed a problem with callbacks. E.g. the return callback value of [].every determines whether the next iteration will be taken, but itself does not influence any value - it is important from the control-flow point of view, but not from the explicit value point of view. So, when noting breakContinueReturn statements i also note if something is a callback return statement. Then when traversing them, a callback return statement is included if there are dependencies from that context included">
+      <created>1379449813104</created>
+      <updated>1379449813104</updated>
+    </task>
+    <option name="localTasksCounter" value="627" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3368,26 +3508,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
-    <editor active="false" />
+    <frame x="1358" y="-290" width="1696" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32746115" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49411765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3752039" sideWeight="0.49973643" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17104216" sideWeight="0.6072607" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16157855" sideWeight="0.6084829" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25648764" sideWeight="0.60855615" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39764202" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967373" sideWeight="0.43484735" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39151713" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39144385" sideWeight="0.56515265" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989305" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3752039" sideWeight="0.49973643" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32746115" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -3489,116 +3629,114 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/underscore-src.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions04memoize.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="77" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.47838616">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Arrays-intersection.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="17" column="24" selection-start="825" selection-end="825" vertical-scroll-proportion="0.5589942">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/prototype/tests/base.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions12once.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="3" selection-start="1480" selection-end="1480" vertical-scroll-proportion="0.9020173">
+        <state line="9" column="17" selection-start="374" selection-end="374" vertical-scroll-proportion="0.2959381">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/prototype/tests/class.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions15Compose.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="135" column="3" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.9020173">
+        <state line="11" column="24" selection-start="590" selection-end="590" vertical-scroll-proportion="0.3617021">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/prototype/tests/array.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions16After.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="355" column="3" selection-start="12680" selection-end="12680" vertical-scroll-proportion="0.9020173">
+        <state line="17" column="24" selection-start="845" selection-end="845" vertical-scroll-proportion="0.5589942">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/119/index.json">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/test/original/functions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/119/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="4" selection-start="224" selection-end="224" vertical-scroll-proportion="-5.8076925">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1238" column="24" selection-start="1605905" selection-end="1605905" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="78" selection-start="8483" selection-end="8483" vertical-scroll-proportion="-11.769231">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="386" column="61" selection-start="18479" selection-end="18479" vertical-scroll-proportion="-0.2616279">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1110" column="73" selection-start="42354" selection-end="42391" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="370" column="37" selection-start="14922" selection-end="14922" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="59" selection-start="786" selection-end="786" vertical-scroll-proportion="0.0">
+        <state line="361" column="79" selection-start="12870" selection-end="13471" vertical-scroll-proportion="0.71823204">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="71" selection-start="588" selection-end="588" vertical-scroll-proportion="0.0">
+        <state line="6" column="0" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/prototype/tests/domTest.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions06defer.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1748" column="0" selection-start="81663" selection-end="81663" vertical-scroll-proportion="0.9020173">
+        <state line="7" column="75" selection-start="396" selection-end="396" vertical-scroll-proportion="0.23017408">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/prototype/tests/enumerable.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions07throttle.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="419" column="3" selection-start="14929" selection-end="14929" vertical-scroll-proportion="0.9020173">
+        <state line="11" column="80" selection-start="552" selection-end="552" vertical-scroll-proportion="-7.1923075">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions08throttleArgs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="83" selection-start="623" selection-end="623" vertical-scroll-proportion="-7.1923075">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions11debounce.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="79" selection-start="521" selection-end="521" vertical-scroll-proportion="-6.5384617">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions13recursiveOnce.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="22" selection-start="285" selection-end="285" vertical-scroll-proportion="0.19729207">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions10throttleTwice.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="82" selection-start="484" selection-end="484" vertical-scroll-proportion="0.2959381">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions09throttleOnce.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="65" selection-start="585" selection-end="585" vertical-scroll-proportion="0.3617021">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions05delay.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="110" selection-start="498" selection-end="498" vertical-scroll-proportion="0.2630561">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="88" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Functions14Wrap.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="58" selection-start="739" selection-end="739" vertical-scroll-proportion="0.42746615">
           <folding />
         </state>
       </provider>

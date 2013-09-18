@@ -1,0 +1,25 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var greet = function(name){ return "hi: " + name; };
+            var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });
+            assertEquals(backwards('moe'), 'hi: moe eom', 'wrapped the salutation function');
+
+            var inner = function(){ return "Hello "; };
+            var obj   = {name : "Moe"};
+            obj.hi    = _.wrap(inner, function(fn){ return fn() + this.name; });
+            assertEquals(obj.hi(), "Hello Moe");
+
+            var noop    = function(){};
+            var wrapped = _.wrap(noop, function(fn){ return Array.prototype.slice.call(arguments, 0); });
+            var ret     = wrapped(['whats', 'your'], 'vector', 'victor');
+            assertEquals(ret[0], noop, "first");
+            assertEquals(ret[1][0], "whats", "first");
+            assertEquals(ret[1][1], "your", "second");
+            assertEquals(ret[2], "vector", "third");
+            assertEquals(ret[3], "victor", "fourth");
+        </script>
+    </body>
+</html>

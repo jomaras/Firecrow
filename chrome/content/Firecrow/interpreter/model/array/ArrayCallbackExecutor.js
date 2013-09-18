@@ -23,7 +23,7 @@ fcModel.ArrayCallbackEvaluator =
             else if(callbackFunctionValue.name == "map") { this._evaluateMapCallback(targetObject, returnValue, valueCodeConstruct); return; }
             else if(callbackFunctionValue.name == "sort") { this._evaluateSortCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return;}
             else if(callbackFunctionValue.name == "every") { this._evaluateEveryCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return; }
-            else if(callbackFunctionValue.name == "some") { fcModel.Array.notifyError("Still not handling evaluate return from some"); return; }
+            else if(callbackFunctionValue.name == "some") { this._evaluateSomeCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return; }
             else if(callbackFunctionValue.name == "reduce") { this._evaluateReduceCallback(targetObject, returnValue, callbackCommand, valueCodeConstruct); return; }
             else if(callbackFunctionValue.name == "reduceRight") { fcModel.Array.notifyError("Still not handling evaluate return from reduceRight"); return; }
             else if(callbackFunctionValue.name == "forEach") { }
@@ -108,6 +108,17 @@ fcModel.ArrayCallbackEvaluator =
         parentCommand.originatingObject.iValue.globalObject.executionContextStack.setExpressionValueInPreviousContext(parentCommand.codeConstruct, returnValue);
 
         if(!returnValue.jsValue)
+        {
+            parentCommand.originatingObject.iValue.globalObject.browser.interpreter.removeOtherCallbackCommands(parentCommand)
+        }
+    },
+
+    _evaluateSomeCallback: function(targetObject, returnValue, callbackCommand)
+    {
+        var parentCommand = callbackCommand.parentInitCallbackCommand;
+        parentCommand.originatingObject.iValue.globalObject.executionContextStack.setExpressionValueInPreviousContext(parentCommand.codeConstruct, returnValue);
+
+        if(returnValue.jsValue)
         {
             parentCommand.originatingObject.iValue.globalObject.browser.interpreter.removeOtherCallbackCommands(parentCommand)
         }

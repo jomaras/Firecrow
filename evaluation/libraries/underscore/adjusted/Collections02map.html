@@ -1,0 +1,33 @@
+<html>
+    <head><title>Sylvester Test: Arrays-zip</title><meta charset='UTF-8'></head>
+    <body>
+        <div id="map-test">
+           <div id="id1"></div>
+            <div id="id2"></div>
+        </div>
+        <script src='http://localhost/Firecrow/evaluation/libraries/underscore/underscore-src.js'></script>
+        <script>
+            var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
+            assertEquals(doubled.join(', '), '2, 4, 6', 'doubled numbers');
+
+            doubled = _.collect([1, 2, 3], function(num){ return num * 2; });
+            assertEquals(doubled.join(', '), '2, 4, 6', 'aliased as "collect"');
+
+            var tripled = _.map([1, 2, 3], function(num){ return num * this.multiplier; }, {multiplier : 3});
+            assertEquals(tripled.join(', '), '3, 6, 9', 'tripled numbers with context');
+
+            var doubled = _([1, 2, 3]).map(function(num){ return num * 2; });
+            assertEquals(doubled.join(', '), '2, 4, 6', 'OO-style doubled numbers');
+
+            if (document.querySelectorAll) {
+                var ids = _.map(document.querySelectorAll('#map-test *'), function(n){ return n.id; });
+
+                assertEquals(ids[0], 'id1', 'Can use collection methods on NodeLists.');
+                assertEquals(ids[1], 'id2', 'Can use collection methods on NodeLists.');
+            }
+
+            var ifnull = _.map(null, function(){});
+            assert(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+        </script>
+    </body>
+</html>

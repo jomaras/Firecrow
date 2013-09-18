@@ -380,13 +380,15 @@ FBL.ns(function() { with (FBL) {
                 var parent = ASTHelper.getBreakContinueReturnImportantAncestor(codeConstruct);
 
                 if(!this.inclusionFinder.isIncludedElement(parent)) { continue; }
+
                 if(ASTHelper.isReturnStatement(codeConstruct)
                 && !mapping.isCallbackReturn && !this.inclusionFinder.isIncludedElement(codeConstruct))
                 {
                     continue;
                 }
 
-                if(this._contextHasIncludedDependencies(mapping.executionContextId))
+                if(this._contextHasIncludedDependencies(mapping.executionContextId)
+                || this._areAllIncluded(this.dependencyCallExpressionMapping[mapping.dependencyIndex]))
                 {
                     addedDependencies += this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
                 }
