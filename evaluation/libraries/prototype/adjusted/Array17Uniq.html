@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          var firstUnique = [1, 1, 1].uniq();
+          var secondUnique = [1].uniq();
+          var thirdUnique = [].uniq();
+          var fourthUnique = [0, 1, 2, 2, 3, 0, 2].uniq()
+          var fifthUnique = [0, 0, 1, 1, 2, 3, 3, 3].uniq(true);
+
+          assertEquals(firstUnique[0], 1);
+          assertEquals(firstUnique.length, 1);
+
+          assertEquals(secondUnique[0], 1);
+          assertEquals(secondUnique.length, 1);
+
+          assertEquals(thirdUnique.length, 0);
+
+          assertEquals(fourthUnique[0], 0);
+          assertEquals(fourthUnique[1], 1);
+          assertEquals(fourthUnique[2], 2);
+          assertEquals(fourthUnique[3], 3);
+          assertEquals(fourthUnique.length, 4);
+
+          assertEquals(fifthUnique[0], 0);
+          assertEquals(fifthUnique[1], 1);
+          assertEquals(fifthUnique[2], 2);
+          assertEquals(fifthUnique[3], 3);
+          assertEquals(fifthUnique.length, 4);
+      </script>
+</body>
+</html>

@@ -2,9 +2,18 @@
 <html>
 <head>
     <title></title>
-    <script src="../prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/classes.js"></script>
 </head>
 <body>
-
+<div id="test_node">
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<script>
+    var grass = new Plant('grass', 3);
+    assertEquals('#<Plant: grass>', grass.inspect());
+</script>
 </body>
 </html>

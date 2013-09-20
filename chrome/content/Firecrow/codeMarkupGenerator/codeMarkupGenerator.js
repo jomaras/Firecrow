@@ -542,7 +542,6 @@ FBL.ns(function () { with (FBL) {
         {
             var isNotSimpleMemberExpression = !ASTHelper.isIdentifier(memberExpression.object)
                                             &&!ASTHelper.isCallExpression(memberExpression.object)
-                                            &&!ASTHelper.isLiteral(memberExpression.object)
                                             &&!ASTHelper.isThisExpression(memberExpression.object)
                                             &&!ASTHelper.isMemberExpression(memberExpression.object);
 

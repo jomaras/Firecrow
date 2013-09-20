@@ -762,7 +762,8 @@ fcSimulator.Evaluator.prototype =
         var executeCallbackCommand = returnCommand.parentFunctionCommand;
         var returnArgument = returnCommand.codeConstruct.argument;
 
-        if(ValueTypeHelper.isArray(executeCallbackCommand.originatingObject.jsValue))
+        if(ValueTypeHelper.isArray(executeCallbackCommand.originatingObject.jsValue)
+        || ValueTypeHelper.isArrayLike(executeCallbackCommand.originatingObject.jsValue))
         {
             fcModel.ArrayCallbackEvaluator.evaluateCallbackReturn
             (

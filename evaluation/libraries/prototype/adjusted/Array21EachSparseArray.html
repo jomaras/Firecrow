@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          var counter = 0;
+
+          var sparseArray = [0, 1];
+          sparseArray[5] = 5;
+          sparseArray.each( function(item) { counter++; });
+
+          assertEquals(3, counter, "Array#each should skip nonexistent keys in an array");
+      </script>
+</body>
+</html>

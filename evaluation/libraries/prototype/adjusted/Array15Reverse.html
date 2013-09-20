@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          var firstReversed = [].reverse();
+          var secondReversed = [1].reverse();
+          var thirdReversed = [1, 2].reverse();
+          var fourthReversed = [1, 2, 3].reverse();
+
+          assertEquals(firstReversed.length, 0);
+
+          assertEquals(secondReversed[0], 1);
+          assertEquals(secondReversed.length, 1);
+
+          assertEquals(thirdReversed[0], 2);
+          assertEquals(thirdReversed[1], 1);
+          assertEquals(thirdReversed.length, 2);
+
+          assertEquals(fourthReversed[0], 3);
+          assertEquals(fourthReversed[1], 2);
+          assertEquals(fourthReversed[2], 1);
+          assertEquals(fourthReversed.length, 3);
+      </script>
+</body>
+</html>

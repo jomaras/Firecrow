@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/classes.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          var tom = new Cat('Tom');
+          assertEquals('Tom: Yum!', tom.eat(new Mouse));
+
+          // augment the constructor and test
+          var Dodo = Class.create(Animal, {
+              initialize: function($super, name) {
+                  $super(name);
+                  this.extinct = true;
+              },
+
+              say: function($super, message) {
+                  return $super(message) + " honk honk";
+              }
+          });
+
+          var gonzo = new Dodo('Gonzo');
+          assertEquals('Gonzo', gonzo.name);
+          assert(gonzo.extinct, 'Dodo birds should be extinct');
+          assertEquals("Gonzo: hello honk honk", gonzo.say("hello"));
+      </script>
+</body>
+</html>

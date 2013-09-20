@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          assertEquals(-1,[].lastIndexOf(1));
+          assertEquals(-1, [0].lastIndexOf(1));
+          assertEquals(0, [1].lastIndexOf(1));
+          assertEquals(2, [0,2,4,6].lastIndexOf(4));
+          assertEquals(3, [4,4,2,4,6].lastIndexOf(4));
+          assertEquals(3, [0,2,4,6].lastIndexOf(6,3));
+          assertEquals(-1, [0,2,4,6].lastIndexOf(6,2));
+          assertEquals(0, [6,2,4,6].lastIndexOf(6,2));
+
+          var fixture = [1,2,3,4,3];
+          assertEquals(4, fixture.lastIndexOf(3));
+
+          //tests from http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:lastIndexOf
+          var array = [2, 5, 9, 2];
+          assertEquals(3,array.lastIndexOf(2));
+          assertEquals(-1,array.lastIndexOf(7));
+          assertEquals(3,array.lastIndexOf(2,3));
+          assertEquals(0,array.lastIndexOf(2,2));
+          assertEquals(0,array.lastIndexOf(2,-2));
+          assertEquals(3,array.lastIndexOf(2,-1));
+      </script>
+</body>
+</html>

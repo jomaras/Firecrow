@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="mainContainer"></div>
+<script>
+    function createObject()
+    {
+        function someFunc()
+        {
+
+        }
+
+        return {
+            someFunc: someFunc
+        }
+    }
+
+    var obj = createObject();
+
+    var a1 = 0;
+    function someOther()
+    {
+        var properties = Object.keys(obj);
+
+        for(var i = 0; i < properties.length; i++)
+        {
+            a1++;
+        }
+    }
+
+    someOther();
+    a1;
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          assertEquals([], [].clone());
+          var firstClone = [1].clone();
+          assertEquals(firstClone[0], 1);
+          assertEquals(firstClone.length, 1);
+
+          var secondClone = [1,2].clone()
+          assertEquals(secondClone[0], 1);
+          assertEquals(secondClone[1], 2);
+          assertEquals(secondClone.length, 2);
+      </script>
+</body>
+</html>

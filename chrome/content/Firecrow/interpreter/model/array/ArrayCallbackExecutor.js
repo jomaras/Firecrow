@@ -10,8 +10,6 @@ fcModel.ArrayCallbackEvaluator =
         {
             var originatingObject = callbackCommand.originatingObject;
 
-            if(!ValueTypeHelper.isArray(originatingObject.jsValue)) { fcModel.Array.notifyError("When evaluating callback return the argument has to be an array!"); return; }
-
             var callbackFunctionValue = callbackCommand.callerFunction.jsValue;
             var targetObject = callbackCommand.targetObject;
 

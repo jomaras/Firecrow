@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+      <script>
+          var globalArgsTest;
+          function toArrayOnArguments(){
+              globalArgsTest = $A(arguments);
+          }
+          toArrayOnArguments();
+          assertEquals(globalArgsTest.length, 0);
+          toArrayOnArguments('foo');
+          assertEquals('foo', globalArgsTest[0]);
+          toArrayOnArguments('foo','bar');
+          assertEquals('foo', globalArgsTest[0]);
+          assertEquals('bar', globalArgsTest[1]);
+      </script>
+</body>
+</html>

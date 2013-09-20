@@ -157,8 +157,8 @@ fcModel.Array.prototype.reverse = function(jsArray, args, codeConstruct, fcValue
 
         if(isCalledOnArray)
         {
-            this.items.reverse();
-            jsArray.reverse();
+            ValueTypeHelper.reverseArray(this.items);
+            ValueTypeHelper.reverseArray(jsArray);
 
             for(var i = 0; i < length; i++)
             {
@@ -363,17 +363,15 @@ fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression
 
         var isCalledOnArray = this.constructor === fcModel.Array || this == this.globalObject.arrayPrototype;
 
-        if(!isCalledOnArray) { debugger; alert("Concat called on non-array!");}
-
         var lengthProperty = this.getPropertyValue("length");
         var length = lengthProperty != null ? lengthProperty.jsValue : 0;
 
         var newArray = this.globalObject.internalExecutor.createArray(callExpression);
 
-        jsArray.forEach(function(item)
+        for(var i = 0; i < jsArray.length; i++)
         {
-            newArray.iValue.push(newArray.jsValue, item, callExpression);
-        });
+            newArray.iValue.push(newArray.jsValue, jsArray[i], callExpression);
+        }
 
         for(var i = 0; i < callArguments.length; i++)
         {
@@ -385,6 +383,11 @@ fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression
                 for(var j = 0; j < argument.jsValue.length; j++)
                 {
                     var item = argument.jsValue[j];
+                    if(item == null)
+                    {
+                        item = this.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
+                    }
+
                     newArray.iValue.push(newArray.jsValue, item, callExpression);
                 }
             }
@@ -393,6 +396,7 @@ fcModel.Array.prototype.concat = function(jsArray, callArguments, callExpression
                 newArray.iValue.push(newArray.jsValue, argument, callExpression);
             }
         }
+
         return newArray;
     }
     catch(e) { fcModel.Array.notifyError("Error when concat array: " + e);}

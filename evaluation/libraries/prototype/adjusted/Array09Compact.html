@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          assertEquals([].length, [].compact().length);
+          assertEquals([1,2,3].length, [1,2,3].compact().length);
+
+          var firstCompacted = [0,null,1,2,undefined,3].compact();
+          assertEquals(0, firstCompacted[0]);
+          assertEquals(1, firstCompacted[1]);
+          assertEquals(2, firstCompacted[2]);
+          assertEquals(3, firstCompacted[3]);
+
+          var secondCompacted = [null,1,2,3,null].compact();
+          assertEquals(1, secondCompacted[0]);
+          assertEquals(2, secondCompacted[1]);
+          assertEquals(3, secondCompacted[2]);
+      </script>
+</body>
+</html>

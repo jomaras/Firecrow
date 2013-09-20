@@ -298,26 +298,16 @@ fcModel.ObjectExecutor =
 
             if(property == null) { continue; }
 
-            var lastModificationConstruct = property.lastModificationPosition != null ? property.lastModificationPosition.codeConstruct : null;
+            var propertyConstruct = property.declarationPosition != null ? property.declarationPosition.codeConstruct : null;
 
             propertyKeysArray.push
             (
                 globalObject.internalExecutor.createInternalPrimitiveObject
                 (
-                    lastModificationConstruct,
+                    propertyConstruct,
                     propertyName
                 )
             );
-
-            if(lastModificationConstruct != null)
-            {
-                if(ASTHelper.isObjectExpressionPropertyValue(lastModificationConstruct.parent))
-                {
-                    var dependencyCreator = globalObject.dependencyCreator;
-
-                    dependencyCreator.createDataDependency(lastModificationConstruct, lastModificationConstruct.parent);
-                }
-            }
         }
 
         return globalObject.internalExecutor.createArray(callExpression, propertyKeysArray);

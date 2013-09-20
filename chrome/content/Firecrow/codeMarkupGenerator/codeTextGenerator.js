@@ -87,6 +87,8 @@ Firecrow.CodeTextGenerator.generateJsCode = function(model)
     return codeGenerator.generateJsCode(model);
 };
 
+Firecrow.gen = Firecrow.CodeTextGenerator.generateJsCode;
+
 Firecrow.CodeTextGenerator.notifyError = function(message)
 {
     alert("CodeTextGenerator - " + message);
@@ -645,7 +647,6 @@ Firecrow.CodeTextGenerator.prototype =
     {
         var isNotSimpleMemberExpression = !ASTHelper.isIdentifier(memberExpression.object)
                                         &&!ASTHelper.isCallExpression(memberExpression.object)
-                                        &&!ASTHelper.isLiteral(memberExpression.object)
                                         &&!ASTHelper.isThisExpression(memberExpression.object)
                                         &&!ASTHelper.isMemberExpression(memberExpression.object);
 

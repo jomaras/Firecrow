@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          assert(Array.prototype.all.call({ 0:true, 1:true, length:2 }));
+          assert(!Array.prototype.all.call({ 0:false, 1:true, length:2 }));
+      </script>
+</body>
+</html>

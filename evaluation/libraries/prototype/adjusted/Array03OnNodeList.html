@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node"><div></div><div></div><div></div></div>
+      <script>
+          assertEquals(3, $A($('test_node').childNodes).length);
+
+          // DOM
+          var element = document.createElement('div');
+          element.appendChild(document.createTextNode('22'));
+          (2).times(function(){ element.appendChild(document.createElement('span')) });
+          assertEquals(3, $A(element.childNodes).length);
+
+          // HTML String
+          element = document.createElement('div');
+          $(element).update('22<span></span><span></span');
+          assertEquals(3, $A(element.childNodes).length);
+      </script>
+</body>
+</html>

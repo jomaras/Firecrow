@@ -23,12 +23,6 @@ fcModel.ArrayExecutor =
 
             var isCalledOnArray = fcThisValue.constructor === fcModel.Array;
 
-            if(!isCalledOnArray && functionName != "push" && functionName != "slice" && functionName != "indexOf" && functionName != "splice"
-             && fcThisValue != globalObject.arrayPrototype)
-            {
-                console.log(functionName + " called on a non-array object!");
-            }
-
             if(functionName == "reduce" || functionName == "reduceRight")
             {
                 if(thisObjectValue.length == 1 && args[1] == null) { return thisObjectValue[0]; }
@@ -65,7 +59,20 @@ fcModel.ArrayExecutor =
                 case "some":
                 case "map":
                 case "reduce":
-                    var callbackParams = callExpression.arguments != null ? callExpression.arguments[0].params : [];
+                    var callbackParams = null;
+
+                    if(callCommand.isCall)
+                    {
+                        callbackParams = callExpression.arguments != null ? callExpression.arguments[1].params : [];
+                    }
+                    else if (callCommand.isApply)
+                    {
+                        debugger;
+                    }
+                    else
+                    {
+                        callbackParams = callExpression.arguments != null ? callExpression.arguments[0].params : [];
+                    }
 
                     callCommand.generatesNewCommands = true;
                     callCommand.generatesCallbacks = true;
@@ -155,7 +162,11 @@ fcModel.ArrayExecutor =
         var globalObject = thisObject.iValue.globalObject;
         var callbackArguments = [];
 
-        for(var i = 0, length = thisObjectValue.length; i < length; i++)
+        var length = thisObjectValue.length !== null && thisObjectValue.length.jsValue == null
+                   ? thisObjectValue.length
+                   : thisObjectValue.length.jsValue;
+
+        for(var i = 0; i < length; i++)
         {
             var item = thisObjectValue[i];
             if(item !== undefined)

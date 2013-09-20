@@ -318,12 +318,12 @@ fcSimulator.DependencyCreator.prototype =
 
     addCallbackDependencies: function(callbackConstruct, callCallbackConstruct)
     {
-        /*this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
         (
             callbackConstruct,
             callCallbackConstruct,
             this.globalObject.getPreciseEvaluationPositionId()
-        );*/
+        );
     },
 
     createCallbackFunctionCommandDependencies: function(evalCallbackFunctionCommand){},

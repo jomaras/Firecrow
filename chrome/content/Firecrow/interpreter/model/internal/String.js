@@ -217,7 +217,14 @@ fcModel.StringExecutor =
                             internalPrimitives.push(globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result[i]));
                         }
 
-                        return fcThisValue.globalObject.internalExecutor.createArray(callExpression, internalPrimitives);
+                        var array = fcThisValue.globalObject.internalExecutor.createArray(callExpression, internalPrimitives);
+
+                        if(functionName == "match")
+                        {
+                            array.iValue.addJsProperty("index", fcThisValue.globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result.index), callExpression);
+                        }
+
+                        return array;
                     }
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
                 case "replace":

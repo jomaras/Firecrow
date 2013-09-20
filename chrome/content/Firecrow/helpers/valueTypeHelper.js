@@ -179,6 +179,13 @@ Firecrow.ValueTypeHelper =
         return (typeof arrayOfElements) == "array" || arrayOfElements instanceof Array;
     },
 
+    isArrayLike: function(arrayLike)
+    {
+        if(arrayLike == null || arrayLike.length === null || arrayLike.length === undefined) { return false; }
+
+        return !this.isString(arrayLike);
+    },
+
     isArrayOf: function (arrayOfElements, type)
     {
         if (!this.isArray(arrayOfElements)) { return false; }
@@ -213,6 +220,21 @@ Firecrow.ValueTypeHelper =
         }
 
         return true;
+    },
+
+    reverseArray: function(array)
+    {
+        if(array == null || array.length <= 1) { return; }
+
+        var length = array.length;
+        var halfLength = length/2;
+
+        for(var i = 0; i < halfLength; i++)
+        {
+            var temp = array[i];
+            array[i] = array[length - i - 1];
+            array[length - i - 1] = temp;
+        }
     },
 
     arrayContains: function(array, item)

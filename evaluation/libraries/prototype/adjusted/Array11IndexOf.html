@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          assertEquals(-1, [].indexOf(1));
+          assertEquals(-1, [0].indexOf(1));
+          assertEquals(0, [1].indexOf(1));
+          assertEquals(1, [0,1,2].indexOf(1));
+          assertEquals(0, [1,2,1].indexOf(1));
+          assertEquals(2, [1,2,1].indexOf(1, -1));
+          assertEquals(1, [undefined,null].indexOf(null));
+
+          // ES5 compatibility tests.
+          var undef;
+          var array = [1, 2, 3, 4, 5, undef, 6, 7, 1, 2, 3];
+
+          assertEquals(2, array.indexOf(3, -47), "large negative value for fromIndex");
+          assertEquals(10, array.indexOf(3, 4));
+          assertEquals(10, array.indexOf(3, -5))
+          assertEquals(2, array.indexOf(3, {}), "nonsensical value for fromIndex");
+          assertEquals(2, array.indexOf(3, ""), "nonsensical value for fromIndex");
+          assertEquals(-1, array.indexOf(3, 41), "fromIndex value larger than the length of the array");
+      </script>
+</body>
+</html>

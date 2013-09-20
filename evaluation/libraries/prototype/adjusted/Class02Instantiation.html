@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/classes.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          var pet = new Animal("Nibbles");
+          assertEquals("Nibbles", pet.name, "property not initialized");
+          assertEquals('Nibbles: Hi!', pet.say('Hi!'));
+          assertEquals(Animal, pet.constructor, "bad constructor reference");
+          assert(!pet.superclass);
+
+          var Empty = Class.create();
+          assert('object', typeof new Empty);
+      </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          var result = Array.prototype.map.call({0:0, 1:1, length:2});
+          assertEquals(result[0], 0)
+          assertEquals(result[1], 1)
+          assertEquals(result.length, 2)
+      </script>
+</body>
+</html>

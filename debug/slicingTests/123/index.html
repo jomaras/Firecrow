@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="mainContainer"></div>
+<script>
+    HTMLElement.prototype.htmlElementMethod = function()
+    {
+        return 1;
+    }
+
+    Element.prototype.elementMethod = function()
+    {
+        return 1;
+    }
+
+    var mainContainer = document.getElementById("mainContainer");
+
+    var a1 = 0;
+    a1 += mainContainer.htmlElementMethod();
+    a1 += mainContainer.elementMethod();
+
+    a1;
+</script>
+</body>
+</html>

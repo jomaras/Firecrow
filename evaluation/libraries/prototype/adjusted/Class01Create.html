@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/classes.js"></script>
+</head>
+<body>
+    <div id="test_node">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+      <script>
+          assert(Object.isFunction(Animal), 'Animal is not a constructor');
+          assertEquals([Cat, Mouse, Dog, Ox], Animal.subclasses);
+          assertEquals(Animal.subclasses[0], Cat);
+          assertEquals(Animal.subclasses[1], Mouse);
+          assertEquals(Animal.subclasses[2], Dog);
+          assertEquals(Animal.subclasses[3], Ox);
+
+          Animal.subclasses.each(function(subclass) {
+              assertEquals(Animal, subclass.superclass);
+          }, this);
+
+          var Bird = Class.create(Animal);
+          assertEquals(Bird, Animal.subclasses.last());
+      </script>
+</body>
+</html>

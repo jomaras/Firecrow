@@ -658,6 +658,9 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
     this.elementPrototype = new fcModel.ElementPrototype(this);
     this.fcElementPrototype = new fcModel.fcValue(Element.prototype, this.elementPrototype, null);
 
+    this.htmlElementPrototype = new fcModel.HTMLElementPrototype(this);
+    this.fcHtmlElementPrototype = new fcModel.fcValue(HTMLElement.prototype, this.htmlElementPrototype, null);
+
     if(typeof Window !== "undefined")
     {
         this.windowPrototype = new fcModel.WindowPrototype(this);
@@ -870,6 +873,10 @@ fcModel.GlobalObject.prototype._createInternalObjects = function()
     this.fcElement = new fcModel.Element(this);
     this.element = new fcModel.fcValue(Element, this.fcElement, null);
     this.addProperty("Element", this.element, null);
+
+    this.fcHtmlElement = new fcModel.HTMLElement(this);
+    this.htmlElement = new fcModel.fcValue(HTMLElement, this.fcHtmlElement, null);
+    this.addProperty("HTMLElement", this.htmlElement, null);
 
     //this.fcEvent = new fcModel.Event(this);
     //this.event = new fcModel.fcValue(Event, this.fcEvent, null);
