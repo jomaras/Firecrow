@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/hash.js"></script>
+</head>
+<body>
+      <script>
+          var h = $H(Fixtures.many);
+
+          var cloned = h.clone();
+          assertEquals(cloned._object.a, 'A');
+          assertEquals(cloned._object.b, 'B');
+          assertEquals(cloned._object.c, 'C');
+          assertEquals(cloned._object.d, 'D#');
+
+          assert(h.clone() instanceof Hash);
+          this.assertEquals(h, h.clone());
+      </script>
+</body>
+</html>

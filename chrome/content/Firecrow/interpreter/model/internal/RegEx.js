@@ -15,7 +15,7 @@ fcModel.RegEx = function(jsRegExp, globalObject, codeConstruct)
         this.jsRegExp = jsRegExp;
         this.constructor = fcModel.RegEx;
 
-        this.initObject(globalObject, codeConstruct);
+        this.initObject(globalObject, codeConstruct, jsRegExp, globalObject.fcRegExPrototype);
 
         this.addProperty("lastIndex", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, 0), codeConstruct);
         this.addProperty("ignoreCase", this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, jsRegExp.ignoreCase), codeConstruct);

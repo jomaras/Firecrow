@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/enumerable.js"></script>
+</head>
+<body>
+
+      <script>
+          var result = Fixtures.People.partition(function(person) {
+              return person.name.length < 15;
+          }).invoke('pluck', 'nickname');
+
+          assertEquals(2, result.length);
+          assertEquals('sam-, htonl', result[0].join(', '));
+          assertEquals('noradio, Ulysses', result[1].join(', '));
+      </script>
+</body>
+</html>

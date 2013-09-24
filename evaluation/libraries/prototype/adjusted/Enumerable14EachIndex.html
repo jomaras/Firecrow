@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/enumerable.js"></script>
+</head>
+<body>
+
+      <script>
+          var nicknames = [], indexes = [];
+          Fixtures.People.each(function(person, index) {
+              nicknames.push(person.nickname);
+              indexes.push(index);
+          });
+
+          assertEquals(Fixtures.Nicknames.join(', '),
+                  nicknames.join(', '));
+          assertEquals('0, 1, 2, 3', indexes.join(', '));
+      </script>
+</body>
+</html>

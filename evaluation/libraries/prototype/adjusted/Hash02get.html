@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+
+      <script>
+          var h = $H({a: 'A'});
+          
+          assertEquals('A', h.get('a'));
+          assertEquals(h.a, undefined);
+          assertEquals($H({}).get('a'), undefined);
+
+          assertEquals($H({}).get('toString'), undefined);
+          assertEquals($H({}).get('constructor'), undefined);
+      </script>
+</body>
+</html>

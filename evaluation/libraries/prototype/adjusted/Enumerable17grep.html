@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/enumerable.js"></script>
+</head>
+<body>
+
+<script>
+    //assertEquals('noradio, htonl', Fixtures.Nicknames.grep(/o/).join(", "));
+
+    assertEquals('NORADIO, HTONL', Fixtures.Nicknames.grep(/o/, function(nickname)
+    {
+        return nickname.toUpperCase();
+    }).join(", "));
+
+    var first = ['?a','b','c?'].grep('?');
+    assertEquals(first[0], '?a');
+    assertEquals(first[1], 'c?');
+    assertEquals(first.length, 2);
+
+    var second = ['+a','b','c+'].grep('+');
+    assertEquals(second[0], '+a');
+    assertEquals(second[1], 'c+');
+    assertEquals(second.length, 2);
+
+    var third = ['{1}a','b','c{1}'].grep('{1}');
+    assertEquals(third[0], '{1}a');
+    assertEquals(third[1], 'c{1}');
+    assertEquals(third.length, 2);
+
+    var fourth = ['(a','b','c('].grep('(');
+    assertEquals(fourth[0], '(a');
+    assertEquals(fourth[1], 'c(');
+    assertEquals(fourth.length, 2);
+
+    var fifth = ['|a','b','c|'].grep('|');
+    assertEquals(fifth[0], '|a');
+    assertEquals(fifth[1], 'c|');
+    assertEquals(fifth.length, 2);
+</script>
+</body>
+</html>

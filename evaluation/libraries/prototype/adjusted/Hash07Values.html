@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/hash.js"></script>
+</head>
+<body>
+      <script>
+          assertEquals(0,             $H({}).values().length);
+          
+          var firstValues = $H(Fixtures.one).values();
+
+          assertEquals(firstValues[0], 'A#');
+          assertEquals(firstValues.length, 1);
+          
+          var secondValues = $H(Fixtures.many).values().sort();
+          assertEquals(secondValues.length, 4);
+          assertEquals(secondValues[0], 'A');
+          assertEquals(secondValues[1], 'B');
+          assertEquals(secondValues[2], 'C');
+          assertEquals(secondValues[3], 'D#');
+          
+          var thirdValues = $H(Fixtures.functions).values().map(function(i){ return typeof i });
+          assertEquals(thirdValues[0], "function");
+          assertEquals(thirdValues[1], "function");
+          assertEquals(thirdValues.length, 2);
+          
+          assertEquals(9, $H(Fixtures.functions).get('quad')(3));
+          assertEquals(6, $H(Fixtures.functions).get('plus')(3));
+      </script>
+</body>
+</html>

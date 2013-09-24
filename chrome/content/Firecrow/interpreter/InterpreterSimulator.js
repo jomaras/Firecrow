@@ -140,13 +140,22 @@ fcSimulator.prototype = dummy =
     _processCommand: function(command)
     {
         if(command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { this._processTryCommand(command); }
-        if(command.isEvalThrowExpressionCommand()) { this._removeCommandsAfterException(command); }
+        if(command.isEvalThrowExpressionCommand())
+        {
+            this._processThrowCommand(command);
+            this._removeCommandsAfterException(command);
+        }
 
         this.executionContextStack.executeCommand(command);
         command.hasBeenExecuted = true;
 
         if (command.removesCommands) { this._processRemovingCommandsCommand(command); }
         if (command.generatesNewCommands) { this._processGeneratingNewCommandsCommand(command); }
+    },
+
+    _processThrowCommand: function(throwCommand)
+    {
+        this.throwExpressionValue = this.executionContextStack.getExpressionValue(throwCommand.codeConstruct.argument);
     },
 
     _processGeneratingNewCommandsCommand: function(command)
@@ -278,7 +287,9 @@ fcSimulator.prototype = dummy =
 
     _removeCommandsAfterException: function(exceptionGeneratingArgument)
     {
-        if(exceptionGeneratingArgument == null || !(exceptionGeneratingArgument.isDomStringException || exceptionGeneratingArgument.isPushExpectedException))
+        if(exceptionGeneratingArgument == null ||
+         !(exceptionGeneratingArgument.isDomStringException || exceptionGeneratingArgument.isPushExpectedException
+         || (ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) && exceptionGeneratingArgument.isEvalThrowExpressionCommand())))
         {
             debugger;
             fcSimulator.notifyError("Exception generating error at:" + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + FBL.Firecrow.CodeTextGenerator.generateJsCode(this.commands[this.currentCommandIndex].codeConstruct));
@@ -315,7 +326,8 @@ fcSimulator.prototype = dummy =
                 (
                     this.tryStack[this.tryStack.length - 1],
                     ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) ? this.executionContextStack.getExpressionValue(exceptionGeneratingArgument.codeConstruct.argument)
-                                                                                                                 : exceptionGeneratingArgument
+                                                                                                                 : exceptionGeneratingArgument,
+                    exceptionGeneratingArgument
                 ),
                 i
             );

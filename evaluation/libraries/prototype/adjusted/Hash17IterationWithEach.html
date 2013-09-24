@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/hash.js"></script>
+</head>
+<body>
+      <script>
+          var h = $H({a:1, b:2});
+          var result = []
+          h.each(function(kv){
+              result.push(kv[1]);
+          });
+
+          assertEquals(result[0], 1);
+          assertEquals(result[1], 2);
+          assertEquals(result.length, 2);
+      </script>
+</body>
+</html>

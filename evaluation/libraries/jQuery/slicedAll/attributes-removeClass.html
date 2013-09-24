@@ -338,7 +338,7 @@
 
       return readyList.promise(obj);
     };
-    jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name)
+    jQuery.each(("Boolean Number String Function Array Date RegExp Object Error").split(" "), function(i, name)
     {
       class2type[("[object " + name) + "]"] = name.toLowerCase();
     });
@@ -942,7 +942,7 @@
       delegate: function(selector, types, data, fn){}, 
       undelegate: function(selector, types, fn){}
     });
-    var prefilters = {}, transports = {}, allTypes = "*/".concat("*");
+    var prefilters = {}, transports = {}, allTypes = ("*/").concat("*");
     function addToPrefiltersOrTransports(structure)
     {
       return function(dataTypeExpression, func){};

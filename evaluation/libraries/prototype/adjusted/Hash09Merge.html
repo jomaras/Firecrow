@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/hash.js"></script>
+</head>
+<body>
+      <script>
+          var h = $H(Fixtures.many);
+          assertEquals(h, h.merge());
+          assertEquals(h, h.merge({}));
+          assert(h.merge() instanceof Hash);
+          assert(h.merge({}) instanceof Hash);
+
+          var merged = h.merge();
+          assertEquals(merged._object.a, 'A');
+          assertEquals(merged._object.b, 'B');
+          assertEquals(merged._object.c, 'C');
+          assertEquals(merged._object.d, 'D#');
+
+          var merged1 = h.merge({});
+          assertEquals(merged1._object.a, 'A');
+          assertEquals(merged1._object.b, 'B');
+          assertEquals(merged1._object.c, 'C');
+          assertEquals(merged1._object.d, 'D#');
+
+          var merged2 = h.merge($H());
+          assertEquals(merged2._object.a, 'A');
+          assertEquals(merged2._object.b, 'B');
+          assertEquals(merged2._object.c, 'C');
+          assertEquals(merged2._object.d, 'D#');
+
+          var merged3 = h.merge({aaa: 'AAA'});
+          assertEquals(merged3._object.a, 'A');
+          assertEquals(merged3._object.b, 'B');
+          assertEquals(merged3._object.c, 'C');
+          assertEquals(merged3._object.d, 'D#');
+          assertEquals(merged3._object.aaa, 'AAA');
+
+          var merged4 = h.merge(Fixtures.one);
+          assertEquals(merged4._object.a, 'A#');
+          assertEquals(merged4._object.b, 'B');
+          assertEquals(merged4._object.c, 'C');
+          assertEquals(merged4._object.d, 'D#');
+      </script>
+</body>
+</html>

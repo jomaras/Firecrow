@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/enumerable.js"></script>
+</head>
+<body>
+
+      <script>
+          assertEquals('htonl, noradio, sam-, Ulysses',
+                  Fixtures.People.sortBy(function(value) {
+                      return value.nickname.toLowerCase();
+                  }).pluck('nickname').join(', '));
+      </script>
+</body>
+</html>

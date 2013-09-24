@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/enumerable.js"></script>
+</head>
+<body>
+
+      <script>
+          var i = 0;
+          Fixtures.Basic.collect(function(value, index, collection) {
+              assertEquals(Fixtures.Basic[i], value);
+              assertEquals(i, index);
+              assertEquals(Fixtures.Basic, collection);
+              i++;
+              return value;
+          }, this);
+      </script>
+</body>
+</html>

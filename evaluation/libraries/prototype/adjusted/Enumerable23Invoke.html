@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/enumerable.js"></script>
+</head>
+<body>
+
+      <script>
+          var result = [[2, 1, 3], [6, 5, 4]].invoke('sort');
+          assertEquals(2, result.length);
+          assertEquals('1, 2, 3', result[0].join(', '));
+          assertEquals('4, 5, 6', result[1].join(', '));
+
+          result = result.invoke('invoke', 'toString', 2);
+          assertEquals('1, 10, 11', result[0].join(', '));
+          assertEquals('100, 101, 110', result[1].join(', '));
+      </script>
+</body>
+</html>

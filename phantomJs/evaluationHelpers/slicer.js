@@ -27,7 +27,7 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf('Hash') != -1)
     {
         return fullPath;
     }

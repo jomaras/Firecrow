@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/enumerable.js"></script>
+</head>
+<body>
+
+      <script>
+          assertEquals(0,
+                  Fixtures.Nicknames.reject(Prototype.K).length);
+
+          assertEquals('sam-, noradio, htonl',
+                  Fixtures.Nicknames.reject(function(nickname) {
+                      return nickname != nickname.toLowerCase();
+                  }).join(', '));
+      </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/hash.js"></script>
+</head>
+<body>
+      <script>
+          var h = $H(Fixtures.many);
+          assertEquals(h, h.update());
+          assertEquals(h, h.update({}));
+          var updated = h.update();
+          assertEquals(updated._object.a, 'A');
+          assertEquals(updated._object.b, 'B');
+          assertEquals(updated._object.c, 'C');
+          assertEquals(updated._object.d, 'D#');
+
+          var updated1 = h.update({});
+          assertEquals(updated1._object.a, 'A');
+          assertEquals(updated1._object.b, 'B');
+          assertEquals(updated1._object.c, 'C');
+          assertEquals(updated1._object.d, 'D#');
+
+          var updated2 = h.update($H());
+          assertEquals(updated2._object.a, 'A');
+          assertEquals(updated2._object.b, 'B');
+          assertEquals(updated2._object.c, 'C');
+          assertEquals(updated2._object.d, 'D#');
+
+          var updated3 = h.update({aaa: 'AAA'});
+          assertEquals(updated3._object.a, 'A');
+          assertEquals(updated3._object.b, 'B');
+          assertEquals(updated3._object.c, 'C');
+          assertEquals(updated3._object.d, 'D#');
+          assertEquals(updated3._object.aaa, 'AAA');
+
+          var updated4 = h.update(Fixtures.one);
+          assertEquals(updated4._object.a, 'A#');
+          assertEquals(updated4._object.b, 'B');
+          assertEquals(updated4._object.c, 'C');
+          assertEquals(updated4._object.d, 'D#');
+      </script>
+</body>
+</html>

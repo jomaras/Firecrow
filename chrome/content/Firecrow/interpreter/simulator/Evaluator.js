@@ -65,6 +65,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isCallInternalFunctionCommand()) { this._evalCallInternalFunction(command); }
             else if (command.isEvalCallbackFunctionCommand()) { this._evalCallbackFunctionCommand(command); }
             else if (command.isEvalSequenceExpressionCommand()) { this._evalSequence(command); }
+            else if (command.isEvalThrowExpressionCommand()) { this._evalThrowExpressionCommand(command); }
             else
             {
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
@@ -462,9 +463,25 @@ fcSimulator.Evaluator.prototype =
         this.globalObject.browser.logConstructExecuted(forInWhereConstruct);
     },
 
+    _evalThrowExpressionCommand: function(throwCommand)
+    {
+        this.dependencyCreator.createDataDependency
+        (
+            throwCommand.codeConstruct,
+            throwCommand.codeConstruct.argument,
+            this.globalObject.getPreciseEvaluationPositionId()
+        )
+    },
+
     _evalStartCatchStatementCommand: function(startCatchCommand)
     {
-        this.executionContextStack.setIdentifierValue(startCatchCommand.codeConstruct.param.name, startCatchCommand.exceptionArgument);
+        this.executionContextStack.setIdentifierValue
+        (
+            startCatchCommand.codeConstruct.param.name,
+            startCatchCommand.exceptionArgument,
+            startCatchCommand.throwingCommand != null ? startCatchCommand.throwingCommand.codeConstruct
+                                                      : null
+         );
 
         this.globalObject.browser.logConstructExecuted(startCatchCommand.codeConstruct);
     },

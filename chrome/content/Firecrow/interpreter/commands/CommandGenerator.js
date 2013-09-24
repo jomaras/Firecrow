@@ -592,7 +592,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         return commands;
     },
 
-    generateCatchStatementExecutionCommands: function(tryCommand, exceptionArgument)
+    generateCatchStatementExecutionCommands: function(tryCommand, exceptionArgument, throwingCommand)
     {
         var commands = [];
 
@@ -605,6 +605,7 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         var catchElement = handlers[0];
 
         var startCatchCommand = new fcCommands.Command(catchElement, fcCommands.Command.COMMAND_TYPE.StartCatchStatement, tryCommand.parentFunctionCommand);
+        startCatchCommand.throwingCommand = throwingCommand;
 
         commands.push(startCatchCommand);
 

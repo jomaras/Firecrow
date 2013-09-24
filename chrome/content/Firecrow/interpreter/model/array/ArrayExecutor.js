@@ -85,6 +85,18 @@ fcModel.ArrayExecutor =
                     if(callCommand.originatingObject != null && callCommand.originatingObject.iValue != null && callCommand.originatingObject.iValue.addDependenciesToAllProperties)
                     {
                         callCommand.originatingObject.iValue.addDependenciesToAllProperties(callExpression)
+                        if(callCommand.originatingObject.jsValue != null && callCommand.originatingObject.jsValue.length !== null
+                        && callCommand.originatingObject.jsValue.length.jsValue != null)
+                        {
+                            var lengthProperty = callCommand.originatingObject.iValue.getProperty("length");
+
+                            globalObject.internalExecutor.dependencyCreator.createDataDependency
+                            (
+                                callExpression,
+                                lengthProperty.lastModificationPosition.codeConstruct,
+                                globalObject.getPreciseEvaluationPositionId()
+                            )
+                        }
                     }
 
                     if(functionName == "filter" || functionName == "map")

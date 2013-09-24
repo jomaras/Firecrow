@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/enumerable.js"></script>
+</head>
+<body>
+
+      <script>
+          assertEquals([].length, [].eachSlice(2).length);
+          assertEquals(1, [1].eachSlice(1).length);
+          assertEquals(1, [1].eachSlice(1)[0][0]);
+          assertEquals(2, Fixtures.Basic.eachSlice(2).length);
+
+          var slice0 = Fixtures.Primes.eachSlice( 3, function(slice){ return slice.reverse() }).flatten();
+          assertEquals(3, slice0[0]);
+          assertEquals(2, slice0[1]);
+          assertEquals(1, slice0[2]);
+          assertEquals(11, slice0[3]);
+          assertEquals(26, slice0.length);
+
+          var slice1 = Fixtures.Basic.eachSlice(-10);
+          var slice2 = Fixtures.Basic.eachSlice(0);
+
+          assertEquals(1, slice1[0]);
+          assertEquals(2, slice1[1]);
+          assertEquals(3, slice1[2], "slice1");
+          assertEquals(3, slice1.length, "slice1l");
+
+          assertEquals(1, slice2[0]);
+          assertEquals(2, slice2[1]);
+          assertEquals(3, slice2[2], "slice2");
+          assertEquals(3, slice2.length, "slice2");
+
+      </script>
+</body>
+</html>

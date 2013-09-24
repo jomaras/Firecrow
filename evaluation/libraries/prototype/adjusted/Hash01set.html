@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://localhost/Firecrow/evaluation/libraries/prototype/prototype.js"></script>
+</head>
+<body>
+
+      <script>
+          var h = $H({a: 'A'})
+
+          assertEquals('B', h.set('b', 'B'));
+          assertEquals(h._object.a, 'A');
+          assertEquals(h._object.b, 'B');
+
+          assertEquals(h.set('c'), undefined);
+
+          assertEquals(h._object.a, 'A');
+          assertEquals(h._object.b, 'B');
+          assertEquals(h._object.c, undefined);
+      </script>
+</body>
+</html>

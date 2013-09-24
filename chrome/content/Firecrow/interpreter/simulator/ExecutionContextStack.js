@@ -202,8 +202,7 @@ fcSimulator.ExecutionContextStack.prototype =
             else if (command.isStartSwitchStatementCommand()) { this._addToBlockCommandStack(command); }
             else if (command.isEndSwitchStatementCommand()) { this._tryPopCommand(command);}
             else if (command.isCaseCommand()) {}
-            else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand() || command.isEvalThrowExpressionCommand()) { }
-            else if (command.isStartCatchStatementCommand()){ this._addToBlockCommandStack(command);}
+            else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { }
             else if (command.isEndCatchStatementCommand()) { this._tryPopCommand(command);}
             else if (command.isEvalNewExpressionCommand()){ this.dependencyCreator.addNewExpressionDependencies(command.codeConstruct);}
             else if (command.isStartLogicalExpressionCommand()) { }
@@ -218,6 +217,10 @@ fcSimulator.ExecutionContextStack.prototype =
                 else if(command.isEvalForInWhereCommand())
                 {
                     this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct.right);
+                    this._addToBlockCommandStack(command);
+                }
+                else if (command.isStartCatchStatementCommand())
+                {
                     this._addToBlockCommandStack(command);
                 }
                 else if (command.isEndLogicalExpressionCommand())

@@ -767,7 +767,7 @@ Firecrow.ASTHelper = ASTHelper =
     traverseAst: function(astElement, processElementFunction, ignoreProperties)
     {
         if(!(ValueTypeHelper.isObject(astElement))) { return; }
-
+        if(astElement.addJsProperty != null)debugger;
         for(var propName in astElement)
         {
             //Do not traverse the source code location properties and parents and graphNodes!
@@ -788,6 +788,7 @@ Firecrow.ASTHelper = ASTHelper =
                 || propName == "blockStackConstructs"
                 || propName == "executorEventsMap"
                 || propName == "simpleDependencies"
+                || propName == "match"
                 || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
             var propertyValue = astElement[propName];
