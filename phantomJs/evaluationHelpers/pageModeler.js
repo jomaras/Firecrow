@@ -15,7 +15,7 @@ htmlFiles = fs.list(rootFolder).map(function(fileName)
     var fullPath = rootFolder + fs.separator + fileName;
 
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1 && fullPath.indexOf('manipulation') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1 && fullPath.indexOf('offset0') != -1)
     {
         return fullPath;
     }

@@ -14,7 +14,7 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 var htmlFiles = [];
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\adjusted";
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\slicedAll";
 
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {

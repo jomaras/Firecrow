@@ -20,14 +20,14 @@ var logFile = destinationFolder + "\\logAll.txt";
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
-
+console.log("Slicer started!");
 var log = "";
 
 modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf('manipulation16') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf('offset0') != -1)
     {
         return fullPath;
     }

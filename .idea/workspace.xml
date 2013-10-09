@@ -9,7 +9,7 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="18" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="- HtmlElement executor, handling the bug where querySelectorAll on documentFragment throws an exception&#10;- TextNode has methods&#10;- in VariableObject variable shaddowing improved">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/2.html" />
@@ -19,8 +19,16 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset01emptySet.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset02objectWithoutBounding.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset03disconnectedNode.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset04Chaining.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset05Parent.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -70,55 +78,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="slicer.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
+      <file leaf-file-name="scenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="52" selection-start="584" selection-end="584" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1411">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HtmlElementExecutor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="298" column="48" selection-start="12415" selection-end="12415" vertical-scroll-proportion="0.0" vertical-offset="4649" max-vertical-offset="8075">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jQuery-src.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/jQuery-src.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1646" column="56" selection-start="60497" selection-end="60497" vertical-scroll-proportion="-8.36" vertical-offset="27773" max-vertical-offset="166515">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manipulation16replaceWith.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation16replaceWith.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="302" column="57" selection-start="13651" selection-end="13651" vertical-scroll-proportion="-17.807692" vertical-offset="4671" max-vertical-offset="6426">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="checkAllTests.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="107" selection-start="741" selection-end="741" vertical-scroll-proportion="0.64365256" vertical-offset="102" max-vertical-offset="1241">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pageModeler.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="2091">
+            <state line="28" column="76" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.5225027" vertical-offset="0" max-vertical-offset="911">
               <folding />
             </state>
           </provider>
@@ -155,22 +118,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation07appendForObject.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation10prepend.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation21Clone.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation03textString.html" />
-        <option value="$PROJECT_DIR$/debug/slicingTests/129/index.html" />
-        <option value="$PROJECT_DIR$/debug/slicingTests/129/index.json" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/HTMLElement.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/TextNode.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
         <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
         <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/manipulation16replaceWith.html" />
         <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation16replaceWith.html" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset01emptySet.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset02objectWithoutBounding.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset03disconnectedNode.html" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset04Chaining.html" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset05Parent.html" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
       </list>
     </option>
   </component>
@@ -260,11 +223,47 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluationHelpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluationHelpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scenarioGeneratorModules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -279,68 +278,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jQuery" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jQuery" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adjusted" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -381,9 +318,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\" />
       <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\128" />
-      <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted" />
     </key>
@@ -3059,7 +2996,11 @@
       <created>1380641391917</created>
       <updated>1380641391917</updated>
     </task>
-    <option name="localTasksCounter" value="632" />
+    <task id="LOCAL-00632" summary="- HtmlElement executor, handling the bug where querySelectorAll on documentFragment throws an exception&#10;- TextNode has methods&#10;- in VariableObject variable shaddowing improved">
+      <created>1381298506695</created>
+      <updated>1381298506695</updated>
+    </task>
+    <option name="localTasksCounter" value="633" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3101,15 +3042,15 @@
     <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17104216" sideWeight="0.6072607" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14363307" sideWeight="0.506937" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16596258" sideWeight="0.6563501" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39764202" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39375" sideWeight="0.43511903" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34398296" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34364995" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989305" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
@@ -3174,83 +3115,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="28" selection-start="8533" selection-end="8533" vertical-scroll-proportion="-4.576923" vertical-offset="2346" max-vertical-offset="4539">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/HTMLElement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="28" selection-start="341" selection-end="341" vertical-scroll-proportion="0.32922536" vertical-offset="0" max-vertical-offset="595">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1338" column="429" selection-start="1675446" selection-end="1675446" vertical-scroll-proportion="0.75495493" vertical-offset="22327" max-vertical-offset="22882">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/129/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="36" selection-start="76" selection-end="76" vertical-scroll-proportion="0.15682657" vertical-offset="0" max-vertical-offset="542">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="332" column="13" selection-start="13466" selection-end="14392" vertical-scroll-proportion="0.6753472" vertical-offset="5255" max-vertical-offset="7531">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="277" column="291" selection-start="14333" selection-end="14333" vertical-scroll-proportion="0.3559028" vertical-offset="4504" max-vertical-offset="7718">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/TextNode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="109" selection-start="2934" selection-end="2934" vertical-scroll-proportion="0.5729167" vertical-offset="894" max-vertical-offset="2397">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/data16MissData.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="18" selection-start="1199" selection-end="1199" vertical-scroll-proportion="-7.3461537" vertical-offset="200" max-vertical-offset="4624">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/manipulation16replaceWith.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1671" column="50" selection-start="47372" selection-end="47372" vertical-scroll-proportion="0.264" vertical-offset="28275" max-vertical-offset="29648">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="2091">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="52" selection-start="584" selection-end="584" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1411">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation16replaceWith.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="302" column="57" selection-start="13651" selection-end="13651" vertical-scroll-proportion="-17.807692" vertical-offset="4671" max-vertical-offset="6426">
@@ -3279,9 +3143,116 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset01emptySet.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="255" column="57" selection-start="11507" selection-end="11514" vertical-scroll-proportion="-24.23077" vertical-offset="3705" max-vertical-offset="4590">
+          <folding>
+            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset02objectWithoutBounding.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="260" column="16" selection-start="11559" selection-end="11559" vertical-scroll-proportion="0.76949155" vertical-offset="3739" max-vertical-offset="4624">
+          <folding>
+            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset03disconnectedNode.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="263" column="16" selection-start="11675" selection-end="11675" vertical-scroll-proportion="0.8079096" vertical-offset="3756" max-vertical-offset="4641">
+          <folding>
+            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/offset.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="525" column="136" selection-start="24042" selection-end="25729" vertical-scroll-proportion="0.29088914" vertical-offset="8660" max-vertical-offset="9571">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset04Chaining.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="260" column="49" selection-start="11586" selection-end="11586" vertical-scroll-proportion="0.60746" vertical-offset="4078" max-vertical-offset="4641">
+          <folding>
+            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset05Parent.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="271" column="66" selection-start="12142" selection-end="12142" vertical-scroll-proportion="-5.9615383" vertical-offset="4452" max-vertical-offset="5066">
+          <folding>
+            <element signature="n#style#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#7;n#form#0;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#dl#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="107" selection-start="741" selection-end="741" vertical-scroll-proportion="0.64365256" vertical-offset="102" max-vertical-offset="1241">
+        <state line="19" column="40" selection-start="573" selection-end="573" vertical-scroll-proportion="0.35455543" vertical-offset="0" max-vertical-offset="1241">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="55" selection-start="580" selection-end="580" vertical-scroll-proportion="0.22392975" vertical-offset="153" max-vertical-offset="2091">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/traversing.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.454343" vertical-offset="408" max-vertical-offset="13634">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/test/original/queue.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-5.064764" vertical-offset="4614" max-vertical-offset="5525">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="47" selection-start="1872" selection-end="1872" vertical-scroll-proportion="0.44017562" vertical-offset="500" max-vertical-offset="1411">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="76" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.5225027" vertical-offset="0" max-vertical-offset="911">
           <folding />
         </state>
       </provider>
