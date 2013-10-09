@@ -35,6 +35,11 @@ FBL.ns(function() { with (FBL) {
             {
                 //a variable declaration can not override a function declaration
             }
+            else if(ASTHelper.isFunctionParameter(existingIdentifier.declarationPosition.codeConstruct)
+                && ASTHelper.getFunctionParent(existingIdentifier.declarationPosition.codeConstruct) == ASTHelper.getFunctionParent(identifier.declarationPosition.codeConstruct))
+            {
+                //don't shadow if the existing identifier is a parameter from the function parent
+            }
             else
             {
                 existingIdentifier.setValue(identifier.value, identifier.lastModificationPosition.codeConstruct);

@@ -7,8 +7,9 @@
 </head>
 <body>
       <script>
+      var h =  $H({'a#': 'A'});
           assertEquals('',                   $H({}).toQueryString());
-          assertEquals('a%23=A',             $H({'a#': 'A'}).toQueryString());
+          assertEquals('a%23=A',            h.toQueryString());
           assertEquals('a=A%23',             $H(Fixtures.one).toQueryString());
           assertEquals('a=A&b=B&c=C&d=D%23', $H(Fixtures.many).toQueryString());
           assertEquals("a=b&c",              $H(Fixtures.value_undefined).toQueryString());

@@ -10,7 +10,6 @@ fcModel.HTMLElement = function(globalObject)
 
         this.addProperty("prototype", globalObject.fcHtmlElementPrototype);
 
-
         this.name = "HTMLElement";
     }
     catch(e){ fcModel.HTMLImageElement.notifyError("Error when creating Array Function:" + e); }

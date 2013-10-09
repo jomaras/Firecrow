@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "file:///C:/GitWebStorm/Firecrow/evaluation/libraries/underscore/adjusted/playground.html";
+var url = "file:///C:/GitWebStorm/Firecrow/wordpress/virtue/index.html";
 
 console.log("Started loading page");
 
@@ -17,6 +17,8 @@ page.onShouldInterruptJs = function()
 {
     console.log("considering interrupting page");
 }
+
+page.viewportSize = { width: 1000, height: 800 };
 
 var t = Date.now();
 page.open(encodeURI(url), function(status)
@@ -41,10 +43,7 @@ page.open(encodeURI(url), function(status)
         setTimeout(function()
         {
             console.log("After some time:");
-            console.log(page.evaluate(function()
-            {
-                //return document.documentElement.innerHTML;
-            }));
+            page.render('page.png');
 
             phantom.exit();
         }, 2000);

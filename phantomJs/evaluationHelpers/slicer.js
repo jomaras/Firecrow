@@ -8,8 +8,8 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryName = "prototype"
-var executeRegisteredEvents = false;
+var libraryName = "jQuery"
+var executeRegisteredEvents = true;
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;
@@ -27,7 +27,7 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf('Hash') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf('manipulation16') != -1)
     {
         return fullPath;
     }

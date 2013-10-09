@@ -1,17 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script>
-    </script>
+    <script src="http://marjan.fesb.hr/~jomaras/scripts/jquery-1.4.2.js"></script>
+     <style>
+         #mainContainer, #cont
+         {
+             width: 100px;
+             height: 100px;
+             background-color: red;
+         }
+
+         #cont { background-color: blue; }
+     </style>
 </head>
 
 <body>
     <div id="mainContainer"></div>
-    <iframe>
-
-    </iframe>
+    <div id="cont"></div>
     <script>
+        function add(a,b)
+        {
+            return a + b;
+        }
 
+        var mc = document.getElementById("mainContainer");
+        var cont = document.getElementById("cont");
+
+        mc.onclick = function()
+        {
+            mc.textContent += add(1,2);
+
+            setTimeout(function()
+            {
+                mc.textContent += add(2,2);
+            }, 100);
+        };
+
+        $("#cont").click(function()
+        {
+            this.textContent += 4;
+        });
     </script>
 </body>
 </html>

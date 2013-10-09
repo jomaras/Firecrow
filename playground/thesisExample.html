@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #sumCont { color: red; }
+        #productCont { color: blue; }
+        body { background-image:url("b.png")}
+        label {font-weight: bold; }
+    </style>
+</head>
+<body>
+<input id="inputCont"/>
+<button id="calcButton">Calc</button>
+<div id="sumCont"></div>
+<div id="productCont"></div>
+
+<script>
+    var number;
+    function add(a, b) { return a + b; }
+
+    var inputCont = document.querySelector("#inputCont");
+
+    var sumCont = document.querySelector("#sumCont");
+    var productCont = document.querySelector("#productCont");
+
+    inputCont.oninput = function(){
+        number = parseFloat(this.value);
+    };
+
+    calcButton.onclick = function() {
+
+        var sum = 0;
+        var product = add(0,1);
+
+        for(var i = 1; i <= number; i++) {
+            sum = add(sum, i);
+            product *= i;
+        }
+
+        sumCont.innerHTML = "<label>Sum:" + sum + "</label>";
+        productCont.innerHTML = "<label>Product:" + product + "</label>";
+    };
+</script>
+</body>
+</html>

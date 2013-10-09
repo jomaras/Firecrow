@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="mainContainer"></div>
+<script>
+
+    function test(value)
+    {
+        if(value == undefined) { return 10; }
+
+        var value = 3;
+
+        return value;
+    }
+
+    var a1 = 0;
+
+    a1 += test();
+    a1 += test(2);
+
+    a1;
+</script>
+</body>
+</html>

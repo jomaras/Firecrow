@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="mainContainer">1</div>
+<script>
+    var mainContainer = document.getElementById("mainContainer");
+    var textNode = mainContainer.childNodes[0];
+    mainContainer.appendChild(textNode.cloneNode());
+
+    var a1 = mainContainer.textContent;
+    a1;
+</script>
+</body>
+</html>

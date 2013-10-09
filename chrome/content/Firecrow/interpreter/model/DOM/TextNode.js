@@ -14,7 +14,7 @@ fcModel.TextNode = function(textNode, globalObject, codeConstruct)
         this.textNode = textNode;
         this.textNode.elementModificationPoints = [];
 
-        this._setDefaultProperties();
+        this._setDefaultProperties(codeConstruct);
 
         this.registerGetPropertyCallback(this._getPropertyCallback, this);
     }
@@ -51,12 +51,27 @@ fcModel.TextNode.prototype.addJsProperty = function(propertyName, propertyFcValu
     //</editor-fold>
 
 //<editor-fold desc="'Private' methods">
-fcModel.TextNode.prototype._setDefaultProperties = function()
+fcModel.TextNode.prototype._setDefaultProperties = function(creationConstruct)
 {
     fcModel.DOM_PROPERTIES.setPrimitives(this, this.textNode, fcModel.DOM_PROPERTIES.NODE.PRIMITIVES);
 
+    this._addMethods(creationConstruct);
+
     this.addProperty("ownerDocument", this.globalObject.jsFcDocument, this.creationCodeConstruct);
     this.addProperty("childNodes", this._getChildNodes(this.creationCodeConstruct), this.creationCodeConstruct);
+};
+
+fcModel.TextNode.prototype._addMethods = function(codeConstruct)
+{
+    var methods = fcModel.TextNode.CONST.INTERNAL_PROPERTIES.METHODS;
+
+    for(var i = 0, length = methods.length; i < length; i++)
+    {
+        var methodName = methods[i];
+        var textNodeMethod = this.textNode[methodName];
+
+        this.addProperty(methodName, this.globalObject.internalExecutor.createInternalFunction(textNodeMethod, methodName, this), codeConstruct);
+    }
 };
 
 fcModel.TextNode.prototype._getPropertyCallback = function(getPropertyConstruct)

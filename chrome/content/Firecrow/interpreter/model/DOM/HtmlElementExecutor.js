@@ -244,10 +244,11 @@ fcModel.HtmlElementExecutor =
         {
             //TODO - IF statement (the else should always be, but the if should not)
             // is a jQuery hack, for some reason - should not throw an exception if thisObjectValue is documentFragment
-            //and jsArguments only has "script"
-            if(ValueTypeHelper.isDocumentFragment(thisObjectValue) && jsArguments.length == 1 && jsArguments[0] == "script")
+            //and jsArguments is a simple selector
+            if(ValueTypeHelper.isDocumentFragment(thisObjectValue) && jsArguments.length == 1
+           && (jsArguments[0] == "*" || jsArguments[0] == "script"))
             {
-                //HACK!
+                elements = this._getElementsFromDocumentFragment(thisObjectValue, jsArguments[0], functionName);
             }
             else
             {
@@ -271,6 +272,39 @@ fcModel.HtmlElementExecutor =
         wrappedArray.iValue.markAsNodeList();
 
         return wrappedArray;
+    },
+
+    _getElementsFromDocumentFragment: function(documentFragment, selector, functionName)
+    {
+        var elements = [];
+
+        for(var i = 0; i < documentFragment.childNodes.length; i++)
+        {
+            var childNode = documentFragment.childNodes[i];
+            var matchesSelector = false;
+
+            if(childNode.webkitMatchesSelector) { matchesSelector = childNode.webkitMatchesSelector(selector); }
+            else if(childNode.mozMatchesSelector) { matchesSelector = childNode.mozMatchesSelector(selector); }
+            else if(childNode.oMatchesSelector) { matchesSelector = childNode.oMatchesSelector(selector); }
+            else if(childNode.msMatchesSelector) { matchesSelector = childNode.msMatchesSelector(selector); }
+
+            if(matchesSelector)
+            {
+                elements.push(childNode);
+            }
+
+            if(childNode[functionName])
+            {
+                var descendents = childNode[functionName].apply(childNode, [selector]);
+
+                for(var j = 0; j < descendents.length; j++)
+                {
+                    elements.push(descendents[j]);
+                }
+            }
+        }
+
+        return elements;
     },
 
     _getAttribute: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)

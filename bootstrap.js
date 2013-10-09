@@ -101,7 +101,7 @@ function addMenuItem(window) {
   button.classList.add("developer-toolbar-button");
   button.id = toolbarButtonID;
   button.setAttribute("style", "list-style-image: " +
-                               "url('chrom://Firecrow/skin" +
+                               "url('chrome://Firecrow/skin" +
                                "/images/tools-icons-small.png');" +
                                "-moz-image-region: rect(0, 16px, 16px, 0);");
   $("developer-toolbar").insertBefore(button, $("developer-toolbar-webconsole").nextSibling);
