@@ -25,4 +25,4 @@ ScenarioGenerator.generateScenarios("http://localhost/Firecrow/evaluation/fullPa
     console.log("Generated executed code markup: " + visitedCodePath);
 
     phantom.exit();
-})
+});

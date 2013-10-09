@@ -9,26 +9,8 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="18" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="- HtmlElement executor, handling the bug where querySelectorAll on documentFragment throws an exception&#10;- TextNode has methods&#10;- in VariableObject variable shaddowing improved">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/3.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/3.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset01emptySet.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset02objectWithoutBounding.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset03disconnectedNode.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset04Chaining.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset05Parent.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -81,7 +63,7 @@
       <file leaf-file-name="scenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="76" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.5225027" vertical-offset="0" max-vertical-offset="911">
+            <state line="27" column="3" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.50384194" vertical-offset="0" max-vertical-offset="911">
               <folding />
             </state>
           </provider>
@@ -118,7 +100,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/HTMLElement.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/TextNode.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
@@ -134,6 +115,7 @@
         <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/offset05Parent.html" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js" />
       </list>
     </option>
   </component>
@@ -3000,7 +2982,11 @@
       <created>1381298506695</created>
       <updated>1381298506695</updated>
     </task>
-    <option name="localTasksCounter" value="633" />
+    <task id="LOCAL-00633" summary="- new jQuery tests">
+      <created>1381315224118</created>
+      <updated>1381315224119</updated>
+    </task>
+    <option name="localTasksCounter" value="634" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3077,7 +3063,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Scenario generator pulled out to own object&#10;It seems that canvas sometimes does not obtain itsown getContext method, if that happens, it is rerouted to HTMLCanvas.prototype" />
     <MESSAGE value="- minor bug fixes in scenario generator" />
     <MESSAGE value="- when handling slice-union problems, and determining which dependency to follow, whether or not the destination position is included is irrelevant" />
     <MESSAGE value="- jQuery HACK, when calling querySelectorAll on a documentFragment it throws an exception, and it should not (HACK to stop the exception throwin)" />
@@ -3102,7 +3087,8 @@
     <MESSAGE value="ThrowCommand processing added" />
     <MESSAGE value="Minor commit test" />
     <MESSAGE value="- HtmlElement executor, handling the bug where querySelectorAll on documentFragment throws an exception&#10;- TextNode has methods&#10;- in VariableObject variable shaddowing improved" />
-    <option name="LAST_COMMIT_MESSAGE" value="- HtmlElement executor, handling the bug where querySelectorAll on documentFragment throws an exception&#10;- TextNode has methods&#10;- in VariableObject variable shaddowing improved" />
+    <MESSAGE value="- new jQuery tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="- new jQuery tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3252,7 +3238,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="76" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.5225027" vertical-offset="0" max-vertical-offset="911">
+        <state line="27" column="3" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.50384194" vertical-offset="0" max-vertical-offset="911">
           <folding />
         </state>
       </provider>
