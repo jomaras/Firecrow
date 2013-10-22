@@ -445,7 +445,7 @@ fcScenarioGenerator.ScenarioCollection.prototype =
         }
     },
 
-    _getScenarioPriorityCoefficient: function(scenario)
+    _getScenarioCoverageCoefficient: function(scenario)
     {
         var coverageCoefficient = 0;
 

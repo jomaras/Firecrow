@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div id="mainContainer"><span>one</span><div>two<span>three</span></div></div>
+<script>
+    var b = {prop: 3};
+    function test(arg)
+    {
+        if(arg == null)
+        {
+            try
+            {
+                b = null;
+                return b;
+            }
+            catch(e){}
+        }
+
+        return test1();
+    }
+
+    function test1()
+    {
+        return b.prop;
+    }
+
+    test(null);
+    var a1 = 0;
+    if(b == null)
+    {
+        a1++;
+    }
+    b = {prop: 3}
+    a1 += test({});
+    a1;
+
+</script>
+</body>
+</html>

@@ -15,13 +15,6 @@ var ScenarioCollection = function ScenarioCollection()
 
 ScenarioCollection.prototype =
 {
-    randomPrioritization: false,
-    fifoPrioritization: false,
-    eventLengthPrioritization: false,
-    maximizingPathCoveragePrioritization: false,
-    symbolicAndNewPrioritization: false,
-    symbolicNewCoveragePrioritization: true,
-
     typeCoverageInfo: {},
     compareEvents: false,
     waitInterval: -1,
@@ -40,14 +33,25 @@ ScenarioCollection.prototype =
 
     getNext: function()
     {
-        if (this.maximizingPathCoveragePrioritization) { return this._getNextByMaximizingPathCoverage(); }
-        else if (this.eventLengthPrioritization) { return this._getNextByLength(); }
-        else if (this.randomPrioritization) { return this._getNextRandomly(); }
-        else if (this.fifoPrioritization) { return this._getNextSequentially(); }
-        else if (this.symbolicAndNewPrioritization) { return this._getNextByPrioritizingAgainstSymbolicAndNew(); }
-        else if (this.symbolicNewCoveragePrioritization) { return this._getNextBySymbolicNewCoverage(); }
-
-        return this._getNextSequentially();
+        switch(ScenarioGenerator.prioritization)
+        {
+            case ScenarioGenerator.PRIORITIZATION.random:
+                return this._getNextRandomly();
+            case ScenarioGenerator.PRIORITIZATION.fifo:
+                return this._getNextSequentially();
+            case ScenarioGenerator.PRIORITIZATION.eventLength:
+                return this._getNextByLength();
+            case ScenarioGenerator.PRIORITIZATION.pathCoverage:
+                return this._getNextByMaximizingPathCoverage();
+            case ScenarioGenerator.PRIORITIZATION.symbolicNew:
+                return this._getNextByPrioritizingAgainstSymbolicAndNew();
+            case ScenarioGenerator.PRIORITIZATION.symbolicNewCoverage:
+                return this._getNextBySymbolicNewCoverage();
+            case ScenarioGenerator.PRIORITIZATION.empirical:
+                return this._getNextByEmpirical();
+            default:
+                return this._getNextSequentially();
+        }
     },
 
     _getNextSequentially: function()
@@ -100,6 +104,13 @@ ScenarioCollection.prototype =
         return this._getNextPrioritizingByLeastEventCoverage(nonExecutedScenarios);
     },
 
+    _getNextByEmpirical: function()
+    {
+        var nonExecutedScenarios = this.getNonExecutedScenarios();
+
+        return this._getNextPrioritizingByEmpiricalData(nonExecutedScenarios);
+    },
+
     _findFirstSymbolicOrNewEventScenario: function(scenarios)
     {
         for(var i = 0; i < scenarios.length; i++)
@@ -132,22 +143,27 @@ ScenarioCollection.prototype =
 
     _getNextPrioritizingByLeastEventCoverage: function(scenarios)
     {
-        if(scenarios.length == 0) { return null; }
-
-        return this._findFirstWithLeastEventCoverage(scenarios);
+        return this._getRandomByCriteria(scenarios, this._getScenarioCoverageCoefficient);
     },
 
-    _findFirstWithLeastEventCoverage: function(scenarios)
+    _getNextPrioritizingByEmpiricalData: function(scenarios)
     {
-        var  weightedIndexes = [];
+        return this._getRandomByCriteria(scenarios, this._getEmpiricalCoefficient);
+    },
+
+    _getRandomByCriteria: function(scenarios, scenarioCriteriaCalculatorFunction)
+    {
+        if(scenarios == null || scenarios.length == 0) { return null; }
+
+        var weightedIndexes = [];
 
         for(var i = 0; i < scenarios.length; i++)
         {
-            var scenarioCoverage = this._getScenarioPriorityCoefficient(scenarios[i]);
-
-            if(scenarioCoverage < 1)
+            var coefficient = scenarioCriteriaCalculatorFunction.call(this, scenarios[i]);
+            var roundedCoefficient = Math.round(coefficient*100);
+            if(roundedCoefficient > 0)
             {
-                weightedIndexes.push([i, Math.round((1 - scenarioCoverage)*100)]);
+                weightedIndexes.push([i, roundedCoefficient]);
             }
         }
 
@@ -438,7 +454,7 @@ ScenarioCollection.prototype =
         }
     },
 
-    _getScenarioPriorityCoefficient: function(scenario)
+    _getScenarioCoverageCoefficient: function(scenario)
     {
         var coverageCoefficient = 0;
 
@@ -454,9 +470,53 @@ ScenarioCollection.prototype =
 
         var averageCoverage = coverageCoefficient/scenario.events.length;
 
-        if(scenario.events.length == 0 || averageCoverage > 1) { return 1; }
+        //Greater the coverage lover the chance that the scenario will be selected
+        if(scenario.events.length == 0 || averageCoverage > 1) { return 0; }
 
-        return averageCoverage;
+        return 1 - averageCoverage;
+    },
+
+    _getEmpiricalCoefficient: function(scenario)
+    {
+        var scenarioEvents = scenario.events;
+
+        var coefficient = 1;
+
+        if(scenarioEvents.length == 1) { return coefficient; }
+
+        for(var i = 0; i < scenarioEvents.length - 1; i++)
+        {
+            var currentEvent = scenarioEvents[i];
+            var nextEvent = scenarioEvents[i+1];
+
+            coefficient *= this._getEventFollowProbability(currentEvent.getEmpiricalDescriptors(), nextEvent.getEmpiricalDescriptors());
+        }
+
+        return coefficient;
+    },
+
+    _getEventFollowProbability: function(currentDescriptors, nextDescriptors)
+    {
+        var existingCurrentDescriptor = this._getExistingDescriptor(currentDescriptors);
+        var existingNextDescriptor = this._getExistingDescriptor(nextDescriptors);
+
+        if(ScenarioGenerator.empiricalData[existingCurrentDescriptor] == null
+        || ScenarioGenerator.empiricalData[existingCurrentDescriptor] == null) { return 1; }
+
+        return ScenarioGenerator.empiricalData[existingCurrentDescriptor][existingNextDescriptor];
+    },
+
+    _getExistingDescriptor: function(descriptors)
+    {
+        for(var i = 0; i < descriptors.length; i++)
+        {
+            if(ScenarioGenerator.empiricalData[descriptors[i]])
+            {
+                return descriptors[i];
+            }
+        }
+
+        return null;
     }
 };
 

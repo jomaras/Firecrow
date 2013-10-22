@@ -282,9 +282,6 @@
     });
     assertEquals( jQuery("<input type='checkbox' />").clone()[ 0 ].nodeName.toLowerCase(), "input", "Clone a <input type='checkbox' />" );
 
-    // Check cloning non-elements
-    assertEquals( jQuery("#nonnodes").contents().clone().length, 3, "Check node,textnode,comment clone works (some browsers delete comments on clone)" );
-
     // Verify that clones of clones can keep event listeners
     div = jQuery("<div><ul><li>test</li></ul></div>").on( "click", function() {
         assert( true, "Bound event still exists." );

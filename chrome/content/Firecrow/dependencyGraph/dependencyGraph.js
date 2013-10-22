@@ -381,12 +381,6 @@ FBL.ns(function() { with (FBL) {
 
                 if(!this.inclusionFinder.isIncludedElement(parent)) { continue; }
 
-                if(ASTHelper.isReturnStatement(codeConstruct)
-                && !mapping.isCallbackReturn && !this.inclusionFinder.isIncludedElement(codeConstruct))
-                {
-                    continue;
-                }
-
                 if(this._contextHasIncludedDependencies(mapping.executionContextId)
                 || this._areAllIncluded(this.dependencyCallExpressionMapping[mapping.dependencyIndex]))
                 {

@@ -112,6 +112,11 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
         fcModel.HtmlElementExecutor.addDependencies(this.htmlElement, codeConstruct, this.globalObject);
     }
 
+    if(propertyName == "textContent" || propertyName == "innerHTML")
+    {
+        fcModel.HtmlElementExecutor.addDependenciesToAllDescendantElements(this.htmlElement, codeConstruct, this.globalObject);
+    }
+
     var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
 
     if(this._isInputElement() && propertyName == "value") { return this._expandWithSymbolic(propertyName, propertyValue); }

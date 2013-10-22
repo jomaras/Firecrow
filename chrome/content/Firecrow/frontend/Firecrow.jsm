@@ -8,7 +8,19 @@ Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
 Cu.import("resource:///modules/source-editor.jsm");
-Cu.import("resource:///modules/devtools/CssLogic.jsm");
+try
+{
+    Cu.import("resource:///modules/devtools/CssLogic.jsm");
+}
+catch(e)
+{
+    try
+    {
+        Cu.import("resource:///modules/devtools/styleinspector/css-logic.js");
+    }
+    catch(e){}
+}
+
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 
 XPCOMUtils.defineLazyModuleGetter(this, "MarkupView", "resource:///modules/devtools/MarkupView.jsm");
@@ -128,6 +140,8 @@ FirecrowView.prototype =
         this._scenarioTabButton.onclick = this._scenarioTabClick.bind(this);
 
         this._updateCurrentRecordings();
+        this._window.alert("Hello");
+
     },
 
     emit: function(){}, //For selection

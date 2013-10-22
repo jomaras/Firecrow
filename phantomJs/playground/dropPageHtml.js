@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "file:///C:/GitWebStorm/Firecrow/phantomJs/playground/index.html";
+var url = "https://c9.io/josipmaras/pzi/workspace/Vjezba2/index.html";
 
 console.log("Started loading page");
 
@@ -16,7 +16,7 @@ page.onAlert = function(msg) {
 page.onInitialized = function() {
     page.injectJs("./evaluationHelpers/assertDefinitions.js");
 };
-
+page.viewportSize = { width: 1024, height: 800 };
 var t = Date.now();
 page.open(encodeURI(url), function(status)
 {
@@ -36,6 +36,8 @@ page.open(encodeURI(url), function(status)
         });
 
         console.log(result);
+
+        page.render("C:\\GitWebStorm\\Firecrow\\phantomJs\\playground\\page.png");
 
         phantom.exit();
     }

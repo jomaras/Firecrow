@@ -4,6 +4,15 @@ var ObjectConverter =
 {
     convertToFullObjects: function (executionInfo, pageModelMapping)
     {
+        if(executionInfo.pathConstraint == null
+        && executionInfo.undefinedGlobalPropertiesAccessMap == null
+        && executionInfo.globalModifiedIdentifiers == null
+        && executionInfo.afterLoadingModifiedIdentifiers == null
+        && executionInfo.globalAccessedIdentifiers == null)
+        {
+            return null;
+        }
+
         this._pageModelMapping = pageModelMapping;
 
         executionInfo.pathConstraint = PathConstraintModule.PathConstraint.fromObjectLiteral(executionInfo.pathConstraint, pageModelMapping);

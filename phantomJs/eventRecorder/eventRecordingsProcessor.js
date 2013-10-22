@@ -76,7 +76,7 @@ for(var currentProp in aggregator)
     });
 }
 
-var htmlTable = "<style>table{margin:10px; border:solid} table td{border:solid}</style>";
+var htmlTable = "<style>table{margin:10px; border:solid; border-collapse: collapse} table td{border:solid}</style>";
 
 for(var currentProp in percentageAggregator)
 {
@@ -100,4 +100,5 @@ for(var currentProp in percentageAggregator)
 }
 
 fs.write(recordingsRoot + "aggregate.html", htmlTable);
+fs.write(recordingsRoot + "aggregateJsonData.txt", JSON.stringify(percentageAggregator));
 phantom.exit();

@@ -1,4 +1,18 @@
 gauss - all OK
 jQuery
+    - manipulation 06, problem in jquery selector $("#yahoo, #first") in function Sizzle
+      this should be taken care of with document.querySelectorAll() and returned, but
+      for some reason the return is not included; and return should not be included
+      for its data, but for the control flow - somehow it is ignored in the while loop
+      (so when it is not included, an infinite loop occurs)
+
+
+      - the problem is in:
+
+      ASTHelper.isReturnStatement(codeConstruct)
+                      && !mapping.isCallbackReturn && !this.inclusionFinder.isIncludedElement(codeConstruct)
+
+                      in the dependency graph - this last expression should not be included
+
 prototype
     - Enumerable18

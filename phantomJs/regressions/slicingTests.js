@@ -7,7 +7,7 @@ var loadInProgress = false;
 
 var modelFiles = [];
 var pageIndex = 0;
-var maxPageIndex = 128;
+var maxPageIndex = 131;
 console.log("Started regression tests");
 //Problems in tests: 88 (bind function)
 // 91 - not sure why

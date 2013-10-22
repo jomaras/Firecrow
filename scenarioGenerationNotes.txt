@@ -1,0 +1,9 @@
+Ideas:
+ - Besides looking at code-coverage when selecting the next scenario for execution, also study the probability of the event-sequence occurrence
+ - heuristics that takes into account how long the user takes to do something
+
+ToDo:
+ - fix to work on Artemis examples
+ - enable data gathering for different prioritization functions (FIFO, random, random with weights, heuristics)
+ - test on a larger number of web applications with different libraries, that have different behaviors
+ -

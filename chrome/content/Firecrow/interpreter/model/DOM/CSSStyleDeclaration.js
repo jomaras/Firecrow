@@ -43,6 +43,11 @@ fcModel.CSSStyleDeclaration = function(htmlElement, cssStyleDeclaration, globalO
                 return this.globalObject.internalExecutor.createInternalPrimitiveObject(codeConstruct, this.cssStyleDeclaration[propertyName])
             }
 
+            if(propertyName =="top" || propertyName == "left")
+            {
+                console.log(codeConstruct.loc.start.line + " - " + propertyName + this.getPropertyValue(propertyName, codeConstruct).jsValue)
+            }
+
             return this.getPropertyValue(propertyName, codeConstruct);
         };
 

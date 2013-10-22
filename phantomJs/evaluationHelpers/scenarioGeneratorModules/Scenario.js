@@ -250,7 +250,7 @@ Scenario.prototype =
 
         for(var i = 0; i < this.parametrizedEvents.length; i++)
         {
-            string += "\t" + this.parametrizedEvents[i].baseEvent.toString() + " -> " + JSON.stringify(this.parametrizedEvents[i].parameters) + "\n";
+            string += "\t" + this.parametrizedEvents[i].baseEvent.toString()  + " -> " + JSON.stringify(this.parametrizedEvents[i].parameters) + "\n";
         }
 
         return string;

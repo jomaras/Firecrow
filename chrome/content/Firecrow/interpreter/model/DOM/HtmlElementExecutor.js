@@ -34,6 +34,21 @@ fcModel.HtmlElementExecutor =
         }
     },
 
+    addDependenciesToAllDescendantElements: function(htmlElement, codeConstruct, globalObject)
+    {
+        if(htmlElement == null || globalObject == null) { return; }
+
+        var childNodes = htmlElement.childNodes;
+        var evaluationPositionId = globalObject.getPreciseEvaluationPositionId();
+
+        for(var i = 0, length = childNodes.length; i < length; i++)
+        {
+            var childNode = childNodes[i];
+            globalObject.dependencyCreator.createDataDependency(htmlElement.modelElement, childNode.modelElement, evaluationPositionId);
+            this.addDependenciesToAllDescendantElements(childNode, codeConstruct, globalObject);
+        }
+    },
+
     executeInternalMethod: function(thisObject, functionObject, args, callExpression)
     {
         if(!functionObject.isInternalFunction) { fcModel.HtmlElement.notifyError("The function should be internal when executing html method!"); return; }

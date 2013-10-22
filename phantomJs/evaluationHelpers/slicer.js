@@ -17,6 +17,8 @@ var destinationName = "slicedAll";//slicedAll; slicedWithoutSliceUnions; slicedW
 var destinationFolder = libraryFolder + destinationName;
 var logFile = destinationFolder + "\\logAll.txt";
 
+var emptyPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/emptyPage.html";
+
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
@@ -27,7 +29,7 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf('offset0') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf('manipulation21') != -1)
     {
         return fullPath;
     }
@@ -49,14 +51,14 @@ var interval = setInterval(function()
         fs.write(logFile, log);
         phantom.exit();
     }
-}, 1500);
+}, 1000);
 
-page.onLoadStarted = function()
+function onLoadStarted()
 {
     loadInProgress = true;
 };
 
-page.onLoadFinished = function()
+function onLoadFinished()
 {
     var result = page.evaluate(function()
     {
@@ -72,7 +74,20 @@ page.onLoadFinished = function()
     //file name --- time required in ms --- number of lines --- number of ast nodes
     log += modelFiles[pageIndex] + " --- " + result.slicingTime + " --- " + result.source.split("\n").length + " --- " + result.numberOfNodes + "\n";
 
-    loadInProgress = false;
+    page.onLoadStarted = null;
+    page.onLoadFinished = null;
+    page.open(emptyPageUrl);
 
-    pageIndex++;
+    setTimeout(function()
+    {
+        loadInProgress = false;
+
+        pageIndex++;
+
+        page.onLoadStarted = onLoadStarted;
+        page.onLoadFinished = onLoadFinished;
+    }, 1500);
 };
+
+page.onLoadStarted = onLoadStarted;
+page.onLoadFinished = onLoadFinished;

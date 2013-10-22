@@ -90,7 +90,30 @@ Event.prototype =
             }
         }
 
-        return this.eventType + " on " + this.thisObjectDescriptor + specifier;
+        return this.eventType + "@" + this.handlerConstruct.loc.start.line + " on " + this.thisObjectDescriptor + specifier;
+    },
+
+    getEmpiricalDescriptors: function()
+    {
+        var empiricalDescriptors = [];
+
+        var thisEmpiricalDescriptor = this.thisObjectDescriptor == "window" || this.thisObjectDescriptor == "document"
+                                    ? this.thisObjectDescriptor
+                                    : "HTMLElement";
+
+        empiricalDescriptors.push(thisEmpiricalDescriptor + "-" + this.eventType);
+
+        if(this.eventType == "timeout")
+        {
+            empiricalDescriptors.push(thisEmpiricalDescriptor + "-" + "time");
+        }
+
+        if(this.eventType.indexOf("on") == 0)
+        {
+            empiricalDescriptors.push(thisEmpiricalDescriptor + "-" + this.eventType.replace("on", ""));
+        }
+
+        return empiricalDescriptors;
     }
 }
 

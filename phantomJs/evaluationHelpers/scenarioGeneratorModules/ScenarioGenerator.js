@@ -24,10 +24,31 @@ var scenarioExecutorPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/s
 var ScenarioGenerator =
 {
     shouldPrintDetailedMessages: false,
-    MAX_NUMBER_OF_SCENARIOS: 50,
+    MAX_NUMBER_OF_SCENARIOS: 30,
     numberOfProcessedScenarios: 0,
+
     generateAdditionalTimingEvents: false,
     generateAdditionalMouseMoveEvents: false,
+
+    PRIORITIZATION:
+    {
+        random: "random",
+        fifo: "fifo",
+        eventLength: "eventLength",
+        pathCoverage: "pathCoverage",
+        symbolicNew: "symbolicNew",
+        symbolicNewCoverage: "symbolicNewCoverage",
+        empirical: "empirical"
+    },
+
+    prioritization: "symbolicNewCoverage",
+    coverages: [],
+
+    setEmpiricalData: function(empiricalData)
+    {
+        this.empiricalData = empiricalData;
+    },
+
     generateScenarios: function(pageModelUrl, completedCallback)
     {
         this.pageModelUrl = pageModelUrl;
@@ -102,7 +123,8 @@ var ScenarioGenerator =
     {
         return ObjectConverter.convertToFullObjects(JSON.parse(page.evaluate(function()
         {
-            return document.querySelector("#executionInfo").value;
+            var executionInfo = document.querySelector("#executionInfo");
+            return executionInfo != null ? executionInfo.value : "{}";
         })), this._pageModelMapping);
     },
 
@@ -111,7 +133,7 @@ var ScenarioGenerator =
         return (str + "").substr(0, 4);
     },
 
-    _hasAcchievedFullCoverage: function(coverage)
+    _hasAchievedFullCoverage: function(coverage)
     {
         ScenarioGenerator.lastCoverage = coverage;
         if(coverage.statementCoverage == 1)
@@ -196,7 +218,7 @@ var ScenarioGenerator =
                 ScenarioGenerator._printCoverage(achievedCoverage, "Page loading Coverage");
             }
 
-            if(ScenarioGenerator._hasAcchievedFullCoverage(achievedCoverage))
+            if(ScenarioGenerator._hasAchievedFullCoverage(achievedCoverage))
             {
                 return;
             }
@@ -265,23 +287,27 @@ var ScenarioGenerator =
 
             var executionInfo = ScenarioGenerator._getExecutionInfoFromPage(page);
 
-            scenario.setExecutionInfo(executionInfo);
-
-            var achievedCoverage = executionInfo.achievedCoverage;
-            ScenarioGenerator._updateTotalCoverage(executionInfo.executedConstructsIdMap);
-
-            var totalCoverage = ASTHelper.calculateCoverage(ScenarioGenerator.pageModel);
-
-            if(ScenarioGenerator._hasAcchievedFullCoverage(totalCoverage)) { return; }
-
-            if(ScenarioGenerator.shouldPrintDetailedMessages)
+            if(executionInfo != null)
             {
-                ScenarioGenerator._printCoverage(achievedCoverage, "Scenario Coverage");
-                ScenarioGenerator._printCoverage(totalCoverage, "TotalApp Coverage");
-            }
+                scenario.setExecutionInfo(executionInfo);
 
-            ScenarioGenerator._createInvertedPathScenarios(scenario);
-            ScenarioGenerator._createRegisteredEventsScenarios(scenario);
+                var achievedCoverage = executionInfo.achievedCoverage;
+                ScenarioGenerator._updateTotalCoverage(executionInfo.executedConstructsIdMap);
+
+                var totalCoverage = ASTHelper.calculateCoverage(ScenarioGenerator.pageModel);
+                ScenarioGenerator.coverages.push(totalCoverage);
+
+                if(ScenarioGenerator._hasAchievedFullCoverage(totalCoverage)) { return; }
+
+                if(ScenarioGenerator.shouldPrintDetailedMessages)
+                {
+                    ScenarioGenerator._printCoverage(achievedCoverage, "Scenario Coverage");
+                    ScenarioGenerator._printCoverage(totalCoverage, "TotalApp Coverage");
+                }
+
+                ScenarioGenerator._createInvertedPathScenarios(scenario);
+                ScenarioGenerator._createRegisteredEventsScenarios(scenario);
+            }
 
             setTimeout(ScenarioGenerator._deriveScenarios, 1000);
             ScenarioGenerator.numberOfProcessedScenarios++;

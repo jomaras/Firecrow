@@ -3,13 +3,26 @@ var webPage = require('webpage');
 var page = webPage.create();
 var fs = require('fs');
 
+page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); PAGE_ASSERTION_FAILS++; };
+page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
+
+/********************************/
+//targetPageUrl has to be localhost
+var targetPageUrl = "http://localhost/Firecrow/evaluation/fullPages/testApplication/index.html";
+var iFramePageTemplateDiskLocation = "C:\\GitWebStorm\\Firecrow\\phantomJs\\helperPages\\pageModelerHelperTemplate.html";
+var iFramePageDiskLocation = "C:\\GitWebStorm\\Firecrow\\phantomJs\\helperPages\\pageModelerHelper.html";
+var iFramePageUrl = "http://localhost/Firecrow/phantomJs/helperPages/pageModelerHelper.html";
+var modelDestinationLocation = "C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\testApplication\\index.json";
+/********************************/
+
 console.log("Single page modeler started!");
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\rentingAgency";
+var templateContent = fs.read(iFramePageTemplateDiskLocation);
+fs.write(iFramePageDiskLocation, templateContent.replace("PAGE_SOURCE", targetPageUrl));
 
-page.open("http://localhost/Firecrow/evaluation/fullPages/rentingAgency/index.html", function(status)
+page.open(iFramePageUrl, function(status)
 {
-    page.injectJs("./evaluationHelpers/injections/getExternalSources.js");
+    page.injectJs("./evaluationHelpers/injections/getIFrameExternalSources.js");
 
     var externalFiles = page.evaluate(function()
     {
@@ -18,6 +31,8 @@ page.open("http://localhost/Firecrow/evaluation/fullPages/rentingAgency/index.ht
 
     var pageJSON = page.evaluate(function(externalFiles)
     {
+        var processedStyleSheets = 0;
+
         function getSimplifiedElement(rootElement)
         {
             var elem = { type: rootElement.nodeType != 3 ? rootElement.localName : "textNode" };
@@ -38,8 +53,71 @@ page.open("http://localhost/Firecrow/evaluation/fullPages/rentingAgency/index.ht
                 }
             }
 
+            if(rootElement.tagName == "STYLE" || (rootElement.tagName == "LINK" && rootElement.rel != null && rootElement.rel.toLowerCase() == "stylesheet"))
+            {
+                var iFrame = document.querySelector("iframe");
+                var styleSheet = iFrame.contentDocument.styleSheets[processedStyleSheets];
+                if(styleSheet.rules != null)
+                {
+                    var path = styleSheet.href != null ? styleSheet.href : document.baseURI;
+                    var model = { rules: [] };
+
+                    fillStyleSheetModel(model, styleSheet, path);
+                    elem.pathAndModel = { path: path, model: model};
+                }
+
+                processedStyleSheets++;
+            }
+
             return elem;
         };
+
+        function fillStyleSheetModel(model, styleSheet, path)
+        {
+            if(styleSheet == null) { return model; }
+
+            var cssRules = styleSheet.cssRules;
+
+            for(var i = 0; i < cssRules.length; i++)
+            {
+                var cssRule = cssRules[i];
+
+                if(cssRule.type == 3)//import command
+                {
+                    fillStyleSheetModel(model, cssRule.styleSheet, cssRule.href)
+                }
+                else
+                {
+                    var result = getStyleDeclarationsAndUpdatedCssText(cssRule, path);
+
+                    model.rules.push({
+                        selector: cssRule.selectorText,
+                        cssText: result.cssText,
+                        declarations: result.declarations
+                    });
+                }
+            }
+        }
+
+        function getStyleDeclarationsAndUpdatedCssText(cssRule, path)
+        {
+            var result = { declarations: [], cssText: cssRule.cssText };
+
+            if(cssRule == null || cssRule.style == null || cssRule.type != 1) { return result;}
+
+            var style = cssRule.style;
+
+            for(var i = 0; i < style.length; i++)
+            {
+                var key = style[i].toLowerCase();
+
+                var value = style.getPropertyValue(key);
+
+                result.declarations[key] = value;
+            }
+
+            return result;
+        }
 
         function getAttributes(element)
         {
@@ -77,10 +155,11 @@ page.open("http://localhost/Firecrow/evaluation/fullPages/rentingAgency/index.ht
             return allNodes;
         }
 
-        return JSON.stringify(getSimplifiedElement(document.documentElement));
+        var iFrame = document.querySelector("iframe");
+        return JSON.stringify(getSimplifiedElement(iFrame.contentDocument.documentElement));
     }, externalFiles);
 
-    fs.write(rootFolder + "\\index.json", pageJSON);
+    fs.write(modelDestinationLocation, pageJSON);
 
     phantom.exit();
 });

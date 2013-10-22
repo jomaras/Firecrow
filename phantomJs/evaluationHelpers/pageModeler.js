@@ -10,12 +10,14 @@ var pageIndex = 0;
 
 var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\adjusted";
 
+page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
+page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
+
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-
-    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1 && fullPath.indexOf('offset0') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1 && fullPath.indexOf('manipulation') != -1)
     {
         return fullPath;
     }
@@ -43,8 +45,6 @@ page.onLoadFinished = function() {
     {
         return FIRECROW_EXTERNAL_SOURCES;
     });
-
-    console.log(externalFiles);
 
     var pageJSON = page.evaluate(function(externalFiles)
     {

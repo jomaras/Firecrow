@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        .placeholder
+        {
+            width: 800px;
+            height: 300px;
+        }
+    </style>
+    <script src="scripts/flot/jquery.js"></script>
+    <script src="scripts/flot/jquery.flot.min.js"></script>
+    <script>
+        var graphData = GRAPH_DATA_TEMPLATE_VARIABLE;
+        /*
+         var eventLengthData = [];
+         for (var i = 0; i < Math.PI * 2; i += 0.25) {
+            eventLengthData.push([i, Math.sin(i)]);
+         }
+        [
+            { data:eventLengthData, lines: {show:true}, label: "eventLength"}
+        ]*/
+    </script>
+</head>
+<body>
+    <h2>Coverage Comparator</h2>
+    <div id="content">
+        PLACE_HOLDERS_ELEMENTS
+    </div>
+    <script>
+        $(document).ready(function()
+        {
+            for(var i = 0; i < graphData.length; i++)
+            {
+                $.plot("#placeholder" + i, graphData[i]);
+            }
+        });
+    </script>
+</body>
+</html>
