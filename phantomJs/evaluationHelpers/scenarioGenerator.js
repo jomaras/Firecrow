@@ -9,7 +9,7 @@ var visitedCodeTemplatePath = "C:\\GitWebStorm\\Firecrow\\phantomJs\\helperPages
 var visitedCodePath = "C:\\GitWebStorm\\Firecrow\\phantomJs\\helperPages\\viewExecutedCode.html";
 
 
-var pageName = system.args[1] || "pathfinder";
+var pageName = system.args[1] || "ajaxtabscontent";
 console.log("Starting scenario generator");
 
 ScenarioGenerator.shouldPrintDetailedMessages = true;
@@ -18,8 +18,7 @@ ScenarioGenerator.generateAdditionalMouseMoveEvents = true;
 ScenarioGenerator.generateAdditionalTimingEvents = false;
 
 ScenarioGenerator.prioritization = system.args[2] || ScenarioGenerator.PRIORITIZATION.random;
-ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = system.args[3] != null ? parseInt(system.args[3]) : 30;
-
+ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = system.args[3] != null ? parseInt(system.args[3]) : 50;
 
 var coverageFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverage\\" + ScenarioGenerator.prioritization + "\\";
 

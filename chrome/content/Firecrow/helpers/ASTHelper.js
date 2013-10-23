@@ -789,6 +789,7 @@ Firecrow.ASTHelper = ASTHelper =
                 || propName == "executorEventsMap"
                 || propName == "simpleDependencies"
                 || propName == "match"
+                || propName == "globalObject"
                 || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
             var propertyValue = astElement[propName];

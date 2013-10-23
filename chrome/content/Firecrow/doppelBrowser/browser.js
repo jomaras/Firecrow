@@ -425,18 +425,21 @@ Browser.prototype = dummy =
 
     logStartExecutingCallbacks: function(codeConstruct)
     {
-        this.startedExecutingCallbackCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.startedExecutingCallbackCallbacks.length; i++)
         {
+            var callbackObject = this.startedExecutingCallbackCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
-        });
+        }
     },
 
     logEndExecutingCallbacks: function(codeConstruct)
     {
-        this.stoppedExecutingCallbackCallbacks.forEach(function(callbackObject)
+
+        for(var i = 0; i < this.stoppedExecutingCallbackCallbacks.length; i++)
         {
+            var callbackObject = this.stoppedExecutingCallbackCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
-        });
+        }
     },
 
     logEnteringFunction: function(callExpression, functionConstruct, executionContextId)
@@ -545,14 +548,15 @@ Browser.prototype = dummy =
     {
         cssHtmlElementModelNode.cssRules = cssHtmlElementModelNode.pathAndModel.model.rules;
         var cssText = "";
-        cssHtmlElementModelNode.cssRules.forEach(function(cssRule)
+        for(var i = 0; i < cssHtmlElementModelNode.cssRules.length; i++)
         {
+            var cssRule = cssHtmlElementModelNode.cssRules[i];
             cssRule.hasBeenExecuted = true;
             this.callNodeCreatedCallbacks(cssRule, "css", false);
             this._callNodeInsertedCallbacks(cssRule, cssHtmlElementModelNode);
             cssText += cssRule.cssText;
             this.cssRules.push(cssRule);
-        }, this);
+        }
 
         if(this._isExternalStyleLink(cssHtmlElementModelNode))
         {
@@ -984,113 +988,126 @@ Browser.prototype = dummy =
 
     _callDocumentReadyCallbacks: function()
     {
-        this.documentReadyCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.documentReadyCallbacks.length; i++)
         {
+            var callbackObject = this.documentReadyCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject);
-        });
+        }
     },
 
     callEnterFunctionCallbacks: function(callExpression, functionConstruct, executionContextId)
     {
-        this.enterFunctionCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.enterFunctionCallbacks.length; i++)
         {
+            var callbackObject = this.enterFunctionCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, callExpression, functionConstruct, executionContextId);
-        });
+        }
     },
 
     callCallbackCalledCallbacks: function(callbackConstruct, callCallbackConstruct, evaluationPosition)
     {
-        this.callbackCalledCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.callbackCalledCallbacks.length; i++)
         {
+            var callbackObject = this.callbackCalledCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, callbackConstruct, callCallbackConstruct, evaluationPosition);
-        });
+        }
     },
 
     callExitFunctionCallbacks: function()
     {
-        this.exitFunctionCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.exitFunctionCallbacks.length; i++)
         {
+            var callbackObject = this.exitFunctionCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject);
-        });
+        }
     },
 
     callNodeCreatedCallbacks: function(nodeModelObject, nodeType, isDynamic)
     {
-        this.nodeCreatedCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.nodeCreatedCallbacks.length; i++)
         {
+            var callbackObject = this.nodeCreatedCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, nodeModelObject, nodeType, isDynamic);
-        });
+        }
     },
 
     callNullProblematicReachedCallbacks: function(codeConstruct)
     {
-        this.nullProblematicCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.nullProblematicCallbacks.length; i++)
         {
+            var callbackObject = this.nullProblematicCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
-        });
+        }
     },
 
     callControlFlowProblematicReachedCallbacks: function(codeConstruct)
     {
-        this.controlFlowProblematicCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.controlFlowProblematicCallbacks.length; i++)
         {
+            var callbackObject = this.controlFlowProblematicCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
-        });
+        }
     },
 
     _callNodeInsertedCallbacks: function(nodeModelObject, nodeType, isDynamic)
     {
-        this.nodeInsertedCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.nodeInsertedCallbacks.length; i++)
         {
+            var callbackObject = this.nodeInsertedCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, nodeModelObject, nodeType, isDynamic);
-        });
+        }
     },
 
     _callInterpreterMessageGeneratedCallbacks: function(message)
     {
-        this.interpreterMessageGeneratedCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.interpreterMessageGeneratedCallbacks.length; i++)
         {
+            var callbackObject = this.interpreterMessageGeneratedCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, message);
-        });
+        }
     },
 
     _callInterpretJsCallbacks: function(programModel)
     {
-        this.interpretJsCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.interpretJsCallbacks.length; i++)
         {
+            var callbackObject = this.interpretJsCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, programModel);
-        });
+        }
     },
 
     _callControlFlowConnectionCallbacks: function(codeConstruct)
     {
-        this.controlFlowConnectionCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.controlFlowConnectionCallbacks.length; i++)
         {
+            var callbackObject = this.controlFlowConnectionCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
-        });
+        }
     },
 
     callControlDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, isPreviouslyExecutedBlockStatementDependency)
     {
-        this.controlDependencyEstablishedCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.controlDependencyEstablishedCallbacks.length; i++)
         {
+            var callbackObject = this.controlDependencyEstablishedCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, isPreviouslyExecutedBlockStatementDependency);
-        });
+        }
     },
 
     callDataDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies, isValueDependency)
     {
         if(sourceNode == null || targetNode == null) { return; }
 
-        this.dataDependencyEstablishedCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.dataDependencyEstablishedCallbacks.length; i++)
         {
+            var callbackObject = this.dataDependencyEstablishedCallbacks[i];
             callbackObject.callback.call
             (
                 callbackObject.thisObject, sourceNode, targetNode,
                 dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies,
                 isValueDependency
             );
-        });
+        }
     },
 
     logDomQueried: function(methodName, selector, codeConstruct)
@@ -1106,19 +1123,21 @@ Browser.prototype = dummy =
     //TODO - think about new name
     callBreakContinueReturnEventCallbacks: function(node, evaluationPosition, isCallbackReturn)
     {
-        this.breakContinueReturnEventsCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.breakContinueReturnEventsCallbacks.length; i++)
         {
+            var callbackObject = this.breakContinueReturnEventsCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, node, evaluationPosition, isCallbackReturn);
-        });
+        }
     },
 
     callImportantConstructReachedCallbacks: function(importantNode)
     {
         this.executionInfo.logImportantModificationReached(importantNode);
-        this.importantConstructReachedCallbacks.forEach(function(callbackObject)
+        for(var i = 0; i < this.importantConstructReachedCallbacks.length; i++)
         {
+            var callbackObject = this.importantConstructReachedCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, importantNode);
-        });
+        }
     },
 
     _getDocumentObject: function()

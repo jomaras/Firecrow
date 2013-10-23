@@ -5,8 +5,7 @@ var fs = require('fs');
 var scenarioGenerationLogRootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\generatorLogs\\";
 
 var applicationNames = fs.readdirSync('C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\');
-applicationNames = ["angelJump", "rentingAgency", "snake", "tinySlider", "pathfinder"];
-applicationNames = ["pathfinder"];
+//applicationNames = ["angelJump", "rentingAgency", "snake", "tinySlider", "pathfinder", "3dMaker", "3dmodel"];
 var eventTypes = ["eventLength", "fifo", "pathCoverage", "random", "symbolicNew", "symbolicNewCoverage", "empirical"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
@@ -40,20 +39,21 @@ var processOutput = "";
     var eventType = allCombinations[allCombinations.length-1].eventType;
 
     console.log(applicationName + " - " + eventType);
-
+    var startTime = Date.now();
     spawnPhantomJsProcess
     (
         'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGenerator.js',
-        [applicationName, eventType, "30"],
+        [applicationName, eventType, "50"],
         function (data)
         {
             var str = data.toString()
             var lines = str.split(/(\r?\n)/g);
             processOutput += lines.join("");
+            console.log(str);
         },
         function (code)
         {
-            console.log(applicationName + " - " + eventType + '; exit:' + code);
+            console.log(applicationName + " - " + eventType + '; exit:' + code + "in time: " + (Date.now() - startTime) + " ms");
             fs.writeFileSync(scenarioGenerationLogRootFolder + applicationName + "-" + eventType + ".txt", processOutput)
             allCombinations.pop();
             setTimeout(processNextCombination, 2000);

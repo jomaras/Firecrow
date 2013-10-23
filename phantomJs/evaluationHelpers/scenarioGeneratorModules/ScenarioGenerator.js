@@ -1,9 +1,8 @@
-var system = require('system');
 var webPage = require('webpage');
 
 var page = webPage.create();
 
-page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
+page.onConsoleMessage = function(msg) { console.log('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 /*******************  my modules inclusions ************/
@@ -19,6 +18,7 @@ var CodeTextGenerator = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Fir
 /*******************************************************/
 
 var scenarioExecutorPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
+var emptyPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/emptyPage.html";
 /*******************************************************/
 
 var ScenarioGenerator =
@@ -201,7 +201,7 @@ var ScenarioGenerator =
 
         page.open(this._getScenarioExecutorUrl(scenarioExecutorPageUrl, this.pageModelUrl), function(status)
         {
-            if(status != "success") { ScenarioGenerator._callCallback("Could not load scenario for: " + page.url); return;}
+            if(status != "success") { ScenarioGenerator._callCallback("Could not load scenario for: " + page.url + " " + status); return;}
 
             if(ScenarioGenerator.shouldPrintDetailedMessages)
             {
@@ -245,6 +245,7 @@ var ScenarioGenerator =
                 ScenarioGenerator.scenarios.addScenario(newScenario);
             }
 
+            page.open(emptyPageUrl);
             setTimeout(ScenarioGenerator._deriveScenarios, 1000);
         });
     },
@@ -271,9 +272,9 @@ var ScenarioGenerator =
         if(ScenarioGenerator.shouldPrintDetailedMessages)
         {
             console.log("****** Processing Scenario No. " + ScenarioGenerator.numberOfProcessedScenarios + " with id: " + scenario.id + " " + pageUrl);
-            console.log("Input Constraint: " + scenario.inputConstraint);
-            console.log("Events: ");
-            console.log(scenario.getEventsInfo());
+            //console.log("Input Constraint: " + scenario.inputConstraint);
+            //console.log("Events: ");
+            //console.log(scenario.getEventsInfo());
         }
 
         page.open(pageUrl, function(status)
@@ -309,6 +310,7 @@ var ScenarioGenerator =
                 ScenarioGenerator._createRegisteredEventsScenarios(scenario);
             }
 
+            page.open(emptyPageUrl);
             setTimeout(ScenarioGenerator._deriveScenarios, 1000);
             ScenarioGenerator.numberOfProcessedScenarios++;
         });
