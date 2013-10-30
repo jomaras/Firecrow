@@ -5,8 +5,8 @@ var fs = require('fs');
 var scenarioGenerationLogRootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\generatorLogs\\";
 
 var applicationNames = fs.readdirSync('C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\');
-//applicationNames = ["angelJump", "rentingAgency", "snake", "tinySlider", "pathfinder", "3dMaker", "3dmodel"];
-var eventTypes = ["eventLength", "fifo", "pathCoverage", "random", "symbolicNew", "symbolicNewCoverage", "empirical"];
+applicationNames = ["angelJump", "pathfinder"];
+var eventTypes = ["fifo", "pathCoverage", "random", "symbolicNewCoverage", "empirical"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
 

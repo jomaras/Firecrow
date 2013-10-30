@@ -165,6 +165,12 @@
       holdReady: function(hold){}, 
       ready: function(wait)
       {
+        if(wait === true ? 0 : jQuery.isReady)
+        {
+          return ;
+        }
+
+        jQuery.isReady = true;
         readyList.resolveWith(document, [jQuery]);
       }, 
       isFunction: function(obj)
@@ -335,17 +341,20 @@
       now: function(){}, 
       swap: function(elem, options, callback, args)
       {
-        var name, old = {};
+        var ret, name, old = {};
         for(name in options)
         {
           old[name] = elem.style[name];
           elem.style[name] = options[name];
         }
 
+        ret = callback.apply(elem, args || []);
         for(name in options)
         {
           elem.style[name] = old[name];
         }
+
+        return ret;
       }
     });
     jQuery.ready.promise = function(obj)
@@ -357,6 +366,7 @@
         else if(document.addEventListener)
         {
           document.addEventListener("DOMContentLoaded", completed, false);
+          window.addEventListener("load", completed, false);
         }
       }
 
@@ -408,7 +418,7 @@
             else if(match[2])
             {
               push.apply(results, context.getElementsByTagName(selector));
-              return ;
+              return results;
             }
           }
         }
@@ -443,6 +453,7 @@
           var bup = b && b.parentNode;
           return a === bup || !(!(bup));
         } : 0;
+        return doc;
       };
       Sizzle.contains = function(context, elem)
       {
@@ -522,6 +533,8 @@
               fire(args);
             }
           }
+
+          return this;
         }
       };
       return self;
@@ -702,6 +715,7 @@
           else 
           {
             elem.setAttribute(name, value + "");
+            return value;
           }
         }
       }, 
@@ -786,6 +800,8 @@
             handle.apply(cur, data);
           }
         }
+
+        return event.result;
       }, 
       dispatch: function(event)
       {

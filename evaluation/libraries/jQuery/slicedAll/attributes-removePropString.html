@@ -7,7 +7,7 @@
     <script>
   (function(window, undefined)
   {
-    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    var readyList, rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
     }, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
@@ -61,13 +61,21 @@
       }, 
       ready: function(fn)
       {
+        jQuery.ready.promise();
         return this;
       }
     };
     jQuery.fn.init.prototype = jQuery.fn;
     jQuery.extend = jQuery.fn.extend = function()
     {
-      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
+      var src, copyIsArray, copy, name, options, clone, target = arguments[0], i = 1, length = arguments.length, deep = false;
+      if(typeof target === "boolean")
+      {
+        deep = target;
+        target = arguments[1];
+        i = 2;
+      }
+
       if(length === i)
       {
         target = this;
@@ -80,8 +88,18 @@
         {
           for(name in options)
           {
+            src = target[name];
             copy = options[name];
-            if(deep);
+            if(deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))
+            {
+              if(copyIsArray);
+              else 
+              {
+                clone = src && jQuery.isPlainObject(src) ? src : 0;
+              }
+
+              jQuery.extend(deep, clone, copy);
+            }
             else if(copy !== undefined)
             {
               target[name] = copy;
@@ -89,6 +107,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -101,14 +121,31 @@
       {
         return jQuery.type(obj) === "function";
       }, 
-      isArray: Array.isArray || function(obj){}, 
-      isWindow: function(obj){}, 
+      isArray: Array.isArray || function(obj)
+      {
+        return jQuery.type(obj) === "array";
+      }, 
+      isWindow: function(obj)
+      {
+        return obj != null && obj == obj.window;
+      }, 
       isNumeric: function(obj){}, 
       type: function(obj)
       {
         return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
       }, 
-      isPlainObject: function(obj){}, 
+      isPlainObject: function(obj)
+      {
+        var key;
+        if(!obj || jQuery.type(obj) !== "object" || obj.nodeType || jQuery.isWindow(obj))
+        {
+          return false;
+        }
+
+        for(key in obj)
+;
+        return key === undefined || core_hasOwn.call(obj, key);
+      }, 
       isEmptyObject: function(obj){}, 
       error: function(msg){}, 
       parseHTML: function(data, context, keepScripts){}, 
@@ -183,6 +220,15 @@
       now: function(){}, 
       swap: function(elem, options, callback, args){}
     });
+    jQuery.ready.promise = function(obj)
+    {
+      if(!readyList)
+      {
+        readyList = jQuery.Deferred();
+      }
+
+      return readyList.promise(obj);
+    };
     jQuery.each(("Boolean Number String Function Array Date RegExp Object Error").split(" "), function(i, name)
     {
       class2type[("[object " + name) + "]"] = name.toLowerCase();
@@ -220,10 +266,58 @@
           docElem.appendChild(div);
           return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
+        return doc;
       };
       setDocument();
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
+    jQuery.Callbacks = function(options)
+    {
+      var list = [], self = {
+        add: function()
+        {
+          if(list)
+          {
+            (function add(args)
+            {
+              jQuery.each(args, function(_, arg){});
+            })(arguments);
+          }
+
+          return this;
+        }, 
+        disable: function(){}, 
+        lock: function(){}
+      };
+      return self;
+    };
+    jQuery.extend({
+      Deferred: function(func)
+      {
+        var tuples = [["resolve", "done", jQuery.Callbacks("once memory"), "resolved"], ["reject", "fail", jQuery.Callbacks("once memory"), "rejected"], ["notify", "progress", jQuery.Callbacks("memory")]], promise = {
+          state: function(){}, 
+          always: function(){}, 
+          then: function(){}, 
+          promise: function(obj)
+          {
+            return obj != null ? jQuery.extend(obj, promise) : promise;
+          }
+        }, deferred = {};
+        promise.pipe = promise.then;
+        jQuery.each(tuples, function(i, tuple)
+        {
+          var list = tuple[2], stateString = tuple[3];
+          promise[tuple[1]] = list.add;
+          if(stateString)
+          {
+            list.add(function(){}, tuples[i ^ 1][2].disable, tuples[2][2].lock);
+          }
+        });
+        promise.promise(deferred);
+        return deferred;
+      }, 
+      when: function(subordinate){}
+    });
     (function(support)
     {
       for(i in jQuery(support))
@@ -232,7 +326,34 @@
       }
 
       jQuery(function(){});
+      return support;
     })({});
+    jQuery.extend({
+      cache: {}, 
+      noData: {}, 
+      hasData: function(elem){}, 
+      data: function(elem, name, data){}, 
+      removeData: function(elem, name){}, 
+      _data: function(elem, name, data){}, 
+      _removeData: function(elem, name){}, 
+      acceptData: function(elem){}
+    });
+    jQuery.fn.extend({
+      data: function(key, value){}, 
+      removeData: function(key){}
+    });
+    jQuery.extend({
+      queue: function(elem, type, data){}, 
+      dequeue: function(elem, type){}, 
+      _queueHooks: function(elem, type){}
+    });
+    jQuery.fn.extend({
+      queue: function(type, data){}, 
+      dequeue: function(type){}, 
+      delay: function(time, type){}, 
+      clearQueue: function(type){}, 
+      promise: function(type, obj){}
+    });
     jQuery.fn.extend({
       attr: function(name, value){}, 
       removeAttr: function(name){}, 
@@ -286,7 +407,150 @@
       }, 
       propHooks: {}
     });
+    jQuery.fn.extend({
+      on: function(types, selector, data, fn, one){}, 
+      one: function(types, selector, data, fn){}, 
+      off: function(types, selector, fn){}, 
+      trigger: function(type, data){}, 
+      triggerHandler: function(type, data){}
+    });
+    jQuery.fn.extend({
+      find: function(selector){}, 
+      has: function(target){}, 
+      not: function(selector){}, 
+      filter: function(selector){}, 
+      is: function(selector){}, 
+      closest: function(selectors, context){}, 
+      index: function(elem){}, 
+      add: function(selector, context){}, 
+      addBack: function(selector){}
+    });
+    jQuery.extend({
+      filter: function(expr, elems, not){}, 
+      dir: function(elem, dir, until){}, 
+      sibling: function(n, elem){}
+    });
+    jQuery.fn.extend({
+      text: function(value){}, 
+      append: function(){}, 
+      prepend: function(){}, 
+      before: function(){}, 
+      after: function(){}, 
+      remove: function(selector, keepData){}, 
+      empty: function(){}, 
+      clone: function(dataAndEvents, deepDataAndEvents){}, 
+      html: function(value){}, 
+      replaceWith: function(){}, 
+      detach: function(selector){}, 
+      domManip: function(args, callback, allowIntersection){}
+    });
+    jQuery.extend({
+      clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
+      buildFragment: function(elems, context, scripts, selection){}, 
+      cleanData: function(elems, acceptData){}, 
+      _evalUrl: function(url){}
+    });
+    jQuery.fn.extend({
+      wrapAll: function(html){}, 
+      wrapInner: function(html){}, 
+      wrap: function(html){}, 
+      unwrap: function(){}
+    });
+    jQuery.fn.extend({
+      css: function(name, value){}, 
+      show: function(){}, 
+      hide: function(){}, 
+      toggle: function(state){}
+    });
+    jQuery.extend({
+      cssHooks: {}, 
+      cssNumber: {}, 
+      cssProps: {}, 
+      style: function(elem, name, value, extra){}, 
+      css: function(elem, name, extra, styles){}
+    });
     jQuery(function(){});
+    jQuery.fn.extend({
+      serialize: function(){}, 
+      serializeArray: function(){}
+    });
+    jQuery.fn.extend({
+      hover: function(fnOver, fnOut){}, 
+      bind: function(types, data, fn){}, 
+      unbind: function(types, fn){}, 
+      delegate: function(selector, types, data, fn){}, 
+      undelegate: function(selector, types, fn){}
+    });
+    var prefilters = {}, transports = {}, allTypes = ("*/").concat("*");
+    function addToPrefiltersOrTransports(structure)
+    {
+      return function(dataTypeExpression, func){};
+    }
+    function ajaxExtend(target, src)
+    {
+      var deep, key, flatOptions = jQuery.ajaxSettings.flatOptions;
+      for(key in src)
+      {
+        if(src[key] !== undefined)
+        {
+          (flatOptions[key] ? 0 : deep || (deep = {}))[key] = src[key];
+        }
+      }
+
+      if(deep)
+      {
+        jQuery.extend(true, target, deep);
+      }
+
+      return target;
+    }
+    jQuery.extend({
+      active: 0, 
+      lastModified: {}, 
+      etag: {}, 
+      ajaxSettings: {
+        accepts: {
+          "*": allTypes, 
+          json: "application/json, text/javascript"
+        }, 
+        contents: {xml: /xml/, json: /json/}, 
+        converters: {
+          "* text": String, 
+          "text xml": jQuery.parseXML
+        }, 
+        flatOptions: {}
+      }, 
+      ajaxSetup: function(target, settings)
+      {
+        return settings ? 0 : ajaxExtend(jQuery.ajaxSettings, target);
+      }, 
+      ajaxPrefilter: addToPrefiltersOrTransports(prefilters), 
+      ajaxTransport: addToPrefiltersOrTransports(transports), 
+      ajax: function(url, options){}, 
+      getJSON: function(url, data, callback){}, 
+      getScript: function(url, callback){}
+    });
+    jQuery.ajaxSetup({
+      accepts: {script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"}, 
+      contents: {script: /(?:java|ecma)script/}, 
+      converters: {
+        "text script": function(text){}
+      }
+    });
+    jQuery.ajaxSetup({
+      jsonp: "callback", 
+      jsonpCallback: function(){}
+    });
+    function Animation(elem, properties, options){}    jQuery.extend(Animation, {
+      tweener: function(props, callback){}, 
+      prefilter: function(callback, prepend){}
+    });
+    jQuery.fn.extend({
+      fadeTo: function(speed, to, easing, callback){}, 
+      animate: function(prop, speed, easing, callback){}, 
+      stop: function(type, clearQueue, gotoEnd){}, 
+      finish: function(type){}
+    });
     jQuery.fn.extend({
       position: function(){}, 
       offsetParent: function(){}

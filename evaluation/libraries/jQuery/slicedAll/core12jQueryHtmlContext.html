@@ -76,6 +76,8 @@
           }
         }
       }
+
+      return target;
     };
     jQuery.extend({
       expando: "jQuery" + (core_version + Math.random()).replace(/\D/g, ""), 
@@ -127,6 +129,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -156,6 +160,7 @@
         }
 
         first.length = i;
+        return first;
       }, 
       grep: function(elems, callback, inv){}, 
       map: function(elems, callback, arg){}, 
@@ -183,6 +188,7 @@
       }
 
       jQuery(function(){});
+      return support;
     })({});
     jQuery(function(){});
     if(typeof module === "object");

@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "https://c9.io/josipmaras/pzi/workspace/Vjezba2/index.html";
+var url = "https://c9.io/josipmaras/internet/workspace/Vjezbe/3/index.html";
 
 console.log("Started loading page");
 

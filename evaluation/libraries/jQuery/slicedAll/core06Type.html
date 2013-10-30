@@ -76,6 +76,12 @@
       holdReady: function(hold){}, 
       ready: function(wait)
       {
+        if(wait === true ? 0 : jQuery.isReady)
+        {
+          return ;
+        }
+
+        jQuery.isReady = true;
         readyList.resolveWith(document, [jQuery]);
       }, 
       isFunction: function(obj)
@@ -118,6 +124,8 @@
             }
           }
         }
+
+        return obj;
       }, 
       trim: core_trim && !(core_trim.call("\uFEFF\xA0")) ? function(text){} : 0, 
       makeArray: function(arr, results)
@@ -144,17 +152,20 @@
       now: function(){}, 
       swap: function(elem, options, callback, args)
       {
-        var name, old = {};
+        var ret, name, old = {};
         for(name in options)
         {
           old[name] = elem.style[name];
           elem.style[name] = options[name];
         }
 
+        ret = callback.apply(elem, args || []);
         for(name in options)
         {
           elem.style[name] = old[name];
         }
+
+        return ret;
       }
     });
     jQuery.ready.promise = function(obj)
@@ -166,6 +177,7 @@
         else if(document.addEventListener)
         {
           document.addEventListener("DOMContentLoaded", completed, false);
+          window.addEventListener("load", completed, false);
         }
       }
 
@@ -203,6 +215,7 @@
           docElem.appendChild(div).id = expando;
           return !(doc.getElementsByName) || !(doc.getElementsByName(expando).length);
         });
+        return doc;
       };
       setDocument();
     })(window);
@@ -266,6 +279,8 @@
               fire(args);
             }
           }
+
+          return this;
         }
       };
       return self;
@@ -315,6 +330,7 @@
         jQuery.swap(body, body.style.zoom != null ? {zoom: 1} : 0, function(){});
         body.removeChild(container);
       });
+      return support;
     })({});
     jQuery(function(){});
     if(typeof module === "object");

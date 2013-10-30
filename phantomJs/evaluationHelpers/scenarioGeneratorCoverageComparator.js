@@ -74,6 +74,11 @@ for(var coverageType in coverageData)
         {
             return [index, dataItem.branchCoverage]
         });
+
+        for(var i = applicationCoverage[applicationName][coverageType].length; i <= 100; i++)
+        {
+            applicationCoverage[applicationName][coverageType].push([i, 0]);
+        }
     }
 };
 

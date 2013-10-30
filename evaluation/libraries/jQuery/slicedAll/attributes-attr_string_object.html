@@ -172,6 +172,12 @@
       holdReady: function(hold){}, 
       ready: function(wait)
       {
+        if(wait === true ? 0 : jQuery.isReady)
+        {
+          return ;
+        }
+
+        jQuery.isReady = true;
         readyList.resolveWith(document, [jQuery]);
       }, 
       isFunction: function(obj)
@@ -342,17 +348,20 @@
       now: function(){}, 
       swap: function(elem, options, callback, args)
       {
-        var name, old = {};
+        var ret, name, old = {};
         for(name in options)
         {
           old[name] = elem.style[name];
           elem.style[name] = options[name];
         }
 
+        ret = callback.apply(elem, args || []);
         for(name in options)
         {
           elem.style[name] = old[name];
         }
+
+        return ret;
       }
     });
     jQuery.ready.promise = function(obj)
@@ -364,6 +373,7 @@
         else if(document.addEventListener)
         {
           document.addEventListener("DOMContentLoaded", completed, false);
+          window.addEventListener("load", completed, false);
         }
       }
 
@@ -423,7 +433,7 @@
             else if(match[2])
             {
               push.apply(results, context.getElementsByTagName(selector));
-              return ;
+              return results;
             }
           }
 
@@ -453,6 +463,7 @@
               try
               {
                 push.apply(results, newContext.querySelectorAll(newSelector));
+                return results;
               }
               catch(qsaError){}
             }
@@ -520,6 +531,7 @@
         }
 
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
+        return doc;
       };
       Sizzle.attr = function(elem, name)
       {
@@ -649,6 +661,8 @@
               fire(args);
             }
           }
+
+          return this;
         }
       };
       return self;
@@ -923,11 +937,12 @@
           }
           else if(hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined)
           {
-            return ;
+            return ret;
           }
           else 
           {
             elem.setAttribute(name, value + "");
+            return value;
           }
         }
         else if(hooks && "get" in hooks);
@@ -1051,6 +1066,7 @@
         cur = tmp = elem = elem;
         ontype = type.indexOf(":") < 0 && "on" + type;
         event = event[jQuery.expando] ? 0 : new jQuery.Event(type, typeof event === "object");
+        event.result = undefined;
         if(!(event.target))
         {
           event.target = elem;
@@ -1092,6 +1108,8 @@
             }
           }
         }
+
+        return event.result;
       }, 
       special: {
         click: {
@@ -1204,6 +1222,8 @@
             elem.parentNode.removeChild(elem);
           }
         }
+
+        return this;
       }, 
       empty: function(){}, 
       clone: function(dataAndEvents, deepDataAndEvents){}, 

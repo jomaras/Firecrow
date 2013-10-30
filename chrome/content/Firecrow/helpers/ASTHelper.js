@@ -770,6 +770,7 @@ Firecrow.ASTHelper = ASTHelper =
         if(astElement.addJsProperty != null)debugger;
         for(var propName in astElement)
         {
+            if(!astElement.hasOwnProperty(propName)) { continue; }
             //Do not traverse the source code location properties and parents and graphNodes!
             if(propName == "loc"
                 || propName == "parent"
