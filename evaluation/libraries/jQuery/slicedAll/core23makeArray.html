@@ -10,7 +10,7 @@
     var readyList, rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
-    }, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, completed = function(event)
+    }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, completed = function(event)
     {
       if(document.addEventListener)
       {
@@ -278,7 +278,9 @@
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-      var support, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, expando = "sizzle" + -(new Date()), preferredDoc = window.document, arr = [], push_native = arr.push, push = arr.push, slice = arr.slice, rnative = /^[^{]+\{\s*\[native \w/;
+      var support, isXML, setDocument, document, docElem, documentIsHTML, rbuggyQSA, expando = "sizzle" + -(new Date()), preferredDoc = window.document, arr = [], push_native = arr.push, push = arr.push, slice = arr.slice, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
+        "bool": new RegExp(("^(?:" + booleans) + ")$", "i")
+      }, rnative = /^[^{]+\{\s*\[native \w/;
       try
       {
         push.apply(arr = slice.call(preferredDoc.childNodes), preferredDoc.childNodes);
@@ -359,13 +361,18 @@
         rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
         return doc;
       };
+      Sizzle.selectors = {
+        match: matchExpr
+      };
       setDocument();
       jQuery.find = Sizzle;
+      jQuery.expr = Sizzle.selectors;
     })(window);
     var optionsCache = {};
     function createOptions(options)
     {
       var object = optionsCache[options] = {};
+      (options.match(core_rnotwhite), null);
       return object;
     }
     jQuery.Callbacks = function(options)
@@ -457,8 +464,9 @@
       }, 
       when: function(subordinate){}
     });
-    (function(support)
+    jQuery.support = (function(support)
     {
+      var div = document.createElement("div");
       for(i in jQuery(support))
       {
         break;
@@ -471,6 +479,11 @@
         container.style.cssText = "border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px";
         body.appendChild(container);
         jQuery.swap(body, body.style.zoom != null ? {zoom: 1} : 0, function(){});
+        if(window.getComputedStyle)
+        {
+          support.pixelPosition = (window.getComputedStyle(div, null)).top !== "1%";
+        }
+
         body.removeChild(container);
       });
       return support;
@@ -521,6 +534,7 @@
       prop: function(elem, name, value){}, 
       propHooks: {}
     });
+    (jQuery.expr.match.bool.source.match(/\w+/g), null);
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one){}, 
       one: function(types, selector, data, fn){}, 
@@ -593,11 +607,18 @@
       style: function(elem, name, value, extra){}, 
       css: function(elem, name, extra, styles){}
     });
-    jQuery(function(){});
+    jQuery(function()
+    {
+      if(!(jQuery.support.pixelPosition) && jQuery.fn.position)
+      {
+        (["top", "left"], null);
+      }
+    });
     jQuery.fn.extend({
       serialize: function(){}, 
       serializeArray: function(){}
     });
+    ((("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ") + "change select submit keydown keypress keyup error contextmenu").split(" "), null);
     jQuery.fn.extend({
       hover: function(fnOver, fnOut){}, 
       bind: function(types, data, fn){}, 

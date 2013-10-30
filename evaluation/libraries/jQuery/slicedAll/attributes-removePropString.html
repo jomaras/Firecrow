@@ -10,7 +10,7 @@
     var readyList, rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_push = core_deletedIds.push, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
-    }, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+    }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
     jQuery.fn = jQuery.prototype = {
       init: function(selector, context, rootjQuery)
       {
@@ -61,7 +61,7 @@
       }, 
       ready: function(fn)
       {
-        jQuery.ready.promise();
+        jQuery.ready.promise().done(fn);
         return this;
       }
     };
@@ -241,7 +241,9 @@
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-      var setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document;
+      var setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
+        "bool": new RegExp(("^(?:" + booleans) + ")$", "i")
+      };
       function Sizzle(selector, context, results, seed){}      function assert(fn)
       {
         var div = document.createElement("div");
@@ -268,11 +270,23 @@
         });
         return doc;
       };
+      Sizzle.selectors = {
+        match: matchExpr
+      };
       setDocument();
+      jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
+    var optionsCache = {};
+    function createOptions(options)
+    {
+      var object = optionsCache[options] = {};
+      (options.match(core_rnotwhite), null);
+      return object;
+    }
     jQuery.Callbacks = function(options)
     {
+      options = typeof options === "string" ? optionsCache[options] || createOptions(options) : 0;
       var list = [], self = {
         add: function()
         {
@@ -280,7 +294,17 @@
           {
             (function add(args)
             {
-              jQuery.each(args, function(_, arg){});
+              jQuery.each(args, function(_, arg)
+              {
+                var type = jQuery.type(arg);
+                if(type === "function")
+                {
+                  if(!(options.unique))
+                  {
+                    list.push(arg);
+                  }
+                }
+              });
             })(arguments);
           }
 
@@ -407,6 +431,7 @@
       }, 
       propHooks: {}
     });
+    (jQuery.expr.match.bool.source.match(/\w+/g), null);
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one){}, 
       one: function(types, selector, data, fn){}, 
@@ -469,11 +494,18 @@
       style: function(elem, name, value, extra){}, 
       css: function(elem, name, extra, styles){}
     });
-    jQuery(function(){});
+    jQuery(function()
+    {
+      if(false)
+      {
+        (["top", "left"], null);
+      }
+    });
     jQuery.fn.extend({
       serialize: function(){}, 
       serializeArray: function(){}
     });
+    ((("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ") + "change select submit keydown keypress keyup error contextmenu").split(" "), null);
     jQuery.fn.extend({
       hover: function(fnOver, fnOut){}, 
       bind: function(types, data, fn){}, 

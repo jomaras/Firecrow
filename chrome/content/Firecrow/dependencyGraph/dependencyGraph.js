@@ -31,8 +31,7 @@ FBL.ns(function() { with (FBL) {
         this.executionContextIdStack = [];
         this.pushExecutionContextId("root");
         this.traversedEdgesMap = {};
-        this.nullProblematicTrace = [];
-        this.controlFlowProblematicTrace = [];
+        this.expressionTrace = [];
     };
 
     var DependencyGraph = Firecrow.DependencyGraph.DependencyGraph;
@@ -70,19 +69,9 @@ FBL.ns(function() { with (FBL) {
             this.executionContextId = this.executionContextIdStack[this.executionContextIdStack.length-1];
         },
 
-        handleControlFlowProblematicReached: function(codeConstruct)
+        handleExpressionEvaluated: function(codeConstruct)
         {
-            this.controlFlowProblematicTrace.push
-            ({
-                codeConstruct: codeConstruct,
-                dependencyIndex: codeConstruct.maxCreatedDependencyIndex,
-                executionContextId: this.executionContextId
-            });
-        },
-
-        handleNullProblematicReached: function(codeConstruct)
-        {
-            this.nullProblematicTrace.push
+            this.expressionTrace.push
             ({
                 codeConstruct: codeConstruct,
                 dependencyIndex: codeConstruct.maxCreatedDependencyIndex,
@@ -239,9 +228,9 @@ FBL.ns(function() { with (FBL) {
         {
             /*if(functionConstruct == null) { return; }
 
-            if(this._callbackStartStopTrackingMap[functionConstruct.nodeId] == null) { this._callbackStartStopTrackingMap[functionConstruct.nodeId] = []; }
+             if(this._callbackStartStopTrackingMap[functionConstruct.nodeId] == null) { this._callbackStartStopTrackingMap[functionConstruct.nodeId] = []; }
 
-            this._currentCallbackStartStopExecutionIdStack.push([]);*/
+             this._currentCallbackStartStopExecutionIdStack.push([]);*/
         },
 
         handleCallbackStoppedExecuting: function(functionConstruct)
@@ -276,14 +265,11 @@ FBL.ns(function() { with (FBL) {
                 this._traverseImportantDependencies(this.importantConstructDependencyIndexMapping);
                 this._traverseHtmlNodeDependencies(this.htmlNodes);
 
-                if(fcGraph.DependencyGraph.sliceUnions)
-                {
-                    var addedDependencies = this._traverseSliceUnionProblematicDependencies();
+                var addedDependencies = this._traverseIndirectDependencies();
 
-                    while(addedDependencies != 0)
-                    {
-                        addedDependencies = this._traverseSliceUnionProblematicDependencies();
-                    }
+                while(addedDependencies != 0)
+                {
+                    addedDependencies = this._traverseIndirectDependencies();
                 }
 
                 Firecrow.DependencyGraph.DependencyPostprocessor.processHtmlElement(model);
@@ -295,14 +281,17 @@ FBL.ns(function() { with (FBL) {
             }
         },
 
-        _traverseSliceUnionProblematicDependencies: function()
+        _traverseIndirectDependencies: function()
         {
             var addedDependencies = 0;
 
             addedDependencies += this._traverseExecutedBlockDependencies();
-            addedDependencies += this._traverseSliceUnionPossibleProblems(this.nullProblematicTrace);
-            addedDependencies += this._traverseControlFlowProblematic(this.controlFlowProblematicTrace);
             addedDependencies += this._traverseBreakContinueReturnEventsDependencies();
+
+            if(fcGraph.DependencyGraph.sliceUnions)
+            {
+                addedDependencies += this._traverseSliceUnionPossibleProblems(this.expressionTrace);
+            }
 
             return addedDependencies
         },
@@ -372,10 +361,13 @@ FBL.ns(function() { with (FBL) {
         _traverseBreakContinueReturnEventsDependencies: function()
         {
             var addedDependencies = 0;
+
             for(var i = 0; i < this.breakContinueReturnEventsMapping.length; i++)
             {
                 var mapping = this.breakContinueReturnEventsMapping[i];
                 var codeConstruct = mapping.codeConstruct;
+
+                if(codeConstruct.shouldBeIncluded) { continue; }
 
                 var parent = ASTHelper.getBreakContinueReturnImportantAncestor(codeConstruct);
 
@@ -385,6 +377,7 @@ FBL.ns(function() { with (FBL) {
                 || this._areAllIncluded(this.dependencyCallExpressionMapping[mapping.dependencyIndex]))
                 {
                     addedDependencies += this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
+                    ValueTypeHelper.removeFromArrayByIndex(this.breakContinueReturnEventsMapping, i--);
                 }
             }
 
@@ -397,54 +390,16 @@ FBL.ns(function() { with (FBL) {
 
             if(trace == null) { return addedDependencies; }
 
-            var previousIndexMapping = {};
-
             for(var i = 0; i < trace.length; i++)
             {
-                var codeConstruct = trace[i].codeConstruct;
+                var traceItem = trace[i];
+                var codeConstruct = traceItem.codeConstruct;
 
                 if(!codeConstruct.shouldBeIncluded) { continue; }
 
-                if(!this._areAllIncluded(this.dependencyCallExpressionMapping[trace[i].dependencyIndex])) { continue; }
+                if(!this._areAllIncluded(this.dependencyCallExpressionMapping[traceItem.dependencyIndex])) { continue; }
 
-                var dependencies = codeConstruct.graphNode.getSliceUnionImportantDependencies
-                (
-                    previousIndexMapping[codeConstruct.nodeId] || -1,
-                    trace[i].dependencyIndex
-                );
-
-                addedDependencies += dependencies.length;
-
-                for(var j = 0; j < dependencies.length; j++)
-                {
-                    var dependency = dependencies[j];
-
-                    dependency.hasBeenTraversed = true;
-
-                    this._traverseAndMark(dependency.destinationNode.model, dependency.index);
-                }
-
-                previousIndexMapping[codeConstruct.nodeId] = trace[i].index;
-            }
-
-            return addedDependencies;
-        },
-
-        _traverseControlFlowProblematic: function(trace)
-        {
-            var addedDependencies = 0;
-
-            if(trace == null) { return addedDependencies; }
-
-            for(var i = 0; i < trace.length; i++)
-            {
-                var codeConstruct = trace[i].codeConstruct;
-
-                if(!codeConstruct.shouldBeIncluded) { continue; }
-
-                if(!this._areAllIncluded(this.dependencyCallExpressionMapping[trace[i].dependencyIndex])) { continue; }
-
-                var dependencies = codeConstruct.graphNode.getNonTraversedValueDependencies();
+                var dependencies = codeConstruct.graphNode.getUntraversedValueDependenciesFromContext(traceItem.executionContextId);
 
                 addedDependencies += dependencies.length;
 
@@ -460,10 +415,21 @@ FBL.ns(function() { with (FBL) {
 
             return addedDependencies;
         },
+
+        _contextIncludedDependencyCache: {},
 
         _contextHasIncludedDependencies: function(referentExecutionContextId)
         {
-            return this._isAtLeastOneDependencyTraversed(this.executionContextIndexMap[referentExecutionContextId]);
+            if(this._contextIncludedDependencyCache[referentExecutionContextId]) { return true; }
+
+            var hasIncludedDependencies = this._isAtLeastOneDependencyTraversed(this.executionContextIndexMap[referentExecutionContextId]);
+
+            if(hasIncludedDependencies)
+            {
+                this._contextIncludedDependencyCache[referentExecutionContextId] = true;
+            }
+
+            return hasIncludedDependencies;
         },
 
         _isAtLeastOneDependencyTraversed: function(dependencyIndexes)
@@ -479,15 +445,17 @@ FBL.ns(function() { with (FBL) {
         _areAllIncluded: function(callExpressions)
         {
             if(callExpressions == null || callExpressions.length == 0) { return false; }
+            if(callExpressions.areAllIncluded) { return true; }
 
             for(var i = 0; i < callExpressions.length; i++)
             {
                 if(!callExpressions[i].shouldBeIncluded) { return false; }
             }
 
+            callExpressions.areAllIncluded = true;
+
             return true;
         },
-
 
         _includedMemberCallExpressionMap: {},
 
@@ -501,7 +469,7 @@ FBL.ns(function() { with (FBL) {
             Firecrow.includeNode(codeConstruct, false, maxDependencyIndex, dependencyConstraint);
 
             if((ASTHelper.isMemberExpression(codeConstruct) || ASTHelper.isMemberExpression(codeConstruct.parent)
-              || ASTHelper.isCallExpression(codeConstruct) || ASTHelper.isCallExpressionCallee(codeConstruct)))
+                || ASTHelper.isCallExpression(codeConstruct) || ASTHelper.isCallExpressionCallee(codeConstruct)))
             {
                 this._includedMemberCallExpressionMap[codeConstruct.nodeId] = codeConstruct;
             }

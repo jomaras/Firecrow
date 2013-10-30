@@ -1306,6 +1306,12 @@ Firecrow.ASTHelper = ASTHelper =
         return null;
     },
 
+    isIdentifierMemberOrCallExpression: function(element)
+    {
+        //HAS TO BE FAST!
+        return element != null && (element.type == "Identifier" || element.type == "MemberExpression" || element.type == "CallExpression");
+    },
+
     isFunctionParameter: function(element)
     {
         if(!this.isIdentifier(element)){ return false; }

@@ -187,7 +187,7 @@ fcSimulator.ExecutionContextStack.prototype =
             else if (command.isIfStatementCommand())
             {
                 this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct.test);
-                this.globalObject.browser.callControlFlowProblematicReachedCallbacks(command.codeConstruct.test);
+                //this.globalObject.browser.callControlFlowProblematicReachedCallbacks(command.codeConstruct.test);
                 this._addToBlockCommandStack(command);
             }
             else if (command.isEndIfCommand()) { this._tryPopCommand(command);}

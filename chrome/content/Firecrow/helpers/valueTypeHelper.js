@@ -428,9 +428,7 @@ Firecrow.ValueTypeHelper =
         {
             if(index < 0 || index >= array.length) { debugger; alert("Index out of range when removing array in ValueTypeHelper"); return; }
 
-            var removed = array.splice(index, 1);
-
-            return removed;
+            return array.splice(index, 1);
         }
         catch(e) { alert("Error while removing elements from array by index: " + e);}
     },

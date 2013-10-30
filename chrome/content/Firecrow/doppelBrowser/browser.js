@@ -28,7 +28,7 @@ fcBrowser.Browser = function(pageModel)
         this.nodeCreatedCallbacks = [];
         this.nodeInsertedCallbacks = [];
         this.interpretJsCallbacks = [];
-        this.nullProblematicCallbacks = [];
+        this.expressionEvaluatedCallbackInfo = { callback: function(){}, thisObject: this};
         this.controlFlowProblematicCallbacks = [];
 
         this.dataDependencyEstablishedCallbacks = [];
@@ -881,11 +881,11 @@ Browser.prototype = dummy =
         this.interpretJsCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
-    registerNullProblematicExpressionReachedCallback: function(callback, thisObject)
+    registerExpressionEvaluatedCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - null problematic callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - expression evaluated callback has to be a function!"); return; }
 
-        this.nullProblematicCallbacks.push({callback: callback, thisObject: thisObject || this});
+        this.expressionEvaluatedCallbackInfo = {callback: callback, thisObject: thisObject || this};
     },
 
     registerControlFlowProblematicExpressionReachedCallback: function(callback, thisObject)
@@ -1031,13 +1031,9 @@ Browser.prototype = dummy =
         }
     },
 
-    callNullProblematicReachedCallbacks: function(codeConstruct)
+    callExpressionEvaluatedCallbacks: function(codeConstruct)
     {
-        for(var i = 0; i < this.nullProblematicCallbacks.length; i++)
-        {
-            var callbackObject = this.nullProblematicCallbacks[i];
-            callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
-        }
+        this.expressionEvaluatedCallbackInfo.callback.call(this.expressionEvaluatedCallbackInfo.thisObject, codeConstruct);
     },
 
     callControlFlowProblematicReachedCallbacks: function(codeConstruct)

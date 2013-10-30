@@ -499,6 +499,7 @@
     function createOptions(options)
     {
       var object = optionsCache[options] = {};
+      (options.match(core_rnotwhite), null);
       return object;
     }
     jQuery.Callbacks = function(options)
@@ -628,6 +629,7 @@
         jQuery.swap(body, body.style.zoom != null ? {zoom: 1} : 0, function(){});
         if(window.getComputedStyle)
         {
+          support.pixelPosition = (window.getComputedStyle(div, null)).top !== "1%";
           marginDiv = div.appendChild(document.createElement("div"));
           marginDiv.style.cssText = div.style.cssText = divReset;
           marginDiv.style.marginRight = marginDiv.style.width = "0";
@@ -779,6 +781,7 @@
       prop: function(elem, name, value){}, 
       propHooks: {}
     });
+    (jQuery.expr.match.bool.source.match(/\w+/g), null);
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one){}, 
       one: function(types, selector, data, fn){}, 
@@ -886,6 +889,7 @@
       detach: function(selector){}, 
       domManip: function(args, callback, allowIntersection){}
     });
+    ({appendTo: "append", prependTo: "prepend", insertBefore: "before", insertAfter: "after", replaceAll: "replaceWith"}, null);
     jQuery.extend({
       clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection)
@@ -946,11 +950,18 @@
       style: function(elem, name, value, extra){}, 
       css: function(elem, name, extra, styles){}
     });
-    jQuery(function(){});
+    jQuery(function()
+    {
+      if(!(jQuery.support.pixelPosition) && jQuery.fn.position)
+      {
+        (["top", "left"], null);
+      }
+    });
     jQuery.fn.extend({
       serialize: function(){}, 
       serializeArray: function(){}
     });
+    ((("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ") + "change select submit keydown keypress keyup error contextmenu").split(" "), null);
     jQuery.fn.extend({
       hover: function(fnOver, fnOut){}, 
       bind: function(types, data, fn){}, 
@@ -1156,14 +1167,14 @@
   $set.addClass("test").addClass("foo").addClass("bar");
   $set.removeClass("test").removeClass("bar").removeClass("foo");
   assert(!($set.is(".test,.bar,.foo")), "Remove multiple classes");
-  $set.eq(0).addClass("expected");
+  $set.eq(0).addClass("expected").removeClass(null);
   assert($set.eq(0).is(".expected"), "Null value passed to removeClass");
-  $set.eq(0).addClass("expected");
+  $set.eq(0).addClass("expected").removeClass("");
   assert($set.eq(0).is(".expected"), "Empty string passed to removeClass");
   $set = jQuery("#nonnodes").contents();
   $set.removeClass("asdf");
   assert(!($set.hasClass("asdf")), "Check node,textnode,comment for removeClass");
-  jQuery(div);
+  jQuery(div).removeClass("foo");
   assertEquals(jQuery(div).attr("class"), undefined, "removeClass doesn't create a class attribute");
   div.className = " test foo ";
   jQuery(div).removeClass("foo");
@@ -1175,6 +1186,7 @@
   $div.removeClass("x");
   assert(!($div.hasClass("x")), "Element with multiple same classes does not escape the wrath of removeClass()");
   var $div = jQuery("<div class='base second'></div>");
+  $div.removeClass(undefined);
   assert($div.hasClass("base") && $div.hasClass("second"), "Element still has classes after removeClass(undefined)");
 </script>
 

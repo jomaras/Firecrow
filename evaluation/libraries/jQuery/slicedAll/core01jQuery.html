@@ -172,6 +172,10 @@
 
         jQuery.isReady = true;
         readyList.resolveWith(document, [jQuery]);
+        if(jQuery.fn.trigger)
+        {
+          jQuery(document).trigger("ready");
+        }
       }, 
       isFunction: function(obj)
       {
@@ -477,6 +481,7 @@
     function createOptions(options)
     {
       var object = optionsCache[options] = {};
+      (options.match(core_rnotwhite), null);
       return object;
     }
     jQuery.Callbacks = function(options)
@@ -606,6 +611,7 @@
         jQuery.swap(body, body.style.zoom != null ? {zoom: 1} : 0, function(){});
         if(window.getComputedStyle)
         {
+          support.pixelPosition = (window.getComputedStyle(div, null)).top !== "1%";
           marginDiv = div.appendChild(document.createElement("div"));
           marginDiv.style.cssText = div.style.cssText = divReset;
           marginDiv.style.marginRight = marginDiv.style.width = "0";
@@ -627,7 +633,12 @@
     })({});
     function internalData(elem, name, data, pvt)
     {
-      var ret, thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
+      var ret, thisCache, internalKey = jQuery.expando, isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : elem[internalKey];
+      if((!id || !(cache[id]) || !pvt) && data === undefined && typeof name === "string")
+      {
+        return ;
+      }
+
       if(!id)
       {
         if(isNode)
@@ -725,6 +736,7 @@
       prop: function(elem, name, value){}, 
       propHooks: {}
     });
+    (jQuery.expr.match.bool.source.match(/\w+/g), null);
     var rtypenamespace = /^([^.]*)(?:\.(.+)|)$/;
     function returnFalse()
     {
@@ -783,18 +795,28 @@
       }, 
       trigger: function(event, data, elem, onlyHandlers)
       {
-        var handle, cur, special, i, eventPath = [elem], type = core_hasOwn.call(event, "type") ? 0 : event, namespaces = core_hasOwn.call(event, "namespace") ? 0 : [];
+        var handle, cur, bubbleType, special, tmp, i, eventPath = [elem], type = core_hasOwn.call(event, "type") ? 0 : event, namespaces = core_hasOwn.call(event, "namespace") ? 0 : [];
+        tmp = elem = elem;
         event = event[jQuery.expando] ? 0 : new jQuery.Event(type, typeof event === "object");
         event.namespace = namespaces.join(".");
         event.namespace_re = event.namespace ? 0 : null;
         event.result = undefined;
         data = data == null ? [event] : 0;
-        special = jQuery.event.special[type];
+        special = jQuery.event.special[type] || {};
+        if(!onlyHandlers && !(special.noBubble) && !(jQuery.isWindow(elem)))
+        {
+          bubbleType = special.delegateType || type;
+          if(tmp === (elem.ownerDocument || document))
+          {
+            eventPath.push(tmp.defaultView);
+          }
+        }
+
         i = 0;
         while((cur = eventPath[i++]) && !(event.isPropagationStopped()))
         {
-          event.type = i > 1 ? 0 : special.bindType || type;
-          handle = (jQuery._data(cur, "events"))[event.type] && jQuery._data(cur, "handle");
+          event.type = i > 1 ? bubbleType : special.bindType || type;
+          handle = (jQuery._data(cur, "events") || {})[event.type] && jQuery._data(cur, "handle");
           if(handle)
           {
             handle.apply(cur, data);
@@ -975,7 +997,19 @@
       prepend: function(){}, 
       before: function(){}, 
       after: function(){}, 
-      remove: function(selector, keepData){}, 
+      remove: function(selector, keepData)
+      {
+        var elem, elems = selector ? 0 : this, i = 0;
+        for(;(elem = elems[i]) != null;i++)
+        {
+          if(!keepData && elem.nodeType === 1)
+          {
+            (getAll(elem));
+          }
+        }
+
+        return this;
+      }, 
       empty: function()
       {
         return this;
@@ -1013,6 +1047,17 @@
     function manipulationTarget(elem, content)
     {
       return jQuery.nodeName(elem, "table") ? 0 : elem;
+    }
+    ({appendTo: "append", prependTo: "prepend", insertBefore: "before", insertAfter: "after", replaceAll: "replaceWith"}, null);
+    function getAll(context, tag)
+    {
+      var found = typeof (context.getElementsByTagName) !== core_strundefined ? context.getElementsByTagName(tag || "*") : 0;
+      if(!found)
+      {
+        [], null;
+      }
+
+      return tag === undefined ? jQuery.merge([context], found) : 0;
     }
     jQuery.extend({
       clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
@@ -1168,7 +1213,13 @@
         }
       };
     });
-    jQuery(function(){});
+    jQuery(function()
+    {
+      if(!(jQuery.support.pixelPosition) && jQuery.fn.position)
+      {
+        (["top", "left"], null);
+      }
+    });
     jQuery.fn.extend({
       serialize: function(){}, 
       serializeArray: function(){}
@@ -1210,6 +1261,7 @@
 
       return target;
     }
+    (["ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend"], null);
     jQuery.extend({
       active: 0, 
       lastModified: {}, 
@@ -1519,6 +1571,7 @@
   assertEquals(elem[0].id, "test3", "jQuery() quick setter id");
   exec = true;
   elem.trigger("click");
+  elem.remove();
   for(i = 0;i < 3;++i)
   {
     elem = jQuery("<input type='text' value='TEST' />");

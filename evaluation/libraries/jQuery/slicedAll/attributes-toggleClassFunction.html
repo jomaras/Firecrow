@@ -61,7 +61,7 @@
       }, 
       ready: function(fn)
       {
-        jQuery.ready.promise();
+        jQuery.ready.promise().done(fn);
         return this;
       }
     };
@@ -320,8 +320,16 @@
       jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
+    var optionsCache = {};
+    function createOptions(options)
+    {
+      var object = optionsCache[options] = {};
+      (options.match(core_rnotwhite), null);
+      return object;
+    }
     jQuery.Callbacks = function(options)
     {
+      options = typeof options === "string" ? optionsCache[options] || createOptions(options) : 0;
       var list = [], self = {
         add: function()
         {
@@ -329,7 +337,17 @@
           {
             (function add(args)
             {
-              jQuery.each(args, function(_, arg){});
+              jQuery.each(args, function(_, arg)
+              {
+                var type = jQuery.type(arg);
+                if(type === "function")
+                {
+                  if(!(options.unique))
+                  {
+                    list.push(arg);
+                  }
+                }
+              });
             })(arguments);
           }
 
@@ -543,6 +561,7 @@
       prop: function(elem, name, value){}, 
       propHooks: {}
     });
+    (jQuery.expr.match.bool.source.match(/\w+/g), null);
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one){}, 
       one: function(types, selector, data, fn){}, 
@@ -623,11 +642,18 @@
       style: function(elem, name, value, extra){}, 
       css: function(elem, name, extra, styles){}
     });
-    jQuery(function(){});
+    jQuery(function()
+    {
+      if(false)
+      {
+        (["top", "left"], null);
+      }
+    });
     jQuery.fn.extend({
       serialize: function(){}, 
       serializeArray: function(){}
     });
+    ((("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ") + "change select submit keydown keypress keyup error contextmenu").split(" "), null);
     jQuery.fn.extend({
       hover: function(fnOver, fnOut){}, 
       bind: function(types, data, fn){}, 

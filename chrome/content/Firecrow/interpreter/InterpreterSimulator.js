@@ -52,12 +52,15 @@ fcSimulator.prototype = dummy =
 
                 this._processCommand(command); //if(command.codeConstruct.loc != null && command.codeConstruct.loc.start.line == 1378)debugger;3
 
-                this.callControlFlowConnectionCallbacks(codeConstruct);
+                codeConstruct.hasBeenExecuted = true;
 
-                if(codeConstruct != null && ASTHelper.isMemberExpression(codeConstruct.parent)
-                                         || ASTHelper.isCallExpressionCallee(codeConstruct))
+                //This should be even more specific, not all identifiers are required
+                //MemberExpressions - always
+                //CallExpression - callee
+                //Identifiers - if in memberExpression, condition, binary expression
+                if(ASTHelper.isIdentifierMemberOrCallExpression(codeConstruct))
                 {
-                    this.globalObject.browser.callNullProblematicReachedCallbacks(codeConstruct);
+                    this.globalObject.browser.callExpressionEvaluatedCallbacks(codeConstruct);
                 }
 
                 //Uncomment to enable application tracing
@@ -534,14 +537,6 @@ fcSimulator.prototype = dummy =
         this.messageGeneratedCallbacks.forEach(function(callbackDescription)
         {
             callbackDescription.callback.call(callbackDescription.thisValue, message);
-        });
-    },
-
-    callControlFlowConnectionCallbacks: function(codeConstruct)
-    {
-        this.controlFlowConnectionCallbacks.forEach(function(callbackDescription)
-        {
-            callbackDescription.callback.call(callbackDescription.thisValue, codeConstruct);
         });
     }
 };

@@ -457,6 +457,7 @@
     function createOptions(options)
     {
       var object = optionsCache[options] = {};
+      (options.match(core_rnotwhite), null);
       return object;
     }
     jQuery.Callbacks = function(options)
@@ -587,6 +588,7 @@
         jQuery.swap(body, body.style.zoom != null ? {zoom: 1} : 0, function(){});
         if(window.getComputedStyle)
         {
+          support.pixelPosition = (window.getComputedStyle(div, null)).top !== "1%";
           marginDiv = div.appendChild(document.createElement("div"));
           marginDiv.style.cssText = div.style.cssText = divReset;
           marginDiv.style.marginRight = marginDiv.style.width = "0";
@@ -723,6 +725,7 @@
       }, 
       propHooks: {}
     });
+    (jQuery.expr.match.bool.source.match(/\w+/g), null);
     jQuery.fn.extend({
       on: function(types, selector, data, fn, one){}, 
       one: function(types, selector, data, fn){}, 
@@ -785,6 +788,11 @@
         var elem, elems = selector ? 0 : this, i = 0;
         for(;(elem = elems[i]) != null;i++)
         {
+          if(!keepData && elem.nodeType === 1)
+          {
+            (getAll(elem));
+          }
+
           if(elem.parentNode)
           {
             elem.parentNode.removeChild(elem);
@@ -813,6 +821,7 @@
 
           if(first)
           {
+            (getAll(fragment, "script"), null);
             for(;i < l;i++)
             {
               node = fragment;
@@ -843,6 +852,11 @@
         return this.pushStack(ret);
       };
     });
+    function getAll(context, tag)
+    {
+      var found = typeof (context.getElementsByTagName) !== core_strundefined ? context.getElementsByTagName(tag || "*") : typeof (context.querySelectorAll) !== core_strundefined ? context.querySelectorAll(tag) : 0;
+      return tag === undefined || (tag && jQuery.nodeName(context, tag)) ? ([context], null) : found;
+    }
     jQuery.extend({
       clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection)
@@ -906,11 +920,20 @@
       style: function(elem, name, value, extra){}, 
       css: function(elem, name, extra, styles){}
     });
-    jQuery(function(){});
+    (["height", "width"], null);
+    jQuery(function()
+    {
+      if(!(jQuery.support.pixelPosition) && jQuery.fn.position)
+      {
+        (["top", "left"], null);
+      }
+    });
+    ({margin: "", padding: "", border: "Width"}, null);
     jQuery.fn.extend({
       serialize: function(){}, 
       serializeArray: function(){}
     });
+    ((("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ") + "change select submit keydown keypress keyup error contextmenu").split(" "), null);
     jQuery.fn.extend({
       hover: function(fnOver, fnOut){}, 
       bind: function(types, data, fn){}, 

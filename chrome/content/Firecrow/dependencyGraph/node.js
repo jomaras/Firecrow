@@ -129,7 +129,7 @@ FBL.ns(function() { with (FBL) {
             return selectedDependencies;
         },
 
-        getNonTraversedValueDependencies: function()
+        getUntraversedValueDependenciesFromContext:function(executionContextId)
         {
             var dependencies = this.dataDependencies;
             var selectedDependencies = [];
@@ -137,56 +137,9 @@ FBL.ns(function() { with (FBL) {
             for(var i = 0; i < dependencies.length; i++)
             {
                 var dependency = dependencies[i];
-                if(dependency.isValueDependency && !dependency.hasBeenTraversed
-                //TODO not sure about this delete thing, maybe it should be all, but then, too much is included
-                && ASTHelper.isDeleteExpression(dependency.destinationNode.model))
+                if(dependency.isValueDependency && !dependency.hasBeenTraversed && dependency.executionContextId == executionContextId)
                 {
                     selectedDependencies.push(dependency);
-                }
-            }
-
-            return selectedDependencies;
-        },
-
-        getSliceUnionImportantDependencies: function(minExclusiveIndex, maxInclusiveIndex)
-        {
-            var dependencies = this.dataDependencies;
-
-            //Remove all already traversed and the ones after the maximum indexed one
-            var selectedDependencies = [];
-
-            for(var i = dependencies.length - 1; i >= 0; i--)
-            {
-                var dependency = dependencies[i];
-
-                if(dependency.isValueDependency && dependency.index > minExclusiveIndex && dependency.index <= maxInclusiveIndex)
-                {
-                    if(!dependency.hasBeenTraversed)
-                    {
-                        selectedDependencies.push(dependency);
-
-                        for(var j = i + 1; j < dependencies.length; j++)
-                        {
-                            if(!this._areDependenciesInTheSameGroupAndCanBeFollowed(dependency, dependencies[j], dependency.dependencyCreationInfo))
-                            {
-                                break;
-                            }
-
-                            selectedDependencies.push(dependencies[j]);
-                        }
-
-                        for(var j = i - 1; j >= 0; j--)
-                        {
-                            if(!this._areDependenciesInTheSameGroupAndCanBeFollowed(dependency, dependencies[j], dependency.dependencyCreationInfo))
-                            {
-                                break;
-                            }
-
-                            selectedDependencies.push(dependencies[j]);
-                        }
-                    }
-
-                    break;
                 }
             }
 

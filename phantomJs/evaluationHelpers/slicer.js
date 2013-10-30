@@ -8,7 +8,7 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryName = "gauss"
+var libraryName = "gauss";
 var executeRegisteredEvents = true;
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 var rootName = "adjusted_models";
@@ -29,7 +29,7 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1)// && fullPath.indexOf('manipulation2') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1)
     {
         return fullPath;
     }
