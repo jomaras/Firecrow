@@ -373,8 +373,8 @@ FBL.ns(function() { with (FBL) {
 
                 if(!this.inclusionFinder.isIncludedElement(parent)) { continue; }
 
-                if(this._contextHasIncludedDependencies(mapping.executionContextId)
-                || this._areAllIncluded(this.dependencyCallExpressionMapping[mapping.dependencyIndex]))
+                if(this._areAllIncluded(this.dependencyCallExpressionMapping[mapping.dependencyIndex])
+                || this._contextHasIncludedDependencies(mapping.executionContextId))
                 {
                     addedDependencies += this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
                     ValueTypeHelper.removeFromArrayByIndex(this.breakContinueReturnEventsMapping, i--);
@@ -393,11 +393,13 @@ FBL.ns(function() { with (FBL) {
             for(var i = 0; i < trace.length; i++)
             {
                 var traceItem = trace[i];
+
+                if(traceItem == null) { continue; }
+
                 var codeConstruct = traceItem.codeConstruct;
 
-                if(!codeConstruct.shouldBeIncluded) { continue; }
-
-                if(!this._areAllIncluded(this.dependencyCallExpressionMapping[traceItem.dependencyIndex])) { continue; }
+                if(!codeConstruct.shouldBeIncluded
+                || !this._areAllIncluded(this.dependencyCallExpressionMapping[traceItem.dependencyIndex])) { continue; }
 
                 var dependencies = codeConstruct.graphNode.getUntraversedValueDependenciesFromContext(traceItem.executionContextId);
 
@@ -411,6 +413,8 @@ FBL.ns(function() { with (FBL) {
 
                     this._traverseAndMark(dependency.destinationNode.model, dependency.index);
                 }
+
+                trace[i] = null;//not important anymore, but slice is too slow to remove it
             }
 
             return addedDependencies;

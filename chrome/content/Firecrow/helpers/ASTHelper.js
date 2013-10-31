@@ -1309,7 +1309,8 @@ Firecrow.ASTHelper = ASTHelper =
     isIdentifierMemberOrCallExpression: function(element)
     {
         //HAS TO BE FAST!
-        return element != null && (element.type == "Identifier" || element.type == "MemberExpression" || element.type == "CallExpression");
+        return element != null && (element.type == "Identifier" || element.type == "MemberExpression" || element.type == "CallExpression")
+            && (element.parent == null || (element.parent.argument == null && element.parent.left == null)); // do not care about unary and binary expressions
     },
 
     isFunctionParameter: function(element)

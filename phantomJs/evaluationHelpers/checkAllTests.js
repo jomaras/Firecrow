@@ -27,6 +27,7 @@ htmlFiles = fs.list(rootFolder).map(function(fileName)
 }).filter(function(item){ return item != null; });
 
 var pageIndex = 0;
+var startTime = null;
 
 var interval = setInterval(function() {
     if (!loadInProgress && pageIndex < htmlFiles.length)
@@ -46,6 +47,7 @@ page.onInitialized = function() {
 };
 
 page.onLoadStarted = function() {
+    startTime = Date.now();
     loadInProgress = true;
 };
 
@@ -61,7 +63,7 @@ page.onLoadFinished = function() {
     }
     else
     {
-        console.log("OK - " + htmlFiles[pageIndex]);
+        console.log("OK - " + htmlFiles[pageIndex] + " in " + (Date.now() - startTime) + "msec");
     }
 
     pageIndex++;

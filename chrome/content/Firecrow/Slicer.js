@@ -6,7 +6,7 @@
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
 Firecrow.Slicer = {
-    slice: function(htmlModel, slicingCriteria, url, executeRegisteredEvents)
+    slice: function(htmlModel, slicingCriteria, url, executeRegisteredEvents, doNotFixSliceUnionProblems)
     {
         var Firecrow = FBL.Firecrow;
         Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
@@ -41,12 +41,44 @@ Firecrow.Slicer = {
             browser.executeTimingEvents();
         }
 
+        if(doNotFixSliceUnionProblems)
+        {
+            Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
+        }
+
         dependencyGraph.markGraph(htmlModel.htmlElement);
 
         return {
             browser: browser,
             dependencyGraph: dependencyGraph
+        };
+    },
+
+    profile: function(htmlModel, url, executeRegisteredEvents)
+    {
+        var Firecrow = FBL.Firecrow;
+        Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
+
+        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
+        Firecrow.DoppelBrowser.Browser.isForSlicing = false;
+        var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
+        Firecrow.Slicer.browser = browser;
+        browser.url = url || htmlModel.pageUrl;
+
+        Firecrow.Interpreter.Simulator.DependencyCreator.shouldCreateDependencies = false;
+
+        browser.evaluatePage();
+
+        if(executeRegisteredEvents)
+        {
+            browser.executeLoadingEvents();
+            browser.executeTimingEvents();
         }
+
+        return {
+            browser: browser,
+            dependencyGraph: dependencyGraph
+        };
     },
 
     getSlicedCode: function(htmlModel, slicingCriteria, url)

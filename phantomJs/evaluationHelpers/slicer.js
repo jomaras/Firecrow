@@ -13,7 +13,7 @@ var executeRegisteredEvents = true;
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;
-var destinationName = "slicedAll";//slicedAll; slicedWithoutSliceUnions; slicedWithoutSliceUnionsAndArrays
+var destinationName = "slicedWithoutSliceUnions";//profiled; slicedAll; slicedWithoutSliceUnions;
 var destinationFolder = libraryFolder + destinationName;
 var logFile = destinationFolder + "\\logAll.txt";
 
@@ -41,7 +41,11 @@ var interval = setInterval(function()
     {
         var modelUrl = modelFiles[pageIndex].replace("C:\\GitWebStorm\\", "http:\\\\localhost\\").replace(/\\/g, "/");
         var slicerPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/slicer.html"
-                        + "?url=" + modelUrl + (executeRegisteredEvents ? ("&executeRegisteredEvents=" + executeRegisteredEvents)  : "");
+                        + "?url=" + modelUrl
+                        + (executeRegisteredEvents ? ("&executeRegisteredEvents=" + executeRegisteredEvents)  : "")
+                        + (destinationName == "profiled" ? ("&sliceType=profile")  : "")
+                        + (destinationName == "slicedAll" ? ("&sliceType=sliceAll")  : "")
+                        + (destinationName == "slicedWithoutSliceUnions" ? ("&sliceType=sliceWithoutUnions")  : "");
 
         page.open(encodeURI(slicerPageUrl));
     }

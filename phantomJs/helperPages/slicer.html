@@ -144,14 +144,26 @@
                 }
             });
 
-
             //SHOULD ALSO ENABLE DISREGARDING DEPENDENCIES TO ALL CONDITIONS
             //Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
             //Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
 
             var startTime = dateNow();
-            Firecrow.Slicer.slice(pageModel, undefined, undefined, window.queryString["executeRegisteredEvents"]);
-            slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
+
+            var shouldExecuteEvents = window.queryString["executeRegisteredEvents"];
+            var sliceType = window.queryString["sliceType"];
+
+            if(sliceType == "profile")
+            {
+                Firecrow.Slicer.profile(pageModel, undefined, shouldExecuteEvents);
+                slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(pageModel);
+            }
+            else
+            {
+                Firecrow.Slicer.slice(pageModel, undefined, undefined, shouldExecuteEvents, sliceType == "sliceWithoutUnions");
+                slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
+            }
+
             astNodesTextArea.textContent = nodeId;
             loadingTimeTextArea.textContent = dateNow() - startTime;
         })();

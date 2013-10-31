@@ -1096,7 +1096,7 @@ Browser.prototype = dummy =
 
         for(var i = 0; i < this.dataDependencyEstablishedCallbacks.length; i++)
         {
-            var callbackObject = this.dataDependencyEstablishedCallbacks[i];
+            var callbackObject = this.dataDependencyEstablishedCallbacks[0];
             callbackObject.callback.call
             (
                 callbackObject.thisObject, sourceNode, targetNode,

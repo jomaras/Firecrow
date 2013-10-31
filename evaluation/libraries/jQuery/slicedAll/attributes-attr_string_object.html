@@ -179,10 +179,6 @@
 
         jQuery.isReady = true;
         readyList.resolveWith(document, [jQuery]);
-        if(jQuery.fn.trigger)
-        {
-          jQuery(document).trigger("ready");
-        }
       }, 
       isFunction: function(obj)
       {
@@ -843,10 +839,7 @@
         var elem = this[0];
         return arguments.length > 1 ? 0 : elem ? dataAttr(elem, key, jQuery.data(elem, key)) : 0;
       }, 
-      removeData: function(key)
-      {
-        return this.each(function(){});
-      }
+      removeData: function(key){}
     });
     function dataAttr(elem, key, data)
     {
@@ -1082,7 +1075,7 @@
         }
 
         data = data == null ? [event] : 0;
-        special = jQuery.event.special[type] || {};
+        special = jQuery.event.special[type];
         if(!onlyHandlers && !(special.noBubble) && !(jQuery.isWindow(elem)))
         {
           bubbleType = special.delegateType || type;
@@ -1097,7 +1090,7 @@
             tmp = cur;
           }
 
-          if(tmp === (elem.ownerDocument || document))
+          if(tmp === elem.ownerDocument)
           {
             eventPath.push(tmp.defaultView);
           }
@@ -1640,7 +1633,7 @@
 
 
 <script>
-  var $input, $text, $details, attributeNode, commentNode, textNode, obj, table, td, j, check, thrown, button, $radio, $radios, $svg, div = jQuery("div").attr("foo", "bar"), fail = false;
+  var $input, $text, $details, attributeNode, commentNode, textNode, obj, table, td, j, check, thrown, $radio, $radios, $svg, div = jQuery("div").attr("foo", "bar"), fail = false;
   assertEqual(fail, false, ("Set Attribute, the #" + fail) + " element didn't get the attribute 'foo'");
   assert(jQuery("#foo").attr({"width": null}), "Try to set an attribute to nothing");
   jQuery("#name").attr("name", "something");
@@ -1704,7 +1697,6 @@
   assertEqual($text.attr("data-another"), "false", "Set data attributes");
   assertEqual($text.data("another"), false, "Setting data attributes are not affected by boolean settings");
   assertEqual($text.attr("aria-disabled", false).attr("aria-disabled"), "false", "Setting aria attributes are not affected by boolean settings");
-  $text.removeData("something").removeData("another").removeAttr("aria-disabled");
   jQuery("#foo").attr("contenteditable", true);
   assertEqual(jQuery("#foo").attr("contenteditable"), "true", "Enumerated attributes are set properly");
   attributeNode = document.createAttribute("irrelevant");
@@ -1714,7 +1706,6 @@
   jQuery.each([commentNode, textNode, attributeNode], function(i, elem)
   {
     var $elem = jQuery(elem);
-    $elem.attr("nonexisting", "foo");
     assertEqual($elem.attr("nonexisting"), undefined, "attr(name, value) works correctly on comment and text nodes (bug #7500).");
   });
   jQuery.each([window, document, obj, "#firstp"], function(i, elem)
@@ -1741,11 +1732,10 @@
   j = jQuery("#nonnodes").contents();
   j.attr("name", "attrvalue");
   assertEqual(j.attr("name"), "attrvalue", "Check node,textnode,comment for attr");
-  j.removeAttr("name");
-  jQuery("#check2").attr("type");
+  jQuery("#check2");
   try
   {
-    jQuery("#check2").attr("type", "hidden");
+    jQuery("#check2");
     assert(true, "No exception thrown on input type change");
   }
   catch(e){}
@@ -1767,10 +1757,9 @@
   catch(e){}
   assert(thrown, "Exception thrown when trying to change type property");
   assertEqual("checkbox", check.attr("type"), "Verify that you can change the type of an input element that isn't in the DOM");
-  button = jQuery("#button");
+  jQuery("#button");
   try
   {
-    button.attr("type", "submit");
     assert(true, "No exception thrown on button type change");
   }
   catch(e){}
