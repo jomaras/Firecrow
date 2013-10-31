@@ -14,13 +14,17 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 var htmlFiles = [];
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\slicedAll";
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\";
+var libraryName = "prototype";
+var sliceType = "slicedWithoutSliceUnions"; //profiled, slicedAll, slicedWithoutSliceUnions
+var libraryFolder = rootFolder + libraryName + fs.separator;
+var checkFolder = libraryFolder + sliceType + fs.separator;
 
-htmlFiles = fs.list(rootFolder).map(function(fileName)
+htmlFiles = fs.list(checkFolder).map(function(fileName)
 {
-    var fullPath = rootFolder + fs.separator + fileName;
+    var fullPath = checkFolder + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1)// && fullPath.indexOf('manipulation') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1)
     {
         return fullPath
     }
@@ -28,6 +32,8 @@ htmlFiles = fs.list(rootFolder).map(function(fileName)
 
 var pageIndex = 0;
 var startTime = null;
+
+var log = "";
 
 var interval = setInterval(function() {
     if (!loadInProgress && pageIndex < htmlFiles.length)
@@ -37,6 +43,7 @@ var interval = setInterval(function() {
     if (pageIndex == htmlFiles.length)
     {
         console.log("Testing complete - # processed pages: " + pageIndex + ", fails: " + PAGE_FAILS);
+        fs.write(checkFolder + "timingLog.txt", log);
         phantom.exit();
     }
 }, 250);
@@ -63,6 +70,7 @@ page.onLoadFinished = function() {
     }
     else
     {
+        log += htmlFiles[pageIndex] + "---" + (Date.now() - startTime) + "\r\n";
         console.log("OK - " + htmlFiles[pageIndex] + " in " + (Date.now() - startTime) + "msec");
     }
 

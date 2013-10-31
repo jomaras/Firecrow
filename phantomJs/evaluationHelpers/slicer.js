@@ -8,8 +8,8 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryName = "gauss";
-var executeRegisteredEvents = true;
+var libraryName = "prototype";
+var executeRegisteredEvents = libraryName == "jQuery";
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 var rootName = "adjusted_models";
 var rootFolder = libraryFolder + rootName;
@@ -69,14 +69,15 @@ function onLoadFinished()
         return {
             source: document.getElementById("slicingResultTextArea").textContent,
             slicingTime: document.getElementById("loadingTimeTextArea").textContent,
-            numberOfNodes: document.getElementById("astNodesTextArea").textContent
+            numberOfNodes: document.getElementById("astNodesTextArea").textContent,
+            slicingCriteriaCount: document.getElementById("slicingCriteriaCountTextArea").textContent
         }
     });
 
     fs.write(modelFiles[pageIndex].replace(".json", ".html").replace(rootName, destinationName), result.source);
-    console.log(modelFiles[pageIndex] + " sliced in " + result.slicingTime + " msec " + " and has " + result.source.split("\n").length + " LOC");
-    //file name --- time required in ms --- number of lines --- number of ast nodes
-    log += modelFiles[pageIndex] + " --- " + result.slicingTime + " --- " + result.source.split("\n").length + " --- " + result.numberOfNodes + "\n";
+    console.log(modelFiles[pageIndex] + " sliced in " + result.slicingTime + " msec " + " and has " + result.source.split("\n").length + " LOC" + "; SC: " + result.slicingCriteriaCount);
+    //file name --- time required in ms --- number of lines --- number of ast nodes -- slicingCriteriaCount
+    log += modelFiles[pageIndex] + " --- " + result.slicingTime + " --- " + result.source.split("\n").length + " --- " + result.numberOfNodes + " --- " + result.slicingCriteriaCount + "\n";
 
     page.onLoadStarted = null;
     page.onLoadFinished = null;

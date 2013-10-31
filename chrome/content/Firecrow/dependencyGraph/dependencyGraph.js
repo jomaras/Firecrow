@@ -41,6 +41,7 @@ FBL.ns(function() { with (FBL) {
     DependencyGraph.log = [];
     DependencyGraph.shouldLog = false;
     DependencyGraph.sliceUnions = true;
+    DependencyGraph.noOfSlicingCriteria = 0;
 
     DependencyGraph.prototype = dummy =
     {
@@ -302,6 +303,7 @@ FBL.ns(function() { with (FBL) {
             {
                 var mapping = executionTrace[i];
 
+                DependencyGraph.noOfSlicingCriteria++;
                 this._mainTraverseAndMark(mapping.codeConstruct, mapping.dependencyIndex, null, null);
             }
         },
@@ -310,10 +312,11 @@ FBL.ns(function() { with (FBL) {
         {
             for(var i = 0, length = htmlNodes.length; i < length; i++)
             {
-                var htmlModelNode =  htmlNodes[i].model;
+                var htmlModelNode = htmlNodes[i].model;
 
                 if(!htmlModelNode.shouldBeIncluded) { continue; }
 
+                DependencyGraph.noOfSlicingCriteria++;
                 this._mainTraverseAndMark(htmlModelNode);
                 this._markParentCssDependencies(htmlModelNode.domElement);
             }
