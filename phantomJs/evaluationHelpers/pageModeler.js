@@ -8,7 +8,11 @@ var loadInProgress = false;
 var htmlFiles = [];
 var pageIndex = 0;
 
-var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\jQuery\\adjusted";
+var libraryName = system.args[1] || "jQuery";
+var sourceFolder = system.args[2] || "profiled";
+var destinationFolderAddon = system.args[3] || "_models";
+
+var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\" + sourceFolder;
 
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
@@ -17,7 +21,7 @@ htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1 && fullPath.indexOf('manipulation') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1)
     {
         return fullPath;
     }
@@ -39,7 +43,7 @@ page.onLoadStarted = function() {
 };
 
 page.onLoadFinished = function() {
-    page.injectJs("./evaluationHelpers/injections/getExternalSources.js");
+    page.injectJs("C:/GitWebStorm/Firecrow/phantomJs/evaluationHelpers/injections/getExternalSources.js");
 
     var externalFiles = page.evaluate(function()
     {
@@ -110,7 +114,7 @@ page.onLoadFinished = function() {
         return JSON.stringify(getSimplifiedElement(document.documentElement));
     }, externalFiles);
 
-    fs.write(htmlFiles[pageIndex].replace(".html", ".json").replace("adjusted", "adjusted_models"), pageJSON);
+    fs.write(htmlFiles[pageIndex].replace(".html", ".json").replace(sourceFolder, sourceFolder + destinationFolderAddon), pageJSON);
 
     loadInProgress = false;
 

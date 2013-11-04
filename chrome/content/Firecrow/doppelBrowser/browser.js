@@ -104,6 +104,7 @@ Browser.prototype = dummy =
     {
         try
         {
+            Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions = 0;
             this._buildSubtree(this.pageModel.htmlElement, null);
             this._handleEvents();
         }

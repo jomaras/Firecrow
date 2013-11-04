@@ -118,202 +118,207 @@
 
         if(!pageUrl){ throw new Error("url has to be specified");}
 
-        var pageModel = JSON.parse(window.getSource(pageUrl));
-        var pageModelMapping = {};
+        var pageModelSource = window.getSource(pageUrl);
 
-        function endsWithSuffix(name, suffixID)
+        if(pageModelSource != null && pageModelSource != "{}")
         {
-            return name.match(new RegExp("_FC_" + suffixID + "$")) != null;
-        }
+            var pageModel = JSON.parse(pageModelSource);
+            var pageModelMapping = {};
 
-        function removeSuffix(name)
-        {
-            var indexOfFcStart = name.indexOf("_FC_");
-
-            if(indexOfFcStart == -1) { return name; }
-
-            return name.substr(0, indexOfFcStart);
-        }
-
-        function updateDomWithConstraintInfo(eventRegistration, parameters)
-        {
-            if(parameters == null) { return; }
-
-            for(var parameterName in parameters)
+            function endsWithSuffix(name, suffixID)
             {
-                if(parameterName.indexOf("DOM_") == 0)
-                {
-                    var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(parameterName);
-                    var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(parameterName);
-                    if(id != "")
-                    {
-                        var htmlElement = eventRegistration.thisObject.globalObject.document.document.getElementById(id);
-
-                        if(Firecrow.ValueTypeHelper.isHtmlSelectElement(htmlElement))
-                        {
-                            var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement, parameters[parameterName]);
-
-                            parameters.value = updateResult.newValue;
-                        }
-                    }
-                    else
-                    {
-                        debugger;
-                        alert("When updating DOM can not find ID!");
-                    }
-                }
+                return name.match(new RegExp("_FC_" + suffixID + "$")) != null;
             }
-        }
 
-        (function setUpPageModel()
-        {
-            Firecrow.ASTHelper.setParentsChildRelationships(pageModel);
-
-            Firecrow.ASTHelper.traverseAst(pageModel, function(astNode)
+            function removeSuffix(name)
             {
-                pageModelMapping[astNode.nodeId] = astNode;
-            });
-        }());
+                var indexOfFcStart = name.indexOf("_FC_");
 
-        var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
-        browser.url = pageUrl;
+                if(indexOfFcStart == -1) { return name; }
 
-        (function executePage()
-        {
-            browser.evaluatePage();
-        })();
-
-        (function executePageLoadingEvents()
-        {
-            browser.executeLoadingEvents();
-        })();
-
-        (function executeEvents()
-        {
-            for(var i = 0; i < eventDescriptors.length; i++)
-            {
-                var eventDescriptor = eventDescriptors[i];
-
-                var eventRegistration = sgBrowserHelper.getMatchingEventRegistration
-                (
-                    browser,
-                    pageModelMapping[eventDescriptor.thisObjectModelNodeId] || eventDescriptor.thisObjectModelNodeId,
-                    pageModelMapping[eventDescriptor.registrationConstructId]
-                );
-
-                if(eventRegistration == null) { debugger; alert("Can not find matching event registration"); continue;}
-
-                updateDomWithConstraintInfo(eventRegistration, eventDescriptor.parameters);
-
-                browser.executeEvent
-                (
-                    eventRegistration,
-                    sgBrowserHelper.getEventArguments(eventRegistration, browser, eventDescriptor.parameters, i)
-                );
+                return name.substr(0, indexOfFcStart);
             }
-        })();
 
-        (function addDefaultConstraints()
-        {
-            var executionInfo = browser.getExecutionInfo();
-            var identifiersMap = executionInfo.pathConstraint.getSymbolicIdentifierNameMap();
-
-            for(var identifierName in identifiersMap)
+            function updateDomWithConstraintInfo(eventRegistration, parameters)
             {
-                if(sgBrowserHelper.isEventPropertyWhich(identifierName))
-                {
-                    var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, fcSymbolic.Logical.createIrreversibleOr
-                    (
-                        fcSymbolic.Logical.createIrreversibleOr
-                        (
-                            fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 1),
-                            fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 2)
-                        ),
-                        fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 3)
-                    ));
+                if(parameters == null) { return; }
 
-                    executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
-                    executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, 1);
-                }
-                else if(sgBrowserHelper.isEventPropertyWithPositiveNumberValue(identifierName))
+                for(var parameterName in parameters)
                 {
-                    var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, fcSymbolic.Binary.createIrreversibleIdentifierGreaterEqualsThanLiteral(identifierName, 0));
-
-                    executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
-                    executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, 0);
-                }
-                else if(identifierName.indexOf("DOM_") == 0)
-                {
-                    var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(identifierName);
-                    var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(identifierName);
-                    if(id != "")
+                    if(parameterName.indexOf("DOM_") == 0)
                     {
-                        var htmlElement = browser.hostDocument.getElementById(id);
-
-                        if(Firecrow.ValueTypeHelper.isHtmlSelectElement(htmlElement))
+                        var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(parameterName);
+                        var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(parameterName);
+                        if(id != "")
                         {
-                            var availableValues = sgBrowserHelper.getSelectElementAvailableValues(htmlElement);
-                            var binaryExpressions = [];
+                            var htmlElement = eventRegistration.thisObject.globalObject.document.document.getElementById(id);
 
-                            var compoundLogical = null;
-
-                            for(var i = 0; i < availableValues.length; i++)
+                            if(Firecrow.ValueTypeHelper.isHtmlSelectElement(htmlElement))
                             {
-                                binaryExpressions.push(fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, availableValues[i]));
+                                var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement, parameters[parameterName]);
 
-                                var previousBinary = binaryExpressions[i-1];
-                                var currentBinary = binaryExpressions[i];
-
-                                if(previousBinary != null && currentBinary != null)
-                                {
-                                    compoundLogical = compoundLogical == null ? fcSymbolic.Logical.createIrreversibleOr(previousBinary, currentBinary)
-                                            : fcSymbolic.Logical.createIrreversibleOr(compoundLogical, currentBinary);
-                                }
+                                parameters.value = updateResult.newValue;
                             }
-
-                            var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, compoundLogical);
-                            executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
-                            executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, availableValues[0]);
                         }
                         else
                         {
                             debugger;
-                            alert("Unhandled HTMLElement in ScenarioGenerator when adding default constraints");
+                            alert("When updating DOM can not find ID!");
                         }
-                    }
-                    else
-                    {
-                        debugger;
-                        alert("No id in ScenarioGenerator when adding default constraints");
                     }
                 }
             }
 
-            for(var i = 0; i < eventDescriptors.length; i++)
+            (function setUpPageModel()
             {
-                var event = eventDescriptors[i];
+                Firecrow.ASTHelper.setParentsChildRelationships(pageModel);
+
+                Firecrow.ASTHelper.traverseAst(pageModel, function(astNode)
+                {
+                    pageModelMapping[astNode.nodeId] = astNode;
+                });
+            }());
+
+            var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
+            browser.url = pageUrl;
+
+            (function executePage()
+            {
+                browser.evaluatePage();
+            })();
+
+            (function executePageLoadingEvents()
+            {
+                browser.executeLoadingEvents();
+            })();
+
+            (function executeEvents()
+            {
+                for(var i = 0; i < eventDescriptors.length; i++)
+                {
+                    var eventDescriptor = eventDescriptors[i];
+
+                    var eventRegistration = sgBrowserHelper.getMatchingEventRegistration
+                    (
+                        browser,
+                        pageModelMapping[eventDescriptor.thisObjectModelNodeId] || eventDescriptor.thisObjectModelNodeId,
+                        pageModelMapping[eventDescriptor.registrationConstructId]
+                    );
+
+                    if(eventRegistration == null) { debugger; alert("Can not find matching event registration"); continue;}
+
+                    updateDomWithConstraintInfo(eventRegistration, eventDescriptor.parameters);
+
+                    browser.executeEvent
+                    (
+                        eventRegistration,
+                        sgBrowserHelper.getEventArguments(eventRegistration, browser, eventDescriptor.parameters, i)
+                    );
+                }
+            })();
+
+            (function addDefaultConstraints()
+            {
+                var executionInfo = browser.getExecutionInfo();
+                var identifiersMap = executionInfo.pathConstraint.getSymbolicIdentifierNameMap();
 
                 for(var identifierName in identifiersMap)
                 {
-                    if(sgBrowserHelper.isEventPropertyWithPositiveNumberValue(identifierName))
+                    if(sgBrowserHelper.isEventPropertyWhich(identifierName))
                     {
-                        if(endsWithSuffix(identifierName, i))
-                        {
-                            var identifier = removeSuffix(identifierName);
+                        var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, fcSymbolic.Logical.createIrreversibleOr
+                        (
+                            fcSymbolic.Logical.createIrreversibleOr
+                            (
+                                fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 1),
+                                fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 2)
+                            ),
+                            fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 3)
+                        ));
 
-                            if(event.parameters[identifier] == null)
+                        executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                        executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, 1);
+                    }
+                    else if(sgBrowserHelper.isEventPropertyWithPositiveNumberValue(identifierName))
+                    {
+                        var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, fcSymbolic.Binary.createIrreversibleIdentifierGreaterEqualsThanLiteral(identifierName, 0));
+
+                        executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                        executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, 0);
+                    }
+                    else if(identifierName.indexOf("DOM_") == 0)
+                    {
+                        var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(identifierName);
+                        var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(identifierName);
+                        if(id != "")
+                        {
+                            var htmlElement = browser.hostDocument.getElementById(id);
+
+                            if(Firecrow.ValueTypeHelper.isHtmlSelectElement(htmlElement))
                             {
-                                event.parameters[identifier] = 0;
+                                var availableValues = sgBrowserHelper.getSelectElementAvailableValues(htmlElement);
+                                var binaryExpressions = [];
+
+                                var compoundLogical = null;
+
+                                for(var i = 0; i < availableValues.length; i++)
+                                {
+                                    binaryExpressions.push(fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, availableValues[i]));
+
+                                    var previousBinary = binaryExpressions[i-1];
+                                    var currentBinary = binaryExpressions[i];
+
+                                    if(previousBinary != null && currentBinary != null)
+                                    {
+                                        compoundLogical = compoundLogical == null ? fcSymbolic.Logical.createIrreversibleOr(previousBinary, currentBinary)
+                                                : fcSymbolic.Logical.createIrreversibleOr(compoundLogical, currentBinary);
+                                    }
+                                }
+
+                                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, compoundLogical);
+                                executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                                executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, availableValues[0]);
+                            }
+                            else
+                            {
+                                debugger;
+                                alert("Unhandled HTMLElement in ScenarioGenerator when adding default constraints");
+                            }
+                        }
+                        else
+                        {
+                            debugger;
+                            alert("No id in ScenarioGenerator when adding default constraints");
+                        }
+                    }
+                }
+
+                for(var i = 0; i < eventDescriptors.length; i++)
+                {
+                    var event = eventDescriptors[i];
+
+                    for(var identifierName in identifiersMap)
+                    {
+                        if(sgBrowserHelper.isEventPropertyWithPositiveNumberValue(identifierName))
+                        {
+                            if(endsWithSuffix(identifierName, i))
+                            {
+                                var identifier = removeSuffix(identifierName);
+
+                                if(event.parameters[identifier] == null)
+                                {
+                                    event.parameters[identifier] = 0;
+                                }
                             }
                         }
                     }
                 }
-            }
-        })();
+            })();
 
-        var executionInfo = browser.getExecutionInfo();
-        executionInfo.achievedCoverage = ASTHelper.calculateCoverage(pageModel);
-        document.getElementById("executionInfo").value = JSON.stringify(executionInfo);
+            var executionInfo = browser.getExecutionInfo();
+            executionInfo.achievedCoverage = ASTHelper.calculateCoverage(pageModel);
+            document.getElementById("executionInfo").value = JSON.stringify(executionInfo);
+        }
     </script>
 </body>
 </html>

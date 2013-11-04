@@ -250,7 +250,7 @@
       proxy: function(fn, context){}, 
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
-        var i = 0, length = elems.length, bulk = key == null;
+        var i = 0, length = elems.length;
         if(jQuery.type(key) === "object");
         else if(value !== undefined)
         {
@@ -270,7 +270,7 @@
         }
 
 
-        return chainable ? elems : bulk ? 0 : length ? fn(elems[0], key) : 0;
+        return chainable ? elems : 0;
       }, 
       now: function(){}, 
       swap: function(elem, options, callback, args)
@@ -318,7 +318,7 @@
     rootjQuery = jQuery(document);
     (function(window, undefined)
     {
-      var support, Expr, setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
+      var setDocument, document, docElem, expando = "sizzle" + -(new Date()), preferredDoc = window.document, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", matchExpr = {
         "bool": new RegExp(("^(?:" + booleans) + ")$", "i")
       };
       function Sizzle(selector, context, results, seed){}      function assert(fn)
@@ -335,17 +335,11 @@
         var documentElement = elem && (elem.ownerDocument).documentElement;
         return documentElement ? documentElement.nodeName !== "HTML" : 0;
       };
-      support = Sizzle.support = {};
       setDocument = Sizzle.setDocument = function(node)
       {
         var doc = node ? 0 : preferredDoc;
         document = doc;
         docElem = doc.documentElement;
-        support.attributes = assert(function(div)
-        {
-          div.className = "i";
-          return !(div.getAttribute("className"));
-        });
         assert(function(div)
         {
           docElem.appendChild(div).id = expando;
@@ -353,17 +347,10 @@
         });
         return doc;
       };
-      Sizzle.attr = function(elem, name)
-      {
-        var fn = Expr.attrHandle[name.toLowerCase()], val = fn ? 0 : undefined;
-        return val === undefined ? support.attributes ? elem.getAttribute(name) : 0 : 0;
-      };
-      Expr = Sizzle.selectors = {
-        match: matchExpr, 
-        attrHandle: {}
+      Sizzle.selectors = {
+        match: matchExpr
       };
       setDocument();
-      jQuery.find = Sizzle;
       jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
@@ -567,7 +554,7 @@
       valHooks: {}, 
       attr: function(elem, name, value)
       {
-        var hooks, ret, nType = elem.nodeType;
+        var hooks, nType = elem.nodeType;
         if(nType !== 1 || !(jQuery.isXMLDoc(elem)))
         {
           name = name.toLowerCase();
@@ -583,12 +570,6 @@
             elem.setAttribute(name, value + "");
             return value;
           }
-        }
-        else if(hooks);
-        else 
-        {
-          ret = jQuery.find.attr(elem, name);
-          return ret == null ? 0 : ret;
         }
       }, 
       removeAttr: function(elem, value){}, 
@@ -846,10 +827,8 @@
   var div, input = jQuery("<input name='tester' />");
   assertEqual(input.clone(true).attr("name", "test")[0].name, "test", "Name attribute should be changed on cloned element");
   div = jQuery("<div id='tester' />");
-  div.attr("id");
   assertEqual(div.clone(true).attr("id", "test")[0].id, "test", "Id attribute should be changed on cloned element");
   input = jQuery("<input value='tester' />");
-  input.attr("value");
   assertEqual(input.clone(true).attr("value", "test")[0].value, "test", "Value attribute should be changed on cloned element");
   assertEqual(input.clone(true).attr("value", 42)[0].value, "42", "Value attribute should be changed on cloned element");
 </script>

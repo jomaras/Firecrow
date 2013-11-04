@@ -114,14 +114,17 @@
     <textarea id="loadingTimeTextArea"></textarea>
     <textarea id="astNodesTextArea"></textarea>
     <textarea id="slicingCriteriaCountTextArea"></textarea>
+    <textarea id="noEvaluatedExpressionsTextArea"></textarea>
     <script>
         (function()
         {
             var dateNow = Date.now;
+
             var slicingResultTextArea = document.getElementById("slicingResultTextArea");
             var loadingTimeTextArea = document.getElementById("loadingTimeTextArea");
             var astNodesTextArea = document.getElementById("astNodesTextArea");
             var slicingCriteriaCountTextArea = document.getElementById("slicingCriteriaCountTextArea");
+            var noEvaluatedExpressionsTextArea = document.getElementById("noEvaluatedExpressionsTextArea");
 
             var pageModel = { doctype:"", htmlElement: JSON.parse(window.getSource(window.queryString["url"]))};
 
@@ -168,7 +171,8 @@
 
             astNodesTextArea.textContent = nodeId;
             loadingTimeTextArea.textContent = dateNow() - startTime;
-            slicingCriteriaCountTextArea.textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria++;
+            slicingCriteriaCountTextArea.textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
+            noEvaluatedExpressionsTextArea.textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
         })();
     </script>
 

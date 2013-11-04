@@ -121,10 +121,10 @@ var ScenarioGenerator =
 
     _getExecutionInfoFromPage: function(page)
     {
-        return ObjectConverter.convertToFullObjects(JSON.parse(page.evaluate(function()
+        return ObjectConverter.convertToFullObjects(JSON.parse (page.evaluate(function()
         {
             var executionInfo = document.querySelector("#executionInfo");
-            return executionInfo != null ? executionInfo.value : "{}";
+            return executionInfo != null ? executionInfo.value || "{}" : "{}";
         })), this._pageModelMapping);
     },
 
@@ -210,39 +210,42 @@ var ScenarioGenerator =
 
             var executionInfoSummary = ScenarioGenerator._getExecutionInfoFromPage(page);
 
-            var eventRegistrations = executionInfoSummary.eventRegistrations;
-            var achievedCoverage = executionInfoSummary.achievedCoverage;
-
-            if(ScenarioGenerator.shouldPrintDetailedMessages)
+            if(executionInfoSummary != null)
             {
-                ScenarioGenerator._printCoverage(achievedCoverage, "Page loading Coverage");
-            }
+                var eventRegistrations = executionInfoSummary.eventRegistrations;
+                var achievedCoverage = executionInfoSummary.achievedCoverage;
 
-            if(ScenarioGenerator._hasAchievedFullCoverage(achievedCoverage))
-            {
-                return;
-            }
+                if(ScenarioGenerator.shouldPrintDetailedMessages)
+                {
+                    ScenarioGenerator._printCoverage(achievedCoverage, "Page loading Coverage");
+                }
 
-            if(eventRegistrations.length == 0)
-            {
-                ScenarioGenerator._noMoreScenariosForProcessing();
-                return;
-            }
+                if(ScenarioGenerator._hasAchievedFullCoverage(achievedCoverage))
+                {
+                    return;
+                }
 
-            ScenarioGenerator._updateTotalCoverage(executionInfoSummary.executedConstructsIdMap);
+                if(eventRegistrations.length == 0)
+                {
+                    ScenarioGenerator._noMoreScenariosForProcessing();
+                    return;
+                }
 
-            for(var i = 0; i < eventRegistrations.length; i++)
-            {
-                var eventRegistration = eventRegistrations[i];
+                ScenarioGenerator._updateTotalCoverage(executionInfoSummary.executedConstructsIdMap);
 
-                var event = EventModule.Event.createFromEventRegistration(eventRegistration);
+                for(var i = 0; i < eventRegistrations.length; i++)
+                {
+                    var eventRegistration = eventRegistrations[i];
 
-                var newScenario = new ScenarioModule.Scenario([event], null, null, ScenarioModule.Scenario.CREATION_TYPE.newEvent);
-                var parametrizedEvents = EventModule.ParametrizedEvent.createFromEvents(newScenario.events, newScenario.inputConstraint);
-                newScenario.setParametrizedEvents(parametrizedEvents);
-                ScenarioGenerator._mapParametrizedEvents(newScenario, parametrizedEvents);
+                    var event = EventModule.Event.createFromEventRegistration(eventRegistration);
 
-                ScenarioGenerator.scenarios.addScenario(newScenario);
+                    var newScenario = new ScenarioModule.Scenario([event], null, null, ScenarioModule.Scenario.CREATION_TYPE.newEvent);
+                    var parametrizedEvents = EventModule.ParametrizedEvent.createFromEvents(newScenario.events, newScenario.inputConstraint);
+                    newScenario.setParametrizedEvents(parametrizedEvents);
+                    ScenarioGenerator._mapParametrizedEvents(newScenario, parametrizedEvents);
+
+                    ScenarioGenerator.scenarios.addScenario(newScenario);
+                }
             }
 
             page.open(emptyPageUrl);

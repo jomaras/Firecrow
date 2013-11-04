@@ -63,6 +63,8 @@ fcSimulator.prototype = dummy =
                     this.globalObject.browser.callExpressionEvaluatedCallbacks(codeConstruct);
                 }
 
+                fcSimulator.noOfEvaluatedExpressions++;
+
                 //Uncomment to enable application tracing
                 /*if(codeConstruct.loc != null && codeConstruct.loc.start.line >= 9491 && codeConstruct.loc.start.line <= 9507)
                 {

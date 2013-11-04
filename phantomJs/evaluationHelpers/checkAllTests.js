@@ -15,8 +15,8 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 var htmlFiles = [];
 
 var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\";
-var libraryName = "prototype";
-var sliceType = "slicedWithoutSliceUnions"; //profiled, slicedAll, slicedWithoutSliceUnions
+var libraryName = "jQuery";
+var sliceType = "slicedAll"; //profiled, slicedAll, slicedWithoutSliceUnions
 var libraryFolder = rootFolder + libraryName + fs.separator;
 var checkFolder = libraryFolder + sliceType + fs.separator;
 

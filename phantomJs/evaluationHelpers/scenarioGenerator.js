@@ -27,7 +27,7 @@ ScenarioGenerator.setEmpiricalData(JSON.parse(fs.read(scenarioEmpiricalDataPath)
 ScenarioGenerator.generateScenarios("http://localhost/Firecrow/evaluation/fullPages/" + pageName + "/index.json", function(scenarios, message, coverage)
 {
     console.log(message);
-    console.log("The process has achieved branch coverage: " + coverage.branchCoverage);
+    console.log("The process has achieved branch coverage: " + (coverage != null ? coverage.branchCoverage : 0));
 
     var markupCode = ScenarioGenerator.generateVisitedMarkup();
 

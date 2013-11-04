@@ -22,3 +22,8 @@ window.getSource = function (url)
 
     return xmlHttpRequest.responseText;
 };
+
+window.getSourceOverPhp = function()
+{
+
+};

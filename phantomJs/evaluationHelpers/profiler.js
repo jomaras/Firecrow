@@ -11,11 +11,11 @@ var pageIndex = 0;
 var libraryName = system.args[1] || "jQuery";
 var executeRegisteredEvents = libraryName == "jQuery";
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
-var destinationName = system.args[2] || "slicedAll";//profiled; slicedAll; slicedWithoutSliceUnions;
+var destinationName = system.args[2] || "profiled";//profiled; slicedAll; slicedWithoutSliceUnions;
 var destinationFolder = libraryFolder + destinationName;
-var logFile = destinationFolder + "\\logAll.txt";
+var logFile = destinationFolder + "\\profiling.txt";
 
-var rootName = system.args[3] || "adjusted_models";
+var rootName = system.args[3] || "profiled_models";
 var rootFolder = libraryFolder + rootName;
 
 var emptyPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/emptyPage.html";
@@ -23,7 +23,7 @@ var emptyPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/emptyPage.ht
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
-console.log("Slicer started!");
+console.log("Profiler started!");
 var log = "";
 modelFiles = fs.list(rootFolder).map(function(fileName)
 {
@@ -41,17 +41,15 @@ var interval = setInterval(function()
     {
         var modelUrl = modelFiles[pageIndex].replace("C:\\GitWebStorm\\", "http:\\\\localhost\\").replace(/\\/g, "/");
         var slicerPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/slicer.html"
-                        + "?url=" + modelUrl
-                        + (executeRegisteredEvents ? ("&executeRegisteredEvents=" + executeRegisteredEvents)  : "")
-                        + (destinationName == "profiled" ? ("&sliceType=profile")  : "")
-                        + (destinationName == "slicedAll" ? ("&sliceType=sliceAll")  : "")
-                        + (destinationName == "slicedWithoutSliceUnions" ? ("&sliceType=sliceWithoutUnions")  : "");
+            + "?url=" + modelUrl
+            + (executeRegisteredEvents ? ("&executeRegisteredEvents=" + executeRegisteredEvents)  : "")
+            + "&sliceType=profile";
 
         page.open(encodeURI(slicerPageUrl));
     }
     if (pageIndex == modelFiles.length)
     {
-        console.log("Testing complete - # processed pages: " + pageIndex);
+        console.log("Profiling complete - # processed pages: " + pageIndex);
         fs.write(logFile, log);
         phantom.exit();
     }

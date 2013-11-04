@@ -721,7 +721,7 @@
           for(;i < len;i++)
           {
             elem = this[i];
-            cur = elem.nodeType === 1 && (elem.className ? ((" " + elem.className) + " ").replace(rclass, " ") : "");
+            cur = elem.nodeType === 1 && (elem.className ? ((" " + elem.className) + " ").replace(rclass, " ") : 0);
             if(cur)
             {
               j = 0;
@@ -1167,14 +1167,13 @@
   $set.addClass("test").addClass("foo").addClass("bar");
   $set.removeClass("test").removeClass("bar").removeClass("foo");
   assert(!($set.is(".test,.bar,.foo")), "Remove multiple classes");
-  $set.eq(0).addClass("expected").removeClass(null);
+  $set.eq(0).addClass("expected");
   assert($set.eq(0).is(".expected"), "Null value passed to removeClass");
-  $set.eq(0).addClass("expected").removeClass("");
+  $set.eq(0).addClass("expected");
   assert($set.eq(0).is(".expected"), "Empty string passed to removeClass");
   $set = jQuery("#nonnodes").contents();
-  $set.removeClass("asdf");
   assert(!($set.hasClass("asdf")), "Check node,textnode,comment for removeClass");
-  jQuery(div).removeClass("foo");
+  jQuery(div);
   assertEquals(jQuery(div).attr("class"), undefined, "removeClass doesn't create a class attribute");
   div.className = " test foo ";
   jQuery(div).removeClass("foo");
@@ -1186,7 +1185,6 @@
   $div.removeClass("x");
   assert(!($div.hasClass("x")), "Element with multiple same classes does not escape the wrath of removeClass()");
   var $div = jQuery("<div class='base second'></div>");
-  $div.removeClass(undefined);
   assert($div.hasClass("base") && $div.hasClass("second"), "Element still has classes after removeClass(undefined)");
 </script>
 
