@@ -17,67 +17,457 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/3.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/3.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/132/index.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addClass.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addRemoveHasClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addRemoveHasClass.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_hash.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_hash.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_propStringObject.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_propStringObject.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_stringFunction.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_stringFunction.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_stringOnClonedElements.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_stringOnClonedElements.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string_object.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_string_object.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_tabIndex.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-attr_tabIndex.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-propTabIndex.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-propTabIndex.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-propTabIndexValue.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-propTabIndexValue.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removaAttrMultiString.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removaAttrMultiString.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removeAttrString.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removeAttrString.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removeClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removeClass.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removePropString.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-removePropString.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-toggleClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-toggleClass.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-toggleClassFunction.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-toggleClassFunction.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-val.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-val.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valFunction.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valFunction.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valSelect.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-valSelect.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation09appendTo.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addClass.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-addRemoveHasClass.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-attr_hash.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-attr_propStringObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-attr_stringFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-attr_stringOnClonedElements.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-attr_string_object.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-attr_tabIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-propTabIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-propTabIndexValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-removaAttrMultiString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-removeAttrString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-removeClass.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-removePropString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-toggleClass.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-toggleClassFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-val.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-valFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\attributes-valSelect.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core01jQuery.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core02SelectorContext.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core03SelectorState.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core05trim.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core06Type.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core07isPlainObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core08isFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core09isNumeric.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core10isWindow.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core12jQueryHtmlContext.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core13End.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core14Length.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core15InArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core16GetNumber.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core17Get-Number.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core18each.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core19slice.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core20firstLast.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core21map.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core22merge.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core23makeArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core24isEmptyObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\core26camelCase.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css01StringHash.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css02ExplicitAndRelativeValues.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css03StringObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css04Array.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css05StringFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css06StringFunctionValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css07ObjectValuesFunctions.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css08ObjectValuesFunctionsIncoming.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css09ShowHide.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css09bShowHide.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css10showDefault.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css11ShowDetached.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css12toggle.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css13hideHidden.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css14cssElemHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css15marginRight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css16cssProps.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\css18VisibleHidden.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data01Expando.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data02DataAndRemoveDataExpectedReturns.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data03_DataAnd_RemoveDataExpectedReturns.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data04hasDataNoSideEffects.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data05dataOnElement.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data06dataOnEmptyObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data07DataOnWindow.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data08Data.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data09dataStringObjectString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data10plainObjectDataStringObjectString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data12dataObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data13removeData.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data14removeData.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data15CamelCasing.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data16MissData.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data17MissAttr.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\data19removeDataHyphenated.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\deffered01.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions01width.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions02width.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions03widthFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions04height.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions05height.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions06heightFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions07innerWidth.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions08innerHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions09outerWidth.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions10HiddenElementChildHasAccurate.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions11GettingDimensionsShouldNotModify.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions12TableDimensions.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions14outerHight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions15passingUndefinedIsSetter.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\dimensions16gettersOnNonElementsReturnNull.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects01ShowBasic.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects02Show.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects04PersistCorrectDisplayValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects05HashObjectFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects06animateRelative.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects07animateNegativeHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects08animateNegativeMargin.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects10animateNegativeMarginWithPx.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects11animateNegativePadding.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects12animateBlockAsInline.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects13animateNativeInlineWidthHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects14animateBlockWidthHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects15animateTableWidthHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects16animateTableRowWidthHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects17animateTableCellWidthHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects18animatePercentageOnWidthHeight.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects19animateResetsOverflow.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects20animateOption.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects21animateOptionQueue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects22animateOptionQueueName.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects23animateWithNoProperties.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects24animateDuration.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects25animateHyphenatedProperties.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects26animateNonElement.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects28stopInQueue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects30stopClearQueueGoToEnd.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects31toggle.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects33jQueryShowFast.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects36animateWithPerPropertyEasing.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects37hideHiddenElements.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects38animateUnitLessProperties.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects39animatePropertiesMissingPx.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects40animateWillScaleMarginProperties.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects41animateShouldSetDisplayForDisconnectedNodes.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects42animateProperlySetsOverflowHidden.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects43animationsWith0DurationDontEase.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects44fxStartAndStopHookPoints.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects45finishCompletesAllQueued.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects46finishFalse.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\effects47finishCustom.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation01.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation02textUndefined.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation03textString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation04textFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation05textFunctionIncomingValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation06appendForObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation07appendForObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation08appendParam.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation10prepend.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation11prependFunctionIncoming.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation12prependTo.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation13BeforeAfterEmpty.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation14insertBefore.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation15insertAfter.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation16replaceWith.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation17emptyReplaceWith.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation18replaceAll.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation19appendToMultiple.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation20TableManipulation.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation21Clone.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\manipulation22Html.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\offset01emptySet.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\offset02objectWithoutBounding.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\offset03disconnectedNode.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\offset04Chaining.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\offset05Parent.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted\playground.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models\attributes-propTabIndex.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models\attributes-propTabIndexValue.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models\attributes-removaAttrMultiString.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models\attributes-removeAttrString.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models\attributes-toggleClass.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models\attributes-toggleClassFunction.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models\attributes-val.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\adjusted_models\attributes-valFunction.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-addRemoveHasClass.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-attr_hash.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-attr_propStringObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-attr_stringFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-attr_stringOnClonedElements.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-attr_string_object.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-attr_tabIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-propTabIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-propTabIndexValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-removaAttrMultiString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-removeAttrString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-removeClass.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-removePropString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-toggleClass.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-toggleClassFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-val.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-valFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-valSelect.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core01jQuery.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core02SelectorContext.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core03SelectorState.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core05trim.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core06Type.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core07isPlainObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core08isFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core09isNumeric.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core10isWindow.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core12jQueryHtmlContext.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core13End.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core14Length.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core15InArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core16GetNumber.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core17Get-Number.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core18each.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core19slice.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core20firstLast.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core21map.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core22merge.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core23makeArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core24isEmptyObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\core26camelCase.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\playground.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array01FlattenMultiDimensArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array02FlattenArguments.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array03FilterArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array04CleanArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array05MappingOfArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array06TrueIfMatchesComparator.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array07TrueIfSomeMatchesComparator.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array08itemIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array09-1IfNotFound.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array10trueIfContains.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array11falseIfNotContains.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array12associate.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array15combineArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array16includeOnlyNewItems.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array17last.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array18nullIfNoElements.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Array19arrayColor.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class01creation.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class02extrasArgumentsToTheFunctionReturnValues.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class03extrasChainNumFunc.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class04extrasChainArrFunc.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class05extrasEachInstanceOwnChain.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class06extrasClearChain.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class07extrasClearChainWithin.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class08extrasEventAddToClass.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class10removeSpecificMethodForEvent.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class11removeEventAndItsMethods.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class12removeAllEvents.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class13removeEventsWithObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class14extrasEventAddToClassElement.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class15multipleClassEventsElement.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class16removeSpecificMethodForElement.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class17removeEventAndItsMethodsElement.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class18removeAllElement.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class19removeEventsWithObjectElement.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class20extrasOptionsClassShouldSet.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class21extrasOptionsClassShouldOverride.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\Class22extrasOptionsClassWithEvents.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\adjusted\playground.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\mootools-core.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\test\original\Class.Extras.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\test\original\Class.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\mooTools\test\original\Core.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array01A.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array02ArrayOnArguments.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array03OnNodeList.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array04OnPrimitive.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array05Clear.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array06Clone.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array07First.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array08Last.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array09Compact.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array10Flatten.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array11IndexOf.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array12LastIndexOf.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array13Inspect.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array14Intersect.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array15Reverse.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array16Size.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array17Uniq.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array18Without.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array19W.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array20Concat.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array21EachSparseArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array22MapGeneric.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array23Map.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array24FindAllGeneric.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array25FindAll.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array26AnyGeneric.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array27Any.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array28AllGeneric.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Array29All.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Class01Create.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Class02Instantiation.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Class03Inheritance.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Class04SuperclassMethodCall.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Class05AddMethods.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Class06WithMixin.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Class07SubclassWithMixin.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Class08SubclassWithMixins.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable01ReturnAsContinue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable02EachIndexValueCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable03EachChaining.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable04EnumContext.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable05Any.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable06AnyValueIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable07All.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable08AllIndexValueCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable09Collect.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable10CollectValueIndexCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable13EachSlice.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable14EachIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable15FindAll.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable16findAllIndexValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable17grep.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable18grepIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable20InGroupsOf.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable21Inject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable22InjectMemoValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable23Invoke.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable24Max.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable25MaxPasses.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable26Min.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable27MinPasses.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable28Partition.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable29PartitionIndexValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable30Pluck.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable31Reject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable32RejectIndexValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable33SortBy.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable34SortByIndexValue.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable35toArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable36zip.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Enumerable37size.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash01set.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash02get.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash03unset.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash04toObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash05Construct.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash06Keys.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash07Values.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash08Index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash09Merge.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash10Update.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash11QueryString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash12Inspect.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash13Clone.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash14AbilityToContainAnyKey.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash15toTemplateReplacements.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash16IterationOverShadowedProperties.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\adjusted\Hash17IterationWithEach.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\classes.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\enumerable.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\hash.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\prototype.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\RangeTest.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\RegEx.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\SelectorEngine.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\SelectorTest.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\StringTest.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\base.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\class.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\domTest.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\enumerable.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\eventHandler.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\eventTest.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\formTest.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\functionTest.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\layout.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\number.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\object.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\prototype\tests\periodical.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\sylvester\sylvester.src.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\ChainingMapFlattenReduce.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\ChainingReverseConcatUnshiftPopMap.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\ChainingSelectRejectSortBy.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\ChainingSelectRejectSortByFunctional.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\ChainingSmallStages.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections01each.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections02map.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections03reduce.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections05find.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections06detect.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections07select.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections08reject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections09all.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections10any.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections11include.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections12invoke.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections13invokeFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections14invokeStrings.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections15pluck.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections16where.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections17findWhere.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections18max.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections19min.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections20sortBy.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections21groupBy.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections22indexBy.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections23countBy.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections24sortedIndex.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections25shuffle.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections26toArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Collections27size.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions01bind.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions02partial.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions03bindAll.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions04memoize.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions05delay.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions06defer.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions07throttle.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions08throttleArgs.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions09throttleOnce.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions10throttleTwice.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions11debounce.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions12once.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions13recursiveOnce.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions14Wrap.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions15Compose.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Functions16After.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects01Keys.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects02Values.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects03Pairs.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects04Invert.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects05Functions.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects06Extend.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects07Pick.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects08Omit.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects09Defaults.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects10Clone.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects11isEqual.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects12isEmpty.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects13isArguments.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects14isObject.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects15isArray.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects16isString.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects17isNumber.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects18isBoolean.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects19isFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects20isDate.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects21isRegExp.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects22isFinite.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects23isNaN.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects24isNull.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects25isUndefined.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\adjusted\Objects26Has.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\index-backup.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\underscore\index.html" afterPath="" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\evaluation\libraries\jQuery\slicedAll\attributes-attr_string.html" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core01jQuery.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core01jQuery.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core02SelectorContext.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core02SelectorContext.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core03SelectorState.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core03SelectorState.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core05trim.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core05trim.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core06Type.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core06Type.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core07isPlainObject.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core07isPlainObject.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core08isFunction.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core08isFunction.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core09isNumeric.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core09isNumeric.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core10isWindow.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core10isWindow.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core12jQueryHtmlContext.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core12jQueryHtmlContext.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core13End.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core13End.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core14Length.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core14Length.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core15InArray.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core15InArray.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core16GetNumber.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core16GetNumber.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core17Get-Number.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core17Get-Number.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core18each.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core18each.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core19slice.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core19slice.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core20firstLast.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core20firstLast.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core21map.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core21map.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core22merge.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core22merge.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core23makeArray.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core23makeArray.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core24isEmptyObject.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core24isEmptyObject.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core26camelCase.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/core26camelCase.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/playground.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/playground.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js" afterPath="$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/status.txt" afterPath="$PROJECT_DIR$/evaluation/libraries/status.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -127,10 +517,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="profiler.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="26" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1734">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slicingDataResultsAggregator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="132" column="45" selection-start="5236" selection-end="5236" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
+              <folding>
+                <element signature="e#538#4559#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="runAllSlicerConfigurationsOnLibraries.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="63" selection-start="392" selection-end="392" vertical-scroll-proportion="0.098265894" vertical-offset="153" max-vertical-offset="2567">
+            <state line="132" column="97" selection-start="3985" selection-end="3985" vertical-scroll-proportion="0.5584416" vertical-offset="1857" max-vertical-offset="2601">
               <folding />
             </state>
           </provider>
@@ -167,22 +577,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
         <option value="$PROJECT_DIR$/evaluation/libraries/status.txt" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/profilers.js" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
         <option value="$PROJECT_DIR$/debug/slicingTests/132/index.json" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js" />
         <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
         <option value="$PROJECT_DIR$/debug/slicingTests/132/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js" />
+        <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" />
         <option value="$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js" />
       </list>
     </option>
   </component>
@@ -3024,7 +3434,15 @@
       <created>1383546103527</created>
       <updated>1383546103528</updated>
     </task>
-    <option name="localTasksCounter" value="642" />
+    <task id="LOCAL-00642" summary="Minor changes">
+      <created>1383637589906</created>
+      <updated>1383637589906</updated>
+    </task>
+    <task id="LOCAL-00643" summary="Minor changes">
+      <created>1383637593286</created>
+      <updated>1383637593286</updated>
+    </task>
+    <option name="localTasksCounter" value="644" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3063,17 +3481,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21062161" sideWeight="0.76464325" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21062161" sideWeight="0.76734257" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39708266" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23535676" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23265742" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989305" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -3082,38 +3501,12 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5635005" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.56656015" sideWeight="0.49973643" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39764202" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39375" sideWeight="0.43511903" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989305" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17104216" sideWeight="0.6072607" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21667908" sideWeight="0.6596434" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34035656" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -3164,112 +3557,102 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/131/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="63" selection-start="318" selection-end="318" vertical-scroll-proportion="0.23423423" vertical-offset="116" max-vertical-offset="782" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/profiled/02-Maximum.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1445">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/profiled/timingLog.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="692">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/slicedAll/timingLog.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="692">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="4" selection-start="352" selection-end="352" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2805">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/slicedAll/profiling.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="692">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/slicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="174" column="107" selection-start="10996" selection-end="11020" vertical-scroll-proportion="-19.615385" vertical-offset="2448" max-vertical-offset="3145">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/profiled/profiling.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="692">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/profiled/profilingN.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="72" selection-start="120" selection-end="120" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/profiled_models/02-Maximum.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="679">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="24" selection-start="523" selection-end="523" vertical-scroll-proportion="0.2947977" vertical-offset="85" max-vertical-offset="1411">
+        <state line="64" column="60" selection-start="2012" selection-end="2012" vertical-scroll-proportion="0.0" vertical-offset="959" max-vertical-offset="1649">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/profiled/logAll.txt">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/jQuery-src.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="27" selection-start="388" selection-end="388" vertical-scroll-proportion="0.07369942" vertical-offset="0" max-vertical-offset="692">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="166515">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/attributes-addClass.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="52" selection-start="2690" selection-end="2714" vertical-scroll-proportion="0.87920487" vertical-offset="581" max-vertical-offset="9418">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5236">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/manipulation09appendTo.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="61" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.826215" vertical-offset="0" max-vertical-offset="1734">
+        <state line="0" column="1397" selection-start="1397" selection-end="1397" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="633">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted_models/attributes-addClass.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="49" selection-start="49" selection-end="49" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="102">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/manipulation09appendTo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="4777">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="30" selection-start="397" selection-end="397" vertical-scroll-proportion="0.325" vertical-offset="0" max-vertical-offset="21624">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="43" selection-start="586" selection-end="586" vertical-scroll-proportion="0.3755523" vertical-offset="0" max-vertical-offset="1768">
+        <state line="27" column="55" selection-start="912" selection-end="912" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1819">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="127" column="31" selection-start="3866" selection-end="3866" vertical-scroll-proportion="0.5093795" vertical-offset="1806" max-vertical-offset="2499">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="26" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1734">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/profiled/profiling.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="693">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/profiling.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="693">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="132" column="45" selection-start="5236" selection-end="5236" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
+          <folding>
+            <element signature="e#538#4559#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="63" selection-start="392" selection-end="392" vertical-scroll-proportion="0.098265894" vertical-offset="153" max-vertical-offset="2567">
+        <state line="132" column="97" selection-start="3985" selection-end="3985" vertical-scroll-proportion="0.5584416" vertical-offset="1857" max-vertical-offset="2601">
           <folding />
         </state>
       </provider>

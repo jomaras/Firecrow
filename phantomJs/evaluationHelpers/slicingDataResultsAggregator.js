@@ -3,13 +3,12 @@ var fs = require('fs');
 
 console.log("Aggregating slicing results");
 
-var libraryNames = ["gauss"];["gauss", "sylvester", "prototype", "jQuery", "mooTools", "underscore"];
+var libraryNames = ["jQuery", "gauss", "sylvester", "prototype", "mooTools", "underscore"];
 var slicingTypes = ["profiled", "slicedAll", "slicedWithoutSliceUnions"];
-
-var aggregatedData = {};
 
 for(var i = 0; i < libraryNames.length; i++)
 {
+    var aggregatedData = {};
 
     var libraryName = libraryNames[i];
     var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
@@ -123,9 +122,9 @@ for(var i = 0; i < libraryNames.length; i++)
     htmlCode += "<table>"
     htmlCode += "<tr>"
              +  "<th>Page</th>"
-             +  "<th>P-LTime</th><th>P-STime</th><th>P-LOC</th><th>P-SC</th><th>P-OAST</th><th>P-SAST</th><th>P-OEXE</th><th>P-SEXE</th>"
-             +  "<th>SA-LTime</th><th>SA-STime</th><th>SA-LOC</th><th>SA-SC</th><th>SA-OAST</th><th>SA-SAST</th><th>SA-OEXE</th><th>SA-SEXE</th>"
-             +  "<th>SWSU-LTime</th><th>SWSU-STime</th><th>SWSU-LOC</th><th>SWSU-SC</th><th>SWSU-OAST</th><th>SWSU-SAST</th><th>SWSU-OEXE</th><th>SWSU-SEXE</th>"
+             +  "<th>P LT</th><th>P ST</th><th>P LOC</th><th>P SC</th><th>P OAST</th><th>P SAST</th><th>P OEXE</th><th>P SEXE</th>"
+             +  "<th>SA LT</th><th>SA ST</th><th>SA LOC</th><th>SA SC</th><th>SA OAST</th><th>SA SAST</th><th>SA OEXE</th><th>SA SEXE</th>"
+             +  "<th>SW LT</th><th>SW ST</th><th>SW LOC</th><th>SW SC</th><th>SW OAST</th><th>SW SAST</th><th>SW OEXE</th><th>SW SEXE</th>"
              +  "</tr>"
 
     for(var fileName in aggregatedData)
@@ -138,7 +137,7 @@ for(var i = 0; i < libraryNames.length; i++)
         {
             htmlCode += "<td class='loadingTime'>" + aggregatedData[fileName][slicingType].loadingTime  + "</td>"
                       + "<td class='slicingTime'>" + aggregatedData[fileName][slicingType].slicingTime  + "</td>"
-                      + "<td class='loc'>" + aggregatedData[fileName][slicingType].loc  + " LOC</td>"
+                      + "<td class='loc'>" + aggregatedData[fileName][slicingType].loc  + "</td>"
                       + "<td class='slicingCriteriaCount'>" + aggregatedData[fileName][slicingType].slicingCriteriaCount  + " </td>"
                       + "<td class='originalASTNodes'>" + aggregatedData[fileName][slicingType].numberOfAstNodes  + "</td>"
                       + "<td class='afterSliceASTNodes'>" + (aggregatedData[fileName][slicingType].afterSliceNumberOfAstNodes || "")  + "</td>"

@@ -9,16 +9,15 @@ var PAGE_ASSERTION_FAILS = 0;
 var TOTAL_ASSERTION_FAILS = 0;
 var PAGE_FAILS = 0;
 
-page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); PAGE_ASSERTION_FAILS++; };
-page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
-
 var htmlFiles = [];
 
 var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\";
-var libraryName = system.args[1] || "jQuery";
+var libraryName = system.args[1] || "gauss";
 var sliceType = system.args[2] || "slicedAll"; //profiled, slicedAll, slicedWithoutSliceUnions
 var libraryFolder = rootFolder + libraryName + fs.separator;
 var checkFolder = libraryFolder + sliceType + fs.separator;
+
+var emptyPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/emptyPage.html";
 
 htmlFiles = fs.list(checkFolder).map(function(fileName)
 {
@@ -35,44 +34,59 @@ var startTime = null;
 
 var log = "";
 
-var interval = setInterval(function() {
-    if (!loadInProgress && pageIndex < htmlFiles.length)
-    {
-        page.open(htmlFiles[pageIndex]);
+page.onInitialized = function() {  page.injectJs("C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\injections\\assertDefinitions.js");};
+page.onLoadStarted = function() { };
+page.onLoadFinished = function()
+{
+    page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); PAGE_ASSERTION_FAILS++; };
+    page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
+
+    startChecking();
+}
+
+page.open(htmlFiles[0] || emptyPageUrl);
+
+function startChecking()
+{
+    var interval = setInterval(function() {
+        if (!loadInProgress && pageIndex < htmlFiles.length)
+        {
+            page.open(htmlFiles[pageIndex]);
+        }
+        if (pageIndex == htmlFiles.length)
+        {
+            console.log("Testing complete - # processed pages: " + pageIndex + ", fails: " + PAGE_FAILS);
+            fs.write(checkFolder + "timingLog.txt", log);
+            phantom.exit();
+        }
+    }, 250);
+
+    page.onInitialized = function() {
+        page.injectJs("C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\injections\\assertDefinitions.js");
+        PAGE_ASSERTION_FAILS = 0;
+    };
+
+    page.onLoadStarted = function() {
+        startTime = Date.now();
+        loadInProgress = true;
+    };
+
+    page.onLoadFinished = function() {
+        loadInProgress = false;
+
+        TOTAL_ASSERTION_FAILS += PAGE_ASSERTION_FAILS;
+
+        if(PAGE_ASSERTION_FAILS != 0)
+        {
+            PAGE_FAILS++;
+            console.log("ERROR - Assertions failed in file: " + htmlFiles[pageIndex]);
+        }
+        else
+        {
+            log += htmlFiles[pageIndex] + "---" + (Date.now() - startTime) + "\r\n";
+            console.log("OK - " + htmlFiles[pageIndex] + " in " + (Date.now() - startTime) + "msec");
+        }
+
+        pageIndex++;
     }
-    if (pageIndex == htmlFiles.length)
-    {
-        console.log("Testing complete - # processed pages: " + pageIndex + ", fails: " + PAGE_FAILS);
-        fs.write(checkFolder + "timingLog.txt", log);
-        phantom.exit();
-    }
-}, 250);
-
-page.onInitialized = function() {
-    page.injectJs("C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\injections\\assertDefinitions.js");
-    PAGE_ASSERTION_FAILS = 0;
-};
-
-page.onLoadStarted = function() {
-    startTime = Date.now();
-    loadInProgress = true;
-};
-
-page.onLoadFinished = function() {
-    loadInProgress = false;
-
-    TOTAL_ASSERTION_FAILS += PAGE_ASSERTION_FAILS;
-
-    if(PAGE_ASSERTION_FAILS != 0)
-    {
-        PAGE_FAILS++;
-        console.log("ERROR - Assertions failed in file: " + htmlFiles[pageIndex]);
-    }
-    else
-    {
-        log += htmlFiles[pageIndex] + "---" + (Date.now() - startTime) + "\r\n";
-        console.log("OK - " + htmlFiles[pageIndex] + " in " + (Date.now() - startTime) + "msec");
-    }
-
-    pageIndex++;
 }

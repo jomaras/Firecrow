@@ -10,7 +10,7 @@ var pageIndex = 0;
 
 var libraryName = system.args[1] || "jQuery";
 var sourceFolder = system.args[2] || "profiled";
-var destinationFolderAddon = system.args[3] || "_models";
+var destinationFolderAddon = "_models";
 
 var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\" + sourceFolder;
 
@@ -65,9 +65,16 @@ page.onLoadFinished = function() {
             {
                 elem.textContent = rootElement.textContent;
 
-                if(rootElement.src != null)
+                if(rootElement.tagName == "SCRIPT")
                 {
-                    elem.textContent = externalFiles[rootElement.src];
+                    elem.textContent = rootElement.text;
+
+                    unifyChildTextNodes(elem);
+
+                    if(rootElement.src != null)
+                    {
+                        elem.textContent = externalFiles[rootElement.src];
+                    }
                 }
             }
 
@@ -108,6 +115,20 @@ page.onLoadFinished = function() {
             }
 
             return allNodes;
+        }
+
+        function unifyChildTextNodes(elem)
+        {
+            var childNodes = elem.childNodes;
+            var newChild = { type: "textNode", textContent: ""};
+            var textContent;
+
+            for(var i = 0; i < childNodes.length; i++)
+            {
+                newChild.textContent += childNodes[i].textContent;
+            }
+
+            elem.childNodes = [newChild];
         }
 
         return JSON.stringify(getSimplifiedElement(document.documentElement));

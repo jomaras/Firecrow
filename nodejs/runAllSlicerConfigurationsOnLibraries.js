@@ -2,8 +2,8 @@ var spawn = require('child_process').spawn;
 
 var fs = require('fs');
 
-var libraryNames = ["sylvester", "prototype", "underscore", "mooTools", "jQuery", "gauss"];
-var slicingTypes = ["profiled", "slicedAll", "slicedWithoutSliceUnions"];
+var libraryNames = ["jQuery"];
+var slicingTypes = ["slicedWithoutSliceUnions", "slicedAll", "profiled"];
 
 var allCombinations = getAllCombinations(libraryNames, slicingTypes);
 
@@ -14,7 +14,7 @@ function processNextCombination()
     processOutput = "";
     if(allCombinations == null || allCombinations.length == 0)
     {
-        console.log("Process finished - comparing coverages");
+        console.log("NodeJs: Process finished - comparing coverages");
         spawnPhantomJsProcess
         (
             'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\slicingDataResultsAggregator.js',
@@ -41,13 +41,13 @@ function processNextCombination()
     spawnPhantomJsProcess
     (
         'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\slicer.js',
-        [libraryName, slicingType, "adjusted_models"],
+        [libraryName, slicingType],
         function (data)
         {
             var str = data.toString()
             var lines = str.split(/(\r?\n)/g);
             processOutput += lines.join("");
-            console.log("Slicer: " + str);
+            console.log("Slicer: " + str.trim());
         },
         function (code)
         {
@@ -70,7 +70,7 @@ function generateModels(libraryName, slicingType)
         function (data) {},
         function (code)
         {
-            console.log("Finished generating page models!");
+            console.log("NodeJs: Finished generating page models!");
             checkCorrectness(libraryName, slicingType);
         }
     );
@@ -88,7 +88,7 @@ function profileGeneratedCode(libraryName, slicingType)
         [libraryName, slicingType, slicingType + "_models"],
         function (data)
         {
-            console.log("Profiler: " + data.toString());
+            console.log("Profiler: " + data.toString().trim());
         },
         function (code)
         {
@@ -107,7 +107,7 @@ function checkCorrectness(libraryName, slicingType)
         [libraryName, slicingType],
         function (data)
         {
-            console.log("CheckAllTests: " + data.toString());
+            console.log("CheckAllTests: " + data.toString().trim());
         },
         function (code)
         {
@@ -118,6 +118,8 @@ function checkCorrectness(libraryName, slicingType)
 
 function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction)
 {
+    console.log("NodeJsExecuting: ", 'C:\\phantomJs\\phantomjs.exe', [pathToFile].concat(args).join(" "));
+
     var prc = spawn( 'C:\\phantomJs\\phantomjs.exe', [pathToFile].concat(args));
 
     prc.stdout.setEncoding('utf8');
