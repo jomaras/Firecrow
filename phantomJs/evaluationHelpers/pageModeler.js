@@ -16,7 +16,6 @@ var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryN
 
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
-
 htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;

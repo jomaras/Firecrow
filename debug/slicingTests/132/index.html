@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <script>
+        var array = [1,2,3];
+
+        var forEach = array.forEach;
+
+        var total = 0;
+        var sum = function(item)
+        {
+            total += item;
+        }
+
+        var functions = [sum];
+
+        forEach.apply(array, functions);
+
+        a1 = total;
+
+        a1;
+    </script>
+</body>
+</html>

@@ -3,13 +3,14 @@ var fs = require('fs');
 
 console.log("Aggregating slicing results");
 
-var libraryNames = ["prototype"]//,"gauss", "sylvester", "prototype", "jQuery", "mooTools", "underscore"];
+var libraryNames = ["gauss"];["gauss", "sylvester", "prototype", "jQuery", "mooTools", "underscore"];
 var slicingTypes = ["profiled", "slicedAll", "slicedWithoutSliceUnions"];
 
 var aggregatedData = {};
 
 for(var i = 0; i < libraryNames.length; i++)
 {
+
     var libraryName = libraryNames[i];
     var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 
@@ -19,6 +20,7 @@ for(var i = 0; i < libraryNames.length; i++)
         var destinationFolder = libraryFolder + slicingType;
         var logFile = destinationFolder + "\\logAll.txt";
         var timingLogFile = destinationFolder + "\\timingLog.txt";
+        var profilingLogFile = destinationFolder + "\\profiling.txt";
 
         var log = fs.read(logFile);
         var logLines = log.split(/(\r)?\n/g);
@@ -29,7 +31,7 @@ for(var i = 0; i < libraryNames.length; i++)
             var line = logLines[k].trim();
             if(line == "") { continue; }
 
-            //file name --- time required in ms --- number of lines --- number of ast nodes --- slicingCriteriaCount
+            //file name --- time required in ms --- number of lines --- number of ast nodes --- slicingCriteriaCount -- numberOfEvaluatedExpressions
             var segments = line.split("---");
 
             var filePath = segments[0].trim();
@@ -37,14 +39,18 @@ for(var i = 0; i < libraryNames.length; i++)
             var fileName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.length).replace(".json", "");
             var time = segments[1].trim();
             var loc = segments[2].trim();
+            var numberOfAstNodes = segments[3].trim();
             var slicingCriteriaCount = (segments[4] || "0").trim();
+            var numberOfEvaluatedExpressions = segments[5].trim();
 
             if(aggregatedData[fileName] == null) { aggregatedData[fileName] = {}; }
 
             aggregatedData[fileName][slicingType] = {
                 loc: parseInt(loc),
                 slicingTime: parseInt(time),
-                slicingCriteriaCount: slicingCriteriaCount
+                slicingCriteriaCount: slicingCriteriaCount,
+                numberOfAstNodes: numberOfAstNodes,
+                numberOfEvaluatedExpressions: numberOfEvaluatedExpressions
             };
         }
 
@@ -73,30 +79,71 @@ for(var i = 0; i < libraryNames.length; i++)
             {
                 aggregatedData[fileName][slicingType].loadingTime = parseInt(loadingTime);
             }
+        }
 
+        try
+        {
+            var profilingLog = fs.read(profilingLogFile);
+        }
+        catch(e) {profilingLog = ""; }
+
+        var profilingLogLines = profilingLog.split(/(\r)?\n/g);
+
+        for(var k = 0; k < profilingLogLines.length; k++)
+        {
+            if(profilingLogLines[k] == null) { continue; }
+            var line = profilingLogLines[k].trim();
+            if(line == "") { continue; }
+
+            //file name --- time required in ms --- number of lines --- number of ast nodes --- slicingCriteriaCount -- numberOfExecutions
+            var segments = line.split("---");
+
+            var filePath = segments[0].trim();
+            var fileName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.length).replace(".json", "");
+            var time = segments[1].trim();
+            var loc = segments[2].trim();
+            var numberOfAstNodes = segments[3].trim();
+            var slicingCriteriaCount = (segments[4] || "0").trim();
+            var numberOfEvaluatedExpressions = segments[5].trim();
+
+            if(aggregatedData[fileName] == null)
+            {
+                console.log(fileName + " could not be found");
+            }
+            else
+            {
+                aggregatedData[fileName][slicingType].afterSliceNumberOfAstNodes = parseInt(numberOfAstNodes);
+                aggregatedData[fileName][slicingType].afterSliceNumberOfExpressions = parseInt(numberOfEvaluatedExpressions);
+            }
         }
     }
 
     var htmlCode = "<html><head><title>" + libraryName + "</title></head><body>";
 
     htmlCode += "<table>"
-    htmlCode += "<tr><th>Page</th><th>P-LTime</th><th>P-STime</th><th>P-LOC</th><th>P-SC</th>"
-             +  "<th>SA-LTime</th><th>SA-STime</th><th>SA-LOC</th><th>SA-SC</th>"
-             +  "<th>SWSU-LTime</th><th>SWSU-STime</th><th>SWSU-LOC</th><th>SWSU-SC</th>"
+    htmlCode += "<tr>"
+             +  "<th>Page</th>"
+             +  "<th>P-LTime</th><th>P-STime</th><th>P-LOC</th><th>P-SC</th><th>P-OAST</th><th>P-SAST</th><th>P-OEXE</th><th>P-SEXE</th>"
+             +  "<th>SA-LTime</th><th>SA-STime</th><th>SA-LOC</th><th>SA-SC</th><th>SA-OAST</th><th>SA-SAST</th><th>SA-OEXE</th><th>SA-SEXE</th>"
+             +  "<th>SWSU-LTime</th><th>SWSU-STime</th><th>SWSU-LOC</th><th>SWSU-SC</th><th>SWSU-OAST</th><th>SWSU-SAST</th><th>SWSU-OEXE</th><th>SWSU-SEXE</th>"
              +  "</tr>"
 
     for(var fileName in aggregatedData)
     {
         htmlCode += "<tr>";
 
-        htmlCode += "<td>" + fileName + "</td>";
+        htmlCode += "<td class='fileName'>" + fileName + "</td>";
 
         for(var slicingType in aggregatedData[fileName])
         {
-            htmlCode += "<td>" + aggregatedData[fileName][slicingType].loadingTime  + "</td>"
-                      + "<td>" + aggregatedData[fileName][slicingType].slicingTime  + "</td>"
-                      + "<td>" + aggregatedData[fileName][slicingType].loc  + "</td>"
-                      + "<td>" + aggregatedData[fileName][slicingType].slicingCriteriaCount  + "</td>";
+            htmlCode += "<td class='loadingTime'>" + aggregatedData[fileName][slicingType].loadingTime  + "</td>"
+                      + "<td class='slicingTime'>" + aggregatedData[fileName][slicingType].slicingTime  + "</td>"
+                      + "<td class='loc'>" + aggregatedData[fileName][slicingType].loc  + " LOC</td>"
+                      + "<td class='slicingCriteriaCount'>" + aggregatedData[fileName][slicingType].slicingCriteriaCount  + " </td>"
+                      + "<td class='originalASTNodes'>" + aggregatedData[fileName][slicingType].numberOfAstNodes  + "</td>"
+                      + "<td class='afterSliceASTNodes'>" + (aggregatedData[fileName][slicingType].afterSliceNumberOfAstNodes || "")  + "</td>"
+                      + "<td class='originalNumExe'>" + aggregatedData[fileName][slicingType].numberOfEvaluatedExpressions  + "</td>"
+                      + "<td class='afterSliceNumberOfExpressions'>" + (aggregatedData[fileName][slicingType].afterSliceNumberOfExpressions || "")  + "</td>";
         }
 
         htmlCode += "</tr>";

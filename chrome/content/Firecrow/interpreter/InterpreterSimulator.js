@@ -52,7 +52,10 @@ fcSimulator.prototype = dummy =
 
                 this._processCommand(command); //if(command.codeConstruct.loc != null && command.codeConstruct.loc.start.line == 1378)debugger;3
 
-                codeConstruct.hasBeenExecuted = true;
+                if(codeConstruct)
+                {
+                    codeConstruct.hasBeenExecuted = true;
+                }
 
                 //This should be even more specific, not all identifiers are required
                 //MemberExpressions - always

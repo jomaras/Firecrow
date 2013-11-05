@@ -8,7 +8,7 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryName = system.args[1] || "jQuery";
+var libraryName = system.args[1] || "gauss";
 var executeRegisteredEvents = libraryName == "jQuery";
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
 var destinationName = system.args[2] || "slicedAll";//profiled; slicedAll; slicedWithoutSliceUnions;

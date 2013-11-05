@@ -8,14 +8,14 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryName = system.args[1] || "jQuery";
+var libraryName = system.args[1] || "gauss";
 var executeRegisteredEvents = libraryName == "jQuery";
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
-var destinationName = system.args[2] || "profiled";//profiled; slicedAll; slicedWithoutSliceUnions;
+var destinationName = system.args[2] || "slicedAll";//profiled; slicedAll; slicedWithoutSliceUnions;
 var destinationFolder = libraryFolder + destinationName;
 var logFile = destinationFolder + "\\profiling.txt";
 
-var rootName = system.args[3] || "profiled_models";
+var rootName = system.args[3] || "slicedAll_models";
 var rootFolder = libraryFolder + rootName;
 
 var emptyPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/emptyPage.html";
@@ -75,7 +75,7 @@ function onLoadFinished()
 
     fs.write(modelFiles[pageIndex].replace(".json", ".html").replace(rootName, destinationName), result.source);
     console.log(modelFiles[pageIndex] + " sliced in " + result.slicingTime + " msec " + " and has " + result.source.split("\n").length + " LOC" + "; SC: " + result.slicingCriteriaCount + " EXE: " + result.evaluatedExpressionsCount);
-    //file name --- time required in ms --- number of lines --- number of ast nodes -- slicingCriteriaCount
+    //file name --- time required in ms --- number of lines --- number of ast nodes -- slicingCriteriaCount -- evaluated expressions
     log += modelFiles[pageIndex] + " --- " + result.slicingTime + " --- " + result.source.split("\n").length + " --- " + result.numberOfNodes + " --- " + result.slicingCriteriaCount + " --- " + result.evaluatedExpressionsCount + "\n";
 
     page.onLoadStarted = null;

@@ -67,7 +67,7 @@ fcModel.ArrayExecutor =
                     }
                     else if (callCommand.isApply)
                     {
-                        debugger;
+                        //debugger;
                     }
                     else
                     {

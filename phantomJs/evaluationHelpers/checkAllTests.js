@@ -15,8 +15,8 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 var htmlFiles = [];
 
 var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\";
-var libraryName = "jQuery";
-var sliceType = "slicedAll"; //profiled, slicedAll, slicedWithoutSliceUnions
+var libraryName = system.args[1] || "jQuery";
+var sliceType = system.args[2] || "slicedAll"; //profiled, slicedAll, slicedWithoutSliceUnions
 var libraryFolder = rootFolder + libraryName + fs.separator;
 var checkFolder = libraryFolder + sliceType + fs.separator;
 
@@ -49,7 +49,7 @@ var interval = setInterval(function() {
 }, 250);
 
 page.onInitialized = function() {
-    page.injectJs("./evaluationHelpers/injections/assertDefinitions.js");
+    page.injectJs("C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\injections\\assertDefinitions.js");
     PAGE_ASSERTION_FAILS = 0;
 };
 
