@@ -1,0 +1,708 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 17, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* line 20, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+body {
+  line-height: 1;
+}
+
+/* line 22, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 24, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 26, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 28, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 101, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 30, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 114, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 8, ../sass/screen.scss */
+body {
+  background: #2c345c url("../images/background.png") repeat-x;
+  margin-top: 0px;
+  color: #FFFFFF;
+  font-family: GothamNarrowBook,Arial;
+  overflow-x: hidden;
+}
+
+/* line 16, ../sass/screen.scss */
+.clear {
+  clear: both;
+}
+
+/* line 44, ../sass/screen.scss */
+#wrapper {
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  position: relative;
+}
+
+/* line 52, ../sass/screen.scss */
+#top {
+  background: url("../images/background2.png") no-repeat center;
+  width: 100%;
+  height: 774px;
+}
+
+/* line 58, ../sass/screen.scss */
+#header {
+  background: url("../images/logo.png") no-repeat center;
+  height: 180px;
+  padding-top: 68px;
+}
+/* line 63, ../sass/screen.scss */
+#header .share {
+  margin-top: -40px;
+}
+/* line 66, ../sass/screen.scss */
+#header .share #twitter {
+  float: right;
+  width: 100px;
+}
+/* line 71, ../sass/screen.scss */
+#header .share #facebook {
+  float: right;
+  width: 100px;
+}
+
+/* line 78, ../sass/screen.scss */
+#header-images {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  float: left;
+  /*background-color:#999999;*/
+  width: 400px;
+  height: 500px;
+  margin-left: 12px;
+}
+/* line 90, ../sass/screen.scss */
+#header-images img {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+/* line 98, ../sass/screen.scss */
+#header-images #ipad {
+  position: absolute;
+  background: url("../images/ipad_back.png") no-repeat;
+  width: 390px;
+  height: 495px;
+  z-index: 10;
+}
+/* line 105, ../sass/screen.scss */
+#header-images #ipad #ipad_img {
+  width: 257px;
+  height: 343px;
+  margin-top: 42px;
+  margin-left: 69px;
+  background-color: #999999;
+  overflow: hidden;
+}
+/* line 113, ../sass/screen.scss */
+#header-images #ipad #ipad_img #ipad_img_container {
+  width: 4000px;
+}
+/* line 116, ../sass/screen.scss */
+#header-images #ipad #ipad_img #ipad_img_container img {
+  float: left;
+}
+/* line 123, ../sass/screen.scss */
+#header-images #iphone {
+  position: absolute;
+  background: url("../images/iphone_back.png") no-repeat;
+  width: 162px;
+  height: 325px;
+  margin-top: 170px;
+  margin-left: 240px;
+  z-index: 20;
+}
+/* line 132, ../sass/screen.scss */
+#header-images #iphone #iphone_img {
+  width: 117px;
+  height: 176px;
+  margin-top: 53px;
+  margin-left: 31px;
+  background-color: #BBBBBB;
+  overflow: hidden;
+}
+/* line 140, ../sass/screen.scss */
+#header-images #iphone #iphone_img #iphone_img_container {
+  width: 4000px;
+}
+/* line 143, ../sass/screen.scss */
+#header-images #iphone #iphone_img #iphone_img_container img {
+  float: left;
+}
+/* line 150, ../sass/screen.scss */
+#header-images #pager {
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  text-align: center;
+  margin-top: 470px;
+  margin-left: 178px;
+  z-index: 1000;
+}
+/* line 159, ../sass/screen.scss */
+#header-images #pager .pager_circle {
+  background: url("../images/pager1.png") no-repeat center;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  display: inline-block;
+  float: left;
+}
+/* line 167, ../sass/screen.scss */
+#header-images #pager .pager_circle.selected {
+  background: url("../images/pager2.png") no-repeat center;
+}
+
+/* line 174, ../sass/screen.scss */
+a#getapp {
+  display: block;
+  width: 266px;
+  height: 304px;
+  background: url("../images/getapp.png") top;
+  position: absolute;
+  z-index: 10;
+  top: 440px;
+  left: 545px;
+}
+/* line 185, ../sass/screen.scss */
+a#getapp:hover {
+  background: url("../images/getapp.png") bottom;
+}
+
+/* line 190, ../sass/screen.scss */
+span#hand {
+  display: block;
+  width: 210px;
+  height: 384px;
+  background: url("../images/hand.png");
+  position: absolute;
+  z-index: 20;
+  top: 391px;
+  left: 241px;
+}
+
+/* line 201, ../sass/screen.scss */
+#twitter-block {
+  background: url("../images/twitter-bg.png");
+  width: 960px;
+  height: 163px;
+  margin-bottom: 10px;
+  position: relative;
+}
+/* line 208, ../sass/screen.scss */
+#twitter-block .last-tweet {
+  width: 350px;
+  padding-left: 35px;
+  padding-top: 25px;
+}
+/* line 213, ../sass/screen.scss */
+#twitter-block .last-tweet p {
+  font-size: 18px;
+  line-height: 22px;
+}
+/* line 217, ../sass/screen.scss */
+#twitter-block .last-tweet p a {
+  color: #1e2442 !important;
+}
+/* line 223, ../sass/screen.scss */
+#twitter-block a#folow-button {
+  background: url("../images/folow-button.png") 0 0;
+  width: 176px;
+  height: 78px;
+  display: block;
+  position: absolute;
+  top: 35px;
+  right: 243px;
+}
+/* line 232, ../sass/screen.scss */
+#twitter-block a#folow-button:hover {
+  background: url("../images/folow-button.png") 0 -78px;
+}
+/* line 237, ../sass/screen.scss */
+#twitter-block span#babushka {
+  background: url("../images/twitter-babushka.png");
+  width: 223px;
+  height: 253px;
+  display: block;
+  position: absolute;
+  top: -90px;
+  right: 10px;
+}
+
+/* line 248, ../sass/screen.scss */
+#info-block {
+  background: url("../images/background-red.png") repeat-x bottom;
+  width: 100%;
+  height: 772px;
+}
+/* line 253, ../sass/screen.scss */
+#info-block span#family {
+  background: url("../images/rebelfamily.png") no-repeat center;
+  width: 960px;
+  height: 590px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* line 263, ../sass/screen.scss */
+#info-block .review {
+  position: relative;
+  top: 569px;
+  height: 203px;
+}
+/* line 268, ../sass/screen.scss */
+#info-block .review span#reviewman {
+  background: url("../images/reviewman.png");
+  width: 297px;
+  height: 203px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+/* line 277, ../sass/screen.scss */
+#info-block .review .author {
+  position: absolute;
+  padding-top: 50px;
+  padding-left: 205px;
+}
+/* line 282, ../sass/screen.scss */
+#info-block .review .author p {
+  color: white;
+  font-size: 18px;
+  line-height: 24px;
+  font-style: italic;
+}
+/* line 289, ../sass/screen.scss */
+#info-block .review .author span.h2-title {
+  overflow: hidden;
+  display: block;
+  height: 30px;
+}
+/* line 298, ../sass/screen.scss */
+#info-block .review .review {
+  background: url("../images/review-bg.png");
+  width: 532px;
+  height: 159px;
+  position: absolute;
+  top: 44px;
+  right: 0px;
+}
+/* line 306, ../sass/screen.scss */
+#info-block .review .review .review-slide {
+  position: absolute;
+  width: 400px;
+  right: 45px;
+  top: 25px;
+}
+/* line 312, ../sass/screen.scss */
+#info-block .review .review .review-slide div {
+  position: absolute;
+}
+/* line 315, ../sass/screen.scss */
+#info-block .review .review .review-slide div h2 {
+  display: block;
+  position: absolute;
+  left: -310px;
+  top: 8px;
+  font-size: 25px;
+  font-style: italic;
+  color: #1e243f;
+}
+/* line 325, ../sass/screen.scss */
+#info-block .review .review .review-slide div p {
+  font-size: 18px;
+  line-height: 24px;
+}
+/* line 329, ../sass/screen.scss */
+#info-block .review .review .review-slide div p.big {
+  font-size: 25px;
+  line-height: 30px;
+}
+
+/* line 340, ../sass/screen.scss */
+#gamingtips {
+  background: url("../images/gamingtips-bg.png") repeat-x;
+  height: 460px;
+}
+/* line 344, ../sass/screen.scss */
+#gamingtips .slide_fx {
+  float: left;
+  width: 826px;
+  height: 270px;
+  overflow: hidden;
+}
+/* line 351, ../sass/screen.scss */
+#gamingtips .slider_line {
+  height: 339px;
+  position: relative;
+}
+/* line 356, ../sass/screen.scss */
+#gamingtips .slide_line_fix {
+  height: 339px;
+  position: absolute;
+  width: 100%;
+  left: 0px;
+}
+/* line 363, ../sass/screen.scss */
+#gamingtips .slide_line_fix_right {
+  height: 339px;
+  position: absolute;
+  width: 100%;
+  right: 0px;
+}
+/* line 370, ../sass/screen.scss */
+#gamingtips .slider {
+  width: 960px;
+  margin: auto;
+  padding-top: 95px;
+}
+/* line 375, ../sass/screen.scss */
+#gamingtips .slider .next {
+  background: url("../images/arrows.png") 0 0;
+  width: 52px;
+  height: 51px;
+  float: left;
+  margin-top: 100px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+/* line 384, ../sass/screen.scss */
+#gamingtips .slider .next:hover {
+  background: url("../images/arrows.png") 0 -51px;
+}
+/* line 389, ../sass/screen.scss */
+#gamingtips .slider .prev {
+  background: url("../images/arrows.png") 0 -102px;
+  width: 52px;
+  height: 51px;
+  float: left;
+  margin-top: 100px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+/* line 398, ../sass/screen.scss */
+#gamingtips .slider .prev:hover {
+  background: url("../images/arrows.png") 0 -153px;
+}
+/* line 403, ../sass/screen.scss */
+#gamingtips .slider .block {
+  float: left;
+  width: 833px;
+}
+/* line 407, ../sass/screen.scss */
+#gamingtips .slider .block img {
+  margin-right: 22px;
+  display: block;
+  float: left;
+}
+/* line 412, ../sass/screen.scss */
+#gamingtips .slider .block img.last {
+  margin-right: 0px;
+}
+/* line 418, ../sass/screen.scss */
+#gamingtips .slider .nav {
+  width: 960px;
+  margin-top: 10px;
+}
+/* line 422, ../sass/screen.scss */
+#gamingtips .slider .nav ul {
+  width: 45px;
+  margin: 0 auto;
+  padding-left: 10px;
+}
+/* line 427, ../sass/screen.scss */
+#gamingtips .slider .nav ul li {
+  text-indent: -9999px;
+  background: url("../images/pager1.png") no-repeat;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 10px;
+  margin-right: 5px;
+  text-indent: -9999px;
+  width: 10px;
+}
+/* line 438, ../sass/screen.scss */
+#gamingtips .slider .nav ul li:last-child {
+  margin-right: 0px;
+}
+/* line 442, ../sass/screen.scss */
+#gamingtips .slider .nav ul li.activeSlide {
+  background: url("../images/pager2.png") no-repeat;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 10px;
+  margin-right: 5px;
+  text-indent: -9999px;
+  width: 10px;
+}
+/* line 457, ../sass/screen.scss */
+#gamingtips span.title {
+  background: url("../images/gamingtips.png") no-repeat;
+  width: 426px;
+  height: 51px;
+  margin: auto;
+  display: block;
+  position: relative;
+  top: 30px;
+}
+
+/* line 469, ../sass/screen.scss */
+#footer {
+  background: #8dcfd0;
+  width: 100%;
+  height: 322px;
+}
+/* line 474, ../sass/screen.scss */
+#footer .social {
+  padding-top: 100px;
+  float: left;
+}
+/* line 478, ../sass/screen.scss */
+#footer .social h3 {
+  font-size: 18px;
+  color: #6691a2;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+/* line 485, ../sass/screen.scss */
+#footer .social a.twitter {
+  background: url("../images/social.png") 0 0;
+  width: 70px;
+  height: 70px;
+  display: block;
+  float: left;
+  margin-right: 10px;
+}
+/* line 493, ../sass/screen.scss */
+#footer .social a.twitter:hover {
+  background: url("../images/social.png") 0 -70px;
+}
+/* line 498, ../sass/screen.scss */
+#footer .social a.facebook {
+  background: url("../images/social.png") 0 -140px;
+  width: 70px;
+  height: 70px;
+  display: block;
+  float: left;
+  margin-right: 10px;
+}
+/* line 506, ../sass/screen.scss */
+#footer .social a.facebook:hover {
+  background: url("../images/social.png") 0 -210px;
+}
+/* line 511, ../sass/screen.scss */
+#footer .social a.presskit {
+  background: url("../images/presskit.png") 0 0;
+  width: 280px;
+  height: 70px;
+  display: block;
+  float: left;
+}
+/* line 518, ../sass/screen.scss */
+#footer .social a.presskit:hover {
+  background: url("../images/presskit.png") 0 -70px;
+}
+/* line 525, ../sass/screen.scss */
+#footer .newsletter {
+  padding-top: 100px;
+  float: right;
+  width: 470px;
+}
+/* line 530, ../sass/screen.scss */
+#footer .newsletter h3 {
+  font-size: 18px;
+  color: #6691a2;
+  text-transform: uppercase;
+  margin-bottom: 17px;
+}
+/* line 539, ../sass/screen.scss */
+#footer .newsletter form .subscribe {
+  overflow: hidden;
+}
+/* line 542, ../sass/screen.scss */
+#footer .newsletter form .subscribe .email {
+  background: url("../images/newsletter-email-bg.png") no-repeat;
+  width: 330px;
+  height: 66px;
+  float: left;
+}
+/* line 548, ../sass/screen.scss */
+#footer .newsletter form .subscribe .email input {
+  width: 300px;
+  border: none;
+  font-size: 18px;
+  color: #8dcfd0;
+  margin-top: 23px;
+  margin-left: 25px;
+  padding: 0;
+}
+/* line 557, ../sass/screen.scss */
+#footer .newsletter form .subscribe .email input:focus {
+  outline: none;
+}
+/* line 563, ../sass/screen.scss */
+#footer .newsletter form .subscribe input.submit {
+  background: url("../images/newsletter-submit.png") 0 0;
+  width: 128px;
+  height: 67px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+  float: right;
+}
+/* line 574, ../sass/screen.scss */
+#footer .newsletter form .subscribe input.submit:hover {
+  background: url("../images/newsletter-submit.png") 0 -67px;
+}
+/* line 580, ../sass/screen.scss */
+#footer .newsletter form .response {
+  padding-top: 20px;
+  font-size: 14px;
+  line-height: 18px;
+  color: #ec3030;
+}
+/* line 586, ../sass/screen.scss */
+#footer .newsletter form .response a {
+  color: #ec3030;
+}
+/* line 590, ../sass/screen.scss */
+#footer .newsletter form .response p {
+  color: #26395d;
+  font-weight: 700;
+}
+/* line 598, ../sass/screen.scss */
+#footer .copyright {
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+}
+/* line 604, ../sass/screen.scss */
+#footer .copyright p {
+  font-size: 12px;
+  color: #6691a2;
+}
+/* line 608, ../sass/screen.scss */
+#footer .copyright p img {
+  margin-right: 5px;
+}
+/* line 612, ../sass/screen.scss */
+#footer .copyright p a {
+  color: #6691a2;
+  text-decoration: none;
+}
+/* line 616, ../sass/screen.scss */
+#footer .copyright p a:hover {
+  text-decoration: underline;
+}
+
+/* line 624, ../sass/screen.scss */
+.twtr-widget {
+  margin-top: 0px;
+  width: 400px;
+}
+/* line 628, ../sass/screen.scss */
+.twtr-widget .twtr-tweet-wrap {
+  padding-left: 0;
+  padding-bottom: 10px;
+}
+/* line 633, ../sass/screen.scss */
+.twtr-widget .twtr-hd {
+  display: none;
+}
+/* line 637, ../sass/screen.scss */
+.twtr-widget .twtr-bd {
+  padding: 0;
+}
+/* line 642, ../sass/screen.scss */
+.twtr-widget .twtr-bd p em {
+  margin-top: 10px;
+}
+/* line 645, ../sass/screen.scss */
+.twtr-widget .twtr-bd p em a {
+  color: #a7e6e7;
+  font-size: 13px !important;
+}
+/* line 653, ../sass/screen.scss */
+.twtr-widget .twtr-bd .twtr-tweet-text {
+  margin: 0;
+}
+/* line 656, ../sass/screen.scss */
+.twtr-widget .twtr-bd .twtr-tweet-text a {
+  font-size: 18px !important;
+}
+/* line 661, ../sass/screen.scss */
+.twtr-widget .twtr-bd .twtr-tweet-text em a {
+  font-size: 14px !important;
+}
+/* line 668, ../sass/screen.scss */
+.twtr-widget .twtr-ft {
+  display: none;
+}

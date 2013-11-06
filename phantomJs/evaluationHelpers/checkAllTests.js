@@ -13,7 +13,7 @@ var htmlFiles = [];
 
 var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\";
 var libraryName = system.args[1] || "gauss";
-var sliceType = system.args[2] || "slicedAll"; //profiled, slicedAll, slicedWithoutSliceUnions
+var sliceType = system.args[2] || "slicedWithoutSliceUnions"; //profiled, slicedAll, slicedWithoutSliceUnions, adjusted for original
 var libraryFolder = rootFolder + libraryName + fs.separator;
 var checkFolder = libraryFolder + sliceType + fs.separator;
 
@@ -45,9 +45,11 @@ page.onLoadFinished = function()
 }
 
 page.open(htmlFiles[0] || emptyPageUrl);
-
+var htmlCode = "";
 function startChecking()
 {
+    htmlCode +="<table>";
+
     var interval = setInterval(function() {
         if (!loadInProgress && pageIndex < htmlFiles.length)
         {
@@ -56,7 +58,9 @@ function startChecking()
         if (pageIndex == htmlFiles.length)
         {
             console.log("Testing complete - # processed pages: " + pageIndex + ", fails: " + PAGE_FAILS);
+            htmlCode += "</table>";
             fs.write(checkFolder + "timingLog.txt", log);
+            fs.write(checkFolder + "timingLog.htm", htmlCode);
             phantom.exit();
         }
     }, 250);
@@ -84,6 +88,7 @@ function startChecking()
         else
         {
             log += htmlFiles[pageIndex] + "---" + (Date.now() - startTime) + "\r\n";
+            htmlCode +="<tr><td>" + htmlFiles[pageIndex] + "</td>" + "<td>" + (Date.now() - startTime) + "</td></tr>";
             console.log("OK - " + htmlFiles[pageIndex] + " in " + (Date.now() - startTime) + "msec");
         }
 

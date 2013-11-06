@@ -190,7 +190,7 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setExpressionValue
         (
             identifierConstruct,
-            identifierValue != null && identifierValue.isPrimitive() ? identifierValue.createCopy() : identifierValue
+            identifierValue != null && identifierValue.isPrimitive && identifierValue.isPrimitive() ? identifierValue.createCopy() : identifierValue
         );
 
         if(identifier != null)

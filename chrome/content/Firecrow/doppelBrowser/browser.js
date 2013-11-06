@@ -597,7 +597,7 @@ Browser.prototype = dummy =
         }
         catch(e)
         {
-            debugger;
+            //debugger;
             return false;
         }
     },

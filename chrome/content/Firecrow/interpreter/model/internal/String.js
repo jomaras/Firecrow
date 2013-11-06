@@ -273,7 +273,7 @@ fcModel.StringExecutor =
                     this.notifyError("Unknown method on string");
             }
         }
-        catch(e) {this.notifyError("Error when executing internal string method: " + e); }
+        catch(e) {this.notifyError("Error when executing internal string method: " + e + functionName + callExpression.loc.start.line); }
     },
 
     executeInternalStringFunctionMethod: function(thisObject, functionObject, args, callExpression, callCommand)

@@ -1,0 +1,46 @@
+/* Primary color */
+.home-message:hover {background-color:#c72c00; background-color: rgba(45, 92, 136, 0.6);}
+nav.woocommerce-pagination ul li a:hover, .wp-pagenavi a:hover, .accordion-heading .accordion-toggle.open {border-color: #c72c00;}
+a, #nav-main ul.sf-menu ul li a:hover, .product_price ins .amount, .color_primary, .primary-color, #logo a.brand, #nav-main ul.sf-menu a:hover,
+.woocommerce-message:before, .woocommerce-info:before, #nav-second ul.sf-menu a:hover, .footerclass a:hover, .posttags a:hover, .subhead a:hover {color: #c72c00;}
+.widget_price_filter .ui-slider .ui-slider-handle, .product_item .kad_add_to_cart:hover, .kad-btn-primary, .woocommerce-message .button, 
+#containerfooter .menu li a:hover, .bg_primary, .portfolionav a:hover, .home-iconmenu a:hover, p.demo_store, .topclass, #commentform .form-submit #submit {background: #c72c00;}
+
+/* 20% lighter than Primary */
+a:hover {color: #d86b4c;}
+.kad-btn-primary:hover, .woocommerce-message .button:hover, #commentform .form-submit #submit:hover {background: #d86b4c;}
+
+/* Background Skins */
+.contentclass, .nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {background: #fff;}
+.featclass {background: #fff;}
+.headerclass {background: #fff;}
+.footerclass {background: #373737;}
+.navclass {background: #fff;}
+.bg-lightgray {background: #f2f2f2; background:rgba(0, 0, 0, 0.05); }
+/* Header - Type */
+h1, h2, h3 {color:#333;}
+h4 {color: #444;}
+h5 {color: #555;}
+
+.sf-menu a {letter-spacing: normal;}
+#nav-second ul.sf-menu a {letter-spacing: normal;}
+
+.color_gray, .subhead, .subhead a, .posttags, .posttags a, .product_meta a {color: #777;}
+
+body, .color_body, .sidebar a, .author-name a, .author-latestposts h5 a, .author-latestposts h5, 
+.author-profile .author-occupation, .nav-tabs > .active > a, .nav-tabs > .active > a:hover, .product_price {color:#444;}
+
+/* General */
+a:hover {text-decoration: none;}
+.hometitle {text-align: center;}
+
+/* Footer */
+#containerfooter h3, #containerfooter {color:#f2f2f2;}
+.footercredits {color: #aaa;}
+.footerclass a {color: #f2f2f2;}
+.footernav ul li a {color:#f2f2f2;}
+
+/* Custom */
+.sidebar a {
+	color:#555;
+}

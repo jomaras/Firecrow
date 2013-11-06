@@ -117,10 +117,10 @@ for(var i = 0; i < libraryNames.length; i++)
         }
     }
 
-    var htmlCode = "<html><head><title>" + libraryName + "</title></head><body>";
+    var htmlCodeEverything = "<html><head><title>" + libraryName + "</title></head><body>";
 
-    htmlCode += "<table>"
-    htmlCode += "<tr>"
+    htmlCodeEverything += "<table>"
+    htmlCodeEverything += "<tr>"
              +  "<th>Page</th>"
              +  "<th>P LT</th><th>P ST</th><th>P LOC</th><th>P SC</th><th>P OAST</th><th>P SAST</th><th>P OEXE</th><th>P SEXE</th>"
              +  "<th>SA LT</th><th>SA ST</th><th>SA LOC</th><th>SA SC</th><th>SA OAST</th><th>SA SAST</th><th>SA OEXE</th><th>SA SEXE</th>"
@@ -129,13 +129,13 @@ for(var i = 0; i < libraryNames.length; i++)
 
     for(var fileName in aggregatedData)
     {
-        htmlCode += "<tr>";
+        htmlCodeEverything += "<tr>";
 
-        htmlCode += "<td class='fileName'>" + fileName + "</td>";
+        htmlCodeEverything += "<td class='fileName'>" + fileName + "</td>";
 
         for(var slicingType in aggregatedData[fileName])
         {
-            htmlCode += "<td class='loadingTime'>" + aggregatedData[fileName][slicingType].loadingTime  + "</td>"
+            htmlCodeEverything += "<td class='loadingTime'>" + aggregatedData[fileName][slicingType].loadingTime  + "</td>"
                       + "<td class='slicingTime'>" + aggregatedData[fileName][slicingType].slicingTime  + "</td>"
                       + "<td class='loc'>" + aggregatedData[fileName][slicingType].loc  + "</td>"
                       + "<td class='slicingCriteriaCount'>" + aggregatedData[fileName][slicingType].slicingCriteriaCount  + " </td>"
@@ -145,14 +145,26 @@ for(var i = 0; i < libraryNames.length; i++)
                       + "<td class='afterSliceNumberOfExpressions'>" + (aggregatedData[fileName][slicingType].afterSliceNumberOfExpressions || "")  + "</td>";
         }
 
-        htmlCode += "</tr>";
+        htmlCodeEverything += "</tr>";
     }
 
-    htmlCode += "</table>";
+    htmlCodeEverything += "</table>";
 
-    htmlCode += "</body></html>";
+    htmlCodeEverything += "</body></html>";
 
-    fs.write(libraryFolder + "summary.html", htmlCode);
+
+    var htmlCodeEverything = "<html><head><title>" + libraryName + "</title></head><body>";
+
+    htmlCodeEverything += "<table>"
+    htmlCodeEverything += "<tr>"
+                        +  "<th>Page</th>"
+                        +  "<th>LOC</th><th>P ST</th><th>P LOC</th><th>P SC</th><th>P OAST</th><th>P SAST</th><th>P OEXE</th><th>P SEXE</th>"
+                        +  "<th>SA LT</th><th>SA ST</th><th>SA LOC</th><th>SA SC</th><th>SA OAST</th><th>SA SAST</th><th>SA OEXE</th><th>SA SEXE</th>"
+                        +  "<th>SW LT</th><th>SW ST</th><th>SW LOC</th><th>SW SC</th><th>SW OAST</th><th>SW SAST</th><th>SW OEXE</th><th>SW SEXE</th>"
+                        +  "</tr>"
+
+    fs.write(libraryFolder + "summary.html", htmlCodeEverything);
+    fs.write(libraryFolder + "summaryChosen.html", htmlCodeChosen);
     console.log("Data written to: " + libraryFolder + "summary.html");
 }
 
