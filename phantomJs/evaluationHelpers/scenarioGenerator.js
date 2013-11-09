@@ -9,7 +9,7 @@ var visitedCodeTemplatePath = "C:\\GitWebStorm\\Firecrow\\phantomJs\\helperPages
 var visitedCodePath = "C:\\GitWebStorm\\Firecrow\\phantomJs\\helperPages\\viewExecutedCode.html";
 
 
-var pageName = system.args[1] || "ajaxtabscontent";
+var pageName = system.args[1] || "3dMaker";
 console.log("Starting scenario generator");
 
 ScenarioGenerator.shouldPrintDetailedMessages = true;
@@ -17,8 +17,8 @@ ScenarioGenerator.shouldPrintDetailedMessages = true;
 ScenarioGenerator.generateAdditionalMouseMoveEvents = true;
 ScenarioGenerator.generateAdditionalTimingEvents = false;
 
-ScenarioGenerator.prioritization = system.args[2] || ScenarioGenerator.PRIORITIZATION.random;
-ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = system.args[3] != null ? parseInt(system.args[3]) : 50;
+ScenarioGenerator.prioritization = system.args[2] || ScenarioGenerator.PRIORITIZATION.empirical;
+ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = system.args[3] != null ? parseInt(system.args[3]) : 100;
 
 var coverageFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverage\\" + ScenarioGenerator.prioritization + "\\";
 

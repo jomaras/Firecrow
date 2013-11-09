@@ -13,14 +13,14 @@ class FileAccess
 
     public static function SetFileContent ($filePath, $fileContent)
     {
-        $fileHandler = fopen($filePath, 'w') or die("can't open file");
+        $fileHandler = fopen($filePath, 'w');
         fwrite($fileHandler, $fileContent);
         fclose($fileHandler);
     }
 
     public static function AppendToFile($filePath, $fileContent)
     {
-        $fileHandler = fopen($filePath, 'a') or die("can't open file");
+        $fileHandler = fopen($filePath, 'a');
         fwrite($fileHandler, $fileContent);
         fclose($fileHandler);
     }

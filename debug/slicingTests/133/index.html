@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <script>
+        var breaker = {};
+
+        function each(obj, iterator, context)
+        {
+            obj.forEach(iterator, context);
+        }
+
+        function any(obj, iterator, context)
+        {
+            var result = false;
+
+            each(obj, function(value, index, list)
+            {
+                if (result || (result = iterator.call(context, value, index, list)))
+                {
+                    return breaker;
+                }
+            });
+
+            return !!result;
+        }
+
+        assert(!any([1, 11, 29], function(num){ return num % 2 == 0; }));
+    </script>
+</body>
+</html>

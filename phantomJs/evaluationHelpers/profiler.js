@@ -8,12 +8,12 @@ var loadInProgress = false;
 var modelFiles = [];
 var pageIndex = 0;
 
-var libraryName = system.args[1] || "gauss";
+var libraryName = system.args[1] || "jQuery";
 var executeRegisteredEvents = libraryName == "jQuery";
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
-var destinationName = system.args[2] || "slicedWithoutSliceUnions";//profiled; slicedAll; slicedWithoutSliceUnions;
+var destinationName = system.args[2] || "slicedAll";//profiled; slicedAll; slicedWithoutSliceUnions;
 var destinationFolder = libraryFolder + destinationName;
-var logFile = destinationFolder + "\\profiling.txt";
+var logFile = destinationFolder + "\\profilingT.txt";
 
 var rootName = system.args[3] || "slicedAll_models";
 var rootFolder = libraryFolder + rootName;
@@ -25,11 +25,14 @@ page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 console.log("Profiler started!");
 var log = "";
+var add = false;
 modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1)
+    if(fullPath.indexOf('effects05') != -1) { add = true; }
+
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && add)
     {
         return fullPath;
     }

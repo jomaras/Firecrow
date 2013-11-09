@@ -4,12 +4,12 @@
     <bookmark url="file://$PROJECT_DIR$/debug/slicingTests/78/index.html" line="23" />
     <bookmark url="file://$PROJECT_DIR$" mnemonic="1" />
     <bookmark url="file://$PROJECT_DIR$/debug/usageScenarioGenerator" />
-    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" line="477" />
+    <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" line="476" />
     <bookmark url="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/VariableObject.js" line="154" mnemonic="9" />
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Libraries excell checkin&#10;Generator handle problme when property name is [&quot;*&quot;]">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/1.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/2.html" />
@@ -18,13 +18,32 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/3.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/profiled_models/Functions07throttle.json" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/all.html" />
-      <change type="NEW" beforePath="" afterPath="C:\GitWebStorm\Firecrow\evaluation\libraries\gauss\graphs\data.csv" />
-      <change type="NEW" beforePath="" afterPath="C:\GitWebStorm\Firecrow\evaluation\libraries\gauss\graphs\data1.csv" />
-      <change type="NEW" beforePath="" afterPath="C:\GitWebStorm\Firecrow\evaluation\libraries\gauss\graphs\index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/133/index.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls/uiControlSuite.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/Selenium/uiControls-extracted/uiControlSuite.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/libraries.xlsx" afterPath="$PROJECT_DIR$/evaluation/libraries/libraries.xlsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGeneratorModules/ConstraintResolver.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGeneratorModules/ConstraintResolver.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/FileAccess.php" afterPath="$PROJECT_DIR$/constraintSolver/FileAccess.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addClass.html" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/attributes-addClass.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/install.rdf" afterPath="$PROJECT_DIR$/install.rdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" afterPath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js" afterPath="$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/regressions/slicingTests.js" afterPath="$PROJECT_DIR$/phantomJs/regressions/slicingTests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/viewExecutedCode.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/viewExecutedCode.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -73,7 +92,62 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="checkAllTests.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="35" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1734">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/slicingTests/75/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="75" selection-start="464" selection-end="464" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="initFBL.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="76" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="2142">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="debugSlicing.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="218" column="148" selection-start="11315" selection-end="11315" vertical-scroll-proportion="0.49943504" vertical-offset="3264" max-vertical-offset="4539">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slicingModelMapping.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="797" column="52" selection-start="1115010" selection-end="1115010" vertical-scroll-proportion="0.0" vertical-offset="13173" max-vertical-offset="23732">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slicingTests.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/regressions/slicingTests.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="22" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -94,32 +168,32 @@
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/playground/comparator/index.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/debug/debugSlicing.html" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/playground/index.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/playground/index.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/debug/debugSlicing.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/evaluation/fullPages/06-nitrografix/css/style.css" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/06-nitrografix/js/nx.min.js" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/06-nitrografix/js/jquery.js" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/06-nitrografix/js/librairies.js" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/LocCounter.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/mooTools/mootools-core.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/gauss/adjusted/02-Maximum.html" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/libraryLocCounter.js" />
+        <option value="$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js" />
-        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/test.txt" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/jQuery/slicedAll/profilingT.txt" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/gauss/slicedWithoutSliceUnions/profilingTest.txt" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/gauss/graphs/index.html" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/gauss/graphs/data1.csv" />
-        <option value="$PROJECT_DIR$/evaluation/libraries/gauss/graphs/data.csv" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js" />
+        <option value="$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections10any.html" />
+        <option value="$PROJECT_DIR$/install.rdf" />
+        <option value="$PROJECT_DIR$/debug/slicingTests/133/index.html" />
+        <option value="$PROJECT_DIR$/debug/slicingTests/133/index.json" />
+        <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+        <option value="$PROJECT_DIR$/phantomJs/regressions/slicingTests.js" />
+        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" />
       </list>
     </option>
   </component>
@@ -181,6 +255,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -199,77 +274,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gauss" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="233" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="248" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="270" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="270" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="249" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="807" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="884" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="807" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="269" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="268" />
@@ -290,11 +310,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\debug\slicingTests\" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\06-nitrografix\fonts\Ubuntu" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\06-nitrografix\js" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\04-virtue\assets\js" />
-      <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\04-virtue\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\06-nitrografix" />
@@ -356,14 +376,6 @@
       <ConfigurationWrapper RunnerId="JstdDebugProgramRunner" />
       <method />
     </configuration>
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -374,15 +386,23 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -400,7 +420,7 @@
       <ConfigurationWrapper RunnerId="NodeJS.run" />
       <method />
     </configuration>
-    <configuration default="false" name="NodeJsScenGen" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="phantomJs/evaluationHelpers/scenarioGenerator.js" working-dir="$PROJECT_DIR$">
+    <configuration default="false" name="NodeJsScenGen" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="nodejs/runAllScenarioGeneratorConfigurations.js" working-dir="$PROJECT_DIR$">
       <browser start="false" url="" with-js-debugger="false" />
       <RunnerSettings RunnerId="NodeJS.run" />
       <ConfigurationWrapper RunnerId="NodeJS.run" />
@@ -3031,7 +3051,11 @@
       <created>1383734730582</created>
       <updated>1383734730583</updated>
     </task>
-    <option name="localTasksCounter" value="646" />
+    <task id="LOCAL-00646" summary="Libraries excel checkin&#10;">
+      <created>1383751719419</created>
+      <updated>1383751719420</updated>
+    </task>
+    <option name="localTasksCounter" value="647" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3070,21 +3094,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22450212" sideWeight="0.76734257" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2009656" sideWeight="0.5410886" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39708266" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23265742" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45891142" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989305" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5635005" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
@@ -3102,7 +3126,7 @@
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5635005" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39708266" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
@@ -3114,12 +3138,12 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1937236" sideWeight="0.43649948" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23265742" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2009656" sideWeight="0.5410886" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.45891142" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -3133,7 +3157,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Before the dependencies related to slice union problems (branch constructs, returns, break, continues, member expressions, call expr, etc) were handled only once, but the problem is that including some of them can reintroduce problems, that is why fixed point iteration is necessary; the number of dependencies added during fixing slice-union problems is counted, and the process stops when no dependencies are added" />
     <MESSAGE value="Added handling of control-flow problematic expressions. But not sure if it is generally correct - for the problem see slicing tests 114 and 115" />
     <MESSAGE value="Update to jQuery tests" />
     <MESSAGE value="Browser now has the functionality of automatically executing loading and timing events" />
@@ -3158,7 +3181,8 @@
     <MESSAGE value="nodeJs - slicer all!" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Libraries excell checkin&#10;Generator handle problme when property name is [&quot;*&quot;]" />
-    <option name="LAST_COMMIT_MESSAGE" value="Libraries excell checkin&#10;Generator handle problme when property name is [&quot;*&quot;]" />
+    <MESSAGE value="Libraries excel checkin&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Libraries excel checkin&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3171,69 +3195,114 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/prototype/enumerable.js">
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="695" />
+        <state line="30" column="65" selection-start="1113" selection-end="1113" vertical-scroll-proportion="0.5111359" vertical-offset="51" max-vertical-offset="1785" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/prototype/classes.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1479" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/prototype/hash.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="695" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss-loc.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="682" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="75" selection-start="633" selection-end="633" vertical-scroll-proportion="0.076233186" vertical-offset="170" max-vertical-offset="2924" />
+        <state line="247" column="59" selection-start="10266" selection-end="10266" vertical-scroll-proportion="0.4043528" vertical-offset="3846" max-vertical-offset="9214">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/underscore-src.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-29.893526" vertical-offset="20776" max-vertical-offset="21471" />
+        <state line="17" column="4" selection-start="560" selection-end="577" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="21471">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/libraryLocCounter.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/slicedAll/Collections10any.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="92" selection-start="614" selection-end="614" vertical-scroll-proportion="0.41582733" vertical-offset="0" max-vertical-offset="1071" />
+        <state line="175" column="18" selection-start="5716" selection-end="5766" vertical-scroll-proportion="0.0" vertical-offset="2749" max-vertical-offset="3230">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/adjusted/timingLog.txt">
+    <entry file="file://$PROJECT_DIR$/chrome.manifest">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="695" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="481">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/libraries/gauss/slicedWithoutSliceUnions/profilingTest.txt">
+    <entry file="file://$PROJECT_DIR$/install.rdf">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="20" selection-start="633" selection-end="633" vertical-scroll-proportion="0.7849928" vertical-offset="0" max-vertical-offset="693" />
+        <state line="13" column="26" selection-start="523" selection-end="523" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js">
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="43" selection-start="655" selection-end="655" vertical-scroll-proportion="-1.1220589" vertical-offset="1052" max-vertical-offset="1734" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.17563118" vertical-offset="160" max-vertical-offset="2499">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/underscore/adjusted/Collections10any.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="32" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/133/index.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="12876" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="872">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/133/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="38" selection-start="57" selection-end="57" vertical-scroll-proportion="0.18681319" vertical-offset="0" max-vertical-offset="629">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/checkAllTests.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="70" selection-start="229" selection-end="229" vertical-scroll-proportion="-0.14718615" vertical-offset="255" max-vertical-offset="1734" />
+        <state line="14" column="35" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1734">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicingDataResultsAggregator.js">
+    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="30" selection-start="315" selection-end="315" vertical-scroll-proportion="0.225" vertical-offset="0" max-vertical-offset="2992" />
+        <state line="797" column="52" selection-start="1115010" selection-end="1115010" vertical-scroll-proportion="0.0" vertical-offset="13173" max-vertical-offset="23732">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/runAllSlicerConfigurationsOnLibraries.js">
+    <entry file="file://$PROJECT_DIR$/phantomJs/regressions/slicingTests.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="50" selection-start="1926" selection-end="1926" vertical-scroll-proportion="-0.8369408" vertical-offset="1651" max-vertical-offset="2601" />
+        <state line="9" column="22" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="76" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="2142">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/75/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="75" selection-start="464" selection-end="464" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="218" column="148" selection-start="11315" selection-end="11315" vertical-scroll-proportion="0.49943504" vertical-offset="3264" max-vertical-offset="4539">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>

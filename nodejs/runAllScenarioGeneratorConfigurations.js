@@ -43,7 +43,7 @@ var processOutput = "";
     spawnPhantomJsProcess
     (
         'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGenerator.js',
-        [applicationName, eventType, "100"],
+        [applicationName, eventType, "3"],
         function (data)
         {
             var str = data.toString()

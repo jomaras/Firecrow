@@ -121,29 +121,32 @@ for(var i = 0; i < libraryNames.length; i++)
 
     htmlCodeEverything += "<table>"
     htmlCodeEverything += "<tr>"
-             +  "<th>Page</th>"
-             +  "<th>P LT</th><th>P ST</th><th>P LOC</th><th>P SC</th><th>P OAST</th><th>P SAST</th><th>P OEXE</th><th>P SEXE</th>"
-             +  "<th>SA LT</th><th>SA ST</th><th>SA LOC</th><th>SA SC</th><th>SA OAST</th><th>SA SAST</th><th>SA OEXE</th><th>SA SEXE</th>"
-             +  "<th>SW LT</th><th>SW ST</th><th>SW LOC</th><th>SW SC</th><th>SW OAST</th><th>SW SAST</th><th>SW OEXE</th><th>SW SEXE</th>"
-             +  "</tr>"
+                        +  "<th>Page</th><th>LOC</th><th>EXE</th><th>AST</th><th>SC</th>"
+                        +  "<th>P-LOC</th><th>SA-LOC</th><th>SW-LOC</th>"
+                        +  "<th>P-AST</th><th>SA-AST</th><th>SW-AST</th>"
+                        +  "<th>SA-EXE</th><th>SW-EXE</th>"
+                        +  "<th>P-T</th><th>SA-T</th><th>SW-T</th>"
+                       +  "</tr>"
 
     for(var fileName in aggregatedData)
     {
         htmlCodeEverything += "<tr>";
 
-        htmlCodeEverything += "<td class='fileName'>" + fileName + "</td>";
-
-        for(var slicingType in aggregatedData[fileName])
-        {
-            htmlCodeEverything += "<td class='loadingTime'>" + aggregatedData[fileName][slicingType].loadingTime  + "</td>"
-                      + "<td class='slicingTime'>" + aggregatedData[fileName][slicingType].slicingTime  + "</td>"
-                      + "<td class='loc'>" + aggregatedData[fileName][slicingType].loc  + "</td>"
-                      + "<td class='slicingCriteriaCount'>" + aggregatedData[fileName][slicingType].slicingCriteriaCount  + " </td>"
-                      + "<td class='originalASTNodes'>" + aggregatedData[fileName][slicingType].numberOfAstNodes  + "</td>"
-                      + "<td class='afterSliceASTNodes'>" + (aggregatedData[fileName][slicingType].afterSliceNumberOfAstNodes || "")  + "</td>"
-                      + "<td class='originalNumExe'>" + aggregatedData[fileName][slicingType].numberOfEvaluatedExpressions  + "</td>"
-                      + "<td class='afterSliceNumberOfExpressions'>" + (aggregatedData[fileName][slicingType].afterSliceNumberOfExpressions || "")  + "</td>";
-        }
+        htmlCodeEverything += "<td class='fileName'>" + fileName + "</td><td>LOC</td>"
+                           +  "<td class='originalNumExe'>" + aggregatedData[fileName]["profiled"].numberOfEvaluatedExpressions  + "</td>"
+                           +  "<td class='originalASTNodes'>" + aggregatedData[fileName]["profiled"].numberOfAstNodes  + "</td>"
+                           +  "<td class='slicingCriteriaCount'>" + aggregatedData[fileName]["slicedAll"].slicingCriteriaCount  + " </td>"
+                           +  "<td class='loc'>" + aggregatedData[fileName]["profiled"].loc  + "</td>"
+                           +  "<td class='loc'>" + aggregatedData[fileName]["slicedAll"].loc  + "</td>"
+                           +  "<td class='loc'>" + aggregatedData[fileName]["slicedWithoutSliceUnions"].loc  + "</td>"
+                           +  "<td class='ast'>" + aggregatedData[fileName]["profiled"].afterSliceNumberOfAstNodes  + "</td>"
+                           +  "<td class='ast'>" + aggregatedData[fileName]["slicedAll"].afterSliceNumberOfAstNodes  + "</td>"
+                           +  "<td class='ast'>" + aggregatedData[fileName]["slicedWithoutSliceUnions"].afterSliceNumberOfAstNodes  + "</td>"
+                           +  "<td class='originalNumExe'>" + aggregatedData[fileName]["slicedAll"].afterSliceNumberOfExpressions  + "</td>"
+                           +  "<td class='originalNumExe'>" + aggregatedData[fileName]["slicedWithoutSliceUnions"].afterSliceNumberOfExpressions + "</td>"
+                           +  "<td class='slicingTime'>" + aggregatedData[fileName]["profiled"].slicingTime  + "</td>"
+                           +  "<td class='slicingTime'>" + aggregatedData[fileName]["slicedAll"].slicingTime  + "</td>"
+                           +  "<td class='slicingTime'>" + aggregatedData[fileName]["slicedWithoutSliceUnions"].slicingTime  + "</td>";
 
         htmlCodeEverything += "</tr>";
     }
@@ -152,19 +155,8 @@ for(var i = 0; i < libraryNames.length; i++)
 
     htmlCodeEverything += "</body></html>";
 
-
-    var htmlCodeEverything = "<html><head><title>" + libraryName + "</title></head><body>";
-
-    htmlCodeEverything += "<table>"
-    htmlCodeEverything += "<tr>"
-                        +  "<th>Page</th>"
-                        +  "<th>LOC</th><th>P ST</th><th>P LOC</th><th>P SC</th><th>P OAST</th><th>P SAST</th><th>P OEXE</th><th>P SEXE</th>"
-                        +  "<th>SA LT</th><th>SA ST</th><th>SA LOC</th><th>SA SC</th><th>SA OAST</th><th>SA SAST</th><th>SA OEXE</th><th>SA SEXE</th>"
-                        +  "<th>SW LT</th><th>SW ST</th><th>SW LOC</th><th>SW SC</th><th>SW OAST</th><th>SW SAST</th><th>SW OEXE</th><th>SW SEXE</th>"
-                        +  "</tr>"
-
     fs.write(libraryFolder + "summary.html", htmlCodeEverything);
-    fs.write(libraryFolder + "summaryChosen.html", htmlCodeChosen);
+
     console.log("Data written to: " + libraryFolder + "summary.html");
 }
 

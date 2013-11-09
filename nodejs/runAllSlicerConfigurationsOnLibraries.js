@@ -2,7 +2,7 @@ var spawn = require('child_process').spawn;
 
 var fs = require('fs');
 
-var libraryNames = ["jQuery"];
+var libraryNames = ["jQuery", "gauss", "sylvester", "mooTools", "underscore", "prototype"];
 var slicingTypes = ["slicedWithoutSliceUnions", "slicedAll", "profiled"];
 
 var allCombinations = getAllCombinations(libraryNames, slicingTypes);
@@ -15,29 +15,23 @@ function processNextCombination()
     if(allCombinations == null || allCombinations.length == 0)
     {
         console.log("NodeJs: Process finished - comparing coverages");
-        spawnPhantomJsProcess
-        (
-            'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\slicingDataResultsAggregator.js',
-            [],
-            function (data)
-            {
-                var str = data.toString()
-                var lines = str.split(/(\r?\n)/g);
-                console.log("Aggregating:" + lines.join(""));
-            },
-            function (code)
-            {
-                process.exit();
-            }
-        );
+        aggregateResults();
         return;
     }
 
     var libraryName = allCombinations[allCombinations.length-1].libraryName;
     var slicingType = allCombinations[allCombinations.length-1].slicingType;
 
-    console.log(libraryName + " - " + slicingType);
+    sliceLibrary(libraryName, slicingType);
+};
+
+processNextCombination();
+
+function sliceLibrary(libraryName, slicingType)
+{
+    console.log("Slicing library:", libraryName + " - " + slicingType);
     var startTime = Date.now();
+
     spawnPhantomJsProcess
     (
         'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\slicer.js',
@@ -56,13 +50,12 @@ function processNextCombination()
             allCombinations.pop();
         }
     );
-};
-
-processNextCombination();
+}
 
 function generateModels(libraryName, slicingType)
 {
     console.log("Generating page models: " + libraryName + " - " + slicingType);
+
     spawnPhantomJsProcess
     (
         'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\pageModeler.js',
@@ -78,8 +71,6 @@ function generateModels(libraryName, slicingType)
 
 function profileGeneratedCode(libraryName, slicingType)
 {
-    if(slicingType == "slicedWithoutSliceUnions") { setTimeout(processNextCombination, 1000); return; }
-
     console.log("Profiling: " + libraryName + " - " + slicingType);
 
     spawnPhantomJsProcess
@@ -112,6 +103,25 @@ function checkCorrectness(libraryName, slicingType)
         function (code)
         {
             profileGeneratedCode(libraryName, slicingType);
+        }
+    );
+}
+
+function aggregateResults()
+{
+    spawnPhantomJsProcess
+    (
+        'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\slicingDataResultsAggregator.js',
+        [],
+        function (data)
+        {
+            var str = data.toString()
+            var lines = str.split(/(\r?\n)/g);
+            console.log("Aggregating:" + lines.join(""));
+        },
+        function (code)
+        {
+            process.exit();
         }
     );
 }

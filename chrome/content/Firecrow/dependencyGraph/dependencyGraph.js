@@ -42,6 +42,7 @@ FBL.ns(function() { with (FBL) {
     DependencyGraph.shouldLog = false;
     DependencyGraph.sliceUnions = true;
     DependencyGraph.noOfSlicingCriteria = 0;
+    DependencyGraph.sliceUnionProblematicExpressions = [];
 
     DependencyGraph.prototype = dummy =
     {
@@ -217,7 +218,6 @@ FBL.ns(function() { with (FBL) {
                 }
             );
         },
-
 
         //This is so that i know which callback executions are related
         //in the map i will keep track of all execution context id's
@@ -402,12 +402,11 @@ FBL.ns(function() { with (FBL) {
                 var codeConstruct = traceItem.codeConstruct;
 
                 if(!codeConstruct.shouldBeIncluded
-                || !this._areAllIncluded(this.dependencyCallExpressionMapping[traceItem.dependencyIndex])) { continue; }
-
+                || !this._contextHasIncludedDependencies(traceItem.executionContextId)) { continue; }
                 var dependencies = codeConstruct.graphNode.getUntraversedValueDependenciesFromContext(traceItem.executionContextId);
 
                 addedDependencies += dependencies.length;
-
+                if(dependencies.length != 0) { DependencyGraph.sliceUnionProblematicExpressions.push({traceItem: traceItem, dependencies: dependencies});}
                 for(var j = 0; j < dependencies.length; j++)
                 {
                     var dependency = dependencies[j];

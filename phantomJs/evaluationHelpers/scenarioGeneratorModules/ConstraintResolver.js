@@ -103,7 +103,7 @@ var ConstraintResolver =
                         expressions += numericExpression.toString() + ";";
                     });
 
-                    console.log("Expressions: " + expressions + " could not be solved");
+                    console.log("Expressions: " + expressions + " could not be solved - response: " + solution.response);
                 }
             }
             else

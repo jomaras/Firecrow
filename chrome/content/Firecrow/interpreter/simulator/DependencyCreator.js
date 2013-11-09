@@ -66,7 +66,7 @@ fcSimulator.DependencyCreator.prototype =
         }
     },
 
-    createDataDependency: function(fromConstruct, toConstruct, evaluationPosition, toEvaluationPosition)
+     createDataDependency: function(fromConstruct, toConstruct, evaluationPosition, toEvaluationPosition)
     {
         if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createSimpleDependency(fromConstruct, toConstruct); }
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
