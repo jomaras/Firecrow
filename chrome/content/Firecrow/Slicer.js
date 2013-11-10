@@ -5,92 +5,88 @@
  */
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
-Firecrow.Slicer = {
-    slice: function(htmlModel, slicingCriteria, url, executeRegisteredEvents, doNotFixSliceUnionProblems)
-    {
-        var Firecrow = FBL.Firecrow;
-        Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
-
-        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
-        Firecrow.DoppelBrowser.Browser.isForSlicing = true;
-        var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
-        Firecrow.Slicer.browser = browser;
-        browser.url = url || htmlModel.pageUrl;
-
-        Firecrow.Interpreter.Simulator.DependencyCreator.shouldCreateDependencies = true;
-
-        browser.registerSlicingCriteria(slicingCriteria);
-        browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
-        browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
-        browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
-        browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
-        browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
-        browser.registerBreakContinueReturnEventReached(dependencyGraph.handleBreakContinueReturnEventReached, dependencyGraph);
-
-        browser.registerContextEnterCallback(dependencyGraph.handleEnterContext, dependencyGraph);
-        browser.registerContextExitCallback(dependencyGraph.handleExitContext, dependencyGraph);
-
-        browser.registerInterpretationDoneCallback(dependencyGraph.handleInterpretationDone, dependencyGraph);
-
-        browser.registerCallbackCalled(dependencyGraph.handleCallbackCalled, dependencyGraph);
-        browser.registerExpressionEvaluatedCallback(dependencyGraph.handleExpressionEvaluated, dependencyGraph);
-        browser.registerCallbackStartedExecuting(dependencyGraph.handleCallbackStartedExecuting, dependencyGraph);
-        browser.registerCallbackStoppedExecuting(dependencyGraph.handleCallbackStoppedExecuting, dependencyGraph);
-
-        browser.evaluatePage();
-
-        if(executeRegisteredEvents)
+    Firecrow.Slicer = {
+        slice: function(htmlModel, slicingCriteria, url, executeRegisteredEvents, doNotFixSliceUnionProblems)
         {
-            browser.executeLoadingEvents();
-            browser.executeTimingEvents();
-        }
+            var Firecrow = FBL.Firecrow;
+            Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
 
-        if(doNotFixSliceUnionProblems)
+            var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
+            Firecrow.DoppelBrowser.Browser.isForSlicing = true;
+            var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
+            Firecrow.Slicer.browser = browser;
+            browser.url = url || htmlModel.pageUrl;
+
+            Firecrow.Interpreter.Simulator.DependencyCreator.shouldCreateDependencies = true;
+
+            browser.registerSlicingCriteria(slicingCriteria);
+            browser.registerNodeCreatedCallback(dependencyGraph.handleNodeCreated, dependencyGraph);
+            browser.registerNodeInsertedCallback(dependencyGraph.handleNodeInserted, dependencyGraph);
+            browser.registerDataDependencyEstablishedCallback(dependencyGraph.handleDataDependencyEstablished, dependencyGraph);
+            browser.registerControlDependencyEstablishedCallback(dependencyGraph.handleControlDependencyEstablished, dependencyGraph);
+            browser.registerImportantConstructReachedCallback(dependencyGraph.handleImportantConstructReached, dependencyGraph);
+            browser.registerBreakContinueReturnEventReached(dependencyGraph.handleBreakContinueReturnEventReached, dependencyGraph);
+            browser.registerEnterFunctionCallback(dependencyGraph.handleEnterFunction, dependencyGraph);
+            browser.registerExitFunctionCallback(dependencyGraph.handleExitFunction, dependencyGraph);
+            browser.registerCallbackCalled(dependencyGraph.handleCallbackCalled, dependencyGraph);
+            browser.registerExpressionEvaluatedCallback(dependencyGraph.handleExpressionEvaluated, dependencyGraph);
+            browser.registerCallbackStartedExecuting(dependencyGraph.handleCallbackStartedExecuting, dependencyGraph);
+            browser.registerCallbackStoppedExecuting(dependencyGraph.handleCallbackStoppedExecuting, dependencyGraph);
+
+            browser.evaluatePage();
+
+            if(executeRegisteredEvents)
+            {
+                browser.executeLoadingEvents();
+                browser.executeTimingEvents();
+            }
+
+            if(doNotFixSliceUnionProblems)
+            {
+                Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
+            }
+
+            dependencyGraph.markGraph(htmlModel.htmlElement);
+
+            return {
+                browser: browser,
+                dependencyGraph: dependencyGraph
+            };
+        },
+
+        profile: function(htmlModel, url, executeRegisteredEvents)
         {
-            Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
-        }
+            var Firecrow = FBL.Firecrow;
+            Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
 
-        dependencyGraph.markGraph(htmlModel.htmlElement);
+            var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
+            Firecrow.DoppelBrowser.Browser.isForSlicing = false;
+            var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
+            Firecrow.Slicer.browser = browser;
+            browser.url = url || htmlModel.pageUrl;
 
-        return {
-            browser: browser,
-            dependencyGraph: dependencyGraph
-        };
-    },
+            Firecrow.Interpreter.Simulator.DependencyCreator.shouldCreateDependencies = false;
 
-    profile: function(htmlModel, url, executeRegisteredEvents)
-    {
-        var Firecrow = FBL.Firecrow;
-        Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
+            browser.evaluatePage();
 
-        var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
-        Firecrow.DoppelBrowser.Browser.isForSlicing = false;
-        var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
-        Firecrow.Slicer.browser = browser;
-        browser.url = url || htmlModel.pageUrl;
+            if(executeRegisteredEvents)
+            {
+                browser.executeLoadingEvents();
+                browser.executeTimingEvents();
+            }
 
-        Firecrow.Interpreter.Simulator.DependencyCreator.shouldCreateDependencies = false;
+            return {
+                browser: browser,
+                dependencyGraph: dependencyGraph
+            };
+        },
 
-        browser.evaluatePage();
-
-        if(executeRegisteredEvents)
+        getSlicedCode: function(htmlModel, slicingCriteria, url)
         {
-            browser.executeLoadingEvents();
-            browser.executeTimingEvents();
+            this.slice(htmlModel, slicingCriteria, url);
+
+            return FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel);
         }
-
-        return {
-            browser: browser,
-            dependencyGraph: dependencyGraph
-        };
-    },
-
-    getSlicedCode: function(htmlModel, slicingCriteria, url)
-    {
-        this.slice(htmlModel, slicingCriteria, url);
-
-        return FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel);
-    }
-};
+    };
 // ************************************************************************************************
 }});
