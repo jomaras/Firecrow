@@ -336,6 +336,20 @@ Firecrow.ASTHelper = ASTHelper =
         };
     },
 
+    getLoopStatements: function(root)
+    {
+        var loops = [];
+        ASTHelper.traverseDirectSourceElements(root, function(element)
+        {
+            if(ASTHelper.isLoopStatement(element))
+            {
+                loops.push(element)
+            }
+        }, false);
+
+        return loops;
+    },
+
     _hasBeenExecutedByEvent: function(astElement, executionId)
     {
         if(executionId == null) { return astElement.hasBeenExecuted; }

@@ -46,7 +46,8 @@ FBL.ns(function () { with (FBL)
             {
                 node.isIncludedByPostprocessor = isIncludedByPostprocessor;
             }
-            if(node != null && node.loc != null && node.loc.start.line == 13) debugger;
+            //if(node != null && node.loc != null && node.loc.start.line == 13) debugger;
+            if(node.nodeId == 53) debugger;
             node.shouldBeIncluded = true;
 
             if(node.maxIncludedByDependencyIndex == null) { node.maxIncludedByDependencyIndex = dependencyIndex; }

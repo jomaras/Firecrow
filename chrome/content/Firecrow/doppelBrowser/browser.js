@@ -37,8 +37,9 @@ fcBrowser.Browser = function(pageModel)
         this.controlFlowConnectionCallbacks = [];
         this.importantConstructReachedCallbacks = [];
         this.documentReadyCallbacks = [];
-        this.enterFunctionCallbacks = [];
-        this.exitFunctionCallbacks = [];
+        this.enterContextCallback = { callback: function(){}, thisObject: this};
+        this.exitContextCallback = { callback: function(){}, thisObject: this};
+        this.interpretationDoneCallback = { callback: function(){}, thisObject: this};
         this.callbackCalledCallbacks = [];
         this.startedExecutingCallbackCallbacks = [];
         this.stoppedExecutingCallbackCallbacks = [];
@@ -450,12 +451,12 @@ Browser.prototype = dummy =
             this.executionInfo.logEnteringFunction(functionConstruct, executionContextId);
         }
 
-        this.callEnterFunctionCallbacks(callExpression, functionConstruct, executionContextId);
+        this.callEnterContextCallbacks(executionContextId);
     },
 
     logExitingFunction: function()
     {
-        this.callExitFunctionCallbacks();
+        this.callExitContextCallbacks();
     },
 
     logConstructExecuted: function(codeConstruct)
@@ -952,18 +953,25 @@ Browser.prototype = dummy =
         this.documentReadyCallbacks.push({callback: callback, thisObject: thisObject || this});
     },
 
-    registerEnterFunctionCallback: function(callback, thisObject)
+    registerContextEnterCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - enter function callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - enter context callback has to be a function!"); return; }
 
-        this.enterFunctionCallbacks.push({callback: callback, thisObject: thisObject || this});
+        this.enterContextCallback = {callback: callback, thisObject: thisObject || this};
     },
 
-    registerExitFunctionCallback: function(callback, thisObject)
+    registerContextExitCallback: function(callback, thisObject)
     {
-        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - enter function callback has to be a function!"); return; }
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - exit context callback has to be a function!"); return; }
 
-        this.exitFunctionCallbacks.push({callback: callback, thisObject: thisObject || this});
+        this.exitContextCallback = {callback: callback, thisObject: thisObject || this};
+    },
+
+    registerInterpretationDoneCallback: function(callback, thisObject)
+    {
+        if(!ValueTypeHelper.isFunction(callback)) { this.notifyError("DoppelBrowser.Browser - interpretation done callback has to be a function!"); return; }
+
+        this.interpretationDoneCallback = {callback: callback, thisObject: thisObject || this};
     },
 
     registerCallbackCalled: function(callback, thisObject)
@@ -996,13 +1004,19 @@ Browser.prototype = dummy =
         }
     },
 
-    callEnterFunctionCallbacks: function(callExpression, functionConstruct, executionContextId)
+    callEnterContextCallbacks: function(executionContextId)
     {
-        for(var i = 0; i < this.enterFunctionCallbacks.length; i++)
-        {
-            var callbackObject = this.enterFunctionCallbacks[i];
-            callbackObject.callback.call(callbackObject.thisObject, callExpression, functionConstruct, executionContextId);
-        }
+        this.enterContextCallback.callback.call(this.enterContextCallback.thisObject, executionContextId);
+    },
+
+    callExitContextCallbacks: function()
+    {
+        this.exitContextCallback.callback.call(this.enterContextCallback.thisObject);
+    },
+
+    callInterpretationDoneCallback: function(executedLoops)
+    {
+        this.interpretationDoneCallback.callback.call(this.interpretationDoneCallback.thisObject, executedLoops);
     },
 
     callCallbackCalledCallbacks: function(callbackConstruct, callCallbackConstruct, evaluationPosition)
@@ -1011,15 +1025,6 @@ Browser.prototype = dummy =
         {
             var callbackObject = this.callbackCalledCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, callbackConstruct, callCallbackConstruct, evaluationPosition);
-        }
-    },
-
-    callExitFunctionCallbacks: function()
-    {
-        for(var i = 0; i < this.exitFunctionCallbacks.length; i++)
-        {
-            var callbackObject = this.exitFunctionCallbacks[i];
-            callbackObject.callback.call(callbackObject.thisObject);
         }
     },
 
@@ -1080,6 +1085,11 @@ Browser.prototype = dummy =
             var callbackObject = this.controlFlowConnectionCallbacks[i];
             callbackObject.callback.call(callbackObject.thisObject, codeConstruct);
         }
+    },
+
+    registerExecutedBlockConstruct: function(executedBlockConstructs)
+    {
+        this.callInterpretationDoneCallback(executedBlockConstructs);
     },
 
     callControlDependencyEstablishedCallbacks: function(sourceNode, targetNode, dependencyCreationInfo, destinationNodeDependencyInfo, isPreviouslyExecutedBlockStatementDependency)
@@ -1223,8 +1233,8 @@ Browser.prototype = dummy =
         delete this.controlFlowConnectionCallbacks;
         delete this.importantConstructReachedCallbacks;
         delete this.documentReadyCallbacks;
-        delete this.enterFunctionCallbacks;
-        delete this.exitFunctionCallbacks;
+        delete this.enterContextCallbacks;
+        delete this.exitContextCallbacks;
         delete this.breakContinueReturnEventsCallbacks;
 
         delete this.domQueriesMap;

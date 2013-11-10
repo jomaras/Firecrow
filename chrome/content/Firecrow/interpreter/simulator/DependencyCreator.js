@@ -34,6 +34,21 @@ fcSimulator.DependencyCreator.prototype =
         }
     },
 
+    createBreakContinueDependencies: function(breakContinueConstruct)
+    {
+        var dependencyCreationInfo = this.globalObject.getPreciseEvaluationPositionId();
+
+        dependencyCreationInfo.shouldAlwaysBeFollowed = true;
+        dependencyCreationInfo.isBreakReturnDependency = true;
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            ASTHelper.getBreakContinueReturnImportantAncestor(breakContinueConstruct),
+            breakContinueConstruct,
+            dependencyCreationInfo
+        );
+    },
+
     createExitFunctionDependencies: function(callFunctionCommand)
     {
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }

@@ -57,6 +57,8 @@ FBL.ns(function() { with (FBL) {
                 destinationNode.reverseDependencies.push(edge);
             }
 
+            this.lastDependency = edge;
+
             return edge;
         },
 
@@ -73,6 +75,8 @@ FBL.ns(function() { with (FBL) {
                 destinationNode.reverseDependencies.push(edge);
             }
 
+            this.lastDependency = edge;
+
             return edge;
         },
 
@@ -88,7 +92,7 @@ FBL.ns(function() { with (FBL) {
             {
                 var dependency = dependencies[i];
 
-                if(dependency.isReturnDependency && dependency.callDependencyMaxIndex <= maxIndex)
+                if((dependency.isReturnDependency  || dependency.isBreakReturnDependency) && dependency.callDependencyMaxIndex <= maxIndex)
                 {
                     selectedDependencies.push(dependency);
                 }

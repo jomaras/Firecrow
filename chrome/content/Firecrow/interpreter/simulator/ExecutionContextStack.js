@@ -644,6 +644,8 @@ fcSimulator.ExecutionContextStack.prototype =
     {
         this._tryPopCommand(loopCommand);
         this._reevaluateEvaluationPositionId();
+
+        this.globalObject.browser.callExitContextCallbacks();
     },
 
     _tryPopCommand: function(baseCommand)
@@ -674,6 +676,11 @@ fcSimulator.ExecutionContextStack.prototype =
         this.blockCommandStack.push(command);
 
         if(command.isLoopStatementCommand() || command.isEnterFunctionContextCommand()) { this._reevaluateEvaluationPositionId(); }
+
+        if(!command.isStartWithStatementCommand())
+        {
+            this.globalObject.browser.callEnterContextCallbacks(fcSimulator.ExecutionContext.LAST_ID + "-" + command.id);
+        }
     },
 
     _addToFunctionContextBlockCommands: function(command)

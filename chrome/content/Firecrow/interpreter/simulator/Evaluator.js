@@ -85,6 +85,7 @@ fcSimulator.Evaluator.prototype =
             this.globalObject.browser.callBreakContinueReturnEventCallbacks(breakContinueCommand.codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
 
             this.globalObject.browser.logConstructExecuted(breakContinueCommand.codeConstruct);
+            this.dependencyCreator.createBreakContinueDependencies(breakContinueCommand.codeConstruct);
         }
         catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
     },

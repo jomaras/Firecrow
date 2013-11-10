@@ -131,6 +131,8 @@ fcSimulator.prototype = dummy =
 
     destruct: function()
     {
+        this.globalObject.browser.registerExecutedBlockConstruct(ASTHelper.getLoopStatements(this.programAst));
+
         delete this.programAst;
         delete this.globalObject;
         delete this.handlerInfo;
