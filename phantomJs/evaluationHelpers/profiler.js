@@ -15,7 +15,7 @@ var destinationName = system.args[2] || "slicedAll";//profiled; slicedAll; slice
 var destinationFolder = libraryFolder + destinationName;
 var logFile = destinationFolder + "\\profilingT.txt";
 
-var rootName = system.args[3] || "slicedAll_models";
+var rootName = system.args[3] || "slicedAll_models";  //"adjusted_models" "slicedAll_models"
 var rootFolder = libraryFolder + rootName;
 
 var emptyPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/emptyPage.html";
@@ -30,7 +30,8 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fullPath.indexOf('effects05') != -1) { add = true; }
+    if(fullPath.indexOf('manipulation07') != -1) { add = true; }else add=false;
+    //if(fullPath.indexOf("effects") == -1){ add = false; }
 
     if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && add)
     {

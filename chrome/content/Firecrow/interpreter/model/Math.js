@@ -70,6 +70,11 @@ fcModel.MathExecutor =
             );
         }
         catch(e) { fcModel.Math.notifyError("Error when executing internal math method: " + e);}
+    },
+
+    isInternalMathMethod: function(functionObject)
+    {
+        return fcModel.Math.CONST.INTERNAL_PROPERTIES.METHODS.indexOf(functionObject.name) != -1;
     }
 }
 /*************************************************************************************/

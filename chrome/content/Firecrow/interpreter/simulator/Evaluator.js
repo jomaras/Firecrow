@@ -86,6 +86,11 @@ fcSimulator.Evaluator.prototype =
 
             this.globalObject.browser.logConstructExecuted(breakContinueCommand.codeConstruct);
             this.dependencyCreator.createBreakContinueDependencies(breakContinueCommand.codeConstruct);
+
+            if(breakContinueCommand.codeConstruct.loc.start.line >= 630 && breakContinueCommand.codeConstruct.loc.start.line <= 675)
+            {
+                debugger;
+            }
         }
         catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
     },
@@ -184,7 +189,8 @@ fcSimulator.Evaluator.prototype =
     _evalIdentifierCommand: function(identifierCommand)
     {
         var identifierConstruct = identifierCommand.codeConstruct;
-
+        if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 8166)debugger
+        //if(identifierConstruct.nodeId == 99071)debugger
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
 
@@ -208,7 +214,7 @@ fcSimulator.Evaluator.prototype =
         var memberExpression = memberCommand.codeConstruct;
 
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
-
+        //if(memberExpression.loc != null && memberExpression.loc.start.line >= 5072 && memberExpression.loc.start.line <= 5074)debugger;
         if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
         var property = this.executionContextStack.getExpressionValue(memberExpression.property);
@@ -684,7 +690,7 @@ fcSimulator.Evaluator.prototype =
 
     _getUpdateValue: function(currentValue, updateExpression)
     {
-        var result = updateExpression.operator == "++" ? currentValue.jsValue + 1 : currentValue.jsValue - 1;
+        var result = updateExpression.operator == "++" ? (currentValue.jsValue - 0) + 1 : (currentValue.jsValue - 0) - 1;
         return this.globalObject.internalExecutor.createInternalPrimitiveObject(updateExpression, result);
     },
 

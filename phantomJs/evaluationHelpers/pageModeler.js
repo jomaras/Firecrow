@@ -9,7 +9,7 @@ var htmlFiles = [];
 var pageIndex = 0;
 
 var libraryName = system.args[1] || "jQuery";
-var sourceFolder = system.args[2] || "profiled";
+var sourceFolder = system.args[2] || "slicedAll";
 var destinationFolderAddon = "_models";
 
 var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\" + sourceFolder;
@@ -20,7 +20,7 @@ htmlFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.html') != -1 && fullPath.indexOf("effects04") != -1)
     {
         return fullPath;
     }

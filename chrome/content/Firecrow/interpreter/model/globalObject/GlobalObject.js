@@ -432,6 +432,14 @@ fcModel.GlobalObject.prototype.getPreciseEvaluationPositionId = function()
     };
 };
 
+fcModel.GlobalObject.prototype.getPrecisePreviousEvaluationPositionId = function()
+{
+    return {
+        groupId : this.evaluationPositionId,
+        currentCommandId : (this.currentCommand != null ? this.currentCommand.executionId-1 : "0")
+    };
+};
+
 fcModel.GlobalObject.prototype.getReturnExpressionPreciseEvaluationPositionId = function()
 {
     var evaluationPositionId = this.getPreciseEvaluationPositionId();

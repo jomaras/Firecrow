@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="jQuery.js"></script>
+</head>
+<body>
+    <ul id="mainList">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+
+    <script>
+        var mainList = document.getElementById("mainList");
+        var children = mainList.children;
+
+        var counter = 0;
+
+        var grepped = jQuery.grep( children, function( elem )
+        {
+            return elem.nodeType === 1;
+        });
+
+        var res = jQuery.find.matches( "li", grepped);
+
+        var jMainList = $(mainList);
+        jMainList.attr("src", res.length);
+        jMainList.attr("href", grepped.length);
+     </script>
+</body>
+</html>

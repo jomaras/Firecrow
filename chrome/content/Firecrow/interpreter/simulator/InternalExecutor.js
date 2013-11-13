@@ -407,6 +407,7 @@ fcSimulator.InternalExecutor.prototype =
         else if (fcModel.ArrayExecutor.isInternalArrayMethod(functionObject.jsValue))  { return fcModel.ArrayExecutor.executeInternalArrayMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.StringExecutor.isInternalStringFunctionMethod(functionObject.jsValue))  { return this._executeInternalStringFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.ObjectExecutor.isInternalObjectMethod(functionObject.jsValue)) { return this._executeInternalObjectFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
+        else if (fcModel.MathExecutor.isInternalMathMethod(functionObject.jsValue)) { return this._executeInternalMathMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
         else if (functionObject.jsValue.name == "bind") { return this._executeBindFunction(thisObject, functionObject, args, callExpression); }
         else
@@ -428,6 +429,11 @@ fcSimulator.InternalExecutor.prototype =
         }
 
         return fcModel.StringExecutor.executeInternalStringMethod(thisObject, functionObject, args, callExpression, callCommand);
+    },
+
+    _executeInternalMathMethod: function(thisObject, functionObject, args, callExpression, callCommand)
+    {
+        return fcModel.MathExecutor.executeInternalMethod(thisObject, functionObject, args, callExpression);
     },
 
     _executeInternalObjectFunctionMethod: function(thisObject, functionObject, args, callExpression, callCommand)

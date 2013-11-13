@@ -454,15 +454,15 @@ FBL.ns(function() { with (FBL) {
             this.globalObject.browser.addPathConstraint(conditionalCommand.codeConstruct, conditionValue.symbolicValue, !conditionValue.jsValue);
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateConditionalExpressionEvalBodyCommands
                 (
-                    this.commands,
-                    CommandGenerator.generateConditionalExpressionEvalBodyCommands
-                        (
-                            conditionalCommand,
-                            conditionValue.jsValue
-                        ),
-                    this.currentCommandIndex + 1
-                );
+                    conditionalCommand,
+                    conditionValue.jsValue
+                ),
+                this.currentCommandIndex + 1
+            );
         },
 
         _generateCommandsAfterCaseCommand: function(caseCommand)

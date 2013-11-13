@@ -8,7 +8,10 @@
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
 
     <script src="pages/modelMapping.js"></script>
-    <script src="../evaluation/fullPages/06-nitrografix/codeModel/featureModel2.js"></script>
+    <script src="http://localhost/CodeModels/evaluation/fullPages/01-ds22/codeModel/featureModel1.js"></script>
+    <script>
+        var profile = true;
+    </script>
     <!--<script src="file:///C:/GitWebStorm/Firecrow/evaluation/libraries/jQuery/adjusted_models/core26camelCase.json"></script>-->
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
@@ -118,14 +121,16 @@
 </head>
 <body>
 <h1>Firecrow - Debugging Test pages</h1>
-<iframe id="firecrowFrame" height="600" width="800"></iframe>
+<iframe id="firecrowFrame" height="800" width="1300"></iframe>
 <div>
     <a id="testIdContainer"></a>
 </div>
 
 <br/>
 <span id="resultTitle">Result:</span>
-<span id="timeContainer"></span>
+Time: <span id="timeContainer"></span><br/>
+SC: <span id="slicingCriteriaCount"></span><br>
+Eval Expr:<span id="noEvaluatedExpressions"></span><br>
 <br/>
 <div id="slicedCodeContainer">
     <textarea id="slicedSourceTextContainer"></textarea>
@@ -156,10 +161,20 @@
 
     var timer = Firecrow.TimerHelper.createTimer();
 
-    var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria).browser;
+    if(!profile)
+    {
+        var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, url).browser;
 
-    document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
-    //document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
+        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+    }
+    else
+    {
+        var browser = Firecrow.Slicer.profile(htmlModel.model, url).browser;
+        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
+    }
+
+    document.getElementById("slicingCriteriaCount").textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
+    document.getElementById("noEvaluatedExpressions").textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
 
     timeContainer.textContent = timer.getElapsedTimeInSeconds();
 </script>

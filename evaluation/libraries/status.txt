@@ -1,9 +1,22 @@
-Napraviti da kreira ovisnost između svakog returna i callback poziva!
-Ili možda vezat svaki poziv callbacka i ako se on uključi onda se moraju uključiti i svi return izrazi
-tog callbacka
-
 gauss - all OK
+Sylvester - OK
 jQuery
-    -
+    - effects28
+    - effects30
+    - effects36
 prototype
-    - Enumerable18
+    - Array26AnyGeneric
+    - Array28AllGeneric
+    - Class02Instantiation
+Underscore
+    - Collections10any
+    - Collections17
+    - Collections18
+    - Functions05,06,9,10,11
+    - Objects11isEqual
+    - Objects26has
+MooTools
+    - Array06TrueIfMatch
+    - Array07TrueIfSome
+    - Class21
+    - Class22

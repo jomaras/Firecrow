@@ -27,6 +27,12 @@ fcModel.EventListenerMixin =
                 },
                 eventType: eventTypeName
             });
+
+            globalObject.registerHtmlElementEventHandler(this, eventTypeName, handler,
+            {
+                codeConstruct: callExpression,
+                evaluationPositionId: globalObject.getPreciseEvaluationPositionId()
+            });
         }
         catch(e) { fcModel.Object.notifyError("Error when adding event listener: " + e); }
     },

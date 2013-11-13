@@ -1380,11 +1380,12 @@ HtmlModelMapping.push
     }
 );
 
-
-
-
-
-
-
-
-
+HtmlModelMapping.push
+(
+    {
+        url: 'file:///C:/GitWebStorm/Firecrow/debug/slicingTests/134/index.html',
+        results: [{a1:8}],
+        model: {"docType":"","htmlElement":{"type":"html","attributes":[],"childNodes":[{"type":"head","attributes":[],"childNodes":[{"type":"textNode","attributes":[],"childNodes":[],"nodeId":0,"textContent":"\n"}],"nodeId":1},{"type":"textNode","attributes":[],"childNodes":[],"nodeId":2,"textContent":"\n"},{"type":"body","attributes":[],"childNodes":[{"type":"textNode","attributes":[],"childNodes":[],"nodeId":3,"textContent":"\n    "},{"type":"script","attributes":[],"childNodes":[{"type":"textNode","attributes":[],"childNodes":[],"nodeId":4,"textContent":"\n        var pow = Math.pow;\n        var a1 = pow(2,3);\n        a1;\n    "}],"nodeId":5,"textContent":"\n        var pow = Math.pow;\n        var a1 = pow(2,3);\n        a1;\n    ","pathAndModel":{"path":"file:///C:/GitWebStorm/Firecrow/debug/slicingTests/134/index.html","model":{"loc":{"start":{"line":6,"column":0},"end":{"line":9,"column":11},"source":null},"type":"Program","body":[{"loc":{"start":{"line":7,"column":8},"end":{"line":7,"column":26},"source":null},"type":"VariableDeclaration","kind":"var","declarations":[{"loc":{"start":{"line":7,"column":12},"end":{"line":7,"column":26},"source":null},"type":"VariableDeclarator","id":{"loc":{"start":{"line":7,"column":12},"end":{"line":7,"column":26},"source":null},"type":"Identifier","name":"pow","nodeId":8},"init":{"loc":{"start":{"line":7,"column":18},"end":{"line":7,"column":26},"source":null},"type":"MemberExpression","object":{"loc":{"start":{"line":7,"column":18},"end":{"line":7,"column":22},"source":null},"type":"Identifier","name":"Math","nodeId":10},"property":{"loc":null,"type":"Identifier","name":"pow","nodeId":11},"computed":false,"nodeId":9},"nodeId":7}],"nodeId":6},{"loc":{"start":{"line":8,"column":8},"end":{"line":8,"column":25},"source":null},"type":"VariableDeclaration","kind":"var","declarations":[{"loc":{"start":{"line":8,"column":12},"end":{"line":8,"column":25},"source":null},"type":"VariableDeclarator","id":{"loc":{"start":{"line":8,"column":12},"end":{"line":8,"column":25},"source":null},"type":"Identifier","name":"a1","nodeId":14},"init":{"loc":{"start":{"line":8,"column":17},"end":{"line":8,"column":25},"source":null},"type":"CallExpression","callee":{"loc":{"start":{"line":8,"column":17},"end":{"line":8,"column":20},"source":null},"type":"Identifier","name":"pow","nodeId":16},"arguments":[{"loc":{"start":{"line":8,"column":21},"end":{"line":8,"column":22},"source":null},"type":"Literal","value":2,"nodeId":17},{"loc":{"start":{"line":8,"column":23},"end":{"line":8,"column":24},"source":null},"type":"Literal","value":3,"nodeId":18}],"nodeId":15},"nodeId":13}],"nodeId":12},{"loc":{"start":{"line":9,"column":8},"end":{"line":9,"column":10},"source":null},"type":"ExpressionStatement","expression":{"loc":{"start":{"line":9,"column":8},"end":{"line":9,"column":10},"source":null},"type":"Identifier","name":"a1","nodeId":20},"nodeId":19}],"lineAdjuster":0,"source":"file:///C:/GitWebStorm/Firecrow/debug/slicingTests/134/index.html"}}},{"type":"textNode","attributes":[],"childNodes":[],"nodeId":21,"textContent":"\n\n"}],"nodeId":22}],"nodeId":23}},
+        slicingResult: "PCFET0NUWVBFIGh0bWw+CjxodG1sPgoKPGJvZHk+CiAgICA8c2NyaXB0PgogIHZhciBwb3cgPSBNYXRoLnBvdzsKICB2YXIgYTEgPSBwb3coMiwgMyk7CiAgYTE7Cjwvc2NyaXB0PgoKPC9ib2R5Pgo8L2h0bWw+"
+    }
+);

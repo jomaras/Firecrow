@@ -400,9 +400,8 @@ FBL.ns(function() { with (FBL) {
                 if(traceItem == null) { continue; }
 
                 var codeConstruct = traceItem.codeConstruct;
-
-                if(!codeConstruct.shouldBeIncluded
-                    || !this._contextHasIncludedDependencies(traceItem.executionContextId)) { continue; }
+                //if(codeConstruct.nodeId == 99164) debugger;
+                if(!codeConstruct.shouldBeIncluded || !this._contextHasIncludedDependencies(traceItem.executionContextId)) { continue; }
                 var dependencies = codeConstruct.graphNode.getUntraversedValueDependenciesFromContext(traceItem.executionContextId);
 
                 addedDependencies += dependencies.length;
@@ -475,7 +474,7 @@ FBL.ns(function() { with (FBL) {
             Firecrow.includeNode(codeConstruct, false, maxDependencyIndex, dependencyConstraint);
 
             if((ASTHelper.isMemberExpression(codeConstruct) || ASTHelper.isMemberExpression(codeConstruct.parent)
-                || ASTHelper.isCallExpression(codeConstruct) || ASTHelper.isCallExpressionCallee(codeConstruct)))
+             || ASTHelper.isCallExpression(codeConstruct) || ASTHelper.isCallExpressionCallee(codeConstruct)))
             {
                 this._includedMemberCallExpressionMap[codeConstruct.nodeId] = codeConstruct;
             }

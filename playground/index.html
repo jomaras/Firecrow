@@ -1,46 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="http://marjan.fesb.hr/~jomaras/scripts/jquery-1.4.2.js"></script>
-    <script src="test.js"></script>
-     <style>
-         #mainContainer, #cont
-         {
-             width: 100px;
-             height: 100px;
-             background-color: red;
-         }
-
-         #cont { background-color: blue; }
-     </style>
-</head>
-
-<body>
-    <div id="mainContainer"></div>
-    <div id="cont"></div>
-    <script>
-        function add(a,b)
+    <title></title>
+    <style>
+        #mainContainer
         {
-            return a + b;
+            box-shadow: 0px 1px 3px rgba( 0,0,0,0.68 );
+            -moz-box-shadow: 0px 1px 3px rgba( 0,0,0,0.68 );
+            border-radius: 7px;
+            border: solid black;
+            height: 200px;
+            width:300px;
+            transition: background-position 0.3s ease;
         }
+    </style>
+</head>
+<body>
+    <div id="mainContainer">
 
-        var mc = document.getElementById("mainContainer");
-        var cont = document.getElementById("cont");
-
-        mc.onclick = function()
-        {
-            mc.textContent += add(1,2);
-
-            setTimeout(function()
-            {
-                mc.textContent += add(2,2);
-            }, 100);
-        };
-
-        $("#cont").click(function()
-        {
-            this.textContent += 4;
-        });
-    </script>
+    </div>
 </body>
 </html>

@@ -57,10 +57,11 @@ FBL.ns(function() { with (FBL) {
         profile: function(htmlModel, url, executeRegisteredEvents)
         {
             var Firecrow = FBL.Firecrow;
+
             Firecrow.ASTHelper.setParentsChildRelationships(htmlModel);
 
             var dependencyGraph = new Firecrow.DependencyGraph.DependencyGraph();
-            Firecrow.DoppelBrowser.Browser.isForSlicing = false;
+            Firecrow.DoppelBrowser.Browser.isForSlicing = true;
             var browser = new Firecrow.DoppelBrowser.Browser(htmlModel);
             Firecrow.Slicer.browser = browser;
             browser.url = url || htmlModel.pageUrl;

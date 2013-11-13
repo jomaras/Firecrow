@@ -12,8 +12,8 @@ var PAGE_FAILS = 0;
 var htmlFiles = [];
 
 var rootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\";
-var libraryName = system.args[1] || "underscore";
-var sliceType = system.args[2] || "slicedAll"; //profiled, slicedAll, slicedWithoutSliceUnions, adjusted (for original)
+var libraryName = system.args[1] || "jQuery";
+var sliceType = system.args[2] || "slicedWithoutSliceUnions"; //profiled, slicedAll, slicedWithoutSliceUnions, adjusted (for original)
 var libraryFolder = rootFolder + libraryName + fs.separator;
 var checkFolder = libraryFolder + sliceType + fs.separator;
 

@@ -122,15 +122,15 @@ FBL.ns(function() { with (FBL) {
 
             this.setLoadingEventsExecuted();
         },
-
+        noOfTimingEventsExe: 0,
         executeTimingEvents: function()
         {
             var events = this._getTimingEventsSortedByRegistrationPoint();
 
-            while(events.length != 0)
+            while(events.length != 0 && this.noOfTimingEventsExe < 3)
             {
                 var event = events[0];
-
+                console.log("Executing event");
                 this._interpretJsCode
                 (
                     event.handlerConstruct.body,
@@ -153,6 +153,7 @@ FBL.ns(function() { with (FBL) {
                 }
 
                 events = this._getTimingEventsSortedByRegistrationPoint();
+                this.noOfTimingEventsExe++;
             }
         },
 
@@ -351,6 +352,7 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 this.interpreter = new Interpreter(codeModel, this.globalObject, handlerInfo);
+
                 this.globalObject.dependencyCreator = new fcSimulator.DependencyCreator(this.globalObject, this.interpreter.executionContextStack);
 
                 this.interpreter.registerMessageGeneratedCallback(function(message)
@@ -809,13 +811,17 @@ FBL.ns(function() { with (FBL) {
 
         _handleHtmlEvents: function(htmlElementEvents, eventTrace)
         {
+            var targetElement = this._getElementByXPath(eventTrace.args.targetXPath);
+            var thisElement = this._getElementByXPath(eventTrace.thisValue.xPath);
+
             for(var j = 0, htmlEventsLength = htmlElementEvents.length; j < htmlEventsLength; j++)
             {
                 var event = htmlElementEvents[j];
                 var fcHtmlElement = event.fcHtmlElement;
-                var xPath = this._getElementXPath(fcHtmlElement.htmlElement);
 
-                if(xPath != eventTrace.args.targetXPath && xPath != eventTrace.thisValue.xPath ) { continue; }
+                //if the xPath matches or if the event raising element is within the event handling element
+                if(!this._isElementOrAncestor(fcHtmlElement.htmlElement, targetElement)
+                && !this._isElementOrAncestor(fcHtmlElement.htmlElement, thisElement)) { continue; }
 
                 if(this._isElementEvent(eventTrace, event.eventType))
                 {
@@ -836,6 +842,7 @@ FBL.ns(function() { with (FBL) {
                         );
 
                         eventTrace.hasBeenHandled = true;
+                        console.log(event.eventType + " handled");
                         break;
                     }
                 }
@@ -1099,11 +1106,11 @@ FBL.ns(function() { with (FBL) {
             {
                 var callbackObject = this.dataDependencyEstablishedCallbacks[0];
                 callbackObject.callback.call
-                    (
-                        callbackObject.thisObject, sourceNode, targetNode,
-                        dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies,
-                        isValueDependency
-                    );
+                (
+                    callbackObject.thisObject, sourceNode, targetNode,
+                    dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependencies,
+                    isValueDependency
+                );
             }
         },
 
@@ -1145,6 +1152,49 @@ FBL.ns(function() { with (FBL) {
         registerSlicingCriteria: function(slicingCriteria)
         {
             this.globalObject.registerSlicingCriteria(slicingCriteria);
+        },
+
+        _isElementOrAncestor: function(potentialAncestor, element)
+        {
+            if(element == null || potentialAncestor == null) { return false;}
+            if(element == potentialAncestor) { return true; }
+            if(element.parentElement == null) { return false; }
+
+            if(potentialAncestor.nodeType == 9) { return true; } //document is ancestor to all!
+
+            element = element.parentElement;
+
+            while(element != null)
+            {
+                if(element == potentialAncestor) { return true; }
+
+                element = element.parentElement;
+            }
+
+            return false;
+        },
+
+        _getElementByXPath: function(xPath)
+        {
+            if(xPath == "window" || xPath == "") { return this.globalObject; }
+            if(xPath == "document") { return this.globalObject.document.implementationObject; }
+
+            try
+            {
+                return this.globalObject.document.implementationObject.evaluate
+                (
+                    xPath,
+                    this.globalObject.document.implementationObject,
+                    null, XPathResult.FIRST_ORDERED_NODE_TYPE,
+                    null
+                ).singleNodeValue;
+            }
+            catch(e)
+            {
+                alert("Getting element by XPath: " + xPath);
+                debugger;
+                return this.globalObject;
+            }
         },
 
         _getElementXPath: function(element)

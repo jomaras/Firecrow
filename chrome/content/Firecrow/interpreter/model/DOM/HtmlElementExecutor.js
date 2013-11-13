@@ -101,6 +101,8 @@ fcModel.HtmlElementExecutor =
                 }
             case "click":
             case "reset":
+            case "blur":
+            case "focus":
                 //TODO - problem with reset, my html nodes are created by document.createElement() and then
                 //setting properties, and reset resets to the values in the HTML code, and not to the dynamically set ones
                 if(thisObjectValue[functionName] != null)
@@ -109,7 +111,6 @@ fcModel.HtmlElementExecutor =
                     thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
                     fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
                 }
-                break;
                 break;
             default:
                 fcModel.HtmlElement.notifyError("Unhandled internal method:" + functionName); return;

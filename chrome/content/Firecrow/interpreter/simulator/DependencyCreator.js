@@ -767,7 +767,9 @@ fcSimulator.DependencyCreator.prototype =
     {
         if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createConditionalSimpleDependencies(conditionalCommand); }
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
         var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalCommand.codeConstruct, conditionalCommand.codeConstruct.test, evaluationPosition);
         this.globalObject.browser.callDataDependencyEstablishedCallbacks(conditionalCommand.codeConstruct, conditionalCommand.startCommand.body, evaluationPosition);
     },
@@ -784,11 +786,12 @@ fcSimulator.DependencyCreator.prototype =
         //TODO: not sure about this -> should it be for both
         //if(logicalExpression.operator == "&&")
         {
+            //So that the dependecies fall into the expression inside the logical expression item
             this.globalObject.browser.callDataDependencyEstablishedCallbacks
             (
                 logicalExpression.right,
                 logicalExpression.left,
-                this.globalObject.getPreciseEvaluationPositionId()
+                this.globalObject.getPrecisePreviousEvaluationPositionId()
             );
         }
     },

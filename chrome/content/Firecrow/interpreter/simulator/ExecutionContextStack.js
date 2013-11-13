@@ -249,15 +249,15 @@ FBL.ns(function() { with (FBL) {
             this.globalObject.browser.logConstructExecuted(variableDeclarator.id)
 
             this.activeContext.registerIdentifier
+            (
+                new fcModel.Identifier
                 (
-                    new fcModel.Identifier
-                        (
-                            variableDeclarator.id.name,
-                            new fcModel.fcValue(undefined, undefined, variableDeclarator),
-                            variableDeclarator,
-                            this.globalObject
-                        )
-                );
+                    variableDeclarator.id.name,
+                    new fcModel.fcValue(undefined, undefined, variableDeclarator),
+                    variableDeclarator,
+                    this.globalObject
+                )
+            );
         },
 
         registerFunctionDeclaration: function(functionDeclaration)
@@ -412,8 +412,8 @@ FBL.ns(function() { with (FBL) {
         getBaseObject: function(codeConstruct)
         {
             if(ASTHelper.isIdentifier(codeConstruct) || ASTHelper.isFunctionExpression(codeConstruct)
-                || ASTHelper.isLogicalExpression(codeConstruct) || ASTHelper.isConditionalExpression(codeConstruct)
-                || ASTHelper.isThisExpression(codeConstruct))
+            || ASTHelper.isLogicalExpression(codeConstruct) || ASTHelper.isConditionalExpression(codeConstruct)
+            || ASTHelper.isThisExpression(codeConstruct))
             {
                 return this.globalObject;
             }
@@ -484,7 +484,7 @@ FBL.ns(function() { with (FBL) {
             if(ASTHelper.isLoopStatement(topConstruct) || ASTHelper.isIfStatement(topConstruct)  || ASTHelper.isConditionalExpression(topConstruct))
             {
                 return topConstruct.blockStackConstructs = ASTHelper.isForInStatement(topConstruct) ? [topConstruct.right]
-                    : [topConstruct.test];
+                                                                                                    : [topConstruct.test];
             }
             else if(ASTHelper.isWithStatement(topConstruct))
             {
