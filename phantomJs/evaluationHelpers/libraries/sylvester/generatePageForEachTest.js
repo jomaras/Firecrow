@@ -78,7 +78,14 @@ var EsprimaHelper = {
 
                 if(statementCode.indexOf("assertMatch") != -1)
                 {
-                    console.log(JSON.stringify(statement));
+                    try
+                    {
+                        console.log(JSON.stringify(statement));
+                    }
+                    catch(e)
+                    {
+                        alert("Error stringifying in generagePageForEachTest")
+                    }
                 }
 
                 code += statementCode + "\n";

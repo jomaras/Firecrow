@@ -102,6 +102,7 @@
 <style>
     textarea { width: 800px; height: 40px; }
 </style>
+<script src="scenarioData.js"></script>
 </head>
 <body>
     <iframe id="firecrowFrame" height="800" width="1200"></iframe><br/>
@@ -113,7 +114,8 @@
 
         var pageUrl = window.queryString["url"];
         var selector = window.queryString["selector"] || "*";
-        var eventsJSON = window.queryString["events"] || "[]";
+        var eventsJSON = scenarioData.events || "[]";
+        var scriptsToIgnore = JSON.parse(scenarioData.scriptsToIgnore || "[]");
         var eventDescriptors = JSON.parse(eventsJSON);
 
         if(!pageUrl){ throw new Error("url has to be specified");}
@@ -181,8 +183,10 @@
 
             var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
             browser.url = pageUrl;
+            if(browser.url.indexOf("CodeModels") != -1) { browser.url = browser.url.replace("CodeModels", "Firecrow");}
+            browser.registerSlicingCriteria([{type:"DOM_MODIFICATION", cssSelector: selector}]);
 
-            (function executePage()
+            (function evaluatePage()
             {
                 browser.evaluatePage();
             })();
@@ -201,7 +205,7 @@
                     var eventRegistration = sgBrowserHelper.getMatchingEventRegistration
                     (
                         browser,
-                        pageModelMapping[eventDescriptor.thisObjectModelNodeId] || eventDescriptor.thisObjectModelNodeId,
+                        pageModelMapping[eventDescriptor.thisObjectModelNodeId] || sgBrowserHelper.getModelFromCssSelector(browser, eventDescriptor.thisObjectCssSelector),
                         pageModelMapping[eventDescriptor.registrationConstructId]
                     );
 
@@ -316,8 +320,27 @@
             })();
 
             var executionInfo = browser.getExecutionInfo();
-            executionInfo.achievedCoverage = ASTHelper.calculateCoverage(pageModel);
-            document.getElementById("executionInfo").value = JSON.stringify(executionInfo);
+            executionInfo.achievedCoverage = ASTHelper.calculateCoverage(pageModel, scriptsToIgnore);
+            try
+            {
+                document.getElementById("executionInfo").value = JSON.stringify(executionInfo);
+            }
+            catch(e)
+            {
+                var jsonObject = executionInfo.toJSON();
+                for(var prop in jsonObject)
+                {
+                    try
+                    {
+                        JSON.stringify(jsonObject[prop]);
+                    }
+                    catch(e)
+                    {
+                        console.log(prop);
+                    }
+                }
+            }
+
         }
     </script>
 </body>

@@ -38,6 +38,20 @@ fcScenarioGenerator.ScenarioBrowserHelper =
             || propertyName.indexOf("which") == 0;
     },
 
+    getModelFromCssSelector: function(browser, cssSelector)
+    {
+        try
+        {
+            browser.globalObject.document.implementationObject.querySelector(cssSelector);
+        }
+        catch(e)
+        {
+            console.log("Can not find: " + cssSelector, "in scenarioBrowserHelper");
+        }
+
+        return null;
+    },
+
     isEventPropertyWhich: function(propertyName)
     {
         return propertyName != null && propertyName.indexOf("which") == 0;

@@ -99,6 +99,14 @@ for(var currentProp in percentageAggregator)
     htmlTable += "</table>";
 }
 
-fs.write(recordingsRoot + "aggregate.html", htmlTable);
-fs.write(recordingsRoot + "aggregateJsonData.txt", JSON.stringify(percentageAggregator));
+try
+{
+    fs.write(recordingsRoot + "aggregate.html", htmlTable);
+    fs.write(recordingsRoot + "aggregateJsonData.txt", JSON.stringify(percentageAggregator));
+}
+catch(e)
+{
+    alert(e + " when serializing percentage aggregator");
+}
+
 phantom.exit();

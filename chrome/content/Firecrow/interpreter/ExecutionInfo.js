@@ -71,7 +71,8 @@ fcBrowser.ExecutionInfo.prototype =
             /*SKIPPED IMPORTANT MODIFICATIONS*/
 
             dataDependencies: this.dataDependencies,
-            achievedCoverage: this.achievedCoverage
+            achievedCoverage: this.achievedCoverage,
+            hasImportantModifications: ValueTypeHelper.objectHasProperties(this.importantModifications)
         };
     },
 
@@ -125,11 +126,12 @@ fcBrowser.ExecutionInfo.prototype =
             ({
                 eventType: eventRegistration.eventType,
                 thisObjectDescriptor: eventRegistration.thisObjectDescriptor,
-                thisObjectModelNodeId: eventRegistration.thisObjectModel != null ? eventRegistration.thisObjectModel.nodeId || eventRegistration.thisObjectModel : null,
+                thisObjectModelNodeId: eventRegistration.thisObjectModel != null ? eventRegistration.thisObjectModel.nodeId || -1 : null,
                 registrationConstructNodeId: eventRegistration.registrationConstruct != null ? eventRegistration.registrationConstruct.nodeId : null,
                 handlerConstructNodeId: eventRegistration.handlerConstruct != null ? eventRegistration.handlerConstruct.nodeId : null,
                 timePeriod: eventRegistration.timePeriod,
-                timerId: eventRegistration.timerId
+                timerId: eventRegistration.timerId,
+                thisObjectCssSelector: eventRegistration.thisObjectCssSelector
             });
         }
 
@@ -216,7 +218,6 @@ fcBrowser.ExecutionInfo.prototype =
     logImportantModificationReached: function(codeConstruct)
     {
         if(codeConstruct == null) { return; }
-
         if(this.currentEventExecutionInfo != null)
         {
             this.currentEventExecutionInfo.importantModifications[codeConstruct.nodeId] = codeConstruct;
@@ -433,7 +434,7 @@ fcBrowser.ExecutionInfo.prototype =
             : this.eventRegistrations;
     },
 
-    logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, handlerConstruct, loadingEventsExecuted, timerId, timePeriod)
+    logEventRegistered: function(thisObjectDescriptor, thisObjectModel, eventType, registrationConstruct, handlerConstruct, loadingEventsExecuted, timerId, timePeriod, thisObjectCssSelector)
     {
         var eventRegistrationInfo =
         {
@@ -444,7 +445,8 @@ fcBrowser.ExecutionInfo.prototype =
             handlerConstruct: handlerConstruct,
             loadingEventsExecuted: loadingEventsExecuted,
             timerId: timerId,
-            timePeriod: timePeriod
+            timePeriod: timePeriod,
+            thisObjectCssSelector: thisObjectCssSelector
         };
 
         if(this.currentEventExecutionInfo != null)

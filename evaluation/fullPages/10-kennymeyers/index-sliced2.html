@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    
+    
+    <link type="text/css" href="css/reset.css" rel="stylesheet"/>
+    <--<style>html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0px; padding: 0px; border: 0px none; outline: 0px none; font-size: 100%; vertical-align: baseline; background: none repeat scroll 0% 0% transparent; }
+    body { line-height: 1; }
+    table { border-collapse: collapse; border-spacing: 0px; }
+              </style>-->
+    <link type="text/css" href="css/960.css" rel="stylesheet"/>
+    <--<style>.container_12, .container_16 { margin-left: auto; margin-right: auto; width: 960px; }
+    .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16 { display: inline; float: left; position: relative; margin-left: 10px; margin-right: 10px; }
+    .container_12 .grid_2 { width: 140px; }
+    .container_12 .prefix_1 { padding-left: 80px; }
+    .container_12 .suffix_1 { padding-right: 80px; }
+              </style>-->
+    
+    <link type="text/css" href="css/styles.css" rel="stylesheet"/>
+    <--<style>body { background: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/bg.jpg") repeat scroll 0% 0% transparent; color: rgb(51, 50, 46); font: 16px/20px 'Helvetica Neue',Helvetica,Arial,sans-serif; text-align: center; }
+    .container_12 { clear: left; overflow: hidden; }
+    .wrapper { background: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/bg_wrapper.png") no-repeat scroll 50% 0px transparent; }
+    .projects, .projects li { margin-bottom: 40px; }
+    .projects li { position: relative; }
+    .projects a { color: rgba(0, 0, 0, 0.4); display: block; font-size: 11px; font-weight: bold; line-height: 15px; text-decoration: none; text-shadow: 0px 1px rgba(255, 255, 255, 0.6); text-transform: uppercase; }
+    .projects .asset { background-repeat: no-repeat; display: block; height: 140px; margin-bottom: 20px; position: relative; top: 0px; -moz-transition: all 0.25s ease 0s ; width: 140px; }
+    .clients .asset { background-image: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/sprite_clients.png"); }
+    .clients .turks_caicos_sc .asset { background-position: 0px 0px; }
+    .clients .date { color: rgba(0, 0, 0, 0.2); display: block; }
+    .tag { background-image: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/sprite_tags.png"); background-repeat: no-repeat; height: 30px; position: absolute; right: -5px; margin-left: -16px; opacity: 0.15; text-indent: -9999px; top: -5px; -moz-transition: all 0.5s ease 0s ; width: 30px; }
+    .suffix_1 .tag { right: 75px; }
+    .blue_flavor { background-position: 0px 0px; }
+    .be_good_not_bad { background-position: -30px 0px; }
+    .kevin_tamura { background-position: -60px 0px; }
+    .things_that_are_brown { background-position: -90px 0px; }
+    .t_incorporated { background-position: -120px 0px; }
+    .butter_label { background-position: -150px 0px; }
+    .e_house_studio { background-position: -180px 0px; }
+                         </style>-->
+    <script type="text/javascript">
+  (function(window, undefined)
+  {
+    var document = window.document;
+    var jQuery = (function()
+    {
+      var jQuery = function(selector, context)
+      {
+        return new jQuery.fn.init(selector, context, rootjQuery);
+      }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, readyList, DOMContentLoaded, toString = Object.prototype.toString, hasOwn = Object.prototype.hasOwnProperty, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery, 
+        init: function(selector, context, rootjQuery)
+        {
+          var match;
+          if(!selector)
+          {
+            return this;
+          }
+
+          if(selector.nodeType)
+          {
+            this[0] = selector;
+            this.length = 1;
+            return this;
+          }
+
+          if(typeof selector === 'string')
+          {
+            if(selector.charAt(0) === '<');
+            else 
+            {
+              match = quickExpr.exec(selector);
+            }
+
+            if(match);
+            else if(!context)
+            {
+              return (context || rootjQuery).find(selector);
+            }
+          }
+          else if(jQuery.isFunction(selector))
+          {
+            return rootjQuery.ready(selector);
+          }
+        }, 
+        jquery: '1.7.2', 
+        length: 0, 
+        pushStack: function(elems, name, selector)
+        {
+          var ret = this.constructor();
+          if(jQuery.isArray(elems));
+          else 
+          {
+            jQuery.merge(ret, elems);
+          }
+
+          return ret;
+        }, 
+        each: function(callback, args)
+        {
+          return jQuery.each(this, callback, args);
+        }, 
+        ready: function(fn)
+        {
+          jQuery.bindReady();
+          readyList.add(fn);
+          return this;
+        }, 
+        push: push
+      };
+      jQuery.fn.init.prototype = jQuery.fn;
+      jQuery.extend = jQuery.fn.extend = function()
+      {
+        var options, name, src, copy, copyIsArray, clone, target = arguments[0], i = 1, length = arguments.length, deep = false;
+        if(typeof target === 'boolean')
+        {
+          deep = target;
+          target = arguments[1];
+          i = 2;
+        }
+
+        if(length === i)
+        {
+          target = this;
+          --i;
+        }
+
+        for(;i < length;i++)
+        {
+          if((options = arguments[i]) != null)
+          {
+            for(name in options)
+            {
+              src = target[name];
+              copy = options[name];
+              if(deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))
+              {
+                if(copyIsArray);
+                else 
+                {
+                  clone = src && jQuery.isPlainObject(src) ? src : {};
+                }
+
+                target[name] = jQuery.extend(deep, clone, copy);
+              }
+              else if(copy !== undefined)
+              {
+                target[name] = copy;
+              }
+            }
+          }
+        }
+
+        return target;
+      };
+      jQuery.extend({
+        noConflict: function(deep){}, 
+        isReady: false, 
+        readyWait: 1, 
+        holdReady: function(hold){}, 
+        ready: function(wait)
+        {
+          if(wait === true || (wait !== true && !(jQuery.isReady)))
+          {
+            readyList.fireWith(document, [jQuery]);
+            if(jQuery.fn.trigger)
+            {
+              jQuery(document);
+            }
+          }
+        }, 
+        bindReady: function()
+        {
+          if(readyList)
+          {
+            return ;
+          }
+
+          readyList = jQuery.Callbacks('once memory');
+          if(document.addEventListener)
+          {
+            document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+          }
+        }, 
+        isFunction: function(obj)
+        {
+          return jQuery.type(obj) === 'function';
+        }, 
+        isArray: Array.isArray || function(obj)
+        {
+          return jQuery.type(obj) === 'array';
+        }, 
+        isWindow: function(obj)
+        {
+          return obj != null && obj == obj.window;
+        }, 
+        isNumeric: function(obj){}, 
+        type: function(obj)
+        {
+          return obj == null ? String(obj) : class2type[toString.call(obj)] || 'object';
+        }, 
+        isPlainObject: function(obj)
+        {
+          if(!obj || jQuery.type(obj) !== 'object' || obj.nodeType || jQuery.isWindow(obj))
+          {
+            return false;
+          }
+
+          var key;
+          for(key in obj)
+;
+          return key === undefined || hasOwn.call(obj, key);
+        }, 
+        isEmptyObject: function(obj){}, 
+        error: function(msg){}, 
+        parseJSON: function(data){}, 
+        parseXML: function(data){}, 
+        noop: function(){}, 
+        globalEval: function(data){}, 
+        camelCase: function(string){}, 
+        nodeName: function(elem, name){}, 
+        each: function(object, callback, args)
+        {
+          var name, i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
+          if(args);
+          else 
+          {
+            if(isObj)
+            {
+              for(name in object)
+              {
+                if(callback.call(object[name], name, object[name]) === false);
+              }
+            }
+            else 
+            {
+              for(;i < length;)
+              {
+                if(callback.call(object[i], i, object[i++]) === false);
+              }
+            }
+          }
+
+          return object;
+        }, 
+        trim: trim ? function(text)
+        {
+          return text == null ? 0 : trim.call(text);
+        } : 0, 
+        makeArray: function(array, results)
+        {
+          var ret = results || [];
+          if(array != null)
+          {
+            var type = jQuery.type(array);
+            if(array.length == null || type === 'string' || type === 'function' || type === 'regexp' || jQuery.isWindow(array));
+            else 
+            {
+              jQuery.merge(ret, array);
+            }
+          }
+
+          return ret;
+        }, 
+        inArray: function(elem, array, i){}, 
+        merge: function(first, second)
+        {
+          var i = first.length, j = 0;
+          if(typeof (second.length) === 'number')
+          {
+            for(var l = second.length;j < l;j++)
+            {
+              first[i++] = second[j];
+            }
+          }
+
+          first.length = i;
+          return first;
+        }, 
+        grep: function(elems, callback, inv){}, 
+        map: function(elems, callback, arg){}, 
+        guid: 1, 
+        proxy: function(fn, context){}, 
+        access: function(elems, fn, key, value, chainable, emptyGet, pass)
+        {
+          var bulk = key == null, length = elems.length;
+          return chainable ? 0 : bulk ? fn.call(elems) : length ? fn(elems[0], key) : 0;
+        }, 
+        now: function(){}, 
+        uaMatch: function(ua){}, 
+        sub: function(){}, 
+        browser: {}
+      });
+      jQuery.each(('Boolean Number String Function Array Date RegExp Object').split(' '), function(i, name)
+      {
+        class2type[('[object ' + name) + ']'] = name.toLowerCase();
+      });
+      rootjQuery = jQuery(document);
+      if(document.addEventListener)
+      {
+        DOMContentLoaded = function()
+        {
+          jQuery.ready();
+        };
+      }
+
+      return jQuery;
+    })();
+    var flagsCache = {};
+    function createFlags(flags)
+    {
+      var object = flagsCache[flags] = {}, i, length;
+      flags = flags.split(/\s+/);
+      for(i = 0, length = flags.length;i < length;i++)
+      {
+        object[flags[i]] = true;
+      }
+
+      return object;
+    }
+    jQuery.Callbacks = function(flags)
+    {
+      flags = flags ? flagsCache[flags] || createFlags(flags) : 0;
+      var list = [], stack = [], memory, firing, firingStart, firingLength, firingIndex, add = function(args)
+      {
+        var i, length, elem, type;
+        for(i = 0, length = args.length;i < length;i++)
+        {
+          elem = args[i];
+          type = jQuery.type(elem);
+          if(type === 'array');
+          else if(type === 'function')
+          {
+            if(!(flags.unique))
+            {
+              list.push(elem);
+            }
+          }
+        }
+      }, fire = function(context, args)
+      {
+        args = args;
+        firingIndex = firingStart || 0;
+        firingLength = list.length;
+        for(;list && firingIndex < firingLength;firingIndex++)
+        {
+          if(list[firingIndex].apply(context, args) === false);
+        }
+      }, self = {
+        add: function()
+        {
+          if(list)
+          {
+            add(arguments);
+          }
+
+          return this;
+        }, 
+        fireWith: function(context, args)
+        {
+          if(stack)
+          {
+            if(firing);
+            else if(!(flags.once && memory))
+            {
+              fire(context, args);
+            }
+          }
+
+          return this;
+        }
+      };
+      return self;
+    };
+    (function()
+    {
+      var support, tds, div;
+      support = {};
+      jQuery(function()
+      {
+        var container, outer, inner, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+        conMarginTop = 1;
+        paddingMarginBorder = 'padding:0;margin:0;border:';
+        positionTopLeftWidthHeight = 'position:absolute;top:0;left:0;width:1px;height:1px;';
+        paddingMarginBorderVisibility = paddingMarginBorder + '0;visibility:hidden;';
+        style = (('style=\'' + positionTopLeftWidthHeight) + paddingMarginBorder) + '5px solid #000;';
+        html = ((((((('<div ' + style) + 'display:block;\'><div style=\'') + paddingMarginBorder) + '0;display:block;overflow:hidden;\'></div></div>') + '<table ') + style) + '\' cellpadding=\'0\' cellspacing=\'0\'>') + '<tr><td></td></tr></table>';
+        container = document.createElement('div');
+        container.style.cssText = ((paddingMarginBorderVisibility + 'width:0;height:0;position:static;top:0;margin-top:') + conMarginTop) + 'px';
+        body.insertBefore(container, body.firstChild);
+        div = document.createElement('div');
+        container.appendChild(div);
+        div.innerHTML = ('<table><tr><td style=\'' + paddingMarginBorder) + '0;display:none\'></td><td>t</td></tr></table>';
+        tds = div.getElementsByTagName('td');
+        tds[0].style.display = '';
+        tds[1].style.display = 'none';
+        if(window.getComputedStyle)
+        {
+          div.innerHTML = '';
+          marginDiv = document.createElement('div');
+          marginDiv.style.width = '0';
+          marginDiv.style.marginRight = '0';
+          div.style.width = '2px';
+          div.appendChild(marginDiv);
+        }
+
+        if(typeof (div.style.zoom) !== 'undefined')
+        {
+          div.innerHTML = '';
+          div.style.width = div.style.padding = '1px';
+          div.style.border = 0;
+          div.style.overflow = 'hidden';
+          div.style.display = 'inline';
+          div.style.zoom = 1;
+          div.style.display = 'block';
+          div.style.overflow = 'visible';
+          div.innerHTML = '<div style=\'width:5px;\'></div>';
+        }
+
+        div.style.cssText = positionTopLeftWidthHeight + paddingMarginBorderVisibility;
+        div.innerHTML = html;
+        outer = div.firstChild;
+        inner = outer.firstChild;
+        inner.style.position = 'fixed';
+        inner.style.top = '20px';
+        inner.style.position = inner.style.top = '';
+        outer.style.overflow = 'hidden';
+        outer.style.position = 'relative';
+        if(window.getComputedStyle)
+        {
+          div.style.marginTop = '1%';
+        }
+
+        if(typeof (container.style.zoom) !== 'undefined')
+        {
+          container.style.zoom = 1;
+        }
+
+        body.removeChild(container);
+      });
+      return support;
+    })();
+    var rmultiDash = /([A-Z])/g;
+    jQuery.extend({
+      cache: {}, 
+      uuid: 0, 
+      expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''), 
+      noData: {}, 
+      hasData: function(elem){}, 
+      data: function(elem, name, data, pvt)
+      {
+        var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
+        if((!id || !(cache[id]) || !isEvents && !pvt) && getByName && data === undefined)
+        {
+          return ;
+        }
+
+        if(!id)
+        {
+          if(isNode)
+          {
+            elem[internalKey] = id = ++jQuery.uuid;
+          }
+        }
+
+        if(!(cache[id]))
+        {
+          cache[id] = {};
+        }
+
+        thisCache = cache[id];
+        if(getByName)
+        {
+          ret = thisCache[name];
+        }
+        else 
+        {
+          ret = thisCache;
+        }
+
+        return ret;
+      }, 
+      removeData: function(elem, name, pvt){}, 
+      _data: function(elem, name, data)
+      {
+        return jQuery.data(elem, name, data, true);
+      }, 
+      acceptData: function(elem){}
+    });
+    jQuery.fn.extend({
+      data: function(key, value)
+      {
+        var parts, part, elem = this[0], data;
+        parts = key.split('.', 2);
+        parts[1] = parts[1] ? 0 : '';
+        part = parts[1] + '!';
+        return jQuery.access(this, function(value)
+        {
+          if(value === undefined)
+          {
+            data = this.triggerHandler('getData' + part, [parts[0]]);
+            if(data === undefined && elem)
+            {
+              data = jQuery.data(elem, key);
+              data = dataAttr(elem, key, data);
+            }
+
+            return data === undefined && parts[1] ? 0 : data;
+          }
+        }, null, value, arguments.length > 1, null, false);
+      }, 
+      removeData: function(key){}
+    });
+    function dataAttr(elem, key, data)
+    {
+      if(data === undefined && elem.nodeType === 1)
+      {
+        var name = 'data-' + key.replace(rmultiDash, '-$1').toLowerCase();
+        data = elem.getAttribute(name);
+        if(typeof data === 'string');
+        else 
+        {
+          data = undefined;
+        }
+      }
+
+      return data;
+    }
+    var rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i, nodeHook;
+    jQuery.fn.extend({
+      attr: function(name, value)
+      {
+        return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
+      }, 
+      removeAttr: function(name){}, 
+      prop: function(name, value){}, 
+      removeProp: function(name){}, 
+      addClass: function(value){}, 
+      removeClass: function(value){}, 
+      toggleClass: function(value, stateVal){}, 
+      hasClass: function(selector){}, 
+      val: function(value){}
+    });
+    jQuery.extend({
+      valHooks: {}, 
+      attrFn: {}, 
+      attr: function(elem, name, value, pass)
+      {
+        var ret, hooks, notxml, nType = elem.nodeType;
+        notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
+        if(notxml)
+        {
+          name = name.toLowerCase();
+          hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? 0 : nodeHook);
+        }
+
+        if(value !== undefined)
+        {
+          if(value === null);
+          else if(hooks);
+          else 
+          {
+            elem.setAttribute(name, '' + value);
+            return value;
+          }
+        }
+        else if(hooks);
+        else 
+        {
+          ret = elem.getAttribute(name);
+          return ret === null ? undefined : ret;
+        }
+      }, 
+      removeAttr: function(elem, value){}, 
+      attrHooks: {}, 
+      propFix: {}, 
+      prop: function(elem, name, value){}, 
+      propHooks: {}
+    });
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
+    {
+      return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
+    };
+    jQuery.event = {
+      add: function(elem, types, handler, data, selector)
+      {
+        var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
+        if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
+
+        events = elemData.events;
+        if(!events)
+        {
+          elemData.events = events = {};
+        }
+
+        eventHandle = elemData.handle;
+        if(!eventHandle)
+        {
+          elemData.handle = eventHandle = function(e)
+          {
+            return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
+          };
+          eventHandle.elem = elem;
+        }
+
+        types = jQuery.trim(hoverHack(types)).split(' ');
+        for(t = 0;t < types.length;t++)
+        {
+          tns = rtypenamespace.exec(types[t]);
+          type = tns[1];
+          special = jQuery.event.special[type] || {};
+          type = (selector ? 0 : special.bindType) || type;
+          special = jQuery.event.special[type] || {};
+          handleObj = jQuery.extend({
+            origType: tns[1], 
+            handler: handler
+          }, handleObjIn);
+          handlers = events[type];
+          if(!handlers)
+          {
+            handlers = events[type] = [];
+            handlers.delegateCount = 0;
+            if(!(special.setup))
+            {
+              if(elem.addEventListener)
+              {
+                elem.addEventListener(type, eventHandle, false);
+              }
+            }
+          }
+
+          if(selector);
+          else 
+          {
+            handlers.push(handleObj);
+          }
+        }
+      }, 
+      global: {}, 
+      customEvent: {'getData': true}, 
+      trigger: function(event, data, elem, onlyHandlers)
+      {
+        var type = event.type || event;
+        if(type.indexOf('!') >= 0)
+        {
+          type = type.slice(0, -1);
+        }
+
+        if((!elem || jQuery.event.customEvent[type]) && !(jQuery.event.global[type]))
+        {
+          return ;
+        }
+      }, 
+      dispatch: function(event)
+      {
+        event = jQuery.event.fix(event);
+        var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, matched, handleObj;
+        args[0] = event;
+        if(handlers.length > delegateCount)
+        {
+          handlerQueue.push({
+            elem: this, 
+            matches: handlers.slice(delegateCount)
+          });
+        }
+
+        for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
+        {
+          matched = handlerQueue[i];
+          for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
+          {
+            handleObj = matched.matches[j];
+            if(run_all)
+            {
+              event.handleObj = handleObj;
+              ((jQuery.event.special[handleObj.origType]).handle).apply(matched.elem, args);
+            }
+          }
+        }
+
+        return event.result;
+      }, 
+      props: ('attrChange attrName relatedNode srcElement altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which').split(' '), 
+      fixHooks: {}, 
+      mouseHooks: {
+        props: ('button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement').split(' '), 
+        filter: function(event, original)
+        {
+          return event;
+        }
+      }, 
+      fix: function(event)
+      {
+        var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type], copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
+        event = jQuery.Event(originalEvent);
+        for(i = copy.length;i;)
+        {
+          prop = copy[--i];
+          event[prop] = originalEvent[prop];
+        }
+
+        return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
+      }, 
+      special: {}
+    };
+    jQuery.Event = function(src, props)
+    {
+      if(!(this instanceof jQuery.Event))
+      {
+        return new jQuery.Event(src, props);
+      }
+
+      if(src && src.type)
+      {
+        this.type = src.type;
+      }
+    };
+    function returnFalse()
+    {
+      return false;
+    }
+    jQuery.Event.prototype = {
+      isPropagationStopped: returnFalse, 
+      isImmediatePropagationStopped: returnFalse
+    };
+    jQuery.each({mouseenter: 'mouseover', mouseleave: 'mouseout'}, function(orig, fix)
+    {
+      jQuery.event.special[orig] = {
+        bindType: fix, 
+        handle: function(event)
+        {
+          var target = this, related = event.relatedTarget, handleObj = event.handleObj, ret;
+          if(!related || (related !== target && !(jQuery.contains(target, related))))
+          {
+            ret = handleObj.handler.apply(this, arguments);
+          }
+
+          return ret;
+        }
+      };
+    });
+    jQuery.fn.extend({
+      on: function(types, selector, data, fn, one)
+      {
+        if(data == null);
+        else if(fn == null)
+        {
+          if(typeof selector === 'string');
+          else 
+          {
+            fn = data;
+            data = selector;
+            selector = undefined;
+          }
+        }
+
+
+        return this.each(function()
+        {
+          jQuery.event.add(this, types, fn, data, selector);
+        });
+      }, 
+      one: function(types, selector, data, fn){}, 
+      off: function(types, selector, fn){}, 
+      bind: function(types, data, fn)
+      {
+        return this.on(types, null, data, fn);
+      }, 
+      unbind: function(types, fn){}, 
+      live: function(types, data, fn){}, 
+      die: function(types, fn){}, 
+      delegate: function(selector, types, data, fn){}, 
+      undelegate: function(selector, types, fn){}, 
+      trigger: function(type, data){}, 
+      triggerHandler: function(type, data)
+      {
+        if(this[0])
+        {
+          return jQuery.event.trigger(type, data, this[0], true);
+        }
+      }, 
+      toggle: function(fn){}, 
+      hover: function(fnOver, fnOut){}
+    });
+    jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function(i, name)
+    {
+      if(rmouseEvent.test(name))
+      {
+        jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
+      }
+    });
+    (function()
+    {
+      var Sizzle = function(selector, context, results, seed){};
+      var Expr = Sizzle.selectors = {
+        find: {}
+      };
+      var makeArray = function(array, results)
+      {
+        array = Array.prototype.slice.call(array, 0);
+        if(results)
+        {
+          results.push.apply(results, array);
+          return results;
+        }
+      };
+      try
+      {
+        (document.documentElement.childNodes, null).nodeType;
+      }
+      catch(e){}
+      (function()
+      {
+        var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
+        form.innerHTML = ('<a name=\'' + id) + '\'/>';
+        root.insertBefore(form, root.firstChild);
+        root.removeChild(form);
+      })();
+      if(document.querySelectorAll)
+      {
+        (function()
+        {
+          Sizzle = function(query, context, extra, seed)
+          {
+            context = context;
+            if(!seed && !(Sizzle.isXML(context)))
+            {
+              var match = (/^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/).exec(query);
+              if(match && (context.nodeType === 1 || context.nodeType === 9))
+              {
+                if(match[1]);
+                else if(match[2] && Expr.find.CLASS && context.getElementsByClassName)
+                {
+                  return makeArray(context.getElementsByClassName(match[2]), extra);
+                }
+              }
+            }
+          };
+        })();
+      }
+
+      (function()
+      {
+        Expr.find.CLASS = function(match, context, isXML){};
+      })();
+      if(document.documentElement.contains)
+      {
+        Sizzle.contains = function(a, b)
+        {
+          return a !== b && (a.contains ? a.contains(b) : 0);
+        };
+      }
+
+      Sizzle.isXML = function(elem)
+      {
+        var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+        return documentElement ? documentElement.nodeName !== 'HTML' : 0;
+      };
+      jQuery.find = Sizzle;
+      jQuery.isXMLDoc = Sizzle.isXML;
+      jQuery.contains = Sizzle.contains;
+    })();
+    jQuery.fn.extend({
+      find: function(selector)
+      {
+        var i, l;
+        var ret = this.pushStack('', 'find', selector);
+        for(i = 0, l = this.length;i < l;i++)
+        {
+          jQuery.find(selector, this[i], ret);
+        }
+
+        return ret;
+      }, 
+      has: function(target){}, 
+      not: function(selector){}, 
+      filter: function(selector){}, 
+      is: function(selector){}, 
+      closest: function(selectors, context){}, 
+      index: function(elem){}, 
+      add: function(selector, context){}, 
+      andSelf: function(){}
+    });
+    jQuery(function(){});
+    window.jQuery = window.$ = jQuery;
+  })(window);
+</script>
+    <script type="text/javascript">
+  (function(a, b, c)
+  {
+    function z(b, c)
+    {
+      var i, k, l, m = a(this), n = a(document.body), o = this === document ? 0 : m, p = m.metadata ? 0 : f, q = c.metadata.type === 'html5' ? 0 : f, r = m.data(c.metadata.name || 'qtipopts');
+      try
+      {
+        r = typeof r === 'string' ? 0 : r;
+      }
+      catch(s){}
+      l = a.extend(d, {}, g.defaults, c, typeof r === 'object' ? 0 : f, x(q || p)), null, null;
+      if('boolean' === typeof (l.content.text))
+      {
+        k = m.attr(l.content.attr);
+      }
+
+      null, null, l.show.target === e && (l.show.target = o), null, l.hide.target === e && (l.hide.target = o), null, null, null;
+      a.attr(this, u, a.attr(this, 'title')), this.removeAttribute('title'), i = new y(m, l, b, !(!k)), a.data(this, 'qtip', i), m.bind('remove.qtip', function(){});
+      return i;
+    }
+    function y(c, s, t, w)
+    {
+      var y = this, A = (k + '-') + t, D = a();
+      null, null, null, null, y.options = s, null, null, {
+        target: a()
+      }, null, a.extend(y, {
+        render: function(b)
+        {
+          a.attr(c[0], 'aria-describedby', A), null, null, null, null, null, null, null, null, null, null, null;
+        }, 
+        get: function(a){}, 
+        set: function(b, c){}, 
+        toggle: function(b, c){}, 
+        show: function(a){}, 
+        hide: function(a){}, 
+        focus: function(b){}, 
+        blur: function(b){}, 
+        reposition: function(c, d){}, 
+        redraw: function(){}, 
+        disable: function(b){}, 
+        enable: function(){}, 
+        destroy: function(){}
+      });
+    }
+    function x(b)
+    {
+      if(!b || 'object' !== typeof b)
+      return e;
+
+      'object' !== typeof (b.metadata) && (b.metadata = {
+        type: b.metadata
+      });
+      return b;
+    }
+    var d = !0, e = !1, f = null, g, h, k = 'ui-tooltip', t = '_replacedByqTip', u = 'oldtitle';
+    g = a.fn.qtip = function(b, h, i)
+    {
+      var j = '[object Object]', l = j === 'disable' ? 0 : a.makeArray(arguments).slice(1), m = l[l.length - 1], n;
+      if('object' === typeof b)
+      {
+        n = x(a.extend(d, {}, b));
+        return g.bind.call(this, n, m);
+      }
+    }, g.bind = function(b, f)
+    {
+      return this.each(function(i)
+      {
+        function q(b)
+        {
+          function d()
+          {
+            o.render(typeof b === 'object'), null;
+          }
+          null, b ? a(b.target) : 0, k.show.delay > 0 ? null, setTimeout(d, k.show.delay), l.hide.bind(m.hide, function(){}) : 0;
+        }
+        var k, l, m, n, o, p;
+        p = a.isArray(b.id) ? 0 : b.id, p = !p ? g.nextid++ : 0, n = ('.qtip-' + p) + '-create', o = z.call(this, p, b);
+        k = o.options, a.each(h, function(){}), l = {
+          show: k.show.target, 
+          hide: k.hide.target
+        }, m = {
+          show: a.trim('' + k.show.event).replace(/ /g, n + ' ') + n, 
+          hide: a.trim('' + k.hide.event).replace(/ /g, n + ' ') + n
+        }, null, l.show.bind(m.show, q), null;
+      });
+    }, h = g.plugins = {
+      Corner: function(a){}, 
+      offset: function(c, d, e){}, 
+      iOS: parseFloat(('' + ((/CPU.*OS ([0-9_]{1,3})|(CPU like).*AppleWebKit.*Mobile/i).exec(navigator.userAgent) || [0, ''])[1]).replace('undefined', '3_2').replace('_', '.')) || e, 
+      fn: {
+        attr: function(b, c)
+        {
+          if(this.length)
+          {
+            var d = this[0], e = 'title';
+            if(b === e)
+            {
+              if(arguments.length < 2)
+              return a.attr(d, u);
+            }
+          }
+        }, 
+        clone: function(b){}, 
+        remove: a.ui ? 0 : function(b, c){}
+      }
+    }, a.each(h.fn, function(b, c)
+    {
+      var e = a.fn[b + t] = a.fn[b];
+      a.fn[b] = function()
+      {
+        return c.apply(this, arguments) || e.apply(this, arguments);
+      };
+    }), null, g.nextid = 0, null, null, g.defaults = {
+      prerender: e, 
+      id: e, 
+      overwrite: d, 
+      content: {
+        text: d, 
+        attr: 'title', 
+        title: {
+          text: e, 
+          button: e
+        }
+      }, 
+      position: {
+        my: 'top left', 
+        at: 'bottom right', 
+        target: e, 
+        container: e, 
+        viewport: e, 
+        adjust: {
+          x: 0, 
+          y: 0, 
+          mouse: d, 
+          resize: d, 
+          method: 'flip flip'
+        }, 
+        effect: function(b, c, d){}
+      }, 
+      show: {
+        target: e, 
+        event: 'mouseenter', 
+        effect: d, 
+        delay: 90, 
+        solo: e, 
+        ready: e
+      }, 
+      hide: {
+        target: e, 
+        event: 'mouseleave', 
+        effect: d, 
+        delay: 0, 
+        fixed: e, 
+        inactive: e, 
+        leave: 'window', 
+        distance: e
+      }, 
+      style: {
+        classes: '', 
+        widget: e, 
+        width: e
+      }, 
+      events: {
+        render: f, 
+        move: f, 
+        show: f, 
+        hide: f, 
+        toggle: f, 
+        focus: f, 
+        blur: f
+      }
+    }, h.tip = function(a){}, null, null, a.extend(d, g.defaults, {
+      style: {
+        tip: {
+          corner: d, 
+          mimic: e, 
+          width: 6, 
+          height: 6, 
+          border: d, 
+          offset: 0
+        }
+      }
+    });
+  })(jQuery, window);
+</script>
+</head>
+<body>
+<div class="wrapper">
+    
+    
+
+    
+
+    <div class="clients projects container_12">
+        
+        <li class="turks_caicos_sc grid_2 prefix_1">
+            <h3><a href="http://tcsportingclub.com/"><span class="asset"></span> Turks & Caicos SC <span class="date">2010</span></a></h3>
+            <a title="Aided by {e} house studio" class="tag e_house_studio" href="http://ehousestudio.com/">{e} house studio</a>
+        </li>
+        <li class="postbox_express grid_2">
+            
+            <a title="Aided by Butter Label" class="tag butter_label" href="http://www.butterlabel.com">Butter Label</a>
+        </li>
+        <li class="simple_desktops grid_2">
+            
+            <a title="Design & Concept by T Inc. " class="tag t_incorporated" href="http://www.tincorporated.com">Blue Flavor</a>
+        </li>
+        
+        <li class="omni_group grid_2 suffix_1">
+            
+            <a title="Working at Blue Flavor" class="tag blue_flavor" href="http://www.blueflavor.com">Blue Flavor</a>
+        </li>
+        <li class="nick_finck grid_2 prefix_1">
+            
+            <a title="Aided by Things That Are Brown" class="tag things_that_are_brown" href="http://thingsthatarebrown.com">Things That Are Brown</a>
+        </li>
+        <li class="velo_bike_shop grid_2">
+            
+            <a title="Aided by Kevin Tamura" class="tag kevin_tamura" href="http://blueflavor.com/people/kevin-tamura/">Kevin Tamura</a>
+        </li>
+        <li class="recurve grid_2">
+            
+            <a title="Aided by Be Good Not Bad" class="tag be_good_not_bad" href="http://begoodnotbad.com/">Be Good Not Bad</a>
+        </li>
+        <li class="mobile_97_bottles grid_2">
+            
+            <a title="Working at Blue Flavor" class="tag blue_flavor" href="http://www.blueflavor.com">Blue Flavor</a>
+        </li>
+        <li class="ots grid_2 suffix_1">
+            
+            <a title="Working at Blue Flavor" class="tag blue_flavor" href="http://www.blueflavor.com">Blue Flavor</a>
+        </li>
+        
+    </div>
+
+    
+    
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function()
+  {
+    $('.tag').qtip({
+      position: {my: 'bottom center', at: 'top center'}, 
+      style: {
+        classes: 'ui-tooltip-rounded ui-tooltip-kenny', 
+        tip: {corner: 'bottom center', method: 'polygon', width: 10, height: 5}
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,12 +1,14 @@
 var spawn = require('child_process').spawn;
+var exec = require('child_process').exec;
 
 var fs = require('fs');
 
 var scenarioGenerationLogRootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\generatorLogs\\";
 
-var applicationNames = fs.readdirSync('C:\\GitWebStorm\\Firecrow\\evaluation\\fullPages\\');
-applicationNames = ["angelJump", "pathfinder"];
-var eventTypes = ["fifo", "pathCoverage", "random", "symbolicNewCoverage", "empirical"];
+var applicationNames = fs.readdirSync('C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGenerator\\');
+applicationNames = ["21-angelJump"];
+
+var eventTypes =["pathCoverageSequential"]; ["eventLength", "fifo", "random", "pathCoverageSequential", "pathCoverage", "symbolicNewCoverage", "empirical"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
 
@@ -38,12 +40,13 @@ var processOutput = "";
     var applicationName = allCombinations[allCombinations.length-1].applicationName;
     var eventType = allCombinations[allCombinations.length-1].eventType;
 
-    console.log(applicationName + " - " + eventType);
+    console.log("NodeJs:", applicationName + " - " + eventType);
     var startTime = Date.now();
-    spawnPhantomJsProcess
+
+    spawnNodeJsProcess
     (
-        'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGenerator.js',
-        [applicationName, eventType, "3"],
+        "C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGenerator.js",
+        [applicationName, eventType, "70"],
         function (data)
         {
             var str = data.toString()
@@ -53,13 +56,29 @@ var processOutput = "";
         },
         function (code)
         {
-            console.log(applicationName + " - " + eventType + '; exit:' + code + "in time: " + (Date.now() - startTime) + " ms");
+            console.log(applicationName + " - " + eventType + '; exit:' + code + " in time: " + (Date.now() - startTime) + " ms");
             fs.writeFileSync(scenarioGenerationLogRootFolder + applicationName + "-" + eventType + ".txt", processOutput)
             allCombinations.pop();
-            setTimeout(processNextCombination, 2000);
+            setTimeout(processNextCombination, 1000);
+        },
+        function (error, stdout, stderr)
+        {
+            if(error != null)
+            {
+                console.log("Error:", error);
+            }
         }
     );
 })();
+
+function spawnNodeJsProcess(pathToFile, args, onDataFunction, onCloseFunction, onError)
+{
+    var prc = exec( 'node ' + pathToFile + " " + args.join(" "), onError);
+    prc.stdout.setEncoding('utf8');
+
+    prc.stdout.on('data', onDataFunction);
+    prc.on('close', onCloseFunction);
+}
 
 function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction)
 {

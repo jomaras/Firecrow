@@ -51,7 +51,7 @@ fcModel.GlobalObject.CONST =
             "encodeURIComponent", "eval", "isFinite", "isNaN",
             "parseFloat", "parseInt", "addEventListener", "removeEventListener",
             "setTimeout", "clearTimeout", "setInterval", "clearInterval",
-            "getComputedStyle", "unescape",
+            "getComputedStyle", "unescape", "escape",
             //Testing methods
             "assert", "assertEquals", "assertMatch", "assertNull", "assertNotNull", "assertEqual", "assertNotEquals"
         ],
@@ -270,7 +270,8 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
         thisObject: fcHtmlElement,
         id: fcModel.GlobalObject._EVENT_HANDLER_REGISTRATION_POINT_LAST_ID++,
         thisObjectModel: this._getEventObjectModel(fcHtmlElement),
-        thisObjectDescriptor: this._getEventObjectDescriptor(fcHtmlElement)
+        thisObjectDescriptor: this._getEventObjectDescriptor(fcHtmlElement),
+        thisObjectCssSelector: this._getEventObjectCssSelector(fcHtmlElement)
     };
 
     this.htmlElementEventHandlingRegistrations.push(eventDescriptor);
@@ -282,15 +283,37 @@ fcModel.GlobalObject.prototype.registerHtmlElementEventHandler = function(fcHtml
         eventType,
         evaluationPosition.codeConstruct,
         handler.codeConstruct,
-        this.browser.loadingEventsExecuted
+        this.browser.loadingEventsExecuted,
+        null,
+        null,
+        eventDescriptor.thisObjectCssSelector
     );
 };
 
 
 fcModel.GlobalObject.prototype._getEventObjectDescriptor = function(eventObject)
 {
-    if(eventObject.htmlElement != null) { return Firecrow.htmlHelper.getElementXPath(eventObject.htmlElement); }
     if(eventObject.globalObject.document == eventObject) { return "document"; }
+    if(eventObject.htmlElement != null) { return Firecrow.htmlHelper.getElementXPath(eventObject.htmlElement); }
+    if(eventObject.globalObject == eventObject) { return "window"; }
+
+    debugger;
+
+    return "unknown base object in event";
+};
+
+fcModel.GlobalObject.prototype._getEventObjectCssSelector = function(eventObject)
+{
+    if(eventObject.globalObject.document == eventObject) { return "document"; }
+    if(eventObject.htmlElement != null)
+    {
+        var type = eventObject.htmlElement.nodeName.toLowerCase();
+        var id = eventObject.htmlElement.id;
+        var classes = eventObject.htmlElement.className.replace(/(\s)+/g, ".")
+
+        return type + (id != null && id != "" ? ("#" + id) : "")
+                    + (classes != null && classes != "" ? ("." + classes) : "");
+    }
     if(eventObject.globalObject == eventObject) { return "window"; }
 
     debugger;

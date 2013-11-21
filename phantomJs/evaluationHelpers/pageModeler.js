@@ -130,8 +130,16 @@ page.onLoadFinished = function() {
 
             elem.childNodes = [newChild];
         }
+        try
+        {
+            return JSON.stringify(getSimplifiedElement(document.documentElement));
+        }
+        catch(e)
+        {
+            alert("Error when stringifying in pageModeler");
+            return "";
+        }
 
-        return JSON.stringify(getSimplifiedElement(document.documentElement));
     }, externalFiles);
 
     fs.write(htmlFiles[pageIndex].replace(".html", ".json").replace(sourceFolder, sourceFolder + destinationFolderAddon), pageJSON);

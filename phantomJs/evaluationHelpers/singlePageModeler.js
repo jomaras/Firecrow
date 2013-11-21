@@ -156,7 +156,16 @@ page.open(iFramePageUrl, function(status)
         }
 
         var iFrame = document.querySelector("iframe");
-        return JSON.stringify(getSimplifiedElement(iFrame.contentDocument.documentElement));
+
+        try
+        {
+            return JSON.stringify(getSimplifiedElement(iFrame.contentDocument.documentElement));
+        }
+        catch(e)
+        {
+            alert("Error stringifying in singlePageModeler");
+        }
+
     }, externalFiles);
 
     fs.write(modelDestinationLocation, pageJSON);

@@ -466,6 +466,8 @@ Firecrow.ValueTypeHelper =
     {
         try
         {
+            if(array == null) { return []; }
+
             return array.slice();
         }
         catch(e) { alert("Error when Creating array copy - ValueTypeHelper:" + e);}

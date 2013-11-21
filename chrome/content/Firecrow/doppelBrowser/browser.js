@@ -465,7 +465,7 @@ FBL.ns(function() { with (FBL) {
             if(codeConstruct == null || codeConstruct.type == null) { return; }
 
             codeConstruct.hasBeenExecuted = true;
-            this.executionInfo.logExecutedConstruct(codeConstruct);
+            //this.executionInfo.logExecutedConstruct(codeConstruct);
 
             var parentStatementOrFunction = ASTHelper.getParentStatementOrFunction(codeConstruct);
             if(parentStatementOrFunction != null)
@@ -681,6 +681,10 @@ FBL.ns(function() { with (FBL) {
                     {
                         console.log(eventTrace.args.type + "@" + eventTrace.line + " not handled!");
                     }
+                    else
+                    {
+                        console.log(eventTrace.args.type + "@" + eventTrace.line + " handled!");
+                    }
                 }
             }
             catch(e)
@@ -842,7 +846,6 @@ FBL.ns(function() { with (FBL) {
                         );
 
                         eventTrace.hasBeenHandled = true;
-                        console.log(event.eventType + " handled");
                         break;
                     }
                 }

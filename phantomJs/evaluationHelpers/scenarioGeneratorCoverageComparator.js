@@ -4,6 +4,7 @@ var page = webPage.create();
 var fs = require('fs');
 
 var scenarioCoverageDataFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverage\\";
+var scenarioComparatorDataFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\";
 var scenarioGraphTemplatePath = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\viewCoverageComparationGraphsTemplate.html";
 var scenarioGraphFilePath = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\viewCoverageComparationGraphs.html";
 
@@ -72,8 +73,10 @@ for(var coverageType in coverageData)
         applicationCoverage[applicationName] = applicationCoverage[applicationName] || { };
         applicationCoverage[applicationName][coverageType] = coverage.map(function(dataItem, index)
         {
-            return [index, dataItem.branchCoverage]
+            return [index, dataItem.statementCoverage]
         });
+
+        //var lastValue = applicationCoverage[applicationName][coverageType][applicationCoverage[applicationName][coverageType].length-1];
 
         for(var i = applicationCoverage[applicationName][coverageType].length; i <= 100; i++)
         {
@@ -91,21 +94,41 @@ for(var applicationName in applicationCoverage)
                             + "<div id='placeholder" + (index++) + "' class='placeholder'></div>";
 
     var applicationInfo = [];
-    graphData.push(applicationInfo) ;
+    graphData.push(applicationInfo);
+    var content = "";
     for(var coverageType in applicationCoverage[applicationName])
     {
-        applicationInfo.push({
-            data: applicationCoverage[applicationName][coverageType],
-            lines: {show: true},
-            label: coverageType
-        });
+        var data = applicationCoverage[applicationName][coverageType];
+
+        content += coverageType + "@";
+
+        applicationInfo.push({ data: data, lines: {show: true}, label: coverageType});
+
+        var lastData = 0;
+        for(var i = 0; i < data.length; i++)
+        {
+            content += ((data[i][1] || lastData) + "").replace(".", ",") + " @ ";
+            lastData = data[i][1];
+        }
+
+        content += "\n";
     }
+
+    fs.write(scenarioComparatorDataFolder + applicationName + ".txt", content);
 }
 var templateContent = fs.read(scenarioGraphTemplatePath);
 
 templateContent = templateContent.replace("PLACE_HOLDERS_ELEMENTS", placeHolderElementsHtml);
 
-fs.write(scenarioGraphFilePath, templateContent.replace("GRAPH_DATA_TEMPLATE_VARIABLE", JSON.stringify(graphData)));
+try
+{
+    fs.write(scenarioGraphFilePath, templateContent.replace("GRAPH_DATA_TEMPLATE_VARIABLE", JSON.stringify(graphData)));
+}
+catch(e)
+{
+    console.log("Error when stringifying graph data!");
+}
+
 console.log("!!!!!!!!!!! View graphs at: " + scenarioGraphFilePath);
 
 phantom.exit();

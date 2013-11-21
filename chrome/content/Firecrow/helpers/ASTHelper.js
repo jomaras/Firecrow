@@ -65,7 +65,6 @@ Firecrow.ASTHelper = ASTHelper =
         for(var i = 0; i < scripts.length; i++)
         {
             var script = scripts[i];
-
             if(scriptPathsToIgnore.indexOf(ASTHelper.getAttributeValue(script, "src")) != -1) { continue; }
 
             ASTHelper.traverseAst(script.pathAndModel.model, function(astElement)
