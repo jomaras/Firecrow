@@ -36,6 +36,16 @@
     list-style-image: url("images/saveModel.png");
 }
 
+#refreshSourcesButton
+{
+    list-style-image: url("images/refresh.png");
+}
+
+#addSlicingCriteriaButton
+{
+    list-style-image: url("images/plus.png");
+}
+
 #recordButton
 {
     font-weight: normal;

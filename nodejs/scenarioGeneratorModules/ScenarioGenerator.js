@@ -39,7 +39,8 @@ var ScenarioGenerator =
         pathCoverageSequential: "pathCoverageSequential",
         symbolicNew: "symbolicNew",
         symbolicNewCoverage: "symbolicNewCoverage",
-        empirical: "empirical"
+        empirical: "empirical",
+        symbolicNewCoverageSequential: "symbolicNewCoverageSequential"
     },
 
     prioritization: "symbolicNewCoverage",
@@ -54,6 +55,7 @@ var ScenarioGenerator =
     {
         this.pageModelUrl = pageModelUrl;
         this.scenarios = new ScenarioCollectionModule.ScenarioCollection(ScenarioGenerator.prioritization);
+        this.scenarios.setEmpiricalData(this.empiricalData);
         this.completedCallback = completedCallback;
         this.lastCoverage = null;
 
@@ -171,7 +173,7 @@ var ScenarioGenerator =
 
     _hasUsedTooMuchMemory: function()
     {
-        sh.run('tasklist /fi "memusage gt 1000000" > ' + memoryOutputDataFile);
+        sh.run('tasklist /fi "memusage gt 1200000" > ' + memoryOutputDataFile);
 
         var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
 
@@ -297,7 +299,8 @@ var ScenarioGenerator =
 
         if(ScenarioGenerator.shouldPrintDetailedMessages)
         {
-            console.log("****** Processing Scenario No. " + ScenarioGenerator.numberOfProcessedScenarios + " with id: " + scenario.id + " " + pageUrl);
+            var now = new Date();
+            console.log("****** Processing Scenario No. " + ScenarioGenerator.numberOfProcessedScenarios + " with id: " + scenario.id + " " + pageUrl, now.getHours() + ":" + now.getMinutes() );
             //console.log("Input Constraint: " + scenario.inputConstraint);
             //console.log("Events: ");
             //console.log(scenario.getEventsInfo());
@@ -314,6 +317,7 @@ var ScenarioGenerator =
             function()
             {
                 var scenarioExecutorStringData = fs.readFileSync(scenarioExecutorDataFile, {encoding:"utf8"});
+                console.log("Scenario info size:", scenarioExecutorStringData.length/1000);
 
                 if(scenarioExecutorStringData == "" && scenarioExecutorStringData.indexOf("ERROR") == 0)
                 {

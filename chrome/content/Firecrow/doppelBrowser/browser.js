@@ -1149,7 +1149,7 @@ FBL.ns(function() { with (FBL) {
 
         _getDocumentObject: function()
         {
-            return Firecrow.IsDebugMode ? document : Firecrow.fbHelper.getCurrentPageDocument();
+            return Firecrow.IsDebugMode ? document : Firecrow.fbHelper._getCurrentPageDocument();
         },
 
         registerSlicingCriteria: function(slicingCriteria)

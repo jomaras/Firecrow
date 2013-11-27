@@ -1,15 +1,12 @@
-FBL.ns(function() { with (FBL) {
-/*************************************************************************************/
-var CC = Components.classes;
-var CI = Components.interfaces;
-var CU = Components.utils;
+var EXPORTED_SYMBOLS = ["JsRecorder"];
 
-var fbHelper = Firecrow.fbHelper;
-var htmlHelper = Firecrow.htmlHelper;
+var Cu = Components.utils;
+var Ci = Components.interfaces;
+var Cc = Components.classes;
 
-Firecrow.JsRecorder = function ()
+var JsRecorder = function()
 {
-    this.jsDebugger = CC["@mozilla.org/js/jsd/debugger-service;1"].getService(CI.jsdIDebuggerService);
+    this.jsDebugger = Cc["@mozilla.org/js/jsd/debugger-service;1"].getService(Ci.jsdIDebuggerService);
 
     this.executionTrace = [];
 
@@ -17,11 +14,11 @@ Firecrow.JsRecorder = function ()
 
     this.startProfiling = function(scriptsToTrack)
     {
-        if(this.jsDebugger == null) { CU.reportError("Error: jsDebugger is null when trying to start"); return; }
+        if(this.jsDebugger == null) { Cu.reportError("Error: jsDebugger is null when trying to start"); return; }
 
         this.setScriptsToTrack(scriptsToTrack);
 
-        var returnContinue = CI.jsdIExecutionHook.RETURN_CONTINUE;
+        var returnContinue = Ci.jsdIExecutionHook.RETURN_CONTINUE;
         this.executionTrace = [];
 
         this.jsDebugger.interruptHook =
@@ -44,11 +41,11 @@ Firecrow.JsRecorder = function ()
     {
         try
         {
-            if(this.jsDebugger == null) { CU.reportError("Error: jsDebugger is null when trying to start"); return; }
+            if(this.jsDebugger == null) { Cu.reportError("Error: jsDebugger is null when trying to start"); return; }
 
             this.setScriptsToTrack(scriptsToTrack);
 
-            var returnContinue = CI.jsdIExecutionHook.RETURN_CONTINUE;
+            var returnContinue = Ci.jsdIExecutionHook.RETURN_CONTINUE;
 
             this.jsDebugger.functionHook =
             {
@@ -84,7 +81,7 @@ Firecrow.JsRecorder = function ()
 
                             trace.thisValue =
                             {
-                                xPath: htmlHelper.getElementXPath(thisElement)
+                                xPath: that.getElementXPath(thisElement)
                             };
 
                             var propArray = {}, length = {};
@@ -98,7 +95,6 @@ Firecrow.JsRecorder = function ()
 
                             var firstArgument = args != null ? args[0] : null;
 
-                            CU.reportError("Event processed: ");
 
                             if(firstArgument == null)
                             {
@@ -120,12 +116,12 @@ Firecrow.JsRecorder = function ()
 
                             trace.args =
                             {
-                                targetXPath: firstArgument!= null ? htmlHelper.getElementXPath(firstArgument.target) : "",
-                                originalTargetXPath: firstArgument != null ? htmlHelper.getElementXPath(firstArgument.originalTarget) : "",
-                                currentTargetXPath: firstArgument != null ? htmlHelper.getElementXPath(firstArgument.currentTarget) : "",
-                                explicitOriginalTargetXPath: firstArgument != null ? htmlHelper.getElementXPath(firstArgument.explicitOriginalTarget) : "",
-                                rangeParentXPath : firstArgument != null ? htmlHelper.getElementXPath(firstArgument.rangeParent) : "",
-                                relatedTargetXPath : firstArgument != null ? htmlHelper.getElementXPath(firstArgument.relatedTarget) : "",
+                                targetXPath: firstArgument!= null ? that.getElementXPath(firstArgument.target) : "",
+                                originalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.originalTarget) : "",
+                                currentTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.currentTarget) : "",
+                                explicitOriginalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.explicitOriginalTarget) : "",
+                                rangeParentXPath : firstArgument != null ? that.getElementXPath(firstArgument.rangeParent) : "",
+                                relatedTargetXPath : firstArgument != null ? that.getElementXPath(firstArgument.relatedTarget) : "",
                                 clientX: firstArgument != null ? firstArgument.clientX : 0,
                                 clientY: firstArgument != null ? firstArgument.clientY : 0,
                                 screenX: firstArgument != null ? firstArgument.screenX : 0,
@@ -133,20 +129,20 @@ Firecrow.JsRecorder = function ()
                                 pageX: firstArgument != null ?  firstArgument.pageX : 0,
                                 pageY: firstArgument != null ?  firstArgument.pageY : 0,
                                 type: firstArgument != null ? firstArgument.type
-                                                            : trace.thisValue.xPath !== "" ? "elementEvent" : "",
+                                    : trace.thisValue.xPath !== "" ? "elementEvent" : "",
                                 keyCode: firstArgument != null ?  firstArgument.keyCode : 0,
                                 currentInputStates: that.getCurrentInputStates(thisElement)
                             };
 
                             if(trace.args.type == "elementEvent")
                             {
-                                CU.reportError("Shit - elementEvent: " + trace.thisValue.xPath + " " + trace.line);
+                                Cu.reportError("Shit - elementEvent: " + trace.thisValue.xPath + " " + trace.line);
                             }
 
                             that.executionTrace.push(trace);
                         }
                     }
-                    catch(e) { CU.reportError("Error when recording: " + e); }
+                    catch(e) { Cu.reportError("Error when recording: " + e); }
 
                     return returnContinue;
                 }
@@ -157,14 +153,14 @@ Firecrow.JsRecorder = function ()
             this.jsDebugger.asyncOn(function(){});
             this.isRecording = true;
         }
-        catch(e) { CU.reportError("Error while starting jsDebugger:" + e); }
+        catch(e) { Cu.reportError("Error while starting jsDebugger:" + e); }
     };
 
     this.stop = function()
     {
         try
         {
-            if(this.jsDebugger == null) { CU.reportError("Error: jsDebugger is null when trying to stop"); return; }
+            if(this.jsDebugger == null) { Cu.reportError("Error: jsDebugger is null when trying to stop"); return; }
 
             this.jsDebugger.off();
             this.isRecording = false;
@@ -172,7 +168,7 @@ Firecrow.JsRecorder = function ()
             this.resultExecutionTrace = this.executionTrace;
             this.executionTrace = [];
         }
-        catch(e) { CU.reportError("Error when stopping jsDebugger " + e); }
+        catch(e) { Cu.reportError("Error when stopping jsDebugger " + e); }
     };
 
     this.setScriptsToTrack = function(scriptsToTrack)
@@ -188,7 +184,7 @@ Firecrow.JsRecorder = function ()
         (
             {
                 globalObject: null,
-                flags: CI.jsdIFilter.FLAG_ENABLED,
+                flags: Ci.jsdIFilter.FLAG_ENABLED,
                 urlPattern: "*",
                 startLine: 0,
                 endLine: 0
@@ -200,7 +196,7 @@ Firecrow.JsRecorder = function ()
     {
         return {
             globalObject: null,
-            flags: CI.jsdIFilter.FLAG_ENABLED | CI.jsdIFilter.FLAG_PASS,
+            flags: Ci.jsdIFilter.FLAG_ENABLED | Ci.jsdIFilter.FLAG_PASS,
             urlPattern: this.denormalizeUrl(file),
             startLine: 0,
             endLine: 0
@@ -236,7 +232,7 @@ Firecrow.JsRecorder = function ()
 
             inputStates.push
             ({
-                elementXPath : htmlHelper.getElementXPath(input),
+                elementXPath : that.getElementXPath(input),
                 checked : input.checked,
                 value: input.value
             });
@@ -244,6 +240,25 @@ Firecrow.JsRecorder = function ()
 
         return inputStates;
     }
+
+    this.getElementXPath = function(element)
+    {
+        var paths = [];
+
+        for (; element && element.nodeType == 1; element = element.parentNode)
+        {
+            var index = 0;
+            for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling)
+            {
+                if (sibling.localName == element.localName)
+                    ++index;
+            }
+
+            var tagName = element.localName.toLowerCase();
+            var pathIndex = (index ? "[" + (index+1) + "]" : "");
+            paths.splice(0, 0, tagName + pathIndex);
+        }
+
+        return paths.length ? "/" + paths.join("/") : "";
+    }
 };
-/*************************************************************************************/
-}});

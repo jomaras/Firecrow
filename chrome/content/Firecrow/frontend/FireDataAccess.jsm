@@ -8,8 +8,9 @@ Cu.import("chrome://Firecrow/content/helpers/UriHelper.js");
 
 var FireDataAccess =
 {
-     _externalFilesMap: {},
+    _externalFilesMap: {},
     _pathSourceLoadedCallbackMap: {},
+    _externalScripts: [],
 
     reset: function(window, htmlHelper)
     {
@@ -28,6 +29,29 @@ var FireDataAccess =
     getFileContent: function(filePath)
     {
         return this._externalFilesMap[filePath];
+    },
+
+    cacheExternalScriptsContent: function(document)
+    {
+        this._externalScripts = FireDataAccess.getExternalScripts(document);
+        this._externalScripts.push({src: document.baseURI});
+
+        this._externalScripts.currentIndex = 0;
+
+        this._cacheNextExternalScriptContent();
+    },
+
+    _cacheNextExternalScriptContent: function()
+    {
+        var nextExternalScript = this._externalScripts[this._externalScripts.currentIndex++];
+
+        if(nextExternalScript != null)
+        {
+            this.cacheExternalFileContent(nextExternalScript.src, function()
+            {
+                FireDataAccess._cacheNextExternalScriptContent();
+            });
+        }
     },
 
     cacheAllExternalFilesContent: function(document, allFinishedCallback)
@@ -119,6 +143,24 @@ var FireDataAccess =
 
         this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
         this._pathSourceLoadedCallbackMap[path] = null;
+    },
+
+    getExternalScripts: function(document)
+    {
+        var scripts = document.scripts;
+        var externalScripts = [];
+
+        for(var i = 0; i < scripts.length; i++)
+        {
+            var script = scripts[i];
+
+            if(script.src != null && script.src != "")
+            {
+                externalScripts.push(script);
+            }
+        }
+
+        return externalScripts;
     },
 
     getExternalFileElements: function(document)
@@ -307,7 +349,7 @@ var FireDataAccess =
         scriptPaths.push({name: "* - " + FireDataAccess.getScriptName(document.baseURI), path: document.baseURI });
         scriptPaths.push({name: "DOM - " + FireDataAccess.getScriptName(document.baseURI), path: document.baseURI });
 
-        var scriptElements = document.querySelectorAll("script");
+        var scriptElements = document.scripts;
 
         for(var i = 0; i < scriptElements.length; i++)
         {

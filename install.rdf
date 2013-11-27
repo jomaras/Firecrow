@@ -1,22 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<r:RDF xmlns="http://www.mozilla.org/2004/em-rdf#"
-       xmlns:r="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <r:Description about="urn:mozilla:install-manifest">
-    <creator>Josip Maras</creator>
-    <id>Firecrow@fesb.hr</id>
-    <name>Firecrow</name>
-    <version>0.6</version>
-    <bootstrap>true</bootstrap>
-    <type>2</type>
-    <homepageURL>www.fesb.hr/~jomaras</homepageURL>
-    <description>Set of Dynamic Analysis Tools for reuse</description>
+<?xml version="1.0"?>
 
-    <targetApplication>
-      <r:Description>
-        <id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</id>
-        <minVersion>15.0a1</minVersion>
-        <maxVersion>26.*</maxVersion>
-      </r:Description>
-    </targetApplication>
-  </r:Description>
-</r:RDF>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+
+    <!-- The id of the extension. -->
+    <em:id>Firecrow@fesb.hr</em:id>
+
+    <!-- A version string identifying the version of the add-on. -->
+    <em:version>0.6</em:version>
+
+    <!-- The name of the add-on; intended for display in the UI. -->
+    <em:name>Firecrow</em:name>
+
+    <!-- A short description to display in the user interface. -->
+    <em:description>Client-side Web application dynamic analysis tools</em:description>
+
+    <!-- The name of the developer to display in the user interface. -->
+    <em:creator>Josip Maras</em:creator>
+
+    <!-- A link to the add-on home page to display in the user interface. -->
+    <em:homepageURL>www.fesb.hr/~jomaras</em:homepageURL>
+
+    <!-- Target Application this extension can install into,
+         with minimum and maximum supported versions. -->
+    <em:targetApplication>
+      <Description>
+        <!-- Mozilla Firefox -->
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>25.*</em:minVersion>
+        <em:maxVersion>28.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <!-- An integer value representing the type of add-on. -->
+    <em:type>2</em:type> <!-- Extensions -->
+
+    <!-- Tells the application whether the extension is boot-strappable. -->
+    <em:bootstrap>true</em:bootstrap>
+
+  </Description>
+</RDF>

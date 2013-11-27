@@ -6,9 +6,9 @@ var fs = require('fs');
 var scenarioGenerationLogRootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\generatorLogs\\";
 
 var applicationNames = fs.readdirSync('C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGenerator\\');
-applicationNames = ["21-angelJump"];
+applicationNames = ["26-snowpar"];
 
-var eventTypes =["pathCoverageSequential"]; ["eventLength", "fifo", "random", "pathCoverageSequential", "pathCoverage", "symbolicNewCoverage", "empirical"];
+var eventTypes = ["eventLength", "fifo", "pathCoverage", "pathCoverageSequential", "symbolicNewCoverage", "symbolicNewCoverageSequential", "empirical"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
 
@@ -46,7 +46,7 @@ var processOutput = "";
     spawnNodeJsProcess
     (
         "C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGenerator.js",
-        [applicationName, eventType, "70"],
+        [applicationName, eventType, "80"],
         function (data)
         {
             var str = data.toString()

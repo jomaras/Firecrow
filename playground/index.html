@@ -14,10 +14,19 @@
             transition: background-position 0.3s ease;
         }
     </style>
+    <link rel="stylesheet" href="externalStyle.css"/>
 </head>
 <body>
     <div id="mainContainer">
-
+        Test
     </div>
+
+    <script>
+        var mainContainer = document.getElementById("mainContainer")
+        mainContainer.onclick = function()
+        {
+            mainContainer.textContent += " Js";
+        };
+    </script>
 </body>
 </html>

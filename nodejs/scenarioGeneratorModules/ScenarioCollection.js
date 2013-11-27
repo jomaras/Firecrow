@@ -19,6 +19,11 @@ ScenarioCollection.prototype =
     compareEvents: false,
     waitInterval: -1,
 
+    setEmpiricalData: function(empiricalData)
+    {
+        this.empiricalData = empiricalData;
+    },
+
     assignEventPriority: function(eventRegistration, eventPriority)
     {
         if(eventRegistration == null) { return;}
@@ -49,6 +54,8 @@ ScenarioCollection.prototype =
                 return this._getNextByPrioritizingAgainstSymbolicAndNew();
             case "symbolicNewCoverage":
                 return this._getNextBySymbolicNewCoverage();
+            case "symbolicNewCoverageSequential":
+                return this._getNextBySymbolicNewCoverageSequential();
             case "empirical":
                 return this._getNextByEmpirical();
             default:
@@ -109,6 +116,17 @@ ScenarioCollection.prototype =
         if(firstSymbolicOrNewScenario != null) { return firstSymbolicOrNewScenario; }
 
         return this._getNextPrioritizingByLeastEventCoverage(nonExecutedScenarios);
+    },
+
+    _getNextBySymbolicNewCoverageSequential: function()
+    {
+        var nonExecutedScenarios = this.getNonExecutedScenarios();
+
+        var firstSymbolicOrNewScenario = this._findFirstSymbolicOrNewEventScenario(nonExecutedScenarios);
+
+        if(firstSymbolicOrNewScenario != null) { return firstSymbolicOrNewScenario; }
+
+        return this._getNextPrioritizingByLeastEventCoverageSequentially(nonExecutedScenarios);
     },
 
     _getNextByEmpirical: function()
@@ -510,17 +528,17 @@ ScenarioCollection.prototype =
         var existingCurrentDescriptor = this._getExistingDescriptor(currentDescriptors);
         var existingNextDescriptor = this._getExistingDescriptor(nextDescriptors);
 
-        if(ScenarioGenerator.empiricalData[existingCurrentDescriptor] == null
-        || ScenarioGenerator.empiricalData[existingCurrentDescriptor] == null) { return 1; }
+        if(this.empiricalData[existingCurrentDescriptor] == null
+        || this.empiricalData[existingCurrentDescriptor] == null) { return 1; }
 
-        return ScenarioGenerator.empiricalData[existingCurrentDescriptor][existingNextDescriptor];
+        return this.empiricalData[existingCurrentDescriptor][existingNextDescriptor];
     },
 
     _getExistingDescriptor: function(descriptors)
     {
         for(var i = 0; i < descriptors.length; i++)
         {
-            if(ScenarioGenerator.empiricalData[descriptors[i]])
+            if(this.empiricalData[descriptors[i]])
             {
                 return descriptors[i];
             }

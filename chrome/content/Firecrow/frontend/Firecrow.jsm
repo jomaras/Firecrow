@@ -24,7 +24,6 @@ catch(e)
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 
 XPCOMUtils.defineLazyModuleGetter(this, "MarkupView", "resource:///modules/devtools/MarkupView.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "Selection", "resource:///modules/devtools/Selection.jsm");
 
 var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
 
@@ -358,7 +357,7 @@ FirecrowView.prototype =
     {
         this._jsRecorder = new JsRecorder();
 
-        var scriptNamesAndPaths = FireDataAccess.getContentScriptNameAndPaths(this._getCurrentPageDocument());
+        var scriptNamesAndPaths = FireDataAccess._getContentScriptNameAndPaths(this._getCurrentPageDocument());
 
         if(this._recordOptionsElement.value == "All")
         {
@@ -443,7 +442,7 @@ FirecrowView.prototype =
 
     _createSourceSelectionMenu: function()
     {
-        var scriptNameAndPaths = FireDataAccess.getContentScriptNameAndPaths(this._getCurrentPageDocument());
+        var scriptNameAndPaths = FireDataAccess._getContentScriptNameAndPaths(this._getCurrentPageDocument());
 
         for(var i = 0; i < scriptNameAndPaths.length; i++)
         {
@@ -581,7 +580,7 @@ FirecrowView.prototype =
             {
                 for(var line in this._slicingCriteriaMap[fileName])
                 {
-                    this._createSlicingCriteriaView(doc, "@" + (parseInt(line) + 1) + " - " + FireDataAccess.getScriptName(fileName), fileName, line);
+                    this._createSlicingCriteriaView(doc, "@" + (parseInt(line) + 1) + " - " + FireDataAccess._getScriptName(fileName), fileName, line);
                 }
             }
         }
