@@ -9,24 +9,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/playground/atom.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/playground/fS.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/playground/nS.png" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/playground/thesisExample2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/libraries/libraries.xlsx" afterPath="$PROJECT_DIR$/evaluation/libraries/libraries.xlsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/skin/Firecrow.css" afterPath="$PROJECT_DIR$/chrome/skin/Firecrow.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/constraint.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/constraint.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" afterPath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/memoryOutput.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/memoryOutput.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -97,7 +83,7 @@
       <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="329" column="44" selection-start="12383" selection-end="12383" vertical-scroll-proportion="0.41555557" vertical-offset="5219" max-vertical-offset="13838">
+            <state line="400" column="80" selection-start="15070" selection-end="15070" vertical-scroll-proportion="0.3975501" vertical-offset="6443" max-vertical-offset="13855">
               <folding />
             </state>
           </provider>
@@ -3090,7 +3076,11 @@
       <created>1385569654305</created>
       <updated>1385569654305</updated>
     </task>
-    <option name="localTasksCounter" value="653" />
+    <task id="LOCAL-00653" summary="- when generating scenarios the scenario generator process checks if the  phantomJs process hangs">
+      <created>1386165491061</created>
+      <updated>1386165491061</updated>
+    </task>
+    <option name="localTasksCounter" value="654" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3131,6 +3121,7 @@
     <frame x="1358" y="-140" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -3147,7 +3138,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -3192,7 +3182,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="ForIn fix, before i kept the index of the next property to be iterated, but the problem is what if the current property is deleted in the forIn loop then the next property should not be +1, but the with the same index. I ended by rewriting it to fetch a list of property names at first iteration (new properties added within the loop are ignored, as in real browsers), and then to remove from that list as the property is consumed" />
     <MESSAGE value="Fixed a problem with callbacks. E.g. the return callback value of [].every determines whether the next iteration will be taken, but itself does not influence any value - it is important from the control-flow point of view, but not from the explicit value point of view. So, when noting breakContinueReturn statements i also note if something is a callback return statement. Then when traversing them, a callback return statement is included if there are dependencies from that context included" />
     <MESSAGE value="Dependency graph, return expressions are included and if all callExpressions on the stack at that time are also included; Array.some implementation; Working on tests for the underscore library" />
     <MESSAGE value="Aded NaN property to the global object, enabled function.bind.apply" />
@@ -3217,7 +3206,8 @@
     <MESSAGE value="Important update:&#10;- fix in the update expression (problem with &quot;0&quot;++)&#10;- fixed the way how event work, are chosen" />
     <MESSAGE value="- Moved scenario generator mostly to node.js (only the executor is on phantomjs)&#10;- Scenario generator stops if the memory consumption is too big (goes over 1200 MB)&#10;" />
     <MESSAGE value="- DevTools for Firefox 26" />
-    <option name="LAST_COMMIT_MESSAGE" value="- DevTools for Firefox 26" />
+    <MESSAGE value="- when generating scenarios the scenario generator process checks if the  phantomJs process hangs" />
+    <option name="LAST_COMMIT_MESSAGE" value="- when generating scenarios the scenario generator process checks if the  phantomJs process hangs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3316,7 +3306,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="329" column="44" selection-start="12383" selection-end="12383" vertical-scroll-proportion="0.41555557" vertical-offset="5219" max-vertical-offset="13838">
+        <state line="400" column="80" selection-start="15070" selection-end="15070" vertical-scroll-proportion="0.3975501" vertical-offset="6443" max-vertical-offset="13855">
           <folding />
         </state>
       </provider>

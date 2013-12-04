@@ -392,6 +392,7 @@ var ScenarioGenerator =
             {
                 if(memory === ScenarioGenerator._lastLoggedMemoryConsumption)
                 {
+                    console.log("!!!!!! KILLING phantomJs!");
                     sh.run("taskkill /IM phantomjs.exe -f");
                 }
 
