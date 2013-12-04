@@ -306,6 +306,8 @@ var ScenarioGenerator =
             //console.log(scenario.getEventsInfo());
         }
 
+        ScenarioGenerator._startMonitoringPhantomJs();
+
         spawnPhantomJsProcess
         (
             scenarioExecutorPhantomScriptPath,
@@ -316,6 +318,8 @@ var ScenarioGenerator =
             },
             function()
             {
+                ScenarioGenerator._stopMonitoringPhantomJs();
+
                 var scenarioExecutorStringData = fs.readFileSync(scenarioExecutorDataFile, {encoding:"utf8"});
                 console.log("Scenario info size:", scenarioExecutorStringData.length/1000);
 
@@ -330,7 +334,15 @@ var ScenarioGenerator =
                     console.log("Processing time:", Date.now() - startTime,"msec");
                 }
 
-                var executionInfo = ObjectConverter.convertToFullObjects(JSON.parse(scenarioExecutorStringData), ScenarioGenerator._pageModelMapping);
+                try
+                {
+                    var executionInfo = ObjectConverter.convertToFullObjects(JSON.parse(scenarioExecutorStringData), ScenarioGenerator._pageModelMapping);
+                }
+                catch(e)
+                {
+                    console.log("!!!!!!!!!!!!!ScenarioGenerator could not parse scenarioExecutor data!");
+                }
+
 
                 if(executionInfo != null)
                 {
@@ -366,6 +378,54 @@ var ScenarioGenerator =
                 }
             }
         );
+    },
+
+    _lastLoggedMemoryConsumption: null,
+
+    _startMonitoringPhantomJs: function()
+    {
+        ScenarioGenerator._monitoringPhantomJsInterval = setInterval(function()
+        {
+            var memory = ScenarioGenerator._getPhantomJsMemoryConsumption();
+
+            if(ScenarioGenerator._lastLoggedMemoryConsumption !== null)
+            {
+                if(memory === ScenarioGenerator._lastLoggedMemoryConsumption)
+                {
+                    sh.run("taskkill /IM phantomjs.exe -f");
+                }
+
+                ScenarioGenerator._lastLoggedMemoryConsumption = memory;
+            }
+
+            ScenarioGenerator._lastLoggedMemoryConsumption = memory;
+
+        }, 10000);
+    },
+
+    _stopMonitoringPhantomJs: function()
+    {
+        clearInterval(ScenarioGenerator._monitoringPhantomJsInterval);
+        ScenarioGenerator._lastLoggedMemoryConsumption = null;
+    },
+
+    _getPhantomJsMemoryConsumption: function()
+    {
+        sh.run('tasklist /fi "imagename eq phantomjs.exe" > ' + memoryOutputDataFile);
+
+        var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
+
+        if(fileContent == "" || fileContent == null) { return 0; }
+
+        var decimalNumberRegEx = /[0-9]+\.[0-9]+/;
+
+        var result = fileContent.match(decimalNumberRegEx);
+
+        if(result == null || result[0] == null) { return 0; }
+
+        var memory = parseFloat(result[0]);
+
+        return !Number.isNaN(memory) ? memory : 0;
     },
 
     _saveScenarioInfoToFile: function(scenario)

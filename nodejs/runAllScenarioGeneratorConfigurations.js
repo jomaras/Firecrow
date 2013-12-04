@@ -8,7 +8,7 @@ var scenarioGenerationLogRootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\re
 var applicationNames = fs.readdirSync('C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGenerator\\');
 applicationNames = ["26-snowpar"];
 
-var eventTypes = ["eventLength", "fifo", "pathCoverage", "pathCoverageSequential", "symbolicNewCoverage", "symbolicNewCoverageSequential", "empirical"];
+var eventTypes = ["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
 

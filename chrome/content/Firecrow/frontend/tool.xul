@@ -50,12 +50,11 @@
                     <splitter class="devtools-side-splitter"/>
                     <vbox id="slicingResourcesTabBox">
                         <div class="devtools-toolbar">
-                            <h2 class="toolbarTitle" flex="1">
-                                <label>Slicing Criteria</label></h2>
-                                <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Add Slicing Criteria Button" disabled="false" id="addSlicingCriteriaButton"/>
+                            <h2 class="toolbarTitle" flex="1"><label>Slicing Criteria</label></h2>
+                            <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Add Slicing Criteria Button" disabled="false" id="addSlicingCriteriaButton"/>
                         </div>
                         <vbox flex="1" id="slicingCriteriaList"/>
-                        <div class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1"><label>Existing recordings</label></h2></div>
+                        <div class="devtools-toolbar"><h2 class="toolbarTitle" flex="1"><label>Existing recordings</label></h2></div>
                         <vbox flex="1" id="existingRecordingsList">
                             <vbox class="recordingView">
                                 <div>
@@ -85,16 +84,86 @@
                             <label style="margin-top: 5px;">Feature descriptors:</label>
                             <span style="margin-top: 5px;" id="featureDescriptorContainer"></span>
                         </hbox>
-                        <vbox flex="1" id="scenarioMarkupViewerElement"></vbox>
+                        <vbox flex="1" id="scenarioMarkupViewerElement">
+                            <iframe src="http://localhost/Firecrow/phantomJs/helperPages/viewExecutedCode.html" style="width:100%; height:100%; overflow: auto; min-height: 250px;"></iframe>
+                        </vbox>
                     </vbox>
 
                     <splitter class="devtools-side-splitter"/>
 
                     <vbox id="scenariosTabBox">
-                        <div class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1"><label>Generated scenarios</label></h2></div>
-                        <vbox flex="1" id="generatedScenariosContainer"/>
+                        <div class="devtools-toolbar">
+                            <h2 class="toolbarTitle" flex="1"><label>Generated scenarios</label></h2>
+                        </div>
+                        <vbox flex="1" id="generatedScenariosContainer">
+                            <vbox>
+                                <label>Scenario 1</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                            </vbox>
+                            <vbox>
+                                <label>Scenario 2</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+                        </vbox>
                         <div class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1"><label>Kept scenarios</label></h2></div>
-                        <vbox flex="1" id="keptScenariosContainer"/>
+                        <vbox flex="1" id="keptScenariosContainer">
+                            <vbox>
+                                <label>Scenario 6</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">5x timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 2</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">5x timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
+                            </vbox>
+                        </vbox>
                     </vbox>
                 </tabpanel>
 
@@ -103,6 +172,115 @@
 
                 <tabpanel id="reuserTabPanel" class="tabpanel-content">
                     <vbox flex="1">
+                        <hbox class="devtools-toolbar">
+                            <toolbarbutton class="devtools-toolbarbutton featureSelectorButton" tooltiptext="Set as feature descriptor" disabled="false" id="setFeatureSelectorButton"/>
+                            <toolbarbutton class="devtools-toolbarbutton gearsButton" tooltiptext="Generate Scenarios" disabled="false" id="generateScenariosButton"/>
+                            <span style="margin-top: 5px;"><b>Feature descriptors</b>: tP1/index.html//*[@id="sideContainer"]</span>
+                            <span style="margin-top: 5px;"><b>Reuse Position</b>: tP2/index.html//*[@id="mainContainer"]</span>
+                        </hbox>
+                        <vbox flex="1" id="scenarioMarkupViewerElement">
+                        </vbox>
+                    </vbox>
+
+                    <splitter class="devtools-side-splitter"/>
+
+                    <vbox id="scenariosTabBox">
+                        <div class="devtools-toolbar">
+                            <h2 class="toolbarTitle" flex="1"><label>Feature scenarios</label></h2>
+                            <toolbarbutton class="devtools-toolbarbutton addButton" tooltiptext="Add Slicing Criteria Button" disabled="false"/>
+                        </div>
+                        <vbox flex="1" id="generatedScenariosContainer">
+                            <vbox>
+                                <label>Scenario 1</label>
+                                <div class="eventRecordingElement">mouseover on //*[@id="sideContainer"]</div>
+                                <div class="eventRecordingElement">3x timeout on window</div>
+                            </vbox>
+                            <vbox>
+                                <label>Scenario 2</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 3</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                            </vbox>
+                        </vbox>
+                        <div class="devtools-toolbar">
+                            <h2 class="toolbarTitle" flex="1"><label>Application scenarios</label></h2>
+                            <toolbarbutton class="devtools-toolbarbutton addButton" tooltiptext="Add Slicing Criteria Button" disabled="false"/>
+                        </div>
+                        <vbox flex="1" id="keptScenariosContainer">
+                            <vbox>
+                                <label>Scenario 2</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">2x timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 6</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">5x timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 7</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">5x timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
+                            </vbox>
+
+                            <vbox>
+                                <label>Scenario 7</label>
+                                <div class="eventRecordingElement">onload on window</div>
+                                <div class="eventRecordingElement">5x timeout on window</div>
+                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
+                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
+                            </vbox>
+                        </vbox>
                     </vbox>
                 </tabpanel>
 

@@ -8,6 +8,8 @@ var fs = require('fs');
 var scenarioExecutorUrl = system.args[1] || "";
 var scenarioExecutorDataFile = "C:\\GitWebStorm\\Firecrow\\phantomJs\\dataFiles\\scenarioExecutor.txt";
 
+fs.write(scenarioExecutorDataFile, "");
+
 page.open(encodeURI(scenarioExecutorUrl), function(status)
 {
     if(status != "success") { fs.write(scenarioExecutorDataFile, "ERROR - Can not load scenario for: " + page.url ); phantom.exit();}
