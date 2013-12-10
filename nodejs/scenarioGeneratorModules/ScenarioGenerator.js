@@ -2,23 +2,27 @@ var fs = require('fs');
 var sh = require('execSync');
 var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
+var path = require('path');
+
+/**/
+var scenarioExecutorPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
+/**/
 
 /*******************  my modules inclusions ************/
-var ScenarioCollectionModule = require('C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\ScenarioCollection.js')
-var EventModule = require('C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\Event.js')
-var ScenarioModule = require('C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\Scenario.js');
-var ScenarioGeneratorHelper = require('C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\ScenarioGeneratorHelper.js').ScenarioGeneratorHelper;
-var ObjectConverter = require('C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\ObjectConverter.js').ObjectConverter;
-var ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ValueTypeHelper.js").ValueTypeHelper;
-var ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
-var CodeMarkupGenerator = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\codeMarkupGenerator\\codeMarkupGenerator.js").CodeMarkupGenerator;
-var CodeTextGenerator = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\codeMarkupGenerator\\codeTextGenerator.js").CodeTextGenerator;
-/*******************************************************/
+var ScenarioCollectionModule = path.resolve(__dirname, "ScenarioCollection.js");
+var EventModule = path.resolve(__dirname, 'Event.js')
+var ScenarioModule = path.resolve(__dirname, 'Scenario.js');
+var ScenarioGeneratorHelper = path.resolve(__dirname, 'ScenarioGeneratorHelper.js').ScenarioGeneratorHelper;
+var ObjectConverter = path.resolve(__dirname, 'ObjectConverter.js').ObjectConverter;
 
-var scenarioExecutorPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
-var scenarioExecutorPhantomScriptPath = "C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioExecutor.js";
-var scenarioExecutorDataFile = "C:\\GitWebStorm\\Firecrow\\phantomJs\\dataFiles\\scenarioExecutor.txt";
-var memoryOutputDataFile = "C:\\GitWebStorm\\Firecrow\\phantomJs\\dataFiles\\memoryOutput.txt";
+var ASTHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js").ASTHelper;
+var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
+var CodeMarkupGenerator = path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js").CodeMarkupGenerator;
+var CodeTextGenerator = path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js").CodeTextGenerator;
+/*******************************************************/
+var scenarioExecutorPhantomScriptPath = path.resolve(__dirname, "../../phantomJs/evaluationHelpers/scenarioExecutor.js");
+var scenarioExecutorDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/scenarioExecutor.txt");
+var memoryOutputDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/memoryOutput.txt");
 /*******************************************************/
 
 var ScenarioGenerator =
@@ -171,6 +175,12 @@ var ScenarioGenerator =
         return;
     },
 
+    _killPhantomJs: function()
+    {
+        console.log("!!!!!! KILLING phantomJs!");
+        sh.run("taskkill /IM phantomjs.exe -f");
+    },
+
     _hasUsedTooMuchMemory: function()
     {
         sh.run('tasklist /fi "memusage gt 1200000" > ' + memoryOutputDataFile);
@@ -185,6 +195,25 @@ var ScenarioGenerator =
         }
 
         return !containsInfo;
+    },
+
+    _getPhantomJsMemoryConsumption: function()
+    {
+        sh.run('tasklist /fi "imagename eq phantomjs.exe" > ' + memoryOutputDataFile);
+
+        var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
+
+        if(fileContent == "" || fileContent == null) { return 0; }
+
+        var decimalNumberRegEx = /[0-9]+\.[0-9]+/;
+
+        var result = fileContent.match(decimalNumberRegEx);
+
+        if(result == null || result[0] == null) { return 0; }
+
+        var memory = parseFloat(result[0]);
+
+        return !Number.isNaN(memory) ? memory : 0;
     },
 
     _generateScenarios: function()
@@ -391,8 +420,7 @@ var ScenarioGenerator =
             {
                 if(memory === ScenarioGenerator._lastLoggedMemoryConsumption)
                 {
-                    console.log("!!!!!! KILLING phantomJs!");
-                    sh.run("taskkill /IM phantomjs.exe -f");
+                    ScenarioGenerator._killPhantomJs();
                 }
 
                 ScenarioGenerator._lastLoggedMemoryConsumption = memory;
@@ -407,25 +435,6 @@ var ScenarioGenerator =
     {
         clearInterval(ScenarioGenerator._monitoringPhantomJsInterval);
         ScenarioGenerator._lastLoggedMemoryConsumption = null;
-    },
-
-    _getPhantomJsMemoryConsumption: function()
-    {
-        sh.run('tasklist /fi "imagename eq phantomjs.exe" > ' + memoryOutputDataFile);
-
-        var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
-
-        if(fileContent == "" || fileContent == null) { return 0; }
-
-        var decimalNumberRegEx = /[0-9]+\.[0-9]+/;
-
-        var result = fileContent.match(decimalNumberRegEx);
-
-        if(result == null || result[0] == null) { return 0; }
-
-        var memory = parseFloat(result[0]);
-
-        return !Number.isNaN(memory) ? memory : 0;
     },
 
     _saveScenarioInfoToFile: function(scenario)

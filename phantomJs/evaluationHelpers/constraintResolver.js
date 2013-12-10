@@ -6,8 +6,9 @@ page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + ms
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
 var solverUrl = "http://localhost/Firecrow/constraintSolver/index.php";
-var constraintDataFile = "C:\\GitWebStorm\\Firecrow\\phantomJs\\dataFiles\\constraint.txt";
-var constraintSolutionDataFile = "C:\\GitWebStorm\\Firecrow\\phantomJs\\dataFiles\\constraintSolution.txt";
+
+var constraintDataFile = fs.workingDirectory + fs.separator + "dataFiles" + fs.separator + "constraint.txt";
+var constraintSolutionDataFile = fs.workingDirectory + fs.separator + "dataFiles" + fs.separator + "constraintSolution.txt";
 
 page.open(solverUrl, function()
 {
