@@ -1,4 +1,6 @@
-var ScenarioGeneratorHelper = require("C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\ScenarioGeneratorHelper.js").ScenarioGeneratorHelper;
+var path = require('path');
+
+var ScenarioGeneratorHelper = path.resolve(__dirname, "ScenarioGeneratorHelper.js").ScenarioGeneratorHelper;
 
 var Event = function(baseObjectDescriptor, baseObjectModel, eventType, registrationConstruct, handlerConstruct)
 {

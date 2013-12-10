@@ -3,10 +3,16 @@ var exec = require('child_process').exec;
 
 var fs = require('fs');
 
-var scenarioGenerationLogRootFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\generatorLogs\\";
+var path = require('path');
 
-var applicationNames = fs.readdirSync('C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGenerator\\');
-applicationNames = ["26-snowpar"];
+var phantomJsPath = 'C:\\phantomJs\\phantomjs.exe';
+
+var scenarioGenerationLogRootFolder = path.resolve(__dirname, "../evaluation/results/coverageComparator/generatorLogs/") + path.sep;
+var applicationModelsRootFolder = path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator") + path.sep;
+var scenarioGeneratorCoverageComparatorPath = path.resolve(__dirname, "../phantomJs/evaluationHelpers/scenarioGeneratorCoverageComparator.js");
+var scenarioGeneratorPath = path.resolve(__dirname, "scenarioGenerator.js");
+
+var applicationNames = fs.readdirSync(applicationModelsRootFolder);
 
 var eventTypes = ["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential"];
 
@@ -21,7 +27,7 @@ var processOutput = "";
         console.log("Process finished - comparing coverages");
         spawnPhantomJsProcess
         (
-            'C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\scenarioGeneratorCoverageComparator.js',
+            scenarioGeneratorCoverageComparatorPath,
             [],
             function (data)
             {
@@ -45,7 +51,7 @@ var processOutput = "";
 
     spawnNodeJsProcess
     (
-        "C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGenerator.js",
+        scenarioGeneratorPath,
         [applicationName, eventType, "80"],
         function (data)
         {
@@ -82,7 +88,7 @@ function spawnNodeJsProcess(pathToFile, args, onDataFunction, onCloseFunction, o
 
 function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction)
 {
-    var prc = spawn( 'C:\\phantomJs\\phantomjs.exe', [pathToFile].concat(args));
+    var prc = spawn(phantomJsPath, [pathToFile].concat(args));
 
     prc.stdout.setEncoding('utf8');
 

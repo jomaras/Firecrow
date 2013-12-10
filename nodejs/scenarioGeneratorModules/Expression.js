@@ -1,5 +1,6 @@
-var ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ValueTypeHelper.js").ValueTypeHelper;
-var ScenarioGeneratorHelper = require("C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\ScenarioGeneratorHelper.js").ScenarioGeneratorHelper;
+var path = require('path');
+var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
+var ScenarioGeneratorHelper = path.resolve(__dirname, "ScenarioGeneratorHelper.js").ScenarioGeneratorHelper;
 //https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API
 /*
  - Expression

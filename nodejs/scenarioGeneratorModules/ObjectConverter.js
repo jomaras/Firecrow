@@ -1,4 +1,5 @@
-var PathConstraintModule = require('C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\PathConstraint.js');
+var path = require('path');
+var ScenarioGeneratorHelper = path.resolve(__dirname, "PathConstraint.js");
 
 var ObjectConverter =
 {

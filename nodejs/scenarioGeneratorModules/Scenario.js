@@ -1,5 +1,7 @@
-var Event = require("C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\Event.js").Event;
-var PathConstraint = require("C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\PathConstraint.js").PathConstraint;
+var path = require('path');
+
+var Event = path.resolve(__dirname, "Event.js").Event;
+var PathConstraint = path.resolve(__dirname, "PathConstraint.js").PathConstraint;
 
 var Scenario = function Scenario(events, inputConstraint, parentScenarios, creationType)
 {

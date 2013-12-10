@@ -1,14 +1,18 @@
 var sh = require('execSync');
 var fs = require('fs');
-
-var ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
-var ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ValueTypeHelper.js").ValueTypeHelper;
-var ExpressionModule = require("C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\Expression.js");
+var path = require('path');
 
 var solverUrl = "http://localhost/Firecrow/constraintSolver/index.php";
-var constraintResolverPhantomPath = "C:\\GitWebStorm\\Firecrow\\phantomJs\\evaluationHelpers\\constraintResolver.js";
-var constraintDataFile = "C:\\GitWebStorm\\Firecrow\\phantomJs\\dataFiles\\constraint.txt";
-var constraintSolutionDataFile = "C:\\GitWebStorm\\Firecrow\\phantomJs\\dataFiles\\constraintSolution.txt";
+var phantomJsPath = "C:\\phantomJs\\phantomjs.exe";
+
+var ASTHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js").ASTHelper;
+var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
+
+var ExpressionModule = path.resolve(__dirname, "Expression.js");
+
+var constraintResolverPhantomPath = path.resolve(__dirname, "../../phantomJs/evaluationHelpers/constraintResolver.js");
+var constraintDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/constraint.txt");
+var constraintSolutionDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/constraintSolution.txt");
 
 var ConstraintResolver =
 {
@@ -352,7 +356,7 @@ var ConstraintResolver =
     {
         fs.writeFileSync(constraintDataFile, json);
 
-        sh.run('C:\\phantomJs\\phantomjs.exe ' + constraintResolverPhantomPath + " " + solverUrl);
+        sh.run(phantomJsPath + " " + constraintResolverPhantomPath + " " + solverUrl);
 
         var solutionString = fs.readFileSync(constraintSolutionDataFile, {encoding:"utf8"});
 

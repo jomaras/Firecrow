@@ -224,6 +224,11 @@ ScenarioCollection.prototype =
         return scenarios[0];
     },
 
+    _getNextByEventLength: function()
+    {
+
+    },
+
     _getNextByLength: function()
     {
         var lengthGroups = this.lengthGroups;

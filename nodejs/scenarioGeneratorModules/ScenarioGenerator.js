@@ -340,9 +340,8 @@ var ScenarioGenerator =
                 }
                 catch(e)
                 {
-                    console.log("!!!!!!!!!!!!!ScenarioGenerator could not parse scenarioExecutor data!");
+                    console.log("!!!!!!!!!!!!!ScenarioGenerator could not parse scenarioExecutor data: " + e + scenarioExecutorStringData);
                 }
-
 
                 if(executionInfo != null)
                 {

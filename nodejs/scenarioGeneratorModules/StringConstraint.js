@@ -1,4 +1,5 @@
-var ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ValueTypeHelper.js").ValueTypeHelper;
+var path = require('path');
+var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
 
 var StringConstraint = function(value, operator)
 {

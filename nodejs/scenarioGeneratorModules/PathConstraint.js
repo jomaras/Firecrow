@@ -1,8 +1,10 @@
-var ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
-var ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ValueTypeHelper.js").ValueTypeHelper;
-var ScenarioGeneratorHelper = require("C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\ScenarioGeneratorHelper.js").ScenarioGeneratorHelper;
-var ConstraintResolverModule = require("C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\ConstraintResolver.js");
-var ExpressionModule = require("C:\\GitWebStorm\\Firecrow\\nodejs\\scenarioGeneratorModules\\Expression.js");
+var path = require('path');
+
+var ASTHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js").ASTHelper;
+var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
+var ScenarioGeneratorHelper = path.resolve(__dirname, "ScenarioGeneratorHelper.js").ScenarioGeneratorHelper;
+var ConstraintResolverModule = path.resolve(__dirname, "ConstraintResolver.js");
+var ExpressionModule = require("Expression.js");
 
 function PathConstraintItem(codeConstruct, constraint)
 {
