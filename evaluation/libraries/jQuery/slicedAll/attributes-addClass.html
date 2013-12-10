@@ -7,7 +7,7 @@
     <script>
   (function(window, undefined)
   {
-    var readyList, rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    var rootjQuery, document = window.document, class2type = {}, core_deletedIds = [], core_version = "1.10.2", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
     }, core_rnotwhite = /\S+/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
@@ -80,14 +80,13 @@
       }, 
       ready: function(fn)
       {
-        jQuery.ready.promise();
         return this;
       }
     };
     jQuery.fn.init.prototype = jQuery.fn;
     jQuery.extend = jQuery.fn.extend = function()
     {
-      var copy, name, options, target = arguments[0], i = 1, length = arguments.length, deep = false;
+      var copy, name, options, target, i = 1, length = arguments.length, deep = false;
       if(length === i)
       {
         target = this;
@@ -234,7 +233,6 @@
         if(jQuery.type(key) === "object");
         else if(value !== undefined)
         {
-          chainable = true;
           if(!(jQuery.isFunction(value)))
           {
             raw = true;
@@ -255,15 +253,6 @@
       now: function(){}, 
       swap: function(elem, options, callback, args){}
     });
-    jQuery.ready.promise = function(obj)
-    {
-      if(!readyList)
-      {
-        readyList = jQuery.Deferred();
-      }
-
-      return readyList.promise(obj);
-    };
     jQuery.each(("Boolean Number String Function Array Date RegExp Object Error").split(" "), function(i, name)
     {
       class2type[("[object " + name) + "]"] = name.toLowerCase();
@@ -378,53 +367,6 @@
       jQuery.expr = Sizzle.selectors;
       jQuery.isXMLDoc = Sizzle.isXML;
     })(window);
-    jQuery.Callbacks = function(options)
-    {
-      var list = [], self = {
-        add: function()
-        {
-          if(list)
-          {
-            (function add(args)
-            {
-              jQuery.each(args, function(_, arg){});
-            })(arguments);
-          }
-
-          return this;
-        }, 
-        disable: function(){}, 
-        lock: function(){}
-      };
-      return self;
-    };
-    jQuery.extend({
-      Deferred: function(func)
-      {
-        var tuples = [["resolve", "done", jQuery.Callbacks("once memory"), "resolved"], ["reject", "fail", jQuery.Callbacks("once memory"), "rejected"], ["notify", "progress", jQuery.Callbacks("memory")]], promise = {
-          state: function(){}, 
-          always: function(){}, 
-          then: function(){}, 
-          promise: function(obj)
-          {
-            return obj != null ? jQuery.extend(obj, promise) : promise;
-          }
-        }, deferred = {};
-        promise.pipe = promise.then;
-        jQuery.each(tuples, function(i, tuple)
-        {
-          var list = tuple[2], stateString = tuple[3];
-          promise[tuple[1]] = list.add;
-          if(stateString)
-          {
-            list.add(function(){}, tuples[i ^ 1][2].disable, tuples[2][2].lock);
-          }
-        });
-        promise.promise(deferred);
-        return deferred;
-      }, 
-      when: function(subordinate){}
-    });
     (function(support)
     {
       for(i in jQuery(support))
@@ -435,32 +377,6 @@
       jQuery(function(){});
       return support;
     })({});
-    jQuery.extend({
-      cache: {}, 
-      noData: {}, 
-      hasData: function(elem){}, 
-      data: function(elem, name, data){}, 
-      removeData: function(elem, name){}, 
-      _data: function(elem, name, data){}, 
-      _removeData: function(elem, name){}, 
-      acceptData: function(elem){}
-    });
-    jQuery.fn.extend({
-      data: function(key, value){}, 
-      removeData: function(key){}
-    });
-    jQuery.extend({
-      queue: function(elem, type, data){}, 
-      dequeue: function(elem, type){}, 
-      _queueHooks: function(elem, type){}
-    });
-    jQuery.fn.extend({
-      queue: function(type, data){}, 
-      dequeue: function(type){}, 
-      delay: function(time, type){}, 
-      clearQueue: function(type){}, 
-      promise: function(type, obj){}
-    });
     var nodeHook, rclass = /[\t\r\n\f]/g;
     jQuery.fn.extend({
       attr: function(name, value)
@@ -475,7 +391,7 @@
         var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = typeof value === "string" && value;
         if(proceed)
         {
-          classes = value.match(core_rnotwhite);
+          classes = (value).match(core_rnotwhite);
           for(;i < len;i++)
           {
             elem = this[i];
@@ -565,13 +481,6 @@
       propHooks: {}
     });
     jQuery.fn.extend({
-      on: function(types, selector, data, fn, one){}, 
-      one: function(types, selector, data, fn){}, 
-      off: function(types, selector, fn){}, 
-      trigger: function(type, data){}, 
-      triggerHandler: function(type, data){}
-    });
-    jQuery.fn.extend({
       find: function(selector)
       {
         var i, ret = [], self = this, len = self.length;
@@ -594,16 +503,6 @@
     });
     jQuery.each({
       parent: function(elem){}, 
-      parents: function(elem){}, 
-      parentsUntil: function(elem, i, until){}, 
-      next: function(elem){}, 
-      prev: function(elem){}, 
-      nextAll: function(elem){}, 
-      prevAll: function(elem){}, 
-      nextUntil: function(elem, i, until){}, 
-      prevUntil: function(elem, i, until){}, 
-      siblings: function(elem){}, 
-      children: function(elem){}, 
       contents: function(elem)
       {
         return jQuery.nodeName(elem, "iframe") ? 0 : jQuery.merge([], elem.childNodes);
@@ -616,50 +515,6 @@
         return this.pushStack(ret);
       };
     });
-    jQuery.extend({
-      filter: function(expr, elems, not){}, 
-      dir: function(elem, dir, until){}, 
-      sibling: function(n, elem){}
-    });
-    jQuery.fn.extend({
-      text: function(value){}, 
-      append: function(){}, 
-      prepend: function(){}, 
-      before: function(){}, 
-      after: function(){}, 
-      remove: function(selector, keepData){}, 
-      empty: function(){}, 
-      clone: function(dataAndEvents, deepDataAndEvents){}, 
-      html: function(value){}, 
-      replaceWith: function(){}, 
-      detach: function(selector){}, 
-      domManip: function(args, callback, allowIntersection){}
-    });
-    jQuery.extend({
-      clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
-      buildFragment: function(elems, context, scripts, selection){}, 
-      cleanData: function(elems, acceptData){}, 
-      _evalUrl: function(url){}
-    });
-    jQuery.fn.extend({
-      wrapAll: function(html){}, 
-      wrapInner: function(html){}, 
-      wrap: function(html){}, 
-      unwrap: function(){}
-    });
-    jQuery.fn.extend({
-      css: function(name, value){}, 
-      show: function(){}, 
-      hide: function(){}, 
-      toggle: function(state){}
-    });
-    jQuery.extend({
-      cssHooks: {}, 
-      cssNumber: {}, 
-      cssProps: {}, 
-      style: function(elem, name, value, extra){}, 
-      css: function(elem, name, extra, styles){}
-    });
     jQuery(function(){});
     if(typeof module === "object");
     else 
@@ -668,7 +523,7 @@
     }
   })(window);
 </script>
-</head><div id="sizzle-1383869190686"></div>
+</head>
 
 <body id="body" style="">
 
@@ -806,7 +661,6 @@
   div.addClass("bar bar");
   assertEquals(div.attr("class"), "bar", "Do not add the same class twice in the same call.");
 </script>
-
 
 
 </body>

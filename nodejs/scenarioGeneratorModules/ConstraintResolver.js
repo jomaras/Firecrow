@@ -2,13 +2,18 @@ var sh = require('execSync');
 var fs = require('fs');
 var path = require('path');
 
-var solverUrl = "http://localhost/Firecrow/constraintSolver/index.php";
-var phantomJsPath = "C:\\phantomJs\\phantomjs.exe";
+var os = require('os');
+var isWin = os.platform().indexOf("win") != -1 ? true : false;
 
-var ASTHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js").ASTHelper;
-var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
+var solverUrl = isWin ? "http://localhost/Firecrow/constraintSolver/index.php"
+                      : "http://pzi.fesb.hr/josip.maras/Firecrow/constraintSolver/index.php";
 
-var ExpressionModule = path.resolve(__dirname, "Expression.js");
+var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe' : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
+
+var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+
+var ExpressionModule = require(path.resolve(__dirname, "Expression.js"));
 
 var constraintResolverPhantomPath = path.resolve(__dirname, "../../phantomJs/evaluationHelpers/constraintResolver.js");
 var constraintDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/constraint.txt");

@@ -270,7 +270,15 @@ fcModel.Object.prototype =
 
         if(this.implementationObject != null && proto != null)
         {
-            this.implementationObject.__proto__ = proto.jsValue;
+            try
+            {
+                //Firefox throws an exception
+                this.implementationObject.__proto__ = proto.jsValue;
+            }
+            catch(e)
+            {
+                debugger;
+            }
         }
 
         if(codeConstruct != null)

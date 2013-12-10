@@ -1,12 +1,10 @@
 var fs = require('fs');
 var path = require('path');
-
-var ScenarioGenerator = path.resolve(__dirname, "scenarioGeneratorModules/ScenarioGenerator.js").ScenarioGenerator;
-var scenarioEmpiricalDataPath = path.resolve(__dirname, "../../EventRecorder/recordings//aggregateJsonData.txt");
+var ScenarioGenerator = require(path.resolve(__dirname, "scenarioGeneratorModules/ScenarioGenerator.js")).ScenarioGenerator;
+var scenarioEmpiricalDataPath = path.resolve(__dirname, "../../EventRecorder/recordings/aggregateJsonData.txt");
 
 var visitedCodeTemplatePath = path.resolve(__dirname, "../phantomJs/helperPages/viewExecutedCodeTemplate.html");
 var visitedCodePath = path.resolve(__dirname, "../phantomJs/helperPages/viewExecutedCode.html")
-
 ScenarioGenerator.scriptPathsToIgnore = [];
 ScenarioGenerator.shouldPrintDetailedMessages = true;
 
@@ -22,7 +20,7 @@ console.log("Starting scenario generator: ", pageName ,  ScenarioGenerator.prior
 var coverageFolder = path.resolve(__dirname, "../evaluation/results/coverage") + path.sep + ScenarioGenerator.prioritization + path.sep;
 var scenarioModelPath = path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json");
 
-ScenarioGenerator.setEmpiricalData(JSON.parse(fs.readFileSync(scenarioEmpiricalDataPath, { encoding: "utf-8"})));
+//ScenarioGenerator.setEmpiricalData(JSON.parse(fs.readFileSync(scenarioEmpiricalDataPath, { encoding: "utf-8"})));
 
 ScenarioGenerator.generateScenarios(scenarioModelPath, function(scenarios, message, coverage)
 {

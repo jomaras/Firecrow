@@ -1,10 +1,10 @@
 var path = require('path');
 
-var ASTHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js").ASTHelper;
-var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
-var ScenarioGeneratorHelper = path.resolve(__dirname, "ScenarioGeneratorHelper.js").ScenarioGeneratorHelper;
-var ConstraintResolverModule = path.resolve(__dirname, "ConstraintResolver.js");
-var ExpressionModule = require("Expression.js");
+var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+var ScenarioGeneratorHelper = require(path.resolve(__dirname, "ScenarioGeneratorHelper.js")).ScenarioGeneratorHelper;
+var ConstraintResolverModule = require(path.resolve(__dirname, "ConstraintResolver.js"));
+var ExpressionModule = require(path.resolve(__dirname, "Expression.js"));
 
 function PathConstraintItem(codeConstruct, constraint)
 {

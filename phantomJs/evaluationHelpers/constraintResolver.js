@@ -5,7 +5,11 @@ var page = webPage.create();
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
-var solverUrl = "http://localhost/Firecrow/constraintSolver/index.php";
+var os = require('os');
+var isWin = os.platform().indexOf("win") != -1 ? true : false;
+
+var solverUrl = isWin ? "http://localhost/Firecrow/constraintSolver/index.php"
+                      : "http://pzi.fesb.hr/josip.maras/Firecrow/constraintSolver/index.php";
 
 var constraintDataFile = fs.workingDirectory + fs.separator + "dataFiles" + fs.separator + "constraint.txt";
 var constraintSolutionDataFile = fs.workingDirectory + fs.separator + "dataFiles" + fs.separator + "constraintSolution.txt";

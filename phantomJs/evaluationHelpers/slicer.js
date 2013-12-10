@@ -10,11 +10,10 @@ var pageIndex = 0;
 
 var libraryName = system.args[1] || "jQuery";
 
-
 var executeRegisteredEvents = libraryName == "jQuery";
 
 var libraryFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\libraries\\" + libraryName + "\\";
-var destinationName = system.args[2] || "profiled";//profiled; slicedAll; slicedWithoutSliceUnions;
+var destinationName = system.args[2] || "slicedAll";//profiled; slicedAll; slicedWithoutSliceUnions;
 var destinationFolder = libraryFolder + destinationName;
 var logFile = destinationFolder + "\\logAll.txt";
 
@@ -31,7 +30,7 @@ modelFiles = fs.list(rootFolder).map(function(fileName)
 {
     var fullPath = rootFolder + fs.separator + fileName;
 
-    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1)
+    if(fs.isFile(fullPath) && fullPath.indexOf('.json') != -1 && fullPath.indexOf("attributes-attr_string_object") != -1)
     {
         return fullPath;
     }

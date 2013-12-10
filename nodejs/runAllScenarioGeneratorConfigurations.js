@@ -5,14 +5,23 @@ var fs = require('fs');
 
 var path = require('path');
 
-var phantomJsPath = 'C:\\phantomJs\\phantomjs.exe';
+var os = require('os');
+var isWin = os.platform().indexOf("win") != -1 ? true : false;
+
+var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe' : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
+
+console.log("Platform", os.platform());
 
 var scenarioGenerationLogRootFolder = path.resolve(__dirname, "../evaluation/results/coverageComparator/generatorLogs/") + path.sep;
 var applicationModelsRootFolder = path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator") + path.sep;
 var scenarioGeneratorCoverageComparatorPath = path.resolve(__dirname, "../phantomJs/evaluationHelpers/scenarioGeneratorCoverageComparator.js");
 var scenarioGeneratorPath = path.resolve(__dirname, "scenarioGenerator.js");
 
-var applicationNames = fs.readdirSync(applicationModelsRootFolder);
+var applicationNames = ["01-3dModeller", "02-ajaxtabscontent", "03-ball_pool", "04-dragable-boxes", "05-dynamicArticles",
+                        "06-fractal_viewer", "07-homeostasis", "08-pacman", "20-3dMaker", "21-angelJump", "22-minesweeper",
+                        "23-prism3D", "24-rentingAgency", "25-snake", "26-snowpar", "27-tinySlider", "28-floatwar"];
+
+applicationName = ["26-snowpar"];
 
 var eventTypes = ["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential"];
 
@@ -52,7 +61,7 @@ var processOutput = "";
     spawnNodeJsProcess
     (
         scenarioGeneratorPath,
-        [applicationName, eventType, "80"],
+        [applicationName, eventType, "100"],
         function (data)
         {
             var str = data.toString()

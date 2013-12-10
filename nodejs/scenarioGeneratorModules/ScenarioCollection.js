@@ -1,8 +1,8 @@
 var path = require('path');
 
-var ASTHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js").ASTHelper;
-var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
-var ScenarioModule = path.resolve(__dirname, "Scenario.js");
+var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+var ScenarioModule = require(path.resolve(__dirname, "Scenario.js"));
 
 var ScenarioCollection = function ScenarioCollection(prioritization)
 {

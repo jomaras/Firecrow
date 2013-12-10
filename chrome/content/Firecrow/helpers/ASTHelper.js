@@ -11,7 +11,8 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 if(ValueTypeHelper == null && usesModule)
 {
-    ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\valueTypeHelper.js").ValueTypeHelper;
+    var path = require('path');
+    ValueTypeHelper = require(path.resolve(__dirname, "valueTypeHelper.js")).ValueTypeHelper;
 }
 
 Firecrow.ASTHelper = ASTHelper =

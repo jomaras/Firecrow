@@ -1,5 +1,6 @@
 var path = require('path');
-var ScenarioGeneratorHelper = path.resolve(__dirname, "PathConstraint.js");
+
+var PathConstraintModule = require(path.resolve(__dirname, "PathConstraint.js"));
 
 var ObjectConverter =
 {

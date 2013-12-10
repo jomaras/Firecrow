@@ -11,12 +11,13 @@ var ValueTypeHelper = Firecrow.ValueTypeHelper;
 
 if(ValueTypeHelper == null && usesModule)
 {
-    ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\valueTypeHelper.js").ValueTypeHelper;
+    var path = require('path');
+    ValueTypeHelper = require(path.resolve(__dirname, "../helpers/valueTypeHelper.js")).ValueTypeHelper;
 }
 
 if(ASTHelper == null && usesModule)
 {
-    ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
+    ASTHelper = require(path.resolve(__dirname, "../helpers/ASTHelper.js")).ASTHelper;
 }
 
 Firecrow.CodeTextGenerator = CodeTextGenerator = function(isSlicing)

@@ -1,6 +1,6 @@
 var path = require('path');
 
-var ScenarioGeneratorHelper = path.resolve(__dirname, "ScenarioGeneratorHelper.js").ScenarioGeneratorHelper;
+var ScenarioGeneratorHelper = require(path.resolve(__dirname, "ScenarioGeneratorHelper.js")).ScenarioGeneratorHelper;
 
 var Event = function(baseObjectDescriptor, baseObjectModel, eventType, registrationConstruct, handlerConstruct)
 {

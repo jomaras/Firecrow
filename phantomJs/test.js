@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "file:///C:/GitWebStorm/Firecrow/wordpress/virtue/index.html";
+var url = "http://www.google.com";
 
 console.log("Started loading page");
 

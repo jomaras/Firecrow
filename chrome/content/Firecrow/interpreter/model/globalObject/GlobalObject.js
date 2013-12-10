@@ -305,8 +305,10 @@ fcModel.GlobalObject.prototype._getEventObjectDescriptor = function(eventObject)
 fcModel.GlobalObject.prototype._getEventObjectCssSelector = function(eventObject)
 {
     if(eventObject.globalObject.document == eventObject) { return "document"; }
+    if(eventObject.globalObject == eventObject) { return "window"; }
     if(eventObject.htmlElement != null)
     {
+        if(eventObject.htmlElement.nodeName == null) { debugger; }
         var type = eventObject.htmlElement.nodeName.toLowerCase();
         var id = eventObject.htmlElement.id;
         var classes = eventObject.htmlElement.className.replace(/(\s)+/g, ".")
@@ -314,7 +316,6 @@ fcModel.GlobalObject.prototype._getEventObjectCssSelector = function(eventObject
         return type + (id != null && id != "" ? ("#" + id) : "")
                     + (classes != null && classes != "" ? ("." + classes) : "");
     }
-    if(eventObject.globalObject == eventObject) { return "window"; }
 
     debugger;
 

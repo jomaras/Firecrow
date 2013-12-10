@@ -2,7 +2,9 @@ var usesModule = typeof module !== 'undefined' && module.exports;
 if(usesModule)
 {
     FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
-    var CodeTextGenerator = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\codeMarkupGenerator\\codeTextGenerator.js").CodeTextGenerator;
+
+    var path = require('path');
+    var CodeTextGenerator = require(path.resolve(__dirname, "codeTextGenerator.js")).CodeTextGenerator;
 }
 
 var CodeMarkupGenerator;
@@ -13,12 +15,12 @@ FBL.ns(function () { with (FBL) {
 
     if(ValueTypeHelper == null && usesModule)
     {
-        ValueTypeHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\valueTypeHelper.js").ValueTypeHelper;
+        ValueTypeHelper = require(path.resolve(__dirname, "../helpers/valueTypeHelper.js")).ValueTypeHelper;
     }
 
     if(ASTHelper == null && usesModule)
     {
-        ASTHelper = require("C:\\GitWebStorm\\Firecrow\\chrome\\content\\Firecrow\\helpers\\ASTHelper.js").ASTHelper;
+        ASTHelper = require(path.resolve(__dirname, "../helpers/ASTHelper.js")).ASTHelper;
     }
 
     Firecrow.CodeMarkupGenerator = CodeMarkupGenerator =

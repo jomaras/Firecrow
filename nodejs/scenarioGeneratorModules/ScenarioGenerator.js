@@ -5,20 +5,29 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 /**/
-var scenarioExecutorPageUrl = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
+var os = require('os');
+var isWin = os.platform().indexOf("win") != -1 ? true : false;
+
+var scenarioExecutorPageUrl = isWin ? "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html"
+                                    : "http://pzi.fesb.hr/josip.maras/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
 /**/
 
-/*******************  my modules inclusions ************/
-var ScenarioCollectionModule = path.resolve(__dirname, "ScenarioCollection.js");
-var EventModule = path.resolve(__dirname, 'Event.js')
-var ScenarioModule = path.resolve(__dirname, 'Scenario.js');
-var ScenarioGeneratorHelper = path.resolve(__dirname, 'ScenarioGeneratorHelper.js').ScenarioGeneratorHelper;
-var ObjectConverter = path.resolve(__dirname, 'ObjectConverter.js').ObjectConverter;
+var os = require('os');
+var isWin = os.platform().indexOf("win") != -1 ? true : false;
 
-var ASTHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js").ASTHelper;
-var ValueTypeHelper = path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ValueTypeHelper.js").ValueTypeHelper;
-var CodeMarkupGenerator = path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js").CodeMarkupGenerator;
-var CodeTextGenerator = path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js").CodeTextGenerator;
+var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe' : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
+
+/*******************  my modules inclusions ************/
+var ScenarioCollectionModule = require(path.resolve(__dirname, "ScenarioCollection.js"));
+var EventModule = require(path.resolve(__dirname, 'Event.js'));
+var ScenarioModule = require(path.resolve(__dirname, 'Scenario.js'));
+var ScenarioGeneratorHelper = require(path.resolve(__dirname, 'ScenarioGeneratorHelper.js')).ScenarioGeneratorHelper;
+var ObjectConverter = require(path.resolve(__dirname, 'ObjectConverter.js')).ObjectConverter;
+
+var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+var CodeMarkupGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js")).CodeMarkupGenerator;
+var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
 /*******************************************************/
 var scenarioExecutorPhantomScriptPath = path.resolve(__dirname, "../../phantomJs/evaluationHelpers/scenarioExecutor.js");
 var scenarioExecutorDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/scenarioExecutor.txt");
@@ -96,7 +105,7 @@ var ScenarioGenerator =
 
     _getPageModelContent: function()
     {
-        ScenarioGenerator.pageModel = JSON.parse(fs.readFileSync(this.pageModelUrl.replace("http://localhost/", "c:/GitWebStorm/").replace(/\//g, "\\"), {encoding:"utf8"}));
+         ScenarioGenerator.pageModel = JSON.parse(fs.readFileSync( this.pageModelUrl, {encoding:"utf8"}));
 
         ScenarioGenerator._setUpPageModel();
         ScenarioGenerator._generateScenarios();
@@ -806,7 +815,7 @@ var ScenarioGenerator =
 
 function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction, onErrorFunction)
 {
-    var command = 'C:\\phantomJs\\phantomjs.exe ' + pathToFile + " " + args.join(" ");
+    var command = phantomJsPath + " " + pathToFile + " " + args.join(" ");
     var prc = exec( command, onErrorFunction);
 
     prc.stdout.setEncoding('utf8');
