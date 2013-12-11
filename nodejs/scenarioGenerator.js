@@ -1,5 +1,9 @@
 var fs = require('fs');
 var path = require('path');
+
+var os = require('os');
+var isWin = os.platform().indexOf("win") != -1 ? true : false;
+
 var ScenarioGenerator = require(path.resolve(__dirname, "scenarioGeneratorModules/ScenarioGenerator.js")).ScenarioGenerator;
 var scenarioEmpiricalDataPath = path.resolve(__dirname, "../../EventRecorder/recordings/aggregateJsonData.txt");
 
@@ -18,13 +22,14 @@ ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(p
 console.log("Starting scenario generator: ", pageName ,  ScenarioGenerator.prioritization, ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS);
 
 var coverageFolder = path.resolve(__dirname, "../evaluation/results/coverage") + path.sep + ScenarioGenerator.prioritization + path.sep;
-var scenarioModelPath = path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json");
+var scenarioModelPath = isWin ? path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json")
+                              : "http://pzi.fesb.hr/josip.maras/CodeModels/evaluation/scenarioGenerator/"+ pageName + "/index.json";
 
 //ScenarioGenerator.setEmpiricalData(JSON.parse(fs.readFileSync(scenarioEmpiricalDataPath, { encoding: "utf-8"})));
 
 ScenarioGenerator.generateScenarios(scenarioModelPath, function(scenarios, message, coverage)
 {
-    console.log(message);
+    console.log("ScenarioGenerator", message);
     console.log("The process has achieved statement coverage: " + (coverage != null ? coverage.statementCoverage : 0));
 
     /*var markupCode = ScenarioGenerator.generateVisitedMarkup();
@@ -39,8 +44,9 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, function(scenarios, messa
     {
         fs.mkdirSync(coverageFolder);
     }
-    catch(e) { console.log(e);}
+    catch(e) { console.log("Error when creating coverageFolders", e);}
 
+    console.log("Writing scenGen", coverageFile);
     fs.writeFileSync(coverageFile, getCoverageData());
 
     var filteredScenarios = scenarios.getSubsumedProcessedScenarios();

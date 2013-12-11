@@ -5,8 +5,7 @@ var page = webPage.create();
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
 page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
 
-var os = require('os');
-var isWin = os.platform().indexOf("win") != -1 ? true : false;
+var isWin = fs.workingDirectory.indexOf("C:/") != -1 ? true : false;
 
 var solverUrl = isWin ? "http://localhost/Firecrow/constraintSolver/index.php"
                       : "http://pzi.fesb.hr/josip.maras/Firecrow/constraintSolver/index.php";

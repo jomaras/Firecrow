@@ -1,23 +1,20 @@
 var sh = require('execSync');
 var fs = require('fs');
 var path = require('path');
-
 var os = require('os');
+
 var isWin = os.platform().indexOf("win") != -1 ? true : false;
+var chainCommandSeparator = isWin ? "&" : ";";
 
-var solverUrl = isWin ? "http://localhost/Firecrow/constraintSolver/index.php"
-                      : "http://pzi.fesb.hr/josip.maras/Firecrow/constraintSolver/index.php";
-
-var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe' : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
+var constraintSolverRootFolder = path.resolve(__dirname, "../../constraintSolver");
 
 var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
 var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
 
 var ExpressionModule = require(path.resolve(__dirname, "Expression.js"));
 
-var constraintResolverPhantomPath = path.resolve(__dirname, "../../phantomJs/evaluationHelpers/constraintResolver.js");
-var constraintDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/constraint.txt");
-var constraintSolutionDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/constraintSolution.txt");
+var constraintInputDataFile = path.resolve(__dirname, "../../constraintSolver/jsonFiles/input.txt");
+var constraintSolutionDataFile = path.resolve(__dirname, "../../constraintSolver/jsonFiles/output.txt");
 
 var ConstraintResolver =
 {
@@ -359,10 +356,12 @@ var ConstraintResolver =
 
     _getSolution: function(json)
     {
-        fs.writeFileSync(constraintDataFile, json);
+        console.log("Writing cr", constraintInputDataFile);
+        fs.writeFileSync(constraintInputDataFile, json);
 
-        sh.run(phantomJsPath + " " + constraintResolverPhantomPath + " " + solverUrl);
+        sh.run("cd " + constraintSolverRootFolder + chainCommandSeparator + " java -jar constraintSolver.jar");
 
+        console.log("Reading cr", constraintSolutionDataFile);
         var solutionString = fs.readFileSync(constraintSolutionDataFile, {encoding:"utf8"});
 
         return JSON.parse(solutionString);

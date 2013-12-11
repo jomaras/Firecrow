@@ -10,8 +10,6 @@ var isWin = os.platform().indexOf("win") != -1 ? true : false;
 
 var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe' : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
 
-console.log("Platform", os.platform());
-
 var scenarioGenerationLogRootFolder = path.resolve(__dirname, "../evaluation/results/coverageComparator/generatorLogs/") + path.sep;
 var applicationModelsRootFolder = path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator") + path.sep;
 var scenarioGeneratorCoverageComparatorPath = path.resolve(__dirname, "../phantomJs/evaluationHelpers/scenarioGeneratorCoverageComparator.js");
@@ -61,7 +59,7 @@ var processOutput = "";
     spawnNodeJsProcess
     (
         scenarioGeneratorPath,
-        [applicationName, eventType, "100"],
+        [applicationName, eventType, "5"],
         function (data)
         {
             var str = data.toString()
@@ -72,7 +70,9 @@ var processOutput = "";
         function (code)
         {
             console.log(applicationName + " - " + eventType + '; exit:' + code + " in time: " + (Date.now() - startTime) + " ms");
-            fs.writeFileSync(scenarioGenerationLogRootFolder + applicationName + "-" + eventType + ".txt", processOutput)
+            var processOutputFile = scenarioGenerationLogRootFolder + applicationName + "-" + eventType + ".txt";
+            console.log("Writing runAll", processOutputFile);
+            fs.writeFileSync(processOutputFile, processOutput);
             allCombinations.pop();
             setTimeout(processNextCombination, 1000);
         },

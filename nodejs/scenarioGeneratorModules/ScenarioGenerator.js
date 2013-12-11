@@ -10,12 +10,9 @@ var isWin = os.platform().indexOf("win") != -1 ? true : false;
 
 var scenarioExecutorPageUrl = isWin ? "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html"
                                     : "http://pzi.fesb.hr/josip.maras/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
-/**/
 
-var os = require('os');
-var isWin = os.platform().indexOf("win") != -1 ? true : false;
-
-var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe' : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
+var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe'
+                          : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
 
 /*******************  my modules inclusions ************/
 var ScenarioCollectionModule = require(path.resolve(__dirname, "ScenarioCollection.js"));
@@ -79,6 +76,7 @@ var ScenarioGenerator =
         this._dependencyCache = {};
         this._traversedDependencies = {};
 
+        console.log("Writing SG", memoryOutputDataFile);
         fs.writeFileSync(memoryOutputDataFile, "");
         this._getPageModelContent();
     },
@@ -105,7 +103,11 @@ var ScenarioGenerator =
 
     _getPageModelContent: function()
     {
-         ScenarioGenerator.pageModel = JSON.parse(fs.readFileSync( this.pageModelUrl, {encoding:"utf8"}));
+        var modelLocation = this.pageModelUrl.indexOf("pzi.fesb.hr") != -1 ? this.pageModelUrl
+                                                                           : this.pageModelUrl.replace("http://pzi.fesb.hr/josip.maras/", "/home/jomaras/");
+
+        console.log("Reading SG", modelLocation);
+        ScenarioGenerator.pageModel = JSON.parse(fs.readFileSync(modelLocation, {encoding:"utf8"}));
 
         ScenarioGenerator._setUpPageModel();
         ScenarioGenerator._generateScenarios();
@@ -113,6 +115,11 @@ var ScenarioGenerator =
 
     _getScenarioExecutorUrl: function(scenarioExecutorPageUrl, pageModelUrl)
     {
+        if(pageModelUrl.indexOf("GitWebStorm") != -1)
+        {
+            pageModelUrl = pageModelUrl.replace("C:\\GitWebStorm\\", "http://localhost/").replace(/\\/gi, "/");
+        }
+
         return encodeURI(scenarioExecutorPageUrl + "?url=" + pageModelUrl);
     },
 
@@ -194,6 +201,7 @@ var ScenarioGenerator =
     {
         sh.run('tasklist /fi "memusage gt 1200000" > ' + memoryOutputDataFile);
 
+        console.log("Reading SG", memoryOutputDataFile);
         var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
 
         var containsInfo = fileContent.indexOf("INFO:") != -1;
@@ -210,6 +218,7 @@ var ScenarioGenerator =
     {
         sh.run('tasklist /fi "imagename eq phantomjs.exe" > ' + memoryOutputDataFile);
 
+        console.log("Reading SG", memoryOutputDataFile);
         var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
 
         if(fileContent == "" || fileContent == null) { return 0; }
@@ -248,6 +257,7 @@ var ScenarioGenerator =
             },
             function()
             {
+                console.log("Reading SG", scenarioExecutorDataFile);
                 var scenarioExecutorStringData = fs.readFileSync(scenarioExecutorDataFile, {encoding:"utf8"});
 
                 if(scenarioExecutorStringData == "" && scenarioExecutorStringData.indexOf("ERROR") == 0)
@@ -358,6 +368,7 @@ var ScenarioGenerator =
             {
                 ScenarioGenerator._stopMonitoringPhantomJs();
 
+                console.log("Reading SG", scenarioExecutorDataFile);
                 var scenarioExecutorStringData = fs.readFileSync(scenarioExecutorDataFile, {encoding:"utf8"});
                 console.log("Scenario info size:", scenarioExecutorStringData.length/1000);
 
@@ -448,9 +459,11 @@ var ScenarioGenerator =
 
     _saveScenarioInfoToFile: function(scenario)
     {
+        var scenarioDataFile = scenarioExecutorPageUrl.replace("http://localhost/", "c:/GitWebStorm/").replace(/\//g, "\\").replace("scenarioExecutor.html", "scenarioData.js");
+        console.log("Writing SG", scenarioDataFile);
         fs.writeFileSync
         (
-            scenarioExecutorPageUrl.replace("http://localhost/", "c:/GitWebStorm/").replace(/\//g, "\\").replace("scenarioExecutor.html", "scenarioData.js"),
+            scenarioDataFile,
             "var scenarioData = " + JSON.stringify
             ({
                 events: scenario != null ? scenario.getEventsQuery() : "[]",
