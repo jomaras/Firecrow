@@ -20,9 +20,17 @@ console.log("Starting scenario generator: ", pageName ,  ScenarioGenerator.prior
 
 var coverageFolder = path.resolve(__dirname, "../evaluation/results/coverage") + path.sep + ScenarioGenerator.prioritization + path.sep;
 var scenarioModelPath = path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json");
-
+var eventExecutionsFolder = path.resolve(__dirname, "../phantomJs/dataFiles/eventExecutions/");
 
 //ScenarioGenerator.setEmpiricalData(JSON.parse(fs.readFileSync(scenarioEmpiricalDataPath, { encoding: "utf-8"})));
+
+function deleteEventExecutionFiles()
+{
+    fs.readdirSync(eventExecutionsFolder).forEach(function(file)
+    {
+        fs.unlinkSync(eventExecutionsFolder + path.sep + file);
+    });
+}
 
 ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenarios, message, coverage)
 {
@@ -54,6 +62,9 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
     {
         console.log("Scenario", i, filteredScenarios[i].getEventsQuery());
     }
+
+    console.log("Deleting event execution files");
+    deleteEventExecutionFiles();
 
     process.exit();
 });

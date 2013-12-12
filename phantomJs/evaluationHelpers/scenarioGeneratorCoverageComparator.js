@@ -3,10 +3,16 @@ var webPage = require('webpage');
 var page = webPage.create();
 var fs = require('fs');
 
-var scenarioCoverageDataFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverage\\";
-var scenarioComparatorDataFolder = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\";
-var scenarioGraphTemplatePath = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\viewCoverageComparationGraphsTemplate.html";
-var scenarioGraphFilePath = "C:\\GitWebStorm\\Firecrow\\evaluation\\results\\coverageComparator\\viewCoverageComparationGraphs.html";
+var currentFilePath = system.args[0];
+var currentDirectoryPath = currentFilePath.replace(/[a-zA-Z]+\.[a-zA-Z]+/,"");
+
+fs.changeWorkingDirectory(currentDirectoryPath);
+
+var scenarioCoverageDataFolder = fs.absolute("../../evaluation/results/coverage/") + fs.separator;
+var scenarioComparatorDataFolder = fs.absolute("../../evaluation/results/coverageComparator") + fs.separator;
+
+var scenarioGraphTemplatePath = fs.absolute("../../evaluation/results/coverageComparator/viewCoverageComparationGraphsTemplate.html");
+var scenarioGraphFilePath = fs.absolute("../../evaluation/results/coverageComparator/viewCoverageComparationGraphs.html");
 
 var coverageTypeFolderNames = fs.list(scenarioCoverageDataFolder).map(function(itemName)
 {

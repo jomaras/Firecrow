@@ -356,15 +356,14 @@ var ConstraintResolver =
 
     _getSolution: function(json)
     {
-        console.log("Writing cr", constraintInputDataFile);
         fs.writeFileSync(constraintInputDataFile, json);
 
         sh.run("cd " + constraintSolverRootFolder + chainCommandSeparator + " java -jar constraintSolver.jar");
 
-        console.log("Reading cr", constraintSolutionDataFile);
-        var solutionString = fs.readFileSync(constraintSolutionDataFile, {encoding:"utf8"});
-
-        return JSON.parse(solutionString);
+        return {
+            isSuccessful: true,
+            response: fs.readFileSync(constraintSolutionDataFile, {encoding:"utf8"})
+        };
     }
 };
 
